@@ -67,7 +67,7 @@ namespace Accord.Tests.Math
             var H = nmf.RightNonnegativeFactors;
             var W = nmf.LeftNonnegativeFactors;
 
-            var R = W.Multiply(H).Transpose();
+            var R = Matrix.Multiply(W, H.Transpose());
             Assert.IsTrue(R.IsEqual(X, 0.001));
         }
 

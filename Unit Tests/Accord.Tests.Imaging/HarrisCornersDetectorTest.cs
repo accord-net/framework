@@ -22,7 +22,6 @@
 
 using Accord.Imaging;
 using AForge;
-using AForge.Imaging;
 using NUnit.Framework;
 using System.Collections.Generic;
 

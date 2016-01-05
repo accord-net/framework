@@ -28,7 +28,6 @@ namespace Accord.Tests.Neuro
     using Accord.Neuro.ActivationFunctions;
     using Accord.Neuro.Learning;
     using Accord.Neuro.Layers;
-    using AForge.Neuro.Learning;
     using Accord.Math;
     using System.Linq;
     using Accord.Neuro;

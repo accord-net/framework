@@ -25,8 +25,6 @@ using System.Drawing;
 using Accord.Imaging;
 using Accord.Imaging.Filters;
 using AForge;
-using AForge.Imaging;
-using AForge.Imaging.Filters;
 using NUnit.Framework;
 
 namespace Accord.Tests.Imaging
@@ -36,29 +34,12 @@ namespace Accord.Tests.Imaging
     public class BorderFollowingTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void FindContourTest()
         {
             Bitmap bmp = Properties.Resources.sample_black;
 
-            Bitmap gray = AForge.Imaging.Filters.Grayscale.CommonAlgorithms.BT709.Apply(bmp);
+            Bitmap gray = Grayscale.CommonAlgorithms.BT709.Apply(bmp);
 
             BlobCounter bc = new BlobCounter(gray);
             bc.ObjectsOrder = ObjectsOrder.Size;

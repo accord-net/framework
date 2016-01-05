@@ -27,35 +27,17 @@ namespace Accord.Tests.MachineLearning
     using System;
     using Accord.Math;
     using Accord.Statistics;
+    using Accord.Math.Distances;
     
     
     [TestFixture]
     public class KModesTest
     {
 
-
-        private TestContext testContextInstance;
-
-        
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void KModesConstructorTest()
         {
-            Accord.Math.Tools.SetupGenerator(0);
-
+            Accord.Math.Random.Generator.Seed = 0;
 
             // Declare some observations
             int[][] observations = 
@@ -113,6 +95,61 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(orig.IsEqual(observations));
         }
 
+
+        [Test]
+        public void KModesConstructorTestHamming()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Declare some observations
+            byte[][] observations = new int[][]
+            {
+                new int[] { 0, 0   }, // a
+                new int[] { 0, 1   }, // a
+                new int[] { 0, 1   }, // a
+                new int[] { 1, 1   }, // a
+ 
+                new int[] { 5, 3   }, // b
+                new int[] { 6, 8   }, // b
+                new int[] { 6, 8   }, // b
+                new int[] { 6, 7   }, // b
+                new int[] { 5, 8   }, // b
+
+                new int[] { 12, 14 }, // c
+                new int[] { 12, 14 }, // c
+                new int[] { 13, 14 }, // c
+            }.To<byte[][]>();
+
+            byte[][] orig = observations.MemberwiseClone();
+
+            // Create a new K-Modes algorithm with 3 clusters 
+            var kmodes = new KModes<byte>(3, Distance.BitwiseHamming);
+
+            Assert.IsTrue(kmodes.Distance is Hamming);
+
+            int[] labels = kmodes.Compute(observations);
+
+            Assert.AreEqual(labels[0], labels[1]);
+            Assert.AreEqual(labels[0], labels[2]);
+            Assert.AreEqual(labels[0], labels[3]);
+            Assert.AreEqual(labels[0], labels[4]);
+            Assert.AreEqual(labels[0], labels[7]);
+
+            Assert.AreEqual(labels[5], labels[6]);
+            Assert.AreEqual(labels[5], labels[8]);
+
+            Assert.AreEqual(labels[9], labels[10]);
+            Assert.AreEqual(labels[9], labels[11]);
+
+            Assert.AreNotEqual(labels[0], labels[5]);
+            Assert.AreNotEqual(labels[5], labels[7]);
+            Assert.AreNotEqual(labels[0], labels[9]);
+
+
+
+            // the data must not have changed!
+            Assert.IsTrue(orig.IsEqual(observations));
+        }
         
        
     }

@@ -25,30 +25,12 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging;
     using Accord.Imaging.Converters;
     using Accord.Math;
-    using AForge.Imaging;
     using NUnit.Framework;
     using System.Collections.Generic;
 
     [TestFixture]
     public class HaralickTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ComputeTest()

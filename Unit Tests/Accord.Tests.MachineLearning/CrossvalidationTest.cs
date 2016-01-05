@@ -330,7 +330,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void NotEnoughSamplesTest1()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             int[] labels = Matrix.Vector(10, 1).Concatenate(Matrix.Vector(30, 0));
 

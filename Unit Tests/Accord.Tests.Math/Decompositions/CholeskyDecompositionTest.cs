@@ -60,7 +60,7 @@ namespace Accord.Tests.Math
                     double[,] value = Matrix.Magic(n);
 
                     // Make symmetric
-                    value = value.Multiply(value.Transpose());
+                    value = Matrix.Multiply(value, value.Transpose());
 
                     value[i, j] = double.NaN;
                     value[j, i] = double.NaN;
@@ -111,7 +111,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(L, expected, 0.0001));
 
             // Decomposition Identity
-            Assert.IsTrue(Matrix.IsEqual(L.Multiply(L.Transpose()), value, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(Matrix.Multiply(L, L.Transpose()), value, 0.001));
 
             Assert.AreEqual(new LuDecomposition(value).Determinant, chol.Determinant, 1e-10);
             Assert.AreEqual(true, chol.PositiveDefinite);
@@ -273,7 +273,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(D, diagonal, 0.001));
 
             // Decomposition Identity
-            Assert.IsTrue(Matrix.IsEqual(L.Multiply(D).Multiply(L.Transpose()), value, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(Matrix.Multiply(Matrix.Multiply(L, D), L.Transpose()), value, 0.001));
 
             Assert.AreEqual(new LuDecomposition(value).Determinant, chol.Determinant, 1e-10);
             Assert.AreEqual(true, chol.PositiveDefinite);

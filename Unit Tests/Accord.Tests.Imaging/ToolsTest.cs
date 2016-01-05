@@ -29,30 +29,13 @@ using Tools = Accord.Imaging.Tools;
 using System.Drawing.Imaging;
 using Accord.Math.Decompositions;
 using System;
-using AForge.Imaging;
 using Accord.Imaging.Converters;
 
 namespace Accord.Tests.Imaging
 {
-
-
     [TestFixture]
     public class ToolsTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
 
 #pragma warning disable 0618
 
@@ -360,7 +343,7 @@ namespace Accord.Tests.Imaging
                     expected += image.GetPixel(i, j).R;
 
 
-            BitmapData data = image.LockBits(new Rectangle(Point.Empty, image.Size),
+            BitmapData data = image.LockBits(new Rectangle(System.Drawing.Point.Empty, image.Size),
                 ImageLockMode.ReadOnly, image.PixelFormat);
 
             int actual = Tools.Sum(data, new Rectangle(3, 2, 9 - 3, 10 - 2));

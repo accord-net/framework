@@ -83,7 +83,7 @@ namespace Accord.Tests.Math
 
 
             // Decomposition identity
-            var actualA = Q.Multiply(D).Multiply(Q.Inverse());
+            var actualA = Matrix.Multiply(Matrix.Multiply(Q, D), Q.Inverse());
 
             Assert.IsTrue(Matrix.IsEqual(expectedD, D, 0.00001));
             Assert.IsTrue(Matrix.IsEqual(A, actualA, 0.0001));
@@ -115,7 +115,7 @@ namespace Accord.Tests.Math
             };
 
             // Decomposition identity
-            var actualA = Q.Multiply(D).Multiply(Q.Inverse());
+            var actualA = Matrix.Multiply(Matrix.Multiply(Q, D), Q.Inverse());
 
             Assert.IsTrue(Matrix.IsEqual(expectedD, D, 0.00001));
             Assert.IsTrue(Matrix.IsEqual(A, actualA, 0.0001));

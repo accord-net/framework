@@ -173,7 +173,7 @@ namespace Accord.Tests.Statistics
                 { -0.25, 0.75 },    
             };
 
-            double[,] X = S.Multiply(A);
+            double[,] X = Matrix.Multiply(S, A);
 
             IndependentComponentAnalysis ica = new IndependentComponentAnalysis(X);
 
@@ -217,7 +217,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void CombineTest2()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             double[,] S = Matrix.Random(5000, 2);
 
@@ -227,7 +227,7 @@ namespace Accord.Tests.Statistics
                 { -0.25, 0.75 },    
             };
 
-            double[,] X = S.Multiply(A);
+            double[,] X = Matrix.Multiply(S, A);
 
             IndependentComponentAnalysis ica = new IndependentComponentAnalysis(X);
 

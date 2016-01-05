@@ -372,7 +372,7 @@ namespace Accord.Tests.Math
                 { -2/ 1.2, -2/-0.6, -2/ 0.8 },
             };
 
-            double[,] actual = Matrix.Divide(scalar, matrix);
+            double[,] actual = Elementwise.Divide(scalar, matrix);
 
             Assert.IsTrue(expected.IsEqual(actual));
         }
@@ -383,7 +383,7 @@ namespace Accord.Tests.Math
             float[] vector = { 4.2f, 1.2f };
             float x = 2;
             float[] expected = { 2.1f, 0.6f };
-            float[] actual = Matrix.Divide(vector, x);
+            float[] actual = Elementwise.Divide(vector, x);
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
@@ -408,7 +408,7 @@ namespace Accord.Tests.Math
                 { 8, 25, 18 },
             };
 
-            double[,] actual = Matrix.ElementwiseMultiply(a, b);
+            double[,] actual = Elementwise.Multiply(a, b);
             Assert.IsTrue(Matrix.IsEqual(expected, actual));
         }
 
@@ -418,7 +418,7 @@ namespace Accord.Tests.Math
             double[] x = { 1, 2, 3 };
             double y = 2;
             double[] expected = { 1, 4, 9 };
-            double[] actual = Matrix.ElementwisePower(x, y);
+            double[] actual = Elementwise.Pow(x, y);
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
@@ -428,7 +428,7 @@ namespace Accord.Tests.Math
             double[] a = { 0.20, 1.65 };
             double[] b = { -0.72, 0.00 };
             double[] expected = { -0.1440, 0 };
-            double[] actual = Matrix.ElementwiseMultiply(a, b);
+            double[] actual = Elementwise.Multiply(a, b);
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
@@ -453,7 +453,7 @@ namespace Accord.Tests.Math
                 {  4,  0 },
             };
 
-            int[,] actual = Matrix.ElementwiseMultiply(a, b);
+            int[,] actual = Elementwise.Multiply(a, b);
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
@@ -478,7 +478,7 @@ namespace Accord.Tests.Math
                 {  0,  2, 4 },
             };
 
-            double[,] actual = Matrix.Add(a, b);
+            double[,] actual = Elementwise.Add(a, b);
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
@@ -503,7 +503,7 @@ namespace Accord.Tests.Math
                 new double[] {  0,  2, 4 },
             };
 
-            double[][] actual = Matrix.Add(a, b);
+            double[][] actual = Elementwise.Add(a, b);
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
@@ -522,10 +522,10 @@ namespace Accord.Tests.Math
                 {  5, 1,  2 },
             };
 
-            var actual = Matrix.AddToDiagonal(a, 1.0);
+            double[,] actual = Matrix.AddToDiagonal(a, 1.0);
             Assert.IsTrue(expected.IsEqual(actual));
 
-            actual = Matrix.SubtractFromDiagonal(actual, 1.0);
+            actual = Elementwise.SubtractFromDiagonal(actual, 1.0);
             Assert.IsTrue(actual.IsEqual(a));
         }
 
@@ -606,7 +606,7 @@ namespace Accord.Tests.Math
                 { 10, -2, 0 },
             };
 
-            double[,] actual = Matrix.Subtract(a, b);
+            double[,] actual = Elementwise.Subtract(a, b);
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
@@ -674,7 +674,7 @@ namespace Accord.Tests.Math
                 { -0.1, -0.6, -0.0 },
             };
 
-            double[,] actual = Matrix.Subtract(a, b);
+            double[,] actual = Elementwise.Subtract(a, b);
 
             Assert.IsTrue(expected.IsEqual(actual, 1e-6));
         }
@@ -1558,7 +1558,7 @@ namespace Accord.Tests.Math
             double[,] result = new double[6, 3];
             Matrix.DivideByDiagonal(a, b, result);
 
-            double[,] expected = a.Divide(Matrix.Diagonal(b));
+            double[,] expected = Elementwise.Divide(a, Matrix.Diagonal(b));
 
             Assert.IsTrue(expected.IsEqual(result, 1e-6));
         }

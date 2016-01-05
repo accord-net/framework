@@ -53,7 +53,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void GridsearchConstructorTest()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             // Example binary data
             double[][] inputs =
@@ -126,7 +126,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void GridsearchConstructorTest2()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             // Example binary data
             double[][] inputs =

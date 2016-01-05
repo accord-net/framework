@@ -24,7 +24,6 @@ using Accord.Imaging;
 using Accord.Imaging.Filters;
 using Accord.Math;
 using Accord.Math.Wavelets;
-using AForge.Imaging.Filters;
 using NUnit.Framework;
 using System.Drawing;
 

@@ -57,7 +57,7 @@ namespace Accord.Tests.Math
             double[,] I = Matrix.Identity(size: 2);
 
             // Matrix multiplication
-            double[,] b = a.Multiply(I);
+            double[,] b = Matrix.Multiply(a, I);
 
             Assert.AreEqual(1, b[0, 0]);
             Assert.AreEqual(2, b[0, 1]);

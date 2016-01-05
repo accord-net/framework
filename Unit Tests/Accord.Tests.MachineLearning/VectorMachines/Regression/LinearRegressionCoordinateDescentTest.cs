@@ -54,7 +54,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void RunTest()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             // Example regression problem. Suppose we are trying
             // to model the following equation: f(x, y) = 2x + y

@@ -109,7 +109,7 @@ namespace Accord.Tests.Imaging
             expected = (double[,])(new MatrixH(expected));
 
             // Set a fixed seed to transform RANSAC into a deterministic algorithm
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             RansacHomographyEstimator ransac = new RansacHomographyEstimator(0.001, 0.99);
             double[,] actual = (double[,])ransac.Estimate(points1, points2);

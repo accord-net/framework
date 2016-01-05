@@ -107,7 +107,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(L, expected, 0.0001f));
 
             // Decomposition Identity
-            Assert.IsTrue(Matrix.IsEqual(L.Multiply(L.Transpose()), value, 0.001f));
+            Assert.IsTrue(Matrix.IsEqual(Matrix.Multiply(L, L.Transpose()), value, 0.001f));
 
             Assert.AreEqual(new JaggedLuDecompositionF(value).Determinant, chol.Determinant, 1e-5);
             Assert.AreEqual(true, chol.PositiveDefinite);
@@ -407,7 +407,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(D, diagonal, 0.001f));
 
             // Decomposition Identity
-            Assert.IsTrue(Matrix.IsEqual(L.Multiply(D).Multiply(L.Transpose()), value, 0.001f));
+            Assert.IsTrue(Matrix.IsEqual(Matrix.Multiply(Matrix.Multiply(L, D), L.Transpose()), value, 0.001f));
 
             Assert.AreEqual(new JaggedLuDecompositionF(value).Determinant, chol.Determinant, 1e-10);
             Assert.AreEqual(true, chol.PositiveDefinite);
@@ -448,7 +448,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(D, diagonal, 0.001f));
 
             // Decomposition Identity
-            Assert.IsTrue(Matrix.IsEqual(L.Multiply(D).Multiply(L.Transpose()), value, 0.001f));
+            Assert.IsTrue(Matrix.IsEqual(Matrix.Multiply(Matrix.Multiply(L, D), L.Transpose()), value, 0.001f));
 
             Assert.AreEqual(new JaggedLuDecompositionF(value).Determinant, chol.Determinant, 1e-4);
             Assert.AreEqual(false, chol.PositiveDefinite);

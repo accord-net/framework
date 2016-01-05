@@ -25,7 +25,7 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging;
     using Accord.Math.Geometry;
     using AForge;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging.Filters;
     using NUnit.Framework;
     using System.Collections.Generic;
     using System.Drawing;

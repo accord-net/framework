@@ -106,7 +106,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void SubgroupTest1()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             double[] value = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
 

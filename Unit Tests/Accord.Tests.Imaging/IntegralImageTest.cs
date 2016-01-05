@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using AForge;
-using AForge.Imaging;
+using Accord.Imaging;
 using NUnit.Framework;
 
-namespace AForge.Imaging.Tests
+namespace Accord.Imaging.Tests
 {
     [TestFixture]
     public class IntegralImageTest

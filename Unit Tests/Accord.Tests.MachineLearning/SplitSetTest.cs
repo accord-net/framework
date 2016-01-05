@@ -58,7 +58,7 @@ namespace Accord.Tests.MachineLearning
         public void SplitSetConstructorTest1()
         {
 
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             // This is a sample code on how to use two split sets
             // to assess the performance of Support Vector Machines.

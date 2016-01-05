@@ -28,7 +28,6 @@ namespace Accord.Tests.Math
     using System.Linq;
     using NUnit.Framework;
     using Accord.Math.Geometry;
-    using AForge.Math.Geometry;
     using Accord.Imaging.Filters;
 
     [TestFixture]
@@ -59,7 +58,7 @@ namespace Accord.Tests.Math
                 add(contour, i + max / 2, max / 2 - i);
 
             PointsMarker marker = new PointsMarker(contour);
-            var bitmap = AForge.Imaging.Image.CreateGrayscaleImage(max + 1, max + 1);
+            var bitmap = Accord.Imaging.Image.CreateGrayscaleImage(max + 1, max + 1);
             bitmap = marker.Apply(bitmap);
             // Accord.Controls.ImageBox.Show(bitmap);
 

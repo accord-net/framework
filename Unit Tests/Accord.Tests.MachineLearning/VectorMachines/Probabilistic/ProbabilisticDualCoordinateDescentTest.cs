@@ -61,7 +61,7 @@ namespace Accord.Tests.MachineLearning
             double[][] inputs = dataset.Submatrix(null, 0, 1).ToArray();
             int[] labels = dataset.GetColumn(2).ToInt32();
 
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             var svm = new SupportVectorMachine(inputs: 2);
             var teacher = new ProbabilisticDualCoordinateDescent(svm, inputs, labels);

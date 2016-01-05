@@ -39,7 +39,7 @@ namespace Accord.Tests.Imaging
         [Test, Ignore]
         public void Panorama_Example1()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             // Let's start with two pictures that have been
             // taken from slightly different points of view:

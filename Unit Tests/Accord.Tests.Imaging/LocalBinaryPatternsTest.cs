@@ -25,28 +25,11 @@ namespace Accord.Tests.Imaging
     using System.Collections.Generic;
     using Accord.Imaging;
     using Accord.Imaging.Converters;
-    using AForge.Imaging;
     using NUnit.Framework;
 
     [TestFixture]
     public class LocalBinaryPatternTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ComputeTest()

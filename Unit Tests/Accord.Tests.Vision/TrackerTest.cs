@@ -25,7 +25,7 @@ namespace Accord.Tests.Vision
     using Accord.Vision.Tracking;
     using NUnit.Framework;
     using System.Drawing;
-    using AForge.Imaging;
+    using Accord.Imaging;
 
     [TestFixture]
     public class TrackerTest

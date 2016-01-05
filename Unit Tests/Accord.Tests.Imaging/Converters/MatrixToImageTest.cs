@@ -25,8 +25,8 @@ namespace Accord.Tests.Imaging
     using System.Drawing;
     using Accord.Imaging.Converters;
     using AForge;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
     using NUnit.Framework;
 
     [TestFixture]

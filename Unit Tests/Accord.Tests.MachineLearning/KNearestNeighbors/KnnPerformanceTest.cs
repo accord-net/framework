@@ -26,6 +26,7 @@ namespace Accord.Tests.Math
     using Accord.MachineLearning.Structures;
     using Accord.Math;
     using Accord.Math.Comparers;
+    using Accord.Math.Distances;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Tests.MachineLearning.Structures;
@@ -165,7 +166,7 @@ namespace Accord.Tests.Math
             outputs = outputs.Submatrix(idx);
 
             naive = new NaiveKNearestNeighbors(k, inputs, outputs);
-            normal = new KNearestNeighbors<double[]>(k, inputs, outputs, Distance.Euclidean);
+            normal = new KNearestNeighbors<double[]>(k, inputs, outputs, new Euclidean());
             target = new KNearestNeighbors(k, inputs, outputs);
         }
 

@@ -23,9 +23,9 @@
 namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning.Geometry;
-    using AForge.Math.Geometry;
+    using Accord.Math.Geometry;
     using NUnit.Framework;
-    using Point = AForge.Point;
+    using Point = Accord.Point;
 
     [TestFixture]
     public class RansacLineTest

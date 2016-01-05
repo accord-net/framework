@@ -133,7 +133,7 @@ namespace Accord.Tests.MachineLearning
             }
 
             {
-                Accord.Math.Tools.SetupGenerator(0);
+                Accord.Math.Random.Generator.Seed = 0;
                 var projection = inputs.Apply(kernel.Transform);
                 var machine = new SupportVectorMachine(projection[0].Length);
                 var smo = new LinearDualCoordinateDescent(machine, projection, labels);

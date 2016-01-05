@@ -27,11 +27,11 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.Geometry;
     using AForge;
     using Accord.Tests.Imaging.Properties;
-    using AForge.Math.Geometry;
     using NUnit.Framework;
-    using Point = AForge.Point;
-    using AForge.Imaging;
+    using Point = Accord.Point;
+    using Accord.Imaging;
     using Accord.Imaging.Filters;
+    using Accord.Math.Geometry;
 
     [TestFixture]
     public class RansacLineImageTest
@@ -40,7 +40,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void RansacLineConstructorTest2()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             Bitmap image = Resources.noise_line;
 

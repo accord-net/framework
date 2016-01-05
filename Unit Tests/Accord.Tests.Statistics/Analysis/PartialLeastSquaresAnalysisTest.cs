@@ -249,8 +249,8 @@ namespace Accord.Tests.Statistics
 
             target.Compute();
 
-            double[,] x1 = target.Predictors.Result.Multiply(target.Predictors.FactorMatrix.Transpose()).Add(Tools.Mean(X), 0);
-            double[,] y1 = target.Dependents.Result.Multiply(target.Dependents.FactorMatrix.Transpose()).Add(Tools.Mean(Y), 0);
+            double[,] x1 = Matrix.Multiply(target.Predictors.Result, target.Predictors.FactorMatrix.Transpose()).Add(Tools.Mean(X), 0);
+            double[,] y1 = Matrix.Multiply(target.Dependents.Result, target.Dependents.FactorMatrix.Transpose()).Add(Tools.Mean(Y), 0);
 
 
             // XS*XL' ~ X0

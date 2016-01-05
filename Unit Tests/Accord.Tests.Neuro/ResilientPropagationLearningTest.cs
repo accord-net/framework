@@ -26,7 +26,6 @@ namespace Accord.Tests.Neuro
     using Accord.Neuro;
     using Accord.Neuro.Learning;
     using AForge;
-    using AForge.Neuro;
     using NUnit.Framework;
     using System;
 
