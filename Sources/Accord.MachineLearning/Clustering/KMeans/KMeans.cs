@@ -446,8 +446,7 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         /// <param name="data">The data where to compute the algorithm.</param>
-        /// <param name="weights">The weight to consider for each data sample. 
-        ///   This is used in weighted K-Means</param>
+        /// <param name="weights">The weight to consider for each data sample. This is used in weighted K-Means</param>
         /// <param name="weightSum">The total sum of the weights in <paramref name="weights"/>.</param>
         ///   
         protected virtual int[] Compute(double[][] data, double[] weights, double weightSum)
