@@ -95,6 +95,9 @@ namespace Accord.Statistics.Models.Regression.Linear
 
         private double[] coefficients;
         private bool addIntercept;
+        
+        // TODO: Remove the addIntercept option, and move the learning to
+        // a separate dedicate class that can create the model from the data
 
 
         /// <summary>
@@ -115,7 +118,8 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         public MultipleLinearRegression(int inputs, bool intercept)
         {
-            if (intercept) inputs++;
+            if (intercept)
+                inputs++;
             this.coefficients = new double[inputs];
             this.addIntercept = intercept;
         }
@@ -469,6 +473,22 @@ namespace Accord.Statistics.Models.Regression.Linear
 
             regression.Regress(x, y);
 
+            return regression;
+        }
+
+        /// <summary>
+        ///  Creates a new linear regression from the regression coefficients.
+        /// </summary>
+        /// 
+        /// <param name="coefficients">The linear coefficients.</param>
+        /// <param name="intercept">Whether to include an intercept (bias) term.</param>
+        /// 
+        /// <returns>A linear regression with the given coefficients.</returns>
+        /// 
+        public static MultipleLinearRegression FromCoefficients(double[] coefficients, bool intercept)
+        {
+            var regression = new MultipleLinearRegression(coefficients.Length, intercept);
+            regression.coefficients = coefficients;
             return regression;
         }
 
