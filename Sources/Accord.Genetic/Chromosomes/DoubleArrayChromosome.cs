@@ -6,12 +6,12 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Genetic
+namespace Accord.Genetic
 {
     using System;
     using System.Text;
-    using AForge;
-    using AForge.Math.Random;
+    using Accord;
+    using Accord.Math.Random;
 
     /// <summary>
     /// Double array chromosome.

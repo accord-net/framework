@@ -6,10 +6,11 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Genetic
+namespace Accord.Genetic
 {
     using System;
     using AForge;
+    using Accord;
 
     /// <summary>Base class for one dimensional function optimizations.</summary>
     /// 
@@ -56,27 +57,31 @@ namespace AForge.Genetic
     public abstract class OptimizationFunction1D : IFitnessFunction
     {
         /// <summary>
-        /// Optimization modes.
+        ///   Optimization modes.
         /// </summary>
         ///
-        /// <remarks>The enumeration defines optimization modes for
-        /// the one dimensional function optimization.</remarks> 
+        /// <remarks>
+        ///   The enumeration defines optimization modes for
+        ///   the one dimensional function optimization.</remarks> 
         ///
         public enum Modes
         {
             /// <summary>
             /// Search for function's maximum value.
             /// </summary>
+            /// 
             Maximization,
+
             /// <summary>
             /// Search for function's minimum value.
             /// </summary>
+            /// 
             Minimization
         }
 
         // optimization range
-        private AForge.Range range = new Range(0, 1);
-        
+        private Range range = new Range(0, 1);
+
         // optimization mode
         private Modes mode = Modes.Maximization;
 
@@ -112,7 +117,7 @@ namespace AForge.Genetic
         ///
         /// <param name="range">Specifies range for optimization.</param>
         ///
-        public OptimizationFunction1D( Range range )
+        public OptimizationFunction1D(Range range)
         {
             this.range = range;
         }
@@ -128,11 +133,11 @@ namespace AForge.Genetic
         /// <remarks>The method calculates fitness value of the specified
         /// chromosome.</remarks>
         ///
-        public double Evaluate( IChromosome chromosome )
+        public double Evaluate(IChromosome chromosome)
         {
-            double functionValue = OptimizationFunction( Translate( chromosome ) );
+            double functionValue = OptimizationFunction(Translate(chromosome));
             // fitness value
-            return ( mode == Modes.Maximization ) ? functionValue : 1 / functionValue;
+            return (mode == Modes.Maximization) ? functionValue : 1 / functionValue;
         }
 
         /// <summary>
@@ -148,11 +153,11 @@ namespace AForge.Genetic
         /// <remarks>The method returns double value, which represents function's
         /// input point encoded by the specified chromosome.</remarks>
         ///
-        public double Translate( IChromosome chromosome )
+        public double Translate(IChromosome chromosome)
         {
             // get chromosome's value and max value
-            double val = ( (BinaryChromosome) chromosome ).Value;
-            double max = ( (BinaryChromosome) chromosome ).MaxValue;
+            double val = ((BinaryChromosome)chromosome).Value;
+            double max = ((BinaryChromosome)chromosome).MaxValue;
 
             // translate to optimization's funtion space
             return val * range.Length / max + range.Min;
@@ -169,6 +174,6 @@ namespace AForge.Genetic
         /// <remarks>The method should be overloaded by inherited class to
         /// specify the optimization function.</remarks>
         ///
-        public abstract double OptimizationFunction( double x );
+        public abstract double OptimizationFunction(double x);
     }
 }

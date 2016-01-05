@@ -6,7 +6,7 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Genetic
+namespace Accord.Genetic
 {
 	using System;
 	using AForge;

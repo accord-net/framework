@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Genetic
+namespace Accord.Genetic
 {
     using System;
     using System.Text;
@@ -38,9 +38,9 @@ namespace AForge.Genetic
         protected ushort[] val = null;
 
         /// <summary>
-        /// Random number generator for chromosoms generation, crossover, mutation, etc.
+        /// Random number generator for chromosomes generation, crossover, mutation, etc.
         /// </summary>
-        protected static ThreadSafeRandom	rand = new ThreadSafeRandom( );
+        protected static ThreadSafeRandom rand = new ThreadSafeRandom();
 
         /// <summary>
         /// Chromosome's maximum length.
