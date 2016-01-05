@@ -61,3 +61,5 @@ cd framework
 # Build the framework solution using Mono
 mdtool build -c:"NET40" Sources/Accord.NET.Mono.sln
 
+
+Join the chat at https://gitter.im/accord-net/framework
