@@ -15,8 +15,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-using AForge.Video;
-using AForge.Video.DirectShow;
+using Accord.Video;
+using Accord.Video.DirectShow;
 
 namespace SampleApp
 {

@@ -41,7 +41,7 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.fpsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainPanel = new System.Windows.Forms.Panel();
-            this.videoSourcePlayer = new AForge.Controls.VideoSourcePlayer();
+            this.videoSourcePlayer = new Accord.Controls.VideoSourcePlayer();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.mainMenuStrip.SuspendLayout();
@@ -162,7 +162,7 @@
             this.videoSourcePlayer.Size = new System.Drawing.Size(322, 242);
             this.videoSourcePlayer.TabIndex = 0;
             this.videoSourcePlayer.VideoSource = null;
-            this.videoSourcePlayer.NewFrame += new AForge.Controls.VideoSourcePlayer.NewFrameHandler(this.videoSourcePlayer_NewFrame);
+            this.videoSourcePlayer.NewFrame += new Accord.Controls.VideoSourcePlayer.NewFrameHandler(this.videoSourcePlayer_NewFrame);
             // 
             // timer
             // 
@@ -206,7 +206,7 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem localVideoCaptureDeviceToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        private AForge.Controls.VideoSourcePlayer videoSourcePlayer;
+        private Accord.Controls.VideoSourcePlayer videoSourcePlayer;
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.ToolStripStatusLabel fpsLabel;
         private System.Windows.Forms.ToolStripMenuItem openVideofileusingDirectShowToolStripMenuItem;

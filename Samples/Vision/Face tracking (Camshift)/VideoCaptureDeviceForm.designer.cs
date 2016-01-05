@@ -1,4 +1,4 @@
-namespace FaceTracking
+namespace SampleApp
 {
     partial class VideoCaptureDeviceForm
     {

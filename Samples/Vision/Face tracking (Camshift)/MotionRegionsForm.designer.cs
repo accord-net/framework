@@ -1,4 +1,4 @@
-namespace MotionDetectorSample
+namespace SampleApp
 {
     partial class MotionRegionsForm
     {
@@ -11,13 +11,13 @@ namespace MotionDetectorSample
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose( bool disposing )
+        protected override void Dispose(bool disposing)
         {
-            if ( disposing && ( components != null ) )
+            if (disposing && (components != null))
             {
-                components.Dispose( );
+                components.Dispose();
             }
-            base.Dispose( disposing );
+            base.Dispose(disposing);
         }
 
         #region Windows Form Designer generated code
@@ -26,11 +26,11 @@ namespace MotionDetectorSample
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent( )
+        private void InitializeComponent()
         {
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.defineRegionsControl = new MotionDetectorSample.DefineRegionsControl();
+            this.defineRegionsControl = new SampleApp.DefineRegionsControl();
             this.SuspendLayout();
             // 
             // okButton
@@ -59,7 +59,7 @@ namespace MotionDetectorSample
             // 
             this.defineRegionsControl.BackgroundImage = null;
             this.defineRegionsControl.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.defineRegionsControl.DrawingMode = MotionDetectorSample.DrawingMode.Rectangular;
+            this.defineRegionsControl.DrawingMode = SampleApp.DrawingMode.Rectangular;
             this.defineRegionsControl.Location = new System.Drawing.Point(8, 12);
             this.defineRegionsControl.Name = "defineRegionsControl";
             this.defineRegionsControl.Rectangles = new System.Drawing.Rectangle[0];

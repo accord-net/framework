@@ -1,4 +1,4 @@
-﻿namespace Controller
+﻿namespace SampleApp
 {
     partial class AboutBox
     {

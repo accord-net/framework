@@ -1,4 +1,4 @@
-namespace FaceTracking
+namespace SampleApp
 {
     partial class MainForm
     {
@@ -62,7 +62,7 @@ namespace FaceTracking
             this.fpsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.objectsCountLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.videoSourcePlayer = new AForge.Controls.VideoSourcePlayer();
+            this.videoSourcePlayer = new Accord.Controls.VideoSourcePlayer();
             this.menuMenu.SuspendLayout();
             this.statusBar.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -338,7 +338,7 @@ namespace FaceTracking
             this.videoSourcePlayer.Size = new System.Drawing.Size(322, 242);
             this.videoSourcePlayer.TabIndex = 0;
             this.videoSourcePlayer.VideoSource = null;
-            this.videoSourcePlayer.NewFrame += new AForge.Controls.VideoSourcePlayer.NewFrameHandler(this.videoSourcePlayer_NewFrame);
+            this.videoSourcePlayer.NewFrame += new Accord.Controls.VideoSourcePlayer.NewFrameHandler(this.videoSourcePlayer_NewFrame);
             this.videoSourcePlayer.Click += new System.EventHandler(this.videoSourcePlayer_Click);
             // 
             // MainForm
@@ -385,7 +385,7 @@ namespace FaceTracking
         private System.Windows.Forms.ToolStripStatusLabel objectsCountLabel;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem localVideoCaptureSettingsToolStripMenuItem;
-        private AForge.Controls.VideoSourcePlayer videoSourcePlayer;
+        private Accord.Controls.VideoSourcePlayer videoSourcePlayer;
         private System.Windows.Forms.ToolStripMenuItem trackingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem drawTrackingWindowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem drawObjectAxisToolStripMenuItem;

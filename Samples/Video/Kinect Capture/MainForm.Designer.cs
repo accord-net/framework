@@ -36,10 +36,10 @@
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel( );
             this.leftPanel = new System.Windows.Forms.Panel( );
             this.groupBox1 = new System.Windows.Forms.GroupBox( );
-            this.videoCameraPlayer = new AForge.Controls.VideoSourcePlayer( );
+            this.videoCameraPlayer = new Accord.Controls.VideoSourcePlayer( );
             this.rightPanel = new System.Windows.Forms.Panel( );
             this.groupBox2 = new System.Windows.Forms.GroupBox( );
-            this.depthCameraPlayer = new AForge.Controls.VideoSourcePlayer( );
+            this.depthCameraPlayer = new Accord.Controls.VideoSourcePlayer( );
             this.label2 = new System.Windows.Forms.Label( );
             this.ledColorCombo = new System.Windows.Forms.ComboBox( );
             this.label3 = new System.Windows.Forms.Label( );
@@ -327,8 +327,8 @@
         private System.Windows.Forms.Panel rightPanel;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private AForge.Controls.VideoSourcePlayer videoCameraPlayer;
-        private AForge.Controls.VideoSourcePlayer depthCameraPlayer;
+        private Accord.Controls.VideoSourcePlayer videoCameraPlayer;
+        private Accord.Controls.VideoSourcePlayer depthCameraPlayer;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox ledColorCombo;
         private System.Windows.Forms.Label label3;

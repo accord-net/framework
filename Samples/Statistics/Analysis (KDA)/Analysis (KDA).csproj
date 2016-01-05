@@ -8,7 +8,7 @@
     <ProjectGuid>{A5152775-5252-45B2-B091-69C70280C73C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Analysis.KDA</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Analysis %28KDA%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

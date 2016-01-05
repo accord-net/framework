@@ -7,12 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Accord.Controls.Vision;
-using AForge.Imaging;
+using Accord.Imaging;
 using Accord.Vision.Tracking;
 using System.Drawing.Imaging;
 using Accord.Imaging.Filters;
 
-namespace KinectController
+namespace SampleApp
 {
     public partial class VisionForm : Form
     {

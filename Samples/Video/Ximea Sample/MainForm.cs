@@ -14,8 +14,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-using AForge.Video;
-using AForge.Video.Ximea;
+using Accord.Video;
+using Accord.Video.Ximea;
 
 namespace SampleApp
 {

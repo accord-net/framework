@@ -42,11 +42,12 @@ using System.Threading;
 using System.Windows.Forms;
 using Accord.Neuro.Learning;
 using AForge;
-using AForge.Controls;
-using AForge.Neuro;
+using Accord.Controls;
+using Accord.Neuro;
 using Accord.IO;
 using System.Globalization;
 using Accord.Math;
+using Accord;
 
 namespace SampleApp
 {
@@ -58,7 +59,7 @@ namespace SampleApp
         private System.Windows.Forms.ColumnHeader estimatedYColumnHeader;
         private System.Windows.Forms.Button loadDataButton;
         private System.Windows.Forms.GroupBox groupBox2;
-        private AForge.Controls.Chart chart;
+        private Accord.Controls.Chart chart;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.Button startButton;
@@ -149,7 +150,7 @@ namespace SampleApp
             this.estimatedYColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.loadDataButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.chart = new AForge.Controls.Chart();
+            this.chart = new Accord.Controls.Chart();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.stopButton = new System.Windows.Forms.Button();
             this.startButton = new System.Windows.Forms.Button();
@@ -238,8 +239,8 @@ namespace SampleApp
             // 
             this.chart.Location = new System.Drawing.Point(16, 29);
             this.chart.Name = "chart";
-            this.chart.RangeX = ((AForge.Range)(resources.GetObject("chart.RangeX")));
-            this.chart.RangeY = ((AForge.Range)(resources.GetObject("chart.RangeY")));
+            this.chart.RangeX = ((Accord.Range)(resources.GetObject("chart.RangeX")));
+            this.chart.RangeY = ((Accord.Range)(resources.GetObject("chart.RangeY")));
             this.chart.Size = new System.Drawing.Size(448, 512);
             this.chart.TabIndex = 0;
             // 

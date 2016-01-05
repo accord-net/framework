@@ -30,12 +30,12 @@ using System.Windows.Forms;
 using Accord.Controls.Vision;
 using Accord.Imaging.Filters;
 using Accord.Math;
-using AForge;
-using AForge.Imaging;
-using AForge.Imaging.Filters;
-using AForge.Video.Kinect;
+using Accord;
+using Accord.Imaging;
+using Accord.Video.Kinect;
+using Accord.Video;
 
-namespace KinectController
+namespace SampleApp
 {
     public partial class MainForm : Form
     {
@@ -109,7 +109,7 @@ namespace KinectController
 
                     controller.Device = videoCamera;
                     controller.Start();
-                    controller.NewFrame += new AForge.Video.NewFrameEventHandler(controller_NewFrame);
+                    controller.NewFrame += new NewFrameEventHandler(controller_NewFrame);
                 }
 
                 if (depthCamera == null)
@@ -126,7 +126,7 @@ namespace KinectController
             }
         }
 
-        void controller_NewFrame(object sender, AForge.Video.NewFrameEventArgs eventArgs)
+        void controller_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             pictureBox2.Image = eventArgs.Frame;
         }
@@ -232,7 +232,7 @@ namespace KinectController
             levels.ApplyInPlace(ui);
 
 
-            var mask8bit = AForge.Imaging.Image.Convert16bppTo8bpp(mask.ToManagedImage());
+            var mask8bit = Accord.Imaging.Image.Convert16bppTo8bpp(mask.ToManagedImage());
 
 
 
@@ -293,14 +293,14 @@ namespace KinectController
                 levels.ApplyInPlace(handImage);
 
 
-               // pbArm.Image = handImage.ToManagedImage();
+                // pbArm.Image = handImage.ToManagedImage();
 
 
                 double cutoff = 30000;
                 Threshold th = new Threshold((int)cutoff);
                 var handMask = th.Apply(handImage);
 
-                var handMask8bit = AForge.Imaging.Image.Convert16bppTo8bpp(handMask.ToManagedImage());
+                var handMask8bit = Accord.Imaging.Image.Convert16bppTo8bpp(handMask.ToManagedImage());
 
                 BlobCounter bch = new BlobCounter();
                 bch.ObjectsOrder = ObjectsOrder.Area;
@@ -319,7 +319,7 @@ namespace KinectController
                     ResizeNearestNeighbor res = new ResizeNearestNeighbor(25, 25);
                     handImage = res.Apply(handImage);
 
-                    var leftHand = AForge.Imaging.Image.Convert16bppTo8bpp(handImage.ToManagedImage());
+                    var leftHand = Accord.Imaging.Image.Convert16bppTo8bpp(handImage.ToManagedImage());
 
                     pbHand.Image = leftHand;
                 }

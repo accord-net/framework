@@ -26,10 +26,9 @@ using System.Windows.Forms;
 using Accord.Controls.Vision;
 using Accord.Imaging.Filters;
 using Accord.Vision.Tracking;
-using AForge.Imaging.Filters;
-using AForge.Video;
+using Accord.Video;
 
-namespace Controller
+namespace SampleApp
 {
     public partial class VisionForm : Form
     {

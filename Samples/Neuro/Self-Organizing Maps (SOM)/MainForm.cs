@@ -15,8 +15,9 @@ using System.Data;
 using System.Threading;
 
 using AForge;
-using AForge.Neuro;
-using AForge.Neuro.Learning;
+using Accord.Neuro;
+using Accord.Neuro.Learning;
+using Accord;
 
 namespace SampleApp
 {

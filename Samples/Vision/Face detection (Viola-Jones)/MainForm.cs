@@ -37,9 +37,9 @@ using System.Windows.Forms;
 using Accord.Imaging.Filters;
 using Accord.Vision.Detection;
 using Accord.Vision.Detection.Cascades;
-using FaceDetection.Properties;
+using SampleApp.Properties;
 
-namespace FaceDetection
+namespace SampleApp
 {
     public partial class MainForm : Form
     {
