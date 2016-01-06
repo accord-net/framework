@@ -23,12 +23,12 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using System;
-using Accord.Math;
-using Accord.Math.Decompositions;
-
 namespace Accord.Statistics.Analysis
 {
+    using System;
+    using Accord.Math;
+    using Accord.Math.Decompositions;
+
     /// <summary>
     /// Class to perform a Procrustes Analysis
     /// </summary>
@@ -36,9 +36,9 @@ namespace Accord.Statistics.Analysis
     /// <remarks>
     /// <para>
     ///   Procrustes analysis is a form of statistical shape analysis used to
-    ///   analyse the distribution of a set of shapes. It allows to compare shapes (datasets) that have
-    ///   different rotations, scales and positions. 
-    ///   It defines a mesure called Procrustes distance that is an image of how different the shapes are.</para>
+    ///   analyze the distribution of a set of shapes. It allows to compare shapes (datasets) that have
+    ///   different rotations, scales and positions. It defines a measure called Procrustes distance that
+    ///   is an image of how different the shapes are.</para>
     ///   
     /// <para>
     ///   References:
@@ -126,17 +126,17 @@ namespace Accord.Statistics.Analysis
         /// <summary>
         /// Source data given to run the analysis
         /// </summary>
-        private double[][,] Source
-        {
-            get;
-            set;
-        }
+        /// 
+        private double[][,] Source { get; set; }
 
         /// <summary>
         /// Applies the translation operator to translate the dataset to the zero coordinate
         /// </summary>
+        /// 
         /// <param name="samples">The dataset to translate</param>
+        /// 
         /// <returns>The translated dataset</returns>
+        /// 
         double[,] Translate(double[,] samples)
         {
             return Translate(samples, new double[samples.GetLength(1)]);
@@ -145,9 +145,12 @@ namespace Accord.Statistics.Analysis
         /// <summary>
         /// Applies the translation operator to translate the dataset to the given coordinate
         /// </summary>
+        /// 
         /// <param name="samples">Dataset to translate</param>
         /// <param name="centroid">New center of the dataset</param>
+        /// 
         /// <returns>The translated dataset</returns>
+        /// 
         double[,] Translate(double[,] samples, double[] centroid)
         {
             if (centroid.Length != samples.GetLength(1))
@@ -156,8 +159,10 @@ namespace Accord.Statistics.Analysis
             }
 
             double[,] res = new double[samples.GetLength(0), samples.GetLength(1)];
+
             // Calculate the matrix mean and translate it according to the required centroid
             double[] translated_avg = samples.Mean().Subtract(centroid);
+
             // Translate the sample data to the new centroid
             res = samples.Center(translated_avg);
 
@@ -177,8 +182,11 @@ namespace Accord.Statistics.Analysis
         /// <summary>
         /// Calculates the scale of the given dataset
         /// </summary>
+        /// 
         /// <param name="samples">Dataset to find the scale</param>
+        /// 
         /// <returns>The scale of the dataset</returns>
+        /// 
         double GetDatasetScale(double[,] samples)
         {
             double sqr = 0.0;
@@ -280,28 +288,23 @@ namespace Accord.Statistics.Analysis
         /// <summary>
         /// Procrustes Distances of the computed samples
         /// </summary>
-        public double[,] ProcrustesDistances
-        {
-            get;
-            protected set;
-        }
+        public double[,] ProcrustesDistances { get; protected set; }
 
         /// <summary>
         /// Procrusted models produced from the computed sample data
         /// </summary>
-        public ProcrustedDataset[] ProcrustedDatasets
-        {
-            get;
-            protected set;
-        }
+        public ProcrustedDataset[] ProcrustedDatasets { get; protected set; }
 
 
 
         /// <summary>
         /// Apply Procrustes translation and scale to the given dataset
         /// </summary>
+        /// 
         /// <param name="p">Procrusted dataset to process and store the results to</param>
+        /// 
         /// <param name="samples">The dataset itself</param>
+        /// 
         private void ApplyTranslateScale(ProcrustedDataset p, double[,] samples)
         {
             // Save the original data
@@ -319,29 +322,36 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        /// Compute the Procrustes analysis to extract Procrustes distances and models using the constructor parameters
+        ///   Compute the Procrustes analysis to extract Procrustes distances and models using the constructor parameters
         /// </summary>
+        /// 
         public void Compute()
         {
             Compute(-1, Source);
         }
 
         /// <summary>
-        /// Compute the Procrustes analysis to extract Procrustes distances and models
+        ///   Compute the Procrustes analysis to extract Procrustes distances and models
         /// </summary>
+        /// 
         /// <param name="samples">List of sample data sets to analyze</param>
+        /// 
         /// <returns>Procrustes distances of the analyzed samples</returns>
+        /// 
         public double[,] Compute(params double[][,] samples)
         {
             return Compute(-1, samples);
         }
 
         /// <summary>
-        /// Compute the Procrustes analysis to extract Procrustes distances and models by specifying the reference dataset
+        ///   Compute the Procrustes analysis to extract Procrustes distances and models by specifying the reference dataset
         /// </summary>
+        /// 
         /// <param name="reference_sample_index">Index of the reference dataset. If out of bounds of the sample array, the first dataset is used.</param>
         /// <param name="samples">List of sample data sets to analyze</param>
+        /// 
         /// <returns>Procrustes distances of the analyzed samples</returns>
+        /// 
         public double[,] Compute(int reference_sample_index, params double[][,] samples)
         {
             // Check arguments in case of mistakes
@@ -395,47 +405,27 @@ namespace Accord.Statistics.Analysis
         /// <summary>
         /// Original dataset
         /// </summary>
-        public double[,] Source
-        {
-            get;
-            set;
-        }
+        public double[,] Source { get; set; }
 
         /// <summary>
         /// Procrustes dataset (i.e. original dataset after Procrustes analysis)
         /// </summary>
-        public double[,] Dataset
-        {
-            get;
-            set;
-        }
+        public double[,] Dataset { get; set; }
 
         /// <summary>
         /// Original dataset center
         /// </summary>
-        public double[] Center
-        {
-            get;
-            set;
-        }
+        public double[] Center { get; set; }
 
         /// <summary>
         /// Original dataset scale
         /// </summary>
-        public double Scale
-        {
-            get;
-            set;
-        }
+        public double Scale { get; set; }
 
         /// <summary>
         /// Original dataset rotation matrix
         /// </summary>
-        public double[,] RotationMatrix
-        {
-            get;
-            set;
-        }
+        public double[,] RotationMatrix { get; set; }
 
         /// <summary>
         /// Transforms the dataset to match the given reference original dataset

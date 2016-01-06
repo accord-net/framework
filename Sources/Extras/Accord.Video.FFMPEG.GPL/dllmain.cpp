@@ -12,7 +12,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	WCHAR path[MAX_PATH];
 	GetModuleFileName(NULL, path, MAX_PATH);
 	PathRemoveFileSpec(path);
-	wcscat(path, L"\\ffmpeg");
+	wcscat_s(path, L"\\ffmpeg");
 
 #if defined(_WIN64)
 	BOOL Is64BitProcess = TRUE;   // 64-bit program
@@ -20,7 +20,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	BOOL Is64BitProcess = FALSE;
 #endif
 
-	wcscat(path, Is64BitProcess ? L"\\x64" : L"\\x86");
+	wcscat_s(path, Is64BitProcess ? L"\\x64" : L"\\x86");
 	SetDllDirectory(path);
 	switch (ul_reason_for_call)
 	{
