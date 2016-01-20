@@ -28,6 +28,7 @@ namespace Accord.Imaging.Filters
     using System.Drawing.Imaging;
     using Accord.Imaging;
     using Matrix = Accord.Math.Matrix;
+    using Accord.Math;
 
     /// <summary>
     ///   Linear Gradient Blending filter.
@@ -442,7 +443,7 @@ namespace Accord.Imaging.Filters
                                     // there is a pixel from the other image here, blend
                                     float d1 = distance(x, y, center1.X, center1.Y);
                                     float d2 = distance(x, y, center2.X, center2.Y);
-                                    f1 = Accord.Math.Tools.Scale(0, dmax, 0, 1, d1 - d2);
+                                    f1 = Vector.Scale(d1 - d2, 0, dmax, 0, 1);
 
                                     if (f1 < 0) f1 = 0f;
                                     if (f1 > 1) f1 = 1f;

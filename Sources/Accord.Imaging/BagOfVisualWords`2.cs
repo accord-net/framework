@@ -137,8 +137,8 @@ namespace Accord.Imaging
         /// 
         public List<TPoint>[] Compute(Bitmap[] images)
         {
-            List<TFeature> descriptors = new List<TFeature>();
-            List<TPoint>[] imagePoints = new List<TPoint>[images.Length];
+            var descriptors = new List<TFeature>();
+            var imagePoints = new List<TPoint>[images.Length];
 
             // For all images
             for (int i = 0; i < images.Length; i++)

@@ -1108,7 +1108,7 @@ namespace Accord.Imaging
             for (int i = 0; i < vectors.Length; i++)
             {
                 haralick[j++] = vectors[i].Mean();
-                haralick[j++] = vectors[i].Range().Length;
+                haralick[j++] = vectors[i].GetRange().Length;
             }
 
             return haralick;
@@ -1155,10 +1155,10 @@ namespace Accord.Imaging
 
             for (int i = 0; i < vectors.Length; i++)
             {
-                DoubleRange range = vectors[i].Range();
+                DoubleRange range = vectors[i].GetRange();
                 double mean = vectors[i].Mean();
 
-                haralick[i] = Accord.Math.Tools.Scale(range.Min, range.Max, -1, 1, mean);
+                haralick[i] = Vector.Scale(mean, range.Min, range.Max, -1, 1);
             }
 
             return haralick;

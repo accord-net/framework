@@ -337,7 +337,7 @@ namespace Accord.Imaging
             float[,] F = createFundamentalMatrix(A);
 
             // Denormalize
-            F = T2.Transpose().Multiply(F.Multiply(T1));
+            F = T2.TransposeAndDot(F.Dot(T1));
 
             return F;
         }
@@ -381,7 +381,7 @@ namespace Accord.Imaging
             float[,] F = createFundamentalMatrix(A);
 
             // Denormalize
-            F = T2.Transpose().Multiply(F.Multiply(T1));
+            F = T2.TransposeAndDot(F.Dot(T1));
 
             return F;
         }
@@ -417,7 +417,7 @@ namespace Accord.Imaging
             D[2] = 0;
 
             // Reconstruct with rank 2 approximation
-            var newF = U.MultiplyByDiagonal(D).Multiply(V.Transpose());
+            var newF = U.DotWithDiagonal(D).Dot(V.Transpose());
 
             F = newF;
             return F;
@@ -1829,7 +1829,7 @@ namespace Accord.Imaging
         public static float[] Multiply(this PointF point, float[,] transformationMatrix)
         {
             float[] x = new float[] { point.X, point.Y, 1 };
-            return Matrix.Multiply(x, transformationMatrix);
+            return Matrix.Dot(x, transformationMatrix);
         }
 
         /// <summary>
@@ -1839,7 +1839,7 @@ namespace Accord.Imaging
         public static float[] Multiply(this  float[,] transformationMatrix, PointF point)
         {
             float[] x = new float[] { point.X, point.Y, 1 };
-            return Matrix.Multiply(transformationMatrix, x);
+            return Matrix.Dot(transformationMatrix, x);
         }
 
         /// <summary>
@@ -1862,7 +1862,7 @@ namespace Accord.Imaging
             for (int j = 0; j < points.Length; j++)
             {
                 float[] a = new float[] { points[j].X, points[j].Y, 1 };
-                float[] b = fundamentalMatrix.Multiply(a);
+                float[] b = fundamentalMatrix.Dot(a);
                 r[j] = new PointF(b[0] / b[2], b[1] / b[2]);
             }
 

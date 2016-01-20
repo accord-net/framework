@@ -211,7 +211,7 @@ namespace Accord.Imaging
             F = fundamental(inliers);
 
             // Denormalize
-            F = T2.Transpose().Multiply(F.Multiply(T1));
+            F = T2.TransposeAndDot(F.Dot(T1));
 
             return F;
         }
@@ -246,7 +246,7 @@ namespace Accord.Imaging
             {
                 float[] a = x2[i].Multiply(F);
                 float[] b = new float[] { x1[i].X, x1[i].Y, 1 };
-                x2tFx1[i] = a.InnerProduct(b);
+                x2tFx1[i] = a.Dot(b);
             }
 
 

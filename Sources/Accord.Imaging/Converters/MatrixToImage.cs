@@ -25,6 +25,7 @@ namespace Accord.Imaging.Converters
     using System.Drawing;
     using System.Drawing.Imaging;
     using Accord.Imaging;
+    using Accord.Math;
 
     /// <summary>
     ///   Multidimensional array to Bitmap converter.
@@ -271,7 +272,7 @@ namespace Accord.Imaging.Converters
                 {
                     for (int x = 0; x < width; x++)
                     {
-                        byte value = (byte)Accord.Math.Tools.Scale(Min, Max, 0, 255, input[y, x]);
+                        byte value = (byte)Vector.Scale(input[y, x], Min, Max, (byte)0, (byte)255);
 
                         for (int c = 0; c < pixelSize; c++, dst++)
                             *dst = value;
