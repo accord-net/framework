@@ -358,7 +358,6 @@ namespace Accord.MachineLearning
             // For each seed
             if (UseParallelProcessing)
             {
-
                 Parallel.For(0, current.Length, i =>
                     move(tree, current, i, maxima, func));
 
@@ -637,7 +636,7 @@ namespace Accord.MachineLearning
 
             // Order the labels by their proportion
             int[] counts = Vector.Histogram(labels, modes.Length);
-            int[] idx = Indices.Range(0, modes.Length);
+            int[] idx = Vector.Range(0, modes.Length);
             Array.Sort(counts, idx);
 
             for (int i = 0; i < labels.Length; i++)

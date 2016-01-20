@@ -220,7 +220,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 w[biasIndex] += y[i] * alpha[2 * i];
             }
 
-            var rand = Accord.Math.Tools.Random;
+            var rand = Accord.Math.Random.Generator.Random;
 
             while (iter < max_iter)
             {

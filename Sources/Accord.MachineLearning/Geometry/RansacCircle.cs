@@ -212,9 +212,8 @@ namespace Accord.MachineLearning.Geometry
             }
 
             // get AT * A and AT * Y
-            double[,] AT = A.Transpose();
-            double[,] B = Matrix.Multiply(AT, A);
-            double[,] Z = Matrix.Multiply(AT, Y);
+            double[,] B = Matrix.TransposeAndDot(A, A);
+            double[,] Z = Matrix.TransposeAndDot(A, Y);
 
             // solve for c
             double[,] c = Matrix.Solve(B, Z, true);

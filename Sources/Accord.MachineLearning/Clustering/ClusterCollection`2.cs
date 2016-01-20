@@ -70,7 +70,7 @@ namespace Accord.MachineLearning
 
             if (strategy == Seeding.Fixed)
             {
-                int[] idx = Indices.Random(points.Length);
+                int[] idx = Vector.Sample(points.Length);
                 for (int i = 0; i < Centroids.Length; i++)
                 {
                     if (Centroids[i] != null)
@@ -87,7 +87,7 @@ namespace Accord.MachineLearning
                 // http://en.wikipedia.org/wiki/K-means%2B%2B
 
                 // 1. Choose one center uniformly at random from among the data points.
-                int idx = Accord.Math.Tools.Random.Next(0, points.Length);
+                int idx = Accord.Math.Random.Generator.Random.Next(0, points.Length);
                 Centroids[0] = (TData)points[idx].Clone();
 
                 for (int c = 1; c < Centroids.Length; c++)

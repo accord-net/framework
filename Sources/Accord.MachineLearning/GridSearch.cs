@@ -182,7 +182,7 @@ namespace Accord.MachineLearning
 
 
             // Generate the Cartesian product between all parameters
-            GridSearchParameter[][] grid = Matrix.CartesianProduct(values);
+            GridSearchParameter[][] grid = Matrix.Cartesian(values);
 
 
             // Initialize the search
