@@ -252,11 +252,10 @@ namespace Accord.Math
         /// <param name="b">The right matrix <c>B</c>.</param>
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static double[,] Multiply(this double[,] a, double[,] b)
         {
-            double[,] r = new double[a.GetLength(0), b.GetLength(1)];
-            Multiply(a, b, r);
-            return r;
+            return Dot(a, b);
         }
 
         /// <summary>
@@ -267,17 +266,10 @@ namespace Accord.Math
         /// <param name="b">The right matrix <c>B</c>.</param>
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static double[][] Multiply(this double[][] a, double[][] b)
         {
-            int rows = a.Length;
-            int cols = b[0].Length;
-
-            double[][] r = new double[rows][];
-            for (int i = 0; i < rows; i++)
-                r[i] = new double[cols];
-
-            Multiply(a, b, r);
-            return r;
+            return Dot(a, b);
         }
 
         /// <summary>
@@ -288,17 +280,10 @@ namespace Accord.Math
         /// <param name="b">The right matrix <c>B</c>.</param>
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static float[][] Multiply(this float[][] a, float[][] b)
         {
-            int rows = a.Length;
-            int cols = b[0].Length;
-
-            float[][] r = new float[rows][];
-            for (int i = 0; i < r.Length; i++)
-                r[i] = new float[cols];
-
-            Multiply(a, b, r);
-            return r;
+            return Dot(a, b);
         }
 
         /// <summary>
@@ -309,17 +294,10 @@ namespace Accord.Math
         /// <param name="b">The right matrix <c>B</c>.</param>
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static double[][] Multiply(this float[][] a, double[][] b)
         {
-            int rows = a.Length;
-            int cols = b[0].Length;
-
-            double[][] r = new double[rows][];
-            for (int i = 0; i < r.Length; i++)
-                r[i] = new double[cols];
-
-            Multiply(a, b, r);
-            return r;
+            return Dot(a, b);
         }
 
 
@@ -331,11 +309,10 @@ namespace Accord.Math
         /// <param name="b">The right matrix <c>B</c>.</param>
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static float[,] Multiply(this float[,] a, float[,] b)
         {
-            float[,] r = new float[a.GetLength(0), b.GetLength(1)];
-            Multiply(a, b, r);
-            return r;
+            return Dot(a, b);
         }
 
         /// <summary>
@@ -348,37 +325,10 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static void Multiply(this double[,] a, double[,] b, double[,] result)
         {
-            // TODO: enable argument checking
-            // if (a.GetLength(1) != b.GetLength(0))
-            //     throw new ArgumentException("Matrix dimensions must match");
-
-            int n = a.GetLength(1);
-            int m = result.GetLength(0); //a.GetLength(0);
-            int p = result.GetLength(1); //b.GetLength(1);
-
-            unsafe
-            {
-                fixed (double* ptrA = a)
-                {
-                    double[] Bcolj = new double[n];
-                    for (int j = 0; j < p; j++)
-                    {
-                        for (int k = 0; k < Bcolj.Length; k++)
-                            Bcolj[k] = b[k, j];
-
-                        double* Arowi = ptrA;
-                        for (int i = 0; i < m; i++)
-                        {
-                            double s = 0;
-                            for (int k = 0; k < Bcolj.Length; k++)
-                                s += *(Arowi++) * Bcolj[k];
-                            result[i, j] = s;
-                        }
-                    }
-                }
-            }
+            Dot(a, b).CopyTo(result);
         }
 
         /// <summary>
@@ -391,34 +341,10 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static void Multiply(this double[][] a, double[][] b, double[][] result)
         {
-            // TODO: enable argument checking
-            // if (a.GetLength(1) != b.GetLength(0))
-            //     throw new ArgumentException("Matrix dimensions must match");
-
-
-            int n = a[0].Length;
-            int m = a.Length;
-            int p = b[0].Length;
-
-            double[] Bcolj = new double[n];
-            for (int j = 0; j < p; j++)
-            {
-                for (int k = 0; k < n; k++)
-                    Bcolj[k] = b[k][j];
-
-                for (int i = 0; i < m; i++)
-                {
-                    double[] Arowi = a[i];
-
-                    double s = 0;
-                    for (int k = 0; k < n; k++)
-                        s += Arowi[k] * Bcolj[k];
-
-                    result[i][j] = s;
-                }
-            }
+            Dot(a, b).CopyTo(result);
         }
 
         /// <summary>
@@ -431,37 +357,10 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static void Multiply(this double[,] a, double[,] b, double[][] result)
         {
-            // TODO: enable argument checking
-            // if (a.GetLength(1) != b.GetLength(0))
-            //     throw new ArgumentException("Matrix dimensions must match");
-
-            int n = a.GetLength(1);
-            int m = a.GetLength(0);
-            int p = b.GetLength(1);
-
-            unsafe
-            {
-                fixed (double* ptrA = a)
-                {
-                    double[] Bcolj = new double[n];
-                    for (int j = 0; j < p; j++)
-                    {
-                        for (int k = 0; k < Bcolj.Length; k++)
-                            Bcolj[k] = b[k, j];
-
-                        double* Arowi = ptrA;
-                        for (int i = 0; i < m; i++)
-                        {
-                            double s = 0;
-                            for (int k = 0; k < Bcolj.Length; k++)
-                                s += *(Arowi++) * Bcolj[k];
-                            result[i][j] = s;
-                        }
-                    }
-                }
-            }
+            Dot(a, b).CopyTo(result);
         }
 
         /// <summary>
@@ -474,34 +373,10 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static void Multiply(this float[][] a, float[][] b, float[][] result)
         {
-            // TODO: enable argument checking
-            // if (a.GetLength(1) != b.GetLength(0))
-            //     throw new ArgumentException("Matrix dimensions must match");
-
-
-            int n = a[0].Length;
-            int m = a.Length;
-            int p = b[0].Length;
-
-            float[] Bcolj = new float[n];
-            for (int j = 0; j < p; j++)
-            {
-                for (int k = 0; k < n; k++)
-                    Bcolj[k] = b[k][j];
-
-                for (int i = 0; i < m; i++)
-                {
-                    float[] Arowi = a[i];
-
-                    float s = 0;
-                    for (int k = 0; k < n; k++)
-                        s += Arowi[k] * Bcolj[k];
-
-                    result[i][j] = s;
-                }
-            }
+            Dot(a, b).CopyTo(result);
         }
 
         /// <summary>
@@ -514,34 +389,10 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static void Multiply(this float[][] a, double[][] b, double[][] result)
         {
-            // TODO: enable argument checking
-            // if (a.GetLength(1) != b.GetLength(0))
-            //     throw new ArgumentException("Matrix dimensions must match");
-
-
-            int n = a[0].Length;
-            int m = a.Length;
-            int p = b[0].Length;
-
-            double[] Bcolj = new double[n];
-            for (int j = 0; j < p; j++)
-            {
-                for (int k = 0; k < n; k++)
-                    Bcolj[k] = b[k][j];
-
-                for (int i = 0; i < m; i++)
-                {
-                    float[] Arowi = a[i];
-
-                    double s = 0;
-                    for (int k = 0; k < n; k++)
-                        s += Arowi[k] * Bcolj[k];
-
-                    result[i][j] = s;
-                }
-            }
+            Dot(a, b).CopyTo(result);
         }
 
         /// <summary>
@@ -554,33 +405,10 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static void Multiply(this float[,] a, float[,] b, float[,] result)
         {
-            int acols = a.GetLength(1);
-            int arows = a.GetLength(0);
-            int bcols = b.GetLength(1);
-
-            unsafe
-            {
-                fixed (float* ptrA = a)
-                {
-                    float[] Bcolj = new float[acols];
-                    for (int j = 0; j < bcols; j++)
-                    {
-                        for (int k = 0; k < acols; k++)
-                            Bcolj[k] = b[k, j];
-
-                        float* Arowi = ptrA;
-                        for (int i = 0; i < arows; i++)
-                        {
-                            float s = 0;
-                            for (int k = 0; k < acols; k++)
-                                s += *(Arowi++) * Bcolj[k];
-                            result[i, j] = s;
-                        }
-                    }
-                }
-            }
+            Dot(a, b).CopyTo(result);
         }
 
 
@@ -592,6 +420,7 @@ namespace Accord.Math
         /// <param name="b">The transposed right matrix <c>B</c>.</param>
         /// <returns>The product <c>A*B'</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
+        [Obsolete("Please use DotWithTransposed instead.")]
         public static double[,] MultiplyByTranspose(this double[,] a, double[,] b)
         {
             double[,] r = new double[a.GetLength(0), b.GetLength(0)];
@@ -607,6 +436,7 @@ namespace Accord.Math
         /// <param name="b">The transposed right matrix <c>B</c>.</param>
         /// <returns>The product <c>A*B'</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
+        [Obsolete("Please use DotWithTransposed instead.")]
         public static float[,] MultiplyByTranspose(this float[,] a, float[,] b)
         {
             float[,] r = new float[a.GetLength(0), b.GetLength(0)];
@@ -624,6 +454,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B'</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         ///    
+        [Obsolete("Please use DotWithTransposed instead.")]
         public static void MultiplyByTranspose(this double[,] a, double[,] b, double[,] result)
         {
             int n = a.GetLength(1);
@@ -665,6 +496,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B'</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         ///    
+        [Obsolete("Please use DotWithTransposed instead.")]
         public static void MultiplyByTranspose(this float[,] a, float[,] b, float[,] result)
         {
             int n = a.GetLength(1);
@@ -705,6 +537,7 @@ namespace Accord.Math
         /// <param name="b">The right matrix <c>B</c>.</param>
         /// <returns>The product <c>A'*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
+        [Obsolete("Please use TransposeAndDot instead.")]
         public static double[,] TransposeAndMultiply(this double[,] a, double[,] b)
         {
             double[,] r = new double[a.GetLength(1), b.GetLength(1)];
@@ -720,6 +553,7 @@ namespace Accord.Math
         /// <param name="b">The right matrix <c>B</c>.</param>
         /// <returns>The product <c>A'*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
+        [Obsolete("Please use TransposeAndDot instead.")]
         public static double[][] TransposeAndMultiply(this double[][] a, double[][] b)
         {
             int aCols = a[0].Length;
@@ -743,6 +577,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A'*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
+        [Obsolete("Please use TransposeAndDot instead.")]
         public static void TransposeAndMultiply(this double[,] a, double[,] b, double[,] result)
         {
             if (a == null) throw new ArgumentNullException("a");
@@ -782,6 +617,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A'*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
+        [Obsolete("Please use TransposeAndDot instead.")]
         public static void TransposeAndMultiply(this double[][] a, double[][] b, double[][] result)
         {
             if (a == null) throw new ArgumentNullException("a");
@@ -821,6 +657,7 @@ namespace Accord.Math
         /// <param name="b">The right column vector <c>b</c>.</param>
         /// <returns>The product <c>A'*b</c> of the given matrices <c>A</c> and vector <c>b</c>.</returns>
         /// 
+        [Obsolete("Please use TransposeAndDot instead.")]
         public static double[] TransposeAndMultiply(this double[,] a, double[] b)
         {
             double[] r = new double[a.GetLength(1)];
@@ -837,6 +674,7 @@ namespace Accord.Math
         /// <param name="result">The vector <c>r</c> to store the product <c>r = A'*b</c>
         ///   of the given matrix <c>A</c> and vector <c>b</c>.</param>
         /// 
+        [Obsolete("Please use TransposeAndDot instead.")]
         public static void TransposeAndMultiply(this double[,] a, double[] b, double[] result)
         {
             if (a == null) throw new ArgumentNullException("a");
@@ -862,6 +700,7 @@ namespace Accord.Math
         /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
+        [Obsolete("Please use TransposeAndDot instead.")]
         public static double[,] TransposeAndMultiplyByDiagonal(this double[,] a, double[] b)
         {
             double[,] r = new double[a.GetLength(1), b.Length];
@@ -878,6 +717,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
+        [Obsolete("Please use TransposeAndDot instead.")]
         public static void TransposeAndMultiplyByDiagonal(this double[,] a, double[] b, double[,] result)
         {
             if (a.GetLength(0) != b.Length)
@@ -897,6 +737,7 @@ namespace Accord.Math
         /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
+        [Obsolete("Please use TransposeAndDot instead.")]
         public static double[][] MultiplyByDiagonal(this double[][] a, double[] b)
         {
             double[][] r = new double[a.Length][];
@@ -916,6 +757,7 @@ namespace Accord.Math
         /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
+        [Obsolete("Please use DotWithDiagonal instead.")]
         public static float[][] MultiplyByDiagonal(this float[][] a, float[] b)
         {
             var r = new float[a.Length][];
@@ -935,6 +777,7 @@ namespace Accord.Math
         /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
+        [Obsolete("Please use DotWithDiagonal instead.")]
         public static double[,] MultiplyByDiagonal(this double[,] a, double[] b)
         {
             double[,] r = new double[a.GetLength(0), b.Length];
@@ -951,6 +794,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
+        [Obsolete("Please use DotWithDiagonal instead.")]
         public static void MultiplyByDiagonal(this double[,] a, double[] b, double[,] result)
         {
             if (a.GetLength(1) != b.Length)
@@ -981,6 +825,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
+        [Obsolete("Please use DotWithDiagonal instead.")]
         public static void MultiplyByDiagonal(this double[][] a, double[] b, double[][] result)
         {
             int rows = a.Length;
@@ -999,6 +844,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
+        [Obsolete("Please use DotWithDiagonal instead.")]
         public static void MultiplyByDiagonal(this float[][] a, float[] b, float[][] result)
         {
             int rows = a.Length;
@@ -1016,6 +862,7 @@ namespace Accord.Math
         /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
+        [Obsolete("Please use DotWithDiagonal instead.")]
         public static float[,] MultiplyByDiagonal(this float[,] a, float[] b)
         {
             float[,] r = new float[a.GetLength(0), b.Length];
@@ -1032,6 +879,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
+        [Obsolete("Please use DotWithDiagonal instead.")]
         public static void MultiplyByDiagonal(this float[,] a, float[] b, float[,] result)
         {
             if (a.GetLength(1) != b.Length)
@@ -1053,51 +901,6 @@ namespace Accord.Math
             }
         }
 
-        /// <summary>
-        ///   Computes the product A*inv(B) of matrix <c>A</c> and diagonal matrix <c>B</c>.
-        /// </summary>
-        /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The diagonal vector of inverse right matrix <c>B</c>.</param>
-        /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
-        /// 
-        public static double[,] DivideByDiagonal(this double[,] a, double[] b)
-        {
-            double[,] r = new double[a.GetLength(0), b.Length];
-            DivideByDiagonal(a, b, r);
-            return r;
-        }
-
-        /// <summary>
-        ///   Computes the product A*inv(B) of matrix <c>A</c> and diagonal matrix <c>B</c>.
-        /// </summary>
-        /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The diagonal vector of inverse right matrix <c>B</c>.</param>
-        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
-        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
-        /// 
-        public static void DivideByDiagonal(this double[,] a, double[] b, double[,] result)
-        {
-            if (a.GetLength(1) != b.Length)
-                throw new ArgumentException("Matrix dimensions must match.");
-
-
-            int rows = a.GetLength(0);
-
-            unsafe
-            {
-                fixed (double* ptrA = a, ptrR = result)
-                {
-                    double* A = ptrA;
-                    double* R = ptrR;
-                    for (int i = 0; i < rows; i++)
-                        for (int j = 0; j < b.Length; j++)
-                            *R++ = *A++ / b[j];
-                }
-            }
-        }
-
         #endregion
 
 
@@ -1113,6 +916,7 @@ namespace Accord.Math
         /// <returns>The product <c>v'*A</c>of the multiplication of the
         ///   given row vector <c>v</c> and matrix <c>A</c>.</returns>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static double[] Multiply(this double[] rowVector, double[,] matrix)
         {
             int rows = matrix.GetLength(0);
@@ -1143,6 +947,7 @@ namespace Accord.Math
         /// <returns>The product <c>v'*A</c>of the multiplication of the
         ///   given row vector <c>v</c> and matrix <c>A</c>.</returns>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static float[] Multiply(this float[] rowVector, float[,] matrix)
         {
             int rows = matrix.GetLength(0);
@@ -1171,21 +976,10 @@ namespace Accord.Math
         /// <returns>The product <c>A*v</c> of the multiplication of the
         ///   given matrix <c>A</c> and column vector <c>v</c>.</returns>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static double[] Multiply(this double[,] matrix, double[] columnVector)
         {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            if (cols != columnVector.Length)
-                throw new DimensionMismatchException("columnVector",
-                    "Vector must have the same length as columns in the matrix.");
-
-            double[] r = new double[rows];
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < columnVector.Length; j++)
-                    r[i] += matrix[i, j] * columnVector[j];
-
-            return r;
+            return Dot(matrix, columnVector);
         }
 
         /// <summary>
@@ -1198,16 +992,10 @@ namespace Accord.Math
         /// <returns>The product <c>A*v</c> of the multiplication of the
         ///   given matrix <c>A</c> and column vector <c>v</c>.</returns>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static float[] Multiply(this float[][] matrix, float[] columnVector)
         {
-            int rows = matrix.Length;
-
-            float[] r = new float[rows];
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < columnVector.Length; j++)
-                    r[i] += matrix[i][j] * columnVector[j];
-
-            return r;
+            return Dot(matrix, columnVector);
         }
 
         /// <summary>
@@ -1220,21 +1008,10 @@ namespace Accord.Math
         /// <returns>The product <c>A*v</c> of the multiplication of the
         ///   given matrix <c>A</c> and column vector <c>v</c>.</returns>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static double[] Multiply(this double[][] matrix, double[] columnVector)
         {
-            int rows = matrix.Length;
-            int cols = matrix[0].Length;
-
-            if (cols != columnVector.Length)
-                throw new DimensionMismatchException("columnVector",
-                    "Vector must have the same length as columns in the matrix.");
-
-            double[] r = new double[rows];
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < columnVector.Length; j++)
-                    r[i] += matrix[i][j] * columnVector[j];
-
-            return r;
+            return Dot(matrix, columnVector);
         }
 
         /// <summary>
@@ -1247,21 +1024,10 @@ namespace Accord.Math
         /// <returns>The product <c>A*v</c> of the multiplication of the
         ///   given matrix <c>A</c> and column vector <c>v</c>.</returns>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static float[] Multiply(this float[,] matrix, float[] columnVector)
         {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            if (cols != columnVector.Length)
-                throw new DimensionMismatchException("columnVector",
-                    "Vector must have the same length as columns in the matrix.");
-
-            var r = new float[rows];
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < columnVector.Length; j++)
-                    r[i] += matrix[i, j] * columnVector[j];
-
-            return r;
+            return Dot(matrix, columnVector);
         }
 
 
@@ -1324,17 +1090,10 @@ namespace Accord.Math
         ///    coordinate vectors gives their inner product.</para>  
         /// </remarks>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static double InnerProduct(this double[] a, double[] b)
         {
-            double r = 0.0;
-
-            if (a.Length != b.Length)
-                throw new ArgumentException("Vector dimensions must match", "b");
-
-            for (int i = 0; i < a.Length; i++)
-                r += a[i] * b[i];
-
-            return r;
+            return Dot(a, b);
         }
 
         /// <summary>
@@ -1360,17 +1119,10 @@ namespace Accord.Math
         ///    coordinate vectors gives their inner product.</para>  
         /// </remarks>
         /// 
+        [Obsolete("Please use Dot instead.")]
         public static float InnerProduct(this float[] a, float[] b)
         {
-            float r = 0.0f;
-
-            if (a.Length != b.Length)
-                throw new ArgumentException("Vector dimensions must match", "b");
-
-            for (int i = 0; i < a.Length; i++)
-                r += a[i] * b[i];
-
-            return r;
+            return Dot(a, b);
         }
 
         /// <summary>
@@ -1384,15 +1136,10 @@ namespace Accord.Math
         ///   which takes as input a pair of vectors and produces a scalar.
         /// </remarks>
         /// 
+        [Obsolete("Please use Outer instead.")]
         public static double[,] OuterProduct(this double[] a, double[] b)
         {
-            double[,] r = new double[a.Length, b.Length];
-
-            for (int i = 0; i < a.Length; i++)
-                for (int j = 0; j < b.Length; j++)
-                    r[i, j] += a[i] * b[j];
-
-            return r;
+            return Outer(a, b);
         }
 
         /// <summary>
@@ -1406,28 +1153,20 @@ namespace Accord.Math
         ///   containing them. It has many applications in mathematics, engineering and physics.
         /// </remarks>
         /// 
+        [Obsolete("Please use Cross instead.")]
         public static double[] VectorProduct(double[] a, double[] b)
         {
-            return new double[] 
-            {
-                a[1]*b[2] - a[2]*b[1],
-                a[2]*b[0] - a[0]*b[2],
-                a[0]*b[1] - a[1]*b[0]
-            };
+            return Matrix.Cross(a, b);
         }
 
         /// <summary>
         ///   Vector product.
         /// </summary>
         /// 
+        [Obsolete("Please use Cross instead.")]
         public static float[] VectorProduct(float[] a, float[] b)
         {
-            return new float[]
-            {
-                a[1]*b[2] - a[2]*b[1],
-                a[2]*b[0] - a[0]*b[2],
-                a[0]*b[1] - a[1]*b[0]
-            };
+            return Matrix.Cross(a, b);
         }
 
         /// <summary>
@@ -1439,38 +1178,30 @@ namespace Accord.Math
         ///   - http://blogs.msdn.com/b/ericlippert/archive/2010/06/28/computing-a-Cartesian-product-with-linq.aspx 
         /// </remarks>
         /// 
+        [Obsolete("Please use Cartesian instead.")]
         public static IEnumerable<IEnumerable<T>> CartesianProduct<T>(this IEnumerable<IEnumerable<T>> sequences)
         {
-            IEnumerable<IEnumerable<T>> empty = new[] { Enumerable.Empty<T>() };
-
-            return sequences.Aggregate(empty, (accumulator, sequence) =>
-                from accumulatorSequence in accumulator
-                from item in sequence
-                select accumulatorSequence.Concat(new[] { item }));
+            return Cartesian(sequences);
         }
 
         /// <summary>
         ///   Computes the Cartesian product of many sets.
         /// </summary>
         /// 
+        [Obsolete("Please use Cartesian instead.")]
         public static T[][] CartesianProduct<T>(params T[][] sequences)
         {
-            var result = CartesianProduct(sequences as IEnumerable<IEnumerable<T>>);
-
-            List<T[]> list = new List<T[]>();
-            foreach (IEnumerable<T> point in result)
-                list.Add(point.ToArray());
-
-            return list.ToArray();
+            return Cartesian(sequences);
         }
 
         /// <summary>
         ///   Computes the Cartesian product of two sets.
         /// </summary>
         /// 
+        [Obsolete("Please use Cartesian instead.")]
         public static T[][] CartesianProduct<T>(this T[] sequence1, T[] sequence2)
         {
-            return CartesianProduct(new T[][] { sequence1, sequence2 });
+            return Cartesian(new T[][] { sequence1, sequence2 });
         }
 
         /// <summary>
@@ -1482,6 +1213,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Kronecker product of the two matrices.</returns>
         /// 
+        [Obsolete("Please use Kronecker instead.")]
         public static double[,] KroneckerProduct(this double[,] a, double[,] b)
         {
             if (a == null) throw new ArgumentNullException("a");
@@ -1536,6 +1268,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Kronecker product of the two vectors.</returns>
         /// 
+        [Obsolete("Please use Kronecker instead.")]
         public static double[] KroneckerProduct(this double[] a, double[] b)
         {
             if (a == null) throw new ArgumentNullException("a");
@@ -1778,13 +1511,55 @@ namespace Accord.Math
             string bin = System.Convert.ToString(n, 2);
             for (int i = 1; i < bin.Length; i++)
             {
-                result = Matrix.Multiply(result, result);
+                result = Matrix.Dot(result, result);
 
                 if (bin[i] == '1')
-                    result = Matrix.Multiply(result, matrix);
+                    result = Matrix.Dot(result, matrix);
             }
 
             return result;
+        }
+        /// <summary>
+        ///   Computes the Cartesian product of many sets.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   References:
+        ///   - http://blogs.msdn.com/b/ericlippert/archive/2010/06/28/computing-a-Cartesian-product-with-linq.aspx 
+        /// </remarks>
+        /// 
+        public static IEnumerable<IEnumerable<T>> Cartesian<T>(this IEnumerable<IEnumerable<T>> sequences)
+        {
+            IEnumerable<IEnumerable<T>> empty = new[] { Enumerable.Empty<T>() };
+
+            return sequences.Aggregate(empty, (accumulator, sequence) =>
+                from accumulatorSequence in accumulator
+                from item in sequence
+                select accumulatorSequence.Concat(new[] { item }));
+        }
+
+        /// <summary>
+        ///   Computes the Cartesian product of many sets.
+        /// </summary>
+        /// 
+        public static T[][] Cartesian<T>(params T[][] sequences)
+        {
+            var result = Cartesian(sequences as IEnumerable<IEnumerable<T>>);
+
+            var list = new List<T[]>();
+            foreach (IEnumerable<T> point in result)
+                list.Add(point.ToArray());
+
+            return list.ToArray();
+        }
+
+        /// <summary>
+        ///   Computes the Cartesian product of two sets.
+        /// </summary>
+        /// 
+        public static T[][] Cartesian<T>(this T[] sequence1, T[] sequence2)
+        {
+            return Cartesian(new T[][] { sequence1, sequence2 });
         }
 
     }

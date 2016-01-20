@@ -519,7 +519,8 @@ namespace Accord.Math
         public static bool HasNaN(this double[] matrix)
         {
             foreach (var e in matrix)
-                if (Double.IsNaN(e)) return true;
+                if (Double.IsNaN(e)) 
+                    return true;
             return false;
         }
 
@@ -553,7 +554,8 @@ namespace Accord.Math
         public static bool HasInfinity(this double[,] matrix)
         {
             foreach (var e in matrix)
-                if (Double.IsInfinity(e)) return true;
+                if (Double.IsInfinity(e)) 
+                    return true;
             return false;
         }
 
@@ -610,7 +612,8 @@ namespace Accord.Math
         public static bool HasInfinity(this double[] matrix)
         {
             foreach (var e in matrix)
-                if (Double.IsInfinity(e)) return true;
+                if (Double.IsInfinity(e)) 
+                    return true;
             return false;
         }
 
@@ -676,9 +679,6 @@ namespace Accord.Math
         /// 
         public static T[,] Transpose<T>(this T[,] matrix, bool inPlace)
         {
-            if (matrix == null)
-                throw new ArgumentNullException("matrix");
-
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
 
@@ -702,7 +702,6 @@ namespace Accord.Math
             else
             {
                 T[,] result = new T[cols, rows];
-
                 for (int i = 0; i < rows; i++)
                     for (int j = 0; j < cols; j++)
                         result[j, i] = matrix[i, j];
@@ -724,8 +723,6 @@ namespace Accord.Math
         /// 
         public static T[][] Transpose<T>(this T[][] matrix, bool inPlace)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
-
             int rows = matrix.Length;
             if (rows == 0) return new T[rows][];
             int cols = matrix[0].Length;
@@ -750,11 +747,9 @@ namespace Accord.Math
             else
             {
                 T[][] result = new T[cols][];
-
                 for (int j = 0; j < cols; j++)
                 {
                     result[j] = new T[rows];
-
                     for (int i = 0; i < rows; i++)
                         result[j][i] = matrix[i][j];
                 }
@@ -773,13 +768,76 @@ namespace Accord.Math
         /// 
         public static T[,] Transpose<T>(this T[] rowVector)
         {
-            if (rowVector == null) throw new ArgumentNullException("rowVector");
-
-            T[,] trans = new T[rowVector.Length, 1];
+            var result = new T[rowVector.Length, 1];
             for (int i = 0; i < rowVector.Length; i++)
-                trans[i, 0] = rowVector[i];
+                result[i, 0] = rowVector[i];
+            return result;
+        }
 
-            return trans;
+        /// <summary>
+        ///   Gets the transpose of a row vector.
+        /// </summary>
+        /// 
+        /// <param name="rowVector">A row vector.</param>
+        /// <param name="result">The matrix where to store the transpose.</param>
+        ///
+        /// <returns>The transpose of the given vector.</returns>
+        /// 
+        public static T[,] Transpose<T>(this T[] rowVector, out T[,] result)
+        {
+            result = new T[rowVector.Length, 1];
+            for (int i = 0; i < rowVector.Length; i++)
+                result[i, 0] = rowVector[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the transpose of a row vector.
+        /// </summary>
+        /// 
+        /// <param name="rowVector">A row vector.</param>
+        /// <param name="result">The matrix where to store the transpose.</param>
+        /// 
+        /// <returns>The transpose of the given vector.</returns>
+        /// 
+        public static T[][] Transpose<T>(this T[] rowVector, out T[][] result)
+        {
+            result = new T[rowVector.Length][];
+            for (int i = 0; i < rowVector.Length; i++)
+                result[i] = new T[] { rowVector[i] };
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the transpose of a row vector.
+        /// </summary>
+        /// 
+        /// <param name="rowVector">A row vector.</param>
+        /// <param name="result">The matrix where to store the transpose.</param>
+        /// 
+        /// <returns>The transpose of the given vector.</returns>
+        /// 
+        public static T[,] Transpose<T>(this T[] rowVector, T[,] result)
+        {
+            for (int i = 0; i < rowVector.Length; i++)
+                result[i, 0] = rowVector[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the transpose of a row vector.
+        /// </summary>
+        /// 
+        /// <param name="rowVector">A row vector.</param>
+        /// <param name="result">The matrix where to store the transpose.</param>
+        /// 
+        /// <returns>The transpose of the given vector.</returns>
+        /// 
+        public static T[][] Transpose<T>(this T[] rowVector, T[][] result)
+        {
+            for (int i = 0; i < rowVector.Length; i++)
+                result[i] = new T[] { rowVector[i] };
+            return result;
         }
 
         /// <summary>
@@ -2063,8 +2121,7 @@ namespace Accord.Math
                     "The length of the array should equal the product of "
                     + "the parameter \"rows\" times parameter \"cols\".");
 
-
-            T[,] result = new T[rows, cols];
+            var result = new T[rows, cols];
             int k = 0;
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < cols; j++)
@@ -2280,6 +2337,67 @@ namespace Accord.Math
             return (T[,])a.Clone();
         }
 
+        /// <summary>
+        ///   Copies the content of an array to another array.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
+        /// 
+        /// <param name="matrix">The source matrix to be copied.</param>
+        /// <param name="destination">The matrix where the elements should be copied to.</param>
+        /// 
+        public static void CopyTo<T>(this T[,] matrix, T[,] destination)
+        {
+            Array.Copy(matrix, 0, destination, 0, matrix.Length);
+        }
+
+        /// <summary>
+        ///   Copies the content of an array to another array.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
+        /// 
+        /// <param name="matrix">The source matrix to be copied.</param>
+        /// <param name="destination">The matrix where the elements should be copied to.</param>
+        /// 
+        public static void CopyTo<T>(this T[][] matrix, T[][] destination)
+        {
+            for (int i = 0; i < matrix.Length; i++)
+                for (int j = 0; j < matrix[i].Length; j++)
+                    destination[i][j] = matrix[i][j];
+        }
+
+        /// <summary>
+        ///   Copies the content of an array to another array.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
+        /// 
+        /// <param name="matrix">The source matrix to be copied.</param>
+        /// <param name="destination">The matrix where the elements should be copied to.</param>
+        /// 
+        public static void CopyTo<T>(this T[][] matrix, T[,] destination)
+        {
+            for (int i = 0; i < matrix.Length; i++)
+                for (int j = 0; j < matrix[i].Length; j++)
+                    destination[i, j] = matrix[i][j];
+        }
+
+        /// <summary>
+        ///   Copies the content of an array to another array.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
+        /// 
+        /// <param name="matrix">The source matrix to be copied.</param>
+        /// <param name="destination">The matrix where the elements should be copied to.</param>
+        /// 
+        public static void CopyTo<T>(this T[,] matrix, T[][] destination)
+        {
+            for (int i = 0; i < destination.Length; i++)
+                for (int j = 0; j < destination[i].Length; j++)
+                    destination[i][j] = matrix[i, j];
+        }
     }
 }
 

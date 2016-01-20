@@ -657,8 +657,7 @@ namespace Accord.Math
             Type outputElementType = outputType.GetElementType();
 
             // Multidimensional array
-            int[] dimensions = array.GetDimensions();
-            Array result = Array.CreateInstance(outputElementType, dimensions);
+            Array result = Array.CreateInstance(outputElementType, array.GetLength());
 
             foreach (var idx in GetIndices(array))
             {
@@ -716,9 +715,11 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
+        /// <seealso cref="Accord.Math.Vector.GetIndices{T}(T[])"/>
+        /// 
         public static IEnumerable<int[]> GetIndices(this Array array)
         {
-            return Accord.Math.Indices.From(array);
+            return Combinatorics.Sequences(array.GetLength(), inPlace: true);
         }
 
 
