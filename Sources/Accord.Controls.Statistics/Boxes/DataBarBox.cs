@@ -157,7 +157,7 @@ namespace Accord.Controls
             if (title == null)
                 title = "Bar chart";
 
-            double[] x = Matrix.Indices(0, labels.Length).ToDouble();
+            double[] x = Vector.Range(0, labels.Length).ToDouble();
 
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
 

@@ -112,7 +112,7 @@ namespace Accord.Controls
             {
                 for (int i = 0; i < sequence.Length; i++)
                 {
-                    int j = Accord.Math.Tools.Random.Next(1, Colors.Length);
+                    int j = Accord.Math.Random.Generator.Random.Next(1, Colors.Length);
                     sequence[i] = Colors[j];
                 }
             }

@@ -660,10 +660,10 @@ namespace Accord.Controls.Vision
             DoubleRange unit = new DoubleRange(-1, 1);
             DoubleRange circle = new DoubleRange(Math.PI, 0);
 
-            currentX = (float)Accord.Math.Tools.Scale(xaxisRange, unit, obj.Center.X);
-            currentY = (float)Accord.Math.Tools.Scale(yaxisRange, unit, obj.Center.Y);
-            currentAngle = (float)Accord.Math.Tools.Scale(angleRange, circle, obj.Angle);
-            currentScale = (float)Accord.Math.Tools.Scale(scaleRange, unit, Math.Sqrt(obj.Area));
+            currentX = (float)Vector.Scale(obj.Center.X, xaxisRange, unit);
+            currentY = (float)Vector.Scale(obj.Center.Y, yaxisRange, unit);
+            currentAngle = (float)Vector.Scale(obj.Angle, angleRange, circle);
+            currentScale = (float)Vector.Scale(Math.Sqrt(obj.Area), scaleRange, unit);
         }
 
 

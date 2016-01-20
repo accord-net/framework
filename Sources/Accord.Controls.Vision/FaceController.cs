@@ -450,11 +450,11 @@ namespace Accord.Controls.Vision
             DoubleRange scaleY = new DoubleRange(0, height);
             DoubleRange unit = new DoubleRange(-1, 1);
 
-            this.rawX = (float)Accord.Math.Tools.Scale(scaleX, unit, obj.Center.X);
-            this.rawY = (float)Accord.Math.Tools.Scale(scaleY, unit, obj.Center.Y);
+            this.rawX = (float)Vector.Scale(obj.Center.X, scaleX, unit);
+            this.rawY = (float)Vector.Scale(obj.Center.Y, scaleY, unit);
 
-            double newPositionX = Accord.Math.Tools.Scale(xaxisRange, unit, rawX);
-            double newPositionY = Accord.Math.Tools.Scale(yaxisRange, unit, rawY);
+            double newPositionX = Vector.Scale(rawX, xaxisRange, unit);
+            double newPositionY = Vector.Scale(rawY, yaxisRange, unit);
 
             xsmooth.Push(newPositionX);
             ysmooth.Push(newPositionY);
