@@ -42,9 +42,12 @@
 namespace Accord.Math
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
+    using Accord;
     using Accord.Math.Distances;
+    using Accord.Math.Decompositions;
 
     /// <summary>
     ///   Static class Distance. Defines a set of methods defining distance measures.
@@ -80,7 +83,7 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the <#=cls.Name#> distance between two points.
         /// </summary>
-        /// 
+        ///  
 <#
                 foreach (var doc in documentation)
                 {
@@ -140,9 +143,6 @@ namespace Accord.Math
         var methods = new List<CodeElement>();
         foreach (CodeElement e in cls.Children)
         {
-            String ctorParameters = null;
-            String ctorArguments = null;
-
             if (e.Kind == vsCMElement.vsCMElementFunction && e.Name == name)
                 methods.Add(e);
         }
@@ -174,7 +174,10 @@ namespace Accord.Math
                 continue;
 
             if (includeTypes)
-                list.Add(p.Type.AsString + " " + p.FullName);
+            {
+                var str = p.Type.AsString.Split('.');
+                list.Add(str[str.Length - 1] + " " + p.FullName);
+            }
             else 
                 list.Add(p.FullName);
         }
