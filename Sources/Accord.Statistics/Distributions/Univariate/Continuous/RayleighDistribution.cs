@@ -373,7 +373,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double sigma, int samples)
         {
-            var rand = Accord.Math.Tools.Random;
+            var rand = Accord.Math.Random.Generator.Random;
 
             double[] r = new double[samples];
             for (int i = 0; i < r.Length; i++)
@@ -396,7 +396,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double sigma)
         {
-            double u = Accord.Math.Tools.Random.NextDouble();
+            double u = Accord.Math.Random.Generator.Random.NextDouble();
             return Math.Sqrt(-2 * sigma * sigma * Math.Log(u));
         }
 

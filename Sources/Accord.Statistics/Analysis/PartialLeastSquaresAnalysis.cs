@@ -730,7 +730,7 @@ namespace Accord.Statistics.Analysis
 
                 // Compute the value of b which is used to
                 // predict Y from t as b = t'u [Abdi, 2010]
-                double b = t.InnerProduct(u);
+                double b = t.Dot(u);
 
                 // Compute factor loadings for X as p = E'*t [Abdi, 2010]
                 double[] p = new double[xcols];
@@ -753,7 +753,7 @@ namespace Accord.Statistics.Analysis
 
                 // Calculate explained variances
                 varY[factor] = b * b;
-                varX[factor] = p.InnerProduct(p);
+                varX[factor] = p.Dot(p);
 
 
                 // Save iteration cols
@@ -873,7 +873,7 @@ namespace Accord.Statistics.Analysis
 
 
             // Create covariance matrix C = X'Y
-            double[,] covariance = inputsX.TransposeAndMultiply(outputsY);
+            double[,] covariance = inputsX.TransposeAndDot(outputsY);
 
             #region SIMPLS
             for (int factor = 0; factor < factors; factor++)
@@ -894,7 +894,7 @@ namespace Accord.Statistics.Analysis
                 // are interested only in the first left singular vector.
 
                 double[] w = svd.LeftSingularVectors.GetColumn(0);
-                double[] c = covariance.TransposeAndMultiply(w);
+                double[] c = covariance.TransposeAndDot(w);
 
 
                 // Step 2. Estimate X factor scores: t ∝ X*w
@@ -995,8 +995,8 @@ namespace Accord.Statistics.Analysis
                 V.SetColumn(factor, v);
 
                 // Compute explained variance
-                varX[factor] = p.InnerProduct(p);
-                varY[factor] = c.InnerProduct(c);
+                varX[factor] = p.Dot(p);
+                varY[factor] = c.Dot(c);
             }
             #endregion
 
@@ -1137,7 +1137,7 @@ namespace Accord.Statistics.Analysis
                     double[] t = scoresX.GetColumn(k);
                     double[] w = loadingsX.GetColumn(k);
 
-                    double ss = (b * b) * (t.InnerProduct(t));
+                    double ss = (b * b) * (t.Dot(t));
                     double wn = (w[j] * w[j]) / Norm.SquareEuclidean(w);
 
                     SS1[k] = ss * wn;

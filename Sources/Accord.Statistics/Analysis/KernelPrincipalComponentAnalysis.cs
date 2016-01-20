@@ -379,7 +379,7 @@ namespace Accord.Statistics.Analysis
 
 
             // Project the original data into principal component space
-            this.Result = Matrix.Multiply(Kc, eigs);
+            this.Result = Matrix.Dot(Kc, eigs);
 
 
             // Computes additional information about the analysis and creates the
@@ -435,7 +435,7 @@ namespace Accord.Statistics.Analysis
 
             // Project into the kernel principal components
             double[,] result = new double[samples, dimensions];
-            Matrix.Multiply(newK, ComponentMatrix, result: result);
+            Matrix.Dot(newK, ComponentMatrix, result: result);
 
             return result;
         }
@@ -475,12 +475,13 @@ namespace Accord.Statistics.Analysis
             data = Adjust(data, false);
 
             // Create the Kernel matrix
-            double[,] newK = new double[samples, rows];
+            var newK = new double[samples][];
             for (int i = 0; i < samples; i++)
             {
+                newK[i] = new double[rows];
                 double[] row = data[i];
                 for (int j = 0; j < rows; j++)
-                    newK[i, j] = kernel.Function(row, sourceCentered.GetRow(j));
+                    newK[i][j] = kernel.Function(row, sourceCentered.GetRow(j));
             }
 
             if (centerFeatureSpace)
@@ -491,7 +492,7 @@ namespace Accord.Statistics.Analysis
             for (int i = 0; i < result.Length; i++)
                 result[i] = new double[dimensions];
 
-            Matrix.Multiply(newK, ComponentMatrix, result: result);
+            Matrix.Dot(newK, ComponentMatrix, result: result);
 
             return result;
         }
@@ -620,7 +621,7 @@ namespace Accord.Statistics.Analysis
 
                 // 4. Compute projections
                 //    Z = L*V';
-                double[,] Z = Matrix.MultiplyByTranspose(L, V);
+                double[,] Z = Matrix.DotWithTransposed(L, V);
 
 
                 // 5. Calculate distances
@@ -631,13 +632,13 @@ namespace Accord.Statistics.Analysis
                 // 6. Get the pre-image using z = -0.5*inv(Z')*(d2-d02)
                 double[,] inv = Matrix.PseudoInverse(Z.Transpose());
 
-                double[] w = (-0.5).Multiply(inv).Multiply(d2.Subtract(d02));
+                double[] w = (-0.5).Multiply(inv).Dot(d2.Subtract(d02));
                 double[] z = w.Submatrix(U.GetLength(1));
 
 
                 // 8. Project the pre-image on the original basis
                 //    using x = U*z + sum(X,2)/nn;
-                double[] x = (U.Multiply(z)).Add(Matrix.Sum(X.Transpose()).Multiply(1.0 / nn));
+                double[] x = (U.Dot(z)).Add(Matrix.Sum(X.Transpose()).Multiply(1.0 / nn));
 
 
                 // 9. Store the computed pre-image.
@@ -708,6 +709,21 @@ namespace Accord.Statistics.Analysis
             for (int i = 0; i < samples; i++)
                 for (int j = 0; j < dimension; j++)
                     newK[i, j] = newK[i, j] - rowMean1[i] - rowMean2[j] + mean;
+        }
+
+        // TODO: Move those to extension methods
+        private static void centerKernel(double[][] newK, double[,] K)
+        {
+            int samples = newK.GetLength(0);
+            int dimension = K.GetLength(0);
+
+            double[] rowMean1 = Statistics.Tools.Mean(newK, 1);
+            double[] rowMean2 = Statistics.Tools.Mean(K, 1);
+            double mean = Matrix.Sum(K, -1)[0] / (samples * dimension);
+
+            for (int i = 0; i < samples; i++)
+                for (int j = 0; j < dimension; j++)
+                    newK[i][j] = newK[i][j] - rowMean1[i] - rowMean2[j] + mean;
         }
 
         #endregion

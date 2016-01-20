@@ -281,7 +281,7 @@ namespace Accord.Statistics.Distributions.Fitting
                 for (int k = 0; k < pi.Length; k++)
                     sum += pi[k] * pdf[k].ProbabilityFunction(x);
 
-                if (sum > 0) 
+                if (sum > 0)
                     logLikelihood += Math.Log(sum) * w;
             }
 #else
@@ -294,7 +294,6 @@ namespace Accord.Statistics.Distributions.Fitting
                 (i, status, partial) =>
                 {
                     var x = observations[i];
-
                     double w = 1.0;
 
                     if (weights != null)

@@ -270,7 +270,7 @@ namespace Accord.Statistics.Analysis
 
                 // Construct the Kernel equivalent of the Between-Class Scatter matrix
                 double[] d = mean.Subtract(base.Means);
-                double[,] Sbi = Matrix.OuterProduct(d, d).Multiply(total);
+                double[,] Sbi = Matrix.Outer(d, d).Multiply(total);
 
                 // Sb = Sb + Sbi
                 for (int i = 0; i < dimension; i++)
@@ -368,13 +368,13 @@ namespace Accord.Statistics.Analysis
 
 
             // Project into the kernel discriminant space
-            this.Result = Matrix.Multiply(K, eigs);
+            this.Result = Matrix.Dot(K, eigs);
 
 
             // Compute feature space means for later classification
             for (int c = 0; c < Classes.Count; c++)
             {
-                ProjectionMeans[c] = ClassMeans[c].Multiply(eigs);
+                ProjectionMeans[c] = ClassMeans[c].Dot(eigs);
             }
 
 

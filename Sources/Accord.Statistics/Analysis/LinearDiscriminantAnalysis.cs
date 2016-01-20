@@ -471,7 +471,7 @@ namespace Accord.Statistics.Analysis
 
                 // Continue constructing the Between-Class Scatter Matrix
                 double[] d = mean.Subtract(totalMeans);
-                double[,] Sbi = Matrix.OuterProduct(d, d).Multiply(total);
+                double[,] Sbi = Matrix.Outer(d, d).Multiply(total);
 
                 // Sb = Sb + Sbi
                 for (int i = 0; i < dimension; i++)
@@ -503,14 +503,12 @@ namespace Accord.Statistics.Analysis
             this.DiscriminantMatrix = eigs;
 
             // Create projections into latent space
-            this.result = Matrix.Multiply(source, eigenvectors);
+            this.result = Matrix.Dot(source, eigenvectors);
 
 
             // Compute feature space means for later classification
             for (int c = 0; c < Classes.Count; c++)
-            {
-                projectedMeans[c] = classMeans[c].Multiply(eigs);
-            }
+                projectedMeans[c] = classMeans[c].Dot(eigs);
 
 
             // Computes additional information about the analysis and creates the

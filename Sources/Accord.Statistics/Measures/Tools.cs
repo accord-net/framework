@@ -326,7 +326,7 @@ namespace Accord.Statistics
         public static int[] RandomSample(int n, int k)
         {
             // TODO: Mark as obsolete
-            return Accord.Math.Indices.Random(k, n);
+            return Accord.Math.Vector.Sample(k, n);
         }
 
         /// <summary>
@@ -379,7 +379,7 @@ namespace Accord.Statistics
         public static int[] Random(int n)
         {
             // TODO: Mark as obsolete
-            return Indices.Random(n);
+            return Vector.Sample(n);
         }
 
         /// <summary>
@@ -448,7 +448,7 @@ namespace Accord.Statistics
                     transformMatrix[i, j] /= Math.Sqrt(singularValues[j]);
 
             // Return the transformed data
-            return Matrix.Multiply(value, transformMatrix);
+            return Matrix.Dot(value, transformMatrix);
         }
 
 
@@ -458,7 +458,7 @@ namespace Accord.Statistics
         /// 
         public static double[] Rank(double[] samples, bool alreadySorted = false)
         {
-            int[] idx = Matrix.Indices(0, samples.Length);
+            int[] idx = Vector.Range(0, samples.Length);
 
             if (!alreadySorted)
             {
@@ -575,8 +575,8 @@ namespace Accord.Statistics
             var gso = new GramSchmidtOrthogonalization(A);
             double[,] Q = gso.OrthogonalFactor;
 
-            double[] diagonal = Matrix.Random(size, minValue, maxValue).Abs();
-            double[,] psd = Matrix.Multiply(Q.TransposeAndMultiplyByDiagonal(diagonal), Q);
+            double[] diagonal = Vector.Random(size, minValue, maxValue).Abs();
+            double[,] psd = Matrix.Dot(Q.TransposeAndDotWithDiagonal(diagonal), Q);
 
             System.Diagnostics.Debug.Assert(psd.IsPositiveDefinite());
 

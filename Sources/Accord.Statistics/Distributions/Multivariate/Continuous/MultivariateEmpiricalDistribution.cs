@@ -923,7 +923,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public double[][] Generate(int samples)
         {
-            var generator = Accord.Math.Tools.Random;
+            var generator = Accord.Math.Random.Generator.Random;
 
             var s = new double[samples][];
             for (int i = 0; i < s.Length; i++)
@@ -940,7 +940,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public double[] Generate()
         {
-            var generator = Accord.Math.Tools.Random;
+            var generator = Accord.Math.Random.Generator.Random;
 
             return this.samples[generator.Next(this.samples.Length)];
         }

@@ -590,8 +590,8 @@ namespace Accord.Statistics.Analysis
                 if (ranges == null)
                 {
                     if (sourceMatrix != null)
-                        this.ranges = Matrix.Range(sourceMatrix, 0);
-                    else this.ranges = Matrix.Range(sourceArray, 0);
+                        this.ranges = Matrix.GetRange(sourceMatrix, 0);
+                    else this.ranges = Matrix.GetRange(sourceArray, 0);
                 }
 
                 return ranges;

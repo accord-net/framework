@@ -644,7 +644,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             double[] uniform = new double[samples];
             for (int i = 0; i < uniform.Length; i++)
-                uniform[i] = Accord.Math.Tools.Random.NextDouble();
+                uniform[i] = Accord.Math.Random.Generator.Random.NextDouble();
 
             // Use the probabilities to partition the 0,1 interval
             double[] cumulative = probabilities.CumulativeSum();
@@ -676,7 +676,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static int Random(double[] probabilities)
         {
-            double uniform = Accord.Math.Tools.Random.NextDouble();
+            double uniform = Accord.Math.Random.Generator.Random.NextDouble();
 
             double cumulativeSum = 0;
 

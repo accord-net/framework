@@ -137,7 +137,7 @@ namespace Accord.Statistics.Testing
 
             invS = S.PseudoInverse();
 
-            double chiSquare = d.Multiply(invS).InnerProduct(d);
+            double chiSquare = d.DotAndDot(invS, d);
 
             Compute(chiSquare, df);
         }

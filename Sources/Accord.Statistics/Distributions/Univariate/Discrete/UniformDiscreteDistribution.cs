@@ -317,7 +317,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override int Generate()
         {
-            return Accord.Math.Tools.Random.Next(a, b);
+            return Accord.Math.Random.Generator.Random.Next(a, b);
         }
 
         /// <summary>
@@ -332,7 +332,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             int[] result = new int[samples];
             for (int i = 0; i < result.Length; i++)
-                result[i] = Accord.Math.Tools.Random.Next(a, b);
+                result[i] = Accord.Math.Random.Generator.Random.Next(a, b);
 
             return result;
         }

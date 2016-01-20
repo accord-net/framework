@@ -415,7 +415,7 @@ namespace Accord.Statistics.Distributions.Univariate
             double[] r = new double[samples];
             for (int i = 0; i < r.Length; i++)
             {
-                double u = Accord.Math.Tools.Random.NextDouble();
+                double u = Accord.Math.Random.Generator.Random.NextDouble();
                 r[i] = scale * Math.Pow(-Math.Log(u), 1 / shape);
             }
 
@@ -434,7 +434,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double shape, double scale)
         {
-            double u = Accord.Math.Tools.Random.NextDouble();
+            double u = Accord.Math.Random.Generator.Random.NextDouble();
             return scale * Math.Pow(-Math.Log(u), 1 / shape);
         }
         #endregion

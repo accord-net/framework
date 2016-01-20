@@ -323,7 +323,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 //   Kronecker product. See [Böhning, 1992]
 
                 // (Re-) Compute error gradient
-                double[] g = Matrix.KroneckerProduct(errors, x);
+                double[] g = Matrix.Kronecker(errors, x);
                 for (int j = 0; j < g.Length; j++)
                     gradient[j] += g[j];
 
@@ -335,7 +335,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
                             xxt[k, j] = x[k] * x[j];
 
                     // (Re-) Compute weighted "Hessian" matrix 
-                    double[,] h = Matrix.KroneckerProduct(weights, xxt);
+                    double[,] h = Matrix.Kronecker(weights, xxt);
                     for (int j = 0; j < parameterCount; j++)
                         for (int k = 0; k < parameterCount; k++)
                             lowerBound[j, k] += h[j, k];

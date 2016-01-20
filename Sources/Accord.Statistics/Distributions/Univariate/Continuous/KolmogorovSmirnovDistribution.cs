@@ -906,7 +906,7 @@ namespace Accord.Statistics.Distributions.Univariate
             matrixPower(A, eA, V, ref eV, m, n / 2, B);
 
 
-            Matrix.Multiply(V, V, result: B);
+            Matrix.Dot(V, V, result: B);
 
             int eB = 2 * eV;
             if (B[m / 2, m / 2] > 1.0e140)
@@ -926,7 +926,7 @@ namespace Accord.Statistics.Distributions.Univariate
             }
             else
             {
-                Matrix.Multiply(A, B, result: V);
+                Matrix.Dot(A, B, result: V);
                 eV = eA + eB;
             }
 

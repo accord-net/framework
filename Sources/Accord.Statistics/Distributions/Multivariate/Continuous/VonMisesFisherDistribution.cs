@@ -171,7 +171,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                 throw new DimensionMismatchException("x", "The vector should have the same dimension as the distribution.");
 
             double[] z = x.Normalize(Norm.Euclidean);
-            double d = mean.InnerProduct(z);
+            double d = mean.Dot(z);
             return constant * Math.Exp(kappa * d);
         }
 

@@ -217,7 +217,7 @@ namespace Accord.Statistics.Models.Regression.Linear
 
             double error = regress(inputs, outputs, out design, robust);
 
-            double[,] cov = design.TransposeAndMultiply(design);
+            double[,] cov = design.TransposeAndDot(design);
             informationMatrix = new SingularValueDecomposition(cov,
                 computeLeftSingularVectors: true,
                 computeRightSingularVectors: true,

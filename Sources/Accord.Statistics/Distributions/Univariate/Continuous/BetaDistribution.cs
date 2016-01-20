@@ -806,7 +806,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
                 for (int i = 0; i < r.Length; i++)
                 {
-                    double U = Accord.Math.Tools.Random.Next();
+                    double U = Accord.Math.Random.Generator.Random.Next();
                     r[i] = Gamma.Random(d, c) * Math.Pow(U, 1.0 / alpha);
                 }
             }
@@ -826,7 +826,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
                 for (int i = 0; i < r.Length; i++)
                 {
-                    double U = Accord.Math.Tools.Random.Next();
+                    double U = Accord.Math.Random.Generator.Random.Next();
 
                     double x = r[i];
                     double y = Gamma.Random(d, c) * Math.Pow(U, 1.0 / beta);
@@ -868,7 +868,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 double d = alpha + 1.0 - 1.0 / 3.0;
                 double c = 1.0 / Math.Sqrt(9 * d);
 
-                double U = Accord.Math.Tools.Random.Next();
+                double U = Accord.Math.Random.Generator.Random.Next();
                 r = Gamma.Random(d, c) * Math.Pow(U, 1.0 / alpha);
             }
             else
@@ -884,7 +884,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 double d = beta + 1.0 - 1.0 / 3.0;
                 double c = 1.0 / Math.Sqrt(9 * d);
 
-                double U = Accord.Math.Tools.Random.Next();
+                double U = Accord.Math.Random.Generator.Random.Next();
 
                 double x = r;
                 double y = Gamma.Random(d, c) * Math.Pow(U, 1.0 / beta);

@@ -792,7 +792,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double[] Generate(int samples)
         {
-            var generator = Accord.Math.Tools.Random;
+            var generator = Accord.Math.Random.Generator.Random;
 
             double[] s = new double[samples];
 
@@ -832,7 +832,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Generate()
         {
-            var generator = Accord.Math.Tools.Random;
+            var generator = Accord.Math.Random.Generator.Random;
 
             if (weights == null)
                 return this.samples[generator.Next(this.samples.Length)];

@@ -34,7 +34,7 @@ namespace Accord.Math.Distances
     /// 
     [Serializable]
     public sealed class LogLikelihood<T> :
-        IDistance<double[], T>, 
+        IDistance<double[], T>,
         IDistance<double[], IMixtureComponent<T>>
         where T : MultivariateContinuousDistribution
     {
@@ -63,7 +63,7 @@ namespace Accord.Math.Distances
         /// 
         public double Distance(double[] x, T y)
         {
-            return y.LogProbabilityDensityFunction(x);
+            return -y.LogProbabilityDensityFunction(x);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Accord.Math.Distances
         /// 
         public double Distance(double[] x, IMixtureComponent<T> y)
         {
-            return Math.Log(y.Coefficient) + y.Component.LogProbabilityDensityFunction(x);
+            return -Math.Log(y.Coefficient) - y.Component.LogProbabilityDensityFunction(x);
         }
     }
 }

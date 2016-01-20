@@ -406,7 +406,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double mean, double shape)
         {
-            var u = Accord.Math.Tools.Random;
+            var u = Accord.Math.Random.Generator.Random;
             var g = new Accord.Math.Random.GaussianGenerator(0, 1, u.Next());
 
             double v = g.Next();
@@ -434,7 +434,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double mean, double shape, int samples)
         {
-            var u = Accord.Math.Tools.Random;
+            var u = Accord.Math.Random.Generator.Random;
             var g = new Accord.Math.Random.GaussianGenerator(0, 1, u.Next());
 
             double[] r = new double[samples];

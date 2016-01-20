@@ -464,7 +464,7 @@ namespace Accord.Statistics.Analysis
             
 
             // Combine the rotation and demixing matrices
-            revertMatrix = whiteningMatrix.MultiplyByTranspose(revertMatrix);
+            revertMatrix = whiteningMatrix.DotWithTransposed(revertMatrix);
             normalize(revertMatrix);
 
             // Compute the original source mixing matrix
@@ -472,7 +472,7 @@ namespace Accord.Statistics.Analysis
             normalize(mixingMatrix);
 
             // Demix the data into independent components
-            resultMatrix = Matrix.Multiply(matrix, revertMatrix);
+            resultMatrix = Matrix.Dot(matrix, revertMatrix);
 
             
             // Creates the object-oriented structure to hold the principal components
@@ -499,7 +499,7 @@ namespace Accord.Statistics.Analysis
             // Data-adjust and separate the samples
             double[,] matrix = Adjust(data, false);
 
-            return Matrix.Multiply(matrix, revertMatrix);
+            return Matrix.Dot(matrix, revertMatrix);
         }
 
         /// <summary>
@@ -517,7 +517,7 @@ namespace Accord.Statistics.Analysis
             // Data-adjust and separate the sources
             float[][] matrix = Adjust(data, false);
 
-            return Matrix.Multiply(revertArray, matrix);
+            return Matrix.Dot(revertArray, matrix);
         }
 
         /// <summary>
@@ -535,7 +535,7 @@ namespace Accord.Statistics.Analysis
             // Data-adjust and separate the sources
             double[][] matrix = Adjust(data, false);
 
-            return Matrix.Multiply(revertArray, matrix);
+            return Matrix.Dot(revertArray, matrix);
         }
 
 
@@ -545,7 +545,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[,] Combine(double[,] data)
         {
-            return Matrix.Multiply(data, mixingMatrix);
+            return Matrix.Dot(data, mixingMatrix);
         }
 
         /// <summary>
@@ -560,7 +560,7 @@ namespace Accord.Statistics.Analysis
                 mixingArray = convertToSingle(mixingMatrix);
             }
 
-            return Matrix.Multiply(mixingArray, data);
+            return Matrix.Dot(mixingArray, data);
         }
         #endregion
 
@@ -764,7 +764,7 @@ namespace Accord.Statistics.Analysis
                 }
 
                 // Orthogonalize
-                W = Matrix.Multiply(K, W);
+                W = Matrix.Dot(K, W);
 
 
                 // Gets the maximum parameter absolute change

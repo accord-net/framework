@@ -190,7 +190,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                 // init is set to false during cloning
                 double[] mean = new double[dimension];
                 double[,] cov = Matrix.Identity(dimension);
-                CholeskyDecomposition chol = new CholeskyDecomposition(cov,
+                var chol = new CholeskyDecomposition(cov,
                     robust: false, lowerTriangular: true);
                 initialize(mean, cov, chol, svd: null);
             }
@@ -696,14 +696,14 @@ namespace Accord.Statistics.Distributions.Multivariate
             if (chol == null)
                 throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive definite.");
 
-            var r = new StandardGenerator(Accord.Math.Tools.Random.Next());
+            var r = new StandardGenerator(Accord.Math.Random.Generator.Random.Next());
             double[,] A = chol.LeftTriangularFactor;
 
             double[] sample = new double[Dimension];
             for (int j = 0; j < sample.Length; j++)
                 sample[j] = r.Next();
 
-            return A.Multiply(sample).Add(Mean);
+            return A.Dot(sample).Add(Mean);
         }
 
         /// <summary>
@@ -719,7 +719,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             if (chol == null)
                 throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive definite.");
 
-            var r = new StandardGenerator(Accord.Math.Tools.Random.Next());
+            var r = new StandardGenerator(Accord.Math.Random.Generator.Random.Next());
             double[,] A = chol.LeftTriangularFactor;
 
             double[][] data = new double[samples][];
@@ -729,7 +729,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                 for (int j = 0; j < sample.Length; j++)
                     sample[j] = r.Next();
 
-                data[i] = A.Multiply(sample).Add(Mean);
+                data[i] = A.Dot(sample).Add(Mean);
             }
 
             return data;

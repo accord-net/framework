@@ -78,9 +78,9 @@ namespace Accord.Statistics.Filters
 
             int rows = data.Rows.Count;
 
-            int[] indices = Matrix.Indices(0, rows);
+            int[] indices = Vector.Range(0, rows);
 
-            int r = Accord.Math.Tools.Random.Next();
+            int r = Accord.Math.Random.Generator.Random.Next();
             if (Seed.HasValue)
                 Accord.Math.Random.Generator.Seed = Seed.Value;
 

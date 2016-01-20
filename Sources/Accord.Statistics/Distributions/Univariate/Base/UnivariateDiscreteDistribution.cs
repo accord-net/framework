@@ -1052,7 +1052,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public virtual int[] Generate(int samples)
         {
-            var random = Accord.Math.Tools.Random;
+            var random = Accord.Math.Random.Generator.Random;
 
             int[] s = new int[samples];
 
@@ -1073,7 +1073,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public virtual int Generate()
         {
-            return InverseDistributionFunction(Accord.Math.Tools.Random.NextDouble());
+            return InverseDistributionFunction(Accord.Math.Random.Generator.Random.NextDouble());
         }
 
         double[] ISampleableDistribution<double>.Generate(int samples)

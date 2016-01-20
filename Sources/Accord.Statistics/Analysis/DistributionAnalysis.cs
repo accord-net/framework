@@ -251,7 +251,7 @@ namespace Accord.Statistics.Analysis
 
         private int[] getRank(double[] ks)
         {
-            int[] idx = Matrix.Indices(0, Distributions.Length);
+            int[] idx = Vector.Range(0, Distributions.Length);
             Array.Sort(ks, idx, new GeneralComparer(ComparerDirection.Descending));
 
             int[] rank = new int[idx.Length];

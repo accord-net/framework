@@ -227,13 +227,13 @@ namespace Accord.Statistics.Analysis
         {
             // Rotation calculus per Amy Ross, Procrustes Analysis : http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.119.2686&rep=rep1&type=pdf
 
-            SingularValueDecomposition svd = new SingularValueDecomposition(p_reference.Dataset.TransposeAndMultiply(p.Dataset));
+            SingularValueDecomposition svd = new SingularValueDecomposition(p_reference.Dataset.TransposeAndDot(p.Dataset));
 
-            double[,] Q = svd.RightSingularVectors.TransposeAndMultiply(svd.LeftSingularVectors);
+            double[,] Q = svd.RightSingularVectors.TransposeAndDot(svd.LeftSingularVectors);
 
             p.RotationMatrix = Q;
 
-            return p.Dataset.Multiply(Q);
+            return p.Dataset.Dot(Q);
         }
 
         /// <summary>
@@ -438,7 +438,7 @@ namespace Accord.Statistics.Analysis
             double[,] tData = (double[,])Dataset.Clone();
 
             // Rotate the dataset to match the reference dataset rotation
-            tData = tData.Multiply(p_reference.RotationMatrix.Transpose());
+            tData = tData.Dot(p_reference.RotationMatrix.Transpose());
 
             // Scale the dataset to match the reference scale
             tData = tData.Multiply(p_reference.Scale);
