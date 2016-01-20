@@ -1,5 +1,5 @@
 ﻿<#@ template debug="false" hostspecific="true" language="C#" #>
-<#@ output extension=".cs" #>
+<#@ output extension="Generated.cs" #>
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 <#@ include file="T4Toolbox.tt" #>
 // Accord Math Library
@@ -29,6 +29,7 @@
 // edit the T4 template Vector.Range.tt so this file can be regenerated. 
 // ======================================================================
 
+
 namespace Accord.Math
 {
     using System;
@@ -41,31 +42,110 @@ namespace Accord.Math
 
     foreach (string i in types)
     {
+        var s = i == "int" ? "double" : i;
+        var c = i != "decimal" ? "double" : i;
 #>
+
         /// <summary>
-        ///   Gets the maximum and minimum values in a vector.
+        ///   Creates a range vector.
         /// </summary>
         /// 
-        /// <param name="values">The vector whose min and max should be computed.</param>
-        /// <param name="min">The minimum value in the vector.</param>
-        /// <param name="max">The maximum value in the vector.</param>
-        /// 
-        /// <exception cref="System.ArgumentException">Raised if the array is empty.</exception>
-        /// 
-        public static void Range(this <#=i#>[] values, out <#=i#> min, out <#=i#> max)
+        public static <#=i#>[] Range(<#=i#> n)
         {
-            if (values.Length == 0)
-                throw new ArgumentException("values", "The values array is empty.");
+            <#=i#>[] r = new <#=i#>[(int)n]; 
+            for (int i = 0; i < r.Length; i++)
+                r[i] = (<#=i#>)i;
+            return r;
+        }
 
-            min = max = values[0];
+        /// <summary>
+        ///   Creates a range vector.
+        /// </summary>
+        /// 
+        public static <#=i#>[] Range(<#=i#> a, <#=i#> b)
+        {
+            if (a == b)
+                return new [] { a };
 
-            for (int i = 1; i < values.Length; i++)
+            <#=i#>[] r;
+
+            if (b > a)
             {
-                if (min > values[i])
-                    min = values[i];
-                if (max < values[i])
-                    max = values[i];
+                r = new <#=i#>[(int)(b - a)];
+                for (int i = 0; i < r.Length; i++)
+                    r[i] = (<#=i#>)(a++);
             }
+            else
+            {
+                r = new <#=i#>[(int)(a - b)];
+                for (int i = 0; i < r.Length; i++)
+                    r[i] = (<#=i#>)(a-- - 1);
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Creates an interval vector.
+        /// </summary>
+        /// 
+        public static <#=i#>[] Range(<#=i#> a, <#=i#> b, <#=s#> stepSize)
+        {
+            if (a == b)
+                return new [] { a };
+
+            <#=i#>[] r;
+
+            if (b > a)
+            {
+                int steps = (int)System.Math.Ceiling((b - a) / (<#=c#>)stepSize);
+                r = new <#=i#>[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (<#=i#>)(a +  i * stepSize);
+                r[steps - 1] = (<#=i#>)(b);
+            }
+            else
+            {
+                int steps = (int)System.Math.Ceiling((a - b) / (<#=c#>)stepSize);
+                r = new <#=i#>[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (<#=i#>)(a - i * stepSize);
+                r[steps - 1] = (<#=i#>)(b);
+            }
+
+            return r;
+        }
+<#
+    }
+
+    string[] ranges = { "DoubleRange", "Range", "ByteRange", "IntRange" };
+    string[] rtypes = { "double", "float", "byte", "int" }; 
+
+    for (int i = 0; i < ranges.Length; i++)
+    {
+        var ri = ranges[i];
+        var ti = rtypes[i];
+
+        var s = ti == "int" ? "double" : ti;
+        var c = ti != "decimal" ? "double" : ti;
+#>
+
+        /// <summary>
+        ///   Creates an interval vector.
+        /// </summary>
+        /// 
+        public static <#=ti#>[] Range(this <#=ri#> range)
+        {
+            return Range(range.Min, range.Max);
+        }
+
+        /// <summary>
+        ///   Creates an interval vector.
+        /// </summary>
+        /// 
+        public static <#=ti#>[] Range(this <#=ri#> range, <#=s#> stepSize)
+        {
+            return Range(range.Min, range.Max, stepSize);
         }
 <#
     }

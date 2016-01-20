@@ -1,5 +1,5 @@
 ﻿<#@ template debug="false" hostspecific="true" language="C#" #>
-<#@ output extension=".cs" #>
+<#@ output extension="Generated.cs" #>
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 <#@ include file="T4Toolbox.tt" #>
 // Accord Math Library
@@ -114,7 +114,7 @@ namespace Accord.Math
         {
             <#=o#>[] result = new <#=o#>[values.Length];
             <#=i#> fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
+            values.GetRange(out fromMin, out fromMax);
             return Scale(values, fromMin, fromMax, toMin, toMax, result);
         }
 
@@ -125,7 +125,7 @@ namespace Accord.Math
         public static <#=o#>[] Scale(this <#=i#>[] values, <#=o#> toMin, <#=o#> toMax, <#=o#>[] result)
         {
             <#=i#> fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
+            values.GetRange(out fromMin, out fromMax);
             return Scale(values, fromMin, fromMax, toMin, toMax, result);
         }
 
@@ -155,7 +155,7 @@ namespace Accord.Math
         public static <#=o#>[] Scale(this <#=i#>[] values, IRange<<#=o#>> toRange, <#=o#>[] result)
         {
             <#=i#> fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
+            values.GetRange(out fromMin, out fromMax);
             return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
         }
 <#
