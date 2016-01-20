@@ -1,12 +1,14 @@
-﻿<#@ template debug="false" hostspecific="true" language="C#"#>
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
 <#@ output extension=".txt"#>
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating"#>
+<#@ import namespace="System.Collections.Generic" #>
 <#@ include file="T4Toolbox.tt"#>
 <#
-	new MatrixOperationTemplate("Add", "Adds", "to", "+", true) .RenderToFile("Matrix.Add.cs");
-	new MatrixOperationTemplate("Subtract", "Subtracts", "from", "-", true) .RenderToFile("Matrix.Subtract.cs");
-	new MatrixOperationTemplate("Multiply", "Multiplies", "with", "*", false).RenderToFile("Matrix.Multiply.cs");
-	new MatrixOperationTemplate("Divide", "Divides", "by", "/", false).RenderToFile("Matrix.Divide.cs");
+	new MatrixOperationTemplate("Add", "Adds", "to", "+", true) .RenderToFile("Matrix.Add.Generated.cs");
+	new MatrixOperationTemplate("Subtract", "Subtracts", "from", "-", true) .RenderToFile("Matrix.Subtract.Generated.cs");
+	new MatrixOperationTemplate("Multiply", "Multiplies", "with", "*", false).RenderToFile("Matrix.Multiply.Generated.cs");
+	new MatrixOperationTemplate("Divide", "Divides", "by", "/", false).RenderToFile("Matrix.Divide.Generated.cs");
 #>
 <#+
 public class MatrixOperationTemplate : Template
@@ -35,9 +37,9 @@ public class MatrixOperationTemplate : Template
         { 
             "int", "short",
             "float", "double", 
-            //"byte", "sbyte", 
-            //"long", "decimal",
-            //"ulong", "ushort"
+            "byte", "sbyte", 
+            "long", "decimal",
+            // "uint", "ulong", "ushort"
         };
 #>
 // Accord Math Library
@@ -71,6 +73,7 @@ namespace Accord.Math
 {
     using System;
     using Accord.Math;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Elementwise matrix and vector operations.
@@ -113,6 +116,9 @@ namespace Accord.Math
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[,] <#=name#>(this <#=a#>[,] a, <#=b#> b)
         {
             return <#=name#>(a, b, new <#=r#>[a.GetLength(0), a.GetLength(1)]);
@@ -127,9 +133,12 @@ namespace Accord.Math
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#>(this <#=a#>[][] a, <#=b#> b)
         {
-            return <#=name#>(a, b, Matrix.JaggedAs<<#=a#>, <#=r#>>(a));
+            return <#=name#>(a, b, Jagged.CreateAs<<#=a#>, <#=r#>>(a));
         }
 
         /// <summary>
@@ -153,6 +162,9 @@ namespace Accord.Math
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[] <#=name#>(<#=ext#><#=a#>[] a, <#=b#>[] b)
         {
             return <#=name#>(a, b, new <#=r#>[a.Length]);
@@ -167,9 +179,12 @@ namespace Accord.Math
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#>[][] b)
         {
-            return <#=name#>(a, b, Matrix.JaggedAs<<#=a#>, <#=r#>>(a));
+            return <#=name#>(a, b, Jagged.CreateAs<<#=a#>, <#=r#>>(a));
         }     
 
 /*
@@ -181,6 +196,9 @@ namespace Accord.Math
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#>[,] b)
         {
             return <#=name#>(a, b, Matrix.CreateAs<<#=a#>, <#=r#>>(a));
@@ -195,9 +213,12 @@ namespace Accord.Math
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#>[,] b)
         {
-            return <#=name#>(a, b, Matrix.JaggedAs<<#=a#>, <#=r#>>(a));
+            return <#=name#>(a, b, Jagged.CreateAs<<#=a#>, <#=r#>>(a));
         }      
 
 /*
@@ -209,6 +230,9 @@ namespace Accord.Math
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[,] <#=name#>(this <#=a#> a, <#=b#>[,] b)
         {
             return <#=name#>(a, b, Matrix.CreateAs<<#=b#>, <#=r#>>(b));
@@ -222,9 +246,12 @@ namespace Accord.Math
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#>(this <#=a#> a, <#=b#>[][] b)
         {
-            return <#=name#>(a, b, Matrix.JaggedAs<<#=b#>, <#=r#>>(b));
+            return <#=name#>(a, b, Jagged.CreateAs<<#=b#>, <#=r#>>(b));
         }     
 /*
         /// <summary>
@@ -235,6 +262,9 @@ namespace Accord.Math
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[] <#=name#>(this <#=a#> a, <#=b#>[] b)
         {
             return <#=name#>(a, b, new <#=r#>[b.Length]);
@@ -255,6 +285,9 @@ namespace Accord.Math
         /// </param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[,] <#=name#>(this <#=a#>[,] a,  <#=b#>[] b, int dimension)
         {
             return <#=name#>(a, b, dimension, Matrix.CreateAs<<#=a#>, <#=r#>>(a));
@@ -275,46 +308,73 @@ namespace Accord.Math
         /// </param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#>(this <#=a#>[][] a,  <#=b#>[] b, int dimension)
         {
-            return <#=name#>(a, b, dimension, Matrix.JaggedAs<<#=a#>, <#=r#>>(a));
+            return <#=name#>(a, b, dimension, Jagged.CreateAs<<#=a#>, <#=r#>>(a));
         }
 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=b#>[,] <#=name#><#=Com#>Diagonal(this <#=a#> a, <#=b#>[,] b)
         {
             return <#=name#><#=Com#>Diagonal(a, b, b.MemberwiseClone());
         }
 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=b#>[][] <#=name#><#=Com#>Diagonal(this <#=a#> a, <#=b#>[][] b)
         {
             return <#=name#><#=Com#>Diagonal(a, b, b.MemberwiseClone());
         }
 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=b#>[,] <#=name#><#=Com#>Diagonal(this <#=a#>[] a, <#=b#>[,] b)
         {
             return <#=name#><#=Com#>Diagonal(a, b, b.MemberwiseClone());
         }
 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=b#>[][] <#=name#><#=Com#>Diagonal(this <#=a#>[] a, <#=b#>[][] b)
         {
             return <#=name#><#=Com#>Diagonal(a, b, b.MemberwiseClone());
         }
 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=a#>[,] <#=name#><#=Com#>Diagonal(this <#=a#>[,] a, <#=b#> b)
         {
             return <#=name#><#=Com#>Diagonal(a, b, a.MemberwiseClone());
         }
 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=a#>[][] <#=name#><#=Com#>Diagonal(this <#=a#>[][] a, <#=b#> b)
         {
             return <#=name#><#=Com#>Diagonal(a, b, a.MemberwiseClone());
         }
 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=a#>[,] <#=name#><#=Com#>Diagonal(this <#=a#>[,] a, <#=b#>[] b)
         {
             return <#=name#><#=Com#>Diagonal(a, b, a.MemberwiseClone());
         }
 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=a#>[][] <#=name#><#=Com#>Diagonal(this <#=a#>[][] a, <#=b#>[] b)
         {
             return <#=name#><#=Com#>Diagonal(a, b, a.MemberwiseClone());
@@ -346,7 +406,8 @@ namespace Accord.Math
         {
             foreach (string b in types)
             {
-                foreach (string r in types)
+                var resultTypes = new HashSet<string>() { a, b, "double", "int" };
+                foreach (string r in resultTypes)
                 {
 #>
 
@@ -362,8 +423,15 @@ namespace Accord.Math
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#>[,] b, <#=r#>[,] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             unsafe
             {
                 fixed (<#=b#>* ptrB = b)
@@ -391,8 +459,15 @@ namespace Accord.Math
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#>[][] b, <#=r#>[,] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             unsafe
             {
                 fixed (<#=a#>* ptrA = a)
@@ -418,8 +493,15 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#>[,] b, <#=r#>[][] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             unsafe
             {
                 fixed (<#=a#>* ptrA = a)
@@ -447,8 +529,15 @@ namespace Accord.Math
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#>[,] b, <#=r#>[][] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             unsafe
             {
                 fixed (<#=b#>* ptrB = b)
@@ -473,8 +562,15 @@ namespace Accord.Math
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#>[][] b, <#=r#>[][] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             unsafe
             {
                 fixed (<#=a#>* ptrA = a)
@@ -499,8 +595,15 @@ namespace Accord.Math
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#>[][] b, <#=r#>[][] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (<#=r#>)((<#=r#>)(a[i][j]) <#=op#> (<#=r#>)(b[i][j]));
@@ -518,8 +621,15 @@ namespace Accord.Math
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#>[,] b, <#=r#>[,] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             unsafe
             {
                 fixed (<#=a#>* ptrA = a)
@@ -574,8 +684,15 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#> b, <#=r#>[][] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             unsafe
             {
                 fixed (<#=a#>* ptrA = a)
@@ -601,8 +718,15 @@ namespace Accord.Math
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#>(this <#=a#>[][] a, <#=b#> b, <#=r#>[][] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < a[i].Length; j++)
                     result[i][j] = (<#=r#>)((<#=r#>)a[i][j] <#=op#> (<#=r#>)b);
@@ -618,8 +742,15 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#> b, <#=r#>[,] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < a[i].Length; j++)
                     result[i, j] = (<#=r#>)((<#=r#>)a[i][j] <#=op#> (<#=r#>)b);
@@ -636,8 +767,15 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#>(this <#=a#> a, <#=b#>[,] b, <#=r#>[][] result)
         {
+#if DEBUG
+            if (!b.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             unsafe
             {
                 fixed (<#=b#>* ptrB = b)
@@ -663,8 +801,15 @@ namespace Accord.Math
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#>(this <#=a#> a, <#=b#>[][] b, <#=r#>[][] result)
         {
+#if DEBUG
+            if (!b.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             for (int i = 0; i < b.Length; i++)
                 for (int j = 0; j < b[i].Length; j++)
                     result[i][j] = (<#=r#>)((<#=r#>)a <#=op#> (<#=r#>)b[i][j]);
@@ -680,8 +825,15 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[,] <#=name#>(this <#=a#> a, <#=b#>[][] b, <#=r#>[,] result)
         {
+#if DEBUG
+            if (!b.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             unsafe
             {
                 fixed (<#=r#>* ptrR = result)
@@ -707,8 +859,15 @@ namespace Accord.Math
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[,] <#=name#>(this <#=a#> a, <#=b#>[,] b, <#=r#>[,] result)
         {
+#if DEBUG
+            if (!b.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             unsafe
             {
                 fixed (<#=b#>* ptrB = b)        
@@ -734,8 +893,15 @@ namespace Accord.Math
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[,] <#=name#>(this <#=a#>[,] a, <#=b#> b, <#=r#>[,] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             unsafe
             {
                 fixed (<#=a#>* ptrA = a)
@@ -760,8 +926,15 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#> b, <#=r#>[][] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             unsafe
             {
                 fixed (<#=a#>* ptrA = a)
@@ -786,8 +959,15 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#> b, <#=r#>[,] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < a[i].Length; j++)
                     result[i, j] = (<#=r#>)((<#=r#>)a[i][j] <#=op#> (<#=r#>)b);
@@ -831,8 +1011,15 @@ namespace Accord.Math
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[] <#=name#>(this <#=a#>[] a, <#=b#>[] b, <#=r#>[] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(result.GetLength()) || !b.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             for (int i = 0; i < a.Length; i++)
                 result[i] = (<#=r#>)((<#=r#>)a[i] <#=op#> (<#=r#>)b[i]);
             return result;
@@ -855,8 +1042,15 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[] <#=name#>(this <#=a#>[] a, <#=b#> b, <#=r#>[] result)
         {
+#if DEBUG
+            if (a.Length != result.Length)
+                throw new DimensionMismatchException();
+#endif
             for (int i = 0; i < a.Length; i++)
                 result[i] = (<#=r#>)((<#=r#>)a[i] <#=op#> (<#=r#>)b);
             return result;
@@ -873,8 +1067,15 @@ namespace Accord.Math
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[] <#=name#>(this <#=a#> a, <#=b#>[] b, <#=r#>[] result)
         {
+#if DEBUG
+            if (b.Length != result.Length)
+                throw new DimensionMismatchException();
+#endif
             for (int i = 0; i < b.Length; i++)
                 result[i] = (<#=r#>)((<#=r#>)a <#=op#> (<#=r#>)b[i]);
             return result;
@@ -903,6 +1104,9 @@ namespace Accord.Math
         /// </param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[,] <#=name#>(this <#=a#>[,] a,  <#=b#>[] b, int dimension, <#=r#>[,] result)
         {
             int rows = a.GetLength(0);
@@ -910,12 +1114,20 @@ namespace Accord.Math
 
             if (dimension == 0)
             {
+#if DEBUG
+            if (a.GetLength(1) != b.Length || !a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
                 for (int i = 0; i < rows; i++)
                     for (int j = 0; j < cols; j++)
                         result[i, j] = (<#=r#>)((<#=r#>)a[i, j] <#=op#> (<#=r#>)b[j]);
             }
             else
             {
+#if DEBUG
+            if (a.GetLength(0) != b.Length || !a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
                 for (int i = 0; i < rows; i++)
                     for (int j = 0; j < cols; j++)
                         result[i, j] = (<#=r#>)((<#=r#>)a[i, j] <#=op#> (<#=r#>)b[i]);
@@ -938,16 +1150,27 @@ namespace Accord.Math
         /// </param>
         /// 
 */
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#>(this <#=a#>[][] a,  <#=b#>[] b, int dimension, <#=r#>[][] result)
         {
             if (dimension == 0)
             {
+#if DEBUG
+            if (a[0].Length != b.Length || !a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
                 for (int i = 0; i < a.Length; i++)
                     for (int j = 0; j < a[i].Length; j++)
                         result[i][j] = (<#=r#>)((<#=r#>)a[i][j] <#=op#> (<#=r#>)b[j]);
             }
             else
             {
+#if DEBUG
+            if (a.Length != b.Length || !a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
                 for (int i = 0; i < a.Length; i++)
                     for (int j = 0; j < a[i].Length; j++)
                         result[i][j] = (<#=r#>)((<#=r#>)a[i][j] <#=op#> (<#=r#>)b[i]);
@@ -980,9 +1203,15 @@ namespace Accord.Math
 
 
 #region Diagonal
-
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[,] <#=name#><#=Com#>Diagonal(this <#=a#> a, <#=b#>[,] b, <#=r#>[,] result)
         {
+#if DEBUG
+            if (!b.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             int rows = b.GetLength(0);
             int cols = b.GetLength(1);
 
@@ -1000,15 +1229,29 @@ namespace Accord.Math
             return result;
         }
 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#><#=Com#>Diagonal(this <#=a#> a, <#=b#>[][] b, <#=r#>[][] result)
         {
+#if DEBUG
+            if (!b.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             for (int i = 0; i < b.Length; i++)
                 result[i][i] = (<#=r#>)((<#=r#>)a <#=op#> (<#=r#>)b[i][i]);
             return result;
         }
 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[,] <#=name#><#=Com#>Diagonal(this <#=a#>[] a, <#=b#>[,] b, <#=r#>[,] result)
         {
+#if DEBUG
+            if (!b.GetLength().IsEqual(result.GetLength()) || a.Length != b.GetLength(1))
+                throw new DimensionMismatchException();
+#endif
             int rows = b.GetLength(0);
             int cols = b.GetLength(1);
 
@@ -1026,15 +1269,29 @@ namespace Accord.Math
             return result;
         }
 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#><#=Com#>Diagonal(this <#=a#>[] a, <#=b#>[][] b, <#=r#>[][] result)
         {
+#if DEBUG
+            if (!b.GetLength().IsEqual(result.GetLength()) || a.Length != b[0].Length)
+                throw new DimensionMismatchException();
+#endif
             for (int i = 0; i < b.Length; i++)
                 result[i][i] = (<#=r#>)((<#=r#>)a[i] <#=op#> (<#=r#>)b[i][i]);
             return result;
         }
 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[,] <#=name#><#=Com#>Diagonal(this <#=a#>[,] a, <#=b#> b, <#=r#>[,] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             int rows = a.GetLength(0);
             int cols = a.GetLength(1);
 
@@ -1052,15 +1309,29 @@ namespace Accord.Math
             return result;
         }
 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#><#=Com#>Diagonal(this <#=a#>[][] a, <#=b#> b, <#=r#>[][] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(result.GetLength()))
+                throw new DimensionMismatchException();
+#endif
             for (int i = 0; i < a.Length; i++)
                 result[i][i] = (<#=r#>)((<#=r#>)a[i][i] <#=op#> (<#=r#>)b);
             return result;
         }
 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[,] <#=name#><#=Com#>Diagonal(this <#=a#>[,] a, <#=b#>[] b, <#=r#>[,] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(result.GetLength()) || a.GetLength(0) != b.Length)
+                throw new DimensionMismatchException();
+#endif
             int rows = b.GetLength(0);
             int cols = b.GetLength(1);
 
@@ -1078,8 +1349,15 @@ namespace Accord.Math
             return result;
         }
 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static <#=r#>[][] <#=name#><#=Com#>Diagonal(this <#=a#>[][] a, <#=b#>[] b, <#=r#>[][] result)
         {
+#if DEBUG
+            if (!a.GetLength().IsEqual(result.GetLength()) || a.Length != b.Length)
+                throw new DimensionMismatchException();
+#endif
             for (int i = 0; i < b.Length; i++)
                 result[i][i] = (<#=r#>)((<#=r#>)a[i][i] <#=op#> (<#=r#>)b[i]);
             return result;
