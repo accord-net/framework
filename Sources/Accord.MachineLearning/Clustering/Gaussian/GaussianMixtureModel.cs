@@ -299,8 +299,7 @@ namespace Accord.MachineLearning
                 errors[i] = kmeans[i].Error;
             });
 
-            int index;
-            errors.Max(out index);
+            int index = errors.ArgMin();
 
             // Initialize the model with K-Means
             clusters.Initialize(kmeans[index]);
