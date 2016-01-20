@@ -60,6 +60,10 @@
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Noncommercial\Accord.Math.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
     <Reference Include="System" />

@@ -60,6 +60,10 @@
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\GPL\Accord.MachineLearning.GPL.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>

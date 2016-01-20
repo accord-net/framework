@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ProjectGuid>{944A7FDE-890A-45CE-A958-AAE6553E2E24}</ProjectGuid>
     <RootNamespace>Accord.Tests.Math</RootNamespace>
-    <AssemblyName>Accord.Tests.Math</AssemblyName>
+    <AssemblyName>Accord.Tests.Math.GPL</AssemblyName>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -34,11 +34,13 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
+    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
     <OutputPath>bin\Release\net35</OutputPath>
     <DefineConstants>TRACE;NET35</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
+    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
     <OutputPath>bin\Release\net40</OutputPath>
