@@ -23,39 +23,24 @@
 namespace Accord.Math.Distances
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.CompilerServices;
+    using System.Text;
+    using System.Threading.Tasks;
 
     /// <summary>
-    ///   Jaccard (Index) distance.
+    ///   Rogers-Tanimoto dissimilarity.
     /// </summary>
     /// 
-    /// <remarks>
-    /// <para>
-    ///   The Jaccard index, also known as the Jaccard similarity coefficient (originally
-    ///   coined coefficient de communauté by Paul Jaccard), is a statistic used for comparing
-    ///   the similarity and diversity of sample sets. The Jaccard coefficient measures 
-    ///   similarity between finite sample sets, and is defined as the size of the intersection
-    ///   divided by the size of the union of the sample sets.</para>
-    ///   
-    /// <para>
-    ///   References:
-    ///   <list type="bullet">
-    ///     <item><description><a href="https://en.wikipedia.org/wiki/Jaccard_index">
-    ///       https://en.wikipedia.org/wiki/Jaccard_index </a></description></item>
-    ///   </list></para>  
-    /// </remarks>
-    /// 
-    /// <typeparam name="T">The type of the elements in the arrays to be compared.</typeparam>
-    /// 
     [Serializable]
-    public sealed class Jaccard<T> : ISimilarity<T[]>, IMetric<T[]>
-        where T : IEquatable<T>
+    public sealed class RogersTanimoto : IDistance<double[]>, IDistance<int[]>
     {
         /// <summary>
-        ///   Initializes a new instance of the <see cref="Jaccard{T}"/> class.
+        ///   Initializes a new instance of the <see cref="RogersTanimoto"/> class.
         /// </summary>
         /// 
-        public Jaccard()
+        public RogersTanimoto()
         {
         }
 
@@ -76,53 +61,61 @@ namespace Accord.Math.Distances
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public double Distance(T[] x, T[] y)
+        public double Distance(int[] x, int[] y)
         {
-            int inter = 0;
-            int union = 0;
+            int tf = 0;
+            int ft = 0;
+            int tt = 0;
+            int ff = 0;
 
             for (int i = 0; i < x.Length; i++)
             {
-                if (!x[i].Equals(default(T)) || !y[i].Equals(default(T)))
-                {
-                    if (x[i].Equals(y[i]))
-                        inter++;
-                    union++;
-                }
+                if (x[i] == 1 && y[i] == 0) tf++;
+                if (x[i] == 0 && y[i] == 1) ft++;
+                if (x[i] == 1 && y[i] == 1) tt++;
+                if (x[i] == 0 && y[i] == 0) ff++;
             }
 
-            return (union == 0) ? 0 : 1.0 - (inter / (double)union);
+            int r = 2 * (tf + ft);
+            return r / (double)(tt + ff + r);
         }
 
         /// <summary>
-        ///   Gets a similarity measure between two points.
+        ///   Computes the distance <c>d(x,y)</c> between points
+        ///   <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         /// 
-        /// <param name="x">The first point to be compared.</param>
-        /// <param name="y">The second point to be compared.</param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
-        /// <returns>A similarity measure between x and y.</returns>
+        /// <returns>
+        ///   A double-precision value representing the distance <c>d(x,y)</c>
+        ///   between <paramref name="x"/> and <paramref name="y"/> according 
+        ///   to the distance function implemented by this class.
+        /// </returns>
         /// 
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public double Similarity(T[] x, T[] y)
+        public double Distance(double[] x, double[] y)
         {
-            int inter = 0;
-            int union = 0;
+            int tf = 0;
+            int ft = 0;
+            int tt = 0;
+            int ff = 0;
 
             for (int i = 0; i < x.Length; i++)
             {
-                if (!x[i].Equals(default(T)) || !y[i].Equals(default(T)))
-                {
-                    if (x[i].Equals(y[i]))
-                        inter++;
-                    union++;
-                }
+                if (x[i] != 0 && y[i] == 0) tf++;
+                if (x[i] == 0 && y[i] != 0) ft++;
+                if (x[i] != 0 && y[i] != 0) tt++;
+                if (x[i] == 0 && y[i] == 0) ff++;
             }
 
-            return (inter == 0) ? 0 : inter / (double)union;
+            int r = 2 * (tf + ft);
+            return r / (double)(tt + ff + r);
         }
+
 
     }
 }

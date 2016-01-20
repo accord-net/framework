@@ -68,7 +68,7 @@ namespace Accord.Math.Distances
             for (int i = 0; i < x.Length; i++)
             {
                 p += x[i];
-                q += x[i];
+                q += y[i];
                 p2 += x[i] * x[i];
                 q2 += y[i] * y[i];
                 sum += x[i] * y[i];

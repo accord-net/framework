@@ -107,7 +107,7 @@ namespace Accord.Math.Distances
             else if (chol != null)
                 z = chol.Solve(d);
             else
-                z = precision.Multiply(d);
+                z = precision.Dot(d);
 
             double sum = 0.0;
             for (int i = 0; i < d.Length; i++)

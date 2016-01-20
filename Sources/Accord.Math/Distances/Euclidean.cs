@@ -78,20 +78,20 @@ namespace Accord.Math.Distances
         ///   Please consider using the Tuple&lt;double, double> overload instead.
         /// </summary>
         /// 
-        /// <param name="x1">The first coordinate of first point in space.</param>
-        /// <param name="y1">The second coordinate of first point in space.</param>
-        /// <param name="x2">The first coordinate of second point in space.</param>
-        /// <param name="y2">The second coordinate of second point in space.</param>
+        /// <param name="vector1x">The first coordinate of first point in space.</param>
+        /// <param name="vector1y">The second coordinate of first point in space.</param>
+        /// <param name="vector2x">The first coordinate of second point in space.</param>
+        /// <param name="vector2y">The second coordinate of second point in space.</param>
         /// 
         /// <returns>The Euclidean distance between x and y.</returns>
         /// 
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public double Distance(double x1, double y1, double x2, double y2)
+        public double Distance(double vector1x, double vector1y, double vector2x, double vector2y)
         {
-            double dx = x1 - x2;
-            double dy = y1 - y2;
+            double dx = vector1x - vector2x;
+            double dy = vector1y - vector2y;
             return Math.Sqrt(dx * dx + dy * dy);
         }
 

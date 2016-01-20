@@ -47,7 +47,7 @@ namespace Accord.Math.Distances
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Hellinger : IDistance<double[]>
+    public sealed class Hellinger : IMetric<double[]>
     {
         /// <summary>
         ///   Initializes a new instance of the <see cref="Hellinger"/> class.

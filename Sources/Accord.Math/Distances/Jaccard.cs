@@ -45,11 +45,10 @@ namespace Accord.Math.Distances
     ///   </list></para>  
     /// </remarks>
     /// 
-    /// <typeparam name="T">The type of the elements in the arrays to be compared.</typeparam>
+    /// <seealso cref="Jaccard{T}"/>
     /// 
     [Serializable]
-    public sealed class Jaccard<T> : ISimilarity<T[]>, IMetric<T[]>
-        where T : IEquatable<T>
+    public sealed class Jaccard : ISimilarity<double[]>, IDistance<double[]>
     {
         /// <summary>
         ///   Initializes a new instance of the <see cref="Jaccard{T}"/> class.
@@ -76,16 +75,16 @@ namespace Accord.Math.Distances
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public double Distance(T[] x, T[] y)
+        public double Distance(double[] x, double[] y)
         {
             int inter = 0;
             int union = 0;
 
             for (int i = 0; i < x.Length; i++)
             {
-                if (!x[i].Equals(default(T)) || !y[i].Equals(default(T)))
+                if (x[i] != 0 || y[i] != 0)
                 {
-                    if (x[i].Equals(y[i]))
+                    if (x[i] == y[i])
                         inter++;
                     union++;
                 }
@@ -106,16 +105,16 @@ namespace Accord.Math.Distances
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public double Similarity(T[] x, T[] y)
+        public double Similarity(double[] x, double[] y)
         {
             int inter = 0;
             int union = 0;
 
             for (int i = 0; i < x.Length; i++)
             {
-                if (!x[i].Equals(default(T)) || !y[i].Equals(default(T)))
+                if (x[i] != 0 || y[i] !=0 )
                 {
-                    if (x[i].Equals(y[i]))
+                    if (x[i] == y[i])
                         inter++;
                     union++;
                 }

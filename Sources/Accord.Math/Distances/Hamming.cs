@@ -31,7 +31,7 @@ namespace Accord.Math.Distances
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Hamming : IMetric<byte[]>, IMetric<double[]>, IMetric<BitArray>
+    public sealed class Hamming : IMetric<byte[]>, IMetric<string>, IDistance<double[]>, IMetric<BitArray>
     {
         /// <summary>
         ///   Initializes a new instance of the <see cref="Hamming"/> class.
@@ -65,7 +65,7 @@ namespace Accord.Math.Distances
                 sum += lookup[(byte)(x[i] ^ y[i])];
             return sum;
         }
-        
+
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.
@@ -82,22 +82,55 @@ namespace Accord.Math.Distances
         /// 
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif  
+#endif
+        public double Distance(string x, string y)
+        {
+            int sum = 0;
+            for (int i = 0; i < x.Length; i++)
+                sum += lookup[(byte)(x[i] ^ y[i])];
+            return sum;
+        }
+
+        /// <summary>
+        ///   Computes the distance <c>d(x,y)</c> between points
+        ///   <paramref name="x"/> and <paramref name="y"/>.
+        /// </summary>
+        /// 
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
+        /// 
+        /// <returns>
+        ///   A double-precision value representing the distance <c>d(x,y)</c>
+        ///   between <paramref name="x"/> and <paramref name="y"/> according 
+        ///   to the distance function implemented by this class.
+        /// </returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public double Distance(double[] x, double[] y)
         {
-            checked
+            unsafe
             {
-                int sum = 0;
-                for (int i = 0; i < x.Length; i++)
+                fixed (double* X = x, Y = y)
                 {
-                    byte xx = (byte)x[i];
-                    byte yy = (byte)y[i];
-                    sum += lookup[(byte)(xx ^ yy)];
+                    byte* px = (byte*)X;
+                    byte* py = (byte*)Y;
+                    int n = x.Length * sizeof(double);
+                    int sum = 0;
+
+                    for (int i = 0; i < n; i++)
+                    {
+                        byte xx = (byte)px[i];
+                        byte yy = (byte)py[i];
+                        sum += lookup[(byte)(xx ^ yy)];
+                    }
+
+                    return sum;
                 }
-                return sum;
             }
         }
-        
+
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.
@@ -162,6 +195,6 @@ namespace Accord.Math.Distances
             4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8,
         };
 
-    
+
     }
 }
