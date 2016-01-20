@@ -53,7 +53,7 @@ namespace Accord.Neuro.Visualization
             // Initialize
             double[] value = new double[neuron.InputsCount];
             for (int i = 0; i < value.Length; i++)
-                value[i] = Accord.Math.Tools.Random.NextDouble();
+                value[i] = Accord.Math.Random.Generator.Random.NextDouble();
             
             double[] gradient = new double[neuron.InputsCount];
 

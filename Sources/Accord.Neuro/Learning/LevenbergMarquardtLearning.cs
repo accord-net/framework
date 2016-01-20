@@ -576,7 +576,7 @@ namespace Accord.Neuro.Learning
                 Trace.TraceInformation("Starting Jacobian block {0}/{1}", s + 1, Blocks);
 
                 int B = (s == Blocks) ? finalBlock : blockSize;
-                int[] block = Matrix.Indices(s * blockSize, s * blockSize + B);
+                int[] block = Vector.Range(s * blockSize, s * blockSize + B);
 
                 double[][] inputBlock = input.Submatrix(block);
                 double[][] outputBlock = output.Submatrix(block);
