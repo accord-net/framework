@@ -248,14 +248,17 @@ namespace Accord.Tests.MachineLearning
 
             Accord.Math.Random.Generator.Seed = 1;
             var ms1 = new MeanShift(dimension: 3, kernel: new UniformKernel(), bandwidth: 2);
+            ms1.UseParallelProcessing = false;
             ms1.Compute(observations1);
 
             Accord.Math.Random.Generator.Seed = 1;
             var ms2 = new MeanShift(dimension: 3, kernel: new UniformKernel(), bandwidth: 2);
+            ms2.UseParallelProcessing = false;
             ms2.Compute(observations1, weights1);
 
             Accord.Math.Random.Generator.Seed = 1;
             var ms3 = new MeanShift(dimension: 3, kernel: new UniformKernel(), bandwidth: 2);
+            ms3.UseParallelProcessing = false;
             ms3.Compute(observations2, weights2);
 
             int[] labels1 = ms1.Clusters.Nearest(observations1);

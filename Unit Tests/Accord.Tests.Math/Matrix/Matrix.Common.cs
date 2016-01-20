@@ -144,7 +144,7 @@ namespace Accord.Tests.Math
         [Test]
         public void AddAxisTest()
         {
-            int[,] m = Indices.Range(0, 15).Reshape(3, 5);
+            int[,] m = Vector.Range(0, 15).Reshape(3, 5);
 
             var actual = m.Add(5);
             Assert.IsTrue(actual.IsEqual(new int [,]

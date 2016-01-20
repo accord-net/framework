@@ -73,6 +73,12 @@ namespace Accord.Tests.Statistics
 
             Assert.IsTrue(Matrix.IsEqual(S1, S2));
             Assert.IsTrue(Matrix.IsEqual(S2, S3));
+
+            double[,] S4 = XC.DotWithTransposed(X);
+            double[,] S5 = Xc.DotWithTransposed(Xc);
+
+            Assert.IsTrue(Matrix.IsEqual(S1, S4));
+            Assert.IsTrue(Matrix.IsEqual(S2, S5));
         }
 
 

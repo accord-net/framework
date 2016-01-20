@@ -38,6 +38,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net35\</OutputPath>
     <DefineConstants>TRACE;NET35</DefineConstants>
+    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net40\</OutputPath>

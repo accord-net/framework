@@ -63,33 +63,27 @@ namespace Accord.Tests.MachineLearning
 
             // Create a new Gaussian Mixture Model with 2 components
             GaussianMixtureModel gmm = new GaussianMixtureModel(2);
-#pragma warning disable 612, 618
+
             // Compute the model (estimate)
-            gmm.Compute(samples, 0.0001);
-#pragma warning restore 612, 618
-            // Classify a single sample
-            int c = gmm.Gaussians.Nearest(sample);
+            double ll = gmm.Compute(samples, 0.0001);
+            Assert.AreEqual(-35.930732550698494, ll, 1e-10);
 
             Assert.AreEqual(2, gmm.Gaussians.Count);
 
-            int first = 0;
+            Assert.IsTrue(gmm.Gaussians.Means[0].IsEqual(new[] { 5.8, 2.0 }, 1e-3));
+            Assert.IsTrue(gmm.Gaussians.Means[1].IsEqual(new[] { 0.6, 2.4 }, 1e-3));
+
+
+            int[] c = samples.Apply(gmm.Clusters.Nearest);
 
             for (int i = 0; i < samples.Length; i++)
             {
-                sample = samples[i];
-                c = gmm.Gaussians.Nearest(sample);
+                double[] responses;
+                int e = gmm.Gaussians.Nearest(samples[i], out responses);
+                int a = responses.ArgMax();
 
-                if (i == 0)
-                    first = c;
-
-                if (i < 5)
-                {
-                    Assert.AreEqual(c, first);
-                }
-                else
-                {
-                    Assert.AreNotEqual(c, first);
-                }
+                Assert.AreEqual(a, e);
+                Assert.AreEqual(c[i], (i < 5) ? 1 : 0);
             }
         }
 
@@ -159,7 +153,6 @@ namespace Accord.Tests.MachineLearning
             Accord.Math.Tools.SetupGenerator(0);
 
             gmm.Options.Robust = true;
-#pragma warning disable 612, 618
             var result = gmm.Compute(B, new GaussianMixtureModelOptions()
                 {
                     NormalOptions = new NormalOptions
@@ -167,7 +160,6 @@ namespace Accord.Tests.MachineLearning
                         Robust = true
                     }
                 });
-#pragma warning restore 612, 618
         }
 
         [Test]
@@ -196,12 +188,10 @@ namespace Accord.Tests.MachineLearning
             };
 
             GaussianMixtureModel gmm = new GaussianMixtureModel(2);
-#pragma warning disable 612, 618
             gmm.Compute(values, new GaussianMixtureModelOptions()
             {
                 Weights = weights
             });
-#pragma warning restore 612, 618
 
             int[] classifications = gmm.Gaussians.Nearest(values);
         }
@@ -233,12 +223,10 @@ namespace Accord.Tests.MachineLearning
                 GaussianMixtureModel gmm = new GaussianMixtureModel(2);
                 gmm.Initializations = 1;
 
-#pragma warning disable 612, 618
                 gmm.Compute(points, new GaussianMixtureModelOptions()
                 {
                     Weights = weights
                 });
-#pragma warning restore 612, 618
 
 
                 int a = 0;
@@ -278,11 +266,16 @@ namespace Accord.Tests.MachineLearning
                     b = 0;
                 }
 
-                Assert.AreEqual(6.5241530529058425, gmm.Gaussians[a].Mean[0], 1e-6);
-                Assert.AreEqual(1.4375965574968281, gmm.Gaussians[b].Mean[0], 1e-6);
+#if NET35
+                double tol = 1e-2;
+#else
+                double tol = 1e-6;
+#endif
+                Assert.AreEqual(6.5241530529058425, gmm.Gaussians[a].Mean[0], tol);
+                Assert.AreEqual(1.4375965574968281, gmm.Gaussians[b].Mean[0], tol);
 
-                Assert.AreEqual(0.4195042394315267, gmm.Gaussians[a].Proportion, 1e-6);
-                Assert.AreEqual(0.58049576056847307, gmm.Gaussians[b].Proportion, 1e-6);
+                Assert.AreEqual(0.4195042394315267, gmm.Gaussians[a].Proportion, tol);
+                Assert.AreEqual(0.58049576056847307, gmm.Gaussians[b].Proportion, tol);
                 Assert.AreEqual(1, gmm.Gaussians[0].Proportion + gmm.Gaussians[1].Proportion, 1e-8);
             }
         }
@@ -305,12 +298,10 @@ namespace Accord.Tests.MachineLearning
             GaussianMixtureModel gmm = new GaussianMixtureModel(2);
             gmm.Initializations = 1;
 
-#pragma warning disable 612, 618
             gmm.Compute(points, new GaussianMixtureModelOptions()
             {
                 Weights = weights
             });
-#pragma warning restore 612, 618
 
             int a = 0;
             int b = 1;
@@ -383,15 +374,13 @@ namespace Accord.Tests.MachineLearning
             GaussianMixtureModel gmm = new GaussianMixtureModel(5);
 
             // Compute the model
-#pragma warning disable 612, 618
             double result = gmm.Compute(samples, new GaussianMixtureModelOptions()
+            {
+                NormalOptions = new NormalOptions()
                 {
-                    NormalOptions = new NormalOptions()
-                    {
-                        Regularization = 1e-5,
-                    }
-                });
-#pragma warning restore 612, 618
+                    Regularization = 1e-5,
+                }
+            });
 
 
             for (int i = 0; i < samples.Length; i++)

@@ -3245,5 +3245,38 @@ namespace Accord.Tests.Math
             }
 
         }
+
+
+        [Test]
+        public void GetIndicesTest()
+        {
+            double[,] v = Matrix.Ones(2, 3);
+            int[][] idx = v.GetIndices().ToArray();
+            Assert.IsTrue(idx.IsEqual(Jagged.Create(new [,] 
+                {
+                    {0, 0}, 
+                    {0, 1}, 
+                    {0, 2}, 
+                    {1, 0}, 
+                    {1, 1}, 
+                    {1, 2},
+                })));
+        }
+
+        [Test]
+        public void GetIndicesTest2()
+        {
+            double[,] v = Matrix.Ones(2, 0);
+            int[][] idx = v.GetIndices().ToArray();
+            Assert.AreEqual(idx.Length, 0);
+        }
+
+        [Test]
+        public void GetIndicesTest3()
+        {
+            double[,] v = Matrix.Ones(0, 3);
+            int[][] idx = v.GetIndices().ToArray();
+            Assert.AreEqual(idx.Length, 0);
+        }
     }
 }

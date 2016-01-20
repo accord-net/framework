@@ -33,7 +33,8 @@ namespace Accord.Math.Metrics.Tests
         {
             CosineDistance dist = new CosineDistance();
 
-            //Assert.Throws<ArgumentException>(() => dist.GetDistance(p0, q4));
+            // TODO: Re-enable argument checking only for debugging
+            // Assert.Throws<ArgumentException>(() => dist.GetDistance(p0, q4));
 
             double result = dist.GetDistance(p0, q0);
             Assert.AreEqual(result, .2, 0.00001);
@@ -59,7 +60,8 @@ namespace Accord.Math.Metrics.Tests
         {
             CosineSimilarity sim = new CosineSimilarity();
 
-            //Assert.Throws<ArgumentException>(() => sim.GetSimilarityScore(p0, q4));
+            // TODO: Re-enable argument checking only for debugging
+            // Assert.Throws<ArgumentException>(() => sim.GetSimilarityScore(p0, q4));
 
             double result = sim.GetSimilarityScore(p0, q0);
             Assert.AreEqual(result, .8, 0.00001);
@@ -85,7 +87,8 @@ namespace Accord.Math.Metrics.Tests
         {
             EuclideanDistance dist = new EuclideanDistance();
 
-            Assert.Throws<ArgumentException>(() => dist.GetDistance(p0, q4));
+            // TODO: Re-enable argument checking only for debugging
+            // Assert.Throws<ArgumentException>(() => dist.GetDistance(p0, q4));
 
             double result = dist.GetDistance(p0, q0);
             Assert.AreEqual(result, .70711, 0.00001);
@@ -111,7 +114,7 @@ namespace Accord.Math.Metrics.Tests
         {
             EuclideanSimilarity sim = new EuclideanSimilarity();
 
-            Assert.Throws<ArgumentException>(() => sim.GetSimilarityScore(p0, q4));
+            // Assert.Throws<ArgumentException>(() => sim.GetSimilarityScore(p0, q4));
 
             double result = sim.GetSimilarityScore(p0, q0);
             Assert.AreEqual(result, 0.58578, 0.00001);
@@ -137,7 +140,8 @@ namespace Accord.Math.Metrics.Tests
         {
             HammingDistance dist = new HammingDistance();
 
-            Assert.Throws<ArgumentException>(() => dist.GetDistance(p0, q4));
+            // TODO: Re-enable argument checking only for debugging
+            // Assert.Throws<ArgumentException>(() => dist.GetDistance(p0, q4));
 
             double result = dist.GetDistance(p0, q0);
             Assert.AreEqual(result, 2);
@@ -189,7 +193,7 @@ namespace Accord.Math.Metrics.Tests
         {
             ManhattanDistance dist = new ManhattanDistance();
 
-            Assert.Throws<ArgumentException>(() => dist.GetDistance(p0, q4));
+            // Assert.Throws<ArgumentException>(() => dist.GetDistance(p0, q4));
 
             double result = dist.GetDistance(p0, q0);
             Assert.AreEqual(result, 1);
@@ -215,7 +219,7 @@ namespace Accord.Math.Metrics.Tests
         {
             PearsonCorrelation sim = new PearsonCorrelation();
 
-            Assert.Throws<ArgumentException>(() => sim.GetSimilarityScore(p0, q4));
+            // Assert.Throws<ArgumentException>(() => sim.GetSimilarityScore(p0, q4));
 
             double result = sim.GetSimilarityScore(p0, q0);
             Assert.AreEqual(result, -1);
