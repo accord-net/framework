@@ -275,7 +275,7 @@ namespace Accord.Math.Optimization
                     continue;
 
                 int B = (s == Blocks) ? finalBlock : blockSize;
-                int[] block = Matrix.Indices(s * blockSize, s * blockSize + B);
+                int[] block = Vector.Range(s * blockSize, s * blockSize + B);
 
                 // Compute the partial residuals vector
                 sumOfSquaredErrors += computeErrors(inputs, outputs, block);

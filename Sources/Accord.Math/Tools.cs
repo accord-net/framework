@@ -37,7 +37,7 @@ namespace Accord.Math
         ///   internally by the Accord.NET classes and methods.
         /// </summary>
         /// 
-        // TODO: Mark as obsolete
+        [Obsolete("Please use Generator.Random instead.")]
         public static System.Random Random { get { return Generator.Random; } }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
-        // TODO: Move to Scale class
+        [Obsolete("Please use Vector.Scale instead.")]
         public static int Scale(this IntRange from, IntRange to, int x)
         {
             return Accord.Math.Vector.Scale(x, from, to);
@@ -311,7 +311,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
-        // TODO: Move to Scale class
+        [Obsolete("Please use Vector.Scale instead.")]
         public static double Scale(this DoubleRange from, DoubleRange to, double x)
         {
             return Accord.Math.Vector.Scale(x, from, to);
@@ -322,7 +322,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
-        // TODO: Move to Scale class
+        [Obsolete("Please use Vector.Scale instead.")]
         public static double Scale(double fromMin, double fromMax, double toMin, double toMax, double x)
         {
             return Accord.Math.Vector.Scale(x, fromMin, fromMax, toMin, toMax);
@@ -333,7 +333,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
-        // TODO: Move to Scale class
+        [Obsolete("Please use Vector.Scale instead.")]
         public static double[] Scale(double fromMin, double fromMax, double toMin, double toMax, double[] x)
         {
             return Accord.Math.Vector.Scale(x, fromMin, fromMax, toMin, toMax);
@@ -344,7 +344,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
-        // TODO: Move to Scale class
+        [Obsolete("Please use Vector.Scale instead.")]
         public static int[] Scale(int fromMin, int fromMax, int toMin, int toMax, int[] x)
         {
             return Accord.Math.Vector.Scale(x, fromMin, fromMax, toMin, toMax);
@@ -355,7 +355,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
-        // TODO: Move to Scale class
+        [Obsolete("Please use Vector.Scale instead.")]
         public static int[] Scale(IntRange from, IntRange to, int[] x)
         {
             return Accord.Math.Vector.Scale(x, from, to);
@@ -366,7 +366,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
-        // TODO: Move to Scale class
+        [Obsolete("Please use Vector.Scale instead.")]
         public static double[] Scale(DoubleRange from, DoubleRange to, double[] x)
         {
             return Accord.Math.Vector.Scale(x, from, to);
@@ -377,7 +377,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
-        // TODO: Move to Scale class
+        [Obsolete("Please use Vector.Scale instead.")]
         public static float[] Scale(float fromMin, float fromMax, float toMin, float toMax, float[] x)
         {
             return Accord.Math.Vector.Scale(x, fromMin, fromMax, toMin, toMax);
@@ -388,7 +388,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
-        // TODO: Move to Scale class
+        [Obsolete("Please use Vector.Scale instead.")]
         public static float[] Scale(Range from, Range to, float[] x)
         {
             return Accord.Math.Vector.Scale(x, from, to);
@@ -399,7 +399,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
-        // TODO: Move to Scale class
+        [Obsolete("Please use Vector.Scale instead.")]
         public static double[] Scale(double toMin, double toMax, double[] x)
         {
             return Accord.Math.Vector.Scale(x, toMin, toMax);
@@ -505,7 +505,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
-        // TODO: Move to Scale class
+        [Obsolete("Please use Vector.Scale instead.")]
         public static float Scale(float fromMin, float fromMax, float toMin, float toMax, float x)
         {
             return Accord.Math.Vector.Scale(x, fromMin, fromMax, toMin, toMax);
@@ -516,7 +516,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
-        // TODO: Move to Scale class
+        [Obsolete("Please use Vector.Scale instead.")]
         public static double Scale(IntRange from, DoubleRange to, int x)
         {
             return Accord.Math.Vector.Scale(x, from, to);

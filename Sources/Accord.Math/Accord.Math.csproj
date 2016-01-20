@@ -123,6 +123,15 @@
     </Compile>
     <Compile Include="Distances\Base\IMetric.cs" />
     <Compile Include="Distances\Base\ISimilarity.cs" />
+    <Compile Include="Distances\Jaccard.cs" />
+    <Compile Include="Distances\Matching.cs" />
+    <Compile Include="Distances\RogersTanimoto.cs" />
+    <Compile Include="Distances\RusselRao.cs" />
+    <Compile Include="Distances\SokalMichener.cs" />
+    <Compile Include="Distances\SokalSneath.cs" />
+    <Compile Include="Distances\Kulczynski.cs" />
+    <Compile Include="Distances\Yule.cs" />
+    <Compile Include="Distances\Dice.cs" />
     <Compile Include="Distances\Hamming.cs" />
     <Compile Include="Distances\Jaccard`1.cs" />
     <Compile Include="Distances\Hellinger.cs" />
@@ -143,7 +152,30 @@
     <Compile Include="Distances\SquareEuclidean.cs" />
     <Compile Include="Distances\Euclidean.cs" />
     <Compile Include="Distances\Base\IDistance.cs" />
-    <Compile Include="Indices.cs" />
+    <Compile Include="Matrix\Matrix.Add.Generated.cs">
+      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Divide.Generated.cs">
+      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Elementwise.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Matrix.Elementwise.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Matrix.MinMax.cs" />
+    <Compile Include="Matrix\Matrix.Multiply.Generated.cs">
+      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Product.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Matrix.Product.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Subtract.Generated.cs">
+      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vector\Vector.Common.cs" />
     <Compile Include="IO\Mat\MatArrayFlags.cs" />
     <Compile Include="IO\Mat\MatArrayType.cs" />
     <Compile Include="IO\Mat\MatDataTag.cs" />
@@ -152,24 +184,6 @@
     <Compile Include="IO\Mat\MatNode.cs" />
     <Compile Include="IO\Mat\MatReader.cs" />
     <Compile Include="IO\Mat\MatSparse.cs" />
-    <Compile Include="Matrix\Matrix.Add.cs">
-      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Matrix\Matrix.Divide.cs">
-      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Matrix\Matrix.Elementwise1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Matrix.Elementwise.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Matrix\Matrix.Multiply.cs">
-      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Matrix\Matrix.Subtract.cs">
-      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Matrix\Product.cs" />
     <Compile Include="Optimization\Unconstrained\FanChenLinQuadraticOptimization.cs" />
     <Compile Include="Random\Generator.cs" />
     <Compile Include="Comparers\Accord.Math.Comparers.cs" />
@@ -200,7 +214,6 @@
     <Compile Include="Decompositions\QrDecompositionF.cs">
       <DependentUpon>QrDecomposition.tt</DependentUpon>
     </Compile>
-    <Compile Include="Dissimilarity.cs" />
     <Compile Include="Functions\OwensT.cs" />
     <Compile Include="Integration\Accord.Math.Integration.cs" />
     <Compile Include="Integration\Base\IMultidimensionalIntegration.cs" />
@@ -463,18 +476,24 @@
     <Compile Include="Tools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Matrix\Jagged.Construction.cs" />
-    <Compile Include="Vector\Vector.Interval.cs">
+    <Compile Include="Vector\Vector.Construction.cs" />
+    <Compile Include="Vector\Vector.Interval.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
       <DependentUpon>Vector.Interval.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vector\Vector.Order.cs" />
+    <Compile Include="Vector\Vector.Random.Generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>Vector.Random.tt</DependentUpon>
     </Compile>
-    <Compile Include="Vector\Vector.Range.cs">
+    <Compile Include="Vector\Vector.Range.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
       <DependentUpon>Vector.Range.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Vector\Vector.cs" />
-    <Compile Include="Vector\Vector.Scale.cs">
+    <Compile Include="Vector\Vector.Scale.Generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Vector.Scale.tt</DependentUpon>
@@ -487,37 +506,47 @@
       <LastGenOutput>Distance.Generated.cs</LastGenOutput>
     </None>
     <None Include="Integration\Accord.Math.Integration.cd" />
+    <None Include="Matrix\Matrix.Product.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>.\Matrix.Product.Generated.cs</LastOutputs>
+      <LastGenOutput>Matrix.Product.Generated.cs</LastGenOutput>
+    </None>
     <None Include="Matrix\Matrix.Elementwise.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Matrix.Elementwise1.cs</LastGenOutput>
-      <LastOutputs>.\Matrix.Elementwise1.cs</LastOutputs>
+      <LastOutputs>.\Matrix.Elementwise.Generated.cs</LastOutputs>
+      <LastGenOutput>Matrix.Elementwise.Generated.cs</LastGenOutput>
     </None>
     <None Include="Matrix\Matrix.Elementwise2.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastOutputs>
-.\Matrix.Add.cs
-.\Matrix.Divide.cs
+.\Matrix.Add.Generated.cs
+.\Matrix.Divide.Generated.cs
 .\Matrix.Elementwise2.txt
-.\Matrix.Multiply.cs
-.\Matrix.Subtract.cs
+.\Matrix.Multiply.Generated.cs
+.\Matrix.Subtract.Generated.cs
 </LastOutputs>
       <LastGenOutput>Matrix.Elementwise2.txt</LastGenOutput>
     </None>
     <None Include="Optimization\Accord.Math.Optimization.cd" />
-    <None Include="Vector\Vector.Interval.tt">
+    <None Include="Vector\Vector.Random.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Vector.Interval.cs</LastGenOutput>
-      <LastOutputs>.\Vector.Interval.cs</LastOutputs>
+      <LastOutputs>.\Vector.Random.Generated.cs</LastOutputs>
+      <LastGenOutput>Vector.Random.Generated.cs</LastGenOutput>
     </None>
     <None Include="Vector\Vector.Range.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Vector.Range.cs</LastGenOutput>
-      <LastOutputs>.\Vector.Range.cs</LastOutputs>
+      <LastOutputs>.\Vector.Range.Generated.cs</LastOutputs>
+      <LastGenOutput>Vector.Range.Generated.cs</LastGenOutput>
+    </None>
+    <None Include="Vector\Vector.Interval.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>.\Vector.Interval.Generated.cs</LastOutputs>
+      <LastGenOutput>Vector.Interval.Generated.cs</LastGenOutput>
     </None>
     <None Include="Vector\Vector.Scale.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Vector.Scale.cs</LastGenOutput>
-      <LastOutputs>.\Vector.Scale.cs</LastOutputs>
+      <LastOutputs>.\Vector.Scale.Generated.cs</LastOutputs>
+      <LastGenOutput>Vector.Scale.Generated.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

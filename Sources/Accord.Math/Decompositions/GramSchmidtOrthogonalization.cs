@@ -75,7 +75,7 @@ namespace Accord.Math.Decompositions
 
                     for (int i = 0; i < j; i++)
                     {
-                        r[i, j] = q.GetColumn(i).Inner(v);
+                        r[i, j] = q.GetColumn(i).Dot(v);
                         var t = r[i, j].Multiply(q.GetColumn(i));
                         v.Subtract(t, result: v);
                     }
@@ -94,7 +94,7 @@ namespace Accord.Math.Decompositions
 
                     for (int i = 0; i < j; i++)
                     {
-                        r[i, j] = q.GetColumn(j).Inner(a);
+                        r[i, j] = q.GetColumn(j).Dot(a);
                         v = v.Subtract(r[i, j].Multiply(q.GetColumn(i)));
                     }
 

@@ -102,7 +102,7 @@ namespace Accord.Math.Optimization
 
         private double function(double[] x)
         {
-            return (x.Multiply(QuadraticTerms)).Inner(x) + LinearTerms.Inner(x);
+            return (x.Dot(QuadraticTerms)).Dot(x) + LinearTerms.Dot(x);
         }
 
         private double[] gradient(double[] x)

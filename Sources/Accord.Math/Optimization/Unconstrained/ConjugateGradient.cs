@@ -370,7 +370,7 @@ namespace Accord.Math.Optimization
                 for (int i = 0; i < g.Length; i++)
                     gold[i] = g[i];
 
-                double dg = Matrix.InnerProduct(d, g);
+                double dg = d.Dot(g);
                 double dgold = dg;
                 double stp = 1.0;
 
@@ -392,8 +392,8 @@ namespace Accord.Math.Optimization
                     return false;
 
                 // Test if descent direction is obtained for methods 2 and 3
-                double gg = Matrix.InnerProduct(g, g);
-                double gg0 = Matrix.InnerProduct(g, gold);
+                double gg = Matrix.Dot(g, g);
+                double gg0 = Matrix.Dot(g, gold);
                 double betapr = (gg - gg0) / (gnorm * gnorm);
 
                 // When nrst > n and irest == 1 then restart.
