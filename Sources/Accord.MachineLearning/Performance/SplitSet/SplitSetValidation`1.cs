@@ -26,6 +26,7 @@ namespace Accord.MachineLearning
     using System.Collections.Generic;
     using System.Linq;
     using Accord.Math;
+    using Accord.Statistics;
 
     /// <summary>
     ///   Fitting function delegate.
@@ -132,7 +133,7 @@ namespace Accord.MachineLearning
         {
             this.Proportion = proportion;
             this.IsStratified = false;
-            this.Indices = Accord.Statistics.Tools.RandomGroups(size, proportion);
+            this.Indices = Categorical.Random(size, proportion);
 
             this.ValidationSet = Indices.Find(x => x == 0);
             this.TrainingSet = Indices.Find(x => x == 1);

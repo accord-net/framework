@@ -242,7 +242,7 @@ namespace Accord.Statistics.Kernels
 
             double q1 = distances[(int)Math.Ceiling(0.15 * distances.Length)];
             double q9 = distances[(int)Math.Ceiling(0.85 * distances.Length)];
-            double qm = Accord.Statistics.Tools.Median(distances, alreadySorted: true);
+            double qm = Measures.Median(distances, alreadySorted: true);
 
             range = new DoubleRange(q1, q9);
 

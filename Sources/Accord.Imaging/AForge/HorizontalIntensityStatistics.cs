@@ -12,6 +12,7 @@ namespace Accord.Imaging
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge.Math;
+    using Accord.Statistics.Visualizations;
 
     /// <summary>
     /// Horizontal intensity statistics.
@@ -250,7 +251,7 @@ namespace Accord.Imaging
                         p += offset;
                     }
 
-                    // create historgram for gray level
+                    // create histogram for gray level
                     gray = new Histogram(g);
                 }
                 else if (pixelFormat == PixelFormat.Format16bppGrayScale)

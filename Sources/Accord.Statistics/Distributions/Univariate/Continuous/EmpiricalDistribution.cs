@@ -295,13 +295,13 @@ namespace Accord.Statistics.Distributions.Univariate
                 if (mean == null)
                 {
                     if (type == WeightType.None)
-                        mean = Tools.Mean(samples);
+                        mean = Measures.Mean(samples);
 
                     else if (type == WeightType.Repetition)
-                        mean = Tools.WeightedMean(samples, repeats);
+                        mean = Measures.WeightedMean(samples, repeats);
 
                     else if (type == WeightType.Fraction)
-                        mean = Tools.WeightedMean(samples, weights);
+                        mean = Measures.WeightedMean(samples, weights);
                 }
 
                 return mean.Value;
@@ -323,13 +323,13 @@ namespace Accord.Statistics.Distributions.Univariate
                 if (mode == null)
                 {
                     if (type == WeightType.None)
-                        mode = Tools.Mode(samples);
+                        mode = Measures.Mode(samples);
 
                     else if (type == WeightType.Repetition)
-                        mode = Tools.WeightedMode(samples, repeats);
+                        mode = Measures.WeightedMode(samples, repeats);
 
                     else if (type == WeightType.Fraction)
-                        mode = Tools.WeightedMode(samples, weights);
+                        mode = Measures.WeightedMode(samples, weights);
                 }
 
                 return mode.Value;
@@ -351,13 +351,13 @@ namespace Accord.Statistics.Distributions.Univariate
                 if (variance == null)
                 {
                     if (type == WeightType.None)
-                        variance = Tools.Variance(samples);
+                        variance = Measures.Variance(samples);
 
                     else if (type == WeightType.Repetition)
-                        variance = Tools.WeightedVariance(samples, repeats);
+                        variance = Measures.WeightedVariance(samples, repeats);
 
                     else if (type == WeightType.Fraction)
-                        variance = Tools.WeightedVariance(samples, weights);
+                        variance = Measures.WeightedVariance(samples, weights);
                 }
 
                 return variance.Value;
@@ -375,13 +375,13 @@ namespace Accord.Statistics.Distributions.Univariate
                 if (entropy == null)
                 {
                     if (type == WeightType.None)
-                        entropy = Tools.Entropy(samples, ProbabilityDensityFunction);
+                        entropy = Measures.Entropy(samples, ProbabilityDensityFunction);
 
                     else if (type == WeightType.Repetition)
-                        entropy = Tools.WeightedEntropy(samples, repeats, ProbabilityDensityFunction);
+                        entropy = Measures.WeightedEntropy(samples, repeats, ProbabilityDensityFunction);
 
                     else if (type == WeightType.Fraction)
-                        entropy = Tools.WeightedEntropy(samples, weights, ProbabilityDensityFunction);
+                        entropy = Measures.WeightedEntropy(samples, weights, ProbabilityDensityFunction);
                 }
 
                 return entropy.Value;
@@ -703,7 +703,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double SmoothingRule(double[] observations)
         {
-            double sigma = Statistics.Tools.StandardDeviation(observations);
+            double sigma = Measures.StandardDeviation(observations);
             return sigma * Math.Pow(4.0 / (3.0 * observations.Length), 1.0 / 5.0);
         }
 
@@ -723,7 +723,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public static double SmoothingRule(double[] observations, double[] weights)
         {
             double N = weights.Sum();
-            double sigma = Statistics.Tools.WeightedStandardDeviation(observations, weights);
+            double sigma = Measures.WeightedStandardDeviation(observations, weights);
             return sigma * Math.Pow(4.0 / (3.0 * N), 1.0 / 5.0);
         }
 
@@ -743,7 +743,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public static double SmoothingRule(double[] observations, int[] repeats)
         {
             double N = repeats.Sum();
-            double sigma = Statistics.Tools.WeightedStandardDeviation(observations, repeats);
+            double sigma = Measures.WeightedStandardDeviation(observations, repeats);
             return sigma * Math.Pow(4.0 / (3.0 * N), 1.0 / 5.0);
         }
 

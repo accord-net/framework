@@ -131,7 +131,6 @@
     <Compile Include="Performance\CrossValidation\CrossValidation`1.cs" />
     <Compile Include="DecisionTrees\DecisionVariable.cs" />
     <Compile Include="DecisionTrees\Learning\C45Learning.cs" />
-    <Compile Include="DecisionTrees\Learning\Measures.cs" />
     <Compile Include="DecisionTrees\TreeExpression.cs" />
     <Compile Include="DecisionTrees\Learning\ID3Learning.cs" />
     <Compile Include="DecisionTrees\DecisionTree.cs" />

@@ -259,7 +259,7 @@ namespace Accord.Statistics.Testing
             int[] values;
 
             // Build the ordered Wilson-Sterne table
-            probabilities.StableSort(out values);
+            probabilities.Sort(out values);
 
 
             // Now, compute the cumulative probability

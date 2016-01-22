@@ -244,7 +244,7 @@
     <Compile Include="Filters\Selection.cs" />
     <Compile Include="Analysis\Base\IMultivariateAnalysis.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Group.cs" />
+    <Compile Include="Categorical.cs" />
     <Compile Include="Kernels\Additive.cs" />
     <Compile Include="Kernels\Anova.cs" />
     <Compile Include="Kernels\Base\IKernel`1.cs" />
@@ -306,10 +306,12 @@
     <Compile Include="Links\LogLinkFunction.cs" />
     <Compile Include="Links\InverseSquaredLinkFunction.cs" />
     <Compile Include="Links\ProbitLinkFunction.cs" />
+    <Compile Include="Measures\Measures.Histogram.cs" />
     <Compile Include="Measures\Measures.Vectors.cs" />
     <Compile Include="Measures\Measures.Matrix.cs" />
     <Compile Include="Measures\Measures.Matrix.Weighted.cs" />
     <Compile Include="Measures\Measures.Vectors.Weighted.cs" />
+    <Compile Include="Measures\Tools.Misc.cs" />
     <Compile Include="Models\Accord.Statistics.Models.cs" />
     <Compile Include="Models\Fields\Accord.Statistics.Models.Fields.cs" />
     <Compile Include="Models\Fields\Learning\Accord.Statistics.Models.Fields.Learning.cs" />

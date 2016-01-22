@@ -822,7 +822,7 @@ namespace Accord.Statistics
                 x[i] = (x[i] > +Math.PI) ? (x[i] - (2 * Math.PI)) : (x[i]);
             }
 
-            Tools.Quartiles(x, out q1, out q3, alreadySorted: false);
+            x.Quartiles(out q1, out q3, alreadySorted: false);
 
             q1 = q1 + median;
             q3 = q3 + median;

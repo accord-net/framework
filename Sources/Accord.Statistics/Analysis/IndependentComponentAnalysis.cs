@@ -238,8 +238,8 @@ namespace Accord.Statistics.Analysis
             this.analysisMethod = method;
 
             // Calculate common measures to speedup other calculations
-            this.columnMeans = Accord.Statistics.Tools.Mean(sourceMatrix);
-            this.columnStdDev = Accord.Statistics.Tools.StandardDeviation(sourceMatrix, columnMeans);
+            this.columnMeans = Measures.Mean(sourceMatrix);
+            this.columnStdDev = Measures.StandardDeviation(sourceMatrix, columnMeans);
         }
 
         /// <summary>
@@ -264,8 +264,8 @@ namespace Accord.Statistics.Analysis
             this.analysisMethod = method;
 
             // Calculate common measures to speedup other calculations
-            this.columnMeans = Accord.Statistics.Tools.Mean(sourceMatrix);
-            this.columnStdDev = Accord.Statistics.Tools.StandardDeviation(sourceMatrix, columnMeans);
+            this.columnMeans = Measures.Mean(sourceMatrix);
+            this.columnStdDev = Measures.StandardDeviation(sourceMatrix, columnMeans);
         }
 
         #endregion
@@ -671,7 +671,7 @@ namespace Accord.Statistics.Analysis
                         }
 
                         // Compute E{ g'(w*x) }
-                        double mean = Statistics.Tools.Mean(dgwx);
+                        double mean = Measures.Mean(dgwx);
 
 
                         // Compute next update for w according
@@ -812,7 +812,7 @@ namespace Accord.Statistics.Analysis
                         }
 
                         // Compute E{ g'(w*x) }
-                        double mean = Statistics.Tools.Mean(dgwx);
+                        double mean = Measures.Mean(dgwx);
 
 
                         // Compute next update for w according

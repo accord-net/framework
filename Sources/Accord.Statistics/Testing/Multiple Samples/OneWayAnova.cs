@@ -196,10 +196,10 @@ namespace Accord.Statistics.Testing
             DFt = totalSize - 1;
 
             // Step 1. Calculate the mean within each group
-            means = Statistics.Tools.Mean(samples, 1);
+            means = Measures.Mean(samples, 1);
 
             // Step 2. Calculate the overall mean
-            totalMean = Statistics.Tools.GrandMean(means, sizes);
+            totalMean = Measures.GrandMean(means, sizes);
 
 
             // Step 3. Calculate the "between-group" sum of squares

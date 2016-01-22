@@ -116,7 +116,7 @@ namespace Accord.Statistics.Filters
                 if (Columns.Count == 0)
                 {
                     // No. Just generate assign groups at random
-                    groupIndices = Accord.Statistics.Tools.RandomGroups(data.Rows.Count, Proportion);
+                    groupIndices = Categorical.Random(data.Rows.Count, Proportion);
                 }
 
                 else

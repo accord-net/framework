@@ -474,10 +474,10 @@ namespace Accord.Statistics.Analysis
                 if (modes == null)
                 {
                     if (sourceMatrix != null)
-                        modes = Statistics.Tools.Mode(sourceMatrix);
+                        modes = sourceMatrix.Mode();
                     else if (sourceArray != null)
-                        modes = Statistics.Tools.Mode(sourceArray);
-                    else modes = new[] { Statistics.Tools.Mode(sourceRow) };
+                        modes = sourceArray.Mode();
+                    else modes = new[] { sourceRow.Mode() };
                 }
 
                 return modes;
@@ -626,11 +626,11 @@ namespace Accord.Statistics.Analysis
                 if (distinct == null)
                 {
                     if (sourceMatrix != null)
-                        distinct = Statistics.Tools.DistinctCount(sourceMatrix);
+                        distinct = sourceMatrix.DistinctCount();
                     else if (sourceArray != null)
-                        distinct = Statistics.Tools.DistinctCount(sourceArray);
+                        distinct = sourceArray.DistinctCount();
                     else
-                        distinct = new[] { Statistics.Tools.DistinctCount(sourceRow) };
+                        distinct = new[] { sourceRow.DistinctCount() };
                 }
 
                 return distinct;

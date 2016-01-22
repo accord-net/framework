@@ -26,6 +26,7 @@ namespace Accord.MachineLearning
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using Accord.Math;
+    using Accord.Statistics;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Math.Distances;
 
@@ -256,8 +257,7 @@ namespace Accord.MachineLearning
                     {
                         T[] values = p.GetColumn(d);
 
-                        T mode = Accord.Statistics.Tools.Mode<T>(values, 
-                            alreadySorted: false, inPlace: true);
+                        T mode = values.Mode(alreadySorted: false, inPlace: true);
 
                         newCentroids[i][d] = mode;
                     }

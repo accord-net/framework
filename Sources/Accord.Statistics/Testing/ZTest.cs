@@ -186,9 +186,9 @@ namespace Accord.Statistics.Testing
         public ZTest(double[] samples, double hypothesizedMean = 0,
             OneSampleHypothesis alternate = OneSampleHypothesis.ValueIsDifferentFromHypothesis)
         {
-            double mean = Tools.Mean(samples);
-            double stdDev = Tools.StandardDeviation(samples, EstimatedValue);
-            double stdError = Tools.StandardError(samples.Length, stdDev);
+            double mean = Measures.Mean(samples);
+            double stdDev = Measures.StandardDeviation(samples, EstimatedValue);
+            double stdError = Measures.StandardError(samples.Length, stdDev);
 
             if (samples.Length < 30)
             {
@@ -236,7 +236,7 @@ namespace Accord.Statistics.Testing
                     "Warning: running a Z test for less than 30 samples. Consider running a Student's T Test instead.");
             }
 
-            double stdError = Tools.StandardError(samples, sampleStdDev);
+            double stdError = Measures.StandardError(samples, sampleStdDev);
             Compute(sampleMean, hypothesizedMean, stdError, alternate);
 
             power(sampleStdDev, samples);

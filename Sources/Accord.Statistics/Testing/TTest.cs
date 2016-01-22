@@ -214,9 +214,9 @@ namespace Accord.Statistics.Testing
         {
             int n = sample.Length;
 
-            double mean = Accord.Statistics.Tools.Mean(sample);
-            double stdDev = Accord.Statistics.Tools.StandardDeviation(sample, mean);
-            double stdError = Accord.Statistics.Tools.StandardError(n, stdDev);
+            double mean = Measures.Mean(sample);
+            double stdDev = Measures.StandardDeviation(sample, mean);
+            double stdError = Measures.StandardError(n, stdDev);
 
             Compute(n, mean, hypothesizedMean, stdError, alternate);
 
@@ -244,7 +244,7 @@ namespace Accord.Statistics.Testing
         public TTest(double mean, double stdDev, int samples, double hypothesizedMean = 0,
             OneSampleHypothesis alternate = OneSampleHypothesis.ValueIsDifferentFromHypothesis)
         {
-            double stdError = Accord.Statistics.Tools.StandardError(samples, stdDev);
+            double stdError = Measures.StandardError(samples, stdDev);
 
             Compute(samples, mean, hypothesizedMean, stdError, alternate);
 

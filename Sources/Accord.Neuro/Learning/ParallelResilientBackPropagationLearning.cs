@@ -123,7 +123,7 @@ namespace Accord.Neuro.Learning
     /// // indicator vectors, where a 1 into a position signifies that this
     /// // position indicates the class the sample belongs to.
     /// //
-    /// double[][] outputs = Accord.Statistics.Tools.Expand(classes, -1, +1);
+    /// double[][] outputs = Measures.Expand(classes, -1, +1);
     /// 
     /// // Create an activation function for the net
     /// var function = new BipolarSigmoidFunction();

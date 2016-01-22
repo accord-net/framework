@@ -36,6 +36,7 @@ namespace Accord.MachineLearning
     using System.Collections.Generic;
     using System.Reflection;
     using Accord.IO;
+    using Accord.Statistics;
 
     /// <summary>
     ///   Initialization schemes for clustering algorithms.
@@ -425,7 +426,7 @@ namespace Accord.MachineLearning
                     if (sub.Length > 0)
                     {
                         // Compute the current cluster variance
-                        clusters.Covariances[i] = Statistics.Tools.Covariance(sub, centroids[i]);
+                        clusters.Covariances[i] = sub.Covariance(centroids[i]);
                     }
                     else
                     {

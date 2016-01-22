@@ -305,9 +305,9 @@ namespace Accord.Statistics.Distributions.Univariate
             double mean;
 
             if (weights == null)
-                mean = Accord.Statistics.Tools.Mean(observations);
+                mean = Measures.Mean(observations);
             else
-                mean = Accord.Statistics.Tools.WeightedMean(observations, weights);
+                mean = Measures.WeightedMean(observations, weights);
 
             p = 1.0 / (1.0 - mean);
         }

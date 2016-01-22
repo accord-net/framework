@@ -25,6 +25,7 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
     using System;
     using System.Collections.Generic;
     using Accord.Math;
+    using Accord.Statistics;
 
     /// <summary>
     ///   Error-based pruning.
@@ -213,7 +214,7 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
             }
 
             int size = indices.Length;
-            int mostCommon = Statistics.Tools.Mode(subset);
+            int mostCommon = subset.Mode();
             DecisionNode maxChild = getMaxChild(node);
 
             double replace = Double.PositiveInfinity;

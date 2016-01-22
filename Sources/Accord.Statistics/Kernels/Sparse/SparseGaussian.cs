@@ -195,7 +195,7 @@ namespace Accord.Statistics.Kernels.Sparse
 
             double q1 = Math.Sqrt(distances[(int)Math.Ceiling(0.15 * distances.Length)] / 2.0);
             double q9 = Math.Sqrt(distances[(int)Math.Ceiling(0.85 * distances.Length)] / 2.0);
-            double qm = Math.Sqrt(Accord.Statistics.Tools.Median(distances, alreadySorted: true) / 2.0);
+            double qm = Math.Sqrt(Measures.Median(distances, alreadySorted: true) / 2.0);
 
             range = new DoubleRange(q1, q9);
 

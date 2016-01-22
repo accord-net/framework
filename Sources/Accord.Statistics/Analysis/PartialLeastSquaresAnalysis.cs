@@ -257,10 +257,10 @@ namespace Accord.Statistics.Analysis
             this.sourceY = outputs;
 
             // Calculate common measures to speedup other calculations
-            this.meanX = Statistics.Tools.Mean(inputs);
-            this.meanY = Statistics.Tools.Mean(outputs);
-            this.stdDevX = Statistics.Tools.StandardDeviation(inputs, meanX);
-            this.stdDevY = Statistics.Tools.StandardDeviation(outputs, meanY);
+            this.meanX = Measures.Mean(inputs);
+            this.meanY = Measures.Mean(outputs);
+            this.stdDevX = Measures.StandardDeviation(inputs, meanX);
+            this.stdDevY = Measures.StandardDeviation(outputs, meanY);
 
             this.inputVariables = new PartialLeastSquaresVariables(this, true);
             this.outputVariables = new PartialLeastSquaresVariables(this, false);

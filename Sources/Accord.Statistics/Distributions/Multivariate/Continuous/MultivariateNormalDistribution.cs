@@ -493,22 +493,22 @@ namespace Accord.Statistics.Distributions.Multivariate
                 }
 #endif
                 // Compute weighted mean vector
-                means = Statistics.Tools.WeightedMean(observations, weights);
+                means = Measures.WeightedMean(observations, weights);
 
                 // Compute weighted covariance matrix
                 if (options != null && options.Diagonal)
-                    cov = Matrix.Diagonal(Statistics.Tools.WeightedVariance(observations, weights, means));
-                else cov = Statistics.Tools.WeightedCovariance(observations, weights, means);
+                    cov = Matrix.Diagonal(Measures.WeightedVariance(observations, weights, means));
+                else cov = Measures.WeightedCovariance(observations, weights, means);
             }
             else
             {
                 // Compute mean vector
-                means = Statistics.Tools.Mean(observations);
+                means = Measures.Mean(observations);
 
                 // Compute covariance matrix
                 if (options != null && options.Diagonal)
-                    cov = Matrix.Diagonal(Statistics.Tools.Variance(observations, means));
-                cov = Statistics.Tools.Covariance(observations, means);
+                    cov = Matrix.Diagonal(Measures.Variance(observations, means));
+                cov = Measures.Covariance(observations, means);
             }
 
 

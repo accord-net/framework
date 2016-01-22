@@ -23,6 +23,7 @@
 namespace Accord.Math.Distances
 {
     using Accord.Math.Decompositions;
+    using Accord.Statistics;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using System;
@@ -133,10 +134,10 @@ namespace Accord.Math.Distances
 #endif
         public double Distance(double[][] x, double[][] y)
         {
-            double[] meanX = Statistics.Tools.Mean(x);
-            double[] meanY = Statistics.Tools.Mean(y);
-            double[,] covX = Statistics.Tools.Covariance(x, meanX);
-            double[,] covY = Statistics.Tools.Covariance(y, meanY);
+            double[] meanX = x.Mean();
+            double[] meanY = y.Mean();
+            double[,] covX = x.Covariance(meanX);
+            double[,] covY = y.Covariance(meanY);
 
             return Distance(meanX, covX, meanY, covY);
         }
@@ -158,10 +159,10 @@ namespace Accord.Math.Distances
 #endif
         public double Distance(double[,] x, double[,] y)
         {
-            double[] meanX = Statistics.Tools.Mean(x);
-            double[] meanY = Statistics.Tools.Mean(y);
-            double[,] covX = Statistics.Tools.Covariance(x, meanX);
-            double[,] covY = Statistics.Tools.Covariance(y, meanY);
+            double[] meanX = x.Mean();
+            double[] meanY = y.Mean();
+            double[,] covX = x.Covariance(meanX);
+            double[,] covY = y.Covariance(meanY);
 
             return Distance(meanX, covX, meanY, covY);
         }

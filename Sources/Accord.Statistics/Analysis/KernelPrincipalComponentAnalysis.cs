@@ -681,17 +681,17 @@ namespace Accord.Statistics.Analysis
             int rows = K.GetLength(0);
             double[,] Kc = new double[rows, rows];
 
-            double[] rowMean = Accord.Statistics.Tools.Mean(K, 1);
+            double[] rowMean = K.Mean(dimension: 1);
 #if DEBUG
             // row mean and column means should be equal on a symmetric matrix
-            double[] colMean = Accord.Statistics.Tools.Mean(K, 0);
+            double[] colMean = K.Mean(dimension: 0);
             for (int i = 0; i < colMean.Length; i++)
                 System.Diagnostics.Debug.Assert(colMean[i] == rowMean[i]);
 #endif
-            double mean = Accord.Statistics.Tools.Mean(K, -1)[0];
+            double mean = K.Mean(-1)[0];
 
-            for (int i = 0; i < rows; i++)
-                for (int j = i; j < rows; j++)
+            for (int i = 0; i < rowMean.Length; i++)
+                for (int j = i; j < rowMean.Length; j++)
                     Kc[i, j] = Kc[j, i] = K[i, j] - rowMean[i] - rowMean[j] + mean;
 
             return Kc;
@@ -702,8 +702,8 @@ namespace Accord.Statistics.Analysis
             int samples = newK.GetLength(0);
             int dimension = K.GetLength(0);
 
-            double[] rowMean1 = Statistics.Tools.Mean(newK, 1);
-            double[] rowMean2 = Statistics.Tools.Mean(K, 1);
+            double[] rowMean1 = newK.Mean(1);
+            double[] rowMean2 = K.Mean(1);
             double mean = Matrix.Sum(K, -1)[0] / (samples * dimension);
 
             for (int i = 0; i < samples; i++)
@@ -717,12 +717,12 @@ namespace Accord.Statistics.Analysis
             int samples = newK.GetLength(0);
             int dimension = K.GetLength(0);
 
-            double[] rowMean1 = Statistics.Tools.Mean(newK, 1);
-            double[] rowMean2 = Statistics.Tools.Mean(K, 1);
+            double[] rowMean1 = newK.Mean(1);
+            double[] rowMean2 = K.Mean(1);
             double mean = Matrix.Sum(K, -1)[0] / (samples * dimension);
 
-            for (int i = 0; i < samples; i++)
-                for (int j = 0; j < dimension; j++)
+            for (int i = 0; i < rowMean1.Length; i++)
+                for (int j = 0; j < rowMean2.Length; j++)
                     newK[i][j] = newK[i][j] - rowMean1[i] - rowMean2[j] + mean;
         }
 

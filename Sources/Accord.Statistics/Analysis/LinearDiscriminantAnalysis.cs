@@ -440,8 +440,8 @@ namespace Accord.Statistics.Analysis
         public virtual void Compute()
         {
             // Compute entire data set measures
-            Means = Statistics.Tools.Mean(source);
-            StandardDeviations = Statistics.Tools.StandardDeviation(source, totalMeans);
+            Means = Measures.Mean(source);
+            StandardDeviations = Measures.StandardDeviation(source, totalMeans);
             double total = dimension;
 
             // Initialize the scatter matrices
@@ -457,11 +457,11 @@ namespace Accord.Statistics.Analysis
                 int count = subset.GetLength(0);
 
                 // Get the class mean
-                double[] mean = Statistics.Tools.Mean(subset);
+                double[] mean = Measures.Mean(subset);
 
 
                 // Continue constructing the Within-Class Scatter Matrix
-                double[,] Swi = Statistics.Tools.Scatter(subset, mean, (double)count);
+                double[,] Swi = Measures.Scatter(subset, mean, (double)count);
 
                 // Sw = Sw + Swi
                 for (int i = 0; i < dimension; i++)
@@ -483,7 +483,7 @@ namespace Accord.Statistics.Analysis
                 this.classScatter[c] = Swi;
                 this.classCount[c] = count;
                 this.classMeans[c] = mean;
-                this.classStdDevs[c] = Statistics.Tools.StandardDeviation(subset, mean);
+                this.classStdDevs[c] = Measures.StandardDeviation(subset, mean);
             }
 
 

@@ -78,14 +78,11 @@ namespace Accord.Statistics.Filters
 
             int rows = data.Rows.Count;
 
-            int[] indices = Vector.Range(0, rows);
-
             int r = Accord.Math.Random.Generator.Random.Next();
             if (Seed.HasValue)
                 Accord.Math.Random.Generator.Seed = Seed.Value;
 
-            Accord.Statistics.Tools.Shuffle(indices);
-
+            int[] indices = Vector.Sample(rows);
             for (int i = 0; i < indices.Length; i++)
                 result.ImportRow(data.Rows[indices[i]]);
 

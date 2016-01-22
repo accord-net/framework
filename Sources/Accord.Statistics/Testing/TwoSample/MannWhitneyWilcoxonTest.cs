@@ -171,7 +171,7 @@ namespace Accord.Statistics.Testing
 
             // Concatenate both samples and rank them
             double[] samples = sample1.Concatenate(sample2);
-            double[] rank = Accord.Statistics.Tools.Rank(samples);
+            double[] rank = samples.Rank();
 
             // Split the rankings back and sum
             Rank1 = rank.Submatrix(0, n1 - 1);

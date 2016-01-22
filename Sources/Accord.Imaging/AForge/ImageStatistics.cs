@@ -12,6 +12,7 @@ namespace Accord.Imaging
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge.Math;
+    using Accord.Statistics.Visualizations;
 
     /// <summary>
     /// Gather statistics about image in RGB color space.
@@ -37,7 +38,7 @@ namespace Accord.Imaging
     /// </code>
     /// </remarks>
     /// 
-    /// <seealso cref="AForge.Math.Histogram"/>
+    /// <seealso cref="Accord.Statistics.Visualizations.Histogram"/>
     /// 
     public class ImageStatistics
     {

@@ -447,7 +447,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
 
             DoubleRange range;
-            double median = Accord.Statistics.Tools.Quartiles(observations, out range, alreadySorted: false);
+            double median = Measures.Quartiles(observations, out range, alreadySorted: false);
 
             if (estimateT)
                 t0 = median;

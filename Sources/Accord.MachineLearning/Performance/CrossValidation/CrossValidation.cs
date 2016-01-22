@@ -22,6 +22,7 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.Statistics;
     using System;
     using System.Collections.Generic;
 
@@ -191,7 +192,7 @@ namespace Accord.MachineLearning
         /// 
         public static int[] Splittings(int size, int folds)
         {
-            return Accord.Statistics.Tools.RandomGroups(size, folds);
+            return Categorical.Random(size, folds);
         }
 
         /// <summary>
@@ -207,7 +208,7 @@ namespace Accord.MachineLearning
         /// 
         public static int[] Splittings(int[] labels, int classes, int folds)
         {
-            return Accord.Statistics.Tools.RandomGroups(labels, classes, folds);
+            return Categorical.Random(labels, classes, folds);
         }
 
     }

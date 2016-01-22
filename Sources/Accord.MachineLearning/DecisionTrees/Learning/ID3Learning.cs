@@ -26,6 +26,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     using Accord.Math;
     using AForge;
     using Parallel = System.Threading.Tasks.Parallel;
+    using Accord.Statistics;
 
     /// <summary>
     ///   ID3 (Iterative Dichotomizer 3) learning algorithm
@@ -312,7 +313,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
             // 2. If all examples are for the same class, return the single-node
             //    tree with the output label corresponding to this common class.
-            double entropy = Statistics.Tools.Entropy(output, outputClasses);
+            double entropy = Measures.Entropy(output, outputClasses);
 
             if (entropy == 0)
             {
@@ -331,7 +332,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
             if (candidateCount == 0 || (maxHeight > 0 && height == maxHeight))
             {
-                root.Output = Statistics.Tools.Mode(output);
+                root.Output = Measures.Mode(output);
                 return;
             }
 
@@ -400,7 +401,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                     // output samples in this category, we will be assigning
                     // the most common label for the current node to it.
                     if (!Rejection && !children[i].Output.HasValue)
-                        children[i].Output = Statistics.Tools.Mode(output);
+                        children[i].Output = Measures.Mode(output);
                 }
             }
 
@@ -438,7 +439,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 outputSubset[i] = output.Submatrix(partitions[i]);
 
                 // Check the entropy gain originating from this partitioning
-                double e = Statistics.Tools.Entropy(outputSubset[i], outputClasses);
+                double e = Measures.Entropy(outputSubset[i], outputClasses);
 
                 info += (outputSubset[i].Length / (double)output.Length) * e;
             }
@@ -458,7 +459,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             double infoGain = computeInfoGain(input, output, attributeIndex,
                 entropy, out partitions, out outputSubset);
 
-            double splitInfo = Measures.SplitInformation(output.Length, partitions);
+            double splitInfo = Statistics.Tools.SplitInformation(output.Length, partitions);
 
             return infoGain == 0 ? 0 : infoGain / splitInfo;
         }

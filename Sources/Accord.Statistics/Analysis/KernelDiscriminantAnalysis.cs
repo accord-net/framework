@@ -239,8 +239,8 @@ namespace Accord.Statistics.Analysis
 
 
             // Compute entire data set measures
-            base.Means = Statistics.Tools.Mean(K);
-            base.StandardDeviations = Statistics.Tools.StandardDeviation(K, Means);
+            base.Means = Measures.Mean(K);
+            base.StandardDeviations = Measures.StandardDeviation(K, Means);
 
 
             // Initialize the kernel analogous scatter matrices
@@ -256,11 +256,11 @@ namespace Accord.Statistics.Analysis
                 int count = Kc.GetLength(0);
 
                 // Get the Kernel matrix class mean
-                double[] mean = Statistics.Tools.Mean(Kc);
+                double[] mean = Measures.Mean(Kc);
 
 
                 // Construct the Kernel equivalent of the Within-Class Scatter matrix
-                double[,] Swi = Statistics.Tools.Scatter(Kc, mean, (double)count);
+                double[,] Swi = Measures.Scatter(Kc, mean, (double)count);
 
                 // Sw = Sw + Swi
                 for (int i = 0; i < dimension; i++)
@@ -282,7 +282,7 @@ namespace Accord.Statistics.Analysis
                 base.ClassScatter[c] = Swi;
                 base.ClassCount[c] = count;
                 base.ClassMeans[c] = mean;
-                base.ClassStandardDeviations[c] = Statistics.Tools.StandardDeviation(Kc, mean);
+                base.ClassStandardDeviations[c] = Measures.StandardDeviation(Kc, mean);
             }
 
 

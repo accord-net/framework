@@ -380,11 +380,11 @@ namespace Accord.Statistics.Distributions.Univariate
 
             if (weights == null)
             {
-                lambda = 1.0 / Accord.Statistics.Tools.Mean(observations);
+                lambda = 1.0 / Measures.Mean(observations);
             }
             else
             {
-                lambda = 1.0 / Accord.Statistics.Tools.WeightedMean(observations, weights);
+                lambda = 1.0 / Measures.WeightedMean(observations, weights);
             }
 
             init(lambda);

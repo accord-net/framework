@@ -550,18 +550,18 @@ namespace Accord.Statistics.Distributions.Univariate
 #endif
 
                 // Compute weighted mean
-                mu = Statistics.Tools.WeightedMean(observations, weights);
+                mu = Measures.WeightedMean(observations, weights);
 
                 // Compute weighted variance
-                var = Statistics.Tools.WeightedVariance(observations, weights, mu);
+                var = Measures.WeightedVariance(observations, weights, mu);
             }
             else
             {
                 // Compute weighted mean
-                mu = Statistics.Tools.Mean(observations);
+                mu = Measures.Mean(observations);
 
                 // Compute weighted variance
-                var = Statistics.Tools.Variance(observations, mu);
+                var = Measures.Variance(observations, mu);
             }
 
             if (options != null)
