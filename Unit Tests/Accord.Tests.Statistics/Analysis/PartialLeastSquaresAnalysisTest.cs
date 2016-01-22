@@ -28,6 +28,7 @@ namespace Accord.Tests.Statistics
     using Tools = Accord.Statistics.Tools;
     using System;
     using Accord.Statistics.Models.Regression.Linear;
+    using Accord.Statistics;
 
     [TestFixture]
     public class PartialLeastSquaresAnalysisTest
@@ -249,8 +250,8 @@ namespace Accord.Tests.Statistics
 
             target.Compute();
 
-            double[,] x1 = Matrix.Multiply(target.Predictors.Result, target.Predictors.FactorMatrix.Transpose()).Add(Tools.Mean(X), 0);
-            double[,] y1 = Matrix.Multiply(target.Dependents.Result, target.Dependents.FactorMatrix.Transpose()).Add(Tools.Mean(Y), 0);
+            double[,] x1 = Matrix.Multiply(target.Predictors.Result, target.Predictors.FactorMatrix.Transpose()).Add(Measures.Mean(X), 0);
+            double[,] y1 = Matrix.Multiply(target.Dependents.Result, target.Dependents.FactorMatrix.Transpose()).Add(Measures.Mean(Y), 0);
 
 
             // XS*XL' ~ X0

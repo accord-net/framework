@@ -161,7 +161,7 @@ namespace Accord.Tests.Math
             inputs = gauss1.Stack(gauss2);
             int[] outputs = Matrix.Vector(n1, 0).Concatenate(Matrix.Vector(n2, +1));
 
-            var idx = Accord.Statistics.Tools.Random(n1 + n2);
+            var idx = Vector.Sample(n1 + n2);
             inputs = inputs.Submatrix(idx);
             outputs = outputs.Submatrix(idx);
 

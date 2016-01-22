@@ -540,7 +540,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void KaplanMeierTest2()
         {
-            int[][] data = Groups.Expand(
+            int[][] data = Categorical.Expand(
                 new[] { 1, 2, 3, 4, 5, 6 },     // years
                 new[] { 3, 3, 3, 3, 3, 0 },     // died
                 new[] { 5, 10, 15, 20, 25, 10 } // censored

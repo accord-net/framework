@@ -28,6 +28,7 @@ namespace Accord.Tests.Statistics
     using System;
     using Accord.Statistics.Distributions.Fitting;
     using System.Globalization;
+    using Accord.Statistics;
 
     [TestFixture]
     public class UnivariateDiscreteDistributionTest
@@ -233,7 +234,7 @@ namespace Accord.Tests.Statistics
             double[] weights = { 0.125, 0.125, 0.25, 0.25, 0.25 };
             target.Fit(observations, weights);
 
-            double mean = Accord.Statistics.Tools.WeightedMean(observations, weights);
+            double mean = Measures.WeightedMean(observations, weights);
 
             Assert.AreEqual(mean, target.Mean);
         }
@@ -245,7 +246,7 @@ namespace Accord.Tests.Statistics
             double[] observations = { 0, 1, 1, 1, 1 };
             target.Fit(observations);
 
-            double mean = Accord.Statistics.Tools.Mean(observations);
+            double mean = Measures.Mean(observations);
 
             Assert.AreEqual(mean, target.Mean);
         }
@@ -260,7 +261,7 @@ namespace Accord.Tests.Statistics
 
             target.Fit(observations, weights, options);
 
-            double mean = Accord.Statistics.Tools.WeightedMean(observations, weights);
+            double mean = Measures.WeightedMean(observations, weights);
 
             Assert.AreEqual(mean, target.Mean);
         }
@@ -274,7 +275,7 @@ namespace Accord.Tests.Statistics
 
             target.Fit(observations, options);
 
-            double mean = Accord.Statistics.Tools.Mean(observations);
+            double mean = Measures.Mean(observations);
 
             Assert.AreEqual(mean, target.Mean);
         }
@@ -309,7 +310,7 @@ namespace Accord.Tests.Statistics
 
             target.Fit(observations);
 
-            p = Accord.Statistics.Tools.Mean(observations);
+            p = Measures.Mean(observations);
             q = 1 - p;
 
             Assert.AreEqual(q, target.ProbabilityFunction(0));
@@ -323,7 +324,7 @@ namespace Accord.Tests.Statistics
             double[] observations = { 0, 1, 1, 1, 1 };
             target.Fit(observations);
 
-            double mean = Accord.Statistics.Tools.Mean(observations);
+            double mean = Measures.Mean(observations);
 
             Assert.AreEqual(mean, (target as BernoulliDistribution).Mean);
         }
@@ -335,7 +336,7 @@ namespace Accord.Tests.Statistics
             double[] observations = { 0, 1, 1, 1, 1 };
             target.Fit(observations);
 
-            double mean = Accord.Statistics.Tools.Mean(observations);
+            double mean = Measures.Mean(observations);
 
             Assert.AreEqual(mean, (target as BernoulliDistribution).Mean);
         }
@@ -350,7 +351,7 @@ namespace Accord.Tests.Statistics
 
             target.Fit(observations, weights, options);
 
-            double mean = Accord.Statistics.Tools.WeightedMean(observations, weights);
+            double mean = Measures.WeightedMean(observations, weights);
 
             Assert.AreEqual(mean, (target as BernoulliDistribution).Mean);
         }
@@ -364,7 +365,7 @@ namespace Accord.Tests.Statistics
 
             target.Fit(observations, options);
 
-            double mean = Accord.Statistics.Tools.Mean(observations);
+            double mean = Measures.Mean(observations);
 
             Assert.AreEqual(mean, (target as BernoulliDistribution).Mean);
         }

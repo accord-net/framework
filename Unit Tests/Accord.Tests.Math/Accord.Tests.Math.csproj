@@ -88,7 +88,6 @@
     <Compile Include="AForge\Matrix3x3Test.cs" />
     <Compile Include="AForge\Matrix4x4Test.cs" />
     <Compile Include="AForge\Metrics\MetricsTest.cs" />
-    <Compile Include="AForge\StatisticsTest.cs" />
     <Compile Include="AForge\ToolsTest.cs" />
     <Compile Include="AForge\Vector3Test.cs" />
     <Compile Include="Collections\RedBlackTreeDictionaryTest.cs" />

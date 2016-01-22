@@ -125,6 +125,7 @@
     <Compile Include="Distributions\Univariate\Continuous\WrappedCauchyDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GompertzDistributionTest.cs" />
     <Compile Include="Models\Regression\ProbitRegressionTest.cs" />
+    <Compile Include="StatisticsTest.cs" />
     <Compile Include="Testing\BartlettTestTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\EmpiricalHazardDistributionTest.cs" />
     <Compile Include="Filters\GroupingFilterTest.cs" />

@@ -30,6 +30,7 @@ using System.Drawing.Imaging;
 using Accord.Math.Decompositions;
 using System;
 using Accord.Imaging.Converters;
+using Accord.Statistics;
 
 namespace Accord.Tests.Imaging
 {
@@ -511,8 +512,8 @@ namespace Accord.Tests.Imaging
             double[] values = { 5, 2, 7, 5, 3, 5, 1, 1, 2 };
 
             Bitmap image = values.ToBitmap(3, 3, 0, 255);
-            double mean = Accord.Statistics.Tools.Mean(values);
-            double expected = Accord.Statistics.Tools.StandardDeviation(values);
+            double mean = Measures.Mean(values);
+            double expected = Measures.StandardDeviation(values);
             double actual = Tools.StandardDeviation(image, mean);
             Assert.AreEqual(expected, actual);
         }
@@ -528,8 +529,8 @@ namespace Accord.Tests.Imaging
             };
 
             Bitmap image = values.ToBitmap();
-            double mean = Accord.Statistics.Tools.Mean(values.Reshape().ToDouble());
-            double expected = Accord.Statistics.Tools.StandardDeviation(values.Reshape().ToDouble());
+            double mean = Measures.Mean(values.Reshape().ToDouble());
+            double expected = Measures.StandardDeviation(values.Reshape().ToDouble());
             double actual = Tools.StandardDeviation(image, mean);
             Assert.AreEqual(expected, actual);
         }
@@ -547,8 +548,8 @@ namespace Accord.Tests.Imaging
             Rectangle rect = new Rectangle(1, 1, 2, 1);
 
             Bitmap image = values.ToBitmap();
-            double mean = Accord.Statistics.Tools.Mean(new double[] { 3, 5 });
-            double expected = Accord.Statistics.Tools.StandardDeviation(new double[] { 3, 5 });
+            double mean = Measures.Mean(new double[] { 3, 5 });
+            double expected = Measures.StandardDeviation(new double[] { 3, 5 });
             double actual = Tools.StandardDeviation(image, rect, mean);
             Assert.AreEqual(expected, actual);
         }

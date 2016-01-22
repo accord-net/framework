@@ -23,6 +23,7 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Math;
+    using Accord.Statistics;
     using Accord.Statistics.Analysis;
     using NUnit.Framework;
     using System.IO;

@@ -24,6 +24,7 @@ namespace Accord.Tests.Statistics
 {
     using Accord.IO;
     using Accord.Math;
+    using Accord.Statistics;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Tests.Statistics.Properties;
     using NUnit.Framework;
@@ -186,19 +187,19 @@ namespace Accord.Tests.Statistics
             target.Fit(values);
 
 
-            var mean1 = Accord.Statistics.Tools.Mean(part1);
-            var var1 = Accord.Statistics.Tools.Variance(part1);
+            var mean1 = Measures.Mean(part1);
+            var var1 = Measures.Variance(part1);
             Assert.AreEqual(mean1[0], target.Components[0].Mean[0], 1e-5);
             Assert.AreEqual(var1[0], target.Components[0].Variance[0], 1e-5);
 
-            var mean2 = Accord.Statistics.Tools.Mean(part2);
-            var var2 = Accord.Statistics.Tools.Variance(part2);
+            var mean2 = Measures.Mean(part2);
+            var var2 = Measures.Variance(part2);
             Assert.AreEqual(mean2[0], target.Components[1].Mean[0], 1e-5);
             Assert.AreEqual(var2[0], target.Components[1].Variance[0], 1e-5);
 
 
-            var expectedMean = Accord.Statistics.Tools.Mean(values);
-            var expectedVar = Accord.Statistics.Tools.Covariance(values);
+            var expectedMean = Measures.Mean(values);
+            var expectedVar = Measures.Covariance(values);
 
             var actualMean = target.Mean;
             var actualVar = target.Covariance;
@@ -238,19 +239,19 @@ namespace Accord.Tests.Statistics
 
             target.Fit(values, weights);
 
-            var mean1 = Accord.Statistics.Tools.Mean(part1);
-            var var1 = Accord.Statistics.Tools.Variance(part1);
+            var mean1 = Measures.Mean(part1);
+            var var1 = Measures.Variance(part1);
             Assert.AreEqual(mean1[0], target.Components[0].Mean[0], 1e-5);
             Assert.AreEqual(var1[0], target.Components[0].Variance[0], 1e-5);
 
-            var mean2 = Accord.Statistics.Tools.Mean(part2);
-            var var2 = Accord.Statistics.Tools.Variance(part2);
+            var mean2 = Measures.Mean(part2);
+            var var2 = Measures.Variance(part2);
             Assert.AreEqual(mean2[0], target.Components[1].Mean[0], 1e-5);
             Assert.AreEqual(var2[0], target.Components[1].Variance[0], 1e-5);
 
 
-            var expectedMean = Accord.Statistics.Tools.WeightedMean(values, weights);
-            var expectedVar = Accord.Statistics.Tools.WeightedCovariance(values, weights);
+            var expectedMean = Measures.WeightedMean(values, weights);
+            var expectedVar = Measures.WeightedCovariance(values, weights);
 
             var actualMean = target.Mean;
             var actualVar = target.Covariance;

@@ -23,6 +23,7 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Math;
+    using Accord.Statistics;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
     using NUnit.Framework;
@@ -427,7 +428,7 @@ namespace Accord.Tests.Statistics
 
         private static double FaultySmoothingRule(double[] observations)
         {
-            double sigma = Accord.Statistics.Tools.StandardDeviation(observations);
+            double sigma = Measures.StandardDeviation(observations);
             return sigma * Math.Pow(4.0 / (3.0 * observations.Length), -1 / 5.0);
         }
 
