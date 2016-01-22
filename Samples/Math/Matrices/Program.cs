@@ -92,10 +92,10 @@ namespace SampleApp
                     var halfM = A.Multiply(0.5);
 
                     // 2.3.2 By a vector
-                    double[] m = A.Multiply(new double[] { 1, 2, 3 });
+                    double[] m = A.Dot(new double[] { 1, 2, 3 });
 
                     // 2.3.3 By a matrix
-                    var M = A.Multiply(B);
+                    var M = A.Dot(B);
 
                     // 2.4 Transposing
                     var At = A.Transpose();
@@ -186,9 +186,9 @@ namespace SampleApp
                 double[] u = { 1, 2, 3 };
                 double[] v = { 4, 5, 6 };
 
-                var w1 = u.InnerProduct(v);
-                var w2 = u.OuterProduct(v);
-                var w3 = u.CartesianProduct(v);
+                var w1 = u.Dot(v);
+                var w2 = u.Outer(v);
+                var w3 = u.Cartesian(v);
 
 
                 double[] m = { 1, 2, 3, 4 };

@@ -516,7 +516,7 @@ namespace SampleApp
                     return;
                 }
 
-                DoubleRange[] ranges = data.Range(dimension: 0);
+                DoubleRange[] ranges = data.GetRange(dimension: 0);
 
                 xRange = ranges[0];
                 yRange = ranges[1];
@@ -619,8 +619,8 @@ namespace SampleApp
 
             // prepare learning data
             DoubleRange unit = new DoubleRange(-1, 1);
-            double[][] input = Tools.Scale(from: xRange, to: unit, x: data.GetColumn(0)).ToArray();
-            double[][] output = Tools.Scale(from: yRange, to: unit, x: data.GetColumn(1)).ToArray();
+            double[][] input = data.GetColumn(0).Scale(fromRange: xRange, toRange: unit).ToArray();
+            double[][] output = data.GetColumn(1).Scale(fromRange: yRange, toRange: unit).ToArray();
 
 
             // create multi-layer neural network
@@ -657,8 +657,8 @@ namespace SampleApp
                 {
                     double x = input[j][0];
                     double y = network.Compute(new[] { x })[0];
-                    solution[j, 0] = Tools.Scale(from: unit, to: xRange, x: x);
-                    solution[j, 1] = Tools.Scale(from: unit, to: yRange, x: y);
+                    solution[j, 0] = x.Scale(fromRange: unit, toRange: xRange);
+                    solution[j, 1] = y.Scale(fromRange: unit, toRange: yRange);
                 }
 
                 chart.UpdateDataSeries("solution", solution);

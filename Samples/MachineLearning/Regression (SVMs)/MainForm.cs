@@ -161,9 +161,9 @@ namespace SampleApp
 
 
             // Get the ranges for each variable (X and Y)
-            DoubleRange range = Matrix.Range(table.GetColumn(0));
+            DoubleRange range = table.GetColumn(0).GetRange();
 
-            double[][] map = Matrix.Interval(range, 0.05).ToArray();
+            double[][] map = Vector.Interval(range, 0.05).ToArray();
 
             // Classify each point in the Cartesian coordinate system
             double[] result = map.Apply(svm.Compute);

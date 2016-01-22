@@ -564,7 +564,7 @@ namespace SampleApp
                     return;
                 }
 
-                dataToShow = Matrix.Stack(Matrix.Indices(0, data.Length).ToDouble(), data).Transpose();
+                dataToShow = Matrix.Stack(Vector.Range(0, data.Length).ToDouble(), data).Transpose();
 
                 // update list and chart
                 UpdateDataListView();

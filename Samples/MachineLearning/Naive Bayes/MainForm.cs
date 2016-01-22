@@ -125,7 +125,7 @@ namespace SampleApp
             double[,] w1 = Matrix.Stack(x1, y1).Transpose();
             double[,] w2 = Matrix.Stack(x2, y2).Transpose();
 
-            double[] z = Matrix.Vector(2000, value: 1.0);
+            double[] z = Vector.Ones(2000);
             for (int i = 0; i < 1000; i++) 
                 z[i] = 0;
 

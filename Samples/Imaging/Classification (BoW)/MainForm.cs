@@ -127,7 +127,7 @@ namespace SampleApp
                 FileInfo[] files = GetFilesByExtensions(classFolder, ".jpg", ".png").ToArray();
 
                 // Shuffle the samples
-                Accord.Statistics.Tools.Shuffle(files);
+                Vector.Shuffle(files);
 
                 for (int i = 0; i < files.Length; i++)
                 {

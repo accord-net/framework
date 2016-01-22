@@ -423,7 +423,7 @@ namespace SampleApp
                     double max = responses.Max();
                     double min = responses.Min();
 
-                    responses = Accord.Math.Tools.Scale(min, max, 0, 1, responses);
+                    responses = responses.Scale(min, max, 0.0, 1.0);
                 }
 
                 // Set the actual classification answer 
@@ -483,8 +483,7 @@ namespace SampleApp
             {
                 var vector = m.SupportVectors[i];
                 var weight = m.Weights[i];
-                double[] f = vector.Apply(x => x *
-                       Accord.Math.Tools.Scale(min, max, -1, 1, weight));
+                double[] f = vector.Apply(x => x * weight.Scale(min, max, -1, 1));
                 dgvVectors.Rows.Add(Features.Export(f), m.Weights[i]);
             }
         }

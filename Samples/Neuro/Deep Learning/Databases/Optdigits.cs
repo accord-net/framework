@@ -29,6 +29,7 @@ namespace SampleApp.Databases
     using System.IO;
     using System.Windows.Media.Imaging;
     using Accord.Statistics;
+    using Accord.Math;
 
     /// <summary>
     ///   Optdigits dataset from UCI Machine Learning Repository.
@@ -187,7 +188,7 @@ namespace SampleApp.Databases
                 {
                     int c = i * 32 + j;
                     double v = (features[c] * dev[c]) + mean[c];
-                    v = Accord.Math.Tools.Scale(0, 1, 255, 0, v);
+                    v = v.Scale(0, 1, 255.0, 0.0);
                     bitmap.SetPixel(j, i, Color.FromArgb((int)v, (int)v, (int)v));
                 }
             }

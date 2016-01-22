@@ -32,6 +32,7 @@ namespace SampleApp.ViewModel
     using Accord.Neuro.Learning;
     using Accord.Statistics.Analysis;
     using SampleApp.Databases;
+    using Accord.Statistics;
 
     /// <summary>
     ///   View-Model for the Learning tab.
@@ -254,8 +255,7 @@ namespace SampleApp.ViewModel
                 int batchCount = Math.Max(1, inputs.Length / BatchSize);
 
                 // Create mini-batches to speed learning
-                int[] groups = Accord.Statistics.Tools
-                    .RandomGroups(inputs.Length, batchCount);
+                int[] groups = Categorical.Random(inputs.Length, batchCount);
                 double[][][] batches = inputs.Subgroups(groups);
 
                 // Gather learning data for the layer

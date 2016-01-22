@@ -38,6 +38,7 @@ using Accord.MachineLearning;
 using Accord.Math;
 using Accord.Statistics.Distributions.Multivariate;
 using ZedGraph;
+using Accord.Math.Random;
 
 namespace SampleApp
 {
@@ -76,7 +77,7 @@ namespace SampleApp
             for (int i = 0; i < k; i++)
             {
                 // Create random centroid to place the Gaussian distribution
-                double[] mean = Matrix.Random(2, -6.0, +6.0);
+                double[] mean = Vector.Random(2, -6.0, +6.0);
 
                 // Create random covariance matrix for the distribution
                 double[,] covariance = Accord.Statistics.Tools.RandomCovariance(2, -5, 5);
@@ -84,7 +85,7 @@ namespace SampleApp
                 // Create the Gaussian distribution
                 var gaussian = new MultivariateNormalDistribution(mean, covariance);
 
-                int samples = Accord.Math.Tools.Random.Next(150, 250);
+                int samples = Generator.Random.Next(150, 250);
                 data[i] = gaussian.Generate(samples);
             }
 

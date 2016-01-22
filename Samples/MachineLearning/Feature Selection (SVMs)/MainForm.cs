@@ -150,9 +150,9 @@ namespace SampleApp
             DoubleRange[] ranges = Matrix.Range(table, 0);
 
             // Generate a Cartesian coordinate system
-            double[][] map = Matrix.CartesianProduct(
-                Matrix.Interval(ranges[0], 0.05),
-                Matrix.Interval(ranges[1], 0.05));
+            double[][] map = Matrix.Cartesian(
+                Vector.Interval(ranges[0], 0.05),
+                Vector.Interval(ranges[1], 0.05));
 
             // Classify each point in the Cartesian coordinate system
             double[] result = map.Apply(svm.Compute).Apply(x => x > 0.5 ? 1.0 : -1.0);

@@ -171,12 +171,12 @@ namespace SampleApp
         private void createSurface(double[,] table)
         {
             // Get the ranges for each variable (X and Y)
-            DoubleRange[] ranges = Matrix.Range(table, 0);
+            DoubleRange[] ranges = table.GetRange(0);
 
             // Generate a Cartesian coordinate system
-            double[][] map = Matrix.CartesianProduct(
-                Matrix.Interval(ranges[0], 0.05),
-                Matrix.Interval(ranges[1], 0.05));
+            double[][] map = Matrix.Cartesian(
+                Vector.Interval(ranges[0], 0.05),
+                Vector.Interval(ranges[1], 0.05));
 
             // Classify each point in the Cartesian coordinate system
             double[] result = map.Apply(svm.Compute).Apply(Math.Sign).ToDouble();

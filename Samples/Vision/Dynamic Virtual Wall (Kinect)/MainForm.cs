@@ -34,6 +34,7 @@ using Accord;
 using Accord.Imaging;
 using Accord.Video.Kinect;
 using Accord.Video;
+using Accord.Statistics;
 
 namespace SampleApp
 {
@@ -218,7 +219,7 @@ namespace SampleApp
             var points = new List<IntPoint>() { new IntPoint(head.Width / 2, head.Height / 2) };
             var pps = head.Collect16bppPixelValues(points);
 
-            double mean = Accord.Statistics.Tools.Mean(pps);
+            double mean = pps.Mean();
 
             double cutoff = mean + 15;
             Threshold t = new Threshold((int)cutoff);
