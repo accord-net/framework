@@ -73,6 +73,8 @@ namespace Accord.Math
         ///   order. The vector grows up to to <paramref name="size"/>, but does not
         ///   include <c>size</c> among its values.
         /// </summary>
+        ///
+        /// <param name="size">The size of the sample vector to be generated.</param>
         /// 
         /// <example>
         /// <code>
@@ -101,16 +103,17 @@ namespace Accord.Math
         }
         
         /// <summary>
-        ///   Returns a vector of the specified <paramref name="size"/> containing 
-        ///   indices (0, 1, 2, ... max) up to a given maximum number and in random 
-        ///   order. The vector can grow up to to <paramref name="max"/>, but does 
-        ///   not include <c>max</c> among its values.
+        ///   Returns a vector of the specified <paramref name="sampleSize"/> containing 
+        ///   non-repeating indices in the range [0, populationSize) in random order.
         /// </summary>
+        /// 
+        /// <param name="sampleSize">The size of the sample vector to be generated.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
         /// 
         /// <remarks>
         ///   In other words, this return a sample of size <c>k</c> from a population
-        ///   of size <c>n</c>, where <c>k</c> is the parameter <paramref name="size"/>
-        ///   and <c>n</c> is the parameter <paramref name="max"/>.
+        ///   of size <c>N</c>, where <c>k</c> is the parameter <paramref name="sampleSize"/>
+        ///   and <c>N</c> is the parameter <paramref name="populationSize"/>.
         /// </remarks>
         /// 
         /// <example>
@@ -125,16 +128,17 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static <#=i#>[] Sample(int size, <#=i#> max)
+        public static <#=i#>[] Sample(int sampleSize, <#=i#> populationSize)
         {
-            if ((<#=i#>)size > max)
+            if ((<#=i#>)sampleSize > populationSize)
             {
-                throw new ArgumentOutOfRangeException("size",
-                    "The sample size must be less than the size of the population.");
+                throw new ArgumentOutOfRangeException("size", String.Format(
+                    "The sample size {0} must be less than the size of the population {1}.", 
+                    sampleSize, populationSize));
             }
 
-            <#=i#>[] idx = Sample(max);
-            return idx.Submatrix(size);
+            <#=i#>[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
         }
 <#
     }

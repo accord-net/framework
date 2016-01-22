@@ -659,6 +659,23 @@ namespace Accord.Math
             return Outer(a, b, new <#=r#>[a.Length, b.Length]);
         }
 
+        /// <summary>
+        ///   Gets the outer product (matrix product) between two vectors (a*bT).
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   In linear algebra, the outer product typically refers to the tensor
+        ///   product of two vectors. The result of applying the outer product to
+        ///   a pair of vectors is a matrix. The name contrasts with the inner product,
+        ///   which takes as input a pair of vectors and produces a scalar.
+        /// </remarks>
+        /// 
+        [Obsolete("Please use Matrix.Dot instead.")]
+        public static <#=r#> Inner(this <#=a#>[] a, <#=b#>[] b)
+        {
+            return Dot(a, b);
+        }
+
 
         /// <summary>
         ///   Computes the Kronecker product between two vectors.
@@ -1639,7 +1656,12 @@ namespace Accord.Math
             for (int i = 0; i < diagonal.Length; i++)
                 for (int j = 0; j < m; j++)
                     result[j, i] = (<#=r#>)((<#=r#>)a[i, j] * (<#=r#>)diagonal[i]);
-            return result;
+#if DEBUG
+            var C = Dot(a.Transpose().To<double[,]>(), Matrix.Diagonal(diagonal.To<double[]>()));
+            if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
+                throw new Exception();
+#endif
+            return result;            
         }
 
         /// <summary>
@@ -1660,12 +1682,12 @@ namespace Accord.Math
             for (int i = 0; i < diagonal.Length; i++)
                 for (int j = 0; j < m; j++)
                     result[j][i] = (<#=r#>)((<#=r#>)a[i][j] * (<#=r#>)diagonal[i]);
-            return result;
 #if DEBUG
             var C = Dot(a.Transpose().To<double[,]>(), Matrix.Diagonal(diagonal.To<double[]>()));
             if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
                 throw new Exception();
 #endif
+            return result;
         }
 
         /// <summary>

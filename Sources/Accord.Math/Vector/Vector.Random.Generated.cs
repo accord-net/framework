@@ -65,6 +65,8 @@ namespace Accord.Math
         ///   order. The vector grows up to to <paramref name="size"/>, but does not
         ///   include <c>size</c> among its values.
         /// </summary>
+        ///
+        /// <param name="size">The size of the sample vector to be generated.</param>
         /// 
         /// <example>
         /// <code>
@@ -93,16 +95,17 @@ namespace Accord.Math
         }
         
         /// <summary>
-        ///   Returns a vector of the specified <paramref name="size"/> containing 
-        ///   indices (0, 1, 2, ... max) up to a given maximum number and in random 
-        ///   order. The vector can grow up to to <paramref name="max"/>, but does 
-        ///   not include <c>max</c> among its values.
+        ///   Returns a vector of the specified <paramref name="sampleSize"/> containing 
+        ///   non-repeating indices in the range [0, populationSize) in random order.
         /// </summary>
+        /// 
+        /// <param name="sampleSize">The size of the sample vector to be generated.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
         /// 
         /// <remarks>
         ///   In other words, this return a sample of size <c>k</c> from a population
-        ///   of size <c>n</c>, where <c>k</c> is the parameter <paramref name="size"/>
-        ///   and <c>n</c> is the parameter <paramref name="max"/>.
+        ///   of size <c>N</c>, where <c>k</c> is the parameter <paramref name="sampleSize"/>
+        ///   and <c>N</c> is the parameter <paramref name="populationSize"/>.
         /// </remarks>
         /// 
         /// <example>
@@ -117,16 +120,17 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static int[] Sample(int size, int max)
+        public static int[] Sample(int sampleSize, int populationSize)
         {
-            if ((int)size > max)
+            if ((int)sampleSize > populationSize)
             {
-                throw new ArgumentOutOfRangeException("size",
-                    "The sample size must be less than the size of the population.");
+                throw new ArgumentOutOfRangeException("size", String.Format(
+                    "The sample size {0} must be less than the size of the population {1}.", 
+                    sampleSize, populationSize));
             }
 
-            int[] idx = Sample(max);
-            return idx.Submatrix(size);
+            int[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
         }
 
         /// <summary>
@@ -134,6 +138,8 @@ namespace Accord.Math
         ///   order. The vector grows up to to <paramref name="size"/>, but does not
         ///   include <c>size</c> among its values.
         /// </summary>
+        ///
+        /// <param name="size">The size of the sample vector to be generated.</param>
         /// 
         /// <example>
         /// <code>
@@ -162,16 +168,17 @@ namespace Accord.Math
         }
         
         /// <summary>
-        ///   Returns a vector of the specified <paramref name="size"/> containing 
-        ///   indices (0, 1, 2, ... max) up to a given maximum number and in random 
-        ///   order. The vector can grow up to to <paramref name="max"/>, but does 
-        ///   not include <c>max</c> among its values.
+        ///   Returns a vector of the specified <paramref name="sampleSize"/> containing 
+        ///   non-repeating indices in the range [0, populationSize) in random order.
         /// </summary>
+        /// 
+        /// <param name="sampleSize">The size of the sample vector to be generated.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
         /// 
         /// <remarks>
         ///   In other words, this return a sample of size <c>k</c> from a population
-        ///   of size <c>n</c>, where <c>k</c> is the parameter <paramref name="size"/>
-        ///   and <c>n</c> is the parameter <paramref name="max"/>.
+        ///   of size <c>N</c>, where <c>k</c> is the parameter <paramref name="sampleSize"/>
+        ///   and <c>N</c> is the parameter <paramref name="populationSize"/>.
         /// </remarks>
         /// 
         /// <example>
@@ -186,16 +193,17 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static float[] Sample(int size, float max)
+        public static float[] Sample(int sampleSize, float populationSize)
         {
-            if ((float)size > max)
+            if ((float)sampleSize > populationSize)
             {
-                throw new ArgumentOutOfRangeException("size",
-                    "The sample size must be less than the size of the population.");
+                throw new ArgumentOutOfRangeException("size", String.Format(
+                    "The sample size {0} must be less than the size of the population {1}.", 
+                    sampleSize, populationSize));
             }
 
-            float[] idx = Sample(max);
-            return idx.Submatrix(size);
+            float[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
         }
 
         /// <summary>
@@ -203,6 +211,8 @@ namespace Accord.Math
         ///   order. The vector grows up to to <paramref name="size"/>, but does not
         ///   include <c>size</c> among its values.
         /// </summary>
+        ///
+        /// <param name="size">The size of the sample vector to be generated.</param>
         /// 
         /// <example>
         /// <code>
@@ -231,16 +241,17 @@ namespace Accord.Math
         }
         
         /// <summary>
-        ///   Returns a vector of the specified <paramref name="size"/> containing 
-        ///   indices (0, 1, 2, ... max) up to a given maximum number and in random 
-        ///   order. The vector can grow up to to <paramref name="max"/>, but does 
-        ///   not include <c>max</c> among its values.
+        ///   Returns a vector of the specified <paramref name="sampleSize"/> containing 
+        ///   non-repeating indices in the range [0, populationSize) in random order.
         /// </summary>
+        /// 
+        /// <param name="sampleSize">The size of the sample vector to be generated.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
         /// 
         /// <remarks>
         ///   In other words, this return a sample of size <c>k</c> from a population
-        ///   of size <c>n</c>, where <c>k</c> is the parameter <paramref name="size"/>
-        ///   and <c>n</c> is the parameter <paramref name="max"/>.
+        ///   of size <c>N</c>, where <c>k</c> is the parameter <paramref name="sampleSize"/>
+        ///   and <c>N</c> is the parameter <paramref name="populationSize"/>.
         /// </remarks>
         /// 
         /// <example>
@@ -255,16 +266,17 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static double[] Sample(int size, double max)
+        public static double[] Sample(int sampleSize, double populationSize)
         {
-            if ((double)size > max)
+            if ((double)sampleSize > populationSize)
             {
-                throw new ArgumentOutOfRangeException("size",
-                    "The sample size must be less than the size of the population.");
+                throw new ArgumentOutOfRangeException("size", String.Format(
+                    "The sample size {0} must be less than the size of the population {1}.", 
+                    sampleSize, populationSize));
             }
 
-            double[] idx = Sample(max);
-            return idx.Submatrix(size);
+            double[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
         }
 
         /// <summary>
@@ -272,6 +284,8 @@ namespace Accord.Math
         ///   order. The vector grows up to to <paramref name="size"/>, but does not
         ///   include <c>size</c> among its values.
         /// </summary>
+        ///
+        /// <param name="size">The size of the sample vector to be generated.</param>
         /// 
         /// <example>
         /// <code>
@@ -300,16 +314,17 @@ namespace Accord.Math
         }
         
         /// <summary>
-        ///   Returns a vector of the specified <paramref name="size"/> containing 
-        ///   indices (0, 1, 2, ... max) up to a given maximum number and in random 
-        ///   order. The vector can grow up to to <paramref name="max"/>, but does 
-        ///   not include <c>max</c> among its values.
+        ///   Returns a vector of the specified <paramref name="sampleSize"/> containing 
+        ///   non-repeating indices in the range [0, populationSize) in random order.
         /// </summary>
+        /// 
+        /// <param name="sampleSize">The size of the sample vector to be generated.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
         /// 
         /// <remarks>
         ///   In other words, this return a sample of size <c>k</c> from a population
-        ///   of size <c>n</c>, where <c>k</c> is the parameter <paramref name="size"/>
-        ///   and <c>n</c> is the parameter <paramref name="max"/>.
+        ///   of size <c>N</c>, where <c>k</c> is the parameter <paramref name="sampleSize"/>
+        ///   and <c>N</c> is the parameter <paramref name="populationSize"/>.
         /// </remarks>
         /// 
         /// <example>
@@ -324,16 +339,17 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static short[] Sample(int size, short max)
+        public static short[] Sample(int sampleSize, short populationSize)
         {
-            if ((short)size > max)
+            if ((short)sampleSize > populationSize)
             {
-                throw new ArgumentOutOfRangeException("size",
-                    "The sample size must be less than the size of the population.");
+                throw new ArgumentOutOfRangeException("size", String.Format(
+                    "The sample size {0} must be less than the size of the population {1}.", 
+                    sampleSize, populationSize));
             }
 
-            short[] idx = Sample(max);
-            return idx.Submatrix(size);
+            short[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
         }
 
         /// <summary>
@@ -341,6 +357,8 @@ namespace Accord.Math
         ///   order. The vector grows up to to <paramref name="size"/>, but does not
         ///   include <c>size</c> among its values.
         /// </summary>
+        ///
+        /// <param name="size">The size of the sample vector to be generated.</param>
         /// 
         /// <example>
         /// <code>
@@ -369,16 +387,17 @@ namespace Accord.Math
         }
         
         /// <summary>
-        ///   Returns a vector of the specified <paramref name="size"/> containing 
-        ///   indices (0, 1, 2, ... max) up to a given maximum number and in random 
-        ///   order. The vector can grow up to to <paramref name="max"/>, but does 
-        ///   not include <c>max</c> among its values.
+        ///   Returns a vector of the specified <paramref name="sampleSize"/> containing 
+        ///   non-repeating indices in the range [0, populationSize) in random order.
         /// </summary>
+        /// 
+        /// <param name="sampleSize">The size of the sample vector to be generated.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
         /// 
         /// <remarks>
         ///   In other words, this return a sample of size <c>k</c> from a population
-        ///   of size <c>n</c>, where <c>k</c> is the parameter <paramref name="size"/>
-        ///   and <c>n</c> is the parameter <paramref name="max"/>.
+        ///   of size <c>N</c>, where <c>k</c> is the parameter <paramref name="sampleSize"/>
+        ///   and <c>N</c> is the parameter <paramref name="populationSize"/>.
         /// </remarks>
         /// 
         /// <example>
@@ -393,16 +412,17 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static byte[] Sample(int size, byte max)
+        public static byte[] Sample(int sampleSize, byte populationSize)
         {
-            if ((byte)size > max)
+            if ((byte)sampleSize > populationSize)
             {
-                throw new ArgumentOutOfRangeException("size",
-                    "The sample size must be less than the size of the population.");
+                throw new ArgumentOutOfRangeException("size", String.Format(
+                    "The sample size {0} must be less than the size of the population {1}.", 
+                    sampleSize, populationSize));
             }
 
-            byte[] idx = Sample(max);
-            return idx.Submatrix(size);
+            byte[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
         }
 
         /// <summary>
@@ -410,6 +430,8 @@ namespace Accord.Math
         ///   order. The vector grows up to to <paramref name="size"/>, but does not
         ///   include <c>size</c> among its values.
         /// </summary>
+        ///
+        /// <param name="size">The size of the sample vector to be generated.</param>
         /// 
         /// <example>
         /// <code>
@@ -438,16 +460,17 @@ namespace Accord.Math
         }
         
         /// <summary>
-        ///   Returns a vector of the specified <paramref name="size"/> containing 
-        ///   indices (0, 1, 2, ... max) up to a given maximum number and in random 
-        ///   order. The vector can grow up to to <paramref name="max"/>, but does 
-        ///   not include <c>max</c> among its values.
+        ///   Returns a vector of the specified <paramref name="sampleSize"/> containing 
+        ///   non-repeating indices in the range [0, populationSize) in random order.
         /// </summary>
+        /// 
+        /// <param name="sampleSize">The size of the sample vector to be generated.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
         /// 
         /// <remarks>
         ///   In other words, this return a sample of size <c>k</c> from a population
-        ///   of size <c>n</c>, where <c>k</c> is the parameter <paramref name="size"/>
-        ///   and <c>n</c> is the parameter <paramref name="max"/>.
+        ///   of size <c>N</c>, where <c>k</c> is the parameter <paramref name="sampleSize"/>
+        ///   and <c>N</c> is the parameter <paramref name="populationSize"/>.
         /// </remarks>
         /// 
         /// <example>
@@ -462,16 +485,17 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static sbyte[] Sample(int size, sbyte max)
+        public static sbyte[] Sample(int sampleSize, sbyte populationSize)
         {
-            if ((sbyte)size > max)
+            if ((sbyte)sampleSize > populationSize)
             {
-                throw new ArgumentOutOfRangeException("size",
-                    "The sample size must be less than the size of the population.");
+                throw new ArgumentOutOfRangeException("size", String.Format(
+                    "The sample size {0} must be less than the size of the population {1}.", 
+                    sampleSize, populationSize));
             }
 
-            sbyte[] idx = Sample(max);
-            return idx.Submatrix(size);
+            sbyte[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
         }
 
         /// <summary>
@@ -479,6 +503,8 @@ namespace Accord.Math
         ///   order. The vector grows up to to <paramref name="size"/>, but does not
         ///   include <c>size</c> among its values.
         /// </summary>
+        ///
+        /// <param name="size">The size of the sample vector to be generated.</param>
         /// 
         /// <example>
         /// <code>
@@ -507,16 +533,17 @@ namespace Accord.Math
         }
         
         /// <summary>
-        ///   Returns a vector of the specified <paramref name="size"/> containing 
-        ///   indices (0, 1, 2, ... max) up to a given maximum number and in random 
-        ///   order. The vector can grow up to to <paramref name="max"/>, but does 
-        ///   not include <c>max</c> among its values.
+        ///   Returns a vector of the specified <paramref name="sampleSize"/> containing 
+        ///   non-repeating indices in the range [0, populationSize) in random order.
         /// </summary>
+        /// 
+        /// <param name="sampleSize">The size of the sample vector to be generated.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
         /// 
         /// <remarks>
         ///   In other words, this return a sample of size <c>k</c> from a population
-        ///   of size <c>n</c>, where <c>k</c> is the parameter <paramref name="size"/>
-        ///   and <c>n</c> is the parameter <paramref name="max"/>.
+        ///   of size <c>N</c>, where <c>k</c> is the parameter <paramref name="sampleSize"/>
+        ///   and <c>N</c> is the parameter <paramref name="populationSize"/>.
         /// </remarks>
         /// 
         /// <example>
@@ -531,16 +558,17 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static long[] Sample(int size, long max)
+        public static long[] Sample(int sampleSize, long populationSize)
         {
-            if ((long)size > max)
+            if ((long)sampleSize > populationSize)
             {
-                throw new ArgumentOutOfRangeException("size",
-                    "The sample size must be less than the size of the population.");
+                throw new ArgumentOutOfRangeException("size", String.Format(
+                    "The sample size {0} must be less than the size of the population {1}.", 
+                    sampleSize, populationSize));
             }
 
-            long[] idx = Sample(max);
-            return idx.Submatrix(size);
+            long[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
         }
 
         /// <summary>
@@ -548,6 +576,8 @@ namespace Accord.Math
         ///   order. The vector grows up to to <paramref name="size"/>, but does not
         ///   include <c>size</c> among its values.
         /// </summary>
+        ///
+        /// <param name="size">The size of the sample vector to be generated.</param>
         /// 
         /// <example>
         /// <code>
@@ -576,16 +606,17 @@ namespace Accord.Math
         }
         
         /// <summary>
-        ///   Returns a vector of the specified <paramref name="size"/> containing 
-        ///   indices (0, 1, 2, ... max) up to a given maximum number and in random 
-        ///   order. The vector can grow up to to <paramref name="max"/>, but does 
-        ///   not include <c>max</c> among its values.
+        ///   Returns a vector of the specified <paramref name="sampleSize"/> containing 
+        ///   non-repeating indices in the range [0, populationSize) in random order.
         /// </summary>
+        /// 
+        /// <param name="sampleSize">The size of the sample vector to be generated.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
         /// 
         /// <remarks>
         ///   In other words, this return a sample of size <c>k</c> from a population
-        ///   of size <c>n</c>, where <c>k</c> is the parameter <paramref name="size"/>
-        ///   and <c>n</c> is the parameter <paramref name="max"/>.
+        ///   of size <c>N</c>, where <c>k</c> is the parameter <paramref name="sampleSize"/>
+        ///   and <c>N</c> is the parameter <paramref name="populationSize"/>.
         /// </remarks>
         /// 
         /// <example>
@@ -600,16 +631,17 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static decimal[] Sample(int size, decimal max)
+        public static decimal[] Sample(int sampleSize, decimal populationSize)
         {
-            if ((decimal)size > max)
+            if ((decimal)sampleSize > populationSize)
             {
-                throw new ArgumentOutOfRangeException("size",
-                    "The sample size must be less than the size of the population.");
+                throw new ArgumentOutOfRangeException("size", String.Format(
+                    "The sample size {0} must be less than the size of the population {1}.", 
+                    sampleSize, populationSize));
             }
 
-            decimal[] idx = Sample(max);
-            return idx.Submatrix(size);
+            decimal[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
         }
 
         /// <summary>
@@ -617,6 +649,8 @@ namespace Accord.Math
         ///   order. The vector grows up to to <paramref name="size"/>, but does not
         ///   include <c>size</c> among its values.
         /// </summary>
+        ///
+        /// <param name="size">The size of the sample vector to be generated.</param>
         /// 
         /// <example>
         /// <code>
@@ -645,16 +679,17 @@ namespace Accord.Math
         }
         
         /// <summary>
-        ///   Returns a vector of the specified <paramref name="size"/> containing 
-        ///   indices (0, 1, 2, ... max) up to a given maximum number and in random 
-        ///   order. The vector can grow up to to <paramref name="max"/>, but does 
-        ///   not include <c>max</c> among its values.
+        ///   Returns a vector of the specified <paramref name="sampleSize"/> containing 
+        ///   non-repeating indices in the range [0, populationSize) in random order.
         /// </summary>
+        /// 
+        /// <param name="sampleSize">The size of the sample vector to be generated.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
         /// 
         /// <remarks>
         ///   In other words, this return a sample of size <c>k</c> from a population
-        ///   of size <c>n</c>, where <c>k</c> is the parameter <paramref name="size"/>
-        ///   and <c>n</c> is the parameter <paramref name="max"/>.
+        ///   of size <c>N</c>, where <c>k</c> is the parameter <paramref name="sampleSize"/>
+        ///   and <c>N</c> is the parameter <paramref name="populationSize"/>.
         /// </remarks>
         /// 
         /// <example>
@@ -669,16 +704,17 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static ulong[] Sample(int size, ulong max)
+        public static ulong[] Sample(int sampleSize, ulong populationSize)
         {
-            if ((ulong)size > max)
+            if ((ulong)sampleSize > populationSize)
             {
-                throw new ArgumentOutOfRangeException("size",
-                    "The sample size must be less than the size of the population.");
+                throw new ArgumentOutOfRangeException("size", String.Format(
+                    "The sample size {0} must be less than the size of the population {1}.", 
+                    sampleSize, populationSize));
             }
 
-            ulong[] idx = Sample(max);
-            return idx.Submatrix(size);
+            ulong[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
         }
 
         /// <summary>
@@ -686,6 +722,8 @@ namespace Accord.Math
         ///   order. The vector grows up to to <paramref name="size"/>, but does not
         ///   include <c>size</c> among its values.
         /// </summary>
+        ///
+        /// <param name="size">The size of the sample vector to be generated.</param>
         /// 
         /// <example>
         /// <code>
@@ -714,16 +752,17 @@ namespace Accord.Math
         }
         
         /// <summary>
-        ///   Returns a vector of the specified <paramref name="size"/> containing 
-        ///   indices (0, 1, 2, ... max) up to a given maximum number and in random 
-        ///   order. The vector can grow up to to <paramref name="max"/>, but does 
-        ///   not include <c>max</c> among its values.
+        ///   Returns a vector of the specified <paramref name="sampleSize"/> containing 
+        ///   non-repeating indices in the range [0, populationSize) in random order.
         /// </summary>
+        /// 
+        /// <param name="sampleSize">The size of the sample vector to be generated.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
         /// 
         /// <remarks>
         ///   In other words, this return a sample of size <c>k</c> from a population
-        ///   of size <c>n</c>, where <c>k</c> is the parameter <paramref name="size"/>
-        ///   and <c>n</c> is the parameter <paramref name="max"/>.
+        ///   of size <c>N</c>, where <c>k</c> is the parameter <paramref name="sampleSize"/>
+        ///   and <c>N</c> is the parameter <paramref name="populationSize"/>.
         /// </remarks>
         /// 
         /// <example>
@@ -738,16 +777,17 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static ushort[] Sample(int size, ushort max)
+        public static ushort[] Sample(int sampleSize, ushort populationSize)
         {
-            if ((ushort)size > max)
+            if ((ushort)sampleSize > populationSize)
             {
-                throw new ArgumentOutOfRangeException("size",
-                    "The sample size must be less than the size of the population.");
+                throw new ArgumentOutOfRangeException("size", String.Format(
+                    "The sample size {0} must be less than the size of the population {1}.", 
+                    sampleSize, populationSize));
             }
 
-            ushort[] idx = Sample(max);
-            return idx.Submatrix(size);
+            ushort[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
         }
         /// <summary>
         ///   Creates a vector with uniformly distributed random data.

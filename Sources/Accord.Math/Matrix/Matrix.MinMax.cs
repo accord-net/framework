@@ -554,6 +554,67 @@ namespace Accord.Math
             return ranges;
         }
 
+
+
+
+        /// <summary>
+        ///   Deprecated
+        /// </summary>
+        /// 
+        [Obsolete("Please use GetRange instead.")]
+        public static IntRange Range(this int[] values)
+        {
+            return GetRange(values);
+        }
+
+        /// <summary>
+        ///   Deprecated
+        /// </summary>
+        /// 
+        [Obsolete("Please use GetRange instead.")]
+        public static DoubleRange Range(this double[] values)
+        {
+            return GetRange(values);
+        }
+
+        /// <summary>
+        ///   Deprecated
+        /// </summary>
+        /// 
+        [Obsolete("Please use GetRange instead.")]
+        public static IntRange Range(this int[,] values)
+        {
+            return GetRange(values);
+        }
+
+        /// <summary>
+        ///   Deprecated
+        /// </summary>
+        /// 
+        [Obsolete("Please use GetRange instead.")]
+        public static DoubleRange Range(this double[,] values)
+        {
+            return GetRange(values);
+        }
+
+        /// <summary>
+        ///   Deprecated.
+        /// </summary>
+        /// 
+        [Obsolete("Please use GetRange instead.")]
+        public static DoubleRange[] Range(this double[,] value, int dimension)
+        {
+            return GetRange(value, dimension);
+        }
+
+        /// <summary>
+        ///   Deprecated.
+        /// </summary>
+        ///
+        public static DoubleRange[] Range(this double[][] value, int dimension)
+        {
+            return GetRange(value, dimension);
+        }
         #endregion
 
 
