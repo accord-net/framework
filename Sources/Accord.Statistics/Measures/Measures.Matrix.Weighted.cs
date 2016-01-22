@@ -25,8 +25,7 @@ namespace Accord.Statistics
     using Accord.Math;
     using System;
 
-    // TODO: Rename to Measures
-    public static partial class Tools
+    public static partial class Measures
     {
 
         /// <summary>
@@ -634,7 +633,7 @@ namespace Accord.Statistics
         /// 
         public static double[,] WeightedCovariance(double[][] matrix, double[] weights, double[] means)
         {
-            return Tools.WeightedCovariance(matrix, weights, means, dimension: 0);
+            return WeightedCovariance(matrix, weights, means, dimension: 0);
         }
 
         /// <summary>
@@ -658,8 +657,8 @@ namespace Accord.Statistics
         /// 
         public static double[,] WeightedCovariance(double[][] matrix, double[] weights, int dimension = 0)
         {
-            double[] mean = Tools.WeightedMean(matrix, weights, dimension);
-            return Tools.WeightedCovariance(matrix, weights, mean, dimension);
+            double[] mean = WeightedMean(matrix, weights, dimension);
+            return WeightedCovariance(matrix, weights, mean, dimension);
         }
 
         /// <summary>
@@ -682,8 +681,8 @@ namespace Accord.Statistics
         /// 
         public static double[,] WeightedCovariance(double[][] matrix, int[] weights, int dimension = 0)
         {
-            double[] mean = Tools.WeightedMean(matrix, weights, dimension);
-            return Tools.WeightedCovariance(matrix, weights, mean, dimension);
+            double[] mean = WeightedMean(matrix, weights, dimension);
+            return WeightedCovariance(matrix, weights, mean, dimension);
         }
 
         /// <summary>
@@ -936,6 +935,38 @@ namespace Accord.Statistics
             return cov;
         }
 
+
+        private static double correct(bool unbiased, WeightType weightType, double sum, double weightSum, double squareSum)
+        {
+            if (unbiased)
+            {
+                if (weightType == WeightType.Automatic)
+                {
+                    if (weightSum > 1 && weightSum.IsInteger(1e-8))
+                        return sum / (weightSum - 1);
+
+                    return sum / (weightSum - (squareSum / weightSum));
+                }
+                else if (weightType == WeightType.Fraction)
+                {
+                    /*
+                    if (Math.Abs(weightSum - 1.0) >= 1e-8)
+                    {
+                        throw new ArgumentException("An unbiased variance estimate"
+                          + " cannot be computed if weights do not sum to one. The"
+                          + " given weights sum up to " + squareSum, "weights");
+                    }*/
+
+                    return sum / (weightSum - (squareSum / weightSum));
+                }
+                else if (weightType == WeightType.Repetition)
+                {
+                    return sum / (weightSum - (squareSum / weightSum));
+                }
+            }
+
+            return sum / weightSum;
+        }
     }
 }
 
