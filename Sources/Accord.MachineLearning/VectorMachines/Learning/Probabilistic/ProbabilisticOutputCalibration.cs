@@ -92,7 +92,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// double error = smo.Run();
     /// 
     /// // Instantiate the probabilistic learning calibration
-    /// ProbabilisticOutputLearning calibration = new ProbabilisticOutputLearning(svm, inputs, labels);
+    /// var calibration = new ProbabilisticOutputCalibration(svm, inputs, labels);
     /// 
     /// // Run the calibration algorithm
     /// double loglikelihood = calibration.Run();
