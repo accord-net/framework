@@ -16,17 +16,17 @@ using System.Globalization;
 using System.Reflection;
 
 using AForge;
-using AForge.Math;
-using AForge.Math.Geometry;
+using Accord.Math;
+using Accord.Math.Geometry;
 
 namespace SampleApp
 {
     public partial class MainForm : Form
     {
-        private readonly AForge.Point emptyPoint = new AForge.Point(-30000, -30000);
+        private readonly Accord.Point emptyPoint = new Accord.Point(-30000, -30000);
 
         // image point of the object to estimate pose for
-        private AForge.Point[] imagePoints = new AForge.Point[4];
+        private Accord.Point[] imagePoints = new Accord.Point[4];
         // model points
         private Vector3[] modelPoints = new Vector3[4];
         // camera's focal length
@@ -50,7 +50,7 @@ namespace SampleApp
 
         // point index currently locating with mouse
         private int pointIndexToLocate = -1;
-        private AForge.Point pointPreviousValue;
+        private Accord.Point pointPreviousValue;
 
         // model used to draw coordinate system's axes
         private Vector3[] axesModel = new Vector3[]
@@ -65,12 +65,12 @@ namespace SampleApp
         private struct Sample
         {
             public readonly string ImageName;
-            public readonly AForge.Point[] ImagePoints;
+            public readonly Accord.Point[] ImagePoints;
             public readonly Vector3[] ModelPoints;
             public readonly float FocalLength;
             public readonly bool IsCoplanar;
 
-            public Sample(string imageName, AForge.Point[] imagePoints, Vector3[] modelPoints, float focalLength, bool isCoplanar)
+            public Sample(string imageName, Accord.Point[] imagePoints, Vector3[] modelPoints, float focalLength, bool isCoplanar)
             {
                 ImageName = imageName;
                 ImagePoints = imagePoints;
@@ -86,12 +86,12 @@ namespace SampleApp
             // -----
             new Sample(
                 "sample1.jpg",
-                new AForge.Point[]
+                new Accord.Point[]
                 {
-                    new AForge.Point( -4, 29 ),
-                    new AForge.Point( -180, 86 ),
-                    new AForge.Point( -5, -102 ),
-                    new AForge.Point( 76, 137 ),
+                    new Accord.Point( -4, 29 ),
+                    new Accord.Point( -180, 86 ),
+                    new Accord.Point( -5, -102 ),
+                    new Accord.Point( 76, 137 ),
                 },
                 new Vector3[]
                 {
@@ -105,12 +105,12 @@ namespace SampleApp
             // -----
             new Sample(
                 "sample2.jpg",
-                new AForge.Point[]
+                new Accord.Point[]
                 {
-                    new AForge.Point( -11, 58 ),
-                    new AForge.Point( -125, 84 ),
-                    new AForge.Point( -7, -35 ),
-                    new AForge.Point( 37, 124 ),
+                    new Accord.Point( -11, 58 ),
+                    new Accord.Point( -125, 84 ),
+                    new Accord.Point( -7, -35 ),
+                    new Accord.Point( 37, 124 ),
                 },
                 new Vector3[]
                 {
@@ -124,12 +124,12 @@ namespace SampleApp
             // -----
             new Sample(
                 "sample3.jpg",
-                new AForge.Point[]
+                new Accord.Point[]
                 {
-                    new AForge.Point( 4, 55 ),
-                    new AForge.Point( -80, 81 ),
-                    new AForge.Point( 3, -8 ),
-                    new AForge.Point( 40, 109 ),
+                    new Accord.Point( 4, 55 ),
+                    new Accord.Point( -80, 81 ),
+                    new Accord.Point( 3, -8 ),
+                    new Accord.Point( 40, 109 ),
                 },
                 new Vector3[]
                 {
@@ -143,12 +143,12 @@ namespace SampleApp
             // -----
             new Sample(
                 "sample4.jpg",
-                new AForge.Point[]
+                new Accord.Point[]
                 {
-                    new AForge.Point( -77, 48 ),
-                    new AForge.Point( 44, 66 ),
-                    new AForge.Point( 75, -36 ),
-                    new AForge.Point( -61, -58 ),
+                    new Accord.Point( -77, 48 ),
+                    new Accord.Point( 44, 66 ),
+                    new Accord.Point( 75, -36 ),
+                    new Accord.Point( -61, -58 ),
                 },
                 new Vector3[]
                 {
@@ -162,12 +162,12 @@ namespace SampleApp
             // -----
             new Sample(
                 "sample5.jpg",
-                new AForge.Point[]
+                new Accord.Point[]
                 {
-                    new AForge.Point( -117, 33 ),
-                    new AForge.Point( -15, 86 ),
-                    new AForge.Point( 89, 38 ),
-                    new AForge.Point( -13, -30 ),
+                    new Accord.Point( -117, 33 ),
+                    new Accord.Point( -15, 86 ),
+                    new Accord.Point( 89, 38 ),
+                    new Accord.Point( -13, -30 ),
                 },
                 new Vector3[]
                 {
@@ -260,7 +260,7 @@ namespace SampleApp
             OpenEmbeddedImage(sample.ImageName);
 
             // set image points
-            imagePoints = (AForge.Point[])sample.ImagePoints.Clone();
+            imagePoints = (Accord.Point[])sample.ImagePoints.Clone();
 
             imagePoint1Box.Text = imagePoints[0].ToString();
             imagePoint2Box.Text = imagePoints[1].ToString();
@@ -382,7 +382,7 @@ namespace SampleApp
 
                 if ((isPoseEstimated) && (pointIndexToLocate == -1))
                 {
-                    AForge.Point[] projectedAxes = PerformProjection(axesModel,
+                    Accord.Point[] projectedAxes = PerformProjection(axesModel,
                         // create tranformation matrix
                         Matrix4x4.CreateTranslation(translationVector) *       // 3: translate
                         Matrix4x4.CreateFromRotation(rotationMatrix) *         // 2: rotate
@@ -415,15 +415,15 @@ namespace SampleApp
             }
         }
 
-        private AForge.Point[] PerformProjection(Vector3[] model, Matrix4x4 transformationMatrix, int viewSize)
+        private Accord.Point[] PerformProjection(Vector3[] model, Matrix4x4 transformationMatrix, int viewSize)
         {
-            AForge.Point[] projectedPoints = new AForge.Point[model.Length];
+            Accord.Point[] projectedPoints = new Accord.Point[model.Length];
 
             for (int i = 0; i < model.Length; i++)
             {
                 Vector3 scenePoint = (transformationMatrix * model[i].ToVector4()).ToVector3();
 
-                projectedPoints[i] = new AForge.Point(
+                projectedPoints[i] = new Accord.Point(
                     (int)(scenePoint.X / scenePoint.Z * viewSize),
                     (int)(scenePoint.Y / scenePoint.Z * viewSize));
             }
@@ -474,7 +474,7 @@ namespace SampleApp
                     int x = Math.Max(0, Math.Min(e.X, imageSize.Width - 1));
                     int y = Math.Max(0, Math.Min(e.Y, imageSize.Height - 1));
 
-                    imagePoints[pointIndexToLocate] = new AForge.Point(x - imageSize.Width / 2, imageSize.Height / 2 - y);
+                    imagePoints[pointIndexToLocate] = new Accord.Point(x - imageSize.Width / 2, imageSize.Height / 2 - y);
 
                     TextBox imagePointTextBox = (TextBox)imagePointsGroupBox.Controls[string.Format("imagePoint{0}Box", pointIndexToLocate + 1)];
                     imagePointTextBox.Text = imagePoints[pointIndexToLocate].ToString();

@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Math.Random
+namespace Accord.Math.Random
 {
     using System;
     using AForge;

@@ -278,6 +278,8 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         /// <param name="stream">The stream to which the machine is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+
         public override void Save(Stream stream)
         {
             BinaryFormatter b = new BinaryFormatter();
@@ -292,6 +294,8 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+
         public static new KernelSupportVectorMachine Load(Stream stream)
         {
             BinaryFormatter b = new BinaryFormatter();
@@ -306,6 +310,8 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+
         public static new KernelSupportVectorMachine Load(string path)
         {
             using (FileStream fs = new FileStream(path, FileMode.Open))

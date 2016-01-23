@@ -90,7 +90,7 @@ namespace Accord.Statistics.Testing
                 m[i] = NormalDistribution.Standard.InverseDistributionFunction(num / den);
             }
 
-            double mm = m.InnerProduct(m);
+            double mm = m.Dot(m);
 
             double[] c = m.Divide(Math.Sqrt(mm));
 

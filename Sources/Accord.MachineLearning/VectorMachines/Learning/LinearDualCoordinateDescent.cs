@@ -229,7 +229,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             double[][] x = Inputs;
             int[] y = Outputs;
 
-            var random = Accord.Math.Tools.Random;
+            var random = Accord.Math.Random.Generator.Random;
 
             // Lagrange multipliers
             Array.Clear(alpha, 0, alpha.Length);

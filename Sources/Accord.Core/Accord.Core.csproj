@@ -69,14 +69,17 @@
   <ItemGroup>
     <Compile Include="AForge\Delegates.cs" />
     <Compile Include="AForge\DoublePoint.cs" />
-    <Compile Include="AForge\DoubleRange.cs" />
+    <Compile Include="Attributes\SourceTypeAttribute.cs" />
+    <Compile Include="Attributes\SerializationBinderAttribute.cs" />
+    <Compile Include="Ranges\ByteRange.cs" />
+    <Compile Include="Ranges\DoubleRange.cs" />
     <Compile Include="AForge\EventArgs.cs" />
     <Compile Include="AForge\Exceptions.cs" />
     <Compile Include="AForge\IntPoint.cs" />
-    <Compile Include="AForge\IntRange.cs" />
+    <Compile Include="Ranges\IntRange.cs" />
     <Compile Include="AForge\Point.cs" />
     <Compile Include="AForge\PolishExpression.cs" />
-    <Compile Include="AForge\Range.cs" />
+    <Compile Include="Ranges\Range.cs" />
     <Compile Include="AForge\SystemTools.cs" />
     <Compile Include="AForge\ThreadSafeRandom.cs" />
     <Compile Include="Attributes\RealAttribute.cs" />
@@ -117,6 +120,8 @@
     <Compile Include="Collections\RedBlackTreeDictionary`2.cs" />
     <Compile Include="Collections\RedBlackTreeNode.cs" />
     <Compile Include="Collections\RedBlackTree`1.cs" />
+    <Compile Include="Ranges\IRange`1.cs" />
+    <Compile Include="Serializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.dll.config">

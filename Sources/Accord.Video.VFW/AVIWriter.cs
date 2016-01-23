@@ -6,13 +6,13 @@
 // contacts@aforgenet.com
 // 
 
-namespace AForge.Video.VFW
+namespace Accord.Video.VFW
 {
 	using System;
 	using System.Drawing;
 	using System.Drawing.Imaging;
 	using System.Runtime.InteropServices;
-    using AForge;
+    using Accord;
 
 	/// <summary>
     /// AVI files writing using Video for Windows interface.

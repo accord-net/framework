@@ -146,7 +146,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -906,7 +906,7 @@ namespace Accord.Statistics.Distributions.Univariate
             matrixPower(A, eA, V, ref eV, m, n / 2, B);
 
 
-            V.Multiply(V, result: B);
+            Matrix.Dot(V, V, result: B);
 
             int eB = 2 * eV;
             if (B[m / 2, m / 2] > 1.0e140)
@@ -926,7 +926,7 @@ namespace Accord.Statistics.Distributions.Univariate
             }
             else
             {
-                A.Multiply(B, result: V);
+                Matrix.Dot(A, B, result: V);
                 eV = eA + eB;
             }
 

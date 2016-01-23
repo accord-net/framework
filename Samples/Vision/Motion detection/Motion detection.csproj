@@ -8,7 +8,7 @@
     <ProjectGuid>{9800A224-0BF0-4D5D-A03C-AA7A4842D3B8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MotionDetectorSample</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>MotionDetector</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>

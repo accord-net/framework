@@ -25,28 +25,12 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning;
     using NUnit.Framework;
     using System;
-    using Accord.Math;    
+    using Accord.Math;
+    using Accord.Math.Distances;    
     
     [TestFixture]
     public class KNearestNeighborTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void KNearestNeighborConstructorTest()
@@ -189,8 +173,7 @@ namespace Accord.Tests.MachineLearning
 
             int k = 3;
 
-            KNearestNeighbors<double[]> target = new KNearestNeighbors<double[]>(k, inputs, outputs, 
-                Accord.Math.Distance.SquareEuclidean);
+            var target = new KNearestNeighbors<double[]>(k, inputs, outputs, new SquareEuclidean());
 
             for (int i = 0; i < inputs.Length; i++)
             {
@@ -266,7 +249,7 @@ namespace Accord.Tests.MachineLearning
             // example, we will be choosing k = 4. This means that, for a given
             // instance, its nearest 4 neighbors will be used to cast a decision.
             KNearestNeighbors<double[]> knn = new KNearestNeighbors<double[]>(k: 4, classes: 3,
-                inputs: inputs, outputs: outputs, distance: Accord.Math.Distance.SquareEuclidean);
+                inputs: inputs, outputs: outputs, distance: new SquareEuclidean());
 
 
             // After the algorithm has been created, we can classify a new instance:
@@ -308,7 +291,7 @@ namespace Accord.Tests.MachineLearning
             
             // In order to compare strings, we will be using Levenshtein's string distance
             KNearestNeighbors<string> knn = new KNearestNeighbors<string>(k: 1, classes: 2,
-                inputs: inputs, outputs: outputs, distance: Distance.Levenshtein);
+                inputs: inputs, outputs: outputs, distance: new Levenshtein());
 
 
             // After the algorithm has been created, we can use it:

@@ -22,7 +22,7 @@
 
 namespace Accord.Vision.Tracking
 {
-    using AForge.Imaging;
+    using Accord.Imaging;
     using System.Collections.Generic;
 
     /// <summary>

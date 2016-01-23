@@ -27,7 +27,7 @@ namespace Accord.Imaging
     using System.Linq;
     using Accord.MachineLearning;
     using Accord.Math;
-    using AForge;
+    using Accord.Math.Distances;
 
     /// <summary>
     ///   Nearest neighbor feature point matching algorithm.
@@ -56,7 +56,7 @@ namespace Accord.Imaging
         ///   as a distance metric between data points.
         /// </summary>
         /// 
-        public Func<T, T, double> Distance { get; set; }
+        public IDistance<T> Distance { get; set; }
 
         /// <summary>
         ///   Gets or sets a minimum relevance threshold
@@ -75,7 +75,21 @@ namespace Accord.Imaging
         /// <param name="k">The number of neighbors to use when matching points.</param>
         /// <param name="distance">The distance function to consider between points.</param>
         /// 
+        [Obsolete("Please specify the distance function using classes instead of lambda functions.")]
         public KNearestNeighborMatching(int k, Func<T, T, double> distance)
+            : this(k, Accord.Math.Distance.GetDistance(distance))
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a new <see cref="KNearestNeighbors">
+        ///   K-Nearest Neighbors matching</see> algorithm.
+        /// </summary>
+        /// 
+        /// <param name="k">The number of neighbors to use when matching points.</param>
+        /// <param name="distance">The distance function to consider between points.</param>
+        /// 
+        public KNearestNeighborMatching(int k, IDistance<T> distance)
         {
             this.K = k;
             this.Distance = distance;

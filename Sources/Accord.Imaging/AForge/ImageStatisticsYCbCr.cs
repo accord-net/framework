@@ -6,13 +6,15 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge;
     using AForge.Math;
+    using Accord;
+    using Accord.Math;
 
     /// <summary>
     /// Gather statistics about image in YCbCr color space.
@@ -37,7 +39,7 @@ namespace AForge.Imaging
     /// </code>
     /// </remarks>
     /// 
-    /// <seealso cref="AForge.Math.ContinuousHistogram"/>
+    /// <seealso cref="Accord.Math.ContinuousHistogram"/>
     /// 
     public class ImageStatisticsYCbCr
     {
@@ -371,7 +373,7 @@ namespace AForge.Imaging
                         rgb.Blue = p[RGB.B];
 
                         // convert to YCbCr color space
-                        AForge.Imaging.YCbCr.FromRGB(rgb, ycbcr);
+                        Accord.Imaging.YCbCr.FromRGB(rgb, ycbcr);
 
                         yhisto[(int)(ycbcr.Y * 255)]++;
                         cbhisto[(int)((ycbcr.Cb + 0.5) * 255)]++;
@@ -407,7 +409,7 @@ namespace AForge.Imaging
                         rgb.Blue = p[RGB.B];
 
                         // convert to YCbCr color space
-                        AForge.Imaging.YCbCr.FromRGB(rgb, ycbcr);
+                        Accord.Imaging.YCbCr.FromRGB(rgb, ycbcr);
 
                         yhisto[(int)(ycbcr.Y * 255)]++;
                         cbhisto[(int)((ycbcr.Cb + 0.5) * 255)]++;

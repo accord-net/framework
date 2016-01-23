@@ -404,13 +404,13 @@ namespace Accord.Statistics.Distributions.Multivariate
                 if (mean == null)
                 {
                     if (type == WeightType.None)
-                        mean = Tools.Mean(samples);
+                        mean = Measures.Mean(samples);
 
                     else if (type == WeightType.Repetition)
-                        mean = Tools.WeightedMean(samples, repeats);
+                        mean = Measures.WeightedMean(samples, repeats);
 
                     else if (type == WeightType.Fraction)
-                        mean = Tools.WeightedMean(samples, weights);
+                        mean = Measures.WeightedMean(samples, weights);
                 }
 
                 return mean;
@@ -432,13 +432,13 @@ namespace Accord.Statistics.Distributions.Multivariate
                 if (variance == null)
                 {
                     if (type == WeightType.None)
-                        variance = Tools.Variance(samples);
+                        variance = Measures.Variance(samples);
 
                     else if (type == WeightType.Repetition)
-                        variance = Tools.WeightedVariance(samples, repeats);
+                        variance = Measures.WeightedVariance(samples, repeats);
 
                     else if (type == WeightType.Fraction)
-                        variance = Tools.WeightedVariance(samples, weights);
+                        variance = Measures.WeightedVariance(samples, weights);
                 }
 
                 return variance;
@@ -460,13 +460,13 @@ namespace Accord.Statistics.Distributions.Multivariate
                 if (covariance == null)
                 {
                     if (type == WeightType.None)
-                        covariance = Tools.Covariance(samples, Mean);
+                        covariance = Measures.Covariance(samples, Mean);
 
                     else if (type == WeightType.Repetition)
-                        covariance = Tools.WeightedCovariance(samples, repeats);
+                        covariance = Measures.WeightedCovariance(samples, repeats);
 
                     else if (type == WeightType.Fraction)
-                        covariance = Tools.WeightedCovariance(samples, weights);
+                        covariance = Measures.WeightedCovariance(samples, weights);
                 }
 
                 return covariance;
@@ -806,7 +806,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             // Silverman's rule
             //  - http://en.wikipedia.org/wiki/Multivariate_kernel_density_estimation
 
-            double[] sigma = Tools.StandardDeviation(observations);
+            double[] sigma = observations.StandardDeviation();
 
             double d = sigma.Length;
             double n = observations.Length;
@@ -835,7 +835,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             // Silverman's rule
             //  - http://en.wikipedia.org/wiki/Multivariate_kernel_density_estimation
 
-            double[] sigma = Tools.WeightedStandardDeviation(observations, weights);
+            double[] sigma = observations.WeightedStandardDeviation(weights);
 
             double d = sigma.Length;
             double n = weights.Sum();
@@ -864,7 +864,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             // Silverman's rule
             //  - http://en.wikipedia.org/wiki/Multivariate_kernel_density_estimation
 
-            double[] sigma = Tools.WeightedStandardDeviation(observations, weights);
+            double[] sigma = observations.WeightedStandardDeviation(weights);
 
             double d = sigma.Length;
             double n = weights.Sum();
@@ -923,7 +923,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public double[][] Generate(int samples)
         {
-            var generator = Accord.Math.Tools.Random;
+            var generator = Accord.Math.Random.Generator.Random;
 
             var s = new double[samples][];
             for (int i = 0; i < s.Length; i++)
@@ -940,7 +940,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public double[] Generate()
         {
-            var generator = Accord.Math.Tools.Random;
+            var generator = Accord.Math.Random.Generator.Random;
 
             return this.samples[generator.Next(this.samples.Length)];
         }

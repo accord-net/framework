@@ -22,7 +22,7 @@
 //    License along with this library; if not, write to the Free Software
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
-// This file contains implementations based on the orginal code by Philipp
+// This file contains implementations based on the original code by Philipp
 // Berens, shared under a 2-clause BSD license. The original license text 
 // is reproduced below. 
 //
@@ -822,7 +822,7 @@ namespace Accord.Statistics
                 x[i] = (x[i] > +Math.PI) ? (x[i] - (2 * Math.PI)) : (x[i]);
             }
 
-            Tools.Quartiles(x, out q1, out q3, alreadySorted: false);
+            x.Quartiles(out q1, out q3, alreadySorted: false);
 
             q1 = q1 + median;
             q3 = q3 + median;

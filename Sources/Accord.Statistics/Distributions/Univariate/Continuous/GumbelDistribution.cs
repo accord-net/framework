@@ -187,7 +187,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -434,13 +434,13 @@ namespace Accord.Statistics.Distributions.Univariate
 
             if (weights != null)
             {
-                mean = Accord.Statistics.Tools.WeightedMean(observations, weights);
-                stdDev = Accord.Statistics.Tools.WeightedStandardDeviation(observations, weights, mean);
+                mean = Measures.WeightedMean(observations, weights);
+                stdDev = Measures.WeightedStandardDeviation(observations, weights, mean);
             }
             else
             {
-                mean = Accord.Statistics.Tools.Mean(observations);
-                stdDev = Accord.Statistics.Tools.StandardDeviation(observations, mean);
+                mean = Measures.Mean(observations);
+                stdDev = Measures.StandardDeviation(observations, mean);
             }
 
             double u = mean + 0.45006 * stdDev;
@@ -474,13 +474,13 @@ namespace Accord.Statistics.Distributions.Univariate
 
             if (weights != null)
             {
-                mean = Accord.Statistics.Tools.WeightedMean(observations, weights);
-                stdDev = Accord.Statistics.Tools.WeightedStandardDeviation(observations, weights, mean);
+                mean = Measures.WeightedMean(observations, weights);
+                stdDev = Measures.WeightedStandardDeviation(observations, weights, mean);
             }
             else
             {
-                mean = Accord.Statistics.Tools.Mean(observations);
-                stdDev = Accord.Statistics.Tools.StandardDeviation(observations, mean);
+                mean = Measures.Mean(observations);
+                stdDev = Measures.StandardDeviation(observations, mean);
             }
 
             double u = mean + 0.45006 * stdDev;

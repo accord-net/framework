@@ -93,7 +93,7 @@ namespace Accord.Statistics.Distributions
         ///   Gets the support interval for this distribution.
         /// </summary>
         /// 
-        /// <value>A <see cref="AForge.DoubleRange"/> containing
+        /// <value>A <see cref="DoubleRange"/> containing
         ///  the support interval for this distribution.</value>
         ///  
         DoubleRange Support { get; }
@@ -340,7 +340,7 @@ namespace Accord.Statistics.Distributions
         ///   Gets the support interval for this distribution.
         /// </summary>
         /// 
-        /// <value>A <see cref="AForge.DoubleRange"/> containing
+        /// <value>A <see cref="DoubleRange"/> containing
         ///  the support interval for this distribution.</value>
         ///  
         DoubleRange Support { get; }

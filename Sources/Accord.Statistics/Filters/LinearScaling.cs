@@ -106,7 +106,7 @@ namespace Accord.Statistics.Filters
                     try
                     {
                         double value = System.Convert.ToDouble(row[name]);
-                        row[name] = Tools.Scale(options.SourceRange, options.OutputRange, value);
+                        row[name] = Vector.Scale(value, options.SourceRange, options.OutputRange);
                     }
                     catch (Exception ex)
                     {

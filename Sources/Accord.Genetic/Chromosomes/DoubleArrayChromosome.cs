@@ -6,12 +6,12 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Genetic
+namespace Accord.Genetic
 {
     using System;
     using System.Text;
-    using AForge;
-    using AForge.Math.Random;
+    using Accord;
+    using Accord.Math.Random;
 
     /// <summary>
     /// Double array chromosome.
@@ -112,7 +112,7 @@ namespace AForge.Genetic
         /// </summary>
         /// 
         /// <remarks><para>The property controls type of mutation, which is used more
-        /// frequently. A radnom number is generated each time before doing mutation -
+        /// frequently. A random number is generated each time before doing mutation -
         /// if the random number is smaller than the specified balance value, then one
         /// mutation type is used, otherwse another. See <see cref="Mutate"/> method
         /// for more information.</para>
@@ -131,7 +131,7 @@ namespace AForge.Genetic
         /// </summary>
         /// 
         /// <remarks><para>The property controls type of crossover, which is used more
-        /// frequently. A radnom number is generated each time before doing crossover -
+        /// frequently. A random number is generated each time before doing crossover -
         /// if the random number is smaller than the specified balance value, then one
         /// crossover type is used, otherwse another. See <see cref="Crossover"/> method
         /// for more information.</para>

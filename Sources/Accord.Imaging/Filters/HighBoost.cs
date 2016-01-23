@@ -23,7 +23,6 @@
 namespace Accord.Imaging.Filters
 {
     using System;
-    using AForge.Imaging.Filters;
 
     /// <summary>
     ///   High boost filter.

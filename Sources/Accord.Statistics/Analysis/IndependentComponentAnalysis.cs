@@ -238,8 +238,8 @@ namespace Accord.Statistics.Analysis
             this.analysisMethod = method;
 
             // Calculate common measures to speedup other calculations
-            this.columnMeans = Accord.Statistics.Tools.Mean(sourceMatrix);
-            this.columnStdDev = Accord.Statistics.Tools.StandardDeviation(sourceMatrix, columnMeans);
+            this.columnMeans = Measures.Mean(sourceMatrix);
+            this.columnStdDev = Measures.StandardDeviation(sourceMatrix, columnMeans);
         }
 
         /// <summary>
@@ -264,8 +264,8 @@ namespace Accord.Statistics.Analysis
             this.analysisMethod = method;
 
             // Calculate common measures to speedup other calculations
-            this.columnMeans = Accord.Statistics.Tools.Mean(sourceMatrix);
-            this.columnStdDev = Accord.Statistics.Tools.StandardDeviation(sourceMatrix, columnMeans);
+            this.columnMeans = Measures.Mean(sourceMatrix);
+            this.columnStdDev = Measures.StandardDeviation(sourceMatrix, columnMeans);
         }
 
         #endregion
@@ -464,7 +464,7 @@ namespace Accord.Statistics.Analysis
             
 
             // Combine the rotation and demixing matrices
-            revertMatrix = whiteningMatrix.MultiplyByTranspose(revertMatrix);
+            revertMatrix = whiteningMatrix.DotWithTransposed(revertMatrix);
             normalize(revertMatrix);
 
             // Compute the original source mixing matrix
@@ -472,7 +472,7 @@ namespace Accord.Statistics.Analysis
             normalize(mixingMatrix);
 
             // Demix the data into independent components
-            resultMatrix = matrix.Multiply(revertMatrix);
+            resultMatrix = Matrix.Dot(matrix, revertMatrix);
 
             
             // Creates the object-oriented structure to hold the principal components
@@ -487,7 +487,7 @@ namespace Accord.Statistics.Analysis
             double sum = 0;
             foreach (double v in matrix)
                 sum += v;
-            matrix.Divide(sum, inPlace: true);
+            matrix.Divide(sum, result: matrix);
         }
 
         /// <summary>
@@ -499,7 +499,7 @@ namespace Accord.Statistics.Analysis
             // Data-adjust and separate the samples
             double[,] matrix = Adjust(data, false);
 
-            return matrix.Multiply(revertMatrix);
+            return Matrix.Dot(matrix, revertMatrix);
         }
 
         /// <summary>
@@ -517,7 +517,7 @@ namespace Accord.Statistics.Analysis
             // Data-adjust and separate the sources
             float[][] matrix = Adjust(data, false);
 
-            return revertArray.Multiply(matrix);
+            return Matrix.Dot(revertArray, matrix);
         }
 
         /// <summary>
@@ -535,7 +535,7 @@ namespace Accord.Statistics.Analysis
             // Data-adjust and separate the sources
             double[][] matrix = Adjust(data, false);
 
-            return revertArray.Multiply(matrix);
+            return Matrix.Dot(revertArray, matrix);
         }
 
 
@@ -545,7 +545,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[,] Combine(double[,] data)
         {
-            return data.Multiply(mixingMatrix);
+            return Matrix.Dot(data, mixingMatrix);
         }
 
         /// <summary>
@@ -560,7 +560,7 @@ namespace Accord.Statistics.Analysis
                 mixingArray = convertToSingle(mixingMatrix);
             }
 
-            return mixingArray.Multiply(data);
+            return Matrix.Dot(mixingArray, data);
         }
         #endregion
 
@@ -671,7 +671,7 @@ namespace Accord.Statistics.Analysis
                         }
 
                         // Compute E{ g'(w*x) }
-                        double mean = Statistics.Tools.Mean(dgwx);
+                        double mean = Measures.Mean(dgwx);
 
 
                         // Compute next update for w according
@@ -764,7 +764,7 @@ namespace Accord.Statistics.Analysis
                 }
 
                 // Orthogonalize
-                W = K.Multiply(W);
+                W = Matrix.Dot(K, W);
 
 
                 // Gets the maximum parameter absolute change
@@ -812,7 +812,7 @@ namespace Accord.Statistics.Analysis
                         }
 
                         // Compute E{ g'(w*x) }
-                        double mean = Statistics.Tools.Mean(dgwx);
+                        double mean = Measures.Mean(dgwx);
 
 
                         // Compute next update for w according

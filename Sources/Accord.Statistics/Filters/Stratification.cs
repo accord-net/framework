@@ -62,7 +62,7 @@ namespace Accord.Statistics.Filters
         {
             Options option = new Options(column)
             {
-                Classes = Matrix.Indices(0, classes)
+                Classes = Vector.Range(0, classes)
             };
 
             Columns.Add(option);

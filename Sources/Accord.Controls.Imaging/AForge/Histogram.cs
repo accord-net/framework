@@ -5,7 +5,7 @@
 // andrew.kirillov@gmail.com
 //
 
-namespace AForge.Controls
+namespace Accord.Controls
 {
     using System;
     using System.Collections;

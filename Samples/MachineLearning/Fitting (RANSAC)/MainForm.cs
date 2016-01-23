@@ -43,7 +43,7 @@ using Accord.Statistics.Models.Regression.Linear;
 using Components;
 using ZedGraph;
 
-namespace Fitting.RANSAC
+namespace SampleApp
 {
     public partial class MainForm : Form
     {

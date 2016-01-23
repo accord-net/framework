@@ -25,6 +25,7 @@ namespace Accord.Statistics.Kernels
     using System;
     using AForge;
     using Accord.Math;
+    using Accord.Math.Distances;
 
     /// <summary>
     ///   Gaussian Kernel.
@@ -317,7 +318,7 @@ namespace Accord.Statistics.Kernels
 
             double q1 = Math.Sqrt(distances[(int)Math.Ceiling(0.15 * distances.Length)] / 2.0);
             double q9 = Math.Sqrt(distances[(int)Math.Ceiling(0.85 * distances.Length)] / 2.0);
-            double qm = Math.Sqrt(Accord.Statistics.Tools.Median(distances, alreadySorted: true) / 2.0);
+            double qm = Math.Sqrt(Measures.Median(distances, alreadySorted: true) / 2.0);
 
             range = new DoubleRange(q1, q9);
 
@@ -334,8 +335,8 @@ namespace Accord.Statistics.Kernels
         /// 
         public static double[] Distances(double[][] inputs, int samples)
         {
-            int[] idx = Accord.Statistics.Tools.RandomSample(inputs.Length, samples);
-            int[] idy = Accord.Statistics.Tools.RandomSample(inputs.Length, samples);
+            int[] idx = Vector.Sample(inputs.Length, samples);
+            int[] idy = Vector.Sample(inputs.Length, samples);
 
             double[] distances = new double[samples * samples];
 
@@ -502,7 +503,7 @@ namespace Accord.Statistics.Kernels
 
             double q1 = Math.Sqrt(distances[(int)Math.Ceiling(0.15 * distances.Length)] / 2.0);
             double q9 = Math.Sqrt(distances[(int)Math.Ceiling(0.85 * distances.Length)] / 2.0);
-            double qm = Math.Sqrt(Accord.Statistics.Tools.Median(distances, alreadySorted: true) / 2.0);
+            double qm = Math.Sqrt(Measures.Median(distances, alreadySorted: true) / 2.0);
 
             range = new DoubleRange(q1, q9);
 
@@ -521,8 +522,8 @@ namespace Accord.Statistics.Kernels
         public static double[] Distances<T>(T kernel, double[][] inputs, int samples)
             where T : IDistance, ICloneable
         {
-            int[] idx = Accord.Statistics.Tools.RandomSample(inputs.Length, samples);
-            int[] idy = Accord.Statistics.Tools.RandomSample(inputs.Length, samples);
+            int[] idx = Vector.Sample(inputs.Length, samples);
+            int[] idy = Vector.Sample(inputs.Length, samples);
 
             double[] distances = new double[samples * samples];
 

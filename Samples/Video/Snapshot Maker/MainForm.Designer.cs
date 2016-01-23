@@ -38,7 +38,7 @@
             this.connectButton = new System.Windows.Forms.Button();
             this.disconnectButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.videoSourcePlayer = new AForge.Controls.VideoSourcePlayer();
+            this.videoSourcePlayer = new Accord.Controls.VideoSourcePlayer();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.triggerButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
@@ -211,7 +211,7 @@
         private System.Windows.Forms.Button connectButton;
         private System.Windows.Forms.Button disconnectButton;
         private System.Windows.Forms.Panel panel1;
-        private AForge.Controls.VideoSourcePlayer videoSourcePlayer;
+        private Accord.Controls.VideoSourcePlayer videoSourcePlayer;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Button triggerButton;
     }

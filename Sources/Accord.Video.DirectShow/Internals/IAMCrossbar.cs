@@ -9,7 +9,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace AForge.Video.DirectShow.Internals
+namespace Accord.Video.DirectShow.Internals
 {
     /// <summary>
     /// The IAMCrossbar interface routes signals from an analog or digital source to a video capture filter.

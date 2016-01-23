@@ -253,7 +253,7 @@ namespace Accord.Statistics.Models.Markov.Learning
             for (int i = 0, modelStartIndex = 0; i < models.Length; i++)
             {
                 // Retrieve the model definition matrices
-                var B = Matrix.Exp(models[i].Emissions);
+                var B = Elementwise.Exp(models[i].Emissions);
 
                 // Now, for each state 'j' in the model
                 for (int j = 0; j < models[i].States; j++)

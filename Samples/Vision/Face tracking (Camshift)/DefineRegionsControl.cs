@@ -15,7 +15,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MotionDetectorSample
+namespace SampleApp
 {
     // Drawing modes
     public enum DrawingMode

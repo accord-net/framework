@@ -10,11 +10,11 @@
 // Cezary.Wagner@gmail.com
 //
 
-namespace AForge.Neuro.Learning
+namespace Accord.Neuro.Learning
 {
+    using Accord.Genetic;
     using System;
     using System.Diagnostics;
-    using AForge.Genetic;
 
     /// <summary>
     /// Fitness function used for chromosomes representing collection of neural network's weights.

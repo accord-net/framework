@@ -6,10 +6,10 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Vision.Motion
+namespace Accord.Vision.Motion
 {
     using System;
-    using AForge.Imaging;
+    using Accord.Imaging;
 
     /// <summary>
     /// Interface of motion detector algorithm.

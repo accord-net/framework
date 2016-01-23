@@ -8,7 +8,7 @@
     <ProjectGuid>{19906CFC-8E1C-4F11-98E6-92A73C4F097E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FeatureSelection.SVMs</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Feature Selection %28SVMs%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

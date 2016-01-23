@@ -5,7 +5,7 @@
 // Copyright © Andrew Kirillov, 2005-2010
 // andrew.kirillov@aforgenet.com
 
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     /// <summary>
     /// Interface for custom blobs' filters used for filtering blobs after

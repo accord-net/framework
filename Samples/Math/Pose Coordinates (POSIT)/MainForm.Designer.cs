@@ -489,8 +489,8 @@
             this.worldRendererControl.Name = "worldRendererControl";
             this.worldRendererControl.Size = new System.Drawing.Size(300, 308);
             this.worldRendererControl.TabIndex = 13;
-            this.worldRendererControl.ViewMatrix = ((AForge.Math.Matrix4x4)(resources.GetObject("worldRendererControl.ViewMatrix")));
-            this.worldRendererControl.WorldMatrix = ((AForge.Math.Matrix4x4)(resources.GetObject("worldRendererControl.WorldMatrix")));
+            this.worldRendererControl.ViewMatrix = ((Accord.Math.Matrix4x4)(resources.GetObject("worldRendererControl.ViewMatrix")));
+            this.worldRendererControl.WorldMatrix = ((Accord.Math.Matrix4x4)(resources.GetObject("worldRendererControl.WorldMatrix")));
             // 
             // groupBox6
             // 

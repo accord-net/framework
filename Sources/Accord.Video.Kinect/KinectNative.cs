@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Video.Kinect
+namespace Accord.Video.Kinect
 {
     using System;
     using System.Runtime.InteropServices;

@@ -346,7 +346,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 for (int i = 0; i < xTd.Length; i++)
                     xTd[i] = 0;
 
-                var rand = Accord.Math.Tools.Random;
+                var rand = Accord.Math.Random.Generator.Random;
 
                 // optimize QP over wpd
                 while (iter < max_iter)

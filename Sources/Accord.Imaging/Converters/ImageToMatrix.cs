@@ -24,7 +24,8 @@ namespace Accord.Imaging.Converters
 {
     using System.Drawing;
     using System.Drawing.Imaging;
-    using AForge.Imaging;
+    using Accord.Imaging;
+    using Accord.Math;
 
     /// <summary>
     ///   Bitmap to multidimensional matrix converter.
@@ -258,7 +259,7 @@ namespace Accord.Imaging.Converters
                     for (int y = 0; y < height; y++)
                     {
                         for (int x = 0; x < width; x++, src += pixelSize, dst++)
-                            *dst = Accord.Math.Tools.Scale(0, 255, Min, Max, *src);
+                            *dst = Vector.Scale(*src, (byte)0, (byte)255, Min, Max);
                         src += offset;
                     }
                 }
@@ -294,7 +295,7 @@ namespace Accord.Imaging.Converters
                     for (int y = 0; y < height; y++)
                     {
                         for (int x = 0; x < width; x++, src += pixelSize, dst++)
-                            *dst = Accord.Math.Tools.Scale(0, 255, min, max, *src);
+                            *dst = Vector.Scale(*src, (byte)0, (byte)255, min, max);
                         src += offset;
                     }
                 }

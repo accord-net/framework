@@ -143,7 +143,8 @@ namespace Accord.Tests.MachineLearning
             double[] w1, w2;
 
             {
-                Accord.Math.Tools.SetupGenerator(0);
+                Accord.Math.Random.Generator.Seed = 0;
+
                 var svm = new SupportVectorMachine(inputs: 2);
                 var teacher = new ProbabilisticCoordinateDescent(svm, inputs, labels);
 
@@ -155,7 +156,8 @@ namespace Accord.Tests.MachineLearning
             }
 
             {
-                Accord.Math.Tools.SetupGenerator(0);
+                Accord.Math.Random.Generator.Seed = 0;
+
                 var svm = new KernelSupportVectorMachine(new Linear(0), inputs: 2);
                 var teacher = new ProbabilisticCoordinateDescent(svm, inputs, labels);
 

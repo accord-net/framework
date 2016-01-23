@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Video
+namespace Accord.Video
 {
     using System;
     using System.Drawing;
@@ -409,7 +409,7 @@ namespace AForge.Video
             }
         }
 
-        // Note: image cloning is taken from AForge.Imaging.Image.Clone() to avoid reference,
+        // Note: image cloning is taken from Accord.Imaging.Image.Clone() to avoid reference,
         // which may be unwanted
 
         private static Bitmap CloneImage( Bitmap source )
@@ -463,7 +463,7 @@ namespace AForge.Video
                 new Rectangle( 0, 0, width, height ),
                 ImageLockMode.ReadWrite, destination.PixelFormat );
 
-            AForge.SystemTools.CopyUnmanagedMemory( destinationData.Scan0, sourceData.Scan0, height * sourceData.Stride );
+            Accord.SystemTools.CopyUnmanagedMemory( destinationData.Scan0, sourceData.Scan0, height * sourceData.Stride );
 
             // unlock destination image
             destination.UnlockBits( destinationData );

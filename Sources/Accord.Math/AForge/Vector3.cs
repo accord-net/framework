@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Math
+namespace Accord.Math
 {
     using System;
 
@@ -20,6 +20,8 @@ namespace AForge.Math
     [Serializable]
     public struct Vector3
     {
+        // TODO: Possibly replace with the types in System.Numerics?
+
         /// <summary>
         /// X coordinate of the vector.
         /// </summary>

@@ -163,11 +163,11 @@ namespace Accord.Statistics.Testing
         {
             // References: http://en.wikipedia.org/wiki/Student's_t-test#Worked_examples
 
-            double x1 = Tools.Mean(sample1);
-            double x2 = Tools.Mean(sample2);
+            double x1 = sample1.Mean();
+            double x2 = sample2.Mean();
 
-            double s1 = Tools.Variance(sample1);
-            double s2 = Tools.Variance(sample2);
+            double s1 = sample1.Variance();
+            double s2 = sample2.Variance();
 
             int n1 = sample1.Length;
             int n2 = sample2.Length;

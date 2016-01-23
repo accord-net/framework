@@ -349,10 +349,10 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         /// <param name="stream">The stream to which the machine is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
         public virtual void Save(Stream stream)
         {
-            BinaryFormatter b = new BinaryFormatter();
-            b.Serialize(stream, this);
+            Accord.IO.Serializer.Save(this, stream);
         }
 
         /// <summary>
@@ -361,12 +361,10 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         /// <param name="path">The path to the file to which the machine is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
         public void Save(string path)
         {
-            using (FileStream fs = new FileStream(path, FileMode.Create))
-            {
-                Save(fs);
-            }
+            Accord.IO.Serializer.Save(this, path);
         }
 
         /// <summary>
@@ -377,10 +375,10 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Load() instead (or use it as an extension method).")]
         public static SupportVectorMachine Load(Stream stream)
         {
-            BinaryFormatter b = new BinaryFormatter();
-            return (SupportVectorMachine)b.Deserialize(stream);
+            return Accord.IO.Serializer.Load<SupportVectorMachine>(stream);
         }
 
         /// <summary>
@@ -391,12 +389,10 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Load() instead (or use it as an extension method).")]
         public static SupportVectorMachine Load(string path)
         {
-            using (FileStream fs = new FileStream(path, FileMode.Open))
-            {
-                return Load(fs);
-            }
+            return Accord.IO.Serializer.Load<SupportVectorMachine>(path);
         }
 
     }

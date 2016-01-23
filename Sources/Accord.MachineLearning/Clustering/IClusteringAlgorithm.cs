@@ -43,14 +43,12 @@ namespace Accord.MachineLearning
         /// </summary>  
         /// 
         /// <param name="points">The data where to compute the algorithm.</param>
-        /// <param name="threshold">The relative convergence threshold
-        /// for the algorithm. Default is 1e-5.</param>
         /// 
         /// <returns>
-        ///   The labelings for the input data.
+        ///   The labellings for the input data.
         /// </returns>
         /// 
-        int[] Compute(TData[] points, double threshold);
+        int[] Compute(TData[] points);
 
         /// <summary>
         ///   Gets the collection of clusters currently modeled by the clustering algorithm.
@@ -60,13 +58,41 @@ namespace Accord.MachineLearning
     }
 
     /// <summary>
+    ///   Common interface for clustering algorithms.
+    /// </summary>
+    /// 
+    /// <typeparam name="TData">The type of the data being clustered, such as <see cref="T:double[]"/>.</typeparam>
+    /// <typeparam name="TWeights">The type of the weights associated with each point, such as <see cref="T:double[]"/> or <see cref="T:double[]"/>.</typeparam>
+    /// 
+    /// <seealso cref="KMeans"/>
+    /// <seealso cref="KModes{T}"/>
+    /// <seealso cref="BinarySplit"/>
+    /// <seealso cref="GaussianMixtureModel"/>
+    /// 
+    public interface IClusteringAlgorithm<TData, TWeights>
+        : IClusteringAlgorithm<TData>
+    {
+        /// <summary>
+        ///   Divides the input data into a number of clusters. 
+        /// </summary>  
+        /// 
+        /// <param name="points">The data where to compute the algorithm.</param>
+        /// <param name="weights">The weight associated with each data point.</param>
+        /// 
+        /// <returns>
+        ///   The labellings for the input data.
+        /// </returns>
+        /// 
+        int[] Compute(TData[] points, TWeights[] weights);
+    }
+
+    /// <summary>
     ///   Common interface for cluster collections.
     /// </summary>
     /// 
     /// <typeparam name="TData">The type of the data being clustered, such as <see cref="T:double[]"/>.</typeparam>
     /// 
-    public interface IClusterCollection<in TData>
-        : IEnumerable
+    public interface IClusterCollection<in TData> : IEnumerable
     {
         /// <summary>
         ///   Gets the number of clusters in the collection.
@@ -95,7 +121,7 @@ namespace Accord.MachineLearning
     /// 
     public interface IClusterCollection<TData,
 #if !NET35
-        out
+ out
 #endif
  TCluster>
         : IEnumerable<TCluster>, IClusterCollection<TData>

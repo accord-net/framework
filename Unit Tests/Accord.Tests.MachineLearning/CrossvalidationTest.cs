@@ -330,11 +330,11 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void NotEnoughSamplesTest1()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             int[] labels = Matrix.Vector(10, 1).Concatenate(Matrix.Vector(30, 0));
 
-            Accord.Statistics.Tools.Shuffle(labels);
+            Vector.Shuffle(labels);
 
             var crossvalidation = new CrossValidation<MulticlassSupportVectorMachine>(size: 40, folds: 10)
             {
@@ -387,7 +387,7 @@ namespace Accord.Tests.MachineLearning
 
             int[] labels = Matrix.Vector(10, 1).Concatenate(Matrix.Vector(30, 0));
 
-            Accord.Statistics.Tools.Shuffle(labels);
+            Vector.Shuffle(labels);
 
             var crossvalidation = new CrossValidation<MulticlassSupportVectorMachine>(labels, 2, folds: 10)
             {

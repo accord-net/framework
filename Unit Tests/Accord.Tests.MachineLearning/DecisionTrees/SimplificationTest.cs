@@ -77,7 +77,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void LargeRunTest2()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             int[,] random = Matrix.Random(1000, 10, 0, 10).ToInt32();
 

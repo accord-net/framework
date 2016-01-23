@@ -28,7 +28,8 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
-    using AForge.Math.Random;
+    using System.Runtime.CompilerServices;
+    using Accord.Math.Random;
 
     /// <summary>
     ///   Multivariate Normal (Gaussian) distribution.
@@ -189,7 +190,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                 // init is set to false during cloning
                 double[] mean = new double[dimension];
                 double[,] cov = Matrix.Identity(dimension);
-                CholeskyDecomposition chol = new CholeskyDecomposition(cov,
+                var chol = new CholeskyDecomposition(cov,
                     robust: false, lowerTriangular: true);
                 initialize(mean, cov, chol, svd: null);
             }
@@ -217,7 +218,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                 throw new DimensionMismatchException("covariance",
                     "Covariance matrix should have the same dimensions as mean vector's length.");
 
-            CholeskyDecomposition chol = new CholeskyDecomposition(covariance,
+            var chol = new CholeskyDecomposition(covariance,
                 robust: false, lowerTriangular: true);
 
             if (!chol.PositiveDefinite)
@@ -239,7 +240,6 @@ namespace Accord.Statistics.Distributions.Multivariate
             double lndet;
 
             // Transforming to log operations, we have:
-
             if (cd != null)
                 lndet = cd.LogDeterminant;
             else lndet = svd.LogPseudoDeterminant;
@@ -386,22 +386,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public override double ProbabilityDensityFunction(params double[] x)
         {
-            if (x.Length != Dimension)
-                throw new DimensionMismatchException("x", "The vector should have the same dimension as the distribution.");
-
-            double[] z = new double[mean.Length];
-            for (int i = 0; i < x.Length; i++)
-                z[i] = x[i] - mean[i];
-
-            double[] a = (chol == null) ? svd.Solve(z) : chol.Solve(z);
-
-            double b = 0;
-            for (int i = 0; i < z.Length; i++)
-                b += a[i] * z[i];
-
-            double r = Math.Exp(lnconstant - b * 0.5);
-
-            return r;
+            return Math.Exp(-0.5 * Mahalanobis(x) + lnconstant);
         }
 
         /// <summary>
@@ -421,10 +406,26 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public override double LogProbabilityDensityFunction(params double[] x)
         {
+            return -0.5 * Mahalanobis(x) + lnconstant;
+        }
+
+        /// <summary>
+        ///   Gets the Mahalanobis distance between a sample and this distribution.
+        /// </summary>
+        /// 
+        /// <param name="x">A point in the distribution space.</param>
+        /// 
+        /// <returns>The Mahalanobis distance between the point and this distribution.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public double Mahalanobis(double[] x)
+        {
             if (x.Length != Dimension)
                 throw new DimensionMismatchException("x", "The vector should have the same dimension as the distribution.");
 
-            double[] z = new double[mean.Length];
+            var z = new double[mean.Length];
             for (int i = 0; i < x.Length; i++)
                 z[i] = x[i] - mean[i];
 
@@ -433,8 +434,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             double b = 0;
             for (int i = 0; i < z.Length; i++)
                 b += a[i] * z[i];
-
-            return lnconstant - b * 0.5;
+            return b;
         }
 
 
@@ -493,22 +493,22 @@ namespace Accord.Statistics.Distributions.Multivariate
                 }
 #endif
                 // Compute weighted mean vector
-                means = Statistics.Tools.WeightedMean(observations, weights);
+                means = Measures.WeightedMean(observations, weights);
 
                 // Compute weighted covariance matrix
                 if (options != null && options.Diagonal)
-                    cov = Matrix.Diagonal(Statistics.Tools.WeightedVariance(observations, weights, means));
-                else cov = Statistics.Tools.WeightedCovariance(observations, weights, means);
+                    cov = Matrix.Diagonal(Measures.WeightedVariance(observations, weights, means));
+                else cov = Measures.WeightedCovariance(observations, weights, means);
             }
             else
             {
                 // Compute mean vector
-                means = Statistics.Tools.Mean(observations);
+                means = Measures.Mean(observations);
 
                 // Compute covariance matrix
                 if (options != null && options.Diagonal)
-                    cov = Matrix.Diagonal(Statistics.Tools.Variance(observations, means));
-                cov = Statistics.Tools.Covariance(observations, means);
+                    cov = Matrix.Diagonal(Measures.Variance(observations, means));
+                cov = Measures.Covariance(observations, means);
             }
 
 
@@ -696,14 +696,14 @@ namespace Accord.Statistics.Distributions.Multivariate
             if (chol == null)
                 throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive definite.");
 
-            var r = new StandardGenerator(Accord.Math.Tools.Random.Next());
+            var r = new StandardGenerator(Accord.Math.Random.Generator.Random.Next());
             double[,] A = chol.LeftTriangularFactor;
 
             double[] sample = new double[Dimension];
             for (int j = 0; j < sample.Length; j++)
                 sample[j] = r.Next();
 
-            return A.Multiply(sample).Add(Mean);
+            return A.Dot(sample).Add(Mean);
         }
 
         /// <summary>
@@ -719,7 +719,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             if (chol == null)
                 throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive definite.");
 
-            var r = new StandardGenerator(Accord.Math.Tools.Random.Next());
+            var r = new StandardGenerator(Accord.Math.Random.Generator.Random.Next());
             double[,] A = chol.LeftTriangularFactor;
 
             double[][] data = new double[samples][];
@@ -729,7 +729,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                 for (int j = 0; j < sample.Length; j++)
                     sample[j] = r.Next();
 
-                data[i] = A.Multiply(sample).Add(Mean);
+                data[i] = A.Dot(sample).Add(Mean);
             }
 
             return data;

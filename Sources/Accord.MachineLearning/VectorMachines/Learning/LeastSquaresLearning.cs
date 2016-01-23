@@ -95,7 +95,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             this.inputs = inputs;
             this.outputs = outputs;
 
-            this.ones = Matrix.Vector(outputs.Length, 1);
+            this.ones = Vector.Create(outputs.Length, 1);
         }
 
 

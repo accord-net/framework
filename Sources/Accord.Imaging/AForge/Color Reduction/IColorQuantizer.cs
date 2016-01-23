@@ -6,11 +6,11 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging.ColorReduction
+namespace Accord.Imaging.ColorReduction
 {
     using System;
     using System.Drawing;
-    using AForge.Imaging;
+    using Accord.Imaging;
 
     /// <summary>
     /// Interface which is implemented by different color quantization algorithms.

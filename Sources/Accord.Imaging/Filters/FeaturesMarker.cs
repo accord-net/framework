@@ -24,9 +24,7 @@ namespace Accord.Imaging.Filters
 {
     using System.Drawing;
     using System.Drawing.Imaging;
-    using AForge.Imaging.Filters;
     using System.Collections.Generic;
-    using AForge.Imaging;
     using System.Linq;
 
     /// <summary>

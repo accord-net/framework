@@ -6,13 +6,13 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Vision.Motion
+namespace Accord.Vision.Motion
 {
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
 
-    using AForge.Imaging;
+    using Accord.Imaging;
 
     /// <summary>
     /// Motion detection wrapper class, which performs motion detection and processing.
@@ -23,7 +23,7 @@ namespace AForge.Vision.Motion
     /// <see cref="IMotionProcessing">motion processing</see> algorithms, allowing to call them with
     /// single call. Unlike motion detection and motion processing interfaces, the class also
     /// provides additional methods for convenience, so the algorithms could be applied not
-    /// only to <see cref="AForge.Imaging.UnmanagedImage"/>, but to .NET's <see cref="Bitmap"/> class
+    /// only to <see cref="Accord.Imaging.UnmanagedImage"/>, but to .NET's <see cref="Bitmap"/> class
     /// as well.</para>
     /// 
     /// <para>In addition to wrapping of motion detection and processing algorthms, the class provides
@@ -346,7 +346,7 @@ namespace AForge.Vision.Motion
 
                         for ( int y = 0; y < rectHeight; y++ )
                         {
-                            AForge.SystemTools.SetUnmanagedMemory( ptr, 255, rectWidth );
+                            Accord.SystemTools.SetUnmanagedMemory( ptr, 255, rectWidth );
                             ptr += stride;
                         }
                     }

@@ -30,6 +30,7 @@ namespace Accord.Controls
     using System.Drawing;
     using Accord.Math.Kinematics;
     using AForge.Math;
+    using Accord.Math;
 
     /// <summary>
     ///   Denavit Hartenberg Viewer.

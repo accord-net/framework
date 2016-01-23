@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Video
+namespace Accord.Video
 {
     using System;
 

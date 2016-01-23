@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using AForge;
 
-namespace AForge.Controls
+namespace Accord.Controls
 {
     /// <summary>
     /// The class provides simple API for enumerating available joysticks and checking their

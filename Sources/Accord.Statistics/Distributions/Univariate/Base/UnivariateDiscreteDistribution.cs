@@ -112,7 +112,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Gets the support interval for this distribution.
         /// </summary>
         /// 
-        /// <value>A <see cref="AForge.IntRange"/> containing
+        /// <value>A <see cref="IntRange"/> containing
         ///  the support interval for this distribution.</value>
         ///  
         public abstract IntRange Support { get; }
@@ -226,7 +226,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing 
+        ///   A <see cref="DoubleRange" /> containing 
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -240,7 +240,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing 
+        ///   A <see cref="DoubleRange" /> containing 
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -254,7 +254,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing 
+        ///   A <see cref="DoubleRange" /> containing 
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -1052,7 +1052,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public virtual int[] Generate(int samples)
         {
-            var random = Accord.Math.Tools.Random;
+            var random = Accord.Math.Random.Generator.Random;
 
             int[] s = new int[samples];
 
@@ -1073,7 +1073,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public virtual int Generate()
         {
-            return InverseDistributionFunction(Accord.Math.Tools.Random.NextDouble());
+            return InverseDistributionFunction(Accord.Math.Random.Generator.Random.NextDouble());
         }
 
         double[] ISampleableDistribution<double>.Generate(int samples)

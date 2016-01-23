@@ -6,7 +6,7 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging.Textures
+namespace Accord.Imaging.Textures
 {
     using System;
 

@@ -6,14 +6,14 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Video.Ximea
+namespace Accord.Video.Ximea
 {
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.Threading;
-    using AForge.Video;
-    using AForge.Video.Ximea.Internal;
+    using Accord.Video;
+    using Accord.Video.Ximea.Internal;
 
     /// <summary>
     /// The class provides continues access to XIMEA cameras.

@@ -8,7 +8,7 @@
     <ProjectGuid>{2DE60006-663C-40DB-B7CD-A38644D7BC94}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Fitting.RANSAC</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Fitting %28RANSAC%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

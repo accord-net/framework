@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Math.Geometry
+namespace Accord.Math.Geometry
 {
     using System;
     using System.Collections.Generic;

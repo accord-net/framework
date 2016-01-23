@@ -52,9 +52,9 @@ namespace Accord.MachineLearning.Geometry
     using Accord.Math;
     using Accord.Math.Decompositions;
     using AForge;
-    using AForge.Math.Geometry;
     using System.Collections.Generic;
     using System.Linq;
+    using Accord.Math.Geometry;
 
     /// <summary>
     ///   Robust line estimator with RANSAC.

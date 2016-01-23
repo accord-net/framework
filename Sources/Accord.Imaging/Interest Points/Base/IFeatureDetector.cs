@@ -25,7 +25,6 @@ namespace Accord.Imaging
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
-    using AForge.Imaging;
 
     /// <summary>
     ///   Common interface for feature detectors.

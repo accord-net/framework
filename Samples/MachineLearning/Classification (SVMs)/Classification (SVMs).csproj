@@ -8,7 +8,7 @@
     <ProjectGuid>{503EF9C0-CE83-40BE-98B2-3481D9FE3B0D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Classification.SVMs</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Classification %28SVMs%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

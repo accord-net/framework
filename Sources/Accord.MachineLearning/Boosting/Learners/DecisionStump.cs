@@ -110,7 +110,7 @@ namespace Accord.MachineLearning.Boosting.Learners
             for (int i = 0; i < inputCount; i++)
             {
                 comparer.Index = i;
-                int[] indices = Matrix.Indices(0, inputs.Length);
+                int[] indices = Vector.Range(0, inputs.Length);
                 Array.Sort<int>(indices, (a, b) => inputs[a][i].CompareTo(inputs[b][i]));
 
                 double error = 0.0;

@@ -140,5 +140,35 @@ namespace Accord.Tests.Math
             Assert.IsFalse(1.2.IsRelativelyEqual(1.0, 0.11));
 
         }
+
+        [Test]
+        public void AddAxisTest()
+        {
+            int[,] m = Vector.Range(0, 15).Reshape(3, 5);
+
+            var actual = m.Add(5);
+            Assert.IsTrue(actual.IsEqual(new int [,]
+            {
+                { 5,    6,   7,  8,  9 }, 
+                { 10,  11,  12, 13, 14 }, 
+                { 15,  16,  17, 18, 19 }, 
+            }));
+
+            actual = m.Add(new[] { 10, 20, 30 }, dimension: 0);
+            Assert.IsTrue(actual.IsEqual(new int[,]
+            {
+                { 10,   11,  12,  13,  14 }, 
+                { 25,   26,  27,  28,  29 }, 
+                { 40,   41,  42,  43,  44 }, 
+            }));
+
+            actual = m.Add(new[] { 10, 20, 30, 40, 50 }, dimension: 1);
+            Assert.IsTrue(actual.IsEqual(new int[,]
+            {
+                { 10,   21,  32,  43,  54 }, 
+                { 15,   26,  37,  48,  59 }, 
+                { 20,   31,  42,  53,  64 }, 
+            }));
+        }
     }
 }

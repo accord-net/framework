@@ -24,7 +24,6 @@ namespace Accord.Neuro.Neurons
 {
     using System;
     using Accord.Neuro.ActivationFunctions;
-    using AForge.Neuro;
 
     /// <summary>
     ///   Stochastic Activation Neuron.

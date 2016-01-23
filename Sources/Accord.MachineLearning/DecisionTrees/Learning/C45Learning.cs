@@ -28,6 +28,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     using Accord.Math;
     using AForge;
     using Parallel = System.Threading.Tasks.Parallel;
+    using Accord.Statistics;
 
     /// <summary>
     ///   C4.5 Learning algorithm for <see cref="DecisionTree">Decision Trees</see>.
@@ -356,7 +357,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
             // 2. If all examples are for the same class, return the single-node
             //    tree with the output label corresponding to this common class.
-            double entropy = Statistics.Tools.Entropy(output, outputClasses);
+            double entropy = Measures.Entropy(output, outputClasses);
 
             if (entropy == 0)
             {
@@ -374,7 +375,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
             if (candidateCount == 0 || (maxHeight > 0 && height == maxHeight))
             {
-                root.Output = Statistics.Tools.Mode(output);
+                root.Output = Measures.Mode(output);
                 return;
             }
 
@@ -494,7 +495,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 // majority of the currently selected output classes.
 
                 outputSubset = output.Submatrix(maxGainPartition[0]);
-                root.Output = Statistics.Tools.Mode(outputSubset);
+                root.Output = Measures.Mode(outputSubset);
             }
 
             attributeUsageCount[maxGainAttribute]--;
@@ -505,7 +506,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             double entropy, out int[][] partitions, out double threshold)
         {
             double infoGain = computeInfoGain(input, output, attributeIndex, entropy, out partitions, out threshold);
-            double splitInfo = Measures.SplitInformation(output.Length, partitions);
+            double splitInfo = Statistics.Tools.SplitInformation(output.Length, partitions);
 
             return infoGain == 0 || splitInfo == 0 ? 0 : infoGain / splitInfo;
         }
@@ -546,7 +547,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 int[] outputSubset = output.Submatrix(partitions[i]);
 
                 // Check the entropy gain originating from this partitioning
-                double e = Statistics.Tools.Entropy(outputSubset, outputClasses);
+                double e = Measures.Entropy(outputSubset, outputClasses);
 
                 info += ((double)outputSubset.Length / output.Length) * e;
             }
@@ -608,8 +609,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 double p2 = (double)output2.Count / output.Length;
 
                 double splitGain =
-                    -p1 * Statistics.Tools.Entropy(output1, outputClasses) +
-                    -p2 * Statistics.Tools.Entropy(output2, outputClasses);
+                    -p1 * Measures.Entropy(output1, outputClasses) +
+                    -p2 * Measures.Entropy(output2, outputClasses);
 
                 if (splitGain > bestGain)
                 {

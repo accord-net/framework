@@ -24,6 +24,7 @@ namespace Accord.Statistics.Kernels
 {
     using System;
     using Accord.Math;
+    using Accord.Math.Distances;
 
     /// <summary>
     ///   Normalized Polynomial Kernel. This class is equivalent to the

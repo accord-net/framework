@@ -8,7 +8,7 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Drawing;

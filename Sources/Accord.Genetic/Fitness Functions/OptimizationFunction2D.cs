@@ -6,10 +6,11 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Genetic
+namespace Accord.Genetic
 {
     using System;
     using AForge;
+    using Accord;
 
     /// <summary>Base class for two dimenstional function optimization.</summary>
     ///
@@ -60,18 +61,21 @@ namespace AForge.Genetic
         public enum Modes
         {
             /// <summary>
-            /// Search for function's maximum value.
+            ///   Search for function's maximum value.
             /// </summary>
+            /// 
             Maximization,
+
             /// <summary>
-            /// Search for function's minimum value.
+            ///   Search for function's minimum value.
             /// </summary>
+            /// 
             Minimization
         }
 
         // optimization ranges
-        private AForge.Range rangeX = new Range(0, 1);
-        private AForge.Range rangeY = new Range(0, 1);
+        private Range rangeX = new Range(0, 1);
+        private Range rangeY = new Range(0, 1);
         
         // optimization mode
         private Modes mode = Modes.Maximization;

@@ -565,7 +565,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void LargeSampleTest_WithRepetition()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             int[][] dataSamples = Matrix.Random(500, 3, 0, 10).ToInt32().ToArray();
             int[] target = Matrix.Random(500, 1, 0, 2).ToInt32().GetColumn(0);

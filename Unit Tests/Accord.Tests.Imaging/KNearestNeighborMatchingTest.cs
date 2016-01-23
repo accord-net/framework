@@ -27,6 +27,7 @@ using AForge;
 using Accord.Math;
 using System.Collections.Generic;
 using System;
+using Accord.Math.Distances;
 
 namespace Accord.Tests.Imaging
 {
@@ -48,7 +49,7 @@ namespace Accord.Tests.Imaging
 
             try
             {
-                var matcher = new KNearestNeighborMatching<byte[]>(5, Distance.BitwiseHamming);
+                var matcher = new KNearestNeighborMatching<byte[]>(5, new Hamming());
                 IntPoint[][] matches = matcher.Match(keyPoints1, keyPoints2);
             }
             catch (ArgumentException)
@@ -67,7 +68,7 @@ namespace Accord.Tests.Imaging
             var keyPoints1 = freak.ProcessImage(Properties.Resources.old).ToArray();
             var keyPoints2 = freak.ProcessImage(Properties.Resources._new).ToArray();
 
-            var matcher = new KNearestNeighborMatching<byte[]>(5, Distance.BitwiseHamming);
+            var matcher = new KNearestNeighborMatching<byte[]>(5, new Hamming());
 
             { // direct
                 IntPoint[][] matches = matcher.Match(keyPoints1, keyPoints2);
@@ -87,6 +88,40 @@ namespace Accord.Tests.Imaging
 
         [Test]
         public void MatchTest3()
+        {
+            FastCornersDetector fast = new FastCornersDetector(threshold: 10);
+
+            FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector(fast);
+
+            var keyPoints1 = freak.ProcessImage(Properties.Resources.old).ToArray();
+            var keyPoints2 = freak.ProcessImage(Properties.Resources.flower01).ToArray();
+
+            var matcher = new KNearestNeighborMatching<byte[]>(5, new Hamming());
+
+            { // direct
+                IntPoint[][] matches = matcher.Match(keyPoints1, keyPoints2);
+                Assert.AreEqual(2, matches.Length);
+                Assert.AreEqual(143, matches[0].Length);
+                Assert.AreEqual(143, matches[1].Length);
+                Assert.AreEqual(532, matches[0][0].X);
+                Assert.AreEqual(159, matches[0][0].Y);
+                Assert.AreEqual(keyPoints2[0].ToIntPoint(), matches[1][0]);
+            }
+
+            { // reverse
+                IntPoint[][] matches = matcher.Match(keyPoints2, keyPoints1);
+                Assert.AreEqual(2, matches.Length);
+                Assert.AreEqual(143, matches[0].Length);
+                Assert.AreEqual(143, matches[1].Length);
+                Assert.AreEqual(keyPoints2[0].ToIntPoint(), matches[0][0]);
+                Assert.AreEqual(532, matches[1][0].X);
+                Assert.AreEqual(159, matches[1][0].Y);
+            }
+
+        }
+
+        [Test]
+        public void MatchTest3_Compatibility()
         {
             FastCornersDetector fast = new FastCornersDetector(threshold: 10);
 

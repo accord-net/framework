@@ -98,10 +98,8 @@ namespace Accord.Tests.Statistics
 
             double[] values = { 1, 2, 2, 3, 3, 3, 3, 4, 4, 5, 6 };
 
-            target = new Histogram("histogram");
+            target = new Histogram();
             target.Compute(values, 5);
-
-            Assert.AreEqual("histogram", target.Title);
 
             Assert.AreEqual(1, target.Range.Min);
             Assert.AreEqual(6, target.Range.Max);
@@ -169,10 +167,8 @@ namespace Accord.Tests.Statistics
 
             double[] values = { 1, 2, 2, 3, 3, 3, 3, 4, 4, 5, 6 };
 
-            target = new Histogram("histogram");
+            target = new Histogram();
             target.Compute(values, 5, true);
-
-            Assert.AreEqual("histogram", target.Title);
 
             Assert.AreEqual(1, target.Range.Min);
             Assert.AreEqual(7, target.Range.Max);
@@ -239,7 +235,7 @@ namespace Accord.Tests.Statistics
 
             double[] values = { 1, 2, 2, 3, 3, 3, 3, 4, 4, 5, 6 };
 
-            target = new Histogram("histogram");
+            target = new Histogram();
             target.Compute(values, 6, 1.0);
 
             Assert.AreEqual(1, target.Range.Min);

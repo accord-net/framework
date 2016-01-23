@@ -613,7 +613,7 @@ namespace Accord.Statistics.Analysis
         [DisplayName("Geometric Agreement")]
         public double GeometricAgreement
         {
-            get { return Math.Exp(Accord.Statistics.Tools.LogGeometricMean(Diagonal)); }
+            get { return Math.Exp(Measures.LogGeometricMean(Diagonal)); }
         }
 
         /// <summary>

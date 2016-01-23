@@ -32,8 +32,6 @@ namespace Accord.Neuro.Learning
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AForge.Neuro;
-    using AForge.Neuro.Learning;
 
 #if !NET35
     /// <summary>
@@ -125,7 +123,7 @@ namespace Accord.Neuro.Learning
     /// // indicator vectors, where a 1 into a position signifies that this
     /// // position indicates the class the sample belongs to.
     /// //
-    /// double[][] outputs = Accord.Statistics.Tools.Expand(classes, -1, +1);
+    /// double[][] outputs = Measures.Expand(classes, -1, +1);
     /// 
     /// // Create an activation function for the net
     /// var function = new BipolarSigmoidFunction();
@@ -731,13 +729,13 @@ namespace Accord.Neuro.Learning
     ///   AForge.Neuro.Learning.ResilientBackpropagationLearning.
     /// </summary>
     /// 
-    public class ParallelResilientBackpropagationLearning : AForge.Neuro.Learning.ResilientBackpropagationLearning
+    public class ParallelResilientBackpropagationLearning : ResilientBackpropagationLearning
     {
         /// <summary>
         ///   Initializes a new instance of the <see cref="ParallelResilientBackpropagationLearning"/> class.
         /// </summary>
         /// 
-        public ParallelResilientBackpropagationLearning(AForge.Neuro.ActivationNetwork network)
+        public ParallelResilientBackpropagationLearning(ActivationNetwork network)
             : base(network) { }
 
         /// <summary>

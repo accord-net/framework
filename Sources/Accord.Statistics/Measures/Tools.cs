@@ -76,30 +76,6 @@ namespace Accord.Statistics
     public static partial class Tools
     {
 
-        /// <summary>
-        ///   Creates Tukey's box plot inner fence.
-        /// </summary>
-        /// 
-        public static DoubleRange InnerFence(DoubleRange quartiles)
-        {
-            return new DoubleRange(
-                quartiles.Min - 1.5 * quartiles.Length,
-                quartiles.Max + 1.5 * quartiles.Length);
-        }
-
-        /// <summary>
-        ///   Creates Tukey's box plot outer fence.
-        /// </summary>
-        /// 
-        public static DoubleRange OuterFence(DoubleRange quartiles)
-        {
-            return new DoubleRange(
-                quartiles.Min - 3 * quartiles.Length,
-                quartiles.Max + 3 * quartiles.Length);
-        }
-
-
-
         #region Summarizing, grouping and extending operations
         /// <summary>
         ///   Calculates the prevalence of a class for each variable.
@@ -110,10 +86,11 @@ namespace Accord.Statistics
         /// 
         /// <returns>An array containing the proportion of the first class over the total of occurrences.</returns>
         /// 
+        [Obsolete("Please use Categorical.Proportions instead.")]
         public static double[] Proportions(int[] positives, int[] negatives)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Groups.Proportions(positives, negatives);
+            return Accord.Statistics.Categorical.GetRatio(positives, negatives);
         }
 
         /// <summary>
@@ -126,10 +103,11 @@ namespace Accord.Statistics
         /// 
         /// <returns>An array containing the proportion of the first class over the total of occurrences.</returns>
         /// 
+        [Obsolete("Please use Categorical.Proportions instead.")]
         public static double[] Proportions(int[][] data, int positiveColumn, int negativeColumn)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Groups.Proportions(data, positiveColumn, negativeColumn);
+            return Accord.Statistics.Categorical.GetRatio(data, positiveColumn, negativeColumn);
         }
 
         /// <summary>
@@ -145,9 +123,10 @@ namespace Accord.Statistics
         ///    in the second column and the number of occurrences of the second class in the third column.
         /// </returns>
         /// 
+        [Obsolete("Please use Categorical.Count instead.")]
         public static int[][] Group(int[][] data, int labelColumn, int dataColumn)
         {
-            return Accord.Statistics.Groups.Group(data, labelColumn, dataColumn);
+            return Accord.Statistics.Categorical.Summarize(data, labelColumn, dataColumn);
         }
 
         /// <summary>
@@ -164,10 +143,11 @@ namespace Accord.Statistics
         ///   
         /// <returns>A full sized observation matrix.</returns>
         /// 
+        [Obsolete("Please use Categorical.Expand instead.")]
         public static int[][] Expand(int[] data, int[] positives, int[] negatives)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Groups.Expand(data, positives, negatives);
+            return Accord.Statistics.Categorical.Expand(data, positives, negatives);
         }
 
         /// <summary>
@@ -184,10 +164,11 @@ namespace Accord.Statistics
         ///   
         /// <returns>A full sized observation matrix.</returns>
         /// 
+        [Obsolete("Please use Categorical.Expand instead.")]
         public static int[][] Expand(int[][] data, int labelColumn, int positiveColumn, int negativeColumn)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Groups.Expand(data, labelColumn, positiveColumn, negativeColumn);
+            return Accord.Statistics.Categorical.Expand(data, labelColumn, positiveColumn, negativeColumn);
         }
 
         /// <summary>
@@ -202,10 +183,11 @@ namespace Accord.Statistics
         ///   problem. Each row contains the value 1 on the position corresponding
         ///   to the label index.</returns>
         /// 
+        [Obsolete("Please use Categorical.Expand instead.")]
         public static double[][] Expand(int[] labels)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Groups.Expand(labels);
+            return Accord.Statistics.Categorical.OneHot(labels);
         }
 
         /// <summary>
@@ -222,10 +204,11 @@ namespace Accord.Statistics
         ///   problem. Each row contains the positive value on the position corresponding
         ///   to the label index, and the negative value on all others.</returns>
         /// 
+        [Obsolete("Please use Categorical.Expand instead.")]
         public static double[][] Expand(int[] labels, double negative, double positive)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Groups.Expand(labels, negative, positive);
+            return Accord.Statistics.Categorical.OneHot(labels, negative, positive);
         }
 
         /// <summary>
@@ -241,10 +224,11 @@ namespace Accord.Statistics
         ///   problem. Each row contains the positive value on the position corresponding
         ///   to the label index, and the negative value on all others.</returns>
         /// 
+        [Obsolete("Please use Categorical.Expand instead.")]
         public static double[][] Expand(int[] labels, int classes)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Groups.Expand(labels, classes);
+            return Accord.Statistics.Categorical.OneHot(labels, classes);
         }
 
         /// <summary>
@@ -262,10 +246,11 @@ namespace Accord.Statistics
         ///   problem. Each row contains the value 1 on the position corresponding
         ///   to the label index.</returns>
         /// 
+        [Obsolete("Please use Categorical.Expand instead.")]
         public static double[][] Expand(int[] labels, int classes, double negative, double positive)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Groups.Expand(labels, classes, negative, positive);
+            return Accord.Statistics.Categorical.OneHot(labels, classes, negative, positive);
         }
         #endregion
 
@@ -323,10 +308,11 @@ namespace Accord.Statistics
         ///   Returns a random sample of size k from a population of size n.
         /// </summary>
         /// 
+        [Obsolete("Please use Vector.Sample instead.")]
         public static int[] RandomSample(int n, int k)
         {
             // TODO: Mark as obsolete
-            return Accord.Math.Indices.Random(k, n);
+            return Accord.Math.Vector.Sample(k, n);
         }
 
         /// <summary>
@@ -336,10 +322,11 @@ namespace Accord.Statistics
         /// <param name="size">The sample size.</param>
         /// <param name="groups">The number of groups.</param>
         /// 
+        [Obsolete("Please use Categorical.Random instead.")]
         public static int[] RandomGroups(int size, int groups)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Groups.Random(size, groups);
+            return Accord.Statistics.Categorical.Random(size, groups);
         }
 
         /// <summary>
@@ -350,10 +337,11 @@ namespace Accord.Statistics
         /// <param name="size">The sample size.</param>
         /// <param name="proportion">The proportion of samples between the groups.</param>
         /// 
+        [Obsolete("Please use Categorical.Random instead.")]
         public static int[] RandomGroups(int size, double proportion)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Groups.Random(size, proportion);
+            return Accord.Statistics.Categorical.Random(size, proportion);
         }
 
         /// <summary>
@@ -366,26 +354,29 @@ namespace Accord.Statistics
         /// <param name="classes">The number of different classes in <paramref name="labels"/>.</param>
         /// <param name="groups">The number of groups.</param>
         /// 
+        [Obsolete("Please use Categorical.Random instead.")]
         public static int[] RandomGroups(int[] labels, int classes, int groups)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Groups.Random(labels, classes, groups);
+            return Accord.Statistics.Categorical.Random(labels, classes, groups);
         }
 
         /// <summary>
         ///   Returns a random permutation of size n.
         /// </summary>
         /// 
+        [Obsolete("Please use Vector.Sample instead.")]
         public static int[] Random(int n)
         {
             // TODO: Mark as obsolete
-            return Indices.Random(n);
+            return Vector.Sample(n);
         }
 
         /// <summary>
         ///   Shuffles an array.
         /// </summary>
         /// 
+        [Obsolete("Please use Vector.Shuffle instead.")]
         public static void Shuffle<T>(T[] array)
         {
             // TODO: Mark as obsolete
@@ -396,6 +387,7 @@ namespace Accord.Statistics
         ///   Shuffles a collection.
         /// </summary>
         /// 
+        [Obsolete("Please use Vector.Shuffle instead.")]
         public static void Shuffle<T>(IList<T> array)
         {
             // TODO: Mark as obsolete
@@ -422,13 +414,14 @@ namespace Accord.Statistics
         /// 
         public static double[,] Whitening(double[,] value, out double[,] transformMatrix)
         {
+            // TODO: Move into PCA
             if (value == null)
                 throw new ArgumentNullException("value");
 
 
             int cols = value.GetLength(1);
 
-            double[,] cov = Tools.Covariance(value);
+            double[,] cov = value.Covariance();
 
             // Diagonalizes the covariance matrix
             SingularValueDecomposition svd = new SingularValueDecomposition(cov,
@@ -448,193 +441,7 @@ namespace Accord.Statistics
                     transformMatrix[i, j] /= Math.Sqrt(singularValues[j]);
 
             // Return the transformed data
-            return value.Multiply(transformMatrix);
-        }
-
-
-        /// <summary>
-        ///   Gets the rank of a sample, often used with order statistics.
-        /// </summary>
-        /// 
-        public static double[] Rank(double[] samples, bool alreadySorted = false)
-        {
-            int[] idx = Matrix.Indices(0, samples.Length);
-
-            if (!alreadySorted)
-            {
-                samples = (double[])samples.Clone();
-                Array.Sort(samples, idx);
-            }
-
-            double[] ranks = new double[samples.Length];
-
-            double tieSum = 0;
-            int tieSize = 0;
-
-            int start = 0;
-            while (samples[start] == 0) start++;
-
-            ranks[start] = 1;
-            for (int i = start + 1, r = 1; i < ranks.Length; i++)
-            {
-                // Check if we have a tie
-                if (samples[i] != samples[i - 1])
-                {
-                    // This is not a tie.
-                    // Was a tie before?
-                    if (tieSize > 0)
-                    {
-                        // Yes. Then set the previous
-                        // elements with the average.
-
-                        for (int j = 0; j < tieSize + 1; j++)
-                            ranks[i - j - 1] = (r + tieSum) / (tieSize + 1);
-
-                        tieSize = 0;
-                        tieSum = 0;
-                    }
-
-                    ranks[i] = ++r;
-                }
-                else
-                {
-                    // This is a tie. Compute how 
-                    // long we have been in a tie.
-                    tieSize++;
-                    tieSum += r++;
-                }
-            }
-
-            if (!alreadySorted)
-                Array.Sort(idx, ranks);
-
-            return ranks;
-        }
-
-
-
-
-        /// <summary>
-        ///   Gets the number of distinct values 
-        ///   present in each column of a matrix.
-        /// </summary>
-        /// 
-        public static int[] DistinctCount(double[,] sourceMatrix)
-        {
-            double[][] distinct = sourceMatrix.Distinct();
-
-            int[] counts = new int[distinct.Length];
-            for (int i = 0; i < counts.Length; i++)
-                counts[i] = distinct[i].Length;
-
-            return counts;
-        }
-
-        /// <summary>
-        ///   Gets the number of distinct values 
-        ///   present in each column of a matrix.
-        /// </summary>
-        /// 
-        public static int[] DistinctCount(double[][] sourceMatrix)
-        {
-            double[][] distinct = sourceMatrix.Distinct();
-
-            int[] counts = new int[distinct.Length];
-            for (int i = 0; i < counts.Length; i++)
-                counts[i] = distinct[i].Length;
-
-            return counts;
-        }
-
-        /// <summary>
-        ///   Gets the number of distinct values 
-        ///   present in each column of a matrix.
-        /// </summary>
-        /// 
-        public static int DistinctCount(double[] source)
-        {
-            return source.Distinct().Length;
-        }
-
-
-        /// <summary>
-        ///   Generates a random <see cref="Covariance(double[], double[], bool)"/> matrix.
-        /// </summary>
-        /// 
-        /// <param name="size">The size of the square matrix.</param>
-        /// <param name="minValue">The minimum value for a diagonal element.</param>
-        /// <param name="maxValue">The maximum size for a diagonal element.</param>
-        /// 
-        /// <returns>A square, positive-definite matrix which 
-        ///   can be interpreted as a covariance matrix.</returns>
-        /// 
-        public static double[,] RandomCovariance(int size, double minValue, double maxValue)
-        {
-            double[,] A = Accord.Math.Matrix.Random(size, true, minValue, maxValue);
-
-            var gso = new GramSchmidtOrthogonalization(A);
-            double[,] Q = gso.OrthogonalFactor;
-
-            double[] diagonal = Matrix.Random(size, minValue, maxValue).Abs();
-            double[,] psd = Q.TransposeAndMultiplyByDiagonal(diagonal).Multiply(Q);
-
-            System.Diagnostics.Debug.Assert(psd.IsPositiveDefinite());
-
-            return psd;
-        }
-
-
-        /// <summary>
-        ///   Computes the kernel distance for a kernel function even if it doesn't
-        ///   implement the <see cref="IDistance"/> interface. Can be used to check
-        ///   the proper implementation of the distance function.
-        /// </summary>
-        /// 
-        /// <param name="kernel">The kernel function whose distance needs to be evaluated.</param>
-        /// <param name="x">An input point <c>x</c> given in input space.</param>
-        /// <param name="y">An input point <c>y</c> given in input space.</param>
-        /// 
-        /// <returns>
-        ///   The distance between <paramref name="x"/> and <paramref name="y"/> in kernel (feature) space.
-        /// </returns>
-        /// 
-        public static double Distance(IKernel kernel, double[] x, double[] y)
-        {
-            return kernel.Function(x, x) + kernel.Function(y, y) - 2 * kernel.Function(x, y);
-        }
-
-
-
-        private static double correct(bool unbiased, WeightType weightType, double sum, double weightSum, double squareSum)
-        {
-            if (unbiased)
-            {
-                if (weightType == WeightType.Automatic)
-                {
-                    if (weightSum > 1 && weightSum.IsInteger(1e-8))
-                        return sum / (weightSum - 1);
-
-                    return sum / (weightSum - (squareSum / weightSum));
-                }
-                else if (weightType == WeightType.Fraction)
-                {
-                    /*
-                    if (Math.Abs(weightSum - 1.0) >= 1e-8)
-                    {
-                        throw new ArgumentException("An unbiased variance estimate"
-                          + " cannot be computed if weights do not sum to one. The"
-                          + " given weights sum up to " + squareSum, "weights");
-                    }*/
-
-                    return sum / (weightSum - (squareSum / weightSum));
-                }
-                else if (weightType == WeightType.Repetition)
-                {
-                    return sum / (weightSum - (squareSum / weightSum));
-                }
-            }
-
-            return sum / weightSum;
+            return Matrix.Dot(value, transformMatrix);
         }
 
     }

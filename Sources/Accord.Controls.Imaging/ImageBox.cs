@@ -25,11 +25,10 @@ namespace Accord.Controls
     using System.Drawing;
     using System.Windows.Forms;
     using System;
-    using AForge.Imaging;
+    using Accord.Imaging;
 
     using Image = System.Drawing.Image;
     using Accord.Imaging.Converters;
-    using Accord.Imaging;
     using System.Drawing.Imaging;
 
     /// <summary>

@@ -195,7 +195,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -380,11 +380,11 @@ namespace Accord.Statistics.Distributions.Univariate
 
             if (weights == null)
             {
-                lambda = 1.0 / Accord.Statistics.Tools.Mean(observations);
+                lambda = 1.0 / Measures.Mean(observations);
             }
             else
             {
-                lambda = 1.0 / Accord.Statistics.Tools.WeightedMean(observations, weights);
+                lambda = 1.0 / Measures.WeightedMean(observations, weights);
             }
 
             init(lambda);
@@ -465,7 +465,7 @@ namespace Accord.Statistics.Distributions.Univariate
             double[] r = new double[samples];
             for (int i = 0; i < r.Length; i++)
             {
-                double u = Accord.Math.Tools.Random.NextDouble();
+                double u = Accord.Math.Random.Generator.Random.NextDouble();
                 r[i] = -Math.Log(u) / lambda;
             }
 
@@ -483,7 +483,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double lambda)
         {
-            double u = Accord.Math.Tools.Random.NextDouble();
+            double u = Accord.Math.Random.Generator.Random.NextDouble();
             return -Math.Log(u) / lambda;
         }
 

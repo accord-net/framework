@@ -7,7 +7,7 @@
 //
 
 
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
     using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace AForge.Imaging
     using System.Drawing.Imaging;
 
     using AForge;
-    using AForge.Math.Geometry;
+    using Accord.Math.Geometry;
 
     /// <summary>
     /// Searching of quadrilateral/triangle corners.
@@ -23,7 +23,7 @@ namespace AForge.Imaging
     ///
     /// <remarks><para>The class searches for quadrilateral's/triangle's corners on the specified image.
     /// It first collects edge points of the object and then uses
-    /// <see cref="AForge.Math.Geometry.PointsCloud.FindQuadrilateralCorners"/> to find corners
+    /// <see cref="Accord.Math.Geometry.PointsCloud.FindQuadrilateralCorners"/> to find corners
     /// the quadrilateral/triangle.</para>
     /// 
     /// <para><note>The class treats all black pixels as background (none-object) and

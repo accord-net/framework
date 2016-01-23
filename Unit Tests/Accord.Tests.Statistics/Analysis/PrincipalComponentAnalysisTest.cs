@@ -211,13 +211,13 @@ namespace Accord.Tests.Statistics
             //   when computing the covariance matrix. In this
             //   step we will only compute the mean vector.
 
-            double[] mean = Accord.Statistics.Tools.Mean(data);
+            double[] mean = Measures.Mean(data);
 
 
             // Step 3. Compute the covariance matrix
             // -------------------------------------
 
-            double[,] covariance = Accord.Statistics.Tools.Covariance(data, mean);
+            double[,] covariance = Measures.Covariance(data, mean);
 
             // Create the analysis using the covariance matrix
             var pca = PrincipalComponentAnalysis.FromCovarianceMatrix(mean, covariance);
@@ -365,8 +365,8 @@ namespace Accord.Tests.Statistics
         [Test]
         public void FromCovarianceConstructorTest()
         {
-            double[] mean = Accord.Statistics.Tools.Mean(data);
-            double[,] cov = Accord.Statistics.Tools.Covariance(data);
+            double[] mean = Measures.Mean(data);
+            double[,] cov = Measures.Covariance(data);
 
             var target = PrincipalComponentAnalysis.FromCovarianceMatrix(mean, cov);
 
@@ -406,9 +406,9 @@ namespace Accord.Tests.Statistics
         [Test]
         public void FromCorrelationConstructorTest()
         {
-            double[] mean = Accord.Statistics.Tools.Mean(data);
-            double[] stdDev = Accord.Statistics.Tools.StandardDeviation(data);
-            double[,] cov = Accord.Statistics.Tools.Correlation(data);
+            double[] mean = Measures.Mean(data);
+            double[] stdDev = Measures.StandardDeviation(data);
+            double[,] cov = Measures.Correlation(data);
 
             var actual = PrincipalComponentAnalysis.FromCorrelationMatrix(mean, stdDev, cov);
             var expected = new PrincipalComponentAnalysis(data, AnalysisMethod.Standardize);

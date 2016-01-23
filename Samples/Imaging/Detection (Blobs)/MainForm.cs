@@ -16,7 +16,7 @@ using System.Windows.Forms;
 using System.Resources;
 using System.Reflection;
 
-using AForge.Imaging;
+using Accord.Imaging;
 
 namespace SampleApp
 {

@@ -19,11 +19,11 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace DeepLearning
+namespace SampleApp
 {
     using System.Windows.Controls;
     using System.Windows.Shapes;
-    using AForge.Neuro;
+    using Accord.Neuro;
 
     public partial class NetworkLayer : UserControl
     {

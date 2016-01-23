@@ -53,7 +53,7 @@ namespace SampleApp
             lenna = Properties.Resources.lena512;
 
             // Use 16bpp for enhanced precision
-            lenna = AForge.Imaging.Image.Convert8bppTo16bpp( lenna);
+            lenna = Accord.Imaging.Image.Convert8bppTo16bpp( lenna);
 
             pictureBox.Image = lenna;
         }

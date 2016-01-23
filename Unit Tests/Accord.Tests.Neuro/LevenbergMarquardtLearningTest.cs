@@ -27,7 +27,6 @@ namespace Accord.Tests.Neuro
     using Accord.Neuro;
     using Accord.Neuro.Learning;
     using AForge;
-    using AForge.Neuro;
     using NUnit.Framework;
     using System;
     using System.IO;
@@ -691,7 +690,7 @@ namespace Accord.Tests.Neuro
             // number of learning samples
             int samples = data.GetLength(0);
 
-            var ranges = data.Range(dimension: 0);
+            var ranges = data.GetRange(dimension: 0);
 
             Assert.AreEqual(2, ranges.Length);
 

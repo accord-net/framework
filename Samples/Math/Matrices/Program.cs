@@ -40,7 +40,7 @@ using System.Diagnostics;
 using Accord.Math.Decompositions;
 
 
-namespace MatrixOperations
+namespace SampleApp
 {
     class Program
     {
@@ -92,10 +92,10 @@ namespace MatrixOperations
                     var halfM = A.Multiply(0.5);
 
                     // 2.3.2 By a vector
-                    double[] m = A.Multiply(new double[] { 1, 2, 3 });
+                    double[] m = A.Dot(new double[] { 1, 2, 3 });
 
                     // 2.3.3 By a matrix
-                    var M = A.Multiply(B);
+                    var M = A.Dot(B);
 
                     // 2.4 Transposing
                     var At = A.Transpose();
@@ -106,11 +106,10 @@ namespace MatrixOperations
             // 2.5 Elementwise operations
 
             // 2.5.1 Elementwise multiplication
-            A.ElementwiseMultiply(B); // A.*B
+            Elementwise.Multiply(A, B); // A.*B
 
             // 2.5.1 Elementwise division
-            A.ElementwiseDivide(B); // A./B
-
+            Elementwise.Divide(A, B); 
             #endregion
 
 
@@ -187,9 +186,9 @@ namespace MatrixOperations
                 double[] u = { 1, 2, 3 };
                 double[] v = { 4, 5, 6 };
 
-                var w1 = u.InnerProduct(v);
-                var w2 = u.OuterProduct(v);
-                var w3 = u.CartesianProduct(v);
+                var w1 = u.Dot(v);
+                var w2 = u.Outer(v);
+                var w3 = u.Cartesian(v);
 
 
                 double[] m = { 1, 2, 3, 4 };

@@ -10,7 +10,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace AForge.Controls
+namespace Accord.Controls
 {
     /// <summary>
     /// Picture box control for displaying an image.
@@ -64,7 +64,7 @@ namespace AForge.Controls
                       (value.PixelFormat == PixelFormat.Format64bppArgb)))
                 {
                     // convert and display image
-                    Image tempImage = AForge.Imaging.Image.Convert16bppTo8bpp(bmp);
+                    Image tempImage = Accord.Imaging.Image.Convert16bppTo8bpp(bmp);
 
                     base.Image = tempImage;
 

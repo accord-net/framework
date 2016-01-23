@@ -1,4 +1,5 @@
-﻿namespace SampleApp
+﻿using Accord;
+namespace SampleApp
 {
     partial class MainForm
     {
@@ -180,8 +181,8 @@
             this.chart.ForeColor = System.Drawing.Color.DarkGreen;
             this.chart.Location = new System.Drawing.Point(90, 27);
             this.chart.Name = "chart";
-            this.chart.RangeX = ((AForge.DoubleRange)(resources.GetObject("chart.RangeX")));
-            this.chart.RangeY = ((AForge.DoubleRange)(resources.GetObject("chart.RangeY")));
+            this.chart.RangeX = ((DoubleRange)(resources.GetObject("chart.RangeX")));
+            this.chart.RangeY = ((DoubleRange)(resources.GetObject("chart.RangeY")));
             this.chart.SimpleMode = false;
             this.chart.Size = new System.Drawing.Size(143, 41);
             this.chart.TabIndex = 6;

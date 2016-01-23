@@ -221,7 +221,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.IntRange" /> containing
+        ///   A <see cref="IntRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 

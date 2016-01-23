@@ -1,5 +1,5 @@
 ﻿using Accord.Imaging.Converters;
-using AForge.Imaging.Filters;
+using Accord.Imaging.Filters;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

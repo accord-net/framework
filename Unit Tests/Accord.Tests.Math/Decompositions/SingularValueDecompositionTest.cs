@@ -177,8 +177,8 @@ namespace Accord.Tests.Math
 
             SingularValueDecomposition target = new SingularValueDecomposition(value, true, true, true);
 
-            double[,] actual = target.LeftSingularVectors.Multiply(
-                Matrix.Diagonal(target.Diagonal)).Multiply(target.RightSingularVectors.Transpose());
+            double[,] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors, 
+                Matrix.Diagonal(target.Diagonal)), target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
             Assert.IsTrue(Matrix.IsEqual(actual, value, 0.01));
@@ -233,8 +233,8 @@ namespace Accord.Tests.Math
 
             SingularValueDecomposition target = new SingularValueDecomposition(value, true, true, false);
 
-            double[,] actual = target.LeftSingularVectors.Multiply(
-                Matrix.Diagonal(target.Diagonal)).Multiply(target.RightSingularVectors.Transpose());
+            double[,] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors,
+                Matrix.Diagonal(target.Diagonal)), target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
             Assert.IsTrue(Matrix.IsEqual(actual, value, 0.01));
@@ -432,8 +432,8 @@ namespace Accord.Tests.Math
 
             {
                 double[,] expected = value;
-                double[,] actual = target.LeftSingularVectors.Multiply(
-                    Matrix.Diagonal(target.Diagonal)).Multiply(target.RightSingularVectors.Transpose());
+                double[,] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors, 
+                    Matrix.Diagonal(target.Diagonal)), target.RightSingularVectors.Transpose());
 
                 // Checking the decomposition
                 Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-8));

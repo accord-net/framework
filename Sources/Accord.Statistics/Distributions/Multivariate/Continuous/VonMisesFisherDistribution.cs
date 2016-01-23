@@ -28,7 +28,6 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
-    using AForge.Math.Random;
 
     /// <summary>
     ///   Von-Mises Fisher distribution.
@@ -172,7 +171,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                 throw new DimensionMismatchException("x", "The vector should have the same dimension as the distribution.");
 
             double[] z = x.Normalize(Norm.Euclidean);
-            double d = mean.InnerProduct(z);
+            double d = mean.Dot(z);
             return constant * Math.Exp(kappa * d);
         }
 

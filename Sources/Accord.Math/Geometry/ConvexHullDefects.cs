@@ -24,8 +24,6 @@ namespace Accord.Math.Geometry
 {
     using System;
     using System.Collections.Generic;
-    using AForge;
-    using AForge.Math.Geometry;
 
     /// <summary>
     ///   Convex Hull Defects Extractor.

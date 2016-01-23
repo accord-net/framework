@@ -21,8 +21,6 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using AForge.Imaging;
-using AForge.Imaging.Filters;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;

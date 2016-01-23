@@ -25,8 +25,7 @@ namespace Accord.Statistics
     using System;
     using System.Collections.Generic;
 
-    // TODO: Rename to Measures
-    static partial class Tools
+    static partial class Measures
     {
 
         /// <summary>

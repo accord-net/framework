@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace AForge.Math.Geometry.Tests
+namespace Accord.Math.Geometry.Tests
 {
     [TestFixture]
     public class LineSegmentTest

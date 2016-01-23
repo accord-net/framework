@@ -5,13 +5,14 @@
 // andrew.kirillov@gmail.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge;
+    using Accord;
 
     /// <summary>
     /// Channels filters.

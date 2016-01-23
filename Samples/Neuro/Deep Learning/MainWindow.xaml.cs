@@ -19,12 +19,12 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace DeepLearning
+namespace SampleApp
 {
     using System;
     using System.Windows;
     using System.Windows.Forms.DataVisualization.Charting;
-    using DeepLearning.ViewModel;
+    using SampleApp.ViewModel;
     using MahApps.Metro.Controls;
 
     /// <summary>

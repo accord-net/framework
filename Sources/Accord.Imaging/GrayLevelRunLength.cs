@@ -25,7 +25,6 @@
 
 namespace Accord.Imaging
 {
-    using AForge.Imaging;
 
     /// <summary>
     ///   Gray-Level Run-Length Matrix.

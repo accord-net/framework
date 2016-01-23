@@ -17,7 +17,7 @@ using System.Windows.Forms;
 using System.Resources;
 using System.Reflection;
 
-namespace AForge.Controls
+namespace Accord.Controls
 {
     using Point = System.Drawing.Point;
 

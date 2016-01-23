@@ -25,8 +25,8 @@ namespace Accord.Tests.Neuro
     using Accord.Math;
     using Accord.Neuro;
     using Accord.Neuro.Learning;
+    using Accord.Statistics;
     using AForge;
-    using AForge.Neuro;
     using NUnit.Framework;
     using System;
 
@@ -116,7 +116,7 @@ namespace Accord.Tests.Neuro
             // indicator vectors, where a 1 into a position signifies that this
             // position indicates the class the sample belongs to.
             //
-            double[][] outputs = Accord.Statistics.Tools.Expand(classes, -1, +1);
+            double[][] outputs = Statistics.Tools.Expand(classes, -1, +1);
 
             // Create an activation function for the net
             var function = new BipolarSigmoidFunction();

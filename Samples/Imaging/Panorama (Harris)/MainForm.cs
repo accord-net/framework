@@ -37,6 +37,7 @@ using Accord.Imaging;
 using Accord.Imaging.Filters;
 using Accord.Math;
 using AForge;
+using Accord;
 
 namespace SampleApp
 {

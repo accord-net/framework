@@ -232,7 +232,7 @@ namespace Accord.Controls
         ///   Forces a update of the Histogram bins.
         /// </summary>
         /// 
-        public void UpdateGraph()
+        public void UpdateGraph(string title = "Histogram")
         {
             graphBars.Clear();
 
@@ -244,7 +244,7 @@ namespace Accord.Controls
                     " - " + histogram.Bins[i].Range.Max.ToString(formatString, CultureInfo.CurrentCulture);
             }
 
-            zedGraphControl.GraphPane.Title.Text = histogram.Title;
+            zedGraphControl.GraphPane.Title.Text = title;
             zedGraphControl.GraphPane.XAxis.Scale.TextLabels = labels;
             zedGraphControl.GraphPane.XAxis.Scale.FontSpec.Angle = 45.0f;
 

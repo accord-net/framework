@@ -223,7 +223,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.IntRange" /> containing
+        ///   A <see cref="IntRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -398,7 +398,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override int[] Generate(int samples)
         {
-            var random = Accord.Math.Tools.Random;
+            var random = Accord.Math.Random.Generator.Random;
 
             int[] s = new int[samples];
 
@@ -428,9 +428,9 @@ namespace Accord.Statistics.Distributions.Univariate
         public override int Generate()
         {
             if (lambda > 30)
-                return InverseDistributionFunction(Accord.Math.Tools.Random.NextDouble());
+                return InverseDistributionFunction(Accord.Math.Random.Generator.Random.NextDouble());
 
-            return knuth(Accord.Math.Tools.Random, lambda);
+            return knuth(Accord.Math.Random.Generator.Random, lambda);
         }
 
         private static int knuth(Random random, double lambda)

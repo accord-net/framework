@@ -6,7 +6,7 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge
+namespace Accord
 {
     using System;
     using System.Collections.Generic;

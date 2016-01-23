@@ -24,7 +24,8 @@ namespace Accord.Math
     using System;
     using System.Collections.Generic;
     using AForge;
-    using AForge.Math.Random;
+    using System.Runtime.CompilerServices;
+    using Accord.Math.Random;
 
 
     public static partial class Matrix
@@ -32,127 +33,194 @@ namespace Accord.Math
 
         #region Generic matrices
         /// <summary>
-        ///   Returns a matrix with all elements set to a given value.
+        ///   Creates a zero-valued matrix.
         /// </summary>
         /// 
-        public static T[,] Create<T>(int rows, int cols, T value)
+        /// <typeparam name="T">The type of the matrix to be created.</typeparam>
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
+        /// 
+        /// <returns>A matrix of the specified size.</returns>
+        /// 
+        public static T[,] Zeros<T>(int rows, int columns)
         {
-            if (rows < 0)
-            {
-                throw new ArgumentOutOfRangeException("rows", rows,
-                    "Number of rows must be a positive integer.");
-            }
+            return new T[rows, columns];
+        }
 
-            if (cols < 0)
-            {
-                throw new ArgumentOutOfRangeException("cols", cols,
-                    "Number of columns must be a positive integer.");
-            }
+        /// <summary>
+        ///   Creates a zero-valued matrix.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the matrix to be created.</typeparam>
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
+        /// 
+        /// <returns>A matrix of the specified size.</returns>
+        /// 
+        public static T[,] Ones<T>(int rows, int columns) 
+            where T : struct
+        {
+            var one = (T)System.Convert.ChangeType(1, typeof(T));
+            return Create(rows, columns, one);
+        }
 
-            T[,] matrix = new T[rows, cols];
+        /// <summary>
+        ///   Creates a zero-valued matrix.
+        /// </summary>
+        /// 
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
+        /// 
+        /// <returns>A vector of the specified size.</returns>
+        /// 
+        public static double[,] Zeros(int rows, int columns)
+        {
+            return Zeros<double>(rows, columns);
+        }
 
+        /// <summary>
+        ///   Creates a zero-valued matrix.
+        /// </summary>
+        /// 
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
+        /// 
+        /// <returns>A vector of the specified size.</returns>
+        /// 
+        public static double[,] Ones(int rows, int columns)
+        {
+            return Ones<double>(rows, columns);
+        }
+
+        /// <summary>
+        ///   Creates a matrix with all values set to a given value.
+        /// </summary>
+        /// 
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
+        /// <param name="value">The initial values for the vector.</param>
+        /// 
+        /// <returns>A matrix of the specified size.</returns>
+        /// 
+        /// <seealso cref="Jagged.Create{T}(int, int, T)"/>
+        /// 
+        public static T[,] Create<T>(int rows, int columns, T value)
+        {
+            var matrix = new T[rows, columns];
             for (int i = 0; i < rows; i++)
-                for (int j = 0; j < cols; j++)
+                for (int j = 0; j < columns; j++)
                     matrix[i, j] = value;
-
             return matrix;
         }
 
         /// <summary>
-        ///   Returns a matrix with all elements set to a given value.
+        ///   Creates a matrix with all values set to a given value.
         /// </summary>
+        /// 
+        /// <param name="size">The number of rows and columns in the matrix.</param>
+        /// <param name="value">The initial values for the matrix.</param>
+        /// 
+        /// <returns>A matrix of the specified size.</returns>
+        /// 
+        /// <seealso cref="Jagged.Create{T}(int, int, T)"/>
         /// 
         public static T[,] Create<T>(int size, T value)
         {
-            if (size < 0)
-            {
-                throw new ArgumentOutOfRangeException("size", size,
-                "Square matrix's size must be a positive integer.");
-            }
-
             return Create(size, size, value);
         }
 
         /// <summary>
-        ///   Returns a new multidimensional matrix.
+        ///   Creates a matrix with all values set to a given value.
         /// </summary>
         /// 
-        public static T[,] Create<T>(int rows, int cols)
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
+        /// <param name="values">The initial values for the matrix.</param>
+        /// 
+        /// <returns>A matrix of the specified size.</returns>
+        /// 
+        public static T[,] Create<T>(int rows, int columns, params T[] values)
         {
-            return Create(rows, cols, default(T));
+            if (values.Length == 0)
+                return Zeros<T>(rows, columns);
+            return values.Reshape(rows, columns);
         }
 
         /// <summary>
-        ///   Returns a new multidimensional matrix.
+        ///   Creates a matrix with the given rows.
         /// </summary>
         /// 
-        public static T[,] Create<T>(int size)
+        /// <param name="rows">The row vectors in the matrix.</param>
+        /// 
+        public static T[,] Create<T>(params T[][] rows)
         {
-            return Create(size, default(T));
+            return rows.ToMatrix();
         }
 
         /// <summary>
-        ///   Returns a matrix with all elements set to a given value.
+        ///   Creates a matrix with the given values.
         /// </summary>
         /// 
-        public static T[][] Jagged<T>(int rows, int cols, T value)
+        /// <param name="values">The values in the matrix.</param>
+        /// 
+        public static T[,] Create<T>(T[,] values)
         {
-            if (rows < 0)
-            {
-                throw new ArgumentOutOfRangeException("rows", rows,
-                    "Number of rows must be a positive integer.");
-            }
+            return (T[,])values.Clone();
+        }
 
-            if (cols < 0)
-            {
-                throw new ArgumentOutOfRangeException("cols", cols,
-                    "Number of columns must be a positive integer.");
-            }
 
-            T[][] matrix = new T[rows][];
 
-            for (int i = 0; i < rows; i++)
-            {
-                var row = matrix[i] = new T[cols];
-                for (int j = 0; j < row.Length; j++)
-                    row[j] = value;
-            }
 
-            return matrix;
+
+        /// <summary>
+        ///   Creates a new multidimensional matrix with the same shape as another matrix.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] CreateAs<T>(T[,] matrix)
+        {
+            return new T[matrix.GetLength(0), matrix.GetLength(1)];
         }
 
         /// <summary>
-        ///   Returns a matrix with all elements set to a given value.
+        ///   Creates a new multidimensional matrix with the same shape as another matrix.
         /// </summary>
         /// 
-        public static T[,] Jagged<T>(int size, T value)
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] CreateAs<T>(T[][] matrix)
         {
-            if (size < 0)
-            {
-                throw new ArgumentOutOfRangeException("size", size,
-                "Square matrix's size must be a positive integer.");
-            }
-
-            return Create(size, size, value);
+            return new T[matrix.Length, matrix[0].Length];
         }
 
         /// <summary>
-        ///   Returns a new jagged matrix.
+        ///   Creates a new multidimensional matrix with the same shape as another matrix.
         /// </summary>
         /// 
-        public static T[][] Jagged<T>(int rows, int cols)
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static TOutput[,] CreateAs<TInput, TOutput>(TInput[,] matrix)
         {
-            return Jagged(rows, cols, default(T));
+            return new TOutput[matrix.GetLength(0), matrix.GetLength(1)];
         }
 
         /// <summary>
-        ///   Returns a new jagged matrix.
+        ///   Creates a new multidimensional matrix with the same shape as another matrix.
         /// </summary>
         /// 
-        public static T[,] Jagged<T>(int size)
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static TOutput[,] CreateAs<TInput, TOutput>(TInput[][] matrix)
         {
-            return Create(size, default(T));
+            return new TOutput[matrix.Length, matrix[0].Length];
         }
+
+ 
         #endregion
 
 
@@ -226,7 +294,7 @@ namespace Accord.Math
         ///   Return a jagged matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-        // TODO: Mark as obsolete
+        [Obsolete("Please use Jagged.Diagonal instead.")]
         public static T[][] JaggedDiagonal<T>(T[] values)
         {
             return Accord.Math.Jagged.Diagonal(values);
@@ -236,7 +304,7 @@ namespace Accord.Math
         ///   Returns a square diagonal matrix of the given size.
         /// </summary>
         /// 
-        // TODO: Mark as obsolete
+        [Obsolete("Please use Jagged.Diagonal instead.")]
         public static T[][] JaggedDiagonal<T>(int size, T value)
         {
             return Accord.Math.Jagged.Diagonal(size, value);
@@ -283,7 +351,7 @@ namespace Accord.Math
 
         #region Special matrices
         /// <summary>
-        ///   Returns the Identity matrix of the given size.
+        ///   Creates a square matrix with ones across its diagonal.
         /// </summary>
         /// 
         public static double[,] Identity(int size)
@@ -295,18 +363,20 @@ namespace Accord.Math
         ///   Returns the Identity matrix of the given size.
         /// </summary>
         /// 
+        [Obsolete("Please use Jagged.Identity instead.")]
         public static double[][] JaggedIdentity(int size)
         {
-            return JaggedDiagonal(size, 1.0);
+            return JaggedIdentity(size);
         }
 
         /// <summary>
         ///   Creates a jagged magic square matrix.
         /// </summary>
         /// 
+        [Obsolete("Please use Jagged.Magic instead.")]
         public static double[][] JaggedMagic(int size)
         {
-            return Magic(size).ToArray();
+            return Jagged.Magic(size);
         }
 
         /// <summary>
@@ -391,7 +461,7 @@ namespace Accord.Math
                 matrix[p + n, p] = t;
             }
 
-            return matrix; // return the magic square.
+            return matrix; 
         }
 
         /// <summary>
@@ -405,7 +475,7 @@ namespace Accord.Math
             if (size < 0)
             {
                 throw new ArgumentOutOfRangeException("size", size,
-                "The size of the centering matrix must be a positive integer.");
+                    "The size of the centering matrix must be a positive integer.");
             }
 
             double[,] C = Matrix.Create(size, -1.0 / size);
@@ -447,7 +517,7 @@ namespace Accord.Math
             {
                 for (int i = 0; i < size; i++)
                     for (int j = 0; j < size; j++)
-                        matrix[i, j] = Accord.Math.Tools.Random.NextDouble() * (maxValue - minValue) + minValue;
+                        matrix[i, j] = Generator.Random.NextDouble() * (maxValue - minValue) + minValue;
             }
             else
             {
@@ -455,7 +525,7 @@ namespace Accord.Math
                 {
                     for (int j = i; j < size; j++)
                     {
-                        matrix[i, j] = Accord.Math.Tools.Random.NextDouble() * (maxValue - minValue) + minValue;
+                        matrix[i, j] = Generator.Random.NextDouble() * (maxValue - minValue) + minValue;
                         matrix[j, i] = matrix[i, j];
                     }
                 }
@@ -479,7 +549,7 @@ namespace Accord.Math
             double[,] matrix = new double[rows, cols];
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < cols; j++)
-                    matrix[i, j] = Accord.Math.Tools.Random.NextDouble() * (maxValue - minValue) + minValue;
+                    matrix[i, j] = Generator.Random.NextDouble() * (maxValue - minValue) + minValue;
 
             return matrix;
         }
@@ -511,7 +581,7 @@ namespace Accord.Math
         ///   Creates a vector with uniformly distributed random data.
         /// </summary>
         /// 
-        // TODO: Mark as obsolete
+        [Obsolete("Please use Vector.Random instead.")]
         public static float[] Random(int size, float minValue, float maxValue)
         {
             return Accord.Math.Vector.Random(size, minValue, maxValue);
@@ -521,7 +591,7 @@ namespace Accord.Math
         ///   Creates a vector with uniformly distributed random data.
         /// </summary>
         /// 
-        // TODO: Mark as obsolete
+        [Obsolete("Please use Vector.Random instead.")]
         public static double[] Random(int size, double minValue, double maxValue)
         {
             return Accord.Math.Vector.Random(size, minValue, maxValue);
@@ -531,7 +601,7 @@ namespace Accord.Math
         ///   Creates a vector with random data drawn from a given distribution.
         /// </summary>
         /// 
-        // TODO: Mark as obsolete
+        [Obsolete("Please use Vector.Random instead.")]
         public static double[] Random(int size, IRandomNumberGenerator generator)
         {
             if (generator == null)
@@ -551,7 +621,7 @@ namespace Accord.Math
 
         #region Vector creation
         /// <summary>
-        ///   Creates a matrix with a single row vector.
+        ///   Creates a 1xN matrix with a single row vector of size N.
         /// </summary>
         /// 
         public static T[,] RowVector<T>(params T[] values)
@@ -567,18 +637,14 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a matrix with a single column vector.
+        ///   Creates a Nx1 matrix with a single column vector of size N.
         /// </summary>
         /// 
         public static T[,] ColumnVector<T>(params T[] values)
         {
-            if (values == null)
-                throw new ArgumentNullException("values");
-
             T[,] matrix = new T[values.Length, 1];
             for (int i = 0; i < values.Length; i++)
                 matrix[i, 0] = values[i];
-
             return matrix;
         }
 
@@ -586,17 +652,17 @@ namespace Accord.Math
         ///   Creates a vector with the given dimension and starting values.
         /// </summary>
         /// 
-        // TODO: Mark as obsolete
+        [Obsolete("Please use Vector.Create instead.")]
         public static T[] Vector<T>(int n, T[] values)
         {
-            return Accord.Math.Vector.Create(n, values);
+            return Accord.Math.Vector.Create(values);
         }
 
         /// <summary>
         ///   Creates a vector with the given dimension and starting values.
         /// </summary>
         /// 
-        // TODO: Mark as obsolete
+        [Obsolete("Please use Vector.Create instead.")]
         public static T[] Vector<T>(int n, T value)
         {
             return Accord.Math.Vector.Create(n, value);
@@ -607,6 +673,7 @@ namespace Accord.Math
         ///   Creates a vector with the given dimension and starting values.
         /// </summary>
         /// 
+        [Obsolete("Please use Vector.Interval instead.")]
         public static double[] Vector(double a, double b, double increment = 1)
         {
             return Accord.Math.Vector.Interval(a, b, (double)increment);
@@ -616,7 +683,7 @@ namespace Accord.Math
         ///   Creates a vector with the given dimension and starting values.
         /// </summary>
         /// 
-        // TODO: Mark as obsolete
+        [Obsolete("Please use Vector.Interval instead.")]
         public static int[] Vector(int a, int b, int increment = 1)
         {
             return Accord.Math.Vector.Interval(a, b, (double)increment);
@@ -626,7 +693,7 @@ namespace Accord.Math
         ///   Creates a vector with the given dimension and starting values.
         /// </summary>
         /// 
-        // TODO: Mark as obsolete
+        [Obsolete("Please use Vector.Interval instead.")]
         public static double[] Vector(double a, double b, int points)
         {
             return Accord.Math.Vector.Interval(a, b, points);
@@ -638,30 +705,29 @@ namespace Accord.Math
         ///   Creates a index vector.
         /// </summary>
         /// 
-        // TODO: Mark as obsolete
+        [Obsolete("Please use Vector.Range instead.")]
         public static int[] Indices(int from, int to)
         {
-            return Accord.Math.Indices.Range(from, to);
+            return Accord.Math.Vector.Range(from, to);
         }
 
         /// <summary>
         ///   Creates a index vector.
         /// </summary>
         /// 
-        // TODO: Mark as obsolete
+        [Obsolete("Please use Vector.Range instead.")]
         public static int[] Indices(int to)
         {
-            return Accord.Math.Indices.Until(to);
+            return Accord.Math.Vector.Range(to);
         }
 
         /// <summary>
-        ///   Gets the dimensions of an array.
+        ///   Gets the length of each dimension of an array.
         /// </summary>
         /// 
-        public static int[] GetDimensions(this Array array)
+        public static int[] GetLength(this Array array)
         {
             int[] vector = new int[array.Rank];
-
             for (int i = 0; i < vector.Length; i++)
                 vector[i] = array.GetUpperBound(i) + 1;
 
@@ -672,6 +738,7 @@ namespace Accord.Math
         ///   Creates an interval vector.
         /// </summary>
         /// 
+        [Obsolete("Please use Vector.Interval instead.")]
         public static int[] Interval(int from, int to)
         {
             return Accord.Math.Vector.Interval(from, to);
@@ -681,6 +748,7 @@ namespace Accord.Math
         ///   Creates an interval vector.
         /// </summary>
         /// 
+        [Obsolete("Please use Vector.Interval instead.")]
         public static double[] Interval(DoubleRange range, double stepSize)
         {
             return Interval(range.Min, range.Max, stepSize);
@@ -690,6 +758,7 @@ namespace Accord.Math
         ///   Creates an interval vector.
         /// </summary>
         /// 
+        [Obsolete("Please use Vector.Interval instead.")]
         public static double[] Interval(double from, double to, double stepSize)
         {
             return Accord.Math.Vector.Interval(from, to, stepSize);
@@ -699,6 +768,7 @@ namespace Accord.Math
         ///   Creates an interval vector.
         /// </summary>
         /// 
+        [Obsolete("Please use Vector.Interval instead.")]
         public static float[] Interval(float from, float to, double stepSize)
         {
             return Accord.Math.Vector.Interval(from, to, (float)stepSize);
@@ -708,6 +778,7 @@ namespace Accord.Math
         ///   Creates an interval vector.
         /// </summary>
         /// 
+        [Obsolete("Please use Vector.Interval instead.")]
         public static double[] Interval(DoubleRange range, int steps)
         {
             return Accord.Math.Vector.Interval(range, steps);
@@ -717,6 +788,7 @@ namespace Accord.Math
         ///   Creates an interval vector.
         /// </summary>
         /// 
+        [Obsolete("Please use Vector.Interval instead.")]
         public static double[] Interval(double from, double to, int steps)
         {
             return Accord.Math.Vector.Interval(from, to, steps);
@@ -751,9 +823,9 @@ namespace Accord.Math
             double rowMin, double rowMax, double rowStepSize,
             double colMin, double colMax, double colStepSize)
         {
-            double[][] mesh = Matrix.CartesianProduct(
-                Matrix.Interval(rowMin, rowMax, rowStepSize),
-                Matrix.Interval(colMin, colMax, colStepSize));
+            double[][] mesh = Matrix.Cartesian(
+                Accord.Math.Vector.Interval(rowMin, rowMax, rowStepSize),
+                Accord.Math.Vector.Interval(colMin, colMax, colStepSize));
 
             return mesh;
         }
@@ -766,9 +838,9 @@ namespace Accord.Math
             int rowMin, int rowMax,
             int colMin, int colMax)
         {
-            int[][] mesh = Matrix.CartesianProduct(
-                Matrix.Interval(rowMin, rowMax),
-                Matrix.Interval(colMin, colMax));
+            int[][] mesh = Matrix.Cartesian(
+                Accord.Math.Vector.Interval(rowMin, rowMax),
+                Accord.Math.Vector.Interval(colMin, colMax));
 
             return mesh;
         }
@@ -802,9 +874,9 @@ namespace Accord.Math
             double rowMin, double rowMax, int rowSteps,
             double colMin, double colMax, int colSteps)
         {
-            double[][] mesh = Matrix.CartesianProduct(
-                Matrix.Interval(rowMin, rowMax, rowSteps),
-                Matrix.Interval(colMin, colMax, colSteps));
+            double[][] mesh = Matrix.Cartesian(
+                Accord.Math.Vector.Interval(rowMin, rowMax, rowSteps),
+                Accord.Math.Vector.Interval(colMin, colMax, colSteps));
 
             return mesh;
         }
@@ -838,9 +910,9 @@ namespace Accord.Math
             DoubleRange rowRange, DoubleRange colRange,
             double rowStepSize, double colStepSize)
         {
-            double[][] mesh = Matrix.CartesianProduct(
-                Matrix.Interval(rowRange, rowStepSize),
-                Matrix.Interval(colRange, colStepSize));
+            double[][] mesh = Matrix.Cartesian(
+                Accord.Math.Vector.Interval(rowRange, rowStepSize),
+                Accord.Math.Vector.Interval(colRange, colStepSize));
 
             return mesh;
         }
@@ -877,7 +949,7 @@ namespace Accord.Math
         /// 
         public static T[][] Mesh<T>(this T[] x, T[] y)
         {
-            return Matrix.CartesianProduct(x, y);
+            return Matrix.Cartesian(x, y);
         }
 
         /// <summary>
@@ -1417,7 +1489,7 @@ namespace Accord.Math
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
 
-            T[,] r = (T[,])Array.CreateInstance(typeof(T), rows + top + bottom, cols + left + right);
+            var r = new T[rows + top + bottom, cols + left + right];
 
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < cols; j++)

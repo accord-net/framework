@@ -8,7 +8,7 @@
     <ProjectGuid>{03CCCD6C-CA56-4CAE-A0A5-1C9660D9424B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FaceTracking</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Face tracking %28Camshift%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

@@ -115,7 +115,7 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
                 int[] o = outputs.Submatrix(info[maxNode].subset.ToArray());
 
                 // prune the maximum gain node
-                int common = Accord.Statistics.Tools.Mode(o);
+                int common = Measures.Mode(o);
 
                 maxNode.Branches = null;
                 maxNode.Output = common;

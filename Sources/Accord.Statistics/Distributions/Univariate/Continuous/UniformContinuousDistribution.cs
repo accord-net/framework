@@ -193,7 +193,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -382,7 +382,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             double[] r = new double[samples];
             for (int i = 0; i < r.Length; i++)
-                r[i] = Accord.Math.Tools.Random.NextDouble() * (b - a) + a;
+                r[i] = Accord.Math.Random.Generator.Random.NextDouble() * (b - a) + a;
 
             return r;
         }
@@ -398,7 +398,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(int samples)
         {
-            var random = Accord.Math.Tools.Random;
+            var random = Accord.Math.Random.Generator.Random;
 
             double[] r = new double[samples];
             for (int i = 0; i < r.Length; i++)
@@ -416,7 +416,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random()
         {
-            return Accord.Math.Tools.Random.NextDouble();
+            return Accord.Math.Random.Generator.Random.NextDouble();
         }
 
         /// <summary>
@@ -431,7 +431,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double a, double b)
         {
-            return Accord.Math.Tools.Random.NextDouble() * (b - a) + a;
+            return Accord.Math.Random.Generator.Random.NextDouble() * (b - a) + a;
         }
         #endregion
 

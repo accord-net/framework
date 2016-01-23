@@ -407,7 +407,7 @@ namespace Accord.Statistics.Analysis
                 // This is the first step. We should create the full model.
                 int inputCount = inputData[0].Length;
                 LogisticRegression regression = new LogisticRegression(inputCount);
-                int[] variables = Matrix.Indices(0, inputCount);
+                int[] variables = Vector.Range(0, inputCount);
 
                 fit(regression, inputData, outputData);
 

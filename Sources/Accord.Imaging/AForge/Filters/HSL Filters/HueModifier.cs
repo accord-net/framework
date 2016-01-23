@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
@@ -124,13 +124,13 @@ namespace AForge.Imaging.Filters
                     rgb.Blue    = ptr[RGB.B];
 
                     // convert to HSL
-                    AForge.Imaging.HSL.FromRGB( rgb, hsl );
+                    Accord.Imaging.HSL.FromRGB( rgb, hsl );
 
                     // modify hue value
                     hsl.Hue = hue;
 
                     // convert back to RGB
-                    AForge.Imaging.HSL.ToRGB( hsl, rgb );
+                    Accord.Imaging.HSL.ToRGB(hsl, rgb);
 
                     ptr[RGB.R] = rgb.Red;
                     ptr[RGB.G] = rgb.Green;

@@ -139,17 +139,17 @@ namespace Accord.Statistics.Testing
             {
                 case LeveneTestMethod.Mean:
                     for (int i = 0; i < means.Length; i++)
-                        means[i] = Accord.Statistics.Tools.Mean(samples[i]);
+                        means[i] = samples[i].Mean();
                     break;
 
                 case LeveneTestMethod.Median:
                     for (int i = 0; i < means.Length; i++)
-                        means[i] = Accord.Statistics.Tools.Median(samples[i]);
+                        means[i] = samples[i].Median();
                     break;
 
                 case LeveneTestMethod.TruncatedMean:
                     for (int i = 0; i < means.Length; i++)
-                        means[i] = Accord.Statistics.Tools.TruncatedMean(samples[i], percent);
+                        means[i] = samples[i].TruncatedMean(percent);
                     break;
             }
 
@@ -165,7 +165,7 @@ namespace Accord.Statistics.Testing
             // Compute means for the centered samples
             var newMeans = new double[samples.Length];
             for (int i = 0; i < newMeans.Length; i++)
-                newMeans[i] = Accord.Statistics.Tools.Mean(z[i]);
+                newMeans[i] = z[i].Mean();
 
             // Compute total mean
             double totalMean = 0;

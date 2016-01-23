@@ -22,6 +22,7 @@
 
 namespace Accord.Statistics.Kernels
 {
+    using Accord.Math.Distances;
     using System;
 
     /// <summary>

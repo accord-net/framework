@@ -23,6 +23,7 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Math;
+    using Accord.Statistics;
     using Accord.Statistics.Analysis;
     using AForge;
     using NUnit.Framework;
@@ -185,7 +186,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(57.671373919257775, confidence[0].Max);
 
             DoubleRange q;
-            double q2 = Accord.Statistics.Tools.Quartiles(data, out q, alreadySorted: false);
+            double q2 = Measures.Quartiles(data, out q, alreadySorted: false);
 
             Assert.AreEqual(1, quartiles.Length);
             Assert.AreEqual(q.Min, quartiles[0].Min);

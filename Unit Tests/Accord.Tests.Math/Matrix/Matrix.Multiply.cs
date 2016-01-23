@@ -42,7 +42,7 @@ namespace Accord.Tests.Math
 
             double[] b = { 5, 8 };
 
-            double[,] expected = a.Transpose().Multiply(Matrix.Diagonal(b));
+            double[,] expected = Matrix.Multiply(a.Transpose(), Matrix.Diagonal(b));
             double[,] actual = a.TransposeAndMultiplyByDiagonal(b);
 
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
@@ -184,7 +184,7 @@ namespace Accord.Tests.Math
             double[] b = B.Diagonal();
 
 
-            double[,] expected = A.Multiply(B);
+            double[,] expected = Matrix.Multiply(A, B);
             double[,] actual = A.MultiplyByDiagonal(b);
 
 
@@ -196,7 +196,7 @@ namespace Accord.Tests.Math
         {
             double[,] a = Matrix.Magic(5);
 
-            double[,] expected = a.Multiply(a.Transpose());
+            double[,] expected = Matrix.Multiply(a, a.Transpose());
             double[,] actual = Matrix.MultiplyByTranspose(a, a);
 
             Assert.IsTrue(expected.IsEqual(actual));
@@ -209,7 +209,7 @@ namespace Accord.Tests.Math
             double[,] b = Matrix.Random(4, 3);
 
 
-            double[,] expected = a.Multiply(b.Transpose());
+            double[,] expected = Matrix.Multiply(a, b.Transpose());
             double[,] actual = Matrix.MultiplyByTranspose(a, b);
 
             Assert.IsTrue(expected.IsEqual(actual));
@@ -222,7 +222,7 @@ namespace Accord.Tests.Math
             double[,] b = Matrix.Random(2, 4);
             double[,] actual = new double[3, 4];
 
-            double[,] expected = a.Transpose().Multiply(b);
+            double[,] expected = Matrix.Multiply(a.Transpose(), b);
             Matrix.TransposeAndMultiply(a, b, actual);
 
             Assert.IsTrue(expected.IsEqual(actual));

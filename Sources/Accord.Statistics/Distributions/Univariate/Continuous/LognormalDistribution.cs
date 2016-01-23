@@ -224,7 +224,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -400,7 +400,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
             double mu, var;
 
-            observations = Matrix.Log(observations);
+            observations = Elementwise.Log(observations);
 
             if (weights != null)
             {
@@ -411,18 +411,18 @@ namespace Accord.Statistics.Distributions.Univariate
 #endif
 
                 // Compute weighted mean
-                mu = Statistics.Tools.WeightedMean(observations, weights);
+                mu = Measures.WeightedMean(observations, weights);
 
                 // Compute weighted variance
-                var = Statistics.Tools.WeightedVariance(observations, weights, mu);
+                var = Measures.WeightedVariance(observations, weights, mu);
             }
             else
             {
                 // Compute weighted mean
-                mu = Statistics.Tools.Mean(observations);
+                mu = Measures.Mean(observations);
 
                 // Compute weighted variance
-                var = Statistics.Tools.Variance(observations, mu);
+                var = Measures.Variance(observations, mu);
             }
 
             if (options != null)

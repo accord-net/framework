@@ -14,7 +14,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Animat
+namespace SampleApp
 {
     public partial class CellWorld : Control
     {

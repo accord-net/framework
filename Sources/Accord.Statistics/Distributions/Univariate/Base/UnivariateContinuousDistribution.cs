@@ -119,7 +119,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Gets the support interval for this distribution.
         /// </summary>
         /// 
-        /// <value>A <see cref="AForge.DoubleRange"/> containing
+        /// <value>A <see cref="DoubleRange"/> containing
         ///  the support interval for this distribution.</value>
         ///  
         public abstract DoubleRange Support { get; }
@@ -1006,7 +1006,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public virtual double[] Generate(int samples)
         {
-            var random = Accord.Math.Tools.Random;
+            var random = Accord.Math.Random.Generator.Random;
 
             double[] s = new double[samples];
 
@@ -1027,7 +1027,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public virtual double Generate()
         {
-            return InverseDistributionFunction(Accord.Math.Tools.Random.NextDouble());
+            return InverseDistributionFunction(Accord.Math.Random.Generator.Random.NextDouble());
         }
 
 

@@ -25,8 +25,8 @@
 
 namespace Accord.Imaging.Filters
 {
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
@@ -61,7 +61,7 @@ namespace Accord.Imaging.Filters
     /// <seealso cref="RotateBilinear"/>
     /// <seealso cref="RotateBicubic"/>
     /// 
-    internal class RotateNearestNeighbor : BaseRotateFilter
+    public class RotateNearestNeighbor : BaseRotateFilter
     {
         // format translation dictionary
         private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();

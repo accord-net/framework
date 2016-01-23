@@ -23,6 +23,7 @@
 namespace Accord.Tests.MachineLearning.Structures
 {
     using Accord.Math;
+    using Accord.Math.Distances;
     using System;
     using System.Linq;
 
@@ -39,7 +40,7 @@ namespace Accord.Tests.MachineLearning.Structures
         /// <param name="outputs">The associated labels for the input points.</param>
         /// 
         public NaiveKNearestNeighbors(int k, double[][] inputs, int[] outputs)
-            : base(k, inputs, outputs, Accord.Math.Distance.Euclidean) { }
+            : base(k, inputs, outputs, new Euclidean()) { }
 
     }
 
@@ -52,7 +53,7 @@ namespace Accord.Tests.MachineLearning.Structures
 
         private int classCount;
 
-        private Func<T[], T[], double> distance;
+        private IDistance<T[]> distance;
 
         private double[] distances;
 
@@ -66,7 +67,7 @@ namespace Accord.Tests.MachineLearning.Structures
         /// <param name="outputs">The associated labels for the input points.</param>
         /// <param name="distance">The distance measure to use in the decision.</param>
         /// 
-        public NaiveKNearestNeighbors(int k, T[][] inputs, int[] outputs, Func<T[], T[], double> distance)
+        public NaiveKNearestNeighbors(int k, T[][] inputs, int[] outputs, IDistance<T[]> distance)
         {
             this.inputs = inputs;
             this.outputs = outputs;
@@ -106,7 +107,7 @@ namespace Accord.Tests.MachineLearning.Structures
         ///   as a distance metric between data points.
         /// </summary>
         /// 
-        public Func<T[], T[], double> Distance
+        public IDistance<T[]> Distance
         {
             get { return distance; }
             set { distance = value; }
@@ -144,7 +145,7 @@ namespace Accord.Tests.MachineLearning.Structures
         public int Compute(T[] input)
         {
             for (int i = 0; i < inputs.Length; i++)
-                distances[i] = distance(input, inputs[i]);
+                distances[i] = distance.Distance(input, inputs[i]);
 
             int[] nearestIndices = Matrix.Indices(0, inputs.Length);
 
@@ -172,7 +173,7 @@ namespace Accord.Tests.MachineLearning.Structures
         {
             // Compute all distances
             for (int i = 0; i < inputs.Length; i++)
-                distances[i] = distance(input, inputs[i]);
+                distances[i] = distance.Distance(input, inputs[i]);
 
             int[] nearestIndices = Matrix.Indices(0, inputs.Length);
 

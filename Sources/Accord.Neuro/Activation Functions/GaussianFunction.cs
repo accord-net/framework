@@ -24,11 +24,11 @@ namespace Accord.Neuro.ActivationFunctions
 {
     using System;
     using AForge;
-    using AForge.Math.Random;
     using Accord.Neuro.Neurons;
     using Accord.Neuro.Networks;
     using Accord.Neuro.Learning;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Math.Random;
 
     /// <summary>
     ///   Gaussian stochastic activation function.

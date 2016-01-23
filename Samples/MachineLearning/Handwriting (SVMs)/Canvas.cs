@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Handwriting
+namespace SampleApp
 {
     public partial class Canvas : UserControl
     {

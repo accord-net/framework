@@ -25,6 +25,7 @@ namespace Accord.Imaging
     using System;
     using Accord.MachineLearning;
     using Accord.Math;
+    using Accord.Math.Distances;
 
     /// <summary>
     ///   Nearest neighbor feature point matching algorithm.
@@ -50,7 +51,7 @@ namespace Accord.Imaging
         /// <param name="k">The number of neighbors to use when matching points.</param>
         /// 
         public KNearestNeighborMatching(int k)
-            : base(k, Accord.Math.Distance.Euclidean)
+            : base(k, new Accord.Math.Distances.Euclidean())
         {
         }
 
@@ -62,7 +63,7 @@ namespace Accord.Imaging
         /// <param name="k">The number of neighbors to use when matching points.</param>
         /// <param name="distance">The distance function to consider between points.</param>
         /// 
-        public KNearestNeighborMatching(int k, Func<double[], double[], double> distance)
+        public KNearestNeighborMatching(int k, IDistance<double[]> distance)
             : base(k, distance)
         {
         }
@@ -83,8 +84,13 @@ namespace Accord.Imaging
 
             // Create a k-Nearest Neighbor classifier to classify points
             // in the second image to nearest points in the first image
-            return new KNearestNeighbors(K, classes, features, outputs, Distance);
+            var metric = Distance as IMetric<double[]>;
+ 
+            if (metric != null)
+                return new KNearestNeighbors(K, classes, features, outputs, metric);
+            return new KNearestNeighbors<double[]>(K, classes, features, outputs, Distance);
         }
 
+        // TODO: Optimize using a KD-Tree
     }
 }

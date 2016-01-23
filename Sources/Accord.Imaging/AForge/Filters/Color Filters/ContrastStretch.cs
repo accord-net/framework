@@ -6,8 +6,9 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
+    using Accord;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
@@ -46,7 +47,7 @@ namespace AForge.Imaging.Filters
     public class ContrastStretch : BaseInPlacePartialFilter
     {
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -59,12 +60,12 @@ namespace AForge.Imaging.Filters
         /// <summary>   
         /// Initializes a new instance of the <see cref="ContrastStretch"/> class.
         /// </summary>
-        public ContrastStretch( )
+        public ContrastStretch()
         {
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
-            formatTranslations[PixelFormat.Format24bppRgb]    = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppRgb]    = PixelFormat.Format32bppRgb;
-            formatTranslations[PixelFormat.Format32bppArgb]   = PixelFormat.Format32bppArgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
         }
 
         /// <summary>
@@ -74,98 +75,98 @@ namespace AForge.Imaging.Filters
         /// <param name="image">Source image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         ///
-        protected override unsafe void ProcessFilter( UnmanagedImage image, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage image, Rectangle rect)
         {
-            int pixelSize = Image.GetPixelFormatSize( image.PixelFormat ) / 8;
+            int pixelSize = Image.GetPixelFormatSize(image.PixelFormat) / 8;
 
             int startX = rect.Left;
             int startY = rect.Top;
-            int stopX  = startX + rect.Width;
-            int stopY  = startY + rect.Height;
+            int stopX = startX + rect.Width;
+            int stopY = startY + rect.Height;
             int stride = image.Stride;
             int offset = stride - rect.Width * pixelSize;
 
             // levels linear correction filter is going to be used on STEP 2
-            LevelsLinear levelsLinear = new LevelsLinear( );
+            LevelsLinear levelsLinear = new LevelsLinear();
 
             // STEP 1 - search for min and max pixel values
-            byte* ptr = (byte*) image.ImageData.ToPointer( );
+            byte* ptr = (byte*)image.ImageData.ToPointer();
 
             // check image format
-            if ( image.PixelFormat == PixelFormat.Format8bppIndexed )
+            if (image.PixelFormat == PixelFormat.Format8bppIndexed)
             {
                 // allign pointer to the first pixel to process
-                ptr += ( startY * stride + startX );
+                ptr += (startY * stride + startX);
 
                 byte min = 255;
                 byte max = 0;
 
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
-                    for ( int x = startX; x < stopX; x++, ptr++ )
+                    for (int x = startX; x < stopX; x++, ptr++)
                     {
                         byte value = *ptr;
 
-                        if ( value < min )
+                        if (value < min)
                             min = value;
 
-                        if ( value > max )
+                        if (value > max)
                             max = value;
                     }
                     ptr += offset;
                 }
 
-                levelsLinear.InGray = new IntRange( min, max );
+                levelsLinear.InGray = new IntRange(min, max);
             }
             else
             {
                 // allign pointer to the first pixel to process
-                ptr += ( startY * stride + startX * pixelSize );
+                ptr += (startY * stride + startX * pixelSize);
 
                 byte minR = 255, minG = 255, minB = 255;
-                byte maxR = 0,   maxG = 0,   maxB = 0;
+                byte maxR = 0, maxG = 0, maxB = 0;
 
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
-                    for ( int x = startX; x < stopX; x++, ptr += pixelSize )
+                    for (int x = startX; x < stopX; x++, ptr += pixelSize)
                     {
                         // red
                         byte value = ptr[RGB.R];
 
-                        if ( value < minR )
+                        if (value < minR)
                             minR = value;
 
-                        if ( value > maxR )
+                        if (value > maxR)
                             maxR = value;
 
                         // green
                         value = ptr[RGB.G];
 
-                        if ( value < minG )
+                        if (value < minG)
                             minG = value;
 
-                        if ( value > maxG )
+                        if (value > maxG)
                             maxG = value;
 
                         // blue
                         value = ptr[RGB.B];
 
-                        if ( value < minB )
+                        if (value < minB)
                             minB = value;
 
-                        if ( value > maxB )
+                        if (value > maxB)
                             maxB = value;
                     }
                     ptr += offset;
                 }
 
-                levelsLinear.InRed   = new IntRange( minR, maxR );
-                levelsLinear.InGreen = new IntRange( minG, maxG );
-                levelsLinear.InBlue  = new IntRange( minB, maxB );
+                levelsLinear.InRed = new IntRange(minR, maxR);
+                levelsLinear.InGreen = new IntRange(minG, maxG);
+                levelsLinear.InBlue = new IntRange(minB, maxB);
             }
 
             // STEP 2 - run levels linear correction
-            levelsLinear.ApplyInPlace( image, rect );
+            levelsLinear.ApplyInPlace(image, rect);
         }
     }
 }

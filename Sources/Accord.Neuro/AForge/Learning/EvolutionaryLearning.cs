@@ -6,12 +6,13 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Neuro.Learning
+namespace Accord.Neuro.Learning
 {
     using System;
     using System.Diagnostics;
-    using AForge.Genetic;
-    using AForge.Math.Random;
+    using Accord;
+    using Accord.Genetic;
+    using Accord.Math.Random;
 
     /// <summary>
     /// Neural networks' evolutionary learning algorithm, which is based on Genetic Algorithms.
@@ -110,27 +111,27 @@ namespace AForge.Neuro.Learning
         /// <param name="randomSelectionRate">Rate of injection of random chromosomes during selection
         /// in genetic population (see <see cref="Population.RandomSelectionPortion"/>).</param>
         /// 
-        public EvolutionaryLearning( ActivationNetwork activationNetwork, int populationSize,
+        public EvolutionaryLearning(ActivationNetwork activationNetwork, int populationSize,
             IRandomNumberGenerator chromosomeGenerator,
             IRandomNumberGenerator mutationMultiplierGenerator,
             IRandomNumberGenerator mutationAdditionGenerator,
             ISelectionMethod selectionMethod,
-            double crossOverRate, double mutationRate, double randomSelectionRate )
+            double crossOverRate, double mutationRate, double randomSelectionRate)
         {
             // Check of assumptions during debugging only
-            Debug.Assert( activationNetwork != null );
-            Debug.Assert( populationSize > 0 );
-            Debug.Assert( chromosomeGenerator != null );
-            Debug.Assert( mutationMultiplierGenerator != null );
-            Debug.Assert( mutationAdditionGenerator != null );
-            Debug.Assert( selectionMethod != null );
-            Debug.Assert( crossOverRate >= 0.0 && crossOverRate <= 1.0 );
-            Debug.Assert( mutationRate >= 0.0 && crossOverRate <= 1.0 );
-            Debug.Assert( randomSelectionRate >= 0.0 && randomSelectionRate <= 1.0 );
+            Debug.Assert(activationNetwork != null);
+            Debug.Assert(populationSize > 0);
+            Debug.Assert(chromosomeGenerator != null);
+            Debug.Assert(mutationMultiplierGenerator != null);
+            Debug.Assert(mutationAdditionGenerator != null);
+            Debug.Assert(selectionMethod != null);
+            Debug.Assert(crossOverRate >= 0.0 && crossOverRate <= 1.0);
+            Debug.Assert(mutationRate >= 0.0 && crossOverRate <= 1.0);
+            Debug.Assert(randomSelectionRate >= 0.0 && randomSelectionRate <= 1.0);
 
             // networks's parameters
             this.network = activationNetwork;
-            this.numberOfNetworksWeights = CalculateNetworkSize( activationNetwork );
+            this.numberOfNetworksWeights = CalculateNetworkSize(activationNetwork);
 
             // population parameters
             this.populationSize = populationSize;
@@ -169,38 +170,38 @@ namespace AForge.Neuro.Learning
         /// used extended version of constructor, which allows to specify all of the parameters.</para>
         /// </remarks>
         ///
-        public EvolutionaryLearning( ActivationNetwork activationNetwork, int populationSize )
+        public EvolutionaryLearning(ActivationNetwork activationNetwork, int populationSize)
         {
             // Check of assumptions during debugging only
-            Debug.Assert( activationNetwork != null );
-            Debug.Assert( populationSize > 0 );
+            Debug.Assert(activationNetwork != null);
+            Debug.Assert(populationSize > 0);
 
             // networks's parameters
             this.network = activationNetwork;
-            this.numberOfNetworksWeights = CalculateNetworkSize( activationNetwork );
+            this.numberOfNetworksWeights = CalculateNetworkSize(activationNetwork);
 
             // population parameters
             this.populationSize = populationSize;
-            this.chromosomeGenerator = new UniformGenerator( new Range( -1, 1 ) );
-            this.mutationMultiplierGenerator = new ExponentialGenerator( 1 );
-            this.mutationAdditionGenerator = new UniformGenerator( new Range( -0.5f, 0.5f ) );
-            this.selectionMethod = new EliteSelection( );
+            this.chromosomeGenerator = new UniformGenerator(new Range(-1, 1));
+            this.mutationMultiplierGenerator = new ExponentialGenerator(1);
+            this.mutationAdditionGenerator = new UniformGenerator(new Range(-0.5f, 0.5f));
+            this.selectionMethod = new EliteSelection();
             this.crossOverRate = 0.75;
             this.mutationRate = 0.25;
             this.randomSelectionRate = 0.2;
         }
 
         // Create and initialize genetic population
-        private int CalculateNetworkSize( ActivationNetwork activationNetwork )
+        private int CalculateNetworkSize(ActivationNetwork activationNetwork)
         {
             // caclculate total amount of weight in neural network
             int networkSize = 0;
 
-            for ( int i = 0; i < network.Layers.Length; i++ )
+            for (int i = 0; i < network.Layers.Length; i++)
             {
                 Layer layer = network.Layers[i];
 
-                for ( int j = 0; j < layer.Neurons.Length; j++ )
+                for (int j = 0; j < layer.Neurons.Length; j++)
                 {
                     // sum all weights and threshold
                     networkSize += layer.Neurons[j].Weights.Length + 1;
@@ -225,9 +226,9 @@ namespace AForge.Neuro.Learning
         /// 
         /// <exception cref="NotImplementedException">The method is not implemented by design.</exception>
         /// 
-        public double Run( double[] input, double[] output )
+        public double Run(double[] input, double[] output)
         {
-            throw new NotImplementedException( "The method is not implemented by design." );
+            throw new NotImplementedException("The method is not implemented by design.");
         }
 
         /// <summary>
@@ -245,24 +246,24 @@ namespace AForge.Neuro.Learning
         /// function with the given input/output. So, changing input/output in middle of the learning
         /// process, will break it.</note></para></remarks>
         ///
-        public double RunEpoch( double[][] input, double[][] output )
+        public double RunEpoch(double[][] input, double[][] output)
         {
-            Debug.Assert( input.Length > 0 );
-            Debug.Assert( output.Length > 0 );
-            Debug.Assert( input.Length == output.Length );
-            Debug.Assert( network.InputsCount == input.Length );
+            Debug.Assert(input.Length > 0);
+            Debug.Assert(output.Length > 0);
+            Debug.Assert(input.Length == output.Length);
+            Debug.Assert(network.InputsCount == input.Length);
 
             // check if it is a first run and create population if so
-            if ( population == null )
+            if (population == null)
             {
                 // sample chromosome
                 DoubleArrayChromosome chromosomeExample = new DoubleArrayChromosome(
                     chromosomeGenerator, mutationMultiplierGenerator, mutationAdditionGenerator,
-                    numberOfNetworksWeights );
+                    numberOfNetworksWeights);
 
                 // create population ...
-                population = new Population( populationSize, chromosomeExample,
-                    new EvolutionaryFitness( network, input, output ), selectionMethod );
+                population = new Population(populationSize, chromosomeExample,
+                    new EvolutionaryFitness(network, input, output), selectionMethod);
                 // ... and configure it
                 population.CrossoverRate = crossOverRate;
                 population.MutationRate = mutationRate;
@@ -270,24 +271,24 @@ namespace AForge.Neuro.Learning
             }
 
             // run genetic epoch
-            population.RunEpoch( );
+            population.RunEpoch();
 
             // get best chromosome of the population
-            DoubleArrayChromosome chromosome = (DoubleArrayChromosome) population.BestChromosome;
+            DoubleArrayChromosome chromosome = (DoubleArrayChromosome)population.BestChromosome;
             double[] chromosomeGenes = chromosome.Value;
 
             // put best chromosome's value into neural network's weights
             int v = 0;
 
-            for ( int i = 0; i < network.Layers.Length; i++ )
+            for (int i = 0; i < network.Layers.Length; i++)
             {
                 Layer layer = network.Layers[i];
 
-                for ( int j = 0; j < layer.Neurons.Length; j++ )
+                for (int j = 0; j < layer.Neurons.Length; j++)
                 {
                     ActivationNeuron neuron = layer.Neurons[j] as ActivationNeuron;
 
-                    for ( int k = 0; k < neuron.Weights.Length; k++ )
+                    for (int k = 0; k < neuron.Weights.Length; k++)
                     {
                         neuron.Weights[k] = chromosomeGenes[v++];
                     }
@@ -295,7 +296,7 @@ namespace AForge.Neuro.Learning
                 }
             }
 
-            Debug.Assert( v == numberOfNetworksWeights );
+            Debug.Assert(v == numberOfNetworksWeights);
 
             return 1.0 / chromosome.Fitness;
         }

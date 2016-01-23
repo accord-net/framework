@@ -28,6 +28,7 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using System;
     using Accord.Statistics.Distributions.Fitting;
+    using Accord.Statistics;
 
 
     [TestFixture]
@@ -315,8 +316,8 @@ namespace Accord.Tests.Statistics
 
             target.Fit(observations);
 
-            double[] expectedMean = Accord.Statistics.Tools.Mean(observations);
-            double[,] expectedCov = Accord.Statistics.Tools.Covariance(observations, expectedMean);
+            double[] expectedMean = Measures.Mean(observations);
+            double[,] expectedCov = Measures.Covariance(observations, expectedMean);
 
             MultivariateContinuousDistribution actual = target as MultivariateContinuousDistribution;
 
@@ -339,8 +340,8 @@ namespace Accord.Tests.Statistics
 
             target.Fit(observations);
 
-            double[] expectedMean = Accord.Statistics.Tools.Mean(observations);
-            double[,] expectedCov = Accord.Statistics.Tools.Covariance(observations, expectedMean);
+            double[] expectedMean = Measures.Mean(observations);
+            double[,] expectedCov = Measures.Covariance(observations, expectedMean);
 
             MultivariateContinuousDistribution actual = target as MultivariateContinuousDistribution;
 

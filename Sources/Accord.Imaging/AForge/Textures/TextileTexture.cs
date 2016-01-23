@@ -6,8 +6,9 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging.Textures
+namespace Accord.Imaging.Textures
 {
+    using Accord.Math;
     using System;
 
     /// <summary>
@@ -16,7 +17,7 @@ namespace AForge.Imaging.Textures
     /// 
     /// <remarks><para>The texture generator creates textures with effect of textile.</para>
     /// 
-    /// <para>The generator is based on the <see cref="AForge.Math.PerlinNoise">Perlin noise function</see>.</para>
+    /// <para>The generator is based on the <see cref="Accord.Math.PerlinNoise">Perlin noise function</see>.</para>
     /// 
     /// <para>Sample usage:</para>
     /// <code>
@@ -35,9 +36,9 @@ namespace AForge.Imaging.Textures
     public class TextileTexture : ITextureGenerator
     {
         // Perlin noise function used for texture generation
-        private AForge.Math.PerlinNoise noise = new AForge.Math.PerlinNoise( 3, 0.65, 1.0 / 8, 1.0 );
+        private PerlinNoise noise = new PerlinNoise( 3, 0.65, 1.0 / 8, 1.0 );
 
-        // randmom number generator
+        // random number generator
         private Random rand = new Random( );
         private int r;
 

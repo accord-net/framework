@@ -6,10 +6,9 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Fuzzy
+namespace Accord.Fuzzy
 {
     using System;
-    using AForge;
 
     /// <summary>
     /// Membership function in the shape of a trapezoid. Can be a half trapzoid if the left or the right side is missing. 

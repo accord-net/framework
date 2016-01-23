@@ -205,7 +205,9 @@ namespace Accord.Statistics.Running
                 { 0,        dt4 / 4,        0,  dt3 / 2 },
                 { dt3 / 2,        0,      dt2,        0 },
                 { 0,        dt3 / 2,        0,      dt2 }
-            }.Multiply(aVar, inPlace: true);
+            };
+            
+            Ex.Multiply(aVar, result: Ex);
 
 
             P = Ex.MemberwiseClone();
@@ -223,19 +225,19 @@ namespace Accord.Statistics.Running
             double[,] Qloc = { { value.X }, { value.Y } };
 
             // Predict next state
-            Q_estimate = (A.Multiply(Q_estimate)).Add(B.Multiply(acceleration));
+            Q_estimate = Matrix.Dot(A, Q_estimate).Add(B.Multiply(acceleration));
 
             // Predict Covariances
-            P = (A.Multiply(P.Multiply(A.Transpose()))).Add(Ex);
+            P = Matrix.Dot(A, P.DotWithTransposed(A)).Add(Ex);
 
-            Aux = (C.Multiply(P.Multiply(C.Transpose())).Add(Ez)).PseudoInverse();
+            Aux = Matrix.Dot(C, P.DotWithTransposed(C).Add(Ez)).PseudoInverse();
 
             // Kalman Gain
-            K = P.Multiply(C.Transpose().Multiply(Aux));
-            Q_estimate = Q_estimate.Add(K.Multiply(Qloc.Subtract(C.Multiply(Q_estimate))));
+            K = Matrix.Dot(Matrix.DotWithTransposed(P, C), Aux);
+            Q_estimate = Q_estimate.Add(Matrix.Dot(K, Qloc.Subtract(Matrix.Dot(C, Q_estimate))));
 
             // Update P (Covariances)
-            P = (diagonal.Subtract(K.Multiply(C))).Multiply(P);
+            P = Matrix.Dot(diagonal.Subtract(Matrix.Dot(K, C)), P);
         }
 
 

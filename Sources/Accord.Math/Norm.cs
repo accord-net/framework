@@ -75,21 +75,12 @@ namespace Accord.Math
         /// 
         public static double Frobenius(this double[,] a)
         {
-            if (a == null)
-                throw new ArgumentNullException("a");
-
             int rows = a.Rows();
             int cols = a.Columns();
 
             double norm = 0.0;
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    double v = a[i, j];
-                    norm += v * v;
-                }
-            }
+            foreach (var v in a)
+                norm += v * v;
 
             return System.Math.Sqrt(norm);
         }

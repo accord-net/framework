@@ -35,9 +35,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using Accord.Controls.Vision;
-using AForge.Video.DirectShow;
+using Accord.Video.DirectShow;
 
-namespace Controller
+namespace SampleApp
 {
     public partial class MainForm : Form
     {

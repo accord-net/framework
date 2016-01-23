@@ -22,8 +22,7 @@
 
 namespace Accord.Neuro
 {
-    using AForge.Math.Random;
-    using AForge.Neuro;
+    using Accord.Math.Random;
 
     /// <summary>
     ///   Gaussian weight initialization.
@@ -53,7 +52,7 @@ namespace Accord.Neuro
         {
             this.network = network;
 
-            this.random = new GaussianGenerator(0f, (float)stdDev, Accord.Math.Tools.Random.Next());
+            this.random = new GaussianGenerator(0f, (float)stdDev, Accord.Math.Random.Generator.Random.Next());
 
             this.UpdateThresholds = false;
         }

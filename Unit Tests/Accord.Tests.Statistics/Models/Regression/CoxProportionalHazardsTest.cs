@@ -157,5 +157,70 @@ namespace Accord.Tests.Statistics
             }
         }
 
+
+
+        [Test]
+        public void RunTest_Compat()
+        {
+            // Data from: http://www.sph.emory.edu/~cdckms/CoxPH/prophaz2.html
+
+            double[,] data =
+            {
+                { 50,  1, 0 },
+                { 70,  2, 1 },
+                { 45,  3, 0 },
+                { 35,  5, 0 },
+                { 62,  7, 1 },
+                { 50, 11, 0 },
+                { 45,  4, 0 },
+                { 57,  6, 0 },
+                { 32,  8, 0 },
+                { 57,  9, 1 },
+                { 60, 10, 1 },
+            };
+
+            ProportionalHazards regression = new ProportionalHazards(1);
+
+            regression.Coefficients[0] = 0.37704239281494084;
+            regression.StandardErrors[0] = 0.25415755113043753;
+
+            double[][] inputs = data.GetColumn(0).ToArray();
+            double[] time = data.GetColumn(1);
+            int[] output = data.GetColumn(2).ToInt32();
+
+
+            {
+                double actual = -2 * regression.GetPartialLogLikelihood(inputs, time, output);
+                double expected = 4.0505;
+                Assert.AreEqual(expected, actual, 1e-4);
+                Assert.IsFalse(Double.IsNaN(actual));
+            }
+
+            {
+                var test = regression.GetWaldTest(0);
+                Assert.AreEqual(0.1379, test.PValue, 1e-4);
+            }
+
+            {
+                var ci = regression.GetConfidenceInterval(0);
+                Assert.AreEqual(0.8859, ci.Min, 1e-4);
+                Assert.AreEqual(2.3993, ci.Max, 1e-4);
+            }
+
+
+            {
+                double actual = regression.GetHazardRatio(0);
+                double expected = 1.4580;
+                Assert.AreEqual(expected, actual, 1e-4);
+            }
+
+            {
+                var chi = regression.ChiSquare(inputs, time, output);
+                Assert.AreEqual(7.3570, chi.Statistic, 1e-4);
+                Assert.AreEqual(1, chi.DegreesOfFreedom);
+                Assert.AreEqual(0.0067, chi.PValue, 1e-3);
+            }
+
+        }
     }
 }

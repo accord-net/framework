@@ -190,8 +190,8 @@ namespace Accord.Math
                 Math.Abs(size * sigmaY * Math.Cos(theta)));
             int yMax = (int)Math.Ceiling(Math.Max(1, b));
 
-            int[] xValues = Matrix.Vector(-xMax, xMax, increment: 1);
-            int[] yValues = Matrix.Vector(-yMax, yMax, increment: 1);
+            int[] xValues = Vector.Interval(-xMax, xMax);
+            int[] yValues = Vector.Interval(-yMax, yMax);
 
             System.Diagnostics.Debug.Assert(xValues.Length == (2 * xMax + 1));
             System.Diagnostics.Debug.Assert(yValues.Length == (2 * yMax + 1));
@@ -235,7 +235,7 @@ namespace Accord.Math
             }
 
             if (normalized)
-                kernel.Divide(sum, inPlace: true);
+                kernel.Divide(sum, result: kernel);
 
             return kernel;
         }

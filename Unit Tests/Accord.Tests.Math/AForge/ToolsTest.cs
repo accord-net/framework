@@ -3,7 +3,7 @@ using AForge;
 using AForge.Math;
 using NUnit.Framework;
 
-namespace AForge.Math.Tests
+namespace Accord.Math.Tests
 {
     [TestFixture]
     public class ToolsTest

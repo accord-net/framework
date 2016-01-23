@@ -26,7 +26,7 @@
 namespace Accord.Imaging
 {
     using System;
-    using AForge.Imaging;
+    using Accord.Imaging;
 
     /// <summary>
     ///   Gray-Level Difference Method (GLDM).

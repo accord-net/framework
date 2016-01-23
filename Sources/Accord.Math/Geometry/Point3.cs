@@ -94,7 +94,7 @@ namespace Accord.Math
 
         /// <summary>
         ///   Performs an implicit conversion from
-        ///   <see cref="Accord.Math.Point3"/> to <see cref="AForge.Math.Vector3"/>.
+        ///   <see cref="Accord.Math.Point3"/> to <see cref="Accord.Math.Vector3"/>.
         /// </summary>
         /// 
         /// <param name="point">The point to be converted.</param>
@@ -125,7 +125,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Performs a conversion from <see cref="AForge.Math.Vector3"/>
+        ///   Performs a conversion from <see cref="Accord.Math.Vector3"/>
         ///   to <see cref="Accord.Math.Point3"/>.
         /// </summary>
         /// 

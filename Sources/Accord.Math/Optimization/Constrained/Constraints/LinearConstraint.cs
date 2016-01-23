@@ -137,8 +137,8 @@ namespace Accord.Math.Optimization
         public LinearConstraint(int numberOfVariables)
         {
             this.NumberOfVariables = numberOfVariables;
-            this.indices = Matrix.Indices(0, numberOfVariables);
-            this.scalars = Matrix.Vector(numberOfVariables, 1.0);
+            this.indices = Vector.Range(0, numberOfVariables);
+            this.scalars = Vector.Ones(numberOfVariables);
             this.ShouldBe = ConstraintType.GreaterThanOrEqualTo;
 
             this.Function = compute;
@@ -155,7 +155,7 @@ namespace Accord.Math.Optimization
         public LinearConstraint(params double[] coefficients)
         {
             this.NumberOfVariables = coefficients.Length;
-            this.indices = Matrix.Indices(0, coefficients.Length);
+            this.indices = Vector.Range(0, coefficients.Length);
             this.CombinedAs = coefficients;
             this.ShouldBe = ConstraintType.GreaterThanOrEqualTo;
 

@@ -26,6 +26,7 @@ namespace Accord.Tests.Math
     using Accord.MachineLearning.Structures;
     using Accord.Math;
     using Accord.Math.Comparers;
+    using Accord.Math.Distances;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Tests.MachineLearning.Structures;
@@ -160,12 +161,12 @@ namespace Accord.Tests.Math
             inputs = gauss1.Stack(gauss2);
             int[] outputs = Matrix.Vector(n1, 0).Concatenate(Matrix.Vector(n2, +1));
 
-            var idx = Accord.Statistics.Tools.Random(n1 + n2);
+            var idx = Vector.Sample(n1 + n2);
             inputs = inputs.Submatrix(idx);
             outputs = outputs.Submatrix(idx);
 
             naive = new NaiveKNearestNeighbors(k, inputs, outputs);
-            normal = new KNearestNeighbors<double[]>(k, inputs, outputs, Distance.Euclidean);
+            normal = new KNearestNeighbors<double[]>(k, inputs, outputs, new Euclidean());
             target = new KNearestNeighbors(k, inputs, outputs);
         }
 

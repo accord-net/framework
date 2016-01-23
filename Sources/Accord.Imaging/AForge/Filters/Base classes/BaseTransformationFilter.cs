@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
@@ -44,92 +44,92 @@ namespace AForge.Imaging.Filters
         ///
         public abstract Dictionary<PixelFormat, PixelFormat> FormatTranslations { get; }
 
-		/// <summary>
-		/// Apply filter to an image.
-		/// </summary>
-		/// 
-		/// <param name="image">Source image to apply filter to.</param>
-		/// 
-		/// <returns>Returns filter's result obtained by applying the filter to
-		/// the source image.</returns>
-		/// 
-		/// <remarks>The method keeps the source image unchanged and returns
-		/// the result of image processing filter as new image.</remarks>
+        /// <summary>
+        /// Apply filter to an image.
+        /// </summary>
+        /// 
+        /// <param name="image">Source image to apply filter to.</param>
+        /// 
+        /// <returns>Returns filter's result obtained by applying the filter to
+        /// the source image.</returns>
+        /// 
+        /// <remarks>The method keeps the source image unchanged and returns
+        /// the result of image processing filter as new image.</remarks>
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
-		///
-        public Bitmap Apply( Bitmap image )
+        ///
+        public Bitmap Apply(Bitmap image)
         {
             // lock source bitmap data
             BitmapData srcData = image.LockBits(
-                new Rectangle( 0, 0, image.Width, image.Height ),
-                ImageLockMode.ReadOnly, image.PixelFormat );
+                new Rectangle(0, 0, image.Width, image.Height),
+                ImageLockMode.ReadOnly, image.PixelFormat);
 
             Bitmap dstImage = null;
 
             try
             {
                 // apply the filter
-                dstImage = Apply( srcData );
-                if ( ( image.HorizontalResolution > 0 ) && ( image.VerticalResolution > 0 ) )
+                dstImage = Apply(srcData);
+                if ((image.HorizontalResolution > 0) && (image.VerticalResolution > 0))
                 {
-                    dstImage.SetResolution( image.HorizontalResolution, image.VerticalResolution );
+                    dstImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
                 }
             }
             finally
             {
                 // unlock source image
-                image.UnlockBits( srcData );
+                image.UnlockBits(srcData);
             }
 
             return dstImage;
         }
 
-		/// <summary>
-		/// Apply filter to an image.
-		/// </summary>
-		/// 
-		/// <param name="imageData">Source image to apply filter to.</param>
-		/// 
-		/// <returns>Returns filter's result obtained by applying the filter to
-		/// the source image.</returns>
-		/// 
-		/// <remarks>The filter accepts bitmap data as input and returns the result
-		/// of image processing filter as new image. The source image data are kept
-		/// unchanged.</remarks>
-		///
+        /// <summary>
+        /// Apply filter to an image.
+        /// </summary>
+        /// 
+        /// <param name="imageData">Source image to apply filter to.</param>
+        /// 
+        /// <returns>Returns filter's result obtained by applying the filter to
+        /// the source image.</returns>
+        /// 
+        /// <remarks>The filter accepts bitmap data as input and returns the result
+        /// of image processing filter as new image. The source image data are kept
+        /// unchanged.</remarks>
+        ///
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         ///
-        public Bitmap Apply( BitmapData imageData )
+        public Bitmap Apply(BitmapData imageData)
         {
             // check pixel format of the source image
-            CheckSourceFormat( imageData.PixelFormat );
+            CheckSourceFormat(imageData.PixelFormat);
 
             // destination image format
             PixelFormat dstPixelFormat = FormatTranslations[imageData.PixelFormat];
 
             // get new image size
-            Size newSize = CalculateNewImageSize( new UnmanagedImage( imageData ) );
+            Size newSize = CalculateNewImageSize(new UnmanagedImage(imageData));
 
             // create new image of required format
-            Bitmap dstImage = ( dstPixelFormat == PixelFormat.Format8bppIndexed ) ?
-                AForge.Imaging.Image.CreateGrayscaleImage( newSize.Width, newSize.Height ) :
-                new Bitmap( newSize.Width, newSize.Height, dstPixelFormat );
+            Bitmap dstImage = (dstPixelFormat == PixelFormat.Format8bppIndexed) ?
+                Accord.Imaging.Image.CreateGrayscaleImage(newSize.Width, newSize.Height) :
+                new Bitmap(newSize.Width, newSize.Height, dstPixelFormat);
 
             // lock destination bitmap data
             BitmapData dstData = dstImage.LockBits(
-                new Rectangle( 0, 0, newSize.Width, newSize.Height ),
-                ImageLockMode.ReadWrite, dstPixelFormat );
+                new Rectangle(0, 0, newSize.Width, newSize.Height),
+                ImageLockMode.ReadWrite, dstPixelFormat);
 
             try
             {
                 // process the filter
-                ProcessFilter( new UnmanagedImage( imageData ), new UnmanagedImage( dstData ) );
+                ProcessFilter(new UnmanagedImage(imageData), new UnmanagedImage(dstData));
             }
             finally
             {
                 // unlock destination images
-                dstImage.UnlockBits( dstData );
+                dstImage.UnlockBits(dstData);
             }
 
             return dstImage;
@@ -149,19 +149,19 @@ namespace AForge.Imaging.Filters
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         ///
-        public UnmanagedImage Apply( UnmanagedImage image )
+        public UnmanagedImage Apply(UnmanagedImage image)
         {
             // check pixel format of the source image
-            CheckSourceFormat( image.PixelFormat );
+            CheckSourceFormat(image.PixelFormat);
 
             // get new image size
-            Size newSize = CalculateNewImageSize( image );
+            Size newSize = CalculateNewImageSize(image);
 
             // create new destination image
-            UnmanagedImage dstImage = UnmanagedImage.Create( newSize.Width, newSize.Height, FormatTranslations[image.PixelFormat] );
+            UnmanagedImage dstImage = UnmanagedImage.Create(newSize.Width, newSize.Height, FormatTranslations[image.PixelFormat]);
 
             // process the filter
-            ProcessFilter( image, dstImage );
+            ProcessFilter(image, dstImage);
 
             return dstImage;
         }
@@ -185,28 +185,28 @@ namespace AForge.Imaging.Filters
         /// <exception cref="InvalidImagePropertiesException">Incorrect destination pixel format.</exception>
         /// <exception cref="InvalidImagePropertiesException">Destination image has wrong width and/or height.</exception>
         ///
-        public void Apply( UnmanagedImage sourceImage, UnmanagedImage destinationImage )
+        public void Apply(UnmanagedImage sourceImage, UnmanagedImage destinationImage)
         {
             // check pixel format of the source and destination images
-            CheckSourceFormat( sourceImage.PixelFormat );
+            CheckSourceFormat(sourceImage.PixelFormat);
 
             // ensure destination image has correct format
-            if ( destinationImage.PixelFormat != FormatTranslations[sourceImage.PixelFormat] )
+            if (destinationImage.PixelFormat != FormatTranslations[sourceImage.PixelFormat])
             {
-                throw new InvalidImagePropertiesException( "Destination pixel format is specified incorrectly." );
+                throw new InvalidImagePropertiesException("Destination pixel format is specified incorrectly.");
             }
 
             // get new image size
-            Size newSize = CalculateNewImageSize( sourceImage );
+            Size newSize = CalculateNewImageSize(sourceImage);
 
             // ensure destination image has correct size
-            if ( ( destinationImage.Width != newSize.Width ) || ( destinationImage.Height != newSize.Height ) )
+            if ((destinationImage.Width != newSize.Width) || (destinationImage.Height != newSize.Height))
             {
-                throw new InvalidImagePropertiesException( "Destination image must have the size expected by the filter." );
+                throw new InvalidImagePropertiesException("Destination image must have the size expected by the filter.");
             }
 
             // process the filter
-            ProcessFilter( sourceImage, destinationImage );
+            ProcessFilter(sourceImage, destinationImage);
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace AForge.Imaging.Filters
         /// 
         /// <returns>New image size - size of the destination image.</returns>
         /// 
-        protected abstract System.Drawing.Size CalculateNewImageSize( UnmanagedImage sourceData );
+        protected abstract System.Drawing.Size CalculateNewImageSize(UnmanagedImage sourceData);
 
         /// <summary>
         /// Process the filter on the specified image.
@@ -226,13 +226,13 @@ namespace AForge.Imaging.Filters
         /// <param name="sourceData">Source image data.</param>
         /// <param name="destinationData">Destination image data.</param>
         /// 
-        protected abstract unsafe void ProcessFilter( UnmanagedImage sourceData, UnmanagedImage destinationData );
+        protected abstract unsafe void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData);
 
         // Check pixel format of the source image
-        private void CheckSourceFormat( PixelFormat pixelFormat )
+        private void CheckSourceFormat(PixelFormat pixelFormat)
         {
-            if ( !FormatTranslations.ContainsKey( pixelFormat ) )
-                throw new UnsupportedImageFormatException( "Source pixel format is not supported by the filter." );
+            if (!FormatTranslations.ContainsKey(pixelFormat))
+                throw new UnsupportedImageFormatException("Source pixel format is not supported by the filter.");
         }
     }
 }

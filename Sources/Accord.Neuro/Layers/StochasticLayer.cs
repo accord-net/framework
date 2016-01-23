@@ -24,7 +24,6 @@ namespace Accord.Neuro.Layers
 {
     using Accord.Neuro.ActivationFunctions;
     using Accord.Neuro.Neurons;
-    using AForge.Neuro;
     using System;
 
     /// <summary>

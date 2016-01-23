@@ -6,12 +6,13 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge.Math;
+    using Accord.Statistics.Visualizations;
 
     /// <summary>
     /// Gather statistics about image in RGB color space.
@@ -37,7 +38,7 @@ namespace AForge.Imaging
     /// </code>
     /// </remarks>
     /// 
-    /// <seealso cref="AForge.Math.Histogram"/>
+    /// <seealso cref="Accord.Statistics.Visualizations.Histogram"/>
     /// 
     public class ImageStatistics
     {

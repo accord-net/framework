@@ -19,7 +19,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace DeepLearning.ViewModel
+namespace SampleApp.ViewModel
 {
     using System.ComponentModel;
     using Accord.Controls;

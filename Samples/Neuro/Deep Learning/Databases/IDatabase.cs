@@ -19,7 +19,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace DeepLearning.Databases
+namespace SampleApp.Databases
 {
     using System.Collections.ObjectModel;
     using System.ComponentModel;

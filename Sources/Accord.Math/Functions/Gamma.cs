@@ -43,6 +43,7 @@
 
 namespace Accord.Math
 {
+    using Accord.Math.Random;
     using System;
 
     /// <summary>
@@ -872,8 +873,7 @@ namespace Accord.Math
         /// 
         public static double Random(double d, double c)
         {
-            var g = new AForge.Math.Random.GaussianGenerator(0,
-                1, Accord.Math.Tools.Random.Next());
+            var g = new GaussianGenerator(0, 1, Generator.Random.Next());
 
             // References:
             //
@@ -894,7 +894,7 @@ namespace Accord.Math
 
 
                 // 3. Generate uniform U
-                double U = Accord.Math.Tools.Random.NextDouble();
+                double U = Accord.Math.Random.Generator.Random.NextDouble();
 
                 // 4. If U < 1-0.0331*x^4 return d*v.
                 double x2 = x * x;

@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Genetic
+namespace Accord.Genetic
 {
     using System;
     using AForge;
@@ -58,9 +58,9 @@ namespace AForge.Genetic
         private int val;
 
         /// <summary>
-        /// Random number generator for chromosoms generation.
+        /// Random number generator for chromosomes generation.
         /// </summary>
-        protected static ThreadSafeRandom rand = new ThreadSafeRandom( );
+        protected static ThreadSafeRandom rand = new ThreadSafeRandom();
 
         /// <summary>
         /// Gene type.

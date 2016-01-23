@@ -35,7 +35,7 @@
 namespace Accord.Imaging
 {
     using Accord.Math;
-    using AForge.Imaging;
+    using Accord.Imaging;
     using System;
     using System.Collections.Generic;
 

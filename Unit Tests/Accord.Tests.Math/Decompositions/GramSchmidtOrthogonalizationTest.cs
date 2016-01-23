@@ -67,7 +67,7 @@ namespace Accord.Tests.Math
 
             double[,] inv = Q.Inverse();
             double[,] transpose = Q.Transpose();
-            double[,] m = Q.Multiply(transpose);
+            double[,] m = Matrix.Multiply(Q, transpose);
 
             Assert.IsTrue(Matrix.IsEqual(m, Matrix.Identity(2), 1e-10));
             Assert.IsTrue(Matrix.IsEqual(inv, transpose, 1e-10));

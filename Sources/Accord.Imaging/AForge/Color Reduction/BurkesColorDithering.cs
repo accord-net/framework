@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging.ColorReduction
+namespace Accord.Imaging.ColorReduction
 {
     using System;
     using System.Drawing;

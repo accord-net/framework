@@ -38,23 +38,6 @@ namespace Accord.Tests.Statistics.Models.Fields
     public class MultivariateMarkovFunctionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         public static HiddenMarkovClassifier<MultivariateNormalDistribution> CreateModel1()
         {
             // Create a Continuous density Hidden Markov Model Sequence Classifier

@@ -36,8 +36,8 @@ namespace Accord.Tests.Statistics
         [Test]
         public void ConstructorTest1()
         {
-            NormalDistribution normal = new NormalDistribution(4.2, 1.2);
-            MultivariateNormalDistribution target = new MultivariateNormalDistribution(new[] { 4.2 }, new[,] { { 1.2 * 1.2 } });
+            var normal = new NormalDistribution(4.2, 1.2);
+            var target = new MultivariateNormalDistribution(new[] { 4.2 }, new[,] { { 1.2 * 1.2 } });
 
             double[] mean = target.Mean;
             double[] median = target.Median;
@@ -403,8 +403,8 @@ namespace Accord.Tests.Statistics
                 new double[] { 2.0000,  0.3000 }
             };
 
-            double[] mean = Accord.Statistics.Tools.Mean(observations);
-            double[,] cov = Accord.Statistics.Tools.Covariance(observations);
+            double[] mean = Measures.Mean(observations);
+            double[,] cov = Measures.Covariance(observations);
 
             {
                 var target = new MultivariateNormalDistribution(2);

@@ -129,8 +129,8 @@ namespace Accord.Tests.Statistics
                 new double[] { 2.0000,  0.3000 }
             };
 
-            double[] mean = Accord.Statistics.Tools.Mean(observations);
-            double[,] cov = Accord.Statistics.Tools.Covariance(observations);
+            double[] mean = Measures.Mean(observations);
+            double[,] cov = Measures.Covariance(observations);
 
             var target = new MultivariateEmpiricalDistribution(observations);
 

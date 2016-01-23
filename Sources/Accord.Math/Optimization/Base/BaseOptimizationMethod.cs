@@ -132,7 +132,7 @@ namespace Accord.Math.Optimization
             this.Solution = new double[numberOfVariables];
 
             for (int i = 0; i < Solution.Length; i++)
-                Solution[i] = Accord.Math.Tools.Random.NextDouble() * 2 - 1;
+                Solution[i] = Accord.Math.Random.Generator.Random.NextDouble() * 2 - 1;
         }
 
         /// <summary>

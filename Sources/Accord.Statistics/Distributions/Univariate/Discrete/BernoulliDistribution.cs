@@ -223,7 +223,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.IntRange" /> containing
+        ///   A <see cref="IntRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -408,7 +408,7 @@ namespace Accord.Statistics.Distributions.Univariate
             int[] r = new int[samples];
             for (int i = 0; i < r.Length; i++)
             {
-                double u = Accord.Math.Tools.Random.NextDouble();
+                double u = Accord.Math.Random.Generator.Random.NextDouble();
                 r[i] = u > this.probability ? 1 : 0;
             }
 
@@ -423,7 +423,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override int Generate()
         {
-            double u = Accord.Math.Tools.Random.NextDouble();
+            double u = Accord.Math.Random.Generator.Random.NextDouble();
             return u > this.probability ? 1 : 0;
         }
 

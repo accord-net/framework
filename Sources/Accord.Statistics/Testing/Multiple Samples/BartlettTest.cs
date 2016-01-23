@@ -69,13 +69,13 @@ namespace Accord.Statistics.Testing
         public BartlettTest(params double[][] samples)
         {
             int N = 0, k = samples.Length;
-            double Sp = Accord.Statistics.Tools.PooledVariance(samples);
+            double Sp = Measures.PooledVariance(samples);
 
             double sum1 = 0; // Numerator sum
             for (int i = 0; i < samples.Length; i++)
             {
                 int n = samples[i].Length;
-                double s = Accord.Statistics.Tools.Variance(samples[i]);
+                double s = samples[i].Variance();
                 double logs = Math.Log(s);
 
                 sum1 += (n - 1.0) * logs;

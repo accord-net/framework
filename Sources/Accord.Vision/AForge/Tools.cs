@@ -6,13 +6,13 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Vision
+namespace Accord.Vision
 {
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
 
     internal static class Tools
     {

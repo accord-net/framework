@@ -1,4 +1,4 @@
-﻿namespace Regression.SVMs
+﻿namespace SampleApp
 {
     partial class MainForm
     {

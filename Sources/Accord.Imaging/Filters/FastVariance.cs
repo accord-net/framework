@@ -25,8 +25,8 @@ namespace Accord.Imaging.Filters
     using System;
     using System.Collections.Generic;
     using System.Drawing.Imaging;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
 
     /// <summary>
     ///   Fast Variance filter.

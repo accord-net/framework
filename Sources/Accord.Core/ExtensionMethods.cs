@@ -22,6 +22,7 @@
 
 namespace Accord
 {
+    using Accord.IO;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -30,6 +31,7 @@ namespace Accord
     using System.IO;
     using System.Reflection;
     using System.Runtime.InteropServices;
+    using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
 
     /// <summary>
@@ -48,7 +50,7 @@ namespace Accord
         /// 
         /// <returns>A copy of the collection where each element has also been copied.</returns>
         /// 
-        public static T DeepClone<T>(this T list) 
+        public static T DeepClone<T>(this T list)
             where T : IList<ICloneable>, ICloneable
         {
             T clone = (T)list.Clone();
@@ -163,7 +165,6 @@ namespace Accord
         }
 
 
-        private static readonly Object lockObj = new Object();
 
         /// <summary>
         ///   Deserializes the specified stream into an object graph, but locates
@@ -175,30 +176,39 @@ namespace Accord
         /// 
         /// <returns>The top (root) of the object graph.</returns>
         /// 
-        public static object DeserializeAnyVersion(this BinaryFormatter formatter, Stream stream)
+        [Obsolete("Please use Accord.IO.Serializer.Load<T>() instead.")]
+        public static T DeserializeAnyVersion<T>(this BinaryFormatter formatter, Stream stream)
         {
-            lock (lockObj)
+            return Serializer.Load<T>(stream);
+        }
+
+        /// <summary>
+        ///   Converts an object into another type, irrespective of whether
+        ///   the conversion can be done at compile time or not. This can be
+        ///   used to convert generic types to numeric types during runtime.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The destination type.</typeparam>
+        /// 
+        /// <param name="value">The value to be converted.</param>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
+        public static T To<T>(this object value)
+        {
+            if (value is IConvertible)
+                return (T)System.Convert.ChangeType(value, typeof(T));
+
+            Type type = value.GetType();
+            MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static);
+            foreach (var m in methods)
             {
-                try
-                {
-                    AppDomain.CurrentDomain.AssemblyResolve += resolve;
-                    return formatter.Deserialize(stream);
-                }
-                finally
-                {
-                    AppDomain.CurrentDomain.AssemblyResolve -= resolve;
-                }
+                if ((m.Name == "op_Implicit" || m.Name == "op_Explicit") && m.ReturnType == typeof(T))
+                    return (T)m.Invoke(null, new[] { value });
             }
+
+            return (T)System.Convert.ChangeType(value, typeof(T));
         }
 
-        private static Assembly resolve(object sender, ResolveEventArgs args)
-        {
-            var display = new AssemblyName(args.Name);
-
-            if (display.Name == args.Name)
-                return null;
-
-            return ((AppDomain)sender).Load(display.Name);
-        }
     }
 }

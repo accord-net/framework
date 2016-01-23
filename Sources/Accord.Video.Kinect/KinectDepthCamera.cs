@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Video.Kinect
+namespace Accord.Video.Kinect
 {
     using System;
     using System.Collections.Generic;
@@ -14,8 +14,8 @@ namespace AForge.Video.Kinect
     using System.Drawing.Imaging;
     using System.Runtime.InteropServices;
 
-    using AForge;
-    using AForge.Video;
+    using Accord;
+    using Accord.Video;
 
     /// <summary>
     /// Video source for Microsoft Kinect's depth sensor.

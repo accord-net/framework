@@ -14,10 +14,10 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using System.Reflection;
 
-using AForge;
-using AForge.Imaging;
-using AForge.Imaging.Filters;
-using AForge.Math.Geometry;
+using Accord;
+using Accord.Imaging;
+using Accord.Imaging.Filters;
+using Accord.Math.Geometry;
 
 namespace SampleApp
 {
@@ -132,7 +132,7 @@ namespace SampleApp
             {
                 List<IntPoint> edgePoints = blobCounter.GetBlobsEdgePoints(blobs[i]);
 
-                AForge.Point center;
+                Accord.Point center;
                 float radius;
 
                 // is circle ?

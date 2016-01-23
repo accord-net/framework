@@ -1,4 +1,4 @@
-﻿namespace Controller
+﻿namespace SampleApp
 {
     partial class MainForm
     {
@@ -215,23 +215,23 @@
             // 
             // controller
             // 
-            this.controller.AngleMax = global::Controller.Properties.Settings.Default.angleMax;
-            this.controller.AngleMin = global::Controller.Properties.Settings.Default.angleMin;
-            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("AngleMax", global::Controller.Properties.Settings.Default, "angleMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("AngleMin", global::Controller.Properties.Settings.Default, "angleMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("ScaleMax", global::Controller.Properties.Settings.Default, "scaleMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("ScaleMin", global::Controller.Properties.Settings.Default, "scaleMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("XAxisMax", global::Controller.Properties.Settings.Default, "xMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("XAxisMin", global::Controller.Properties.Settings.Default, "xMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("YAxisMax", global::Controller.Properties.Settings.Default, "yMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("YAxisMin", global::Controller.Properties.Settings.Default, "yMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.controller.ScaleMax = global::Controller.Properties.Settings.Default.scaleMax;
-            this.controller.ScaleMin = global::Controller.Properties.Settings.Default.scaleMin;
+            this.controller.AngleMax = global::SampleApp.Properties.Settings.Default.angleMax;
+            this.controller.AngleMin = global::SampleApp.Properties.Settings.Default.angleMin;
+            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("AngleMax", global::SampleApp.Properties.Settings.Default, "angleMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("AngleMin", global::SampleApp.Properties.Settings.Default, "angleMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("ScaleMax", global::SampleApp.Properties.Settings.Default, "scaleMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("ScaleMin", global::SampleApp.Properties.Settings.Default, "scaleMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("XAxisMax", global::SampleApp.Properties.Settings.Default, "xMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("XAxisMin", global::SampleApp.Properties.Settings.Default, "xMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("YAxisMax", global::SampleApp.Properties.Settings.Default, "yMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("YAxisMin", global::SampleApp.Properties.Settings.Default, "yMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.controller.ScaleMax = global::SampleApp.Properties.Settings.Default.scaleMax;
+            this.controller.ScaleMin = global::SampleApp.Properties.Settings.Default.scaleMin;
             this.controller.SynchronizingObject = this;
-            this.controller.XAxisMax = global::Controller.Properties.Settings.Default.xMax;
-            this.controller.XAxisMin = global::Controller.Properties.Settings.Default.xMin;
-            this.controller.YAxisMax = global::Controller.Properties.Settings.Default.yMax;
-            this.controller.YAxisMin = global::Controller.Properties.Settings.Default.yMin;
+            this.controller.XAxisMax = global::SampleApp.Properties.Settings.Default.xMax;
+            this.controller.XAxisMin = global::SampleApp.Properties.Settings.Default.xMin;
+            this.controller.YAxisMax = global::SampleApp.Properties.Settings.Default.yMax;
+            this.controller.YAxisMin = global::SampleApp.Properties.Settings.Default.yMin;
             this.controller.HeadMove += new System.EventHandler<Accord.Controls.Vision.HeadEventArgs>(this.headController1_HeadMove);
             this.controller.HeadEnter += new System.EventHandler<Accord.Controls.Vision.HeadEventArgs>(this.controller_HeadEnter);
             this.controller.HeadLeave += new System.EventHandler<System.EventArgs>(this.controller_HeadLeave);

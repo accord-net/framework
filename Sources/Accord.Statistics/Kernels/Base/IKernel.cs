@@ -42,17 +42,8 @@ namespace Accord.Statistics.Kernels
     ///   </list></para>
     /// </remarks>
     /// 
-    public interface IKernel
+    public interface IKernel : IKernel<double[]>
     {
-        /// <summary>
-        ///   The kernel function.
-        /// </summary>
-        /// 
-        /// <param name="x">Vector <c>x</c> in input space.</param>
-        /// <param name="y">Vector <c>y</c> in input space.</param>
-        /// <returns>Dot product in feature (kernel) space.</returns>
-        /// 
-        double Function(double[] x, double[] y);
 
     }
 }

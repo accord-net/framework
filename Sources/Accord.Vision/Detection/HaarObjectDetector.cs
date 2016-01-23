@@ -39,7 +39,6 @@ namespace Accord.Vision.Detection
     using System.Drawing;
     using System.Threading.Tasks;
     using Accord.Imaging;
-    using AForge.Imaging;
     using System.Drawing.Imaging;
 
     /// <summary>

@@ -28,8 +28,8 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Converters;
     using Accord.Math;
     using AForge;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
     using NUnit.Framework;
 
     [TestFixture]

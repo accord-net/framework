@@ -37,8 +37,9 @@ using Accord.Imaging.Converters;
 using Accord.MachineLearning;
 using Accord.Math;
 using Accord.Statistics.Distributions.DensityKernels;
+using Accord.Math.Distances;
 
-namespace Clustering.K_Means
+namespace SampleApp
 {
     /// <summary>
     ///   K-Means / Mean-Shift color clusterization sample application. This
@@ -88,7 +89,7 @@ namespace Clustering.K_Means
 
             // Create a K-Means algorithm using given k and a
             //  square Euclidean distance as distance metric.
-            KMeans kmeans = new KMeans(k, Distance.SquareEuclidean)
+            KMeans kmeans = new KMeans(k, new SquareEuclidean())
             {
                 Tolerance = 0.05
             };

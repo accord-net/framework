@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
     using System.Drawing;
@@ -221,7 +221,7 @@ namespace AForge.Imaging
             UnmanagedImage newImage = new UnmanagedImage(newImageData, width, height, stride, pixelFormat);
             newImage.mustBeDisposed = true;
 
-            AForge.SystemTools.CopyUnmanagedMemory(newImageData, imageData, stride * height);
+            Accord.SystemTools.CopyUnmanagedMemory(newImageData, imageData, stride * height);
 
             return newImage;
         }
@@ -249,7 +249,7 @@ namespace AForge.Imaging
             if (stride == destImage.stride)
             {
                 // copy entire image
-                AForge.SystemTools.CopyUnmanagedMemory(destImage.imageData, imageData, stride * height);
+                Accord.SystemTools.CopyUnmanagedMemory(destImage.imageData, imageData, stride * height);
             }
             else
             {
@@ -264,7 +264,7 @@ namespace AForge.Imaging
                     // copy line by line
                     for (int i = 0; i < height; i++)
                     {
-                        AForge.SystemTools.CopyUnmanagedMemory(dst, src, copyLength);
+                        Accord.SystemTools.CopyUnmanagedMemory(dst, src, copyLength);
 
                         dst += dstStride;
                         src += stride;
@@ -352,7 +352,7 @@ namespace AForge.Imaging
 
             // allocate memory for the image
             IntPtr imageData = System.Runtime.InteropServices.Marshal.AllocHGlobal(stride * height);
-            AForge.SystemTools.SetUnmanagedMemory(imageData, 0, stride * height);
+            Accord.SystemTools.SetUnmanagedMemory(imageData, 0, stride * height);
             System.GC.AddMemoryPressure(stride * height);
 
             UnmanagedImage image = new UnmanagedImage(imageData, width, height, stride, pixelFormat);
@@ -413,7 +413,7 @@ namespace AForge.Imaging
                 {
                     // create new image of required format
                     dstImage = (pixelFormat == PixelFormat.Format8bppIndexed) ?
-                        AForge.Imaging.Image.CreateGrayscaleImage(width, height) :
+                        Accord.Imaging.Image.CreateGrayscaleImage(width, height) :
                         new Bitmap(width, height, pixelFormat);
 
                     // lock destination bitmap data
@@ -434,14 +434,14 @@ namespace AForge.Imaging
                             // copy image
                             for (int y = 0; y < height; y++)
                             {
-                                AForge.SystemTools.CopyUnmanagedMemory(dst, src, lineSize);
+                                Accord.SystemTools.CopyUnmanagedMemory(dst, src, lineSize);
                                 dst += dstStride;
                                 src += stride;
                             }
                         }
                         else
                         {
-                            AForge.SystemTools.CopyUnmanagedMemory(dst, src, stride * height);
+                            Accord.SystemTools.CopyUnmanagedMemory(dst, src, stride * height);
                         }
                     }
 
@@ -532,7 +532,7 @@ namespace AForge.Imaging
             System.GC.AddMemoryPressure(imageData.Stride * imageData.Height);
 
             UnmanagedImage image = new UnmanagedImage(dstImageData, imageData.Width, imageData.Height, imageData.Stride, pixelFormat);
-            AForge.SystemTools.CopyUnmanagedMemory(dstImageData, imageData.Scan0, imageData.Stride * imageData.Height);
+            Accord.SystemTools.CopyUnmanagedMemory(dstImageData, imageData.Scan0, imageData.Stride * imageData.Height);
             image.mustBeDisposed = true;
 
             return image;

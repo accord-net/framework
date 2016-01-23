@@ -411,7 +411,7 @@ namespace Accord.Math.Environments
             /// 
             public static mat operator *(mat a, mat b)
             {
-                return a.matrix.Multiply(b.matrix);
+                return Matrix.Dot(a.matrix, b.matrix);
             }
 
             /// <summary>

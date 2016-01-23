@@ -24,29 +24,11 @@ namespace Accord.Tests.Imaging
 {
     using Accord.Imaging;
     using Accord.Imaging.Converters;
-    using AForge.Imaging;
     using NUnit.Framework;
 
     [TestFixture]
     public class HistogramsOfOrientedGradientsTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void MagnitudeDirectionTest()

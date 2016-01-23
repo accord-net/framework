@@ -9,7 +9,7 @@
 // http://www.codeproject.com/bitmap/cximage.asp
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
@@ -135,7 +135,7 @@ namespace AForge.Imaging.Filters
             // copy source to destination before
             if (srcStride == dstStride)
             {
-                AForge.SystemTools.CopyUnmanagedMemory(dst, src, srcStride * sourceData.Height);
+                Accord.SystemTools.CopyUnmanagedMemory(dst, src, srcStride * sourceData.Height);
             }
             else
             {
@@ -143,7 +143,7 @@ namespace AForge.Imaging.Filters
 
                 for (int y = 0, heigh = sourceData.Height; y < heigh; y++)
                 {
-                    AForge.SystemTools.CopyUnmanagedMemory(
+                    Accord.SystemTools.CopyUnmanagedMemory(
                         dst + dstStride * y, src + srcStride * y, len);
                 }
             }

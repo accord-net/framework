@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Math.Random
+namespace Accord.Math.Random
 {
     using System;
     using AForge;
@@ -46,7 +46,7 @@ namespace AForge.Math.Random
         ///
         public float Mean
         {
-            get { return ( min + min + length ) / 2; }
+            get { return (min + min + length) / 2; }
         }
 
         /// <summary>
@@ -67,9 +67,9 @@ namespace AForge.Math.Random
         /// value.</para>
         /// </remarks>
         /// 
-        public Range Range
+        public Accord.Range Range
         {
-            get { return new Range( min, min + length ); }
+            get { return new Accord.Range(min, min + length); }
         }
 
         /// <summary>
@@ -80,8 +80,8 @@ namespace AForge.Math.Random
         /// 
         /// <remarks>Initializes random numbers generator with zero seed.</remarks>
         /// 
-        public UniformGenerator( Range range ) :
-            this( range, 0 )
+        public UniformGenerator(Accord.Range range)
+            : this(range, 0)
         {
         }
 
@@ -92,12 +92,12 @@ namespace AForge.Math.Random
         /// <param name="range">Random numbers range.</param>
         /// <param name="seed">Seed value to initialize random numbers generator.</param>
         /// 
-        public UniformGenerator( Range range, int seed )
+        public UniformGenerator(Accord.Range range, int seed)
         {
-            rand = new UniformOneGenerator( seed );
+            rand = new UniformOneGenerator(seed);
 
-            min     = range.Min;
-            length  = range.Length;
+            min = range.Min;
+            length = range.Length;
         }
 
         /// <summary>
@@ -106,9 +106,9 @@ namespace AForge.Math.Random
         /// 
         /// <returns>Returns next random number.</returns>
         /// 
-        public float Next( )
+        public float Next()
         {
-            return (float) rand.Next( ) * length + min;
+            return (float)rand.Next() * length + min;
         }
 
         /// <summary>
@@ -120,9 +120,9 @@ namespace AForge.Math.Random
         /// <remarks>Resets random numbers generator initializing it with
         /// specified seed value.</remarks>
         /// 
-        public void SetSeed( int seed )
+        public void SetSeed(int seed)
         {
-            rand = new UniformOneGenerator( seed );
+            rand = new UniformOneGenerator(seed);
         }
     }
 }

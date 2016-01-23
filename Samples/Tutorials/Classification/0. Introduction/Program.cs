@@ -14,6 +14,11 @@ using Accord.Statistics.Kernels;
 using Accord.Statistics.Models.Regression;
 using Accord.Statistics.Models.Regression.Fitting;
 using AForge.Neuro;
+using Accord.Statistics.Models.Markov;
+using Accord.Statistics.Models.Markov.Learning;
+using Accord.Statistics.Models.Fields.Functions;
+using Accord.Statistics.Models.Fields;
+using Accord.Statistics.Models.Fields.Learning;
 
 namespace ClassificationSample
 {
@@ -45,6 +50,9 @@ namespace ClassificationSample
 
             multilabelsvm();
 
+            sequenceclassification();
+
+            resilientgradienthiddenlearning();
         }
 
         private static void naiveBayes(double[][] inputs, int[] outputs)
@@ -301,6 +309,114 @@ namespace ClassificationSample
             double error = teacher.Run();
 
             int[][] answers = inputs.Apply(machine.Compute);
+        }
+
+        private static void sequenceclassification()
+        {
+            // Declare some testing data
+            int[][] inputs = new int[][]
+            {
+                new int[] { 0,1,1,0 },   // Class 0
+                new int[] { 0,0,1,0 },   // Class 0
+                new int[] { 0,1,1,1,0 }, // Class 0
+                new int[] { 0,1,0 },     // Class 0
+
+                new int[] { 1,0,0,1 },   // Class 1
+                new int[] { 1,1,0,1 },   // Class 1
+                new int[] { 1,0,0,0,1 }, // Class 1
+                new int[] { 1,0,1 },     // Class 1
+            };
+
+            int[] outputs = new int[]
+            {
+                0,0,0,0, // First four sequences are of class 0
+                1,1,1,1, // Last four sequences are of class 1
+            };
+
+
+            // We are trying to predict two different classes
+            int classes = 2;
+
+            // Each sequence may have up to two symbols (0 or 1)
+            int symbols = 2;
+
+            // Nested models will have two states each
+            int[] states = new int[] { 2, 2 };
+
+            // Creates a new Hidden Markov Model Classifier with the given parameters
+            HiddenMarkovClassifier classifier = new HiddenMarkovClassifier(classes, states, symbols);
+
+            // Create a new learning algorithm to train the sequence classifier
+            var teacher = new HiddenMarkovClassifierLearning(classifier,
+
+                // Train each model until the log-likelihood changes less than 0.001
+                modelIndex => new BaumWelchLearning(classifier.Models[modelIndex])
+                {
+                    Tolerance = 0.001,
+                    Iterations = 0
+                }
+            );
+
+            // Train the sequence classifier using the algorithm
+            double likelihood = teacher.Run(inputs, outputs);
+
+            int[] answers = inputs.Apply(classifier.Compute);
+        }
+
+        private static void resilientgradienthiddenlearning()
+        {
+            // Suppose we would like to learn how to classify the
+            // following set of sequences among three class labels: 
+            int[][] inputSequences =
+            {
+                // First class of sequences: starts and
+                // ends with zeros, ones in the middle:
+                new[] { 0, 1, 1, 1, 0 },        
+                new[] { 0, 0, 1, 1, 0, 0 },     
+                new[] { 0, 1, 1, 1, 1, 0 },     
+ 
+                // Second class of sequences: starts with
+                // twos and switches to ones until the end.
+                new[] { 2, 2, 2, 2, 1, 1, 1, 1, 1 },
+                new[] { 2, 2, 1, 2, 1, 1, 1, 1, 1 },
+                new[] { 2, 2, 2, 2, 2, 1, 1, 1, 1 },
+ 
+                // Third class of sequences: can start
+                // with any symbols, but ends with three.
+                new[] { 0, 0, 1, 1, 3, 3, 3, 3 },
+                new[] { 0, 0, 0, 3, 3, 3, 3 },
+                new[] { 1, 0, 1, 2, 2, 2, 3, 3 },
+                new[] { 1, 1, 2, 3, 3, 3, 3 },
+                new[] { 0, 0, 1, 1, 3, 3, 3, 3 },
+                new[] { 2, 2, 0, 3, 3, 3, 3 },
+                new[] { 1, 0, 1, 2, 3, 3, 3, 3 },
+                new[] { 1, 1, 2, 3, 3, 3, 3 },
+            };
+
+            // Now consider their respective class labels
+            int[] outputLabels =
+            {
+                /* Sequences  1-3 are from class 0: */ 0, 0, 0,
+                /* Sequences  4-6 are from class 1: */ 1, 1, 1,
+                /* Sequences 7-14 are from class 2: */ 2, 2, 2, 2, 2, 2, 2, 2
+            };
+
+
+            // Create the Hidden Conditional Random Field using a set of discrete features
+            var function = new MarkovDiscreteFunction(states: 3, symbols: 4, outputClasses: 3);
+            var classifier = new HiddenConditionalRandomField<int>(function);
+
+            // Create a learning algorithm
+            var teacher = new HiddenResilientGradientLearning<int>(classifier)
+            {
+                Iterations = 50
+            };
+
+            // Run the algorithm and learn the models
+            teacher.Run(inputSequences, outputLabels);
+
+            int[] answers = inputSequences.Apply(classifier.Compute);
+
         }
 
     }

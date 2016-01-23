@@ -97,7 +97,7 @@ namespace Accord.Statistics.Testing
         {
             Signs = signs;
             Delta = diffs;
-            Ranks = Accord.Statistics.Tools.Rank(Delta);
+            Ranks = Delta.Rank();
 
             double W = WilcoxonDistribution.WPositive(Signs, Ranks);
 

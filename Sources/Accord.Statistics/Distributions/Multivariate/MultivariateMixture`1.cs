@@ -23,10 +23,53 @@
 namespace Accord.Statistics.Distributions.Multivariate
 {
     using Accord.Math;
+    using Accord.Statistics;
+    using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
     using System;
     using System.Text;
+
+    /// <summary>
+    ///   Represents one component distribution in a 
+    ///   <see cref="Mixture{T}">mixture distribution</see>.
+    /// </summary>
+    /// 
+    /// <typeparam name="T">The distribution type.</typeparam>
+    /// 
+    [Serializable]
+    public struct MixtureComponent<T> : IMixtureComponent<T> 
+        where T : class, IDistribution
+    {
+        private IMixture<T> mixture;
+        private int index;
+
+        /// <summary>
+        ///   Gets the weight associated with this component.
+        /// </summary>
+        /// 
+        public double Coefficient { get { return mixture.Coefficients[index]; } }
+
+        /// <summary>
+        ///   Gets the component distribution.
+        /// </summary>
+        /// 
+        public T Component { get { return mixture.Components[index]; } }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="MixtureComponent{T}"/> struct.
+        /// </summary>
+        /// 
+        /// <param name="mixture">The mixture distribution.</param>
+        /// <param name="index">The component index.</param>
+        /// 
+        public MixtureComponent(IMixture<T> mixture, int index)
+        {
+            this.mixture = mixture;
+            this.index = index;
+        }
+
+    }
 
     /// <summary>
     ///   Mixture of multivariate probability distributions.
@@ -515,7 +558,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                     double[][] means = new double[components.Length][];
                     for (int k = 0; k < components.Length; k++)
                         means[k] = components[k].Mean;
-                    double[,] VarE = Statistics.Tools.Scatter(means, (double)components.Length);
+                    double[,] VarE = Measures.Scatter(means, (double)components.Length);
 
                     // Var[X] = E[Var [X|Y]] + Var[E[X|Y]]
                     covariance = EVar.Add(VarE);

@@ -24,7 +24,7 @@ namespace Accord.Imaging
 {
     using Accord.MachineLearning;
     using Accord.Math;
-    using AForge.Imaging;
+    using Accord.Imaging;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
@@ -113,7 +113,6 @@ namespace Accord.Imaging
         /// 
         public IFeatureDetector<TPoint, TFeature> Detector { get; private set; }
 
-
         /// <summary>
         ///   Constructs a new <see cref="BagOfVisualWords"/>.
         /// </summary>
@@ -133,15 +132,13 @@ namespace Accord.Imaging
         /// </summary>
         /// 
         /// <param name="images">The set of images to initialize the model.</param>
-        /// <param name="threshold">Convergence rate for the k-means algorithm. Default is 1e-5.</param>
         /// 
         /// <returns>The list of feature points detected in all images.</returns>
         /// 
-        public List<TPoint>[] Compute(Bitmap[] images, double threshold = 1e-5)
+        public List<TPoint>[] Compute(Bitmap[] images)
         {
-
-            List<TFeature> descriptors = new List<TFeature>();
-            List<TPoint>[] imagePoints = new List<TPoint>[images.Length];
+            var descriptors = new List<TFeature>();
+            var imagePoints = new List<TPoint>[images.Length];
 
             // For all images
             for (int i = 0; i < images.Length; i++)
@@ -157,18 +154,50 @@ namespace Accord.Imaging
                 imagePoints[i] = points;
             }
 
-            TFeature[] data = descriptors.ToArray();
+            Compute(descriptors.ToArray());
 
-            if (data.Length <= NumberOfWords)
+            return imagePoints;
+        }
+
+        /// <summary>
+        ///   Computes the Bag of Words model.
+        /// </summary>
+        /// 
+        /// <param name="features">The extracted image features to initialize the model.</param>
+        /// 
+        /// <returns>The list of feature points detected in all images.</returns>
+        /// 
+        public void Compute(TFeature[] features)
+        {
+            if (features.Length <= NumberOfWords)
             {
                 throw new InvalidOperationException("Not enough data points to cluster. Please try "
-                    + "to adjust the feature extraction algorithm to generate more points");
+                    + "to adjust the feature extraction algorithm to generate more points.");
             }
 
             // Compute the descriptors clusters
-            Clustering.Compute(data, threshold);
+            Clustering.Compute(features);
+        }
 
-            return imagePoints;
+        /// <summary>
+        ///   Computes the Bag of Words model.
+        /// </summary>
+        /// 
+        /// <param name="images">The set of images to initialize the model.</param>
+        /// <param name="threshold">Convergence rate for the k-means algorithm. Default is 1e-5.</param>
+        /// 
+        /// <returns>The list of feature points detected in all images.</returns>
+        /// 
+        [Obsolete("Please configure the tolerance of the clustering algorithm directly in the "
+            + "algorithm itself by accessing it through the Clustering property of this class.")]
+        public List<TPoint>[] Compute(Bitmap[] images, double threshold)
+        {
+            // Hack to maintain backwards compatibility
+            var prop = Clustering.GetType().GetProperty("Tolerance");
+            if (prop != null && prop.CanWrite)
+                prop.SetValue(Clustering, threshold, null);
+
+            return Compute(images);
         }
 
         /// <summary>
@@ -253,6 +282,8 @@ namespace Accord.Imaging
         /// 
         /// <param name="stream">The stream to which the bow is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+
         public virtual void Save(Stream stream)
         {
             BinaryFormatter b = new BinaryFormatter();
@@ -265,12 +296,11 @@ namespace Accord.Imaging
         /// 
         /// <param name="path">The path to the file to which the bow is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+
         public void Save(string path)
         {
-            using (FileStream fs = new FileStream(path, FileMode.Create))
-            {
-                Save(fs);
-            }
+            Accord.IO.Serializer.Save(this, path);
         }
 
     }
