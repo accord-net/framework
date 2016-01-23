@@ -27,9 +27,12 @@ namespace Accord.Math
     using Accord.Math.Comparers;
     using System.Collections.Generic;
     using System.Collections;
+    using System.Runtime.CompilerServices;
 
     public static partial class Matrix
     {
+
+        // TODO: Use T4 templates for the equality comparisons
 
         #region Comparison
 
@@ -60,19 +63,25 @@ namespace Accord.Math
         ///   Compares two values for equality, considering a relative acceptance threshold.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static bool IsRelativelyEqual(this double a, double b, double threshold)
         {
-            if (Double.IsNaN(a) ^ Double.IsNaN(b))
-                return false;
-
-            if (Double.IsPositiveInfinity(a) ^ Double.IsPositiveInfinity(b))
-                return false;
-
-            if (Double.IsNegativeInfinity(a) ^ Double.IsNegativeInfinity(b))
-                return false;
-
             if (a == b)
                 return true;
+
+            if (Double.IsNaN(a))
+                return Double.IsNaN(b);
+            
+            if (Double.IsNaN(b)) 
+                return false;
+            
+            if (Double.IsPositiveInfinity(a) != Double.IsPositiveInfinity(b))
+                return false;
+
+            if (Double.IsNegativeInfinity(a) != Double.IsNegativeInfinity(b))
+                return false;
 
             double delta = Math.Abs(a - b);
 

@@ -439,6 +439,10 @@ namespace Accord.Statistics.Distributions.Univariate
             if (weights != null)
                 throw new ArgumentException("This distribution does not support weighted samples.");
 
+            // Method from Choi, S.C.; Wette, R. (1969) "Maximum Likelihood Estimation 
+            // of the Parameters of the Gamma Distribution and Their Bias", Technometrics,
+            // 11(4) 683–690
+
             double lnsum = 0;
             for (int i = 0; i < observations.Length; i++)
                 lnsum += Math.Log(observations[i]);
@@ -453,15 +457,17 @@ namespace Accord.Statistics.Distributions.Univariate
             // initial approximation
             double newK = (3 - s + Math.Sqrt((s - 3) * (s - 3) + 24 * s)) / (12 * s);
 
-            // Use Newton-Raphson approximation
+            // Use Newton-Raphson update
             double oldK;
 
             do
             {
                 oldK = newK;
-                newK = oldK - (Math.Log(newK) - Gamma.Digamma(newK) - s) / ((1 / newK) - Gamma.Trigamma(newK));
+                double num = Math.Log(newK) - Gamma.Digamma(newK) - s;
+                double den = (1 / newK) - Gamma.Trigamma(newK);
+                newK = oldK - num / den;
             }
-            while (Math.Abs(oldK - newK) / Math.Abs(oldK) < Double.Epsilon);
+            while (!oldK.IsRelativelyEqual(newK, 1e-10));
 
             double theta = mean / newK;
 

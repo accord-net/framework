@@ -50,6 +50,9 @@ namespace Accord.Tests.Statistics
 
 
         [Test]
+#if !DEBUG
+        [Timeout(2000)]
+#endif
         public void ConstructorTest()
         {
             int n = 10000;

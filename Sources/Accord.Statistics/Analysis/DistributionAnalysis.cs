@@ -140,6 +140,8 @@ namespace Accord.Statistics.Analysis
         /// 
         public void Compute()
         {
+            bool[] fail = new bool[Distributions.Length];
+
             // Step 1. Fit all candidate distributions to the data.
             for (int i = 0; i < Distributions.Length; i++)
             {
@@ -152,6 +154,7 @@ namespace Accord.Statistics.Analysis
                 catch
                 {
                     // TODO: Maybe revisit the decision to swallow exceptions here.
+                    fail[i] = true;
                 }
             }
 
@@ -176,7 +179,7 @@ namespace Accord.Statistics.Analysis
 
                 var d = this.Distributions[i] as IUnivariateDistribution;
 
-                if (d == null)
+                if (d == null || fail[i])
                     continue;
 
                 this.DistributionNames[i] = GetName(d.GetType());

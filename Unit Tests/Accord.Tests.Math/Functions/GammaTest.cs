@@ -31,22 +31,6 @@ namespace Accord.Tests.Math
     {
 
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void FunctionTest()
         {
@@ -305,5 +289,6 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual, 1e-6);
             Assert.IsFalse(double.IsNaN(actual));
         }
+
     }
 }
