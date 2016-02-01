@@ -448,7 +448,7 @@ namespace Accord.Tests.Statistics
 
             double[][] data = reader.ToTable().ToArray(System.Globalization.CultureInfo.InvariantCulture);
 
-            double[][] inputs = data.GetColumns(0, 1);
+            double[][] inputs = data.GetColumns(new[] { 0, 1 });
 
             double[] output = data.GetColumn(2);
 

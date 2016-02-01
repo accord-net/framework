@@ -4,7 +4,7 @@ using Accord;
 using Accord.Math.Metrics;
 using NUnit.Framework;
 
-namespace Accord.Math.Metrics.Tests
+namespace Accord.Tests.Math
 {
     [TestFixture]
     public class MetricsTest

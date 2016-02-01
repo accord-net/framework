@@ -28,26 +28,8 @@ namespace Accord.Tests.Math
     using NUnit.Framework;
 
     [TestFixture]
-    public class ToolsTest
+    public class AForgeToolsTest
     {
-
-        private TestContext testContextInstance;
-
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
 
         [Test]
         public void ScaleTest1()

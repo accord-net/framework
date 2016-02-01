@@ -174,7 +174,7 @@ namespace Accord.Tests.Neuro
         {
             double[,] dataset = yinyang;
 
-            double[][] input = dataset.GetColumns(0, 1).ToArray();
+            double[][] input = dataset.GetColumns(new[] { 0, 1 }).ToArray();
             double[][] output = dataset.GetColumn(2).ToArray();
 
             Neuron.RandGenerator = new ThreadSafeRandom(0);

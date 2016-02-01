@@ -24,6 +24,7 @@ namespace Accord.Math
 {
     using Accord.Math.Random;
     using System;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Set of mathematical tools.
@@ -598,7 +599,10 @@ namespace Accord.Math
         /// <summary>
         ///   Fast inverse floating-point square root.
         /// </summary>
-        /// 
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static float InvSqrt(float f)
         {
             unsafe
@@ -617,7 +621,7 @@ namespace Accord.Math
         ///   Sorts the elements of an entire one-dimensional array using the given comparison.
         /// </summary>
         /// 
-        // TODO: Mark as obsolete
+        [Obsolete("Please use Vector.Sort instead.")]
         public static void StableSort<T>(this T[] values, Comparison<T> comparison)
         {
             Vector.Sort(values, comparison, true);

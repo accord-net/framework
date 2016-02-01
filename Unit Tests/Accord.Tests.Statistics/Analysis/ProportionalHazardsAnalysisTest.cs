@@ -61,7 +61,7 @@ namespace Accord.Tests.Statistics
             };
 
             // First we will extract the input, times and outputs
-            double[,] inputs = example.GetColumns(0);
+            double[,] inputs = example.GetColumns(new[] { 0 });
             double[] times = example.GetColumn(1);
             SurvivalOutcome[] output = example.GetColumn(2).To<SurvivalOutcome[]>();
 
@@ -172,7 +172,7 @@ namespace Accord.Tests.Statistics
             };
 
             // First we will extract the input, times and outputs
-            double[,] inputs = example.GetColumns(0);
+            double[,] inputs = example.GetColumns(new[] { 0 });
             double[] times = example.GetColumn(1);
             int[] output = example.GetColumn(2).To<int[]>();
 

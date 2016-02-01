@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
+using Accord.Math.Geometry;
 
-namespace Accord.Math.Geometry.Tests
+namespace Accord.Tests.Math
 {
     static class ShapeOptimizerTestBase
     {

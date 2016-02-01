@@ -83,92 +83,122 @@ namespace Accord.Math
         /// <summary>
         ///   Gets a column vector from a matrix.
         /// </summary>
-        public static T[] GetColumn<T>(this T[,] m, int index)
+        /// 
+        public static T[] GetColumn<T>(this T[,] m, int index, T[] result = null)
         {
-            int rows = m.GetLength(0);
-            int cols = m.GetLength(1);
+            if (result == null)
+                result = new T[m.GetLength(0)];
 
-            if (index >= cols)
-                throw new ArgumentOutOfRangeException("index");
+            for (int i = 0; i < result.Length; i++)
+                result[i] = m[i, index];
 
-            T[] column = new T[rows];
-
-            for (int i = 0; i < column.Length; i++)
-                column[i] = m[i, index];
-
-            return column;
+            return result;
         }
 
         /// <summary>
         ///   Gets a column vector from a matrix.
         /// </summary>
-        public static T[] GetColumn<T>(this T[][] m, int index)
+        /// 
+        public static T[] GetColumn<T>(this T[][] m, int index, T[] result = null)
         {
-            T[] column = new T[m.Length];
+            if (result == null)
+                result = new T[m.Length];
 
-            for (int i = 0; i < column.Length; i++)
-                column[i] = m[i][index];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = m[i][index];
 
-            return column;
+            return result;
         }
 
         /// <summary>
         ///   Gets a column vector from a matrix.
         /// </summary>
-        public static T[][] GetColumns<T>(this T[][] m, params int[] index)
+        /// 
+        public static T[][] GetColumns<T>(this T[][] m, int[] index, T[][] result = null)
         {
-            T[][] columns = new T[m.Length][];
+            if (result == null)
+                result = new T[m.Length][];
 
-            for (int i = 0; i < columns.Length; i++)
+            for (int i = 0; i < result.Length; i++)
             {
-                columns[i] = new T[index.Length];
+                if (result[i] == null)
+                    result[i] = new T[index.Length];
                 for (int j = 0; j < index.Length; j++)
-                    columns[i][j] = m[i][index[j]];
+                    result[i][j] = m[i][index[j]];
             }
 
-            return columns;
+            return result;
         }
 
         /// <summary>
         ///   Gets a row vector from a matrix.
         /// </summary>
         /// 
-        public static T[] GetRow<T>(this T[][] m, int index)
+        public static T[] GetRow<T>(this T[][] m, int index, T[] result = null)
         {
-            return (T[])m[index].Clone();
+            if (result == null)
+            {
+                return (T[])m[index].Clone();
+            }
+            else
+            {
+                m[index].CopyTo(result, 0);
+                return result;
+            }
+        }
+
+        /// <summary>
+        ///   Gets a row vector from a matrix.
+        /// </summary>
+        public static T[] GetRow<T>(this T[,] m, int index, T[] result = null)
+        {
+            if (result == null)
+                result = new T[m.GetLength(1)];
+
+            for (int i = 0; i < result.Length; i++)
+                result[i] = m[index, i];
+
+            return result;
         }
 
         /// <summary>
         ///   Gets a row vector from a matrix.
         /// </summary>
         /// 
-        public static T[][] GetRows<T>(this T[][] m, params int[] index)
+        public static T[][] GetRows<T>(this T[][] m, int[] index, T[][] result = null)
         {
-            T[][] rows = new T[index.Length][];
+            if (result == null)
+            {
+                result = new T[index.Length][];
+                for (int i = 0; i < index.Length; i++)
+                    result[i] = (T[])m[index[i]].Clone();
+            }
+            else
+            {
+                for (int i = 0; i < index.Length; i++)
+                    m[index[i]].CopyTo(result[i], 0);
+            }
 
-            for (int i = 0; i < index.Length; i++)
-                rows[i] = (T[])m[index[i]].Clone();
-
-            return rows;
+            return result;
         }
 
 
         /// <summary>
         ///   Gets a column vector from a matrix.
         /// </summary>
-        public static T[,] GetColumns<T>(this T[,] m, params int[] index)
+        /// 
+        public static T[,] GetColumns<T>(this T[,] m, int[] index, T[,] result = null)
         {
             int rows = m.GetLength(0);
 
-            T[,] columns = new T[rows, index.Length];
+            if (result == null)
+                result = new T[rows, index.Length];
 
             for (int i = 0; i < rows; i++)
-            {
                 for (int j = 0; j < index.Length; j++)
-                    columns[i, j] = m[i, index[j]];
-            }
+                    result[i, j] = m[i, index[j]];
 
-            return columns;
+            return result;
         }
 
         /// <summary>
@@ -191,19 +221,6 @@ namespace Accord.Math
                 m[i][index] = column[i];
 
             return m;
-        }
-
-        /// <summary>
-        ///   Gets a row vector from a matrix.
-        /// </summary>
-        public static T[] GetRow<T>(this T[,] m, int index)
-        {
-            T[] row = new T[m.GetLength(1)];
-
-            for (int i = 0; i < row.Length; i++)
-                row[i] = m[index, i];
-
-            return row;
         }
 
         /// <summary>
@@ -822,7 +839,7 @@ namespace Accord.Math
         public static TValue[,] Sort<TKey, TValue>(TKey[] keys, TValue[,] values, IComparer<TKey> comparer)
         {
             int[] indices = new int[keys.Length];
-            for (int i = 0; i < keys.Length; i++) 
+            for (int i = 0; i < keys.Length; i++)
                 indices[i] = i;
 
             Array.Sort<TKey, int>(keys, indices, comparer);

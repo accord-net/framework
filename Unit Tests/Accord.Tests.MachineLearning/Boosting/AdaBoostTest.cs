@@ -111,7 +111,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void ConstructorTest2()
         {
-            double[][] inputs = LeastSquaresLearningTest.yinyang.GetColumns(0, 1).ToArray();
+            double[][] inputs = LeastSquaresLearningTest.yinyang.GetColumns(new[] { 0, 1 }).ToArray();
             int[] outputs = LeastSquaresLearningTest.yinyang.GetColumn(2).ToInt32();
 
             var outputs2 = outputs.Apply(x => x > 0 ? 1.0 : 0.0);

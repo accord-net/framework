@@ -3,7 +3,7 @@ using Accord;
 using Accord.Math.Geometry;
 using NUnit.Framework;
 
-namespace Accord.Math.Geometry.Tests
+namespace Accord.Tests.Math
 {
     [TestFixture]
     public class GeometryToolsTest

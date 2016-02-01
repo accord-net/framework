@@ -1,7 +1,8 @@
 ﻿using System;
 using NUnit.Framework;
+using Accord.Math.Geometry;
 
-namespace Accord.Math.Geometry.Tests
+namespace Accord.Tests.Math
 {
     [TestFixture]
     public class LineSegmentTest
