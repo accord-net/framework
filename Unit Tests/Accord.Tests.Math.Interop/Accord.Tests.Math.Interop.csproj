@@ -73,6 +73,7 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="GoldfarbIdnaniTest.cs" />
     <Compile Include="BoundedBroydenFletcherGoldfarbShannoTest.cs" />
     <Compile Include="BroydenFletcherGoldfarbShannoTest.cs" />
     <Compile Include="IntegralTest.cs" />

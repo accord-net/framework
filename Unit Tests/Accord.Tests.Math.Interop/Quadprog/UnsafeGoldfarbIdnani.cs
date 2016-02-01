@@ -26,8 +26,9 @@
 // also shared under the LGPL license.
 //
 
-namespace Accord.Math.Optimization
+namespace Accord.Tests.Math
 {
+    using Accord.Math.Optimization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -241,7 +242,7 @@ namespace Accord.Math.Optimization
             this.iwzv = new double[NumberOfVariables];
             this.iwrv = new double[r];
             this.iwuv = new double[r + 1];
-            this.iwrm = new double[r * (r + 1) / 2];
+            this.iwrm = new double[r * (r + 5) / 2];
             this.iwsv = new double[NumberOfConstraints];
             this.iwnbv = new double[NumberOfConstraints];
         }

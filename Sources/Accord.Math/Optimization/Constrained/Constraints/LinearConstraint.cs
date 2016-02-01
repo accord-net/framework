@@ -70,7 +70,7 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the index of the variables (in respective to the
-        ///   object function index) of the variables participating
+        ///   objective function) of the variables participating
         ///   in this constraint.
         /// </summary>
         /// 
@@ -137,7 +137,7 @@ namespace Accord.Math.Optimization
         public LinearConstraint(int numberOfVariables)
         {
             this.NumberOfVariables = numberOfVariables;
-            this.indices = Vector.Range(0, numberOfVariables);
+            this.indices = Vector.Range(numberOfVariables);
             this.scalars = Vector.Ones(numberOfVariables);
             this.ShouldBe = ConstraintType.GreaterThanOrEqualTo;
 
