@@ -260,18 +260,15 @@ namespace Accord.Tests.MachineLearning
                 int a = 0;
                 int b = 1;
 
-                if (6.5149525060859865.IsRelativelyEqual(gmm.Gaussians[1].Mean[0], 1e-10))
+                double tol = 1e-2;
+
+                if (6.5291557102714615.IsRelativelyEqual(gmm.Gaussians[1].Mean[0], tol))
                 {
                     a = 1;
                     b = 0;
                 }
 
-#if NET35
-                double tol = 1e-2;
-#else
-                double tol = 1e-6;
-#endif
-                Assert.AreEqual(6.5241530529058425, gmm.Gaussians[a].Mean[0], tol);
+                Assert.AreEqual(6.5291557102714615, gmm.Gaussians[a].Mean[0], tol);
                 Assert.AreEqual(1.4375965574968281, gmm.Gaussians[b].Mean[0], tol);
 
                 Assert.AreEqual(0.4195042394315267, gmm.Gaussians[a].Proportion, tol);
