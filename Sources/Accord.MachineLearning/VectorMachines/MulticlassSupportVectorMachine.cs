@@ -148,7 +148,7 @@ namespace Accord.MachineLearning.VectorMachines
     ///   // Create a new polynomial kernel
     ///   IKernel kernel = new Polynomial(2);
     ///   
-    ///   // Create a new Multi-class Support Vector Machine with one input,
+    ///   // Create a new Multi-class Support Vector Machine with three inputs,
     ///   //  using the linear kernel and for four disjoint classes.
     ///   var machine = new MulticlassSupportVectorMachine(inputs: 3, kernel: kernel, classes: 4);
     ///   
