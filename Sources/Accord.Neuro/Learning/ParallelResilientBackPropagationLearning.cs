@@ -1,4 +1,4 @@
-﻿// Accord Neural Net Library
+// Accord Neural Net Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -184,6 +184,7 @@ namespace Accord.Neuro.Learning
         private double[][][] weightsPreviousDerivatives;
         private double[][] thresholdsPreviousDerivatives;
 
+        private double priorSumOfSquaredErrors;
 
         /// <summary>
         ///   Gets or sets the maximum possible update step,
@@ -269,6 +270,8 @@ namespace Accord.Neuro.Learning
 
             weightsUpdates = new double[network.Layers.Length][][];
             thresholdsUpdates = new double[network.Layers.Length][];
+
+            priorSumOfSquaredErrors = double.MaxValue;
 
             // Initialize layer derivatives and updates
             for (int i = 0; i < network.Layers.Length; i++)
@@ -360,7 +363,7 @@ namespace Accord.Neuro.Learning
 
             // For all examples in batch
             Parallel.For(0, input.Length,
-
+                
                 // Initialize
                 () => 0.0,
 
@@ -397,8 +400,9 @@ namespace Accord.Neuro.Learning
 
 
             // Update the network
-            UpdateNetwork();
-
+            bool errIncrease = sumOfSquaredErrors > priorSumOfSquaredErrors;
+            UpdateNetwork(errIncrease);
+            priorSumOfSquaredErrors = sumOfSquaredErrors;
 
             return sumOfSquaredErrors;
         }
@@ -407,7 +411,7 @@ namespace Accord.Neuro.Learning
         ///   Update network weights.
         /// </summary>
         /// 
-        private void UpdateNetwork()
+        private void UpdateNetwork(bool errIncrease = false)
         {
             // For each layer of the network
             for (int i = 0; i < weightsUpdates.Length; i++)
@@ -446,7 +450,10 @@ namespace Accord.Neuro.Learning
                         }
                         else if (S < 0.0)
                         {
-                            neuronWeightUpdates[k] = Math.Max(neuronWeightUpdates[k] * etaMinus, deltaMin);
+                            var delta = Math.Max(neuronWeightUpdates[k] * etaMinus, deltaMin);
+                            if (errIncrease)
+                                neuron.Weights[k] -= neuronWeightUpdates[k]; // revert previous update
+                            neuronWeightUpdates[k] = delta;
                             neuronPreviousWeightDerivatives[k] = 0.0;
                         }
                         else
@@ -466,8 +473,11 @@ namespace Accord.Neuro.Learning
                     }
                     else if (S < 0.0)
                     {
-                        layerThresholdUpdates[j] = Math.Max(layerThresholdUpdates[j] * etaMinus, deltaMin);
-                        layerThresholdDerivatives[j] = 0.0;
+                        var delta = Math.Max(layerThresholdUpdates[j] * etaMinus, deltaMin);
+                        if (errIncrease)
+                            neuron.Threshold -= layerThresholdUpdates[j]; // revert previous update
+                        layerThresholdUpdates[j] = delta;
+                        layerPreviousThresholdDerivatives[j] = 0.0;
                     }
                     else
                     {
