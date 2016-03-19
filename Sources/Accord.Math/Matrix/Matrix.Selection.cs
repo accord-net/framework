@@ -828,6 +828,47 @@ namespace Accord.Math
             return set.ToArray();
         }
 
+
+
+        /// <summary>
+        ///   Gets the number of distinct values 
+        ///   present in each column of a matrix.
+        /// </summary>
+        /// 
+        public static int[] DistinctCount<T>(this T[,] matrix)
+        {
+            var distinct = matrix.Distinct();
+            int[] counts = new int[distinct.Length];
+            for (int i = 0; i < counts.Length; i++)
+                counts[i] = distinct[i].Length;
+            return counts;
+        }
+
+        /// <summary>
+        ///   Gets the number of distinct values 
+        ///   present in each column of a matrix.
+        /// </summary>
+        /// 
+        public static int[] DistinctCount<T>(this T[][] matrix)
+        {
+            var distinct = matrix.Distinct();
+            int[] counts = new int[distinct.Length];
+            for (int i = 0; i < counts.Length; i++)
+                counts[i] = distinct[i].Length;
+            return counts;
+        }
+
+        /// <summary>
+        ///   Gets the number of distinct values 
+        ///   present in each column of a matrix.
+        /// </summary>
+        /// 
+        public static int DistinctCount<T>(this T[] values)
+        {
+            return values.Distinct().Length;
+        }
+
+
         /// <summary>
         ///   Sorts the columns of a matrix by sorting keys.
         /// </summary>

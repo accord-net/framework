@@ -42,6 +42,9 @@ namespace Accord.Math
         /// 
         /// <returns>A matrix of the specified size.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[,] Zeros<T>(int rows, int columns)
         {
             return new T[rows, columns];
@@ -57,7 +60,10 @@ namespace Accord.Math
         /// 
         /// <returns>A matrix of the specified size.</returns>
         /// 
-        public static T[,] Ones<T>(int rows, int columns) 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] Ones<T>(int rows, int columns)
             where T : struct
         {
             var one = (T)System.Convert.ChangeType(1, typeof(T));
@@ -73,6 +79,9 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of the specified size.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double[,] Zeros(int rows, int columns)
         {
             return Zeros<double>(rows, columns);
@@ -87,6 +96,9 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of the specified size.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double[,] Ones(int rows, int columns)
         {
             return Ones<double>(rows, columns);
@@ -104,6 +116,9 @@ namespace Accord.Math
         /// 
         /// <seealso cref="Jagged.Create{T}(int, int, T)"/>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[,] Create<T>(int rows, int columns, T value)
         {
             var matrix = new T[rows, columns];
@@ -124,7 +139,10 @@ namespace Accord.Math
         /// 
         /// <seealso cref="Jagged.Create{T}(int, int, T)"/>
         /// 
-        public static T[,] Create<T>(int size, T value)
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] Square<T>(int size, T value)
         {
             return Create(size, size, value);
         }
@@ -139,6 +157,9 @@ namespace Accord.Math
         /// 
         /// <returns>A matrix of the specified size.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[,] Create<T>(int rows, int columns, params T[] values)
         {
             if (values.Length == 0)
@@ -152,6 +173,9 @@ namespace Accord.Math
         /// 
         /// <param name="rows">The row vectors in the matrix.</param>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[,] Create<T>(params T[][] rows)
         {
             return rows.ToMatrix();
@@ -163,11 +187,230 @@ namespace Accord.Math
         /// 
         /// <param name="values">The values in the matrix.</param>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[,] Create<T>(T[,] values)
         {
             return (T[,])values.Clone();
         }
 
+
+        /// <summary>
+        ///   Creates a matrix of one-hot vectors, where all values at each row are 
+        ///   zero except for the indicated <paramref name="indices"/>, which is set to one.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The data type for the matrix.</typeparam>
+        /// 
+        /// <param name="indices">The rows's dimension which will be marked as one.</param>
+        /// 
+        /// <returns>A matrix containing one-hot vectors where only a single position
+        /// is one and the others are zero.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] OneHot<T>(int[] indices)
+        {
+            return OneHot<T>(indices, indices.DistinctCount());
+        }
+
+        /// <summary>
+        ///   Creates a matrix of one-hot vectors, where all values at each row are 
+        ///   zero except for the indicated <paramref name="indices"/>, which is set to one.
+        /// </summary>
+        /// 
+        /// <param name="indices">The rows's dimension which will be marked as one.</param>
+        /// 
+        /// <returns>A matrix containing one-hot vectors where only a single position
+        /// is one and the others are zero.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] OneHot(int[] indices)
+        {
+            return OneHot(indices, indices.DistinctCount());
+        }
+
+        /// <summary>
+        ///   Creates a matrix of one-hot vectors, where all values at each row are 
+        ///   zero except for the indicated <paramref name="indices"/>, which is set to one.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The data type for the matrix.</typeparam>
+        /// 
+        /// <param name="indices">The rows's dimension which will be marked as one.</param>
+        /// <param name="columns">The size (length) of the vectors (columns of the matrix).</param>
+        /// 
+        /// <returns>A matrix containing one-hot vectors where only a single position
+        /// is one and the others are zero.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] OneHot<T>(int[] indices, int columns)
+        {
+            return OneHot(indices, columns, new T[indices.Length, columns]);
+        }
+
+        /// <summary>
+        ///   Creates a matrix of one-hot vectors, where all values at each row are 
+        ///   zero except for the indicated <paramref name="indices"/>, which is set to one.
+        /// </summary>
+        /// 
+        /// <param name="indices">The rows's dimension which will be marked as one.</param>
+        /// <param name="columns">The size (length) of the vectors (columns of the matrix).</param>
+        /// 
+        /// <returns>A matrix containing one-hot vectors where only a single position
+        /// is one and the others are zero.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] OneHot(int[] indices, int columns)
+        {
+            return OneHot(indices, columns, new double[indices.Length, columns]);
+        }
+
+        /// <summary>
+        ///   Creates a matrix of one-hot vectors, where all values at each row are 
+        ///   zero except for the indicated <paramref name="indices"/>, which is set to one.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The data type for the matrix.</typeparam>
+        /// 
+        /// <param name="indices">The rows's dimension which will be marked as one.</param>
+        /// <param name="columns">The size (length) of the vectors (columns of the matrix).</param>
+        /// <param name="result">The matrix where the one-hot should be marked.</param>
+        /// 
+        /// <returns>A matrix containing one-hot vectors where only a single position
+        /// is one and the others are zero.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] OneHot<T>(int[] indices, int columns, T[,] result)
+        {
+            var one = (T)System.Convert.ChangeType(1, typeof(T));
+            for (int i = 0; i < indices.Length; i++)
+                result[i, indices[i]] = one;
+            return result;
+        }
+
+        /// <summary>
+        ///   Creates a matrix of one-hot vectors, where all values at each row are 
+        ///   zero except for the indicated <paramref name="indices"/>, which is set to one.
+        /// </summary>
+        /// 
+        /// <param name="indices">The rows's dimension which will be marked as one.</param>
+        /// <param name="columns">The size (length) of the vectors (columns of the matrix).</param>
+        /// <param name="result">The matrix where the one-hot should be marked.</param>
+        /// 
+        /// <returns>A matrix containing one-hot vectors where only a single position
+        /// is one and the others are zero.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] OneHot(int[] indices, int columns, double[,] result)
+        {
+            for (int i = 0; i < indices.Length; i++)
+                result[i, indices[i]] = 1;
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Creates a matrix of k-hot vectors, where all values at each row are 
+        ///   zero except for the indicated <paramref name="indices"/>, which are set to one.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The data type for the matrix.</typeparam>
+        /// 
+        /// <param name="indices">The rows's dimension which will be marked as one.</param>
+        /// <param name="columns">The size (length) of the vectors (columns of the matrix).</param>
+        /// 
+        /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
+        ///   <paramref name="indices"/> are set to one and the others are zero.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] KHot<T>(int[][] indices, int columns)
+        {
+            return KHot(indices, columns, new T[indices.Length, columns]);
+        }
+
+        /// <summary>
+        ///   Creates a matrix of k-hot vectors, where all values at each row are 
+        ///   zero except for the indicated <paramref name="indices"/>, which are set to one.
+        /// </summary>
+        /// 
+        /// <param name="indices">The rows's dimension which will be marked as one.</param>
+        /// <param name="columns">The size (length) of the vectors (columns of the matrix).</param>
+        /// 
+        /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
+        ///   <paramref name="indices"/> are set to one and the others are zero.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] KHot(int[][] indices, int columns)
+        {
+            return KHot(indices, columns, new double[indices.Length, columns]);
+        }
+
+        /// <summary>
+        ///   Creates a matrix of k-hot vectors, where all values at each row are 
+        ///   zero except for the indicated <paramref name="indices"/>, which are set to one.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The data type for the matrix.</typeparam>
+        /// 
+        /// <param name="indices">The rows's dimension which will be marked as one.</param>
+        /// <param name="columns">The size (length) of the vectors (columns of the matrix).</param>
+        /// <param name="result">The matrix where the one-hot should be marked.</param>
+        /// 
+        /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
+        ///   <paramref name="indices"/> are set to one and the others are zero.</returns>
+        ///    
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] KHot<T>(int[][] indices, int columns, T[,] result)
+        {
+            var one = (T)System.Convert.ChangeType(1, typeof(T));
+            for (int i = 0; i < indices.Length; i++)
+                for (int j = 0; j < indices[i].Length; j++)
+                    result[i, indices[i][j]] = one;
+            return result;
+        }
+
+        /// <summary>
+        ///   Creates a matrix of k-hot vectors, where all values at each row are 
+        ///   zero except for the indicated <paramref name="indices"/>, which are set to one.
+        /// </summary>
+        /// 
+        /// <param name="indices">The rows's dimension which will be marked as one.</param>
+        /// <param name="columns">The size (length) of the vectors (columns of the matrix).</param>
+        /// <param name="result">The matrix where the one-hot should be marked.</param>
+        /// 
+        /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
+        ///   <paramref name="indices"/> are set to one and the others are zero.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] KHot(int[][] indices, int columns, double[,] result)
+        {
+            for (int i = 0; i < indices.Length; i++)
+                for (int j = 0; j < indices[i].Length; j++)
+                    result[i, indices[i][j]] = 1;
+            return result;
+        }
 
 
 
@@ -220,7 +463,7 @@ namespace Accord.Math
             return new TOutput[matrix.Length, matrix[0].Length];
         }
 
- 
+
         #endregion
 
 
@@ -461,7 +704,7 @@ namespace Accord.Math
                 matrix[p + n, p] = t;
             }
 
-            return matrix; 
+            return matrix;
         }
 
         /// <summary>
@@ -478,7 +721,7 @@ namespace Accord.Math
                     "The size of the centering matrix must be a positive integer.");
             }
 
-            double[,] C = Matrix.Create(size, -1.0 / size);
+            double[,] C = Matrix.Square(size, -1.0 / size);
 
             for (int i = 0; i < size; i++)
                 C[i, i] = 1.0 - 1.0 / size;

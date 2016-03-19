@@ -2407,6 +2407,29 @@ namespace Accord.Math
                 for (int j = 0; j < destination[i].Length; j++)
                     destination[i][j] = matrix[i, j];
         }
+
+        /// <summary>
+        ///   Replaces one value by another in a matrix of any dimensions.
+        ///   This is not an optimized operation.
+        /// </summary>
+        /// 
+        /// <param name="array">The array where elements will be replaced.</param>
+        /// <param name="from">The values which should be replaced.</param>
+        /// <param name="to">The value to put in place of <paramref name="from"/>.</param>
+        /// 
+        /// <returns>A new array where all instances of <paramref name="from"/>
+        ///   have been replaced with <paramref name="to"/>.</returns>
+        /// 
+        public static T Replace<T>(this T array, object from, object to) 
+            where T : class
+        {
+            Array ar = array as Array;
+            Array result = (Array)ar.Clone();
+            foreach (var dim in ar.GetIndices())
+                if (result.GetValue(dim) == from)
+                    result.SetValue(to, dim);
+            return result as T;
+        }
     }
 }
 

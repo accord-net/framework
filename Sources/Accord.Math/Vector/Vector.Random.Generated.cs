@@ -134,6 +134,41 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Returns a vector of the specified <paramref name="percentage"/> of the 
+        ///   <paramref name="populationSize"/> containing non-repeating indices in the 
+        ///   range [0, populationSize) in random order.
+        /// </summary>
+        /// 
+        /// <param name="percentage">The percentage of the population to sample.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
+        /// 
+        /// <example>
+        /// <code>
+        ///   var a = Vector.Sample(0.3, 10);  // a possible output is { 1, 7, 4 };
+        ///   var b = Vector.Sample(1.0, 10); // a possible output is { 5, 4, 2, 0, 1, 3, 7, 9, 8, 6 };
+        ///   
+        ///   foreach (var i in Vector.Sample(0.2, 6))
+        ///   {
+        ///      // ...
+        ///   }
+        /// </code>
+        /// </example>
+        /// 
+        public static int[] Sample(double percentage, int populationSize)
+        {
+            if (percentage < 0 || percentage > 1)
+            {
+                throw new ArgumentOutOfRangeException("percentage", String.Format(
+                    "The sample percentage {0} must be between 0 and 1.", percentage));
+            }
+
+            int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
+
+            int[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
+        }
+
+        /// <summary>
         ///   Returns a vector containing indices (0, 1, 2, ..., n - 1) in random 
         ///   order. The vector grows up to to <paramref name="size"/>, but does not
         ///   include <c>size</c> among its values.
@@ -201,6 +236,41 @@ namespace Accord.Math
                     "The sample size {0} must be less than the size of the population {1}.", 
                     sampleSize, populationSize));
             }
+
+            float[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
+        }
+
+        /// <summary>
+        ///   Returns a vector of the specified <paramref name="percentage"/> of the 
+        ///   <paramref name="populationSize"/> containing non-repeating indices in the 
+        ///   range [0, populationSize) in random order.
+        /// </summary>
+        /// 
+        /// <param name="percentage">The percentage of the population to sample.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
+        /// 
+        /// <example>
+        /// <code>
+        ///   var a = Vector.Sample(0.3, 10);  // a possible output is { 1, 7, 4 };
+        ///   var b = Vector.Sample(1.0, 10); // a possible output is { 5, 4, 2, 0, 1, 3, 7, 9, 8, 6 };
+        ///   
+        ///   foreach (var i in Vector.Sample(0.2, 6))
+        ///   {
+        ///      // ...
+        ///   }
+        /// </code>
+        /// </example>
+        /// 
+        public static float[] Sample(double percentage, float populationSize)
+        {
+            if (percentage < 0 || percentage > 1)
+            {
+                throw new ArgumentOutOfRangeException("percentage", String.Format(
+                    "The sample percentage {0} must be between 0 and 1.", percentage));
+            }
+
+            int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
 
             float[] idx = Sample(populationSize);
             return idx.Submatrix(sampleSize);
@@ -280,6 +350,41 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Returns a vector of the specified <paramref name="percentage"/> of the 
+        ///   <paramref name="populationSize"/> containing non-repeating indices in the 
+        ///   range [0, populationSize) in random order.
+        /// </summary>
+        /// 
+        /// <param name="percentage">The percentage of the population to sample.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
+        /// 
+        /// <example>
+        /// <code>
+        ///   var a = Vector.Sample(0.3, 10);  // a possible output is { 1, 7, 4 };
+        ///   var b = Vector.Sample(1.0, 10); // a possible output is { 5, 4, 2, 0, 1, 3, 7, 9, 8, 6 };
+        ///   
+        ///   foreach (var i in Vector.Sample(0.2, 6))
+        ///   {
+        ///      // ...
+        ///   }
+        /// </code>
+        /// </example>
+        /// 
+        public static double[] Sample(double percentage, double populationSize)
+        {
+            if (percentage < 0 || percentage > 1)
+            {
+                throw new ArgumentOutOfRangeException("percentage", String.Format(
+                    "The sample percentage {0} must be between 0 and 1.", percentage));
+            }
+
+            int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
+
+            double[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
+        }
+
+        /// <summary>
         ///   Returns a vector containing indices (0, 1, 2, ..., n - 1) in random 
         ///   order. The vector grows up to to <paramref name="size"/>, but does not
         ///   include <c>size</c> among its values.
@@ -347,6 +452,41 @@ namespace Accord.Math
                     "The sample size {0} must be less than the size of the population {1}.", 
                     sampleSize, populationSize));
             }
+
+            short[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
+        }
+
+        /// <summary>
+        ///   Returns a vector of the specified <paramref name="percentage"/> of the 
+        ///   <paramref name="populationSize"/> containing non-repeating indices in the 
+        ///   range [0, populationSize) in random order.
+        /// </summary>
+        /// 
+        /// <param name="percentage">The percentage of the population to sample.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
+        /// 
+        /// <example>
+        /// <code>
+        ///   var a = Vector.Sample(0.3, 10);  // a possible output is { 1, 7, 4 };
+        ///   var b = Vector.Sample(1.0, 10); // a possible output is { 5, 4, 2, 0, 1, 3, 7, 9, 8, 6 };
+        ///   
+        ///   foreach (var i in Vector.Sample(0.2, 6))
+        ///   {
+        ///      // ...
+        ///   }
+        /// </code>
+        /// </example>
+        /// 
+        public static short[] Sample(double percentage, short populationSize)
+        {
+            if (percentage < 0 || percentage > 1)
+            {
+                throw new ArgumentOutOfRangeException("percentage", String.Format(
+                    "The sample percentage {0} must be between 0 and 1.", percentage));
+            }
+
+            int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
 
             short[] idx = Sample(populationSize);
             return idx.Submatrix(sampleSize);
@@ -426,6 +566,41 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Returns a vector of the specified <paramref name="percentage"/> of the 
+        ///   <paramref name="populationSize"/> containing non-repeating indices in the 
+        ///   range [0, populationSize) in random order.
+        /// </summary>
+        /// 
+        /// <param name="percentage">The percentage of the population to sample.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
+        /// 
+        /// <example>
+        /// <code>
+        ///   var a = Vector.Sample(0.3, 10);  // a possible output is { 1, 7, 4 };
+        ///   var b = Vector.Sample(1.0, 10); // a possible output is { 5, 4, 2, 0, 1, 3, 7, 9, 8, 6 };
+        ///   
+        ///   foreach (var i in Vector.Sample(0.2, 6))
+        ///   {
+        ///      // ...
+        ///   }
+        /// </code>
+        /// </example>
+        /// 
+        public static byte[] Sample(double percentage, byte populationSize)
+        {
+            if (percentage < 0 || percentage > 1)
+            {
+                throw new ArgumentOutOfRangeException("percentage", String.Format(
+                    "The sample percentage {0} must be between 0 and 1.", percentage));
+            }
+
+            int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
+
+            byte[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
+        }
+
+        /// <summary>
         ///   Returns a vector containing indices (0, 1, 2, ..., n - 1) in random 
         ///   order. The vector grows up to to <paramref name="size"/>, but does not
         ///   include <c>size</c> among its values.
@@ -493,6 +668,41 @@ namespace Accord.Math
                     "The sample size {0} must be less than the size of the population {1}.", 
                     sampleSize, populationSize));
             }
+
+            sbyte[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
+        }
+
+        /// <summary>
+        ///   Returns a vector of the specified <paramref name="percentage"/> of the 
+        ///   <paramref name="populationSize"/> containing non-repeating indices in the 
+        ///   range [0, populationSize) in random order.
+        /// </summary>
+        /// 
+        /// <param name="percentage">The percentage of the population to sample.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
+        /// 
+        /// <example>
+        /// <code>
+        ///   var a = Vector.Sample(0.3, 10);  // a possible output is { 1, 7, 4 };
+        ///   var b = Vector.Sample(1.0, 10); // a possible output is { 5, 4, 2, 0, 1, 3, 7, 9, 8, 6 };
+        ///   
+        ///   foreach (var i in Vector.Sample(0.2, 6))
+        ///   {
+        ///      // ...
+        ///   }
+        /// </code>
+        /// </example>
+        /// 
+        public static sbyte[] Sample(double percentage, sbyte populationSize)
+        {
+            if (percentage < 0 || percentage > 1)
+            {
+                throw new ArgumentOutOfRangeException("percentage", String.Format(
+                    "The sample percentage {0} must be between 0 and 1.", percentage));
+            }
+
+            int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
 
             sbyte[] idx = Sample(populationSize);
             return idx.Submatrix(sampleSize);
@@ -572,6 +782,41 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Returns a vector of the specified <paramref name="percentage"/> of the 
+        ///   <paramref name="populationSize"/> containing non-repeating indices in the 
+        ///   range [0, populationSize) in random order.
+        /// </summary>
+        /// 
+        /// <param name="percentage">The percentage of the population to sample.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
+        /// 
+        /// <example>
+        /// <code>
+        ///   var a = Vector.Sample(0.3, 10);  // a possible output is { 1, 7, 4 };
+        ///   var b = Vector.Sample(1.0, 10); // a possible output is { 5, 4, 2, 0, 1, 3, 7, 9, 8, 6 };
+        ///   
+        ///   foreach (var i in Vector.Sample(0.2, 6))
+        ///   {
+        ///      // ...
+        ///   }
+        /// </code>
+        /// </example>
+        /// 
+        public static long[] Sample(double percentage, long populationSize)
+        {
+            if (percentage < 0 || percentage > 1)
+            {
+                throw new ArgumentOutOfRangeException("percentage", String.Format(
+                    "The sample percentage {0} must be between 0 and 1.", percentage));
+            }
+
+            int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
+
+            long[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
+        }
+
+        /// <summary>
         ///   Returns a vector containing indices (0, 1, 2, ..., n - 1) in random 
         ///   order. The vector grows up to to <paramref name="size"/>, but does not
         ///   include <c>size</c> among its values.
@@ -639,6 +884,41 @@ namespace Accord.Math
                     "The sample size {0} must be less than the size of the population {1}.", 
                     sampleSize, populationSize));
             }
+
+            decimal[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
+        }
+
+        /// <summary>
+        ///   Returns a vector of the specified <paramref name="percentage"/> of the 
+        ///   <paramref name="populationSize"/> containing non-repeating indices in the 
+        ///   range [0, populationSize) in random order.
+        /// </summary>
+        /// 
+        /// <param name="percentage">The percentage of the population to sample.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
+        /// 
+        /// <example>
+        /// <code>
+        ///   var a = Vector.Sample(0.3, 10);  // a possible output is { 1, 7, 4 };
+        ///   var b = Vector.Sample(1.0, 10); // a possible output is { 5, 4, 2, 0, 1, 3, 7, 9, 8, 6 };
+        ///   
+        ///   foreach (var i in Vector.Sample(0.2, 6))
+        ///   {
+        ///      // ...
+        ///   }
+        /// </code>
+        /// </example>
+        /// 
+        public static decimal[] Sample(double percentage, decimal populationSize)
+        {
+            if (percentage < 0 || percentage > 1)
+            {
+                throw new ArgumentOutOfRangeException("percentage", String.Format(
+                    "The sample percentage {0} must be between 0 and 1.", percentage));
+            }
+
+            int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
 
             decimal[] idx = Sample(populationSize);
             return idx.Submatrix(sampleSize);
@@ -718,6 +998,41 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Returns a vector of the specified <paramref name="percentage"/> of the 
+        ///   <paramref name="populationSize"/> containing non-repeating indices in the 
+        ///   range [0, populationSize) in random order.
+        /// </summary>
+        /// 
+        /// <param name="percentage">The percentage of the population to sample.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
+        /// 
+        /// <example>
+        /// <code>
+        ///   var a = Vector.Sample(0.3, 10);  // a possible output is { 1, 7, 4 };
+        ///   var b = Vector.Sample(1.0, 10); // a possible output is { 5, 4, 2, 0, 1, 3, 7, 9, 8, 6 };
+        ///   
+        ///   foreach (var i in Vector.Sample(0.2, 6))
+        ///   {
+        ///      // ...
+        ///   }
+        /// </code>
+        /// </example>
+        /// 
+        public static ulong[] Sample(double percentage, ulong populationSize)
+        {
+            if (percentage < 0 || percentage > 1)
+            {
+                throw new ArgumentOutOfRangeException("percentage", String.Format(
+                    "The sample percentage {0} must be between 0 and 1.", percentage));
+            }
+
+            int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
+
+            ulong[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
+        }
+
+        /// <summary>
         ///   Returns a vector containing indices (0, 1, 2, ..., n - 1) in random 
         ///   order. The vector grows up to to <paramref name="size"/>, but does not
         ///   include <c>size</c> among its values.
@@ -785,6 +1100,41 @@ namespace Accord.Math
                     "The sample size {0} must be less than the size of the population {1}.", 
                     sampleSize, populationSize));
             }
+
+            ushort[] idx = Sample(populationSize);
+            return idx.Submatrix(sampleSize);
+        }
+
+        /// <summary>
+        ///   Returns a vector of the specified <paramref name="percentage"/> of the 
+        ///   <paramref name="populationSize"/> containing non-repeating indices in the 
+        ///   range [0, populationSize) in random order.
+        /// </summary>
+        /// 
+        /// <param name="percentage">The percentage of the population to sample.</param>
+        /// <param name="populationSize">The non-inclusive maximum number an index can have.</param>
+        /// 
+        /// <example>
+        /// <code>
+        ///   var a = Vector.Sample(0.3, 10);  // a possible output is { 1, 7, 4 };
+        ///   var b = Vector.Sample(1.0, 10); // a possible output is { 5, 4, 2, 0, 1, 3, 7, 9, 8, 6 };
+        ///   
+        ///   foreach (var i in Vector.Sample(0.2, 6))
+        ///   {
+        ///      // ...
+        ///   }
+        /// </code>
+        /// </example>
+        /// 
+        public static ushort[] Sample(double percentage, ushort populationSize)
+        {
+            if (percentage < 0 || percentage > 1)
+            {
+                throw new ArgumentOutOfRangeException("percentage", String.Format(
+                    "The sample percentage {0} must be between 0 and 1.", percentage));
+            }
+
+            int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
 
             ushort[] idx = Sample(populationSize);
             return idx.Submatrix(sampleSize);

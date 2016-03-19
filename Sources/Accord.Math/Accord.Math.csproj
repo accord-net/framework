@@ -121,6 +121,7 @@
     <Compile Include="Distances\Base\IMetric.cs" />
     <Compile Include="Distances\Base\ISimilarity.cs" />
     <Compile Include="Distances\Jaccard.cs" />
+    <Compile Include="Distances\ArgMax.cs" />
     <Compile Include="Distances\Matching.cs" />
     <Compile Include="Distances\RogersTanimoto.cs" />
     <Compile Include="Distances\RusselRao.cs" />
@@ -160,6 +161,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Matrix.Elementwise.tt</DependentUpon>
     </Compile>
+    <Compile Include="Matrix\Jagged.MinMax.cs" />
     <Compile Include="Matrix\Matrix.MinMax.cs" />
     <Compile Include="Matrix\Matrix.Multiply.Generated.cs">
       <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
@@ -172,6 +174,15 @@
     <Compile Include="Matrix\Matrix.Subtract.Generated.cs">
       <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
     </Compile>
+    <Compile Include="Optimization\Losses\CategoryCrossEntropyLoss.cs" />
+    <Compile Include="Optimization\Losses\LossBase.cs" />
+    <Compile Include="Optimization\Losses\AbsoluteLoss.cs" />
+    <Compile Include="Optimization\Losses\AccuracyLoss.cs" />
+    <Compile Include="Optimization\Losses\BinaryCrossEntropyLoss.cs" />
+    <Compile Include="Optimization\Losses\HingeLoss.cs" />
+    <Compile Include="Optimization\Losses\ILoss.cs" />
+    <Compile Include="Optimization\Losses\LogisticLoss.cs" />
+    <Compile Include="Optimization\Losses\SquareLoss.cs" />
     <Compile Include="Vector\Vector.Common.cs" />
     <Compile Include="IO\Mat\MatArrayFlags.cs" />
     <Compile Include="IO\Mat\MatArrayType.cs" />

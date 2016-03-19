@@ -111,7 +111,143 @@ namespace Accord.Math
             return (T[])values.Clone();
         }
 
+        /// <summary>
+        ///   Creates a one-hot vector, where all values are zero except for the indicated
+        ///   <paramref name="index"/>, which is set to one.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The data type for the vector.</typeparam>
+        /// 
+        /// <param name="index">The vector's dimension which will be marked as one.</param>
+        /// <param name="columns">The size (length) of the vector.</param>
+        /// 
+        /// <returns>A one-hot vector where only a single position is one and the others are zero.</returns>
+        /// 
+        public static T[] OneHot<T>(int index, int columns)
+        {
+            return OneHot<T>(index, columns, new T[columns]);
+        }
 
+        /// <summary>
+        ///   Creates a one-hot vector, where all values are zero except for the indicated
+        ///   <paramref name="index"/>, which is set to one.
+        /// </summary>
+        /// 
+        /// <param name="index">The vector's dimension which will be marked as one.</param>
+        /// <param name="columns">The size (length) of the vector.</param>
+        /// 
+        /// <returns>A one-hot vector where only a single position is one and the others are zero.</returns>
+        /// 
+        public static double[] OneHot(int index, int columns)
+        {
+            return OneHot(index, columns, new double[columns]);
+        }
+
+        /// <summary>
+        ///   Creates a one-hot vector, where all values are zero except for the indicated
+        ///   <paramref name="index"/>, which is set to one.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The data type for the vector.</typeparam>
+        /// 
+        /// <param name="index">The vector's dimension which will be marked as one.</param>
+        /// <param name="columns">The size (length) of the vector.</param>
+        /// <param name="result">The vector where the one-hot should be marked.</param>
+        /// 
+        /// <returns>A one-hot vector where only a single position is one and the others are zero.</returns>
+        /// 
+        public static T[] OneHot<T>(int index, int columns, T[] result)
+        {
+            var one = (T)System.Convert.ChangeType(1, typeof(T));
+            result[index] = one;
+            return result;
+        }
+
+        /// <summary>
+        ///   Creates a one-hot vector, where all values are zero except for the indicated
+        ///   <paramref name="index"/>, which is set to one.
+        /// </summary>
+        /// 
+        /// <param name="index">The vector's dimension which will be marked as one.</param>
+        /// <param name="columns">The size (length) of the vector.</param>
+        /// <param name="result">The vector where the one-hot should be marked.</param>
+        /// 
+        /// <returns>A one-hot vector where only a single position is one and the others are zero.</returns>
+        /// 
+        public static double[] OneHot(int index, int columns, double[] result)
+        {
+            result[index] = 1;
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Creates a k-hot vector, where all values are zero except for the elements
+        ///   at the indicated <paramref name="indices"/>, which are set to one.
+        /// </summary>
+        /// 
+        /// <param name="indices">The vector's dimensions which will be marked as ones.</param>
+        /// <param name="columns">The size (length) of the vector.</param>
+        /// 
+        /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
+        /// 
+        public static T[] KHot<T>(int[] indices, int columns)
+        {
+            return KHot<T>(indices, columns, new T[columns]);
+        }
+
+        /// <summary>
+        ///   Creates a k-hot vector, where all values are zero except for the elements
+        ///   at the indicated <paramref name="indices"/>, which are set to one.
+        /// </summary>
+        /// 
+        /// <param name="indices">The vector's dimensions which will be marked as ones.</param>
+        /// <param name="columns">The size (length) of the vector.</param>
+        /// 
+        /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
+        /// 
+        public static double[] KHot(int[] indices, int columns)
+        {
+            return KHot(indices, columns, new double[columns]);
+        }
+
+        /// <summary>
+        ///   Creates a k-hot vector, where all values are zero except for the elements
+        ///   at the indicated <paramref name="indices"/>, which are set to one.
+        /// </summary>
+        /// 
+        /// <param name="indices">The vector's dimensions which will be marked as ones.</param>
+        /// <param name="columns">The size (length) of the vector.</param>
+        /// <param name="result">The vector where the k-hot should be marked.</param>
+        /// 
+        /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
+        /// 
+        public static T[] KHot<T>(int[] indices, int columns, T[] result)
+        {
+            var one = (T)System.Convert.ChangeType(1, typeof(T));
+            for (int i = 0; i < indices.Length; i++)
+                result[indices[i]] = one;
+            return result;
+        }
+
+        /// <summary>
+        ///   Creates a k-hot vector, where all values are zero except for the elements
+        ///   at the indicated <paramref name="indices"/>, which are set to one.
+        /// </summary>
+        /// 
+        /// <param name="indices">The vector's dimensions which will be marked as ones.</param>
+        /// <param name="columns">The size (length) of the vector.</param>
+        /// <param name="result">The vector where the k-hot should be marked.</param>
+        /// 
+        /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
+        /// 
+        public static double[] KHot(int[] indices, int columns, double[] result)
+        {
+            for (int i = 0; i < indices.Length; i++)
+                result[indices[i]] = 1;
+            return result;
+        }
 
 
         /// <summary>
