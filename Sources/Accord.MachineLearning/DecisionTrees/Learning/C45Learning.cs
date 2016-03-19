@@ -160,7 +160,6 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     public class C45Learning
     {
 
-
         private DecisionTree tree;
 
         private int maxHeight;
@@ -168,11 +167,12 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
         private double[][] thresholds;
         private IntRange[] inputRanges;
+
+        private int inputVariables;
         private int outputClasses;
 
         private int join = 1;
         private int[] attributeUsageCount;
-
 
         /// <summary>
         ///   Gets or sets the maximum allowed 
@@ -193,6 +193,15 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 maxHeight = value;
             }
         }
+
+        /// <summary>
+        ///   Gets or sets the maximum number of variables that
+        ///   can enter the tree. A value of zero indicates there
+        ///   is no limit. Default is 0 (there is no limit on the
+        ///   number of variables).
+        /// </summary>
+        /// 
+        public int MaxVariables { get; set; }
 
         /// <summary>
         ///   Gets or sets the step at which the samples will
@@ -241,23 +250,57 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         ///   Creates a new C4.5 learning algorithm.
         /// </summary>
         /// 
+        public C45Learning()
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new C4.5 learning algorithm.
+        /// </summary>
+        /// 
         /// <param name="tree">The decision tree to be generated.</param>
         /// 
         public C45Learning(DecisionTree tree)
+        {
+            this.splitStep = 1;
+
+            init(tree);
+        }
+
+        private void init(DecisionTree tree)
         {
             // Initial argument checking
             if (tree == null)
                 throw new ArgumentNullException("tree");
 
             this.tree = tree;
-            this.attributeUsageCount = new int[tree.InputCount];
-            this.inputRanges = new IntRange[tree.InputCount];
-            this.outputClasses = tree.OutputClasses;
-            this.maxHeight = tree.InputCount;
-            this.splitStep = 1;
+            this.inputVariables = tree.NumberOfInputs;
+            this.outputClasses = tree.NumberOfOutputs;
+            this.attributeUsageCount = new int[inputVariables];
+            this.inputRanges = new IntRange[inputVariables];
+            this.maxHeight = inputVariables;
 
             for (int i = 0; i < inputRanges.Length; i++)
                 inputRanges[i] = tree.Attributes[i].Range.ToIntRange(false);
+        }
+
+        /// <summary>
+        ///   Runs the learning algorithm, creating a decision
+        ///   tree modeling the given inputs and outputs.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The inputs.</param>
+        /// <param name="outputs">The corresponding outputs.</param>
+        /// 
+        /// <returns>The error of the generated tree.</returns>
+        /// 
+        public DecisionTree Learn(double[][] inputs, int[] outputs)
+        {
+            var variables = DecisionVariable.FromData(inputs);
+            int classes = outputs.DistinctCount();
+            init(new DecisionTree(variables, classes));
+            this.Run(inputs, outputs);
+            return tree;
         }
 
         /// <summary>
@@ -284,7 +327,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
             thresholds = new double[tree.Attributes.Count][];
 
-            List<double> candidates = new List<double>(inputs.Length);
+            var candidates = new List<double>(inputs.Length);
 
             // 0. Create candidate split thresholds for each attribute
             for (int i = 0; i < tree.Attributes.Count; i++)
@@ -345,7 +388,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             int miss = 0;
             for (int i = 0; i < inputs.Length; i++)
             {
-                if (tree.Compute(inputs[i]) != outputs[i])
+                if (tree.Decide(inputs[i]) != outputs[i])
                     miss++;
             }
 
@@ -371,9 +414,9 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             //    the target attributes in the examples.
 
             // how many variables have been used less than the limit
-            int candidateCount = attributeUsageCount.Count(x => x < join);
+            int[] candidates = Matrix.Find(attributeUsageCount, x => x < join);
 
-            if (candidateCount == 0 || (maxHeight > 0 && height == maxHeight))
+            if (candidates.Length == 0 || (maxHeight > 0 && height == maxHeight))
             {
                 root.Output = Measures.Mode(output);
                 return;
@@ -381,20 +424,16 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
 
             // 4. Otherwise, try to select the attribute which
-            //    best explains the data sample subset.
+            //    best explains the data sample subset. If the tree
+            //    is part of a random forest, only consider a percentage
+            //    of the candidate attributes at each split point
 
-            double[] scores = new double[candidateCount];
-            double[] thresholds = new double[candidateCount];
-            int[][][] partitions = new int[candidateCount][][];
+            if (MaxVariables > 0)
+                candidates = Vector.Sample(candidates, MaxVariables);
 
-            // Retrieve candidate attribute indices
-            int[] candidates = new int[candidateCount];
-            for (int i = 0, k = 0; i < attributeUsageCount.Length; i++)
-            {
-                if (attributeUsageCount[i] < join)
-                    candidates[k++] = i;
-            }
-
+            var scores = new double[candidates.Length];
+            var thresholds = new double[candidates.Length];
+            var partitions = new int[candidates.Length][][];
 
             // For each attribute in the data set
 #if SERIAL
@@ -566,11 +605,11 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             double bestThreshold = t[0];
             partitions = null;
 
-            List<int> idx1 = new List<int>(input.Length);
-            List<int> idx2 = new List<int>(input.Length);
+            var idx1 = new List<int>(input.Length);
+            var idx2 = new List<int>(input.Length);
 
-            List<int> output1 = new List<int>(input.Length);
-            List<int> output2 = new List<int>(input.Length);
+            var output1 = new List<int>(input.Length);
+            var output2 = new List<int>(input.Length);
 
             double[] values = new double[input.Length];
             for (int i = 0; i < values.Length; i++)
@@ -657,11 +696,11 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                         "The input vector at index " + i + " is null.");
                 }
 
-                if (inputs[i].Length != tree.InputCount)
+                if (inputs[i].Length != tree.NumberOfInputs)
                 {
                     throw new DimensionMismatchException("inputs", "The size of the input vector at index "
                         + i + " does not match the expected number of inputs of the tree."
-                        + " All input vectors for this tree must have length " + tree.InputCount);
+                        + " All input vectors for this tree must have length " + tree.NumberOfInputs);
                 }
 
                 for (int j = 0; j < inputs[i].Length; j++)
@@ -684,7 +723,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
             for (int i = 0; i < outputs.Length; i++)
             {
-                if (outputs[i] < 0 || outputs[i] >= tree.OutputClasses)
+                if (outputs[i] < 0 || outputs[i] >= tree.NumberOfOutputs)
                 {
                     throw new ArgumentOutOfRangeException("outputs",
                       "The output label at index " + i + " should be equal to or higher than zero, " +

@@ -27,6 +27,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     using AForge;
     using Parallel = System.Threading.Tasks.Parallel;
     using Accord.Statistics;
+    using Accord.Math.Optimization.Losses;
 
     /// <summary>
     ///   ID3 (Iterative Dichotomizer 3) learning algorithm
@@ -237,9 +238,9 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 throw new ArgumentNullException("tree");
 
             this.tree = tree;
-            this.inputRanges = new IntRange[tree.InputCount];
-            this.outputClasses = tree.OutputClasses;
-            this.attributeUsageCount = new int[tree.InputCount];
+            this.inputRanges = new IntRange[tree.NumberOfInputs];
+            this.outputClasses = tree.NumberOfOutputs;
+            this.attributeUsageCount = new int[tree.NumberOfInputs];
             this.Rejection = true;
 
             for (int i = 0; i < tree.Attributes.Count; i++)
@@ -272,7 +273,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             for (int i = 0; i < attributeUsageCount.Length; i++)
             {
                 // a[i] has never been used
-                attributeUsageCount[i] = 0; 
+                attributeUsageCount[i] = 0;
             }
 
             // 1. Create a root node for the tree
@@ -298,14 +299,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         public double ComputeError(int[][] inputs, int[] outputs)
         {
-            int miss = 0;
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                if (tree.Compute(inputs[i].ToDouble()) != outputs[i])
-                    miss++;
-            }
-
-            return (double)miss / inputs.Length;
+            return new AccuracyLoss(outputs) { Mean = true }.Loss(tree.Decide(inputs));
         }
 
         private void split(DecisionNode root, int[][] input, int[] output, int height)
@@ -493,12 +487,12 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                         "The input vector at index " + i + " is null.");
                 }
 
-                if (inputs[i].Length != tree.InputCount)
+                if (inputs[i].Length != tree.NumberOfInputs)
                 {
                     throw new DimensionMismatchException("inputs",
                         "The size of the input vector at index " + i
                         + " does not match the expected number of inputs of the tree."
-                        + " All input vectors for this tree must have length " + tree.InputCount);
+                        + " All input vectors for this tree must have length " + tree.NumberOfInputs);
                 }
 
                 for (int j = 0; j < inputs[i].Length; j++)
@@ -518,7 +512,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
             for (int i = 0; i < outputs.Length; i++)
             {
-                if (outputs[i] < 0 || outputs[i] >= tree.OutputClasses)
+                if (outputs[i] < 0 || outputs[i] >= tree.NumberOfOutputs)
                 {
                     throw new ArgumentOutOfRangeException("outputs",
                         "The output label at index " + i +

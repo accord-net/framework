@@ -474,7 +474,7 @@ namespace Accord.Tests.MachineLearning
             bool thrown = false;
 
             try { double error = teacher.Run(samples, outputs); }
-            catch (ArgumentNullException ) { thrown = true; }
+            catch (ArgumentNullException) { thrown = true; }
 
             Assert.IsTrue(thrown);
         }
@@ -518,12 +518,23 @@ namespace Accord.Tests.MachineLearning
             double newError = ComputeError(rules, inputs, outputs);
             Assert.AreEqual(0.026666666666666668, newError, 1e-10);
 
-            string ruleText = rules.ToString(codebook, 
+            string ruleText = rules.ToString(codebook,
                 System.Globalization.CultureInfo.InvariantCulture);
 
             // TODO: implement this assertion properly, actually checking
             // the text contents once the feature is completely finished.
             Assert.AreEqual(596, ruleText.Length);
+
+            string expected = @"0 =: (petal length <= 2.45)
+1 =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length <= 7.05) && (sepal width <= 2.85)
+1 =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length <= 7.05) && (sepal width > 2.85)
+1 =: (petal length > 2.45) && (petal width > 1.75) && (sepal length <= 5.95) && (sepal width > 3.05)
+2 =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length > 7.05)
+2 =: (petal length > 2.45) && (petal width > 1.75) && (sepal length > 5.95)
+2 =: (petal length > 2.45) && (petal width > 1.75) && (sepal length <= 5.95) && (sepal width <= 3.05)
+";
+
+            Assert.AreEqual(expected, ruleText);
         }
 
         [Test]

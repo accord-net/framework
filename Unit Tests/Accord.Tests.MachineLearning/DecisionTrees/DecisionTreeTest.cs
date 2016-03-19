@@ -29,26 +29,12 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Filters;
     using System.Data;
     using Accord.Math;
+    using System.IO;
+    using Accord.IO;
 
     [TestFixture]
     public class DecisionTreeTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [Test]
@@ -178,5 +164,58 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
+        [Test]
+        public void SerializationTest1()
+        {
+            DecisionTree tree;
+            int[][] inputs;
+            int[] outputs;
+
+            ID3LearningTest.CreateMitchellExample(out tree, out inputs, out outputs);
+
+            Serializer.Save(tree, @"C:\Users\CésarRoberto\Desktop\tree.bin");
+        }
+
+        [Test]
+        public void DeserializationTest1()
+        {
+            MemoryStream stream = null;// new MemoryStream(Properties.Resources.tree);
+
+            DecisionTree tree = Serializer.Load<DecisionTree>(stream);
+
+            Assert.AreEqual(4, tree.InputCount);
+            Assert.AreEqual(2, tree.OutputClasses);
+
+            DecisionTree newtree;
+            int[][] inputs;
+            int[] outputs;
+
+            ID3LearningTest.CreateMitchellExample(out newtree, out inputs, out outputs);
+
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                int y = tree.Compute(inputs[i].ToDouble());
+                Assert.AreEqual(outputs[i], y);
+            }
+
+            DecisionNode[] expected = 
+            {
+                tree.Root,
+                tree.Root.Branches[0], // Outlook = 0
+                tree.Root.Branches[1], // Outlook = 1
+                tree.Root.Branches[2], // Outlook = 2
+                tree.Root.Branches[0].Branches[0], // Humidity = 0
+                tree.Root.Branches[0].Branches[1], // Humidity = 1
+                tree.Root.Branches[2].Branches[0], // Wind = 0
+                tree.Root.Branches[2].Branches[1], // Wind = 1
+            };
+
+            int c = 0;
+            foreach (var node in tree.Traverse(DecisionTreeTraversal.BreadthFirst))
+                Assert.AreEqual(expected[c++], node);
+            Assert.AreEqual(expected.Length, c);
+
+        }
     }
 }
