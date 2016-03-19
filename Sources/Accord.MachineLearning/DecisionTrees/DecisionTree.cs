@@ -591,6 +591,8 @@ namespace Accord.MachineLearning.DecisionTrees
                 {
                     if (typeName == "Accord.MachineLearning.DecisionTrees.DecisionTree")
                         return typeof(DecisionTree_2_13);
+                    if (typeName == "AForge.DoubleRange")
+                        return typeof(Accord.DoubleRange);
                 }
 
                 return null;
@@ -603,18 +605,20 @@ namespace Accord.MachineLearning.DecisionTrees
         [Serializable]
         class DecisionTree_2_13
         {
-            private DecisionNode root;
-            private DecisionVariableCollection attributes;
+            public DecisionNode Root { get; set; }
 
-            public int OutputClasses { get; set; }
+            public DecisionVariableCollection Attributes { get; private set; }
+            
+            public int OutputClasses { get; private set; }
 
-            public int InputCount { get; set; }
+            public int InputCount { get; private set; }
 
 
 
             public static implicit operator DecisionTree(DecisionTree_2_13 obj)
             {
-                var tree = new DecisionTree(obj.attributes, obj.OutputClasses);
+                var tree = new DecisionTree(obj.Attributes, obj.OutputClasses);
+                tree.Root = obj.Root;
 
                 foreach (DecisionNode node in tree)
                 {

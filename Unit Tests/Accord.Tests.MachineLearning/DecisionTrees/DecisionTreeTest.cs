@@ -185,6 +185,7 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(4, tree.InputCount);
             Assert.AreEqual(2, tree.OutputClasses);
+            Assert.IsNotNull(tree.Root);
 
             DecisionTree newtree;
             int[][] inputs;
