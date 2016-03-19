@@ -179,7 +179,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void DeserializationTest1()
         {
-            MemoryStream stream = null;// new MemoryStream(Properties.Resources.tree);
+            MemoryStream stream = new MemoryStream(Properties.Resources.tree);
 
             DecisionTree tree = Serializer.Load<DecisionTree>(stream);
 

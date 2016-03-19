@@ -49,6 +49,7 @@ namespace Accord.MachineLearning.DecisionTrees
     /// <seealso cref="Learning.C45Learning"/>
     ///
     [Serializable]
+    [SerializationBinder(typeof(DecisionTree.DecisionTreeBinder))]
     public class DecisionTree : BaseClassifier, IEnumerable<DecisionNode>
     {
         private DecisionNode root;
@@ -241,19 +242,6 @@ namespace Accord.MachineLearning.DecisionTrees
                 + "the tree is expecting discrete inputs, but it was given only real values.");
         }
 
-
-
-
-
-
-        [OnDeserialized]
-        private void OnDeserialized(StreamingContext context)
-        {
-            foreach (DecisionNode node in this)
-            {
-                node.Owner = this;
-            }
-        }
 
 
         /// <summary>
@@ -589,6 +577,60 @@ namespace Accord.MachineLearning.DecisionTrees
             }
 
         }
+
+
+        #region Serialization backwards compatibility
+
+        internal class DecisionTreeBinder : SerializationBinder
+        {
+            public override Type BindToType(string assemblyName, string typeName)
+            {
+                AssemblyName name = new AssemblyName(assemblyName);
+
+                if (name.Version < new Version(3, 1, 0))
+                {
+                    if (typeName == "Accord.MachineLearning.DecisionTrees.DecisionTree")
+                        return typeof(DecisionTree_2_13);
+                }
+
+                return null;
+            }
+        }
+
+#pragma warning disable 0169
+#pragma warning disable 0649
+
+        [Serializable]
+        class DecisionTree_2_13
+        {
+            private DecisionNode root;
+            private DecisionVariableCollection attributes;
+
+            public int OutputClasses { get; set; }
+
+            public int InputCount { get; set; }
+
+
+
+            public static implicit operator DecisionTree(DecisionTree_2_13 obj)
+            {
+                var tree = new DecisionTree(obj.attributes, obj.OutputClasses);
+
+                foreach (DecisionNode node in tree)
+                {
+                    if (node.Owner == null)
+                        node.Owner = tree;
+                }
+
+                return tree;
+            }
+        }
+
+#pragma warning restore 0169
+#pragma warning restore 0649
+
+        #endregion
+
     }
 }
 

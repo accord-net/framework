@@ -203,6 +203,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\svm2.svm" />
+    <None Include="Resources\tree.bin" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\svm1.svm" />
