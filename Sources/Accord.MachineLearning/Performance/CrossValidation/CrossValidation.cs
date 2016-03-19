@@ -192,7 +192,7 @@ namespace Accord.MachineLearning
         /// 
         public static int[] Splittings(int size, int folds)
         {
-            return Categorical.Random(size, folds);
+            return Classes.Random(size, folds);
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace Accord.MachineLearning
         /// 
         public static int[] Splittings(int[] labels, int classes, int folds)
         {
-            return Categorical.Random(labels, classes, folds);
+            return Classes.Random(labels, classes, folds);
         }
 
     }

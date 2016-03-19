@@ -27,6 +27,7 @@ namespace Accord.MachineLearning.DecisionTrees
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Accord.Math;
 
     /// <summary>
     ///   Attribute category.
@@ -208,6 +209,23 @@ namespace Accord.MachineLearning.DecisionTrees
             return variables;
         }
 
+        /// <summary>
+        ///   Creates a set of decision variables from input data.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data.</param>
+        /// 
+        /// <returns>An array of <see cref="DecisionVariable"/> objects 
+        /// initialized with the values from the codebook.</returns>
+        /// 
+        public static DecisionVariable[] FromData(double[][] inputs)
+        {
+            int cols = inputs.Columns();
+            var variables = new DecisionVariable[cols];
+            for (int i = 0; i < variables.Length; i++)
+                variables[i] = new DecisionVariable(i.ToString(), DecisionVariableKind.Continuous);
+            return variables;
+        }
     }
 
 

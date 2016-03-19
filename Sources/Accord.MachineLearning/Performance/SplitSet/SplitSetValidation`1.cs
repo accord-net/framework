@@ -133,7 +133,7 @@ namespace Accord.MachineLearning
         {
             this.Proportion = proportion;
             this.IsStratified = false;
-            this.Indices = Categorical.Random(size, proportion);
+            this.Indices = Classes.Random(size, proportion);
 
             this.ValidationSet = Indices.Find(x => x == 0);
             this.TrainingSet = Indices.Find(x => x == 1);

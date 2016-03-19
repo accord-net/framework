@@ -264,7 +264,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public ChiSquareTest ChiSquare(double[][] input, int[] classes)
         {
-            return ChiSquare(input, Categorical.OneHot(classes));
+            return ChiSquare(input, Jagged.OneHot(classes));
         }
 
         /// <summary>
@@ -456,7 +456,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public double GetLogLikelihood(double[][] inputs, int[] classes)
         {
-            return GetLogLikelihood(inputs, Categorical.OneHot(classes));
+            return GetLogLikelihood(inputs, Jagged.OneHot(classes));
         }
 
         /// <summary>

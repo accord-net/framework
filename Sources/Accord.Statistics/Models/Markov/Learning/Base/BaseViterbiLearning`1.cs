@@ -136,7 +136,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                 else
                 {
                     // Divide in batches
-                    int[] groups = Categorical.Random(observations.Length, batches);
+                    int[] groups = Classes.Random(observations.Length, batches);
 
                     // For each batch
                     for (int j = 0; j < batches; j++)

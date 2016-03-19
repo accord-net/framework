@@ -611,7 +611,11 @@ namespace Accord.Statistics.Filters
                         if (options.VariableType == CodificationVariable.Ordinal)
                         {
                             // Get its corresponding integer
-                            int value = map[label];
+                            int value = 0;
+                            try { value = map[label]; }
+                            catch { 
+                                value = map.Values.Count + 1;
+                                map[label] = value;}
 
                             // Set the row to the integer
                             resultRow[name] = value;
@@ -622,16 +626,18 @@ namespace Accord.Statistics.Filters
                             {
                                 // Find the corresponding column
                                 var factorName = getFactorName(options, label);
-
-                                resultRow[factorName] = 1;
+                                try
+                                { resultRow[factorName] = 1; }
+                                catch{}
                             }
                         }
                         else if (options.VariableType == CodificationVariable.Categorical)
                         {
                             // Find the corresponding column
                             var factorName = getFactorName(options, label);
-
-                            resultRow[factorName] = 1;
+                            try
+                            { resultRow[factorName] = 1; }
+                            catch { }
                         }
                     }
                     else

@@ -116,45 +116,6 @@ namespace Accord.Statistics
 
 
 
-        /// <summary>
-        ///   Gets the number of distinct values 
-        ///   present in each column of a matrix.
-        /// </summary>
-        /// 
-        public static int[] DistinctCount(this double[,] sourceMatrix)
-        {
-            double[][] distinct = sourceMatrix.Distinct();
-            int[] counts = new int[distinct.Length];
-            for (int i = 0; i < counts.Length; i++)
-                counts[i] = distinct[i].Length;
-
-            return counts;
-        }
-
-        /// <summary>
-        ///   Gets the number of distinct values 
-        ///   present in each column of a matrix.
-        /// </summary>
-        /// 
-        public static int[] DistinctCount(this double[][] sourceMatrix)
-        {
-            double[][] distinct = sourceMatrix.Distinct();
-            int[] counts = new int[distinct.Length];
-            for (int i = 0; i < counts.Length; i++)
-                counts[i] = distinct[i].Length;
-
-            return counts;
-        }
-
-        /// <summary>
-        ///   Gets the number of distinct values 
-        ///   present in each column of a matrix.
-        /// </summary>
-        /// 
-        public static int DistinctCount(this double[] source)
-        {
-            return source.Distinct().Length;
-        }
 
 
         /// <summary>

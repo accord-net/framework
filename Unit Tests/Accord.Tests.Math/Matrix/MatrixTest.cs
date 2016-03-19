@@ -1193,8 +1193,8 @@ namespace Accord.Tests.Math
         [Test]
         public void CombineTest5()
         {
-            double[,] A = Matrix.Create(2, 2.0);
-            double[,] B = Matrix.Create(2, 1.0);
+            double[,] A = Matrix.Square(2, 2.0);
+            double[,] B = Matrix.Square(2, 1.0);
 
             double[,] expected = 
             {

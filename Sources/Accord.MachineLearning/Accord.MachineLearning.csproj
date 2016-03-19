@@ -96,6 +96,8 @@
     <Compile Include="DecisionTrees\DecisionBranchNodeCollection.cs" />
     <Compile Include="DecisionTrees\Learning\Accord.MachineLearning.DecisionTrees.Learning.cs" />
     <Compile Include="DecisionTrees\Pruning\Accord.MachineLearning.DecisionTrees.Prunning.cs" />
+    <Compile Include="DecisionTrees\RandomForestLearning.cs" />
+    <Compile Include="DecisionTrees\RandomForest.cs" />
     <Compile Include="DecisionTrees\Rules\Accord.MachineLearning.DecisionTrees.Rules.cs" />
     <Compile Include="DecisionTrees\Rules\Antecedent.cs" />
     <Compile Include="DecisionTrees\Rules\DecisionSet.cs" />

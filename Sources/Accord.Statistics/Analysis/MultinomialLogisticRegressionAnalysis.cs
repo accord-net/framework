@@ -286,7 +286,7 @@ namespace Accord.Statistics.Analysis
             if (inputs.Length != outputs.Length)
                 throw new ArgumentException("The number of rows in the input array must match the number of given outputs.");
 
-            init(inputs, Categorical.OneHot(outputs));
+            init(inputs, Jagged.OneHot(outputs));
         }
 
         /// <summary>

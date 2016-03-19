@@ -226,7 +226,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// 
         public double Run(double[][] inputs, int[] classes)
         {
-            return run(inputs, Categorical.OneHot(classes));
+            return run(inputs, Jagged.OneHot(classes));
         }
 
         /// <summary>

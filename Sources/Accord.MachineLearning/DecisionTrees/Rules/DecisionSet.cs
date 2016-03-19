@@ -88,7 +88,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
 
             return new DecisionSet(rules)
             {
-                OutputClasses = tree.OutputClasses
+                OutputClasses = tree.NumberOfOutputs
             };
         }
 

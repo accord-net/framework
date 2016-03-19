@@ -29,6 +29,7 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
     using Accord.Math;
     using Accord.Statistics;
     using Accord.MachineLearning.Structures;
+    using Accord.Math.Optimization.Losses;
 
     /// <summary>
     ///   Reduced error pruning.
@@ -157,7 +158,7 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
             int error = 0;
             for (int i = 0; i < inputs.Length; i++)
             {
-                int actual = tree.Compute(inputs[i]);
+                int actual = tree.Decide(inputs[i]);
                 int expected = outputs[i];
                 if (actual != expected) error++;
             }

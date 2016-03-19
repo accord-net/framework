@@ -26,6 +26,7 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
     using System.Collections.Generic;
     using Accord.Math;
     using Accord.Statistics;
+    using Accord.Math.Optimization.Losses;
 
     /// <summary>
     ///   Error-based pruning.
@@ -107,7 +108,7 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
         // stores the index of the samples that 
         // are covered by each node's subtree.
         //
-        Dictionary<DecisionNode, List<int>> subsets; 
+        Dictionary<DecisionNode, List<int>> subsets;
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="ErrorBasedPruning"/> class.
@@ -172,17 +173,7 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
 
         private double computeError()
         {
-            int error = 0;
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                int actual = tree.Compute(inputs[i]);
-                int expected = outputs[i];
-
-                if (actual != expected) 
-                    error++;
-            }
-
-            return error / (double)inputs.Length;
+            return new AccuracyLoss(outputs) { Mean = true }.Loss(tree.Decide(inputs));
         }
 
         /// <summary>
