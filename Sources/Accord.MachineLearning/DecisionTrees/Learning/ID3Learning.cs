@@ -185,7 +185,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             get { return maxHeight; }
             set
             {
-                if (maxHeight <= 0)
+                if (value <= 0)
                 {
                     throw new ArgumentOutOfRangeException("value",
                         "The height must be greater than zero.");
