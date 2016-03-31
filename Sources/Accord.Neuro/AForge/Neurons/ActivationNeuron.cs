@@ -71,8 +71,8 @@ namespace Accord.Neuro
         /// <param name="inputs">Neuron's inputs count.</param>
         /// <param name="function">Neuron's activation function.</param>
         /// 
-        public ActivationNeuron( int inputs, IActivationFunction function )
-            : base( inputs )
+        public ActivationNeuron(int inputs, IActivationFunction function)
+            : base(inputs)
         {
             this.function = function;
         }
@@ -84,12 +84,13 @@ namespace Accord.Neuro
         /// <remarks>Calls base class <see cref="Neuron.Randomize">Randomize</see> method
         /// to randomize neuron's weights and then randomizes threshold's value.</remarks>
         /// 
-        public override void Randomize( )
+        public override void Randomize()
         {
             // randomize weights
-            base.Randomize( );
+            base.Randomize();
+
             // randomize threshold
-            threshold = rand.NextDouble( ) * ( randRange.Length ) + randRange.Min;
+            threshold = rand.Generate();
         }
 
         /// <summary>
@@ -117,24 +118,24 @@ namespace Accord.Neuro
         /// <exception cref="ArgumentException">Wrong length of the input vector, which is not
         /// equal to the <see cref="Neuron.InputsCount">expected value</see>.</exception>
         /// 
-        public override double Compute( double[] input )
+        public override double Compute(double[] input)
         {
             // check for corrent input vector
-            if ( input.Length != inputsCount )
-                throw new ArgumentException( "Wrong length of the input vector." );
+            if (input.Length != inputsCount)
+                throw new ArgumentException("Wrong length of the input vector.");
 
             // initial sum value
             double sum = 0.0;
 
             // compute weighted sum of inputs
-            for ( int i = 0; i < weights.Length; i++ )
+            for (int i = 0; i < weights.Length; i++)
             {
                 sum += weights[i] * input[i];
             }
             sum += threshold;
 
             // local variable to avoid mutlithreaded conflicts
-            double output = function.Function( sum );
+            double output = function.Function(sum);
             // assign output property as well (works correctly for single threaded usage)
             this.output = output;
 

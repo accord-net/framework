@@ -57,7 +57,7 @@ namespace Accord.Tests.Neuro
                 new double[] { -1 }
             };
 
-            Neuron.RandGenerator = new ThreadSafeRandom(0);
+            //Neuron.RandGenerator = new ThreadSafeRandom(0);
             ActivationNetwork network = new ActivationNetwork(
                    new BipolarSigmoidFunction(2), 2, 2, 1);
 

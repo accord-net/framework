@@ -29,6 +29,7 @@ namespace Accord.Neuro.ActivationFunctions
     using Accord.Neuro.Learning;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Math.Random;
+    using Accord.Math;
 
     /// <summary>
     ///   Gaussian stochastic activation function.
@@ -91,19 +92,6 @@ namespace Accord.Neuro.ActivationFunctions
 
         // function output range
         private DoubleRange range = new DoubleRange(-1, +1);
-
-        private static StandardGenerator gaussian = new StandardGenerator(Environment.TickCount);
-
-        /// <summary>
-        ///   Gets or sets the class-wide  
-        ///   Gaussian random generator.
-        /// </summary>
-        /// 
-        public static StandardGenerator Random
-        {
-            get { return gaussian; }
-            set { gaussian = value; }
-        }
 
         /// <summary>
         /// Linear slope value.
@@ -196,7 +184,7 @@ namespace Accord.Neuro.ActivationFunctions
         public double Generate(double x)
         {
             // assume zero-mean noise
-            double y = alpha * x + gaussian.Next();
+            double y = alpha * x + NormalDistribution.Random();
 
             if (y > range.Max)
                 y = range.Max;
@@ -219,7 +207,7 @@ namespace Accord.Neuro.ActivationFunctions
         /// 
         public double Generate2(double y)
         {
-            y = y + gaussian.Next();
+            y = y + NormalDistribution.Random();
 
             if (y > range.Max)
                 y = range.Max;

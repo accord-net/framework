@@ -24,6 +24,7 @@ namespace Accord.Neuro
 {
     using System;
     using AForge;
+    using Accord.Statistics.Distributions.Univariate;
 
     /// <summary>
     ///  Nguyen-Widrow weight initialization.
@@ -68,12 +69,10 @@ namespace Accord.Neuro
         /// 
         public void Randomize(int layerIndex)
         {
-            Neuron.RandRange = randRange;
-
             for (int j = 0; j < network.Layers[layerIndex].Neurons.Length; j++)
             {
                 ActivationNeuron neuron = network.Layers[layerIndex].Neurons[j] as ActivationNeuron;
-
+                neuron.RandGenerator = new UniformContinuousDistribution(randRange);
                 neuron.Randomize();
 
                 double norm = 0.0;
