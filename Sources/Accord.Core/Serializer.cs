@@ -78,6 +78,23 @@ namespace Accord.IO
         }
 
         /// <summary>
+        ///   Saves an object to a stream.
+        /// </summary>
+        /// 
+        /// <param name="obj">The object to be serialized.</param>
+        /// <param name="bytes">The sequence of bytes to which the object has been serialized.</param>
+        /// 
+        public static void Save<T>(this T obj, out byte[] bytes)
+        {
+            using (var fs = new MemoryStream())
+            {
+                Save(obj, fs);
+                fs.Seek(0, SeekOrigin.Begin);
+                bytes = fs.ToArray();
+            }
+        }
+
+        /// <summary>
         ///   Loads an object from a stream.
         /// </summary>
         /// 
@@ -107,6 +124,23 @@ namespace Accord.IO
         }
 
         /// <summary>
+        ///   Loads an object from a file.
+        /// </summary>
+        /// 
+        /// <param name="bytes">The byte stream containing the object to be deserialized.</param>
+        /// 
+        /// <returns>The deserialized object.</returns>
+        /// 
+        public static T Load<T>(byte[] bytes)
+        {
+            using (var fs = new MemoryStream(bytes, false))
+            {
+                return Load<T>(fs);
+            }
+        }
+
+
+        /// <summary>
         ///   Loads a model from a stream.
         /// </summary>
         /// 
@@ -114,7 +148,7 @@ namespace Accord.IO
         /// <param name="formatter">The binary formatter.</param>
         /// <param name="stream">The stream from which to deserialize the object graph.</param>
         /// 
-        /// <returns></returns>
+        /// <returns>The deserialized object.</returns>
         /// 
         public static T Load<T>(Stream stream, BinaryFormatter formatter)
         {
@@ -143,13 +177,24 @@ namespace Accord.IO
 
         private static SerializationBinder GetBinder(Type type)
         {
+            // Try to get the binder by checking if there type is
+            // marked with a SerializationBinderAttribute
             var attribute = Attribute.GetCustomAttribute(type,
                 typeof(SerializationBinderAttribute)) as SerializationBinderAttribute;
 
-            if (attribute == null)
-                return null;
-            
-            return attribute.Binder;
+            if (attribute != null)
+                return attribute.Binder;
+
+            // Check if the type has an internal static property containing the binder
+            var field = type.GetField("Binder", BindingFlags.NonPublic | BindingFlags.Static);
+            if (field != null)
+            {
+                var binder = field.GetValue(null) as SerializationBinder;
+                if (binder != null)
+                    return binder;
+            }
+
+            return null;
         }
 
         private static Assembly resolve(object sender, ResolveEventArgs args)
