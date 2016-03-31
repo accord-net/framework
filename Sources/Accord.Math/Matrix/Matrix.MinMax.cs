@@ -31,217 +31,245 @@ namespace Accord.Math
     public static partial class Matrix
     {
 
-        #region Vector ArgMin/ArgMax
-
-        /// <summary>
-        ///   Gets the maximum element in a vector.
-        /// </summary>
-        /// 
-        public static int ArgMax<T>(this T[] values) where T : IComparable
-        {
-            int imax = 0;
-            T max = values[0];
-            for (int i = 1; i < values.Length; i++)
-            {
-                if (values[i].CompareTo(max) > 0)
-                {
-                    max = values[i];
-                    imax = i;
-                }
-            }
-
-            return imax;
-        }
-
-        /// <summary>
-        ///   Gets the maximum element in a vector.
-        /// </summary>
-        /// 
-        public static int ArgMax<T>(this T[] values, out T max) where T : IComparable
-        {
-            int imax = 0;
-            max = values[0];
-            for (int i = 1; i < values.Length; i++)
-            {
-                if (values[i].CompareTo(max) > 0)
-                {
-                    max = values[i];
-                    imax = i;
-                }
-            }
-
-            return imax;
-        }
-
-        /// <summary>
-        ///   Gets the minimum element in a vector.
-        /// </summary>
-        /// 
-        public static int ArgMin<T>(this T[] values) where T : IComparable
-        {
-            int imin = 0;
-            T min = values[0];
-            for (int i = 1; i < values.Length; i++)
-            {
-                if (values[i].CompareTo(min) < 0)
-                {
-                    min = values[i];
-                    imin = i;
-                }
-            }
-
-            return imin;
-        }
-
-        /// <summary>
-        ///   Gets the minimum element in a vector.
-        /// </summary>
-        /// 
-        public static int ArgMin<T>(this T[] values, out T min) where T : IComparable
-        {
-            int imin = 0;
-            min = values[0];
-            for (int i = 1; i < values.Length; i++)
-            {
-                if (values[i].CompareTo(min) < 0)
-                {
-                    min = values[i];
-                    imin = i;
-                }
-            }
-
-            return imin;
-        }
-        #endregion
-
-
         #region Matrix ArgMin/ArgMax
+
         /// <summary>
-        ///   Gets the maximum element in a matrix.
+        ///   Gets the index of the maximum element in a matrix.
         /// </summary>
         /// 
-        public static int[] ArgMax<T>(this T[,] values, int dimension) where T : IComparable
+        public static Tuple<int, int> ArgMax<T>(this T[,] matrix)
+            where T : IComparable
         {
-            T[] max;
-            return ArgMax(values, dimension, out max);
+            Tuple<int, int> index;
+            Max(matrix, out index);
+            return index;
         }
 
         /// <summary>
-        ///   Gets the maximum element in a matrix.
+        ///   Gets the index of the maximum element in a matrix across a given dimension.
         /// </summary>
         /// 
-        public static int[] ArgMax<T>(this T[,] values, int dimension, out T[] max) where T : IComparable
+        public static int[] ArgMax<T>(this T[,] matrix, int dimension)
+            where T : IComparable
         {
-            int[] imax;
-            if (dimension == 0)
-            {
-                imax = new int[values.GetLength(0)];
-                max = new T[imax.Length];
-                for (int i = 0; i < values.GetLength(0); i++)
-                {
-                    for (int j = 0; j < values.GetLength(1); j++)
-                    {
-                        if (values[i, j].CompareTo(max[i]) > 0)
-                        {
-                            max[i] = values[i, j];
-                            imax[i] = i;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                imax = new int[values.GetLength(1)];
-                max = new T[imax.Length];
-                for (int i = 0; i < values.GetLength(1); i++)
-                {
-                    for (int j = 0; j < values.GetLength(0); j++)
-                    {
-                        if (values[i,j].CompareTo(max[j]) > 0)
-                        {
-                            max[j] = values[i, j];
-                            imax[j] = i;
-                        }
-                    }
-                }
-            }
-
-            return imax;
+            int s = GetLength(matrix, dimension);
+            var values = new T[s];
+            var indices = new int[s];
+            Max(matrix, dimension, indices, values);
+            return indices;
         }
 
         /// <summary>
-        ///   Gets the minimum element in a matrix.
+        ///   Gets the index of the maximum element in a matrix across a given dimension.
         /// </summary>
         /// 
-        public static int[] ArgMin<T>(this T[,] values, int dimension) where T : IComparable
+        public static int[] ArgMax<T>(this T[,] matrix, int dimension, int[] result)
+            where T : IComparable
         {
-            T[] min;
-            return ArgMin(values, dimension, out min);
+            int s = GetLength(matrix, dimension);
+            var values = new T[s];
+            Max(matrix, dimension, result, values);
+            return result;
+        }
+
+
+        /// <summary>
+        ///   Gets the index of the minimum element in a matrix.
+        /// </summary>
+        /// 
+        public static Tuple<int, int> ArgMin<T>(this T[,] matrix)
+            where T : IComparable
+        {
+            Tuple<int, int> index;
+            Min(matrix, out index);
+            return index;
         }
 
         /// <summary>
-        ///   Gets the minimum element in a matrix.
+        ///   Gets the index of the minimum element in a matrix across a given dimension.
         /// </summary>
         /// 
-        public static int[] ArgMin<T>(this T[,] values, int dimension, out T[] min) where T : IComparable
+        public static int[] ArgMin<T>(this T[,] matrix, int dimension)
+            where T : IComparable
         {
-            int[] imin;
-            if (dimension == 0)
-            {
-                imin = new int[values.GetLength(0)];
-                min = new T[imin.Length];
-                for (int i = 0; i < values.Length; i++)
-                {
-                    for (int j = 0; j < values.GetLength(1); j++)
-                    {
-                        if (values[i, j].CompareTo(min[i]) < 0)
-                        {
-                            min[i] = values[i, j];
-                            imin[i] = i;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                imin = new int[values.GetLength(1)];
-                min = new T[imin.Length];
-                for (int i = 0; i < values.GetLength(1); i++)
-                {
-                    for (int j = 0; j < values.GetLength(0); j++)
-                    {
-                        if (values[i, j].CompareTo(min[j]) < 0)
-                        {
-                            min[j] = values[i, j];
-                            imin[j] = i;
-                        }
-                    }
-                }
-            }
+            int s = GetLength(matrix, dimension);
+            var values = new T[s];
+            var indices = new int[s];
+            Min(matrix, dimension, indices, values);
+            return indices;
+        }
 
-            return imin;
+        /// <summary>
+        ///   Gets the index of the minimum element in a matrix across a given dimension.
+        /// </summary>
+        /// 
+        public static int[] ArgMin<T>(this T[,] matrix, int dimension, int[] result)
+            where T : IComparable
+        {
+            int s = GetLength(matrix, dimension);
+            T[] values = new T[s];
+            Min(matrix, dimension, result, values);
+            return result;
+        }
+
+
+        #endregion
+
+
+
+        #region Matrix Min/Max
+
+        /// <summary>
+        ///   Gets the maximum value of a matrix.
+        /// </summary>
+        /// 
+        public static T Max<T>(this T[,] matrix)
+            where T : IComparable
+        {
+            Tuple<int, int> index;
+            return Max(matrix, out index);
+        }
+
+        /// <summary>
+        ///   Gets the minimum value of a matrix.
+        /// </summary>
+        /// 
+        public static T Min<T>(this T[,] matrix)
+            where T : IComparable
+        {
+            Tuple<int, int> index;
+            return Min(matrix, out index);
+        }
+
+
+
+
+        /// <summary>
+        ///   Gets the minimum values across one dimension of a matrix.
+        /// </summary>
+        /// 
+        public static T[] Min<T>(this T[,] matrix, int dimension)
+            where T : IComparable
+        {
+            int s = GetLength(matrix, dimension);
+            var result = new T[s];
+            var indices = new int[s];
+            return Min(matrix, dimension, indices, result);
+        }
+
+        /// <summary>
+        ///   Gets the maximum values across one dimension of a matrix.
+        /// </summary>
+        /// 
+        public static T[] Max<T>(this T[,] matrix, int dimension)
+            where T : IComparable
+        {
+            int s = GetLength(matrix, dimension);
+            var result = new T[s];
+            var indices = new int[s];
+            return Max(matrix, dimension, indices, result);
+        }
+
+        /// <summary>
+        ///   Gets the maximum values across one dimension of a matrix.
+        /// </summary>
+        /// 
+        public static T[] Max<T>(this T[,] matrix, int dimension, T[] result)
+            where T : IComparable
+        {
+            int s = GetLength(matrix, dimension);
+            var indices = new int[s];
+            return Max(matrix, dimension, indices, result);
+        }
+
+        /// <summary>
+        ///   Gets the minimum values across one dimension of a matrix.
+        /// </summary>
+        /// 
+        public static T[] Min<T>(this T[,] matrix, int dimension, T[] result)
+            where T : IComparable
+        {
+            int s = GetLength(matrix, dimension);
+            var indices = new int[s];
+            return Min(matrix, dimension, indices, result);
+        }
+
+        /// <summary>
+        ///   Gets the minimum values across one dimension of a matrix.
+        /// </summary>
+        /// 
+        public static T[] Min<T>(this T[,] matrix, int dimension, out int[] indices)
+            where T : IComparable
+        {
+            int s = GetLength(matrix, dimension);
+            var result = new T[s];
+            indices = new int[s];
+            return Min(matrix, dimension, indices, result);
+        }
+
+        /// <summary>
+        ///   Gets the maximum values across one dimension of a matrix.
+        /// </summary>
+        /// 
+        public static T[] Max<T>(this T[,] matrix, int dimension, out int[] indices)
+            where T : IComparable
+        {
+            int s = GetLength(matrix, dimension);
+            var result = new T[s];
+            indices = new int[s];
+            return Max(matrix, dimension, indices, result);
+        }
+
+        /// <summary>
+        ///   Gets the maximum values across one dimension of a matrix.
+        /// </summary>
+        /// 
+        public static T[] Max<T>(this T[,] matrix, int dimension, out int[] indices, T[] result)
+            where T : IComparable
+        {
+            int s = GetLength(matrix, dimension);
+            indices = new int[s];
+            return Max(matrix, dimension, indices, result);
+        }
+
+        /// <summary>
+        ///   Gets the minimum values across one dimension of a matrix.
+        /// </summary>
+        /// 
+        public static T[] Min<T>(this T[,] matrix, int dimension, out int[] indices, T[] result)
+            where T : IComparable
+        {
+            int s = GetLength(matrix, dimension);
+            indices = new int[s];
+            return Min(matrix, dimension, indices, result);
         }
         #endregion
 
-        #region Vector Min/Max
+
+
+
+
+
+
+        #region Core implementations
         /// <summary>
-        ///   Gets the maximum non-null element in a vector.
+        ///   Gets the maximum value of a matrix.
         /// </summary>
         /// 
-        public static Nullable<T> Max<T>(this Nullable<T>[] values, out int imax)
-            where T : struct, IComparable
+        public static T Max<T>(this T[,] matrix, out Tuple<int, int> imax)
+            where T : IComparable
         {
-            imax = -1;
-            Nullable<T> max = null;
+            T max = matrix[0, 0];
+            imax = Tuple.Create(0, 0);
 
-            for (int i = 0; i < values.Length; i++)
+            for (int i = 0; i < matrix.GetLength(0); i++)
             {
-                if (values[i].HasValue)
+                for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    if (max == null || values[i].Value.CompareTo(max.Value) > 0)
+                    if (matrix[i, j].CompareTo(max) > 0)
                     {
-                        max = values[i];
-                        imax = i;
+                        max = matrix[i, j];
+                        imax = Tuple.Create(i, j);
                     }
                 }
             }
@@ -250,23 +278,23 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Gets the minimum non-null element in a vector.
+        ///   Gets the minimum value of a matrix.
         /// </summary>
         /// 
-        public static Nullable<T> Min<T>(this Nullable<T>[] values, out int imin)
-            where T : struct, IComparable
+        public static T Min<T>(this T[,] matrix, out Tuple<int, int> imin)
+            where T : IComparable
         {
-            imin = -1;
-            Nullable<T> min = null;
+            T min = matrix[0, 0];
+            imin = Tuple.Create(0, 0);
 
-            for (int i = 0; i < values.Length; i++)
+            for (int i = 0; i < matrix.GetLength(0); i++)
             {
-                if (values[i].HasValue)
+                for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    if (min == null || values[i].Value.CompareTo(min.Value) < 0)
+                    if (matrix[i, j].CompareTo(min) < 0)
                     {
-                        min = values[i];
-                        imin = i;
+                        min = matrix[i, j];
+                        imin = Tuple.Create(i, j);
                     }
                 }
             }
@@ -274,146 +302,92 @@ namespace Accord.Math
             return min;
         }
 
-
-
         /// <summary>
-        ///   Gets the maximum element in a vector.
+        ///   Gets the maximum values across one dimension of a matrix.
         /// </summary>
         /// 
-        public static T Max<T>(this T[] values, out int imax) where T : IComparable
+        public static T[] Max<T>(this T[,] matrix, int dimension, int[] indices, T[] result)
+            where T : IComparable
         {
-            imax = 0;
-            T max = values[0];
-            for (int i = 1; i < values.Length; i++)
+            if (dimension == 1) // Search down columns
             {
-                if (values[i].CompareTo(max) > 0)
+                matrix.GetColumn(0, result: result);
+                for (int j = 0; j < matrix.GetLength(0); j++)
                 {
-                    max = values[i];
-                    imax = i;
+                    for (int i = 0; i < matrix.GetLength(1); i++)
+                    {
+                        if (matrix[j, i].CompareTo(result[j]) > 0)
+                        {
+                            result[j] = matrix[j, i];
+                            indices[j] = i;
+                        }
+                    }
                 }
             }
-            return max;
-        }
-
-        /// <summary>
-        ///   Gets the maximum element in a vector.
-        /// </summary>
-        /// 
-        public static T Max<T>(this T[] values, out int imax, bool alreadySorted) where T : IComparable
-        {
-            if (alreadySorted)
+            else
             {
-                imax = values.Length - 1;
-                return values[values.Length - 1];
-            }
-
-            return Max(values, out imax);
-        }
-
-        /// <summary>
-        ///   Gets the maximum element in a vector.
-        /// </summary>
-        /// 
-        public static T Max<T>(this T[] values) where T : IComparable
-        {
-            int imax;
-            return Max(values, out imax);
-        }
-
-
-
-        /// <summary>
-        ///   Gets the minimum element in a vector.
-        /// </summary>
-        /// 
-        public static T Min<T>(this T[] values, out int imin) where T : IComparable
-        {
-            imin = 0;
-            T min = values[0];
-            for (int i = 1; i < values.Length; i++)
-            {
-                if (values[i].CompareTo(min) < 0)
+                matrix.GetRow(0, result: result);
+                for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    min = values[i];
-                    imin = i;
+                    for (int i = 0; i < matrix.GetLength(0); i++)
+                    {
+                        if (matrix[i, j].CompareTo(result[j]) > 0)
+                        {
+                            result[j] = matrix[i, j];
+                            indices[j] = i;
+                        }
+                    }
                 }
             }
-            return min;
+
+            return result;
         }
 
+
         /// <summary>
-        ///   Gets the minimum element in a vector.
+        ///   Gets the minimum values across one dimension of a matrix.
         /// </summary>
         /// 
-        public static T Min<T>(this T[] values) where T : IComparable
+        public static T[] Min<T>(this T[,] matrix, int dimension, int[] indices, T[] result)
+            where T : IComparable
         {
-            int imin;
-            return Min(values, out imin);
+            if (dimension == 1) // Search down columns
+            {
+                matrix.GetColumn(0, result: result);
+                for (int j = 0; j < matrix.GetLength(0); j++)
+                {
+                    for (int i = 0; i < matrix.GetLength(1); i++)
+                    {
+                        if (matrix[j, i].CompareTo(result[j]) < 0)
+                        {
+                            result[j] = matrix[j, i];
+                            indices[j] = i;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                matrix.GetRow(0, result: result);
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    for (int i = 0; i < matrix.GetLength(0); i++)
+                    {
+                        if (matrix[i, j].CompareTo(result[j]) < 0)
+                        {
+                            result[j] = matrix[i, j];
+                            indices[j] = i;
+                        }
+                    }
+                }
+            }
+
+            return result;
         }
         #endregion
 
 
 
-        #region limited length
-        /// <summary>
-        ///   Gets the maximum element in a vector up to a fixed length.
-        /// </summary>
-        /// 
-        public static T Max<T>(this T[] values, int length, out int imax) where T : IComparable
-        {
-            imax = 0;
-            T max = values[0];
-            for (int i = 1; i < length; i++)
-            {
-                if (values[i].CompareTo(max) > 0)
-                {
-                    max = values[i];
-                    imax = i;
-                }
-            }
-            return max;
-        }
-
-        /// <summary>
-        ///   Gets the maximum element in a vector up to a fixed length.
-        /// </summary>
-        /// 
-        public static T Max<T>(this T[] values, int length) where T : IComparable
-        {
-            int imax;
-            return Max(values, length, out imax);
-        }
-
-
-        /// <summary>
-        ///   Gets the minimum element in a vector up to a fixed length.
-        /// </summary>
-        /// 
-        public static T Min<T>(this T[] values, int length, out int imax) where T : IComparable
-        {
-            imax = 0;
-            T max = values[0];
-            for (int i = 1; i < length; i++)
-            {
-                if (values[i].CompareTo(max) < 0)
-                {
-                    max = values[i];
-                    imax = i;
-                }
-            }
-            return max;
-        }
-
-        /// <summary>
-        ///   Gets the minimum element in a vector up to a fixed length.
-        /// </summary>
-        /// 
-        public static T Min<T>(this T[] values, int length) where T : IComparable
-        {
-            int imin;
-            return Min(values, length, out imin);
-        }
-        #endregion
 
 
 
@@ -654,201 +628,6 @@ namespace Accord.Math
 
         #endregion
 
-
-
-
-        /// <summary>
-        ///   Gets the maximum value of a matrix.
-        /// </summary>
-        /// 
-        public static T Max<T>(this T[,] matrix) where T : IComparable
-        {
-            Tuple<int, int> imax;
-            return Max(matrix, out imax);
-        }
-
-        /// <summary>
-        ///   Gets the maximum value of a matrix.
-        /// </summary>
-        /// 
-        public static T Max<T>(this T[,] matrix, out Tuple<int, int> imax) where T : IComparable
-        {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            T max = matrix[0, 0];
-            imax = Tuple.Create(0, 0);
-
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    if (matrix[i, j].CompareTo(max) > 0)
-                    {
-                        max = matrix[i, j];
-                        imax = Tuple.Create(i, j);
-                    }
-                }
-            }
-
-            return max;
-        }
-
-        /// <summary>
-        ///   Gets the minimum value of a matrix.
-        /// </summary>
-        /// 
-        public static T Min<T>(this T[,] matrix) where T : IComparable
-        {
-            Tuple<int, int> imin;
-            return Min(matrix, out imin);
-        }
-
-        /// <summary>
-        ///   Gets the minimum value of a matrix.
-        /// </summary>
-        /// 
-        public static T Min<T>(this T[,] matrix, out Tuple<int, int> imin) where T : IComparable
-        {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            T min = matrix[0, 0];
-            imin = Tuple.Create(0, 0);
-
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    if (matrix[i, j].CompareTo(min) < 0)
-                    {
-                        min = matrix[i, j];
-                        imin = Tuple.Create(i, j);
-                    }
-                }
-            }
-
-            return min;
-        }
-
-
-
-
-
-
-        /// <summary>
-        ///   Gets the maximum values across one dimension of a matrix.
-        /// </summary>
-        public static T[] Max<T>(this T[,] matrix, int dimension) where T : IComparable
-        {
-            int[] imax;
-            return Max(matrix, dimension, out imax);
-        }
-
-        /// <summary>
-        ///   Gets the maximum values across one dimension of a matrix.
-        /// </summary>
-        public static T[] Max<T>(this T[,] matrix, int dimension, out int[] imax) where T : IComparable
-        {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            T[] max;
-
-            if (dimension == 1) // Search down columns
-            {
-                imax = new int[rows];
-                max = matrix.GetColumn(0);
-
-                for (int j = 0; j < rows; j++)
-                {
-                    for (int i = 1; i < cols; i++)
-                    {
-                        if (matrix[j, i].CompareTo(max[j]) > 0)
-                        {
-                            max[j] = matrix[j, i];
-                            imax[j] = i;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                imax = new int[cols];
-                max = matrix.GetRow(0);
-
-                for (int j = 0; j < cols; j++)
-                {
-                    for (int i = 1; i < rows; i++)
-                    {
-                        if (matrix[i, j].CompareTo(max[j]) > 0)
-                        {
-                            max[j] = matrix[i, j];
-                            imax[j] = i;
-                        }
-                    }
-                }
-            }
-
-            return max;
-        }
-
-        /// <summary>
-        ///   Gets the minimum values across one dimension of a matrix.
-        /// </summary>
-        public static T[] Min<T>(this T[,] matrix, int dimension) where T : IComparable
-        {
-            int[] imin;
-            return Min(matrix, dimension, out imin);
-        }
-
-        /// <summary>
-        ///   Gets the minimum values across one dimension of a matrix.
-        /// </summary>
-        public static T[] Min<T>(this T[,] matrix, int dimension, out int[] imin) where T : IComparable
-        {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            T[] min;
-
-            if (dimension == 1) // Search down columns
-            {
-                imin = new int[rows];
-                min = matrix.GetColumn(0);
-
-                for (int j = 0; j < rows; j++)
-                {
-                    for (int i = 1; i < cols; i++)
-                    {
-                        if (matrix[j, i].CompareTo(min[j]) < 0)
-                        {
-                            min[j] = matrix[j, i];
-                            imin[j] = i;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                imin = new int[cols];
-                min = matrix.GetRow(0);
-
-                for (int j = 0; j < cols; j++)
-                {
-                    for (int i = 1; i < rows; i++)
-                    {
-                        if (matrix[i, j].CompareTo(min[j]) < 0)
-                        {
-                            min[j] = matrix[i, j];
-                            imin[j] = i;
-                        }
-                    }
-                }
-            }
-
-            return min;
-        }
 
     }
 }
