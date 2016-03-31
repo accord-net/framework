@@ -54,7 +54,7 @@ namespace Accord.Tests.Audio
 
             double[] actual = Tools.GetPowerCepstrum(source);
 
-            Assert.IsTrue(expected.IsEqual(actual, 1e-4));
+            Assert.IsTrue(expected.IsEqual(actual, atol: 1e-4));
         }
 
         [Test]
