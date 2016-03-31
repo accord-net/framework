@@ -149,7 +149,7 @@ namespace Accord.Math.Decompositions
         ///
         public Single[,] DiagonalMatrix
         {
-            get { return Matrix.Diagonal(s); }
+            get { return Matrix.Diagonal(u.GetLength(1), v.GetLength(1), s); }
         }
 
         /// <summary>

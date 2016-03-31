@@ -118,7 +118,7 @@ namespace Accord.Tests.Math
             var target = new JaggedSingularValueDecomposition(value, true, true, false);
 
             double[][] actual = Matrix.Multiply(Matrix.Multiply(
-                target.LeftSingularVectors, Matrix.Diagonal(target.Diagonal).ToArray()),
+                target.LeftSingularVectors, target.DiagonalMatrix),
                 target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
@@ -177,7 +177,7 @@ namespace Accord.Tests.Math
             var target = new JaggedSingularValueDecomposition(value, true, true, true);
 
             double[][] actual = Matrix.Multiply(
-                Matrix.Multiply(target.LeftSingularVectors, Matrix.Diagonal(target.Diagonal).ToArray()), 
+                Matrix.Multiply(target.LeftSingularVectors, target.DiagonalMatrix), 
                 target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
@@ -234,7 +234,7 @@ namespace Accord.Tests.Math
             var target = new JaggedSingularValueDecomposition(value, true, true, false);
 
             double[][] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors,
-                                Matrix.Diagonal(target.Diagonal).ToArray()),
+                                target.DiagonalMatrix),
                                 target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
@@ -436,7 +436,7 @@ namespace Accord.Tests.Math
             {
                 double[][] expected = value;
                 double[][] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors, 
-                    Matrix.Diagonal(target.Diagonal).ToArray()),
+                    target.DiagonalMatrix),
                     target.RightSingularVectors.Transpose());
 
                 // Checking the decomposition

@@ -150,7 +150,7 @@ namespace Accord.Math.Decompositions
         ///
         public Single[][] DiagonalMatrix
         {
-            get { return Jagged.Diagonal(s); }
+            get { return Jagged.Diagonal(u[0].Length, v[0].Length, s); }
         }
 
         /// <summary>
