@@ -23,14 +23,17 @@
 namespace Accord.Tests.MachineLearning
 {
     using Accord;
+    using Accord.IO;
     using Accord.MachineLearning.Bayes;
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Filters;
+    using Accord.Tests.MachineLearning.Properties;
     using NUnit.Framework;
     using System.Data;
+    using System.IO;
 
 
     [TestFixture]
@@ -206,7 +209,7 @@ namespace Accord.Tests.MachineLearning
             int classCount = codebook["PlayTennis"].Symbols; // 2 possible values (yes, no)
             int inputCount = 4; // 4 variables (Outlook, Temperature, Humidity, Wind)
 
-            IUnivariateDistribution[] priors =
+            IFittableDistribution<double>[] priors =
             {
                 new GeneralDiscreteDistribution(codebook["Outlook"].Symbols),   // 3 possible values (Sunny, overcast, rain)
                 new NormalDistribution(),                                       // Continuous value (Celsius)
@@ -215,7 +218,7 @@ namespace Accord.Tests.MachineLearning
             };
 
             // Create a new Naive Bayes classifiers for the two classes
-            var target = new NaiveBayes<IUnivariateDistribution>(classCount, inputCount, priors);
+            var target = new NaiveBayes<IFittableDistribution<double>>(classCount, inputCount, priors);
 
             // Extract symbols from data and train the classifier
             DataTable symbols = codebook.Apply(data);
@@ -322,6 +325,57 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(classes, actual.GetLength(0));
             Assert.AreEqual(symbols.Length, actual.GetLength(1));
         }
+
+
+        [Test]
+        public void SerializationTest()
+        {
+            DataTable data = new DataTable("Mitchell's Tennis Example");
+
+            data.Columns.Add("Day", "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
+
+            data.Rows.Add("D1", "Sunny", "Hot", "High", "Weak", "No");
+            data.Rows.Add("D2", "Sunny", "Hot", "High", "Strong", "No");
+            data.Rows.Add("D3", "Overcast", "Hot", "High", "Weak", "Yes");
+            data.Rows.Add("D4", "Rain", "Mild", "High", "Weak", "Yes");
+            data.Rows.Add("D5", "Rain", "Cool", "Normal", "Weak", "Yes");
+            data.Rows.Add("D6", "Rain", "Cool", "Normal", "Strong", "No");
+            data.Rows.Add("D7", "Overcast", "Cool", "Normal", "Strong", "Yes");
+            data.Rows.Add("D8", "Sunny", "Mild", "High", "Weak", "No");
+            data.Rows.Add("D9", "Sunny", "Cool", "Normal", "Weak", "Yes");
+            data.Rows.Add("D10", "Rain", "Mild", "Normal", "Weak", "Yes");
+            data.Rows.Add("D11", "Sunny", "Mild", "Normal", "Strong", "Yes");
+            data.Rows.Add("D12", "Overcast", "Mild", "High", "Strong", "Yes");
+            data.Rows.Add("D13", "Overcast", "Hot", "Normal", "Weak", "Yes");
+            data.Rows.Add("D14", "Rain", "Mild", "High", "Strong", "No");
+
+            // Create a new codification codebook to
+            // convert strings into discrete symbols
+            Codification codebook = new Codification(data,
+                "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
+
+            var target = Serializer.Load<NaiveBayes<GeneralDiscreteDistribution>>(new MemoryStream(Resources.nb));
+
+            Assert.AreEqual(target.InputCount, 4);
+            Assert.AreEqual(target.ClassCount, 2);
+            double logLikelihood;
+            double[] responses;
+
+            // Compute the result for a sunny, cool, humid and windy day:
+            double[] instance = codebook.Translate("Sunny", "Cool", "High", "Strong").ToDouble();
+
+            int c = target.Compute(instance, out logLikelihood, out responses);
+
+            string result = codebook.Translate("PlayTennis", c);
+
+            Assert.AreEqual("No", result);
+            Assert.AreEqual(0, c);
+            Assert.AreEqual(0.795, responses[0], 1e-3);
+            Assert.AreEqual(1, responses.Sum(), 1e-10);
+            Assert.IsFalse(double.IsNaN(responses[0]));
+            Assert.AreEqual(2, responses.Length);
+        }
+
 
     }
 }

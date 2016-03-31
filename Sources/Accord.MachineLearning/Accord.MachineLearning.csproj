@@ -73,6 +73,8 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Bayes\NaiveBayesLearning`1.cs" />
+    <Compile Include="Bayes\NaiveBayesLearning.cs" />
     <Compile Include="Boosting\Accord.MachineLearning.Boosting.cs" />
     <Compile Include="Boosting\AdaBoost.cs" />
     <Compile Include="BagOfWords.cs" />
@@ -108,11 +110,11 @@
     <Compile Include="DecisionTrees\Rules\Simplification.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AForge\Exploration Policy\BoltzmannExploration.cs" />
-    <Compile Include="AForge\Exploration Policy\EpsilonGreedyExploration.cs" />
-    <Compile Include="AForge\Exploration Policy\IExplorationPolicy.cs" />
-    <Compile Include="AForge\Exploration Policy\RouletteWheelExploration.cs" />
-    <Compile Include="AForge\Exploration Policy\TabuSearchExploration.cs" />
+    <Compile Include="Exploration Policy\BoltzmannExploration.cs" />
+    <Compile Include="Exploration Policy\EpsilonGreedyExploration.cs" />
+    <Compile Include="Exploration Policy\IExplorationPolicy.cs" />
+    <Compile Include="Exploration Policy\RouletteWheelExploration.cs" />
+    <Compile Include="Exploration Policy\TabuSearchExploration.cs" />
     <Compile Include="Geometry\RansacCircle.cs" />
     <Compile Include="IO\LibSvmModel.cs" />
     <Compile Include="MinimumMeanDistanceClassifier.cs" />
@@ -146,11 +148,11 @@
     <Compile Include="Performance\SplitSet\SplitSetValidation`1.cs" />
     <Compile Include="GridSearch.cs" />
     <Compile Include="Clustering\KMeans\KMeans.cs" />
-    <Compile Include="AForge\QLearning.cs" />
+    <Compile Include="QLearning.cs" />
     <Compile Include="Ransac.cs" />
     <Compile Include="Geometry\RansacLine.cs" />
     <Compile Include="Geometry\RansacPlane.cs" />
-    <Compile Include="AForge\Sarsa.cs" />
+    <Compile Include="Sarsa.cs" />
     <Compile Include="Structures\KDTreeNodeList.cs" />
     <Compile Include="Structures\KDTreeTraversal.cs" />
     <Compile Include="Structures\KDTreeNodeDistance.cs" />
@@ -191,6 +193,7 @@
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
       <Private>False</Private>
+      <Aliases>global,core</Aliases>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
