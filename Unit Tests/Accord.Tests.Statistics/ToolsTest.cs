@@ -156,10 +156,10 @@ namespace Accord.Tests.Statistics
             };
 
             double[] means = Measures.Mean(matrix);
-            Assert.IsTrue(means.IsEqual(4.5000, -0.2500, 7.0000));
+            Assert.IsTrue(means.IsEqual(new[] { 4.5000, -0.2500, 7.0000 }));
 
             double[] stdev = Measures.StandardDeviation(matrix, means);
-            Assert.IsTrue(stdev.IsEqual(3.5355339059327378, 1.0606601717798212, 2.8284271247461903));
+            Assert.IsTrue(stdev.IsEqual(new[] { 3.5355339059327378, 1.0606601717798212, 2.8284271247461903 }));
 
             double[] stdev2 = Measures.StandardDeviation(matrix);
             Assert.IsTrue(stdev2.IsEqual(stdev));
@@ -175,10 +175,10 @@ namespace Accord.Tests.Statistics
             };
 
             double[] means = Measures.Mean(matrix);
-            Assert.IsTrue(means.IsEqual(4.5000, -0.2500, 7.0000));
+            Assert.IsTrue(means.IsEqual(new[] { 4.5000, -0.2500, 7.0000} ));
 
             double[] stdev = Measures.StandardDeviation(matrix, means);
-            Assert.IsTrue(stdev.IsEqual(3.5355339059327378, 1.0606601717798212, 2.8284271247461903));
+            Assert.IsTrue(stdev.IsEqual(new[] { 3.5355339059327378, 1.0606601717798212, 2.8284271247461903 }));
 
             double[] stdev2 = Measures.StandardDeviation(matrix);
             Assert.IsTrue(stdev2.IsEqual(stdev));
@@ -244,7 +244,7 @@ namespace Accord.Tests.Statistics
             };
 
             double[] sums = Matrix.Sum(matrix);
-            Assert.IsTrue(sums.IsEqual(9.0, -0.5, 14.0));
+            Assert.IsTrue(sums.IsEqual(new [] { 9.0, -0.5, 14.0 }));
 
             double[] expected = { 4.5000, -0.2500, 7.0000 };
             double[] actual = Measures.Mean(matrix, sums);
@@ -271,7 +271,7 @@ namespace Accord.Tests.Statistics
             };
 
             double[] rowMean = Measures.Mean(matrix, 0);
-            Assert.IsTrue(rowMean.IsEqual(4.5000, -0.2500, 7.0000));
+            Assert.IsTrue(rowMean.IsEqual(new []{ 4.5000, -0.2500, 7.0000 }));
 
             double[] colMean = Measures.Mean(matrix, 1);
             Assert.IsTrue(colMean.IsEqual(2, 5.5));

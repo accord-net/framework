@@ -214,21 +214,21 @@ namespace Accord.Tests.Statistics
                 {  1.0000,   -0.7559,    0.1429 },
                 { -0.7559,    1.0000,   -0.7559 },
                 {  0.1429,   -0.7559,    1.0000 },
-            }, 0.0001));
+            }, atol: 0.0001));
 
             Assert.IsTrue(target.CovarianceMatrix.IsEqual(new double[,]
             {
                 {  7,    -8,     1 },
                 { -8,    16,    -8 },
                 {  1,    -8,     7 },
-            }, 0.00000001));
+            }, atol: 0.00000001));
 
             Assert.IsTrue(target.StandardScores.IsEqual(new double[,]
             { 
                 { 1.1339,   -1.0000,    0.3780 },
                 { -0.7559,         0,    0.7559 },
                 { -0.3780,    1.0000,   -1.1339 },
-            }, 0.001));
+            }, atol: 0.001));
 
             Assert.IsTrue(target.Means.IsEqual(new double[] { 5, 5, 5 }));
 

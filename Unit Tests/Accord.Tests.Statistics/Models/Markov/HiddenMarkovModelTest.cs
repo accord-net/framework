@@ -277,8 +277,8 @@ namespace Accord.Tests.Statistics
             var hmmP = Matrix.Exp(hmm.Probabilities);
 
 
-            Assert.IsTrue(Matrix.IsEqual(A, hmmA, 0.1));
-            Assert.IsTrue(Matrix.IsEqual(B, hmmB, 0.1));
+            Assert.IsTrue(Matrix.IsEqual(A, hmmA, atol: 0.1));
+            Assert.IsTrue(Matrix.IsEqual(B, hmmB, atol: 0.1));
             Assert.IsTrue(Matrix.IsEqual(pi, hmmP));
         }
 

@@ -189,11 +189,11 @@ namespace Accord.Tests.Statistics
             // test factor proportions
             double[] expectedX = { 0.86, 0.12, 0.00, 0.86 };
             double[] actualX = pls.Predictors.FactorProportions;
-            Assert.IsTrue(expectedX.IsEqual(actualX, 0.01));
+            Assert.IsTrue(expectedX.IsEqual(actualX, atol: 0.01));
 
             double[] expectedY = { 0.67, 0.13, 0.17, 0.00 };
             double[] actualY = pls.Dependents.FactorProportions;
-            Assert.IsTrue(expectedY.IsEqual(actualY, 0.01));
+            Assert.IsTrue(expectedY.IsEqual(actualY, atol: 0.01));
 
 
             // Test Properties
@@ -250,8 +250,10 @@ namespace Accord.Tests.Statistics
 
             target.Compute();
 
-            double[,] x1 = Matrix.Multiply(target.Predictors.Result, target.Predictors.FactorMatrix.Transpose()).Add(Measures.Mean(X), 0);
-            double[,] y1 = Matrix.Multiply(target.Dependents.Result, target.Dependents.FactorMatrix.Transpose()).Add(Measures.Mean(Y), 0);
+            double[,] x1 = Matrix.Multiply(target.Predictors.Result,
+                target.Predictors.FactorMatrix.Transpose()).Add(Measures.Mean(X), 0);
+            double[,] y1 = Matrix.Multiply(target.Dependents.Result, 
+                target.Dependents.FactorMatrix.Transpose()).Add(Measures.Mean(Y), 0);
 
 
             // XS*XL' ~ X0
@@ -439,29 +441,29 @@ namespace Accord.Tests.Statistics
             // First columns should be equal
             Assert.IsTrue(Matrix.IsEqual(
                 target.Predictors.Result.GetColumn(0).Abs(),
-                target2.Predictors.Result.GetColumn(0).Abs(), 0.00001));
+                target2.Predictors.Result.GetColumn(0).Abs(), atol: 0.00001));
 
             Assert.IsTrue(Matrix.IsEqual(
                 target.Predictors.FactorMatrix.GetColumn(0).Abs(),
-                target2.Predictors.FactorMatrix.GetColumn(0).Abs(), 0.00001));
+                target2.Predictors.FactorMatrix.GetColumn(0).Abs(), atol: 0.00001));
 
             // Others are approximations
             Assert.IsTrue(Matrix.IsEqual(
                 target.Predictors.Result.GetColumn(1).Abs(),
-                target2.Predictors.Result.GetColumn(1).Abs(), 0.001));
+                target2.Predictors.Result.GetColumn(1).Abs(), atol: 0.001));
 
             Assert.IsTrue(Matrix.IsEqual(
                 target.Predictors.FactorMatrix.GetColumn(1).Abs(),
-                target2.Predictors.FactorMatrix.GetColumn(1).Abs(), 0.01));
+                target2.Predictors.FactorMatrix.GetColumn(1).Abs(), atol: 0.01));
 
             // Explained variance proportion should be similar
             Assert.IsTrue(Matrix.IsEqual(
                 target.Predictors.FactorProportions.Submatrix(2),
-                target2.Predictors.FactorProportions.Submatrix(2), 0.05));
+                target2.Predictors.FactorProportions.Submatrix(2), atol: 0.05));
 
             Assert.IsTrue(Matrix.IsEqual(
                 target.Dependents.FactorProportions,
-                target2.Dependents.FactorProportions, 0.8));
+                target2.Dependents.FactorProportions, atol: 0.8));
 
         }
 
