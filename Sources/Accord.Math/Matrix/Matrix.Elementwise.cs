@@ -191,8 +191,8 @@ namespace Accord.Math
         public static double[,] ElementwiseDivide(double[,] a, double[] b, int dimension = 0, bool inPlace = false)
         {
             if (inPlace)
-                return Elementwise.Multiply(a, b, dimension, a);
-            return Elementwise.Multiply(a, b, dimension);
+                return Elementwise.Divide(a, b, dimension, a);
+            return Elementwise.Divide(a, b, dimension);
         }
 
 
