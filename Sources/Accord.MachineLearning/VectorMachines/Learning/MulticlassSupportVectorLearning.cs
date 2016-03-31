@@ -411,7 +411,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
                 // Transform it into a two-class problem
-                subOutputs.ApplyInPlace(x => x = (x == i) ? -1 : +1);
+                subOutputs.Apply(x => x = (x == i) ? -1 : +1, subOutputs);
 
                 // Train the machine on the two-class problem.
                 var subproblem = configure(machine, subInputs, subOutputs, i, j);

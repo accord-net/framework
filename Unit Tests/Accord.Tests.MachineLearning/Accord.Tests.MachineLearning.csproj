@@ -199,6 +199,8 @@
     <None Include="Resources\liblinear\a9a.test" />
     <None Include="Resources\liblinear\a9a.train" />
     <None Include="Resources\CircleWithWeights.xls" />
+    <None Include="Resources\nb.bin" />
+    <None Include="Resources\nb2.bin" />
     <None Include="Resources\nursery.data">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

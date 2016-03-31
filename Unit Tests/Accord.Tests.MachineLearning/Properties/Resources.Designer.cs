@@ -254,6 +254,26 @@ namespace Accord.Tests.MachineLearning.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] nb {
+            get {
+                object obj = ResourceManager.GetObject("nb", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] nb2 {
+            get {
+                object obj = ResourceManager.GetObject("nb2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to usual,proper,complete,1,convenient,convenient,nonprob,recommended,recommend
         ///usual,proper,complete,1,convenient,convenient,nonprob,priority,priority
         ///usual,proper,complete,1,convenient,convenient,nonprob,not_recom,not_recom

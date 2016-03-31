@@ -22,6 +22,11 @@
 
 namespace Accord.Tests.MachineLearning
 {
+#if NET35
+    extern alias core;
+    using ParallelOptions = core::System.Threading.Tasks.ParallelOptions;
+#endif
+
     using Accord;
     using Accord.IO;
     using Accord.MachineLearning;
@@ -32,6 +37,7 @@ namespace Accord.Tests.MachineLearning
     using System;
     using System.Data;
     using System.IO;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class GaussianMixtureModelTest
@@ -223,19 +229,52 @@ namespace Accord.Tests.MachineLearning
                 GaussianMixtureModel gmm = new GaussianMixtureModel(2);
                 gmm.Initializations = 1;
 
-                gmm.Compute(points, new GaussianMixtureModelOptions()
+                var options = new GaussianMixtureModelOptions();
+                options.Weights = weights;
+                options.ParallelOptions.MaxDegreeOfParallelism = 1;
+                gmm.Compute(points, options);
+
+
+                int a = 1;
+                int b = 0;
+
+                if (!gmm.Gaussians[a].Mean[0].IsRelativelyEqual(6.41922, 1e-4))
                 {
-                    Weights = weights
-                });
+                    var t = a;
+                    a = b;
+                    b = t;
+                }
+
+                Assert.AreEqual(6.4192285647145395, gmm.Gaussians[a].Mean[0], 1e-10);
+                Assert.AreEqual(0.2888226129013588, gmm.Gaussians[b].Mean[0], 1e-10);
+
+                Assert.AreEqual(0.32321638614859777, gmm.Gaussians[a].Proportion, 1e-6);
+                Assert.AreEqual(0.67678361385140218, gmm.Gaussians[b].Proportion, 1e-6);
+                Assert.AreEqual(1, gmm.Gaussians[0].Proportion + gmm.Gaussians[1].Proportion);
+            }
+
+            // with weights, new style
+            {
+                Accord.Math.Tools.SetupGenerator(0);
+
+                // If we need the GaussianMixtureModel functionality, we can
+                // use the estimated mixture to initialize a new model:
+                GaussianMixtureModel gmm = new GaussianMixtureModel(2);
+                gmm.Initializations = 1;
+
+                gmm.UseLogarithm = false;
+                gmm.ParallelOptions.MaxDegreeOfParallelism = 1;
+                gmm.Compute(points, weights);
 
 
-                int a = 0;
-                int b = 1;
+                int a = 1;
+                int b = 0;
 
-                if (gmm.Gaussians[1].Mean[0].IsRelativelyEqual(6.41922, 1e-4))
+                if (!gmm.Gaussians[a].Mean[0].IsRelativelyEqual(6.41922, 1e-4))
                 {
-                    a = 1;
-                    b = 0;
+                    var t = a;
+                    a = b;
+                    b = t;
                 }
 
                 Assert.AreEqual(6.4192285647145395, gmm.Gaussians[a].Mean[0], 1e-10);
@@ -255,21 +294,24 @@ namespace Accord.Tests.MachineLearning
                 GaussianMixtureModel gmm = new GaussianMixtureModel(2);
                 gmm.Initializations = 1;
 
-                gmm.Compute(points);
+                var options = new GaussianMixtureModelOptions();
+                options.ParallelOptions.MaxDegreeOfParallelism = 1;
+                gmm.Compute(points, options);
 
-                int a = 0;
-                int b = 1;
+                int a = 1;
+                int b = 0;
 
                 double tol = 1e-2;
 
-                if (6.5291557102714615.IsRelativelyEqual(gmm.Gaussians[1].Mean[0], tol))
+                if (!6.5149525060859848.IsRelativelyEqual(gmm.Gaussians[a].Mean[0], tol))
                 {
-                    a = 1;
-                    b = 0;
+                    var t = a;
+                    a = b;
+                    b = t;
                 }
 
-                Assert.AreEqual(6.5291557102714615, gmm.Gaussians[a].Mean[0], tol);
-                Assert.AreEqual(1.4375965574968281, gmm.Gaussians[b].Mean[0], tol);
+                Assert.AreEqual(6.5149525060859848, gmm.Gaussians[a].Mean[0], tol);
+                Assert.AreEqual(1.4191977895308987, gmm.Gaussians[b].Mean[0], tol);
 
                 Assert.AreEqual(0.4195042394315267, gmm.Gaussians[a].Proportion, tol);
                 Assert.AreEqual(0.58049576056847307, gmm.Gaussians[b].Proportion, tol);

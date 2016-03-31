@@ -299,7 +299,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         public double ComputeError(int[][] inputs, int[] outputs)
         {
-            return new AccuracyLoss(outputs) { Mean = true }.Loss(tree.Decide(inputs));
+            return new ZeroOneLoss(outputs) { Mean = true }.Loss(tree.Decide(inputs));
         }
 
         private void split(DecisionNode root, int[][] input, int[] output, int height)

@@ -423,8 +423,8 @@ namespace Accord.Tests.MachineLearning
         {
             Accord.Math.Tools.SetupGenerator(0);
 
-            double[][] dataSamples = Matrix.Random(500, 3, 0, 10).ToArray();
-            int[] target = Matrix.Random(500, 1, 0, 2).ToInt32().GetColumn(0);
+            double[][] dataSamples = Matrix.Random(500, 3, 0.0, 10.0).ToArray();
+            int[] target = Matrix.Random(500, 1, 0.0, 2.0).ToInt32().GetColumn(0);
 
             DecisionVariable[] features =
             {

@@ -173,7 +173,7 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
 
         private double computeError()
         {
-            return new AccuracyLoss(outputs) { Mean = true }.Loss(tree.Decide(inputs));
+            return new ZeroOneLoss(outputs) { Mean = true }.Loss(tree.Decide(inputs));
         }
 
         /// <summary>

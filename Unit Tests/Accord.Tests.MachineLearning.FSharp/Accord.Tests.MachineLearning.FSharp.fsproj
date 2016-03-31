@@ -8,7 +8,7 @@
     <ProjectGuid>a6775b59-6919-4d7c-a960-7e875f0bd81a</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Accord.Tests.MachineLearning.FSharp</RootNamespace>
-    <AssemblyName>Accord.Tests.MachineLearning.FSharp</AssemblyName>
+    <AssemblyName>Accord.Tests.FSharp.MachineLearning</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
     <Name>Accord.Tests.MachineLearning.FSharp</Name>

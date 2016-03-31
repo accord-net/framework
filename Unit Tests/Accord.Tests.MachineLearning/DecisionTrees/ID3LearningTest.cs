@@ -468,7 +468,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void ConsistencyTest1()
         {
-            int[,] random = Matrix.Random(1000, 10, 0, 10).ToInt32();
+            int[,] random = Matrix.Random(1000, 10, 0.0, 10.0).ToInt32();
 
             int[][] samples = random.ToArray();
             int[] outputs = new int[1000];
@@ -503,8 +503,8 @@ namespace Accord.Tests.MachineLearning
         {
             Accord.Math.Tools.SetupGenerator(0);
 
-            int[][] dataSamples = Matrix.Random(500, 3, 0, 10).ToInt32().ToArray();
-            int[] target = Matrix.Random(500, 1, 0, 2).ToInt32().GetColumn(0);
+            int[][] dataSamples = Matrix.Random(500, 3, 0.0, 10.0).ToInt32().ToArray();
+            int[] target = Matrix.Random(500, 1, 0.0, 2.0).ToInt32().GetColumn(0);
             DecisionVariable[] features =
             {
                 new DecisionVariable("Outlook",      10), 
@@ -532,8 +532,8 @@ namespace Accord.Tests.MachineLearning
         {
             Accord.Math.Tools.SetupGenerator(0);
 
-            int[][] dataSamples = Matrix.Random(500, 3, 0, 10).ToInt32().ToArray();
-            int[] target = Matrix.Random(500, 1, 0, 2).ToInt32().GetColumn(0);
+            int[][] dataSamples = Matrix.Random(500, 3, 0.0, 10.0).ToInt32().ToArray();
+            int[] target = Matrix.Random(500, 1, 0.0, 2.0).ToInt32().GetColumn(0);
             DecisionVariable[] features =
             {
                 new DecisionVariable("Outlook",      10), 
@@ -567,8 +567,8 @@ namespace Accord.Tests.MachineLearning
         {
             Accord.Math.Random.Generator.Seed = 0;
 
-            int[][] dataSamples = Matrix.Random(500, 3, 0, 10).ToInt32().ToArray();
-            int[] target = Matrix.Random(500, 1, 0, 2).ToInt32().GetColumn(0);
+            int[][] dataSamples = Matrix.Random(500, 3, 0, 10).ToArray();
+            int[] target = Matrix.Random(500, 1, 0, 2).GetColumn(0);
             DecisionVariable[] features =
             {
                 new DecisionVariable("Outlook",      10), 
