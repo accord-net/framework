@@ -207,6 +207,9 @@ namespace Accord.MachineLearning
 
         private KMeansClusterCollection clusters;
 
+        [NonSerialized]
+        private ParallelOptions parallelOptions;
+
 
         /// <summary>
         ///   Gets the clusters found by K-means.
@@ -300,6 +303,21 @@ namespace Accord.MachineLearning
         public Seeding UseSeeding { get; set; }
 
         /// <summary>
+        ///   Gets or sets parallelization options.
+        /// </summary>
+        /// 
+        public ParallelOptions ParallelOptions
+        {
+            get
+            {
+                if (parallelOptions == null)
+                    parallelOptions = new ParallelOptions();
+                return parallelOptions;
+            }
+            set { parallelOptions = value; }
+        }
+
+        /// <summary>
         ///   Initializes a new instance of KMeans algorithm
         /// </summary>
         /// 
@@ -347,6 +365,8 @@ namespace Accord.MachineLearning
             // Create the object-oriented structure to hold
             //  information about the k-means' clusters.
             this.clusters = new KMeansClusterCollection(k, distance);
+
+            this.ParallelOptions = new ParallelOptions();
         }
 
         /// <summary>
@@ -416,7 +436,7 @@ namespace Accord.MachineLearning
             if (ComputeCovariances)
             {
                 // Compute cluster information (optional)
-                Parallel.For(0, clusters.Count, i =>
+                Parallel.For(0, clusters.Count, ParallelOptions, i =>
                 {
                     double[][] centroids = clusters.Centroids;
 
@@ -500,7 +520,7 @@ namespace Accord.MachineLearning
                 // information into the newClusters variable.
 
                 // For each point in the data set,
-                Parallel.For(0, data.Length, i =>
+                Parallel.For(0, data.Length, ParallelOptions, i =>
                 {
                     // Get the point
                     double[] point = data[i];
@@ -526,7 +546,7 @@ namespace Accord.MachineLearning
                 // Next we will compute each cluster's new centroid
                 //  by dividing the accumulated sums by the number of
                 //  samples in each cluster, thus averaging its members.
-                Parallel.For(0, newCentroids.Length, i =>
+                Parallel.For(0, newCentroids.Length, ParallelOptions, i =>
                 {
                     double sum = count[i];
 
@@ -542,7 +562,7 @@ namespace Accord.MachineLearning
                 shouldStop = converged(centroids, newCentroids);
 
                 // go to next generation
-                Parallel.For(0, centroids.Length, i =>
+                Parallel.For(0, centroids.Length, ParallelOptions, i =>
                 {
                     for (int j = 0; j < centroids[i].Length; j++)
                         centroids[i][j] = newCentroids[i][j];
