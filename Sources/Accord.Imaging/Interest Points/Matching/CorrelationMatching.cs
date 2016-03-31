@@ -244,8 +244,8 @@ namespace Accord.Imaging
 
 
             // Select points with maximum correlation measures
-            int[] colp2forp1; Matrix.Max(correlationMatrix, 1, out colp2forp1);
-            int[] rowp1forp2; Matrix.Max(correlationMatrix, 0, out rowp1forp2);
+            int[] colp2forp1 = Matrix.ArgMax(correlationMatrix, 1);
+            int[] rowp1forp2 = Matrix.ArgMax(correlationMatrix, 0);
 
             // Construct the lists of matched point indices
             int rows = correlationMatrix.GetLength(0);
