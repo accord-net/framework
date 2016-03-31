@@ -117,8 +117,8 @@ namespace Accord.Imaging
         /// <param name="numberOfWords">The number of codewords.</param>
         /// 
         public BagOfVisualWords(IFeatureDetector<TPoint> detector, int numberOfWords)
-            : base(detector, kmeans(numberOfWords))
         {
+            base.Init(detector, kmeans(numberOfWords));
         }
 
         /// <summary>
@@ -129,16 +129,17 @@ namespace Accord.Imaging
         /// <param name="algorithm">The clustering algorithm to use.</param>
         /// 
         public BagOfVisualWords(IFeatureDetector<TPoint> detector, IClusteringAlgorithm<double[]> algorithm)
-            : base(detector, algorithm)
         {
+            base.Init(detector, algorithm);
         }
 
-        private static KMeans kmeans(int numberOfWords)
+        private KMeans kmeans(int numberOfWords)
         {
             return new KMeans(numberOfWords)
             {
                 ComputeCovariances = false,
-                UseSeeding = Seeding.KMeansPlusPlus
+                UseSeeding = Seeding.KMeansPlusPlus,
+                ParallelOptions = ParallelOptions
             };
         }
     }
