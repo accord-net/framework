@@ -32,27 +32,10 @@ namespace Accord.Tests.Imaging
     public class KirschEdgeDetectorTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ApplyTest1()
         {
-            Bitmap image = Properties.Resources.lena512;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
 
             KirschEdgeDetector kirsch = new KirschEdgeDetector();
 

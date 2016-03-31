@@ -96,7 +96,7 @@ namespace Accord.Tests.Imaging
 
             double[] expected;
 
-            Bitmap imageExpected = Properties.Resources.image1;
+            Bitmap imageExpected = Accord.Imaging.Image.Clone(Properties.Resources.image1);
             new Invert().ApplyInPlace(imageExpected);
             new Threshold().ApplyInPlace(imageExpected);
 

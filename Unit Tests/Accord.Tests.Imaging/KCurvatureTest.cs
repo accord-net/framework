@@ -91,7 +91,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindPeaksTest2()
         {
-            Bitmap hand = Properties.Resources.rhand0;
+            Bitmap hand = Accord.Imaging.Image.Clone(Properties.Resources.rhand0);
 
             //  ImageBox.Show(hand);
 
@@ -135,7 +135,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindPeaksTest3()
         {
-            Bitmap hand = Properties.Resources.rhand1;
+            Bitmap hand = Accord.Imaging.Image.Clone(Properties.Resources.rhand1);
 
             GaussianBlur median = new GaussianBlur(1.1);
             median.ApplyInPlace(hand);
@@ -170,7 +170,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindPeaksTest4()
         {
-            Bitmap hand = Properties.Resources.rhand2;
+            Bitmap hand = Accord.Imaging.Image.Clone(Properties.Resources.rhand2);
 
             GaussianBlur median = new GaussianBlur(1.1);
             median.ApplyInPlace(hand);
@@ -204,7 +204,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindPeaksTest6()
         {
-            Bitmap hand = Properties.Resources.rhand3;
+            Bitmap hand = Accord.Imaging.Image.Clone(Properties.Resources.rhand3);
 
             GaussianBlur median = new GaussianBlur(1.1);
             median.ApplyInPlace(hand);

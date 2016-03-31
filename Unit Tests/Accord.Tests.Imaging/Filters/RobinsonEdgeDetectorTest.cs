@@ -33,26 +33,10 @@ namespace Accord.Tests.Imaging
     {
 
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ApplyTest1()
         {
-            Bitmap image = Properties.Resources.lena512;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
 
             RobinsonEdgeDetector robinson = new RobinsonEdgeDetector();
 
@@ -65,7 +49,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ColorApplyTest1()
         {
-            Bitmap image = Properties.Resources.lena_color;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena_color);
 
             RobinsonEdgeDetector robinson = new RobinsonEdgeDetector();
 

@@ -53,7 +53,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ApplyTest1()
         {
-            Bitmap image = Properties.Resources.lena_color;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena_color);
 
             // Create the White Patch filter
             var whitePatch = new WhitePatch();

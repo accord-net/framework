@@ -58,8 +58,8 @@ namespace Accord.Tests.Imaging
 #pragma warning disable 0618
             CorrelationMatching target = new CorrelationMatching(windowSize);
 #pragma warning restore 0618
-            Bitmap image1 = Properties.Resources.image1;
-            Bitmap image2 = Properties.Resources.image1;
+            Bitmap image1 = Accord.Imaging.Image.Clone(Properties.Resources.image1);
+            Bitmap image2 = Accord.Imaging.Image.Clone(Properties.Resources.image1);
 
             IntPoint[] points1 = 
             {
@@ -113,8 +113,8 @@ namespace Accord.Tests.Imaging
                 CorrelationMatching target = new CorrelationMatching(windowSize);
 #pragma warning restore 0618
 
-                Bitmap image1 = Properties.Resources.image1;
-                Bitmap image2 = Properties.Resources.image1;
+                Bitmap image1 = Accord.Imaging.Image.Clone(Properties.Resources.image1);
+                Bitmap image2 = Accord.Imaging.Image.Clone(Properties.Resources.image1);
 
                 Assert.AreEqual(16, image1.Height);
                 Assert.AreEqual(16, image2.Height);

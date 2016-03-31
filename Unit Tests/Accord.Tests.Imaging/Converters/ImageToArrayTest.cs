@@ -117,7 +117,7 @@ namespace Accord.Tests.Imaging
         public void ConvertTest4()
         {
             ImageToArray target = new ImageToArray(min: 0, max: 255);
-            Bitmap image = Properties.Resources.image3;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.image3);
             Assert.AreEqual(PixelFormat.Format32bppArgb, image.PixelFormat);
 
             {

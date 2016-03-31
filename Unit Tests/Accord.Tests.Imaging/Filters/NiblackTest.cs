@@ -36,7 +36,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void NiblackTest1()
         {
-            Bitmap image = Properties.Resources.lena512;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
 
             NiblackThreshold niblack = new NiblackThreshold();
 

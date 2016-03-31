@@ -37,7 +37,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void VarianceTest1()
         {
-            Bitmap image = Properties.Resources.lena512;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
             Variance variance = new Variance();
             Bitmap result = variance.Apply(image);
             Assert.IsNotNull(result);

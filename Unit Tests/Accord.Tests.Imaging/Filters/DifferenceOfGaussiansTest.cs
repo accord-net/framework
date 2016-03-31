@@ -32,27 +32,11 @@ namespace Accord.Tests.Imaging
     public class DifferenceOfGaussiansTest
     {
 
-        private TestContext testContextInstance;
-
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ApplyTest1()
         {
-            Bitmap image = Properties.Resources.lena512;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
 
             var dog = new DifferenceOfGaussians();
             

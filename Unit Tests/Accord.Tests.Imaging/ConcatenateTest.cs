@@ -35,33 +35,13 @@ namespace Accord.Tests.Imaging
     [TestFixture]
     public class ConcatenateTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
+        
 
         [Test]
         public void ConcatenateConstructorTest()
         {
-            Bitmap img1 = Properties.Resources.image1;
-            Bitmap img2 = Properties.Resources.image2;
+            Bitmap img1 = Accord.Imaging.Image.Clone(Properties.Resources.image1);
+            Bitmap img2 = Accord.Imaging.Image.Clone(Properties.Resources.image2);
 
             Concatenate target = new Concatenate(img1);
             var img3 = target.Apply(img2);

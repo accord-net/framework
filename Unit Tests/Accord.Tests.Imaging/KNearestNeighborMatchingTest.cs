@@ -40,10 +40,12 @@ namespace Accord.Tests.Imaging
         [Test]
         public void MatchTest()
         {
+            var image1 = Accord.Imaging.Image.Clone(Properties.Resources.image1);
+            var image2 = Accord.Imaging.Image.Clone(Properties.Resources.image2);
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector();
 
-            var keyPoints1 = freak.ProcessImage(Properties.Resources.image1).ToArray();
-            var keyPoints2 = freak.ProcessImage(Properties.Resources.image2).ToArray();
+            var keyPoints1 = freak.ProcessImage(image1).ToArray();
+            var keyPoints2 = freak.ProcessImage(image2).ToArray();
 
             bool thrown = false;
 
@@ -63,10 +65,12 @@ namespace Accord.Tests.Imaging
         [Test]
         public void MatchTest2()
         {
+            var imgOld = Accord.Imaging.Image.Clone(Properties.Resources.old);
+            var imgNew = Accord.Imaging.Image.Clone(Properties.Resources._new); 
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector();
 
-            var keyPoints1 = freak.ProcessImage(Properties.Resources.old).ToArray();
-            var keyPoints2 = freak.ProcessImage(Properties.Resources._new).ToArray();
+            var keyPoints1 = freak.ProcessImage(imgOld).ToArray();
+            var keyPoints2 = freak.ProcessImage(imgNew).ToArray();
 
             var matcher = new KNearestNeighborMatching<byte[]>(5, new Hamming());
 
@@ -89,12 +93,15 @@ namespace Accord.Tests.Imaging
         [Test]
         public void MatchTest3()
         {
+            var old = Accord.Imaging.Image.Clone(Properties.Resources.old);
+            var flower01 = Accord.Imaging.Image.Clone(Properties.Resources.flower01);
+
             FastCornersDetector fast = new FastCornersDetector(threshold: 10);
 
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector(fast);
 
-            var keyPoints1 = freak.ProcessImage(Properties.Resources.old).ToArray();
-            var keyPoints2 = freak.ProcessImage(Properties.Resources.flower01).ToArray();
+            var keyPoints1 = freak.ProcessImage(old).ToArray();
+            var keyPoints2 = freak.ProcessImage(flower01).ToArray();
 
             var matcher = new KNearestNeighborMatching<byte[]>(5, new Hamming());
 
@@ -123,12 +130,15 @@ namespace Accord.Tests.Imaging
         [Test]
         public void MatchTest3_Compatibility()
         {
+            var old = Accord.Imaging.Image.Clone(Properties.Resources.old);
+            var flower01 = Accord.Imaging.Image.Clone(Properties.Resources.flower01);
+
             FastCornersDetector fast = new FastCornersDetector(threshold: 10);
 
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector(fast);
 
-            var keyPoints1 = freak.ProcessImage(Properties.Resources.old).ToArray();
-            var keyPoints2 = freak.ProcessImage(Properties.Resources.flower01).ToArray();
+            var keyPoints1 = freak.ProcessImage(old).ToArray();
+            var keyPoints2 = freak.ProcessImage(flower01).ToArray();
 
             var matcher = new KNearestNeighborMatching<byte[]>(5, Distance.BitwiseHamming);
 

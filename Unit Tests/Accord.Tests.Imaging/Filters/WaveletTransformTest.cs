@@ -36,7 +36,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void Example1()
         {
-            Bitmap image = Properties.Resources.lena512;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
 
             // Create a new Haar Wavelet transform filter
             var wavelet = new WaveletTransform(new Haar(1));
@@ -63,7 +63,7 @@ namespace Accord.Tests.Imaging
         public void WaveletTransformConstructorTest()
         {
             // Start with a grayscale image
-            Bitmap src = Properties.Resources.lena512;
+            Bitmap src = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
 
             // Create a wavelet filter            
             IWavelet wavelet = new Accord.Math.Wavelets.Haar(2);
@@ -81,7 +81,7 @@ namespace Accord.Tests.Imaging
             double[,] expected = src.ToDoubleMatrix(0);
 #pragma warning restore 0618
 
-            Assert.IsTrue(actual.IsEqual(expected, 0.102));
+            Assert.IsTrue(actual.IsEqual(expected, atol: 0.102));
         }
     }
 }

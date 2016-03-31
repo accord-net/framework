@@ -37,7 +37,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindDefectsTest()
         {
-            Bitmap bmp = Properties.Resources.hand;
+            Bitmap bmp = Accord.Imaging.Image.Clone(Properties.Resources.hand);
 
             Bitmap gray = Accord.Imaging.Filters.Grayscale.CommonAlgorithms.BT709.Apply(bmp);
 

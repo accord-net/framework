@@ -36,7 +36,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ExampleTest()
         {
-            Bitmap lena = Resources.lena512;
+            Bitmap lena = Accord.Imaging.Image.Clone(Resources.lena512);
 
             // The freak detector can be used with any other corners detection
             // algorithm. The default corners detection method used is the FAST
@@ -86,7 +86,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ProcessImageTest()
         {
-            Bitmap lena = Properties.Resources.lena512;
+            Bitmap lena = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
 
             FastRetinaKeypointDetector target = new FastRetinaKeypointDetector();
 
@@ -152,7 +152,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ProcessImageTest2()
         {
-            Bitmap lena = Properties.Resources.lena512;
+            Bitmap lena = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
 
             FastRetinaKeypointDetector target = new FastRetinaKeypointDetector();
             target.ComputeDescriptors = FastRetinaKeypointDescriptorType.Extended;

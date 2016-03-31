@@ -37,7 +37,7 @@ namespace Accord.Tests.Imaging
         public void ProcessImageTest()
         {
             // Load an Image
-            Bitmap img = Properties.Resources.sample_trans;
+            Bitmap img = Accord.Imaging.Image.Clone(Properties.Resources.sample_trans);
 
             // Extract the interest points
             var surf = new SpeededUpRobustFeaturesDetector(0.0002f, 5, 2);
@@ -104,7 +104,7 @@ namespace Accord.Tests.Imaging
         public void ProcessImageTest2()
         {
             // Load an Image
-            Bitmap img = Properties.Resources.sample_trans;
+            Bitmap img = Accord.Imaging.Image.Clone(Properties.Resources.sample_trans);
 
             // Extract the interest points
             var surf = new SpeededUpRobustFeaturesDetector(0.0002f, 5, 2);
@@ -160,7 +160,7 @@ namespace Accord.Tests.Imaging
         public void ProcessImageTest3()
         {
             // Load an Image
-            Bitmap img = Properties.Resources.sample_trans;
+            Bitmap img = Accord.Imaging.Image.Clone(Properties.Resources.sample_trans);
 
             // Extract the interest points
             var surf = new SpeededUpRobustFeaturesDetector(0.0002f, 5, 2);
@@ -223,7 +223,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ZeroWidthTest()
         {
-            Bitmap img = Properties.Resources.surf_bug_1;
+            Bitmap img = Accord.Imaging.Image.Clone(Properties.Resources.surf_bug_1);
 
             var iimg = OpenSURFcs.IntegralImage.FromImage(img);
             var expected = OpenSURFcs.FastHessian.getIpoints(0.0002f, 5, 2, iimg);
@@ -241,16 +241,7 @@ namespace Accord.Tests.Imaging
         [Test, Ignore]
         public void ProcessImageTest4()
         {
-            Bitmap[] bitmaps = 
-            {
-                Resources.flower01,
-                Resources.flower03,
-                Resources.flower06,
-                Resources.flower07,
-                Resources.flower09,
-                Resources.flower10,
-            };
-
+            var bitmaps = BagOfVisualWordsTest.GetImages();
             var surf = new SpeededUpRobustFeaturesDetector();
 
             int current = 0;

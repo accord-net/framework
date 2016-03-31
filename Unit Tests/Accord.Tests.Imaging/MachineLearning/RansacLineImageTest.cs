@@ -42,7 +42,7 @@ namespace Accord.Tests.MachineLearning
         {
             Accord.Math.Random.Generator.Seed = 0;
 
-            Bitmap image = Resources.noise_line;
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.noise_line);
 
             //Accord.Controls.ImageBox.Show(image); 
 

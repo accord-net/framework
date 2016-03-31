@@ -40,20 +40,28 @@ namespace Accord.Tests.Imaging
     {
 
         // Load some test images
-        static Bitmap[] images =
+        public static Bitmap[] GetImages()
         {
-            Properties.Resources.flower01,
-            Properties.Resources.flower02,
-            Properties.Resources.flower03,
-            Properties.Resources.flower04,
-            Properties.Resources.flower05,
-            Properties.Resources.flower06,
-        };
+            Bitmap[] images = 
+            { 
+                Accord.Imaging.Image.Clone(Properties.Resources.flower01),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower02),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower03),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower04),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower05),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower06),
+            };
+
+            return images;
+        }
 
         [Test]
         public void BagOfVisualWordsConstructorTest()
         {
+            var images = GetImages();
+
             BagOfVisualWords bow = new BagOfVisualWords(10);
+            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
 #pragma warning disable 612, 618
             var points = bow.Compute(images, 1e-3);
 #pragma warning restore 612, 618
@@ -93,10 +101,14 @@ namespace Accord.Tests.Imaging
         [Test]
         public void BagOfVisualWordsConstructorTest3()
         {
+            var images = GetImages();
+
             MoravecCornersDetector moravec = new MoravecCornersDetector();
             CornerFeaturesDetector detector = new CornerFeaturesDetector(moravec);
 
             var bow = new BagOfVisualWords<CornerFeaturePoint>(detector, numberOfWords: 10);
+            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
+
 #pragma warning disable 612, 618
             var points = bow.Compute(images, 1e-3);
 #pragma warning restore 612, 618
@@ -131,6 +143,8 @@ namespace Accord.Tests.Imaging
         [Test]
         public void GetFeatureVectorTest()
         {
+            var images = GetImages();
+
             Accord.Math.Random.Generator.Seed = 0;
             Bitmap image = new Bitmap(images[0]);
 
@@ -141,6 +155,8 @@ namespace Accord.Tests.Imaging
 
             // Create a new Bag-of-Visual-Words (BoW) model
             BagOfVisualWords bow = new BagOfVisualWords(10);
+
+            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
 
             // Compute the model using
             // a set of training images
@@ -164,7 +180,8 @@ namespace Accord.Tests.Imaging
             for (int i = 0; i < actual.Length; i++)
                 actual[i] = bow.GetFeatureVector(images[i]);
 
-            // string str = actual.ToString(CSharpJaggedMatrixFormatProvider.InvariantCulture);
+            //string str = actual.ToString(CSharpJaggedMatrixFormatProvider.InvariantCulture);
+            //Assert.IsNullOrEmpty(str);
 
             for (int i = 0; i < actual.Length; i++)
                 for (int j = 0; j < actual[i].Length; j++)
@@ -174,7 +191,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void SerializeTest()
         {
-            var images = BagOfVisualWordsTest.images.DeepClone();
+            var images = GetImages();
 
             Accord.Math.Random.Generator.Seed = 0;
 
@@ -203,7 +220,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void SerializeTest2()
         {
-            var images = BagOfVisualWordsTest.images.DeepClone();
+            var images = GetImages();
 
             Accord.Math.Random.Generator.Seed = 0;
 

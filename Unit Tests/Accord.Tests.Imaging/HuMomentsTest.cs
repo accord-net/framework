@@ -27,33 +27,17 @@ namespace Accord.Tests.Imaging
     using NUnit.Framework;
     using Accord.Imaging.Converters;
     using Accord.Math;
+    using System.Drawing;
 
     [TestFixture]
     public class HuMomentsTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ComputeTest()
         {
-            var hu0 = new HuMoments(Resources.hu0);
-            var hu1 = new HuMoments(Resources.hu1);
+            var hu0 = new HuMoments(Accord.Imaging.Image.Clone(Resources.hu0));
+            var hu1 = new HuMoments(Accord.Imaging.Image.Clone(Resources.hu1));
 
             Assert.AreEqual(hu0.I1 / hu1.I1, 1, 0.12);
             Assert.AreEqual(hu0.I2 / hu1.I2, 1, 0.5);
@@ -63,10 +47,10 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ComputeTest2()
         {
-            float[,] img1; new ImageToMatrix().Convert(Resources.tt1, out img1);
-            float[,] img2; new ImageToMatrix().Convert(Resources.tt2, out img2);
-            float[,] img3; new ImageToMatrix().Convert(Resources.tt3, out img3);
-            float[,] img4; new ImageToMatrix().Convert(Resources.tt4, out img4);
+            float[,] img1; new ImageToMatrix().Convert(Accord.Imaging.Image.Clone(Resources.tt1), out img1);
+            float[,] img2; new ImageToMatrix().Convert(Accord.Imaging.Image.Clone(Resources.tt2), out img2);
+            float[,] img3; new ImageToMatrix().Convert(Accord.Imaging.Image.Clone(Resources.tt3), out img3);
+            float[,] img4; new ImageToMatrix().Convert(Accord.Imaging.Image.Clone(Resources.tt4), out img4);
 
             var hu1 = new HuMoments(img1);
             var hu2 = new HuMoments(img2);

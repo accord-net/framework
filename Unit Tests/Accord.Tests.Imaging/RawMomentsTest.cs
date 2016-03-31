@@ -35,26 +35,10 @@ namespace Accord.Tests.Imaging
     {
 
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void RawMomentsConstructorTest()
         {
-            Bitmap image = Resources.hu;
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.hu);
 
             RawMoments target = new RawMoments(image, order: 3);
 
@@ -75,11 +59,15 @@ namespace Accord.Tests.Imaging
         [Test]
         public void RawMomentsConstructorTest2()
         {
-            float[,] image; new ImageToMatrix()
-                {
-                    Min = 0,
-                    Max = 255
-                }.Convert(Resources.hu, out image);
+            var hu = Accord.Imaging.Image.Clone(Resources.hu);
+
+            float[,] image;
+            
+            new ImageToMatrix()
+            {
+                Min = 0,
+                Max = 255
+            }.Convert(hu, out image);
 
             RawMoments target = new RawMoments(image, order: 3);
 

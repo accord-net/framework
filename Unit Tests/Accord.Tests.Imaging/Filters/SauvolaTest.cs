@@ -36,7 +36,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void SauvolaTest1()
         {
-            Bitmap image = Properties.Resources.lena512;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
 
             SauvolaThreshold sauvola = new SauvolaThreshold();
 

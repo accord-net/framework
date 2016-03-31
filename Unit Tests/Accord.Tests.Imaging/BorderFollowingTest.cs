@@ -37,7 +37,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindContourTest()
         {
-            Bitmap bmp = Properties.Resources.sample_black;
+            Bitmap bmp = Accord.Imaging.Image.Clone(Properties.Resources.sample_black);
 
             Bitmap gray = Grayscale.CommonAlgorithms.BT709.Apply(bmp);
 
@@ -77,7 +77,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindContourTest2()
         {
-            Bitmap bmp = Properties.Resources.hand2;
+            Bitmap bmp = Accord.Imaging.Image.Clone(Properties.Resources.hand2);
 
             BlobCounter bc = new BlobCounter(bmp);
             bc.ObjectsOrder = ObjectsOrder.Size;
@@ -110,7 +110,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindContourTest3()
         {
-            Bitmap image = Properties.Resources.sample_black;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.sample_black);
             Bitmap grayscaleImage = Grayscale.CommonAlgorithms.BT709.Apply(image);
 
             // Create a new border following algorithm

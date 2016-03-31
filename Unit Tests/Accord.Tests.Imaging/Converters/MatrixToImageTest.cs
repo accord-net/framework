@@ -110,7 +110,7 @@ namespace Accord.Tests.Imaging
                  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 8
                  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 9
                  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 10
-                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 11
+                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 11new Bitmap(Properties
                  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 12
                  { 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }, // 13
                  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 14
@@ -126,7 +126,7 @@ namespace Accord.Tests.Imaging
             c.Convert(imageActual, out actual);
 
             double[,] expected;
-            Bitmap imageExpected = Properties.Resources.image1;
+            Bitmap imageExpected = Accord.Imaging.Image.Clone(Properties.Resources.image1);
             new Threshold().ApplyInPlace(imageExpected);
             new Invert().ApplyInPlace(imageExpected);
             c.Convert(imageExpected, out expected);

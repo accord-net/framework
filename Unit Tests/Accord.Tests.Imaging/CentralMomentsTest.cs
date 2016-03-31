@@ -31,27 +31,10 @@ namespace Accord.Tests.Imaging
     public class CentralMomentsTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ComputeTest()
         {
-            Bitmap image = Resources.hu;
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.hu);
 
             CentralMoments target = new CentralMoments(image, order: 3);
 
@@ -81,8 +64,8 @@ namespace Accord.Tests.Imaging
         public void ComputeTest2()
         {
             // 0 and 1 are only translated
-            var cm0 = new CentralMoments(Resources.hu0, 3);
-            var cm1 = new CentralMoments(Resources.hu1, 3);
+            var cm0 = new CentralMoments(Accord.Imaging.Image.Clone(Resources.hu0), 3);
+            var cm1 = new CentralMoments(Accord.Imaging.Image.Clone(Resources.hu1), 3);
 
             Assert.AreEqual(cm0.Mu00, cm1.Mu00);
             Assert.AreEqual(cm0.Mu01, cm1.Mu01);
