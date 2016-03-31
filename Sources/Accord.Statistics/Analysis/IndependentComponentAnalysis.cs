@@ -448,7 +448,7 @@ namespace Accord.Statistics.Analysis
             double[,] whiten = Statistics.Tools.Whitening(matrix, out whiteningMatrix);
 
             // Generate a new unitary initial guess for the de-mixing matrix
-            double[,] initial = Matrix.Random(components, matrix.GetLength(1), 0, 1);
+            double[,] initial = Matrix.Random(components, matrix.GetLength(1));
 
 
             // Compute the demixing matrix using the selected algorithm

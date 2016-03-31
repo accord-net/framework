@@ -414,7 +414,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-10.2879332934202168, regression.GetPartialLogLikelihood(time, censor));
             Assert.AreEqual(-9.8190189050165948, regression.GetPartialLogLikelihood(inputs, time, censor));
 
-            double[] actual = inputs.Apply(regression.Compute);
+            double[] actual = inputs.Apply(x => regression.Compute(x));
 
             /*
              predict(r,type="risk")
@@ -515,7 +515,7 @@ namespace Accord.Tests.Statistics
 
             // The value of the baseline must be exact the same if it was computed
             // after the Newton-Raphson or in a standalone EmpiricalHazard computation
-            double[] outputs = inputs.Apply(regression.Compute);
+            double[] outputs = inputs.Apply(x => regression.Compute(x));
             var empirical = EmpiricalHazardDistribution.Estimate(time, censor, outputs);
 
             baseline = new[]

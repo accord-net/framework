@@ -131,7 +131,7 @@ namespace Accord.Statistics
         /// 
         public static double[,] RandomCovariance(int size, double minValue, double maxValue)
         {
-            double[,] A = Accord.Math.Matrix.Random(size, true, minValue, maxValue);
+            double[,] A = Accord.Math.Matrix.Random(size, minValue, maxValue, symmetric: true);
 
             var gso = new GramSchmidtOrthogonalization(A);
             double[,] Q = gso.OrthogonalFactor;

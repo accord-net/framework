@@ -200,7 +200,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
             M = regression.Inputs + 1;
             parameterCount = K * M;
 
-            solution = regression.Coefficients.Reshape(1);
+            solution = regression.Coefficients.Reshape();
 
             xxt = new double[M, M];
             errors = new double[K];
@@ -375,14 +375,14 @@ namespace Accord.Statistics.Models.Regression.Fitting
             }
 
 
-            previous = coefficients.Reshape(1);
+            previous = coefficients.Reshape();
 
             // Update coefficients using the calculated deltas
             for (int i = 0, k = 0; i < coefficients.Length; i++)
                 for (int j = 0; j < coefficients[i].Length; j++)
                     coefficients[i][j] -= deltas[k++];
 
-            solution = coefficients.Reshape(1);
+            solution = coefficients.Reshape();
 
 
             if (computeStandardErrors)

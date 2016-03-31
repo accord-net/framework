@@ -218,7 +218,7 @@ namespace Accord.Tests.Statistics
             var target = new Polynomial(1);
             var linear = new Linear();
 
-            double[][] expected = data.Apply(linear.Transform);
+            double[][] expected = data.Apply(x => linear.Transform(x));
             double[][] actual = data.Apply(target.Transform);
 
             Assert.IsTrue(expected.IsEqual(actual, 1e-10));
@@ -239,7 +239,7 @@ namespace Accord.Tests.Statistics
             var target = new Polynomial(2);
             var quadratic = new Quadratic();
 
-            double[][] expected = data.Apply(quadratic.Transform);
+            double[][] expected = data.Apply(x => quadratic.Transform(x));
             double[][] actual = data.Apply(target.Transform);
 
             Assert.IsTrue(expected.IsEqual(actual, 1e-10));

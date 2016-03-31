@@ -34,6 +34,7 @@ namespace Accord.Statistics.Analysis
     using Accord.Statistics.Testing;
     using System.Threading.Tasks;
     using System.Diagnostics.CodeAnalysis;
+    using Accord.Statistics.Distributions.Fitting;
 
     /// <summary>
     ///   Distribution fitness analysis.
