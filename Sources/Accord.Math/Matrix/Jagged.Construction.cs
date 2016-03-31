@@ -23,6 +23,7 @@
 namespace Accord.Math
 {
     using Accord.Math.Comparers;
+    using Accord.Math.Random;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -35,7 +36,7 @@ namespace Accord.Math
     /// <seealso cref="Matrix"/>
     /// <seealso cref="Vector"/>
     /// 
-    public static class Jagged
+    public static partial class Jagged
     {
         /// <summary>
         ///   Creates a zero-valued matrix.
@@ -493,46 +494,138 @@ namespace Accord.Math
             return Matrix.Magic(size).ToArray();
         }
 
+        #region Diagonal matrices
         /// <summary>
-        ///   Returns a square jagged diagonal matrix of the given size.
+        ///   Returns a square diagonal matrix of the given size.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[][] Diagonal<T>(int size, T value)
         {
-            if (size < 0)
-            {
-                throw new ArgumentOutOfRangeException("size", size,
-                "Square matrix's size must be a positive integer.");
-            }
-
-            var matrix = new T[size][];
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                matrix[i] = new T[size];
-                matrix[i][i] = value;
-            }
-
-            return matrix;
+            return Diagonal(size, value, Jagged.Create<T>(size, size));
         }
 
         /// <summary>
-        ///   Returns a square jagged diagonal matrix of the given size.
+        ///   Returns a square diagonal matrix of the given size.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[][] Diagonal<T>(int size, T value, T[][] result)
+        {
+            for (int i = 0; i < size; i++)
+                result[i][i] = value;
+            return result;
+        }
+
+        /// <summary>
+        ///   Returns a matrix of the given size with value on its diagonal.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[][] Diagonal<T>(int rows, int cols, T value)
+        {
+            return Diagonal(rows, cols, value, Jagged.Create<T>(rows, cols));
+        }
+
+        /// <summary>
+        ///   Returns a matrix of the given size with value on its diagonal.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[][] Diagonal<T>(int rows, int cols, T value, T[][] result)
+        {
+            int min = Math.Min(rows, cols);
+            for (int i = 0; i < min; i++)
+                result[i][i] = value;
+            return result;
+        }
+
+        /// <summary>
+        ///   Return a square matrix with a vector of values on its diagonal.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[][] Diagonal<T>(T[] values)
         {
-            if (values == null)
-                throw new ArgumentNullException("values");
-
-            T[][] matrix = new T[values.Length][];
-            for (int i = 0; i < values.Length; i++)
-            {
-                matrix[i] = new T[values.Length];
-                matrix[i][i] = values[i];
-            }
-
-            return matrix;
+            return Diagonal(values, Jagged.Create<T>(values.Length, values.Length));
         }
+
+        /// <summary>
+        ///   Return a square matrix with a vector of values on its diagonal.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[][] Diagonal<T>(T[] values, T[][] result)
+        {
+            for (int i = 0; i < values.Length; i++)
+                result[i][i] = values[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Return a square matrix with a vector of values on its diagonal.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[][] Diagonal<T>(int size, T[] values)
+        {
+            return Diagonal(size, size, values);
+        }
+
+        /// <summary>
+        ///   Return a square matrix with a vector of values on its diagonal.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[][] Diagonal<T>(int size, T[] values, T[][] result)
+        {
+            return Diagonal(size, size, values, result);
+        }
+
+        /// <summary>
+        ///   Returns a matrix with a vector of values on its diagonal.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[][] Diagonal<T>(int rows, int cols, T[] values)
+        {
+            return Diagonal(rows, cols, values, Jagged.Create<T>(rows, cols));
+        }
+
+        /// <summary>
+        ///   Returns a matrix with a vector of values on its diagonal.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[][] Diagonal<T>(int rows, int cols, T[] values, T[][] result)
+        {
+            int size = Math.Min(rows, Math.Min(cols, values.Length));
+            for (int i = 0; i < size; i++)
+                result[i][i] = values[i];
+            return result;
+        }
+        #endregion
+
 
         /// <summary>
         ///   Returns a new multidimensional matrix.
@@ -566,6 +659,98 @@ namespace Accord.Math
             return r;
         }
 
+
+        /// <summary>
+        ///   Transforms a vector into a matrix of given dimensions.
+        /// </summary>
+        /// 
+        public static T[][] Reshape<T>(T[] array, int rows, int cols, MatrixOrder order = MatrixOrder.Default)
+        {
+            return Jagged.Reshape(array, rows, cols, Jagged.Create<T>(rows, cols), order);
+        }
+
+        /// <summary>
+        ///   Transforms a vector into a matrix of given dimensions.
+        /// </summary>
+        /// 
+        public static T[][] Reshape<T>(this T[] array, int rows, int cols, T[][] result, MatrixOrder order = MatrixOrder.Default)
+        {
+            if (order == MatrixOrder.CRowMajor)
+            {
+                int k = 0;
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i][j] = array[k++];
+            }
+            else
+            {
+                int k = 0;
+                for (int j = 0; j < cols; j++)
+                    for (int i = 0; i < rows; i++)
+                        result[i][j] = array[k++];
+            }
+
+            return result;
+        }
+
+
+
+        #region Random matrices
+        /// <summary>
+        ///   Creates a square matrix matrix with random data.
+        /// </summary>
+        /// 
+        public static T[][] Random<T>(int size, IRandomNumberGenerator<T> generator,
+            bool symmetric = false, T[][] result = null)
+        {
+            if (result == null)
+                result = Jagged.Create<T>(size, size);
+
+            if (!symmetric)
+            {
+                for (int i = 0; i < size; i++)
+                    result[i] = generator.Generate(size);
+            }
+            else
+            {
+                for (int i = 0; i < size; i++)
+                {
+                    T[] row = generator.Generate(size / 2, result[i]);
+                    for (int start = 0, end = size - 1; start < size / 2; start++, end--)
+                        row[end] = row[start];
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Creates a rows-by-cols matrix with random data.
+        /// </summary>
+        /// 
+        public static T[][] Random<T>(int rows, int cols, 
+            IRandomNumberGenerator<T> generator, T[][] result = null)
+        {
+            if (result == null)
+                result = Jagged.Create<T>(rows, cols);
+
+            for (int i = 0; i < rows; i++)
+                result[i] = generator.Generate(cols);
+            return result;
+        }
+
+
+
+
+        /// <summary>
+        ///   Creates a rows-by-cols matrix random data drawn from a given distribution.
+        /// </summary>
+        /// 
+        public static double[][] Random(int rows, int cols, double minValue = 0, double maxValue = 1)
+        {
+            return Random<double>(rows, cols, new ZigguratUniformGenerator(minValue, maxValue));
+        }
+        #endregion
 
     }
 }

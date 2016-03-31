@@ -25,6 +25,7 @@ namespace Accord.Math
     using Accord.Math.Comparers;
     using System;
     using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
 
 
     public static partial class Vector
@@ -39,6 +40,9 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of the specified size.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[] Zeros<T>(int size)
         {
             return new T[size];
@@ -53,6 +57,9 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of the specified size.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[] Ones<T>(int size) where T : struct
         {
             var one = (T)Convert.ChangeType(1, typeof(T));
@@ -67,6 +74,9 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of the specified size.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double[] Zeros(int size)
         {
             return Zeros<double>(size);
@@ -80,6 +90,9 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of the specified size.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double[] Ones(int size)
         {
             return Ones<double>(size);
@@ -92,6 +105,9 @@ namespace Accord.Math
         /// <param name="size">The number of elements in the vector.</param>
         /// <param name="value">The initial values for the vector.</param>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[] Create<T>(int size, T value)
         {
             var v = new T[size];
@@ -106,6 +122,9 @@ namespace Accord.Math
         /// 
         /// <param name="values">The initial values for the vector.</param>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[] Create<T>(params T[] values)
         {
             return (T[])values.Clone();
@@ -123,6 +142,9 @@ namespace Accord.Math
         /// 
         /// <returns>A one-hot vector where only a single position is one and the others are zero.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[] OneHot<T>(int index, int columns)
         {
             return OneHot<T>(index, columns, new T[columns]);
@@ -138,6 +160,9 @@ namespace Accord.Math
         /// 
         /// <returns>A one-hot vector where only a single position is one and the others are zero.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double[] OneHot(int index, int columns)
         {
             return OneHot(index, columns, new double[columns]);
@@ -156,6 +181,9 @@ namespace Accord.Math
         /// 
         /// <returns>A one-hot vector where only a single position is one and the others are zero.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[] OneHot<T>(int index, int columns, T[] result)
         {
             var one = (T)System.Convert.ChangeType(1, typeof(T));
@@ -174,6 +202,9 @@ namespace Accord.Math
         /// 
         /// <returns>A one-hot vector where only a single position is one and the others are zero.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double[] OneHot(int index, int columns, double[] result)
         {
             result[index] = 1;
@@ -192,6 +223,9 @@ namespace Accord.Math
         /// 
         /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[] KHot<T>(int[] indices, int columns)
         {
             return KHot<T>(indices, columns, new T[columns]);
@@ -207,6 +241,9 @@ namespace Accord.Math
         /// 
         /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double[] KHot(int[] indices, int columns)
         {
             return KHot(indices, columns, new double[columns]);
@@ -223,6 +260,9 @@ namespace Accord.Math
         /// 
         /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[] KHot<T>(int[] indices, int columns, T[] result)
         {
             var one = (T)System.Convert.ChangeType(1, typeof(T));
@@ -242,6 +282,9 @@ namespace Accord.Math
         /// 
         /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double[] KHot(int[] indices, int columns, double[] result)
         {
             for (int i = 0; i < indices.Length; i++)

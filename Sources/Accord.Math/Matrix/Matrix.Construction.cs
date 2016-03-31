@@ -27,6 +27,53 @@ namespace Accord.Math
     using System.Runtime.CompilerServices;
     using Accord.Math.Random;
 
+    /// <summary>
+    ///   Matrix major order. The default is to use C-style Row-Major order.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   In computing, row-major order and column-major order describe methods for arranging 
+    ///   multidimensional arrays in linear storage such as memory. In row-major order, consecutive 
+    ///   elements of the rows of the array are contiguous in memory; in column-major order, 
+    ///   consecutive elements of the columns are contiguous. Array layout is critical for correctly
+    ///   passing arrays between programs written in different languages. It is also important for 
+    ///   performance when traversing an array because accessing array elements that are contiguous 
+    ///   in memory is usually faster than accessing elements which are not, due to caching. In some
+    ///   media such as tape or NAND flash memory, accessing sequentially is orders of magnitude faster 
+    ///   than nonsequential access.</para>
+    /// 
+    ///   <para>
+    ///     References:
+    ///     <list type="bullet">
+    ///       <item><description>
+    ///         <a href="https://en.wikipedia.org/wiki/Row-major_order">
+    ///         Wikipedia contributors. "Row-major order." Wikipedia, The Free Encyclopedia. Wikipedia, 
+    ///         The Free Encyclopedia, 13 Feb. 2016. Web. 22 Mar. 2016.</a>
+    ///       </description></item>
+    ///     </list>
+    ///   </para>
+    /// </remarks>
+    /// 
+    public enum MatrixOrder
+    {
+        /// <summary>
+        ///   Row-major order (C, C++, C#, SAS, Pascal, NumPy default).
+        /// </summary>
+        CRowMajor = 1,
+
+        /// <summary>
+        ///   Column-major oder (Fotran, MATLAB, R).
+        /// </summary>
+        /// 
+        FortranColumnMajor = 0,
+
+        /// <summary>
+        ///   Default (Row-Major, C/C++/C# order).
+        /// </summary>
+        /// 
+        Default = CRowMajor
+    }
 
     public static partial class Matrix
     {
@@ -472,65 +519,130 @@ namespace Accord.Math
         ///   Returns a square diagonal matrix of the given size.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[,] Diagonal<T>(int size, T value)
         {
-            if (size < 0)
-            {
-                throw new ArgumentOutOfRangeException("size", size,
-                "Square matrix's size must be a positive integer.");
-            }
+            return Diagonal(size, value, new T[size, size]);
+        }
 
-            T[,] matrix = new T[size, size];
-
+        /// <summary>
+        ///   Returns a square diagonal matrix of the given size.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] Diagonal<T>(int size, T value, T[,] result)
+        {
             for (int i = 0; i < size; i++)
-                matrix[i, i] = value;
-
-            return matrix;
+                result[i, i] = value;
+            return result;
         }
 
         /// <summary>
         ///   Returns a matrix of the given size with value on its diagonal.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[,] Diagonal<T>(int rows, int cols, T value)
         {
-            if (rows < 0)
-            {
-                throw new ArgumentOutOfRangeException("rows", rows,
-                    "Number of rows must be a positive integer.");
-            }
+            return Diagonal(rows, cols, value, new T[rows, cols]);
+        }
 
-            if (cols < 0)
-            {
-                throw new ArgumentOutOfRangeException("cols", cols,
-                    "Number of columns must be a positive integer.");
-            }
-
-            T[,] matrix = new T[rows, cols];
-
+        /// <summary>
+        ///   Returns a matrix of the given size with value on its diagonal.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] Diagonal<T>(int rows, int cols, T value, T[,] result)
+        {
             int min = Math.Min(rows, cols);
-
             for (int i = 0; i < min; i++)
-                matrix[i, i] = value;
-
-            return matrix;
+                result[i, i] = value;
+            return result;
         }
 
         /// <summary>
         ///   Return a square matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[,] Diagonal<T>(T[] values)
         {
-            if (values == null)
-                throw new ArgumentNullException("values");
+            return Diagonal(values, new T[values.Length, values.Length]);
+        }
 
-            T[,] matrix = new T[values.Length, values.Length];
-
+        /// <summary>
+        ///   Return a square matrix with a vector of values on its diagonal.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] Diagonal<T>(T[] values, T[,] result)
+        {
             for (int i = 0; i < values.Length; i++)
-                matrix[i, i] = values[i];
+                result[i, i] = values[i];
+            return result;
+        }
 
-            return matrix;
+        /// <summary>
+        ///   Return a square matrix with a vector of values on its diagonal.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] Diagonal<T>(int size, T[] values)
+        {
+            return Diagonal(size, size, values);
+        }
+
+        /// <summary>
+        ///   Return a square matrix with a vector of values on its diagonal.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] Diagonal<T>(int size, T[] values, T[,] result)
+        {
+            return Diagonal(size, size, values, result);
+        }
+
+        /// <summary>
+        ///   Returns a matrix with a vector of values on its diagonal.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] Diagonal<T>(int rows, int cols, T[] values)
+        {
+            return Diagonal(rows, cols, values, new T[rows, cols]);
+        }
+
+        /// <summary>
+        ///   Returns a matrix with a vector of values on its diagonal.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] Diagonal<T>(int rows, int cols, T[] values, T[,] result)
+        {
+            int size = Math.Min(rows, Math.Min(cols, values.Length));
+            for (int i = 0; i < size; i++)
+                result[i, i] = values[i];
+            return result;
         }
 
         /// <summary>
@@ -550,45 +662,7 @@ namespace Accord.Math
         [Obsolete("Please use Jagged.Diagonal instead.")]
         public static T[][] JaggedDiagonal<T>(int size, T value)
         {
-            return Accord.Math.Jagged.Diagonal(size, value);
-        }
-
-        /// <summary>
-        ///   Return a square matrix with a vector of values on its diagonal.
-        /// </summary>
-        /// 
-        public static T[,] Diagonal<T>(int size, T[] values)
-        {
-            return Diagonal(size, size, values);
-        }
-
-        /// <summary>
-        ///   Returns a matrix with a vector of values on its diagonal.
-        /// </summary>
-        /// 
-        public static T[,] Diagonal<T>(int rows, int cols, T[] values)
-        {
-            if (values == null)
-                throw new ArgumentNullException("values");
-
-            if (rows < 0)
-            {
-                throw new ArgumentOutOfRangeException("rows", rows,
-                    "Number of rows must be a positive integer.");
-            }
-
-            if (cols < 0)
-            {
-                throw new ArgumentOutOfRangeException("cols", cols,
-                    "Number of columns must be a positive integer.");
-            }
-
-            T[,] matrix = new T[rows, cols];
-
-            for (int i = 0; i < values.Length; i++)
-                matrix[i, i] = values[i];
-
-            return matrix;
+            return Accord.Math.Jagged.Diagonal<T>(size, value);
         }
         #endregion
 
@@ -609,7 +683,7 @@ namespace Accord.Math
         [Obsolete("Please use Jagged.Identity instead.")]
         public static double[][] JaggedIdentity(int size)
         {
-            return JaggedIdentity(size);
+            return Jagged.Identity(size);
         }
 
         /// <summary>
@@ -732,93 +806,56 @@ namespace Accord.Math
 
         #region Random matrices
         /// <summary>
-        ///   Creates a rows-by-cols matrix with uniformly distributed random data.
-        /// </summary>
-        public static double[,] Random(int rows, int cols)
-        {
-            if (rows < 0)
-                throw new ArgumentOutOfRangeException("rows", rows, "Number of rows must be a positive integer.");
-
-            if (cols < 0)
-                throw new ArgumentOutOfRangeException("cols", cols, "Number of columns must be a positive integer.");
-
-            return Random(rows, cols, 0, 1);
-        }
-
-        /// <summary>
-        ///   Creates a rows-by-cols matrix with uniformly distributed random data.
+        ///   Creates a square matrix matrix with random data.
         /// </summary>
         /// 
-        public static double[,] Random(int size, bool symmetric, double minValue, double maxValue)
+        public static T[,] Random<T>(int size, IRandomNumberGenerator<T> generator, bool symmetric = false, T[,] result = null)
         {
-            if (size < 0)
-                throw new ArgumentOutOfRangeException("size", size, "Size must be a positive integer.");
-
-            double[,] matrix = new double[size, size];
+            if (result == null)
+                result = new T[size, size];
 
             if (!symmetric)
             {
                 for (int i = 0; i < size; i++)
                     for (int j = 0; j < size; j++)
-                        matrix[i, j] = Generator.Random.NextDouble() * (maxValue - minValue) + minValue;
+                        result[i, j] = generator.Generate();
             }
             else
             {
                 for (int i = 0; i < size; i++)
-                {
                     for (int j = i; j < size; j++)
-                    {
-                        matrix[i, j] = Generator.Random.NextDouble() * (maxValue - minValue) + minValue;
-                        matrix[j, i] = matrix[i, j];
-                    }
-                }
+                        result[j, i] = result[i, j] = generator.Generate();
             }
 
-            return matrix;
+            return result;
         }
 
         /// <summary>
-        ///   Creates a rows-by-cols matrix with uniformly distributed random data.
+        ///   Creates a rows-by-cols matrix with random data.
         /// </summary>
         /// 
-        public static double[,] Random(int rows, int cols, double minValue, double maxValue)
+        public static T[,] Random<T>(int rows, int cols, IRandomNumberGenerator<T> generator, T[,] result = null)
         {
-            if (rows < 0)
-                throw new ArgumentOutOfRangeException("rows", rows, "Number of rows must be a positive integer.");
+            if (result == null)
+                result = new T[rows, cols];
 
-            if (cols < 0)
-                throw new ArgumentOutOfRangeException("cols", cols, "Number of columns must be a positive integer.");
-
-            double[,] matrix = new double[rows, cols];
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < cols; j++)
-                    matrix[i, j] = Generator.Random.NextDouble() * (maxValue - minValue) + minValue;
-
-            return matrix;
+                    result[i, j] = generator.Generate();
+            return result;
         }
 
         /// <summary>
         ///   Creates a rows-by-cols matrix random data drawn from a given distribution.
         /// </summary>
         /// 
+        [Obsolete("Please use INumberGenerator<T> instead.")]
+#pragma warning disable 0618
         public static double[,] Random(int rows, int cols, IRandomNumberGenerator generator)
         {
-            if (generator == null)
-                throw new ArgumentNullException("generator");
-
-            if (rows < 0)
-                throw new ArgumentOutOfRangeException("rows", rows, "Number of rows must be a positive integer.");
-
-            if (cols < 0)
-                throw new ArgumentOutOfRangeException("cols", cols, "Number of columns must be a positive integer.");
-
-            double[,] matrix = new double[rows, cols];
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < cols; j++)
-                    matrix[i, j] = generator.Next();
-
-            return matrix;
+            return Random<double>(rows, cols, new RandomNumberGeneratorAdapter(generator));
         }
+#pragma warning restore 0618
 
         /// <summary>
         ///   Creates a vector with uniformly distributed random data.
@@ -1741,5 +1778,37 @@ namespace Accord.Math
             return r;
         }
 
+        /// <summary>
+        ///   Transforms a vector into a matrix of given dimensions.
+        /// </summary>
+        /// 
+        public static T[,] Reshape<T>(this T[] array, int rows, int cols, MatrixOrder order = MatrixOrder.Default)
+        {
+            return Reshape(array, rows, cols, new T[rows, cols], order);
+        }
+
+        /// <summary>
+        ///   Transforms a vector into a matrix of given dimensions.
+        /// </summary>
+        /// 
+        public static T[,] Reshape<T>(this T[] array, int rows, int cols, T[,] result, MatrixOrder order = MatrixOrder.Default)
+        {
+            if (order == MatrixOrder.CRowMajor)
+            {
+                int k = 0;
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = array[k++];
+            }
+            else
+            {
+                int k = 0;
+                for (int j = 0; j < cols; j++)
+                    for (int i = 0; i < rows; i++)
+                        result[i, j] = array[k++];
+            }
+
+            return result;
+        }
     }
 }

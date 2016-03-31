@@ -66,292 +66,13 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
+        [Obsolete("Use IsEqual(a, b, rtol) with the named parameter rtol instead.")]
         public static bool IsRelativelyEqual(this double a, double b, double threshold)
         {
-            if (a == b)
-                return true;
-
-            if (Double.IsNaN(a))
-                return Double.IsNaN(b);
-            
-            if (Double.IsNaN(b)) 
-                return false;
-            
-            if (Double.IsPositiveInfinity(a) != Double.IsPositiveInfinity(b))
-                return false;
-
-            if (Double.IsNegativeInfinity(a) != Double.IsNegativeInfinity(b))
-                return false;
-
-            double delta = Math.Abs(a - b);
-
-            if (a == 0)
-                return delta <= threshold;
-
-            else if (b == 0)
-                return delta <= threshold;
-
-            return delta <= Math.Abs(a) * threshold;
-        }
-
-        /// <summary>
-        ///   Compares two matrices for equality, considering an acceptance threshold.
-        /// </summary>
-        /// 
-        public static bool IsEqual(this double a, double b, double threshold)
-        {
-            if (a == b)
-                return true;
-
-            if (Math.Abs(a - b) > threshold || (Double.IsNaN(a) ^ Double.IsNaN(b)))
-                return false;
-
-            return true;
-        }
-
-        /// <summary>
-        ///   Compares two matrices for equality, considering an acceptance threshold.
-        /// </summary>
-        /// 
-        public static bool IsEqual(this double[,] objA, double[,] objB, double threshold)
-        {
-            if (objA == objB)
-                return true;
-
-            if (objA == null)
-                throw new ArgumentNullException("objA");
-
-            if (objB == null)
-                throw new ArgumentNullException("objB");
-
-            if (objA.GetLength(0) != objB.GetLength(0) ||
-                objA.GetLength(1) != objB.GetLength(1))
-                return false;
-
-            for (int i = 0; i < objA.GetLength(0); i++)
-            {
-                for (int j = 0; j < objB.GetLength(1); j++)
-                {
-                    if (!IsEqual(objA[i, j], objB[i, j], threshold))
-                        return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        ///   Compares two matrices for equality, considering an acceptance threshold.
-        /// </summary>
-        /// 
-        public static bool IsEqual(this float[,] objA, float[,] objB, double threshold)
-        {
-            if (objA == objB)
-                return true;
-
-            if (objA == null)
-                throw new ArgumentNullException("objA");
-
-            if (objB == null)
-                throw new ArgumentNullException("objB");
-
-            for (int i = 0; i < objA.GetLength(0); i++)
-            {
-                for (int j = 0; j < objB.GetLength(1); j++)
-                {
-                    if (!IsEqual(objA[i, j], objB[i, j], threshold))
-                        return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        ///   Compares two matrices for equality, considering an acceptance threshold.
-        /// </summary>
-        /// 
-        public static bool IsEqual(this double[][] objA, double[][] objB, double threshold)
-        {
-            if (objA == objB)
-                return true;
-
-            if (objA == null)
-                throw new ArgumentNullException("objA");
-
-            if (objB == null)
-                throw new ArgumentNullException("objB");
-
-            for (int i = 0; i < objA.Length; i++)
-            {
-                for (int j = 0; j < objA[i].Length; j++)
-                {
-                    if (!IsEqual(objA[i][j], objB[i][j], threshold))
-                        return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        ///   Compares two matrices for equality, considering an acceptance threshold.
-        /// </summary>
-        /// 
-        public static bool IsEqual(this float[][] objA, float[][] objB, double threshold)
-        {
-            if (objA == objB)
-                return true;
-
-            if (objA == null)
-                throw new ArgumentNullException("objA");
-
-            if (objB == null)
-                throw new ArgumentNullException("objB");
-
-            for (int i = 0; i < objA.Length; i++)
-            {
-                for (int j = 0; j < objA[i].Length; j++)
-                {
-                    if (!IsEqual(objA[i][j], objB[i][j], threshold))
-                        return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        ///   Compares two vectors for equality, considering an acceptance threshold.
-        /// </summary>
-        /// 
-        public static bool IsEqual(this double[] objA, double[] objB, double threshold)
-        {
-            if (objA == objB)
-                return true;
-
-            if (objA == null)
-                throw new ArgumentNullException("objA");
-
-            if (objB == null)
-                throw new ArgumentNullException("objB");
-
-            for (int i = 0; i < objA.Length; i++)
-            {
-                if (!IsEqual(objA[i], objB[i], threshold))
-                    return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        ///   Compares two vectors for equality, considering an acceptance threshold.
-        /// </summary>
-        /// 
-        public static bool IsEqual(this float[] objA, float[] objB, double threshold)
-        {
-            if (objA == objB)
-                return true;
-
-            if (objA == null)
-                throw new ArgumentNullException("objA");
-
-            if (objB == null)
-                throw new ArgumentNullException("objB");
-
-            for (int i = 0; i < objA.Length; i++)
-            {
-                if (!IsEqual(objA[i], objB[i], threshold))
-                    return false;
-            }
-
-            return true;
+            return a.IsEqual(b, rtol: threshold);
         }
 
 
-        /// <summary>
-        ///   Compares each member of a vector for equality with a scalar value x.
-        /// </summary>
-        /// 
-        public static bool IsEqual(this double[] vector, double scalar)
-        {
-            if (vector == null)
-                throw new ArgumentNullException("vector");
-            if (vector.Length == 0)
-                return false;
-
-            foreach (double e in vector)
-            {
-                if (e != scalar)
-                    return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        ///   Compares each member of a matrix for equality with a scalar value x.
-        /// </summary>
-        /// 
-        public static bool IsEqual(this double[,] matrix, double scalar)
-        {
-            if (matrix == null)
-                throw new ArgumentNullException("matrix");
-
-            if (matrix.Length == 0)
-                return false;
-
-            foreach (double e in matrix)
-            {
-                if (e != scalar)
-                    return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        ///   Compares each member of a vector for equality with a scalar value x.
-        /// </summary>
-        /// 
-        public static bool IsEqual(this double[] vector, double scalar, double threshold)
-        {
-            if (vector == null)
-                throw new ArgumentNullException("vector");
-
-            if (vector.Length == 0)
-                return false;
-
-            foreach (double e in vector)
-            {
-                if (!e.IsEqual(scalar, threshold))
-                    return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        ///   Compares each member of a matrix for equality with a scalar value x.
-        /// </summary>
-        /// 
-        public static bool IsEqual(this double[,] matrix, double scalar, double threshold)
-        {
-            if (matrix == null)
-                throw new ArgumentNullException("matrix");
-
-            if (matrix.Length == 0)
-                return false;
-
-            foreach (double e in matrix)
-            {
-                if (!e.IsEqual(scalar, threshold))
-                    return false;
-            }
-
-            return true;
-        }
 
         /// <summary>
         ///   Compares two matrices for equality.
@@ -528,7 +249,7 @@ namespace Accord.Math
         public static bool HasNaN(this double[] matrix)
         {
             foreach (var e in matrix)
-                if (Double.IsNaN(e)) 
+                if (Double.IsNaN(e))
                     return true;
             return false;
         }
@@ -563,7 +284,7 @@ namespace Accord.Math
         public static bool HasInfinity(this double[,] matrix)
         {
             foreach (var e in matrix)
-                if (Double.IsInfinity(e)) 
+                if (Double.IsInfinity(e))
                     return true;
             return false;
         }
@@ -621,7 +342,7 @@ namespace Accord.Math
         public static bool HasInfinity(this double[] matrix)
         {
             foreach (var e in matrix)
-                if (Double.IsInfinity(e)) 
+                if (Double.IsInfinity(e))
                     return true;
             return false;
         }
@@ -658,19 +379,6 @@ namespace Accord.Math
         /// <returns>The transpose of the given matrix.</returns>
         /// 
         public static T[,] Transpose<T>(this T[,] matrix)
-        {
-            return Transpose(matrix, false);
-        }
-
-        /// <summary>
-        ///   Gets the transpose of a matrix.
-        /// </summary>
-        /// 
-        /// <param name="matrix">A matrix.</param>
-        /// 
-        /// <returns>The transpose of the given matrix.</returns>
-        /// 
-        public static T[][] Transpose<T>(this T[][] matrix)
         {
             return Transpose(matrix, false);
         }
@@ -719,53 +427,7 @@ namespace Accord.Math
             }
         }
 
-        /// <summary>
-        ///   Gets the transpose of a matrix.
-        /// </summary>
-        /// 
-        /// <param name="matrix">A matrix.</param>
-        /// 
-        /// <param name="inPlace">True to store the transpose over the same input
-        ///   <paramref name="matrix"/>, false otherwise. Default is false.</param>
-        ///   
-        /// <returns>The transpose of the given matrix.</returns>
-        /// 
-        public static T[][] Transpose<T>(this T[][] matrix, bool inPlace)
-        {
-            int rows = matrix.Length;
-            if (rows == 0) return new T[rows][];
-            int cols = matrix[0].Length;
 
-            if (inPlace)
-            {
-                if (rows != cols)
-                    throw new ArgumentException("Only square matrices can be transposed in place.", "matrix");
-
-                for (int i = 0; i < rows; i++)
-                {
-                    for (int j = i; j < cols; j++)
-                    {
-                        T element = matrix[j][i];
-                        matrix[j][i] = matrix[i][j];
-                        matrix[i][j] = element;
-                    }
-                }
-
-                return matrix;
-            }
-            else
-            {
-                T[][] result = new T[cols][];
-                for (int j = 0; j < cols; j++)
-                {
-                    result[j] = new T[rows];
-                    for (int i = 0; i < rows; i++)
-                        result[j][i] = matrix[i][j];
-                }
-
-                return result;
-            }
-        }
 
         /// <summary>
         ///   Gets the transpose of a row vector.
@@ -809,23 +471,6 @@ namespace Accord.Math
         /// 
         /// <returns>The transpose of the given vector.</returns>
         /// 
-        public static T[][] Transpose<T>(this T[] rowVector, out T[][] result)
-        {
-            result = new T[rowVector.Length][];
-            for (int i = 0; i < rowVector.Length; i++)
-                result[i] = new T[] { rowVector[i] };
-            return result;
-        }
-
-        /// <summary>
-        ///   Gets the transpose of a row vector.
-        /// </summary>
-        /// 
-        /// <param name="rowVector">A row vector.</param>
-        /// <param name="result">The matrix where to store the transpose.</param>
-        /// 
-        /// <returns>The transpose of the given vector.</returns>
-        /// 
         public static T[,] Transpose<T>(this T[] rowVector, T[,] result)
         {
             for (int i = 0; i < rowVector.Length; i++)
@@ -833,21 +478,6 @@ namespace Accord.Math
             return result;
         }
 
-        /// <summary>
-        ///   Gets the transpose of a row vector.
-        /// </summary>
-        /// 
-        /// <param name="rowVector">A row vector.</param>
-        /// <param name="result">The matrix where to store the transpose.</param>
-        /// 
-        /// <returns>The transpose of the given vector.</returns>
-        /// 
-        public static T[][] Transpose<T>(this T[] rowVector, T[][] result)
-        {
-            for (int i = 0; i < rowVector.Length; i++)
-                result[i] = new T[] { rowVector[i] };
-            return result;
-        }
 
         /// <summary>
         ///   Gets the generalized transpose of a tensor.
@@ -939,35 +569,6 @@ namespace Accord.Math
             return matrix.GetLength(1);
         }
 
-        /// <summary>
-        ///   Gets the number of rows in a jagged matrix.
-        /// </summary>
-        /// 
-        /// <typeparam name="T">The type of the elements in the matrix.</typeparam>
-        /// <param name="matrix">The matrix whose number of rows must be computed.</param>
-        /// 
-        /// <returns>The number of rows in the matrix.</returns>
-        /// 
-        public static int Rows<T>(this T[][] matrix)
-        {
-            return matrix.Length;
-        }
-
-        /// <summary>
-        ///   Gets the number of columns in a jagged matrix.
-        /// </summary>
-        /// 
-        /// <typeparam name="T">The type of the elements in the matrix.</typeparam>
-        /// <param name="matrix">The matrix whose number of columns must be computed.</param>
-        /// 
-        /// <returns>The number of columns in the matrix.</returns>
-        /// 
-        public static int Columns<T>(this T[][] matrix)
-        {
-            if (matrix.Length == 0)
-                return 0;
-            return matrix[0].Length;
-        }
 
         /// <summary>
         ///   Returns true if a vector of real-valued observations
@@ -1029,55 +630,11 @@ namespace Accord.Math
             return false;
         }
 
-        /// <summary>
-        ///   Returns true if a matrix is upper triangular.
-        /// </summary>
-        /// <param name="matrix"></param>
-        /// <returns></returns>
-        public static bool IsUpperTriangular<T>(this T[][] matrix) where T : IComparable
-        {
-            if (matrix == null) throw new ArgumentNullException("matrix");
 
-            T zero = default(T);
-
-            if (matrix.Length != matrix[0].Length)
-                return false;
-
-            for (int i = 0; i < matrix.Length; i++)
-                for (int j = 0; j < i; j++)
-                    if (matrix[i][j].CompareTo(zero) != 0)
-                        return false;
-
-            return true;
-        }
-
-        /// <summary>
-        ///   Returns true if a matrix is lower triangular.
-        /// </summary>
-        /// <param name="matrix"></param>
-        /// <returns></returns>
-        public static bool IsLowerTriangular<T>(this T[][] matrix) where T : IComparable
-        {
-            if (matrix == null) throw new ArgumentNullException("matrix");
-
-            T zero = default(T);
-
-            if (matrix.Length != matrix[0].Length)
-                return false;
-
-            for (int i = 0; i < matrix.Length; i++)
-                for (int j = i + 1; j < matrix[i].Length; j++)
-                    if (matrix[i][j].CompareTo(zero) != 0)
-                        return false;
-
-            return true;
-        }
 
         /// <summary>
         ///   Returns true if a matrix is upper triangular.
         /// </summary>
-        /// <param name="matrix"></param>
-        /// <returns></returns>
         public static bool IsUpperTriangular<T>(this T[,] matrix) where T : IComparable
         {
             if (matrix == null) throw new ArgumentNullException("matrix");
@@ -1098,8 +655,6 @@ namespace Accord.Math
         /// <summary>
         ///   Returns true if a matrix is lower triangular.
         /// </summary>
-        /// <param name="matrix"></param>
-        /// <returns></returns>
         public static bool IsLowerTriangular<T>(this T[,] matrix) where T : IComparable
         {
             if (matrix == null) throw new ArgumentNullException("matrix");
@@ -1118,10 +673,8 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns true if a matrix is lower triangular.
+        ///   Returns true if a matrix is diagonal
         /// </summary>
-        /// <param name="matrix"></param>
-        /// <returns></returns>
         public static bool IsDiagonal<T>(this T[,] matrix) where T : IComparable
         {
             if (matrix == null) throw new ArgumentNullException("matrix");
@@ -1138,54 +691,6 @@ namespace Accord.Math
 
             return true;
         }
-
-        /// <summary>
-        ///   Returns true if a matrix is lower triangular.
-        /// </summary>
-        /// <param name="matrix"></param>
-        /// <returns></returns>
-        public static bool IsDiagonal<T>(this T[][] matrix) where T : IComparable
-        {
-            if (matrix == null) throw new ArgumentNullException("matrix");
-
-            T zero = default(T);
-
-            if (matrix.Length != matrix[0].Length)
-                return false;
-
-            for (int i = 0; i < matrix.Length; i++)
-                for (int j = 0; j < matrix[i].Length; j++)
-                    if (i != j && matrix[i][j].CompareTo(zero) != 0)
-                        return false;
-
-            return true;
-        }
-
-        /// <summary>
-        ///   Returns true if a matrix is symmetric.
-        /// </summary>
-        /// <param name="matrix"></param>
-        /// <returns></returns>
-        public static bool IsSymmetric<T>(this T[][] matrix) where T : IComparable
-        {
-            if (matrix == null) throw new ArgumentNullException("matrix");
-
-            if (matrix.Length == matrix[0].Length)
-            {
-                for (int i = 0; i < matrix.Length; i++)
-                {
-                    for (int j = 0; j <= i; j++)
-                    {
-                        if (matrix[i][j].CompareTo(matrix[j][i]) != 0)
-                            return false;
-                    }
-                }
-                return true;
-            }
-            return false;
-        }
-
-
 
         /// <summary>
         ///   Gets the trace of a matrix.
@@ -1280,47 +785,6 @@ namespace Accord.Math
             for (int i = 0; i < rows; i++)
                 trace += matrix[i, i];
             return trace;
-        }
-
-        /// <summary>
-        ///   Gets the trace of a matrix.
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///   The trace of an n-by-n square matrix A is defined to be the sum of the
-        ///   elements on the main diagonal (the diagonal from the upper left to the
-        ///   lower right) of A.
-        /// </remarks>
-        /// 
-        public static float Trace(this float[][] matrix)
-        {
-            if (matrix == null)
-                throw new ArgumentNullException("matrix");
-
-            float trace = 0.0f;
-            for (int i = 0; i < matrix.Length; i++)
-                trace += matrix[i][i];
-            return trace;
-        }
-
-        /// <summary>
-        ///   Gets the diagonal vector from a matrix.
-        /// </summary>
-        /// 
-        /// <param name="matrix">A matrix.</param>
-        /// 
-        /// <returns>The diagonal vector from the given matrix.</returns>
-        /// 
-        public static T[] Diagonal<T>(this T[][] matrix)
-        {
-            if (matrix == null)
-                throw new ArgumentNullException("matrix");
-
-            T[] r = new T[matrix.Length];
-            for (int i = 0; i < r.Length; i++)
-                r[i] = matrix[i][i];
-
-            return r;
         }
 
         /// <summary>
@@ -1488,16 +952,6 @@ namespace Accord.Math
             return new CholeskyDecomposition(matrix).PositiveDefinite;
         }
 
-        /// <summary>
-        ///    Gets whether a matrix is positive definite.
-        /// </summary>
-        /// 
-        public static bool IsPositiveDefinite(this double[][] matrix)
-        {
-            if (matrix == null) throw new ArgumentNullException("matrix");
-
-            return new JaggedCholeskyDecomposition(matrix).PositiveDefinite;
-        }
         #endregion
 
 
@@ -1623,58 +1077,6 @@ namespace Accord.Math
             return sum;
         }
 
-        /// <summary>Calculates the matrix Sum vector.</summary>
-        /// <param name="matrix">A matrix whose sums will be calculated.</param>
-        /// <returns>Returns a vector containing the sums of each variable in the given matrix.</returns>
-        public static double[] Sum(this double[][] matrix)
-        {
-            return Sum(matrix, 0);
-        }
-
-        /// <summary>Calculates the matrix Sum vector.</summary>
-        /// <param name="matrix">A matrix whose sums will be calculated.</param>
-        /// <param name="dimension">The dimension in which the sum will be calculated.</param>
-        /// <returns>Returns a vector containing the sums of each variable in the given matrix.</returns>
-        public static double[] Sum(this double[][] matrix, int dimension)
-        {
-            if (matrix == null) throw new ArgumentNullException("matrix");
-
-            int rows = matrix.Length;
-            int cols = matrix[0].Length;
-
-            double[] sum;
-
-            if (dimension == 0)
-            {
-                sum = new double[cols];
-
-                for (int i = 0; i < matrix.Length; i++)
-                {
-                    double[] row = matrix[i];
-                    for (int j = 0; j < row.Length; j++)
-                        sum[j] += row[j];
-                }
-            }
-            else if (dimension == 1)
-            {
-                sum = new double[rows];
-
-                for (int j = 0; j < matrix.Length; j++)
-                {
-                    double[] row = matrix[j];
-                    double s = 0.0;
-                    for (int i = 0; i < row.Length; i++)
-                        s += row[i];
-                    sum[j] = s;
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Invalid dimension", "dimension");
-            }
-
-            return sum;
-        }
 
         /// <summary>Calculates the matrix Sum vector.</summary>
         /// <param name="matrix">A matrix whose sums will be calculated.</param>
@@ -1865,9 +1267,102 @@ namespace Accord.Math
 
         #region Operation Mapping (Apply)
 
+
+
+
+
         /// <summary>
         ///   Applies a function to every element of the array.
         /// </summary>
+        /// 
+        public static TResult[] Apply<TInput, TResult>(this TInput[] vector, Func<TInput, TResult> func)
+        {
+            return Apply(vector, func, new TResult[vector.Length]);
+        }
+
+        /// <summary>
+        ///   Applies a function to every element of the array.
+        /// </summary>
+        /// 
+        public static TResult[] Apply<TInput, TResult>(this TInput[] vector, Func<TInput, int, TResult> func)
+        {
+            return Apply(vector, func, new TResult[vector.Length]);
+        }
+
+        /// <summary>
+        ///   Applies a function to every element of the array.
+        /// </summary>
+        /// 
+        public static TResult[] Apply<TInput, TResult>(this TInput[] vector, Func<TInput, TResult> func, TResult[] result)
+        {
+            for (int i = 0; i < vector.Length; i++)
+                result[i] = func(vector[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Applies a function to every element of the array.
+        /// </summary>
+        /// 
+        public static TResult[] Apply<TInput, TResult>(this TInput[] vector, Func<TInput, int, TResult> func, TResult[] result)
+        {
+            for (int i = 0; i < vector.Length; i++)
+                result[i] = func(vector[i], i);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Applies a function to every element of the array.
+        /// </summary>
+        /// 
+        public static TResult[,] Apply<TInput, TResult>(this TInput[,] matrix, Func<TInput, TResult> func)
+        {
+            return Apply(matrix, func, Matrix.CreateAs<TInput, TResult>(matrix));
+        }
+
+        /// <summary>
+        ///   Applies a function to every element of the array.
+        /// </summary>
+        /// 
+        public static TResult[,] Apply<TInput, TResult>(this TInput[,] matrix, Func<TInput, int, int, TResult> func)
+        {
+            return Apply(matrix, func, Matrix.CreateAs<TInput, TResult>(matrix));
+        }
+
+        /// <summary>
+        ///   Applies a function to every element of the array.
+        /// </summary>
+        /// 
+        public static TResult[,] Apply<TInput, TResult>(this TInput[,] matrix, Func<TInput, TResult> func, TResult[,] result)
+        {
+            for (int i = 0; i < matrix.GetLength(0); i++)
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                    result[i, j] = func(matrix[i, j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Applies a function to every element of the array.
+        /// </summary>
+        /// 
+        public static TResult[,] Apply<TInput, TResult>(this TInput[,] matrix, Func<TInput, int, int, TResult> func, TResult[,] result)
+        {
+            for (int i = 0; i < matrix.GetLength(0); i++)
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                    result[i, j] = func(matrix[i, j], i, j);
+            return result;
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Applies a function to every element of the array.
+        /// </summary>
+        [Obsolete("Please use Apply passing a result parameter instead.")]
         public static void ApplyInPlace<T>(this T[] vector, Func<T, T> func)
         {
             if (vector == null) throw new ArgumentNullException("vector");
@@ -1877,19 +1372,10 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Applies a function to every element of the array.
-        /// </summary>
-        public static void ApplyInPlace<T>(this T[] vector, Func<T, int, T> func)
-        {
-            if (vector == null) throw new ArgumentNullException("vector");
-
-            for (int i = 0; i < vector.Length; i++)
-                vector[i] = func(vector[i], i);
-        }
-
-        /// <summary>
         ///   Applies a function to every element of a matrix.
         /// </summary>
+        /// 
+        [Obsolete("Please use Apply passing a result parameter instead.")]
         public static void ApplyInPlace<T>(this T[,] matrix, Func<T, T> func)
         {
             if (matrix == null) throw new ArgumentNullException("matrix");
@@ -1905,9 +1391,11 @@ namespace Accord.Math
         /// <summary>
         ///   Applies a function to every element of a matrix.
         /// </summary>
+        [Obsolete("Please use Apply passing a result parameter instead.")]
         public static void ApplyInPlace<T>(this T[,] matrix, Func<T, int, int, T> func)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -1917,27 +1405,17 @@ namespace Accord.Math
                     matrix[i, j] = func(matrix[i, j], i, j);
         }
 
-        /// <summary>
-        ///   Applies a function to every element of the array.
-        /// </summary>
-        public static TResult[] Apply<TData, TResult>(this TData[] vector, Func<TData, TResult> func)
-        {
-            if (vector == null) throw new ArgumentNullException("vector");
 
-            TResult[] result = new TResult[vector.Length];
-
-            for (int i = 0; i < vector.Length; i++)
-                result[i] = func(vector[i]);
-
-            return result;
-        }
 
         /// <summary>
         ///   Applies a function to every element of the array.
         /// </summary>
+        /// 
+        [Obsolete("Please use Apply passing a result parameter instead.")]
         public static TResult[] ApplyWithIndex<TData, TResult>(this TData[] vector, Func<TData, int, TResult> func)
         {
-            if (vector == null) throw new ArgumentNullException("vector");
+            if (vector == null)
+                throw new ArgumentNullException("vector");
 
             TResult[] result = new TResult[vector.Length];
 
@@ -1950,25 +1428,8 @@ namespace Accord.Math
         /// <summary>
         ///   Applies a function to every element of a matrix.
         /// </summary>
-        public static TResult[,] Apply<TData, TResult>(this TData[,] matrix, Func<TData, TResult> func)
-        {
-            if (matrix == null) throw new ArgumentNullException("matrix");
-
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            TResult[,] r = new TResult[rows, cols];
-
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < cols; j++)
-                    r[i, j] = func(matrix[i, j]);
-
-            return r;
-        }
-
-        /// <summary>
-        ///   Applies a function to every element of a matrix.
-        /// </summary>
+        /// 
+        [Obsolete("Please use Apply passing a result parameter instead.")]
         public static TResult[,] ApplyWithIndex<TData, TResult>(this TData[,] matrix, Func<TData, int, int, TResult> func)
         {
             if (matrix == null) throw new ArgumentNullException("matrix");
@@ -1988,15 +1449,20 @@ namespace Accord.Math
         /// <summary>
         ///   Applies a function to every element of the array.
         /// </summary>
+        /// 
         public static TResult[] Apply<TData, TResult>(this IList<TData> vector, Func<TData, TResult> func)
         {
-            if (vector == null) throw new ArgumentNullException("vector");
+            return Apply(vector, func, new TResult[vector.Count]);
+        }
 
-            TResult[] result = new TResult[vector.Count];
-
+        /// <summary>
+        ///   Applies a function to every element of the array.
+        /// </summary>
+        /// 
+        public static TResult[] Apply<TData, TResult>(this IList<TData> vector, Func<TData, TResult> func, TResult[] result)
+        {
             for (int i = 0; i < vector.Count; i++)
                 result[i] = func(vector[i]);
-
             return result;
         }
         #endregion
@@ -2109,34 +1575,22 @@ namespace Accord.Math
 
 
         #region Morphological operations
+
         /// <summary>
-        ///   Transforms a vector into a matrix of given dimensions.
+        ///   Transforms a matrix into a single vector.
         /// </summary>
-        public static T[,] Reshape<T>(this T[] array, int rows, int cols)
+        /// 
+        /// <param name="matrix">A matrix.</param>
+        /// <param name="order">The direction to perform copying. Pass
+        ///   1 to perform a copy by reading the matrix in row-major order.
+        ///   Pass 0 to perform a copy in column-major copy. Default is 1 
+        ///   (row-major, c-style order).</param>
+        /// 
+        public static T[] Reshape<T>(this T[,] matrix, MatrixOrder order = MatrixOrder.Default)
         {
-            if (array == null)
-                throw new ArgumentNullException("array");
-
-            if (rows < 0)
-                throw new ArgumentOutOfRangeException("rows",
-                    rows, "Number of rows must be a positive integer.");
-
-            if (cols < 0)
-                throw new ArgumentOutOfRangeException("cols",
-                cols, "Number of columns must be a positive integer.");
-
-            if (array.Length != rows * cols)
-                throw new ArgumentOutOfRangeException("array",
-                    "The length of the array should equal the product of "
-                    + "the parameter \"rows\" times parameter \"cols\".");
-
-            var result = new T[rows, cols];
-            int k = 0;
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < cols; j++)
-                    result[i, j] = array[k++];
-
-            return result;
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+            return Reshape(matrix, new T[rows * cols], order);
         }
 
         /// <summary>
@@ -2144,50 +1598,28 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="matrix">A matrix.</param>
+        /// <param name="result">The vector where to store the copy.</param>
+        /// <param name="order">The direction to perform copying. Pass
+        ///   1 to perform a copy by reading the matrix in row-major order.
+        ///   Pass 0 to perform a copy in column-major copy. Default is 1 
+        ///   (row-major, c-style order).</param>
         /// 
-        public static T[] Reshape<T>(this T[,] matrix)
+        public static T[] Reshape<T>(this T[,] matrix, T[] result, MatrixOrder order = MatrixOrder.Default)
         {
-            return Reshape(matrix, 0);
-        }
-
-        /// <summary>
-        ///   Transforms a matrix into a single vector.
-        /// </summary>
-        /// 
-        /// <param name="matrix">A matrix.</param>
-        /// <param name="dimension">The direction to perform copying. Pass
-        /// 0 to perform a row-wise copy. Pass 1 to perform a column-wise
-        /// copy. Default is 0.</param>
-        /// 
-        public static T[] Reshape<T>(this T[,] matrix, int dimension)
-        {
-            if (matrix == null)
-                throw new ArgumentNullException("matrix");
-
-            if (dimension < 0)
-                throw new ArgumentOutOfRangeException("dimension", dimension,
-                    "Vector's dimension must be a positive integer.");
-
-            if (matrix.Rank > 2)
-                throw new RankException("The method only works with matrices of rank 2.");
-
-            if (dimension != 0 && dimension != 1)
-                throw new ArgumentOutOfRangeException("dimension");
-
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
 
-            T[] result = new T[rows * cols];
-
-            if (dimension == 1)
+            if (order == MatrixOrder.CRowMajor)
             {
-                for (int j = 0, k = 0; j < rows; j++)
+                int k = 0;
+                for (int j = 0; j < rows; j++)
                     for (int i = 0; i < cols; i++)
                         result[k++] = matrix[j, i];
             }
             else
             {
-                for (int i = 0, k = 0; i < cols; i++)
+                int k = 0;
+                for (int i = 0; i < cols; i++)
                     for (int j = 0; j < rows; j++)
                         result[k++] = matrix[j, i];
             }
@@ -2195,14 +1627,23 @@ namespace Accord.Math
             return result;
         }
 
+
         /// <summary>
         ///   Transforms a jagged array matrix into a single vector.
         /// </summary>
-        /// <param name="array">A jagged array.</param>
         /// 
-        public static T[] Reshape<T>(this T[][] array)
+        /// <param name="array">A jagged array.</param>
+        /// <param name="order">The direction to perform copying. Pass
+        ///   1 to perform a copy by reading the matrix in row-major order.
+        ///   Pass 0 to perform a copy in column-major copy. Default is 1 
+        ///   (row-major, c-style order).</param>
+        /// 
+        public static T[] Reshape<T>(this T[][] array, MatrixOrder order = MatrixOrder.Default)
         {
-            return Reshape(array, 0);
+            int count = 0;
+            for (int i = 0; i < array.Length; i++)
+                count += array[i].Length;
+            return Reshape(array, new T[count], order);
         }
 
         /// <summary>
@@ -2210,31 +1651,18 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="array">A jagged array.</param>
-        /// <param name="dimension">The direction to perform copying. Pass
-        /// 0 to perform a row-wise copy. Pass 1 to perform a column-wise
-        /// copy. Default is 0.</param>
+        /// <param name="result">The vector where to store the copy.</param>
+        /// <param name="order">The direction to perform copying. Pass
+        ///   1 to perform a copy by reading the matrix in row-major order.
+        ///   Pass 0 to perform a copy in column-major copy. Default is 1 
+        ///   (row-major, c-style order).</param>
         /// 
-        public static T[] Reshape<T>(this T[][] array, int dimension)
+        public static T[] Reshape<T>(this T[][] array, T[] result, MatrixOrder order = MatrixOrder.Default)
         {
-            if (array == null)
-                throw new ArgumentNullException("array");
-
-            if (dimension < 0)
-                throw new ArgumentOutOfRangeException("dimension", dimension,
-                "Vector's dimension must be a positive integer.");
-
-            if (dimension != 0 && dimension != 1)
-                throw new ArgumentOutOfRangeException("dimension");
-
-            int count = 0;
-            for (int i = 0; i < array.Length; i++)
-                count += array[i].Length;
-
-            T[] result = new T[count];
-
-            if (dimension == 1)
+            if (order == MatrixOrder.CRowMajor)
             {
-                for (int j = 0, k = 0; j < array.Length; j++)
+                int k = 0;
+                for (int j = 0; j < array.Length; j++)
                     for (int i = 0; i < array[j].Length; i++)
                         result[k++] = array[j][i];
             }
@@ -2323,18 +1751,6 @@ namespace Accord.Math
             return result;
         }
 
-        /// <summary>
-        ///   Creates a memberwise copy of a jagged matrix. Matrix elements
-        ///   themselves are copied only in a shallowed manner (i.e. not cloned).
-        /// </summary>
-        /// 
-        public static T[][] MemberwiseClone<T>(this T[][] a)
-        {
-            T[][] clone = new T[a.Length][];
-            for (int i = 0; i < a.Length; i++)
-                clone[i] = (T[])a[i].Clone();
-            return clone;
-        }
 
         /// <summary>
         ///   Creates a memberwise copy of a multidimensional matrix. Matrix elements
@@ -2360,37 +1776,6 @@ namespace Accord.Math
             Array.Copy(matrix, 0, destination, 0, matrix.Length);
         }
 
-        /// <summary>
-        ///   Copies the content of an array to another array.
-        /// </summary>
-        /// 
-        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
-        /// 
-        /// <param name="matrix">The source matrix to be copied.</param>
-        /// <param name="destination">The matrix where the elements should be copied to.</param>
-        /// 
-        public static void CopyTo<T>(this T[][] matrix, T[][] destination)
-        {
-            for (int i = 0; i < matrix.Length; i++)
-                for (int j = 0; j < matrix[i].Length; j++)
-                    destination[i][j] = matrix[i][j];
-        }
-
-        /// <summary>
-        ///   Copies the content of an array to another array.
-        /// </summary>
-        /// 
-        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
-        /// 
-        /// <param name="matrix">The source matrix to be copied.</param>
-        /// <param name="destination">The matrix where the elements should be copied to.</param>
-        /// 
-        public static void CopyTo<T>(this T[][] matrix, T[,] destination)
-        {
-            for (int i = 0; i < matrix.Length; i++)
-                for (int j = 0; j < matrix[i].Length; j++)
-                    destination[i, j] = matrix[i][j];
-        }
 
         /// <summary>
         ///   Copies the content of an array to another array.
@@ -2420,7 +1805,7 @@ namespace Accord.Math
         /// <returns>A new array where all instances of <paramref name="from"/>
         ///   have been replaced with <paramref name="to"/>.</returns>
         /// 
-        public static T Replace<T>(this T array, object from, object to) 
+        public static T Replace<T>(this T array, object from, object to)
             where T : class
         {
             Array ar = array as Array;
