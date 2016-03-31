@@ -47,7 +47,7 @@ namespace Accord.Math.Environments
         /// 
         protected mat matrix(double[] values, int rows, int cols)
         {
-            return Matrix.Reshape(values, rows, cols);
+            return Matrix.Reshape(values, rows, cols, MatrixOrder.FortranColumnMajor);
         }
 
 

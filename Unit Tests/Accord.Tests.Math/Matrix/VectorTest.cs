@@ -32,7 +32,7 @@ namespace Accord.Tests.Math
         [Test]
         public void ExpandTest()
         {
-            int[] v = Vector.Create<int>(5);
+            int[] v = Vector.Zeros<int>(5);
             double[] u = Vector.Create(5, 1.0);
             int[] w = Vector.Create(1, 2, 3);
 

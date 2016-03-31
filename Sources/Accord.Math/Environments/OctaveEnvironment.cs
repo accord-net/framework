@@ -170,7 +170,7 @@ namespace Accord.Math.Environments
         /// <summary>Creates a unit matrix.</summary>
         protected static mat zeros(int n, int m) { return Matrix.Create(n, m, 0.0); }
         /// <summary>Random vector.</summary>
-        protected static mat rand(int n, int m) { return Matrix.Random(n, m, 0, 1); }
+        protected static mat rand(int n, int m) { return Matrix.Random(n, m); }
         /// <summary>Size of a matrix.</summary>
         protected static double[] size(double[,] m) { return new double[] { m.GetLength(0), m.GetLength(1) }; }
         /// <summary>Rank of a matrix.</summary>

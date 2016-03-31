@@ -128,10 +128,10 @@ namespace Accord.Math.Decompositions
         private void compute(int maxiter)
         {
             // chose W and H randomly, W with unit norm
-            W = Accord.Math.Matrix.Random(m, r, 0, 1);
-            H = Accord.Math.Matrix.Random(r, n, 0, 1);
+            W = Accord.Math.Matrix.Random(m, r);
+            H = Accord.Math.Matrix.Random(r, n);
 
-            double[,] Z = new double[r, r];
+            var Z = new double[r, r];
 
             // a small epsilon is added to the
             //  denominator to avoid overflow.
@@ -140,8 +140,8 @@ namespace Accord.Math.Decompositions
 
             for (int t = 0; t < maxiter; t++)
             {
-                double[,] newW = new double[m, r];
-                double[,] newH = new double[r, n];
+                var newW = new double[m, r];
+                var newH = new double[r, n];
 
 
                 // Update H using the multiplicative

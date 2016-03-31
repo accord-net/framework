@@ -31,23 +31,6 @@ namespace Accord.Tests.Math
     {
 
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-
         [Test]
         public void ForwardTest()
         {
@@ -79,7 +62,7 @@ namespace Accord.Tests.Math
                 { -0.2970, -0.0627,  0.1960,  0.0644, -0.1136, -0.1031 ,   0.1887  ,  0.1444  },
             };
 
-            Assert.IsTrue(actual.IsEqual(expected, 0.05));
+            Assert.IsTrue(actual.IsEqual(expected, atol: 0.05));
         }
 
         [Test]
@@ -113,7 +96,7 @@ namespace Accord.Tests.Math
                 { 0.996078431372549, 0.996078431372549, 0.996078431372549, 0.996078431372549, 0.996078431372549, 0.996078431372549, 0.996078431372549, 0.996078431372549 }
             };
 
-            Assert.IsTrue(actual.IsEqual(expected, 0.05));
+            Assert.IsTrue(actual.IsEqual(expected, atol: 0.05));
         }
     }
 }

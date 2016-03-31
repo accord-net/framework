@@ -111,8 +111,8 @@ namespace Accord.Tests.Math
             {
                 for (int j = 1; j < 6; j++)
                 {
-                    var A = Matrix.Random(j, j, -1, 1);
-                    var B = Matrix.Random(j, j, -1, 1);
+                    var A = Matrix.Random(j, j, -1.0, 1.0);
+                    var B = Matrix.Random(j, j, -1.0, 1.0);
 
                     var gevd = new GeneralizedEigenvalueDecomposition(A, B);
 
@@ -130,8 +130,8 @@ namespace Accord.Tests.Math
             for (int i = 0; i < 100; i++)
             {
                 int j = 50;
-                var A = Matrix.Random(j, j, -1, 1);
-                var B = Matrix.Random(j, j, -1, 1);
+                var A = Matrix.Random(j, j, -1.0, 1.0);
+                var B = Matrix.Random(j, j, -1.0, 1.0);
 
                 var gevd = new GeneralizedEigenvalueDecomposition(A, B);
 

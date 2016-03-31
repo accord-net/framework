@@ -185,7 +185,7 @@ namespace Accord.Tests.Math
                 QrDecomposition target = new QrDecomposition(value);
                 double[,] actual = target.Solve(b);
 
-                Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-4));
+                Assert.IsTrue(Matrix.IsEqual(expected, actual, atol: 1e-4));
             }
 
             // Vectors
@@ -196,7 +196,7 @@ namespace Accord.Tests.Math
                 QrDecomposition target = new QrDecomposition(value);
                 double[] actual = target.Solve(b);
 
-                Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-4));
+                Assert.IsTrue(Matrix.IsEqual(expected, actual, atol: 1e-4));
             }
         }
 

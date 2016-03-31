@@ -44,6 +44,7 @@
 namespace Accord.Math
 {
     using System;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Set of special mathematic functions.
@@ -697,5 +698,55 @@ namespace Accord.Math
         }
 
         #endregion
+
+        /// <summary>
+        ///   Computes the Softmax function (also known as normalized Exponencial
+        ///   function) that "squashes"a vector or arbitrary real values into a 
+        ///   vector of real values in the range (0, 1) that add up to 1.
+        /// </summary>
+        /// 
+        /// <param name="input">The real values to be converted into the unit interval.</param>
+        /// 
+        /// <returns>A vector with the same number of dimensions as <paramref name="input"/>
+        ///   but where values lie between 0 and 1.</returns>
+        ///   
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Softmax(double[] input)
+        {
+            return Softmax(input, new double[input.Length]);
+        }
+
+        /// <summary>
+        ///   Computes the Softmax function (also known as normalized Exponencial
+        ///   function) that "squashes"a vector or arbitrary real values into a 
+        ///   vector of real values in the range (0, 1) that add up to 1.
+        /// </summary>
+        /// 
+        /// <param name="input">The real values to be converted into the unit interval.</param>
+        /// <param name="result">The location where to store the result of this operation.</param>
+        /// 
+        /// <returns>A vector with the same number of dimensions as <paramref name="input"/>
+        ///   but where values lie between 0 and 1.</returns>
+        ///   
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Softmax(double[] input, double[] result)
+        {
+            double sum = 0;
+            for (int i = 0; i < input.Length; i++)
+            {
+                double u = Math.Exp(input[i]);
+                result[i] = u;
+                sum += u;
+            }
+
+            for (int i = 0; i < result.Length; i++)
+                result[i] /= sum;
+
+            return result;
+        }
     }
 }

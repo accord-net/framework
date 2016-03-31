@@ -74,7 +74,7 @@ namespace Accord.Tests.Math
 
             double threshold = 0.03;
             bool expected = true;
-            bool actual = Matrix.IsEqual(a, b, threshold);
+            bool actual = Matrix.IsEqual(a, b, atol: threshold);
             Assert.AreEqual(expected, actual);
         }
 
@@ -334,7 +334,7 @@ namespace Accord.Tests.Math
             };
 
             double[] b = { 1, 2 };
-            int dimension = 0;
+            int dimension = 1;
             double[,] expected = 
             {
                 { 1, 2, 3 },
@@ -346,7 +346,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual));
 
             b = new double[] { 1, 2, 3 };
-            dimension = 1;
+            dimension = 0;
             expected = new double[,]
             {
                 { 1, 1, 1 },
@@ -560,7 +560,7 @@ namespace Accord.Tests.Math
                 { 0, -2, 1 },
             };
             double[] b = { 1, 2 };
-            int dimension = 0;
+            int dimension = 1;
 
             double[,] expected =
             {
@@ -573,7 +573,7 @@ namespace Accord.Tests.Math
 
 
             b = new double[] { 4, 1, 2 };
-            dimension = 1;
+            dimension = 0;
 
             expected = new double[,]
             {
@@ -1558,7 +1558,7 @@ namespace Accord.Tests.Math
             double[,] result = new double[6, 3];
             Matrix.DivideByDiagonal(a, b, result);
 
-            double[,] expected = Elementwise.Divide(a, Matrix.Diagonal(b));
+            double[,] expected = Matrix.Divide(a, Matrix.Diagonal(b));
 
             Assert.IsTrue(expected.IsEqual(result, 1e-6));
         }
@@ -2110,7 +2110,7 @@ namespace Accord.Tests.Math
         {
             float[] vector = { 1, 2, 3 };
             Func<float, int, float> func = (x, i) => x + i;
-            Matrix.ApplyInPlace(vector, func);
+            Matrix.Apply(vector, func, vector);
             float[] expected = { 1, 3, 5 };
 
             Assert.IsTrue(expected.IsEqual(vector));

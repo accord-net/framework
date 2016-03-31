@@ -169,7 +169,7 @@ namespace Accord.Tests.Math
                 var target = new JaggedQrDecomposition(value);
                 double[][] actual = target.Solve(b);
 
-                Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-4));
+                Assert.IsTrue(Matrix.IsEqual(expected, actual, atol: 1e-4));
             }
 
             // Vectors
@@ -180,7 +180,7 @@ namespace Accord.Tests.Math
                 var target = new JaggedQrDecomposition(value);
                 double[] actual = target.Solve(b);
 
-                Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-4));
+                Assert.IsTrue(Matrix.IsEqual(expected, actual, atol: 1e-4));
             }
         }
 

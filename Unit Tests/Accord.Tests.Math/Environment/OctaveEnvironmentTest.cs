@@ -153,7 +153,7 @@ namespace Accord.Tests.Math
 
             public MyAlgorithm()
             {
-                I = eye(5);
+                I = eye(2);
 
                 A = new[,]
                 {

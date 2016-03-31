@@ -866,47 +866,6 @@ namespace Accord.Math
             return x;
         }
 
-        /// <summary>
-        ///   Random Gamma-distribution number generation 
-        ///   based on Marsaglia's Simple Method (2000).
-        /// </summary>
-        /// 
-        public static double Random(double d, double c)
-        {
-            var g = new GaussianGenerator(0, 1, Generator.Random.Next());
-
-            // References:
-            //
-            // - Marsaglia, G. A Simple Method for Generating Gamma Variables, 2000
-            //
-
-            while (true)
-            {
-                // 2. Generate v = (1+cx)^3 with x normal
-                double x, t, v;
-
-                do
-                {
-                    x = g.Next();
-                    t = (1.0 + c * x);
-                    v = t * t * t;
-                } while (v <= 0);
-
-
-                // 3. Generate uniform U
-                double U = Accord.Math.Random.Generator.Random.NextDouble();
-
-                // 4. If U < 1-0.0331*x^4 return d*v.
-                double x2 = x * x;
-                if (U < 1 - 0.0331 * x2 * x2)
-                    return d * v;
-
-                // 5. If log(U) < 0.5*x^2 + d*(1-v+log(v)) return d*v.
-                if (Math.Log(U) < 0.5 * x2 + d * (1.0 - v + Math.Log(v)))
-                    return d * v;
-
-                // 6. Goto step 2
-            }
-        }
+        
     }
 }

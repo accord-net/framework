@@ -228,5 +228,55 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
+        [Test]
+        public void DotWithTransposeTest()
+        {
+            double[,] a = Matrix.Random(5, 3);
+            double[,] b = Matrix.Random(2, 3);
+            double[,] actual = new double[5, 2];
+
+            double[,] expected = Matrix.Dot(a, b.Transpose());
+            Matrix.DotWithTransposed(a, b, actual);
+
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
+        public void DotWithTransposeTest_Jagged1()
+        {
+            double[][] a = Jagged.Random(5, 3);
+            double[,] b = Matrix.Random(2, 3);
+
+            double[][] expected = Matrix.Dot(a, b.Transpose());
+            double[][] actual = Matrix.DotWithTransposed(a, b);
+
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
+        public void DotWithTransposeTest_Jagged2()
+        {
+            double[,] a = Matrix.Random(5, 3);
+            double[][] b = Jagged.Random(2, 3);
+
+            double[][] expected = Matrix.Dot(a, b.Transpose());
+            double[][] actual = Matrix.DotWithTransposed(a, b);
+
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
+        public void DotWithTransposeTest_Jagged()
+        {
+            double[][] a = Jagged.Random(5, 3);
+            double[][] b = Jagged.Random(2, 3);
+
+            double[][] expected = Matrix.Dot(a, b.Transpose());
+            double[][] actual = Matrix.DotWithTransposed(a, b);
+
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+
     }
 }

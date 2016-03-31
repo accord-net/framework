@@ -80,7 +80,7 @@ namespace Accord.Tests.Math
 
             float[] actual = target.Solve(rhs);
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001f));
         }
 
         [Test]
@@ -104,7 +104,7 @@ namespace Accord.Tests.Math
 
             float[][] actualInverse = target.Inverse();
 
-            Assert.IsTrue(Matrix.IsEqual(expectedInverse, actualInverse, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expectedInverse, actualInverse, 0.001f));
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace Accord.Tests.Math
 
             float[][] actual = target.Solve(rhs);
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001f));
         }
 
         [Test]
@@ -165,8 +165,8 @@ namespace Accord.Tests.Math
             };
 
 
-            Assert.IsTrue(Matrix.IsEqual(expectedL, L, 0.001));
-            Assert.IsTrue(Matrix.IsEqual(expectedU, U, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expectedL, L, 0.001f));
+            Assert.IsTrue(Matrix.IsEqual(expectedU, U, 0.001f));
         }
 
         [Test]
@@ -186,7 +186,7 @@ namespace Accord.Tests.Math
 
             float[] actual = target.Solve(rhs);
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001f));
         }
 
         [Test]
@@ -240,7 +240,7 @@ namespace Accord.Tests.Math
             };
 
             float[][] actual = new JaggedLuDecompositionF(b, transpose: true).SolveTranspose(a);
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001f));
         }
 
         [Test]
@@ -275,8 +275,8 @@ namespace Accord.Tests.Math
             float[][] actualL = target.LowerTriangularFactor;
             float[][] actualU = target.UpperTriangularFactor;
 
-            Assert.IsTrue(Matrix.IsEqual(expectedL, actualL, 0.001));
-            Assert.IsTrue(Matrix.IsEqual(expectedU, actualU, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expectedL, actualL, 0.001f));
+            Assert.IsTrue(Matrix.IsEqual(expectedU, actualU, 0.001f));
 
 
             target = new JaggedLuDecompositionF(value.Transpose(), true);
@@ -284,8 +284,8 @@ namespace Accord.Tests.Math
             actualL = target.LowerTriangularFactor;
             actualU = target.UpperTriangularFactor;
 
-            Assert.IsTrue(Matrix.IsEqual(expectedL, actualL, 0.001));
-            Assert.IsTrue(Matrix.IsEqual(expectedU, actualU, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expectedL, actualL, 0.001f));
+            Assert.IsTrue(Matrix.IsEqual(expectedU, actualU, 0.001f));
         }
 
         [Test]

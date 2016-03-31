@@ -30,7 +30,7 @@ namespace Accord.Math.Optimization.Losses
     /// </summary>
     /// 
     [Serializable]
-    public class AccuracyLoss : LossBase<int[]>, ILoss<double[][]>
+    public class ZeroOneLoss : LossBase<int[]>, ILoss<double[][]>
     {
         private bool mean;
 
@@ -50,19 +50,19 @@ namespace Accord.Math.Optimization.Losses
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AccuracyLoss"/> class.
+        /// Initializes a new instance of the <see cref="ZeroOneLoss"/> class.
         /// </summary>
         /// <param name="expected">The expected outputs (ground truth).</param>
-        public AccuracyLoss(double[][] expected)
+        public ZeroOneLoss(double[][] expected)
             : base(expected.ArgMax(dimension: 0))
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AccuracyLoss"/> class.
+        /// Initializes a new instance of the <see cref="ZeroOneLoss"/> class.
         /// </summary>
         /// <param name="expected">The expected outputs (ground truth).</param>
-        public AccuracyLoss(int[] expected)
+        public ZeroOneLoss(int[] expected)
             : base(expected)
         {
         }
