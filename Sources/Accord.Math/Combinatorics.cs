@@ -289,7 +289,7 @@ namespace Accord.Math
 
             while (true)
             {
-                yield return inPlace ? current : (int[])current;
+                yield return inPlace ? current : (int[])current.Clone();
 
                 for (int j = symbols.Length - 1; j >= 0; j--)
                 {
