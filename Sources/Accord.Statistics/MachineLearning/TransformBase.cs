@@ -32,7 +32,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TOutput">The type for the input data that exits from the model. Default is double[].</typeparam>
     /// 
     [Serializable]
-    public abstract class BaseTransform<TInput, TOutput> : ITransform<TInput, TOutput>
+    public abstract class TransformBase<TInput, TOutput> : ITransform<TInput, TOutput>
     {
         private int inputs;
         private int outputs;
@@ -118,7 +118,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TInput">The type for the output data that enters in the model. Default is double[].</typeparam>
     /// 
     [Serializable]
-    public abstract class BaseTransform<TInput> : BaseTransform<TInput, double>
+    public abstract class TransformBase<TInput> : TransformBase<TInput, double>
     {
     }
 
@@ -127,7 +127,7 @@ namespace Accord.MachineLearning
     /// </summary>
     /// 
     [Serializable]
-    public abstract class BaseTransform : BaseTransform<double[]>
+    public abstract class TransformBase : TransformBase<double[]>
     {
     }
 }

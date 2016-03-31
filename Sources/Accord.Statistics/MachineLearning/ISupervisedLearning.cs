@@ -46,10 +46,10 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
         TModel Learn(TInput[] x, TOutput[] y);
-
 
     }
 }

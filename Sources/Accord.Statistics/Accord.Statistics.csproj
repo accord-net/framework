@@ -138,6 +138,7 @@
     <Compile Include="Distributions\Multivariate\Continuous\WishartDistribution.cs" />
     <Compile Include="Distributions\Multivariate\IMixtureComponent.cs" />
     <Compile Include="Distributions\Multivariate\Independent.cs" />
+    <Compile Include="Distributions\Sampling\MetropolisHasting.cs" />
     <Compile Include="Distributions\Univariate\Accord.Statistics.Distributions.Univariate.cs" />
     <Compile Include="Distributions\Univariate\Base\IUnivariateDistribution.cs" />
     <Compile Include="Distributions\Fitting\CauchyOptions.cs" />
@@ -198,6 +199,7 @@
     <Compile Include="Distributions\Multivariate\Discrete\JointDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\WilcoxonDistribution.cs" />
     <Compile Include="Distributions\Univariate\Discrete\DegenerateDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Discrete\SymmetricGeometricDistribution.cs" />
     <Compile Include="Distributions\Univariate\Discrete\NegativeBinomialDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\ParetoDistribution.cs" />
     <Compile Include="Distributions\Univariate\Discrete\UniformDiscreteDistribution.cs" />
@@ -306,10 +308,11 @@
     <Compile Include="Links\LogLinkFunction.cs" />
     <Compile Include="Links\InverseSquaredLinkFunction.cs" />
     <Compile Include="Links\ProbitLinkFunction.cs" />
-    <Compile Include="MachineLearning\BaseTransform.cs" />
-    <Compile Include="MachineLearning\BaseClassifier.cs" />
+    <Compile Include="MachineLearning\GenerativeClassifierBase.cs" />
+    <Compile Include="MachineLearning\TransformBase.cs" />
+    <Compile Include="MachineLearning\ClassifierBase.cs" />
     <Compile Include="MachineLearning\IClassifier.cs" />
-    <Compile Include="MachineLearning\IProbabilisticClassifier.cs" />
+    <Compile Include="MachineLearning\IGenerativeClassifier.cs" />
     <Compile Include="MachineLearning\ISupervisedLearning.cs" />
     <Compile Include="MachineLearning\ITransform.cs" />
     <Compile Include="MachineLearning\IUnsupervisedLearning.cs" />
@@ -514,6 +517,7 @@
     <None Include="Distributions\Multivariate\Accord.Statistics.Distributions.Multivariate.cd" />
     <None Include="Distributions\Univariate\Accord.Statistics.Distributions.Univariate.cd" />
     <None Include="Kernels\Accord.Statistics.Kernels.cd" />
+    <None Include="MachineLearning\Accord.MachineLearning.Core.cd" />
     <None Include="Models\Accord.Statistics.Models.cd">
       <SubType>Designer</SubType>
     </None>

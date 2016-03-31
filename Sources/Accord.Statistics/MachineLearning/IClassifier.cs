@@ -22,7 +22,6 @@
 
 namespace Accord.MachineLearning
 {
-
     /// <summary>
     ///   Common interface for classification models. Classification models
     ///   learn how to produce a class-label (or a set of class labels) <c>y</c>
