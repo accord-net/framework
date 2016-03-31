@@ -13,6 +13,7 @@ namespace Accord.Imaging.Filters
     using System.Drawing.Imaging;
     using Accord;
     using Accord.Math.Random;
+    using Accord.Statistics.Distributions.Univariate;
 
     /// <summary>
     /// Additive noise filter.
@@ -44,7 +45,7 @@ namespace Accord.Imaging.Filters
     public class AdditiveNoise : BaseInPlacePartialFilter
     {
         // random number generator to add noise
-        IRandomNumberGenerator generator = new UniformGenerator(new Range(-10, 10));
+        IRandomNumberGenerator<double> generator = new UniformContinuousDistribution(new Range(-10, 10));
 
         // private format translation dictionary
         private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
@@ -58,12 +59,12 @@ namespace Accord.Imaging.Filters
         }
 
         /// <summary>
-        /// Random number genertor used to add noise.
+        /// Random number generator used to add noise.
         /// </summary>
         /// 
         /// <remarks>Default generator is uniform generator in the range of (-10, 10).</remarks>
         /// 
-        public IRandomNumberGenerator Generator
+        public IRandomNumberGenerator<double> Generator
         {
             get { return generator; }
             set { generator = value; }
@@ -83,9 +84,9 @@ namespace Accord.Imaging.Filters
         /// Initializes a new instance of the <see cref="AdditiveNoise"/> class.
         /// </summary>
         /// 
-        /// <param name="generator">Random number genertor used to add noise.</param>
+        /// <param name="generator">Random number generator used to add noise.</param>
         /// 
-        public AdditiveNoise(IRandomNumberGenerator generator)
+        public AdditiveNoise(IRandomNumberGenerator<double> generator)
             : this()
         {
             this.generator = generator;
@@ -122,7 +123,7 @@ namespace Accord.Imaging.Filters
                 // for each pixel
                 for (int x = startX; x < stopX; x++, ptr++)
                 {
-                    *ptr = (byte)Math.Max(0, Math.Min(255, *ptr + generator.Next()));
+                    *ptr = Math.Max((byte)0, Math.Min((byte)255, (byte)(*ptr + generator.Generate())));
                 }
                 ptr += offset;
             }
