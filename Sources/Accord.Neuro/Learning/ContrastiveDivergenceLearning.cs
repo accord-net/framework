@@ -60,6 +60,9 @@ namespace Accord.Neuro.Learning
         private StochasticLayer hidden;
         private StochasticLayer visible;
 
+        [NonSerialized]
+        private ParallelOptions parallelOptions;
+
 
         /// <summary>
         ///   Creates a new <see cref="ContrastiveDivergenceLearning"/> algorithm.
@@ -108,6 +111,8 @@ namespace Accord.Neuro.Learning
 
             storage = new ThreadLocal<ParallelStorage>(() =>
                 new ParallelStorage(inputsCount, hiddenCount));
+
+            this.ParallelOptions = new ParallelOptions();
         }
 
         /// <summary>
@@ -119,6 +124,25 @@ namespace Accord.Neuro.Learning
         {
             get { return learningRate; }
             set { learningRate = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets parallelization options.
+        /// </summary>
+        /// 
+        /// <summary>
+        ///   Gets or sets parallelization options.
+        /// </summary>
+        /// 
+        public ParallelOptions ParallelOptions
+        {
+            get
+            {
+                if (parallelOptions == null)
+                    parallelOptions = new ParallelOptions();
+                return parallelOptions;
+            }
+            set { parallelOptions = value; }
         }
 
         /// <summary>
@@ -200,9 +224,7 @@ namespace Accord.Neuro.Learning
             // For each training instance
             Parallel.For(0, input.Length,
 
-#if DEBUG
-				new ParallelOptions() { MaxDegreeOfParallelism = 1 },
-#endif
+				ParallelOptions,
 
                 // Initialize
                 () => storage.Value.Clear(),
