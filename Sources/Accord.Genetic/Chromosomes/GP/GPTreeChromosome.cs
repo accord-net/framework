@@ -12,6 +12,7 @@ namespace Accord.Genetic
     using System.Collections;
     using System.Collections.Generic;
     using AForge;
+    using Accord.Math.Random;
 
     /// <summary>
     /// Tree chromosome represents a tree of genes, which is is used for
@@ -39,11 +40,6 @@ namespace Accord.Genetic
         private static int maxInitialLevel = 3;
         // maximum level of the tree
         private static int maxLevel = 5;
-
-        /// <summary>
-        /// Random generator used for chromosomes' generation.
-        /// </summary>
-        protected static ThreadSafeRandom rand = new ThreadSafeRandom();
 
         /// <summary>
         /// Maximum initial level of genetic trees, [1, 25].
@@ -137,8 +133,11 @@ namespace Accord.Genetic
         ///
         public override void Generate()
         {
+            var rand = Generator.Random;
+
             // randomize the root
             root.Gene.Generate();
+            
             // create children
             if (root.Gene.ArgumentsCount != 0)
             {
@@ -226,8 +225,11 @@ namespace Accord.Genetic
         ///
         public override void Mutate()
         {
+            var rand = Generator.Random;
+
             // current tree level
             int currentLevel = 0;
+
             // current node
             GPTreeNode node = root;
 
@@ -312,6 +314,7 @@ namespace Accord.Genetic
         ///
         public override void Crossover(IChromosome pair)
         {
+            var rand = Generator.Random;
             GPTreeChromosome p = (GPTreeChromosome)pair;
 
             // check for correct pair
@@ -358,6 +361,7 @@ namespace Accord.Genetic
         /// </summary>
         private GPTreeNode RandomSwap(GPTreeNode source)
         {
+            var rand = Generator.Random;
             GPTreeNode retNode = null;
 
             // swap root node ?

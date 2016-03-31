@@ -31,9 +31,6 @@ namespace Accord.Genetic
     /// 
     public class RankSelection : ISelectionMethod
     {
-        // random number generator
-        private static ThreadSafeRandom rand = new ThreadSafeRandom();
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RankSelection"/> class.
         /// </summary>
@@ -51,6 +48,8 @@ namespace Accord.Genetic
         /// 
         public void ApplySelection(List<IChromosome> chromosomes, int size)
         {
+            var rand = Accord.Math.Random.Generator.Random;
+
             // new population, initially empty
             List<IChromosome> newPopulation = new List<IChromosome>();
             // size of current population

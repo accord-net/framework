@@ -10,6 +10,7 @@ namespace Accord.Genetic
 {
     using System;
     using AForge;
+    using Accord.Math.Random;
 
     /// <summary>
     /// Binary chromosome, which supports length from 2 till 64.
@@ -30,11 +31,6 @@ namespace Accord.Genetic
         /// Numerical chromosome's value.
         /// </summary>
         protected ulong val = 0;
-
-        /// <summary>
-        /// Random number generator for chromosomes generation, crossover, mutation, etc.
-        /// </summary>
-        protected static Accord.ThreadSafeRandom rand = new Accord.ThreadSafeRandom();
 
         /// <summary>
         /// Chromosome's maximum length.
@@ -141,7 +137,7 @@ namespace Accord.Genetic
             byte[] bytes = new byte[8];
 
             // generate value
-            rand.NextBytes(bytes);
+            Generator.Random.NextBytes(bytes);
             val = BitConverter.ToUInt64(bytes, 0);
         }
 
@@ -181,7 +177,7 @@ namespace Accord.Genetic
         /// 
         public override void Mutate()
         {
-            val ^= ((ulong)1 << rand.Next(length));
+            val ^= ((ulong)1 << Generator.Random.Next(length));
         }
 
         /// <summary>
@@ -200,7 +196,7 @@ namespace Accord.Genetic
             // check for correct pair
             if ((p != null) && (p.length == length))
             {
-                int crossOverPoint = 63 - rand.Next(length - 1);
+                int crossOverPoint = 63 - Generator.Random.Next(length - 1);
                 ulong mask1 = 0xFFFFFFFFFFFFFFFF >> crossOverPoint;
                 ulong mask2 = ~mask1;
 
