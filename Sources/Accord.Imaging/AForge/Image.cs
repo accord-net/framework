@@ -36,7 +36,7 @@ namespace Accord.Imaging
         /// <see cref="System.Drawing.Imaging.PixelFormat">Format8bppIndexed</see>
         /// and then it examines its palette to check if the image is grayscale or not.</remarks>
         /// 
-        public static bool IsGrayscale(Bitmap image)
+        public static bool IsGrayscale(this Bitmap image)
         {
             bool ret = false;
 
@@ -97,7 +97,7 @@ namespace Accord.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">Provided image is not 8 bpp indexed image.</exception>
         /// 
-        public static void SetGrayscalePalette(Bitmap image)
+        public static void SetGrayscalePalette(this Bitmap image)
         {
             // check pixel format
             if (image.PixelFormat != PixelFormat.Format8bppIndexed)
@@ -128,7 +128,7 @@ namespace Accord.Imaging
         /// More of it, the original method does not create an actual clone - it does not create a copy
         /// of the image. That is why this method was implemented to provide the functionality.</remarks> 
         ///
-        public static Bitmap Clone(Bitmap source, PixelFormat format)
+        public static Bitmap Clone(this Bitmap source, PixelFormat format)
         {
             // copy image if pixel format is the same
             if (source.PixelFormat == format)
@@ -160,7 +160,7 @@ namespace Accord.Imaging
         /// does not produce the desired result - it does not create an actual clone (it does not create a copy
         /// of the image). That is why this method was implemented to provide the functionality.</remarks> 
         /// 
-        public static Bitmap Clone(Bitmap source)
+        public static Bitmap Clone(this Bitmap source)
         {
             // lock source bitmap data
             BitmapData sourceData = source.LockBits(
@@ -206,7 +206,7 @@ namespace Accord.Imaging
         /// <returns>Clones image from source image data. The message does not clone pallete in the
         /// case if the source image has indexed pixel format.</returns>
         /// 
-        public static Bitmap Clone(BitmapData sourceData)
+        public static Bitmap Clone(this BitmapData sourceData)
         {
             // get source image size
             int width = sourceData.Width;
@@ -349,7 +349,7 @@ namespace Accord.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">Invalid pixel format of the source image.</exception>
         /// 
-        public static Bitmap Convert16bppTo8bpp(Bitmap bimap)
+        public static Bitmap Convert16bppTo8bpp(this Bitmap bimap)
         {
             Bitmap newImage = null;
             int layers = 0;
@@ -446,7 +446,7 @@ namespace Accord.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">Invalid pixel format of the source image.</exception>
         /// 
-        public static Bitmap Convert8bppTo16bpp(Bitmap bimap)
+        public static Bitmap Convert8bppTo16bpp(this Bitmap bimap)
         {
             Bitmap newImage = null;
             int layers = 0;
