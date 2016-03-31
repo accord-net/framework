@@ -1,4 +1,4 @@
-﻿namespace Accord.Tests.MachineLearning
+﻿namespace Accord.Tests.FSharp.Math
 
 open System
 open System.IO

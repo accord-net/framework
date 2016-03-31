@@ -20,10 +20,9 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Tests.Math
+namespace Accord.Tests.Interop.Math
 {
     using Accord.Math.Optimization;
-    using Accord.Tests.Math.Optimization;
     using NUnit.Framework;
     using System;
     using System.Collections.Generic;

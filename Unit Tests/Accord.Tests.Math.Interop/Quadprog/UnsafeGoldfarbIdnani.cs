@@ -26,7 +26,7 @@
 // also shared under the LGPL license.
 //
 
-namespace Accord.Tests.Math
+namespace Accord.Tests.Interop.Math
 {
     using Accord.Math.Optimization;
     using System;
