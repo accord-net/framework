@@ -38,6 +38,7 @@ namespace Accord.Math.Distances
         IDistance<double[]>,
         IDistance<double[,]>, IDistance<double[][]>,
         IDistance<GeneralDiscreteDistribution>,
+        IDistance<UnivariateDiscreteDistribution>,
         IDistance<MultivariateNormalDistribution>
     {
         /// <summary>
