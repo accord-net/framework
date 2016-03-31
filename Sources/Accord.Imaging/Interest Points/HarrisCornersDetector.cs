@@ -566,5 +566,19 @@ namespace Accord.Imaging
             return corners;
         }
 
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A new object that is a copy of this instance.
+        /// </returns>
+        /// 
+        public object Clone()
+        {
+            var clone = new HarrisCornersDetector();
+            clone.initialize(measure, k, threshold, sigma, r, size);
+            return clone;
+        }
     }
 }

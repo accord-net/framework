@@ -46,6 +46,7 @@ namespace Accord.Imaging
     {
         // window size
         private int windowSize = 3;
+
         // threshold which is used to filter interest points
         private int threshold = 500;
 
@@ -67,10 +68,10 @@ namespace Accord.Imaging
             set
             {
                 // check if value is odd
-                if ( ( value & 1 ) == 0 )
-                    throw new ArgumentException( "The value shoule be odd." );
+                if ((value & 1) == 0)
+                    throw new ArgumentException("The value shoule be odd.");
 
-                windowSize = Math.Max( 3, Math.Min( 15, value ) );
+                windowSize = Math.Max(3, Math.Min(15, value));
             }
         }
 
@@ -97,7 +98,7 @@ namespace Accord.Imaging
         /// <summary>
         /// Initializes a new instance of the <see cref="MoravecCornersDetector"/> class.
         /// </summary>
-        public MoravecCornersDetector( ) { }
+        public MoravecCornersDetector() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MoravecCornersDetector"/> class.
@@ -105,8 +106,8 @@ namespace Accord.Imaging
         /// 
         /// <param name="threshold">Threshold value, which is used to filter out uninteresting points.</param>
         /// 
-        public MoravecCornersDetector( int threshold ) :
-            this( threshold, 3 ) { }
+        public MoravecCornersDetector(int threshold) :
+            this(threshold, 3) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MoravecCornersDetector"/> class.
@@ -115,7 +116,7 @@ namespace Accord.Imaging
         /// <param name="threshold">Threshold value, which is used to filter out uninteresting points.</param>
         /// <param name="windowSize">Window size used to determine if point is interesting.</param>
         /// 
-        public MoravecCornersDetector( int threshold, int windowSize )
+        public MoravecCornersDetector(int threshold, int windowSize)
         {
             this.Threshold = threshold;
             this.WindowSize = windowSize;
@@ -131,35 +132,35 @@ namespace Accord.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public List<IntPoint> ProcessImage( Bitmap image )
+        public List<IntPoint> ProcessImage(Bitmap image)
         {
             // check image format
             if (
-                ( image.PixelFormat != PixelFormat.Format8bppIndexed ) &&
-                ( image.PixelFormat != PixelFormat.Format24bppRgb ) &&
-                ( image.PixelFormat != PixelFormat.Format32bppRgb ) &&
-                ( image.PixelFormat != PixelFormat.Format32bppArgb )
+                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
+                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
+                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
+                (image.PixelFormat != PixelFormat.Format32bppArgb)
                 )
             {
-                throw new UnsupportedImageFormatException( "Unsupported pixel format of the source image." );
+                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
             }
 
             // lock source image
             BitmapData imageData = image.LockBits(
-                new Rectangle( 0, 0, image.Width, image.Height ),
-                ImageLockMode.ReadOnly, image.PixelFormat );
+                new Rectangle(0, 0, image.Width, image.Height),
+                ImageLockMode.ReadOnly, image.PixelFormat);
 
             List<IntPoint> corners;
 
             try
             {
                 // process the image
-                corners = ProcessImage( new UnmanagedImage( imageData ) );
+                corners = ProcessImage(new UnmanagedImage(imageData));
             }
             finally
             {
                 // unlock image
-                image.UnlockBits( imageData );
+                image.UnlockBits(imageData);
             }
 
             return corners;
@@ -175,9 +176,9 @@ namespace Accord.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public List<IntPoint> ProcessImage( BitmapData imageData )
+        public List<IntPoint> ProcessImage(BitmapData imageData)
         {
-            return ProcessImage( new UnmanagedImage( imageData ) );
+            return ProcessImage(new UnmanagedImage(imageData));
         }
 
         /// <summary>
@@ -190,24 +191,24 @@ namespace Accord.Imaging
         ///
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public List<IntPoint> ProcessImage( UnmanagedImage image )
+        public List<IntPoint> ProcessImage(UnmanagedImage image)
         {
             // check image format
             if (
-                ( image.PixelFormat != PixelFormat.Format8bppIndexed ) &&
-                ( image.PixelFormat != PixelFormat.Format24bppRgb ) &&
-                ( image.PixelFormat != PixelFormat.Format32bppRgb ) &&
-                ( image.PixelFormat != PixelFormat.Format32bppArgb )
+                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
+                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
+                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
+                (image.PixelFormat != PixelFormat.Format32bppArgb)
                 )
             {
-                throw new UnsupportedImageFormatException( "Unsupported pixel format of the source image." );
+                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
             }
 
             // get source image size
-            int width  = image.Width;
+            int width = image.Width;
             int height = image.Height;
             int stride = image.Stride;
-            int pixelSize = Bitmap.GetPixelFormatSize( image.PixelFormat ) / 8;
+            int pixelSize = Bitmap.GetPixelFormatSize(image.PixelFormat) / 8;
             // window radius
             int windowRadius = windowSize / 2;
 
@@ -220,18 +221,18 @@ namespace Accord.Imaging
             // do the job
             unsafe
             {
-                byte* ptr = (byte*) image.ImageData.ToPointer( );
+                byte* ptr = (byte*)image.ImageData.ToPointer();
 
                 // for each row
-                for ( int y = windowRadius, maxY = height - windowRadius; y < maxY; y++ )
+                for (int y = windowRadius, maxY = height - windowRadius; y < maxY; y++)
                 {
                     // for each pixel
-                    for ( int x = windowRadius, maxX = width - windowRadius; x < maxX; x++ )
+                    for (int x = windowRadius, maxX = width - windowRadius; x < maxX; x++)
                     {
                         int minSum = int.MaxValue;
 
                         // go through 8 possible shifting directions
-                        for ( int k = 0; k < 8; k++ )
+                        for (int k = 0; k < 8; k++)
                         {
                             // calculate center of shifted window
                             int sy = y + yDelta[k];
@@ -239,8 +240,8 @@ namespace Accord.Imaging
 
                             // check if shifted window is within the image
                             if (
-                                ( sy < windowRadius ) || ( sy >= maxY ) ||
-                                ( sx < windowRadius ) || ( sx >= maxX )
+                                (sy < windowRadius) || (sy >= maxY) ||
+                                (sx < windowRadius) || (sx >= maxX)
                             )
                             {
                                 // skip this shifted window
@@ -249,14 +250,14 @@ namespace Accord.Imaging
 
                             int sum = 0;
 
-                            byte* ptr1 = ptr + ( y - windowRadius )  * stride + ( x - windowRadius )  * pixelSize;
-                            byte* ptr2 = ptr + ( sy - windowRadius ) * stride + ( sx - windowRadius ) * pixelSize;
+                            byte* ptr1 = ptr + (y - windowRadius) * stride + (x - windowRadius) * pixelSize;
+                            byte* ptr2 = ptr + (sy - windowRadius) * stride + (sx - windowRadius) * pixelSize;
 
                             // for each windows' rows
-                            for ( int i = 0; i < windowSize; i++ )
+                            for (int i = 0; i < windowSize; i++)
                             {
                                 // for each windows' pixels
-                                for ( int j = 0, maxJ = windowSize * pixelSize; j < maxJ; j++, ptr1++, ptr2++ )
+                                for (int j = 0, maxJ = windowSize * pixelSize; j < maxJ; j++, ptr1++, ptr2++)
                                 {
                                     int dif = *ptr1 - *ptr2;
                                     sum += dif * dif;
@@ -266,14 +267,14 @@ namespace Accord.Imaging
                             }
 
                             // check if the sum is mimimal
-                            if ( sum < minSum )
+                            if (sum < minSum)
                             {
                                 minSum = sum;
                             }
                         }
 
                         // threshold the minimum sum
-                        if ( minSum < threshold )
+                        if (minSum < threshold)
                         {
                             minSum = 0;
                         }
@@ -284,23 +285,23 @@ namespace Accord.Imaging
             }
 
             // collect interesting points - only those points, which are local maximums
-            List<IntPoint> cornersList = new List<IntPoint>( );
+            List<IntPoint> cornersList = new List<IntPoint>();
 
             // for each row
-            for ( int y = windowRadius, maxY = height - windowRadius; y < maxY; y++ )
+            for (int y = windowRadius, maxY = height - windowRadius; y < maxY; y++)
             {
                 // for each pixel
-                for ( int x = windowRadius, maxX = width - windowRadius; x < maxX; x++ )
+                for (int x = windowRadius, maxX = width - windowRadius; x < maxX; x++)
                 {
                     int currentValue = moravecMap[y, x];
 
                     // for each windows' rows
-                    for ( int i = -windowRadius; ( currentValue != 0 ) && ( i <= windowRadius ); i++ )
+                    for (int i = -windowRadius; (currentValue != 0) && (i <= windowRadius); i++)
                     {
                         // for each windows' pixels
-                        for ( int j = -windowRadius; j <= windowRadius; j++ )
+                        for (int j = -windowRadius; j <= windowRadius; j++)
                         {
-                            if ( moravecMap[y + i, x + j] > currentValue )
+                            if (moravecMap[y + i, x + j] > currentValue)
                             {
                                 currentValue = 0;
                                 break;
@@ -309,14 +310,28 @@ namespace Accord.Imaging
                     }
 
                     // check if this point is really interesting
-                    if ( currentValue != 0 )
+                    if (currentValue != 0)
                     {
-                        cornersList.Add( new IntPoint( x, y ) );
+                        cornersList.Add(new IntPoint(x, y));
                     }
                 }
             }
 
             return cornersList;
+        }
+
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A new object that is a copy of this instance.
+        /// </returns>
+        /// 
+        public object Clone()
+        {
+            var clone = new MoravecCornersDetector(threshold, windowSize);
+            return clone;
         }
     }
 }

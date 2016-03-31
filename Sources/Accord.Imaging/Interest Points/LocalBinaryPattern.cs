@@ -393,5 +393,50 @@ namespace Accord.Imaging
         {
             return ProcessImage(image).ConvertAll(p => new FeatureDescriptor(p));
         }
+
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A new object that is a copy of this instance.
+        /// </returns>
+        ///
+        public object Clone()
+        {
+            var clone = new LocalBinaryPattern(blockSize, cellSize, normalize);
+            clone.epsilon = epsilon;
+            clone.histograms = (int[,][])histograms.Clone();
+            clone.patterns = (int[,])patterns.Clone();
+            return clone;
+        }
+
+        /// <summary>
+        ///   Performs application-defined tasks associated with freeing, releasing, 
+        ///   or resetting unmanaged resources.
+        /// </summary>
+        /// 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        ///   Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// 
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged
+        ///   resources; <c>false</c> to release only unmanaged resources.</param>
+        /// 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources
+            }
+
+            // free native resources if there are any.
+        }
     }
 }

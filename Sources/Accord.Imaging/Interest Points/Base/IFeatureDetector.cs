@@ -22,6 +22,7 @@
 
 namespace Accord.Imaging
 {
+    using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
@@ -43,7 +44,7 @@ namespace Accord.Imaging
     ///   Common interface for feature detectors.
     /// </summary>
     /// 
-    public interface IFeatureDetector<TPoint, TFeature> 
+    public interface IFeatureDetector<TPoint, TFeature> : ICloneable, IDisposable
         where TPoint : IFeatureDescriptor<TFeature>
     {
         /// <summary>

@@ -38,12 +38,13 @@ namespace Accord.Imaging
     using System;
     using System.Collections.Generic;
 
-    internal class FastRetinaKeypointPattern
+    internal class FastRetinaKeypointPattern : ICloneable
     {
 
         /// <summary>
         ///   Pattern scale resolution.
         /// </summary>
+        /// 
         public const int Scales = 64;
 
         /// <summary>
@@ -72,6 +73,7 @@ namespace Accord.Imaging
         public PatternPoint[] lookupTable;
 
         public int Octaves { get; private set; }
+
         public float Scale { get; private set; }
 
         public double step;
@@ -88,6 +90,11 @@ namespace Accord.Imaging
             this.Octaves = octaves;
             this.Scale = scale;
 
+            build(octaves, scale);
+        }
+
+        private void build(int octaves, float scale)
+        {
             lookupTable = new PatternPoint[Scales * Orientations * Points];
 
             double scaleStep = Math.Pow(2.0, (double)(octaves) / Scales);
@@ -276,6 +283,19 @@ namespace Accord.Imaging
             325,408,229,28,304,191,189,110,126,486,211,547,533,70,215,
             670,249,36,581,389,605,331,518,442,822
         };
+
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A new object that is a copy of this instance.
+        /// </returns>
+        /// 
+        public object Clone()
+        {
+            return new FastRetinaKeypointPattern(Octaves, Scale);
+        }
     }
 
 }
