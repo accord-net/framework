@@ -28,6 +28,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
+    using Accord.Math.Random;
 
     /// <summary>
     ///   Univariate general discrete distribution, also referred as the
@@ -453,12 +454,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override int[] Generate(int samples)
+        public override int[] Generate(int samples, int[] result)
         {
-            return Random(probabilities, samples);
+            return Random(probabilities, samples, result);
         }
 
         /// <summary>
@@ -619,12 +621,12 @@ namespace Accord.Statistics.Distributions.Univariate
 
         #region ISamplableDistribution<double> Members
 
-        double[] ISampleableDistribution<double>.Generate(int samples)
+        double[] IRandomNumberGenerator<double>.Generate(int samples)
         {
             return Generate(samples).ToDouble();
         }
 
-        double ISampleableDistribution<double>.Generate()
+        double IRandomNumberGenerator<double>.Generate()
         {
             return Generate();
         }
@@ -642,23 +644,37 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static int[] Random(double[] probabilities, int samples)
         {
-            double[] uniform = new double[samples];
-            for (int i = 0; i < uniform.Length; i++)
-                uniform[i] = Accord.Math.Random.Generator.Random.NextDouble();
+            return Random(probabilities, samples, new int[samples]);
+        }
+
+        /// <summary>
+        ///   Returns a random sample within the given symbol probabilities.
+        /// </summary>
+        /// 
+        /// <param name="probabilities">The probabilities for the discrete symbols.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
+        /// <returns>A random sample within the given probabilities.</returns>
+        /// 
+        public static int[] Random(double[] probabilities, int samples, int[] result)
+        {
+            var rand = Accord.Math.Random.Generator.Random;
 
             // Use the probabilities to partition the 0,1 interval
             double[] cumulative = probabilities.CumulativeSum();
 
-            int[] result = new int[samples];
-
             for (int j = 0; j < result.Length; j++)
             {
+                double u = rand.NextDouble();
+
                 // Check in which range the values fall into
                 for (int i = 0; i < cumulative.Length - 1; i++)
                 {
-                    if (uniform[j] <= cumulative[i] && uniform[j] > cumulative[i + 1])
+                    if (u <= cumulative[i] && u > cumulative[i + 1])
                     {
-                        result[j] = i; break;
+                        result[j] = i; 
+                        break;
                     }
                 }
             }

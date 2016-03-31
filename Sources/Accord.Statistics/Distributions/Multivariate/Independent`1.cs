@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using System.Text;
+    using Accord.Math.Random;
 
     /// <summary>
     ///   Joint distribution assuming independence between vector components.
@@ -136,6 +137,20 @@ namespace Accord.Statistics.Distributions.Multivariate
         private double[] mean;
         private double[] variance;
         private double[,] covariance;
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="Independent&lt;TDistribution&gt;"/> class.
+        /// </summary>
+        /// 
+        /// <param name="dimensions">The number of independent component distributions.</param>
+        /// 
+        public Independent(int dimensions)
+            : base(dimensions)
+        {
+            this.components = new TDistribution[dimensions];
+            for (int i = 0; i < components.Length; i++)
+                components[i] = Activator.CreateInstance<TDistribution>();
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="Independent&lt;TDistribution&gt;"/> class.

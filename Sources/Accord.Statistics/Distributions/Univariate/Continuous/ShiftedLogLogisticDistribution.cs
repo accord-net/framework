@@ -204,7 +204,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                System.Diagnostics.Debug.Assert(mu.IsRelativelyEqual(base.Median, 1e-5));
+                System.Diagnostics.Debug.Assert(mu.IsEqual(base.Median, 1e-5));
                 return mu;
             }
         }

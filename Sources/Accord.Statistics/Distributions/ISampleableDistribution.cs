@@ -22,34 +22,27 @@
 
 namespace Accord.Statistics.Distributions
 {
+    using Accord.Math.Random;
 
     /// <summary>
     ///   Common interface for sampleable distributions (i.e. distributions that
-    ///   allow the generation of new samples through the <see cref="Generate()"/>
+    ///   allow the generation of new samples through the <see cref="IRandomNumberGenerator{T}.Generate()"/>
     ///   method.
     /// </summary>
     /// 
     /// <typeparam name="TObservations">The type of the observations, such as <see cref="System.Double"/>.</typeparam>
     /// 
-    public interface ISampleableDistribution<out TObservations> : IDistribution
+    public interface ISampleableDistribution<TObservations> : IDistribution,
+        IRandomNumberGenerator<TObservations>
     {
-
-        /// <summary>
-        ///   Generates a random vector of observations from the current distribution.
-        /// </summary>
-        /// 
-        /// <param name="samples">The number of samples to generate.</param>
-        /// <returns>A random vector of observations drawn from this distribution.</returns>
-        /// 
-        TObservations[] Generate(int samples);
-
         /// <summary>
         ///   Generates a random observation from the current distribution.
         /// </summary>
         /// 
-        /// <returns>A random observations drawn from this distribution.</returns>
+        /// <param name="result">The location where to store the sample.</param>
         /// 
-        TObservations Generate();
-
+        /// <returns>A random observation drawn from this distribution.</returns>
+        /// 
+        TObservations Generate(TObservations result);
     }
 }

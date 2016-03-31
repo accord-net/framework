@@ -369,11 +369,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples)
+        public override double[] Generate(int samples, double[] result)
         {
-            return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2, samples: samples);
+            return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2, samples: samples, result: result);
         }
 
         /// <summary>

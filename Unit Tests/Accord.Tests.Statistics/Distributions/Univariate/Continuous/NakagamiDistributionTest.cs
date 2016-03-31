@@ -157,7 +157,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void GenerateTest2()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Tools.SetupGenerator(42);
 
             NakagamiDistribution target = new NakagamiDistribution(4, 2);
 

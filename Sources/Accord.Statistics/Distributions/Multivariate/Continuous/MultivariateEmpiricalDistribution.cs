@@ -28,6 +28,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions.DensityKernels;
     using Accord.Statistics.Distributions.Fitting;
     using Tools = Accord.Statistics.Tools;
+using Accord.Math.Random;
 
     /// <summary>
     ///   Multivariate empirical distribution.
@@ -919,32 +920,17 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
-        /// 
-        public double[][] Generate(int samples)
+        ///
+        public override double[][] Generate(int samples, double[][] result)
         {
-            var generator = Accord.Math.Random.Generator.Random;
-
-            var s = new double[samples][];
-            for (int i = 0; i < s.Length; i++)
-                s[i] = this.samples[generator.Next(this.samples.Length)];
-
-            return s;
+            var random = Accord.Math.Random.Generator.Random;
+            for (int i = 0; i < samples; i++)
+                Array.Copy(this.samples[random.Next(this.samples.Length)], result[i], Dimension);
+            return result;
         }
-
-        /// <summary>
-        ///   Generates a random observation from the current distribution.
-        /// </summary>
-        /// 
-        /// <returns>A random observations drawn from this distribution.</returns>
-        /// 
-        public double[] Generate()
-        {
-            var generator = Accord.Math.Random.Generator.Random;
-
-            return this.samples[generator.Next(this.samples.Length)];
-        }
-
 
         /// <summary>
         ///   Returns a <see cref="System.String" /> that represents this instance.

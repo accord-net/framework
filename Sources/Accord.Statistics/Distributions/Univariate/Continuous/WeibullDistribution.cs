@@ -381,11 +381,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples)
+        public override double[] Generate(int samples, double[] result)
         {
-            return Random(k, lambda, samples);
+            return Random(k, lambda, samples, result);
         }
 
         /// <summary>
@@ -412,14 +414,27 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double shape, double scale, int samples)
         {
-            double[] r = new double[samples];
-            for (int i = 0; i < r.Length; i++)
-            {
-                double u = Accord.Math.Random.Generator.Random.NextDouble();
-                r[i] = scale * Math.Pow(-Math.Log(u), 1 / shape);
-            }
+            return Random(shape, scale, samples, new double[samples]);
+        }
 
-            return r;
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Weibull distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="scale">The scale parameter lambda.</param>
+        /// <param name="shape">The shape parameter k.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Weibull distribution.</returns>
+        /// 
+        public static double[] Random(double shape, double scale, int samples, double[] result)
+        {
+            var random = Accord.Math.Random.Generator.Random;
+            for (int i = 0; i < samples; i++)
+                result[i] = scale * Math.Pow(-Math.Log(random.NextDouble()), 1 / shape);
+            return result;
         }
 
         /// <summary>

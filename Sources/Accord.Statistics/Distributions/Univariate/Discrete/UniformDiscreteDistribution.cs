@@ -96,6 +96,7 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     [Serializable]
     public class UniformDiscreteDistribution : UnivariateDiscreteDistribution,
+        IFittableDistribution<double>,
         ISampleableDistribution<int>
     {
 
@@ -325,14 +326,15 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
-        /// 
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override int[] Generate(int samples)
+        public override int[] Generate(int samples, int[] result)
         {
-            int[] result = new int[samples];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = Accord.Math.Random.Generator.Random.Next(a, b);
+            var random = Accord.Math.Random.Generator.Random;
+            for (int i = 0; i < samples; i++)
+                result[i] = random.Next(a, b);
 
             return result;
         }

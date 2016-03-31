@@ -257,6 +257,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double LogProbabilityMassFunction(int k)
         {
+            if (k < 0)
+                return Double.NegativeInfinity; // TODO: Test
+
             return k * Math.Log(1.0 - p) + Math.Log(p);
         }
 

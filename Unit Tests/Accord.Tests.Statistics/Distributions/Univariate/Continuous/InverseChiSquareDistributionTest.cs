@@ -254,7 +254,7 @@ namespace Accord.Tests.Statistics
             for (int i = 0; i < actual.Length; i++)
                 actual[i] = ChiSquareDistribution.Inverse(p[i], 1);
 
-            Assert.IsTrue(expected.IsEqual(actual, 1e-14));
+            Assert.IsTrue(expected.IsEqual(actual, atol: 1e-14));
         }
 
 

@@ -183,7 +183,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
 #if DEBUG
                     double baseMedian = base.Median;
-                    if (!m.IsRelativelyEqual(baseMedian, 1e-10))
+                    if (!m.IsEqual(baseMedian, 1e-10))
                         throw new Exception();
 #endif
 
@@ -334,7 +334,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
 #if DEBUG
             double baseValue = base.InverseDistributionFunction(p);
-            if (!baseValue.IsRelativelyEqual(icdf, 1e-5))
+            if (!baseValue.IsEqual(icdf, 1e-5))
                 throw new Exception();
 #endif
 

@@ -312,25 +312,27 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples)
+        public override double[] Generate(int samples, double[] result)
         {
             double Fc = DistributionFunction(c);
 
-            double[] values = UniformContinuousDistribution.Random(samples);
+            UniformContinuousDistribution.Random(samples, result);
 
-            for (int i = 0; i < values.Length; i++)
+            for (int i = 0; i < samples; i++)
             {
-                double u = values[i];
+                double u = result[i];
 
                 if (u < Fc)
-                    values[i] = a + Math.Sqrt(u * (b - a) * (c - a));
+                    result[i] = a + Math.Sqrt(u * (b - a) * (c - a));
                 else
-                    values[i] = b - Math.Sqrt((1 - u) * (b - a) * (b - c));
+                    result[i] = b - Math.Sqrt((1 - u) * (b - a) * (b - c));
             }
 
-            return values;
+            return result;
         }
 
         /// <summary>

@@ -197,29 +197,47 @@ namespace Accord.Tests.Statistics
 
             InverseGaussianDistribution target = new InverseGaussianDistribution(5, 2);
 
-            double[] samples = target.Generate(1000000);
+            double[] samples = target.Generate(10000000);
 
             var actual = InverseGaussianDistribution.Estimate(samples);
             actual.Fit(samples);
 
-            Assert.AreEqual(5, actual.Mean, 0.01);
-            Assert.AreEqual(2, actual.Shape, 0.01);
+            Assert.AreEqual(5, actual.Mean, 1e-3);
+            Assert.AreEqual(2, actual.Shape, 1e-3);
         }
 
         [Test]
         public void GenerateTest3()
         {
+            Accord.Math.Random.Generator.Seed = 0;
             InverseGaussianDistribution target = new InverseGaussianDistribution(4, 2);
 
-            double[] samples = new double[1000000];
+            double[] samples = new double[10000000];
             for (int i = 0; i < samples.Length; i++)
                 samples[i] = target.Generate();
 
             var actual = InverseGaussianDistribution.Estimate(samples);
             actual.Fit(samples);
 
-            Assert.AreEqual(4, actual.Mean, 0.01);
-            Assert.AreEqual(2, actual.Shape, 0.01);
+            Assert.AreEqual(4, actual.Mean, 1e-2);
+            Assert.AreEqual(2, actual.Shape, 1e-3);
+        }
+
+        [Test]
+        public void GenerateTest4()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+            InverseGaussianDistribution target = new InverseGaussianDistribution(0.4, 0.2);
+
+            double[] samples = new double[10000000];
+            for (int i = 0; i < samples.Length; i++)
+                samples[i] = target.Generate();
+
+            var actual = InverseGaussianDistribution.Estimate(samples);
+            actual.Fit(samples);
+
+            Assert.AreEqual(0.4, actual.Mean, 1e-3);
+            Assert.AreEqual(0.2, actual.Shape, 1e-3);
         }
 
     }

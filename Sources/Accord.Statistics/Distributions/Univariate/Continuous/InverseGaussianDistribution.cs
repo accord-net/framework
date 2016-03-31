@@ -375,12 +375,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
-        /// 
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples)
+        public override double[] Generate(int samples, double[] result)
         {
-            return Random(mean, lambda, samples);
+            return Random(mean, lambda, samples, result);
         }
 
         /// <summary>
@@ -407,9 +408,8 @@ namespace Accord.Statistics.Distributions.Univariate
         public static double Random(double mean, double shape)
         {
             var u = Accord.Math.Random.Generator.Random;
-            var g = new Accord.Math.Random.GaussianGenerator(0, 1, u.Next());
 
-            double v = g.Next();
+            double v = NormalDistribution.Random();
             double y = v * v;
             double x = mean + (mean * mean * y) / (2 * shape) - (mean / (2 * shape)) * Math.Sqrt(4 * mean * shape * y + mean * mean * y * y);
 
@@ -434,25 +434,42 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double mean, double shape, int samples)
         {
-            var u = Accord.Math.Random.Generator.Random;
-            var g = new Accord.Math.Random.GaussianGenerator(0, 1, u.Next());
+            return Random(mean, shape, samples, new double[samples]);
+        }
 
-            double[] r = new double[samples];
-            for (int i = 0; i < r.Length; i++)
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Inverse Gaussian distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="mean">The mean parameter mu.</param>
+        /// <param name="shape">The shape parameter lambda.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
+        /// <returns>An array of double values sampled from the inverse Gaussian distribution.</returns>
+        /// 
+        public static double[] Random(double mean, double shape, int samples, double[] result)
+        {
+            var u = Accord.Math.Random.Generator.Random;
+
+            NormalDistribution.Random(samples, result);
+
+            for (int i = 0; i < result.Length; i++)
             {
-                double v = g.Next();
+                double v = result[i];
                 double y = v * v;
                 double x = mean + (mean * mean * y) / (2 * shape) - (mean / (2 * shape)) * Math.Sqrt(4 * mean * shape * y + mean * mean * y * y);
 
                 double t = u.NextDouble();
 
                 if (t <= (mean) / (mean + x))
-                    r[i] = x;
+                    result[i] = x;
                 else
-                    r[i] = (mean * mean) / x;
+                    result[i] = (mean * mean) / x;
             }
 
-            return r;
+            return result;
         }
 
 

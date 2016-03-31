@@ -431,12 +431,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples)
+        public override double[] Generate(int samples, double[] result)
         {
-            return Random(mu, omega, samples);
+            return Random(mu, omega, samples, result);
         }
 
         /// <summary>
@@ -463,10 +464,27 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double shape, double spread, int samples)
         {
-            double[] g = GammaDistribution.Random(shape: shape, scale: spread / shape, samples: samples);
-            for (int i = 0; i < g.Length; i++)
-                g[i] = Math.Sqrt(g[i]);
-            return g;
+            return Random(shape, spread, samples, new double[samples]);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Nakagami distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="shape">The shape parameter μ.</param>
+        /// <param name="spread">The spread parameter ω.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Nakagami distribution.</returns>
+        /// 
+        public static double[] Random(double shape, double spread, int samples, double[] result)
+        {
+            GammaDistribution.Random(shape, spread / shape, samples, result);
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Math.Sqrt(result[i]);
+            return result;
         }
 
         /// <summary>
@@ -481,8 +499,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double shape, double spread)
         {
-            double g = GammaDistribution.Random(shape: shape, scale: spread / shape);
-            return Math.Sqrt(g);
+            return Math.Sqrt(GammaDistribution.Random(shape: shape, scale: spread / shape));
         }
 
         #endregion

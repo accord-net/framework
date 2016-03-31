@@ -210,7 +210,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
 #if DEBUG
                 double expected = base.Median;
-                if (!median.IsRelativelyEqual(expected, 1e-6))
+                if (!median.IsEqual(expected, 1e-6))
                     throw new Exception();
 #endif
                 return median;
@@ -378,7 +378,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
 #if DEBUG
             double expected = base.HazardFunction(x);
-            if (!h.IsRelativelyEqual(expected, 1e-4))
+            if (!h.IsEqual(expected, 1e-4))
                 throw new Exception();
 #endif
 
