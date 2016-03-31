@@ -32,8 +32,10 @@ namespace Accord.Math.Random
     /// </code>
     /// </remarks>
     /// 
+    [Obsolete("Please use Accord.Statistics.UniformDistribution instead.")]
     public class UniformGenerator : IRandomNumberGenerator
     {
+
         private UniformOneGenerator rand = null;
 
         // generator's range
@@ -125,4 +127,60 @@ namespace Accord.Math.Random
             rand = new UniformOneGenerator(seed);
         }
     }
+
+    internal class RandomNumberGeneratorAdapter : 
+        IRandomNumberGenerator<double>,
+        IRandomNumberGenerator<float>
+    {
+#pragma warning disable 0618
+        IRandomNumberGenerator rng;
+
+        public RandomNumberGeneratorAdapter(IRandomNumberGenerator rng)
+        {
+            this.rng = rng;       
+        }
+
+        public float Generate()
+        {
+            return rng.Next();
+        }
+
+        public float[] Generate(int samples)
+        {
+            return Generate(samples, new float[samples]);
+        }
+
+        public float[] Generate(int samples, float[] result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Seed
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        double IRandomNumberGenerator<double>.Generate()
+        {
+            return rng.Next();
+        }
+
+        double[] IRandomNumberGenerator<double>.Generate(int samples)
+        {
+            return Generate(samples, new double[samples]);
+        }
+
+        public double[] Generate(int samples, double[] result)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

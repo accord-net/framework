@@ -30,12 +30,13 @@ namespace Accord.Math.Random
     /// </code>
     /// </remarks>
     /// 
+    [Obsolete("Please use Accord.Statistics.Distributions.NormalDistribution.Standard instead.")]
     public class StandardGenerator : IRandomNumberGenerator
     {
         private UniformOneGenerator rand = null;
 
-        private float  secondValue;
-        private bool    useSecond = false;
+        private float secondValue;
+        private bool useSecond = false;
 
         /// <summary>
         /// Mean value of the generator.
@@ -59,9 +60,9 @@ namespace Accord.Math.Random
         /// Initializes a new instance of the <see cref="StandardGenerator"/> class.
         /// </summary>
         /// 
-        public StandardGenerator( )
+        public StandardGenerator()
         {
-            rand = new UniformOneGenerator( );
+            rand = new UniformOneGenerator();
         }
 
         /// <summary>
@@ -70,9 +71,9 @@ namespace Accord.Math.Random
         /// 
         /// <param name="seed">Seed value to initialize random numbers generator.</param>
         /// 
-        public StandardGenerator( int seed )
+        public StandardGenerator(int seed)
         {
-            rand = new UniformOneGenerator( seed );
+            rand = new UniformOneGenerator(seed);
         }
 
         /// <summary>
@@ -81,10 +82,10 @@ namespace Accord.Math.Random
         /// 
         /// <returns>Returns next random number.</returns>
         /// 
-        public float Next( )
+        public float Next()
         {
             // check if we can use second value
-            if ( useSecond )
+            if (useSecond)
             {
                 // return the second number
                 useSecond = false;
@@ -96,16 +97,16 @@ namespace Accord.Math.Random
             // generate new numbers
             do
             {
-                x1 = (float) rand.Next( ) * 2.0f - 1.0f;
-                x2 = (float) rand.Next( ) * 2.0f - 1.0f;
-                w  = x1 * x1 + x2 * x2;
+                x1 = (float)rand.Next() * 2.0f - 1.0f;
+                x2 = (float)rand.Next() * 2.0f - 1.0f;
+                w = x1 * x1 + x2 * x2;
             }
-            while ( w >= 1.0f );
+            while (w >= 1.0f);
 
-            w = (float) Math.Sqrt( ( -2.0f * Math.Log( w ) ) / w );
+            w = (float)Math.Sqrt((-2.0f * Math.Log(w)) / w);
 
             // get two standard random numbers
-            firstValue  = x1 * w;
+            firstValue = x1 * w;
             secondValue = x2 * w;
 
             useSecond = true;
@@ -123,9 +124,9 @@ namespace Accord.Math.Random
         /// <remarks>Resets random numbers generator initializing it with
         /// specified seed value.</remarks>
         /// 
-        public void SetSeed( int seed )
+        public void SetSeed(int seed)
         {
-            rand = new UniformOneGenerator( seed );
+            rand = new UniformOneGenerator(seed);
             useSecond = false;
         }
     }
