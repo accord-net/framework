@@ -231,9 +231,9 @@ namespace Accord.Video
             {
                 bool isRunning = nestedVideoSource.IsRunning;
 
-                if ( !isRunning )
+                if (!isRunning)
                 {
-                    Free( );
+                    Free();
                 }
 
                 return isRunning;
@@ -246,7 +246,7 @@ namespace Accord.Video
         /// 
         /// <param name="nestedVideoSource">Nested video source which is the target for asynchronous processing.</param>
         /// 
-        public AsyncVideoSource( IVideoSource nestedVideoSource )
+        public AsyncVideoSource(IVideoSource nestedVideoSource)
         {
             this.nestedVideoSource = nestedVideoSource;
         }
@@ -259,7 +259,7 @@ namespace Accord.Video
         /// <param name="skipFramesIfBusy">Specifies if the object should skip frames from the nested video source
         /// in the case if it is still busy processing the previous video frame.</param>
         /// 
-        public AsyncVideoSource( IVideoSource nestedVideoSource, bool skipFramesIfBusy )
+        public AsyncVideoSource(IVideoSource nestedVideoSource, bool skipFramesIfBusy)
         {
             this.nestedVideoSource = nestedVideoSource;
             this.skipFramesIfBusy = skipFramesIfBusy;
@@ -273,23 +273,23 @@ namespace Accord.Video
         /// an extra thread which is used to fire <see cref="NewFrame"/> events, so the image processing could be
         /// done on another thread without blocking video acquisition thread.</para></remarks>
         /// 
-        public void Start( )
+        public void Start()
         {
-            if ( !IsRunning )
+            if (!IsRunning)
             {
                 framesProcessed = 0;
 
                 // create all synchronization events
-                isNewFrameAvailable = new AutoResetEvent( false );
-                isProcessingThreadAvailable = new AutoResetEvent( true );
+                isNewFrameAvailable = new AutoResetEvent(false);
+                isProcessingThreadAvailable = new AutoResetEvent(true);
 
                 // create image processing thread
-                imageProcessingThread = new Thread( new ThreadStart( imageProcessingThread_Worker ) );
-                imageProcessingThread.Start( );
+                imageProcessingThread = new Thread(new ThreadStart(imageProcessingThread_Worker));
+                imageProcessingThread.Start();
 
                 // start the nested video source
-                nestedVideoSource.NewFrame += new NewFrameEventHandler( nestedVideoSource_NewFrame );
-                nestedVideoSource.Start( );
+                nestedVideoSource.NewFrame += new NewFrameEventHandler(nestedVideoSource_NewFrame);
+                nestedVideoSource.Start();
             }
         }
 
@@ -300,10 +300,10 @@ namespace Accord.Video
         /// <remarks><para>Signals video source to stop its background thread, stop to
         /// provide new frames and free resources.</para></remarks>
         ///
-        public void SignalToStop( )
+        public void SignalToStop()
         {
-            nestedVideoSource.SignalToStop( );
-            Free( );
+            nestedVideoSource.SignalToStop();
+            Free();
         }
 
         /// <summary>
@@ -313,10 +313,10 @@ namespace Accord.Video
         /// <remarks><para>Waits for video source stopping after it was signalled to stop using
         /// <see cref="SignalToStop"/> method.</para></remarks>
         ///
-        public void WaitForStop( )
+        public void WaitForStop()
         {
-            nestedVideoSource.WaitForStop( );
-            Free( );
+            nestedVideoSource.WaitForStop();
+            Free();
         }
 
         /// <summary>
@@ -326,45 +326,45 @@ namespace Accord.Video
         /// <remarks><para>Stops nested video source by calling its <see cref="IVideoSource.Stop"/> method.
         /// See documentation of the particular video source for additional details.</para></remarks>
         /// 
-        public void Stop( )
+        public void Stop()
         {
-            nestedVideoSource.Stop( );
-            Free( );
+            nestedVideoSource.Stop();
+            Free();
         }
 
-        private void Free( )
+        private void Free()
         {
-            if ( imageProcessingThread != null )
+            if (imageProcessingThread != null)
             {
-                nestedVideoSource.NewFrame -= new NewFrameEventHandler( nestedVideoSource_NewFrame );
+                nestedVideoSource.NewFrame -= new NewFrameEventHandler(nestedVideoSource_NewFrame);
 
                 // make sure processing thread does nothing
-                isProcessingThreadAvailable.WaitOne( );
+                isProcessingThreadAvailable.WaitOne();
                 // signal worker thread to stop and wait for it
                 lastVideoFrame = null;
-                isNewFrameAvailable.Set( );
-                imageProcessingThread.Join( );
+                isNewFrameAvailable.Set();
+                imageProcessingThread.Join();
                 imageProcessingThread = null;
 
                 // release events
-                isNewFrameAvailable.Close( );
+                isNewFrameAvailable.Close();
                 isNewFrameAvailable = null;
 
-                isProcessingThreadAvailable.Close( );
+                isProcessingThreadAvailable.Close();
                 isProcessingThreadAvailable = null;
             }
         }
 
         // New frame from nested video source
-        private void nestedVideoSource_NewFrame( object sender, NewFrameEventArgs eventArgs )
+        private void nestedVideoSource_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             // don't even try doing something if there are no clients
-            if ( NewFrame == null )
+            if (NewFrame == null)
                 return;
 
-            if ( skipFramesIfBusy )
+            if (skipFramesIfBusy)
             {
-                if ( !isProcessingThreadAvailable.WaitOne( 0, false ) )
+                if (!isProcessingThreadAvailable.WaitOne(0, false))
                 {
                     // return in the case if image processing thread is still busy and
                     // we are allowed to skip frames
@@ -374,63 +374,63 @@ namespace Accord.Video
             else
             {
                 // make sure image processing thread is available in the case we cannot skip frames
-                isProcessingThreadAvailable.WaitOne( );
+                isProcessingThreadAvailable.WaitOne();
             }
 
             // pass the image to processing frame and exit
-            lastVideoFrame = CloneImage( eventArgs.Frame );
-            isNewFrameAvailable.Set( );
+            lastVideoFrame = CloneImage(eventArgs.Frame);
+            isNewFrameAvailable.Set();
         }
 
-        private void imageProcessingThread_Worker( )
+        private void imageProcessingThread_Worker()
         {
-            while ( true )
+            while (true)
             {
                 // wait for new frame to process
-                isNewFrameAvailable.WaitOne( );
+                isNewFrameAvailable.WaitOne();
 
                 // if it is null, then we need to exit
-                if ( lastVideoFrame == null )
+                if (lastVideoFrame == null)
                 {
                     break;
                 }
 
-                if ( NewFrame != null )
+                if (NewFrame != null)
                 {
-                    NewFrame( this, new NewFrameEventArgs( lastVideoFrame ) );
+                    NewFrame(this, new NewFrameEventArgs(lastVideoFrame));
                 }
 
-                lastVideoFrame.Dispose( );
+                lastVideoFrame.Dispose();
                 lastVideoFrame = null;
                 framesProcessed++;
 
                 // we are free now for new image
-                isProcessingThreadAvailable.Set( );
+                isProcessingThreadAvailable.Set();
             }
         }
 
         // Note: image cloning is taken from Accord.Imaging.Image.Clone() to avoid reference,
         // which may be unwanted
 
-        private static Bitmap CloneImage( Bitmap source )
+        private static Bitmap CloneImage(Bitmap source)
         {
             // lock source bitmap data
             BitmapData sourceData = source.LockBits(
-                new Rectangle( 0, 0, source.Width, source.Height ),
-                ImageLockMode.ReadOnly, source.PixelFormat );
+                new Rectangle(0, 0, source.Width, source.Height),
+                ImageLockMode.ReadOnly, source.PixelFormat);
 
             // create new image
-            Bitmap destination = CloneImage( sourceData );
+            Bitmap destination = CloneImage(sourceData);
 
             // unlock source image
-            source.UnlockBits( sourceData );
+            source.UnlockBits(sourceData);
 
             //
             if (
-                ( source.PixelFormat == PixelFormat.Format1bppIndexed ) ||
-                ( source.PixelFormat == PixelFormat.Format4bppIndexed ) ||
-                ( source.PixelFormat == PixelFormat.Format8bppIndexed ) ||
-                ( source.PixelFormat == PixelFormat.Indexed ) )
+                (source.PixelFormat == PixelFormat.Format1bppIndexed) ||
+                (source.PixelFormat == PixelFormat.Format4bppIndexed) ||
+                (source.PixelFormat == PixelFormat.Format8bppIndexed) ||
+                (source.PixelFormat == PixelFormat.Indexed))
             {
                 ColorPalette srcPalette = source.Palette;
                 ColorPalette dstPalette = destination.Palette;
@@ -438,7 +438,7 @@ namespace Accord.Video
                 int n = srcPalette.Entries.Length;
 
                 // copy pallete
-                for ( int i = 0; i < n; i++ )
+                for (int i = 0; i < n; i++)
                 {
                     dstPalette.Entries[i] = srcPalette.Entries[i];
                 }
@@ -449,24 +449,24 @@ namespace Accord.Video
             return destination;
         }
 
-        private static Bitmap CloneImage( BitmapData sourceData )
+        private static Bitmap CloneImage(BitmapData sourceData)
         {
             // get source image size
             int width = sourceData.Width;
             int height = sourceData.Height;
 
             // create new image
-            Bitmap destination = new Bitmap( width, height, sourceData.PixelFormat );
+            Bitmap destination = new Bitmap(width, height, sourceData.PixelFormat);
 
             // lock destination bitmap data
             BitmapData destinationData = destination.LockBits(
-                new Rectangle( 0, 0, width, height ),
-                ImageLockMode.ReadWrite, destination.PixelFormat );
+                new Rectangle(0, 0, width, height),
+                ImageLockMode.ReadWrite, destination.PixelFormat);
 
-            Accord.SystemTools.CopyUnmanagedMemory( destinationData.Scan0, sourceData.Scan0, height * sourceData.Stride );
+            Accord.SystemTools.CopyUnmanagedMemory(destinationData.Scan0, sourceData.Scan0, height * sourceData.Stride);
 
             // unlock destination image
-            destination.UnlockBits( destinationData );
+            destination.UnlockBits(destinationData);
 
             return destination;
         }
