@@ -25,6 +25,7 @@ namespace Accord.Statistics.Distributions
     using System;
     using Accord.Statistics.Distributions.Fitting;
 
+
     /// <summary>
     ///   Common interface for distributions which can be estimated from data.
     /// </summary>
@@ -32,8 +33,22 @@ namespace Accord.Statistics.Distributions
     /// <typeparam name="TObservations">The type of the observations, such as <see cref="System.Double"/>.</typeparam>
     /// <typeparam name="TOptions">The type of the options specifying object.</typeparam>
     /// 
-    public interface IFittableDistribution<in TObservations, in TOptions> : IDistribution<TObservations>,
+    public interface IFittableDistribution<in TObservations, in TOptions> : 
+        IFittable<TObservations, TOptions>,
         IFittableDistribution<TObservations>
+        where TOptions : class, IFittingOptions
+    {
+    }
+
+    /// <summary>
+    ///   Common interface for distributions which can be estimated from data.
+    /// </summary>
+    /// 
+    /// <typeparam name="TObservations">The type of the observations, such as <see cref="System.Double"/>.</typeparam>
+    /// <typeparam name="TOptions">The type of the options specifying object.</typeparam>
+    /// 
+    public interface IFittable<in TObservations, in TOptions> : 
+        IFittable<TObservations>
         where TOptions : class, IFittingOptions
     {
 
@@ -59,7 +74,28 @@ namespace Accord.Statistics.Distributions
     /// <typeparam name="TObservations">The type of the observations, such as <see cref="System.Double"/>.</typeparam>
     /// 
     public interface IFittableDistribution<in TObservations> :
-        IDistribution<TObservations>
+        IFittable<TObservations>, IDistribution<TObservations>
+    {
+    }
+
+    /// <summary>
+    ///   Common interface for distributions which can be estimated from data.
+    /// </summary>
+    /// 
+    public interface IUnivariateFittableDistribution :
+        IFittableDistribution<double>,
+        IUnivariateDistribution<double>,
+        IUnivariateDistribution
+    {
+    }
+
+    /// <summary>
+    ///   Common interface for distributions which can be estimated from data.
+    /// </summary>
+    /// 
+    /// <typeparam name="TObservations">The type of the observations, such as <see cref="System.Double"/>.</typeparam>
+    /// 
+    public interface IFittable<in TObservations>
     {
         /// <summary>
         ///   Fits the underlying distribution to a given set of observations.
@@ -83,5 +119,4 @@ namespace Accord.Statistics.Distributions
         void Fit(TObservations[] observations, double[] weights);
 
     }
-
 }

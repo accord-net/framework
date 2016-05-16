@@ -131,7 +131,6 @@ namespace Accord.Statistics.Distributions.Multivariate
     public class Independent<TDistribution> : MultivariateContinuousDistribution
         where TDistribution : IUnivariateDistribution
     {
-
         private TDistribution[] components;
 
         private double[] mean;
@@ -143,13 +142,44 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// </summary>
         /// 
         /// <param name="dimensions">The number of independent component distributions.</param>
+        /// <param name="initializer">A function that creates a new distribution for each component index.</param>
         /// 
-        public Independent(int dimensions)
+        public Independent(int dimensions, Func<TDistribution> initializer)
             : base(dimensions)
         {
             this.components = new TDistribution[dimensions];
             for (int i = 0; i < components.Length; i++)
-                components[i] = Activator.CreateInstance<TDistribution>();
+                components[i] = initializer();
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="Independent&lt;TDistribution&gt;"/> class.
+        /// </summary>
+        /// 
+        /// <param name="dimensions">The number of independent component distributions.</param>
+        /// <param name="initializer">A function that creates a new distribution for each component index.</param>
+        /// 
+        public Independent(int dimensions, Func<int, TDistribution> initializer)
+            : base(dimensions)
+        {
+            this.components = new TDistribution[dimensions];
+            for (int i = 0; i < components.Length; i++)
+                components[i] = initializer(i);
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="Independent&lt;TDistribution&gt;"/> class.
+        /// </summary>
+        /// 
+        /// <param name="dimensions">The number of independent component distributions.</param>
+        /// <param name="component">A base component which will be cloned to all dimensions.</param>
+        /// 
+        public Independent(int dimensions, TDistribution component)
+            : base(dimensions)
+        {
+            this.components = new TDistribution[dimensions];
+            for (int i = 0; i < this.components.Length; i++)
+                this.components[i] = (TDistribution)component.Clone();
         }
 
         /// <summary>
@@ -165,7 +195,17 @@ namespace Accord.Statistics.Distributions.Multivariate
         }
 
         /// <summary>
-        ///   Gets the component distributions of the joint.
+        ///   Gets or sets the components of this joint distribution.
+        /// </summary>
+        /// 
+        public TDistribution this[int i]
+        {
+            get { return components[i]; }
+            set { components[i] = value; }
+        }
+
+        /// <summary>
+        ///   Gets the components of this joint distribution.
         /// </summary>
         /// 
         public TDistribution[] Components
@@ -258,7 +298,6 @@ namespace Accord.Statistics.Distributions.Multivariate
             double p = 1;
             for (int i = 0; i < components.Length; i++)
                 p *= components[i].DistributionFunction(x[i]);
-
             return p;
         }
 
@@ -307,9 +346,9 @@ namespace Accord.Statistics.Distributions.Multivariate
             double p = 0;
             for (int i = 0; i < components.Length; i++)
                 p += components[i].LogProbabilityFunction(x[i]);
-
             return p;
         }
+
 
         /// <summary>
         ///   Fits the underlying distribution to a given set of observations.
@@ -361,10 +400,11 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public void Fit(double[][] observations, double[] weights, IndependentOptions options)
         {
-            observations = observations.Transpose();
-
             if (options != null)
             {
+                if (!options.Transposed)
+                    observations = observations.Transpose();
+
                 if (options.InnerOptions != null)
                 {
                     for (int i = 0; i < components.Length; i++)
@@ -378,14 +418,25 @@ namespace Accord.Statistics.Distributions.Multivariate
             }
             else
             {
+                observations = observations.Transpose();
                 for (int i = 0; i < components.Length; i++)
                     components[i].Fit(observations[i], weights, null);
             }
 
+            Reset();
+        }
+
+        /// <summary>
+        ///   Resets cached values (should be called after re-estimation).
+        /// </summary>
+        /// 
+        protected void Reset()
+        {
             mean = null;
             variance = null;
             covariance = null;
         }
+
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
@@ -443,6 +494,5 @@ namespace Accord.Statistics.Distributions.Multivariate
 
             return sb.ToString();
         }
-
     }
 }
