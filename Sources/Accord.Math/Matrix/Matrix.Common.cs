@@ -134,7 +134,7 @@ namespace Accord.Math
 
             if (!objA.GetLength().IsEqual(objB.GetLength()))
                 return false;
-            
+
             // TODO: Implement this cache mechanism here
             // http://blog.slaks.net/2015-06-26/code-snippets-fast-property-access-reflection/
 
@@ -1841,6 +1841,109 @@ namespace Accord.Math
             for (int i = 0; i < destination.Length; i++)
                 for (int j = 0; j < destination[i].Length; j++)
                     destination[i][j] = matrix[i, j];
+        }
+
+        /// <summary>
+        ///   Copies the content of an array to another array.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
+        /// 
+        /// <param name="matrix">The source matrix to be copied.</param>
+        /// <param name="destination">The matrix where the elements should be copied to.</param>
+        /// 
+        public static void SetTo<T>(this T[] destination, T[] matrix)
+        {
+            Array.Copy(matrix, 0, destination, 0, matrix.Length);
+        }
+
+        /// <summary>
+        ///   Copies the content of an array to another array.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
+        /// 
+        /// <param name="matrix">The source matrix to be copied.</param>
+        /// <param name="destination">The matrix where the elements should be copied to.</param>
+        /// 
+        public static void SetTo<T>(this T[,] destination, T[,] matrix)
+        {
+            Array.Copy(matrix, 0, destination, 0, matrix.Length);
+        }
+
+
+        /// <summary>
+        ///   Copies the content of an array to another array.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
+        /// 
+        /// <param name="matrix">The source matrix to be copied.</param>
+        /// <param name="destination">The matrix where the elements should be copied to.</param>
+        /// 
+        public static void SetTo<T>(this T[,] destination, T[][] matrix)
+        {
+            for (int i = 0; i < matrix.Length; i++)
+                for (int j = 0; j < matrix[i].Length; j++)
+                    destination[i, j] = matrix[i][j];
+        }
+
+        /// <summary>
+        ///   Copies the content of an array to another array.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
+        /// 
+        /// <param name="matrix">The source matrix to be copied.</param>
+        /// <param name="destination">The matrix where the elements should be copied to.</param>
+        /// 
+        public static void SetTo<T>(this T[][] destination, T[,] matrix)
+        {
+            for (int i = 0; i < destination.Length; i++)
+                for (int j = 0; j < destination[i].Length; j++)
+                    destination[i][j] = matrix[i, j];
+        }
+
+        /// <summary>
+        ///   Sets all elements of an array to a given value.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
+        /// 
+        /// <param name="value">The value to be copied.</param>
+        /// <param name="destination">The matrix where the elements should be copied to.</param>
+        /// 
+        public static void SetTo<T>(this T[,] destination, T value)
+        {
+            for (int i = 0; i < destination.GetLength(0); i++)
+                for (int j = 0; j < destination.GetLength(1); j++)
+                    destination[i, j] = value;
+        }
+
+
+        /// <summary>
+        ///   Sets all elements of an array to a given value.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
+        /// 
+        /// <param name="value">The value to be copied.</param>
+        /// <param name="destination">The matrix where the elements should be copied to.</param>
+        /// 
+        public static void SetTo<T>(this T[][] destination, T value)
+        {
+            for (int i = 0; i < destination.Length; i++)
+                for (int j = 0; j < destination[i].Length; j++)
+                    destination[i][j] = value;
+        }
+
+        /// <summary>
+        ///   Sets all elements in an array to zero.
+        /// </summary>
+        /// 
+        public static void Clear(this Array array)
+        {
+            Array.Clear(array, 0, array.Length);
         }
 
         /// <summary>
