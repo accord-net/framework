@@ -317,7 +317,7 @@ namespace Accord.Statistics.Analysis
             get
             {
                 if (this.sourceArray == null)
-                    sourceArray = sourceMatrix.ToArray();
+                    sourceArray = sourceMatrix.ToJagged();
                 return sourceArray;
             }
         }

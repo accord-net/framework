@@ -245,11 +245,7 @@ namespace Accord.Statistics.Analysis
             if (expected.Length != actual.Length)
                 throw new ArgumentException("The size of the measurement and prediction arrays must match.");
 
-            double[] dexpected = new double[expected.Length];
-            for (int i = 0; i < dexpected.Length; i++)
-                dexpected[i] = expected[i];
-
-            init(dexpected, actual);
+            init(expected.ToDouble(), actual);
         }
 
         /// <summary>

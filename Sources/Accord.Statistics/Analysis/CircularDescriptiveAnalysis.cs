@@ -388,11 +388,11 @@ namespace Accord.Statistics.Analysis
                 {
                     if (this.sourceRow == null)
                     {
-                        sourceArray = sourceMatrix.ToArray();
+                        sourceArray = sourceMatrix.ToJagged();
                     }
                     else
                     {
-                        sourceArray = sourceRow.ToArray(asColumnVector: true);
+                        sourceArray = sourceRow.ToJagged(asColumnVector: true);
                     }
                 }
 
