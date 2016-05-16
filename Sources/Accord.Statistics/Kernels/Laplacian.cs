@@ -42,7 +42,8 @@ namespace Accord.Statistics.Kernels
         ///   Constructs a new Laplacian Kernel
         /// </summary>
         /// 
-        public Laplacian() : this(1) { }
+        public Laplacian() 
+            : this(1) { }
 
         /// <summary>
         ///   Constructs a new Laplacian Kernel
@@ -264,7 +265,7 @@ namespace Accord.Statistics.Kernels
 
 
 
-        void IEstimable.Estimate(double[][] inputs)
+        void IEstimable<double[]>.Estimate(double[][] inputs)
         {
             var l = Estimate(inputs);
             this.Sigma = l.Sigma;

@@ -73,7 +73,7 @@ namespace Accord.Statistics.Kernels.Sparse
             // Optimization in case x and y are
             // exactly the same object reference.
 
-            if (x == y) 
+            if (x == y)
                 return 1.0;
 
             double norm = SparseLinear.SquaredEuclidean(x, y);

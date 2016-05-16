@@ -29,9 +29,19 @@ namespace Accord.Statistics.Kernels
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Tensor : KernelBase, IKernel
+    public struct Tensor<T> where T : IKernel
     {
-        private IKernel[] kernels;
+        private T[] kernels;
+
+        /// <summary>
+        ///   Gets or sets the inner kernels used in this tensor kernel.
+        /// </summary>
+        /// 
+        public T[] Kernels
+        {
+            get { return kernels; }
+            set { kernels = value; }
+        }
 
         /// <summary>
         ///   Constructs a new additive kernel.
@@ -39,7 +49,7 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="kernels">Kernels to combine.</param>
         /// 
-        public Tensor(params IKernel[] kernels)
+        public Tensor(params T[] kernels)
         {
             this.kernels = kernels;
         }
@@ -52,15 +62,11 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public override double Function(double[] x, double[] y)
+        public double Function(double[] x, double[] y)
         {
             double product = 1.0;
-
             for (int i = 0; i < kernels.Length; i++)
-            {
                 product *= kernels[i].Function(x, y);
-            }
-
             return product;
         }
 

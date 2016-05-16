@@ -229,7 +229,7 @@ namespace Accord.Statistics.Kernels
             return MemberwiseClone();
         }
 
-        void IEstimable.Estimate(double[][] inputs)
+        void IEstimable<double[]>.Estimate(double[][] inputs)
         {
             var s = Estimate(inputs);
             this.Alpha = s.Alpha;

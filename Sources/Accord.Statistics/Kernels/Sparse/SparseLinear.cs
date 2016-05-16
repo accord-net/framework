@@ -52,7 +52,7 @@ namespace Accord.Statistics.Kernels.Sparse
     /// int[] labels =
     /// {
     ///     // 0,  0,  0, 1
-    ///         -1, -1, -1, 1
+    ///       -1, -1, -1, 1
     /// };
     /// 
     /// // Create a Support Vector Machine for the given inputs
@@ -75,7 +75,7 @@ namespace Accord.Statistics.Kernels.Sparse
     /// </example>
     /// 
     [Serializable]
-    public sealed class SparseLinear : KernelBase, IKernel
+    public sealed class SparseLinear : KernelBase, IKernel, ITransform
     {
         private double constant;
 
@@ -234,5 +234,18 @@ namespace Accord.Statistics.Kernels.Sparse
             return sum;
         }
 
+
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public object Clone()
+        {
+            return new SparseLinear(constant);
+        }
     }
 }

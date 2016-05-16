@@ -136,7 +136,7 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="inputs">The input data.</param>
         /// 
-        void IEstimable.Estimate(double[][] inputs)
+        void IEstimable<double[]>.Estimate(double[][] inputs)
         {
             var g = Gaussian.Estimate(innerKernel, inputs);
             this.Gamma = g.Gamma;

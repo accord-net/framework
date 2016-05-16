@@ -53,6 +53,5 @@ namespace Accord.Statistics.Kernels
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
         double Function(T x, T y);
-
     }
 }
