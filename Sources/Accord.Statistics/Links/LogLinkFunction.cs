@@ -98,6 +98,19 @@ namespace Accord.Statistics.Links
         }
 
         /// <summary>
+        ///   The mean (activation) function.
+        /// </summary>
+        /// 
+        /// <param name="x">A transformed value.</param>
+        /// 
+        /// <returns>The reverse transformed value.</returns>
+        /// 
+        public double LogInverse(double x)
+        {
+            return B * x + A;
+        }
+
+        /// <summary>
         ///   First derivative of the <see cref="Inverse"/> function.
         /// </summary>
         /// 

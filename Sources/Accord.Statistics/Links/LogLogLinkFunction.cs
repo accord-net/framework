@@ -96,9 +96,7 @@ namespace Accord.Statistics.Links
         /// 
         public double Inverse(double x)
         {
-            double z = B * x + A;
-            double expz = Math.Exp(z);
-            return Math.Exp(-expz);
+            return Math.Exp(-Math.Exp(B * x + A));
         }
 
         /// <summary>

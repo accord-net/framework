@@ -61,7 +61,8 @@ namespace Accord.Statistics.Links
         ///   Creates a new Sin link function.
         /// </summary>
         /// 
-        public SinLinkFunction() : this(2, -1) { }
+        public SinLinkFunction() 
+            : this(2, -1) { }
 
 
         /// <summary>
