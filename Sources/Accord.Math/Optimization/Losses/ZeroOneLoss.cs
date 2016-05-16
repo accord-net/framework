@@ -30,7 +30,7 @@ namespace Accord.Math.Optimization.Losses
     /// </summary>
     /// 
     [Serializable]
-    public class ZeroOneLoss : LossBase<int[]>, ILoss<double[][]>
+    public class ZeroOneLoss : LossBase<int[]>, ILoss<bool[]>, ILoss<double[][]>
     {
         private bool mean;
 
@@ -64,6 +64,15 @@ namespace Accord.Math.Optimization.Losses
         /// <param name="expected">The expected outputs (ground truth).</param>
         public ZeroOneLoss(int[] expected)
             : base(expected)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ZeroOneLoss"/> class.
+        /// </summary>
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        public ZeroOneLoss(bool[] expected)
+            : base(expected.ToInt32())
         {
         }
 
@@ -102,6 +111,27 @@ namespace Accord.Math.Optimization.Losses
             int error = 0;
             for (int i = 0; i < Expected.Length; i++)
                 if (Expected[i] != actual[i])
+                    error++;
+
+            if (mean)
+                return error / (double)Expected.Length;
+            return error;
+        }
+
+        /// <summary>
+        /// Computes the loss between the expected values (ground truth)
+        /// and the given actual values that have been predicted.
+        /// </summary>
+        /// <param name="actual">The actual values that have been predicted.</param>
+        /// <returns>
+        /// The loss value between the expected values and
+        /// the actual predicted values.
+        /// </returns>
+        public double Loss(bool[] actual)
+        {
+            int error = 0;
+            for (int i = 0; i < Expected.Length; i++)
+                if ((Special.Decide(Expected[i])) != actual[i])
                     error++;
 
             if (mean)

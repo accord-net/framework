@@ -32,7 +32,6 @@ namespace Accord.Math.Optimization.Losses
     [Serializable]
     public class BinaryCrossEntropyLoss : LossBase<double[][]>, ILoss<double[]>
     {
-
         /// <summary>
         /// Initializes a new instance of the <see cref="BinaryCrossEntropyLoss"/> class.
         /// </summary>
@@ -47,7 +46,25 @@ namespace Accord.Math.Optimization.Losses
         /// </summary>
         /// <param name="expected">The expected outputs (ground truth).</param>
         public BinaryCrossEntropyLoss(double[] expected)
-            : base(Jagged.ColumnVector(expected))
+            : this(Jagged.ColumnVector(expected))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BinaryCrossEntropyLoss"/> class.
+        /// </summary>
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        public BinaryCrossEntropyLoss(bool[] expected)
+            : this(expected.ToInt32())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BinaryCrossEntropyLoss"/> class.
+        /// </summary>
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        public BinaryCrossEntropyLoss(int[] expected)
+            : this(expected.ToDouble())
         {
         }
 
@@ -65,9 +82,15 @@ namespace Accord.Math.Optimization.Losses
         {
             double sum = 0;
             for (int i = 0; i < actual.Length; i++)
+            {
                 for (int j = 0; j < actual[i].Length; j++)
-                    sum -= Expected[i][j] * Math.Log(actual[i][j])
-                        + (1.0 - Expected[i][j]) * Math.Log(1.0 - actual[i][j]);
+                {
+                    int y = Expected[i][j] >= 0 ? 1 : 0;
+                    sum -= y * Math.Log(actual[i][j])
+                        + (1 - y) * Special.Log1m(actual[i][j]);
+                }
+            }
+
             return sum;
         }
 
@@ -84,9 +107,15 @@ namespace Accord.Math.Optimization.Losses
         {
             double sum = 0;
             for (int i = 0; i < actual.Length; i++)
-                sum -= Expected[i][0] * Math.Log(actual[i])
-                    + (1.0 - Expected[i][0]) * Math.Log(1.0 - actual[i]);
+            {
+                int y = Expected[i][0] >= 0 ? 1 : 0;
+                sum -= y * Math.Log(actual[i])
+                    + (1 - y) * Special.Log1m(actual[i]);
+            }
+
             return sum;
         }
+
+
     }
 }

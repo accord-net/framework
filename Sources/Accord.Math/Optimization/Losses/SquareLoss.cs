@@ -78,6 +78,17 @@ namespace Accord.Math.Optimization.Losses
         /// 
         public SquareLoss(double[][] expected)
             : base(expected)
+        { 
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SquareLoss"/> class.
+        /// </summary>
+        /// 
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
+        public SquareLoss(double[] expected)
+            : base(Jagged.ColumnVector(expected))
         {
         }
 
@@ -98,6 +109,36 @@ namespace Accord.Math.Optimization.Losses
             double error = 0;
             for (int i = 0; i < Expected.Length; i++)
                 error += Distance.SquareEuclidean(actual[i], Expected[i]);
+
+            if (root)
+                error = Math.Sqrt(error);
+
+            if (mean)
+                error = error / Expected.Length;
+
+            return error;
+        }
+
+        /// <summary>
+        ///   Computes the loss between the expected values (ground truth)
+        ///   and the given actual values that have been predicted.
+        /// </summary>
+        /// 
+        /// <param name="actual">The actual values that have been predicted.</param>
+        /// 
+        /// <returns>
+        ///   The loss value between the expected values and
+        ///   the actual predicted values.
+        /// </returns>
+        /// 
+        public double Loss(double[] actual)
+        {
+            double error = 0;
+            for (int i = 0; i < Expected.Length; i++)
+            {
+                double u = actual[i] - Expected[i][0];
+                error += u * u;
+            }
 
             if (root)
                 error = Math.Sqrt(error);
