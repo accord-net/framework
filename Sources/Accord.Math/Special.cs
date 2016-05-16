@@ -88,6 +88,7 @@ namespace Accord.Math
                 1.02755188689515710272E3,
                 5.57535335369399327526E2
 			};
+
             double[] Q =
             {
                 1.32281951154744992508E1,
@@ -747,6 +748,88 @@ namespace Accord.Math
                 result[i] /= sum;
 
             return result;
+        }
+
+        // TODO: Move to Classes, rename classes to Labels
+
+        /// <summary>
+        ///   Hyperplane decision function. Return true if distance
+        ///   is higher than zero, and false otherwise.
+        /// </summary>
+        /// 
+        public static bool Decide(double distance)
+        {
+            return distance > 0;
+        }
+
+        /// <summary>
+        ///   Hyperplane decision function. Return true if distance
+        ///   is higher than zero, and false otherwise.
+        /// </summary>
+        /// 
+        public static bool[] Decide(double[] values)
+        {
+            bool[] result = new bool[values.Length];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Decide(values[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Hyperplane decision function. Return true if distance
+        ///   is higher than zero, and false otherwise.
+        /// </summary>
+        /// 
+        public static bool[] Decide(int[] values)
+        {
+            bool[] result = new bool[values.Length];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Decide(values[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Hyperplane decision function. Return true if distance
+        ///   is higher than zero, and false otherwise.
+        /// </summary>
+        /// 
+        public static bool[][] Decide(double[][] values)
+        {
+            bool[][] result = new bool[values.Length][];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Decide(values[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Hyperplane decision function. Return true if distance
+        ///   is higher than zero, and false otherwise.
+        /// </summary>
+        /// 
+        public static bool[][] Decide(int[][] values)
+        {
+            bool[][] result = new bool[values.Length][];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Decide(values[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Computes log(1 + exp(x)) without losing precision.
+        /// </summary>
+        /// 
+        public static double Log1pexp(double x)
+        {
+            // Computes Math.Log(1.0 / (1.0 + Math.Exp(-sum)));
+            // https://cran.r-project.org/web/packages/Rmpfr/vignettes/log1mexp-note.pdf
+
+            if (x < -37)
+                return Math.Exp(x);
+            if (x <= 18)
+                return Special.Log1p(Math.Exp(x));
+            if (x <= 33)
+                return x + Math.Exp(-x);
+            return x;
         }
     }
 }

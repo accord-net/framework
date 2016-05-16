@@ -193,8 +193,8 @@ namespace Accord.Math
             int[] xValues = Vector.Interval(-xMax, xMax);
             int[] yValues = Vector.Interval(-yMax, yMax);
 
-            System.Diagnostics.Debug.Assert(xValues.Length == (2 * xMax + 1));
-            System.Diagnostics.Debug.Assert(yValues.Length == (2 * yMax + 1));
+            Accord.Diagnostics.Debug.Assert(xValues.Length == (2 * xMax + 1));
+            Accord.Diagnostics.Debug.Assert(yValues.Length == (2 * yMax + 1));
 
             double[,] kernel = new double[xValues.Length, yValues.Length];
 

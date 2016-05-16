@@ -558,7 +558,7 @@ namespace Accord.Math.Optimization
                         rho = rhoMax;
                 }
 
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(rho));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(rho));
             }
 
 

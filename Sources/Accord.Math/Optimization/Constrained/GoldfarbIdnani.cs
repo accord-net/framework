@@ -392,7 +392,7 @@ namespace Accord.Math.Optimization
             double[,] A = constraints.CreateMatrix(function.NumberOfVariables,
                 out constraintValues, out constraintTolerances, out equalities);
 
-            System.Diagnostics.Debug.Assert(A.GetLength(1) == function.NumberOfVariables);
+            Accord.Diagnostics.Debug.Assert(A.GetLength(1) == function.NumberOfVariables);
 
             initialize(function.NumberOfVariables,
                 function.QuadraticTerms, function.LinearTerms,

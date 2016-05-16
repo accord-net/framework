@@ -242,7 +242,7 @@ namespace Accord.Math.Optimization
                 }
             }
 
-            System.Diagnostics.Debug.Assert(!parameters.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!parameters.HasNaN());
 
             double value = Function(parameters);
 

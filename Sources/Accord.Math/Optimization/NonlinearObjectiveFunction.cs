@@ -72,7 +72,7 @@ namespace Accord.Math.Optimization
         ///   Gets the index of each input variable in the function.
         /// </summary>
         /// 
-        protected Dictionary<int, string> InnerIndices { get { return indices; } } 
+        protected Dictionary<int, string> InnerIndices { get { return indices; } }
 
         /// <summary>
         ///   Gets the objective function.

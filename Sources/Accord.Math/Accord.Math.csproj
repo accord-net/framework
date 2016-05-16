@@ -150,14 +150,15 @@
     <Compile Include="Distances\SquareEuclidean.cs" />
     <Compile Include="Distances\Euclidean.cs" />
     <Compile Include="Distances\Base\IDistance.cs" />
+    <Compile Include="MachineLearning\Classifiers\ClassifierBase.cs" />
     <Compile Include="Matrix\Matrix.Add.Generated.cs">
       <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
     </Compile>
     <Compile Include="Matrix\Jagged.Common.cs" />
-    <Compile Include="Matrix\Matrix.Comparisons.Generated.cs">
-      <DependentUpon>Matrix.Comparisons.tt</DependentUpon>
+    <Compile Include="Matrix\Matrix.Comparisons1.Generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>Matrix.Comparisons.tt</DependentUpon>
     </Compile>
     <Compile Include="Matrix\Matrix.Divide.Generated.cs">
       <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
@@ -183,6 +184,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Matrix\JaggedReducedRowEchelonForm.cs" />
     <Compile Include="Matrix\Vector.MinMax.cs" />
     <Compile Include="Matrix\Matrix.MinMax.cs" />
     <Compile Include="Matrix\Matrix.Multiply.Generated.cs">
@@ -191,15 +193,18 @@
     <Compile Include="Matrix\Matrix.Subtract.Generated.cs">
       <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
     </Compile>
+    <Compile Include="Optimization\Losses\LogLikelihoodLoss.cs" />
     <Compile Include="Optimization\Losses\CategoryCrossEntropyLoss.cs" />
     <Compile Include="Optimization\Losses\LossBase.cs" />
     <Compile Include="Optimization\Losses\AbsoluteLoss.cs" />
+    <Compile Include="Optimization\Losses\HammingLoss.cs" />
     <Compile Include="Optimization\Losses\ZeroOneLoss.cs" />
     <Compile Include="Optimization\Losses\BinaryCrossEntropyLoss.cs" />
     <Compile Include="Optimization\Losses\HingeLoss.cs" />
     <Compile Include="Optimization\Losses\ILoss.cs" />
     <Compile Include="Optimization\Losses\LogisticLoss.cs" />
     <Compile Include="Optimization\Losses\SquareLoss.cs" />
+    <Compile Include="Optimization\Unconstrained\TrustRegionNewtonMethod.cs" />
     <Compile Include="Random\IRandomNumberGenerator.cs" />
     <Compile Include="Random\ZigguratExponentialGenerator.cs" />
     <Compile Include="Random\ZigguratUniformGenerator.cs" />
@@ -326,7 +331,6 @@
     <Compile Include="Optimization\Unconstrained\NelderMead.cs" />
     <Compile Include="Optimization\Unconstrained\ResilientBackpropagation.cs" />
     <Compile Include="Optimization\Unconstrained\Subplex.cs" />
-    <Compile Include="Optimization\Unconstrained\TrustRegionNewtonMethod.cs" />
     <Compile Include="Taylor.cs" />
     <Compile Include="Transforms\FourierTransform2.cs" />
     <Compile Include="Transforms\HartleyTransform.cs" />
@@ -543,8 +547,8 @@
     <None Include="Integration\Accord.Math.Integration.cd" />
     <None Include="Matrix\Matrix.Comparisons.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Matrix.Comparisons.Generated.cs</LastGenOutput>
-      <LastOutputs>.\Matrix.Comparisons.Generated.cs</LastOutputs>
+      <LastOutputs>.\Matrix.Comparisons1.Generated.cs</LastOutputs>
+      <LastGenOutput>Matrix.Comparisons1.Generated.cs</LastGenOutput>
     </None>
     <None Include="Matrix\Matrix.Conversions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
