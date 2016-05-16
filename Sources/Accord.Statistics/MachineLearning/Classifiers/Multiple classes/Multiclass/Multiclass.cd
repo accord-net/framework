@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="FullSignature">
+  <Class Name="Accord.MachineLearning.MulticlassClassifierBase&lt;TInput&gt;">
+    <Position X="3" Y="2" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAYAAAAAAAAAQAAAAAQAACAAAAAAAAAFCFAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassClassifierBase`1.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.MulticlassDistanceClassifierBase&lt;TInput&gt;">
+    <Position X="2.75" Y="10" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAABAAAAAABAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassDistanceClassifierBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.MulticlassGenerativeClassifierBase&lt;TInput&gt;">
+    <Position X="2.5" Y="21.75" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAgAIQAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassGenerativeClassifierBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
