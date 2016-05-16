@@ -29,7 +29,6 @@ namespace Accord.Statistics.Distributions.Fitting
     ///   multivariate independent distributions</see>.
     /// </summary>
     /// 
-    [Serializable]
     public class IndependentOptions : IFittingOptions
     {
 
@@ -38,47 +37,83 @@ namespace Accord.Statistics.Distributions.Fitting
         ///   independent components in the joint distribution.
         /// </summary>
         /// 
+        public IFittingOptions InnerOption { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the fitting options for specific inner
+        ///   independent components in the joint distribution.
+        /// </summary>
+        /// 
         public IFittingOptions[] InnerOptions { get; set; }
+
+        /// <summary>
+        ///   Gets or sets whether the data to be fitted has already been transposed.
+        /// </summary>
+        /// 
+        public bool Transposed { get; set; }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public virtual object Clone()
+        {
+            return MemberwiseClone();
+        }
+    }
+
+    /// <summary>
+    ///   Estimation options for <see cref="Accord.Statistics.Distributions.Multivariate.Independent{T}">
+    ///   multivariate independent distributions</see>.
+    /// </summary>
+    /// 
+    [Serializable]
+    public class IndependentOptions<TOptions> : IndependentOptions
+        where TOptions : class, IFittingOptions, new()
+    {
 
         /// <summary>
         ///   Gets or sets the fitting options for the inner
         ///   independent components in the joint distribution.
-        ///   Setting this property should make all component
-        ///   distributions use the same options specified here.
         /// </summary>
         /// 
-        public IFittingOptions InnerOption { get; set; }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="IndependentOptions"/> class.
-        /// </summary>
-        /// 
-        /// <param name="innerOption">The fitting options for the inner
-        ///   component distributions of the independent distributions.</param>
-        ///   
-        public IndependentOptions(IFittingOptions innerOption)
+        public new TOptions InnerOption
         {
-            InnerOption = innerOption;
+            get { return base.InnerOption as TOptions; }
+            set { base.InnerOption = value; }
         }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="IndependentOptions"/> class.
+        ///   Gets or sets the fitting options for specific inner
+        ///   independent components in the joint distribution.
         /// </summary>
         /// 
-        /// <param name="innerOptions">The fitting options for the inner
-        ///   component distributions of the independent distributions.</param>
-        ///   
-        public IndependentOptions(IFittingOptions[] innerOptions)
+        public new TOptions[] InnerOptions
         {
-            InnerOptions = innerOptions;
+            get { return base.InnerOptions as TOptions[]; }
+            set { base.InnerOptions = value; }
         }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="IndependentOptions"/> class.
+        ///   Initializes a new instance of the <see cref="IndependentOptions{TOptions}"/> class.
         /// </summary>
         /// 
         public IndependentOptions()
         {
+            InnerOption = new TOptions();
+        }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public override object Clone()
+        {
+            return MemberwiseClone();
         }
     }
 }

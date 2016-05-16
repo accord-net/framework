@@ -324,11 +324,11 @@ namespace Accord.Statistics.Distributions.Fitting
             );
 #endif
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
 
             if (weights != null)
             {
-                System.Diagnostics.Debug.Assert(weightSum != 0);
+                Accord.Diagnostics.Debug.Assert(weightSum != 0);
 
                 return logLikelihood / weightSum;
             }

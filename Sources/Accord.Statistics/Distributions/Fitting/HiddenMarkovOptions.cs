@@ -30,7 +30,7 @@ namespace Accord.Statistics.Distributions.Fitting
     /// </summary>
     /// 
     [Serializable]
-    public class HiddenMarkovOptions : IFittingOptions
+    public class HiddenMarkovOptions : IFittingOptions, ICloneable
     {
 
         /// <summary>
@@ -39,5 +39,15 @@ namespace Accord.Statistics.Distributions.Fitting
         /// 
         public Action<HiddenMarkovModel, double[][], double[]> Learning { get; set; }
 
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public virtual object Clone()
+        {
+            return MemberwiseClone();
+        }
     }
 }

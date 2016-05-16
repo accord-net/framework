@@ -273,7 +273,7 @@ namespace Accord.Statistics.Distributions.Fitting
             );
 #endif
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
 
             return logLikelihood;
         }
