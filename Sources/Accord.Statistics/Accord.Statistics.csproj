@@ -138,6 +138,8 @@
     <Compile Include="Distributions\Multivariate\Continuous\WishartDistribution.cs" />
     <Compile Include="Distributions\Multivariate\IMixtureComponent.cs" />
     <Compile Include="Distributions\Multivariate\Independent.cs" />
+    <Compile Include="Distributions\Multivariate\Independent`3.cs" />
+    <Compile Include="Distributions\Multivariate\Independent`2.cs" />
     <Compile Include="Distributions\Sampling\MetropolisHasting.cs" />
     <Compile Include="Distributions\Univariate\Accord.Statistics.Distributions.Univariate.cs" />
     <Compile Include="Distributions\Univariate\Base\IUnivariateDistribution.cs" />
@@ -249,11 +251,14 @@
     <Compile Include="Classes.cs" />
     <Compile Include="Kernels\Additive.cs" />
     <Compile Include="Kernels\Anova.cs" />
+    <Compile Include="Kernels\Base\ILinear`1.cs" />
+    <Compile Include="Kernels\Base\ILinear.cs" />
     <Compile Include="Kernels\Base\IKernel`1.cs" />
     <Compile Include="Kernels\Base\IRadialBasisKernel.cs" />
     <Compile Include="Kernels\Base\IEstimable.cs" />
     <Compile Include="Kernels\Base\ITransform.cs" />
     <Compile Include="Kernels\Base\KernelBase.cs" />
+    <Compile Include="Kernels\Base\KernelExtensions.cs" />
     <Compile Include="Kernels\Bessel.cs" />
     <Compile Include="Kernels\BSpline.cs" />
     <Compile Include="Kernels\Cauchy.cs" />
@@ -308,14 +313,28 @@
     <Compile Include="Links\LogLinkFunction.cs" />
     <Compile Include="Links\InverseSquaredLinkFunction.cs" />
     <Compile Include="Links\ProbitLinkFunction.cs" />
-    <Compile Include="MachineLearning\GenerativeClassifierBase.cs" />
-    <Compile Include="MachineLearning\TransformBase.cs" />
-    <Compile Include="MachineLearning\ClassifierBase.cs" />
-    <Compile Include="MachineLearning\IClassifier.cs" />
-    <Compile Include="MachineLearning\IGenerativeClassifier.cs" />
-    <Compile Include="MachineLearning\ISupervisedLearning.cs" />
-    <Compile Include="MachineLearning\ITransform.cs" />
-    <Compile Include="MachineLearning\IUnsupervisedLearning.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassClassifierBase.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassDistanceClassifierBase.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelClassifierBase.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassGenerativeClassifierBase.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelDistanceClassifierBase.cs" />
+    <Compile Include="MachineLearning\Classifiers\Two classes\BinaryDistanceClassifierBase.cs" />
+    <Compile Include="MachineLearning\Classifiers\Two classes\BinaryClassifierBase.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassClassifierBase`1.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelGenerativeClassifierBase.cs" />
+    <Compile Include="MachineLearning\Classifiers\Two classes\BinaryGenerativeClassifierBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MachineLearning\Learning\ISupervisedBinaryLearning.cs" />
+    <Compile Include="MachineLearning\Learning\ISupervisedLearning.cs" />
+    <Compile Include="MachineLearning\Learning\ISupervisedMulticlassLearning.cs" />
+    <Compile Include="MachineLearning\Learning\ISupervisedMultilabelLearning.cs" />
+    <Compile Include="MachineLearning\Learning\IUnsupervisedLearning.cs" />
+    <Compile Include="MachineLearning\Learning\BinaryLearningBase.cs" />
+    <Compile Include="MachineLearning\Learning\MulticlassLearningBase.cs" />
+    <Compile Include="MachineLearning\Learning\ParallelMulticlassLearningBase.cs" />
+    <Compile Include="MachineLearning\Learning\ParallelLearningBase.cs" />
+    <Compile Include="MachineLearning\Learning\IParallel.cs" />
     <Compile Include="Measures\Measures.Histogram.cs" />
     <Compile Include="Measures\Measures.Vectors.cs" />
     <Compile Include="Measures\Measures.Matrix.cs" />
@@ -518,6 +537,8 @@
     <None Include="Distributions\Univariate\Accord.Statistics.Distributions.Univariate.cd" />
     <None Include="Kernels\Accord.Statistics.Kernels.cd" />
     <None Include="MachineLearning\Accord.MachineLearning.Core.cd" />
+    <None Include="MachineLearning\Classifiers\Multiple classes\Multiclass\Multiclass.cd" />
+    <None Include="MachineLearning\Classifiers\Two classes\Binary.cd" />
     <None Include="Models\Accord.Statistics.Models.cd">
       <SubType>Designer</SubType>
     </None>

@@ -431,7 +431,8 @@ namespace Accord.Statistics.Distributions.Univariate
             double[][] multivariate = observations as double[][];
             if (multivariate != null)
             {
-                Fit(Matrix.Concatenate(multivariate), weights, options);
+                var concat = Matrix.Concatenate(multivariate);
+                Fit(concat, weights, options);
                 return;
             }
 

@@ -89,7 +89,10 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     [Serializable]
     public class GeneralDiscreteDistribution : UnivariateDiscreteDistribution,
+        IUnivariateFittableDistribution,
         IFittableDistribution<double, GeneralDiscreteOptions>,
+        IFittableDistribution<int, GeneralDiscreteOptions>,
+        IFittable<double[], GeneralDiscreteOptions>,
         ISampleableDistribution<int>, ISampleableDistribution<double>
     {
 
@@ -118,7 +121,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   
         public GeneralDiscreteDistribution(int start, params double[] probabilities)
         {
-            if (probabilities == null) 
+            if (probabilities == null)
                 throw new ArgumentNullException("probabilities");
 
             initialize(start, probabilities);
@@ -202,6 +205,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public double this[int i]
         {
             get { return probabilities[i]; }
+            set { probabilities[i] = value; }
         }
 
         /// <summary>
@@ -241,6 +245,12 @@ namespace Accord.Statistics.Distributions.Univariate
         public double[] Frequencies
         {
             get { return probabilities; }
+            set
+            {
+                if (!probabilities.DimensionEquals(value))
+                    throw new DimensionMismatchException("value");
+                probabilities = value;
+            }
         }
 
         /// <summary>
@@ -370,10 +380,10 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             int value = k - start;
 
-            if (value < 0) 
+            if (value < 0)
                 return 0;
 
-            if (value >= probabilities.Length) 
+            if (value >= probabilities.Length)
                 return 1.0;
 
             double sum = 0.0;
@@ -496,23 +506,55 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   
         public void Fit(double[] observations, double[] weights, GeneralDiscreteOptions options)
         {
-            double[] p = new double[probabilities.Length];
+            Fit(observations.ToInt32(), weights, options);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        ///   
+        public void Fit(int[] observations, double[] weights)
+        {
+            Fit(observations, weights, null);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public void Fit(int[] observations, double[] weights, GeneralDiscreteOptions options)
+        {
+            var p = new double[probabilities.Length];
 
             // Parse options
             double minimum = 0;
             bool useLaplace = false;
+            double regularization = 0;
 
             if (options != null)
             {
                 minimum = options.Minimum;
                 useLaplace = options.UseLaplaceRule;
+                regularization = options.Regularization;
             }
 
 
             if (weights == null)
             {
                 for (int i = 0; i < observations.Length; i++)
-                    p[(int)observations[i] - start]++;
+                    p[observations[i] - start]++;
             }
             else
             {
@@ -521,18 +563,25 @@ namespace Accord.Statistics.Distributions.Univariate
                         "weights");
 
                 for (int i = 0; i < observations.Length; i++)
-                    p[(int)observations[i] - start] += weights[i] * observations.Length;
+                    p[observations[i] - start] += weights[i] * observations.Length;
+            }
+
+            if (regularization > 0)
+            {
+                for (int i = 0; i < p.Length; i++)
+                {
+                    double num = p[i] + this.probabilities[i] * regularization;
+                    double den = p.Length + regularization;
+                    p[i] = num / den;
+                }
             }
 
             if (useLaplace)
             {
                 for (int i = 0; i < p.Length; i++)
-                    p[i]++;
-
-                for (int i = 0; i < p.Length; i++)
-                    p[i] /= observations.Length + p.Length;
+                    p[i] = (p[i] + 1) / (double)(observations.Length + p.Length);
             }
-            else
+            else if (observations.Length != 0)
             {
                 for (int i = 0; i < p.Length; i++)
                     p[i] /= observations.Length;
@@ -552,7 +601,7 @@ namespace Accord.Statistics.Distributions.Univariate
                     p[i] /= sum;
             }
 
-            System.Diagnostics.Debug.Assert(!p.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!p.HasNaN());
 
             initialize(0, p);
         }
@@ -673,7 +722,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 {
                     if (u <= cumulative[i] && u > cumulative[i + 1])
                     {
-                        result[j] = i; 
+                        result[j] = i;
                         break;
                     }
                 }
@@ -728,5 +777,118 @@ namespace Accord.Statistics.Distributions.Univariate
                 .ToString(format, provider));
         }
 
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public void Fit(double[][] observations, double[] weights = null, GeneralDiscreteOptions options = null)
+        {
+            // TODO : Model the sum of weights
+            var p = new double[probabilities.Length];
+
+            // Parse options
+            double minimum = 0;
+            bool useLaplace = false;
+            double regularization = 0;
+
+            // TODO: Transfer the common parts to specialized functions
+            if (options != null)
+            {
+                minimum = options.Minimum;
+                useLaplace = options.UseLaplaceRule;
+                regularization = options.Regularization;
+            }
+
+
+            if (weights == null)
+            {
+                for (int i = 0; i < observations.Length; i++)
+                    for (int j = 0; j < observations[i].Length; j++)
+                        p[j] += observations[i][j];
+            }
+            else
+            {
+                if (observations.Length != weights.Length)
+                    throw new ArgumentException("The weight vector should have the same size as the observations",
+                        "weights");
+
+                for (int i = 0; i < observations.Length; i++)
+                    for (int j = 0; j < observations[i].Length; j++)
+                        p[j] += observations[i][j] * weights[i];
+            }
+
+            if (regularization > 0)
+            {
+                for (int i = 0; i < p.Length; i++)
+                {
+                    double num = p[i] + this.probabilities[i] * regularization;
+                    double den = p.Length + regularization;
+                    p[i] = num / den;
+                }
+            }
+
+            if (useLaplace)
+            {
+                for (int i = 0; i < p.Length; i++)
+                    p[i] = (p[i] + 1) / (double)(observations.Length + p.Length);
+            }
+            else
+            {
+                for (int i = 0; i < p.Length; i++)
+                    p[i] /= observations.Length;
+            }
+
+            if (minimum != 0)
+            {
+                double sum = 0;
+                for (int i = 0; i < p.Length; i++)
+                {
+                    if (p[i] == 0)
+                        p[i] = options.Minimum;
+                    sum += p[i];
+                }
+
+                for (int i = 0; i < p.Length; i++)
+                    p[i] /= sum;
+            }
+
+            Accord.Diagnostics.Debug.Assert(!p.HasNaN());
+
+            initialize(0, p);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        ///   
+        public void Fit(double[][] observations)
+        {
+            Fit(observations, null, null);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        ///   
+        public void Fit(double[][] observations, double[] weights)
+        {
+            Fit(observations, weights, null);
+        }
     }
 }

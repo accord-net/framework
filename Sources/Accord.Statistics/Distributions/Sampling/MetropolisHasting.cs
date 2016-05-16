@@ -57,7 +57,8 @@ namespace Accord.Statistics.Distributions.Sampling
         /// <param name="logDensity">A function specifying the log probability density of the distribution to be sampled.</param>
         /// 
         public MetropolisHasting(int dimensions, Func<double[], double> logDensity)
-            : base(dimensions, logDensity, new Independent<NormalDistribution>(dimensions))
+            : base(dimensions, logDensity, new Independent<NormalDistribution>(dimensions,
+                () => new NormalDistribution()))
         {
         }
 
@@ -74,7 +75,8 @@ namespace Accord.Statistics.Distributions.Sampling
         public static MetropolisHasting<double, Independent<NormalDistribution>> Continuous(int dimensions, Func<double[], double> logDensity)
         {
             return new MetropolisHasting<double, Independent<NormalDistribution>>(
-                dimensions, logDensity, new Independent<NormalDistribution>(dimensions));
+                dimensions, logDensity, new Independent<NormalDistribution>(dimensions,
+                    () => new NormalDistribution()));
         }
 
         /// <summary>
@@ -91,7 +93,8 @@ namespace Accord.Statistics.Distributions.Sampling
             where T : IMultivariateDistribution<double[]>
         {
             return new MetropolisHasting<double, Independent<NormalDistribution>, T>(
-                distribution, new Independent<NormalDistribution>(dimensions));
+                distribution, new Independent<NormalDistribution>(dimensions,
+                    () => new NormalDistribution()));
         }
 
         /// <summary>
@@ -107,7 +110,8 @@ namespace Accord.Statistics.Distributions.Sampling
         public static MetropolisHasting<int, Independent<SymmetricGeometricDistribution>> Discrete(int dimensions, Func<int[], double> logDensity)
         {
             return new MetropolisHasting<int, Independent<SymmetricGeometricDistribution>>(
-                dimensions, logDensity, new Independent<SymmetricGeometricDistribution>(dimensions));
+                dimensions, logDensity, new Independent<SymmetricGeometricDistribution>(dimensions,
+                    () => new SymmetricGeometricDistribution(0.5)));
         }
 
         /// <summary>
@@ -124,7 +128,8 @@ namespace Accord.Statistics.Distributions.Sampling
             where T : IMultivariateDistribution<int[]>
         {
             return new MetropolisHasting<int, Independent<SymmetricGeometricDistribution>, T>(
-                distribution, new Independent<SymmetricGeometricDistribution>(dimensions));
+                distribution, new Independent<SymmetricGeometricDistribution>(dimensions,
+                    () => new SymmetricGeometricDistribution(0.5)));
         }
     }
 

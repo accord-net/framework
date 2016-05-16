@@ -141,7 +141,8 @@ namespace Accord.Statistics.Distributions.Univariate
     [Serializable]
     public class NormalDistribution : UnivariateContinuousDistribution,
         IFittableDistribution<double, NormalOptions>,
-        ISampleableDistribution<double>, IFormattable
+        ISampleableDistribution<double>, IFormattable,
+        IUnivariateFittableDistribution
     {
 
         // Distribution parameters
@@ -229,7 +230,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                System.Diagnostics.Debug.Assert(mean.IsEqual(base.Median, 1e-10));
+                Accord.Diagnostics.Debug.Assert(mean.IsEqual(base.Median, 1e-10));
                 return mean;
             }
         }
