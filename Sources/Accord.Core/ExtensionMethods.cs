@@ -210,5 +210,36 @@ namespace Accord
             return (T)System.Convert.ChangeType(value, typeof(T));
         }
 
+        /// <summary>
+        ///   Determines whether the given type has a public default (parameterless) constructor.
+        /// </summary>
+        /// 
+        /// <param name="t">The type to check.</param>
+        /// 
+        /// <returns>True if the type has a public parameterless constructor; false otherwise.</returns>
+        /// 
+        public static bool HasDefaultConstructor(this Type t)
+        {
+            return t.IsValueType || t.GetConstructor(Type.EmptyTypes) != null;
+        }
+        
+        
+        /// <summary>
+        ///   Replaces the format item in a specified string with the string
+        ///   representation of a corresponding object in a specified array.
+        /// </summary>
+        /// 
+        /// <param name="str">A composite format string.</param>
+        /// <param name="args">An object array that contains zero or more objects to format.</param>
+        /// 
+        /// <returns>
+        ///   A copy of str in which the format items have been replaced by
+        ///   the string representation of the corresponding objects in args.
+        /// </returns>
+        /// 
+        public static string Format(this string str, params object[] args)
+        {
+            return String.Format(str, args);
+        }
     }
 }

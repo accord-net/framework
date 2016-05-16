@@ -78,6 +78,19 @@ namespace Accord.IO
         }
 
         /// <summary>
+        ///   Saves an object to a stream, represented as an array of bytes.
+        /// </summary>
+        /// 
+        /// <param name="obj">The object to be serialized.</param>
+        /// 
+        public static byte[] Save<T>(this T obj)
+        {
+            byte[] bytes;
+            Save(obj, out bytes);
+            return bytes;
+        }
+
+        /// <summary>
         ///   Saves an object to a stream.
         /// </summary>
         /// 
@@ -124,7 +137,7 @@ namespace Accord.IO
         }
 
         /// <summary>
-        ///   Loads an object from a file.
+        ///   Loads an object from a stream, represented as an array of bytes.
         /// </summary>
         /// 
         /// <param name="bytes">The byte stream containing the object to be deserialized.</param>
@@ -207,5 +220,21 @@ namespace Accord.IO
             return ((AppDomain)sender).Load(display.Name);
         }
 
+
+        /// <summary>
+        ///   Retrieves a value from the SerializationInfo store.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the value to be retrieved.</typeparam>
+        /// <param name="info">The serialization info store containing the value.</param>
+        /// <param name="name">The name of the value.</param>
+        /// <param name="value">The value retrieved from the info store.</param>
+        /// 
+        /// <returns>The value retrieved from the info store.</returns>
+        /// 
+        public static T GetValue<T>(this SerializationInfo info, string name, out T value)
+        {
+            return value = (T)info.GetValue(name, typeof(T));
+        }
     }
 }

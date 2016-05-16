@@ -23,6 +23,7 @@
 #if NET35
 namespace System.Threading.Tasks
 {
+    using Accord;
     using System;
     using System.Threading;
 
@@ -100,6 +101,12 @@ namespace System.Threading.Tasks
         /// </summary>
         /// 
         public int MaxDegreeOfParallelism { get; set; }
+
+        /// <summary>
+        ///   Does not have any effect in .NET 3.5.
+        /// </summary>
+        /// 
+        public CancellationToken CancellationToken { get; set; }
     }
 
 }
