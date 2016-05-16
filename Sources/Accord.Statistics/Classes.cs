@@ -45,7 +45,7 @@ namespace Accord.Statistics
         {
             double[] r = new double[positives.Length];
             for (int i = 0; i < r.Length; i++)
-                r[i] = (double)positives[i] / (positives[i] + negatives[i]);
+                r[i] = positives[i] / (double)(positives[i] + negatives[i]);
             return r;
         }
 
@@ -355,6 +355,84 @@ namespace Accord.Statistics
                     splittings[index.Item1] = i;
 
             return splittings;
+        }
+
+        /// <summary>
+        ///   Gets the percentage of positive samples in a set of class labels.
+        /// </summary>
+        /// 
+        /// <param name="y">The class labels.</param>
+        /// <param name="positives">The number of positive samples in <paramref name="y"/>.</param>
+        /// <param name="negatives">The number of negatives samples in <paramref name="y"/>.</param>
+        /// <returns>The percentage of positive samples in <paramref name="y"/>.</returns>
+        /// 
+        public static double GetRatio(int[] y, out int positives, out int negatives)
+        {
+            return GetRatio(y.ToBoolean(), out positives, out negatives);
+        }
+
+        /// <summary>
+        ///   Gets the percentage of positive samples in a set of class labels.
+        /// </summary>
+        /// 
+        /// <param name="y">The class labels.</param>
+        /// <param name="positives">The number of positive samples in <paramref name="y"/>.</param>
+        /// <param name="negatives">The number of negatives samples in <paramref name="y"/>.</param>
+        /// <returns>The percentage of positive samples in <paramref name="y"/>.</returns>
+        /// 
+        public static double GetRatio(this bool[] y, out int positives, out int negatives)
+        {
+            positives = 0;
+            for (int i = 0; i < y.Length; i++)
+            {
+                if (y[i])
+                    positives++;
+            }
+
+            negatives = y.Length - positives;
+            return positives / (double)(positives + negatives);
+        }
+
+        /// <summary>
+        ///   Converts a boolean variable into a 0-or-1 representation (0 is false, 1 is true).
+        /// </summary>
+        /// 
+        public static int ToZeroOne(this bool p)
+        {
+            return p ? 1 : 0;
+        }
+
+        /// <summary>
+        ///   Converts boolean variables into a 0-or-1 representation (0 is false, 1 is true).
+        /// </summary>
+        /// 
+        public static int[] ToZeroOne(this bool[] p)
+        {
+            var result = new int[p.Length];
+            for (int i = 0; i < p.Length; i++)
+                result[i] = p[i] ? 1 : 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a boolean variable into a -1 or +1 representation (-1 is false, +1 is true).
+        /// </summary>
+        /// 
+        public static int ToMinusOnePlusOne(this bool p)
+        {
+            return p ? 1 : -1;
+        }
+
+        /// <summary>
+        ///   Converts boolean variables into a -1 or +1 representation (-1 is false, +1 is true).
+        /// </summary>
+        /// 
+        public static int[] ToMinusOnePlusOne(this bool[] p)
+        {
+            var result = new int[p.Length];
+            for (int i = 0; i < p.Length; i++)
+                result[i] = p[i] ? 1 : -1;
+            return result;
         }
     }
 }
