@@ -474,9 +474,9 @@ namespace Accord.Neuro.Learning
                 visibleBiasUpdates[i] = momentum * visibleBiasUpdates[i]
                         + (rate * visibleBiasGradient[i]);
 
-            System.Diagnostics.Debug.Assert(!weightsGradient.HasNaN());
-            System.Diagnostics.Debug.Assert(!visibleBiasUpdates.HasNaN());
-            System.Diagnostics.Debug.Assert(!hiddenBiasUpdates.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!weightsGradient.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!visibleBiasUpdates.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!hiddenBiasUpdates.HasNaN());
         }
 
         private void UpdateNetwork()
