@@ -166,7 +166,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                System.Diagnostics.Debug.Assert(mu == base.Median);
+                Accord.Diagnostics.Debug.Assert(mu == base.Median);
                 return mu;
             }
         }

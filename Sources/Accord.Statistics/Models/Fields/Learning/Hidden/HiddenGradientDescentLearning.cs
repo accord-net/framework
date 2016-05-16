@@ -207,7 +207,7 @@ namespace Accord.Statistics.Models.Fields.Learning
                     double percent = current / (double)observations.Length * 100.0;
                     OnProgressChanged(new ProgressChangedEventArgs((int)percent, i));
 
-                    System.Diagnostics.Debug.Assert(!gradient.HasNaN());
+                    Accord.Diagnostics.Debug.Assert(!gradient.HasNaN());
                 }
 #if !SERIAL
 );
@@ -238,8 +238,8 @@ namespace Accord.Statistics.Models.Fields.Learning
 
                 parameters[i] -= stepSize * gradient[i];
 
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(parameters[i]));
-                System.Diagnostics.Debug.Assert(!Double.IsPositiveInfinity(parameters[i]));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(parameters[i]));
+                Accord.Diagnostics.Debug.Assert(!Double.IsPositiveInfinity(parameters[i]));
             }
 
 

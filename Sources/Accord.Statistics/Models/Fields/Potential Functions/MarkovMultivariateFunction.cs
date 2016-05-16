@@ -162,8 +162,8 @@ namespace Accord.Statistics.Models.Fields.Functions
                 factorIndex += classParams.Count + stateParams.Count + edgeParams.Count;
             }
 
-            System.Diagnostics.Debug.Assert(factorIndex == factorParams.Count);
-            System.Diagnostics.Debug.Assert(factorIndex == factorFeatures.Count);
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorParams.Count);
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorFeatures.Count);
 
             this.Weights = factorParams.ToArray();
             this.Features = factorFeatures.ToArray();
@@ -292,8 +292,8 @@ namespace Accord.Statistics.Models.Fields.Functions
                 factorIndex += classParams.Count + stateParams.Count + edgeParams.Count;
             }
 
-            System.Diagnostics.Debug.Assert(factorIndex == factorParams.Count);
-            System.Diagnostics.Debug.Assert(factorIndex == factorFeatures.Count);
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorParams.Count);
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorFeatures.Count);
 
             this.Weights = factorParams.ToArray();
             this.Features = factorFeatures.ToArray();
@@ -468,7 +468,7 @@ namespace Accord.Statistics.Models.Fields.Functions
                 {
                     for (int d = 0; d < model.Emissions[i].Components.Length; d++)
                     {
-                        IUnivariateDistribution distribution = model.Emissions[i].Components[d];
+                        var distribution = model.Emissions[i].Components[d];
 
                         NormalDistribution normal = distribution as NormalDistribution;
                         if (normal != null)
@@ -539,8 +539,8 @@ namespace Accord.Statistics.Models.Fields.Functions
                 factorIndex += classParams.Count + stateParams.Count + edgeParams.Count;
             }
 
-            System.Diagnostics.Debug.Assert(factorIndex == factorParams.Count);
-            System.Diagnostics.Debug.Assert(factorIndex == factorFeatures.Count);
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorParams.Count);
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorFeatures.Count);
 
             this.Weights = factorParams.ToArray();
             this.Features = factorFeatures.ToArray();

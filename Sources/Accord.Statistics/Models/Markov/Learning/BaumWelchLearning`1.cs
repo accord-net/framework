@@ -561,7 +561,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                     }
                 }
 
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
 
                 // Normalize if different from zero
                 if (lnsum != Double.NegativeInfinity)
@@ -602,7 +602,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                     }
                 }
 
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
 
                 if (lnsum != Double.NegativeInfinity)
                     for (int w = 0; w < weights.Length; w++)
@@ -635,10 +635,10 @@ namespace Accord.Statistics.Models.Markov.Learning
             int states = model.States;
             int T = vectorObservations[index].Length;
 
-            System.Diagnostics.Debug.Assert(lnBwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(lnBwd.GetLength(1) == states);
-            System.Diagnostics.Debug.Assert(lnFwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(lnFwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(lnBwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(lnBwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(lnFwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(lnFwd.GetLength(1) == states);
 
             ForwardBackwardAlgorithm.LogForward(model, vectorObservations[index], lnFwd);
             ForwardBackwardAlgorithm.LogBackward(model, vectorObservations[index], lnBwd);

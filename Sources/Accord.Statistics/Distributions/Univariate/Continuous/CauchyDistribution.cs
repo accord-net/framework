@@ -219,7 +219,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                System.Diagnostics.Debug.Assert(location.IsEqual(base.Median, 1e-6));
+                Accord.Diagnostics.Debug.Assert(location.IsEqual(base.Median, 1e-6));
                 return location;
             }
         }

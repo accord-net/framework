@@ -282,7 +282,7 @@ namespace Accord.Statistics.Models.Markov.Learning
             }
 
 
-            System.Diagnostics.Debug.Assert(!emissions.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!emissions.HasNaN());
 
 
             // Create and return the threshold hidden Markov model

@@ -49,9 +49,9 @@ namespace Accord.Statistics.Models.Markov
             double s = 0;
 
             // Ensures minimum requirements
-            System.Diagnostics.Debug.Assert(fwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(fwd.GetLength(1) == states);
-            System.Diagnostics.Debug.Assert(scaling.Length >= T);
+            Accord.Diagnostics.Debug.Assert(fwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(fwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(scaling.Length >= T);
             Array.Clear(fwd, 0, fwd.Length);
 
 
@@ -92,7 +92,7 @@ namespace Accord.Statistics.Models.Markov
                 }
             }
 
-            System.Diagnostics.Debug.Assert(!fwd.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!fwd.HasNaN());
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Accord.Statistics.Models.Markov
                 }
             }
 
-            System.Diagnostics.Debug.Assert(!fwd.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!fwd.HasNaN());
 
             return fwd;
         }
@@ -194,9 +194,9 @@ namespace Accord.Statistics.Models.Markov
             double s = 0;
 
             // Ensures minimum requirements
-            System.Diagnostics.Debug.Assert(fwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(fwd.GetLength(1) == states);
-            System.Diagnostics.Debug.Assert(scaling.Length >= T);
+            Accord.Diagnostics.Debug.Assert(fwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(fwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(scaling.Length >= T);
             Array.Clear(fwd, 0, fwd.Length);
 
 
@@ -237,7 +237,7 @@ namespace Accord.Statistics.Models.Markov
                 }
             }
 
-            System.Diagnostics.Debug.Assert(!fwd.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!fwd.HasNaN());
         }
 
         /// <summary>
@@ -302,8 +302,8 @@ namespace Accord.Statistics.Models.Markov
             int T = observations.Length;
 
             // Ensures minimum requirements
-            System.Diagnostics.Debug.Assert(bwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(bwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(bwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(bwd.GetLength(1) == states);
             Array.Clear(bwd, 0, bwd.Length);
 
             // For backward variables, we use the same scale factors
@@ -325,7 +325,7 @@ namespace Accord.Statistics.Models.Markov
                 }
             }
 
-            System.Diagnostics.Debug.Assert(!bwd.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!bwd.HasNaN());
         }
 
         /// <summary>
@@ -356,7 +356,7 @@ namespace Accord.Statistics.Models.Markov
                 }
             }
 
-            System.Diagnostics.Debug.Assert(!bwd.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!bwd.HasNaN());
 
             return bwd;
         }
@@ -404,8 +404,8 @@ namespace Accord.Statistics.Models.Markov
             int T = observations.Length;
 
             // Ensures minimum requirements
-            System.Diagnostics.Debug.Assert(bwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(bwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(bwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(bwd.GetLength(1) == states);
             Array.Clear(bwd, 0, bwd.Length);
 
             // For backward variables, we use the same scale factors
@@ -427,7 +427,7 @@ namespace Accord.Statistics.Models.Markov
                 }
             }
 
-            System.Diagnostics.Debug.Assert(!bwd.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!bwd.HasNaN());
         }
 
         /// <summary>
@@ -459,8 +459,8 @@ namespace Accord.Statistics.Models.Markov
             int T = observations.Length;
 
             // Ensures minimum requirements
-            System.Diagnostics.Debug.Assert(lnFwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(lnFwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(lnFwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(lnFwd.GetLength(1) == states);
             Array.Clear(lnFwd, 0, lnFwd.Length);
 
 
@@ -482,7 +482,7 @@ namespace Accord.Statistics.Models.Markov
                 }
             }
 
-            System.Diagnostics.Debug.Assert(!lnFwd.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!lnFwd.HasNaN());
         }
 
         /// <summary>
@@ -531,8 +531,8 @@ namespace Accord.Statistics.Models.Markov
             int T = observations.Length;
 
             // Ensures minimum requirements
-            System.Diagnostics.Debug.Assert(lnFwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(lnFwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(lnFwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(lnFwd.GetLength(1) == states);
             Array.Clear(lnFwd, 0, lnFwd.Length);
 
 
@@ -554,7 +554,7 @@ namespace Accord.Statistics.Models.Markov
                 }
             }
 
-            System.Diagnostics.Debug.Assert(!lnFwd.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!lnFwd.HasNaN());
         }
 
         /// <summary>
@@ -607,8 +607,8 @@ namespace Accord.Statistics.Models.Markov
             int T = observations.Length;
 
             // Ensures minimum requirements
-            System.Diagnostics.Debug.Assert(lnBwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(lnBwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(lnBwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(lnBwd.GetLength(1) == states);
             Array.Clear(lnBwd, 0, lnBwd.Length);
 
             // 1. Initialization
@@ -627,7 +627,7 @@ namespace Accord.Statistics.Models.Markov
                 }
             }
 
-            System.Diagnostics.Debug.Assert(!lnBwd.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!lnBwd.HasNaN());
         }
 
         /// <summary>
@@ -680,8 +680,8 @@ namespace Accord.Statistics.Models.Markov
             int T = observations.Length;
 
             // Ensures minimum requirements
-            System.Diagnostics.Debug.Assert(lnBwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(lnBwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(lnBwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(lnBwd.GetLength(1) == states);
             Array.Clear(lnBwd, 0, lnBwd.Length);
 
 
@@ -701,7 +701,7 @@ namespace Accord.Statistics.Models.Markov
                 }
             }
 
-            System.Diagnostics.Debug.Assert(!lnBwd.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!lnBwd.HasNaN());
         }
 
         /// <summary>

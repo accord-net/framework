@@ -254,8 +254,8 @@ namespace Accord.DirectSound
 
             notifications = list.ToArray();
 
-            System.Diagnostics.Debug.Assert(notifications[firstHalfBufferIndex].Offset == bufferSize / 2 + 1);
-            System.Diagnostics.Debug.Assert(notifications[secondHalfBufferIndex].Offset == bufferSize - 1);
+            Accord.Diagnostics.Debug.Assert(notifications[firstHalfBufferIndex].Offset == bufferSize / 2 + 1);
+            Accord.Diagnostics.Debug.Assert(notifications[secondHalfBufferIndex].Offset == bufferSize - 1);
 
             // Make a copy of the wait handles
             waitHandles = new WaitHandle[notifications.Length];

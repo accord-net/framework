@@ -140,8 +140,8 @@ namespace Accord.Statistics.Models.Fields.Functions
                 factorIndex += classParams.Count + stateParams.Count + edgeParams.Count;
             }
 
-            System.Diagnostics.Debug.Assert(factorIndex == factorParams.Count);
-            System.Diagnostics.Debug.Assert(factorIndex == factorFeatures.Count);
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorParams.Count);
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorFeatures.Count);
 
             this.Weights = factorParams.ToArray();
             this.Features = factorFeatures.ToArray();

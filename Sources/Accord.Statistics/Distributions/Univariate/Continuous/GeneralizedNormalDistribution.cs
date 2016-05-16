@@ -160,7 +160,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                System.Diagnostics.Debug.Assert(mean.IsEqual(base.Median, 1e-5));
+                Accord.Diagnostics.Debug.Assert(mean.IsEqual(base.Median, 1e-5));
                 return mean;
             }
         }

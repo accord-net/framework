@@ -219,7 +219,7 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
 
             sum += B;
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
 
             return sum;
         }

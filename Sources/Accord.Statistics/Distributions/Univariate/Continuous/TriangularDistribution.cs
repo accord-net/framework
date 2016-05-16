@@ -162,7 +162,7 @@ namespace Accord.Statistics.Distributions.Univariate
                     median = b - Math.Sqrt((b - a) * (b - c)) / Constants.Sqrt2;
                 }
 
-                System.Diagnostics.Debug.Assert(median.IsEqual(base.Median, 1e-5));
+                Accord.Diagnostics.Debug.Assert(median.IsEqual(base.Median, 1e-5));
 
                 return median;
             }

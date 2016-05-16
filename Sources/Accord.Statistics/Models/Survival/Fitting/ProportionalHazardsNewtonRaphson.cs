@@ -232,7 +232,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         {
             var censor = new SurvivalOutcome[time.Length];
 
-            System.Diagnostics.Debug.Assert(censor[0] == SurvivalOutcome.Failed);
+            Accord.Diagnostics.Debug.Assert(censor[0] == SurvivalOutcome.Failed);
 
             return Run(inputs, time, censor);
         }

@@ -139,7 +139,7 @@ namespace Accord.Statistics
             double[] diagonal = Vector.Random(size, minValue, maxValue).Abs();
             double[,] psd = Matrix.Dot(Q.TransposeAndDotWithDiagonal(diagonal), Q);
 
-            System.Diagnostics.Debug.Assert(psd.IsPositiveDefinite());
+            Accord.Diagnostics.Debug.Assert(psd.IsPositiveDefinite());
 
             return psd;
         }

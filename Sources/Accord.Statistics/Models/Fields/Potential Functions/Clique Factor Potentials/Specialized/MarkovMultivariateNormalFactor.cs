@@ -187,7 +187,7 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
                 bindex++;
             }
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
 
             return sum;
         }

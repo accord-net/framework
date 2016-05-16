@@ -163,7 +163,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
                 else median = 0.5;
 
-                System.Diagnostics.Debug.Assert(median == base.Median);
+                Accord.Diagnostics.Debug.Assert(median == base.Median);
 
                 return median;
             }

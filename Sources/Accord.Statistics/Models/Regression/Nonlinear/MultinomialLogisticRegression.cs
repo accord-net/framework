@@ -485,7 +485,7 @@ namespace Accord.Statistics.Models.Regression
                     if (o[j] > 0)
                         sum += o[j] * (Math.Log(y[j] / o[j]));
 
-                    System.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
+                    Accord.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
                 }
             }
 

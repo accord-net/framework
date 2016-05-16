@@ -48,9 +48,9 @@ namespace Accord.Statistics.Models.Fields
             double s = 0;
 
             // Ensures minimum requirements
-            System.Diagnostics.Debug.Assert(fwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(fwd.GetLength(1) == states);
-            System.Diagnostics.Debug.Assert(scaling.Length >= T);
+            Accord.Diagnostics.Debug.Assert(fwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(fwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(scaling.Length >= T);
             Array.Clear(fwd, 0, fwd.Length);
 
 
@@ -189,8 +189,8 @@ namespace Accord.Statistics.Models.Fields
             int T = observations.Length;
 
             // Ensures minimum requirements
-            System.Diagnostics.Debug.Assert(bwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(bwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(bwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(bwd.GetLength(1) == states);
             Array.Clear(bwd, 0, bwd.Length);
 
             // For backward variables, we use the same scale factors
@@ -289,8 +289,8 @@ namespace Accord.Statistics.Models.Fields
             int T = observations.Length;
 
             // Ensures minimum requirements
-            System.Diagnostics.Debug.Assert(lnFwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(lnFwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(lnFwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(lnFwd.GetLength(1) == states);
             Array.Clear(lnFwd, 0, lnFwd.Length);
 
 
@@ -341,7 +341,7 @@ namespace Accord.Statistics.Models.Fields
             for (int j = 0; j < states; j++)
                 logLikelihood = Special.LogSum(logLikelihood, lnFwd[T - 1, j]);
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
 
             return lnFwd;
         }
@@ -359,8 +359,8 @@ namespace Accord.Statistics.Models.Fields
             int T = observations.Length;
 
             // Ensures minimum requirements
-            System.Diagnostics.Debug.Assert(lnBwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(lnBwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(lnBwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(lnBwd.GetLength(1) == states);
             Array.Clear(lnBwd, 0, lnBwd.Length);
 
             // 1. Initialization

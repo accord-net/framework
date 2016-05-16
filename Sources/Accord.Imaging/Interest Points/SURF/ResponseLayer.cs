@@ -350,7 +350,7 @@ namespace Accord.Imaging
                     Dyy *= inv / 255f;
                     Dxy *= inv / 255f;
 
-                    // Get the determinant of Hessian response & laplacian sign
+                    // Get the determinant of Hessian response & Laplacian sign
                     Responses[y, x] = (Dxx * Dyy) - (0.9f * 0.9f * Dxy * Dxy);
                     Laplacian[y, x] = (Dxx + Dyy) >= 0 ? 1 : 0;
                 }

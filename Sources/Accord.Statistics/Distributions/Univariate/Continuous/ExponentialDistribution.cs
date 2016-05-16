@@ -219,7 +219,7 @@ namespace Accord.Statistics.Distributions.Univariate
             get
             {
                 double median = Math.Log(2) / lambda;
-                System.Diagnostics.Debug.Assert(median == base.Median);
+                Accord.Diagnostics.Debug.Assert(median == base.Median);
                 return median;
             }
         }
@@ -344,7 +344,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public override double InverseDistributionFunction(double p)
         {
             double icdf = -Math.Log(1 - p) / lambda;
-            System.Diagnostics.Debug.Assert(icdf.IsEqual(base.InverseDistributionFunction(p), 1e-6));
+            Accord.Diagnostics.Debug.Assert(icdf.IsEqual(base.InverseDistributionFunction(p), 1e-6));
             return icdf;
         }
 

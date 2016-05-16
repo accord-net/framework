@@ -448,10 +448,10 @@ namespace Accord.Statistics.Models.Fields
 
             double logZxy = logLikelihoods[output];
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(logZx));
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(logZxy));
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihoods[output]));
-            // System.Diagnostics.Debug.Assert(!Double.IsInfinity(logZx));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logZx));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logZxy));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihoods[output]));
+            // Accord.Diagnostics.Debug.Assert(!Double.IsInfinity(logZx));
 
             // Return the marginal
             if (logZx == logZxy)
@@ -503,7 +503,7 @@ namespace Accord.Statistics.Models.Fields
 
             double z = Math.Exp(logLikelihood);
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(z));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(z));
 
             return z;
         }
@@ -520,7 +520,7 @@ namespace Accord.Statistics.Models.Fields
 
             double z = logLikelihood;
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(z));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(z));
 
             return z;
         }
@@ -542,7 +542,7 @@ namespace Accord.Statistics.Models.Fields
                 sum += Math.Exp(logLikelihood);
             }
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
 
             return sum;
         }
@@ -564,7 +564,7 @@ namespace Accord.Statistics.Models.Fields
                 sum += Math.Exp(logLikelihood);
             }
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
 
             return Math.Log(sum);
         }
@@ -591,7 +591,7 @@ namespace Accord.Statistics.Models.Fields
                 // Accumulate output's likelihood
                 logLikelihoods[y] = logLikelihood;
 
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
             }
 #if !(SERIAL || DEBUG)
 );

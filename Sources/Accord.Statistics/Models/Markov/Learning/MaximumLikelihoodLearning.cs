@@ -256,9 +256,9 @@ namespace Accord.Statistics.Models.Markov.Learning
                 for (int j = 0; j < symbols; j++)
                     model.Emissions[i, j] = Math.Log(emissions[i, j] / (double)emissionCount[i]);
 
-            System.Diagnostics.Debug.Assert(!model.Probabilities.HasNaN());
-            System.Diagnostics.Debug.Assert(!model.Transitions.HasNaN());
-            System.Diagnostics.Debug.Assert(!model.Emissions.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!model.Probabilities.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!model.Transitions.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!model.Emissions.HasNaN());
 
 
             // 5. Compute log-likelihood
