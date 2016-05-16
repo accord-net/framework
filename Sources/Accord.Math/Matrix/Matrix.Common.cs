@@ -28,11 +28,10 @@ namespace Accord.Math
     using System.Collections.Generic;
     using System.Collections;
     using System.Runtime.CompilerServices;
+    using System.Reflection;
 
     public static partial class Matrix
     {
-
-        // TODO: Use T4 templates for the equality comparisons
 
         #region Comparison
 
@@ -80,6 +79,9 @@ namespace Accord.Math
         /// 
         public static bool IsEqual<T>(this T[][] objA, T[][] objB)
         {
+            // TODO: Make this method recursive, or create
+            // a enumerator to read all values from jagged
+            // matrices sequentially
             if (objA == objB)
                 return true;
 
@@ -115,8 +117,11 @@ namespace Accord.Math
             return true;
         }
 
+        private static readonly Dictionary<Tuple<Type, Type>, MethodInfo> equalsCache =
+            new Dictionary<Tuple<Type, Type>, MethodInfo>();
+
         /// <summary>Compares two matrices for equality.</summary>
-        public static bool IsEqual<T>(this T[,] objA, T[,] objB)
+        public static bool IsEqual(this Array objA, Array objB, double atol = 0, double rtol = 0)
         {
             if (objA == objB)
                 return true;
@@ -127,46 +132,77 @@ namespace Accord.Math
             if (objB == null)
                 throw new ArgumentNullException("objB");
 
-            if (objA.GetLength(0) != objB.GetLength(0) ||
-                objA.GetLength(1) != objB.GetLength(1))
+            if (!objA.GetLength().IsEqual(objB.GetLength()))
                 return false;
+            
+            // TODO: Implement this cache mechanism here
+            // http://blog.slaks.net/2015-06-26/code-snippets-fast-property-access-reflection/
 
-            int rows = objA.GetLength(0);
-            int cols = objA.GetLength(1);
-
-            for (int i = 0; i < rows; i++)
+            // Base case: arrays contain values, not other arrays
+            if (!objA.GetType().GetElementType().IsArray)
             {
-                for (int j = 0; j < cols; j++)
+                var typeA = objA.GetType();
+                var typeB = objB.GetType();
+                var equals = typeof(Matrix).GetMethod("IsEqual", new Type[]
                 {
-                    if (!Object.Equals(objA[i, j], objB[i, j]))
-                        return false;
+                    typeA, typeB, typeof(double), typeof(double) 
+                });
+
+                var _this = typeof(Matrix).GetMethod("IsEqual", new Type[] {
+                    typeof(Array), typeof(Array), typeof(double), typeof(double)
+                });
+
+                if (equals != _this)
+                {
+                    return (bool)equals.Invoke(null, new object[] { objA, objB, atol, rtol });
+                }
+                if (atol == 0 && rtol == 0)
+                {
+                    var a = objA.GetEnumerator();
+                    var b = objB.GetEnumerator();
+
+                    while (a.MoveNext() && b.MoveNext())
+                    {
+                        if (a.Current == b.Current)
+                            continue;
+
+                        Array arrA = a.Current as Array;
+                        Array arrB = b.Current as Array;
+                        if (arrA != null && arrB != null && IsEqual(arrA, arrB))
+                            continue;
+
+                        if (!Object.Equals(a.Current, b.Current))
+                            return false;
+                    }
+
+                    return true;
+                }
+                else
+                {
+                    throw new Exception();
                 }
             }
-
-            return true;
-        }
-
-        /// <summary>Compares two vectors for equality.</summary>
-        public static bool IsEqual<T>(this T[] objA, params T[] objB)
-        {
-            if (objA == objB)
-                return true;
-
-            if (objA == null)
-                throw new ArgumentNullException("objA");
-
-            if (objB == null)
-                throw new ArgumentNullException("objB");
-
-            if (objA.Length != objB.Length)
-                return false;
-
-            for (int i = 0; i < objA.Length; i++)
+            else
             {
-                if (!objA[i].Equals(objB[i]))
-                    return false;
+                var a = objA.GetEnumerator();
+                var b = objB.GetEnumerator();
+
+                while (a.MoveNext() && b.MoveNext())
+                {
+                    if (a.Current == b.Current)
+                        continue;
+
+                    Array arrA = a.Current as Array;
+                    Array arrB = b.Current as Array;
+                    if (arrA != null && arrB != null && IsEqual(arrA, arrB))
+                        continue;
+
+                    if (!Object.Equals(arrA, arrB))
+                        return false;
+                }
+
+                return true;
             }
-            return true;
         }
 
         /// <summary>
@@ -176,6 +212,20 @@ namespace Accord.Math
         public static new bool Equals(object value)
         {
             throw new NotSupportedException("Use Matrix.IsEqual instead.");
+        }
+
+        /// <summary>
+        ///   Checks whether two arrays have the same dimensions.
+        /// </summary>
+        /// 
+        public static bool DimensionEquals(this Array a, Array b)
+        {
+            if (a.Rank != b.Rank)
+                return false;
+            for (int i = 0; i < a.Rank; i++)
+                if (a.GetLength(i) != b.GetLength(i))
+                    return false;
+            return true;
         }
 
         /// <summary>

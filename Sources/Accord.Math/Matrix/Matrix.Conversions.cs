@@ -36,16 +36,7 @@ namespace Accord.Math
         ///   Converts a jagged-array into a multidimensional array.
         /// </summary>
         /// 
-        public static T[,] ToMatrix<T>(this T[][] array)
-        {
-            return ToMatrix(array, false);
-        }
-
-        /// <summary>
-        ///   Converts a jagged-array into a multidimensional array.
-        /// </summary>
-        /// 
-        public static T[,] ToMatrix<T>(this T[][] array, bool transpose)
+        public static T[,] ToMatrix<T>(this T[][] array, bool transpose = false)
         {
             int rows = array.Length;
             if (rows == 0) return new T[0, rows];
@@ -75,20 +66,7 @@ namespace Accord.Math
         ///   Converts an array into a multidimensional array.
         /// </summary>
         /// 
-        public static T[,] ToMatrix<T>(this T[] array)
-        {
-            T[,] m = new T[1, array.Length];
-            for (int i = 0; i < array.Length; i++)
-                m[0, i] = array[i];
-
-            return m;
-        }
-
-        /// <summary>
-        ///   Converts an array into a multidimensional array.
-        /// </summary>
-        /// 
-        public static T[][] ToArray<T>(this T[] array, bool asColumnVector = true)
+        public static T[][] ToJagged<T>(this T[] array, bool asColumnVector = true)
         {
             if (asColumnVector)
             {
@@ -129,16 +107,7 @@ namespace Accord.Math
         ///   Converts a multidimensional array into a jagged array.
         /// </summary>
         /// 
-        public static T[][] ToArray<T>(this T[,] matrix)
-        {
-            return ToArray(matrix, false);
-        }
-
-        /// <summary>
-        ///   Converts a multidimensional array into a jagged array.
-        /// </summary>
-        /// 
-        public static T[][] ToArray<T>(this T[,] matrix, bool transpose)
+        public static T[][] ToJagged<T>(this T[,] matrix, bool transpose = false)
         {
             T[][] array;
 

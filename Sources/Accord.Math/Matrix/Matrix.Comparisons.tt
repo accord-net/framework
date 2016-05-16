@@ -42,12 +42,12 @@ namespace Accord.Math
     {
 <# 
     string[] types =
-        { 
+    { 
         "Int32", "Int16",
         "Single", "Double", 
         "Int64", "Decimal",
         "Byte", "sbyte", 
-        };
+    };
 
     Action<StringBuilder, string, string, string, string> doubleTests = (sb, a, b, A, B) =>
     {
@@ -162,14 +162,17 @@ namespace Accord.Math
         {
             sb.AppendLine(String.Format("    var A = (decimal){0};", A));
             sb.AppendLine(String.Format("    var B = (decimal){0};", B));
+            sb.AppendLine("    if (A != B)");
+            sb.AppendLine("        return false;");
         }
         else
         {
             sb.AppendLine(String.Format("    var A = {0};", A));
             sb.AppendLine(String.Format("    var B = {0};", B));
+            doubleTests(sb, a, b, A, B);
+            sb.AppendLine("    if (A != B)");
+            sb.AppendLine("        return false;");
         }
-        sb.AppendLine("    if (A != B)");
-        sb.AppendLine("        return false;");
         sb.AppendLine("}");
         string indent = new String(' ', 4 * 0);
         return indent + sb.ToString().Replace("\n", "\n" + indent);

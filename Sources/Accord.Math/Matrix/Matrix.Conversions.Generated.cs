@@ -104,7 +104,7 @@ namespace Accord.Math
                 fixed (short* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (short)src[i];
+                        dst[i] = (Int16)src[i];
                 }
             }
 
@@ -226,7 +226,7 @@ namespace Accord.Math
                 fixed (float* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (float)src[i];
+                        dst[i] = (Single)src[i];
                 }
             }
 
@@ -348,7 +348,7 @@ namespace Accord.Math
                 fixed (double* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (double)src[i];
+                        dst[i] = (Double)src[i];
                 }
             }
 
@@ -470,7 +470,7 @@ namespace Accord.Math
                 fixed (long* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (long)src[i];
+                        dst[i] = (Int64)src[i];
                 }
             }
 
@@ -592,7 +592,7 @@ namespace Accord.Math
                 fixed (byte* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (byte)src[i];
+                        dst[i] = (Byte)src[i];
                 }
             }
 
@@ -714,7 +714,7 @@ namespace Accord.Math
                 fixed (sbyte* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (sbyte)src[i];
+                        dst[i] = (SByte)src[i];
                 }
             }
 
@@ -836,7 +836,7 @@ namespace Accord.Math
                 fixed (decimal* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (decimal)src[i];
+                        dst[i] = (Decimal)src[i];
                 }
             }
 
@@ -887,6 +887,128 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Decimal)value[i][j];
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a integer to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this int[] value)
+        {
+            return ToBoolean(value, new bool[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a integer to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this int[,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<int, bool>(value));
+        }
+
+        /// <summary>
+        ///   Converts a integer to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this int[][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<int, bool>(value));
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts a integer array to a boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this int[] value, bool[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional integer array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this int[,] value, bool[,] result)
+        {
+            unsafe
+            {
+                fixed (int* src = value)
+                fixed (bool* dst = result)
+                {
+                    for (int i = 0; i < value.Length; i++)
+                        dst[i] = src[i] != 0;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional integer array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this int[,] value, bool[][] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged integer array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this int[][] value, bool[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] != 0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged integer array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this int[][] value, bool[,] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] != 0;
             return result;            
         }
         /// <summary>
@@ -958,7 +1080,7 @@ namespace Accord.Math
                 fixed (int* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (int)src[i];
+                        dst[i] = (Int32)src[i];
                 }
             }
 
@@ -1080,7 +1202,7 @@ namespace Accord.Math
                 fixed (float* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (float)src[i];
+                        dst[i] = (Single)src[i];
                 }
             }
 
@@ -1202,7 +1324,7 @@ namespace Accord.Math
                 fixed (double* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (double)src[i];
+                        dst[i] = (Double)src[i];
                 }
             }
 
@@ -1324,7 +1446,7 @@ namespace Accord.Math
                 fixed (long* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (long)src[i];
+                        dst[i] = (Int64)src[i];
                 }
             }
 
@@ -1446,7 +1568,7 @@ namespace Accord.Math
                 fixed (byte* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (byte)src[i];
+                        dst[i] = (Byte)src[i];
                 }
             }
 
@@ -1568,7 +1690,7 @@ namespace Accord.Math
                 fixed (sbyte* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (sbyte)src[i];
+                        dst[i] = (SByte)src[i];
                 }
             }
 
@@ -1690,7 +1812,7 @@ namespace Accord.Math
                 fixed (decimal* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (decimal)src[i];
+                        dst[i] = (Decimal)src[i];
                 }
             }
 
@@ -1741,6 +1863,128 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Decimal)value[i][j];
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a short integer to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this short[] value)
+        {
+            return ToBoolean(value, new bool[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a short integer to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this short[,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<short, bool>(value));
+        }
+
+        /// <summary>
+        ///   Converts a short integer to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this short[][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<short, bool>(value));
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts a short integer array to a boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this short[] value, bool[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional short integer array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this short[,] value, bool[,] result)
+        {
+            unsafe
+            {
+                fixed (short* src = value)
+                fixed (bool* dst = result)
+                {
+                    for (int i = 0; i < value.Length; i++)
+                        dst[i] = src[i] != 0;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional short integer array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this short[,] value, bool[][] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged short integer array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this short[][] value, bool[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] != 0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged short integer array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this short[][] value, bool[,] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] != 0;
             return result;            
         }
         /// <summary>
@@ -1812,7 +2056,7 @@ namespace Accord.Math
                 fixed (int* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (int)src[i];
+                        dst[i] = (Int32)src[i];
                 }
             }
 
@@ -1934,7 +2178,7 @@ namespace Accord.Math
                 fixed (short* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (short)src[i];
+                        dst[i] = (Int16)src[i];
                 }
             }
 
@@ -2056,7 +2300,7 @@ namespace Accord.Math
                 fixed (double* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (double)src[i];
+                        dst[i] = (Double)src[i];
                 }
             }
 
@@ -2178,7 +2422,7 @@ namespace Accord.Math
                 fixed (long* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (long)src[i];
+                        dst[i] = (Int64)src[i];
                 }
             }
 
@@ -2300,7 +2544,7 @@ namespace Accord.Math
                 fixed (byte* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (byte)src[i];
+                        dst[i] = (Byte)src[i];
                 }
             }
 
@@ -2422,7 +2666,7 @@ namespace Accord.Math
                 fixed (sbyte* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (sbyte)src[i];
+                        dst[i] = (SByte)src[i];
                 }
             }
 
@@ -2544,7 +2788,7 @@ namespace Accord.Math
                 fixed (decimal* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (decimal)src[i];
+                        dst[i] = (Decimal)src[i];
                 }
             }
 
@@ -2595,6 +2839,128 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Decimal)value[i][j];
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a single-precision floating point to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this float[] value)
+        {
+            return ToBoolean(value, new bool[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a single-precision floating point to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this float[,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<float, bool>(value));
+        }
+
+        /// <summary>
+        ///   Converts a single-precision floating point to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this float[][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<float, bool>(value));
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts a single-precision floating point array to a boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this float[] value, bool[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this float[,] value, bool[,] result)
+        {
+            unsafe
+            {
+                fixed (float* src = value)
+                fixed (bool* dst = result)
+                {
+                    for (int i = 0; i < value.Length; i++)
+                        dst[i] = src[i] != 0;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this float[,] value, bool[][] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged single-precision floating point array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this float[][] value, bool[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] != 0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged single-precision floating point array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this float[][] value, bool[,] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] != 0;
             return result;            
         }
         /// <summary>
@@ -2666,7 +3032,7 @@ namespace Accord.Math
                 fixed (int* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (int)src[i];
+                        dst[i] = (Int32)src[i];
                 }
             }
 
@@ -2788,7 +3154,7 @@ namespace Accord.Math
                 fixed (short* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (short)src[i];
+                        dst[i] = (Int16)src[i];
                 }
             }
 
@@ -2910,7 +3276,7 @@ namespace Accord.Math
                 fixed (float* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (float)src[i];
+                        dst[i] = (Single)src[i];
                 }
             }
 
@@ -3032,7 +3398,7 @@ namespace Accord.Math
                 fixed (long* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (long)src[i];
+                        dst[i] = (Int64)src[i];
                 }
             }
 
@@ -3154,7 +3520,7 @@ namespace Accord.Math
                 fixed (byte* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (byte)src[i];
+                        dst[i] = (Byte)src[i];
                 }
             }
 
@@ -3276,7 +3642,7 @@ namespace Accord.Math
                 fixed (sbyte* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (sbyte)src[i];
+                        dst[i] = (SByte)src[i];
                 }
             }
 
@@ -3398,7 +3764,7 @@ namespace Accord.Math
                 fixed (decimal* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (decimal)src[i];
+                        dst[i] = (Decimal)src[i];
                 }
             }
 
@@ -3449,6 +3815,128 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Decimal)value[i][j];
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a double-precision floating point to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this double[] value)
+        {
+            return ToBoolean(value, new bool[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a double-precision floating point to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this double[,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<double, bool>(value));
+        }
+
+        /// <summary>
+        ///   Converts a double-precision floating point to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this double[][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<double, bool>(value));
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts a double-precision floating point array to a boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this double[] value, bool[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this double[,] value, bool[,] result)
+        {
+            unsafe
+            {
+                fixed (double* src = value)
+                fixed (bool* dst = result)
+                {
+                    for (int i = 0; i < value.Length; i++)
+                        dst[i] = src[i] != 0;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this double[,] value, bool[][] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged double-precision floating point array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this double[][] value, bool[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] != 0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged double-precision floating point array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this double[][] value, bool[,] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] != 0;
             return result;            
         }
         /// <summary>
@@ -3520,7 +4008,7 @@ namespace Accord.Math
                 fixed (int* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (int)src[i];
+                        dst[i] = (Int32)src[i];
                 }
             }
 
@@ -3642,7 +4130,7 @@ namespace Accord.Math
                 fixed (short* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (short)src[i];
+                        dst[i] = (Int16)src[i];
                 }
             }
 
@@ -3764,7 +4252,7 @@ namespace Accord.Math
                 fixed (float* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (float)src[i];
+                        dst[i] = (Single)src[i];
                 }
             }
 
@@ -3886,7 +4374,7 @@ namespace Accord.Math
                 fixed (double* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (double)src[i];
+                        dst[i] = (Double)src[i];
                 }
             }
 
@@ -4008,7 +4496,7 @@ namespace Accord.Math
                 fixed (byte* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (byte)src[i];
+                        dst[i] = (Byte)src[i];
                 }
             }
 
@@ -4130,7 +4618,7 @@ namespace Accord.Math
                 fixed (sbyte* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (sbyte)src[i];
+                        dst[i] = (SByte)src[i];
                 }
             }
 
@@ -4252,7 +4740,7 @@ namespace Accord.Math
                 fixed (decimal* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (decimal)src[i];
+                        dst[i] = (Decimal)src[i];
                 }
             }
 
@@ -4303,6 +4791,128 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Decimal)value[i][j];
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a long integer to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this long[] value)
+        {
+            return ToBoolean(value, new bool[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a long integer to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this long[,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<long, bool>(value));
+        }
+
+        /// <summary>
+        ///   Converts a long integer to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this long[][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<long, bool>(value));
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts a long integer array to a boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this long[] value, bool[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional long integer array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this long[,] value, bool[,] result)
+        {
+            unsafe
+            {
+                fixed (long* src = value)
+                fixed (bool* dst = result)
+                {
+                    for (int i = 0; i < value.Length; i++)
+                        dst[i] = src[i] != 0;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional long integer array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this long[,] value, bool[][] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged long integer array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this long[][] value, bool[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] != 0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged long integer array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this long[][] value, bool[,] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] != 0;
             return result;            
         }
         /// <summary>
@@ -4374,7 +4984,7 @@ namespace Accord.Math
                 fixed (int* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (int)src[i];
+                        dst[i] = (Int32)src[i];
                 }
             }
 
@@ -4496,7 +5106,7 @@ namespace Accord.Math
                 fixed (short* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (short)src[i];
+                        dst[i] = (Int16)src[i];
                 }
             }
 
@@ -4618,7 +5228,7 @@ namespace Accord.Math
                 fixed (float* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (float)src[i];
+                        dst[i] = (Single)src[i];
                 }
             }
 
@@ -4740,7 +5350,7 @@ namespace Accord.Math
                 fixed (double* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (double)src[i];
+                        dst[i] = (Double)src[i];
                 }
             }
 
@@ -4862,7 +5472,7 @@ namespace Accord.Math
                 fixed (long* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (long)src[i];
+                        dst[i] = (Int64)src[i];
                 }
             }
 
@@ -4984,7 +5594,7 @@ namespace Accord.Math
                 fixed (sbyte* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (sbyte)src[i];
+                        dst[i] = (SByte)src[i];
                 }
             }
 
@@ -5106,7 +5716,7 @@ namespace Accord.Math
                 fixed (decimal* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (decimal)src[i];
+                        dst[i] = (Decimal)src[i];
                 }
             }
 
@@ -5157,6 +5767,128 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Decimal)value[i][j];
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a 8-bit byte to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this byte[] value)
+        {
+            return ToBoolean(value, new bool[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a 8-bit byte to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this byte[,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<byte, bool>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 8-bit byte to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this byte[][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<byte, bool>(value));
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts a 8-bit byte array to a boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this byte[] value, bool[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this byte[,] value, bool[,] result)
+        {
+            unsafe
+            {
+                fixed (byte* src = value)
+                fixed (bool* dst = result)
+                {
+                    for (int i = 0; i < value.Length; i++)
+                        dst[i] = src[i] != 0;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this byte[,] value, bool[][] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged 8-bit byte array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this byte[][] value, bool[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] != 0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 8-bit byte array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this byte[][] value, bool[,] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] != 0;
             return result;            
         }
         /// <summary>
@@ -5228,7 +5960,7 @@ namespace Accord.Math
                 fixed (int* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (int)src[i];
+                        dst[i] = (Int32)src[i];
                 }
             }
 
@@ -5350,7 +6082,7 @@ namespace Accord.Math
                 fixed (short* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (short)src[i];
+                        dst[i] = (Int16)src[i];
                 }
             }
 
@@ -5472,7 +6204,7 @@ namespace Accord.Math
                 fixed (float* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (float)src[i];
+                        dst[i] = (Single)src[i];
                 }
             }
 
@@ -5594,7 +6326,7 @@ namespace Accord.Math
                 fixed (double* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (double)src[i];
+                        dst[i] = (Double)src[i];
                 }
             }
 
@@ -5716,7 +6448,7 @@ namespace Accord.Math
                 fixed (long* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (long)src[i];
+                        dst[i] = (Int64)src[i];
                 }
             }
 
@@ -5838,7 +6570,7 @@ namespace Accord.Math
                 fixed (byte* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (byte)src[i];
+                        dst[i] = (Byte)src[i];
                 }
             }
 
@@ -5960,7 +6692,7 @@ namespace Accord.Math
                 fixed (decimal* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (decimal)src[i];
+                        dst[i] = (Decimal)src[i];
                 }
             }
 
@@ -6011,6 +6743,128 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Decimal)value[i][j];
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this sbyte[] value)
+        {
+            return ToBoolean(value, new bool[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this sbyte[,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<sbyte, bool>(value));
+        }
+
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this sbyte[][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<sbyte, bool>(value));
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts a signed 7-bit byte array to a boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this sbyte[] value, bool[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this sbyte[,] value, bool[,] result)
+        {
+            unsafe
+            {
+                fixed (sbyte* src = value)
+                fixed (bool* dst = result)
+                {
+                    for (int i = 0; i < value.Length; i++)
+                        dst[i] = src[i] != 0;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this sbyte[,] value, bool[][] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this sbyte[][] value, bool[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] != 0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this sbyte[][] value, bool[,] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] != 0;
             return result;            
         }
         /// <summary>
@@ -6082,7 +6936,7 @@ namespace Accord.Math
                 fixed (int* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (int)src[i];
+                        dst[i] = (Int32)src[i];
                 }
             }
 
@@ -6204,7 +7058,7 @@ namespace Accord.Math
                 fixed (short* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (short)src[i];
+                        dst[i] = (Int16)src[i];
                 }
             }
 
@@ -6326,7 +7180,7 @@ namespace Accord.Math
                 fixed (float* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (float)src[i];
+                        dst[i] = (Single)src[i];
                 }
             }
 
@@ -6448,7 +7302,7 @@ namespace Accord.Math
                 fixed (double* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (double)src[i];
+                        dst[i] = (Double)src[i];
                 }
             }
 
@@ -6570,7 +7424,7 @@ namespace Accord.Math
                 fixed (long* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (long)src[i];
+                        dst[i] = (Int64)src[i];
                 }
             }
 
@@ -6692,7 +7546,7 @@ namespace Accord.Math
                 fixed (byte* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (byte)src[i];
+                        dst[i] = (Byte)src[i];
                 }
             }
 
@@ -6814,7 +7668,7 @@ namespace Accord.Math
                 fixed (sbyte* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (sbyte)src[i];
+                        dst[i] = (SByte)src[i];
                 }
             }
 
@@ -6865,6 +7719,1104 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (SByte)value[i][j];
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a decimal fixed-point to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this decimal[] value)
+        {
+            return ToBoolean(value, new bool[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a decimal fixed-point to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this decimal[,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<decimal, bool>(value));
+        }
+
+        /// <summary>
+        ///   Converts a decimal fixed-point to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this decimal[][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<decimal, bool>(value));
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts a decimal fixed-point array to a boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this decimal[] value, bool[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this decimal[,] value, bool[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* src = value)
+                fixed (bool* dst = result)
+                {
+                    for (int i = 0; i < value.Length; i++)
+                        dst[i] = src[i] != 0;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this decimal[,] value, bool[][] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this decimal[][] value, bool[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] != 0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this decimal[][] value, bool[,] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] != 0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a boolean to a integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] ToInt32(this bool[] value)
+        {
+            return ToInt32(value, new int[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] ToInt32(this bool[,] value)
+        {
+            return ToInt32(value, Matrix.CreateAs<bool, int>(value));
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] ToInt32(this bool[][] value)
+        {
+            return ToInt32(value, Jagged.CreateAs<bool, int>(value));
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts a boolean array to a integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] ToInt32(this bool[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] ? (Int32)1 : (Int32)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] ToInt32(this bool[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (bool* src = value)
+                fixed (int* dst = result)
+                {
+                    for (int i = 0; i < value.Length; i++)
+                        dst[i] = src[i] ? (Int32)1 : (Int32)0;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] ToInt32(this bool[,] value, int[][] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] ? (Int32)1 : (Int32)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] ToInt32(this bool[][] value, int[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] ? (Int32)1 : (Int32)0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] ToInt32(this bool[][] value, int[,] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] ? (Int32)1 : (Int32)0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a boolean to a short integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] ToInt16(this bool[] value)
+        {
+            return ToInt16(value, new short[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a short integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] ToInt16(this bool[,] value)
+        {
+            return ToInt16(value, Matrix.CreateAs<bool, short>(value));
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a short integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] ToInt16(this bool[][] value)
+        {
+            return ToInt16(value, Jagged.CreateAs<bool, short>(value));
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts a boolean array to a short integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] ToInt16(this bool[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] ? (Int16)1 : (Int16)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] ToInt16(this bool[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (bool* src = value)
+                fixed (short* dst = result)
+                {
+                    for (int i = 0; i < value.Length; i++)
+                        dst[i] = src[i] ? (Int16)1 : (Int16)0;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] ToInt16(this bool[,] value, short[][] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] ? (Int16)1 : (Int16)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] ToInt16(this bool[][] value, short[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] ? (Int16)1 : (Int16)0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] ToInt16(this bool[][] value, short[,] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] ? (Int16)1 : (Int16)0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a boolean to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] ToSingle(this bool[] value)
+        {
+            return ToSingle(value, new float[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] ToSingle(this bool[,] value)
+        {
+            return ToSingle(value, Matrix.CreateAs<bool, float>(value));
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] ToSingle(this bool[][] value)
+        {
+            return ToSingle(value, Jagged.CreateAs<bool, float>(value));
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts a boolean array to a single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] ToSingle(this bool[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] ? (Single)1 : (Single)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] ToSingle(this bool[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (bool* src = value)
+                fixed (float* dst = result)
+                {
+                    for (int i = 0; i < value.Length; i++)
+                        dst[i] = src[i] ? (Single)1 : (Single)0;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] ToSingle(this bool[,] value, float[][] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] ? (Single)1 : (Single)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] ToSingle(this bool[][] value, float[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] ? (Single)1 : (Single)0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] ToSingle(this bool[][] value, float[,] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] ? (Single)1 : (Single)0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a boolean to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] ToDouble(this bool[] value)
+        {
+            return ToDouble(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] ToDouble(this bool[,] value)
+        {
+            return ToDouble(value, Matrix.CreateAs<bool, double>(value));
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] ToDouble(this bool[][] value)
+        {
+            return ToDouble(value, Jagged.CreateAs<bool, double>(value));
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts a boolean array to a double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] ToDouble(this bool[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] ? (Double)1 : (Double)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] ToDouble(this bool[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (bool* src = value)
+                fixed (double* dst = result)
+                {
+                    for (int i = 0; i < value.Length; i++)
+                        dst[i] = src[i] ? (Double)1 : (Double)0;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] ToDouble(this bool[,] value, double[][] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] ? (Double)1 : (Double)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] ToDouble(this bool[][] value, double[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] ? (Double)1 : (Double)0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] ToDouble(this bool[][] value, double[,] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] ? (Double)1 : (Double)0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a boolean to a long integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] ToInt64(this bool[] value)
+        {
+            return ToInt64(value, new long[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a long integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] ToInt64(this bool[,] value)
+        {
+            return ToInt64(value, Matrix.CreateAs<bool, long>(value));
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a long integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] ToInt64(this bool[][] value)
+        {
+            return ToInt64(value, Jagged.CreateAs<bool, long>(value));
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts a boolean array to a long integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] ToInt64(this bool[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] ? (Int64)1 : (Int64)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] ToInt64(this bool[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (bool* src = value)
+                fixed (long* dst = result)
+                {
+                    for (int i = 0; i < value.Length; i++)
+                        dst[i] = src[i] ? (Int64)1 : (Int64)0;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] ToInt64(this bool[,] value, long[][] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] ? (Int64)1 : (Int64)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] ToInt64(this bool[][] value, long[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] ? (Int64)1 : (Int64)0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] ToInt64(this bool[][] value, long[,] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] ? (Int64)1 : (Int64)0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a boolean to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[] ToByte(this bool[] value)
+        {
+            return ToByte(value, new byte[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] ToByte(this bool[,] value)
+        {
+            return ToByte(value, Matrix.CreateAs<bool, byte>(value));
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] ToByte(this bool[][] value)
+        {
+            return ToByte(value, Jagged.CreateAs<bool, byte>(value));
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts a boolean array to a 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[] ToByte(this bool[] value, byte[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] ? (Byte)1 : (Byte)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] ToByte(this bool[,] value, byte[,] result)
+        {
+            unsafe
+            {
+                fixed (bool* src = value)
+                fixed (byte* dst = result)
+                {
+                    for (int i = 0; i < value.Length; i++)
+                        dst[i] = src[i] ? (Byte)1 : (Byte)0;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] ToByte(this bool[,] value, byte[][] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] ? (Byte)1 : (Byte)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] ToByte(this bool[][] value, byte[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] ? (Byte)1 : (Byte)0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] ToByte(this bool[][] value, byte[,] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] ? (Byte)1 : (Byte)0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a boolean to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[] ToSByte(this bool[] value)
+        {
+            return ToSByte(value, new sbyte[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,] ToSByte(this bool[,] value)
+        {
+            return ToSByte(value, Matrix.CreateAs<bool, sbyte>(value));
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][] ToSByte(this bool[][] value)
+        {
+            return ToSByte(value, Jagged.CreateAs<bool, sbyte>(value));
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts a boolean array to a signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[] ToSByte(this bool[] value, sbyte[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] ? (SByte)1 : (SByte)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,] ToSByte(this bool[,] value, sbyte[,] result)
+        {
+            unsafe
+            {
+                fixed (bool* src = value)
+                fixed (sbyte* dst = result)
+                {
+                    for (int i = 0; i < value.Length; i++)
+                        dst[i] = src[i] ? (SByte)1 : (SByte)0;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][] ToSByte(this bool[,] value, sbyte[][] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] ? (SByte)1 : (SByte)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][] ToSByte(this bool[][] value, sbyte[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] ? (SByte)1 : (SByte)0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,] ToSByte(this bool[][] value, sbyte[,] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] ? (SByte)1 : (SByte)0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a boolean to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] ToDecimal(this bool[] value)
+        {
+            return ToDecimal(value, new decimal[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] ToDecimal(this bool[,] value)
+        {
+            return ToDecimal(value, Matrix.CreateAs<bool, decimal>(value));
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] ToDecimal(this bool[][] value)
+        {
+            return ToDecimal(value, Jagged.CreateAs<bool, decimal>(value));
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts a boolean array to a decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] ToDecimal(this bool[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] ? (Decimal)1 : (Decimal)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] ToDecimal(this bool[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (bool* src = value)
+                fixed (decimal* dst = result)
+                {
+                    for (int i = 0; i < value.Length; i++)
+                        dst[i] = src[i] ? (Decimal)1 : (Decimal)0;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] ToDecimal(this bool[,] value, decimal[][] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] ? (Decimal)1 : (Decimal)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] ToDecimal(this bool[][] value, decimal[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] ? (Decimal)1 : (Decimal)0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] ToDecimal(this bool[][] value, decimal[,] result)
+        {
+            // TODO: Optimize
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] ? (Decimal)1 : (Decimal)0;
             return result;            
         }
     }

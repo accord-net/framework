@@ -176,7 +176,7 @@ namespace Accord.Math
         {
             if (values.Length == 0)
                 return Zeros<T>(rows, columns);
-            return values.Reshape(rows, columns).ToArray();
+            return values.Reshape(rows, columns).ToJagged();
         }
 
         /// <summary>
@@ -204,7 +204,28 @@ namespace Accord.Math
 #endif
         public static T[][] Create<T>(T[,] values)
         {
-            return values.ToArray();
+            return values.ToJagged();
+        }
+
+        /// <summary>
+        ///   Creates a matrix of one-hot vectors, where all values at each row are 
+        ///   zero except for the ones in the positions where <paramref name="mask"/>
+        ///   are true, which are set to one.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The data type for the matrix.</typeparam>
+        /// 
+        /// <param name="mask">The boolean mask determining where ones will be placed.</param>
+        /// 
+        /// <returns>A matrix containing one-hot vectors where only a single position
+        ///   is one and the others are zero.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[][] OneHot<T>(bool[] mask)
+        {
+            return OneHot<T>(mask, Jagged.Create<T>(mask.Length, 2));
         }
 
         /// <summary>
@@ -260,7 +281,7 @@ namespace Accord.Math
         /// 
         public static T[][] OneHot<T>(int[] indices, int columns)
         {
-            return OneHot<T>(indices, columns, Jagged.Create<T>(indices.Length, columns));
+            return OneHot<T>(indices, Jagged.Create<T>(indices.Length, columns));
         }
 
         /// <summary>
@@ -279,7 +300,35 @@ namespace Accord.Math
 #endif
         public static double[][] OneHot(int[] indices, int columns)
         {
-            return OneHot(indices, columns, Jagged.Create<double>(indices.Length, columns));
+            return OneHot(indices, Jagged.Create<double>(indices.Length, columns));
+        }
+
+        /// <summary>
+        ///   Creates a matrix of one-hot vectors, where all values at each row are 
+        ///   zero except for the ones in the positions where <paramref name="mask"/>
+        ///   are true, which are set to one.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The data type for the matrix.</typeparam>
+        /// 
+        /// <param name="mask">The boolean mask determining where ones will be placed.</param>
+        /// <param name="result">The matrix where the one-hot should be marked.</param>
+        /// 
+        /// <returns>A matrix containing one-hot vectors where only a single position
+        ///   is one and the others are zero.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[][] OneHot<T>(bool[] mask, T[][] result)
+        {
+            var one = (T)System.Convert.ChangeType(1, typeof(T));
+            for (int i = 0; i < mask.Length; i++)
+                if (mask[i])
+                    result[i][0] = one;
+                else
+                    result[i][1] = one;
+            return result;
         }
 
         /// <summary>
@@ -290,7 +339,6 @@ namespace Accord.Math
         /// <typeparam name="T">The data type for the matrix.</typeparam>
         /// 
         /// <param name="indices">The rows's dimension which will be marked as one.</param>
-        /// <param name="columns">The size (length) of the vectors (columns of the matrix).</param>
         /// <param name="result">The matrix where the one-hot should be marked.</param>
         /// 
         /// <returns>A matrix containing one-hot vectors where only a single position
@@ -299,7 +347,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static T[][] OneHot<T>(int[] indices, int columns, T[][] result)
+        public static T[][] OneHot<T>(int[] indices, T[][] result)
         {
             var one = (T)System.Convert.ChangeType(1, typeof(T));
             for (int i = 0; i < indices.Length; i++)
@@ -313,7 +361,6 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="indices">The rows's dimension which will be marked as one.</param>
-        /// <param name="columns">The size (length) of the vectors (columns of the matrix).</param>
         /// <param name="result">The matrix where the one-hot should be marked.</param>
         /// 
         /// <returns>A matrix containing one-hot vectors where only a single position
@@ -322,13 +369,34 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] OneHot(int[] indices, int columns, double[][] result)
+        public static double[][] OneHot(int[] indices, double[][] result)
         {
             for (int i = 0; i < indices.Length; i++)
                 result[i][indices[i]] = 1;
             return result;
         }
 
+
+        /// <summary>
+        ///   Creates a matrix of k-hot vectors, where all values at each row are 
+        ///   zero except for the ones in the positions where <paramref name="mask"/>
+        ///   are true, which are set to one.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The data type for the matrix.</typeparam>
+        /// 
+        /// <param name="mask">The boolean mask determining where ones will be placed.</param>
+        /// 
+        /// <returns>A matrix containing one-hot vectors where only a single position
+        ///   is one and the others are zero.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[][] KHot<T>(bool[][] mask)
+        {
+            return KHot<T>(mask, Jagged.CreateAs<bool, T>(mask));
+        }
 
         /// <summary>
         ///   Creates a matrix of k-hot vectors, where all values at each row are 
@@ -348,7 +416,7 @@ namespace Accord.Math
 #endif
         public static T[][] KHot<T>(int[][] indices, int columns)
         {
-            return KHot<T>(indices, columns, Jagged.Create<T>(indices.Length, columns));
+            return KHot<T>(indices, Jagged.Create<T>(indices.Length, columns));
         }
 
         /// <summary>
@@ -367,7 +435,54 @@ namespace Accord.Math
 #endif
         public static double[][] KHot(int[][] indices, int columns)
         {
-            return KHot(indices, columns, Jagged.Create<double>(indices.Length, columns));
+            return KHot(indices, Jagged.Create<double>(indices.Length, columns));
+        }
+
+        /// <summary>
+        ///   Creates a matrix of k-hot vectors, where all values at each row are 
+        ///   zero except for the ones in the positions where <paramref name="mask"/>
+        ///   are true, which are set to one.
+        /// </summary>
+        /// 
+        /// <param name="mask">The boolean mask determining where ones will be placed.</param>
+        /// <param name="columns">The size (length) of the vectors (columns of the matrix).</param>
+        /// 
+        /// <returns>A matrix containing one-hot vectors where only a single position
+        ///   is one and the others are zero.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] KHot(bool[][] mask, int columns)
+        {
+            return KHot(mask, Jagged.Create<double>(mask.Length, columns));
+        }
+
+        /// <summary>
+        ///   Creates a matrix of one-hot vectors, where all values at each row are 
+        ///   zero except for the ones in the positions where <paramref name="mask"/>
+        ///   are true, which are set to one.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The data type for the matrix.</typeparam>
+        /// 
+        /// <param name="mask">The boolean mask determining where ones will be placed.</param>
+        /// <param name="result">The matrix where the one-hot should be marked.</param>
+        /// 
+        /// <returns>A matrix containing one-hot vectors where only a single position
+        ///   is one and the others are zero.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[][] KHot<T>(bool[][] mask, T[][] result)
+        {
+            var one = (T)System.Convert.ChangeType(1, typeof(T));
+            for (int i = 0; i < mask.Length; i++)
+                for (int j = 0; j < mask[0].Length; j++)
+                    if (mask[i][j])
+                        result[i][j] = one;
+            return result;
         }
 
         /// <summary>
@@ -378,7 +493,6 @@ namespace Accord.Math
         /// <typeparam name="T">The data type for the matrix.</typeparam>
         /// 
         /// <param name="indices">The rows's dimension which will be marked as one.</param>
-        /// <param name="columns">The size (length) of the vectors (columns of the matrix).</param>
         /// <param name="result">The matrix where the one-hot should be marked.</param>
         /// 
         /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
@@ -387,7 +501,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static T[][] KHot<T>(int[][] indices, int columns, T[][] result)
+        public static T[][] KHot<T>(int[][] indices, T[][] result)
         {
             var one = (T)System.Convert.ChangeType(1, typeof(T));
             for (int i = 0; i < indices.Length; i++)
@@ -402,7 +516,6 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="indices">The rows's dimension which will be marked as one.</param>
-        /// <param name="columns">The size (length) of the vectors (columns of the matrix).</param>
         /// <param name="result">The matrix where the one-hot should be marked.</param>
         /// 
         /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
@@ -411,7 +524,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] KHot(int[][] indices, int columns, double[][] result)
+        public static double[][] KHot(int[][] indices, double[][] result)
         {
             for (int i = 0; i < indices.Length; i++)
                 for (int j = 0; j < indices[i].Length; j++)
@@ -491,7 +604,7 @@ namespace Accord.Math
         /// 
         public static double[][] Magic(int size)
         {
-            return Matrix.Magic(size).ToArray();
+            return Matrix.Magic(size).ToJagged();
         }
 
         #region Diagonal matrices
@@ -693,6 +806,24 @@ namespace Accord.Math
             return result;
         }
 
+        /// <summary>
+        ///   Creates a vector containing every index that can be used to
+        ///   address a given jagged <paramref name="array"/>, in order. 
+        /// </summary>
+        /// 
+        /// <param name="array">The array whose indices will be returned.</param>
+        /// 
+        /// <seealso cref="Matrix.GetIndices"/>
+        /// 
+        public static Tuple<int, int>[] GetIndices<T>(this T[][] array)
+        {
+            var list = new List<Tuple<int, int>>();
+            for (int i = 0; i < array.Length; i++)
+                for (int j = 0; j < array[i].Length; j++)
+                    list.Add(Tuple.Create(i, j));
+            return list.ToArray();
+        }
+
 
 
         #region Random matrices
@@ -728,7 +859,7 @@ namespace Accord.Math
         ///   Creates a rows-by-cols matrix with random data.
         /// </summary>
         /// 
-        public static T[][] Random<T>(int rows, int cols, 
+        public static T[][] Random<T>(int rows, int cols,
             IRandomNumberGenerator<T> generator, T[][] result = null)
         {
             if (result == null)

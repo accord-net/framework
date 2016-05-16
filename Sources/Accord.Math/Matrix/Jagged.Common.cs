@@ -50,7 +50,7 @@ namespace Accord.Math
             return Transpose(matrix, false);
         }
 
-       
+
 
         /// <summary>
         ///   Gets the transpose of a matrix.
@@ -119,7 +119,7 @@ namespace Accord.Math
             return result;
         }
 
-      
+
 
         /// <summary>
         ///   Gets the transpose of a row vector.
@@ -137,14 +137,14 @@ namespace Accord.Math
             return result;
         }
 
-     
+
 
         #endregion
 
 
         #region Matrix Characteristics
 
-      
+
 
         /// <summary>
         ///   Gets the number of rows in a jagged matrix.
@@ -441,6 +441,8 @@ namespace Accord.Math
                 for (int j = 0; j < matrix[i].Length; j++)
                     destination[i, j] = matrix[i][j];
         }
+
+
 
 
     }

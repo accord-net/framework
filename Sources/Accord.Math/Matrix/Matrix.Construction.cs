@@ -299,7 +299,7 @@ namespace Accord.Math
 #endif
         public static T[,] OneHot<T>(int[] indices, int columns)
         {
-            return OneHot(indices, columns, new T[indices.Length, columns]);
+            return OneHot(indices, new T[indices.Length, columns]);
         }
 
         /// <summary>
@@ -318,7 +318,7 @@ namespace Accord.Math
 #endif
         public static double[,] OneHot(int[] indices, int columns)
         {
-            return OneHot(indices, columns, new double[indices.Length, columns]);
+            return OneHot(indices, new double[indices.Length, columns]);
         }
 
         /// <summary>
@@ -329,7 +329,6 @@ namespace Accord.Math
         /// <typeparam name="T">The data type for the matrix.</typeparam>
         /// 
         /// <param name="indices">The rows's dimension which will be marked as one.</param>
-        /// <param name="columns">The size (length) of the vectors (columns of the matrix).</param>
         /// <param name="result">The matrix where the one-hot should be marked.</param>
         /// 
         /// <returns>A matrix containing one-hot vectors where only a single position
@@ -338,7 +337,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static T[,] OneHot<T>(int[] indices, int columns, T[,] result)
+        public static T[,] OneHot<T>(int[] indices, T[,] result)
         {
             var one = (T)System.Convert.ChangeType(1, typeof(T));
             for (int i = 0; i < indices.Length; i++)
@@ -352,7 +351,6 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="indices">The rows's dimension which will be marked as one.</param>
-        /// <param name="columns">The size (length) of the vectors (columns of the matrix).</param>
         /// <param name="result">The matrix where the one-hot should be marked.</param>
         /// 
         /// <returns>A matrix containing one-hot vectors where only a single position
@@ -361,7 +359,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] OneHot(int[] indices, int columns, double[,] result)
+        public static double[,] OneHot(int[] indices, double[,] result)
         {
             for (int i = 0; i < indices.Length; i++)
                 result[i, indices[i]] = 1;
@@ -388,7 +386,7 @@ namespace Accord.Math
 #endif
         public static T[,] KHot<T>(int[][] indices, int columns)
         {
-            return KHot(indices, columns, new T[indices.Length, columns]);
+            return KHot(indices, new T[indices.Length, columns]);
         }
 
         /// <summary>
@@ -407,7 +405,7 @@ namespace Accord.Math
 #endif
         public static double[,] KHot(int[][] indices, int columns)
         {
-            return KHot(indices, columns, new double[indices.Length, columns]);
+            return KHot(indices, new double[indices.Length, columns]);
         }
 
         /// <summary>
@@ -418,7 +416,6 @@ namespace Accord.Math
         /// <typeparam name="T">The data type for the matrix.</typeparam>
         /// 
         /// <param name="indices">The rows's dimension which will be marked as one.</param>
-        /// <param name="columns">The size (length) of the vectors (columns of the matrix).</param>
         /// <param name="result">The matrix where the one-hot should be marked.</param>
         /// 
         /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
@@ -427,7 +424,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static T[,] KHot<T>(int[][] indices, int columns, T[,] result)
+        public static T[,] KHot<T>(int[][] indices, T[,] result)
         {
             var one = (T)System.Convert.ChangeType(1, typeof(T));
             for (int i = 0; i < indices.Length; i++)
@@ -442,7 +439,6 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="indices">The rows's dimension which will be marked as one.</param>
-        /// <param name="columns">The size (length) of the vectors (columns of the matrix).</param>
         /// <param name="result">The matrix where the one-hot should be marked.</param>
         /// 
         /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
@@ -451,7 +447,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] KHot(int[][] indices, int columns, double[,] result)
+        public static double[,] KHot(int[][] indices, double[,] result)
         {
             for (int i = 0; i < indices.Length; i++)
                 for (int j = 0; j < indices[i].Length; j++)

@@ -67,6 +67,25 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Creates a vector with ones at the positions where
+        ///   <paramref name="mask"/> is true, and zero when they
+        ///   are false.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the vector to be created.</typeparam>
+        /// 
+        /// <param name="mask">The boolean mask determining where ones will be placed.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[] Ones<T>(bool[] mask) where T : struct
+        {
+            var one = (T)Convert.ChangeType(1, typeof(T));
+            return Create(one, mask);
+        }
+
+        /// <summary>
         ///   Creates a zero-valued vector.
         /// </summary>
         /// 
@@ -83,7 +102,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a zero-valued vector.
+        ///   Creates a one-valued vector.
         /// </summary>
         /// 
         /// <param name="size">The number of elements in the vector.</param>
@@ -96,6 +115,22 @@ namespace Accord.Math
         public static double[] Ones(int size)
         {
             return Ones<double>(size);
+        }
+
+        /// <summary>
+        ///   Creates a vector with ones at the positions where
+        ///   <paramref name="mask"/> is true, and zero when they
+        ///   are false.
+        /// </summary>
+        /// 
+        /// <param name="mask">The boolean mask determining where ones will be placed.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Ones(bool[] mask)
+        {
+            return Ones<double>(mask);
         }
 
         /// <summary>
@@ -113,6 +148,26 @@ namespace Accord.Math
             var v = new T[size];
             for (int i = 0; i < v.Length; i++)
                 v[i] = value;
+            return v;
+        }
+
+        /// <summary>
+        ///   Creates a vector with the given value at the positions where
+        ///   <paramref name="mask"/> is true, and zero when they are false.
+        /// </summary>
+        /// 
+        /// <param name="value">The initial values for the vector.</param>
+        /// <param name="mask">The boolean mask determining where the values will be placed.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[] Create<T>(T value, bool[] mask)
+        {
+            var v = new T[mask.Length];
+            for (int i = 0; i < v.Length; i++)
+                if (mask[i])
+                    v[i] = value;
             return v;
         }
 
@@ -147,7 +202,38 @@ namespace Accord.Math
 #endif
         public static T[] OneHot<T>(int index, int columns)
         {
-            return OneHot<T>(index, columns, new T[columns]);
+            return OneHot<T>(index, new T[columns]);
+        }
+
+        /// <summary>
+        ///   Creates a vector with the given value at the positions where
+        ///   <paramref name="mask"/> is true, and zero when they are false.
+        /// </summary>
+        /// 
+        /// <param name="mask">The boolean mask determining where the values will be placed.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[] OneHot<T>(bool mask)
+        {
+            return OneHot<T>(mask, new T[2]);
+        }
+
+        /// <summary>
+        ///   Creates a vector with the given value at the positions where
+        ///   <paramref name="mask"/> is true, and zero when they are false.
+        /// </summary>
+        /// 
+        /// <param name="mask">The boolean mask determining where the values will be placed.</param>
+        /// <param name="result">The vector where the one-hot should be marked.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[] OneHot<T>(bool mask, T[] result)
+        {
+            return OneHot<T>(mask ? 0 : 1, result);
         }
 
         /// <summary>
@@ -165,7 +251,7 @@ namespace Accord.Math
 #endif
         public static double[] OneHot(int index, int columns)
         {
-            return OneHot(index, columns, new double[columns]);
+            return OneHot(index, new double[columns]);
         }
 
         /// <summary>
@@ -176,7 +262,6 @@ namespace Accord.Math
         /// <typeparam name="T">The data type for the vector.</typeparam>
         /// 
         /// <param name="index">The vector's dimension which will be marked as one.</param>
-        /// <param name="columns">The size (length) of the vector.</param>
         /// <param name="result">The vector where the one-hot should be marked.</param>
         /// 
         /// <returns>A one-hot vector where only a single position is one and the others are zero.</returns>
@@ -184,7 +269,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static T[] OneHot<T>(int index, int columns, T[] result)
+        public static T[] OneHot<T>(int index, T[] result)
         {
             var one = (T)System.Convert.ChangeType(1, typeof(T));
             result[index] = one;
@@ -197,7 +282,6 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="index">The vector's dimension which will be marked as one.</param>
-        /// <param name="columns">The size (length) of the vector.</param>
         /// <param name="result">The vector where the one-hot should be marked.</param>
         /// 
         /// <returns>A one-hot vector where only a single position is one and the others are zero.</returns>
@@ -205,7 +289,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[] OneHot(int index, int columns, double[] result)
+        public static double[] OneHot(int index, double[] result)
         {
             result[index] = 1;
             return result;
@@ -228,8 +312,26 @@ namespace Accord.Math
 #endif
         public static T[] KHot<T>(int[] indices, int columns)
         {
-            return KHot<T>(indices, columns, new T[columns]);
+            return KHot<T>(indices, new T[columns]);
         }
+
+        /// <summary>
+        ///   Creates a k-hot vector, where all values are zero except for the elements
+        ///   at the positions where <paramref name="mask"/> is true, which are set to one.
+        /// </summary>
+        /// 
+        /// <param name="mask">The boolean mask determining where the values will be placed.</param>
+        /// 
+        /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[] KHot<T>(bool[] mask)
+        {
+            return KHot<T>(mask);
+        }
+
 
         /// <summary>
         ///   Creates a k-hot vector, where all values are zero except for the elements
@@ -246,7 +348,7 @@ namespace Accord.Math
 #endif
         public static double[] KHot(int[] indices, int columns)
         {
-            return KHot(indices, columns, new double[columns]);
+            return KHot(indices, new double[columns]);
         }
 
         /// <summary>
@@ -255,7 +357,6 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="indices">The vector's dimensions which will be marked as ones.</param>
-        /// <param name="columns">The size (length) of the vector.</param>
         /// <param name="result">The vector where the k-hot should be marked.</param>
         /// 
         /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
@@ -263,7 +364,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static T[] KHot<T>(int[] indices, int columns, T[] result)
+        public static T[] KHot<T>(int[] indices, T[] result)
         {
             var one = (T)System.Convert.ChangeType(1, typeof(T));
             for (int i = 0; i < indices.Length; i++)
@@ -273,11 +374,34 @@ namespace Accord.Math
 
         /// <summary>
         ///   Creates a k-hot vector, where all values are zero except for the elements
+        ///   at the positions where <paramref name="mask"/> is true, which are set to one.
+        /// </summary>
+        /// 
+        /// <param name="mask">The boolean mask determining where the values will be placed.</param>
+        /// <param name="result">The vector where the k-hot should be marked.</param>
+        ///
+        /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[] KHot<T>(bool[] mask, T[] result)
+        {
+            var one = (T)System.Convert.ChangeType(1, typeof(T));
+            for (int i = 0; i < mask.Length; i++)
+            {
+                if (mask[i])
+                    result[i] = one;
+            }
+            return result;
+        }
+
+        /// <summary>
+        ///   Creates a k-hot vector, where all values are zero except for the elements
         ///   at the indicated <paramref name="indices"/>, which are set to one.
         /// </summary>
         /// 
         /// <param name="indices">The vector's dimensions which will be marked as ones.</param>
-        /// <param name="columns">The size (length) of the vector.</param>
         /// <param name="result">The vector where the k-hot should be marked.</param>
         /// 
         /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
@@ -285,7 +409,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[] KHot(int[] indices, int columns, double[] result)
+        public static double[] KHot(int[] indices, double[] result)
         {
             for (int i = 0; i < indices.Length; i++)
                 result[indices[i]] = 1;

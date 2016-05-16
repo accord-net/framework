@@ -1510,6 +1510,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -1591,6 +1595,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -1672,6 +1680,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -1751,6 +1763,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -1830,6 +1846,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -1915,6 +1935,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -1995,6 +2019,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -2077,6 +2105,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -2211,6 +2243,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -2286,6 +2322,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -2367,6 +2407,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -2448,6 +2492,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -2527,6 +2575,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -2606,6 +2658,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -2691,6 +2747,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -2771,6 +2831,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -2853,6 +2917,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -2987,6 +3055,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -7286,6 +7358,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -7367,6 +7443,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -7448,6 +7528,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -7527,6 +7611,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -7606,6 +7694,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -7691,6 +7783,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -7771,6 +7867,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -7853,6 +7953,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -7987,6 +8091,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -8062,6 +8170,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -8143,6 +8255,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -8224,6 +8340,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -8303,6 +8423,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -8382,6 +8506,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -8467,6 +8595,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -8547,6 +8679,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -8629,6 +8765,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -8763,6 +8903,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -11654,6 +11798,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -11735,6 +11883,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -11816,6 +11968,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -11895,6 +12051,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -11974,6 +12134,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -12059,6 +12223,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -12139,6 +12307,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -12221,6 +12393,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -12355,6 +12531,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -12430,6 +12610,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -12511,6 +12695,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -12592,6 +12780,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -12671,6 +12863,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -12750,6 +12946,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -12835,6 +13035,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -12915,6 +13119,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -12997,6 +13205,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -13131,6 +13343,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -13214,6 +13430,14 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Single.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -13303,6 +13527,14 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Single.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -13392,6 +13624,14 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Single.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -13479,6 +13719,14 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Single.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -13566,6 +13814,14 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Single.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -13659,6 +13915,14 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Single.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -13747,6 +14011,14 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Single.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -13837,6 +14109,14 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Single.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -13979,6 +14259,14 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Single.IsNaN(A) && Single.IsNaN(B))
+        return true;
+    if (Single.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -14062,6 +14350,14 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Single.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -14151,6 +14447,14 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Single.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -14240,6 +14544,14 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Single.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -14327,6 +14639,14 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Single.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -14414,6 +14734,14 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Single.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -14507,6 +14835,14 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Single.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -14595,6 +14931,14 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Single.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -14685,6 +15029,14 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Single.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -14827,6 +15179,14 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Single.IsNaN(A) && Double.IsNaN(B))
+        return true;
+    if (Single.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -14902,6 +15262,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -14983,6 +15347,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -15064,6 +15432,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -15143,6 +15515,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -15222,6 +15598,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -15307,6 +15687,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -15387,6 +15771,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -15469,6 +15857,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -15603,6 +15995,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -16454,6 +16850,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -16535,6 +16935,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -16616,6 +17020,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -16695,6 +17103,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -16774,6 +17186,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -16859,6 +17275,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -16939,6 +17359,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -17021,6 +17445,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -17155,6 +17583,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -17230,6 +17662,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -17311,6 +17747,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -17392,6 +17832,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -17471,6 +17915,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -17550,6 +17998,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -17635,6 +18087,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -17715,6 +18171,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -17797,6 +18257,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -17931,6 +18395,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Single.IsNaN(A))
+        return false;
+    if (Single.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -18006,6 +18474,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -18087,6 +18559,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -18168,6 +18644,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -18247,6 +18727,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -18326,6 +18810,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -18411,6 +18899,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -18491,6 +18983,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -18573,6 +19069,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -18707,6 +19207,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -18782,6 +19286,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -18863,6 +19371,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -18944,6 +19456,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -19023,6 +19539,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -19102,6 +19622,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -19187,6 +19711,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -19267,6 +19795,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -19349,6 +19881,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -19483,6 +20019,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -19566,6 +20106,14 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Double.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -19655,6 +20203,14 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Double.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -19744,6 +20300,14 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Double.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -19831,6 +20395,14 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Double.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -19918,6 +20490,14 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Double.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -20011,6 +20591,14 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Double.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -20099,6 +20687,14 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Double.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -20189,6 +20785,14 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Double.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -20331,6 +20935,14 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Double.IsNaN(A) && Single.IsNaN(B))
+        return true;
+    if (Double.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -20414,6 +21026,14 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Double.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -20503,6 +21123,14 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Double.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -20592,6 +21220,14 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Double.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -20679,6 +21315,14 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Double.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -20766,6 +21410,14 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Double.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -20859,6 +21511,14 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Double.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -20947,6 +21607,14 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Double.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -21037,6 +21705,14 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Double.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -21179,6 +21855,14 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Double.IsNaN(A) && Double.IsNaN(B))
+        return true;
+    if (Double.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -21254,6 +21938,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -21335,6 +22023,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -21416,6 +22108,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -21495,6 +22191,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -21574,6 +22274,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -21659,6 +22363,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -21739,6 +22447,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -21821,6 +22533,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -21955,6 +22671,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -22806,6 +23526,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -22887,6 +23611,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -22968,6 +23696,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -23047,6 +23779,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -23126,6 +23862,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -23211,6 +23951,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -23291,6 +24035,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -23373,6 +24121,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -23507,6 +24259,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -23582,6 +24338,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -23663,6 +24423,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -23744,6 +24508,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -23823,6 +24591,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -23902,6 +24674,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -23987,6 +24763,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -24067,6 +24847,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -24149,6 +24933,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -24283,6 +25071,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Double.IsNaN(A))
+        return false;
+    if (Double.IsInfinity(A))
+        return false;
     if (A != B)
         return false;
 }
@@ -25766,6 +26558,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -25847,6 +26643,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -25928,6 +26728,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -26007,6 +26811,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -26086,6 +26894,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -26171,6 +26983,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -26251,6 +27067,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -26333,6 +27153,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -26467,6 +27291,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -26542,6 +27370,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -26623,6 +27455,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -26704,6 +27540,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -26783,6 +27623,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -26862,6 +27706,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -26947,6 +27795,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -27027,6 +27879,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -27109,6 +27965,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -27243,6 +28103,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -37318,6 +38182,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -37399,6 +38267,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -37480,6 +38352,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -37559,6 +38435,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -37638,6 +38518,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -37723,6 +38607,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -37803,6 +38691,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -37885,6 +38777,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -38019,6 +38915,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -38094,6 +38994,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -38175,6 +39079,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -38256,6 +39164,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -38335,6 +39247,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -38414,6 +39330,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -38499,6 +39419,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -38579,6 +39503,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -38661,6 +39589,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -38795,6 +39727,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -43094,6 +44030,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -43175,6 +44115,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -43256,6 +44200,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -43335,6 +44283,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -43414,6 +44366,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -43499,6 +44455,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -43579,6 +44539,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -43661,6 +44625,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -43795,6 +44763,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Single.IsNaN(B))
+        return false;
+    if (Single.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -43870,6 +44842,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b[i];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -43951,6 +44927,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = ptrB[i];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -44032,6 +45012,10 @@ namespace Accord.Math
 {
     var A = a[i, j];
     var B = b[i][j];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -44111,6 +45095,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i, j];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -44190,6 +45178,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b[i][j];
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -44275,6 +45267,10 @@ namespace Accord.Math
 {
     var A = a[i];
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -44355,6 +45351,10 @@ namespace Accord.Math
 {
     var A = ptrA[i];
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -44437,6 +45437,10 @@ namespace Accord.Math
 {
     var A = a[i][j];
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }
@@ -44571,6 +45575,10 @@ namespace Accord.Math
 {
     var A = a;
     var B = b;
+    if (Double.IsNaN(B))
+        return false;
+    if (Double.IsInfinity(B))
+        return false;
     if (A != B)
         return false;
 }

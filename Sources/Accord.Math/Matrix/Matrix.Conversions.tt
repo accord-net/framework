@@ -50,6 +50,7 @@ namespace Accord.Math
         new string[] { "byte", "Byte", "8-bit byte" },
         new string[] { "sbyte", "SByte", "signed 7-bit byte" },
         new string[] { "decimal", "Decimal", "decimal fixed-point" },
+        new string[] { "bool", "Boolean", "boolean" },
     };
 
     foreach (string[] a in types)
@@ -65,6 +66,20 @@ namespace Accord.Math
             string b_type = b[0];
             string b_name = b[1];
             string b_desc = b[2];
+
+            string begin = String.Format("({0})", b_name);
+            string end = "";
+
+            if (a_type == "bool")
+            {
+                begin = "";
+                end = String.Format(" ? ({0})1 : ({0})0", b_name);
+            }
+            else if (b_type == "bool")
+            {
+                begin = "";
+                end = " != 0";
+            }
 
 #>
         /// <summary>
@@ -117,7 +132,7 @@ namespace Accord.Math
         public static <#=b_type#>[] To<#=b_name#>(this <#=a_type#>[] value, <#=b_type#>[] result)
         {
             for (int i = 0; i < value.Length; i++)
-                result[i] = (<#=b_name#>)value[i];
+                result[i] = <#=begin#>value[i]<#=end#>;
             return result;
         }
 
@@ -136,7 +151,7 @@ namespace Accord.Math
                 fixed (<#=b_type#>* dst = result)
                 {
                     for (int i = 0; i < value.Length; i++)
-                        dst[i] = (<#=b_type#>)src[i];
+                        dst[i] = <#=begin#>src[i]<#=end#>;
                 }
             }
 
@@ -155,7 +170,7 @@ namespace Accord.Math
             // TODO: Optimize
             for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
-                    result[i][j] = (<#=b_name#>)value[i, j];
+                    result[i][j] = <#=begin#>value[i, j]<#=end#>;
             return result;
         }
 
@@ -170,7 +185,7 @@ namespace Accord.Math
         {
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i][j] = (<#=b_name#>)value[i][j];
+                    result[i][j] = <#=begin#>value[i][j]<#=end#>;
             return result;            
         }
 
@@ -186,7 +201,7 @@ namespace Accord.Math
             // TODO: Optimize
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i, j] = (<#=b_name#>)value[i][j];
+                    result[i, j] = <#=begin#>value[i][j]<#=end#>;
             return result;            
         }
 <#
