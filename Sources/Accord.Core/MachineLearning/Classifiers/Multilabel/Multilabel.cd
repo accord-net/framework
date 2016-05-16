@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Interface Name="Accord.MachineLearning.IMulticlassClassifier">
+    <Position X="19.75" Y="7" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multiclass\IMulticlassClassifier.cs</FileName>
+      <NewMemberFileName>MachineLearning\Classifiers\Multilabel\IMultilabelClassifier.cs</NewMemberFileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMultilabelClassifier&lt;TInput&gt;">
+    <Position X="13.5" Y="9" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multilabel\IMultilabelClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMultilabelClassifier">
+    <Position X="13.75" Y="11" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multilabel\IMultilabelClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMultilabelDistanceClassifier&lt;TInput, TClasses&gt;">
+    <Position X="21" Y="9" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multilabel\IMultilabelDistanceClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMultilabelRefDistanceClassifier&lt;TInput, TClasses&gt;">
+    <Position X="16.5" Y="11" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multilabel\IMultilabelDistanceClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMultilabelOutDistanceClassifier&lt;TInput, TClasses&gt;">
+    <Position X="20.75" Y="11" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multilabel\IMultilabelDistanceClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMultilabelDistanceClassifier&lt;TInput&gt;">
+    <Position X="17.5" Y="13" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multilabel\IMultilabelDistanceClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMultilabelGenerativeClassifier&lt;TInput, TClasses&gt;">
+    <Position X="25" Y="11" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAgAIAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multilabel\IMultilabelGenerativeClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMultilabelOutGenerativeClassifier&lt;TInput, TClasses&gt;">
+    <Position X="22.75" Y="16.25" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAgAIAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multilabel\IMultilabelGenerativeClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMultilabelRefGenerativeClassifier&lt;TInput, TClasses&gt;">
+    <Position X="21.75" Y="13.25" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAgAIAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multilabel\IMultilabelGenerativeClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMultilabelGenerativeClassifier&lt;TInput&gt;">
+    <Position X="20.5" Y="18.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAgAIAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multilabel\IMultilabelGenerativeClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
