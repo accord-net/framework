@@ -50,7 +50,7 @@ namespace Accord.MachineLearning.DecisionTrees
     ///
     [Serializable]
     [SerializationBinder(typeof(DecisionTree.DecisionTreeBinder))]
-    public class DecisionTree : ClassifierBase, IEnumerable<DecisionNode>
+    public class DecisionTree : MulticlassClassifierBase, IEnumerable<DecisionNode>
     {
         private DecisionNode root;
         private DecisionVariableCollection attributes;

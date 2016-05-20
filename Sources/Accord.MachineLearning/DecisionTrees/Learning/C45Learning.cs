@@ -29,6 +29,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     using AForge;
     using Parallel = System.Threading.Tasks.Parallel;
     using Accord.Statistics;
+    using System.Threading.Tasks;
+    using Accord.MachineLearning;
 
     /// <summary>
     ///   C4.5 Learning algorithm for <see cref="DecisionTree">Decision Trees</see>.
@@ -157,7 +159,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     /// </example>
     ///
     [Serializable]
-    public class C45Learning
+    public class C45Learning : ParallelLearningBase,
+        ISupervisedLearning<DecisionTree, double[], int>
     {
 
         private DecisionTree tree;
@@ -193,6 +196,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 maxHeight = value;
             }
         }
+
 
         /// <summary>
         ///   Gets or sets the maximum number of variables that
@@ -247,11 +251,23 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         }
 
         /// <summary>
+        ///   Gets or sets the decision trees being learned.
+        /// </summary>
+        /// 
+        public DecisionTree Model
+        {
+            get { return tree; }
+            set { tree = value; }
+        }
+
+        /// <summary>
         ///   Creates a new C4.5 learning algorithm.
         /// </summary>
         /// 
         public C45Learning()
         {
+            this.splitStep = 1;
+            this.ParallelOptions = new ParallelOptions();
         }
 
         /// <summary>
@@ -261,9 +277,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// <param name="tree">The decision tree to be generated.</param>
         /// 
         public C45Learning(DecisionTree tree)
+            : this()
         {
-            this.splitStep = 1;
-
             init(tree);
         }
 
@@ -285,21 +300,48 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         }
 
         /// <summary>
-        ///   Runs the learning algorithm, creating a decision
-        ///   tree modeling the given inputs and outputs.
+        ///   Learns a model that can map the given inputs to the given outputs.
         /// </summary>
         /// 
-        /// <param name="inputs">The inputs.</param>
-        /// <param name="outputs">The corresponding outputs.</param>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
         /// 
-        /// <returns>The error of the generated tree.</returns>
+        /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
-        public DecisionTree Learn(double[][] inputs, int[] outputs)
+        public DecisionTree Learn(double[][] x, int[] y, double[] weights = null)
         {
-            var variables = DecisionVariable.FromData(inputs);
-            int classes = outputs.DistinctCount();
-            init(new DecisionTree(variables, classes));
-            this.Run(inputs, outputs);
+            if (tree == null)
+            {
+                var variables = DecisionVariable.FromData(x);
+                int classes = y.DistinctCount();
+                init(new DecisionTree(variables, classes));
+            }
+
+            this.Run(x, y);
+            return tree;
+        }
+
+        /// <summary>
+        ///   Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// 
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// 
+        /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
+        /// 
+        public DecisionTree Learn(int[][] x, int[] y, double[] weights = null)
+        {
+            if (tree == null)
+            {
+                var variables = DecisionVariable.FromData(x);
+                int classes = y.DistinctCount();
+                init(new DecisionTree(variables, classes));
+            }
+
+            this.Run(x.ToDouble(), y);
             return tree;
         }
 
@@ -350,7 +392,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                         // "If all cases of adjacent values V[i] and V[i+1] belong to the same class, 
                         // a threshold between them cannot lead to a partition that has the maximum value of
                         // the criterion." i.e no reason the add the threshold as a candidate
-                        
+
                         IGrouping<double, int> currentValueToClasses = sortedValueToClassesMapping[j];
                         IGrouping<double, int> nextValueToClasses = sortedValueToClassesMapping[j + 1];
                         if (nextValueToClasses.Key - currentValueToClasses.Key > Constants.DoubleEpsilon &&
@@ -436,18 +478,11 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             var partitions = new int[candidates.Length][][];
 
             // For each attribute in the data set
-#if SERIAL
-            for (int i = 0; i < scores.Length; i++)
-#else
-            Parallel.For(0, scores.Length, i =>
-#endif
+            Parallel.For(0, scores.Length, ParallelOptions, i =>
             {
                 scores[i] = computeGainRatio(input, output, candidates[i],
                     entropy, out partitions[i], out thresholds[i]);
-            }
-#if !SERIAL
-);
-#endif
+            });
 
             // Select the attribute with maximum gain ratio
             int maxGainIndex; scores.Max(out maxGainIndex);
