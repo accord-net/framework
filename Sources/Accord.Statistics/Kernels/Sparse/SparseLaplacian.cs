@@ -100,6 +100,8 @@ namespace Accord.Statistics.Kernels.Sparse
             if (x == y)
                 return 1.0;
 
+#pragma warning disable 0618
+
             double norm = SparseLinear.SquaredEuclidean(x, y);
 
             return Math.Exp(-gamma * Math.Sqrt(norm));

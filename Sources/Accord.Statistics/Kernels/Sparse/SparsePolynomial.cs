@@ -88,6 +88,8 @@ namespace Accord.Statistics.Kernels.Sparse
         /// 
         public override double Function(double[] x, double[] y)
         {
+#pragma warning disable 0618
+
             double sum = SparseLinear.Product(x,y) + constant;
 
             return Math.Pow(sum, Degree);
