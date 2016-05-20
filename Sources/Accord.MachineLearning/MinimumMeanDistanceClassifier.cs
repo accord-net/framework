@@ -89,7 +89,9 @@ namespace Accord.MachineLearning
             for (int i = 0; i < means.Length; i++)
                 means[i] = new double[dimension];
 
-
+            // Compute the average of the input vectors for each of
+            // the output classes. Afterwards, a decision can be cast
+            // by checking to which average a new sample is closer.
             for (int i = 0; i < inputs.Length; i++)
             {
                 int k = outputs[i];

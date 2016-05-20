@@ -169,7 +169,7 @@ namespace Accord.MachineLearning.Geometry
 
         private Circle define(int[] x)
         {
-            System.Diagnostics.Debug.Assert(x.Length == 3);
+            Accord.Diagnostics.Debug.Assert(x.Length == 3);
             return new Circle(points[x[0]], points[x[1]], points[x[2]]);
         }
 
@@ -183,7 +183,7 @@ namespace Accord.MachineLearning.Geometry
 
         private bool degenerate(int[] indices)
         {
-            System.Diagnostics.Debug.Assert(indices.Length == 3);
+            Accord.Diagnostics.Debug.Assert(indices.Length == 3);
 
             Point p1 = points[indices[0]];
             Point p2 = points[indices[1]];

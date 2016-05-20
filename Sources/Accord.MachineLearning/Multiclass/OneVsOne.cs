@@ -69,7 +69,7 @@ namespace Accord.MachineLearning
     [Serializable]
     public class OneVsOne<TBinary, TInput> :
         MulticlassGenerativeClassifierBase<TInput>,
-        IEnumerable<KeyValuePair<Tuple<int, int>, TBinary>>, IParallel
+        IEnumerable<KeyValuePair<ClassPair, TBinary>>, IParallel
         where TBinary : class, IClassifier<TInput, bool>, ICloneable
     {
 
@@ -210,6 +210,19 @@ namespace Accord.MachineLearning
                     throw new ArgumentOutOfRangeException();
                 models[classA - 1][classB] = value;
             }
+        }
+
+        /// <summary>
+        ///   Gets a inner binary classification model inside this <see cref="OneVsOne{T}"/>
+        ///   classifier, together with the pair of classes that it has been designed to
+        ///   distinguish.
+        /// </summary>
+        /// 
+        /// <param name="index">The index of the model (up to <see cref="Count"/>).</param>
+        /// 
+        public KeyValuePair<ClassPair, TBinary> this[int index]
+        {
+            get { return this.ToArray()[index]; }
         }
 
 
@@ -467,11 +480,11 @@ namespace Accord.MachineLearning
         ///   contained inside this multi-class support vector machine.
         /// </summary>
         /// 
-        public IEnumerator<KeyValuePair<Tuple<int, int>, TBinary>> GetEnumerator()
+        public IEnumerator<KeyValuePair<ClassPair, TBinary>> GetEnumerator()
         {
             for (int i = 0; i < models.Length; i++)
                 for (int j = 0; j < models[i].Length; j++)
-                    yield return new KeyValuePair<Tuple<int, int>, TBinary>(Tuple.Create(i + 1, j), models[i][j]);
+                    yield return new KeyValuePair<ClassPair, TBinary>(new ClassPair(i + 1, j), models[i][j]);
         }
 
         /// <summary>

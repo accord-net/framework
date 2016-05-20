@@ -76,7 +76,7 @@ namespace Accord.MachineLearning.VectorMachines
         /// <param name="classes">The number of classes in the multi-class classification problem.</param>
         /// <param name="inputs">The number of inputs (length of the input vectors) accepted by the machine.</param>
         /// <param name="kernel">The kernel function to be used.</param>
-        public MulticlassSupportVectorMachine(int classes, TKernel kernel, int inputs)
+        public MulticlassSupportVectorMachine(int inputs, TKernel kernel, int classes)
             : base(classes, () => new SupportVectorMachine<TKernel, TInput>(inputs, kernel))
         {
         }

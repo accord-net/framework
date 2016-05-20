@@ -180,7 +180,7 @@ namespace Accord.MachineLearning.Geometry
 
         private Line defineline(int[] x)
         {
-            System.Diagnostics.Debug.Assert(x.Length == 2);
+            Accord.Diagnostics.Debug.Assert(x.Length == 2);
 
             Point p1 = points[x[0]];
             Point p2 = points[x[1]];
@@ -198,7 +198,7 @@ namespace Accord.MachineLearning.Geometry
 
         private bool degenerate(int[] indices)
         {
-            System.Diagnostics.Debug.Assert(indices.Length == 2);
+            Accord.Diagnostics.Debug.Assert(indices.Length == 2);
 
             Point p1 = points[indices[0]];
             Point p2 = points[indices[1]];
