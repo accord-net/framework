@@ -138,6 +138,8 @@
     <Compile Include="Collections\RedBlackTree`1.cs" />
     <Compile Include="Ranges\IRange`1.cs" />
     <Compile Include="Serializer.cs" />
+    <Compile Include="Sparse.cs" />
+    <Compile Include="Sparse`1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.dll.config">
