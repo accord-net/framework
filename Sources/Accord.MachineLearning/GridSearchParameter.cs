@@ -104,6 +104,17 @@ namespace Accord.MachineLearning
         {
             return (parameter1.name != parameter2.name || parameter1.value != parameter2.value);
         }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return String.Format("{0}: {1}", name, value);
+        }
     }
 
     /// <summary>
