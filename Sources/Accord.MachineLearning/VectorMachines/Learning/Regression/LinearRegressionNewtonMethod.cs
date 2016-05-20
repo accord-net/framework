@@ -58,6 +58,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Math.Optimization;
     using Accord.Statistics.Links;
     using System.Diagnostics;
+    using Accord.Statistics.Kernels;
+    using Accord.Math.Optimization.Losses;
+    using Accord.Math;
 
     /// <summary>
     ///   L2-regularized L2-loss linear support vector regression
@@ -81,8 +84,43 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <seealso cref="LinearDualCoordinateDescent"/>
     /// <seealso cref="LinearRegressionCoordinateDescent"/>
     /// 
-    public class LinearRegressionNewtonMethod : BaseSupportVectorRegression,
-        ISupportVectorMachineLearning, ISupportCancellation
+    public class LinearRegressionNewtonMethod :
+        BaseLinearRegressionNewtonMethod<SupportVectorMachine>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LinearRegressionNewtonMethod"/> class.
+        /// </summary>
+        public LinearRegressionNewtonMethod()
+        {
+        }
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please do not pass parameters in the constructor. Use the default constructor and the Learn method instead.")]
+        public LinearRegressionNewtonMethod(SupportVectorMachine model, double[][] input, double[] output)
+            : base(model, input, output)
+        {
+        }
+
+        /// <summary>
+        /// Creates an instance of the model to be learned. Inheritors
+        /// of this abstract class must define this method so new models
+        /// can be created from the training data.
+        /// </summary>
+        protected override SupportVectorMachine Create(int inputs, Linear kernel)
+        {
+            return new SupportVectorMachine(inputs) { Kernel = kernel };
+        }
+    }
+
+    /// <summary>
+    ///   Base class for newton method for linear regression learning algorithm.
+    /// </summary>
+    /// 
+    public abstract class BaseLinearRegressionNewtonMethod<TModel> :
+        BaseSupportVectorRegression<TModel, Linear, double[]>
+        where TModel : SupportVectorMachine<Linear, double[]>
     {
 
         TrustRegionNewtonMethod tron;
@@ -97,36 +135,17 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         int biasIndex;
 
-        private double[] C;
-
+        double tolerance = 0.01;
+        int maxIterations = 1000;
 
         /// <summary>
         ///   Constructs a new Newton method algorithm for L2-regularized
         ///   support vector regression (SVR-SVMs) primal problems.
         /// </summary>
         /// 
-        /// <param name="machine">A support vector machine.</param>
-        /// <param name="inputs">The input data points as row vectors.</param>
-        /// <param name="outputs">The output value for each input point.</param>
-        /// 
-        public LinearRegressionNewtonMethod(SupportVectorMachine machine, double[][] inputs, double[] outputs)
-            : base(machine, inputs, outputs)
+        public BaseLinearRegressionNewtonMethod()
         {
-            if (!IsLinear)
-                throw new ArgumentException("Only linear machines are supported.", "machine");
 
-            int samples = inputs.Length;
-            int parameters = machine.Inputs + 1;
-
-            this.z = new double[samples];
-            this.I = new int[samples];
-            this.wa = new double[samples];
-
-            this.g = new double[parameters];
-            this.h = new double[parameters];
-            this.biasIndex = machine.Inputs;
-
-            tron = new TrustRegionNewtonMethod(parameters);
         }
 
         /// <summary>
@@ -139,8 +158,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// 
         public double Tolerance
         {
-            get { return tron.Tolerance; }
-            set { tron.Tolerance = value; }
+            get { return tolerance; }
+            set { tolerance = value; }
         }
 
         /// <summary>
@@ -150,8 +169,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// 
         public int MaximumIterations
         {
-            get { return tron.MaxIterations; }
-            set { tron.MaxIterations = value; }
+            get { return maxIterations; }
+            set { maxIterations = value; }
         }
 
 
@@ -231,35 +250,54 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             return h;
         }
 
-       
+
 
 
         /// <summary>
         ///   Runs the learning algorithm.
         /// </summary>
         /// 
-        /// <param name="token">A token to stop processing when requested.</param>
-        /// <param name="c">The complexity for each sample.</param>
-        /// 
-        protected override void Run(CancellationToken token, double[] c)
+        protected override void InnerRun()
         {
-            this.C = c;
+            int samples = Inputs.Length;
+            int parameters = Inputs[0].Length + 1;
 
-            tron.Function = objective;
-            tron.Gradient = gradient;
-            tron.Hessian = hessian;
+            this.z = new double[samples];
+            this.I = new int[samples];
+            this.wa = new double[samples];
+
+            this.g = new double[parameters];
+            this.h = new double[parameters];
+            this.biasIndex = parameters - 1;
+
+            tron = new TrustRegionNewtonMethod(parameters)
+            {
+                Function = objective,
+                Gradient = gradient,
+                Hessian = hessian,
+                Tolerance = tolerance,
+                MaxIterations = maxIterations
+            };
 
             for (int i = 0; i < tron.Solution.Length; i++)
                 tron.Solution[i] = 0;
 
             tron.Minimize();
 
-            double[] weights = tron.Solution;
+            double[] w = tron.Solution;
+            Model.SupportVectors = new[] { w.Submatrix(Model.NumberOfInputs) };
+            Model.Weights = new[] { 1.0 };
+            Model.Threshold = w[biasIndex];
+        }
 
-            Machine.Weights = new double[Machine.Inputs];
-            for (int i = 0; i < Machine.Weights.Length; i++)
-                Machine.Weights[i] = weights[i];
-            Machine.Threshold = weights[biasIndex];
+
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        protected BaseLinearRegressionNewtonMethod(TModel model, double[][] input, double[] output)
+            : base(model, input, output)
+        {
         }
     }
 }

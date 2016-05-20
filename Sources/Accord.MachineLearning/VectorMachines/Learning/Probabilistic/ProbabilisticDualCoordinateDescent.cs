@@ -57,6 +57,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System.Diagnostics;
     using System.Threading;
     using Accord.Statistics.Links;
+    using Accord.Statistics.Kernels;
+    using Accord.Math;
 
     /// <summary>
     ///   L2-regularized logistic regression (probabilistic support 
@@ -102,8 +104,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <see cref="SequentialMinimalOptimization"/>
     /// <see cref="ProbabilisticNewtonMethod"/>
     /// 
-    public class ProbabilisticDualCoordinateDescent : BaseSupportVectorLearning,
-        ISupportVectorMachineLearning, ISupportCancellation
+    public class ProbabilisticDualCoordinateDescent :
+        BaseSupportVectorClassification<SupportVectorMachine, Linear, double[]>,
+        ILinearSupportVectorMachineLearning
     {
 
         double[] weights;
@@ -119,18 +122,19 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   logistic regression (probabilistic linear SVMs) dual problems.
         /// </summary>
         /// 
-        /// <param name="machine">A support vector machine.</param>
-        /// <param name="inputs">The input data points as row vectors.</param>
-        /// <param name="outputs">The output label for each input point. Values must be either -1 or +1.</param>
-        /// 
-        public ProbabilisticDualCoordinateDescent(SupportVectorMachine machine, 
-            double[][] inputs, int[] outputs) : base(machine, inputs, outputs)
+        public ProbabilisticDualCoordinateDescent()
         {
-            if (!IsLinear)
-                throw new ArgumentException("Only linear machines are supported.", "machine");
 
-            this.weights = new double[machine.Inputs + 1];
-            this.biasIndex = machine.Inputs;
+        }
+
+        /// <summary>
+        /// Creates an instance of the model to be learned. Inheritors
+        /// of this abstract class must define this method so new models
+        /// can be created from the training data.
+        /// </summary>
+        protected override SupportVectorMachine Create(int inputs, Linear kernel)
+        {
+            return new SupportVectorMachine(inputs) { Kernel = kernel };
         }
 
         /// <summary>
@@ -174,25 +178,28 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Runs the learning algorithm.
         /// </summary>
         /// 
-        /// <param name="token">A token to stop processing when requested.</param>
-        /// <param name="c">The complexity for each sample.</param>
-        /// 
-        protected override void Run(CancellationToken token, double[] c)
+        protected override void InnerRun()
         {
             int iter = 0;
-            double[] w = weights;
+
+            int samples = Inputs.Length;
+            int parameters = Inputs[0].Length;
+            this.weights = new double[parameters + 1];
+            this.biasIndex = parameters;
 
             double[][] inputs = Inputs;
             int[] y = Outputs;
+            double[] w = weights;
+
 
             double[] xTx = new double[inputs.Length];
             int[] index = new int[inputs.Length];
             double[] alpha = new double[2 * inputs.Length]; // store alpha and C - alpha
-            
+
             double innereps = 1e-2;
             double innereps_min = System.Math.Min(1e-8, eps);
 
-            double[] upper_bound = c; // = { Cn, 0, Cp };
+            double[] upper_bound = this.C; // = { Cn, 0, Cp };
 
 
             // Initial alpha can be set here. Note that
@@ -224,7 +231,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             while (iter < max_iter)
             {
-                if (token.IsCancellationRequested)
+                if (Token.IsCancellationRequested)
                     break;
 
                 for (int i = 0; i < inputs.Length; i++)
@@ -244,9 +251,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                     int i = index[s];
                     int yi = y[i];
                     double C = upper_bound[i];
-                    
+
                     double xisq = xTx[i];
-                    
+
                     double[] xi = inputs[i];
 
                     double ywTx = w[biasIndex];
@@ -347,14 +354,21 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                     - upper_bound[i] * Math.Log(upper_bound[i]);
             }
 
-            Trace.WriteLine("Objective value = " +  v);
+            Trace.WriteLine("Objective value = " + v);
 
-            Machine.Weights = new double[Machine.Inputs];
-            for (int i = 0; i < Machine.Weights.Length; i++)
-                Machine.Weights[i] = weights[i];
-            Machine.Threshold = weights[biasIndex];
-            Machine.Link = new LogLinkFunction();
+            Model.Weights = new double[] { 1.0 };
+            Model.SupportVectors = new[] { w.Submatrix(w.Length - 1) };
+            Model.Threshold = weights[biasIndex];
+            Model.IsProbabilistic = true;
         }
 
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please do not pass parameters in the constructor. Use the default constructor and the Learn method instead.")]
+        public ProbabilisticDualCoordinateDescent(SupportVectorMachine model, double[][] input, int[] output)
+            : base(model, input, output)
+        {
+        }
     }
 }

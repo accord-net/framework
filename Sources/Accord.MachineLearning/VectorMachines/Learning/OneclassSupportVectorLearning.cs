@@ -24,24 +24,66 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 {
     using Accord.Math.Optimization;
     using Accord.Statistics.Kernels;
+    using Accord.Math;
     using System;
+    using Accord.Math.Optimization.Losses;
 
     /// <summary>
     ///   One-class Support Vector Machine Learning Algorithm.
     /// </summary>
     /// 
-    public class OneclassSupportVectorLearning : ISupportVectorMachineLearning
+#pragma warning disable 0618
+    [Obsolete("Please use OneclassSupportVectorLearning<TKernel> instead.")]
+    public class OneclassSupportVectorLearning
+        : OneclassSupportVectorLearning<KernelSupportVectorMachine, IKernel<double[]>, double[]>
     {
-        SupportVectorMachine machine;
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please do not pass parameters in the constructor. Use the default constructor and the Learn method instead.")]
+        public OneclassSupportVectorLearning(KernelSupportVectorMachine model, double[][] input)
+            : base(model, input)
+        {
+        }
 
-        private double[][] inputs;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OneclassSupportVectorLearning"/> class.
+        /// </summary>
+        public OneclassSupportVectorLearning()
+        {
+
+        }
+    }
+#pragma warning restore 0618
+
+
+
+    /// <summary>
+    ///   One-class Support Vector Machine Learning Algorithm.
+    /// </summary>
+    /// 
+    public class OneclassSupportVectorLearning<TKernel, TInput>
+        : OneclassSupportVectorLearning<SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
+        where TKernel : IKernel<TInput>
+        where TInput : ICloneable
+    {
+    }
+
+    /// <summary>
+    ///   One-class Support Vector Machine Learning Algorithm.
+    /// </summary>
+    /// 
+    public class OneclassSupportVectorLearning<TModel, TKernel, TInput>
+        : IUnsupervisedLearning<TModel, TInput, bool>
+        where TKernel : IKernel<TInput>
+        where TModel : SupportVectorMachine<TKernel, TInput>
+        where TInput : ICloneable
+    {
         private double[] alpha;
-
+        private TInput[] inputs;
         private double nu = 0.5;
 
-        IKernel kernel;
-        readonly double[] zeros;
-        readonly int[] ones;
+        TModel machine;
 
         double eps = 0.001;
         bool shrinking = true;
@@ -52,42 +94,19 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </summary>
         /// 
         /// <param name="machine">A support vector machine.</param>
-        /// <param name="inputs">The input data points as row vectors.</param>
         /// 
-        public OneclassSupportVectorLearning(SupportVectorMachine machine, double[][] inputs)
+        public OneclassSupportVectorLearning(TModel machine)
         {
-            // Initial argument checking
-            if (machine == null)
-                throw new ArgumentNullException("machine");
-
-            if (inputs == null)
-                throw new ArgumentNullException("inputs");
-
-            this.inputs = inputs;
             this.machine = machine;
+        }
 
-            this.zeros = new double[inputs.Length];
-            this.ones = new int[inputs.Length];
-            this.alpha = new double[inputs.Length];
+        /// <summary>
+        ///   Constructs a new one-class support vector learning algorithm.
+        /// </summary>
+        /// 
+        public OneclassSupportVectorLearning()
+        {
 
-            for (int i = 0; i < alpha.Length; i++)
-                alpha[i] = 1;
-
-            for (int i = 0; i < ones.Length; i++)
-                ones[i] = 1;
-
-
-            // Kernel (if applicable)
-            var ksvm = machine as KernelSupportVectorMachine;
-
-            if (ksvm == null)
-            {
-                kernel = new Linear(0);
-            }
-            else
-            {
-                kernel = ksvm.Kernel;
-            }
         }
 
         /// <summary>
@@ -143,20 +162,24 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             set { nu = value; }
         }
 
+
         /// <summary>
-        ///   Runs the learning algorithm.
+        /// Learns a model that can map the given inputs to the desired outputs.
         /// </summary>
-        /// 
-        /// <param name="computeError">True to compute error after the training
-        ///   process completes, false otherwise.</param>
+        /// <param name="x">The model inputs.</param>
         /// <returns>
-        ///   The misclassification error rate of the resulting support
-        ///   vector machine if <paramref name="computeError" /> is true,
-        ///   returns zero otherwise.
+        /// A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.
         /// </returns>
-        /// 
-        public double Run(bool computeError)
+        public TModel Learn(TInput[] x)
         {
+            this.inputs = x;
+            double[] zeros = new double[inputs.Length];
+            int[] ones = Vector.Ones<int>(inputs.Length);
+            this.alpha = Vector.Ones<double>(inputs.Length);
+
+            var kernel = machine.Kernel;
+
             int l = inputs.Length;
             int n = (int)(nu * l);	// # of alpha's at upper bound
 
@@ -169,6 +192,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             for (int i = n + 1; i < l; i++)
                 alpha[i] = 0;
 
+            Func<int, int, double> Q = (int i, int j) => kernel.Function(x[i], x[j]);
 
             var s = new FanChenLinQuadraticOptimization(alpha.Length, Q, zeros, ones)
             {
@@ -183,7 +207,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             for (int i = 0; i < alpha.Length; i++)
                 if (alpha[i] > 0) sv++;
 
-            machine.SupportVectors = new double[sv][];
+            machine.SupportVectors = new TInput[sv];
             machine.Weights = new double[sv];
 
             for (int i = 0, j = 0; i < alpha.Length; i++)
@@ -205,43 +229,29 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                             "the complexity parameter C or try a different kernel function.");
             }
 
-            if (computeError)
-                return ComputeError(inputs);
-            return 0.0;
+            return machine;
+        }
+
+
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        /// 
+        protected OneclassSupportVectorLearning(TModel model, TInput[] input)
+        {
+            this.machine = model;
+            this.inputs = input;
         }
 
         /// <summary>
-        ///   Runs the learning algorithm.
+        ///   Obsolete.
         /// </summary>
-        /// 
-        /// <returns>
-        ///   The misclassification error rate of
-        ///   the resulting support vector machine.
-        /// </returns>
-        /// 
+        [Obsolete()]
         public double Run()
         {
-            return Run(true);
+            Learn(inputs);
+            return new LogLikelihoodLoss().Loss(machine.Distance(inputs));
         }
-
-        /// <summary>
-        ///   Computes the error rate for a given set of inputs.
-        /// </summary>
-        /// 
-        public double ComputeError(double[][] inputs)
-        {
-            double error = 0;
-            for (int i = 0; i < inputs.Length; i++)
-                error += machine.Compute(inputs[i]);
-
-            return error;
-        }
-
-
-        double Q(int i, int j)
-        {
-            return kernel.Function(inputs[i], inputs[j]);
-        }
-
     }
 }
