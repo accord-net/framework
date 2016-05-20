@@ -210,6 +210,7 @@
     <Compile Include="Random\ZigguratUniformGenerator.cs" />
     <Compile Include="Random\ZigguratUniformOneGenerator.cs" />
     <Compile Include="Random\ZigguratNormalGenerator.cs" />
+    <Compile Include="Vector\Vector.Sparse.cs" />
     <Compile Include="Vector\Vector.Common.cs" />
     <Compile Include="IO\Mat\MatArrayFlags.cs" />
     <Compile Include="IO\Mat\MatArrayType.cs" />
