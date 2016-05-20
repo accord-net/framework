@@ -182,7 +182,7 @@ namespace Accord
         /// 
         public ByteRange Intersection(ByteRange range)
         {
-            return new ByteRange(Math.Max(this.Min, range.Min), Math.Min(this.Max, range.Max));
+            return new ByteRange(System.Math.Max(this.Min, range.Min), System.Math.Min(this.Max, range.Max));
         }
 
         /// <summary>

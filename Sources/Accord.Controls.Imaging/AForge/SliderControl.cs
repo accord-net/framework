@@ -201,7 +201,7 @@ namespace Accord.Controls
             get { return manipulatatorPosition; }
             set
             {
-                manipulatatorPosition = Math.Max(-1.0f, Math.Min(1.0f, value));
+                manipulatatorPosition = System.Math.Max(-1.0f, System.Math.Min(1.0f, value));
                 Invalidate();
                 NotifyClients();
             }
@@ -370,7 +370,7 @@ namespace Accord.Controls
                     manipulatatorPosition = (float)cy / (ClientRectangle.Height / 2 - topMargin);
                 }
 
-                manipulatatorPosition = Math.Max(Math.Min(1, manipulatatorPosition), -1);
+                manipulatatorPosition = System.Math.Max(System.Math.Min(1, manipulatatorPosition), -1);
                 Invalidate();
 
                 // notify user after 10 timer ticks

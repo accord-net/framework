@@ -58,87 +58,87 @@ namespace Accord
         /// <exception cref="ArgumentException">Unsupported function is used in the expression.</exception>
         /// <exception cref="ArgumentException">Incorrect postfix polish expression.</exception>
         ///
-        public static double Evaluate( string expression, double[] variables )
+        public static double Evaluate(string expression, double[] variables)
         {
             // split expression to separate tokens, which represent functions ans variables
-            string[] tokens = expression.Trim( ).Split( ' ' );
+            string[] tokens = expression.Trim().Split(' ');
             // arguments stack
             Stack<double> arguments = new Stack<double>();
 
             // walk through all tokens
-            foreach ( string token in tokens )
+            foreach (string token in tokens)
             {
                 // check for token type
-                if ( char.IsDigit( token[0] ) )
+                if (char.IsDigit(token[0]))
                 {
                     // the token in numeric argument
-                    arguments.Push( double.Parse( token ) );
+                    arguments.Push(double.Parse(token));
                 }
-                else if ( token[0] == '$' )
+                else if (token[0] == '$')
                 {
                     // the token is variable
-                    arguments.Push( variables[int.Parse( token.Substring( 1 ) )] );
+                    arguments.Push(variables[int.Parse(token.Substring(1))]);
                 }
                 else
                 {
                     // each function has at least one argument, so let's get the top one
                     // argument from stack
-                    double v = (double) arguments.Pop( );
+                    double v = (double)arguments.Pop();
 
                     // check for function
-                    switch ( token )
+                    switch (token)
                     {
                         case "+":			// addition
-                            arguments.Push( (double) arguments.Pop( ) + v );
+                            arguments.Push((double)arguments.Pop() + v);
                             break;
 
                         case "-":			// subtraction
-                            arguments.Push( (double) arguments.Pop( ) - v );
+                            arguments.Push((double)arguments.Pop() - v);
                             break;
 
                         case "*":			// multiplication
-                            arguments.Push( (double) arguments.Pop( ) * v );
+                            arguments.Push((double)arguments.Pop() * v);
                             break;
 
                         case "/":			// division
-                            arguments.Push( (double) arguments.Pop( ) / v );
+                            arguments.Push((double)arguments.Pop() / v);
                             break;
 
                         case "sin":			// sine
-                            arguments.Push( Math.Sin( v ) );
+                            arguments.Push(System.Math.Sin(v));
                             break;
 
                         case "cos":			// cosine
-                            arguments.Push( Math.Cos( v ) );
+                            arguments.Push(System.Math.Cos(v));
                             break;
 
                         case "ln":			// natural logarithm
-                            arguments.Push( Math.Log( v ) );
+                            arguments.Push(System.Math.Log(v));
                             break;
 
                         case "exp":			// exponent
-                            arguments.Push( Math.Exp( v ) );
+                            arguments.Push(System.Math.Exp(v));
                             break;
 
                         case "sqrt":		// square root
-                            arguments.Push( Math.Sqrt( v ) );
+                            arguments.Push(System.Math.Sqrt(v));
                             break;
 
                         default:
                             // throw exception informing about undefined function
-                            throw new ArgumentException( "Unsupported function: " + token );
+                            throw new ArgumentException("Unsupported function: " + token);
                     }
                 }
             }
 
             // check stack size
-            if ( arguments.Count != 1 )
+            if (arguments.Count != 1)
             {
-                throw new ArgumentException( "Incorrect expression." );
+                throw new ArgumentException("Incorrect expression.");
             }
 
             // return the only value from stack
-            return (double) arguments.Pop( );
+            return (double)arguments.Pop();
         }
     }
 }

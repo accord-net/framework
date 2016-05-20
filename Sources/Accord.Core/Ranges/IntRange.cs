@@ -152,7 +152,7 @@ namespace Accord
         /// 
         public IntRange Intersection(IntRange range)
         {
-            return new IntRange(Math.Max(this.Min, range.Min), Math.Min(this.Max, range.Max));
+            return new IntRange(System.Math.Max(this.Min, range.Min), System.Math.Min(this.Max, range.Max));
         }
 
         /// <summary>
