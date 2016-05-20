@@ -66,7 +66,7 @@ namespace Accord.Tests.MachineLearning
 
             // Run the learning algorithm
             double error = learn.Run();
-            Assert.AreEqual(860.0, error);
+            Assert.AreEqual(0.0000000000000000030183002120114053, error);
 
             // Compute the answer for one particular example
             double fxy = machine.Compute(inputs[0]); // 1.0003849827673186

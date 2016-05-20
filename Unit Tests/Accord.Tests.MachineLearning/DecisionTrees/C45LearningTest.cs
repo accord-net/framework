@@ -392,7 +392,7 @@ namespace Accord.Tests.MachineLearning
         {
             double[,] random = Matrix.Random(1000, 10, 0.0, 1.0);
 
-            double[][] samples = random.ToArray();
+            double[][] samples = random.ToJagged();
             int[] outputs = new int[1000];
 
             for (int i = 0; i < samples.Length; i++)
@@ -423,7 +423,7 @@ namespace Accord.Tests.MachineLearning
         {
             Accord.Math.Tools.SetupGenerator(0);
 
-            double[][] dataSamples = Matrix.Random(500, 3, 0.0, 10.0).ToArray();
+            double[][] dataSamples = Matrix.Random(500, 3, 0.0, 10.0).ToJagged();
             int[] target = Matrix.Random(500, 1, 0.0, 2.0).ToInt32().GetColumn(0);
 
             DecisionVariable[] features =

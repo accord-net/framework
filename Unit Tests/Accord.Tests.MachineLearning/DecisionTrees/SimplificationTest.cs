@@ -63,7 +63,7 @@ namespace Accord.Tests.MachineLearning
 
             int[,] random = Matrix.Random(1000, 10, 0.0, 10.0).ToInt32();
 
-            int[][] samples = random.ToArray();
+            int[][] samples = random.ToJagged();
             int[] outputs = new int[1000];
 
             for (int i = 0; i < samples.Length; i++)

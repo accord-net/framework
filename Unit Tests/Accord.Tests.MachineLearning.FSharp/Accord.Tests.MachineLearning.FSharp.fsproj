@@ -57,7 +57,7 @@
   </PropertyGroup>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
-    <Compile Include="FSharpSvmTest.fs" />
+    <Compile Include="FSharpMultilabelSvmTest.fs" />
     <Compile Include="AssemblyInfo.fs" />
     <None Include="Accord.snk" />
     <None Include="validationsample.csv">
@@ -66,6 +66,7 @@
     <None Include="trainingsample.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Compile Include="FSharpSvmTest.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

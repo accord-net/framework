@@ -36,29 +36,12 @@ namespace Accord.Tests.MachineLearning
     public class ProbabilisticDualCoordinateDescentTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void RunTest()
         {
             var dataset = SequentialMinimalOptimizationTest.yinyang;
 
-            double[][] inputs = dataset.Submatrix(null, 0, 1).ToArray();
+            double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
             int[] labels = dataset.GetColumn(2).ToInt32();
 
             Accord.Math.Random.Generator.Seed = 0;
@@ -69,7 +52,9 @@ namespace Accord.Tests.MachineLearning
             teacher.Tolerance = 1e-10;
             teacher.UseComplexityHeuristic = true;
 
+            Assert.IsFalse(svm.IsProbabilistic);
             double error = teacher.Run();
+            Assert.IsTrue(svm.IsProbabilistic);
 
             double[] weights = svm.ToWeights();
 

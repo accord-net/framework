@@ -199,13 +199,16 @@
     <None Include="Resources\liblinear\a9a.test" />
     <None Include="Resources\liblinear\a9a.train" />
     <None Include="Resources\CircleWithWeights.xls" />
+    <None Include="Resources\ml-svm.bin" />
     <None Include="Resources\nb.bin" />
     <None Include="Resources\nb2.bin" />
     <None Include="Resources\nursery.data">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\svm2.svm" />
+    <None Include="Resources\trainingsample.csv" />
     <None Include="Resources\tree.bin" />
+    <None Include="Resources\validationsample.csv" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\svm1.svm" />

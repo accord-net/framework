@@ -62,7 +62,6 @@ namespace Accord.Tests.IO
             var machine = reader.CreateMachine();
 
             Assert.IsNull(machine.SupportVectors);
-            Assert.IsNotNull(machine.Link);
             Assert.AreEqual(machine.Threshold, a9a_weights[0]);
 
             for (int i = 0; i < machine.Weights.Length; i++)

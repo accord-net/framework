@@ -33,23 +33,6 @@ namespace Accord.Tests.MachineLearning
     public class GridsearchTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void GridsearchConstructorTest()
         {
@@ -80,6 +63,10 @@ namespace Accord.Tests.MachineLearning
 
             // Instantiate a new Grid Search algorithm for Kernel Support Vector Machines
             var gridsearch = new GridSearch<KernelSupportVectorMachine>(ranges);
+
+#if DEBUG
+            gridsearch.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
 
             // Set the fitting function for the algorithm
             gridsearch.Fitting = delegate(GridSearchParameterCollection parameters, out double error)
@@ -112,7 +99,9 @@ namespace Accord.Tests.MachineLearning
 
 
             // A linear kernel can't solve the xor problem.
-            Assert.AreNotEqual((int)bestParameters["degree"].Value, 1);
+            Assert.AreEqual(1, bestParameters["degree"].Value);
+            Assert.AreEqual(1, bestParameters["constant"].Value);
+            Assert.AreEqual(1e-8, bestParameters["complexity"].Value);
 
             // The minimum error should be zero because the problem is well-known.
             Assert.AreEqual(minError, 0.0);
@@ -151,6 +140,8 @@ namespace Accord.Tests.MachineLearning
 
             // Instantiate a new Grid Search algorithm for Kernel Support Vector Machines
             var gridsearch = new GridSearch<SupportVectorMachine>(ranges);
+
+            gridsearch.ParallelOptions.MaxDegreeOfParallelism = 1;
 
             // Set the fitting function for the algorithm
             gridsearch.Fitting = delegate(GridSearchParameterCollection parameters, out double error)

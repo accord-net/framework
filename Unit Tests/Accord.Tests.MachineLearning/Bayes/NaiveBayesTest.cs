@@ -232,6 +232,7 @@ namespace Accord.Tests.MachineLearning
 
 
         [Test]
+        [Ignore] // TODO: reactivate once more information is gathered about inhomogeneous linear kernels
         public void ComputeTest2()
         {
 
@@ -438,7 +439,7 @@ namespace Accord.Tests.MachineLearning
             int classes = 3;
             int[] symbols = { 2, 1 };
             NaiveBayes target = new NaiveBayes(classes, symbols);
-            double[,][] actual = target.Distributions;
+            var actual = target.Distributions;
 
             Assert.IsNotNull(actual);
             Assert.AreEqual(classes, actual.GetLength(0));

@@ -91,7 +91,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void LearnTest2()
         {
-            double[][] inputs = yinyang.Submatrix(null, 0, 1).ToArray();
+            double[][] inputs = yinyang.Submatrix(null, 0, 1).ToJagged();
             int[] outputs = yinyang.GetColumn(2).ToInt32();
 
             // Create Kernel Support Vector Machine with a Polynomial Kernel of 2nd degree
@@ -152,7 +152,7 @@ namespace Accord.Tests.MachineLearning
             double error = smo.Run();
 
             Assert.AreEqual(0, error);
-         }
+        }
 
         [Test]
         public void LeastSquaresConstructorTest()
@@ -174,19 +174,51 @@ namespace Accord.Tests.MachineLearning
             };
 
             // Create Kernel Support Vector Machine with a Polynomial Kernel of 2nd degree
-            SupportVectorMachine machine = new SupportVectorMachine(inputs[0].Length);
+            var machine = new SupportVectorMachine(inputs[0].Length);
 
-            bool thrown = false;
-            try
-            {
-                LeastSquaresLearning learn = new LeastSquaresLearning(machine, inputs, or);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                thrown = true;
-            }
+            var learn = new LeastSquaresLearning(machine, inputs, or);
 
-            Assert.IsTrue(thrown);
+            double error = learn.Run();
+            Assert.AreEqual(0, error);
+
+            {
+                int[] iout = new int[inputs.Length];
+                machine.ToMulticlass().Decide(inputs, iout);
+                for (int i = 0; i < iout.Length; i++)
+                    Assert.AreEqual(or[i], iout[i]);
+            }
+            {
+                double[] dout = new double[inputs.Length];
+                machine.ToMulticlass().Decide(inputs, dout);
+                for (int i = 0; i < dout.Length; i++)
+                    Assert.AreEqual(or[i], dout[i]);
+            }
+            {
+                bool[] bout = new bool[inputs.Length];
+                machine.Decide(inputs, bout);
+                Assert.IsFalse(bout[0]);
+                Assert.IsFalse(bout[1]);
+                Assert.IsFalse(bout[2]);
+                Assert.IsTrue(bout[3]);
+            }
+            {
+                int[][] iiout = Jagged.Create<int>(inputs.Length, 2);
+                machine.ToMulticlass().Decide(inputs, iiout);
+                for (int i = 0; i < iiout.Length; i++)
+                {
+                    Assert.AreEqual(or[i], iiout[i][0]);
+                    Assert.AreEqual(or[i], iiout[i][1] == 1 ? 0 : 1);
+                }
+            }
+            {
+                bool[][] bbout = Jagged.Create<bool>(inputs.Length, 2);
+                machine.ToMulticlass().Decide(inputs, bbout);
+                for (int i = 0; i < bbout.Length; i++)
+                {
+                    Assert.AreEqual(or[i], bbout[i][0] ? 1 : 0);
+                    Assert.AreEqual(or[i], bbout[i][1] ? 0 : 1);
+                }
+            }
         }
 
 

@@ -154,7 +154,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsNull(gmm.Gaussians[0].Mean);
 
 
-            double[][] B = Matrix.Random(56, 12).ToArray();
+            double[][] B = Matrix.Random(56, 12).ToJagged();
 
             Accord.Math.Tools.SetupGenerator(0);
 
@@ -331,7 +331,7 @@ namespace Accord.Tests.MachineLearning
 
             double[,] matrix = table.ToMatrix();
 
-            double[][] points = matrix.Submatrix(null, 0, 1).ToArray();
+            double[][] points = matrix.Submatrix(null, 0, 1).ToJagged();
             double[] weights = matrix.GetColumn(2);
 
             GaussianMixtureModel gmm = new GaussianMixtureModel(2);

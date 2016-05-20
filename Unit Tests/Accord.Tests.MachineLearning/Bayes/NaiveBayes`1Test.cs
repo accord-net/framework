@@ -28,6 +28,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
+    using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Filters;
     using Accord.Tests.MachineLearning.Properties;
@@ -209,7 +210,7 @@ namespace Accord.Tests.MachineLearning
             int classCount = codebook["PlayTennis"].Symbols; // 2 possible values (yes, no)
             int inputCount = 4; // 4 variables (Outlook, Temperature, Humidity, Wind)
 
-            IFittableDistribution<double>[] priors =
+            IUnivariateFittableDistribution[] priors =
             {
                 new GeneralDiscreteDistribution(codebook["Outlook"].Symbols),   // 3 possible values (Sunny, overcast, rain)
                 new NormalDistribution(),                                       // Continuous value (Celsius)
@@ -218,7 +219,7 @@ namespace Accord.Tests.MachineLearning
             };
 
             // Create a new Naive Bayes classifiers for the two classes
-            var target = new NaiveBayes<IFittableDistribution<double>>(classCount, inputCount, priors);
+            var target = new NaiveBayes<IUnivariateFittableDistribution>(classCount, inputCount, priors);
 
             // Extract symbols from data and train the classifier
             DataTable symbols = codebook.Apply(data);
@@ -307,9 +308,9 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, error);
             for (int i = 0; i < inputs.Length; i++)
             {
-                error = bayes.Compute(inputs[i]);
+                double actual = bayes.Compute(inputs[i]);
                 double expected = outputs[i];
-                Assert.AreEqual(expected, error);
+                Assert.AreEqual(expected, actual);
             }
         }
 

@@ -95,7 +95,7 @@ namespace Accord.Tests.MachineLearning
             var a2 = svm.Compute(sequences[2]);
             var a3 = svm.Compute(sequences[3]);
 
-            Assert.AreEqual(-1, System.Math.Sign(a0));
+            Assert.AreEqual(-1, System.Math.Sign(a0)); 
             Assert.AreEqual(-1, System.Math.Sign(a1));
             Assert.AreEqual(+1, System.Math.Sign(a2));
             Assert.AreEqual(+1, System.Math.Sign(a3));

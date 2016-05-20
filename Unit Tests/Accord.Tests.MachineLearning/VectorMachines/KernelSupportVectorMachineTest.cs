@@ -58,7 +58,7 @@ namespace Accord.Tests.MachineLearning
             KernelSupportVectorMachine machine = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
 
             // Instantiate a new learning algorithm for SVMs
-            SequentialMinimalOptimization smo = new SequentialMinimalOptimization(machine, inputs, labels);
+            var smo = new SequentialMinimalOptimization(machine, inputs, labels);
 
             // Set up the learning algorithm
             smo.Complexity = 1.0;

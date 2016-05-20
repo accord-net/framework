@@ -284,7 +284,7 @@ namespace Accord.Tests.MachineLearning
         public void YinYangMeanShiftTest()
         {
             Accord.Math.Random.Generator.Seed = 1;
-            double[][] inputs = yinyang.Submatrix(null, 0, 1).ToArray();
+            double[][] inputs = yinyang.Submatrix(null, 0, 1).ToJagged();
             int[] outputs = yinyang.GetColumn(2).ToInt32();
 
             MeanShift ms = new MeanShift(2, new GaussianKernel(dimension: 2), 0.55);
