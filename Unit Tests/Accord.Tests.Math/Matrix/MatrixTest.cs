@@ -1950,14 +1950,14 @@ namespace Accord.Tests.Math
             {
                 { 1, 2 },
                 { 3, 4 },
-            }.ToArray();
+            }.ToJagged();
 
             bool inPlace = true;
             double[][] expected = new double[,]
             {
                 { 1, 3 },
                 { 2, 4 },
-            }.ToArray();
+            }.ToJagged();
 
             double[][] actual = Matrix.Transpose(matrix, inPlace);
 
@@ -2416,7 +2416,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(3, a.GetLength(1));
             Assert.AreEqual(4, b.GetLength(0));
             Assert.AreEqual(4, b.GetLength(1));
-            Assert.IsTrue(b.GetRow(3).IsEqual(0, 0, 0, 100));
+            Assert.IsTrue(b.GetRow(3).IsEqual(new[] { 0, 0, 0, 100 }));
 
             double[,] c = a.InsertRow(new double[] { 1, 2, 3, 100 });
 
@@ -2424,15 +2424,15 @@ namespace Accord.Tests.Math
             Assert.AreEqual(3, a.GetLength(1));
             Assert.AreEqual(4, c.GetLength(0));
             Assert.AreEqual(4, c.GetLength(1));
-            Assert.IsTrue(c.GetColumn(3).IsEqual(0, 0, 0, 100));
+            Assert.IsTrue(c.GetColumn(3).IsEqual(new[] { 0, 0, 0, 100 }));
 
             a = a.InsertColumn(new double[] { 1, 2, 3 })
                  .InsertRow(new double[] { 1, 2, 3, 100 });
 
             Assert.AreEqual(4, a.GetLength(0));
             Assert.AreEqual(4, a.GetLength(1));
-            Assert.IsTrue(a.GetRow(3).IsEqual(1, 2, 3, 100));
-            Assert.IsTrue(a.GetColumn(3).IsEqual(1, 2, 3, 100));
+            Assert.IsTrue(a.GetRow(3).IsEqual(new[] { 1, 2, 3, 100 }));
+            Assert.IsTrue(a.GetColumn(3).IsEqual(new[] { 1, 2, 3, 100 }));
         }
 
         [Test]
@@ -2461,15 +2461,15 @@ namespace Accord.Tests.Math
             Assert.AreEqual(3, a[0].Length);
             Assert.AreEqual(4, b.Length);
             Assert.AreEqual(4, b[0].Length);
-            Assert.IsTrue(c.GetColumn(3).IsEqual(0, 0, 0, 100));
+            Assert.IsTrue(c.GetColumn(3).IsEqual(new[] { 0, 0, 0, 100 }));
 
             a = a.InsertColumn(new double[] { 1, 2, 3 })
                  .InsertRow(new double[] { 1, 2, 3, 100 });
 
             Assert.AreEqual(4, a.Length);
             Assert.AreEqual(4, a[0].Length);
-            Assert.IsTrue(a.GetRow(3).IsEqual(1, 2, 3, 100));
-            Assert.IsTrue(a.GetColumn(3).IsEqual(1, 2, 3, 100));
+            Assert.IsTrue(a.GetRow(3).IsEqual(new[] { 1, 2, 3, 100 }));
+            Assert.IsTrue(a.GetColumn(3).IsEqual(new[] { 1, 2, 3, 100 }));
         }
 
 

@@ -166,7 +166,7 @@ namespace Accord.Tests.Interop.Math
             double[,] A = constraints.CreateMatrix(function.NumberOfVariables,
                 out constraintValues, out tolerances, out equalities);
 
-            System.Diagnostics.Debug.Assert(A.GetLength(1) == function.NumberOfVariables);
+            Accord.Diagnostics.Debug.Assert(A.GetLength(1) == function.NumberOfVariables);
 
             initialize(function.NumberOfVariables,
                 function.QuadraticTerms, function.LinearTerms,

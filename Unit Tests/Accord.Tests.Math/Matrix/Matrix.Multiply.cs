@@ -110,20 +110,20 @@ namespace Accord.Tests.Math
             { 
               { 3.000, 1.000, 0.000 },
               { 5.000, 2.000, 1.000 }
-            }.ToArray();
+            }.ToJagged();
 
             double[][] b = new double[,]
             { 
               { 2.000, 4.000 },
               { 4.000, 6.000 },
               { 1.000, 9.000 }
-            }.ToArray();
+            }.ToJagged();
 
             double[][] expected = new double[,]
             { 
               { 10.000, 18.000 },
               { 19.000, 41.000 }
-            }.ToArray();
+            }.ToJagged();
 
             double[][] actual = Matrix.Multiply(a, b);
 

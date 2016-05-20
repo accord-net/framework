@@ -75,8 +75,8 @@ namespace Accord.Tests.Math
 
 
             // Linear system solving
-            double[][] B = Matrix.ColumnVector(new double[] { 1, 2, 3 }).ToArray();
-            double[][] expected = Matrix.ColumnVector(new double[] { 2.5, 4.0, 3.5 }).ToArray();
+            double[][] B = Matrix.ColumnVector(new double[] { 1, 2, 3 }).ToJagged();
+            double[][] expected = Matrix.ColumnVector(new double[] { 2.5, 4.0, 3.5 }).ToJagged();
             double[][] actual = target.Solve(B);
 
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0000000000001));

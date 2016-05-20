@@ -36,13 +36,13 @@ namespace Accord.Tests.Math
         {
             int n = 5;
 
-            var I = Matrix.Identity(n).ToSingle().ToArray();
+            var I = Matrix.Identity(n).ToSingle().ToJagged();
 
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
                 {
-                    var value = Matrix.Magic(n).ToArray().ToSingle();
+                    var value = Matrix.Magic(n).ToJagged().ToSingle();
 
                     value[i][j] = Single.NaN;
 
@@ -292,7 +292,7 @@ namespace Accord.Tests.Math
         public void LogDeterminantTest()
         {
             JaggedLuDecompositionF lu = new JaggedLuDecompositionF(
-                CholeskyDecompositionTest.bigmatrix.ToSingle().ToArray());
+                CholeskyDecompositionTest.bigmatrix.ToSingle().ToJagged());
             Assert.AreEqual(0, lu.Determinant);
             Assert.AreEqual(-2224.8931093738875, lu.LogDeterminant, 1e-3);
             Assert.IsTrue(lu.Nonsingular);
