@@ -316,10 +316,10 @@ namespace Accord.Tests.Statistics
 
             matrix = matrix.Transpose();
             mean = Measures.Mean(matrix);
-            Assert.IsTrue(mean.IsEqual(2.0000, 5.8999999999999995, 1.5000, -0.43333333333333335));
+            Assert.IsTrue(mean.IsEqual(new[] { 2.0000, 5.8999999999999995, 1.5000, -0.43333333333333335 }));
 
             median = Measures.Median(matrix);
-            Assert.IsTrue(median.IsEqual(2.0000, 7.0000, 2.5000, 0.2000));
+            Assert.IsTrue(median.IsEqual(new[] { 2.0000, 7.0000, 2.5000, 0.2000 }));
         }
 
         [Test]
@@ -342,10 +342,10 @@ namespace Accord.Tests.Statistics
 
             matrix = matrix.Transpose();
             mean = Measures.Mean(matrix);
-            Assert.IsTrue(mean.IsEqual(2.0000, 5.8999999999999995, 1.5000, -0.43333333333333335));
+            Assert.IsTrue(mean.IsEqual(new[] { 2.0000, 5.8999999999999995, 1.5000, -0.43333333333333335 }));
 
             median = Measures.Median(matrix);
-            Assert.IsTrue(median.IsEqual(2.0000, 7.0000, 2.5000, 0.2000));
+            Assert.IsTrue(median.IsEqual(new[] { 2.0000, 7.0000, 2.5000, 0.2000 }));
         }
 
         [Test]
@@ -672,7 +672,7 @@ namespace Accord.Tests.Statistics
                 { 3.9, 2.0, 0.58 },
                 { 4.3, 2.1, 0.62 },
                 { 4.1, 2.2, 0.63 }
-            }.ToArray();
+            }.ToJagged();
 
 
             double[,] expected = new double[,]
@@ -706,7 +706,7 @@ namespace Accord.Tests.Statistics
                 { 3.9, 2.0, 0.58 },
                 { 4.3, 2.1, 0.62 },
                 { 4.1, 2.2, 0.63 }
-            }.ToArray();
+            }.ToJagged();
 
 
             double[,] expected = new double[,]
@@ -737,7 +737,7 @@ namespace Accord.Tests.Statistics
                 { 3.9, 2.0, 0.58 },
                 { 4.3, 2.1, 0.62 },
                 { 4.1, 2.2, 0.63 }
-            }.ToArray();
+            }.ToJagged();
 
 
             double[,] expected = new double[,]
@@ -770,7 +770,7 @@ namespace Accord.Tests.Statistics
                 { 3.9, 2.0, 0.58 },
                 { 4.3, 2.1, 0.62 },
                 { 4.1, 2.2, 0.63 }
-            }.ToArray();
+            }.ToJagged();
 
 
             double[,] expected = new double[,]
@@ -815,7 +815,7 @@ namespace Accord.Tests.Statistics
                 { 3.9, 2.0, 0.58 },
                 { 4.3, 2.1, 0.62 },
                 { 4.1, 2.2, 0.63 }
-            }.ToArray();
+            }.ToJagged();
 
             double[] weights = { 0.9, 0.9, 0.9, 0.9, 0.9 };
 

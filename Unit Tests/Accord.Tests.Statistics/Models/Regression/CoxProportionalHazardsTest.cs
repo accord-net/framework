@@ -57,7 +57,7 @@ namespace Accord.Tests.Statistics
             regression.Coefficients[0] = 0.37704239281494084;
             regression.StandardErrors[0] = 0.25415755113043753;
 
-            double[][] inputs = data.GetColumn(0).ToArray();
+            double[][] inputs = data.GetColumn(0).ToJagged();
             double[] time = data.GetColumn(1);
             SurvivalOutcome[] output = data.GetColumn(2).To<SurvivalOutcome[]>();
 
@@ -135,7 +135,7 @@ namespace Accord.Tests.Statistics
             regression.StandardErrors[0] = 0.25415755113043753;
             regression.Offsets[0] = 51.181818;
 
-            double[][] inputs = data.GetColumn(0).ToArray();
+            double[][] inputs = data.GetColumn(0).ToJagged();
             double[] time = data.GetColumn(1);
 
 
@@ -184,7 +184,7 @@ namespace Accord.Tests.Statistics
             regression.Coefficients[0] = 0.37704239281494084;
             regression.StandardErrors[0] = 0.25415755113043753;
 
-            double[][] inputs = data.GetColumn(0).ToArray();
+            double[][] inputs = data.GetColumn(0).ToJagged();
             double[] time = data.GetColumn(1);
             int[] output = data.GetColumn(2).ToInt32();
 

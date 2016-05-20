@@ -323,7 +323,7 @@ namespace Accord.Tests.Statistics
             out double[] expectedVar, out double[] expectedMed,
             out double[] expectedErrors)
         {
-            var data = analysis.Source.Transpose().ToArray();
+            var data = analysis.Source.Transpose().ToJagged();
 
             double[] expectedLengths = { 24, 60, 7 };
             expectedMean = data.ApplyWithIndex((x, i) => Circular.Mean(x, expectedLengths[i]));
@@ -345,7 +345,7 @@ namespace Accord.Tests.Statistics
            out double[] expectedVar, out double[] expectedMed,
            out double[] expectedErrors)
         {
-            var data = original.ToArray(asColumnVector: false);
+            var data = original.ToJagged(asColumnVector: false);
 
             double[] expectedLengths = { originalLength };
             expectedMean = data.ApplyWithIndex((x, i) => Circular.Mean(x, expectedLengths[i]));

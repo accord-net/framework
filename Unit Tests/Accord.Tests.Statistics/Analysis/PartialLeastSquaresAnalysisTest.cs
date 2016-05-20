@@ -157,7 +157,7 @@ namespace Accord.Tests.Statistics
 
 
             // Test computation
-            double[][] aY = regression.Compute(inputs.ToArray());
+            double[][] aY = regression.Compute(inputs.ToJagged());
 
             for (int i = 0; i < outputs.GetLength(0); i++)
             {
@@ -411,7 +411,7 @@ namespace Accord.Tests.Statistics
             // test regression for classification
             var regression = target.CreateRegression();
 
-            double[][] Y = regression.Compute(test.ToArray());
+            double[][] Y = regression.Compute(test.ToJagged());
 
             int cl;
             Matrix.Max(Y[0], out cl);

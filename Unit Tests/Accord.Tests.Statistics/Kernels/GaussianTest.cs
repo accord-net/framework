@@ -264,7 +264,7 @@ namespace Accord.Tests.Statistics
 
                 double d1 = Distance.SquareEuclidean(phi_x, phi_y);
                 double d2 = kernel.Distance(x, y);
-                double d3 = Accord.Statistics.Tools.Distance(kernel, x, y);
+                double d3 = Accord.Statistics.Tools.Distance(kernel.Gaussian, x, y);
 
                 Assert.AreEqual(d1, d2, 1e-4);
                 Assert.AreEqual(d1, d3, 1e-4);

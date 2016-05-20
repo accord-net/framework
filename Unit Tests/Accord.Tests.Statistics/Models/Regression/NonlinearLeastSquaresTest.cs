@@ -88,7 +88,7 @@ namespace Accord.Tests.Statistics
             };
 
             // Extract inputs and outputs
-            double[][] inputs = data.GetColumn(0).ToArray();
+            double[][] inputs = data.GetColumn(0).ToJagged();
             double[] outputs = data.GetColumn(1);
 
             // Create a Nonlinear regression using 
@@ -156,7 +156,7 @@ namespace Accord.Tests.Statistics
             };
 
             // Extract inputs and outputs
-            double[][] inputs = data.GetColumn(0).ToArray();
+            double[][] inputs = data.GetColumn(0).ToJagged();
             double[] outputs = data.GetColumn(1);
 
             // Create a Nonlinear regression using 
@@ -205,7 +205,7 @@ namespace Accord.Tests.Statistics
                 { 0.05, 0.127, 0.094, 0.2122, 0.2729, 0.2665, 0.3317}
             };
 
-            double[][] inputs = data.GetRow(0).ToArray();
+            double[][] inputs = data.GetRow(0).ToJagged();
             double[] outputs = data.GetRow(1);
 
 

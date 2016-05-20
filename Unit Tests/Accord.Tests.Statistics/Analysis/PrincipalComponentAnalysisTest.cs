@@ -526,7 +526,7 @@ namespace Accord.Tests.Statistics
             target.Compute();
 
             // Transform
-            double[][] actual = target.Transform(data.ToArray());
+            double[][] actual = target.Transform(data.ToJagged());
 
             // first inversed.. ?
             double[][] expected = new double[][]

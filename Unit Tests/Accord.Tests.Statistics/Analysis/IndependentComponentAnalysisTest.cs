@@ -237,8 +237,8 @@ namespace Accord.Tests.Statistics
             double[,] result = ica.Result;
 
 
-            float[][] expected = ica.Combine(result).ToSingle().ToArray(true);
-            float[][] actual = ica.Combine(result.ToSingle().ToArray(true));
+            float[][] expected = ica.Combine(result).ToSingle().ToJagged(true);
+            float[][] actual = ica.Combine(result.ToSingle().ToJagged(true));
 
             Assert.IsTrue(expected.IsEqual(actual, atol: 1e-4f));
         }
@@ -263,8 +263,8 @@ namespace Accord.Tests.Statistics
 
             ica.Compute(2);
 
-            var expected = ica.Result.ToSingle().ToArray(true);
-            var actual = ica.Separate(X.ToSingle().ToArray(true));
+            var expected = ica.Result.ToSingle().ToJagged(true);
+            var actual = ica.Separate(X.ToSingle().ToJagged(true));
 
             Assert.IsTrue(expected.IsEqual(actual, 1e-4f));
         }

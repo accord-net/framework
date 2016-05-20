@@ -25,6 +25,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Kernels.Sparse;
     using Accord.Statistics.Kernels;
     using NUnit.Framework;
+    using Accord.Math.Distances;
 
     [TestFixture]
     public class SparseLinearTest
@@ -66,7 +67,9 @@ namespace Accord.Tests.Statistics
             SparseLinearTest.SparseTest(new Linear(1), new SparseLinear(1));
         }
 
-        public static void SparseTest(KernelBase denseKernel, KernelBase sparseKernel)
+        public static void SparseTest<Ta, Tb>(Ta denseKernel, Tb sparseKernel)
+            where Ta : IKernel, IDistance
+            where Tb : IKernel, IDistance
         {
             double[][] sparse =
             {

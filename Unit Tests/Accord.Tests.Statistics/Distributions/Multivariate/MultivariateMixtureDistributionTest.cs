@@ -275,7 +275,7 @@ namespace Accord.Tests.Statistics
             // set. Those will be the input points:
 
             double[][] points = new double[] { 0, 3, 1, 7, 3, 5, 1, 2, -1, 2, 7, 6, 8, 6 } // (14 points)
-                .ToArray();
+                .ToJagged();
 
             // And those are their respective unnormalized weights:
             double[] weights = { 1, 1, 1, 2, 2, 1, 1, 1, 2, 1, 2, 3, 1, 1 }; // (14 weights)
@@ -327,7 +327,7 @@ namespace Accord.Tests.Statistics
 
             double[,] matrix = table.ToMatrix();
 
-            double[][] points = matrix.Submatrix(null, 0, 1).ToArray();
+            double[][] points = matrix.Submatrix(null, 0, 1).ToJagged();
             double[] weights = matrix.GetColumn(2);
 
             // Randomly initialize some mixture components

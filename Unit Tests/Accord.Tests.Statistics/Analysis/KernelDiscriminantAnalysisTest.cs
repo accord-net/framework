@@ -328,7 +328,7 @@ namespace Accord.Tests.Statistics
         public void ComputeTest3()
         {
             // Schölkopf KPCA toy example
-            double[][] inputs = scholkopf().ToArray();
+            double[][] inputs = scholkopf().ToJagged();
 
             int[] output = Matrix.Expand(new int[,] { { 1 }, { 2 }, { 3 } }, new int[] { 30, 30, 30 }).GetColumn(0);
 
@@ -352,7 +352,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(actual1, expected1, 0.0000001));
 
             // Assert the result equals the transformation of the input
-            double[][] result = target.Result.ToArray();
+            double[][] result = target.Result.ToJagged();
             double[][] projection = target.Transform(inputs);
             Assert.IsTrue(Matrix.IsEqual(result, projection));
         }

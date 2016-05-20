@@ -57,7 +57,7 @@ namespace Accord.Tests.Statistics
 
             var regression = new ProportionalHazards(1);
 
-            double[][] inputs = data.GetColumn(0).ToArray();
+            double[][] inputs = data.GetColumn(0).ToJagged();
             double[] time = data.GetColumn(1);
             SurvivalOutcome[] output = data.GetColumn(2).To<SurvivalOutcome[]>();
 
@@ -117,7 +117,7 @@ namespace Accord.Tests.Statistics
 
             var regression = new ProportionalHazards(2);
 
-            double[][] inputs = data.Submatrix(null, 0, 1).ToArray();
+            double[][] inputs = data.Submatrix(null, 0, 1).ToJagged();
             double[] time = data.GetColumn(2);
             SurvivalOutcome[] output = data.GetColumn(3).To<SurvivalOutcome[]>();
 
@@ -173,7 +173,7 @@ namespace Accord.Tests.Statistics
 
             var regression = new ProportionalHazards(1);
 
-            double[][] inputs = data.GetColumn(0).ToArray();
+            double[][] inputs = data.GetColumn(0).ToJagged();
             double[] time = data.GetColumn(1);
             SurvivalOutcome[] output = data.GetColumn(2).To<SurvivalOutcome[]>();
 
@@ -217,7 +217,7 @@ namespace Accord.Tests.Statistics
 
             var regression = new ProportionalHazards(1);
 
-            double[][] inputs = data.GetColumn(0).ToArray();
+            double[][] inputs = data.GetColumn(0).ToJagged();
             double[] time = data.GetColumn(1);
             int[] output = data.GetColumn(2).ToInt32();
 
@@ -251,7 +251,7 @@ namespace Accord.Tests.Statistics
             };
 
 
-            double[][] covariates = inputs.Transpose().ToArray();
+            double[][] covariates = inputs.Transpose().ToJagged();
             double[] time = outputs.GetRow(0);
             int[] censor = outputs.GetRow(1).ToInt32();
 
@@ -300,7 +300,7 @@ namespace Accord.Tests.Statistics
 
             var regression = new ProportionalHazards(1);
 
-            double[][] inputs = data.GetColumn(0).ToArray();
+            double[][] inputs = data.GetColumn(0).ToJagged();
             double[] time = data.GetColumn(1);
             int[] censor = data.GetColumn(2).ToInt32();
 
@@ -378,7 +378,7 @@ namespace Accord.Tests.Statistics
 
             double[] time = data.GetColumn(0);
             SurvivalOutcome[] censor = data.GetColumn(1).To<SurvivalOutcome[]>();
-            double[][] inputs = data.GetColumn(2).ToArray();
+            double[][] inputs = data.GetColumn(2).ToJagged();
 
             var regression = new ProportionalHazards(1);
 
@@ -464,7 +464,7 @@ namespace Accord.Tests.Statistics
 
             double[] time = data.GetColumn(0);
             SurvivalOutcome[] censor = data.GetColumn(1).To<SurvivalOutcome[]>();
-            double[][] inputs = data.GetColumn(2).ToArray();
+            double[][] inputs = data.GetColumn(2).ToJagged();
 
             var regression = new ProportionalHazards(1);
 
