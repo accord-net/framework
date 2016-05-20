@@ -32,6 +32,8 @@ namespace Accord.Statistics
     /// 
     public static class Classes
     {
+        // TODO: Move this to Math or Core
+
         /// <summary>
         ///   Calculates the prevalence of a class for each variable.
         /// </summary>
@@ -434,5 +436,48 @@ namespace Accord.Statistics
                 result[i] = p[i] ? 1 : -1;
             return result;
         }
+
+        /// <summary>
+        ///   Converts double variables into class labels, starting at zero.
+        /// </summary>
+        /// 
+        public static int[] ToMulticlass(this double[] p)
+        {
+            return ToMulticlass(p, (int)p.Min());
+        }
+
+        /// <summary>
+        ///   Converts double variables into class labels, starting at zero.
+        /// </summary>
+        /// 
+        public static int[] ToMulticlass(this int[] p)
+        {
+            return ToMulticlass(p, (int)p.Min());
+        }
+
+        /// <summary>
+        ///   Converts double variables into class labels, starting at zero.
+        /// </summary>
+        /// 
+        public static int[] ToMulticlass(this double[] p, int min)
+        {
+            var result = new int[p.Length];
+            for (int i = 0; i < p.Length; i++)
+                result[i] = (int)p[i] - min;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts double variables into class labels, starting at zero.
+        /// </summary>
+        /// 
+        public static int[] ToMulticlass(this int[] p, int min)
+        {
+            var result = new int[p.Length];
+            for (int i = 0; i < p.Length; i++)
+                result[i] = (int)p[i] - min;
+            return result;
+        }
+
     }
 }
