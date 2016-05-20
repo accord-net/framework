@@ -237,14 +237,11 @@ namespace Accord.MachineLearning.Bayes
     /// <seealso cref="NaiveBayes"/>
     /// 
     [Serializable]
-    public class NaiveBayes<TDistribution> : GenerativeClassifierBase
-        where TDistribution : IFittableDistribution<double>
+    public class NaiveBayes<TDistribution> : NaiveBayes<TDistribution, double>
+        where TDistribution : IFittableDistribution<double>,
+                              IUnivariateDistribution, 
+                              IUnivariateDistribution<double>
     {
-
-        private TDistribution[,] probabilities;
-        private double[] priors;
-
-        #region Constructors
 
         /// <summary>
         ///   Constructs a new Naïve Bayes Classifier.
@@ -259,60 +256,8 @@ namespace Accord.MachineLearning.Bayes
         /// </param>
         /// 
         public NaiveBayes(int classes, int inputs, TDistribution initial)
+            : base(classes, inputs, initial)
         {
-            if (classes <= 0)
-                throw new ArgumentOutOfRangeException("classes");
-
-            if (inputs <= 0)
-                throw new ArgumentOutOfRangeException("inputs");
-
-            if (initial == null)
-                throw new ArgumentNullException("initial");
-
-            var priors = new TDistribution[classes, inputs];
-            for (int i = 0; i < classes; i++)
-                for (int j = 0; j < inputs; j++)
-                    priors[i, j] = (TDistribution)initial.Clone();
-
-            initialize(priors, null);
-        }
-
-        /// <summary>
-        ///   Constructs a new Naïve Bayes Classifier.
-        /// </summary>
-        /// 
-        /// <param name="classes">The number of output classes.</param>
-        /// <param name="inputs">The number of input variables.</param>
-        /// <param name="initial">
-        ///   An initial distribution to be used to initialized all independent
-        ///   distribution components of this Naive Bayes. This distribution will
-        ///   be cloned and made available in the <see cref="Distributions"/> property.
-        /// </param>
-        /// <param name="classPriors">The prior probabilities for each output class.</param>
-        /// 
-        public NaiveBayes(int classes, int inputs, TDistribution initial, double[] classPriors)
-        {
-            if (classes <= 0)
-                throw new ArgumentOutOfRangeException("classes");
-
-            if (inputs <= 0)
-                throw new ArgumentOutOfRangeException("inputs");
-
-            if (classPriors == null)
-                throw new ArgumentNullException("classPriors");
-
-            if (initial == null)
-                throw new ArgumentNullException("initial");
-
-            if (classPriors.Length != classes)
-                throw new DimensionMismatchException("classPriors");
-
-            var priors = new TDistribution[classPriors.Length, inputs];
-            for (int i = 0; i < classPriors.Length; i++)
-                for (int j = 0; j < inputs; j++)
-                    priors[i, j] = (TDistribution)initial.Clone();
-
-            initialize(priors, classPriors);
         }
 
         /// <summary>
@@ -328,25 +273,8 @@ namespace Accord.MachineLearning.Bayes
         /// </param>
         /// 
         public NaiveBayes(int classes, int inputs, TDistribution[] initial)
+            : base(classes, inputs, initial)
         {
-            if (classes <= 0)
-                throw new ArgumentOutOfRangeException("classes");
-
-            if (inputs <= 0)
-                throw new ArgumentOutOfRangeException("inputs");
-
-            if (initial == null)
-                throw new ArgumentNullException("initial");
-
-            if (initial.Length != inputs)
-                throw new DimensionMismatchException("initial");
-
-            var priors = new TDistribution[classes, initial.Length];
-            for (int i = 0; i < classes; i++)
-                for (int j = 0; j < initial.Length; j++)
-                    priors[i, j] = (TDistribution)initial[j].Clone();
-
-            initialize(priors, null);
         }
 
         /// <summary>
@@ -362,20 +290,8 @@ namespace Accord.MachineLearning.Bayes
         /// </param>
         /// 
         public NaiveBayes(int classes, int inputs, TDistribution[,] initial)
+            : base(classes, inputs, initial.ToJagged())
         {
-            if (classes <= 0)
-                throw new ArgumentOutOfRangeException("classes");
-
-            if (inputs <= 0)
-                throw new ArgumentOutOfRangeException("inputs");
-
-            if (initial.GetLength(0) != classes)
-                throw new DimensionMismatchException("initial");
-
-            if (initial.GetLength(1) != inputs)
-                throw new DimensionMismatchException("initial");
-
-            initialize(initial, null);
         }
 
         /// <summary>
@@ -389,126 +305,36 @@ namespace Accord.MachineLearning.Bayes
         ///   distribution components of this Naive Bayes. Those distributions
         ///   will made available in the <see cref="Distributions"/> property.
         /// </param>
-        /// <param name="classPriors">The prior probabilities for each output class.</param>
         /// 
-        public NaiveBayes(int classes, int inputs, TDistribution[,] initial, double[] classPriors)
+        public NaiveBayes(int classes, int inputs, TDistribution[][] initial)
+            : base(classes, inputs, initial)
         {
-            if (classes <= 0)
-                throw new ArgumentOutOfRangeException("classes");
-
-            if (initial == null)
-                throw new ArgumentNullException("initial");
-
-            if (classPriors.Length != classes)
-                throw new DimensionMismatchException("classPriors");
-
-            if (initial.GetLength(0) != classes)
-                throw new DimensionMismatchException("initial");
-
-            if (initial.GetLength(1) != inputs)
-                throw new DimensionMismatchException("initial");
-
-            initialize(initial, classPriors);
         }
 
         /// <summary>
-        ///   Constructs a new Naïve Bayes Classifier.
+        /// Gets the probability distributions for each class and input.
         /// </summary>
-        /// 
-        /// <param name="classes">The number of output classes.</param>
-        /// <param name="inputs">The number of input variables.</param>
-        /// <param name="initial">
-        ///   An initial distribution to be used to initialized all independent
-        ///   distribution components of this Naive Bayes. Those distributions
-        ///   will made available in the <see cref="Distributions"/> property.
-        /// </param>
-        /// <param name="classPriors">The prior probabilities for each output class.</param>
-        /// 
-        public NaiveBayes(int classes, int inputs, TDistribution[] initial, double[] classPriors)
-        {
-            if (classes <= 0)
-                throw new ArgumentOutOfRangeException("classes");
-
-            if (inputs <= 0)
-                throw new ArgumentOutOfRangeException("inputs");
-
-            if (initial == null)
-                throw new ArgumentNullException("initial");
-
-            if (initial.Length != inputs)
-                throw new DimensionMismatchException("initial");
-
-            if (classPriors.Length != classes)
-                throw new DimensionMismatchException("classPriors");
-
-            TDistribution[,] priors = new TDistribution[classes, initial.Length];
-            for (int i = 0; i < classes; i++)
-                for (int j = 0; j < initial.Length; j++)
-                    priors[i, j] = (TDistribution)initial[j].Clone();
-
-            initialize(priors, classPriors);
-        }
-
-        private void initialize(TDistribution[,] initial, double[] classPriors)
-        {
-            this.NumberOfOutputs = initial.GetLength(0);
-            this.NumberOfInputs = initial.GetLength(1);
-            this.priors = classPriors;
-            this.probabilities = initial;
-
-            if (priors == null)
-            {
-                priors = new double[NumberOfOutputs];
-                for (int i = 0; i < priors.Length; i++)
-                    priors[i] = 1.0 / priors.Length;
-            }
-        }
-        #endregion
-
-        /// <summary>
-        /// Computes the log-likelihood for one specific the class label
-        /// for a given <paramref name="input">input vector</paramref>.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// any of the <see cref="ITransform{TInput, TOutput}.NumberOfOutputs" /> possible classes.</param>
-        /// <param name="classIndex">The index for the class whose log-likelihood should be computed.</param>
-        /// <returns>
-        /// The log-likelihood for the specified <paramref name="classIndex">class label</paramref>.
-        /// </returns>
-        public override double LogLikelihood(double[] input, int classIndex)
-        {
-            double p = Math.Log(priors[classIndex]);
-            for (int i = 0; i < input.Length; i++)
-                p += probabilities[classIndex, i].LogProbabilityFunction(input[i]);
-            return p;
-        }
-
-
-
-        /// <summary>
-        ///   Gets the probability distributions for each class and input.
-        /// </summary>
-        /// 
-        /// <value>A TDistribution[,] array in with each row corresponds to a 
+        /// <value>
+        /// A TDistribution[,] array in with each row corresponds to a
         /// class, each column corresponds to an input variable. Each element
         /// of this double[,] array is a probability distribution modeling
-        /// the occurrence of the input variable in the corresponding class.</value>
-        /// 
-        public TDistribution[,] Distributions
+        /// the occurrence of the input variable in the corresponding class.
+        /// </value>
+        public new TDistribution[,] Distributions
         {
-            get { return probabilities; }
+            // TODO: Remove
+            // For backwards compatibility
+            get
+            {
+                var freqs = new TDistribution[NumberOfOutputs, NumberOfInputs];
+                for (int i = 0; i < base.Distributions.Length; i++)
+                    for (int j = 0; j < base.Distributions[i].Components.Length; j++)
+                        freqs[i, j] = base.Distributions[i][j];
+                return freqs;
+            }
         }
 
-        /// <summary>
-        ///   Gets the prior beliefs for each class.
-        /// </summary>
-        /// 
-        public double[] Priors
-        {
-            get { return priors; }
-        }
-
-
+        #region Obsolete
         /// <summary>
         ///   Obsolete.
         /// </summary>
@@ -538,12 +364,18 @@ namespace Accord.MachineLearning.Bayes
             bool empirical = true, TOptions options = null)
             where TOptions : class, IFittingOptions
         {
-            var teacher = new NaiveBayesLearning<TDistribution, TOptions>(this);
+            var teacher = new NaiveBayesLearning<TDistribution>()
+            {
+                Model = this
+            };
+#if DEBUG
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
             teacher.Empirical = empirical;
-            teacher.Options = options;
+            teacher.Options.InnerOption = options;
             var result = teacher.Learn(inputs, outputs);
-            this.probabilities = result.probabilities;
-            this.priors = result.priors;
+            base.Distributions = result.Distributions;
+            this.Priors = result.Priors;
             return new ZeroOneLoss(outputs) { Mean = true }.Loss(Decide(inputs));
         }
 
@@ -555,11 +387,17 @@ namespace Accord.MachineLearning.Bayes
         public double Estimate(double[][] inputs, int[] outputs,
             bool empirical = true)
         {
-            var teacher = new NaiveBayesLearning<TDistribution>(this);
+            var teacher = new NaiveBayesLearning<TDistribution>()
+            {
+                Model = this
+            };
+#if DEBUG
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
             teacher.Empirical = empirical;
             var result = teacher.Learn(inputs, outputs);
-            this.probabilities = result.probabilities;
-            this.priors = result.priors;
+            base.Distributions = result.Distributions;
+            this.Priors = result.Priors;
             return new ZeroOneLoss(outputs) { Mean = true }.Loss(Decide(inputs));
         }
 
@@ -601,16 +439,12 @@ namespace Accord.MachineLearning.Bayes
         [Obsolete("Please use Decide or LogLikelihood instead.")]
         public int Compute(double[] input, out double logLikelihood, out double[] responses)
         {
-            double[] ll = LogLikelihood(input);
+            double[] ll = LogLikelihoods(input);
             int imax;
             logLikelihood = ll.Max(out imax);
             responses = Special.Softmax(ll);
             return imax;
         }
-
-
-
-
 
         /// <summary>
         ///   Saves the Naïve Bayes model to a stream.
@@ -638,8 +472,86 @@ namespace Accord.MachineLearning.Bayes
             Accord.IO.Serializer.Save(this, path);
         }
 
+        /// <summary>
+        ///   Constructs a new Naïve Bayes Classifier.
+        /// </summary>
+        /// 
+        /// <param name="classes">The number of output classes.</param>
+        /// <param name="inputs">The number of input variables.</param>
+        /// <param name="priors">Obsolete</param>.
+        /// <param name="initial">
+        ///   An initial distribution to be used to initialized all independent
+        ///   distribution components of this Naive Bayes. This distribution will
+        ///   be cloned and made available in the <see cref="Distributions"/> property.
+        /// </param>
+        /// 
+        [Obsolete("Please specify priors using the Priors property.")]
+        public NaiveBayes(int inputs, int classes, TDistribution initial, double[] priors)
+            : base(inputs, classes, initial)
+        {
+            this.Priors = priors;
+        }
 
+        /// <summary>
+        ///   Constructs a new Naïve Bayes Classifier.
+        /// </summary>
+        /// 
+        /// <param name="classes">The number of output classes.</param>
+        /// <param name="inputs">The number of input variables.</param>
+        /// <param name="priors">Obsolete</param>.
+        /// <param name="initial">
+        ///   An initial distribution to be used to initialized all independent
+        ///   distribution components of this Naive Bayes. Those distributions
+        ///   will made available in the <see cref="Distributions"/> property.
+        /// </param>
+        /// 
+        [Obsolete("Please specify priors using the Priors property.")]
+        public NaiveBayes(int inputs, int classes, TDistribution[] initial, double[] priors)
+            : base(inputs, classes, initial)
+        {
+            this.Priors = priors;
+        }
 
+        /// <summary>
+        ///   Constructs a new Naïve Bayes Classifier.
+        /// </summary>
+        /// 
+        /// <param name="classes">The number of output classes.</param>
+        /// <param name="inputs">The number of input variables.</param>
+        /// <param name="priors">Obsolete</param>.
+        /// <param name="initial">
+        ///   An initial distribution to be used to initialized all independent
+        ///   distribution components of this Naive Bayes. Those distributions
+        ///   will made available in the <see cref="Distributions"/> property.
+        /// </param>
+        /// 
+        [Obsolete("Please specify priors using the Priors property.")]
+        public NaiveBayes(int inputs, int classes, TDistribution[,] initial, double[] priors)
+            : base(inputs, classes, initial.ToJagged())
+        {
+            this.Priors = priors;
+        }
+
+        /// <summary>
+        ///   Constructs a new Naïve Bayes Classifier.
+        /// </summary>
+        /// 
+        /// <param name="classes">The number of output classes.</param>
+        /// <param name="inputs">The number of input variables.</param>
+        /// <param name="priors">Obsolete</param>.
+        /// <param name="initial">
+        ///   An initial distribution to be used to initialized all independent
+        ///   distribution components of this Naive Bayes. Those distributions
+        ///   will made available in the <see cref="Distributions"/> property.
+        /// </param>
+        /// 
+        [Obsolete("Please specify priors using the Priors property.")]
+        public NaiveBayes(int inputs, int classes, TDistribution[][] initial, double[] priors)
+            : base(inputs, classes, initial)
+        {
+            this.Priors = priors;
+        }
+        #endregion
 
 
         #region Serialization backwards compatibility
@@ -677,7 +589,10 @@ namespace Accord.MachineLearning.Bayes
             {
                 var nb = new NaiveBayes<TDistribution>(
                     obj.classCount, obj.inputCount,
-                    obj.probabilities, obj.priors);
+                    obj.probabilities)
+                    {
+                        Priors = obj.priors
+                    };
                 return nb;
             }
         }
@@ -687,4 +602,5 @@ namespace Accord.MachineLearning.Bayes
 
         #endregion
     }
+
 }
