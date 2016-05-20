@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Accord.Audition</name>
+    </assembly>
+    <members>
+        <member name="T:Accord.Audition.Beat.EnergyBeatDetector">
+            <summary>
+              Energy-based beat detector.
+            </summary>
+            
+            <remarks>
+            <para>
+              References:
+              <list type="bullet">
+                <item><description>
+                  Frederic Patin, Beat Detection Algorithms. Available on:
+                  http://www.gamedev.net/reference/programming/features/beatdetection. </description></item>
+              </list>
+            </para>
+            </remarks>
+            
+        </member>
+        <member name="T:Accord.Audition.Beat.IBeatDetector">
+            <summary>
+              Common interface for Beat detectors.
+            </summary>
+        </member>
+        <member name="E:Accord.Audition.Beat.IBeatDetector.Beat">
+            <summary>
+              Raised when a beat has been detected.
+            </summary>
+        </member>
+        <member name="M:Accord.Audition.Beat.EnergyBeatDetector.#ctor(System.Int32)">
+            <summary>
+              Creates a new Energy-based beat detector.
+            </summary>
+            
+            <param name="bufferSize">The size for the buffer.</param>
+            
+        </member>
+        <member name="M:Accord.Audition.Beat.EnergyBeatDetector.Detect(Accord.Audio.Signal)">
+            <summary>
+              Detects if there is a beat in the given signal.
+            </summary>
+            
+            <param name="signal">A signal (window).</param>
+            
+        </member>
+        <member name="E:Accord.Audition.Beat.EnergyBeatDetector.Beat">
+            <summary>
+              Raised when a beat has been detected.
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Audition.Beat.EnergyBeatDetector.AutoSensitivity">
+            <summary>
+              Gets or sets whether the detector should
+              compute the best sensitivity automatically.
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Audition.Beat.EnergyBeatDetector.Sensitivity">
+            <summary>
+              Gets or sets the sensitivity of the detector.
+            </summary>
+            
+        </member>
+    </members>
+</doc>

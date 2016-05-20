@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7921C2EA-3634-4C33-BB10-B4F960EEDD97}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CurrentVersion</RootNamespace>
+    <AssemblyName>CurrentVersion</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accord">
+      <HintPath>..\..\..\..\Release\net45\Accord.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Audio">
+      <HintPath>..\..\..\..\Release\net45\Accord.Audio.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Audio.DirectSound">
+      <HintPath>..\..\..\..\Release\net45\Accord.Audio.DirectSound.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Audio.Formats">
+      <HintPath>..\..\..\..\Release\net45\Accord.Audio.Formats.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Audition">
+      <HintPath>..\..\..\..\Release\net45\Accord.Audition.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Controls">
+      <HintPath>..\..\..\..\Release\net45\Accord.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Controls.Audio">
+      <HintPath>..\..\..\..\Release\net45\Accord.Controls.Audio.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Controls.Imaging">
+      <HintPath>..\..\..\..\Release\net45\Accord.Controls.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Controls.Vision">
+      <HintPath>..\..\..\..\Release\net45\Accord.Controls.Vision.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Fuzzy">
+      <HintPath>..\..\..\..\Release\net45\Accord.Fuzzy.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Genetic">
+      <HintPath>..\..\..\..\Release\net45\Accord.Genetic.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Imaging">
+      <HintPath>..\..\..\..\Release\net45\Accord.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.IO">
+      <HintPath>..\..\..\..\Release\net45\Accord.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.MachineLearning">
+      <HintPath>..\..\..\..\Release\net45\Accord.MachineLearning.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.MachineLearning.GPL">
+      <HintPath>..\..\..\..\Release\net45\GPL\Accord.MachineLearning.GPL.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Math">
+      <HintPath>..\..\..\..\Release\net45\Accord.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Math.Noncommercial">
+      <HintPath>..\..\..\..\Release\net45\Noncommercial\Accord.Math.Noncommercial.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Neuro">
+      <HintPath>..\..\..\..\Release\net45\Accord.Neuro.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Statistics">
+      <HintPath>..\..\..\..\Release\net45\Accord.Statistics.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Video">
+      <HintPath>..\..\..\..\Release\net45\Accord.Video.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Video.DirectShow">
+      <HintPath>..\..\..\..\Release\net45\Accord.Video.DirectShow.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Video.Kinect">
+      <HintPath>..\..\..\..\Release\net45\Accord.Video.Kinect.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Video.VFW">
+      <HintPath>..\..\..\..\Release\net45\Accord.Video.VFW.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Video.Ximea">
+      <HintPath>..\..\..\..\Release\net45\Accord.Video.Ximea.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Vision">
+      <HintPath>..\..\..\..\Release\net45\Accord.Vision.dll</HintPath>
+    </Reference>
+    <Reference Include="BenchmarkDotNet, Version=0.9.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BenchmarkDotNet.0.9.4\lib\net45\BenchmarkDotNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Build" />
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Build.Utilities.v12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ZedGraph">
+      <HintPath>..\..\..\..\Release\net45\ZedGraph.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MulticlassSupportVectorMachineTest.cs" />
+    <Compile Include="KernelSupportVectorMachineTest.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{1390f440-fffa-45f3-a920-07fd4eec8785}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
