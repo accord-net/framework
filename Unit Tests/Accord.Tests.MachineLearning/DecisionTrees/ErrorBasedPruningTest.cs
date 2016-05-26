@@ -31,8 +31,8 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Accord.Tests.MachineLearning.Properties;
     using Accord.MachineLearning.DecisionTrees.Learning;
-    
-    
+
+
     [TestFixture]
     public class ErrorBasedpruningTest
     {
@@ -84,9 +84,9 @@ namespace Accord.Tests.MachineLearning
             foreach (var node in tree)
                 nodeCount2++;
 
-            Assert.AreEqual(0.25459770114942532, error);
+            Assert.AreEqual(0.28922413793103446, error);
             Assert.AreEqual(447, nodeCount);
-            Assert.AreEqual(193, nodeCount2);
+            Assert.AreEqual(424, nodeCount2);
         }
 
 
@@ -109,14 +109,14 @@ namespace Accord.Tests.MachineLearning
                 actual[i] = nodeCount2;
             }
 
-            double[] expected = { 447, 193, 145, 140, 124, 117, 109, 103, 95, 87 };
+            double[] expected = { 447, 424, 410, 402, 376, 362, 354, 348, 336, 322 };
 
             for (int i = 0; i < actual.Length; i++)
                 Assert.AreEqual(expected[i], actual[i]);
         }
 
-        private static void repeat(double[][] inputs, int[] outputs, 
-            DecisionTree tree, int training, double threshold, 
+        private static void repeat(double[][] inputs, int[] outputs,
+            DecisionTree tree, int training, double threshold,
             out int nodeCount2)
         {
             int nodeCount = 0;
