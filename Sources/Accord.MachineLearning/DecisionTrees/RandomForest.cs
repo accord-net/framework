@@ -5,7 +5,7 @@
 // Copyright © Alex Risman, 2016
 // https://github.com/mthmn20
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or

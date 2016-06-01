@@ -8,7 +8,7 @@
 // Copyright © Andrew Kirillov, 2007-2008
 // andrew.kirillov@gmail.com
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or

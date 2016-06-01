@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 // This file was contributed to the project by Diego Catalano, based
