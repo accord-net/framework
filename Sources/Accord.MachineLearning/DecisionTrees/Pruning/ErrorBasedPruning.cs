@@ -169,8 +169,6 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
             return computeError();
         }
 
-
-
         private double computeError()
         {
             return new ZeroOneLoss(outputs) { Mean = true }.Loss(tree.Decide(inputs));
@@ -185,7 +183,7 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
         private bool compute(DecisionNode node)
         {
             int[] indices = subsets[node].ToArray();
-            int[] subset = outputs.Submatrix(indices);
+            int[] outputSubset = outputs.Submatrix(indices);
 
             if (indices.Length == 0)
             {
@@ -195,41 +193,27 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
                 node.Branches = null;
                 node.Output = null;
 
-                foreach (var child in node)
-                    subsets[child].Clear();
-
-                for (int i = 0; i < inputs.Length; i++)
-                    trackDecisions(node, inputs[i], i);
-
                 return true;
             }
 
             int size = indices.Length;
-            int mostCommon = subset.Mode();
+
+            double baselineError = computeError();
+            baselineError = upperBound(baselineError, size);
+
+            int mostCommon = outputSubset.Mode();
+            double pruneError = computeErrorWithoutSubtree(node, mostCommon);
+            pruneError = upperBound(pruneError, size);
+
             DecisionNode maxChild = getMaxChild(node);
-
-            double replace = Double.PositiveInfinity;
-            if (maxChild != null)
-            {
-                replace = computeErrorReplacingSubtrees(node, maxChild);
-                replace = upperBound(replace, size);
-            }
-
-
-            double baseline = computeErrorSubtree(indices);
-            double prune = computeErrorWithoutSubtree(node, mostCommon);
-
-
-            baseline = upperBound(baseline, size);
-            prune = upperBound(prune, size);
-
+            double replaceError = computeErrorReplacingSubtrees(node, maxChild);
+            replaceError = upperBound(replaceError, size);
 
             bool changed = false;
-
-            if (Math.Abs(prune - baseline) < limit ||
-                Math.Abs(replace - baseline) < limit)
+            if (Math.Abs(pruneError - baselineError) < limit ||
+                Math.Abs(replaceError - baselineError) < limit)
             {
-                if (replace < prune)
+                if (replaceError < pruneError)
                 {
                     // We should replace the subtree with its maximum child
                     node.Branches = maxChild.Branches;
@@ -249,8 +233,9 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
                 foreach (var child in node)
                     subsets[child].Clear();
 
-                for (int i = 0; i < inputs.Length; i++)
-                    trackDecisions(node, inputs[i], i);
+                double[][] inputSubset = inputs.Submatrix(indices);
+                for (int i = 0; i < inputSubset.Length; i++)
+                    trackDecisions(node, inputSubset[i], i);
             }
 
             return changed;
@@ -294,15 +279,6 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
             return error;
         }
 
-        private double computeErrorSubtree(int[] indices)
-        {
-            int error = 0;
-            foreach (int i in indices)
-                if (outputs[i] != actual[i]) error++;
-
-            return error / (double)indices.Length;
-        }
-
         private DecisionNode getMaxChild(DecisionNode tree)
         {
             DecisionNode max = null;
@@ -310,17 +286,11 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
 
             foreach (var child in tree.Branches)
             {
-                if (child.Branches != null)
+                var list = subsets[child];
+                if (list.Count > maxCount)
                 {
-                    foreach (var node in child.Branches)
-                    {
-                        var list = subsets[node];
-                        if (list.Count > maxCount)
-                        {
-                            max = node;
-                            maxCount = list.Count;
-                        }
-                    }
+                    max = child;
+                    maxCount = list.Count;
                 }
             }
 
