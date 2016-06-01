@@ -136,8 +136,10 @@ namespace Accord.Math
 
             if ((x <= 0.0) || (x >= 1.0))
             {
-                if (x == 0.0) return 0.0;
-                if (x == 1.0) return 1.0;
+                if (x == 0.0) 
+                    return 0.0;
+                if (x == 1.0) 
+                    return 1.0;
                 throw new ArgumentOutOfRangeException("x", "Value must be between 0 and 1.");
             }
 
