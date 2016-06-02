@@ -143,7 +143,6 @@
     <Compile Include="Distances\Minkowski.cs" />
     <Compile Include="Distances\Hamming`1.cs" />
     <Compile Include="Distances\Levenshtein`1.cs" />
-    <Compile Include="Distances\Chessboard.cs" />
     <Compile Include="Distances\Manhattan.cs" />
     <Compile Include="Distances\BrayCurtis.cs" />
     <Compile Include="Distances\SquaredMahalanobis.cs" />

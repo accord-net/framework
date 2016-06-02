@@ -118,6 +118,26 @@ namespace Accord.Math
 
 
         /// <summary>
+        ///   Gets the ArgMax distance between two points.
+        /// </summary>
+        ///  
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// 
+        /// <returns>The ArgMax distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double ArgMax(double[] x, double[] y)
+        {
+            return cacheArgMax.Distance(x, y);
+        }
+
+        private static readonly ArgMax cacheArgMax = new ArgMax();
+
+
+        /// <summary>
         ///   Gets the Canberra distance between two points.
         /// </summary>
         ///  
@@ -504,43 +524,6 @@ namespace Accord.Math
         }
 
         private static readonly Mahalanobis cacheMahalanobis = new Mahalanobis();
-
-
-        /// <summary>
-        ///   Gets the Chessboard distance between two points.
-        /// </summary>
-        ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// 
-        /// <returns>The Chessboard distance between x and y.</returns>
-        /// 
-#if NET45
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static double Chessboard(int[] x, int[] y)
-        {
-            return cacheChessboard.Distance(x, y);
-        }
-
-        /// <summary>
-        ///   Gets the Chessboard distance between two points.
-        /// </summary>
-        ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// 
-        /// <returns>The Chessboard distance between x and y.</returns>
-        /// 
-#if NET45
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static double Chessboard(double[] x, double[] y)
-        {
-            return cacheChessboard.Distance(x, y);
-        }
-
-        private static readonly Chessboard cacheChessboard = new Chessboard();
 
 
         /// <summary>
