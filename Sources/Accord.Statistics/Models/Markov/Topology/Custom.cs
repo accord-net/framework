@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -120,8 +120,8 @@ namespace Accord.Statistics.Models.Markov.Topology
 
             if (logarithm)
             {
-                transitions = Matrix.Exp(transitions);
-                initial = Matrix.Exp(initial);
+                transitions = transitions.Exp();
+                initial = initial.Exp();
             }
 
             this.A = transitions;
@@ -190,8 +190,8 @@ namespace Accord.Statistics.Models.Markov.Topology
         {
             if (logarithm)
             {
-                transitionMatrix = Matrix.Log(A);
-                initialState = Matrix.Log(pi);
+                transitionMatrix = Elementwise.Log(A);
+                initialState = Elementwise.Log(pi);
             }
             else
             {

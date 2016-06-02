@@ -15,7 +15,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MotionDetectorSample
+namespace SampleApp
 {
     public partial class MotionRegionsForm : Form
     {
@@ -33,33 +33,33 @@ namespace MotionDetectorSample
         }
 
         // Class constructor
-        public MotionRegionsForm( )
+        public MotionRegionsForm()
         {
-            InitializeComponent( );
+            InitializeComponent();
 
-            defineRegionsControl.OnNewRectangle += new NewRectangleHandler( defineRegionsControl_NewRectangleHandler );
+            defineRegionsControl.OnNewRectangle += new NewRectangleHandler(defineRegionsControl_NewRectangleHandler);
         }
 
         // On first displaying of the form
-        protected override void OnLoad( EventArgs e )
+        protected override void OnLoad(EventArgs e)
         {
             // get video frame dimension
-            if ( defineRegionsControl.BackgroundImage != null )
+            if (defineRegionsControl.BackgroundImage != null)
             {
-                int imageWidth  = defineRegionsControl.BackgroundImage.Width;
+                int imageWidth = defineRegionsControl.BackgroundImage.Width;
                 int imageHeight = defineRegionsControl.BackgroundImage.Height;
 
                 // resize region definition control
-                defineRegionsControl.Size = new Size( imageWidth + 2, imageHeight + 2 );
+                defineRegionsControl.Size = new Size(imageWidth + 2, imageHeight + 2);
                 // resize window
-                this.Size = new Size( imageWidth + 2 + 26, imageHeight + 2 + 118 );
+                this.Size = new Size(imageWidth + 2 + 26, imageHeight + 2 + 118);
             }
 
-            base.OnLoad( e );
+            base.OnLoad(e);
         }
 
         // New rectangle definition was finished
-        private void defineRegionsControl_NewRectangleHandler( object sender, Rectangle rect )
+        private void defineRegionsControl_NewRectangleHandler(object sender, Rectangle rect)
         {
             this.DialogResult = DialogResult.OK;
             this.Close();

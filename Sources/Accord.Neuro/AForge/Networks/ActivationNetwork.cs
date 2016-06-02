@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Neuro
+namespace Accord.Neuro
 {
     using System;
 
@@ -47,19 +47,19 @@ namespace AForge.Neuro
         /// <remarks>The new network is randomized (see <see cref="ActivationNeuron.Randomize"/>
         /// method) after it is created.</remarks>
         /// 
-        public ActivationNetwork( IActivationFunction function, int inputsCount, params int[] neuronsCount )
-            : base( inputsCount, neuronsCount.Length )
+        public ActivationNetwork(IActivationFunction function, int inputsCount, params int[] neuronsCount)
+            : base(inputsCount, neuronsCount.Length)
         {
             // create each layer
-            for ( int i = 0; i < layers.Length; i++ )
+            for (int i = 0; i < layers.Length; i++)
             {
                 layers[i] = new ActivationLayer(
                     // neurons count in the layer
                     neuronsCount[i],
                     // inputs count of the layer
-                    ( i == 0 ) ? inputsCount : neuronsCount[i - 1],
+                    (i == 0) ? inputsCount : neuronsCount[i - 1],
                     // activation function of the layer
-                    function );
+                    function);
             }
         }
 
@@ -72,11 +72,11 @@ namespace AForge.Neuro
         /// <remarks><para>The method sets new activation function for all neurons by calling
         /// <see cref="ActivationLayer.SetActivationFunction"/> method for each layer of the network.</para></remarks>
         /// 
-        public void SetActivationFunction( IActivationFunction function )
+        public void SetActivationFunction(IActivationFunction function)
         {
-            for ( int i = 0; i < layers.Length; i++ )
+            for (int i = 0; i < layers.Length; i++)
             {
-                ( (ActivationLayer) layers[i] ).SetActivationFunction( function );
+                ((ActivationLayer)layers[i]).SetActivationFunction(function);
             }
         }
     }

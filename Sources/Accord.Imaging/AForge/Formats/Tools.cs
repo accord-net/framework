@@ -5,7 +5,7 @@
 // andrew.kirillov@gmail.com
 //
 
-namespace AForge.Imaging.Formats
+namespace Accord.Imaging.Formats
 {
     using System;
     using System.Drawing;
@@ -26,7 +26,7 @@ namespace AForge.Imaging.Formats
         /// 
         /// <returns>Returns new created grayscale image.</returns>
         /// 
-        /// <remarks><para>AForge.Imaging.Image.CreateGrayscaleImage() function
+        /// <remarks><para>Accord.Imaging.Image.CreateGrayscaleImage() function
         /// could be used instead, which does the some. But it was not used to get
         /// rid of dependency on AForge.Imaing library.</para></remarks>
         /// 

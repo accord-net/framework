@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -90,7 +90,7 @@ namespace Accord.Statistics.Testing
                 m[i] = NormalDistribution.Standard.InverseDistributionFunction(num / den);
             }
 
-            double mm = m.InnerProduct(m);
+            double mm = m.Dot(m);
 
             double[] c = m.Divide(Math.Sqrt(mm));
 

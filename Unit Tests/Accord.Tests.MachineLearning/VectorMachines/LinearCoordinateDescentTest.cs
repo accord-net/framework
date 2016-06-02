@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,6 +29,11 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Kernels;
     using NUnit.Framework;
+    using System.IO;
+    using System.Text;
+    using Accord.Tests.MachineLearning.Properties;
+    using Accord.IO;
+    using Accord.Statistics.Kernels.Sparse;
 
     [TestFixture]
     public class LinearCoordinateDescentTest
@@ -78,7 +83,7 @@ namespace Accord.Tests.MachineLearning
         {
             var dataset = SequentialMinimalOptimizationTest.yinyang;
 
-            double[][] inputs = dataset.Submatrix(null, 0, 1).ToArray();
+            double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
             int[] labels = dataset.GetColumn(2).ToInt32();
 
             var kernel = new Polynomial(2, 1);
@@ -106,5 +111,26 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(44, matrix.TruePositives);
             Assert.AreEqual(43, matrix.TrueNegatives);
         }
+
+        // TODO: Re-enable this test
+        //[Test]
+        //public void SparseLinearTest()
+        //{
+        //    MemoryStream file = new MemoryStream(
+        //        Encoding.Default.GetBytes(Resources.iris_scale));
+
+        //    // Create a new Sparse Sample Reader to read any given file,
+        //    //  passing the correct dense sample size in the constructor
+        //    SparseReader reader = new SparseReader(file, Encoding.Default);
+
+        //    var samples = reader.ReadSparseToEnd();
+
+        //    Sparse<double>[] x = samples.Item1;
+        //    int[] y = samples.Item2.ToInt32();
+
+        //    var learner = new LinearCoordinateDescent<Linear, Sparse<double>>();
+        //    SupportVectorMachine<Linear, Sparse<double>> svm = learner.Learn(x, y);
+
+        //}
     }
 }

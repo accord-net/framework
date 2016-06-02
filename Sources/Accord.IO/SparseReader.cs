@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -44,6 +44,7 @@
 
 namespace Accord.IO
 {
+    using Accord.Math;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -124,6 +125,7 @@ namespace Accord.IO
     {
         private StreamReader reader;
         private int sampleSize; // feature vector length
+        private List<string> descriptions = new List<string>();
 
         /// <summary>
         ///   Returns the underlying stream.
@@ -140,7 +142,13 @@ namespace Accord.IO
         ///   Default is <c>null</c> (don't include anything).
         /// </summary>
         /// 
-        public double? Intercept { get; set; }
+        public bool Intercept { get; set; }
+
+        /// <summary>
+        ///   Gets the description associated with the last read values.
+        /// </summary>
+        /// 
+        public List<string> SampleDescriptions { get { return descriptions; } }
 
         /// <summary>
         ///   Gets the number of features present in this dataset. Please 
@@ -155,7 +163,7 @@ namespace Accord.IO
                 if (sampleSize <= 0)
                     sampleSize = guessSampleSize();
 
-                return Intercept.HasValue ? sampleSize + 1 : sampleSize;
+                return Intercept ? sampleSize + 1 : sampleSize;
             }
         }
 
@@ -299,300 +307,146 @@ namespace Accord.IO
             get { return reader.EndOfStream; }
         }
 
-        /// <summary>
-        ///   Reads a sparse sample from the current stream
-        ///   and returns it as a sparse vector.
-        /// </summary>
-        /// 
-        /// <param name="label">The label of the sample.</param>
-        /// <param name="description">An optional description accompanying the sample.</param>
-        /// <returns>A vector in sparse representation containing the sample.</returns>
-        /// 
-        public double[] ReadSparse(out int label, out string description)
-        {
-            return read(true, out label, out description);
-        }
 
         /// <summary>
-        ///   Reads a sparse sample from the current stream
-        ///   and returns it as a sparse vector.
+        ///   Reads one line from the feature file, returning the array of values 
+        ///   for the sparse vector and its corresponding label.
         /// </summary>
         /// 
-        /// <param name="label">The label of the sample.</param>
-        /// <returns>A vector in sparse representation containing the sample.</returns>
-        /// 
-        public double[] ReadSparse(out int label)
+        /// <returns>A tuple containing the array of values in the format 
+        ///  "index:value" as the first item and their corresponding label
+        ///  as the second item.</returns>
+        ///  
+        public Tuple<string[], string> ReadLine()
         {
-            string description;
-            return read(true, out label, out description);
-        }
-
-        /// <summary>
-        ///   Reads a sparse sample from the current stream
-        ///   and returns it as a dense vector.
-        /// </summary>
-        /// 
-        /// <param name="label">The label of the sample.</param>
-        /// <param name="description">An optional description accompanying the sample.</param>
-        /// 
-        /// <returns>A vector in dense representation containing the sample.</returns>
-        /// 
-        public double[] ReadDense(out int label, out string description)
-        {
-            return read(false, out label, out description);
-        }
-
-        /// <summary>
-        ///   Reads a sparse sample from the current stream
-        ///   and returns it as a dense vector.
-        /// </summary>
-        /// 
-        /// <param name="output">The output value associated with the sample.</param>
-        /// <param name="description">An optional description accompanying the sample.</param>
-        /// 
-        /// <returns>A vector in dense representation containing the sample.</returns>
-        /// 
-        public double[] ReadDense(out double output, out string description)
-        {
-            return read(false, out output, out description);
-        }
-
-        /// <summary>
-        ///   Reads a sparse sample from the current stream
-        ///   and returns it as a dense vector.
-        /// </summary>
-        /// 
-        /// <param name="label">The label of the sample.</param>
-        /// <returns>A vector in dense representation containing the sample.</returns>
-        /// 
-        public double[] ReadDense(out int label)
-        {
-            string description;
-            return read(false, out label, out description);
-        }
-
-        /// <summary>
-        ///   Reads samples from the current position to the end of the stream.
-        /// </summary>
-        /// 
-        /// <param name="labels">An array containing the samples' labels.</param>
-        /// 
-        /// <returns>An array of dense feature vectors.</returns>
-        /// 
-        public double[][] ReadToEnd(out int[] labels)
-        {
-            string[] descriptions;
-            return ReadToEnd(false, out labels, out descriptions);
-        }
-
-        /// <summary>
-        ///   Reads samples from the current position to the end of the stream.
-        /// </summary>
-        /// 
-        /// <param name="outputs">An array containing the samples' output values.</param>
-        /// 
-        /// <returns>An array of dense feature vectors.</returns>
-        /// 
-        public double[][] ReadToEnd(out double[] outputs)
-        {
-            string[] descriptions;
-            return ReadToEnd(false, out outputs, out descriptions);
-        }
-
-        /// <summary>
-        ///   Reads samples from the current position to the end of the stream.
-        /// </summary>
-        /// 
-        /// <param name="labels">An array containing the samples' labels.</param>
-        /// <param name="descriptions">An array containing the samples' descriptions.</param>
-        /// 
-        /// <returns>An array of dense feature vectors.</returns>
-        /// 
-        public double[][] ReadToEnd(out int[] labels, out string[] descriptions)
-        {
-            return ReadToEnd(false, out labels, out descriptions);
-        }
-
-        /// <summary>
-        ///   Reads samples from the current position to the end of the stream.
-        /// </summary>
-        /// 
-        /// <param name="outputs">An array containing the samples' output values.</param>
-        /// <param name="descriptions">An array containing the samples' descriptions.</param>
-        /// 
-        /// <returns>An array of dense feature vectors.</returns>
-        /// 
-        public double[][] ReadToEnd(out double[] outputs, out string[] descriptions)
-        {
-            return ReadToEnd(false, out outputs, out descriptions);
-        }
-
-        /// <summary>
-        ///   Reads samples from the current position to the end of the stream.
-        /// </summary>
-        /// 
-        /// <param name="sparse">True to return the feature vectors in a
-        /// sparse representation, false to return them as dense vectors.</param>
-        /// <param name="labels">An array containing the samples' labels.</param>
-        /// 
-        /// <returns>An array of dense feature vectors.</returns>
-        /// 
-        public double[][] ReadToEnd(bool sparse, out int[] labels)
-        {
-            string[] descriptions;
-            return ReadToEnd(sparse, out labels, out descriptions);
-        }
-
-        /// <summary>
-        ///   Reads samples from the current position to the end of the stream.
-        /// </summary>
-        /// 
-        /// <param name="sparse">True to return the feature vectors in a
-        /// sparse representation, false to return them as dense vectors.</param>
-        /// <param name="outputs">An array containing the samples' output values.</param>
-        /// 
-        /// <returns>An array of dense feature vectors.</returns>
-        /// 
-        public double[][] ReadToEnd(bool sparse, out double[] outputs)
-        {
-            string[] descriptions;
-            return ReadToEnd(sparse, out outputs, out descriptions);
-        }
-
-        /// <summary>
-        ///   Reads samples from the current position to the end of the stream.
-        /// </summary>
-        /// 
-        /// <param name="sparse">True to return the feature vectors in a
-        /// sparse representation, false to return them as dense vectors.</param>
-        /// <param name="labels">An array containing the samples' labels.</param>
-        /// <param name="descriptions">An array containing the samples' descriptions.</param>
-        /// 
-        /// <returns>An array of dense feature vectors.</returns>
-        /// 
-        public double[][] ReadToEnd(bool sparse, out int[] labels, out string[] descriptions)
-        {
-            List<double[]> samples = new List<double[]>();
-            List<int> listLabels = new List<int>();
-            List<string> listDescriptions = new List<string>();
-
-            while (!reader.EndOfStream)
-            {
-                int label; string description;
-                samples.Add(read(sparse, out label, out description));
-                listLabels.Add(label); listDescriptions.Add(description);
-            }
-
-            labels = listLabels.ToArray();
-            descriptions = listDescriptions.ToArray();
-
-            return samples.ToArray();
-        }
-
-        /// <summary>
-        ///   Reads samples from the current position to the end of the stream.
-        /// </summary>
-        /// 
-        /// <param name="sparse">True to return the feature vectors in a
-        /// sparse representation, false to return them as dense vectors.</param>
-        /// <param name="labels">An array containing the samples' labels.</param>
-        /// <param name="descriptions">An array containing the samples' descriptions.</param>
-        /// 
-        /// <returns>An array of dense feature vectors.</returns>
-        /// 
-        public double[][] ReadToEnd(bool sparse, out double[] labels, out string[] descriptions)
-        {
-            List<double[]> samples = new List<double[]>();
-            List<double> listLabels = new List<double>();
-            List<string> listDescriptions = new List<string>();
-
-            while (!reader.EndOfStream)
-            {
-                double label; string description;
-                samples.Add(read(sparse, out label, out description));
-                listLabels.Add(label); listDescriptions.Add(description);
-            }
-
-            labels = listLabels.ToArray();
-            descriptions = listDescriptions.ToArray();
-
-            return samples.ToArray();
-        }
-
-
-        private double[] read(bool sparse, out int label, out string description)
-        {
-            string[] values = read(out description);
-            label = int.Parse(values[0], CultureInfo.InvariantCulture);
-            return readFeature(sparse, values);
-        }
-
-        private double[] read(bool sparse, out double label, out string description)
-        {
-            string[] values = read(out description);
-            label = Double.Parse(values[0], CultureInfo.InvariantCulture);
-            return readFeature(sparse, values);
-        }
-
-        private string[] read(out string description)
-        {
+            string description = String.Empty;
             string line = reader.ReadLine();
-
             string[] data = line.Split('#');
-            string sample = data[0].Trim();
+            string[] fields = data[0].Trim().Split(' ');
+            if (data.Length > 1)
+                description = data[1].Trim();
+             
+            SampleDescriptions.Add(description);
 
-            description = (data.Length > 1) ? data[1].Trim() : String.Empty;
-
-            return sample.Split(' ');
+            var output = fields[0];
+            var values = new string[fields.Length - 1];
+            Array.Copy(fields, 1, values, 0, values.Length);
+            return Tuple.Create(values, output);
         }
 
-        private double[] readFeature(bool sparse, string[] values)
+
+        /// <summary>
+        ///   Reads a sample from the file and returns it as a
+        ///   <see cref="Sparse{T}"/> sparse vector, together with
+        ///   its associated output value.
+        /// </summary>
+        /// 
+        /// <returns>A tuple containing the sparse vector as the first item
+        ///   and its associated output value as the second item.</returns>
+        ///   
+        public Tuple<Sparse<double>, double> ReadSparse()
         {
-            double[] features;
-
-            int offset = this.Intercept.HasValue ? 1 : 0;
-
-            if (!sparse)
-            {
-                if (sampleSize <= 0)
-                    sampleSize = guessSampleSize();
-
-                features = new double[sampleSize + offset];
-                for (int i = 1; i < values.Length; i++)
-                {
-                    string[] element = values[i].Split(':');
-                    var index = Int32.Parse(element[0], CultureInfo.InvariantCulture) - 1;
-                    var value = Double.Parse(element[1], CultureInfo.InvariantCulture);
-
-                    features[index + offset] = value;
-                }
-
-                if (Intercept.HasValue)
-                    features[0] = Intercept.Value;
-            }
-            else
-            {
-                features = new double[(values.Length - 1) * 2];
-                for (int i = 1; i < values.Length; i++)
-                {
-                    string[] element = values[i].Split(':');
-                    var index = Int32.Parse(element[0], CultureInfo.InvariantCulture) - 1;
-                    var value = Double.Parse(element[1], CultureInfo.InvariantCulture);
-
-                    int j = (i - 1) * 2;
-                    features[j] = index + offset;
-                    features[j + 1] = value;
-
-                    if (index >= sampleSize)
-                        sampleSize = index + 1;
-                }
-
-                if (Intercept.HasValue)
-                    features[1] = Intercept.Value;
-            }
-
-            return features;
+            var values = ReadLine();
+            var output = Double.Parse(values.Item2, CultureInfo.InvariantCulture);
+            var sample = Sparse.Parse(values.Item1, Intercept);
+            return Tuple.Create(sample, output);
         }
+
+        /// <summary>
+        ///   Reads <paramref name="count"/> samples from the file and returns
+        ///   them as a <see cref="Sparse{T}"/> sparse vector, together with
+        ///   their associated output values.
+        /// </summary>
+        /// 
+        /// <param name="count">The number of samples to read.</param>
+        /// 
+        /// <returns>A tuple containing the sparse vectors as the first item
+        ///   and their associated output values as the second item.</returns>
+        /// 
+        public Tuple<Sparse<double>[], double[]> ReadSparse(int count)
+        {
+            var samples = new List<Sparse<double>>();
+            var outputs = new List<double>();
+
+            while (!reader.EndOfStream)
+            {
+                var sample = ReadSparse();
+                samples.Add(sample.Item1);
+                outputs.Add(sample.Item2);
+                if (count > 0 && samples.Count >= count)
+                    break;
+            }
+
+            return Tuple.Create(samples.ToArray(), outputs.ToArray());
+        }
+
+        /// <summary>
+        ///   Reads all samples from the file and returns them as a
+        ///   <see cref="Sparse{T}"/> sparse vector, together with
+        ///   their associated output values.
+        /// </summary>
+        /// 
+        /// <returns>A tuple containing the sparse vectors as the first item
+        ///   and their associated output values as the second item.</returns>
+        /// 
+        public Tuple<Sparse<double>[], double[]> ReadSparseToEnd()
+        {
+            return ReadSparse(-1);
+        }
+
+
+        /// <summary>
+        ///   Reads a sample from the file and returns it as a
+        ///   dense vector, together with its associated output value.
+        /// </summary>
+        /// 
+        /// <returns>A tuple containing the dense vector as the first item
+        ///   and its associated output value as the second item.</returns>
+        ///   
+        public Tuple<double[], double> ReadDense()
+        {
+            var sparse = ReadSparse();
+            return Tuple.Create(sparse.Item1.ToDense(Dimensions), sparse.Item2);
+        }
+
+        /// <summary>
+        ///   Reads <paramref name="count"/> samples from the file and returns
+        ///   them as a <see cref="Sparse{T}"/> sparse vector, together with
+        ///   their associated output values.
+        /// </summary>
+        /// 
+        /// <param name="count">The number of samples to read.</param>
+        /// 
+        /// <returns>A tuple containing the sparse vectors as the first item
+        ///   and their associated output values as the second item.</returns>
+        /// 
+        public Tuple<double[][], double[]> ReadDense(int count)
+        {
+            var sparse = ReadSparse(count);
+            var dense = new double[sparse.Item1.Length][];
+            for (int i = 0; i < dense.Length; i++)
+                dense[i] = sparse.Item1[i].ToDense(Dimensions);
+            return Tuple.Create(dense, sparse.Item2);
+        }
+
+        /// <summary>
+        ///   Reads all samples from the file and returns them as a
+        ///   dense vector, together with their associated output values.
+        /// </summary>
+        /// 
+        /// <returns>A tuple containing the dense vectors as the first item
+        ///   and their associated output values as the second item.</returns>
+        /// 
+        public Tuple<double[][], double[]> ReadDenseToEnd()
+        {
+            return ReadDense(-1);
+        }
+
+
+
+
+
+
 
         private int guessSampleSize()
         {
@@ -600,6 +454,8 @@ namespace Accord.IO
             // the largest index we can find. 
 
             long position = reader.GetPosition();
+
+            reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
             int max = 0;
 

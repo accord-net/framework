@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -132,7 +132,7 @@ namespace Accord.Math.Optimization
             this.Solution = new double[numberOfVariables];
 
             for (int i = 0; i < Solution.Length; i++)
-                Solution[i] = Accord.Math.Tools.Random.NextDouble() * 2 - 1;
+                Solution[i] = Accord.Math.Random.Generator.Random.NextDouble() * 2 - 1;
         }
 
         /// <summary>

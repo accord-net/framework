@@ -1,9 +1,9 @@
 ﻿using System;
-using AForge;
-using AForge.Math.Geometry;
+using Accord;
+using Accord.Math.Geometry;
 using NUnit.Framework;
 
-namespace AForge.Math.Geometry.Tests
+namespace Accord.Tests.Math
 {
     [TestFixture]
     public class GeometryToolsTest

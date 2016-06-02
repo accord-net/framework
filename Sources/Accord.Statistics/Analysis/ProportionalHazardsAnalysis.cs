@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,7 +27,6 @@ namespace Accord.Statistics.Analysis
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
     using Accord.Statistics.Testing;
-    using AForge;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -209,19 +208,62 @@ namespace Accord.Statistics.Analysis
         /// <param name="times">The output data for the analysis.</param>
         /// <param name="censor">The right-censoring indicative values.</param>
         /// 
+        public ProportionalHazardsAnalysis(double[,] inputs, double[] times, int[] censor)
+            : this(inputs, times, censor.To<SurvivalOutcome[]>())
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a new Cox's Proportional Hazards Analysis.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data for the analysis.</param>
+        /// <param name="times">The output data for the analysis.</param>
+        /// <param name="censor">The right-censoring indicative values.</param>
+        /// 
+        public ProportionalHazardsAnalysis(double[][] inputs, double[] times, int[] censor)
+            : this(inputs, times, censor.To<SurvivalOutcome[]>())
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a new Cox's Proportional Hazards Analysis.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data for the analysis.</param>
+        /// <param name="times">The output, binary data for the analysis.</param>
+        /// <param name="censor">The right-censoring indicative values.</param>
+        /// <param name="inputNames">The names of the input variables.</param>
+        /// <param name="timeName">The name of the time variable.</param>
+        /// <param name="censorName">The name of the event indication variable.</param>
+        /// 
+        public ProportionalHazardsAnalysis(double[][] inputs, double[] times, int[] censor,
+            String[] inputNames, String timeName, String censorName)
+            : this(inputs, times, censor.To<SurvivalOutcome[]>(), inputNames, timeName, censorName)
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a new Cox's Proportional Hazards Analysis.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data for the analysis.</param>
+        /// <param name="times">The output data for the analysis.</param>
+        /// <param name="censor">The right-censoring indicative values.</param>
+        /// 
         public ProportionalHazardsAnalysis(double[,] inputs, double[] times, SurvivalOutcome[] censor)
         {
             // Initial argument checking
-            if (inputs == null) 
+            if (inputs == null)
                 throw new ArgumentNullException("inputs");
 
-            if (times == null) 
+            if (times == null)
                 throw new ArgumentNullException("times");
 
             if (inputs.GetLength(0) != times.Length)
                 throw new ArgumentException("The number of rows in the input array must match the number of given outputs.");
 
-            initialize(inputs.ToArray(), times, censor);
+            initialize(inputs.ToJagged(), times, censor);
 
             // Start regression using the Null Model
             this.regression = new ProportionalHazards(inputCount);
@@ -238,10 +280,10 @@ namespace Accord.Statistics.Analysis
         public ProportionalHazardsAnalysis(double[][] inputs, double[] times, SurvivalOutcome[] censor)
         {
             // Initial argument checking
-            if (inputs == null) 
+            if (inputs == null)
                 throw new ArgumentNullException("inputs");
 
-            if (times == null) 
+            if (times == null)
                 throw new ArgumentNullException("times");
 
             if (inputs.Length != times.Length)
@@ -644,7 +686,10 @@ namespace Accord.Statistics.Analysis
                 // Create a diminished inner model without the current variable
                 double[][] data = inputData.RemoveColumn(i);
 
-                System.Diagnostics.Trace.Assert(data[0].Length > 0);
+#if DEBUG
+                if (data[0].Length == 0)
+                    throw new Exception();
+#endif
 
                 Array.Clear(innerModel.Coefficients, 0, inputCount - 1);
 

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -244,7 +244,7 @@ namespace Accord.Statistics.Models.Fields.Learning
                 // log-likelihood as error function
                 error -= lnZxy[i] - lnZx[i];
 
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(error));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(error));
             }
 
             // Now start computing the gradient w.r.t to the
@@ -318,9 +318,9 @@ namespace Accord.Statistics.Models.Fields.Learning
                         for (int j = 0; j < marginals.Length; j++)
                             lnsum2 = Special.LogSum(lnsum2, marginals[j] - lnZx[i]);
 
-                        System.Diagnostics.Debug.Assert(!marginals.HasNaN());
-                        System.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum1));
-                        System.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum2));
+                        Accord.Diagnostics.Debug.Assert(!marginals.HasNaN());
+                        Accord.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum1));
+                        Accord.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum2));
                     }
 
                     // Compute the current derivative
@@ -330,7 +330,7 @@ namespace Accord.Statistics.Models.Fields.Learning
 
                     if (sum1 == sum2) derivative = 0;
 
-                    System.Diagnostics.Debug.Assert(!Double.IsNaN(derivative));
+                    Accord.Diagnostics.Debug.Assert(!Double.IsNaN(derivative));
 
                     // Include regularization derivative if required
                     if (sigma != 0) derivative -= parameter / sigma;
@@ -348,7 +348,7 @@ namespace Accord.Statistics.Models.Fields.Learning
             this.logLikelihoods.Value = null;
             this.error.Value = error;
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(error));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(error));
 
             return gradient; // return the gradient.
         }

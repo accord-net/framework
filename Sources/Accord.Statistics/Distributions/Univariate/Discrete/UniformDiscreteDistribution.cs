@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -96,6 +96,7 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     [Serializable]
     public class UniformDiscreteDistribution : UnivariateDiscreteDistribution,
+        IFittableDistribution<double>,
         ISampleableDistribution<int>
     {
 
@@ -177,7 +178,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -317,7 +318,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override int Generate()
         {
-            return Accord.Math.Tools.Random.Next(a, b);
+            return Accord.Math.Random.Generator.Random.Next(a, b);
         }
 
         /// <summary>
@@ -325,14 +326,15 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
-        /// 
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override int[] Generate(int samples)
+        public override int[] Generate(int samples, int[] result)
         {
-            int[] result = new int[samples];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = Accord.Math.Tools.Random.Next(a, b);
+            var random = Accord.Math.Random.Generator.Random;
+            for (int i = 0; i < samples; i++)
+                result[i] = random.Next(a, b);
 
             return result;
         }

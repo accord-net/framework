@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,11 +23,14 @@
 namespace Accord.MachineLearning.Bayes
 {
     using Accord.Math;
+    using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Distributions;
+    using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using System;
     using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
+    using System.Reflection;
+    using System.Runtime.Serialization;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -72,26 +75,8 @@ namespace Accord.MachineLearning.Bayes
     ///   behavior of the person has been registered and annotated, pretty much building our set of 
     ///   observation instances for learning:</para>
     /// 
-    /// <code>
-    ///   DataTable data = new DataTable("Mitchell's Tennis Example");
-    ///   
-    ///   data.Columns.Add("Day", "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
-    ///   
-    ///   data.Rows.Add(   "D1",   "Sunny",      "Hot",       "High",   "Weak",    "No"  );
-    ///   data.Rows.Add(   "D2",   "Sunny",      "Hot",       "High",  "Strong",   "No"  ); 
-    ///   data.Rows.Add(   "D3",  "Overcast",    "Hot",       "High",   "Weak",    "Yes" );
-    ///   data.Rows.Add(   "D4",   "Rain",       "Mild",      "High",   "Weak",    "Yes" ); 
-    ///   data.Rows.Add(   "D5",   "Rain",       "Cool",     "Normal",  "Weak",    "Yes" ); 
-    ///   data.Rows.Add(   "D6",   "Rain",       "Cool",     "Normal", "Strong",   "No"  ); 
-    ///   data.Rows.Add(   "D7",  "Overcast",    "Cool",     "Normal", "Strong",   "Yes" );
-    ///   data.Rows.Add(   "D8",   "Sunny",      "Mild",      "High",   "Weak",    "No"  );  
-    ///   data.Rows.Add(   "D9",   "Sunny",      "Cool",     "Normal",  "Weak",    "Yes" ); 
-    ///   data.Rows.Add(   "D10", "Rain",        "Mild",     "Normal",  "Weak",    "Yes" ); 
-    ///   data.Rows.Add(   "D11",  "Sunny",      "Mild",     "Normal", "Strong",   "Yes" );
-    ///   data.Rows.Add(   "D12", "Overcast",    "Mild",      "High",  "Strong",   "Yes" ); 
-    ///   data.Rows.Add(   "D13", "Overcast",    "Hot",      "Normal",  "Weak",    "Yes" ); 
-    ///   data.Rows.Add(   "D14",  "Rain",       "Mild",      "High",  "Strong",   "No"  );
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_mitchell" />
+    /// 
     /// <para>
     ///   <i>Obs: The DataTable representation is not required, and instead the NaiveBayes could
     ///   also be trained directly on integer arrays containing the integer codewords.</i></para>
@@ -108,20 +93,10 @@ namespace Accord.MachineLearning.Bayes
     ///   symbol. For example, “Sunny” could as well be represented by the integer label 0, “Overcast” 
     ///   by “1”, Rain by “2”, and the same goes by for the other variables. So:</para>
     /// 
-    /// <code>
-    ///   // Create a new codification codebook to 
-    ///   // convert strings into integer symbols
-    ///   Codification codebook = new Codification(data,
-    ///     "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
-    ///   
-    ///   // Translate our training data into integer symbols using our codebook:
-    ///   DataTable symbols = codebook.Apply(data); 
-    ///   int[][] inputs  = symbols.ToIntArray("Outlook", "Temperature", "Humidity", "Wind"); 
-    ///   int[]   outputs = symbols.ToIntArray("PlayTennis").GetColumn(0);
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_codebook" />
     /// 
     /// <para>
-    ///   Now that we already have our learning input/ouput pairs, we should specify our
+    ///   Now that we already have our learning input/output pairs, we should specify our
     ///   Bayes model. We will be trying to build a model to predict the last column, entitled
     ///   “PlayTennis”. For this, we will be using the “Outlook”, “Temperature”, “Humidity” and
     ///   “Wind” as predictors (variables which will we will use for our decision). Since those
@@ -129,40 +104,13 @@ namespace Accord.MachineLearning.Bayes
     ///   number of each possible symbols for those variables.
     /// </para>
     /// 
-    /// <code>
-    ///   // Gather information about decision variables
-    ///   int[] symbolCounts =
-    ///   {
-    ///     codebook["Outlook"].Symbols,     // 3 possible values (Sunny, overcast, rain)
-    ///     codebook["Temperature"].Symbols, // 3 possible values (Hot, mild, cool)
-    ///     codebook["Humidity"].Symbols,    // 2 possible values (High, normal)
-    ///     codebook["Wind"].Symbols         // 2 possible values (Weak, strong)
-    ///   };
-    ///   
-    ///   int classCount = codebook["PlayTennis"].Symbols; // 2 possible values (yes, no)
-    ///
-    ///   // Create a new Naive Bayes classifiers for the two classes
-    ///   NaiveBayes target = new NaiveBayes(classCount, symbolCounts);
-    ///   
-    ///   // Compute the Naive Bayes model
-    ///   target.Estimate(inputs, outputs);
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_learn" />
     ///   
     /// <para>Now that we have created and estimated our classifier, we 
     /// can query the classifier for new input samples through the <see
-    /// cref="NaiveBayes.Compute(int[])"/> method.</para>
+    /// cref="IClassifier{TInput, TClasses}.Decide(TInput)">Decide</see> method.</para>
     /// 
-    /// <code>
-    /// // We will be computing the label for a sunny, cool, humid and windy day:
-    /// int[] instance = codebook.Translate("Sunny", "Cool", "High", "Strong");
-    /// 
-    /// // Now, we can feed this instance to our model
-    /// int output = model.Compute(instance, out logLikelihood);
-    /// 
-    /// // Finally, the result can be translated back to one of the codewords using
-    /// string result = codebook.Translate("PlayTennis", output); // result is "No"
-    /// </code>
-    /// 
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_test" />
     /// 
     /// <para> 
     ///   </para>
@@ -172,61 +120,20 @@ namespace Accord.MachineLearning.Bayes
     ///   classification problem using integer vectors and learning a discrete
     ///   Naive Bayes on those vectors.</para>
     /// 
-    /// <code>
-    /// // Let's say we have the following data to be classified
-    /// // into three possible classes. Those are the samples:
-    /// //
-    /// int[][] inputs =
-    /// {
-    ///     //               input      output
-    ///     new int[] { 0, 1, 1, 0 }, //  0 
-    ///     new int[] { 0, 1, 0, 0 }, //  0
-    ///     new int[] { 0, 0, 1, 0 }, //  0
-    ///     new int[] { 0, 1, 1, 0 }, //  0
-    ///     new int[] { 0, 1, 0, 0 }, //  0
-    ///     new int[] { 1, 0, 0, 0 }, //  1
-    ///     new int[] { 1, 0, 0, 0 }, //  1
-    ///     new int[] { 1, 0, 0, 1 }, //  1
-    ///     new int[] { 0, 0, 0, 1 }, //  1
-    ///     new int[] { 0, 0, 0, 1 }, //  1
-    ///     new int[] { 1, 1, 1, 1 }, //  2
-    ///     new int[] { 1, 0, 1, 1 }, //  2
-    ///     new int[] { 1, 1, 0, 1 }, //  2
-    ///     new int[] { 0, 1, 1, 1 }, //  2
-    ///     new int[] { 1, 1, 1, 1 }, //  2
-    /// };
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_multiclass" />
     /// 
-    /// int[] outputs = // those are the class labels
-    /// {
-    ///     0, 0, 0, 0, 0,
-    ///     1, 1, 1, 1, 1,
-    ///     2, 2, 2, 2, 2,
-    /// };
-    /// 
-    /// // Create a discrete naive Bayes model for 3 classes and 4 binary inputs
-    /// var bayes = new NaiveBayes(classes: 3, symbols: new int[] { 2, 2, 2, 2 });
-    /// 
-    /// // Teach the model. The error should be zero:
-    /// double error = bayes.Estimate(inputs, outputs);
-    /// 
-    /// // Now, let's test  the model output for the first input sample:
-    /// int answer = bayes.Compute(new int[] { 0, 1, 1, 0 }); // should be 1
-    /// </code>
     /// </example>
     /// 
     /// <seealso cref="NaiveBayes{T}"/>
     /// 
     [Serializable]
-    public class NaiveBayes
+    [SerializationBinder(typeof(NaiveBayes.NaiveBayesBinder))]
+    public class NaiveBayes : NaiveBayes<GeneralDiscreteDistribution, int>
     {
 
-        private double[,][] probabilities;
-        private double[] priors;
-        private int[] symbols;
-        private int classCount;
+        int[] symbols;
 
 
-        #region Constructors
         /// <summary>
         ///   Constructs a new Naïve Bayes Classifier.
         /// </summary>
@@ -235,6 +142,7 @@ namespace Accord.MachineLearning.Bayes
         /// <param name="symbols">The number of symbols for each input variable.</param>
         /// 
         public NaiveBayes(int classes, params int[] symbols)
+            : base(classes, symbols.Length, (int j) => new GeneralDiscreteDistribution(symbols[j]))
         {
             if (classes <= 0)
                 throw new ArgumentOutOfRangeException("classes");
@@ -242,245 +150,40 @@ namespace Accord.MachineLearning.Bayes
             if (symbols == null)
                 throw new ArgumentNullException("symbols");
 
-            initialize(classes, symbols, null);
-        }
-
-        /// <summary>
-        ///   Constructs a new Naïve Bayes Classifier.
-        /// </summary>
-        /// 
-        /// <param name="classes">The number of output classes.</param>
-        /// <param name="classPriors">The prior probabilities for each output class.</param>
-        /// <param name="symbols">The number of symbols for each input variable.</param>
-        /// 
-        public NaiveBayes(int classes, double[] classPriors, params int[] symbols)
-        {
-            if (classes <= 0)
-                throw new ArgumentOutOfRangeException("classes");
-
-            if (classPriors == null)
-                throw new ArgumentNullException("classPriors");
-
-            if (symbols == null)
-                throw new ArgumentNullException("symbols");
-
-            if (classPriors.Length != classes) throw new DimensionMismatchException("classPriors");
-
-            initialize(classPriors.Length, symbols, classPriors);
-        }
-
-        private void initialize(int classes, int[] symbols, double[] priors)
-        {
-            this.classCount = classes;
             this.symbols = symbols;
-
-            if (priors == null)
-            {
-                priors = new double[classes];
-                for (int i = 0; i < priors.Length; i++)
-                    priors[i] = 1.0 / priors.Length;
-            }
-
-            this.priors = priors;
-            this.probabilities = new double[classes, symbols.Length][];
-
-            for (int i = 0; i < classes; i++)
-                for (int j = 0; j < symbols.Length; j++)
-                    this.probabilities[i, j] = new double[symbols[j]];
-        }
-        #endregion
-
-
-        /// <summary>
-        ///   Gets the number of possible output classes.
-        /// </summary>
-        /// 
-        public int ClassCount
-        {
-            get { return classCount; }
         }
 
-        /// <summary>
-        ///   Gets the number of inputs in the model.
-        /// </summary>
-        /// 
-        public int InputCount
-        {
-            get { return symbols.Length; }
-        }
+
 
         /// <summary>
         ///   Gets the number of symbols for each input in the model.
         /// </summary>
         /// 
-        public int[] SymbolCount
+        public int[] NumberOfSymbols
         {
             get { return symbols; }
         }
 
         /// <summary>
-        ///   Gets the tables of log-probabilities for the frequency of
-        ///   occurrence of each symbol for each class and input.
+        ///   Gets the probability distributions for each class and input.
         /// </summary>
         /// 
-        /// <value>A double[,] array in with each row corresponds to a 
-        /// class, each column corresponds to an input variable. Each
-        /// element of this double[,] array is a frequency table containing
-        /// the frequency of each symbol for the corresponding variable as
-        /// a double[] array.</value>
+        /// <value>A TDistribution[,] array in with each row corresponds to a 
+        /// class, each column corresponds to an input variable. Each element
+        /// of this double[,] array is a probability distribution modeling
+        /// the occurrence of the input variable in the corresponding class.</value>
         /// 
-        public double[,][] Distributions
+        public new double[,][] Distributions
         {
-            get { return probabilities; }
-        }
-
-        /// <summary>
-        ///   Gets the prior beliefs for each class.
-        /// </summary>
-        /// 
-        public double[] Priors
-        {
-            get { return priors; }
-        }
-
-        /// <summary>
-        ///   Initializes the frequency tables of a Naïve Bayes Classifier.
-        /// </summary>
-        /// 
-        /// <param name="inputs">The input data.</param>
-        /// <param name="outputs">The corresponding output labels for the input data.</param>
-        /// <param name="empirical">True to estimate class priors from the data, false otherwise.</param>
-        /// <param name="regularization">
-        ///   The amount of regularization to be used in the m-estimator. 
-        ///   Default is 1e-5.</param>
-        /// 
-        public double Estimate(int[][] inputs, int[] outputs,
-            bool empirical = true, double regularization = 1e-5)
-        {
-            if (inputs == null)
-                throw new ArgumentNullException("inputs");
-
-            if (outputs == null)
-                throw new ArgumentNullException("outputs");
-
-            if (inputs.Length == 0)
-                throw new ArgumentException("The array has zero length.", "inputs");
-
-            if (outputs.Length != inputs.Length)
-                throw new DimensionMismatchException("outputs");
-
-            // For each class
-            Parallel.For(0, classCount, i =>
+            // For backwards compatibility
+            get
             {
-                // Estimate conditional distributions
-
-                // Get variables values in class i
-                var idx = outputs.Find(y => y == i);
-                var values = inputs.Submatrix(idx);
-
-                if (empirical)
-                    priors[i] = (double)idx.Length / inputs.Length;
-
-
-                // For each variable (col)
-                Parallel.For(0, symbols.Length, j =>
-                {
-                    // Count value occurrences and store
-                    // frequencies to form probabilities
-                    double[] frequencies = new double[symbols[j]];
-
-                    // For each input row (instance)
-                    // belonging to the current class
-                    for (int k = 0; k < values.Length; k++)
-                    {
-                        int symbol = values[k][j];
-                        frequencies[symbol]++;
-                    }
-
-                    // Transform into probabilities
-                    for (int k = 0; k < frequencies.Length; k++)
-                    {
-                        // Use a M-estimator using the previously
-                        // available probabilities as priors.
-                        double prior = probabilities[i, j][k];
-                        double num = frequencies[k] + regularization * prior;
-                        double den = values.Length + regularization;
-
-                        probabilities[i, j][k] = num / den;
-                    }
-                });
-            });
-
-            // Compute learning error
-            int miss = 0;
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                if (Compute(inputs[i]) != outputs[i])
-                    miss++;
+                var freqs = new double[NumberOfOutputs, NumberOfSymbols.Length][];
+                for (int i = 0; i < base.Distributions.Length; i++)
+                    for (int j = 0; j < base.Distributions[i].Components.Length; j++)
+                        freqs[i, j] = base.Distributions[i][j].Frequencies;
+                return freqs;
             }
-
-            return (double)miss / inputs.Length;
-        }
-
-        /// <summary>
-        ///   Computes the most likely class for a given instance.
-        /// </summary>
-        /// 
-        /// <param name="input">The input instance.</param>
-        /// <returns>The most likely class for the instance.</returns>
-        /// 
-        public int Compute(int[] input)
-        {
-            double logLikelihood;
-            double[] responses;
-
-            return Compute(input, out logLikelihood, out responses);
-        }
-
-        /// <summary>
-        ///   Computes the most likely class for a given instance.
-        /// </summary>
-        /// 
-        /// <param name="input">The input instance.</param>
-        /// <param name="logLikelihood">The log-likelihood for the instance.</param>
-        /// <param name="responses">The response probabilities for each class.</param>
-        /// <returns>The most likely class for the instance.</returns>
-        /// 
-        public int Compute(int[] input, out double logLikelihood, out double[] responses)
-        {
-            // Select the class argument which
-            //   maximizes the log-likelihood:
-
-            responses = new double[ClassCount];
-
-            for (int i = 0; i < responses.Length; i++)
-                responses[i] = this.logLikelihood(i, input);
-
-            // Get the class with maximum log-likelihood
-            int argmax; logLikelihood = responses.Max(out argmax);
-
-            double evidence = 0;
-            for (int i = 0; i < responses.Length; i++)
-                evidence += responses[i] = Math.Exp(responses[i]);
-
-            // Transform back into probabilities
-            responses.Divide(evidence, inPlace: true);
-
-            return argmax;
-        }
-
-        private double logLikelihood(int c, int[] input)
-        {
-            double p = Math.Log(priors[c]);
-
-            // For each variable
-            for (int i = 0; i < input.Length; i++)
-            {
-                int symbol = input[i];
-                p += Math.Log(probabilities[c, i][symbol]);
-            }
-
-            return p;
         }
 
         /// <summary>
@@ -522,7 +225,10 @@ namespace Accord.MachineLearning.Bayes
         /// 
         public static NaiveBayes<NormalDistribution> Normal(int classes, int inputs, double[] classPriors)
         {
-            return new NaiveBayes<NormalDistribution>(classes, inputs, NormalDistribution.Standard, classPriors);
+            return new NaiveBayes<NormalDistribution>(classes, inputs, NormalDistribution.Standard)
+            {
+                Priors = classPriors
+            };
         }
 
         /// <summary>
@@ -557,7 +263,10 @@ namespace Accord.MachineLearning.Bayes
         /// 
         public static NaiveBayes<NormalDistribution> Normal(int classes, int inputs, NormalDistribution[] initial, double[] classPriors)
         {
-            return new NaiveBayes<NormalDistribution>(classes, inputs, initial, classPriors);
+            return new NaiveBayes<NormalDistribution>(classes, inputs, initial)
+            {
+                Priors = classPriors
+            };
         }
 
         /// <summary>
@@ -577,16 +286,117 @@ namespace Accord.MachineLearning.Bayes
             return new NaiveBayes<NormalDistribution>(classes, inputs, initial);
         }
 
+
+
+        #region Obsolete
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        /// 
+        [Obsolete("Please specify the prior by writing to the Priors property.")]
+        public NaiveBayes(int classes, double[] priors, params int[] symbols)
+            : this(classes, symbols)
+        {
+            if (priors == null)
+                throw new ArgumentNullException("priors");
+
+            this.Priors = priors;
+        }
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        /// 
+        [Obsolete("Please use NaiveBayesLearning instead.")]
+        public double Estimate(int[][] inputs, int[] outputs,
+            bool empirical = true, double regularization = 1e-5)
+        {
+            var teacher = new NaiveBayesLearning()
+            {
+                Model = this
+            };
+            teacher.Empirical = empirical;
+            teacher.Options.InnerOption.Regularization = regularization;
+            teacher.Options.InnerOption.Minimum = 0;
+#if DEBUG
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
+            var result = teacher.Learn(inputs, outputs);
+            var b = result as NaiveBayes<GeneralDiscreteDistribution, int>;
+            base.Distributions = b.Distributions;
+            this.Priors = b.Priors;
+            this.symbols = result.symbols;
+            return new ZeroOneLoss(outputs) { Mean = true }.Loss(Decide(inputs));
+        }
+
+        /// <summary>
+        ///   Gets the number of symbols for each input in the model.
+        /// </summary>
+        /// 
+        [Obsolete("Please use NumberOfSymbols instead.")]
+        public int[] SymbolCount
+        {
+            get { return symbols; }
+        }
+
+        /// <summary>
+        ///   Gets the number of possible output classes.
+        /// </summary>
+        /// 
+        [Obsolete("Please use NumberOfOutputs instead.")]
+        public int ClassCount { get { return NumberOfOutputs; } }
+
+        /// <summary>
+        ///   Gets the number of inputs in the model.
+        /// </summary>
+        /// 
+        [Obsolete("Please use NumberOfInputs instead.")]
+        public int InputCount { get { return NumberOfInputs; } }
+
+        /// <summary>
+        ///   Computes the most likely class for a given instance.
+        /// </summary>
+        /// 
+        /// <param name="input">The input instance.</param>
+        /// <returns>The most likely class for the instance.</returns>
+        /// 
+        [Obsolete("Please use Decide instead.")]
+        public int Compute(int[] input)
+        {
+            return Decide(input);
+        }
+
+        /// <summary>
+        ///   Computes the most likely class for a given instance.
+        /// </summary>
+        /// 
+        /// <param name="input">The input instance.</param>
+        /// <param name="logLikelihood">The log-likelihood for the instance.</param>
+        /// <param name="responses">The response probabilities for each class.</param>
+        /// <returns>The most likely class for the instance.</returns>
+        /// 
+        [Obsolete("Please use Decide or LogLikelihood instead.")]
+
+        public int Compute(int[] input, out double logLikelihood, out double[] responses)
+        {
+            double[] ll = LogLikelihoods(input);
+            int imax;
+            logLikelihood = ll.Max(out imax);
+            responses = Special.Softmax(ll);
+            return imax;
+        }
+
         /// <summary>
         ///   Saves the Naïve Bayes model to a stream.
         /// </summary>
         /// 
         /// <param name="stream">The stream to which the Naïve Bayes model is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+
         public virtual void Save(Stream stream)
         {
-            BinaryFormatter b = new BinaryFormatter();
-            b.Serialize(stream, this);
+            Accord.IO.Serializer.Save(this, stream);
         }
 
         /// <summary>
@@ -595,12 +405,11 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <param name="path">The path to the file to which the Naïve Bayes model is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+
         public void Save(string path)
         {
-            using (FileStream fs = new FileStream(path, FileMode.Create))
-            {
-                Save(fs);
-            }
+            Accord.IO.Serializer.Save(this, path);
         }
 
         /// <summary>
@@ -611,10 +420,11 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Load() instead (or use it as an extension method).")]
+
         public static NaiveBayes Load(Stream stream)
         {
-            BinaryFormatter b = new BinaryFormatter();
-            return (NaiveBayes)b.Deserialize(stream);
+            return Accord.IO.Serializer.Load<NaiveBayes>(stream);
         }
 
         /// <summary>
@@ -625,12 +435,11 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Load() instead (or use it as an extension method).")]
+
         public static NaiveBayes Load(string path)
         {
-            using (FileStream fs = new FileStream(path, FileMode.Open))
-            {
-                return Load(fs);
-            }
+            return Accord.IO.Serializer.Load<NaiveBayes>(path);
         }
 
         /// <summary>
@@ -641,11 +450,13 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Load() instead (or use it as an extension method).")]
+
         public static NaiveBayes<TDistribution> Load<TDistribution>(Stream stream)
-            where TDistribution : IUnivariateDistribution
+            where TDistribution : IFittableDistribution<double>, IUnivariateDistribution<double>,
+            IUnivariateDistribution
         {
-            BinaryFormatter b = new BinaryFormatter();
-            return (NaiveBayes<TDistribution>)b.Deserialize(stream);
+            return Accord.IO.Serializer.Load<NaiveBayes<TDistribution>>(stream);
         }
 
         /// <summary>
@@ -656,13 +467,70 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+
         public static NaiveBayes<TDistribution> Load<TDistribution>(string path)
-            where TDistribution : IUnivariateDistribution
+            where TDistribution : IFittableDistribution<double>, IUnivariateDistribution<double>,
+            IUnivariateDistribution
         {
-            using (FileStream fs = new FileStream(path, FileMode.Open))
+            return Accord.IO.Serializer.Load<NaiveBayes<TDistribution>>(path);
+        }
+        #endregion
+
+
+        #region Serialization backwards compatibility
+
+        internal class NaiveBayesBinder : SerializationBinder
+        {
+            public override Type BindToType(string assemblyName, string typeName)
             {
-                return Load<TDistribution>(fs);
+                AssemblyName name = new AssemblyName(assemblyName);
+
+                if (name.Version < new Version(3, 1, 0))
+                {
+                    if (typeName == "Accord.MachineLearning.Bayes.NaiveBayes")
+                        return typeof(NaiveBayes_2_13);
+                }
+
+                return null;
             }
         }
+
+#pragma warning disable 0169
+#pragma warning disable 0649
+
+        [Serializable]
+        class NaiveBayes_2_13
+        {
+            private double[,][] probabilities;
+            private double[] priors;
+            private int[] symbols;
+            private int classCount;
+
+
+            public static implicit operator NaiveBayes(NaiveBayes_2_13 obj)
+            {
+                var result = new NaiveBayes(obj.priors.Length, obj.symbols);
+                var nb = result as NaiveBayes<GeneralDiscreteDistribution, int>;
+                nb.Priors = obj.priors;
+                for (int i = 0; i < nb.Distributions.Length; i++)
+                {
+                    for (int j = 0; j < nb.Distributions[i].Components.Length; j++)
+                    {
+                        nb.Distributions[i].Components[j].Frequencies = obj.probabilities[i, j];
+                    }
+                }
+
+                return result;
+            }
+        }
+
+#pragma warning restore 0169
+#pragma warning restore 0649
+
+        #endregion
+
+
     }
+
 }

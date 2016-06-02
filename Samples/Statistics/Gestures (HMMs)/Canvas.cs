@@ -38,6 +38,7 @@ namespace Gestures.HMMs
     using System.Linq;
     using System.Windows.Forms;
     using System.Drawing.Drawing2D;
+    using Accord.Math;
 
     public partial class Canvas : UserControl
     {
@@ -79,11 +80,11 @@ namespace Gestures.HMMs
                     {
                         int x = (int)sequence[i].X;
                         int y = (int)sequence[i].Y;
-                        int p = (int)Accord.Math.Tools.Scale(0, sequence.Count, 0, 255, i);
+                        int p = (int)Vector.Scale(i, 0, sequence.Count, 0, 255);
 
                         int prevX = (int)sequence[i - 1].X;
                         int prevY = (int)sequence[i - 1].Y;
-                        int prevP = (int)Accord.Math.Tools.Scale(0, sequence.Count, 0, 255, i - 1);
+                        int prevP = (int)Vector.Scale(i - 1, 0, sequence.Count, 0, 255);
 
                         if (x == prevX && y == prevY)
                             continue;

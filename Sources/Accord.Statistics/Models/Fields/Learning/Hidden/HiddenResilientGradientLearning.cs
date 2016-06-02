@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -336,7 +336,7 @@ namespace Accord.Statistics.Models.Fields.Learning
                     double percent = current / (double)observations.Length * 100.0;
                     OnProgressChanged(new ProgressChangedEventArgs((int)percent, i));
 
-                    System.Diagnostics.Debug.Assert(!gradient.HasNaN());
+                    Accord.Diagnostics.Debug.Assert(!gradient.HasNaN());
                 }
 #if !SERIAL
 );
@@ -384,7 +384,7 @@ namespace Accord.Statistics.Models.Fields.Learning
                 }
             }
 
-            System.Diagnostics.Debug.Assert(!Model.Function.Weights.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!Model.Function.Weights.HasNaN());
 
             return convergence.NewValue = error;
         }

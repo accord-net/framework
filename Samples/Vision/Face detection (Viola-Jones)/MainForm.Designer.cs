@@ -1,4 +1,4 @@
-﻿namespace FaceDetection
+﻿namespace SampleApp
 {
     partial class MainForm
     {

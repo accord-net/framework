@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -187,7 +187,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.IntRange" /> containing
+        ///   A <see cref="IntRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -257,6 +257,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double LogProbabilityMassFunction(int k)
         {
+            if (k < 0)
+                return Double.NegativeInfinity; // TODO: Test
+
             return k * Math.Log(1.0 - p) + Math.Log(p);
         }
 
@@ -305,9 +308,9 @@ namespace Accord.Statistics.Distributions.Univariate
             double mean;
 
             if (weights == null)
-                mean = Accord.Statistics.Tools.Mean(observations);
+                mean = Measures.Mean(observations);
             else
-                mean = Accord.Statistics.Tools.WeightedMean(observations, weights);
+                mean = Measures.WeightedMean(observations, weights);
 
             p = 1.0 / (1.0 - mean);
         }

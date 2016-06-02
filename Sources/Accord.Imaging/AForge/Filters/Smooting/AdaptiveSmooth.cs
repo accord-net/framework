@@ -10,7 +10,7 @@
 // Model and Parameterized Relaxation Labeling"
 // by Ioannis Matalas, Student Member, IEEE, Ralph Benjamin, and Richard Kitney
 //
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;

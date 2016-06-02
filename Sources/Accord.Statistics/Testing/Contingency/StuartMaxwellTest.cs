@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -137,7 +137,7 @@ namespace Accord.Statistics.Testing
 
             invS = S.PseudoInverse();
 
-            double chiSquare = d.Multiply(invS).InnerProduct(d);
+            double chiSquare = d.DotAndDot(invS, d);
 
             Compute(chiSquare, df);
         }

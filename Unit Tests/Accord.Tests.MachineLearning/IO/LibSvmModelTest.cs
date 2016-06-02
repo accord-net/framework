@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -62,7 +62,6 @@ namespace Accord.Tests.IO
             var machine = reader.CreateMachine();
 
             Assert.IsNull(machine.SupportVectors);
-            Assert.IsNotNull(machine.Link);
             Assert.AreEqual(machine.Threshold, a9a_weights[0]);
 
             for (int i = 0; i < machine.Weights.Length; i++)

@@ -2,8 +2,8 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{F5820249-C973-4EF3-91B3-4B46F2961816}</ProjectGuid>
-    <RootNamespace>Accord.Tests.Math</RootNamespace>
-    <AssemblyName>Accord.Tests.Math</AssemblyName>
+    <RootNamespace>Accord.Tests.Interop.Math</RootNamespace>
+    <AssemblyName>Accord.Tests.Interop.Math</AssemblyName>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -34,10 +34,12 @@
     <Optimize>false</Optimize>
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net35\</OutputPath>
     <DefineConstants>TRACE;NET35</DefineConstants>
+    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net40\</OutputPath>
@@ -71,6 +73,7 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="GoldfarbIdnaniTest.cs" />
     <Compile Include="BoundedBroydenFletcherGoldfarbShannoTest.cs" />
     <Compile Include="BroydenFletcherGoldfarbShannoTest.cs" />
     <Compile Include="IntegralTest.cs" />

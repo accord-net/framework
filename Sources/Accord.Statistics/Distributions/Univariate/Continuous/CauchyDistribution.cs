@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -219,7 +219,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                System.Diagnostics.Debug.Assert(location.IsRelativelyEqual(base.Median, 1e-6));
+                Accord.Diagnostics.Debug.Assert(location.IsEqual(base.Median, 1e-6));
                 return location;
             }
         }
@@ -229,7 +229,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -447,7 +447,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
 
             DoubleRange range;
-            double median = Accord.Statistics.Tools.Quartiles(observations, out range, alreadySorted: false);
+            double median = Measures.Quartiles(observations, out range, alreadySorted: false);
 
             if (estimateT)
                 t0 = median;
@@ -558,11 +558,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples)
+        public override double[] Generate(int samples, double[] result)
         {
-            return Random(location, scale, samples);
+            return Random(location, scale, samples, result);
         }
 
         /// <summary>
@@ -606,11 +608,28 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double location, double scale, int samples)
         {
+            return Random(location, scale, samples, new double[samples]);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Cauchy distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="location">The location parameter x0.</param>
+        /// <param name="scale">The scale parameter gamma.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Cauchy distribution.</returns>
+        /// 
+        public static double[] Random(double location, double scale, int samples, double[] result)
+        {
             // Generate uniform U on [-PI/2, +PI/2]
-            double[] x = UniformContinuousDistribution.Random(-Math.PI / 2.0, +Math.PI / 2.0, samples);
-            for (int i = 0; i < x.Length; i++)
-                x[i] = Math.Tan(x[i]) * scale + location;
-            return x;
+            UniformContinuousDistribution.Random(-Math.PI / 2.0, +Math.PI / 2.0, samples, result);
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Math.Tan(result[i]) * scale + location;
+            return result;
         }
 
         #endregion

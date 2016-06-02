@@ -5,13 +5,15 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
-    using AForge.Math.Random;
+    using Accord;
+    using Accord.Math.Random;
+    using Accord.Statistics.Distributions.Univariate;
 
     /// <summary>
     /// Additive noise filter.
@@ -43,10 +45,10 @@ namespace AForge.Imaging.Filters
     public class AdditiveNoise : BaseInPlacePartialFilter
     {
         // random number generator to add noise
-        IRandomNumberGenerator generator = new UniformGenerator( new Range( -10, 10 ) );
+        IRandomNumberGenerator<double> generator = new UniformContinuousDistribution(new Range(-10, 10));
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -57,12 +59,12 @@ namespace AForge.Imaging.Filters
         }
 
         /// <summary>
-        /// Random number genertor used to add noise.
+        /// Random number generator used to add noise.
         /// </summary>
         /// 
         /// <remarks>Default generator is uniform generator in the range of (-10, 10).</remarks>
         /// 
-        public IRandomNumberGenerator Generator
+        public IRandomNumberGenerator<double> Generator
         {
             get { return generator; }
             set { generator = value; }
@@ -72,20 +74,20 @@ namespace AForge.Imaging.Filters
         /// Initializes a new instance of the <see cref="AdditiveNoise"/> class.
         /// </summary>
         /// 
-        public AdditiveNoise( )
+        public AdditiveNoise()
         {
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
-            formatTranslations[PixelFormat.Format24bppRgb]    = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdditiveNoise"/> class.
         /// </summary>
         /// 
-        /// <param name="generator">Random number genertor used to add noise.</param>
+        /// <param name="generator">Random number generator used to add noise.</param>
         /// 
-        public AdditiveNoise( IRandomNumberGenerator generator )
-            : this( )
+        public AdditiveNoise(IRandomNumberGenerator<double> generator)
+            : this()
         {
             this.generator = generator;
         }
@@ -97,31 +99,31 @@ namespace AForge.Imaging.Filters
         /// <param name="image">Source image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         ///
-        protected override unsafe void ProcessFilter( UnmanagedImage image, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage image, Rectangle rect)
         {
-            int pixelSize = ( image.PixelFormat == PixelFormat.Format8bppIndexed ) ? 1 : 3;
+            int pixelSize = (image.PixelFormat == PixelFormat.Format8bppIndexed) ? 1 : 3;
 
-            int startY  = rect.Top;
-            int stopY   = startY + rect.Height;
+            int startY = rect.Top;
+            int stopY = startY + rect.Height;
 
-            int startX  = rect.Left * pixelSize;
-            int stopX   = startX + rect.Width * pixelSize;
+            int startX = rect.Left * pixelSize;
+            int stopX = startX + rect.Width * pixelSize;
 
-            int offset  = image.Stride - ( stopX - startX );
+            int offset = image.Stride - (stopX - startX);
 
             // do the job
-            byte* ptr = (byte*) image.ImageData.ToPointer( );
+            byte* ptr = (byte*)image.ImageData.ToPointer();
 
             // allign pointer to the first pixel to process
-            ptr += ( startY * image.Stride + rect.Left * pixelSize );
+            ptr += (startY * image.Stride + rect.Left * pixelSize);
 
             // for each line
-            for ( int y = startY; y < stopY; y++ )
+            for (int y = startY; y < stopY; y++)
             {
                 // for each pixel
-                for ( int x = startX; x < stopX; x++, ptr++ )
+                for (int x = startX; x < stopX; x++, ptr++)
                 {
-                    *ptr = (byte) Math.Max( 0, Math.Min( 255, *ptr + generator.Next( ) ) );
+                    *ptr = Math.Max((byte)0, Math.Min((byte)255, (byte)(*ptr + generator.Generate())));
                 }
                 ptr += offset;
             }

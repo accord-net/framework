@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,30 +25,13 @@ namespace Accord.Tests.Neuro
     using Accord.Neuro.Networks;
     using NUnit.Framework;
     using System;
-    using AForge.Neuro;
     using Accord.Neuro.Learning;
     using Accord.Neuro.ActivationFunctions;
+    using Accord.Neuro;
 
     [TestFixture]
     public class RestrictedBoltzmannNetworkTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void CreateActivationNetworkTest()

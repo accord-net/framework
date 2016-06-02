@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-using AForge.Math;
+using Accord.Math;
 
 namespace SampleApp
 {
@@ -14,7 +14,7 @@ namespace SampleApp
     {
         private Vector3[] objectPoints = null;
         private Vector3[] objectScenePoints = null;
-        private AForge.Point[] projectedPoints = null;
+        private Accord.Point[] projectedPoints = null;
         private Color[] colors = null;
         private int[,] lines = null;
 
@@ -43,7 +43,7 @@ namespace SampleApp
             }
         }
 
-        public AForge.Point[] ProjectedPoints
+        public Accord.Point[] ProjectedPoints
         {
             get { return projectedPoints; }
         }
@@ -95,7 +95,7 @@ namespace SampleApp
         {
             int pointsCount = objectPoints.Length;
             objectScenePoints = new Vector3[pointsCount];
-            projectedPoints = new AForge.Point[pointsCount];
+            projectedPoints = new Accord.Point[pointsCount];
 
             int cx = ClientRectangle.Width / 2;
             int cy = ClientRectangle.Height / 2;
@@ -106,7 +106,7 @@ namespace SampleApp
                                        ( viewMatrix *
                                        ( worldMatrix * objectPoints[i].ToVector4( ) ) ) ).ToVector3( );
 
-                projectedPoints[i] = new AForge.Point(
+                projectedPoints[i] = new Accord.Point(
                     (int) ( cx * objectScenePoints[i].X ),
                     (int) ( cy * objectScenePoints[i].Y ) );
             }

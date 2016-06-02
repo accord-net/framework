@@ -1,4 +1,4 @@
-﻿namespace Gestures.SVMs
+﻿namespace SampleApp
 {
     partial class MainForm
     {
@@ -97,7 +97,7 @@
             this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
             this.colClassification = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnLearnSVM = new System.Windows.Forms.Button();
-            this.canvas = new Gestures.Canvas();
+            this.canvas = new SampleApp.Canvas();
             this.tabSamples.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();

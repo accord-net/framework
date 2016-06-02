@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 using Accord.Math;
 using System.Drawing.Drawing2D;
 
-namespace Gestures.SVMs
+namespace SampleApp
 {
     [Serializable]
     public class Sequence : ICloneable

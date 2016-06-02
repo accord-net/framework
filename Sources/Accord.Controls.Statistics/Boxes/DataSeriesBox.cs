@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -285,7 +285,7 @@ namespace Accord.Controls
             if (step == null)
                 step = (max - min) / npoints;
 
-            double[] input = Matrix.Interval(min.Value, max.Value, step.Value);
+            double[] input = Vector.Interval(min.Value, max.Value, step.Value);
             double[] output = Matrix.Apply(input, function);
 
             return show(title, input, new[] { output });
@@ -307,7 +307,7 @@ namespace Accord.Controls
                 title = "Time series";
 
             x = (double[])x.Clone();
-            var idx = Matrix.Indices(0, x.Length);
+            var idx = Vector.Range(0, x.Length);
             Array.Sort(x, idx);
 
             for (int i = 0; i < series.Length; i++)
@@ -338,7 +338,7 @@ namespace Accord.Controls
                 for (int i = 0; i < series.Length; i++)
                 {
                     if (x == null)
-                        x = Matrix.Indices(0, series[i].Length).ToDouble();
+                        x = Vector.Range(0, series[i].Length).ToDouble();
 
                     var lineItem = new LineItem(i.ToString(), x,
                         series[i], sequence.GetColor(i), SymbolType.None);

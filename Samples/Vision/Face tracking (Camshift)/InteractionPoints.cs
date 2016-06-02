@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 
-namespace FaceTracking
+namespace SampleApp
 {
     public class InteractionPoints
     {

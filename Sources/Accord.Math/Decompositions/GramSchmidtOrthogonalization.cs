@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -75,8 +75,9 @@ namespace Accord.Math.Decompositions
 
                     for (int i = 0; i < j; i++)
                     {
-                        r[i, j] = q.GetColumn(i).InnerProduct(v);
-                        v = v.Subtract(r[i, j].Multiply(q.GetColumn(i)));
+                        r[i, j] = q.GetColumn(i).Dot(v);
+                        var t = r[i, j].Multiply(q.GetColumn(i));
+                        v.Subtract(t, result: v);
                     }
 
                     r[j, j] = Norm.Euclidean(v);
@@ -93,7 +94,7 @@ namespace Accord.Math.Decompositions
 
                     for (int i = 0; i < j; i++)
                     {
-                        r[i, j] = q.GetColumn(j).InnerProduct(a);
+                        r[i, j] = q.GetColumn(j).Dot(a);
                         v = v.Subtract(r[i, j].Multiply(q.GetColumn(i)));
                     }
 

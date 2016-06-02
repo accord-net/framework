@@ -5,8 +5,9 @@
 // Copyright © Andrew Kirillov, 2005-2009
 // andrew.kirillov@aforgenet.com
 //
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
+    using Accord.Imaging.Textures;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
@@ -51,7 +52,7 @@ namespace AForge.Imaging.Filters
     public class Texturer : BaseInPlacePartialFilter
     {
         // texture generator
-        private AForge.Imaging.Textures.ITextureGenerator textureGenerator;
+        private ITextureGenerator textureGenerator;
         // generated texture
         private float[,] texture = null;
 
@@ -61,7 +62,7 @@ namespace AForge.Imaging.Filters
         private double preserveLevel = 0.5;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -89,7 +90,7 @@ namespace AForge.Imaging.Filters
         public double FilterLevel
         {
             get { return filterLevel; }
-            set { filterLevel = Math.Max( 0.0, Math.Min( 1.0, value ) ); }
+            set { filterLevel = Math.Max(0.0, Math.Min(1.0, value)); }
         }
 
         /// <summary>
@@ -106,7 +107,7 @@ namespace AForge.Imaging.Filters
         public double PreserveLevel
         {
             get { return preserveLevel; }
-            set { preserveLevel = Math.Max( 0.0, Math.Min( 1.0, value ) ); }
+            set { preserveLevel = Math.Max(0.0, Math.Min(1.0, value)); }
         }
 
         /// <summary>
@@ -138,17 +139,17 @@ namespace AForge.Imaging.Filters
         /// <para><note>The property has priority over the <see cref="Texture"/> property.</note></para>
         /// </remarks>
         /// 
-        public AForge.Imaging.Textures.ITextureGenerator TextureGenerator
+        public ITextureGenerator TextureGenerator
         {
             get { return textureGenerator; }
             set { textureGenerator = value; }
         }
 
         // Private constructor to do common initialization
-        private Texturer( )
+        private Texturer()
         {
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
-            formatTranslations[PixelFormat.Format24bppRgb]    = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
         }
 
         /// <summary>
@@ -157,7 +158,8 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="texture">Generated texture.</param>
         /// 
-        public Texturer( float[,] texture ) : this( )
+        public Texturer(float[,] texture)
+            : this()
         {
             this.texture = texture;
         }
@@ -170,7 +172,8 @@ namespace AForge.Imaging.Filters
         /// <param name="filterLevel">Filter level value (see <see cref="FilterLevel"/> property).</param>
         /// <param name="preserveLevel">Preserve level value (see <see cref="PreserveLevel"/> property).</param>
         /// 
-        public Texturer( float[,] texture, double filterLevel, double preserveLevel ) : this( )
+        public Texturer(float[,] texture, double filterLevel, double preserveLevel)
+            : this()
         {
             this.texture = texture;
             this.filterLevel = filterLevel;
@@ -183,7 +186,8 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="generator">Texture generator.</param>
         /// 
-        public Texturer( AForge.Imaging.Textures.ITextureGenerator generator ) : this( )
+        public Texturer(ITextureGenerator generator)
+            : this()
         {
             this.textureGenerator = generator;
         }
@@ -196,8 +200,8 @@ namespace AForge.Imaging.Filters
         /// <param name="filterLevel">Filter level value (see <see cref="FilterLevel"/> property).</param>
         /// <param name="preserveLevel">Preserve level value (see <see cref="PreserveLevel"/> property).</param>
         /// 
-        public Texturer( AForge.Imaging.Textures.ITextureGenerator generator, double filterLevel, double preserveLevel )
-            : this( )
+        public Texturer(ITextureGenerator generator, double filterLevel, double preserveLevel)
+            : this()
         {
             this.textureGenerator = generator;
             this.filterLevel = filterLevel;
@@ -211,48 +215,48 @@ namespace AForge.Imaging.Filters
         /// <param name="image">Source image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         ///
-        protected override unsafe void ProcessFilter( UnmanagedImage image, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage image, Rectangle rect)
         {
-            int pixelSize = Image.GetPixelFormatSize( image.PixelFormat ) / 8;
+            int pixelSize = Image.GetPixelFormatSize(image.PixelFormat) / 8;
 
             // processing width and height
-            int width  = rect.Width;
+            int width = rect.Width;
             int height = rect.Height;
 
             // processing region's dimension
-            int widthToProcess  = width;
+            int widthToProcess = width;
             int heightToProcess = height;
 
             // if generator was specified, then generate a texture
             // otherwise use provided texture
-            if ( textureGenerator != null )
+            if (textureGenerator != null)
             {
-                texture = textureGenerator.Generate( width, height );
+                texture = textureGenerator.Generate(width, height);
             }
             else
             {
-                widthToProcess  = Math.Min( width, texture.GetLength( 1 ) );
-                heightToProcess = Math.Min( height, texture.GetLength( 0 ) );
+                widthToProcess = Math.Min(width, texture.GetLength(1));
+                heightToProcess = Math.Min(height, texture.GetLength(0));
             }
 
             int offset = image.Stride - widthToProcess * pixelSize;
 
             // do the job
-            byte* ptr = (byte*) image.ImageData.ToPointer( );
+            byte* ptr = (byte*)image.ImageData.ToPointer();
 
             // allign pointer to the first pixel to process
-            ptr += ( rect.Top * image.Stride + rect.Left * pixelSize );
+            ptr += (rect.Top * image.Stride + rect.Left * pixelSize);
 
             // texture
-            for ( int y = 0; y < heightToProcess; y++ )
+            for (int y = 0; y < heightToProcess; y++)
             {
-                for ( int x = 0; x < widthToProcess; x++ )
+                for (int x = 0; x < widthToProcess; x++)
                 {
                     double t = texture[y, x];
                     // process each pixel
-                    for ( int i = 0; i < pixelSize; i++, ptr++ )
+                    for (int i = 0; i < pixelSize; i++, ptr++)
                     {
-                        *ptr = (byte) Math.Min( 255.0f, ( preserveLevel * ( *ptr ) ) + ( filterLevel * ( *ptr ) ) * t );
+                        *ptr = (byte)Math.Min(255.0f, (preserveLevel * (*ptr)) + (filterLevel * (*ptr)) * t);
                     }
                 }
                 ptr += offset;

@@ -37,7 +37,7 @@ using System;
 using System.Windows.Forms;
 using Accord.Controls;
 using Accord.Math.Kinematics;
-using AForge.Math;
+using Accord.Math;
 
 namespace SampleApp
 {

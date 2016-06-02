@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -55,14 +55,14 @@ namespace Accord.Math
         /// <param name="startColumn">Start column index</param>
         /// <param name="endColumn">End column index</param>
         /// 
-        public static void Submatrix<T>(this T[,] source, T[,] destination, 
+        public static void Submatrix<T>(this T[,] source, T[,] destination,
             int startRow, int endRow, int startColumn, int endColumn)
         {
             if (destination == null)
                 throw new ArgumentNullException("destination");
 
             if (destination.GetLength(0) < endRow - startRow + 1)
-                throw new DimensionMismatchException("destination", 
+                throw new DimensionMismatchException("destination",
                     "The destination matrix must be big enough to accommodate the results.");
 
             if (destination.GetLength(1) < endColumn - startColumn + 1)
@@ -265,7 +265,7 @@ namespace Accord.Math
         ///   elements. Default is false (default is to always provide a true,
         ///   deep copy of every element in the matrices, using more memory).</param>
         /// 
-        public static T[][] Submatrix<T>(this T[][] source, 
+        public static T[][] Submatrix<T>(this T[][] source,
             int[] rowIndexes, int[] columnIndexes, bool reuseMemory = false)
         {
             return submatrix(source, null, rowIndexes, columnIndexes, reuseMemory);
@@ -332,7 +332,7 @@ namespace Accord.Math
         ///   Routine adapted from Lutz Roeder's Mapack for .NET, September 2000.
         /// </remarks>
         /// 
-        public static T[][] Submatrix<T>(this T[][] source, int[] rowIndexes, 
+        public static T[][] Submatrix<T>(this T[][] source, int[] rowIndexes,
             int startColumn, int endColumn, bool reuseMemory = false)
         {
             if (source == null)
@@ -473,8 +473,10 @@ namespace Accord.Math
         /// 
         /// <param name="source">The vector to return the subvector from.</param>
         /// <param name="indexes">Array of indices.</param>
+        /// <param name="inPlace">True to return the results in place, changing the
+        ///   original <paramref name="source"/> vector; false otherwise.</param>
         /// 
-        public static T[] Submatrix<T>(this T[] source, int[] indexes)
+        public static T[] Submatrix<T>(this T[] source, int[] indexes, bool inPlace = false)
         {
             if (source == null)
                 throw new ArgumentNullException("source");
@@ -482,9 +484,18 @@ namespace Accord.Math
             if (indexes == null)
                 throw new ArgumentNullException("indexes");
 
+            if (inPlace && source.Length != indexes.Length)
+                throw new DimensionMismatchException("Source and indexes arrays must have the same dimension for in-place operations.");
+
             var destination = new T[indexes.Length];
             for (int i = 0; i < indexes.Length; i++)
                 destination[i] = source[indexes[i]];
+
+            if (inPlace)
+            {
+                for (int i = 0; i < destination.Length; i++)
+                    source[i] = destination[i];
+            }
 
             return destination;
         }
@@ -581,7 +592,7 @@ namespace Accord.Math
 
             return destination;
         }
-      
+
 
 
 
@@ -638,11 +649,11 @@ namespace Accord.Math
                 throw new ArgumentNullException("groups");
 
             if (values.Length != groups.Length)
-                throw new DimensionMismatchException("groups", 
+                throw new DimensionMismatchException("groups",
                     "The vector of group labels should have the same length as the values vector.");
 
             if (classes <= 0)
-                throw new ArgumentOutOfRangeException("classes", 
+                throw new ArgumentOutOfRangeException("classes",
                     "The number of classes must be a positive number.");
 
             for (int i = 0; i < groups.Length; i++)
@@ -745,7 +756,7 @@ namespace Accord.Math
             if (destination != null)
             {
                 if (destination.GetLength(0) < newRows || destination.GetLength(1) < newCols)
-                    throw new DimensionMismatchException("destination", 
+                    throw new DimensionMismatchException("destination",
                     "The destination matrix must be big enough to accommodate the results.");
             }
             else
@@ -783,7 +794,7 @@ namespace Accord.Math
         ///   Routine adapted from Lutz Roeder's Mapack for .NET, September 2000.
         /// </remarks>
         /// 
-        private static T[][] submatrix<T>(this T[][] source, T[][] destination, 
+        private static T[][] submatrix<T>(this T[][] source, T[][] destination,
             int[] rowIndexes, int[] columnIndexes, bool reuseMemory)
         {
             if (source == null)
@@ -818,7 +829,7 @@ namespace Accord.Math
                     if ((columnIndexes[i] < 0) || (columnIndexes[i] >= cols))
                         throw new ArgumentException("Argument out of range.");
             }
-          
+
 
             if (destination != null)
             {

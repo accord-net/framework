@@ -8,7 +8,7 @@
     <ProjectGuid>{7F23856B-B95C-42B3-B6AF-663FA35324D6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gestures.SVMs</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Gestures %28SVM-DTW%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

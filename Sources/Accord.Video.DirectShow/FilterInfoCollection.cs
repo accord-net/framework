@@ -5,13 +5,13 @@
 // andrew.kirillov@gmail.com
 //
 
-namespace AForge.Video.DirectShow
+namespace Accord.Video.DirectShow
 {
     using System;
     using System.Collections;
     using System.Runtime.InteropServices;
     using System.Runtime.InteropServices.ComTypes;
-    using AForge.Video.DirectShow.Internals;
+    using Accord.Video.DirectShow.Internals;
 
     /// <summary>
     /// Collection of filters' information objects.

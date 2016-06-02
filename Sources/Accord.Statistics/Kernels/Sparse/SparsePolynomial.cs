@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -88,6 +88,8 @@ namespace Accord.Statistics.Kernels.Sparse
         /// 
         public override double Function(double[] x, double[] y)
         {
+#pragma warning disable 0618
+
             double sum = SparseLinear.Product(x,y) + constant;
 
             return Math.Pow(sum, Degree);

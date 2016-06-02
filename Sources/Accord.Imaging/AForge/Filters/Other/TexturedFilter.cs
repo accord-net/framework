@@ -6,14 +6,13 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
-
-    using AForge.Imaging.Textures;
+    using Accord.Imaging.Textures;
 
     /// <summary>
     /// Textured filter - filter an image using texture.

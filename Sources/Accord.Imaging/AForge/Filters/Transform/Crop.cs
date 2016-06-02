@@ -5,7 +5,7 @@
 // andrew.kirillov@gmail.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
@@ -132,7 +132,7 @@ namespace AForge.Imaging.Filters
             // for each line
             for ( int y = ymin; y <= ymax; y++ )
             {
-                AForge.SystemTools.CopyUnmanagedMemory( dst, src, copySize );
+                Accord.SystemTools.CopyUnmanagedMemory(dst, src, copySize);
                 src += srcStride;
                 dst += dstStride;
             }

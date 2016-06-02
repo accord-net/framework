@@ -20,7 +20,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 // Original work copyright © Lutz Roeder, 2000
@@ -167,7 +167,7 @@ namespace Accord.Math.Decompositions
         ///
         public <#=T#>[][] DiagonalMatrix
         {
-            get { return Matrix.JaggedDiagonal(s); }
+            get { return Jagged.Diagonal(u[0].Length, v[0].Length, s); }
         }
 
         /// <summary>
@@ -950,7 +950,7 @@ namespace Accord.Math.Decompositions
             }
 
             //(V x L*) x Ut x Y
-            var VL = v.Multiply(Ls);
+            var VL = Matrix.Dot(v, Ls);
 
             //(V x L* x Ut) x Y
             int vrows = v.Length;
@@ -970,7 +970,7 @@ namespace Accord.Math.Decompositions
             }
 
             //(V x L* x Ut x Y)
-            return VLU.Multiply(Y);
+            return Matrix.Dot(VLU, Y);
         }
 
         /// <summary>
@@ -1015,7 +1015,7 @@ namespace Accord.Math.Decompositions
             }
 
             //(V x L*) x Ut x Y
-            <#=T#>[][] VL = v.Multiply(Ls);
+            <#=T#>[][] VL = Matrix.Dot(v, Ls);
 
             //(V x L* x Ut) x Y
             int vrows = v.Length;
@@ -1034,7 +1034,7 @@ namespace Accord.Math.Decompositions
             }
 
             //(V x L* x Ut x Y)
-            return VLU.MultiplyByDiagonal(Y);
+            return VLU.DotWithDiagonal(Y);
         }
 
 
@@ -1081,7 +1081,7 @@ namespace Accord.Math.Decompositions
             }
 
             //(V x L*) x Ut x Y
-            var VL = v.Multiply(Ls);
+            var VL = Matrix.Dot(v, Ls);
 
             //(V x L* x Ut) x Y
             int urows = u.Length;
@@ -1100,7 +1100,7 @@ namespace Accord.Math.Decompositions
             }
 
             //(V x L* x Ut x Y)
-            return VLU.Multiply(Y);
+            return Matrix.Dot(VLU, Y);
         }
 
         /// <summary>

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -281,28 +281,30 @@ namespace Accord.Math
         {
             var current = new int[symbols.Length];
 
+            for (int i = 0; i < symbols.Length; i++)
+            {
+                if (symbols[i] == 0)
+                    yield break;
+            }
+
             while (true)
             {
-                yield return inPlace ? current : (int[])current;
-
-                bool match = true;
-                for (int i = 0; i < current.Length && match; i++)
-                    if (current[i] != symbols[i] - 1)
-                        match = false;
-
-                if (match)
-                    break;
+                yield return inPlace ? current : (int[])current.Clone();
 
                 for (int j = symbols.Length - 1; j >= 0; j--)
                 {
-                    if (current[j] < symbols[j] - 1)
+                    if (current[j] != symbols[j] - 1)
                     {
                         current[j]++;
                         break;
                     }
 
+                    if (j == 0)
+                        yield break;
+
                     current[j] = 0;
                 }
+
             }
         }
 
@@ -437,7 +439,7 @@ namespace Accord.Math
 
             yield return (inPlace ? values : (T[])values.Clone());
 
-            int[] idx = Matrix.Indices(0, values.Length);
+            int[] idx = Vector.Range(0, values.Length);
 
             int j, l;
 

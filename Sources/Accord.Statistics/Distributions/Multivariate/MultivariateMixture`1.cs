@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,10 +23,53 @@
 namespace Accord.Statistics.Distributions.Multivariate
 {
     using Accord.Math;
+    using Accord.Statistics;
+    using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
     using System;
     using System.Text;
+
+    /// <summary>
+    ///   Represents one component distribution in a 
+    ///   <see cref="Mixture{T}">mixture distribution</see>.
+    /// </summary>
+    /// 
+    /// <typeparam name="T">The distribution type.</typeparam>
+    /// 
+    [Serializable]
+    public struct MixtureComponent<T> : IMixtureComponent<T> 
+        where T : class, IDistribution
+    {
+        private IMixture<T> mixture;
+        private int index;
+
+        /// <summary>
+        ///   Gets the weight associated with this component.
+        /// </summary>
+        /// 
+        public double Coefficient { get { return mixture.Coefficients[index]; } }
+
+        /// <summary>
+        ///   Gets the component distribution.
+        /// </summary>
+        /// 
+        public T Component { get { return mixture.Components[index]; } }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="MixtureComponent{T}"/> struct.
+        /// </summary>
+        /// 
+        /// <param name="mixture">The mixture distribution.</param>
+        /// <param name="index">The component index.</param>
+        /// 
+        public MixtureComponent(IMixture<T> mixture, int index)
+        {
+            this.mixture = mixture;
+            this.index = index;
+        }
+
+    }
 
     /// <summary>
     ///   Mixture of multivariate probability distributions.
@@ -122,6 +165,7 @@ namespace Accord.Statistics.Distributions.Multivariate
 
         // cache
         IDistribution<double[]>[] cache;
+        ISampleableDistribution<double[]>[] sampleable;
 
 
         /// <summary>
@@ -515,7 +559,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                     double[][] means = new double[components.Length][];
                     for (int k = 0; k < components.Length; k++)
                         means[k] = components[k].Mean;
-                    double[,] VarE = Statistics.Tools.Scatter(means, (double)components.Length);
+                    double[,] VarE = Measures.Scatter(means, (double)components.Length);
 
                     // Var[X] = E[Var [X|Y]] + Var[E[X|Y]]
                     covariance = EVar.Add(VarE);
@@ -601,32 +645,28 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public double[][] Generate(int samples)
+        public override double[][] Generate(int samples, double[][] result)
         {
-            double[][] r = new double[samples][];
-            r.ApplyInPlace(x => Generate());
-            return r;
-        }
+            if (sampleable == null)
+            {
+                sampleable = new ISampleableDistribution<double[]>[components.Length];
+                for (int i = 0; i < sampleable.Length; i++)
+                    sampleable[i] = this.components[i] as ISampleableDistribution<double[]>;
+            }
 
-        /// <summary>
-        ///   Generates a random observation from the current distribution.
-        /// </summary>
-        /// 
-        /// <returns>A random observations drawn from this distribution.</returns>
-        /// 
-        public double[] Generate()
-        {
-            // Choose one coefficient at random
-            int c = GeneralDiscreteDistribution.Random(coefficients);
-
-            // Sample from the chosen coefficient
-            var d = components[c] as ISampleableDistribution<double[]>;
-
-            if (d == null) throw new InvalidOperationException();
-
-            return d.Generate();
+            for (int i = 0; i < samples; i++)
+            {
+                // Choose one coefficient at random
+                int j = GeneralDiscreteDistribution.Random(coefficients);
+                
+                // Sample from the chosen coefficient
+                result[i] = sampleable[j].Generate();
+            }
+            return result;
         }
 
         #endregion

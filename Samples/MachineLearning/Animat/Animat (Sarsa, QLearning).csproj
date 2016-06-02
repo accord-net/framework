@@ -8,7 +8,7 @@
     <ProjectGuid>{B4892057-CAE6-41F4-A75D-88E61331A2D0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Animat</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Animat</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>

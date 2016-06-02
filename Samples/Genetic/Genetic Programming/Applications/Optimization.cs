@@ -15,15 +15,16 @@ using System.Data;
 using System.Threading;
 
 using AForge;
-using AForge.Genetic;
-using AForge.Controls;
+using Accord.Genetic;
+using Accord.Controls;
+using Accord;
 
 namespace SampleApp
 {
 
     public class Optimization : System.Windows.Forms.Form
     {
-        private AForge.Controls.Chart chart;
+        private Accord.Controls.Chart chart;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox minXBox;
@@ -104,7 +105,7 @@ namespace SampleApp
         /// </summary>
         private void InitializeComponent()
         {
-            this.chart = new AForge.Controls.Chart();
+            this.chart = new Accord.Controls.Chart();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.minXBox = new System.Windows.Forms.TextBox();

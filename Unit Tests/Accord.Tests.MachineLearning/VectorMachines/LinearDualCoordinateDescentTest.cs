@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,13 +22,18 @@
 
 namespace Accord.Tests.MachineLearning
 {
+    using Accord.IO;
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
+    using Accord.Statistics;
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Kernels;
+    using Accord.Tests.MachineLearning.Properties;
     using NUnit.Framework;
     using System;
+    using System.IO;
+    using System.Text;
 
     [TestFixture]
     public class LinearDualCoordinateDescentTest
@@ -80,7 +85,7 @@ namespace Accord.Tests.MachineLearning
         {
             var dataset = SequentialMinimalOptimizationTest.yinyang;
 
-            double[][] inputs = dataset.Submatrix(null, 0, 1).ToArray();
+            double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
             int[] labels = dataset.GetColumn(2).ToInt32();
 
             var kernel = new Polynomial(2, 0);
@@ -133,7 +138,7 @@ namespace Accord.Tests.MachineLearning
             }
 
             {
-                Accord.Math.Tools.SetupGenerator(0);
+                Accord.Math.Random.Generator.Seed = 0;
                 var projection = inputs.Apply(kernel.Transform);
                 var machine = new SupportVectorMachine(projection[0].Length);
                 var smo = new LinearDualCoordinateDescent(machine, projection, labels);
@@ -155,6 +160,70 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(0, matrix.FalsePositives);
                 Assert.AreEqual(30, matrix.TruePositives);
                 Assert.AreEqual(50, matrix.TrueNegatives);
+            }
+        }
+
+
+        [Test]
+        public void SparseLinearTest()
+        {
+
+            MulticlassSupportVectorMachine<Linear> svm1;
+            MulticlassSupportVectorMachine<Linear, Sparse<double>> svm2;
+
+            {
+                Accord.Math.Random.Generator.Seed = 0;
+                MemoryStream file = new MemoryStream(
+                    Encoding.Default.GetBytes(Resources.iris_scale));
+                var reader = new SparseReader(file, Encoding.Default);
+
+                var samples = reader.ReadDenseToEnd();
+                double[][] x = samples.Item1;
+                int[] y = samples.Item2.ToMulticlass();
+
+                var learner = new MulticlassSupportVectorLearning<Linear>()
+                {
+                    Learner = (p) => new LinearDualCoordinateDescent<Linear>()
+                };
+
+                svm1 = learner.Learn(x, y);
+            }
+
+            {
+                Accord.Math.Random.Generator.Seed = 0;
+                MemoryStream file = new MemoryStream(
+                    Encoding.Default.GetBytes(Resources.iris_scale));
+
+                // Create a new Sparse Sample Reader to read any given file,
+                //  passing the correct dense sample size in the constructor
+                var reader = new SparseReader(file, Encoding.Default);
+
+                var samples = reader.ReadSparseToEnd();
+                Sparse<double>[] x = samples.Item1;
+                int[] y = samples.Item2.ToMulticlass();
+
+                var learner = new MulticlassSupportVectorLearning<Linear, Sparse<double>>()
+                {
+                    Learner = (p) => new LinearDualCoordinateDescent<Linear, Sparse<double>>()
+                };
+
+                svm2 = learner.Learn(x, y);
+            }
+
+            Assert.AreEqual(svm1.Models.Length, svm2.Models.Length);
+            for (int i = 0; i < svm1.Models.Length; i++)
+            {
+                var ma = svm1[i].Value;
+                var mb = svm2[i].Value;
+
+                Assert.IsTrue(ma.Weights.IsEqual(mb.Weights));
+                Assert.AreEqual(ma.SupportVectors.Length, mb.SupportVectors.Length);
+                for (int j = 0; j < ma.SupportVectors.Length; j++)
+                {
+                    double[] expected = ma.SupportVectors[j];
+                    double[] actual = mb.SupportVectors[j].ToDense(4);
+                    Assert.IsTrue(expected.IsEqual(actual));
+                }
             }
         }
     }

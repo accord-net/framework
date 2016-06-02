@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using AForge;
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     // The code is based on the code from the below link, which shows
     // the idea of mapping any quadrilateral to any other quadrilateral

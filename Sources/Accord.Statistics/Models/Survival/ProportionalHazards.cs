@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,7 +26,6 @@ namespace Accord.Statistics.Models.Regression
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Testing;
-    using AForge;
     using Accord.Math;
 
     /// <summary>
@@ -417,7 +416,30 @@ namespace Accord.Statistics.Models.Regression
         {
             return 2.0 * (this.GetPartialLogLikelihood(input, time, output) - hazards.GetPartialLogLikelihood(input, time, output));
         }
-
+        
+        /// <summary>
+        ///   The likelihood ratio test of the overall model, also called the model chi-square test.
+        /// </summary>
+        /// 
+        /// <param name="input">A set of input data.</param>
+        /// <param name="time">The time-to-event before the output occurs.</param>
+        /// <param name="output">The corresponding output data.</param>
+        /// 
+        /// <remarks>
+        ///   <para>
+        ///   The Chi-square test, also called the likelihood ratio test or the log-likelihood test
+        ///   is based on the deviance of the model (-2*log-likelihood). The log-likelihood ratio test 
+        ///   indicates whether there is evidence of the need to move from a simpler model to a more
+        ///   complicated one (where the simpler model is nested within the complicated one).</para>
+        ///   <para>
+        ///   The difference between the log-likelihood ratios for the researcher's model and a
+        ///   simpler model is often called the "model chi-square".</para>
+        /// </remarks>
+        /// 
+        public ChiSquareTest ChiSquare(double[][] input, double[] time, int[] output)
+        {
+            return ChiSquare(input, time, output.To<SurvivalOutcome[]>());
+        }
 
         /// <summary>
         ///   The likelihood ratio test of the overall model, also called the model chi-square test.

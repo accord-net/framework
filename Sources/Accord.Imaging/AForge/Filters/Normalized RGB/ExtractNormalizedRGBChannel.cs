@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
@@ -51,7 +51,7 @@ namespace AForge.Imaging.Filters
         private short channel = RGB.R;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -65,7 +65,7 @@ namespace AForge.Imaging.Filters
         /// Normalized RGB channel to extract.
         /// </summary>
         /// 
-        /// <remarks><para>Default value is set to <see cref="AForge.Imaging.RGB.R"/>.</para></remarks>
+        /// <remarks><para>Default value is set to <see cref="Accord.Imaging.RGB.R"/>.</para></remarks>
         /// 
         /// <exception cref="ArgumentException">Invalid channel is specified.</exception>
         /// 
@@ -74,9 +74,9 @@ namespace AForge.Imaging.Filters
             get { return channel; }
             set
             {
-                if ( ( value != RGB.R ) && ( value != RGB.G ) && ( value != RGB.B ) )
+                if ((value != RGB.R) && (value != RGB.G) && (value != RGB.B))
                 {
-                    throw new ArgumentException( "Invalid channel is specified." );
+                    throw new ArgumentException("Invalid channel is specified.");
                 }
                 channel = value;
             }
@@ -86,13 +86,13 @@ namespace AForge.Imaging.Filters
         /// Initializes a new instance of the <see cref="ExtractNormalizedRGBChannel"/> class.
         /// </summary>
         /// 
-        public ExtractNormalizedRGBChannel( )
+        public ExtractNormalizedRGBChannel()
         {
             // initialize format translation dictionary
-            formatTranslations[PixelFormat.Format24bppRgb]  = PixelFormat.Format8bppIndexed;
-            formatTranslations[PixelFormat.Format32bppRgb]  = PixelFormat.Format8bppIndexed;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format8bppIndexed;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format8bppIndexed;
             formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format8bppIndexed;
-            formatTranslations[PixelFormat.Format48bppRgb]  = PixelFormat.Format16bppGrayScale;
+            formatTranslations[PixelFormat.Format48bppRgb] = PixelFormat.Format16bppGrayScale;
             formatTranslations[PixelFormat.Format64bppArgb] = PixelFormat.Format16bppGrayScale;
         }
 
@@ -102,8 +102,8 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="channel">Normalized RGB channel to extract.</param>
         /// 
-        public ExtractNormalizedRGBChannel( short channel )
-            : this( )
+        public ExtractNormalizedRGBChannel(short channel)
+            : this()
         {
             this.Channel = channel;
         }
@@ -115,31 +115,31 @@ namespace AForge.Imaging.Filters
         /// <param name="sourceData">Source image data.</param>
         /// <param name="destinationData">Destination image data.</param>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage sourceData, UnmanagedImage destinationData )
+        protected override unsafe void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData)
         {
             // get width and height
-            int width  = sourceData.Width;
+            int width = sourceData.Width;
             int height = sourceData.Height;
 
-            int pixelSize = Image.GetPixelFormatSize( sourceData.PixelFormat ) / 8;
+            int pixelSize = Image.GetPixelFormatSize(sourceData.PixelFormat) / 8;
             int sum;
 
-            if ( pixelSize <= 4 )
+            if (pixelSize <= 4)
             {
                 int srcOffset = sourceData.Stride - width * pixelSize;
                 int dstOffset = destinationData.Stride - width;
 
                 // do the job
-                byte * src = (byte*) sourceData.ImageData.ToPointer( );
-                byte * dst = (byte*) destinationData.ImageData.ToPointer( );
+                byte* src = (byte*)sourceData.ImageData.ToPointer();
+                byte* dst = (byte*)destinationData.ImageData.ToPointer();
 
-                for ( int y = 0; y < height; y++ )
+                for (int y = 0; y < height; y++)
                 {
-                    for ( int x = 0; x < width; x++, src += pixelSize, dst++ )
+                    for (int x = 0; x < width; x++, src += pixelSize, dst++)
                     {
-                        sum = ( src[RGB.R] + src[RGB.G] + src[RGB.B] );
+                        sum = (src[RGB.R] + src[RGB.G] + src[RGB.B]);
 
-                        *dst = ( sum != 0 ) ? (byte) ( 255 * src[channel] / sum ) : (byte) 0;
+                        *dst = (sum != 0) ? (byte)(255 * src[channel] / sum) : (byte)0;
                     }
                     src += srcOffset;
                     dst += dstOffset;
@@ -149,23 +149,23 @@ namespace AForge.Imaging.Filters
             {
                 pixelSize /= 2;
 
-                byte* srcBase   = (byte*) sourceData.ImageData.ToPointer( );
-                byte* dstBase   = (byte*) destinationData.ImageData.ToPointer( );
+                byte* srcBase = (byte*)sourceData.ImageData.ToPointer();
+                byte* dstBase = (byte*)destinationData.ImageData.ToPointer();
                 int srcStride = sourceData.Stride;
                 int dstStride = destinationData.Stride;
 
                 // for each line
-                for ( int y = 0; y < height; y++ )
+                for (int y = 0; y < height; y++)
                 {
-                    ushort* src = (ushort*) ( srcBase + y * srcStride );
-                    ushort* dst = (ushort*) ( dstBase + y * dstStride );
+                    ushort* src = (ushort*)(srcBase + y * srcStride);
+                    ushort* dst = (ushort*)(dstBase + y * dstStride);
 
                     // for each pixel
-                    for ( int x = 0; x < width; x++, src += pixelSize, dst++ )
+                    for (int x = 0; x < width; x++, src += pixelSize, dst++)
                     {
-                        sum = ( src[RGB.R] + src[RGB.G] + src[RGB.B] );
+                        sum = (src[RGB.R] + src[RGB.G] + src[RGB.B]);
 
-                        *dst = ( sum != 0 ) ? (ushort) ( 65535 * src[channel] / sum ) : (ushort) 0;
+                        *dst = (sum != 0) ? (ushort)(65535 * src[channel] / sum) : (ushort)0;
                     }
                 }
             }

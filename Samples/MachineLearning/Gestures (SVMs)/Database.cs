@@ -7,7 +7,7 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Drawing;
 
-namespace Gestures.SVMs
+namespace SampleApp
 {
     public class Database
     {

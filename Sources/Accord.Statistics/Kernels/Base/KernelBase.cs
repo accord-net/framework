@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,6 +22,8 @@
 
 namespace Accord.Statistics.Kernels
 {
+    using Accord.Math;
+    using Accord.Math.Distances;
     using System;
 
     /// <summary>
@@ -31,7 +33,18 @@ namespace Accord.Statistics.Kernels
     /// </summary>
     /// 
     [Serializable]
-    public abstract class KernelBase : IDistance, IKernel
+    public abstract class KernelBase : KernelBase<double[]>, IKernel, IDistance
+    {
+    }
+
+    /// <summary>
+    ///   Base class for kernel functions. This class provides automatic
+    ///   distance calculations for classes that do not provide optimized
+    ///   implementations.
+    /// </summary>
+    /// 
+    [Serializable]
+    public abstract class KernelBase<TInput> : IDistance<TInput>, IKernel<TInput>
     {
 
         /// <summary>
@@ -46,7 +59,7 @@ namespace Accord.Statistics.Kernels
         ///   Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.
         /// </returns>
         /// 
-        public virtual double Distance(double[] x, double[] y)
+        public virtual double Distance(TInput x, TInput y)
         {
             return Function(x, x) + Function(y, y) - 2 * Function(x, y);
         }
@@ -63,6 +76,8 @@ namespace Accord.Statistics.Kernels
         ///   Dot product in feature (kernel) space.
         /// </returns>
         /// 
-        public abstract double Function(double[] x, double[] y);
+        public abstract double Function(TInput x, TInput y);
+
+        
     }
 }

@@ -12,7 +12,7 @@ using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
 using System.Reflection;
-using AForge.Imaging.Filters;
+using Accord.Imaging.Filters;
 
 namespace IPLab
 {
@@ -60,7 +60,7 @@ namespace IPLab
         }
         // Filter property
         [Browsable(false)]
-        public AForge.Imaging.Filters.IFilter Filter
+        public Accord.Imaging.Filters.IFilter Filter
         {
             set
             {

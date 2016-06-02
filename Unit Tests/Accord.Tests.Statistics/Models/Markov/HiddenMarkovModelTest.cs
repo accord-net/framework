@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -277,8 +277,8 @@ namespace Accord.Tests.Statistics
             var hmmP = Matrix.Exp(hmm.Probabilities);
 
 
-            Assert.IsTrue(Matrix.IsEqual(A, hmmA, 0.1));
-            Assert.IsTrue(Matrix.IsEqual(B, hmmB, 0.1));
+            Assert.IsTrue(Matrix.IsEqual(A, hmmA, atol: 0.1));
+            Assert.IsTrue(Matrix.IsEqual(B, hmmB, atol: 0.1));
             Assert.IsTrue(Matrix.IsEqual(pi, hmmP));
         }
 

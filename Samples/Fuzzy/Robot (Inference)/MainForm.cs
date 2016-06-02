@@ -15,7 +15,7 @@ using System.Windows.Forms;
 using System.Data;
 using System.Threading;
 using System.Diagnostics;
-using AForge.Fuzzy;
+using Accord.Fuzzy;
 
 namespace SampleApp
 {

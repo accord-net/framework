@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -223,7 +223,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.IntRange" /> containing
+        ///   A <see cref="IntRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -394,29 +394,53 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override int[] Generate(int samples)
+        public override int[] Generate(int samples, int[] result)
         {
-            var random = Accord.Math.Tools.Random;
-
-            int[] s = new int[samples];
+            var random = Accord.Math.Random.Generator.Random;
 
             if (lambda > 30)
             {
-                for (int i = 0; i < s.Length; i++)
-                {
-                    double u = random.NextDouble();
-                    s[i] = InverseDistributionFunction(u);
-                }
+                for (int i = 0; i < samples; i++)
+                    result[i] = InverseDistributionFunction(random.NextDouble());
             }
             else
             {
-                for (int i = 0; i < s.Length; i++)
-                    s[i] = knuth(random, lambda);
+                for (int i = 0; i < samples; i++)
+                    result[i] = knuth(random, lambda);
             }
 
-            return s;
+            return result;
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// 
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public override double[] Generate(int samples, double[] result)
+        {
+            var random = Accord.Math.Random.Generator.Random;
+
+            if (lambda > 30)
+            {
+                for (int i = 0; i < samples; i++)
+                    result[i] = InverseDistributionFunction(random.NextDouble());
+            }
+            else
+            {
+                for (int i = 0; i < samples; i++)
+                    result[i] = knuth(random, lambda);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -428,9 +452,9 @@ namespace Accord.Statistics.Distributions.Univariate
         public override int Generate()
         {
             if (lambda > 30)
-                return InverseDistributionFunction(Accord.Math.Tools.Random.NextDouble());
+                return InverseDistributionFunction(Accord.Math.Random.Generator.Random.NextDouble());
 
-            return knuth(Accord.Math.Tools.Random, lambda);
+            return knuth(Accord.Math.Random.Generator.Random, lambda);
         }
 
         private static int knuth(Random random, double lambda)

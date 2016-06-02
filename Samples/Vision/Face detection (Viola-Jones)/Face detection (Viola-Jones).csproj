@@ -8,7 +8,7 @@
     <ProjectGuid>{EF3F6EA1-38F2-4C3C-8079-C06B8B5DDCC0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FaceDetection</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Face detection %28Viola-Jones%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

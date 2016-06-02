@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Neuro.Learning
+namespace Accord.Neuro.Learning
 {
     using System;
 

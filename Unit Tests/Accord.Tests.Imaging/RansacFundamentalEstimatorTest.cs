@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -20,36 +20,17 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using NUnit.Framework;
-using AForge;
-using Accord.Math;
-using System;
-using Accord.Imaging;
-
 namespace Accord.Tests.Imaging
 {
-
+    using NUnit.Framework;
+    using AForge;
+    using Accord.Math;
+    using System;
+    using Accord.Imaging;
 
     [TestFixture]
     public class RansacFundamentalEstimatorTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void EstimateTest()
@@ -129,7 +110,7 @@ namespace Accord.Tests.Imaging
 
 
             // Set a fixed seed to transform RANSAC into a deterministic algorithm
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             RansacFundamentalEstimator ransac = new RansacFundamentalEstimator(0.001, 0.99);
             float[,] actual = ransac.Estimate(points1, points2);

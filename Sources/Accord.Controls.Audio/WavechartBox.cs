@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -192,7 +192,7 @@ namespace Accord.Controls
                             values = extract.Apply(signal).ToDouble();
                         }
 
-                        form.series.Add(new LineItem(i.ToString(), Matrix.Indices(0, signal.Length).ToDouble(),
+                        form.series.Add(new LineItem(i.ToString(), Vector.Range(0, signal.Length).ToDouble(),
                             values, sequence.GetColor(i), SymbolType.None));
 
                         form.zedGraphControl.GraphPane.XAxis.Title.Text = "Time";

@@ -8,7 +8,7 @@
     <ProjectGuid>{99C1ED90-C4CD-4730-B05C-B99EED60EDD1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KinectController</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Dynamic Virtual Wall %28Kinect%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

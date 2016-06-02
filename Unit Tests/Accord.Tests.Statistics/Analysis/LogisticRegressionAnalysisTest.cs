@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -224,7 +224,7 @@ namespace Accord.Tests.Statistics
             };
 
 
-            double[][] inputs = data.GetColumn(0).ToDouble().ToArray();
+            double[][] inputs = data.GetColumn(0).ToDouble().ToJagged();
 
             int[] positive = data.GetColumn(1);
             int[] negative = data.GetColumn(2);
@@ -276,7 +276,7 @@ namespace Accord.Tests.Statistics
 
                 var expanded = Accord.Statistics.Tools.Expand(qtr, positive, negative);
 
-                double[][] inp = expanded.GetColumn(0).ToDouble().ToArray();
+                double[][] inp = expanded.GetColumn(0).ToDouble().ToJagged();
                 double[] outputs = expanded.GetColumn(1).ToDouble();
 
                 expected = new LogisticRegressionAnalysis(inp, outputs);

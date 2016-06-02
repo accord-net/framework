@@ -19,13 +19,13 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace DeepLearning.ViewModel
+namespace SampleApp.ViewModel
 {
     using System.ComponentModel;
     using System.Windows.Media.Imaging;
     using Accord.Math;
     using Accord.Neuro.Networks;
-    using DeepLearning.Databases;
+    using SampleApp.Databases;
 
     /// <summary>
     ///   View-Model for the Use tab.

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -52,13 +52,13 @@ namespace Accord.Tests.Math
         {
             int n = 5;
 
-            var I = Matrix.Identity(n).ToSingle().ToArray();
+            var I = Matrix.Identity(n).ToSingle().ToJagged();
 
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
                 {
-                    var value = Matrix.Magic(n).ToArray().ToSingle();
+                    var value = Matrix.Magic(n).ToJagged().ToSingle();
 
                     value[i][j] = Single.NaN;
 
@@ -107,7 +107,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(L, expected, 0.0001f));
 
             // Decomposition Identity
-            Assert.IsTrue(Matrix.IsEqual(L.Multiply(L.Transpose()), value, 0.001f));
+            Assert.IsTrue(Matrix.IsEqual(Matrix.Multiply(L, L.Transpose()), value, 0.001f));
 
             Assert.AreEqual(new JaggedLuDecompositionF(value).Determinant, chol.Determinant, 1e-5);
             Assert.AreEqual(true, chol.PositiveDefinite);
@@ -126,9 +126,9 @@ namespace Accord.Tests.Math
             JaggedCholeskyDecompositionF chol = new JaggedCholeskyDecompositionF(value);
             float[][] L = chol.LeftTriangularFactor;
 
-            float[][] B = Matrix.ColumnVector(new float[] { 1, 2, 3 }).ToArray();
+            float[][] B = Matrix.ColumnVector(new float[] { 1, 2, 3 }).ToJagged();
 
-            float[][] expected = Matrix.ColumnVector(new float[] { 2.5f, 4.0f, 3.5f }).ToArray();
+            float[][] expected = Matrix.ColumnVector(new float[] { 2.5f, 4.0f, 3.5f }).ToJagged();
 
             float[][] actual = chol.Solve(B);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-6f));
@@ -178,7 +178,7 @@ namespace Accord.Tests.Math
             JaggedCholeskyDecompositionF chol = new JaggedCholeskyDecompositionF(value, robust: true);
             float[][] L = chol.LeftTriangularFactor;
 
-            float[][] B = Matrix.Identity(4).ToSingle().ToArray();
+            float[][] B = Matrix.Identity(4).ToSingle().ToJagged();
 
             float[][] expected = 
             {
@@ -283,7 +283,7 @@ namespace Accord.Tests.Math
             JaggedCholeskyDecompositionF chol = new JaggedCholeskyDecompositionF(value, robust: false);
             float[][] L = chol.LeftTriangularFactor;
 
-            float[] expected = Matrix.Inverse(value.ToMatrix().ToDouble()).ToSingle().ToArray().Diagonal();
+            float[] expected = Matrix.Inverse(value.ToMatrix().ToDouble()).ToSingle().ToJagged().Diagonal();
             float[] actual = chol.InverseDiagonal();
 
             for (int i = 0; i < actual.Length; i++)
@@ -300,7 +300,7 @@ namespace Accord.Tests.Math
                new float[] {  0, -1,  2 }
             };
 
-            float[] expected = Matrix.Inverse(value.ToMatrix().ToDouble()).ToSingle().ToArray().Diagonal();
+            float[] expected = Matrix.Inverse(value.ToMatrix().ToDouble()).ToSingle().ToJagged().Diagonal();
 
             JaggedCholeskyDecompositionF chol = new JaggedCholeskyDecompositionF(value,
                 robust: false, inPlace: true);
@@ -322,7 +322,7 @@ namespace Accord.Tests.Math
                new float[] {  6, -2,  0,  0 },
             };
 
-            float[] expected = Matrix.Inverse(value.ToMatrix().ToDouble()).ToSingle().ToArray().Diagonal();
+            float[] expected = Matrix.Inverse(value.ToMatrix().ToDouble()).ToSingle().ToJagged().Diagonal();
 
             JaggedCholeskyDecompositionF chol = new JaggedCholeskyDecompositionF(value,
                 robust: true, inPlace: true);
@@ -407,7 +407,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(D, diagonal, 0.001f));
 
             // Decomposition Identity
-            Assert.IsTrue(Matrix.IsEqual(L.Multiply(D).Multiply(L.Transpose()), value, 0.001f));
+            Assert.IsTrue(Matrix.IsEqual(Matrix.Multiply(Matrix.Multiply(L, D), L.Transpose()), value, 0.001f));
 
             Assert.AreEqual(new JaggedLuDecompositionF(value).Determinant, chol.Determinant, 1e-10);
             Assert.AreEqual(true, chol.PositiveDefinite);
@@ -448,7 +448,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(D, diagonal, 0.001f));
 
             // Decomposition Identity
-            Assert.IsTrue(Matrix.IsEqual(L.Multiply(D).Multiply(L.Transpose()), value, 0.001f));
+            Assert.IsTrue(Matrix.IsEqual(Matrix.Multiply(Matrix.Multiply(L, D), L.Transpose()), value, 0.001f));
 
             Assert.AreEqual(new JaggedLuDecompositionF(value).Determinant, chol.Determinant, 1e-4);
             Assert.AreEqual(false, chol.PositiveDefinite);

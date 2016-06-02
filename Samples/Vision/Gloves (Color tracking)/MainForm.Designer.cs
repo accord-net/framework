@@ -1,4 +1,4 @@
-namespace GloveTracking
+namespace SampleApp
 {
     partial class MainForm
     {
@@ -44,7 +44,7 @@ namespace GloveTracking
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.videoSourcePlayer = new AForge.Controls.VideoSourcePlayer();
+            this.videoSourcePlayer = new Accord.Controls.VideoSourcePlayer();
             this.cbContour = new System.Windows.Forms.CheckBox();
             this.cbFingertips = new System.Windows.Forms.CheckBox();
             this.cbContainer = new System.Windows.Forms.CheckBox();
@@ -193,7 +193,7 @@ namespace GloveTracking
             this.videoSourcePlayer.Size = new System.Drawing.Size(322, 242);
             this.videoSourcePlayer.TabIndex = 0;
             this.videoSourcePlayer.VideoSource = null;
-            this.videoSourcePlayer.NewFrame += new AForge.Controls.VideoSourcePlayer.NewFrameHandler(this.videoSourcePlayer_NewFrame);
+            this.videoSourcePlayer.NewFrame += new Accord.Controls.VideoSourcePlayer.NewFrameHandler(this.videoSourcePlayer_NewFrame);
             // 
             // cbContour
             // 
@@ -318,7 +318,7 @@ namespace GloveTracking
         private System.Windows.Forms.ToolStripMenuItem openVideoFileusingDirectShowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem localVideoCaptureSettingsToolStripMenuItem;
-        private AForge.Controls.VideoSourcePlayer videoSourcePlayer;
+        private Accord.Controls.VideoSourcePlayer videoSourcePlayer;
         private System.Windows.Forms.CheckBox cbContour;
         private System.Windows.Forms.CheckBox cbFingertips;
         private System.Windows.Forms.CheckBox cbContainer;

@@ -5,10 +5,9 @@
 // Copyright © AForge.NET, 2007-2011
 // contacts@aforgenet.com
 //
-namespace AForge.Fuzzy
+namespace Accord.Fuzzy
 {
     using System;
-    using AForge;
 
     /// <summary>
     /// Membership function composed by several connected linear functions.

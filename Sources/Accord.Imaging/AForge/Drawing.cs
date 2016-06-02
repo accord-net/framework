@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
     using System.Collections.Generic;
@@ -98,7 +98,7 @@ namespace AForge.Imaging
 
                     for (int y = startY; y <= stopY; y++)
                     {
-                        AForge.SystemTools.SetUnmanagedMemory(ptr, gray, fillWidth);
+                        Accord.SystemTools.SetUnmanagedMemory(ptr, gray, fillWidth);
                         ptr += stride;
                     }
                 }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Models.Regression.Linear
 {
     using System;
+    using Accord.Math;
     using Accord.Math.Decompositions;
 
     /// <summary>
@@ -448,6 +449,23 @@ namespace Accord.Statistics.Models.Regression.Linear
 
             regression.Regress(x, y);
 
+            return regression;
+        }
+
+        /// <summary>
+        ///  Creates a new linear regression from the regression coefficients.
+        /// </summary>
+        /// 
+        /// <param name="coefficients">The linear coefficients.</param>
+        /// <param name="intercept">The intercept (bias) values.</param>
+        /// 
+        /// <returns>A linear regression with the given coefficients.</returns>
+        /// 
+        public static MultivariateLinearRegression FromCoefficients(double[][] coefficients, double[] intercept)
+        {
+            var regression = new MultivariateLinearRegression(coefficients.Length, coefficients[0].Length);
+            regression.coefficients = coefficients.ToMatrix();
+            regression.intercepts = intercept;
             return regression;
         }
 

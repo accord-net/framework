@@ -10,7 +10,7 @@
 // Cezary.Wagner@gmail.com
 //
 
-namespace AForge.Neuro.Learning
+namespace Accord.Neuro.Learning
 {
     using System;
 

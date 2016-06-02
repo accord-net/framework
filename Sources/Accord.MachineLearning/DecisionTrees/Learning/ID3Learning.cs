@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,8 +24,10 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 {
     using System;
     using Accord.Math;
-    using AForge;
-    using Parallel = System.Threading.Tasks.Parallel;
+    using System.Threading.Tasks;
+    using Accord.Statistics;
+    using Accord.Math.Optimization.Losses;
+    using Accord.MachineLearning;
 
     /// <summary>
     ///   ID3 (Iterative Dichotomizer 3) learning algorithm
@@ -158,7 +160,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     /// <see cref="C45Learning"/>
     /// 
     [Serializable]
-    public class ID3Learning
+    public class ID3Learning : ParallelLearningBase, ISupervisedLearning<DecisionTree, int[], int>
     {
 
         private DecisionTree tree;
@@ -183,7 +185,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             get { return maxHeight; }
             set
             {
-                if (maxHeight <= 0)
+                if (value <= 0)
                 {
                     throw new ArgumentOutOfRangeException("value",
                         "The height must be greater than zero.");
@@ -194,12 +196,23 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         }
 
         /// <summary>
+        ///   Gets or sets the decision trees being learned.
+        /// </summary>
+        /// 
+        public DecisionTree Model
+        {
+            get { return tree; }
+            set { tree = value; }
+        }
+
+        /// <summary>
         ///   Gets or sets whether all nodes are obligated to provide 
         ///   a true decision value. If set to false, some leaf nodes
         ///   may contain <c>null</c>. Default is false.
         /// </summary>
         /// 
         public bool Rejection { get; set; }
+
 
         /// <summary>
         ///   Gets or sets how many times one single variable can be
@@ -227,19 +240,32 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         ///   Creates a new ID3 learning algorithm.
         /// </summary>
         /// 
+        public ID3Learning()
+        {
+            this.Rejection = true;
+        }
+
+        /// <summary>
+        ///   Creates a new ID3 learning algorithm.
+        /// </summary>
+        /// 
         /// <param name="tree">The decision tree to be generated.</param>
         /// 
         public ID3Learning(DecisionTree tree)
+            : this()
         {
-            // Initial argument checking
+            init(tree);
+        }
+
+        private void init(DecisionTree tree)
+        {
             if (tree == null)
                 throw new ArgumentNullException("tree");
 
             this.tree = tree;
-            this.inputRanges = new IntRange[tree.InputCount];
-            this.outputClasses = tree.OutputClasses;
-            this.attributeUsageCount = new int[tree.InputCount];
-            this.Rejection = true;
+            this.inputRanges = new IntRange[tree.NumberOfInputs];
+            this.outputClasses = tree.NumberOfOutputs;
+            this.attributeUsageCount = new int[tree.NumberOfInputs];
 
             for (int i = 0; i < tree.Attributes.Count; i++)
             {
@@ -248,9 +274,32 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             }
 
             for (int i = 0; i < inputRanges.Length; i++)
-                inputRanges[i] = tree.Attributes[i].Range.ToIntRange(false);
+                inputRanges[i] = tree.Attributes[i].Range.ToIntRange(provideInnerRange: false);
         }
 
+        /// <summary>
+        ///   Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// 
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// 
+        /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
+        /// 
+        public DecisionTree Learn(int[][] x, int[] y, double[] weights = null)
+        {
+            if (tree == null)
+            {
+                var variables = DecisionVariable.FromData(x);
+                int classes = y.DistinctCount();
+                init(new DecisionTree(variables, classes));
+            }
+
+            Run(x, y);
+
+            return tree;
+        }
 
         /// <summary>
         ///   Runs the learning algorithm, creating a decision
@@ -271,7 +320,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             for (int i = 0; i < attributeUsageCount.Length; i++)
             {
                 // a[i] has never been used
-                attributeUsageCount[i] = 0; 
+                attributeUsageCount[i] = 0;
             }
 
             // 1. Create a root node for the tree
@@ -297,14 +346,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         public double ComputeError(int[][] inputs, int[] outputs)
         {
-            int miss = 0;
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                if (tree.Compute(inputs[i].ToDouble()) != outputs[i])
-                    miss++;
-            }
-
-            return (double)miss / inputs.Length;
+            return new ZeroOneLoss(outputs) { Mean = true }.Loss(tree.Decide(inputs));
         }
 
         private void split(DecisionNode root, int[][] input, int[] output, int height)
@@ -312,7 +354,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
             // 2. If all examples are for the same class, return the single-node
             //    tree with the output label corresponding to this common class.
-            double entropy = Statistics.Tools.Entropy(output, outputClasses);
+            double entropy = Measures.Entropy(output, outputClasses);
 
             if (entropy == 0)
             {
@@ -331,7 +373,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
             if (candidateCount == 0 || (maxHeight > 0 && height == maxHeight))
             {
-                root.Output = Statistics.Tools.Mode(output);
+                root.Output = Measures.Mode(output);
                 return;
             }
 
@@ -353,18 +395,11 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
 
             // For each attribute in the data set
-#if SERIAL
-            for (int i = 0; i < scores.Length; i++)
-#else
-            Parallel.For(0, scores.Length, i =>
-#endif
+            Parallel.For(0, scores.Length, ParallelOptions, i =>
             {
                 scores[i] = computeGainRatio(input, output, candidates[i],
                     entropy, out partitions[i], out outputSubs[i]);
-            }
-#if !SERIAL
-);
-#endif
+            });
 
             // Select the attribute with maximum gain ratio
             int maxGainIndex; scores.Max(out maxGainIndex);
@@ -400,7 +435,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                     // output samples in this category, we will be assigning
                     // the most common label for the current node to it.
                     if (!Rejection && !children[i].Output.HasValue)
-                        children[i].Output = Statistics.Tools.Mode(output);
+                        children[i].Output = Measures.Mode(output);
                 }
             }
 
@@ -438,7 +473,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 outputSubset[i] = output.Submatrix(partitions[i]);
 
                 // Check the entropy gain originating from this partitioning
-                double e = Statistics.Tools.Entropy(outputSubset[i], outputClasses);
+                double e = Measures.Entropy(outputSubset[i], outputClasses);
 
                 info += (outputSubset[i].Length / (double)output.Length) * e;
             }
@@ -458,7 +493,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             double infoGain = computeInfoGain(input, output, attributeIndex,
                 entropy, out partitions, out outputSubset);
 
-            double splitInfo = Measures.SplitInformation(output.Length, partitions);
+            double splitInfo = Statistics.Tools.SplitInformation(output.Length, partitions);
 
             return infoGain == 0 ? 0 : infoGain / splitInfo;
         }
@@ -492,12 +527,12 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                         "The input vector at index " + i + " is null.");
                 }
 
-                if (inputs[i].Length != tree.InputCount)
+                if (inputs[i].Length != tree.NumberOfInputs)
                 {
                     throw new DimensionMismatchException("inputs",
                         "The size of the input vector at index " + i
                         + " does not match the expected number of inputs of the tree."
-                        + " All input vectors for this tree must have length " + tree.InputCount);
+                        + " All input vectors for this tree must have length " + tree.NumberOfInputs);
                 }
 
                 for (int j = 0; j < inputs[i].Length; j++)
@@ -517,7 +552,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
             for (int i = 0; i < outputs.Length; i++)
             {
-                if (outputs[i] < 0 || outputs[i] >= tree.OutputClasses)
+                if (outputs[i] < 0 || outputs[i] >= tree.NumberOfOutputs)
                 {
                     throw new ArgumentOutOfRangeException("outputs",
                         "The output label at index " + i +
@@ -526,5 +561,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 }
             }
         }
+
+
     }
 }

@@ -5,7 +5,7 @@
 // andrew.kirillov@gmail.com
 //
 
-namespace AForge.Imaging.Formats
+namespace Accord.Imaging.Formats
 {
     using System;
     using System.IO;
@@ -401,7 +401,7 @@ namespace AForge.Imaging.Formats
             // complete reading useful value
             bytesRead += ReadUntilSpace(stream, buffer, 1);
 
-            return int.Parse(Encoding.ASCII.GetString(buffer, 0, bytesRead));
+            return int.Parse(Encoding.UTF8.GetString(buffer, 0, bytesRead));
         }
 
         // Skip spaces (spaces, new lines, tabs and comment lines) in the specified stream

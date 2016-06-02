@@ -5,7 +5,7 @@
 // andrew.kirillov@gmail.com
 //
 
-namespace AForge.Imaging.Formats
+namespace Accord.Imaging.Formats
 {
     using System;
     using System.IO;

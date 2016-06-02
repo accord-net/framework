@@ -1,11 +1,12 @@
+ï»¿
 // Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright Â© CÃ©sar Souza, 2009-2016
 // cesarsouza at gmail.com
 //
-// Original work copyright © Lutz Roeder, 2000
+// Original work copyright Â© Lutz Roeder, 2000
 //  Adapted from Mapack for .NET, September 2000
 //  Adapted from Mapack for COM and Jama routines
 //  http://www.aisto.com/roeder/dotnet
@@ -149,7 +150,7 @@ namespace Accord.Math.Decompositions
         ///
         public Single[][] DiagonalMatrix
         {
-            get { return Matrix.JaggedDiagonal(s); }
+            get { return Jagged.Diagonal(u[0].Length, v[0].Length, s); }
         }
 
         /// <summary>
@@ -932,7 +933,7 @@ namespace Accord.Math.Decompositions
             }
 
             //(V x L*) x Ut x Y
-            var VL = v.Multiply(Ls);
+            var VL = Matrix.Dot(v, Ls);
 
             //(V x L* x Ut) x Y
             int vrows = v.Length;
@@ -952,7 +953,7 @@ namespace Accord.Math.Decompositions
             }
 
             //(V x L* x Ut x Y)
-            return VLU.Multiply(Y);
+            return Matrix.Dot(VLU, Y);
         }
 
         /// <summary>
@@ -997,7 +998,7 @@ namespace Accord.Math.Decompositions
             }
 
             //(V x L*) x Ut x Y
-            Single[][] VL = v.Multiply(Ls);
+            Single[][] VL = Matrix.Dot(v, Ls);
 
             //(V x L* x Ut) x Y
             int vrows = v.Length;
@@ -1016,7 +1017,7 @@ namespace Accord.Math.Decompositions
             }
 
             //(V x L* x Ut x Y)
-            return VLU.MultiplyByDiagonal(Y);
+            return VLU.DotWithDiagonal(Y);
         }
 
 
@@ -1063,7 +1064,7 @@ namespace Accord.Math.Decompositions
             }
 
             //(V x L*) x Ut x Y
-            var VL = v.Multiply(Ls);
+            var VL = Matrix.Dot(v, Ls);
 
             //(V x L* x Ut) x Y
             int urows = u.Length;
@@ -1082,7 +1083,7 @@ namespace Accord.Math.Decompositions
             }
 
             //(V x L* x Ut x Y)
-            return VLU.Multiply(Y);
+            return Matrix.Dot(VLU, Y);
         }
 
         /// <summary>

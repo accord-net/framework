@@ -6,13 +6,13 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Vision.Motion
+namespace Accord.Vision.Motion
 {
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
 
-    using AForge.Imaging;
+    using Accord.Imaging;
 
     /// <summary>
     /// Motion processing algorithm, which counts separate moving objects and highlights them.

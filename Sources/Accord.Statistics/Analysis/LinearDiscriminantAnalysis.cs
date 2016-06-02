@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -440,8 +440,8 @@ namespace Accord.Statistics.Analysis
         public virtual void Compute()
         {
             // Compute entire data set measures
-            Means = Statistics.Tools.Mean(source);
-            StandardDeviations = Statistics.Tools.StandardDeviation(source, totalMeans);
+            Means = Measures.Mean(source);
+            StandardDeviations = Measures.StandardDeviation(source, totalMeans);
             double total = dimension;
 
             // Initialize the scatter matrices
@@ -457,11 +457,11 @@ namespace Accord.Statistics.Analysis
                 int count = subset.GetLength(0);
 
                 // Get the class mean
-                double[] mean = Statistics.Tools.Mean(subset);
+                double[] mean = Measures.Mean(subset);
 
 
                 // Continue constructing the Within-Class Scatter Matrix
-                double[,] Swi = Statistics.Tools.Scatter(subset, mean, (double)count);
+                double[,] Swi = Measures.Scatter(subset, mean, (double)count);
 
                 // Sw = Sw + Swi
                 for (int i = 0; i < dimension; i++)
@@ -471,7 +471,7 @@ namespace Accord.Statistics.Analysis
 
                 // Continue constructing the Between-Class Scatter Matrix
                 double[] d = mean.Subtract(totalMeans);
-                double[,] Sbi = Matrix.OuterProduct(d, d).Multiply(total);
+                double[,] Sbi = Matrix.Outer(d, d).Multiply(total);
 
                 // Sb = Sb + Sbi
                 for (int i = 0; i < dimension; i++)
@@ -483,7 +483,7 @@ namespace Accord.Statistics.Analysis
                 this.classScatter[c] = Swi;
                 this.classCount[c] = count;
                 this.classMeans[c] = mean;
-                this.classStdDevs[c] = Statistics.Tools.StandardDeviation(subset, mean);
+                this.classStdDevs[c] = Measures.StandardDeviation(subset, mean);
             }
 
 
@@ -503,14 +503,12 @@ namespace Accord.Statistics.Analysis
             this.DiscriminantMatrix = eigs;
 
             // Create projections into latent space
-            this.result = source.Multiply(eigenvectors);
+            this.result = Matrix.Dot(source, eigenvectors);
 
 
             // Compute feature space means for later classification
             for (int c = 0; c < Classes.Count; c++)
-            {
-                projectedMeans[c] = classMeans[c].Multiply(eigs);
-            }
+                projectedMeans[c] = classMeans[c].Dot(eigs);
 
 
             // Computes additional information about the analysis and creates the

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -44,6 +44,7 @@
 namespace Accord.Math
 {
     using System;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Set of special mathematic functions.
@@ -62,6 +63,50 @@ namespace Accord.Math
     public static class Special
     {
 
+        private static readonly double[] erfc_P =
+        {
+            2.46196981473530512524E-10,
+            5.64189564831068821977E-1,
+            7.46321056442269912687E0,
+            4.86371970985681366614E1,
+            1.96520832956077098242E2,
+            5.26445194995477358631E2,
+            9.34528527171957607540E2,
+            1.02755188689515710272E3,
+            5.57535335369399327526E2
+		};
+
+        private static readonly double[] erfc_Q =
+        {
+            1.32281951154744992508E1,
+            8.67072140885989742329E1,
+            3.54937778887819891062E2,
+            9.75708501743205489753E2,
+            1.82390916687909736289E3,
+            2.24633760818710981792E3,
+            1.65666309194161350182E3,
+            5.57535340817727675546E2
+		};
+
+        private static readonly double[] erfc_R =
+        {
+            5.64189583547755073984E-1,
+            1.27536670759978104416E0,
+            5.01905042251180477414E0,
+            6.16021097993053585195E0,
+            7.40974269950448939160E0,
+            2.97886665372100240670E0
+		};
+
+        private static readonly double[] erfc_S =
+        {
+            2.26052863220117276590E0,
+            9.39603524938001434673E0,
+            1.20489539808096656605E1,
+            1.70814450747565897222E1,
+            9.60896809063285878198E0,
+            3.36907645100081516050E0
+		};
 
         /// <summary>
         ///   Complementary error function of the specified value.
@@ -75,50 +120,8 @@ namespace Accord.Math
         {
             double x, y, z, p, q;
 
-            double[] P =
-            {
-                2.46196981473530512524E-10,
-                5.64189564831068821977E-1,
-                7.46321056442269912687E0,
-                4.86371970985681366614E1,
-                1.96520832956077098242E2,
-                5.26445194995477358631E2,
-                9.34528527171957607540E2,
-                1.02755188689515710272E3,
-                5.57535335369399327526E2
-			};
-            double[] Q =
-            {
-                1.32281951154744992508E1,
-                8.67072140885989742329E1,
-                3.54937778887819891062E2,
-                9.75708501743205489753E2,
-                1.82390916687909736289E3,
-                2.24633760818710981792E3,
-                1.65666309194161350182E3,
-                5.57535340817727675546E2
-			};
-
-            double[] R =
-            {
-                5.64189583547755073984E-1,
-                1.27536670759978104416E0,
-                5.01905042251180477414E0,
-                6.16021097993053585195E0,
-                7.40974269950448939160E0,
-                2.97886665372100240670E0
-			};
-            double[] S =
-            {
-                2.26052863220117276590E0,
-                9.39603524938001434673E0,
-                1.20489539808096656605E1,
-                1.70814450747565897222E1,
-                9.60896809063285878198E0,
-                3.36907645100081516050E0
-			};
-
-            if (value < 0.0) x = -value;
+            if (value < 0.0)
+                x = -value;
             else x = value;
 
             if (x < 1.0) return 1.0 - Erf(value);
@@ -135,13 +138,13 @@ namespace Accord.Math
 
             if (x < 8.0)
             {
-                p = Polevl(x, P, 8);
-                q = P1evl(x, Q, 8);
+                p = Polevl(x, erfc_P, 8);
+                q = P1evl(x, erfc_Q, 8);
             }
             else
             {
-                p = Polevl(x, R, 5);
-                q = P1evl(x, S, 6);
+                p = Polevl(x, erfc_R, 5);
+                q = P1evl(x, erfc_S, 6);
             }
 
             y = (z * p) / q;
@@ -150,13 +153,31 @@ namespace Accord.Math
 
             if (y == 0.0)
             {
-                if (value < 0) return 2.0;
+                if (value < 0) 
+                    return 2.0;
                 else return (0.0);
             }
 
-
             return y;
         }
+
+        private static readonly double[] erfc_T =
+        {
+            9.60497373987051638749E0,
+            9.00260197203842689217E1,
+            2.23200534594684319226E3,
+            7.00332514112805075473E3,
+            5.55923013010394962768E4
+		};
+
+        private static readonly double[] erfc_U =
+        {
+            3.35617141647503099647E1,
+            5.21357949780152679795E2,
+            4.59432382970980127987E3,
+            2.26290000613890934246E4,
+            4.92673942608635921086E4
+		};
 
         /// <summary>
         ///   Error function of the specified value.
@@ -165,28 +186,12 @@ namespace Accord.Math
         public static double Erf(double x)
         {
             double y, z;
-            double[] T =
-            {
-                9.60497373987051638749E0,
-                9.00260197203842689217E1,
-                2.23200534594684319226E3,
-                7.00332514112805075473E3,
-                5.55923013010394962768E4
-		    };
-            double[] U =
-            {
-                3.35617141647503099647E1,
-                5.21357949780152679795E2,
-                4.59432382970980127987E3,
-                2.26290000613890934246E4,
-                4.92673942608635921086E4
-		    };
 
             if (System.Math.Abs(x) > 1.0)
                 return (1.0 - Erfc(x));
 
             z = x * x;
-            y = x * Polevl(z, T, 4) / P1evl(z, U, 5);
+            y = x * Polevl(z, erfc_T, 4) / P1evl(z, erfc_U, 5);
 
             return y;
         }
@@ -697,5 +702,137 @@ namespace Accord.Math
         }
 
         #endregion
+
+        /// <summary>
+        ///   Computes the Softmax function (also known as normalized Exponencial
+        ///   function) that "squashes"a vector or arbitrary real values into a 
+        ///   vector of real values in the range (0, 1) that add up to 1.
+        /// </summary>
+        /// 
+        /// <param name="input">The real values to be converted into the unit interval.</param>
+        /// 
+        /// <returns>A vector with the same number of dimensions as <paramref name="input"/>
+        ///   but where values lie between 0 and 1.</returns>
+        ///   
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Softmax(double[] input)
+        {
+            return Softmax(input, new double[input.Length]);
+        }
+
+        /// <summary>
+        ///   Computes the Softmax function (also known as normalized Exponencial
+        ///   function) that "squashes"a vector or arbitrary real values into a 
+        ///   vector of real values in the range (0, 1) that add up to 1.
+        /// </summary>
+        /// 
+        /// <param name="input">The real values to be converted into the unit interval.</param>
+        /// <param name="result">The location where to store the result of this operation.</param>
+        /// 
+        /// <returns>A vector with the same number of dimensions as <paramref name="input"/>
+        ///   but where values lie between 0 and 1.</returns>
+        ///   
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Softmax(double[] input, double[] result)
+        {
+            double sum = 0;
+            for (int i = 0; i < input.Length; i++)
+            {
+                double u = Math.Exp(input[i]);
+                result[i] = u;
+                sum += u;
+            }
+
+            for (int i = 0; i < result.Length; i++)
+                result[i] /= sum;
+
+            return result;
+        }
+
+        // TODO: Move to Classes, rename classes to Labels
+
+        /// <summary>
+        ///   Hyperplane decision function. Return true if distance
+        ///   is higher than zero, and false otherwise.
+        /// </summary>
+        /// 
+        public static bool Decide(double distance)
+        {
+            return distance > 0;
+        }
+
+        /// <summary>
+        ///   Hyperplane decision function. Return true if distance
+        ///   is higher than zero, and false otherwise.
+        /// </summary>
+        /// 
+        public static bool[] Decide(double[] values)
+        {
+            bool[] result = new bool[values.Length];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Decide(values[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Hyperplane decision function. Return true if distance
+        ///   is higher than zero, and false otherwise.
+        /// </summary>
+        /// 
+        public static bool[] Decide(int[] values)
+        {
+            bool[] result = new bool[values.Length];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Decide(values[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Hyperplane decision function. Return true if distance
+        ///   is higher than zero, and false otherwise.
+        /// </summary>
+        /// 
+        public static bool[][] Decide(double[][] values)
+        {
+            bool[][] result = new bool[values.Length][];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Decide(values[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Hyperplane decision function. Return true if distance
+        ///   is higher than zero, and false otherwise.
+        /// </summary>
+        /// 
+        public static bool[][] Decide(int[][] values)
+        {
+            bool[][] result = new bool[values.Length][];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Decide(values[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Computes log(1 + exp(x)) without losing precision.
+        /// </summary>
+        /// 
+        public static double Log1pexp(double x)
+        {
+            // Computes Math.Log(1.0 / (1.0 + Math.Exp(-sum)));
+            // https://cran.r-project.org/web/packages/Rmpfr/vignettes/log1mexp-note.pdf
+
+            if (x < -37)
+                return Math.Exp(x);
+            if (x <= 18)
+                return Special.Log1p(Math.Exp(x));
+            if (x <= 33)
+                return x + Math.Exp(-x);
+            return x;
+        }
     }
 }

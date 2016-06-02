@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -51,13 +51,13 @@ namespace Accord.Tests.Math
         {
             int n = 5;
 
-            var I = Matrix.Identity(n).ToArray();
+            var I = Matrix.Identity(n).ToJagged();
 
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
                 {
-                    double[][] value = Matrix.Magic(n).ToArray();
+                    double[][] value = Matrix.Magic(n).ToJagged();
 
                     value[i][j] = double.NaN;
 
@@ -117,9 +117,9 @@ namespace Accord.Tests.Math
 
             var target = new JaggedSingularValueDecomposition(value, true, true, false);
 
-            double[][] actual = target.LeftSingularVectors
-                                .Multiply(Matrix.Diagonal(target.Diagonal).ToArray()
-                                .Multiply(target.RightSingularVectors.Transpose()));
+            double[][] actual = Matrix.Multiply(Matrix.Multiply(
+                target.LeftSingularVectors, target.DiagonalMatrix),
+                target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
             Assert.IsTrue(Matrix.IsEqual(actual, value, 0.01));
@@ -176,9 +176,9 @@ namespace Accord.Tests.Math
 
             var target = new JaggedSingularValueDecomposition(value, true, true, true);
 
-            double[][] actual = target.LeftSingularVectors
-                                .Multiply(Matrix.Diagonal(target.Diagonal).ToArray()
-                                .Multiply(target.RightSingularVectors.Transpose()));
+            double[][] actual = Matrix.Multiply(
+                Matrix.Multiply(target.LeftSingularVectors, target.DiagonalMatrix), 
+                target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
             Assert.IsTrue(Matrix.IsEqual(actual, value, 0.01));
@@ -233,9 +233,9 @@ namespace Accord.Tests.Math
 
             var target = new JaggedSingularValueDecomposition(value, true, true, false);
 
-            double[][] actual = target.LeftSingularVectors
-                                .Multiply(Matrix.Diagonal(target.Diagonal).ToArray()
-                                .Multiply(target.RightSingularVectors.Transpose()));
+            double[][] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors,
+                                target.DiagonalMatrix),
+                                target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
             Assert.IsTrue(Matrix.IsEqual(actual, value, 0.01));
@@ -435,9 +435,9 @@ namespace Accord.Tests.Math
 
             {
                 double[][] expected = value;
-                double[][] actual = target.LeftSingularVectors
-                    .Multiply(Matrix.Diagonal(target.Diagonal).ToArray()
-                    .Multiply(target.RightSingularVectors.Transpose()));
+                double[][] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors, 
+                    target.DiagonalMatrix),
+                    target.RightSingularVectors.Transpose());
 
                 // Checking the decomposition
                 Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-8));

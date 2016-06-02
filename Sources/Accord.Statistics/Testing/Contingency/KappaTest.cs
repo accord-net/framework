@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -349,7 +349,7 @@ namespace Accord.Statistics.Testing
                 stdDev = (1.0 / ((1.0 - Pe) * Math.Sqrt(n))) * Math.Sqrt(Pe + Pe * Pe - sum);
             }
 
-            System.Diagnostics.Debug.Assert(!(Math.Abs(variance - stdDev * stdDev) > 1e-10 * variance));
+            Accord.Diagnostics.Debug.Assert(!(Math.Abs(variance - stdDev * stdDev) > 1e-10 * variance));
 
             return variance;
         }

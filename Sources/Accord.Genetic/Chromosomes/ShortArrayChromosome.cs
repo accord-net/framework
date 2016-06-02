@@ -6,11 +6,12 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Genetic
+namespace Accord.Genetic
 {
     using System;
     using System.Text;
     using AForge;
+    using Accord.Math.Random;
 
     /// <summary>
     /// Short array chromosome.
@@ -36,11 +37,6 @@ namespace AForge.Genetic
         /// Chromosome's value.
         /// </summary>
         protected ushort[] val = null;
-
-        /// <summary>
-        /// Random number generator for chromosoms generation, crossover, mutation, etc.
-        /// </summary>
-        protected static ThreadSafeRandom	rand = new ThreadSafeRandom( );
 
         /// <summary>
         /// Chromosome's maximum length.
@@ -93,7 +89,7 @@ namespace AForge.Genetic
         /// <remarks>This constructor initializes chromosome setting genes' maximum value to
         /// maximum posible value of <see langword="ushort"/> type.</remarks>
         /// 
-        public ShortArrayChromosome( int length ) : this( length, ushort.MaxValue ) { }
+        public ShortArrayChromosome(int length) : this(length, ushort.MaxValue) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ShortArrayChromosome"/> class.
@@ -102,17 +98,17 @@ namespace AForge.Genetic
         /// <param name="length">Chromosome's length in array elements, [2, <see cref="MaxLength"/>].</param>
         /// <param name="maxValue">Maximum value of chromosome's gene (array element).</param>
         /// 
-        public ShortArrayChromosome( int length, int maxValue )
+        public ShortArrayChromosome(int length, int maxValue)
         {
             // save parameters
-            this.length   = Math.Max( 2, Math.Min( MaxLength, length ) );
-            this.maxValue = Math.Max( 1, Math.Min( ushort.MaxValue, maxValue ) );
+            this.length = Math.Max(2, Math.Min(MaxLength, length));
+            this.maxValue = Math.Max(1, Math.Min(ushort.MaxValue, maxValue));
 
             // allocate array
             val = new ushort[this.length];
 
             // generate random chromosome
-            Generate( );
+            Generate();
         }
 
         /// <summary>
@@ -124,13 +120,13 @@ namespace AForge.Genetic
         /// <remarks><para>This is a copy constructor, which creates the exact copy
         /// of specified chromosome.</para></remarks>
         /// 
-        protected ShortArrayChromosome( ShortArrayChromosome source )
+        protected ShortArrayChromosome(ShortArrayChromosome source)
         {
             // copy all properties
-            length   = source.length;
+            length = source.length;
             maxValue = source.maxValue;
-            val      = (ushort[]) source.val.Clone( );
-            fitness  = source.fitness;
+            val = (ushort[])source.val.Clone();
+            fitness = source.fitness;
         }
 
         /// <summary>
@@ -139,20 +135,20 @@ namespace AForge.Genetic
         /// 
         /// <returns>Returns string representation of the chromosome.</returns>
         ///
-        public override string ToString( )
+        public override string ToString()
         {
-            StringBuilder sb = new StringBuilder( );
+            StringBuilder sb = new StringBuilder();
 
             // append first gene
-            sb.Append( val[0] );
+            sb.Append(val[0]);
             // append all other genes
-            for ( int i = 1; i < length; i++ )
+            for (int i = 1; i < length; i++)
             {
-                sb.Append( ' ' );
-                sb.Append( val[i] );
+                sb.Append(' ');
+                sb.Append(val[i]);
             }
 
-            return sb.ToString( );
+            return sb.ToString();
         }
 
         /// <summary>
@@ -162,14 +158,14 @@ namespace AForge.Genetic
         /// <remarks><para>Regenerates chromosome's value using random number generator.</para>
         /// </remarks>
         /// 
-        public override void Generate( )
+        public override void Generate()
         {
             int max = maxValue + 1;
 
-            for ( int i = 0; i < length; i++ )
+            for (int i = 0; i < length; i++)
             {
                 // generate next value
-                val[i] = (ushort) rand.Next( max );
+                val[i] = (ushort)Generator.Random.Next(max);
             }
         }
 
@@ -181,9 +177,9 @@ namespace AForge.Genetic
         /// initialized. The method is useful as factory method for those classes, which work
         /// with chromosome's interface, but not with particular chromosome type.</para></remarks>
         ///
-        public override IChromosome CreateNew( )
+        public override IChromosome CreateNew()
         {
-            return new ShortArrayChromosome( length, maxValue );
+            return new ShortArrayChromosome(length, maxValue);
         }
 
         /// <summary>
@@ -195,9 +191,9 @@ namespace AForge.Genetic
         /// <remarks><para>The method clones the chromosome returning the exact copy of it.</para>
         /// </remarks>
         ///
-        public override IChromosome Clone( )
+        public override IChromosome Clone()
         {
-            return new ShortArrayChromosome( this );
+            return new ShortArrayChromosome(this);
         }
 
         /// <summary>
@@ -207,12 +203,13 @@ namespace AForge.Genetic
         /// <remarks><para>The method performs chromosome's mutation, changing randomly
         /// one of its genes (array elements).</para></remarks>
         /// 
-        public override void Mutate( )
+        public override void Mutate()
         {
             // get random index
-            int i = rand.Next( length );
+            int i = Generator.Random.Next(length);
+
             // randomize the gene
-            val[i] = (ushort) rand.Next( maxValue + 1 );
+            val[i] = (ushort)Generator.Random.Next(maxValue + 1);
         }
 
         /// <summary>
@@ -224,26 +221,26 @@ namespace AForge.Genetic
         /// <remarks><para>The method performs crossover between two chromosomes – interchanging
         /// range of genes (array elements) between these chromosomes.</para></remarks>
         ///
-        public override void Crossover( IChromosome pair )
+        public override void Crossover(IChromosome pair)
         {
-            ShortArrayChromosome p = (ShortArrayChromosome) pair;
+            ShortArrayChromosome p = (ShortArrayChromosome)pair;
 
             // check for correct pair
-            if ( ( p != null ) && ( p.length == length ) )
+            if ((p != null) && (p.length == length))
             {
                 // crossover point
-                int crossOverPoint = rand.Next( length - 1 ) + 1;
+                int crossOverPoint = Generator.Random.Next(length - 1) + 1;
                 // length of chromosome to be crossed
                 int crossOverLength = length - crossOverPoint;
                 // temporary array
                 ushort[] temp = new ushort[crossOverLength];
 
                 // copy part of first (this) chromosome to temp
-                Array.Copy( val, crossOverPoint, temp, 0, crossOverLength );
+                Array.Copy(val, crossOverPoint, temp, 0, crossOverLength);
                 // copy part of second (pair) chromosome to the first
-                Array.Copy( p.val, crossOverPoint, val, crossOverPoint, crossOverLength );
+                Array.Copy(p.val, crossOverPoint, val, crossOverPoint, crossOverLength);
                 // copy temp to the second
-                Array.Copy( temp, 0, p.val, crossOverPoint, crossOverLength );
+                Array.Copy(temp, 0, p.val, crossOverPoint, crossOverLength);
             }
         }
     }

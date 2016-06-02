@@ -1,4 +1,4 @@
-﻿namespace Analysis.KDA
+﻿namespace SampleApp
 {
     partial class AboutBox
     {

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,6 +30,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math.Optimization;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
+    using Accord.Math.Random;
 
     /// <summary>
     ///   Abstract class for univariate continuous probability Distributions.
@@ -69,7 +70,8 @@ namespace Accord.Statistics.Distributions.Univariate
     [Serializable]
     public abstract class UnivariateContinuousDistribution : DistributionBase,
         IDistribution, IUnivariateDistribution, IUnivariateDistribution<double>,
-        ISampleableDistribution<double>, IFormattable
+        ISampleableDistribution<double>, 
+        IFormattable
     {
         [NonSerialized]
         private double? median;
@@ -119,7 +121,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Gets the support interval for this distribution.
         /// </summary>
         /// 
-        /// <value>A <see cref="AForge.DoubleRange"/> containing
+        /// <value>A <see cref="DoubleRange"/> containing
         ///  the support interval for this distribution.</value>
         ///  
         public abstract DoubleRange Support { get; }
@@ -986,14 +988,10 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public virtual void Fit(double[] observations, int[] weights, IFittingOptions options)
         {
-            if (weights == null)
-            {
-                Fit(observations, (double[])null, options);
-            }
-            else
-            {
+            if (weights != null)
                 throw new NotSupportedException();
-            }
+
+            Fit(observations, (double[])null, options);
         }
 
 
@@ -1004,19 +1002,26 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="samples">The number of samples to generate.</param>
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public virtual double[] Generate(int samples)
+        public double[] Generate(int samples)
         {
-            var random = Accord.Math.Tools.Random;
+            return Generate(samples, new double[samples]);
+        }
 
-            double[] s = new double[samples];
-
-            for (int i = 0; i < s.Length; i++)
-            {
-                double u = random.NextDouble();
-                s[i] = InverseDistributionFunction(u);
-            }
-
-            return s;
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public virtual double[] Generate(int samples, double[] result)
+        {
+            var random = Accord.Math.Random.Generator.Random;
+            for (int i = 0; i < samples; i++)
+                result[i] = InverseDistributionFunction(random.NextDouble());
+            return result;
         }
 
         /// <summary>
@@ -1027,7 +1032,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public virtual double Generate()
         {
-            return InverseDistributionFunction(Accord.Math.Tools.Random.NextDouble());
+            return InverseDistributionFunction(Generator.Random.NextDouble());
+        }
+
+        double ISampleableDistribution<double>.Generate(double result)
+        {
+            return Generate();
         }
 
 

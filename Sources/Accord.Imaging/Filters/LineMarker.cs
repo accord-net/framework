@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,10 +26,10 @@ namespace Accord.Imaging.Filters
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
-    using AForge.Math.Geometry;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
     using System;
+    using Accord.Math.Geometry;
 
     /// <summary>
     ///   Filter to mark (highlight) lines in a image.
@@ -156,7 +156,7 @@ namespace Accord.Imaging.Filters
             LineSegment right = new LineSegment(c, d);
             LineSegment bottom = new LineSegment(b, d);
 
-            AForge.Point?[] points = new AForge.Point?[4];
+            Accord.Point?[] points = new Accord.Point?[4];
             points[0] = line.GetIntersectionWith(bottom);
             points[1] = line.GetIntersectionWith(left);
             points[2] = line.GetIntersectionWith(right);

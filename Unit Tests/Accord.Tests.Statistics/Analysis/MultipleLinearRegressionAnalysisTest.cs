@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -201,7 +201,7 @@ namespace Accord.Tests.Statistics
             // pairs. The first two columns have values for the
             // input variables, and the last for the output:
 
-            double[][] inputs = example.GetColumns(0, 1);
+            double[][] inputs = example.GetColumns(new[] { 0, 1 });
             double[] output = example.GetColumn(2);
 
             // Next, we can create a new multiple linear regression for the variables
@@ -303,7 +303,7 @@ namespace Accord.Tests.Statistics
             };
 
 
-            double[][] inputs = example2.GetColumns(1, 2);
+            double[][] inputs = example2.GetColumns(new[] { 1, 2 });
             double[] outputs = example2.GetColumn(0);
 
             bool thrown = false;

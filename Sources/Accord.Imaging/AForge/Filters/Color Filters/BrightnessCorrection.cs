@@ -6,13 +6,14 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge;
+    using Accord;
 
     /// <summary>
     /// Brightness adjusting in RGB color space.
@@ -49,7 +50,7 @@ namespace AForge.Imaging.Filters
     /// 
     public class BrightnessCorrection : BaseInPlacePartialFilter
     {
-        private LevelsLinear baseFilter = new LevelsLinear( );
+        private LevelsLinear baseFilter = new LevelsLinear();
         private int adjustValue;
 
         /// <summary>
@@ -64,21 +65,21 @@ namespace AForge.Imaging.Filters
             get { return adjustValue; }
             set
             {
-                adjustValue = Math.Max( -255, Math.Min( 255, value ) );
+                adjustValue = Math.Max(-255, Math.Min(255, value));
 
-                if ( adjustValue > 0 )
+                if (adjustValue > 0)
                 {
                     baseFilter.InRed = baseFilter.InGreen = baseFilter.InBlue = baseFilter.InGray =
-                        new IntRange( 0, 255 - adjustValue );
+                        new IntRange(0, 255 - adjustValue);
                     baseFilter.OutRed = baseFilter.OutGreen = baseFilter.OutBlue = baseFilter.OutGray =
-                        new IntRange( adjustValue, 255 );
+                        new IntRange(adjustValue, 255);
                 }
                 else
                 {
                     baseFilter.InRed = baseFilter.InGreen = baseFilter.InBlue = baseFilter.InGray =
-                        new IntRange( -adjustValue, 255 );
+                        new IntRange(-adjustValue, 255);
                     baseFilter.OutRed = baseFilter.OutGreen = baseFilter.OutBlue = baseFilter.OutGray =
-                        new IntRange( 0, 255 + adjustValue );
+                        new IntRange(0, 255 + adjustValue);
                 }
             }
         }
@@ -99,7 +100,7 @@ namespace AForge.Imaging.Filters
         /// Initializes a new instance of the <see cref="BrightnessCorrection"/> class.
         /// </summary>
         /// 
-        public BrightnessCorrection( )
+        public BrightnessCorrection()
         {
             AdjustValue = 10;
         }
@@ -110,7 +111,7 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="adjustValue">Brightness <see cref="AdjustValue">adjust value</see>.</param>
         /// 
-        public BrightnessCorrection( int adjustValue )
+        public BrightnessCorrection(int adjustValue)
         {
             AdjustValue = adjustValue;
         }
@@ -122,9 +123,9 @@ namespace AForge.Imaging.Filters
         /// <param name="image">Source image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         ///
-        protected override unsafe void ProcessFilter( UnmanagedImage image, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage image, Rectangle rect)
         {
-            baseFilter.ApplyInPlace( image, rect );
+            baseFilter.ApplyInPlace(image, rect);
         }
     }
 }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -264,7 +264,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public ChiSquareTest ChiSquare(double[][] input, int[] classes)
         {
-            return ChiSquare(input, Statistics.Tools.Expand(classes));
+            return ChiSquare(input, Jagged.OneHot(classes));
         }
 
         /// <summary>
@@ -456,7 +456,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public double GetLogLikelihood(double[][] inputs, int[] classes)
         {
-            return GetLogLikelihood(inputs, Statistics.Tools.Expand(classes));
+            return GetLogLikelihood(inputs, Jagged.OneHot(classes));
         }
 
         /// <summary>
@@ -485,7 +485,7 @@ namespace Accord.Statistics.Models.Regression
                     if (o[j] > 0)
                         sum += o[j] * (Math.Log(y[j] / o[j]));
 
-                    System.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
+                    Accord.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
                 }
             }
 

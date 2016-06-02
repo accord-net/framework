@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,7 +28,6 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
-    using AForge.Math.Random;
 
     /// <summary>
     ///   Von-Mises Fisher distribution.
@@ -93,7 +92,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             if (concentration < 0)
                 throw new ArgumentOutOfRangeException("concentration", "Concentration parameter kappa must be non-negative.");
 
-            if (!Norm.Euclidean(mean).IsRelativelyEqual(1, 1e-10))
+            if (!Norm.Euclidean(mean).IsEqual(1, 1e-10))
                 throw new ArgumentOutOfRangeException("mean", "The mean vector must have unit length.");
 
             this.mean = mean;
@@ -172,7 +171,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                 throw new DimensionMismatchException("x", "The vector should have the same dimension as the distribution.");
 
             double[] z = x.Normalize(Norm.Euclidean);
-            double d = mean.InnerProduct(z);
+            double d = mean.Dot(z);
             return constant * Math.Exp(kappa * d);
         }
 

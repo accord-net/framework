@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@
 #if NET35
 namespace System.Threading.Tasks
 {
+    using Accord;
     using System;
     using System.Threading;
 
@@ -39,8 +40,15 @@ namespace System.Threading.Tasks
         ///   Loop body delegate.
         /// </summary>
         /// 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         public delegate void ForLoopBody(int index);
+
+        /// <summary>
+        ///   Loop body delegate.
+        /// </summary>
+        /// 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
+        public delegate T ForLoopBody<T>(int index, Object state, T result);
 
         /// <summary>
         ///   Parallel for mock-up. The provided
@@ -49,8 +57,57 @@ namespace System.Threading.Tasks
         /// 
         public static void For(int start, int stop, ForLoopBody loopBody)
         {
-            for (int i = start; i < stop; i++) loopBody(i);
+            for (int i = start; i < stop; i++)
+                loopBody(i);
+        }
+
+
+        /// <summary>
+        ///   Parallel for mock-up. The provided
+        ///   code will NOT be run in parallel.
+        /// </summary>
+        /// 
+        public static void For(int start, int stop, ParallelOptions options, ForLoopBody loopBody)
+        {
+            for (int i = start; i < stop; i++) 
+                loopBody(i);
+        }
+
+        /// <summary>
+        ///   Parallel for mock-up. The provided
+        ///   code will NOT be run in parallel.
+        /// </summary>
+        /// 
+        public static void For<T>(int start, int stop, ParallelOptions options,
+            Func<T> initial, ForLoopBody<T> loopBody, Action<T> end)
+        {
+            T obj = initial();
+            for (int i = start; i < stop; i++)
+                loopBody(i, null, obj);
         }
     }
+
+    /// <summary>
+    ///   Minimum Parallel Tasks implementation for .NET 3.5 to make
+    ///   Accord.NET work. This is nowhere a functional implementation
+    ///   and exists only to provide compile-time compatibility with
+    ///   previous framework versions.
+    /// </summary>
+    /// 
+    public class ParallelOptions
+    {
+        /// <summary>
+        ///   Does not have any effect in .NET 3.5.
+        /// </summary>
+        /// 
+        public int MaxDegreeOfParallelism { get; set; }
+
+        /// <summary>
+        ///   Does not have any effect in .NET 3.5.
+        /// </summary>
+        /// 
+        public CancellationToken CancellationToken { get; set; }
+    }
+
 }
 #endif

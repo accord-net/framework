@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -184,7 +184,7 @@ namespace Accord.Imaging
         /// 
         /// <returns>The homography matrix matching x1 and x2.</returns>
         /// 
-        public MatrixH Estimate(AForge.Point[][] points)
+        public MatrixH Estimate(Accord.Point[][] points)
         {
             return Estimate(points[0], points[1]);
         }
@@ -195,7 +195,7 @@ namespace Accord.Imaging
         /// 
         /// <returns>The homography matrix matching x1 and x2.</returns>
         /// 
-        public MatrixH Estimate(AForge.Point[] points1, AForge.Point[] points2)
+        public MatrixH Estimate(Accord.Point[] points1, Accord.Point[] points2)
         {
             // Initial argument checks
             if (points1.Length != points2.Length)

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -36,22 +36,6 @@ namespace Accord.Tests.MachineLearning
     {
 
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void RunTest()
         {
@@ -82,7 +66,14 @@ namespace Accord.Tests.MachineLearning
             teacher.Tolerance = 1e-10;
             teacher.Complexity = 1e+10;
 
+            Assert.IsFalse(svm.IsProbabilistic);
             double error = teacher.Run();
+            Assert.IsTrue(svm.IsProbabilistic);
+            Assert.AreEqual(0.2, error);
+
+            Assert.AreEqual(0.02064511826338301, svm.SupportVectors[0][0]);
+            Assert.AreEqual(1.767889310996118, svm.SupportVectors[0][1]);
+            Assert.AreEqual(-2.4577464317497455, svm.Threshold);
 
             var regression = LogisticRegression.FromWeights(svm.ToWeights());
 
@@ -94,7 +85,6 @@ namespace Accord.Tests.MachineLearning
             double smokeOdds = regression.GetOddsRatio(2); // 5.8584748789881331
             
 
-            Assert.AreEqual(0.3, error);
             Assert.AreEqual(1.0208597028836701, ageOdds, 1e-4);
             Assert.AreEqual(5.8584748789881331, smokeOdds, 1e-4);
 

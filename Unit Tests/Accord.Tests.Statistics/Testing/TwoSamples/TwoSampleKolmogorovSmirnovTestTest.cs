@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -61,10 +61,10 @@ namespace Accord.Tests.Statistics
             // see the difference:
 
             // Generate 15 points from a Normal distribution with mean 5 and sigma 2
-            double[] sample1 = new NormalDistribution(mean: 5, stdDev: 1).Generate(25);
+            double[] sample1 = new NormalDistribution(mean: 5, stdDev: 1).Generate(50);
 
             // Generate 15 points from an uniform distribution from 0 to 10
-            double[] sample2 = new UniformContinuousDistribution(a: 0, b: 10).Generate(25);
+            double[] sample2 = new UniformContinuousDistribution(a: 0, b: 10).Generate(50);
 
             // Now we can create a K-S test and test the unequal hypothesis:
             var test = new TwoSampleKolmogorovSmirnovTest(sample1, sample2,
@@ -73,9 +73,9 @@ namespace Accord.Tests.Statistics
             bool significant = test.Significant; // outputs true
 
             Assert.IsTrue(test.Significant);
-            Assert.AreEqual(0.44, test.Statistic, 1e-15);
+            Assert.AreEqual(0.4, test.Statistic, 1e-15);
             Assert.IsFalse(Double.IsNaN(test.Statistic));
-            Assert.AreEqual(0.00826, test.PValue, 1e-5);
+            Assert.AreEqual(0.0004018, test.PValue, 1e-5);
         }
 
         [Test]

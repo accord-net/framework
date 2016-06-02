@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
     using System.Drawing;
@@ -40,7 +40,7 @@ namespace AForge.Imaging
         // area of the blob
         private int area;
         // center of gravity
-        private AForge.Point cog;
+        private Accord.Point cog;
         // fullness of the blob ( area / ( width * height ) )
         private double fullness;
         // mean color of the blob
@@ -138,7 +138,7 @@ namespace AForge.Imaging
         /// <remarks><para>The property keeps center of gravity point, which is calculated as
         /// mean value of X and Y coordinates of blob's points.</para></remarks>
         /// 
-        public AForge.Point CenterOfGravity
+        public Accord.Point CenterOfGravity
         {
             get { return cog; }
             internal set { cog = value; }

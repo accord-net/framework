@@ -88,7 +88,7 @@ namespace Classification.MLR
             double[,] table = (dgvLearningSource.DataSource as DataTable).ToMatrix(out columnNames);
 
             // Get only the input vector values (first two columns)
-            double[][] inputs = table.GetColumns(0, 1).ToArray();
+            double[][] inputs = table.GetColumns(new int[]{0,1}).ToArray();
 
             // Get only the output labels (last column)
             int[] outputs = table.GetColumn(2).Subtract(1).ToInt32();
@@ -139,12 +139,12 @@ namespace Classification.MLR
         private void createSurface(double[,] table)
         {
             // Get the ranges for each variable (X and Y)
-            DoubleRange[] ranges = Matrix.Range(table, 0);
+            DoubleRange[] ranges = table.GetRange(0);
 
             // Generate a Cartesian coordinate system
-            double[][] map = Matrix.CartesianProduct(
-                Matrix.Interval(ranges[0], 0.05),
-                Matrix.Interval(ranges[1], 0.05));
+            double[][] map = Matrix.Cartesian(
+                Vector.Interval(ranges[0], 0.05),
+                Vector.Interval(ranges[1], 0.05));
 
             var lr = mlr.Regression;
 
@@ -179,7 +179,7 @@ namespace Classification.MLR
 
 
             // Extract the first and second columns (X and Y)
-            double[][] inputs = table.GetColumns(0, 1).ToArray();
+            double[][] inputs = table.GetColumns(new int[]{0,1}).ToArray();
 
             // Extract the expected output labels
             int[] expected = table.GetColumn(2).Subtract(1).ToInt32();

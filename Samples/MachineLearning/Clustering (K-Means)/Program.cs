@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Clustering.K_Means
+namespace SampleApp
 {
     static class Program
     {

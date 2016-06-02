@@ -432,8 +432,8 @@ namespace Accord.Math.Optimization
                     f1 = f2;
 
                     // Polack- Ribiere direction
-                    var ptemp1 = df2.InnerProduct(df2) - df1.InnerProduct(df2);
-                    var ptemp2 = df1.InnerProduct(df1);
+                    var ptemp1 = df2.Dot(df2) - df1.Dot(df2);
+                    var ptemp2 = df1.Dot(df1);
                     var ptemp3 = ptemp1 / ptemp2;
 
                     for (int j = 0; j < s.Length; j++)

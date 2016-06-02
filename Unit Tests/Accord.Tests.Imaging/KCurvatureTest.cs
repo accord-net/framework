@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging;
     using Accord.Math.Geometry;
     using AForge;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging.Filters;
     using NUnit.Framework;
     using System.Collections.Generic;
     using System.Drawing;
@@ -91,7 +91,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindPeaksTest2()
         {
-            Bitmap hand = Properties.Resources.rhand0;
+            Bitmap hand = Accord.Imaging.Image.Clone(Properties.Resources.rhand0);
 
             //  ImageBox.Show(hand);
 
@@ -135,7 +135,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindPeaksTest3()
         {
-            Bitmap hand = Properties.Resources.rhand1;
+            Bitmap hand = Accord.Imaging.Image.Clone(Properties.Resources.rhand1);
 
             GaussianBlur median = new GaussianBlur(1.1);
             median.ApplyInPlace(hand);
@@ -170,7 +170,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindPeaksTest4()
         {
-            Bitmap hand = Properties.Resources.rhand2;
+            Bitmap hand = Accord.Imaging.Image.Clone(Properties.Resources.rhand2);
 
             GaussianBlur median = new GaussianBlur(1.1);
             median.ApplyInPlace(hand);
@@ -204,7 +204,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindPeaksTest6()
         {
-            Bitmap hand = Properties.Resources.rhand3;
+            Bitmap hand = Accord.Imaging.Image.Clone(Properties.Resources.rhand3);
 
             GaussianBlur median = new GaussianBlur(1.1);
             median.ApplyInPlace(hand);

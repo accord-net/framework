@@ -15,10 +15,10 @@ using System.Data;
 using System.IO;
 using System.Threading;
 
-using AForge;
-using AForge.Neuro;
-using AForge.Neuro.Learning;
-using AForge.Controls;
+using Accord;
+using Accord.Neuro;
+using Accord.Neuro.Learning;
+using Accord.Controls;
 
 namespace SampleApp
 {
@@ -26,7 +26,7 @@ namespace SampleApp
     public class OneLayerPerceptronForm : System.Windows.Forms.Form
     {
         private System.Windows.Forms.GroupBox groupBox1;
-        private AForge.Controls.Chart chart;
+        private Accord.Controls.Chart chart;
         private System.Windows.Forms.Button loadButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -44,7 +44,8 @@ namespace SampleApp
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.GroupBox groupBox3;
-        private AForge.Controls.Chart errorChart;
+        private Accord.Controls.Chart errorChart;
+
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -111,7 +112,7 @@ namespace SampleApp
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OneLayerPerceptronForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.loadButton = new System.Windows.Forms.Button();
-            this.chart = new AForge.Controls.Chart();
+            this.chart = new Accord.Controls.Chart();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.weightsList = new System.Windows.Forms.ListView();
@@ -128,7 +129,7 @@ namespace SampleApp
             this.learningRateBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.errorChart = new AForge.Controls.Chart();
+            this.errorChart = new Accord.Controls.Chart();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -158,8 +159,8 @@ namespace SampleApp
             // 
             this.chart.Location = new System.Drawing.Point(16, 29);
             this.chart.Name = "chart";
-            this.chart.RangeX = ((AForge.Range)(resources.GetObject("chart.RangeX")));
-            this.chart.RangeY = ((AForge.Range)(resources.GetObject("chart.RangeY")));
+            this.chart.RangeX = ((Accord.Range)(resources.GetObject("chart.RangeX")));
+            this.chart.RangeY = ((Accord.Range)(resources.GetObject("chart.RangeY")));
             this.chart.Size = new System.Drawing.Size(320, 293);
             this.chart.TabIndex = 0;
             // 
@@ -305,8 +306,8 @@ namespace SampleApp
             // 
             this.errorChart.Location = new System.Drawing.Point(16, 29);
             this.errorChart.Name = "errorChart";
-            this.errorChart.RangeX = ((AForge.Range)(resources.GetObject("errorChart.RangeX")));
-            this.errorChart.RangeY = ((AForge.Range)(resources.GetObject("errorChart.RangeY")));
+            this.errorChart.RangeX = ((Accord.Range)(resources.GetObject("errorChart.RangeX")));
+            this.errorChart.RangeY = ((Accord.Range)(resources.GetObject("errorChart.RangeY")));
             this.errorChart.Size = new System.Drawing.Size(320, 176);
             this.errorChart.TabIndex = 0;
             this.errorChart.Text = "chart1";

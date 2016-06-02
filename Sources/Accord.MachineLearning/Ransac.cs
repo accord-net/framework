@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -47,6 +47,8 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.Math;
+    using Accord.Statistics;
     using System;
 
     /// <summary>
@@ -290,8 +292,8 @@ namespace Accord.MachineLearning
             // For this we are going to search for random samples
             //  of the original points which contains no outliers.
 
-            int count = 0;  // Total number of trials performed
-            double N = maxEvaluations;   // Estimative of number of trials needed.
+            int count = 0;              // Total number of trials performed
+            double N = maxEvaluations;  // Estimative of number of trials needed.
 
             // While the number of trials is less than our estimative,
             //   and we have not surpassed the maximum number of trials
@@ -306,7 +308,7 @@ namespace Accord.MachineLearning
                 while (samplings < maxSamplings)
                 {
                     // Select at random s data points to form a trial model.
-                    sample = Statistics.Tools.RandomSample(size, r);
+                    sample = Vector.Sample(r, size);
 
                     // If the sampled points are not in a degenerate configuration,
                     if (degenerate == null || !degenerate(sample))

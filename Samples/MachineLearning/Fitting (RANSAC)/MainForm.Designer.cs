@@ -1,4 +1,4 @@
-﻿namespace Fitting.RANSAC
+﻿namespace SampleApp
 {
     partial class MainForm
     {

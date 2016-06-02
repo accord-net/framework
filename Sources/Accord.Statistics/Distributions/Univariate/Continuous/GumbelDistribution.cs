@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -187,7 +187,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -210,7 +210,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
 #if DEBUG
                 double expected = base.Median;
-                if (!median.IsRelativelyEqual(expected, 1e-6))
+                if (!median.IsEqual(expected, 1e-6))
                     throw new Exception();
 #endif
                 return median;
@@ -378,7 +378,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
 #if DEBUG
             double expected = base.HazardFunction(x);
-            if (!h.IsRelativelyEqual(expected, 1e-4))
+            if (!h.IsEqual(expected, 1e-4))
                 throw new Exception();
 #endif
 
@@ -434,13 +434,13 @@ namespace Accord.Statistics.Distributions.Univariate
 
             if (weights != null)
             {
-                mean = Accord.Statistics.Tools.WeightedMean(observations, weights);
-                stdDev = Accord.Statistics.Tools.WeightedStandardDeviation(observations, weights, mean);
+                mean = Measures.WeightedMean(observations, weights);
+                stdDev = Measures.WeightedStandardDeviation(observations, weights, mean);
             }
             else
             {
-                mean = Accord.Statistics.Tools.Mean(observations);
-                stdDev = Accord.Statistics.Tools.StandardDeviation(observations, mean);
+                mean = Measures.Mean(observations);
+                stdDev = Measures.StandardDeviation(observations, mean);
             }
 
             double u = mean + 0.45006 * stdDev;
@@ -474,13 +474,13 @@ namespace Accord.Statistics.Distributions.Univariate
 
             if (weights != null)
             {
-                mean = Accord.Statistics.Tools.WeightedMean(observations, weights);
-                stdDev = Accord.Statistics.Tools.WeightedStandardDeviation(observations, weights, mean);
+                mean = Measures.WeightedMean(observations, weights);
+                stdDev = Measures.WeightedStandardDeviation(observations, weights, mean);
             }
             else
             {
-                mean = Accord.Statistics.Tools.Mean(observations);
-                stdDev = Accord.Statistics.Tools.StandardDeviation(observations, mean);
+                mean = Measures.Mean(observations);
+                stdDev = Measures.StandardDeviation(observations, mean);
             }
 
             double u = mean + 0.45006 * stdDev;

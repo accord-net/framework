@@ -6,8 +6,9 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Genetic
+namespace Accord.Genetic
 {
+    using Accord.Math.Random;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -29,23 +30,20 @@ namespace AForge.Genetic
     {
         private IFitnessFunction fitnessFunction;
         private ISelectionMethod selectionMethod;
-        private List<IChromosome> population = new List<IChromosome>( );
-        private int			size;
-        private double		randomSelectionPortion = 0.0;
-        private bool        autoShuffling = false;
+        private List<IChromosome> population = new List<IChromosome>();
+        private int size;
+        private double randomSelectionPortion = 0.0;
+        private bool autoShuffling = false;
 
         // population parameters
-        private double		crossoverRate	= 0.75;
-        private double		mutationRate	= 0.10;
-
-        // random number generator
-        private static ThreadSafeRandom rand = new ThreadSafeRandom( );
+        private double crossoverRate = 0.75;
+        private double mutationRate = 0.10;
 
         //
-        private double		fitnessMax = 0;
-        private double		fitnessSum = 0;
-        private double		fitnessAvg = 0;
-        private IChromosome	bestChromosome = null;
+        private double fitnessMax = 0;
+        private double fitnessSum = 0;
+        private double fitnessAvg = 0;
+        private IChromosome bestChromosome = null;
 
         /// <summary>
         /// Crossover rate, [0.1, 1].
@@ -62,7 +60,7 @@ namespace AForge.Genetic
             get { return crossoverRate; }
             set
             {
-                crossoverRate = Math.Max( 0.1, Math.Min( 1.0, value ) );
+                crossoverRate = Math.Max(0.1, Math.Min(1.0, value));
             }
         }
 
@@ -80,7 +78,7 @@ namespace AForge.Genetic
             get { return mutationRate; }
             set
             {
-                mutationRate = Math.Max( 0.1, Math.Min( 1.0, value ) );
+                mutationRate = Math.Max(0.1, Math.Min(1.0, value));
             }
         }
 
@@ -101,7 +99,7 @@ namespace AForge.Genetic
             get { return randomSelectionPortion; }
             set
             {
-                randomSelectionPortion = Math.Max( 0, Math.Min( 0.9, value ) );
+                randomSelectionPortion = Math.Max(0, Math.Min(0.9, value));
             }
         }
 
@@ -151,12 +149,12 @@ namespace AForge.Genetic
             {
                 fitnessFunction = value;
 
-                foreach ( IChromosome member in population )
+                foreach (IChromosome member in population)
                 {
-                    member.Evaluate( fitnessFunction );
+                    member.Evaluate(fitnessFunction);
                 }
 
-                FindBestChromosome( );
+                FindBestChromosome();
             }
         }
 
@@ -270,30 +268,30 @@ namespace AForge.Genetic
         /// <exception cref="ArgumentException">Too small population's size was specified. The
         /// exception is thrown in the case if <paramref name="size"/> is smaller than 2.</exception>
         ///
-        public Population( int size,
+        public Population(int size,
                            IChromosome ancestor,
                            IFitnessFunction fitnessFunction,
-                           ISelectionMethod selectionMethod )
+                           ISelectionMethod selectionMethod)
         {
-            if ( size < 2 )
-                throw new ArgumentException( "Too small population's size was specified." );
+            if (size < 2)
+                throw new ArgumentException("Too small population's size was specified.");
 
             this.fitnessFunction = fitnessFunction;
             this.selectionMethod = selectionMethod;
             this.size = size;
 
             // add ancestor to the population
-            ancestor.Evaluate( fitnessFunction );
-            population.Add( ancestor.Clone( ) );
+            ancestor.Evaluate(fitnessFunction);
+            population.Add(ancestor.Clone());
             // add more chromosomes to the population
-            for ( int i = 1; i < size; i++ )
+            for (int i = 1; i < size; i++)
             {
                 // create new chromosome
-                IChromosome c = ancestor.CreateNew( );
+                IChromosome c = ancestor.CreateNew();
                 // calculate it's fitness
-                c.Evaluate( fitnessFunction );
+                c.Evaluate(fitnessFunction);
                 // add it to population
-                population.Add( c );
+                population.Add(c);
             }
         }
 
@@ -303,21 +301,21 @@ namespace AForge.Genetic
         /// 
         /// <remarks>The method regenerates population filling it with random chromosomes.</remarks>
         /// 
-        public void Regenerate( )
+        public void Regenerate()
         {
             IChromosome ancestor = population[0];
 
             // clear population
-            population.Clear( );
+            population.Clear();
             // add chromosomes to the population
-            for ( int i = 0; i < size; i++ )
+            for (int i = 0; i < size; i++)
             {
                 // create new chromosome
-                IChromosome c = ancestor.CreateNew( );
+                IChromosome c = ancestor.CreateNew();
                 // calculate it's fitness
-                c.Evaluate( fitnessFunction );
+                c.Evaluate(fitnessFunction);
                 // add it to population
-                population.Add( c );
+                population.Add(c);
             }
         }
 
@@ -330,28 +328,28 @@ namespace AForge.Genetic
         /// The total amount of paired chromosomes is determined by
         /// <see cref="CrossoverRate">crossover rate</see>.</remarks>
         /// 
-        public virtual void Crossover( )
+        public virtual void Crossover()
         {
             // crossover
-            for ( int i = 1; i < size; i += 2 )
+            for (int i = 1; i < size; i += 2)
             {
                 // generate next random number and check if we need to do crossover
-                if ( rand.NextDouble( ) <= crossoverRate )
+                if (Generator.Random.NextDouble() <= crossoverRate)
                 {
                     // clone both ancestors
-                    IChromosome c1 = population[i - 1].Clone( );
-                    IChromosome c2 = population[i].Clone( );
+                    IChromosome c1 = population[i - 1].Clone();
+                    IChromosome c2 = population[i].Clone();
 
                     // do crossover
-                    c1.Crossover( c2 );
+                    c1.Crossover(c2);
 
                     // calculate fitness of these two offsprings
-                    c1.Evaluate( fitnessFunction );
-                    c2.Evaluate( fitnessFunction );
+                    c1.Evaluate(fitnessFunction);
+                    c2.Evaluate(fitnessFunction);
 
                     // add two new offsprings to the population
-                    population.Add( c1 );
-                    population.Add( c2 );
+                    population.Add(c1);
+                    population.Add(c2);
                 }
             }
         }
@@ -364,22 +362,22 @@ namespace AForge.Genetic
         /// taking each chromosome one by one. The total amount of mutated chromosomes is
         /// determined by <see cref="MutationRate">mutation rate</see>.</remarks>
         /// 
-        public virtual void Mutate( )
+        public virtual void Mutate()
         {
             // mutate
-            for ( int i = 0; i < size; i++ )
+            for (int i = 0; i < size; i++)
             {
                 // generate next random number and check if we need to do mutation
-                if ( rand.NextDouble( ) <= mutationRate )
+                if (Generator.Random.NextDouble() <= mutationRate)
                 {
                     // clone the chromosome
-                    IChromosome c = population[i].Clone( );
+                    IChromosome c = population[i].Clone();
                     // mutate it
-                    c.Mutate( );
+                    c.Mutate();
                     // calculate fitness of the mutant
-                    c.Evaluate( fitnessFunction );
+                    c.Evaluate(fitnessFunction);
                     // add mutant to the population
-                    population.Add( c );
+                    population.Add(c);
                 }
             }
         }
@@ -393,31 +391,31 @@ namespace AForge.Genetic
         /// generates and adds certain amount of random members, if is required
         /// (see <see cref="RandomSelectionPortion"/>).</remarks>
         /// 
-        public virtual void Selection( )
+        public virtual void Selection()
         {
             // amount of random chromosomes in the new population
-            int randomAmount = (int) ( randomSelectionPortion * size );
+            int randomAmount = (int)(randomSelectionPortion * size);
 
             // do selection
-            selectionMethod.ApplySelection( population, size - randomAmount );
+            selectionMethod.ApplySelection(population, size - randomAmount);
 
             // add random chromosomes
-            if ( randomAmount > 0 )
+            if (randomAmount > 0)
             {
                 IChromosome ancestor = population[0];
 
-                for ( int i = 0; i < randomAmount; i++ )
+                for (int i = 0; i < randomAmount; i++)
                 {
                     // create new chromosome
-                    IChromosome c = ancestor.CreateNew( );
+                    IChromosome c = ancestor.CreateNew();
                     // calculate it's fitness
-                    c.Evaluate( fitnessFunction );
+                    c.Evaluate(fitnessFunction);
                     // add it to population
-                    population.Add( c );
+                    population.Add(c);
                 }
             }
 
-            FindBestChromosome( );
+            FindBestChromosome();
         }
 
         /// <summary>
@@ -428,14 +426,14 @@ namespace AForge.Genetic
         /// and selection by calling <see cref="Crossover"/>, <see cref="Mutate"/> and
         /// <see cref="Selection"/>.</remarks>
         /// 
-        public void RunEpoch( )
+        public void RunEpoch()
         {
-            Crossover( );
-            Mutate( );
-            Selection( );
+            Crossover();
+            Mutate();
+            Selection();
 
-            if ( autoShuffling )
-                Shuffle( );
+            if (autoShuffling)
+                Shuffle();
         }
 
         /// <summary>
@@ -446,21 +444,21 @@ namespace AForge.Genetic
         /// operator results in not random order of chromosomes (for example, after elite
         /// selection population may be ordered in ascending/descending order).</para></remarks>
         /// 
-        public void Shuffle( )
+        public void Shuffle()
         {
             // current population size
             int size = population.Count;
             // create temporary copy of the population
-            List<IChromosome> tempPopulation = population.GetRange( 0, size );
+            List<IChromosome> tempPopulation = population.GetRange(0, size);
             // clear current population and refill it randomly
-            population.Clear( );
+            population.Clear();
 
-            while ( size > 0 )
+            while (size > 0)
             {
-                int i = rand.Next( size );
+                int i = Generator.Random.Next(size);
 
-                population.Add( tempPopulation[i] );
-                tempPopulation.RemoveAt( i );
+                population.Add(tempPopulation[i]);
+                tempPopulation.RemoveAt(i);
 
                 size--;
             }
@@ -481,10 +479,10 @@ namespace AForge.Genetic
         /// and initialization parameters as the ancestor passed to constructor.</note></para>
         /// </remarks>
         /// 
-        public void AddChromosome( IChromosome chromosome )
+        public void AddChromosome(IChromosome chromosome)
         {
-            chromosome.Evaluate( fitnessFunction );
-            population.Add( chromosome );
+            chromosome.Evaluate(fitnessFunction);
+            population.Add(chromosome);
         }
 
         /// <summary>
@@ -501,46 +499,46 @@ namespace AForge.Genetic
         /// each population using <paramref name="migrantsSelector">specified selection algorithms</paramref>
         /// and put into another population replacing worst members there.</para></remarks>
         /// 
-        public void Migrate( Population anotherPopulation, int numberOfMigrants, ISelectionMethod migrantsSelector )
+        public void Migrate(Population anotherPopulation, int numberOfMigrants, ISelectionMethod migrantsSelector)
         {
             int currentSize = this.size;
             int anotherSize = anotherPopulation.Size;
 
             // create copy of current population
-            List<IChromosome> currentCopy = new List<IChromosome>( );
+            List<IChromosome> currentCopy = new List<IChromosome>();
 
-            for ( int i = 0; i < currentSize; i++ )
+            for (int i = 0; i < currentSize; i++)
             {
-                currentCopy.Add( population[i].Clone( ) );
+                currentCopy.Add(population[i].Clone());
             }
 
             // create copy of another population
-            List<IChromosome> anotherCopy = new List<IChromosome>( );
+            List<IChromosome> anotherCopy = new List<IChromosome>();
 
-            for ( int i = 0; i < anotherSize; i++ )
+            for (int i = 0; i < anotherSize; i++)
             {
-                anotherCopy.Add( anotherPopulation.population[i].Clone( ) );
+                anotherCopy.Add(anotherPopulation.population[i].Clone());
             }
 
             // apply selection to both populations' copies - select members to migrate
-            migrantsSelector.ApplySelection( currentCopy, numberOfMigrants );
-            migrantsSelector.ApplySelection( anotherCopy, numberOfMigrants );
+            migrantsSelector.ApplySelection(currentCopy, numberOfMigrants);
+            migrantsSelector.ApplySelection(anotherCopy, numberOfMigrants);
 
             // sort original populations, so the best chromosomes are in the beginning
-            population.Sort( );
-            anotherPopulation.population.Sort( );
+            population.Sort();
+            anotherPopulation.population.Sort();
 
             // remove worst chromosomes from both populations to free space for new members
-            population.RemoveRange( currentSize - numberOfMigrants, numberOfMigrants );
-            anotherPopulation.population.RemoveRange( anotherSize - numberOfMigrants, numberOfMigrants );
+            population.RemoveRange(currentSize - numberOfMigrants, numberOfMigrants);
+            anotherPopulation.population.RemoveRange(anotherSize - numberOfMigrants, numberOfMigrants);
 
             // put migrants to corresponding populations
-            population.AddRange( anotherCopy );
-            anotherPopulation.population.AddRange( currentCopy );
+            population.AddRange(anotherCopy);
+            anotherPopulation.population.AddRange(currentCopy);
 
             // find best chromosomes in each population
-            FindBestChromosome( );
-            anotherPopulation.FindBestChromosome( );
+            FindBestChromosome();
+            anotherPopulation.FindBestChromosome();
         }
 
         /// <summary>
@@ -557,9 +555,9 @@ namespace AForge.Genetic
         /// <exception cref="ArgumentException">Too small population's size was specified. The
         /// exception is thrown in the case if <paramref name="newPopulationSize"/> is smaller than 2.</exception>
         /// 
-        public void Resize( int newPopulationSize )
+        public void Resize(int newPopulationSize)
         {
-            Resize( newPopulationSize, selectionMethod );
+            Resize(newPopulationSize, selectionMethod);
         }
 
         /// <summary>
@@ -578,12 +576,12 @@ namespace AForge.Genetic
         /// <exception cref="ArgumentException">Too small population's size was specified. The
         /// exception is thrown in the case if <paramref name="newPopulationSize"/> is smaller than 2.</exception>
         ///
-        public void Resize( int newPopulationSize, ISelectionMethod membersSelector )
+        public void Resize(int newPopulationSize, ISelectionMethod membersSelector)
         {
-            if ( newPopulationSize < 2 )
-                throw new ArgumentException( "Too small new population's size was specified." );
+            if (newPopulationSize < 2)
+                throw new ArgumentException("Too small new population's size was specified.");
 
-            if ( newPopulationSize > size )
+            if (newPopulationSize > size)
             {
                 // population is growing, so add new rundom members
 
@@ -592,33 +590,33 @@ namespace AForge.Genetic
                 // we just keep those members instead of adding random member.
                 int toAdd = newPopulationSize - population.Count;
 
-                for ( int i = 0; i < toAdd; i++ )
+                for (int i = 0; i < toAdd; i++)
                 {
                     // create new chromosome
-                    IChromosome c = population[0].CreateNew( );
+                    IChromosome c = population[0].CreateNew();
                     // calculate it's fitness
-                    c.Evaluate( fitnessFunction );
+                    c.Evaluate(fitnessFunction);
                     // add it to population
-                    population.Add( c );
+                    population.Add(c);
                 }
             }
             else
             {
                 // do selection
-                membersSelector.ApplySelection( population, newPopulationSize );
+                membersSelector.ApplySelection(population, newPopulationSize);
             }
 
             size = newPopulationSize;
         }
 
         // Find best chromosome in the population so far
-        private void FindBestChromosome( )
+        private void FindBestChromosome()
         {
             bestChromosome = population[0];
             fitnessMax = bestChromosome.Fitness;
             fitnessSum = fitnessMax;
 
-            for ( int i = 1; i < size; i++ )
+            for (int i = 1; i < size; i++)
             {
                 double fitness = population[i].Fitness;
 
@@ -626,7 +624,7 @@ namespace AForge.Genetic
                 fitnessSum += fitness;
 
                 // check for max
-                if ( fitness > fitnessMax )
+                if (fitness > fitnessMax)
                 {
                     fitnessMax = fitness;
                     bestChromosome = population[i];

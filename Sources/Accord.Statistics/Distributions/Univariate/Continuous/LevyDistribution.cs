@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -183,7 +183,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
 #if DEBUG
                     double baseMedian = base.Median;
-                    if (!m.IsRelativelyEqual(baseMedian, 1e-10))
+                    if (!m.IsEqual(baseMedian, 1e-10))
                         throw new Exception();
 #endif
 
@@ -232,7 +232,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -334,7 +334,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
 #if DEBUG
             double baseValue = base.InverseDistributionFunction(p);
-            if (!baseValue.IsRelativelyEqual(icdf, 1e-5))
+            if (!baseValue.IsEqual(icdf, 1e-5))
                 throw new Exception();
 #endif
 

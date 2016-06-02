@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,30 +29,14 @@ using Tools = Accord.Imaging.Tools;
 using System.Drawing.Imaging;
 using Accord.Math.Decompositions;
 using System;
-using AForge.Imaging;
 using Accord.Imaging.Converters;
+using Accord.Statistics;
 
 namespace Accord.Tests.Imaging
 {
-
-
     [TestFixture]
     public class ToolsTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
 
 #pragma warning disable 0618
 
@@ -251,7 +235,7 @@ namespace Accord.Tests.Imaging
                     actual[i, j] /= actual[2, 2];
 
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-5));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-5f));
 
 
             x1 = new PointF[]
@@ -287,14 +271,14 @@ namespace Accord.Tests.Imaging
 
             actual = (float[,])Tools.Homography(x1, x2);
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.01));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.01f));
 
         }
 
         [Test]
         public void ToDoubleArrayTest()
         {
-            Bitmap image = Properties.Resources.image1;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.image1);
 
             double[] actual = Tools.ToDoubleArray(image, 0, 0, 1);
 
@@ -336,7 +320,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void SumTest()
         {
-            Bitmap image = Properties.Resources.image1;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.image1);
 
             int expected = 0;
 
@@ -360,7 +344,7 @@ namespace Accord.Tests.Imaging
                     expected += image.GetPixel(i, j).R;
 
 
-            BitmapData data = image.LockBits(new Rectangle(Point.Empty, image.Size),
+            BitmapData data = image.LockBits(new Rectangle(System.Drawing.Point.Empty, image.Size),
                 ImageLockMode.ReadOnly, image.PixelFormat);
 
             int actual = Tools.Sum(data, new Rectangle(3, 2, 9 - 3, 10 - 2));
@@ -528,8 +512,8 @@ namespace Accord.Tests.Imaging
             double[] values = { 5, 2, 7, 5, 3, 5, 1, 1, 2 };
 
             Bitmap image = values.ToBitmap(3, 3, 0, 255);
-            double mean = Accord.Statistics.Tools.Mean(values);
-            double expected = Accord.Statistics.Tools.StandardDeviation(values);
+            double mean = Measures.Mean(values);
+            double expected = Measures.StandardDeviation(values);
             double actual = Tools.StandardDeviation(image, mean);
             Assert.AreEqual(expected, actual);
         }
@@ -545,8 +529,8 @@ namespace Accord.Tests.Imaging
             };
 
             Bitmap image = values.ToBitmap();
-            double mean = Accord.Statistics.Tools.Mean(values.Reshape().ToDouble());
-            double expected = Accord.Statistics.Tools.StandardDeviation(values.Reshape().ToDouble());
+            double mean = Measures.Mean(values.Reshape().ToDouble());
+            double expected = Measures.StandardDeviation(values.Reshape().ToDouble());
             double actual = Tools.StandardDeviation(image, mean);
             Assert.AreEqual(expected, actual);
         }
@@ -564,8 +548,8 @@ namespace Accord.Tests.Imaging
             Rectangle rect = new Rectangle(1, 1, 2, 1);
 
             Bitmap image = values.ToBitmap();
-            double mean = Accord.Statistics.Tools.Mean(new double[] { 3, 5 });
-            double expected = Accord.Statistics.Tools.StandardDeviation(new double[] { 3, 5 });
+            double mean = Measures.Mean(new double[] { 3, 5 });
+            double expected = Measures.StandardDeviation(new double[] { 3, 5 });
             double actual = Tools.StandardDeviation(image, rect, mean);
             Assert.AreEqual(expected, actual);
         }

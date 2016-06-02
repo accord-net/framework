@@ -6,12 +6,11 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging.ColorReduction
+namespace Accord.Imaging.ColorReduction
 {
     using System;
     using System.Collections.Generic;
     using System.Drawing;
-    using AForge.Imaging;
 
     /// <summary>
     /// Median cut color quantization algorithm.

@@ -5,13 +5,14 @@
 // andrew.kirillov@gmail.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge;
+    using Accord;
 
     /// <summary>
     /// Color filtering.
@@ -48,9 +49,9 @@ namespace AForge.Imaging.Filters
     /// 
     public class ColorFiltering : BaseInPlacePartialFilter
     {
-        private IntRange red   = new IntRange( 0, 255 );
-        private IntRange green = new IntRange( 0, 255 );
-        private IntRange blue  = new IntRange( 0, 255 );
+        private IntRange red = new IntRange(0, 255);
+        private IntRange green = new IntRange(0, 255);
+        private IntRange blue = new IntRange(0, 255);
 
         private byte fillR = 0;
         private byte fillG = 0;
@@ -58,7 +59,7 @@ namespace AForge.Imaging.Filters
         private bool fillOutsideRange = true;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -102,7 +103,7 @@ namespace AForge.Imaging.Filters
         /// </summary>
         public RGB FillColor
         {
-            get { return new RGB( fillR, fillG, fillB ); }
+            get { return new RGB(fillR, fillG, fillB); }
             set
             {
                 fillR = value.Red;
@@ -131,10 +132,10 @@ namespace AForge.Imaging.Filters
         /// Initializes a new instance of the <see cref="ColorFiltering"/> class.
         /// </summary>
         /// 
-        public ColorFiltering( )
+        public ColorFiltering()
         {
-            formatTranslations[PixelFormat.Format24bppRgb]  = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppRgb]  = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
             formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
         }
 
@@ -146,12 +147,12 @@ namespace AForge.Imaging.Filters
         /// <param name="green">Green components filtering range.</param>
         /// <param name="blue">Blue components filtering range.</param>
         /// 
-        public ColorFiltering( IntRange red, IntRange green, IntRange blue ) :
-            this( )
+        public ColorFiltering(IntRange red, IntRange green, IntRange blue) :
+            this()
         {
-            this.red   = red;
+            this.red = red;
             this.green = green;
-            this.blue  = blue;
+            this.blue = blue;
         }
 
         /// <summary>
@@ -161,29 +162,29 @@ namespace AForge.Imaging.Filters
         /// <param name="image">Source image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         ///
-        protected override unsafe void ProcessFilter( UnmanagedImage image, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage image, Rectangle rect)
         {
             // get pixel size
-            int pixelSize = ( image.PixelFormat == PixelFormat.Format24bppRgb ) ? 3 : 4;
+            int pixelSize = (image.PixelFormat == PixelFormat.Format24bppRgb) ? 3 : 4;
 
-            int startX  = rect.Left;
-            int startY  = rect.Top;
-            int stopX   = startX + rect.Width;
-            int stopY   = startY + rect.Height;
-            int offset  = image.Stride - rect.Width * pixelSize;
+            int startX = rect.Left;
+            int startY = rect.Top;
+            int stopX = startX + rect.Width;
+            int stopY = startY + rect.Height;
+            int offset = image.Stride - rect.Width * pixelSize;
 
             // do the job
-            byte* ptr = (byte*) image.ImageData.ToPointer( );
+            byte* ptr = (byte*)image.ImageData.ToPointer();
             byte r, g, b;
 
             // allign pointer to the first pixel to process
-            ptr += ( startY * image.Stride + startX * pixelSize );
+            ptr += (startY * image.Stride + startX * pixelSize);
 
             // for each row
-            for ( int y = startY; y < stopY; y++ )
+            for (int y = startY; y < stopY; y++)
             {
                 // for each pixel
-                for ( int x = startX; x < stopX; x++, ptr += pixelSize )
+                for (int x = startX; x < stopX; x++, ptr += pixelSize)
                 {
                     r = ptr[RGB.R];
                     g = ptr[RGB.G];
@@ -191,12 +192,12 @@ namespace AForge.Imaging.Filters
 
                     // check pixel
                     if (
-                        ( r >= red.Min )   && ( r <= red.Max ) &&
-                        ( g >= green.Min ) && ( g <= green.Max ) &&
-                        ( b >= blue.Min )  && ( b <= blue.Max )
+                        (r >= red.Min) && (r <= red.Max) &&
+                        (g >= green.Min) && (g <= green.Max) &&
+                        (b >= blue.Min) && (b <= blue.Max)
                         )
                     {
-                        if ( !fillOutsideRange )
+                        if (!fillOutsideRange)
                         {
                             ptr[RGB.R] = fillR;
                             ptr[RGB.G] = fillG;
@@ -205,7 +206,7 @@ namespace AForge.Imaging.Filters
                     }
                     else
                     {
-                        if ( fillOutsideRange )
+                        if (fillOutsideRange)
                         {
                             ptr[RGB.R] = fillR;
                             ptr[RGB.G] = fillG;

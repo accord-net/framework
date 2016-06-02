@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -52,9 +52,9 @@ namespace Accord.MachineLearning.Geometry
     using Accord.Math;
     using Accord.Math.Decompositions;
     using AForge;
-    using AForge.Math.Geometry;
     using System.Collections.Generic;
     using System.Linq;
+    using Accord.Math.Geometry;
 
     /// <summary>
     ///   Robust line estimator with RANSAC.
@@ -180,7 +180,7 @@ namespace Accord.MachineLearning.Geometry
 
         private Line defineline(int[] x)
         {
-            System.Diagnostics.Debug.Assert(x.Length == 2);
+            Accord.Diagnostics.Debug.Assert(x.Length == 2);
 
             Point p1 = points[x[0]];
             Point p2 = points[x[1]];
@@ -198,7 +198,7 @@ namespace Accord.MachineLearning.Geometry
 
         private bool degenerate(int[] indices)
         {
-            System.Diagnostics.Debug.Assert(indices.Length == 2);
+            Accord.Diagnostics.Debug.Assert(indices.Length == 2);
 
             Point p1 = points[indices[0]];
             Point p2 = points[indices[1]];

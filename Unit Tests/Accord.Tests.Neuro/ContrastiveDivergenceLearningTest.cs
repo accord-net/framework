@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -36,23 +36,6 @@ namespace Accord.Tests.Neuro
     public class ContrastiveDivergenceLearningTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void RunTest()
         {
@@ -72,7 +55,8 @@ namespace Accord.Tests.Neuro
             };
 
             BernoulliFunction activation = new BernoulliFunction();
-            BernoulliFunction.Random = new ThreadSafeRandom(2);
+            // BernoulliFunction.Random = new ThreadSafeRandom(2);
+            Accord.Math.Tools.SetupGenerator(2);
             RestrictedBoltzmannMachine network = new RestrictedBoltzmannMachine(activation, 6, 2);
 
             network.Hidden.Neurons[0].Weights[0] = 0.00461421;
@@ -105,6 +89,7 @@ namespace Accord.Tests.Neuro
             target.Momentum = 0;
             target.LearningRate = 0.1;
             target.Decay = 0;
+            target.ParallelOptions.MaxDegreeOfParallelism = 1;
 
             int iterations = 5000;
             double[] errors = new double[iterations];
@@ -115,8 +100,8 @@ namespace Accord.Tests.Neuro
             double lastError = errors[iterations - 1];
             Assert.IsTrue(startError > lastError);
 
-            Assert.AreEqual(9.5400234262580224, startError, 0.1);
-            Assert.AreEqual(1.3364496250348414, lastError, 0.3);
+            Assert.AreEqual(9.3698426214702675, startError, 1e-10);
+            Assert.AreEqual(1.3344974639772129, lastError, 1e-10);
 
             {
                 double[] output = network.GenerateOutput(new double[] { 0, 0, 0, 1, 1, 0 });
@@ -150,17 +135,19 @@ namespace Accord.Tests.Neuro
             };
 
             Accord.Math.Tools.SetupGenerator(0);
-            BernoulliFunction.Random = new ThreadSafeRandom(0);
-            GaussianFunction.Random.SetSeed(0);
+            // BernoulliFunction.Random = new ThreadSafeRandom(0);
+            // GaussianFunction.Random.SetSeed(0);
 
             RestrictedBoltzmannMachine network = 
                 RestrictedBoltzmannMachine.CreateGaussianBernoulli(6, 2);
 
+            Accord.Math.Tools.SetupGenerator(0);
             new GaussianWeights(network).Randomize();
             network.UpdateVisibleWeights();
-            
 
-            ContrastiveDivergenceLearning target = new ContrastiveDivergenceLearning(network);
+            Accord.Math.Tools.SetupGenerator(0);
+            var target = new ContrastiveDivergenceLearning(network);
+            target.ParallelOptions.MaxDegreeOfParallelism = 1;
 
             target.Momentum = 0;
             target.LearningRate = 0.1;
@@ -178,7 +165,7 @@ namespace Accord.Tests.Neuro
             {
                 double[] output = network.GenerateOutput(new double[] { 0, 0, 0, 1, 1, 0 });
                 Assert.AreEqual(2, output.Length);
-                Assert.AreEqual(1, output[0]);
+                Assert.AreEqual(0, output[0]);
                 Assert.AreEqual(0, output[1]);
             }
 

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,8 +25,7 @@ namespace Accord.Statistics
     using System;
     using System.Collections.Generic;
 
-    // TODO: Rename to Measures
-    static partial class Tools
+    static partial class Measures
     {
 
         /// <summary>

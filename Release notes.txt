@@ -1217,7 +1217,7 @@ Version updates and fixes:
   - Adding support for inclusive upper bounds in the Histogram class;
   - Adding more selection rules for the number and widths of Histogram bins;
   - Fixing Histogram computing when data is constant (Origo Issue #23);
-  - Renaming weighted sample methods from Statistics.Tools.
+  - Renaming weighted sample methods from Measures.
   
 * Accord.Imaging
   - Adding Speeded-Up Robust Features (SURF) detector and descriptor;

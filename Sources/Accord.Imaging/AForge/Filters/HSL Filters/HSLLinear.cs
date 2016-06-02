@@ -5,13 +5,14 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge;
+    using Accord;
 
     /// <summary>
     /// Luminance and saturation linear correction.
@@ -50,7 +51,9 @@ namespace AForge.Imaging.Filters
         private Range outLuminance  = new Range( 0.0f, 1.0f );
         private Range outSaturation = new Range( 0.0f, 1.0f );
 
-        #region Public Propertis
+        // format translation dictionary
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
+
 
         /// <summary>
         /// Luminance input range.
@@ -100,11 +103,8 @@ namespace AForge.Imaging.Filters
             set { outSaturation = value; }
         }
 
-        #endregion
 
-        // format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
-
+     
         /// <summary>
         /// Format translations dictionary.
         /// </summary>
@@ -177,7 +177,7 @@ namespace AForge.Imaging.Filters
                     rgb.Blue  = ptr[RGB.B];
 
                     // convert to HSL
-                    AForge.Imaging.HSL.FromRGB( rgb, hsl );
+                    Accord.Imaging.HSL.FromRGB(rgb, hsl);
 
                     // do luminance correction
                     if ( hsl.Luminance >= inLuminance.Max )
@@ -196,7 +196,7 @@ namespace AForge.Imaging.Filters
                         hsl.Saturation = ks * hsl.Saturation + bs;
 
                     // convert back to RGB
-                    AForge.Imaging.HSL.ToRGB( hsl, rgb );
+                    Accord.Imaging.HSL.ToRGB( hsl, rgb );
 
                     ptr[RGB.R] = rgb.Red;
                     ptr[RGB.G] = rgb.Green;

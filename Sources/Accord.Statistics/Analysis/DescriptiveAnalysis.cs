@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -317,7 +317,7 @@ namespace Accord.Statistics.Analysis
             get
             {
                 if (this.sourceArray == null)
-                    sourceArray = sourceMatrix.ToArray();
+                    sourceArray = sourceMatrix.ToJagged();
                 return sourceArray;
             }
         }
@@ -350,7 +350,7 @@ namespace Accord.Statistics.Analysis
             get
             {
                 if (this.dScores == null)
-                    this.dScores = Statistics.Tools.Center(Source, Means, inPlace: false);
+                    this.dScores = Source.Center(Means, inPlace: false);
                 return this.dScores;
             }
         }
@@ -380,8 +380,8 @@ namespace Accord.Statistics.Analysis
                 if (covarianceMatrix == null)
                 {
                     if (sourceMatrix != null)
-                        covarianceMatrix = Statistics.Tools.Covariance(sourceMatrix, Means);
-                    else covarianceMatrix = Statistics.Tools.Covariance(sourceArray, Means);
+                        covarianceMatrix = sourceMatrix.Covariance(Means);
+                    else covarianceMatrix = sourceArray.Covariance(Means);
                 }
 
                 return covarianceMatrix;
@@ -399,8 +399,8 @@ namespace Accord.Statistics.Analysis
                 if (correlationMatrix == null)
                 {
                     if (sourceMatrix != null)
-                        correlationMatrix = Statistics.Tools.Correlation(sourceMatrix, Means, StandardDeviations);
-                    else correlationMatrix = Statistics.Tools.Correlation(sourceArray, Means, StandardDeviations);
+                        correlationMatrix = sourceMatrix.Correlation(Means, StandardDeviations);
+                    else correlationMatrix = sourceArray.Correlation(Means, StandardDeviations);
                 }
 
                 return correlationMatrix;
@@ -418,8 +418,8 @@ namespace Accord.Statistics.Analysis
                 if (means == null)
                 {
                     if (sourceMatrix != null)
-                        means = Statistics.Tools.Mean(sourceMatrix, Sums);
-                    else means = Statistics.Tools.Mean(sourceArray, Sums);
+                        means = sourceMatrix.Mean(Sums);
+                    else means = sourceArray.Mean(Sums);
                 }
                 return means;
             }
@@ -436,8 +436,8 @@ namespace Accord.Statistics.Analysis
                 if (standardDeviations == null)
                 {
                     if (sourceMatrix != null)
-                        standardDeviations = Statistics.Tools.StandardDeviation(sourceMatrix, Means);
-                    else standardDeviations = Statistics.Tools.StandardDeviation(sourceArray, Means);
+                        standardDeviations = sourceMatrix.StandardDeviation(Means);
+                    else standardDeviations = sourceArray.StandardDeviation(Means);
                 }
 
                 return standardDeviations;
@@ -453,7 +453,7 @@ namespace Accord.Statistics.Analysis
             get
             {
                 if (standardErrors == null)
-                    standardErrors = Statistics.Tools.StandardError(samples, StandardDeviations);
+                    standardErrors = Statistics.Measures.StandardError(samples, StandardDeviations);
 
                 return standardErrors;
             }
@@ -514,8 +514,8 @@ namespace Accord.Statistics.Analysis
                 if (modes == null)
                 {
                     if (sourceMatrix != null)
-                        modes = Statistics.Tools.Mode(sourceMatrix);
-                    else modes = Statistics.Tools.Mode(sourceArray);
+                        modes = sourceMatrix.Mode();
+                    else modes = sourceArray.Mode();
                 }
 
                 return modes;
@@ -533,8 +533,8 @@ namespace Accord.Statistics.Analysis
                 if (medians == null)
                 {
                     if (sourceMatrix != null)
-                        medians = Statistics.Tools.Median(sourceMatrix);
-                    else medians = Statistics.Tools.Median(sourceArray);
+                        medians = sourceMatrix.Median();
+                    else medians = sourceArray.Median();
                 }
 
                 return medians;
@@ -552,8 +552,8 @@ namespace Accord.Statistics.Analysis
                 if (variances == null)
                 {
                     if (sourceMatrix != null)
-                        variances = Statistics.Tools.Variance(sourceMatrix, Means);
-                    else variances = Statistics.Tools.Variance(sourceArray, Means);
+                        variances = sourceMatrix.Variance(Means);
+                    else variances = sourceArray.Variance(Means);
                 }
 
                 return variances;
@@ -571,8 +571,8 @@ namespace Accord.Statistics.Analysis
                 if (distinct == null)
                 {
                     if (sourceMatrix != null)
-                        distinct = Statistics.Tools.DistinctCount(sourceMatrix);
-                    else distinct = Statistics.Tools.DistinctCount(sourceArray);
+                        distinct = sourceMatrix.DistinctCount();
+                    else distinct = sourceArray.DistinctCount();
                 }
 
                 return distinct;
@@ -590,8 +590,8 @@ namespace Accord.Statistics.Analysis
                 if (ranges == null)
                 {
                     if (sourceMatrix != null)
-                        this.ranges = Matrix.Range(sourceMatrix, 0);
-                    else this.ranges = Matrix.Range(sourceArray, 0);
+                        this.ranges = Matrix.GetRange(sourceMatrix, 0);
+                    else this.ranges = Matrix.GetRange(sourceArray, 0);
                 }
 
                 return ranges;
@@ -609,8 +609,8 @@ namespace Accord.Statistics.Analysis
                 if (quartiles == null)
                 {
                     if (sourceMatrix != null)
-                        this.medians = Statistics.Tools.Quartiles(sourceMatrix, out this.quartiles);
-                    else this.medians = Statistics.Tools.Quartiles(sourceArray, out this.quartiles);
+                        this.medians = sourceMatrix.Quartiles(out this.quartiles);
+                    else this.medians = sourceArray.Quartiles(out this.quartiles);
                 }
 
                 return quartiles;
@@ -689,8 +689,8 @@ namespace Accord.Statistics.Analysis
                 if (skewness == null)
                 {
                     if (sourceMatrix != null)
-                        this.skewness = Statistics.Tools.Skewness(sourceMatrix);
-                    else this.skewness = Statistics.Tools.Skewness(sourceArray);
+                        this.skewness = sourceMatrix.Skewness();
+                    else this.skewness = sourceArray.Skewness();
                 }
 
                 return skewness;
@@ -708,8 +708,8 @@ namespace Accord.Statistics.Analysis
                 if (kurtosis == null)
                 {
                     if (sourceMatrix != null)
-                        this.kurtosis = Statistics.Tools.Kurtosis(sourceMatrix);
-                    else this.kurtosis = Statistics.Tools.Kurtosis(sourceArray);
+                        this.kurtosis = sourceMatrix.Kurtosis();
+                    else this.kurtosis = sourceArray.Kurtosis();
                 }
 
                 return kurtosis;

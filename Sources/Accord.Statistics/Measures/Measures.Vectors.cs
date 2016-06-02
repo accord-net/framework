@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,8 +29,12 @@ namespace Accord.Statistics
     using Accord.Statistics.Kernels;
     using AForge;
 
-    // TODO: Rename to Measures
-    public static partial class Tools
+    /// <summary>
+    ///   Set of statistics measures, such as <see cref="Mean(double[])"/>,
+    ///   <see cref="Variance(double[])"/> and <see cref="StandardDeviation(double[], bool)"/>.
+    /// </summary>
+    /// 
+    public static partial class Measures
     {
 
 
@@ -485,7 +489,7 @@ namespace Accord.Statistics
         /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
         /// <returns>The second quartile, the median of the given data.</returns>
         /// 
-        public static double Quartiles(double[] values, out double q1, out double q3, bool alreadySorted)
+        public static double Quartiles(this double[] values, out double q1, out double q3, bool alreadySorted)
         {
             double median;
 

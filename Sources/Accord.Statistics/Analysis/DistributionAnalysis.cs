@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -34,6 +34,7 @@ namespace Accord.Statistics.Analysis
     using Accord.Statistics.Testing;
     using System.Threading.Tasks;
     using System.Diagnostics.CodeAnalysis;
+    using Accord.Statistics.Distributions.Fitting;
 
     /// <summary>
     ///   Distribution fitness analysis.
@@ -140,6 +141,8 @@ namespace Accord.Statistics.Analysis
         /// 
         public void Compute()
         {
+            bool[] fail = new bool[Distributions.Length];
+
             // Step 1. Fit all candidate distributions to the data.
             for (int i = 0; i < Distributions.Length; i++)
             {
@@ -152,6 +155,7 @@ namespace Accord.Statistics.Analysis
                 catch
                 {
                     // TODO: Maybe revisit the decision to swallow exceptions here.
+                    fail[i] = true;
                 }
             }
 
@@ -176,7 +180,7 @@ namespace Accord.Statistics.Analysis
 
                 var d = this.Distributions[i] as IUnivariateDistribution;
 
-                if (d == null)
+                if (d == null || fail[i])
                     continue;
 
                 this.DistributionNames[i] = GetName(d.GetType());
@@ -251,7 +255,7 @@ namespace Accord.Statistics.Analysis
 
         private int[] getRank(double[] ks)
         {
-            int[] idx = Matrix.Indices(0, Distributions.Length);
+            int[] idx = Vector.Range(0, Distributions.Length);
             Array.Sort(ks, idx, new GeneralComparer(ComparerDirection.Descending));
 
             int[] rank = new int[idx.Length];

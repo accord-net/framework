@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Math.Random
+namespace Accord.Math.Random
 {
     using System;
     using AForge;
@@ -32,8 +32,10 @@ namespace AForge.Math.Random
     /// </code>
     /// </remarks>
     /// 
+    [Obsolete("Please use Accord.Statistics.UniformDistribution instead.")]
     public class UniformGenerator : IRandomNumberGenerator
     {
+
         private UniformOneGenerator rand = null;
 
         // generator's range
@@ -46,7 +48,7 @@ namespace AForge.Math.Random
         ///
         public float Mean
         {
-            get { return ( min + min + length ) / 2; }
+            get { return (min + min + length) / 2; }
         }
 
         /// <summary>
@@ -67,9 +69,9 @@ namespace AForge.Math.Random
         /// value.</para>
         /// </remarks>
         /// 
-        public Range Range
+        public Accord.Range Range
         {
-            get { return new Range( min, min + length ); }
+            get { return new Accord.Range(min, min + length); }
         }
 
         /// <summary>
@@ -80,8 +82,8 @@ namespace AForge.Math.Random
         /// 
         /// <remarks>Initializes random numbers generator with zero seed.</remarks>
         /// 
-        public UniformGenerator( Range range ) :
-            this( range, 0 )
+        public UniformGenerator(Accord.Range range)
+            : this(range, 0)
         {
         }
 
@@ -92,12 +94,12 @@ namespace AForge.Math.Random
         /// <param name="range">Random numbers range.</param>
         /// <param name="seed">Seed value to initialize random numbers generator.</param>
         /// 
-        public UniformGenerator( Range range, int seed )
+        public UniformGenerator(Accord.Range range, int seed)
         {
-            rand = new UniformOneGenerator( seed );
+            rand = new UniformOneGenerator(seed);
 
-            min     = range.Min;
-            length  = range.Length;
+            min = range.Min;
+            length = range.Length;
         }
 
         /// <summary>
@@ -106,9 +108,9 @@ namespace AForge.Math.Random
         /// 
         /// <returns>Returns next random number.</returns>
         /// 
-        public float Next( )
+        public float Next()
         {
-            return (float) rand.Next( ) * length + min;
+            return (float)rand.Next() * length + min;
         }
 
         /// <summary>
@@ -120,9 +122,65 @@ namespace AForge.Math.Random
         /// <remarks>Resets random numbers generator initializing it with
         /// specified seed value.</remarks>
         /// 
-        public void SetSeed( int seed )
+        public void SetSeed(int seed)
         {
-            rand = new UniformOneGenerator( seed );
+            rand = new UniformOneGenerator(seed);
         }
     }
+
+    internal class RandomNumberGeneratorAdapter : 
+        IRandomNumberGenerator<double>,
+        IRandomNumberGenerator<float>
+    {
+#pragma warning disable 0618
+        IRandomNumberGenerator rng;
+
+        public RandomNumberGeneratorAdapter(IRandomNumberGenerator rng)
+        {
+            this.rng = rng;       
+        }
+
+        public float Generate()
+        {
+            return rng.Next();
+        }
+
+        public float[] Generate(int samples)
+        {
+            return Generate(samples, new float[samples]);
+        }
+
+        public float[] Generate(int samples, float[] result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Seed
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        double IRandomNumberGenerator<double>.Generate()
+        {
+            return rng.Next();
+        }
+
+        double[] IRandomNumberGenerator<double>.Generate(int samples)
+        {
+            return Generate(samples, new double[samples]);
+        }
+
+        public double[] Generate(int samples, double[] result)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

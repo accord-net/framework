@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ namespace Accord.MachineLearning.DecisionTrees
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Accord.Math;
 
     /// <summary>
     ///   Attribute category.
@@ -59,19 +60,19 @@ namespace Accord.MachineLearning.DecisionTrees
         ///   Gets the name of the attribute.
         /// </summary>
         /// 
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         /// <summary>
         ///   Gets the nature of the attribute (i.e. real-valued or discrete-valued).
         /// </summary>
         /// 
-        public DecisionVariableKind Nature { get; private set; }
+        public DecisionVariableKind Nature { get; set; }
 
         /// <summary>
         ///   Gets the valid range of the attribute.
         /// </summary>
         /// 
-        public DoubleRange Range { get; private set; }
+        public DoubleRange Range { get; set; }
 
 
         /// <summary>
@@ -208,6 +209,41 @@ namespace Accord.MachineLearning.DecisionTrees
             return variables;
         }
 
+        /// <summary>
+        ///   Creates a set of decision variables from input data.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data.</param>
+        /// 
+        /// <returns>An array of <see cref="DecisionVariable"/> objects 
+        /// initialized with the values from the codebook.</returns>
+        /// 
+        public static DecisionVariable[] FromData(double[][] inputs)
+        {
+            int cols = inputs.Columns();
+            var variables = new DecisionVariable[cols];
+            for (int i = 0; i < variables.Length; i++)
+                variables[i] = new DecisionVariable(i.ToString(), DecisionVariableKind.Continuous);
+            return variables;
+        }
+
+        /// <summary>
+        ///   Creates a set of decision variables from input data.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data.</param>
+        /// 
+        /// <returns>An array of <see cref="DecisionVariable"/> objects 
+        /// initialized with the values from the codebook.</returns>
+        /// 
+        public static DecisionVariable[] FromData(int[][] inputs)
+        {
+            int cols = inputs.Columns();
+            var variables = new DecisionVariable[cols];
+            for (int i = 0; i < variables.Length; i++)
+                variables[i] = new DecisionVariable(i.ToString(), DecisionVariableKind.Discrete);
+            return variables;
+        }
     }
 
 

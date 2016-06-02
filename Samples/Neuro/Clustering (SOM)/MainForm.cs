@@ -15,9 +15,9 @@ using System.Windows.Forms;
 using System.Data;
 using System.Threading;
 
-using AForge;
-using AForge.Neuro;
-using AForge.Neuro.Learning;
+using Accord;
+using Accord.Neuro;
+using Accord.Neuro.Learning;
 
 namespace SampleApp
 {
@@ -307,13 +307,13 @@ namespace SampleApp
             radiusBox.Text = radius.ToString();
         }
 
-        // On "Rundomize" button clicked
+        // On "Randomize" button clicked
         private void randomizeButton_Click(object sender, System.EventArgs e)
         {
             RandomizeNetwork();
         }
 
-        // Radnomize weights of network
+        // Randomize weights of network
         private void RandomizeNetwork()
         {
             Neuron.RandRange = new Range(0, 255);

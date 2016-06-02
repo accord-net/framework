@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -129,8 +129,8 @@ namespace Accord.Tests.Statistics
                 new double[] { 2.0000,  0.3000 }
             };
 
-            double[] mean = Accord.Statistics.Tools.Mean(observations);
-            double[,] cov = Accord.Statistics.Tools.Covariance(observations);
+            double[] mean = Measures.Mean(observations);
+            double[,] cov = Measures.Covariance(observations);
 
             var target = new MultivariateEmpiricalDistribution(observations);
 
@@ -201,11 +201,11 @@ namespace Accord.Tests.Statistics
         public void WeightedEmpiricalDistributionConstructorTest()
         {
             double[] original = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
-            var distribution = new MultivariateEmpiricalDistribution(original.ToArray());
+            var distribution = new MultivariateEmpiricalDistribution(original.ToJagged());
 
             int[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
             double[] sources = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
-            double[][] samples = sources.ToArray();
+            double[][] samples = sources.ToJagged();
             var target = new MultivariateEmpiricalDistribution(samples, weights);
 
             Assert.AreEqual(distribution.Mean[0], target.Mean[0]);
@@ -241,11 +241,11 @@ namespace Accord.Tests.Statistics
         public void WeightedEmpiricalDistributionConstructorTest2()
         {
             double[] original = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
-            var distribution = new MultivariateEmpiricalDistribution(original.ToArray());
+            var distribution = new MultivariateEmpiricalDistribution(original.ToJagged());
 
             double[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
             double[] source = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
-            double[][] samples = source.ToArray();
+            double[][] samples = source.ToJagged();
 
             weights = weights.Divide(weights.Sum());
 
@@ -289,7 +289,7 @@ namespace Accord.Tests.Statistics
 
             weights = weights.Divide(weights.Sum());
 
-            var target = new MultivariateEmpiricalDistribution(samples.ToArray(), weights);
+            var target = new MultivariateEmpiricalDistribution(samples.ToJagged(), weights);
 
             Assert.AreEqual(1.2377597081667415, target.Smoothing[0, 0]);
         }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -47,9 +47,9 @@ namespace Accord.Tests.Statistics
             for (int i = 0; i < values.Length; i++)
                 target.Push(values2[i]);
 
-            Assert.AreEqual(Tools.Mean(values2), target.Mean, 1e-10);
-            Assert.AreEqual(Tools.StandardDeviation(values2), target.StandardDeviation, 1e-10);
-            Assert.AreEqual(Tools.Variance(values2), target.Variance, 1e-10);
+            Assert.AreEqual(values2.Mean(), target.Mean, 1e-10);
+            Assert.AreEqual(values2.StandardDeviation(), target.StandardDeviation, 1e-10);
+            Assert.AreEqual(values2.Variance(), target.Variance, 1e-10);
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace Accord.Tests.Statistics
             for (int i = 0; i < values.Length; i++)
                 target.Push(values[i]);
 
-            double expected = Tools.Mean(values);
+            double expected = values.Mean();
             double actual = target.Mean;
 
             Assert.AreEqual(expected, actual);
@@ -78,7 +78,7 @@ namespace Accord.Tests.Statistics
             for (int i = 0; i < values.Length; i++)
                 target.Push(values[i]);
 
-            double expected = Tools.StandardDeviation(values);
+            double expected = values.StandardDeviation();
             double actual = target.StandardDeviation;
 
             Assert.AreEqual(expected, actual);
@@ -94,7 +94,7 @@ namespace Accord.Tests.Statistics
             for (int i = 0; i < values.Length; i++)
                 target.Push(values[i]);
 
-            double expected = Tools.Variance(values);
+            double expected = values.Variance();
             double actual = target.Variance;
 
             Assert.AreEqual(expected, actual);

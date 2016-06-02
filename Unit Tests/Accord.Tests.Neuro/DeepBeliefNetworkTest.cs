@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,7 +28,6 @@ namespace Accord.Tests.Neuro
     using Accord.Neuro.ActivationFunctions;
     using Accord.Neuro.Learning;
     using Accord.Neuro.Layers;
-    using AForge.Neuro.Learning;
     using Accord.Math;
     using System.Linq;
     using Accord.Neuro;

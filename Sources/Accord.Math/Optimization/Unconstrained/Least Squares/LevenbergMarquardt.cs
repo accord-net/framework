@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -275,7 +275,7 @@ namespace Accord.Math.Optimization
                     continue;
 
                 int B = (s == Blocks) ? finalBlock : blockSize;
-                int[] block = Matrix.Indices(s * blockSize, s * blockSize + B);
+                int[] block = Vector.Range(s * blockSize, s * blockSize + B);
 
                 // Compute the partial residuals vector
                 sumOfSquaredErrors += computeErrors(inputs, outputs, block);

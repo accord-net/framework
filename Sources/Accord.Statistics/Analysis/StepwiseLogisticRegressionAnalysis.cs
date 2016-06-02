@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -407,7 +407,7 @@ namespace Accord.Statistics.Analysis
                 // This is the first step. We should create the full model.
                 int inputCount = inputData[0].Length;
                 LogisticRegression regression = new LogisticRegression(inputCount);
-                int[] variables = Matrix.Indices(0, inputCount);
+                int[] variables = Vector.Range(0, inputCount);
 
                 fit(regression, inputData, outputData);
 

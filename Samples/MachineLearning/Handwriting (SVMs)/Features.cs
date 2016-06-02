@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace Handwriting.SVMs
+namespace SampleApp
 {
     static class Features
     {

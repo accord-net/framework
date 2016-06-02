@@ -1,0 +1,47 @@
+﻿<!--
+This Target file must be imported in a project using SharpDX
+It adds automatically references to SharpDX assemblies
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Global property most of them are overridable in the project including this project file -->
+  <!-- The Most important variable is SharpDXSdkDir that should be a global system environement variable -->
+  <PropertyGroup>
+    <!--Detect SharpDX Platform based on .NETFramework version-->
+
+    <!-- Query the DirectX version to use unless already specified -->
+    <!-- By default: DirectX11 on desktop .NET, DirectX11_2 for Windows8.x+, DirectX11_1 for WP8 -->
+    <SharpDXDirectXVersion Condition="'$(SharpDXDirectXVersion)' == '' and '$(TargetFrameworkIdentifier)' == '.NETFramework'">DirectX11</SharpDXDirectXVersion>
+    <SharpDXDirectXVersion Condition="'$(SharpDXDirectXVersion)' == '' and '$(TargetFrameworkIdentifier)' == '.NETCore'">DirectX11_2</SharpDXDirectXVersion>
+    <SharpDXDirectXVersion Condition="'$(SharpDXDirectXVersion)' == '' and '$(TargetPlatformIdentifier)' == 'WindowsPhoneApp'">DirectX11_2</SharpDXDirectXVersion>
+    <SharpDXDirectXVersion Condition="'$(SharpDXDirectXVersion)' == '' and '$(TargetFrameworkIdentifier)' == 'WindowsPhone' and $(TargetFrameworkVersion.Contains('v8'))">DirectX11_1</SharpDXDirectXVersion>
+
+    <!-- Detect the .NET Framework -->
+    <SharpDXNETFramework Condition="'$(SharpDXNETFramework)' == '' and '$(TargetFrameworkIdentifier)' == '.NETFramework' and ('$(TargetFrameworkVersion)' == 'v2.0' or '$(TargetFrameworkVersion)' == 'v3.5') ">net20</SharpDXNETFramework>
+    <SharpDXNETFramework Condition="'$(SharpDXNETFramework)' == '' and '$(TargetFrameworkIdentifier)' == '.NETFramework' and $(TargetFrameworkVersion.Contains('v4'))">net40</SharpDXNETFramework>
+    <SharpDXNETFramework Condition="'$(SharpDXNETFramework)' == '' and '$(TargetFrameworkIdentifier)' == '.NETCore'">winrt</SharpDXNETFramework>
+    <SharpDXNETFramework Condition="'$(SharpDXNETFramework)' == '' and '$(TargetFrameworkIdentifier)' == 'WindowsPhone' and $(TargetFrameworkVersion.Contains('v8')) and '$(Platform)' != 'ARM'">wp8-x86</SharpDXNETFramework>
+    <SharpDXNETFramework Condition="'$(SharpDXNETFramework)' == '' and '$(TargetFrameworkIdentifier)' == 'WindowsPhone' and $(TargetFrameworkVersion.Contains('v8')) and '$(Platform)' == 'ARM'">wp8-ARM</SharpDXNETFramework>
+    <SharpDXNETFramework Condition="'$(SharpDXNETFramework)' == '' and '$(TargetPlatformIdentifier)' == 'WindowsPhoneApp'">wp81</SharpDXNETFramework>
+
+    <!-- Select Signed or not signed assemblies -->
+    <SharpDXSigned Condition="'$(SharpDXNoSigned)' == '' and '$(TargetFrameworkIdentifier)' != 'WindowsPhone'">Signed-</SharpDXSigned>
+    <SharpDXSigned Condition="'$(SharpDXNoSigned)' == 'true'"></SharpDXSigned>
+
+    <!-- Compute the full version number -->
+    <SharpDXPlatform Condition="'$(SharpDXPlatform)' == ''">$(SharpDXDirectXVersion)-$(SharpDXSigned)$(SharpDXNETFramework)</SharpDXPlatform>
+    
+    <!-- Variable used to select the platform used for the tool at compile time - default to Win8Desktop-net40 -->
+    <SharpDXPlatformTool Condition="'$(SharpDXPlatformTool)' == ''">DirectX11-net40</SharpDXPlatformTool>
+
+    <!--Root SharpDX SDK Directory where assemblies are stored. This variable should be set as a Global System Environement Variable -->
+    <SharpDXPackageDir Condition="'$(SharpDXPackageDir)' == ''">$(MSBuildThisFileDirectory)..</SharpDXPackageDir>
+
+    <!--SharpDX Directory to link against - based on platform-->
+    <SharpDXPackageBinDir Condition="'$(SharpDXPackageBinDir)' == ''">$(SharpDXPackageDir)\Bin\$(SharpDXPlatform)</SharpDXPackageBinDir>
+
+    <!--SharpDX Directory used for compiling - Default to DirectX11-net40-->
+    <!--<SharpDXSdkToolsDir Condition="'$(SharpDXSdkToolsDir)' == ''">$(SharpDXPackageDir)\Bin\Win8Desktop-net40</SharpDXSdkToolsDir>-->
+    <SharpDXSdkToolsDir Condition="'$(SharpDXSdkToolsDir)' == ''">$(SharpDXPackageDir)\Bin\$(SharpDXPlatformTool)</SharpDXSdkToolsDir>
+  </PropertyGroup>
+</Project>

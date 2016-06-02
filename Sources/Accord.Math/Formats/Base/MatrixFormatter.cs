@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -32,7 +32,7 @@ namespace Accord.Math
     ///   Defines how matrices are formatted and displayed, depending on the
     ///   chosen format representation.
     /// </summary>
-    /// 
+    ///
     public class MatrixFormatter : ICustomFormatter
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Math
         ///   formatted as specified by <paramref name="format"/> and
         ///   <paramref name="formatProvider"/>.
         /// </returns>
-        /// 
+        ///
         public string Format(string format, object arg, IFormatProvider formatProvider)
         {
             IMatrixFormatProvider provider = formatProvider as IMatrixFormatProvider;
@@ -75,7 +75,7 @@ namespace Accord.Math
         /// <summary>
         ///   Converts a jagged or multidimensional array into a <a cref="System.String">System.String</a> representation.
         /// </summary>
-        /// 
+        ///
         public static string Format(string format, Array matrix, IMatrixFormatProvider formatProvider)
         {
             // Initial argument checking
@@ -178,8 +178,9 @@ namespace Accord.Math
         private static bool parseOptions(string format, out string newline, out string elementFormat)
         {
             // "{0,g}"      -> multiline with system new line character and number format g
-            // "{0:Mn,g}"   -> multiline with \n new line character and number format g
-            // "{0:Mnr,g}"  -> multiline with \n\r new line character and number format g
+            // "{0:Mr,g}"   -> multiline with \r new line character (old Mac) and number format g
+            // "{0:Mn,g}"   -> multiline with \n new line character (Unix-like) and number format g
+            // "{0:Mrn,g}"  -> multiline with \r\n new line character (Windows) and number format g
             // "{0:Ms,g}"   -> single line and number format g
 
             if (String.IsNullOrEmpty(format))
@@ -197,12 +198,16 @@ namespace Accord.Math
 
                 switch (options[0])
                 {
+                    case "Mr":
+                        newline = "\r";
+                        return true;
+
                     case "Mn":
                         newline = "\n";
                         return true;
 
-                    case "Mnr":
-                        newline = "\n\r";
+                    case "Mrn":
+                        newline = "\r\n";
                         return true;
 
                     case "Ms":
@@ -222,11 +227,14 @@ namespace Accord.Math
 
                 switch (options[0])
                 {
+                    case "Mr":
+                        newline = "\r"; break;
+
                     case "Mn":
                         newline = "\n"; break;
 
-                    case "Mnr":
-                        newline = "\n\r"; break;
+                    case "Mrn":
+                        newline = "\r\n"; break;
 
                     case "Ms":
                         newline = String.Empty; break;
@@ -277,7 +285,7 @@ namespace Accord.Math
         /// <summary>
         ///   Converts a matrix represented in a System.String into a jagged array.
         /// </summary>
-        /// 
+        ///
         public static double[][] ParseJagged(string str, IMatrixFormatProvider provider)
         {
             // remove excess spaces
@@ -328,12 +336,12 @@ namespace Accord.Math
         /// <summary>
         ///   Converts a matrix represented in a System.String into a multi-dimensional array.
         /// </summary>
-        /// 
+        ///
         public static double[,] ParseMultidimensional(string str, IMatrixFormatProvider provider)
         {
             return Matrix.ToMatrix(ParseJagged(str, provider));
         }
-       
+
         #endregion
 
 

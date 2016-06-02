@@ -5,7 +5,7 @@
 // Copyright © Darko Jurić, 2013
 // https://code.google.com/p/accord/issues/detail?id=27
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -110,7 +110,7 @@ namespace Accord.MachineLearning.Boosting.Learners
             for (int i = 0; i < inputCount; i++)
             {
                 comparer.Index = i;
-                int[] indices = Matrix.Indices(0, inputs.Length);
+                int[] indices = Vector.Range(0, inputs.Length);
                 Array.Sort<int>(indices, (a, b) => inputs[a][i].CompareTo(inputs[b][i]));
 
                 double error = 0.0;

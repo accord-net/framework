@@ -29,7 +29,7 @@
         private void InitializeComponent( )
         {
             this.components = new System.ComponentModel.Container();
-            this.videoSourcePlayer = new AForge.Controls.VideoSourcePlayer();
+            this.videoSourcePlayer = new Accord.Controls.VideoSourcePlayer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.fpsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.spareLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -451,7 +451,7 @@
 
         #endregion
 
-        private AForge.Controls.VideoSourcePlayer videoSourcePlayer;
+        private Accord.Controls.VideoSourcePlayer videoSourcePlayer;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.Panel topPanel;
         private System.Windows.Forms.Panel mainPanel;

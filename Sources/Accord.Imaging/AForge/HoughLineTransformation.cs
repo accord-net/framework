@@ -6,10 +6,10 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
-    using System.Collections;
+    using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
 
@@ -263,7 +263,7 @@ namespace AForge.Imaging
 
         private int localPeakRadius = 4;
         private short minLineIntensity = 10;
-        private ArrayList lines = new ArrayList();
+        private List<HoughLine> lines = new List<HoughLine>();
 
         /// <summary>
         /// Steps per degree.
@@ -548,7 +548,7 @@ namespace AForge.Imaging
             int height = houghMap.GetLength(0);
 
             // create new image
-            Bitmap image = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
+            Bitmap image = Accord.Imaging.Image.CreateGrayscaleImage(width, height);
 
             // lock destination bitmap data
             BitmapData imageData = image.LockBits(

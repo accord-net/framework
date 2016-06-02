@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -242,7 +242,7 @@ namespace Accord.Math.Optimization
                 }
             }
 
-            System.Diagnostics.Debug.Assert(!parameters.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!parameters.HasNaN());
 
             double value = Function(parameters);
 

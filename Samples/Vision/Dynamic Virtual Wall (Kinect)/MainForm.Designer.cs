@@ -1,4 +1,4 @@
-﻿namespace KinectController
+﻿namespace SampleApp
 {
     partial class MainForm
     {
@@ -54,12 +54,12 @@
             this.faceControlsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
-            this.pbLeftArm = new AForge.Controls.PictureBox();
-            this.pbRightArm = new AForge.Controls.PictureBox();
-            this.pictureBox1 = new AForge.Controls.PictureBox();
-            this.pbLeftHand = new AForge.Controls.PictureBox();
-            this.pbRightHand = new AForge.Controls.PictureBox();
+            this.videoSourcePlayer1 = new Accord.Controls.VideoSourcePlayer();
+            this.pbLeftArm = new Accord.Controls.PictureBox();
+            this.pbRightArm = new Accord.Controls.PictureBox();
+            this.pictureBox1 = new Accord.Controls.PictureBox();
+            this.pbLeftHand = new Accord.Controls.PictureBox();
+            this.pbRightHand = new Accord.Controls.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.angleBox1 = new Accord.Controls.AngleBox();
@@ -309,7 +309,7 @@
             this.videoSourcePlayer1.TabIndex = 5;
             this.videoSourcePlayer1.Text = "videoSourcePlayer1";
             this.videoSourcePlayer1.VideoSource = null;
-            this.videoSourcePlayer1.NewFrame += new AForge.Controls.VideoSourcePlayer.NewFrameHandler(this.videoSourcePlayer1_NewFrame);
+            this.videoSourcePlayer1.NewFrame += new Accord.Controls.VideoSourcePlayer.NewFrameHandler(this.videoSourcePlayer1_NewFrame);
             // 
             // pbLeftArm
             // 
@@ -386,23 +386,23 @@
             // 
             // controller
             // 
-            this.controller.AngleMax = global::KinectController.Properties.Settings.Default.angleMax;
-            this.controller.AngleMin = global::KinectController.Properties.Settings.Default.angleMin;
-            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("AngleMax", global::KinectController.Properties.Settings.Default, "angleMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("AngleMin", global::KinectController.Properties.Settings.Default, "angleMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("ScaleMax", global::KinectController.Properties.Settings.Default, "scaleMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("ScaleMin", global::KinectController.Properties.Settings.Default, "scaleMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("XAxisMax", global::KinectController.Properties.Settings.Default, "xMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("XAxisMin", global::KinectController.Properties.Settings.Default, "xMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("YAxisMax", global::KinectController.Properties.Settings.Default, "yMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("YAxisMin", global::KinectController.Properties.Settings.Default, "yMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.controller.ScaleMax = global::KinectController.Properties.Settings.Default.scaleMax;
-            this.controller.ScaleMin = global::KinectController.Properties.Settings.Default.scaleMin;
+            this.controller.AngleMax = global::SampleApp.Properties.Settings.Default.angleMax;
+            this.controller.AngleMin = global::SampleApp.Properties.Settings.Default.angleMin;
+            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("AngleMax", global::SampleApp.Properties.Settings.Default, "angleMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("AngleMin", global::SampleApp.Properties.Settings.Default, "angleMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("ScaleMax", global::SampleApp.Properties.Settings.Default, "scaleMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("ScaleMin", global::SampleApp.Properties.Settings.Default, "scaleMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("XAxisMax", global::SampleApp.Properties.Settings.Default, "xMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("XAxisMin", global::SampleApp.Properties.Settings.Default, "xMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("YAxisMax", global::SampleApp.Properties.Settings.Default, "yMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.controller.DataBindings.Add(new System.Windows.Forms.Binding("YAxisMin", global::SampleApp.Properties.Settings.Default, "yMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.controller.ScaleMax = global::SampleApp.Properties.Settings.Default.scaleMax;
+            this.controller.ScaleMin = global::SampleApp.Properties.Settings.Default.scaleMin;
             this.controller.SynchronizingObject = this;
-            this.controller.XAxisMax = global::KinectController.Properties.Settings.Default.xMax;
-            this.controller.XAxisMin = global::KinectController.Properties.Settings.Default.xMin;
-            this.controller.YAxisMax = global::KinectController.Properties.Settings.Default.yMax;
-            this.controller.YAxisMin = global::KinectController.Properties.Settings.Default.yMin;
+            this.controller.XAxisMax = global::SampleApp.Properties.Settings.Default.xMax;
+            this.controller.XAxisMin = global::SampleApp.Properties.Settings.Default.xMin;
+            this.controller.YAxisMax = global::SampleApp.Properties.Settings.Default.yMax;
+            this.controller.YAxisMin = global::SampleApp.Properties.Settings.Default.yMin;
             this.controller.HeadMove += new System.EventHandler<Accord.Controls.Vision.HeadEventArgs>(this.headController1_HeadMove);
             this.controller.HeadEnter += new System.EventHandler<Accord.Controls.Vision.HeadEventArgs>(this.controller_HeadEnter);
             this.controller.HeadLeave += new System.EventHandler<System.EventArgs>(this.controller_HeadLeave);
@@ -484,12 +484,12 @@
         private System.Windows.Forms.ToolStripMenuItem faceControlsToolStripMenuItem;
         public Accord.Controls.Vision.HeadController controller;
         private System.Windows.Forms.ToolStripMenuItem depthVisionToolStripMenuItem;
-        private AForge.Controls.VideoSourcePlayer videoSourcePlayer1;
-        private AForge.Controls.PictureBox pbRightArm;
-        private AForge.Controls.PictureBox pbLeftArm;
-        private AForge.Controls.PictureBox pictureBox1;
-        private AForge.Controls.PictureBox pbRightHand;
-        private AForge.Controls.PictureBox pbLeftHand;
+        private Accord.Controls.VideoSourcePlayer videoSourcePlayer1;
+        private Accord.Controls.PictureBox pbRightArm;
+        private Accord.Controls.PictureBox pbLeftArm;
+        private Accord.Controls.PictureBox pictureBox1;
+        private Accord.Controls.PictureBox pbRightHand;
+        private Accord.Controls.PictureBox pbLeftHand;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ToolStripMenuItem saveImagesToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox2;

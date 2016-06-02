@@ -30,11 +30,12 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Accord;
 using Accord.Audio;
 using Accord.Audio.Windows;
 using Accord.DirectSound;
 using AForge;
-using AForge.Math;
+using Accord.Math;
 using System;
 using System.Drawing;
 using System.Numerics;

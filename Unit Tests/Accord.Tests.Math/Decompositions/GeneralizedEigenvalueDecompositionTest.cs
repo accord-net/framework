@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -111,8 +111,8 @@ namespace Accord.Tests.Math
             {
                 for (int j = 1; j < 6; j++)
                 {
-                    var A = Matrix.Random(j, j, -1, 1);
-                    var B = Matrix.Random(j, j, -1, 1);
+                    var A = Matrix.Random(j, j, -1.0, 1.0);
+                    var B = Matrix.Random(j, j, -1.0, 1.0);
 
                     var gevd = new GeneralizedEigenvalueDecomposition(A, B);
 
@@ -120,8 +120,8 @@ namespace Accord.Tests.Math
                     var D = gevd.DiagonalMatrix;
 
                     // A*V = B*V*D
-                    var AV = A.Multiply(V);
-                    var BVD = B.Multiply(V).Multiply(D);
+                    var AV = Matrix.Multiply(A, V);
+                    var BVD = Matrix.Multiply(Matrix.Multiply(B, V), D);
 
                     Assert.IsTrue(Matrix.IsEqual(AV, BVD, 0.0000001));
                 }
@@ -130,8 +130,8 @@ namespace Accord.Tests.Math
             for (int i = 0; i < 100; i++)
             {
                 int j = 50;
-                var A = Matrix.Random(j, j, -1, 1);
-                var B = Matrix.Random(j, j, -1, 1);
+                var A = Matrix.Random(j, j, -1.0, 1.0);
+                var B = Matrix.Random(j, j, -1.0, 1.0);
 
                 var gevd = new GeneralizedEigenvalueDecomposition(A, B);
 
@@ -139,8 +139,8 @@ namespace Accord.Tests.Math
                 var D = gevd.DiagonalMatrix;
 
                 // A*V = B*V*D
-                var AV = A.Multiply(V);
-                var BVD = B.Multiply(V).Multiply(D);
+                var AV = Matrix.Multiply(A, V);
+                var BVD = Matrix.Multiply(Matrix.Multiply(B, V), D);
 
                 Assert.IsTrue(Matrix.IsEqual(AV, BVD, 0.0000001));
             }
@@ -179,8 +179,8 @@ namespace Accord.Tests.Math
             var D = gevd.DiagonalMatrix;
 
             // A*V = B*V*D
-            var AV = A.Multiply(V);
-            var BVD = B.Multiply(V).Multiply(D);
+            var AV = Matrix.Multiply(A, V);
+            var BVD = Matrix.Multiply(Matrix.Multiply(B, V), D);
             Assert.IsTrue(Matrix.IsEqual(AV, BVD, 0.000001));
 
             double[,] expectedVectors =

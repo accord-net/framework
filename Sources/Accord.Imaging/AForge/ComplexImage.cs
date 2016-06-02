@@ -6,7 +6,7 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
     using System.Drawing;
@@ -14,6 +14,7 @@ namespace AForge.Imaging
     using AForge;
     using AForge.Math;
     using System.Numerics;
+    using Accord.Math;
 
     /// <summary>
     /// Complex image.
@@ -198,7 +199,7 @@ namespace AForge.Imaging
             int offset = imageData.Stride - width;
 
             // check image size
-            if ((!Tools.IsPowerOf2(width)) || (!Tools.IsPowerOf2(height)))
+            if ((!Accord.Math.Tools.IsPowerOf2(width)) || (!Accord.Math.Tools.IsPowerOf2(height)))
             {
                 throw new InvalidImagePropertiesException("Image width and height should be power of 2.");
             }
@@ -236,7 +237,7 @@ namespace AForge.Imaging
         public Bitmap ToBitmap()
         {
             // create new image
-            Bitmap dstImage = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
+            Bitmap dstImage = Accord.Imaging.Image.CreateGrayscaleImage(width, height);
 
             // lock destination bitmap data
             BitmapData dstData = dstImage.LockBits(

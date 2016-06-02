@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,7 +27,6 @@ namespace Accord.Tests.Neuro
     using Accord.Neuro;
     using Accord.Neuro.Learning;
     using AForge;
-    using AForge.Neuro;
     using NUnit.Framework;
     using System;
     using System.IO;
@@ -40,7 +39,7 @@ namespace Accord.Tests.Neuro
         public void MulticlassTest1()
         {
             Accord.Math.Tools.SetupGenerator(0);
-            Neuron.RandGenerator = new ThreadSafeRandom(0);
+            // Neuron.RandGenerator = new ThreadSafeRandom(0);
 
 
             int numberOfInputs = 3;
@@ -118,7 +117,7 @@ namespace Accord.Tests.Neuro
                 new double[] { -1 }
             };
 
-            Neuron.RandGenerator = new ThreadSafeRandom(0);
+            // Neuron.RandGenerator = new ThreadSafeRandom(0);
 
             ActivationNetwork network = new ActivationNetwork(
                    new BipolarSigmoidFunction(2), 2, 2, 1);
@@ -155,7 +154,7 @@ namespace Accord.Tests.Neuro
                 new double[] { -1 }
             };
 
-            Neuron.RandGenerator = new ThreadSafeRandom(0);
+            // Neuron.RandGenerator = new ThreadSafeRandom(0);
             ActivationNetwork network = new ActivationNetwork(
                    new BipolarSigmoidFunction(2), 2, 2, 1);
 
@@ -175,10 +174,11 @@ namespace Accord.Tests.Neuro
         {
             double[,] dataset = yinyang;
 
-            double[][] input = dataset.GetColumns(0, 1).ToArray();
-            double[][] output = dataset.GetColumn(2).ToArray();
+            double[][] input = dataset.GetColumns(new[] { 0, 1 }).ToJagged();
+            double[][] output = dataset.GetColumn(2).ToJagged();
 
-            Neuron.RandGenerator = new ThreadSafeRandom(0);
+            // Neuron.RandGenerator = new ThreadSafeRandom(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             ActivationNetwork network = new ActivationNetwork(
                    new BipolarSigmoidFunction(2), 2, 5, 1);
@@ -216,7 +216,7 @@ namespace Accord.Tests.Neuro
                 new double[] { 0 },
             };
 
-            Neuron.RandGenerator = new ThreadSafeRandom(0);
+            // Neuron.RandGenerator = new ThreadSafeRandom(0);
             ActivationNetwork network = new ActivationNetwork(
                    new BipolarSigmoidFunction(2), 2, 1);
 
@@ -307,7 +307,7 @@ namespace Accord.Tests.Neuro
                 new double[] { -1 }
             };
 
-            Neuron.RandGenerator = new ThreadSafeRandom(0);
+            // Neuron.RandGenerator = new ThreadSafeRandom(0);
 
             ActivationNetwork network = new ActivationNetwork(
                    new BipolarSigmoidFunction(2), 2, 2, 1);
@@ -367,7 +367,7 @@ namespace Accord.Tests.Neuro
                 new double[] {-1 }
             };
 
-            Neuron.RandGenerator = new ThreadSafeRandom(0);
+            // Neuron.RandGenerator = new ThreadSafeRandom(0);
 
             ActivationNetwork network = new ActivationNetwork(
                    new BipolarSigmoidFunction(2), 2, 4, 3, 1);
@@ -428,7 +428,7 @@ namespace Accord.Tests.Neuro
                 new double[] {-1 }
             };
 
-            Neuron.RandGenerator = new ThreadSafeRandom(0);
+            // Neuron.RandGenerator = new ThreadSafeRandom(0);
 
             ActivationNetwork network = new ActivationNetwork(
                    new BipolarSigmoidFunction(2), 2, 4, 3, 4, 1);
@@ -487,7 +487,8 @@ namespace Accord.Tests.Neuro
                 new double[] {-1 }
             };
 
-            Neuron.RandGenerator = new ThreadSafeRandom(0);
+            // Neuron.RandGenerator = new ThreadSafeRandom(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             ActivationNetwork network = new ActivationNetwork(
                    new BipolarSigmoidFunction(2), 2, 1);
@@ -559,7 +560,8 @@ namespace Accord.Tests.Neuro
             double[][] output = Accord.Statistics.Tools
                 .Expand(labels, numberOfClasses, -1, 1);
 
-            Neuron.RandGenerator = new ThreadSafeRandom(0);
+            // Neuron.RandGenerator = new ThreadSafeRandom(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             ActivationNetwork network = new ActivationNetwork(
                    new BipolarSigmoidFunction(2), numberOfInputs, numberOfClasses);
@@ -620,9 +622,6 @@ namespace Accord.Tests.Neuro
                 new double[] {-1 }
             };
 
-            Neuron.RandGenerator = new ThreadSafeRandom(0);
-
-
             ActivationNetwork network = new ActivationNetwork(
                    new BipolarSigmoidFunction(2), 2, 1);
 
@@ -679,6 +678,7 @@ namespace Accord.Tests.Neuro
         [Test]
         public void ZeroLambdaTest()
         {
+            Accord.Math.Random.Generator.Seed = 0;
             double[,] data = null;
 
             // open selected file
@@ -691,7 +691,7 @@ namespace Accord.Tests.Neuro
             // number of learning samples
             int samples = data.GetLength(0);
 
-            var ranges = data.Range(dimension: 0);
+            var ranges = data.GetRange(dimension: 0);
 
             Assert.AreEqual(2, ranges.Length);
 
@@ -717,7 +717,8 @@ namespace Accord.Tests.Neuro
                 output[i][0] = (data[i, 1] - yMin) * yFactor - 0.85; // set output
             }
 
-            Neuron.RandGenerator = new ThreadSafeRandom(0);
+            // Neuron.RandGenerator = new ThreadSafeRandom(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             // create multi-layer neural network
             var network = new ActivationNetwork(

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -214,10 +214,10 @@ namespace Accord.Math.Optimization
 
 
             // Compute error gradient using Jacobian
-            jacobian.TransposeAndMultiply(errors, result: gradient);
+            jacobian.TransposeAndDot(errors, result: gradient);
 
             // Compute Quasi-Hessian Matrix approximation
-            jacobian.TransposeAndMultiply(jacobian, result: hessian);
+            jacobian.TransposeAndDot(jacobian, result: hessian);
 
             decomposition = new SingularValueDecomposition(hessian,
                 computeLeftSingularVectors: true, computeRightSingularVectors: true, autoTranspose: true);

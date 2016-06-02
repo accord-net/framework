@@ -1,4 +1,4 @@
-namespace Animat
+namespace SampleApp
 {
     partial class CellWorld
     {

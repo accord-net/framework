@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -102,7 +102,7 @@ namespace Accord.Math.Optimization
 
         private double function(double[] x)
         {
-            return (x.Multiply(QuadraticTerms)).InnerProduct(x) + LinearTerms.InnerProduct(x);
+            return (x.Dot(QuadraticTerms)).Dot(x) + LinearTerms.Dot(x);
         }
 
         private double[] gradient(double[] x)

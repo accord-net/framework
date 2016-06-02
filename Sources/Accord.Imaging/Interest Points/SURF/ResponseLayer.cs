@@ -5,7 +5,7 @@
 // Copyright © Christopher Evans, 2009-2011
 // http://www.chrisevansdev.com/
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,7 +28,7 @@ namespace Accord.Imaging
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using AForge.Imaging;
+    using Accord.Imaging;
 
     /// <summary>
     ///   Response filter.
@@ -350,7 +350,7 @@ namespace Accord.Imaging
                     Dyy *= inv / 255f;
                     Dxy *= inv / 255f;
 
-                    // Get the determinant of Hessian response & laplacian sign
+                    // Get the determinant of Hessian response & Laplacian sign
                     Responses[y, x] = (Dxx * Dyy) - (0.9f * 0.9f * Dxy * Dxy);
                     Laplacian[y, x] = (Dxx + Dyy) >= 0 ? 1 : 0;
                 }

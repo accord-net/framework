@@ -6,10 +6,10 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
-    using System.Collections;
+    using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
 
@@ -138,7 +138,7 @@ namespace AForge.Imaging
 
         private int localPeakRadius = 4;
         private short minCircleIntensity = 10;
-        private ArrayList circles = new ArrayList();
+        private List<HoughCircle> circles = new List<HoughCircle>();
 
         /// <summary>
         /// Minimum circle's intensity in Hough map to recognize a circle.
@@ -329,7 +329,7 @@ namespace AForge.Imaging
             int height = houghMap.GetLength(0);
 
             // create new image
-            Bitmap image = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
+            Bitmap image = Accord.Imaging.Image.CreateGrayscaleImage(width, height);
 
             // lock destination bitmap data
             BitmapData imageData = image.LockBits(

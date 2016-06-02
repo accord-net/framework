@@ -41,7 +41,7 @@ using Accord.Math;
 using Accord.Statistics.Kernels;
 using Gestures.Native;
 
-namespace Gestures.SVMs
+namespace SampleApp
 {
     /// <summary>
     ///   Mouse gesture recognition sample application with Kernel Support 

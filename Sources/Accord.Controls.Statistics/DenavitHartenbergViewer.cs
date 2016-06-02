@@ -5,7 +5,7 @@
 // Copyright © Rémy Dispagne, 2013
 // cramer at libertysurf.fr
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,6 +30,7 @@ namespace Accord.Controls
     using System.Drawing;
     using Accord.Math.Kinematics;
     using AForge.Math;
+    using Accord.Math;
 
     /// <summary>
     ///   Denavit Hartenberg Viewer.

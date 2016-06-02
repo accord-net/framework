@@ -6,12 +6,12 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging.ColorReduction
+namespace Accord.Imaging.ColorReduction
 {
     using System;
     using System.Collections.Generic;
     using System.Drawing;
-    using AForge.Imaging;
+    using Accord.Imaging;
 
     // Color cube used by Median Cut color quantization algorithm
     internal class MedianCutCube

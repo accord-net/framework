@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -64,8 +64,8 @@ namespace Accord.Tests.Statistics
 
             int[] outputs =
             {
-                -1, -1, -1, -1, -1, -1, -1, -1, // fist eight from class -1
-                +1, +1, +1, +1, +1, +1, +1, +1  // last eight from class +1
+                -1, -1, -1, -1, -1, -1, -1, -1, // first eight from class -1
+                +1, +1, +1, +1, +1, +1, +1, +1  // last  eight from class +1
             };
 
             // Create a linear Support Vector Machine with 3 inputs
@@ -83,7 +83,7 @@ namespace Accord.Tests.Statistics
             // Extract the input labels predicted by the machine
             double[] predicted = new double[inputs.Length];
             for (int i = 0; i < predicted.Length; i++)
-                predicted[i] = machine.Compute(inputs[i]);
+                predicted[i] = machine.Distance(inputs[i]);
 
 
             // Create a new ROC curve to assess the performance of the model
@@ -100,9 +100,11 @@ namespace Accord.Tests.Statistics
                             .WaitForClose();
             */
 
+            Assert.AreEqual(0.25, error);
             Assert.AreEqual(0.78125, roc.Area);
             // Assert.AreEqual(0.1174774, roc.StandardError, 1e-6); HanleyMcNeil
-            Assert.AreEqual(0.11958120746409709, roc.StandardError, 1e-6);
+            // Assert.AreEqual(0.11958120746409709, roc.StandardError, 1e-6);
+            Assert.AreEqual(0.132845321574701, roc.StandardError, 1e-6);
         }
 
     }

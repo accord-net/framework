@@ -6,10 +6,9 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Fuzzy
+namespace Accord.Fuzzy
 {
     using System;
-    using AForge;
 
     /// <summary>
     /// NOT operator, used to calculate the complement of a fuzzy set. 

@@ -6,14 +6,14 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Vision.Motion
+namespace Accord.Vision.Motion
 {
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
 
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
 
     /// <summary>
     /// Motion detector based on difference with predefined background frame.
@@ -77,20 +77,20 @@ namespace AForge.Vision.Motion
         private bool manuallySetBackgroundFrame = false;
 
         // suppress noise
-        private bool suppressNoise   = true;
+        private bool suppressNoise = true;
         private bool keepObjectEdges = false;
 
         // threshold values
-        private int differenceThreshold    =  15;
+        private int differenceThreshold = 15;
         private int differenceThresholdNeg = -15;
 
         // binary erosion filter
-        private BinaryErosion3x3 erosionFilter = new BinaryErosion3x3( );
+        private BinaryErosion3x3 erosionFilter = new BinaryErosion3x3();
         // binary dilatation filter
-        private BinaryDilatation3x3 dilatationFilter = new BinaryDilatation3x3( );
+        private BinaryDilatation3x3 dilatationFilter = new BinaryDilatation3x3();
 
         // dummy object to lock for synchronization
-        private object sync = new object( );
+        private object sync = new object();
 
         /// <summary>
         /// Difference threshold value, [1, 255].
@@ -107,9 +107,9 @@ namespace AForge.Vision.Motion
             get { return differenceThreshold; }
             set
             {
-                lock ( sync )
+                lock (sync)
                 {
-                    differenceThreshold = Math.Max( 1, Math.Min( 255, value ) );
+                    differenceThreshold = Math.Max(1, Math.Min(255, value));
                     differenceThresholdNeg = -differenceThreshold;
                 }
             }
@@ -128,9 +128,9 @@ namespace AForge.Vision.Motion
         {
             get
             {
-                lock ( sync )
+                lock (sync)
                 {
-                    return (float) pixelsChanged / ( width * height );
+                    return (float)pixelsChanged / (width * height);
                 }
             }
         }
@@ -155,7 +155,7 @@ namespace AForge.Vision.Motion
         {
             get
             {
-                lock ( sync )
+                lock (sync)
                 {
                     return motionFrame;
                 }
@@ -181,20 +181,20 @@ namespace AForge.Vision.Motion
             get { return suppressNoise; }
             set
             {
-                lock ( sync )
+                lock (sync)
                 {
                     suppressNoise = value;
 
                     // allocate temporary frame if required
-                    if ( ( suppressNoise ) && ( tempFrame == null ) && ( motionFrame != null ) )
+                    if ((suppressNoise) && (tempFrame == null) && (motionFrame != null))
                     {
-                        tempFrame = UnmanagedImage.Create( width, height, PixelFormat.Format8bppIndexed );
+                        tempFrame = UnmanagedImage.Create(width, height, PixelFormat.Format8bppIndexed);
                     }
 
                     // check if temporary frame is not required
-                    if ( ( !suppressNoise ) && ( tempFrame != null ) )
+                    if ((!suppressNoise) && (tempFrame != null))
                     {
-                        tempFrame.Dispose( );
+                        tempFrame.Dispose();
                         tempFrame = null;
                     }
                 }
@@ -219,7 +219,7 @@ namespace AForge.Vision.Motion
             get { return keepObjectEdges; }
             set
             {
-                lock ( sync )
+                lock (sync)
                 {
                     keepObjectEdges = value;
                 }
@@ -229,7 +229,7 @@ namespace AForge.Vision.Motion
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomFrameDifferenceDetector"/> class.
         /// </summary>
-        public CustomFrameDifferenceDetector( ) { }
+        public CustomFrameDifferenceDetector() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomFrameDifferenceDetector"/> class.
@@ -237,7 +237,7 @@ namespace AForge.Vision.Motion
         /// 
         /// <param name="suppressNoise">Suppress noise in video frames or not (see <see cref="SuppressNoise"/> property).</param>
         /// 
-        public CustomFrameDifferenceDetector( bool suppressNoise )
+        public CustomFrameDifferenceDetector(bool suppressNoise)
         {
             this.suppressNoise = suppressNoise;
         }
@@ -249,9 +249,9 @@ namespace AForge.Vision.Motion
         /// <param name="suppressNoise">Suppress noise in video frames or not (see <see cref="SuppressNoise"/> property).</param>
         /// <param name="keepObjectEdges">Restore objects edges after noise suppression or not (see <see cref="KeepObjectsEdges"/> property).</param>
         /// 
-        public CustomFrameDifferenceDetector( bool suppressNoise, bool keepObjectEdges )
+        public CustomFrameDifferenceDetector(bool suppressNoise, bool keepObjectEdges)
         {
-            this.suppressNoise   = suppressNoise;
+            this.suppressNoise = suppressNoise;
             this.keepObjectEdges = keepObjectEdges;
         }
 
@@ -267,45 +267,45 @@ namespace AForge.Vision.Motion
         /// (changes) in the processed frame.</para>
         /// </remarks>
         /// 
-        public void ProcessFrame( UnmanagedImage videoFrame )
+        public void ProcessFrame(UnmanagedImage videoFrame)
         {
-            lock ( sync )
+            lock (sync)
             {
                 // check background frame
-                if ( backgroundFrame == null )
+                if (backgroundFrame == null)
                 {
                     // save image dimension
-                    width  = videoFrame.Width;
+                    width = videoFrame.Width;
                     height = videoFrame.Height;
 
                     // alocate memory for background frame
-                    backgroundFrame = UnmanagedImage.Create( width, height, PixelFormat.Format8bppIndexed );
+                    backgroundFrame = UnmanagedImage.Create(width, height, PixelFormat.Format8bppIndexed);
                     frameSize = backgroundFrame.Stride * height;
 
                     // convert source frame to grayscale
-                    Tools.ConvertToGrayscale( videoFrame, backgroundFrame );
+                    Accord.Vision.Tools.ConvertToGrayscale(videoFrame, backgroundFrame);
 
                     return;
                 }
 
                 // check image dimension
-                if ( ( videoFrame.Width != width ) || ( videoFrame.Height != height ) )
+                if ((videoFrame.Width != width) || (videoFrame.Height != height))
                     return;
 
                 // check motion frame
-                if ( motionFrame == null )
+                if (motionFrame == null)
                 {
-                    motionFrame = UnmanagedImage.Create( width, height, PixelFormat.Format8bppIndexed );
+                    motionFrame = UnmanagedImage.Create(width, height, PixelFormat.Format8bppIndexed);
 
                     // temporary buffer
-                    if ( suppressNoise )
+                    if (suppressNoise)
                     {
-                        tempFrame = UnmanagedImage.Create( width, height, PixelFormat.Format8bppIndexed );
+                        tempFrame = UnmanagedImage.Create(width, height, PixelFormat.Format8bppIndexed);
                     }
                 }
 
                 // convert current image to grayscale
-                Tools.ConvertToGrayscale( videoFrame, motionFrame );
+                Accord.Vision.Tools.ConvertToGrayscale(videoFrame, motionFrame);
 
                 unsafe
                 {
@@ -314,39 +314,39 @@ namespace AForge.Vision.Motion
                     byte* currFrame;
                     int diff;
 
-                    backFrame = (byte*) backgroundFrame.ImageData.ToPointer( );
-                    currFrame = (byte*) motionFrame.ImageData.ToPointer( );
+                    backFrame = (byte*)backgroundFrame.ImageData.ToPointer();
+                    currFrame = (byte*)motionFrame.ImageData.ToPointer();
 
                     // 1 - get difference between frames
                     // 2 - threshold the difference
-                    for ( int i = 0; i < frameSize; i++, backFrame++, currFrame++ )
+                    for (int i = 0; i < frameSize; i++, backFrame++, currFrame++)
                     {
                         // difference
-                        diff = (int) *currFrame - (int) *backFrame;
+                        diff = (int)*currFrame - (int)*backFrame;
                         // treshold
-                        *currFrame = ( ( diff >= differenceThreshold ) || ( diff <= differenceThresholdNeg ) ) ? (byte) 255 : (byte) 0;
+                        *currFrame = ((diff >= differenceThreshold) || (diff <= differenceThresholdNeg)) ? (byte)255 : (byte)0;
                     }
 
-                    if ( suppressNoise )
+                    if (suppressNoise)
                     {
                         // suppress noise and calculate motion amount
-                        AForge.SystemTools.CopyUnmanagedMemory( tempFrame.ImageData, motionFrame.ImageData, frameSize );
-                        erosionFilter.Apply( tempFrame, motionFrame );
+                        Accord.SystemTools.CopyUnmanagedMemory(tempFrame.ImageData, motionFrame.ImageData, frameSize);
+                        erosionFilter.Apply(tempFrame, motionFrame);
 
-                        if ( keepObjectEdges )
+                        if (keepObjectEdges)
                         {
-                            AForge.SystemTools.CopyUnmanagedMemory( tempFrame.ImageData, motionFrame.ImageData, frameSize );
-                            dilatationFilter.Apply( tempFrame, motionFrame );
+                            Accord.SystemTools.CopyUnmanagedMemory(tempFrame.ImageData, motionFrame.ImageData, frameSize);
+                            dilatationFilter.Apply(tempFrame, motionFrame);
                         }
                     }
 
                     // calculate amount of motion pixels
                     pixelsChanged = 0;
-                    byte* motion = (byte*) motionFrame.ImageData.ToPointer( );
+                    byte* motion = (byte*)motionFrame.ImageData.ToPointer();
 
-                    for ( int i = 0; i < frameSize; i++, motion++ )
+                    for (int i = 0; i < frameSize; i++, motion++)
                     {
-                        pixelsChanged += ( *motion & 1 );
+                        pixelsChanged += (*motion & 1);
                     }
                 }
             }
@@ -366,35 +366,35 @@ namespace AForge.Vision.Motion
         /// </note></para>
         /// </remarks>
         /// 
-        public void Reset( )
+        public void Reset()
         {
             // clear background frame only in the case it was not set manually
-            Reset( false );
+            Reset(false);
         }
 
         // Reset motion detector to initial state
-        private  void Reset( bool force )
+        private void Reset(bool force)
         {
-            lock ( sync )
+            lock (sync)
             {
                 if (
-                    ( backgroundFrame != null ) &&
-                    ( ( force == true ) || ( manuallySetBackgroundFrame == false ) )
+                    (backgroundFrame != null) &&
+                    ((force == true) || (manuallySetBackgroundFrame == false))
                     )
                 {
-                    backgroundFrame.Dispose( );
+                    backgroundFrame.Dispose();
                     backgroundFrame = null;
                 }
 
-                if ( motionFrame != null )
+                if (motionFrame != null)
                 {
-                    motionFrame.Dispose( );
+                    motionFrame.Dispose();
                     motionFrame = null;
                 }
 
-                if ( tempFrame != null )
+                if (tempFrame != null)
                 {
-                    tempFrame.Dispose( );
+                    tempFrame.Dispose();
                     tempFrame = null;
                 }
             }
@@ -409,19 +409,19 @@ namespace AForge.Vision.Motion
         /// <remarks><para>The method sets background frame, which will be used to calculate
         /// difference with.</para></remarks>
         /// 
-        public void SetBackgroundFrame( Bitmap backgroundFrame )
+        public void SetBackgroundFrame(Bitmap backgroundFrame)
         {
             BitmapData data = backgroundFrame.LockBits(
-                new Rectangle( 0, 0, backgroundFrame.Width, backgroundFrame.Height ),
-                ImageLockMode.ReadOnly, backgroundFrame.PixelFormat );
+                new Rectangle(0, 0, backgroundFrame.Width, backgroundFrame.Height),
+                ImageLockMode.ReadOnly, backgroundFrame.PixelFormat);
 
             try
             {
-                SetBackgroundFrame( data );
+                SetBackgroundFrame(data);
             }
             finally
             {
-                backgroundFrame.UnlockBits( data );
+                backgroundFrame.UnlockBits(data);
             }
         }
 
@@ -434,9 +434,9 @@ namespace AForge.Vision.Motion
         /// <remarks><para>The method sets background frame, which will be used to calculate
         /// difference with.</para></remarks>
         /// 
-        public void SetBackgroundFrame( BitmapData backgroundFrame )
+        public void SetBackgroundFrame(BitmapData backgroundFrame)
         {
-            SetBackgroundFrame( new UnmanagedImage( backgroundFrame ) );
+            SetBackgroundFrame(new UnmanagedImage(backgroundFrame));
         }
 
         /// <summary>
@@ -448,23 +448,23 @@ namespace AForge.Vision.Motion
         /// <remarks><para>The method sets background frame, which will be used to calculate
         /// difference with.</para></remarks>
         /// 
-        public void SetBackgroundFrame( UnmanagedImage backgroundFrame )
+        public void SetBackgroundFrame(UnmanagedImage backgroundFrame)
         {
             // reset motion detection algorithm
-            Reset( true );
+            Reset(true);
 
-            lock ( sync )
+            lock (sync)
             {
                 // save image dimension
-                width  = backgroundFrame.Width;
+                width = backgroundFrame.Width;
                 height = backgroundFrame.Height;
 
                 // alocate memory for previous and current frames
-                this.backgroundFrame = UnmanagedImage.Create( width, height, PixelFormat.Format8bppIndexed );
+                this.backgroundFrame = UnmanagedImage.Create(width, height, PixelFormat.Format8bppIndexed);
                 frameSize = this.backgroundFrame.Stride * height;
 
                 // convert source frame to grayscale
-                Tools.ConvertToGrayscale( backgroundFrame, this.backgroundFrame );
+                Accord.Vision.Tools.ConvertToGrayscale(backgroundFrame, this.backgroundFrame);
 
                 manuallySetBackgroundFrame = true;
             }

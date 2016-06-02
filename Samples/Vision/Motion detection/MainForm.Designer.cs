@@ -65,7 +65,7 @@ namespace SampleApp
             this.fpsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.objectsCountLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.videoSourcePlayer = new AForge.Controls.VideoSourcePlayer();
+            this.videoSourcePlayer = new Accord.Controls.VideoSourcePlayer();
             this.alarmTimer = new System.Windows.Forms.Timer(this.components);
             this.menuMenu.SuspendLayout();
             this.statusBar.SuspendLayout();
@@ -368,7 +368,7 @@ namespace SampleApp
             this.videoSourcePlayer.Size = new System.Drawing.Size(322, 242);
             this.videoSourcePlayer.TabIndex = 0;
             this.videoSourcePlayer.VideoSource = null;
-            this.videoSourcePlayer.NewFrame += new AForge.Controls.VideoSourcePlayer.NewFrameHandler(this.videoSourcePlayer_NewFrame);
+            this.videoSourcePlayer.NewFrame += new Accord.Controls.VideoSourcePlayer.NewFrameHandler(this.videoSourcePlayer_NewFrame);
             // 
             // alarmTimer
             // 
@@ -423,7 +423,7 @@ namespace SampleApp
         private System.Windows.Forms.ToolStripMenuItem defineMotionregionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem localVideoCaptureSettingsToolStripMenuItem;
-        private AForge.Controls.VideoSourcePlayer videoSourcePlayer;
+        private Accord.Controls.VideoSourcePlayer videoSourcePlayer;
         private System.Windows.Forms.ToolStripMenuItem motionDetectionAlgorithmToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem noneToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem twoFramesDifferenceToolStripMenuItem;

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,8 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using System.Globalization;
+    using Accord.Statistics.Distributions.Sampling;
+using Accord.Math.Random;
 
     /// <summary>
     ///   Abstract class for Multivariate Probability Distributions.
@@ -61,10 +63,17 @@ namespace Accord.Statistics.Distributions.Multivariate
     /// 
     [Serializable]
     public abstract class MultivariateContinuousDistribution : DistributionBase,
-        IMultivariateDistribution, IMultivariateDistribution<double[]>, IFormattable
+        IMultivariateDistribution, 
+        IMultivariateDistribution<double[]>,
+        ISampleableDistribution<double[]>,
+        ISampleableDistribution<int[]>,
+        IFormattable
     {
 
         private int dimension;
+
+        [NonSerialized]
+        private IRandomNumberGenerator<double[]> generator;
 
 
         /// <summary>
@@ -383,15 +392,96 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   
         public virtual void Fit(double[][] observations, int[] weights, IFittingOptions options)
         {
-            if (weights == null)
-            {
-                Fit(observations, (double[])null, options);
-            }
-            else
-            {
+            if (weights != null)
                 throw new NotSupportedException();
-            }
+
+            Fit(observations, (double[])null, options);
         }
+
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public double[][] Generate(int samples)
+        {
+            return Generate(samples, Jagged.Create<double>(samples, dimension));
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public virtual double[][] Generate(int samples, double[][] result)
+        {
+            if (generator == null)
+                generator = new MetropolisHasting(Dimension, LogProbabilityDensityFunction);
+            return generator.Generate(samples, result);
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <returns>A random observations drawn from this distribution.</returns>
+        /// 
+        public double[] Generate()
+        {
+            return Generate(1)[0];
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <returns>A random observations drawn from this distribution.</returns>
+        /// 
+        public double[] Generate(double[] result)
+        {
+            double[][] c = { result };
+            Generate(1, result: c);
+            return c[0];
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="result">The location where to store the sample.</param>
+        /// 
+        /// <returns>
+        ///   A random observation drawn from this distribution.
+        /// </returns>
+        /// 
+        public int[] Generate(int[] result)
+        {
+            return Elementwise.Round(Generate(), result: result);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the observations.</param>
+        /// 
+        /// <returns>
+        ///   A random vector of observations drawn from this distribution.
+        /// </returns>
+        /// 
+        public int[][] Generate(int samples, int[][] result)
+        {
+            return Elementwise.Round(Generate(samples), result: result);
+        }
+
 
 
         double IDistribution<double[]>.ProbabilityFunction(double[] x)
@@ -404,5 +494,14 @@ namespace Accord.Statistics.Distributions.Multivariate
             return LogProbabilityDensityFunction(x);
         }
 
+        int[][] IRandomNumberGenerator<int[]>.Generate(int samples)
+        {
+            return Generate(samples, Jagged.Create<int>(samples, dimension));
+        }
+
+        int[] IRandomNumberGenerator<int[]>.Generate()
+        {
+            return Generate(new int[dimension]);
+        }
     }
 }

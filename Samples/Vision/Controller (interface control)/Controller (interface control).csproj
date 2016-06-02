@@ -8,7 +8,7 @@
     <ProjectGuid>{95BDACEA-E8DB-4A87-9472-A37F0879179F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Controller</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Controller %28interface controls%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

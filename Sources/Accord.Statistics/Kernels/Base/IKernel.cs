@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -42,17 +42,8 @@ namespace Accord.Statistics.Kernels
     ///   </list></para>
     /// </remarks>
     /// 
-    public interface IKernel
+    public interface IKernel : IKernel<double[]>
     {
-        /// <summary>
-        ///   The kernel function.
-        /// </summary>
-        /// 
-        /// <param name="x">Vector <c>x</c> in input space.</param>
-        /// <param name="y">Vector <c>y</c> in input space.</param>
-        /// <returns>Dot product in feature (kernel) space.</returns>
-        /// 
-        double Function(double[] x, double[] y);
 
     }
 }

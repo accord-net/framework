@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -36,16 +36,7 @@ namespace Accord.Math
         ///   Converts a jagged-array into a multidimensional array.
         /// </summary>
         /// 
-        public static T[,] ToMatrix<T>(this T[][] array)
-        {
-            return ToMatrix(array, false);
-        }
-
-        /// <summary>
-        ///   Converts a jagged-array into a multidimensional array.
-        /// </summary>
-        /// 
-        public static T[,] ToMatrix<T>(this T[][] array, bool transpose)
+        public static T[,] ToMatrix<T>(this T[][] array, bool transpose = false)
         {
             int rows = array.Length;
             if (rows == 0) return new T[0, rows];
@@ -75,20 +66,7 @@ namespace Accord.Math
         ///   Converts an array into a multidimensional array.
         /// </summary>
         /// 
-        public static T[,] ToMatrix<T>(this T[] array)
-        {
-            T[,] m = new T[1, array.Length];
-            for (int i = 0; i < array.Length; i++)
-                m[0, i] = array[i];
-
-            return m;
-        }
-
-        /// <summary>
-        ///   Converts an array into a multidimensional array.
-        /// </summary>
-        /// 
-        public static T[][] ToArray<T>(this T[] array, bool asColumnVector = true)
+        public static T[][] ToJagged<T>(this T[] array, bool asColumnVector = true)
         {
             if (asColumnVector)
             {
@@ -129,16 +107,7 @@ namespace Accord.Math
         ///   Converts a multidimensional array into a jagged array.
         /// </summary>
         /// 
-        public static T[][] ToArray<T>(this T[,] matrix)
-        {
-            return ToArray(matrix, false);
-        }
-
-        /// <summary>
-        ///   Converts a multidimensional array into a jagged array.
-        /// </summary>
-        /// 
-        public static T[][] ToArray<T>(this T[,] matrix, bool transpose)
+        public static T[][] ToJagged<T>(this T[,] matrix, bool transpose = false)
         {
             T[][] array;
 
@@ -167,384 +136,18 @@ namespace Accord.Math
         #region Type conversions
 
         /// <summary>
-        ///   Converts a double-precision floating point multidimensional
-        ///   array into a double-precision floating point multidimensional
-        ///   array.
+        ///   Converts the values of a vector using the given converter expression.
         /// </summary>
-        /// 
-        public static double[,] ToDouble(this float[,] matrix)
-        {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-            int length = matrix.Length;
-
-            double[,] result = new double[rows, cols];
-
-            unsafe
-            {
-                fixed (float* srcPtr = matrix)
-                fixed (double* dstPtr = result)
-                {
-                    float* src = srcPtr;
-                    double* dst = dstPtr;
-
-                    for (int i = 0; i < length; i++, src++, dst++)
-                        *dst = (double)*src;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        ///   Converts a byte multidimensional array into a double-
-        ///   precision floating point multidimensional array.
-        /// </summary>
-        /// 
-        public static double[,] ToDouble(this byte[,] matrix)
-        {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-            int length = matrix.Length;
-
-            double[,] result = new double[rows, cols];
-
-            unsafe
-            {
-                fixed (byte* srcPtr = matrix)
-                fixed (double* dstPtr = result)
-                {
-                    byte* src = srcPtr;
-                    double* dst = dstPtr;
-
-                    for (int i = 0; i < length; i++, src++, dst++)
-                        *dst = (double)*src;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        ///   Converts a double-precision floating point multidimensional
-        ///   array into a single-precision floating point multidimensional
-        ///   array.
-        /// </summary>
-        /// 
-        public static double[,] ToDouble(this int[,] matrix)
-        {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-            int length = matrix.Length;
-
-            double[,] result = new double[rows, cols];
-
-            unsafe
-            {
-                fixed (int* srcPtr = matrix)
-                fixed (double* dstPtr = result)
-                {
-                    int* src = srcPtr;
-                    double* dst = dstPtr;
-
-                    for (int i = 0; i < length; i++, src++, dst++)
-                        *dst = (double)*src;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        ///   Converts a single-precision floating point multidimensional
-        ///   array into a double-precision floating point multidimensional
-        ///   array.
-        /// </summary>
-        /// 
-        public static float[,] ToSingle(this double[,] matrix)
-        {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-            int length = matrix.Length;
-
-            float[,] result = new float[rows, cols];
-
-            unsafe
-            {
-                fixed (double* srcPtr = matrix)
-                fixed (float* dstPtr = result)
-                {
-                    double* src = srcPtr;
-                    float* dst = dstPtr;
-
-                    for (int i = 0; i < length; i++, src++, dst++)
-                        *dst = (float)*src;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        ///   Truncates a double matrix to integer values.
-        /// </summary>
-        /// <param name="matrix">The matrix to be truncated.</param>
-        /// 
-        public static int[,] ToInt32(this double[,] matrix)
-        {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-            int length = matrix.Length;
-
-            int[,] result = new int[rows, cols];
-
-            unsafe
-            {
-                fixed (double* srcPtr = matrix)
-                fixed (int* dstPtr = result)
-                {
-                    double* src = srcPtr;
-                    int* dst = dstPtr;
-
-                    for (int i = 0; i < length; i++, src++, dst++)
-                        *dst = (int)*src;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        ///   Truncates a double matrix to integer values.
-        /// </summary>
-        /// <param name="matrix">The matrix to be truncated.</param>
-        /// 
-        public static int[][] ToInt32(this double[][] matrix)
-        {
-            int[][] result = new int[matrix.Length][];
-
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                result[i] = new int[matrix[i].Length];
-                for (int j = 0; j < matrix[i].Length; j++)
-                    result[i][j] = (int)matrix[i][j];
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        ///   Converts a matrix to integer values.
-        /// </summary>
-        /// 
-        /// <param name="matrix">The matrix to be converted.</param>
-        /// 
-        public static int[][] ToInt32(this byte[][] matrix)
-        {
-            int[][] result = new int[matrix.Length][];
-
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                result[i] = new int[matrix[i].Length];
-                for (int j = 0; j < matrix[i].Length; j++)
-                    result[i][j] = (int)matrix[i][j];
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        ///   Converts a matrix to integer values.
-        /// </summary>
-        /// 
-        /// <param name="matrix">The matrix to be converted.</param>
-        /// 
-        public static int[][] ToInt32(this sbyte[][] matrix)
-        {
-            int[][] result = new int[matrix.Length][];
-
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                result[i] = new int[matrix[i].Length];
-                for (int j = 0; j < matrix[i].Length; j++)
-                    result[i][j] = (int)matrix[i][j];
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        ///   Converts an integer matrix to double values.
-        /// </summary>
-        /// 
-        /// <param name="matrix">The matrix to be converted.</param>
-        /// 
-        public static double[][] ToDouble(this int[][] matrix)
-        {
-            double[][] result = new double[matrix.Length][];
-
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                result[i] = new double[matrix[i].Length];
-                for (int j = 0; j < matrix[i].Length; j++)
-                    result[i][j] = (double)matrix[i][j];
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        ///   Converts an integer matrix to double values.
-        /// </summary>
-        /// 
-        /// <param name="matrix">The matrix to be converted.</param>
-        /// 
-        public static double[][] ToDouble(this byte[][] matrix)
-        {
-            double[][] result = new double[matrix.Length][];
-
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                result[i] = new double[matrix[i].Length];
-                for (int j = 0; j < matrix[i].Length; j++)
-                    result[i][j] = (double)matrix[i][j];
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        ///   Converts an integer matrix to double values.
-        /// </summary>
-        /// 
-        /// <param name="matrix">The matrix to be converted.</param>
-        /// 
-        public static double[][] ToDouble(this sbyte[][] matrix)
-        {
-            double[][] result = new double[matrix.Length][];
-
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                result[i] = new double[matrix[i].Length];
-                for (int j = 0; j < matrix[i].Length; j++)
-                    result[i][j] = (double)matrix[i][j];
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        ///   Converts an integer matrix to double values.
-        /// </summary>
-        /// 
-        /// <param name="matrix">The matrix to be converted.</param>
-        /// 
-        public static float[][] ToSingle(this double[][] matrix)
-        {
-            var result = new float[matrix.Length][];
-
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                result[i] = new float[matrix[i].Length];
-                for (int j = 0; j < matrix[i].Length; j++)
-                    result[i][j] = (float)matrix[i][j];
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        ///   Converts a double-precision floating point multidimensional
-        ///   array into a single-precision floating point multidimensional
-        ///   array.
-        /// </summary>
-        /// 
-        public static double[] ToDouble(this float[] vector)
-        {
-            double[] result = new double[vector.Length];
-            for (int i = 0; i < vector.Length; i++)
-                result[i] = (double)vector[i];
-            return result;
-        }
-
-        /// <summary>
-        ///   Converts a double-precision floating point multidimensional
-        ///   array into a single-precision floating point multidimensional
-        ///   array.
-        /// </summary>
-        /// 
-        public static double[] ToDouble(this short[] vector)
-        {
-            double[] result = new double[vector.Length];
-            for (int i = 0; i < vector.Length; i++)
-                result[i] = (double)vector[i];
-            return result;
-        }
-
-        /// <summary>
-        ///   Truncates a double vector to integer values.
-        /// </summary>
-        /// <param name="vector">The vector to be truncated.</param>
-        /// 
-        public static int[] ToInt32(this double[] vector)
-        {
-            int[] result = new int[vector.Length];
-            for (int i = 0; i < vector.Length; i++)
-                result[i] = (int)vector[i];
-            return result;
-        }
-
-        /// <summary>
-        ///   Converts a vector to integer values.
-        /// </summary>
-        /// 
+        /// <typeparam name="TInput">The type of the input.</typeparam>
+        /// <typeparam name="TOutput">The type of the output.</typeparam>
         /// <param name="vector">The vector to be converted.</param>
         /// 
-        public static int[] ToInt32(this byte[] vector)
+        public static TOutput[] Convert<TInput, TOutput>(this TInput[] vector)
+            where TOutput : TInput
         {
-            int[] result = new int[vector.Length];
-            for (int i = 0; i < vector.Length; i++)
-                result[i] = (int)vector[i];
-            return result;
-        }
-
-        /// <summary>
-        ///   Converts a vector to integer values.
-        /// </summary>
-        /// 
-        /// <param name="vector">The vector to be converted.</param>
-        /// 
-        public static int[] ToInt32(this sbyte[] vector)
-        {
-            int[] result = new int[vector.Length];
-            for (int i = 0; i < vector.Length; i++)
-                result[i] = (int)vector[i];
-            return result;
-        }
-
-        /// <summary>
-        ///   Converts a integer vector into a double vector.
-        /// </summary>
-        /// <param name="vector">The vector to be converted.</param>
-        /// 
-        public static double[] ToDouble(this int[] vector)
-        {
-            double[] result = new double[vector.Length];
-            for (int i = 0; i < vector.Length; i++)
-                result[i] = (double)vector[i];
-            return result;
-        }
-
-        /// <summary>
-        ///   Converts a double vector into a single vector.
-        /// </summary>
-        /// <param name="vector">The vector to be converted.</param>
-        /// 
-        public static float[] ToSingle(this double[] vector)
-        {
-            float[] result = new float[vector.Length];
-            for (int i = 0; i < vector.Length; i++)
-                result[i] = (float)vector[i];
+            TOutput[] result = new TOutput[vector.Length];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = (TOutput)vector[i];
             return result;
         }
 
@@ -622,49 +225,67 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Converts the values of a vector using the given converter expression.
+        ///   Converts an object into another type, irrespective of whether
+        ///   the conversion can be done at compile time or not. This can be
+        ///   used to convert generic types to numeric types during runtime.
         /// </summary>
+        /// 
         /// <typeparam name="TOutput">The type of the output.</typeparam>
+        /// 
         /// <param name="array">The vector or array to be converted.</param>
         /// 
         public static TOutput To<TOutput>(this Array array)
             where TOutput : class, ICloneable, IList, ICollection, IEnumerable
 #if !NET35
-            , IStructuralComparable, IStructuralEquatable
+, IStructuralComparable, IStructuralEquatable
 #endif
         {
-            var typeInput = array.GetType();
-            var typeOutput = typeof(TOutput);
+            return To(array, typeof(TOutput)) as TOutput;
+        }
 
-            var inputElementType = typeInput.GetElementType();
-            var outputElementType = typeOutput.GetElementType();
+        /// <summary>
+        ///   Converts an object into another type, irrespective of whether
+        ///   the conversion can be done at compile time or not. This can be
+        ///   used to convert generic types to numeric types during runtime.
+        /// </summary>
+        /// 
+        /// <param name="array">The vector or array to be converted.</param>
+        /// <param name="outputType">The type of the output.</param>
+        /// 
+        public static object To(this Array array, Type outputType)
+        {
+            Type inputType = array.GetType();
 
-            if (inputElementType.IsSubclassOf(typeof(Array)))
+            Type inputElementType = inputType.GetElementType();
+            Type outputElementType = outputType.GetElementType();
+
+            // Multidimensional array
+            Array result = Array.CreateInstance(outputElementType, array.GetLength());
+
+            foreach (var idx in GetIndices(array))
             {
-                // Jagged array
-                throw new NotImplementedException();
-            }
-            else
-            {
-                // Multidimensional array
-                var dimensions = array.GetDimensions();
-                var result = Array.CreateInstance(outputElementType, dimensions);
+                object inputValue = array.GetValue(idx);
+                object outputValue = null;
 
-                foreach (var idx in GetIndices(array))
+                Array inputArray = inputValue as Array;
+
+                if (outputElementType.IsEnum)
                 {
-                    object inputValue = array.GetValue(idx);
-                    object outputValue = null;
-
-                    if (outputElementType.IsEnum)
-                        outputValue = Enum.ToObject(outputElementType, (int)System.Convert.ChangeType(inputValue, typeof(int)));
-                    else
-                        outputValue = System.Convert.ChangeType(inputValue, outputElementType);
-
-                    result.SetValue(outputValue, idx);
+                    outputValue = Enum.ToObject(outputElementType, (int)System.Convert.ChangeType(inputValue, typeof(int)));
+                }
+                else if (inputArray != null)
+                {
+                    outputValue = To(inputArray, outputElementType);
+                }
+                else
+                {
+                    outputValue = System.Convert.ChangeType(inputValue, outputElementType);
                 }
 
-                return result as TOutput;
+                result.SetValue(outputValue, idx);
             }
+
+            return result;
         }
 
         #endregion
@@ -697,9 +318,11 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
+        /// <seealso cref="Accord.Math.Vector.GetIndices{T}(T[])"/>
+        /// 
         public static IEnumerable<int[]> GetIndices(this Array array)
         {
-            return Accord.Math.Indices.From(array);
+            return Combinatorics.Sequences(array.GetLength());
         }
 
 

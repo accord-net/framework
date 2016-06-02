@@ -8,13 +8,13 @@
 // Copyright © Frank Nagl, 2007
 // admin@franknagl.de
 //
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.Collections.Generic;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging.Filters;
 
     /// <summary>
     /// Susan corners detector.
@@ -67,6 +67,7 @@ namespace AForge.Imaging
     {
         // brightness difference threshold
         private int differenceThreshold = 25;
+
         // geometrical threshold
         private int geometricalThreshold = 18;
 
@@ -110,13 +111,13 @@ namespace AForge.Imaging
             get { return geometricalThreshold; }
             set { geometricalThreshold = value; }
         }
-        
+
         private static int[] rowRadius = new int[7] { 1, 2, 3, 3, 3, 2, 1 };
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SusanCornersDetector"/> class.
         /// </summary>
-        public SusanCornersDetector( )
+        public SusanCornersDetector()
         {
         }
 
@@ -127,9 +128,9 @@ namespace AForge.Imaging
         /// <param name="differenceThreshold">Brightness difference threshold.</param>
         /// <param name="geometricalThreshold">Geometrical threshold.</param>
         /// 
-        public SusanCornersDetector( int differenceThreshold, int geometricalThreshold )
+        public SusanCornersDetector(int differenceThreshold, int geometricalThreshold)
         {
-            this.differenceThreshold  = differenceThreshold;
+            this.differenceThreshold = differenceThreshold;
             this.geometricalThreshold = geometricalThreshold;
         }
 
@@ -143,35 +144,35 @@ namespace AForge.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public List<IntPoint> ProcessImage( Bitmap image )
+        public List<IntPoint> ProcessImage(Bitmap image)
         {
             // check image format
             if (
-                ( image.PixelFormat != PixelFormat.Format8bppIndexed ) &&
-                ( image.PixelFormat != PixelFormat.Format24bppRgb ) &&
-                ( image.PixelFormat != PixelFormat.Format32bppRgb ) &&
-                ( image.PixelFormat != PixelFormat.Format32bppArgb )
+                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
+                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
+                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
+                (image.PixelFormat != PixelFormat.Format32bppArgb)
                 )
             {
-                throw new UnsupportedImageFormatException( "Unsupported pixel format of the source image." );
+                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
             }
 
             // lock source image
             BitmapData imageData = image.LockBits(
-                new Rectangle( 0, 0, image.Width, image.Height ),
-                ImageLockMode.ReadOnly, image.PixelFormat );
+                new Rectangle(0, 0, image.Width, image.Height),
+                ImageLockMode.ReadOnly, image.PixelFormat);
 
             List<IntPoint> corners;
 
             try
             {
                 // process the image
-                corners = ProcessImage( new UnmanagedImage( imageData ) );
+                corners = ProcessImage(new UnmanagedImage(imageData));
             }
             finally
             {
                 // unlock image
-                image.UnlockBits( imageData );
+                image.UnlockBits(imageData);
             }
 
             return corners;
@@ -187,9 +188,9 @@ namespace AForge.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public List<IntPoint> ProcessImage( BitmapData imageData )
+        public List<IntPoint> ProcessImage(BitmapData imageData)
         {
-            return ProcessImage( new UnmanagedImage( imageData ) );
+            return ProcessImage(new UnmanagedImage(imageData));
         }
 
         /// <summary>
@@ -202,34 +203,34 @@ namespace AForge.Imaging
         ///
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public List<IntPoint> ProcessImage( UnmanagedImage image )
+        public List<IntPoint> ProcessImage(UnmanagedImage image)
         {
             // check image format
             if (
-                ( image.PixelFormat != PixelFormat.Format8bppIndexed ) &&
-                ( image.PixelFormat != PixelFormat.Format24bppRgb ) &&
-                ( image.PixelFormat != PixelFormat.Format32bppRgb ) &&
-                ( image.PixelFormat != PixelFormat.Format32bppArgb )
+                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
+                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
+                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
+                (image.PixelFormat != PixelFormat.Format32bppArgb)
                 )
             {
-                throw new UnsupportedImageFormatException( "Unsupported pixel format of the source image." );
+                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
             }
 
             // get source image size
-            int width  = image.Width;
+            int width = image.Width;
             int height = image.Height;
 
             // make sure we have grayscale image
             UnmanagedImage grayImage = null;
 
-            if ( image.PixelFormat == PixelFormat.Format8bppIndexed )
+            if (image.PixelFormat == PixelFormat.Format8bppIndexed)
             {
                 grayImage = image;
             }
             else
             {
                 // create temporary grayscale image
-                grayImage = Grayscale.CommonAlgorithms.BT709.Apply( image );
+                grayImage = Grayscale.CommonAlgorithms.BT709.Apply(image);
             }
 
             int[,] susanMap = new int[height, width];
@@ -240,13 +241,13 @@ namespace AForge.Imaging
                 int stride = grayImage.Stride;
                 int offset = stride - width;
 
-                byte* src = (byte*) grayImage.ImageData.ToPointer( ) + stride * 3 + 3;
+                byte* src = (byte*)grayImage.ImageData.ToPointer() + stride * 3 + 3;
 
-			    // for each row
-                for ( int y = 3, maxY = height - 3; y < maxY; y++ )
+                // for each row
+                for (int y = 3, maxY = height - 3; y < maxY; y++)
                 {
                     // for each pixel
-                    for ( int x = 3, maxX = width - 3; x < maxX; x++, src++ )
+                    for (int x = 3, maxX = width - 3; x < maxX; x++, src++)
                     {
                         // get value of the nucleus
                         byte nucleusValue = *src;
@@ -256,7 +257,7 @@ namespace AForge.Imaging
                         int cx = 0, cy = 0;
 
                         // for each row of the mask
-                        for ( int i = -3; i <= 3; i++ )
+                        for (int i = -3; i <= 3; i++)
                         {
                             // determine row's radius
                             int r = rowRadius[i + 3];
@@ -265,10 +266,10 @@ namespace AForge.Imaging
                             byte* ptr = (byte*)((int)src + stride * i);
 
                             // for each element of the mask's row
-                            for ( int j = -r; j <= r; j++ )
+                            for (int j = -r; j <= r; j++)
                             {
                                 // differenceThreshold
-                                if ( System.Math.Abs( nucleusValue - ptr[j] ) <= differenceThreshold )
+                                if (System.Math.Abs(nucleusValue - ptr[j]) <= differenceThreshold)
                                 {
                                     usan++;
 
@@ -279,15 +280,15 @@ namespace AForge.Imaging
                         }
 
                         // check usan size
-                        if ( usan < geometricalThreshold )
+                        if (usan < geometricalThreshold)
                         {
                             cx /= usan;
                             cy /= usan;
 
-                            if ( ( x != cx ) || ( y != cy ) )
+                            if ((x != cx) || (y != cy))
                             {
                                 // cornersList.Add( new Point( x, y ) );
-                                usan = ( geometricalThreshold - usan );
+                                usan = (geometricalThreshold - usan);
                             }
                             else
                             {
@@ -307,30 +308,30 @@ namespace AForge.Imaging
                 }
             }
 
-            if ( image.PixelFormat != PixelFormat.Format8bppIndexed )
+            if (image.PixelFormat != PixelFormat.Format8bppIndexed)
             {
                 // free grayscale image
-                grayImage.Dispose( );
+                grayImage.Dispose();
             }
 
             // collect interesting points - only those points, which are local maximums
-            List<IntPoint> cornersList = new List<IntPoint>( );
+            List<IntPoint> cornersList = new List<IntPoint>();
 
             // for each row
-            for ( int y = 2, maxY = height - 2; y < maxY; y++ )
+            for (int y = 2, maxY = height - 2; y < maxY; y++)
             {
                 // for each pixel
-                for ( int x = 2, maxX = width - 2; x < maxX; x++ )
+                for (int x = 2, maxX = width - 2; x < maxX; x++)
                 {
                     int currentValue = susanMap[y, x];
 
                     // for each windows' row
-                    for ( int i = -2; ( currentValue != 0 ) && ( i <= 2 ); i++ )
+                    for (int i = -2; (currentValue != 0) && (i <= 2); i++)
                     {
                         // for each windows' pixel
-                        for ( int j = -2; j <= 2; j++ )
+                        for (int j = -2; j <= 2; j++)
                         {
-                            if ( susanMap[y + i, x + j] > currentValue )
+                            if (susanMap[y + i, x + j] > currentValue)
                             {
                                 currentValue = 0;
                                 break;
@@ -339,14 +340,28 @@ namespace AForge.Imaging
                     }
 
                     // check if this point is really interesting
-                    if ( currentValue != 0 )
+                    if (currentValue != 0)
                     {
-                        cornersList.Add( new IntPoint( x, y ) );
+                        cornersList.Add(new IntPoint(x, y));
                     }
                 }
             }
 
             return cornersList;
+        }
+
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A new object that is a copy of this instance.
+        /// </returns>
+        /// 
+        public object Clone()
+        {
+            var clone = new SusanCornersDetector(differenceThreshold, geometricalThreshold);
+            return clone;
         }
     }
 }

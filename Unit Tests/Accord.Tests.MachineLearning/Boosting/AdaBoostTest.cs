@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -111,7 +111,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void ConstructorTest2()
         {
-            double[][] inputs = LeastSquaresLearningTest.yinyang.GetColumns(0, 1).ToArray();
+            double[][] inputs = LeastSquaresLearningTest.yinyang.GetColumns(new[] { 0, 1 }).ToJagged();
             int[] outputs = LeastSquaresLearningTest.yinyang.GetColumn(2).ToInt32();
 
             var outputs2 = outputs.Apply(x => x > 0 ? 1.0 : 0.0);

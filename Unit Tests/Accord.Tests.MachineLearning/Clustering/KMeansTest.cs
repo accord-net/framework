@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,6 +30,7 @@ namespace Accord.Tests.MachineLearning
     using System.IO;
     using System.Reflection;
     using System.Runtime.Serialization.Formatters.Binary;
+    using Accord.IO;
 
     [TestFixture]
     public class KMeansTest
@@ -39,7 +40,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void KMeansConstructorTest()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             // Declare some observations
             double[][] observations = 
@@ -159,6 +160,15 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        public void KMeansConstructorTest_Distance()
+        {
+            // Create a new algorithm
+            KMeans kmeans = new KMeans(3, Distance.Manhattan);
+            Assert.IsNotNull(kmeans.Distance);
+            Assert.IsTrue(kmeans.Distance is Accord.Math.Distances.Manhattan);
+        }
+
+        [Test]
         public void KMeansMoreClustersThanSamples()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -199,13 +209,9 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void DeserializationTest1()
         {
-
             MemoryStream stream = new MemoryStream(Properties.Resources.kmeans);
 
-            BinaryFormatter bf = new BinaryFormatter();
-            object o = bf.DeserializeAnyVersion(stream);
-
-            KMeans kmeans = (KMeans)o;
+            KMeans kmeans = Serializer.Load<KMeans>(stream);
 
 
             KMeans kbase = new KMeans(3);
@@ -214,10 +220,16 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(kbase.MaxIterations, kmeans.MaxIterations);
             Assert.AreEqual(kbase.Tolerance, kmeans.Tolerance);
 
-            Assert.AreEqual(kbase.UseCentroidSeeding, kmeans.UseCentroidSeeding);
-            Assert.AreEqual(kbase.ComputeInformation, kmeans.ComputeInformation);
+            Assert.AreEqual(kbase.UseSeeding, kmeans.UseSeeding);
+            Assert.AreEqual(kbase.ComputeCovariances, kmeans.ComputeCovariances);
 
-            Assert.AreEqual(kbase.Distance, kmeans.Distance);
+            Assert.AreEqual(kbase.ComputeError, kmeans.ComputeError);
+            Assert.AreEqual(kbase.ComputeCovariances, kmeans.ComputeCovariances);
+            Assert.AreEqual(kbase.Error, kmeans.Error);
+
+            Assert.IsTrue(kbase.ComputeError);
+            Assert.IsTrue(kbase.ComputeCovariances);
+            Assert.AreEqual(kbase.Distance.GetType(), kmeans.Distance.GetType());
         }
 
     }

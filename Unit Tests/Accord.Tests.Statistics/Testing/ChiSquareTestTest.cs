@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -147,38 +147,38 @@ namespace Accord.Tests.Statistics
         public void ConstructorTest5()
         {
             Accord.Math.Tools.SetupGenerator(0);
-            double[] unif = UniformContinuousDistribution.Standard.Generate(1000);
-            double[] norm = NormalDistribution.Standard.Generate(1000);
+            double[] unif = UniformContinuousDistribution.Standard.Generate(10000);
+            double[] norm = NormalDistribution.Standard.Generate(10000);
 
             var u = UniformContinuousDistribution.Standard;
             var n = NormalDistribution.Standard;
 
             {
                 var chi = new ChiSquareTest(unif, u);
-                Assert.AreEqual(3.2399999999999958, chi.Statistic, 1e-6);
-                Assert.AreEqual(7, chi.DegreesOfFreedom);
-                Assert.AreEqual(0.86194834721001945, chi.PValue, 1e-6);
+                Assert.AreEqual(2.7011909090910131, chi.Statistic, 1e-6);
+                Assert.AreEqual(10, chi.DegreesOfFreedom);
+                Assert.AreEqual(0.98760847271849528, chi.PValue, 1e-6);
                 Assert.IsFalse(chi.Significant);
             }
             {
                 var chi = new ChiSquareTest(unif, n);
-                Assert.AreEqual(1547.9120000000009, chi.Statistic, 1e-6);
-                Assert.AreEqual(7, chi.DegreesOfFreedom);
+                Assert.AreEqual(14865.499690909099, chi.Statistic, 1e-6);
+                Assert.AreEqual(10, chi.DegreesOfFreedom);
                 Assert.AreEqual(0, chi.PValue, 1e-6);
                 Assert.IsTrue(chi.Significant);
             }
             {
                 var chi = new ChiSquareTest(norm, u);
-                Assert.AreEqual(401.71999999999991, chi.Statistic, 1e-6);
-                Assert.AreEqual(7, chi.DegreesOfFreedom);
+                Assert.AreEqual(3934.3426909090917, chi.Statistic, 1e-6);
+                Assert.AreEqual(10, chi.DegreesOfFreedom);
                 Assert.AreEqual(0, chi.PValue, 1e-6);
                 Assert.IsTrue(chi.Significant);
             }
             {
                 var chi = new ChiSquareTest(norm, n);
-                Assert.AreEqual(9.7439999999999696, chi.Statistic, 1e-6);
-                Assert.AreEqual(7, chi.DegreesOfFreedom);
-                Assert.AreEqual(0.20355084764042014, chi.PValue, 1e-6);
+                Assert.AreEqual(6.2902909090909525, chi.Statistic, 1e-6);
+                Assert.AreEqual(10, chi.DegreesOfFreedom);
+                Assert.AreEqual(0.79031311920555392, chi.PValue, 1e-6);
                 Assert.IsFalse(chi.Significant);
             }
         }

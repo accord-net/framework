@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Analysis.KDA
+namespace SampleApp
 {
     static class Program
     {

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,7 @@ namespace Accord.MachineLearning
     using System.Linq;
     using Accord.Math;
     using Accord.MachineLearning.Structures;
+    using Accord.Math.Distances;
 
     /// <summary>
     ///   K-Nearest Neighbor (k-NN) algorithm.
@@ -55,9 +56,9 @@ namespace Accord.MachineLearning
         /// <param name="outputs">The associated labels for the input points.</param>
         /// 
         public KNearestNeighbors(int k, double[][] inputs, int[] outputs)
-            : base(k, inputs, outputs, Accord.Math.Distance.Euclidean)
+            : base(k, inputs, outputs, new Accord.Math.Distances.Euclidean())
         {
-            this.tree = KDTree.FromData(inputs, outputs, Accord.Math.Distance.Euclidean);
+            this.tree = KDTree.FromData(inputs, outputs, new Accord.Math.Distances.Euclidean());
         }
 
         /// <summary>
@@ -71,9 +72,9 @@ namespace Accord.MachineLearning
         /// <param name="outputs">The associated labels for the input points.</param>
         /// 
         public KNearestNeighbors(int k, int classes, double[][] inputs, int[] outputs)
-            : base(k, classes, inputs, outputs, Accord.Math.Distance.Euclidean)
+            : base(k, classes, inputs, outputs, new Accord.Math.Distances.Euclidean())
         {
-            this.tree = KDTree.FromData(inputs, outputs, Accord.Math.Distance.Euclidean);
+            this.tree = KDTree.FromData(inputs, outputs, new Accord.Math.Distances.Euclidean());
         }
 
         /// <summary>
@@ -86,15 +87,15 @@ namespace Accord.MachineLearning
         /// <param name="outputs">The associated labels for the input points.</param>
         /// <param name="distance">The distance measure to use.</param>
         /// 
-        public KNearestNeighbors(int k, int classes, double[][] inputs, int[] outputs, Func<double[], double[], double> distance)
+        public KNearestNeighbors(int k, int classes, double[][] inputs, int[] outputs, IMetric<double[]> distance)
             : base(k, classes, inputs, outputs, distance)
         {
             this.tree = KDTree.FromData(inputs, outputs, distance);
         }
 
 
-        private KNearestNeighbors(KDTree<int> tree, int k, int classes, 
-            double[][] inputs, int[] outputs, Func<double[], double[], double> distance)
+        private KNearestNeighbors(KDTree<int> tree, int k, int classes,
+            double[][] inputs, int[] outputs, IMetric<double[]> distance)
             : base(k, classes, inputs, outputs, distance)
         {
             this.tree = tree;

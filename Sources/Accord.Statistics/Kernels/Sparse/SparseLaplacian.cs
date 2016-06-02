@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,7 +23,7 @@
 namespace Accord.Statistics.Kernels.Sparse
 {
     using System;
-    using AForge;
+    using Accord.Math.Distances;
 
     /// <summary>
     ///   Sparse Laplacian Kernel.
@@ -100,6 +100,8 @@ namespace Accord.Statistics.Kernels.Sparse
             if (x == y)
                 return 1.0;
 
+#pragma warning disable 0618
+
             double norm = SparseLinear.SquaredEuclidean(x, y);
 
             return Math.Exp(-gamma * Math.Sqrt(norm));
@@ -152,7 +154,7 @@ namespace Accord.Statistics.Kernels.Sparse
 
             double q1 = distances[(int)Math.Ceiling(0.15 * distances.Length)];
             double q9 = distances[(int)Math.Ceiling(0.85 * distances.Length)];
-            double qm = Accord.Statistics.Tools.Median(distances, alreadySorted: true);
+            double qm = distances.Median(alreadySorted: true);
 
             range = new DoubleRange(q1, q9);
 

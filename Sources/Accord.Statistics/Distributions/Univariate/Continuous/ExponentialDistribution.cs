@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -195,7 +195,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -219,7 +219,7 @@ namespace Accord.Statistics.Distributions.Univariate
             get
             {
                 double median = Math.Log(2) / lambda;
-                System.Diagnostics.Debug.Assert(median == base.Median);
+                Accord.Diagnostics.Debug.Assert(median == base.Median);
                 return median;
             }
         }
@@ -344,7 +344,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public override double InverseDistributionFunction(double p)
         {
             double icdf = -Math.Log(1 - p) / lambda;
-            System.Diagnostics.Debug.Assert(icdf.IsRelativelyEqual(base.InverseDistributionFunction(p), 1e-6));
+            Accord.Diagnostics.Debug.Assert(icdf.IsEqual(base.InverseDistributionFunction(p), 1e-6));
             return icdf;
         }
 
@@ -380,11 +380,11 @@ namespace Accord.Statistics.Distributions.Univariate
 
             if (weights == null)
             {
-                lambda = 1.0 / Accord.Statistics.Tools.Mean(observations);
+                lambda = 1.0 / Measures.Mean(observations);
             }
             else
             {
-                lambda = 1.0 / Accord.Statistics.Tools.WeightedMean(observations, weights);
+                lambda = 1.0 / Measures.WeightedMean(observations, weights);
             }
 
             init(lambda);
@@ -431,12 +431,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples)
+        public override double[] Generate(int samples, double[] result)
         {
-            return Random(lambda, samples);
+            return Random(lambda, samples, result);
         }
 
         /// <summary>
@@ -462,14 +463,26 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double lambda, int samples)
         {
-            double[] r = new double[samples];
-            for (int i = 0; i < r.Length; i++)
-            {
-                double u = Accord.Math.Tools.Random.NextDouble();
-                r[i] = -Math.Log(u) / lambda;
-            }
+            return Random(lambda, samples, new double[samples]);
+        }
 
-            return r;
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Exponential distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="lambda">The rate parameter lambda.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Exponential distribution.</returns>
+        /// 
+        public static double[] Random(double lambda, int samples, double[] result)
+        {
+            var rand = Accord.Math.Random.Generator.Random;
+            for (int i = 0; i < result.Length; i++)
+                result[i] = -Math.Log(rand.NextDouble()) / lambda;
+            return result;
         }
 
         /// <summary>
@@ -483,8 +496,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double lambda)
         {
-            double u = Accord.Math.Tools.Random.NextDouble();
-            return -Math.Log(u) / lambda;
+            return -Math.Log(Accord.Math.Random.Generator.Random.NextDouble()) / lambda;
         }
 
         #endregion

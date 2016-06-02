@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,8 +25,6 @@ using System.Drawing;
 using Accord.Imaging;
 using Accord.Imaging.Filters;
 using AForge;
-using AForge.Imaging;
-using AForge.Imaging.Filters;
 using NUnit.Framework;
 
 namespace Accord.Tests.Imaging
@@ -36,29 +34,12 @@ namespace Accord.Tests.Imaging
     public class BorderFollowingTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void FindContourTest()
         {
-            Bitmap bmp = Properties.Resources.sample_black;
+            Bitmap bmp = Accord.Imaging.Image.Clone(Properties.Resources.sample_black);
 
-            Bitmap gray = AForge.Imaging.Filters.Grayscale.CommonAlgorithms.BT709.Apply(bmp);
+            Bitmap gray = Grayscale.CommonAlgorithms.BT709.Apply(bmp);
 
             BlobCounter bc = new BlobCounter(gray);
             bc.ObjectsOrder = ObjectsOrder.Size;
@@ -96,7 +77,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindContourTest2()
         {
-            Bitmap bmp = Properties.Resources.hand2;
+            Bitmap bmp = Accord.Imaging.Image.Clone(Properties.Resources.hand2);
 
             BlobCounter bc = new BlobCounter(bmp);
             bc.ObjectsOrder = ObjectsOrder.Size;
@@ -129,7 +110,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindContourTest3()
         {
-            Bitmap image = Properties.Resources.sample_black;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.sample_black);
             Bitmap grayscaleImage = Grayscale.CommonAlgorithms.BT709.Apply(image);
 
             // Create a new border following algorithm

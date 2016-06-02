@@ -19,7 +19,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Controller
+namespace SampleApp
 {
     using System;
     using System.Collections.Generic;
@@ -28,8 +28,8 @@ namespace Controller
     using System.Drawing;
     using System.Text;
     using System.Windows.Forms;
-    using AForge.Video;
-    using AForge.Video.DirectShow;
+    using Accord.Video;
+    using Accord.Video.DirectShow;
 
     public partial class VideoCaptureDeviceForm : Form
     {

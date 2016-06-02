@@ -6,7 +6,7 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
     using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace AForge.Imaging
     /// <remarks><para>The interface specifies set of methods, which should be implemented by different
     /// corners detection algorithms.</para></remarks>
     /// 
-    public interface ICornersDetector
+    public interface ICornersDetector : ICloneable
     {
         /// <summary>
         /// Process image looking for corners.

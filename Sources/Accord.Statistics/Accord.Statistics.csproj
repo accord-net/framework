@@ -91,6 +91,7 @@
     <Compile Include="Analysis\DistributionAnalysis.cs" />
     <Compile Include="Analysis\MultinomialLogisticRegressionAnalysis.cs" />
     <Compile Include="Analysis\Performance\WeightedConfusionMatrix.cs" />
+    <Compile Include="Analysis\ProcustesAnalysis.cs" />
     <Compile Include="Analysis\ProportionalHazardsAnalysis.cs" />
     <Compile Include="Analysis\MultipleLinearRegressionAnalysis.cs" />
     <Compile Include="Analysis\Performance\ConfusionMatrix.cs" />
@@ -106,6 +107,9 @@
     <Compile Include="Analysis\Performance\ReceiverOperatingCharacteristic.cs" />
     <Compile Include="Analysis\StepwiseLogisticRegressionAnalysis.cs" />
     <Compile Include="Circular.cs" />
+    <Compile Include="Distances\Bhattacharyya.cs" />
+    <Compile Include="Distances\IDivergence.cs" />
+    <Compile Include="Distances\LogLikelihood.cs" />
     <Compile Include="Distributions\Accord.Statistics.Distributions.cs" />
     <Compile Include="Distributions\Density Kernels\Accord.Statistics.Distributions.DensityKernels.cs" />
     <Compile Include="Distributions\Density Kernels\IDensityKernel.cs" />
@@ -132,7 +136,11 @@
     <Compile Include="Distributions\Multivariate\Continuous\InverseWishartDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\VonMisesFisherDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\WishartDistribution.cs" />
+    <Compile Include="Distributions\Multivariate\IMixtureComponent.cs" />
     <Compile Include="Distributions\Multivariate\Independent.cs" />
+    <Compile Include="Distributions\Multivariate\Independent`3.cs" />
+    <Compile Include="Distributions\Multivariate\Independent`2.cs" />
+    <Compile Include="Distributions\Sampling\MetropolisHasting.cs" />
     <Compile Include="Distributions\Univariate\Accord.Statistics.Distributions.Univariate.cs" />
     <Compile Include="Distributions\Univariate\Base\IUnivariateDistribution.cs" />
     <Compile Include="Distributions\Fitting\CauchyOptions.cs" />
@@ -193,6 +201,7 @@
     <Compile Include="Distributions\Multivariate\Discrete\JointDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\WilcoxonDistribution.cs" />
     <Compile Include="Distributions\Univariate\Discrete\DegenerateDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Discrete\SymmetricGeometricDistribution.cs" />
     <Compile Include="Distributions\Univariate\Discrete\NegativeBinomialDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\ParetoDistribution.cs" />
     <Compile Include="Distributions\Univariate\Discrete\UniformDiscreteDistribution.cs" />
@@ -239,20 +248,24 @@
     <Compile Include="Filters\Selection.cs" />
     <Compile Include="Analysis\Base\IMultivariateAnalysis.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Group.cs" />
+    <Compile Include="Classes.cs" />
     <Compile Include="Kernels\Additive.cs" />
     <Compile Include="Kernels\Anova.cs" />
+    <Compile Include="Kernels\Base\ILinear`1.cs" />
+    <Compile Include="Kernels\Base\ILinear.cs" />
+    <Compile Include="Kernels\Base\IKernel`1.cs" />
     <Compile Include="Kernels\Base\IRadialBasisKernel.cs" />
-    <Compile Include="Kernels\Base\IDistance.cs" />
     <Compile Include="Kernels\Base\IEstimable.cs" />
     <Compile Include="Kernels\Base\ITransform.cs" />
     <Compile Include="Kernels\Base\KernelBase.cs" />
+    <Compile Include="Kernels\Base\KernelExtensions.cs" />
     <Compile Include="Kernels\Bessel.cs" />
     <Compile Include="Kernels\BSpline.cs" />
     <Compile Include="Kernels\Cauchy.cs" />
     <Compile Include="Kernels\ChiSquare.cs" />
     <Compile Include="Kernels\Circular.cs" />
     <Compile Include="Kernels\Gaussian`1.cs" />
+    <Compile Include="Kernels\Hellinger.cs" />
     <Compile Include="Kernels\Pearson.cs" />
     <Compile Include="Kernels\Normalized`1.cs" />
     <Compile Include="Kernels\InverseMultiquadric.cs" />
@@ -288,6 +301,7 @@
     <Compile Include="Kernels\Spline.cs" />
     <Compile Include="Kernels\TaylorGaussian.cs" />
     <Compile Include="Kernels\Tensor.cs" />
+    <Compile Include="Kernels\ThinSplinePlate.cs" />
     <Compile Include="Kernels\TStudent.cs" />
     <Compile Include="Kernels\Wave.cs" />
     <Compile Include="Kernels\Wavelet.cs" />
@@ -299,10 +313,34 @@
     <Compile Include="Links\LogLinkFunction.cs" />
     <Compile Include="Links\InverseSquaredLinkFunction.cs" />
     <Compile Include="Links\ProbitLinkFunction.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassClassifierBase.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassDistanceClassifierBase.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelClassifierBase.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassGenerativeClassifierBase.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelDistanceClassifierBase.cs" />
+    <Compile Include="MachineLearning\Classifiers\Two classes\BinaryDistanceClassifierBase.cs" />
+    <Compile Include="MachineLearning\Classifiers\Two classes\BinaryClassifierBase.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassClassifierBase`1.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelGenerativeClassifierBase.cs" />
+    <Compile Include="MachineLearning\Classifiers\Two classes\BinaryGenerativeClassifierBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MachineLearning\Learning\ISupervisedBinaryLearning.cs" />
+    <Compile Include="MachineLearning\Learning\ISupervisedLearning.cs" />
+    <Compile Include="MachineLearning\Learning\ISupervisedMulticlassLearning.cs" />
+    <Compile Include="MachineLearning\Learning\ISupervisedMultilabelLearning.cs" />
+    <Compile Include="MachineLearning\Learning\IUnsupervisedLearning.cs" />
+    <Compile Include="MachineLearning\Learning\BinaryLearningBase.cs" />
+    <Compile Include="MachineLearning\Learning\MulticlassLearningBase.cs" />
+    <Compile Include="MachineLearning\Learning\ParallelMulticlassLearningBase.cs" />
+    <Compile Include="MachineLearning\Learning\ParallelLearningBase.cs" />
+    <Compile Include="MachineLearning\Learning\IParallel.cs" />
+    <Compile Include="Measures\Measures.Histogram.cs" />
     <Compile Include="Measures\Measures.Vectors.cs" />
     <Compile Include="Measures\Measures.Matrix.cs" />
     <Compile Include="Measures\Measures.Matrix.Weighted.cs" />
     <Compile Include="Measures\Measures.Vectors.Weighted.cs" />
+    <Compile Include="Measures\Tools.Misc.cs" />
     <Compile Include="Models\Accord.Statistics.Models.cs" />
     <Compile Include="Models\Fields\Accord.Statistics.Models.Fields.cs" />
     <Compile Include="Models\Fields\Learning\Accord.Statistics.Models.Fields.Learning.cs" />
@@ -310,6 +348,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Markov\Learning\Base\BaseViterbiLearning`1.cs" />
+    <Compile Include="Models\Regression\Nonlinear\Fitting\NonNegativeLeastSquares.cs" />
     <Compile Include="Running\IRunning`1.cs" />
     <Compile Include="Models\Markov\Hybrid\IHybridMarkovModel.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovClassifier.cs" />
@@ -498,6 +537,9 @@
     <None Include="Distributions\Multivariate\Accord.Statistics.Distributions.Multivariate.cd" />
     <None Include="Distributions\Univariate\Accord.Statistics.Distributions.Univariate.cd" />
     <None Include="Kernels\Accord.Statistics.Kernels.cd" />
+    <None Include="MachineLearning\Accord.MachineLearning.Core.cd" />
+    <None Include="MachineLearning\Classifiers\Multiple classes\Multiclass\Multiclass.cd" />
+    <None Include="MachineLearning\Classifiers\Two classes\Binary.cd" />
     <None Include="Models\Accord.Statistics.Models.cd">
       <SubType>Designer</SubType>
     </None>
@@ -529,5 +571,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Running\Markov\Base\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
 </Project>

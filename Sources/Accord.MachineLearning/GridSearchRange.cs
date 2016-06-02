@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -58,7 +58,7 @@ namespace Accord.MachineLearning
         public GridSearchRange(string name, double start, double end, double step)
         {
             this.Name = name;
-            this.Values = Matrix.Interval(start, end, step);
+            this.Values = Vector.Interval(start, end, step);
         }
 
         /// <summary>

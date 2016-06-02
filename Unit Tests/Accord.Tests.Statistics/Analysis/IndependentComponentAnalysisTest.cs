@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Math;
+    using Accord.Statistics;
     using Accord.Statistics.Analysis;
     using NUnit.Framework;
     using System.IO;
@@ -94,7 +95,7 @@ namespace Accord.Tests.Statistics
 
             // Verify mixing matrix
             mixingMatrix = mixingMatrix.Divide(mixingMatrix.Sum().Sum());
-            Assert.IsTrue(mix.IsEqual(mixingMatrix, 0.008));
+            Assert.IsTrue(mix.IsEqual(mixingMatrix, atol: 0.008));
 
 
             // Verify demixing matrix
@@ -105,7 +106,7 @@ namespace Accord.Tests.Statistics
             };
 
             revertMatrix = revertMatrix.Divide(revertMatrix.Sum().Sum());
-            Assert.IsTrue(expected.IsEqual(revertMatrix, 0.008));
+            Assert.IsTrue(expected.IsEqual(revertMatrix, atol: 0.008));
         }
 
         [Test]
@@ -137,7 +138,7 @@ namespace Accord.Tests.Statistics
 
             // Verify mixing matrix
             mixingMatrix = mixingMatrix.Divide(Norm.Norm1(mixingMatrix));
-            Assert.IsTrue(A.IsEqual(mixingMatrix, 0.05));
+            Assert.IsTrue(A.IsEqual(mixingMatrix, atol: 0.05));
 
 
             // Verify demixing matrix
@@ -150,14 +151,14 @@ namespace Accord.Tests.Statistics
             expected = expected.Divide(Norm.Norm1(expected));
 
             revertMatrix = revertMatrix.Divide(Norm.Norm1(revertMatrix));
-            Assert.IsTrue(expected.IsEqual(revertMatrix, 0.05));
+            Assert.IsTrue(expected.IsEqual(revertMatrix, atol: 0.05));
 
 
 
             var reverted = Accord.Statistics.Tools.ZScores(result).Abs();
             var original = Accord.Statistics.Tools.ZScores(S).Abs();
 
-            Assert.IsTrue(reverted.IsEqual(original, 0.1));
+            Assert.IsTrue(reverted.IsEqual(original, atol: 0.1));
         }
 
         [Test]
@@ -173,7 +174,7 @@ namespace Accord.Tests.Statistics
                 { -0.25, 0.75 },    
             };
 
-            double[,] X = S.Multiply(A);
+            double[,] X = Matrix.Multiply(S, A);
 
             IndependentComponentAnalysis ica = new IndependentComponentAnalysis(X);
 
@@ -217,7 +218,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void CombineTest2()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             double[,] S = Matrix.Random(5000, 2);
 
@@ -227,19 +228,19 @@ namespace Accord.Tests.Statistics
                 { -0.25, 0.75 },    
             };
 
-            double[,] X = S.Multiply(A);
+            double[,] X = Matrix.Multiply(S, A);
 
-            IndependentComponentAnalysis ica = new IndependentComponentAnalysis(X);
+            var ica = new IndependentComponentAnalysis(X);
 
             ica.Compute(2);
 
             double[,] result = ica.Result;
 
 
-            float[][] expected = ica.Combine(result).ToSingle().ToArray(true);
-            float[][] actual = ica.Combine(result.ToSingle().ToArray(true));
+            float[][] expected = ica.Combine(result).ToSingle().ToJagged(true);
+            float[][] actual = ica.Combine(result.ToSingle().ToJagged(true));
 
-            Assert.IsTrue(expected.IsEqual(actual, 1e-4f));
+            Assert.IsTrue(expected.IsEqual(actual, atol: 1e-4f));
         }
 
         [Test]
@@ -262,8 +263,8 @@ namespace Accord.Tests.Statistics
 
             ica.Compute(2);
 
-            var expected = ica.Result.ToSingle().ToArray(true);
-            var actual = ica.Separate(X.ToSingle().ToArray(true));
+            var expected = ica.Result.ToSingle().ToJagged(true);
+            var actual = ica.Separate(X.ToSingle().ToJagged(true));
 
             Assert.IsTrue(expected.IsEqual(actual, 1e-4f));
         }
@@ -310,7 +311,7 @@ namespace Accord.Tests.Statistics
             double[,] result = ica.Result;
 
             mixingMatrix = mixingMatrix.Divide(mixingMatrix.Sum().Sum());
-            Assert.IsTrue(mix.IsEqual(mixingMatrix, 0.008));
+            Assert.IsTrue(mix.IsEqual(mixingMatrix, atol: 0.008));
 
             double[,] expected =
             {
@@ -319,7 +320,7 @@ namespace Accord.Tests.Statistics
             };
 
             revertMatrix = revertMatrix.Divide(revertMatrix.Sum().Sum());
-            Assert.IsTrue(expected.IsEqual(revertMatrix, 0.008));
+            Assert.IsTrue(expected.IsEqual(revertMatrix, atol: 0.008));
 
 
         }

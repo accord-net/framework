@@ -1,4 +1,4 @@
-﻿namespace Controller
+﻿namespace SampleApp
 {
     partial class FaceForm
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Controller.Properties.Settings settings1 = new Controller.Properties.Settings();
+            SampleApp.Properties.Settings settings1 = new SampleApp.Properties.Settings();
             this.btnVerticalMax = new System.Windows.Forms.Button();
             this.btnVerticalMin = new System.Windows.Forms.Button();
             this.btnHorizontalMax = new System.Windows.Forms.Button();

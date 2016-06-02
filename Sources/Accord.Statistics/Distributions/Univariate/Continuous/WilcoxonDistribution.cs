@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
+    using Accord.Statistics;
     using AForge;
 
     /// <summary>
@@ -87,7 +88,7 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     /// <para>
     ///   The following example shows how to compute the W+ statistic
-    ///   given a sample. The W+ statistics is given as the sum of all
+    ///   given a sample. The Statsstics is given as the sum of all
     ///   positive <see cref="Accord.Statistics.Tools.Rank">signed ranks 
     ///   </see> in a sample.</para>
     ///   
@@ -98,7 +99,7 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   double[] differences = ... // differences between samples and an hypothesized median
     ///   
     ///   // Compute the ranks of the absolute differences and their sign
-    ///   double[] ranks = Accord.Statistics.Tools.Rank(differences.Abs());
+    ///   double[] ranks = Measures.Rank(differences.Abs());
     ///   int[] signs    = Accord.Math.Matrix.Sign(differences).ToInt32();
     ///   
     ///   // Compute the W+ statistics from the signed ranks
@@ -303,7 +304,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 

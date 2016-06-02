@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -20,12 +20,13 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Tests.Math
+namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning;
     using Accord.MachineLearning.Structures;
     using Accord.Math;
     using Accord.Math.Comparers;
+    using Accord.Math.Distances;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Tests.MachineLearning.Structures;
@@ -81,7 +82,7 @@ namespace Accord.Tests.Math
             List<KDTreeNodeDistance<int>> result = tree.Nearest(query, radius: 1.5);
 
             // We can also use alternate distance functions
-            tree.Distance = Accord.Math.Distance.Manhattan;
+            tree.Distance = new Manhattan();
 
             // And also query for a fixed number of neighbor points
             // (answer should be the points at (5,4), (7,2), (2,3))
@@ -185,7 +186,7 @@ namespace Accord.Tests.Math
 
             var tree = KDTree.FromData<int>(points);
 
-            tree.Distance = Accord.Math.Distance.Manhattan;
+            tree.Distance = new Manhattan();
 
 
             for (int i = 0; i < points.Length; i++)
@@ -230,7 +231,7 @@ namespace Accord.Tests.Math
 
             var tree = KDTree.FromData<int>(points);
 
-            tree.Distance = Accord.Math.Distance.Manhattan;
+            tree.Distance = new Manhattan();
 
 
             for (int i = 0; i < points.Length; i++)
@@ -272,7 +273,7 @@ namespace Accord.Tests.Math
             };
 
             var tree = KDTree.FromData<int>(points);
-            tree.Distance = Accord.Math.Distance.Manhattan;
+            tree.Distance = new Manhattan();
 
             Assert.AreEqual(3, tree.Root.Position[0]);
             Assert.AreEqual(3, tree.Root.Position[1]);

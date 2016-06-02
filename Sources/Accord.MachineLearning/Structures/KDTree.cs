@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,6 +22,7 @@
 
 namespace Accord.MachineLearning.Structures
 {
+    using Accord.Math.Distances;
     using System;
 
     /// <summary>
@@ -58,7 +59,7 @@ namespace Accord.MachineLearning.Structures
         /// <param name="dimension">The number of dimensions in the tree.</param>
         /// <param name="root">The root node, if already existent.</param>
         /// 
-        public KDTree(int dimension, KDTreeNode root) 
+        public KDTree(int dimension, KDTreeNode root)
             : base(dimension, root)
         {
         }
@@ -186,7 +187,7 @@ namespace Accord.MachineLearning.Structures
             int leaves;
 
             var root = KDTree<T>.CreateRoot(points, values, inPlace, out leaves);
-            
+
             return new KDTree<T>(points[0].Length, root, points.Length, leaves);
         }
 
@@ -203,7 +204,7 @@ namespace Accord.MachineLearning.Structures
         /// 
         /// <returns>A <see cref="KDTree{T}"/> populated with the given data points.</returns>
         /// 
-        public static KDTree FromData(double[][] points, Func<double[], double[], double> distance,
+        public static KDTree FromData(double[][] points, IMetric<double[]> distance,
             bool inPlace = false)
         {
             if (points == null)
@@ -241,8 +242,8 @@ namespace Accord.MachineLearning.Structures
         /// 
         /// <returns>A <see cref="KDTree{T}"/> populated with the given data points.</returns>
         /// 
-        public static KDTree<T> FromData<T>(double[][] points, T[] values, 
-            Func<double[], double[], double> distance, bool inPlace = false)
+        public static KDTree<T> FromData<T>(double[][] points, T[] values,
+            IMetric<double[]> distance, bool inPlace = false)
         {
             if (values == null)
                 throw new ArgumentNullException("values");
@@ -275,7 +276,7 @@ namespace Accord.MachineLearning.Structures
         /// 
         /// <returns>A <see cref="KDTree{T}"/> populated with the given data points.</returns>
         /// 
-        public static KDTree<T> FromData<T>(double[][] points, Func<double[], double[], double> distance, 
+        public static KDTree<T> FromData<T>(double[][] points, IMetric<double[]> distance,
             bool inPlace = false)
         {
             if (distance == null)

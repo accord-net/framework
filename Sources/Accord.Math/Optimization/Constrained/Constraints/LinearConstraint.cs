@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -70,7 +70,7 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the index of the variables (in respective to the
-        ///   object function index) of the variables participating
+        ///   objective function) of the variables participating
         ///   in this constraint.
         /// </summary>
         /// 
@@ -137,8 +137,8 @@ namespace Accord.Math.Optimization
         public LinearConstraint(int numberOfVariables)
         {
             this.NumberOfVariables = numberOfVariables;
-            this.indices = Matrix.Indices(0, numberOfVariables);
-            this.scalars = Matrix.Vector(numberOfVariables, 1.0);
+            this.indices = Vector.Range(numberOfVariables);
+            this.scalars = Vector.Ones(numberOfVariables);
             this.ShouldBe = ConstraintType.GreaterThanOrEqualTo;
 
             this.Function = compute;
@@ -155,7 +155,7 @@ namespace Accord.Math.Optimization
         public LinearConstraint(params double[] coefficients)
         {
             this.NumberOfVariables = coefficients.Length;
-            this.indices = Matrix.Indices(0, coefficients.Length);
+            this.indices = Vector.Range(0, coefficients.Length);
             this.CombinedAs = coefficients;
             this.ShouldBe = ConstraintType.GreaterThanOrEqualTo;
 

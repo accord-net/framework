@@ -12,11 +12,12 @@ using System.ComponentModel;
 using System.Windows.Forms;
 
 using AForge;
-using AForge.Math;
-using AForge.Imaging;
-using AForge.Imaging.Filters;
+using Accord.Math;
+using Accord.Imaging;
+using Accord.Imaging.Filters;
+using Accord;
 
-namespace GloveTracking
+namespace SampleApp
 {
     /// <summary>
     /// Summary description for HSLFilteringForm.
@@ -30,7 +31,7 @@ namespace GloveTracking
         private int fillH = 0;
         private float fillS = 0, fillL = 0;
 
-        private AForge.Controls.HuePicker huePicker;
+        private Accord.Controls.HuePicker huePicker;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -40,7 +41,7 @@ namespace GloveTracking
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox minSBox;
         private System.Windows.Forms.TextBox maxSBox;
-        private AForge.Controls.ColorSlider saturationSlider;
+        private Accord.Controls.ColorSlider saturationSlider;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
@@ -62,7 +63,7 @@ namespace GloveTracking
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.TextBox minHBox;
-        private AForge.Controls.ColorSlider luminanceSlider;
+        private Accord.Controls.ColorSlider luminanceSlider;
         private TableLayoutPanel tableLayoutPanel1;
         private FlowLayoutPanel flowLayoutPanel2;
         private Panel panel1;
@@ -151,20 +152,20 @@ namespace GloveTracking
         /// </summary>
         private void InitializeComponent( )
         {
-            this.huePicker = new AForge.Controls.HuePicker();
+            this.huePicker = new Accord.Controls.HuePicker();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.maxHBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.minHBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.saturationSlider = new AForge.Controls.ColorSlider();
+            this.saturationSlider = new Accord.Controls.ColorSlider();
             this.maxSBox = new System.Windows.Forms.TextBox();
             this.minSBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.luminanceSlider = new AForge.Controls.ColorSlider();
+            this.luminanceSlider = new Accord.Controls.ColorSlider();
             this.maxLBox = new System.Windows.Forms.TextBox();
             this.minLBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -205,7 +206,7 @@ namespace GloveTracking
             this.huePicker.Name = "huePicker";
             this.huePicker.Size = new System.Drawing.Size(272, 249);
             this.huePicker.TabIndex = 0;
-            this.huePicker.Type = AForge.Controls.HuePicker.HuePickerType.Range;
+            this.huePicker.Type = Accord.Controls.HuePicker.HuePickerType.Range;
             this.huePicker.ValuesChanged += new System.EventHandler(this.huePicker_ValuesChanged);
             // 
             // groupBox1
@@ -276,7 +277,7 @@ namespace GloveTracking
             this.saturationSlider.Name = "saturationSlider";
             this.saturationSlider.Size = new System.Drawing.Size(419, 33);
             this.saturationSlider.TabIndex = 4;
-            this.saturationSlider.Type = AForge.Controls.ColorSlider.ColorSliderType.InnerGradient;
+            this.saturationSlider.Type = Accord.Controls.ColorSlider.ColorSliderType.InnerGradient;
             this.saturationSlider.ValuesChanged += new System.EventHandler(this.saturationSlider_ValuesChanged);
             // 
             // maxSBox
@@ -332,7 +333,7 @@ namespace GloveTracking
             this.luminanceSlider.Name = "luminanceSlider";
             this.luminanceSlider.Size = new System.Drawing.Size(419, 33);
             this.luminanceSlider.TabIndex = 9;
-            this.luminanceSlider.Type = AForge.Controls.ColorSlider.ColorSliderType.InnerGradient;
+            this.luminanceSlider.Type = Accord.Controls.ColorSlider.ColorSliderType.InnerGradient;
             this.luminanceSlider.ValuesChanged += new System.EventHandler(this.luminanceSlider_ValuesChanged);
             // 
             // maxLBox
@@ -794,13 +795,13 @@ namespace GloveTracking
         // Fill type changed
         private void fillTypeCombo_SelectedIndexChanged( object sender, System.EventArgs e )
         {
-            AForge.Controls.ColorSlider.ColorSliderType[] types =
-                new AForge.Controls.ColorSlider.ColorSliderType[]
+            Accord.Controls.ColorSlider.ColorSliderType[] types =
+                new Accord.Controls.ColorSlider.ColorSliderType[]
                 {
-                    AForge.Controls.ColorSlider.ColorSliderType.InnerGradient,
-                    AForge.Controls.ColorSlider.ColorSliderType.OuterGradient
+                    Accord.Controls.ColorSlider.ColorSliderType.InnerGradient,
+                    Accord.Controls.ColorSlider.ColorSliderType.OuterGradient
                 };
-            AForge.Controls.ColorSlider.ColorSliderType type = types[fillTypeCombo.SelectedIndex];
+            Accord.Controls.ColorSlider.ColorSliderType type = types[fillTypeCombo.SelectedIndex];
 
             saturationSlider.Type = type;
             luminanceSlider.Type = type;

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -36,13 +36,13 @@ namespace Accord.Tests.Math
         {
             int n = 5;
 
-            var I = Matrix.Identity(n).ToSingle().ToArray();
+            var I = Matrix.Identity(n).ToSingle().ToJagged();
 
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
                 {
-                    var value = Matrix.Magic(n).ToArray().ToSingle();
+                    var value = Matrix.Magic(n).ToJagged().ToSingle();
 
                     value[i][j] = Single.NaN;
 
@@ -80,7 +80,7 @@ namespace Accord.Tests.Math
 
             float[] actual = target.Solve(rhs);
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001f));
         }
 
         [Test]
@@ -104,7 +104,7 @@ namespace Accord.Tests.Math
 
             float[][] actualInverse = target.Inverse();
 
-            Assert.IsTrue(Matrix.IsEqual(expectedInverse, actualInverse, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expectedInverse, actualInverse, 0.001f));
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace Accord.Tests.Math
 
             float[][] actual = target.Solve(rhs);
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001f));
         }
 
         [Test]
@@ -165,8 +165,8 @@ namespace Accord.Tests.Math
             };
 
 
-            Assert.IsTrue(Matrix.IsEqual(expectedL, L, 0.001));
-            Assert.IsTrue(Matrix.IsEqual(expectedU, U, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expectedL, L, 0.001f));
+            Assert.IsTrue(Matrix.IsEqual(expectedU, U, 0.001f));
         }
 
         [Test]
@@ -186,7 +186,7 @@ namespace Accord.Tests.Math
 
             float[] actual = target.Solve(rhs);
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001f));
         }
 
         [Test]
@@ -240,7 +240,7 @@ namespace Accord.Tests.Math
             };
 
             float[][] actual = new JaggedLuDecompositionF(b, transpose: true).SolveTranspose(a);
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001f));
         }
 
         [Test]
@@ -275,8 +275,8 @@ namespace Accord.Tests.Math
             float[][] actualL = target.LowerTriangularFactor;
             float[][] actualU = target.UpperTriangularFactor;
 
-            Assert.IsTrue(Matrix.IsEqual(expectedL, actualL, 0.001));
-            Assert.IsTrue(Matrix.IsEqual(expectedU, actualU, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expectedL, actualL, 0.001f));
+            Assert.IsTrue(Matrix.IsEqual(expectedU, actualU, 0.001f));
 
 
             target = new JaggedLuDecompositionF(value.Transpose(), true);
@@ -284,15 +284,15 @@ namespace Accord.Tests.Math
             actualL = target.LowerTriangularFactor;
             actualU = target.UpperTriangularFactor;
 
-            Assert.IsTrue(Matrix.IsEqual(expectedL, actualL, 0.001));
-            Assert.IsTrue(Matrix.IsEqual(expectedU, actualU, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expectedL, actualL, 0.001f));
+            Assert.IsTrue(Matrix.IsEqual(expectedU, actualU, 0.001f));
         }
 
         [Test]
         public void LogDeterminantTest()
         {
             JaggedLuDecompositionF lu = new JaggedLuDecompositionF(
-                CholeskyDecompositionTest.bigmatrix.ToSingle().ToArray());
+                CholeskyDecompositionTest.bigmatrix.ToSingle().ToJagged());
             Assert.AreEqual(0, lu.Determinant);
             Assert.AreEqual(-2224.8931093738875, lu.LogDeterminant, 1e-3);
             Assert.IsTrue(lu.Nonsingular);

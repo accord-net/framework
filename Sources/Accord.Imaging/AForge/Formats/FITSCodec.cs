@@ -5,7 +5,7 @@
 // andrew.kirillov@gmail.com
 //
 
-namespace AForge.Imaging.Formats
+namespace Accord.Imaging.Formats
 {
     using System;
     using System.IO;
@@ -291,14 +291,14 @@ namespace AForge.Imaging.Formats
             // read first record and check for correct image
             if (
                 (Tools.ReadStream(stream, headerRecord, 0, 80) < 80) ||
-                (Encoding.ASCII.GetString(headerRecord, 0, 8) != "SIMPLE  "))
+                (Encoding.UTF8.GetString(headerRecord, 0, 8) != "SIMPLE  "))
             {
                 throw new FormatException("The stream does not contatin FITS image.");
             }
             else
             {
                 // check if the image has standard FITS format
-                if (Encoding.ASCII.GetString(headerRecord, 10, 70).Split('/')[0].Trim() != "T")
+                if (Encoding.UTF8.GetString(headerRecord, 10, 70).Split('/')[0].Trim() != "T")
                 {
                     throw new NotSupportedException("The stream contains not standard FITS data file.");
                 }
@@ -315,7 +315,7 @@ namespace AForge.Imaging.Formats
                 recordsRead++;
 
                 // get keyword
-                string keyword = Encoding.ASCII.GetString(headerRecord, 0, 8);
+                string keyword = Encoding.UTF8.GetString(headerRecord, 0, 8);
 
                 // skip commenct and history
                 if ((keyword == "COMMENT ") || (keyword == "HISTORY "))
@@ -344,7 +344,7 @@ namespace AForge.Imaging.Formats
                 else
                 {
                     // get string representation of value/comments
-                    string strValue = Encoding.ASCII.GetString(headerRecord, 10, 70);
+                    string strValue = Encoding.UTF8.GetString(headerRecord, 10, 70);
 
                     // check important keywords
                     if (keyword == "BITPIX  ")
@@ -360,7 +360,7 @@ namespace AForge.Imaging.Formats
                         imageInfo.BitsPerPixel = (value == 8) ? 8 : 16;
                         imageInfo.OriginalBitsPerPixl = value;
                     }
-                    else if (Encoding.ASCII.GetString(headerRecord, 0, 5) == "NAXIS")
+                    else if (Encoding.UTF8.GetString(headerRecord, 0, 5) == "NAXIS")
                     {
                         // information about data axis
                         int value = ExtractIntegerValue(strValue);

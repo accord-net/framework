@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
     using System.Collections.Generic;
@@ -919,7 +919,7 @@ namespace AForge.Imaging
         /// 
         /// <remarks><para>The method scans each line of the blob and finds the most left and the
         /// most right points for it adding them to appropriate lists. The method may be very
-        /// useful in conjunction with different routines from <see cref="AForge.Math.Geometry"/>,
+        /// useful in conjunction with different routines from <see cref="Accord.Math.Geometry"/>,
         /// which allow finding convex hull or quadrilateral's corners.</para>
         /// 
         /// <para><note>Both lists of points are sorted by Y coordinate - points with smaller Y
@@ -982,7 +982,7 @@ namespace AForge.Imaging
         /// 
         /// <remarks><para>The method scans each column of the blob and finds the most top and the
         /// most bottom points for it adding them to appropriate lists. The method may be very
-        /// useful in conjunction with different routines from <see cref="AForge.Math.Geometry"/>,
+        /// useful in conjunction with different routines from <see cref="Accord.Math.Geometry"/>,
         /// which allow finding convex hull or quadrilateral's corners.</para>
         /// 
         /// <para><note>Both lists of points are sorted by X coordinate - points with smaller X
@@ -1317,7 +1317,7 @@ namespace AForge.Imaging
                 Blob blob = new Blob(j, new Rectangle(x1[j], y1[j], x2[j] - x1[j] + 1, y2[j] - y1[j] + 1));
                 blob.Area = blobArea;
                 blob.Fullness = (double)blobArea / ((x2[j] - x1[j] + 1) * (y2[j] - y1[j] + 1));
-                blob.CenterOfGravity = new AForge.Point((float)xc[j] / blobArea, (float)yc[j] / blobArea);
+                blob.CenterOfGravity = new Accord.Point((float)xc[j] / blobArea, (float)yc[j] / blobArea);
                 blob.ColorMean = Color.FromArgb((byte)(meanR[j] / blobArea), (byte)(meanG[j] / blobArea), (byte)(meanB[j] / blobArea));
                 blob.ColorStdDev = Color.FromArgb(
                     (byte)(Math.Sqrt(stdDevR[j] / blobArea - blob.ColorMean.R * blob.ColorMean.R)),

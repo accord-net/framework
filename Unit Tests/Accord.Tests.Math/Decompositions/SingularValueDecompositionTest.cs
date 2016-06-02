@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -120,7 +120,7 @@ namespace Accord.Tests.Math
             SingularValueDecomposition target = new SingularValueDecomposition(value, true, true, false);
 
             double[,] actual = target.LeftSingularVectors.Multiply(
-                Matrix.Diagonal(target.Diagonal)).Multiply(target.RightSingularVectors.Transpose());
+                target.DiagonalMatrix).Multiply(target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
             Assert.IsTrue(Matrix.IsEqual(actual, value, 0.01));
@@ -155,7 +155,8 @@ namespace Accord.Tests.Math
             };
 
             // The diagonal values should be equal
-            Assert.IsTrue(Matrix.IsEqual(target.Diagonal.Submatrix(2), Matrix.Diagonal(S), 0.001));
+            Assert.IsTrue(Matrix.IsEqual(target.Diagonal.Submatrix(2), 
+                Matrix.Diagonal(S), 0.001));
         }
 
 
@@ -177,8 +178,8 @@ namespace Accord.Tests.Math
 
             SingularValueDecomposition target = new SingularValueDecomposition(value, true, true, true);
 
-            double[,] actual = target.LeftSingularVectors.Multiply(
-                Matrix.Diagonal(target.Diagonal)).Multiply(target.RightSingularVectors.Transpose());
+            double[,] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors, 
+                Matrix.Diagonal(target.Diagonal)), target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
             Assert.IsTrue(Matrix.IsEqual(actual, value, 0.01));
@@ -233,8 +234,8 @@ namespace Accord.Tests.Math
 
             SingularValueDecomposition target = new SingularValueDecomposition(value, true, true, false);
 
-            double[,] actual = target.LeftSingularVectors.Multiply(
-                Matrix.Diagonal(target.Diagonal)).Multiply(target.RightSingularVectors.Transpose());
+            double[,] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors,
+                Matrix.Diagonal(target.Diagonal)), target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
             Assert.IsTrue(Matrix.IsEqual(actual, value, 0.01));
@@ -404,7 +405,6 @@ namespace Accord.Tests.Math
             Assert.IsTrue(target1.LeftSingularVectors.IsEqual(target2.RightSingularVectors));
             Assert.IsTrue(target1.RightSingularVectors.IsEqual(target2.LeftSingularVectors));
             Assert.IsTrue(target1.DiagonalMatrix.IsEqual(target2.DiagonalMatrix));
-
         }
 
         [Test]
@@ -432,8 +432,8 @@ namespace Accord.Tests.Math
 
             {
                 double[,] expected = value;
-                double[,] actual = target.LeftSingularVectors.Multiply(
-                    Matrix.Diagonal(target.Diagonal)).Multiply(target.RightSingularVectors.Transpose());
+                double[,] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors, 
+                    Matrix.Diagonal(target.Diagonal)), target.RightSingularVectors.Transpose());
 
                 // Checking the decomposition
                 Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-8));

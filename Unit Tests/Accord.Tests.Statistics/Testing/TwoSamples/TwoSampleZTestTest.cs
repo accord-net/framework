@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ namespace Accord.Tests.Statistics
     using System;
     using AForge;
     using Accord.Statistics.Testing.Power;
+    using Accord.Statistics;
 
     [TestFixture]
     public class TwoSampleZTestTest
@@ -62,11 +63,11 @@ namespace Accord.Tests.Statistics
 
             TwoSampleZTest actual = new TwoSampleZTest(samples1, samples2);
 
-            double mean1 = Accord.Statistics.Tools.Mean(samples1);
-            double mean2 = Accord.Statistics.Tools.Mean(samples2);
+            double mean1 = Measures.Mean(samples1);
+            double mean2 = Measures.Mean(samples2);
 
-            double var1 = Accord.Statistics.Tools.Variance(samples1);
-            double var2 = Accord.Statistics.Tools.Variance(samples2);
+            double var1 = Measures.Variance(samples1);
+            double var2 = Measures.Variance(samples2);
 
             int n1 = samples1.Length;
             int n2 = samples2.Length;

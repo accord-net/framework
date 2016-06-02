@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -220,10 +220,10 @@ namespace Accord.Statistics.Models.Markov.Learning
             int states = model.States;
             int T = discreteObservations[index].Length;
 
-            System.Diagnostics.Debug.Assert(lnBwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(lnBwd.GetLength(1) == states);
-            System.Diagnostics.Debug.Assert(lnFwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(lnFwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(lnBwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(lnBwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(lnFwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(lnFwd.GetLength(1) == states);
 
             ForwardBackwardAlgorithm.LogForward(model, discreteObservations[index], lnFwd);
             ForwardBackwardAlgorithm.LogBackward(model, discreteObservations[index], lnBwd);
@@ -268,7 +268,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                     // TODO: avoid locking a parameter in zero.
                     B[i, j] = lnnum - lnden;
 
-                    System.Diagnostics.Debug.Assert(!Double.IsNaN(B[i, j]));
+                    Accord.Diagnostics.Debug.Assert(!Double.IsNaN(B[i, j]));
                 }
             }
         }
@@ -308,7 +308,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                     }
                 }
 
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
 
                 for (int i = 0; i < states; i++)
                     for (int j = 0; j < states; j++)

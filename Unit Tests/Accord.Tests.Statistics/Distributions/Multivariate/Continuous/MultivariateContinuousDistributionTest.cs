@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,6 +28,7 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using System;
     using Accord.Statistics.Distributions.Fitting;
+    using Accord.Statistics;
 
 
     [TestFixture]
@@ -315,8 +316,8 @@ namespace Accord.Tests.Statistics
 
             target.Fit(observations);
 
-            double[] expectedMean = Accord.Statistics.Tools.Mean(observations);
-            double[,] expectedCov = Accord.Statistics.Tools.Covariance(observations, expectedMean);
+            double[] expectedMean = Measures.Mean(observations);
+            double[,] expectedCov = Measures.Covariance(observations, expectedMean);
 
             MultivariateContinuousDistribution actual = target as MultivariateContinuousDistribution;
 
@@ -339,8 +340,8 @@ namespace Accord.Tests.Statistics
 
             target.Fit(observations);
 
-            double[] expectedMean = Accord.Statistics.Tools.Mean(observations);
-            double[,] expectedCov = Accord.Statistics.Tools.Covariance(observations, expectedMean);
+            double[] expectedMean = Measures.Mean(observations);
+            double[,] expectedCov = Measures.Covariance(observations, expectedMean);
 
             MultivariateContinuousDistribution actual = target as MultivariateContinuousDistribution;
 

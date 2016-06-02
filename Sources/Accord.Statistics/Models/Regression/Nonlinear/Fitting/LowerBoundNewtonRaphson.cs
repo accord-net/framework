@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -200,7 +200,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
             M = regression.Inputs + 1;
             parameterCount = K * M;
 
-            solution = regression.Coefficients.Reshape(1);
+            solution = regression.Coefficients.Reshape();
 
             xxt = new double[M, M];
             errors = new double[K];
@@ -226,7 +226,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// 
         public double Run(double[][] inputs, int[] classes)
         {
-            return run(inputs, Statistics.Tools.Expand(classes));
+            return run(inputs, Jagged.OneHot(classes));
         }
 
         /// <summary>
@@ -323,7 +323,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 //   Kronecker product. See [Böhning, 1992]
 
                 // (Re-) Compute error gradient
-                double[] g = Matrix.KroneckerProduct(errors, x);
+                double[] g = Matrix.Kronecker(errors, x);
                 for (int j = 0; j < g.Length; j++)
                     gradient[j] += g[j];
 
@@ -335,7 +335,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
                             xxt[k, j] = x[k] * x[j];
 
                     // (Re-) Compute weighted "Hessian" matrix 
-                    double[,] h = Matrix.KroneckerProduct(weights, xxt);
+                    double[,] h = Matrix.Kronecker(weights, xxt);
                     for (int j = 0; j < parameterCount; j++)
                         for (int k = 0; k < parameterCount; k++)
                             lowerBound[j, k] += h[j, k];
@@ -375,14 +375,14 @@ namespace Accord.Statistics.Models.Regression.Fitting
             }
 
 
-            previous = coefficients.Reshape(1);
+            previous = coefficients.Reshape();
 
             // Update coefficients using the calculated deltas
             for (int i = 0, k = 0; i < coefficients.Length; i++)
                 for (int j = 0; j < coefficients[i].Length; j++)
                     coefficients[i][j] -= deltas[k++];
 
-            solution = coefficients.Reshape(1);
+            solution = coefficients.Reshape();
 
 
             if (computeStandardErrors)

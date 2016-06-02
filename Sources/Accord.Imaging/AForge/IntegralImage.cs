@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
     using System.Drawing;
@@ -49,7 +49,7 @@ namespace AForge.Imaging
     /// </code>
     /// </remarks>
     /// 
-    public class IntegralImage
+    public class IntegralImage : ICloneable
     {
         /// <summary>
         /// Intergral image's array.
@@ -450,6 +450,21 @@ namespace AForge.Imaging
         public float GetRectangleMeanUnsafe(int x, int y, int radius)
         {
             return GetRectangleMeanUnsafe(x - radius, y - radius, x + radius, y + radius);
+        }
+
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A new object that is a copy of this instance.
+        /// </returns>
+        ///
+        public object Clone()
+        {
+            var clone = new IntegralImage(width, height);
+            integralImage.CopyTo(clone.integralImage, 0);
+            return clone;
         }
     }
 }

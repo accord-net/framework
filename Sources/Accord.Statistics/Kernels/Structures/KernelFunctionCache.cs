@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -43,7 +43,43 @@ namespace Accord.Statistics.Kernels
     ///   the actual speedup may vary according to the choice of cache size.</para>
     /// </remarks>
     /// 
-    public class KernelFunctionCache
+    public class KernelFunctionCache : KernelFunctionCache<IKernel, double[]>
+    {       
+        /// <summary>
+        ///   Constructs a new <see cref="KernelFunctionCache"/>.
+        /// </summary>
+        /// 
+        /// <param name="kernel">The kernel function.</param>
+        /// <param name="inputs">The inputs values.</param>
+        /// 
+        public KernelFunctionCache(IKernel kernel, double[][] inputs)
+            : base(kernel, inputs)
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a new <see cref="KernelFunctionCache"/>.
+        /// </summary>
+        /// 
+        /// <param name="kernel">The kernel function.</param>
+        /// <param name="inputs">The inputs values.</param>
+        /// <param name="cacheSize">
+        ///   The size for the cache, measured in number of 
+        ///   elements from the <paramref name="inputs"/> set.
+        ///   Default is to use all elements.</param>
+        /// 
+        public KernelFunctionCache(IKernel kernel, double[][] inputs, int cacheSize)
+            : base(kernel, inputs, cacheSize)
+        {
+        }
+    }
+
+    /// <summary>
+    ///   Value cache for kernel function evaluations.
+    /// </summary>
+    /// 
+    public class KernelFunctionCache<TKernel, TInput>
+        where TKernel : IKernel<TInput>
     {
 
         private int size;
@@ -56,8 +92,8 @@ namespace Accord.Statistics.Kernels
 
         private double[] diagonal;
 
-        private double[][] inputs;
-        private IKernel kernel;
+        private TInput[] inputs;
+        private TKernel kernel;
 
         private int misses;
         private int hits;
@@ -111,7 +147,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="kernel">The kernel function.</param>
         /// <param name="inputs">The inputs values.</param>
         /// 
-        public KernelFunctionCache(IKernel kernel, double[][] inputs)
+        public KernelFunctionCache(TKernel kernel, TInput[] inputs)
             : this(kernel, inputs, inputs.Length) { }
 
         /// <summary>
@@ -125,8 +161,11 @@ namespace Accord.Statistics.Kernels
         ///   elements from the <paramref name="inputs"/> set.
         ///   Default is to use all elements.</param>
         /// 
-        public KernelFunctionCache(IKernel kernel, double[][] inputs, int cacheSize)
+        public KernelFunctionCache(TKernel kernel, TInput[] inputs, int cacheSize)
         {
+            if (kernel == null)
+                throw new ArgumentNullException("kernel");
+
             if (cacheSize < 0)
             {
                 throw new ArgumentOutOfRangeException("cacheSize",

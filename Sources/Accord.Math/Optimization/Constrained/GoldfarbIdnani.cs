@@ -1173,9 +1173,9 @@ namespace Accord.Math.Optimization
 
                 for (int i = 0; i < n; i++)
                 {
-                    temp = dmat[i, it1 - 1];
-                    dmat[i, it1 - 1] = dmat[i, it1];
-                    dmat[i, it1] = temp;
+                    temp = dmat[it1 - 1, i];
+                    dmat[it1 - 1, i] = dmat[it1, i];
+                    dmat[it1, i] = temp;
                 }
             }
             else

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Analysis.KDA
+namespace SampleApp
 {
     partial class AboutBox : Form
     {

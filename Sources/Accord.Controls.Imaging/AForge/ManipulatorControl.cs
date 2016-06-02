@@ -11,7 +11,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace AForge.Controls
+namespace Accord.Controls
 {
     /// <summary>
     /// Manipulator control.
@@ -321,8 +321,8 @@ namespace AForge.Controls
                 {
                     if (x != 0)
                     {
-                        double t = Math.Atan(y / x);
-                        t = t / Math.PI * 180;
+                        double t = System.Math.Atan(y / x);
+                        t = t / System.Math.PI * 180;
 
                         if (t < 0)
                         {
@@ -345,7 +345,7 @@ namespace AForge.Controls
             /// </summary>
             public float R
             {
-                get { return (float)Math.Sqrt(x * x + y * y); }
+                get { return (float)System.Math.Sqrt(x * x + y * y); }
             }
 
             /// <summary>
@@ -377,13 +377,13 @@ namespace AForge.Controls
             get { return new PointF(manipulatatorX, manipulatatorY); }
             set
             {
-                manipulatatorX = Math.Max(-1.0f, Math.Min(1.0f, value.X));
-                manipulatatorY = Math.Max(-1.0f, Math.Min(1.0f, value.Y));
+                manipulatatorX = System.Math.Max(-1.0f, System.Math.Min(1.0f, value.X));
+                manipulatatorY = System.Math.Max(-1.0f, System.Math.Min(1.0f, value.Y));
 
                 if (!isSquareLook)
                 {
                     // get distance from center
-                    double cR = Math.Sqrt(manipulatatorX * manipulatatorX + manipulatatorY * manipulatatorY);
+                    double cR = System.Math.Sqrt(manipulatatorX * manipulatatorX + manipulatatorY * manipulatatorY);
 
                     // correct point if it is too far away
                     if (cR > 1)
@@ -431,7 +431,7 @@ namespace AForge.Controls
             Graphics g = e.Graphics;
 
             // calculate size of the manipulator's ares
-            areaSize = Math.Min(ClientRectangle.Width, ClientRectangle.Height) - areaMargin * 2;
+            areaSize = System.Math.Min(ClientRectangle.Width, ClientRectangle.Height) - areaMargin * 2;
             areaRadius = areaSize / 2;
 
             // draw area
@@ -505,7 +505,7 @@ namespace AForge.Controls
                 else
                 {
                     // check if the point is inside of manipulator
-                    if (Math.Sqrt(cX * cX + cY * cY) <= areaRadius)
+                    if (System.Math.Sqrt(cX * cX + cY * cY) <= areaRadius)
                     {
                         tracking = true;
                     }
@@ -562,13 +562,13 @@ namespace AForge.Controls
 
                 if (isSquareLook)
                 {
-                    cX = Math.Min(areaRadius, Math.Max(-areaRadius, cX));
-                    cY = Math.Min(areaRadius, Math.Max(-areaRadius, cY));
+                    cX = System.Math.Min(areaRadius, System.Math.Max(-areaRadius, cX));
+                    cY = System.Math.Min(areaRadius, System.Math.Max(-areaRadius, cY));
                 }
                 else
                 {
                     // get distance from center
-                    int cR = (int)Math.Sqrt(cX * cX + cY * cY);
+                    int cR = (int)System.Math.Sqrt(cX * cX + cY * cY);
 
                     // correct point if it is too far away
                     if (cR > areaRadius)

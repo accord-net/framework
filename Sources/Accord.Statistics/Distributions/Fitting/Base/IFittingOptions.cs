@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Distributions.Fitting
 {
 
+    using System;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
@@ -30,7 +31,7 @@ namespace Accord.Statistics.Distributions.Fitting
     /// </summary>
     /// 
     [SuppressMessage("Microsoft.Design", "CA1040:AvoidEmptyInterfaces")]
-    public interface IFittingOptions
+    public interface IFittingOptions : ICloneable
     {
         // This is an empty interface used to identify a set of types at compile
         // time. The CA rule "CA1040: Avoid empty interfaces" has been suppressed.

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Math;
+    using Accord.Statistics;
     using Accord.Statistics.Analysis;
     using AForge;
     using NUnit.Framework;
@@ -185,7 +186,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(57.671373919257775, confidence[0].Max);
 
             DoubleRange q;
-            double q2 = Accord.Statistics.Tools.Quartiles(data, out q, alreadySorted: false);
+            double q2 = Measures.Quartiles(data, out q, alreadySorted: false);
 
             Assert.AreEqual(1, quartiles.Length);
             Assert.AreEqual(q.Min, quartiles[0].Min);
@@ -213,21 +214,21 @@ namespace Accord.Tests.Statistics
                 {  1.0000,   -0.7559,    0.1429 },
                 { -0.7559,    1.0000,   -0.7559 },
                 {  0.1429,   -0.7559,    1.0000 },
-            }, 0.0001));
+            }, atol: 0.0001));
 
             Assert.IsTrue(target.CovarianceMatrix.IsEqual(new double[,]
             {
                 {  7,    -8,     1 },
                 { -8,    16,    -8 },
                 {  1,    -8,     7 },
-            }, 0.00000001));
+            }, atol: 0.00000001));
 
             Assert.IsTrue(target.StandardScores.IsEqual(new double[,]
             { 
                 { 1.1339,   -1.0000,    0.3780 },
                 { -0.7559,         0,    0.7559 },
                 { -0.3780,    1.0000,   -1.1339 },
-            }, 0.001));
+            }, atol: 0.001));
 
             Assert.IsTrue(target.Means.IsEqual(new double[] { 5, 5, 5 }));
 

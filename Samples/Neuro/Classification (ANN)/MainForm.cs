@@ -43,7 +43,6 @@ using Accord.Math;
 using Accord.Neuro;
 using Accord.Neuro.Learning;
 using Accord.Statistics.Analysis;
-using AForge.Neuro;
 using ZedGraph;
 
 namespace SampleApp
@@ -221,7 +220,7 @@ namespace SampleApp
             if (useNguyenWidrow)
             {
                 if (useSameWeights)
-                    Accord.Math.Tools.SetupGenerator(0);
+                    Accord.Math.Random.Generator.Seed = 0;
 
                 NguyenWidrow initializer = new NguyenWidrow(ann);
                 initializer.Randomize();
@@ -236,7 +235,7 @@ namespace SampleApp
             // iterations
             iteration = 1;
 
-            var ranges = Matrix.Range(sourceMatrix, 0);
+            var ranges = sourceMatrix.GetRange(0);
             double[][] map = Matrix.Mesh(ranges[0], ranges[1], 0.05, 0.05);
             var sw = Stopwatch.StartNew();
 

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -171,7 +171,7 @@ namespace Accord.Statistics.Testing
 
             // Concatenate both samples and rank them
             double[] samples = sample1.Concatenate(sample2);
-            double[] rank = Accord.Statistics.Tools.Rank(samples);
+            double[] rank = samples.Rank();
 
             // Split the rankings back and sum
             Rank1 = rank.Submatrix(0, n1 - 1);
