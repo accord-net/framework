@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -328,7 +328,7 @@ namespace Accord.Math
         [Obsolete("Please use Dot instead.")]
         public static void Multiply(this double[,] a, double[,] b, double[,] result)
         {
-            Dot(a, b).CopyTo(result);
+            Dot(a, b, result);
         }
 
         /// <summary>
@@ -344,7 +344,7 @@ namespace Accord.Math
         [Obsolete("Please use Dot instead.")]
         public static void Multiply(this double[][] a, double[][] b, double[][] result)
         {
-            Dot(a, b).CopyTo(result);
+            Dot(a, b, result);
         }
 
         /// <summary>
@@ -376,7 +376,7 @@ namespace Accord.Math
         [Obsolete("Please use Dot instead.")]
         public static void Multiply(this float[][] a, float[][] b, float[][] result)
         {
-            Dot(a, b).CopyTo(result);
+            Dot(a, b, result);
         }
 
         /// <summary>
@@ -392,7 +392,7 @@ namespace Accord.Math
         [Obsolete("Please use Dot instead.")]
         public static void Multiply(this float[][] a, double[][] b, double[][] result)
         {
-            Dot(a, b).CopyTo(result);
+            Dot(a, b, result);
         }
 
         /// <summary>
@@ -408,7 +408,7 @@ namespace Accord.Math
         [Obsolete("Please use Dot instead.")]
         public static void Multiply(this float[,] a, float[,] b, float[,] result)
         {
-            Dot(a, b).CopyTo(result);
+            Dot(a, b, result);
         }
 
 
@@ -423,9 +423,7 @@ namespace Accord.Math
         [Obsolete("Please use DotWithTransposed instead.")]
         public static double[,] MultiplyByTranspose(this double[,] a, double[,] b)
         {
-            double[,] r = new double[a.GetLength(0), b.GetLength(0)];
-            MultiplyByTranspose(a, b, r);
-            return r;
+            return DotWithTransposed(a, b);
         }
 
         /// <summary>
@@ -439,9 +437,7 @@ namespace Accord.Math
         [Obsolete("Please use DotWithTransposed instead.")]
         public static float[,] MultiplyByTranspose(this float[,] a, float[,] b)
         {
-            float[,] r = new float[a.GetLength(0), b.GetLength(0)];
-            MultiplyByTranspose(a, b, r);
-            return r;
+            return DotWithTransposed(a, b);
         }
 
         /// <summary>
@@ -457,33 +453,7 @@ namespace Accord.Math
         [Obsolete("Please use DotWithTransposed instead.")]
         public static void MultiplyByTranspose(this double[,] a, double[,] b, double[,] result)
         {
-            int n = a.GetLength(1);
-            int m = a.GetLength(0);
-            int p = b.GetLength(0);
-
-            unsafe
-            {
-                fixed (double* ptrA = a)
-                fixed (double* ptrB = b)
-                fixed (double* ptrR = result)
-                {
-                    double* rc = ptrR;
-
-                    for (int i = 0; i < m; i++)
-                    {
-                        double* bColj = ptrB;
-                        for (int j = 0; j < p; j++)
-                        {
-                            double* aColi = ptrA + n * i;
-
-                            double s = 0;
-                            for (int k = 0; k < n; k++)
-                                s += *(aColi++) * *(bColj++);
-                            *(rc++) = s;
-                        }
-                    }
-                }
-            }
+            DotWithTransposed(a, b, result);
         }
 
         /// <summary>
@@ -499,33 +469,7 @@ namespace Accord.Math
         [Obsolete("Please use DotWithTransposed instead.")]
         public static void MultiplyByTranspose(this float[,] a, float[,] b, float[,] result)
         {
-            int n = a.GetLength(1);
-            int m = a.GetLength(0);
-            int p = b.GetLength(0);
-
-            unsafe
-            {
-                fixed (float* ptrA = a)
-                fixed (float* ptrB = b)
-                fixed (float* ptrR = result)
-                {
-                    float* rc = ptrR;
-
-                    for (int i = 0; i < m; i++)
-                    {
-                        float* bColj = ptrB;
-                        for (int j = 0; j < p; j++)
-                        {
-                            float* aColi = ptrA + n * i;
-
-                            float s = 0;
-                            for (int k = 0; k < n; k++)
-                                s += *(aColi++) * *(bColj++);
-                            *(rc++) = s;
-                        }
-                    }
-                }
-            }
+            DotWithTransposed(a, b, result);
         }
 
 
@@ -540,9 +484,7 @@ namespace Accord.Math
         [Obsolete("Please use TransposeAndDot instead.")]
         public static double[,] TransposeAndMultiply(this double[,] a, double[,] b)
         {
-            double[,] r = new double[a.GetLength(1), b.GetLength(1)];
-            TransposeAndMultiply(a, b, r);
-            return r;
+            return TransposeAndDot(a, b);
         }
 
         /// <summary>
@@ -556,16 +498,7 @@ namespace Accord.Math
         [Obsolete("Please use TransposeAndDot instead.")]
         public static double[][] TransposeAndMultiply(this double[][] a, double[][] b)
         {
-            int aCols = a[0].Length;
-            int bCols = b[0].Length;
-
-            double[][] r = new double[aCols][];
-            for (int i = 0; i < r.Length; i++)
-                r[i] = new double[bCols];
-
-            TransposeAndMultiply(a, b, r);
-
-            return r;
+            return TransposeAndDot(a, b);
         }
 
         /// <summary>
@@ -580,32 +513,7 @@ namespace Accord.Math
         [Obsolete("Please use TransposeAndDot instead.")]
         public static void TransposeAndMultiply(this double[,] a, double[,] b, double[,] result)
         {
-            if (a == null) throw new ArgumentNullException("a");
-            if (b == null) throw new ArgumentNullException("b");
-            if (result == null) throw new ArgumentNullException("result");
-
-            // TODO: Check dimensions
-            // TODO: Change result to be an "out" value
-
-            int n = a.GetLength(0);
-            int m = a.GetLength(1);
-            int p = b.GetLength(1);
-
-            double[] Bcolj = new double[n];
-            for (int i = 0; i < p; i++)
-            {
-                for (int k = 0; k < n; k++)
-                    Bcolj[k] = b[k, i];
-
-                for (int j = 0; j < m; j++)
-                {
-                    double s = 0;
-                    for (int k = 0; k < n; k++)
-                        s += a[k, j] * Bcolj[k];
-
-                    result[j, i] = s;
-                }
-            }
+            TransposeAndDot(a, b, result);
         }
 
         /// <summary>
@@ -620,32 +528,7 @@ namespace Accord.Math
         [Obsolete("Please use TransposeAndDot instead.")]
         public static void TransposeAndMultiply(this double[][] a, double[][] b, double[][] result)
         {
-            if (a == null) throw new ArgumentNullException("a");
-            if (b == null) throw new ArgumentNullException("b");
-            if (result == null) throw new ArgumentNullException("result");
-
-            // TODO: Check dimensions
-            // TODO: Change result to be an "out" value
-
-            int n = a.Length;
-            int m = a[0].Length;
-            int p = b[0].Length;
-
-            double[] Bcolj = new double[n];
-            for (int i = 0; i < p; i++)
-            {
-                for (int k = 0; k < n; k++)
-                    Bcolj[k] = b[k][i];
-
-                for (int j = 0; j < m; j++)
-                {
-                    double s = 0;
-                    for (int k = 0; k < n; k++)
-                        s += a[k][j] * Bcolj[k];
-
-                    result[j][i] = s;
-                }
-            }
+            TransposeAndDot(a, b, result);
         }
 
 
@@ -660,9 +543,7 @@ namespace Accord.Math
         [Obsolete("Please use TransposeAndDot instead.")]
         public static double[] TransposeAndMultiply(this double[,] a, double[] b)
         {
-            double[] r = new double[a.GetLength(1)];
-            TransposeAndMultiply(a, b, r);
-            return r;
+            return TransposeAndDot(a, b);
         }
 
         /// <summary>
@@ -677,19 +558,7 @@ namespace Accord.Math
         [Obsolete("Please use TransposeAndDot instead.")]
         public static void TransposeAndMultiply(this double[,] a, double[] b, double[] result)
         {
-            if (a == null) throw new ArgumentNullException("a");
-            if (b == null) throw new ArgumentNullException("b");
-            if (result == null) throw new ArgumentNullException("result");
-
-            for (int j = 0; j < result.Length; j++)
-            {
-                double s = 0;
-                for (int k = 0; k < b.Length; k++)
-                    s += a[k, j] * b[k];
-
-                result[j] = s;
-            }
-
+            TransposeAndDot(a, b, result);
         }
 
         /// <summary>
@@ -700,12 +569,10 @@ namespace Accord.Math
         /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
-        [Obsolete("Please use TransposeAndDot instead.")]
+        [Obsolete("Please use TransposeAndDotWithDiagonal instead.")]
         public static double[,] TransposeAndMultiplyByDiagonal(this double[,] a, double[] b)
         {
-            double[,] r = new double[a.GetLength(1), b.Length];
-            TransposeAndMultiplyByDiagonal(a, b, r);
-            return r;
+            return TransposeAndDotWithDiagonal(a, b);
         }
 
         /// <summary>
@@ -717,16 +584,10 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
-        [Obsolete("Please use TransposeAndDot instead.")]
+        [Obsolete("Please use TransposeAndDotWithDiagonal instead.")]
         public static void TransposeAndMultiplyByDiagonal(this double[,] a, double[] b, double[,] result)
         {
-            if (a.GetLength(0) != b.Length)
-                throw new ArgumentException("Matrix dimensions must match.");
-
-            int m = a.GetLength(1);
-            for (int i = 0; i < b.Length; i++)
-                for (int j = 0; j < m; j++)
-                    result[j, i] = a[i, j] * b[i];
+            TransposeAndDotWithDiagonal(a, b, result);
         }
 
         /// <summary>
@@ -737,16 +598,10 @@ namespace Accord.Math
         /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
-        [Obsolete("Please use TransposeAndDot instead.")]
+        [Obsolete("Please use DotWithDiagonal instead.")]
         public static double[][] MultiplyByDiagonal(this double[][] a, double[] b)
         {
-            double[][] r = new double[a.Length][];
-            for (int i = 0; i < r.Length; i++)
-                r[i] = new double[b.Length];
-
-            MultiplyByDiagonal(a, b, r);
-
-            return r;
+            return DotWithDiagonal(a, b);
         }
 
         /// <summary>
@@ -760,13 +615,7 @@ namespace Accord.Math
         [Obsolete("Please use DotWithDiagonal instead.")]
         public static float[][] MultiplyByDiagonal(this float[][] a, float[] b)
         {
-            var r = new float[a.Length][];
-            for (int i = 0; i < r.Length; i++)
-                r[i] = new float[b.Length];
-
-            MultiplyByDiagonal(a, b, r);
-
-            return r;
+            return DotWithDiagonal(a, b);
         }
 
         /// <summary>
@@ -780,9 +629,7 @@ namespace Accord.Math
         [Obsolete("Please use DotWithDiagonal instead.")]
         public static double[,] MultiplyByDiagonal(this double[,] a, double[] b)
         {
-            double[,] r = new double[a.GetLength(0), b.Length];
-            MultiplyByDiagonal(a, b, r);
-            return r;
+            return DotWithDiagonal(a, b);
         }
 
         /// <summary>
@@ -797,23 +644,7 @@ namespace Accord.Math
         [Obsolete("Please use DotWithDiagonal instead.")]
         public static void MultiplyByDiagonal(this double[,] a, double[] b, double[,] result)
         {
-            if (a.GetLength(1) != b.Length)
-                throw new ArgumentException("Matrix dimensions must match.");
-
-
-            int rows = a.GetLength(0);
-
-            unsafe
-            {
-                fixed (double* ptrA = a, ptrR = result)
-                {
-                    double* A = ptrA;
-                    double* R = ptrR;
-                    for (int i = 0; i < rows; i++)
-                        for (int j = 0; j < b.Length; j++)
-                            *R++ = *A++ * b[j];
-                }
-            }
+            DotWithDiagonal(a, b, result);
         }
 
         /// <summary>
@@ -828,11 +659,7 @@ namespace Accord.Math
         [Obsolete("Please use DotWithDiagonal instead.")]
         public static void MultiplyByDiagonal(this double[][] a, double[] b, double[][] result)
         {
-            int rows = a.Length;
-
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < b.Length; j++)
-                    result[i][j] = a[i][j] * b[j];
+            DotWithDiagonal(a, b, result);
         }
 
         /// <summary>
@@ -847,11 +674,7 @@ namespace Accord.Math
         [Obsolete("Please use DotWithDiagonal instead.")]
         public static void MultiplyByDiagonal(this float[][] a, float[] b, float[][] result)
         {
-            int rows = a.Length;
-
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < b.Length; j++)
-                    result[i][j] = a[i][j] * b[j];
+            DotWithDiagonal(a, b, result);
         }
 
         /// <summary>
@@ -865,9 +688,7 @@ namespace Accord.Math
         [Obsolete("Please use DotWithDiagonal instead.")]
         public static float[,] MultiplyByDiagonal(this float[,] a, float[] b)
         {
-            float[,] r = new float[a.GetLength(0), b.Length];
-            MultiplyByDiagonal(a, b, r);
-            return r;
+            return DotWithDiagonal(a, b);
         }
 
         /// <summary>
@@ -882,23 +703,7 @@ namespace Accord.Math
         [Obsolete("Please use DotWithDiagonal instead.")]
         public static void MultiplyByDiagonal(this float[,] a, float[] b, float[,] result)
         {
-            if (a.GetLength(1) != b.Length)
-                throw new ArgumentException("Matrix dimensions must match.");
-
-
-            int rows = a.GetLength(0);
-
-            unsafe
-            {
-                fixed (float* ptrA = a, ptrR = result)
-                {
-                    float* A = ptrA;
-                    float* R = ptrR;
-                    for (int i = 0; i < rows; i++)
-                        for (int j = 0; j < b.Length; j++)
-                            *R++ = *A++ * b[j];
-                }
-            }
+            DotWithDiagonal(a, b, result);
         }
 
         #endregion
@@ -919,22 +724,7 @@ namespace Accord.Math
         [Obsolete("Please use Dot instead.")]
         public static double[] Multiply(this double[] rowVector, double[,] matrix)
         {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            if (rows != rowVector.Length)
-            {
-                throw new DimensionMismatchException("matrix",
-                    "Matrix must have the same number of rows as the length of the vector.");
-            }
-
-            double[] r = new double[cols];
-
-            for (int j = 0; j < cols; j++)
-                for (int k = 0; k < rowVector.Length; k++)
-                    r[j] += rowVector[k] * matrix[k, j];
-
-            return r;
+            return Dot(rowVector, matrix);
         }
 
         /// <summary>
@@ -950,20 +740,7 @@ namespace Accord.Math
         [Obsolete("Please use Dot instead.")]
         public static float[] Multiply(this float[] rowVector, float[,] matrix)
         {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            if (rows != rowVector.Length)
-                throw new DimensionMismatchException("matrix",
-                    "Matrix must have the same number of rows as the length of the vector.");
-
-            float[] r = new float[cols];
-
-            for (int j = 0; j < cols; j++)
-                for (int k = 0; k < rowVector.Length; k++)
-                    r[j] += rowVector[k] * matrix[k, j];
-
-            return r;
+            return Dot(rowVector, matrix);
         }
 
         /// <summary>
@@ -1048,9 +825,6 @@ namespace Accord.Math
         /// 
         public static double[,] Divide(this double[,] a, double[,] b)
         {
-            if (a == null) throw new ArgumentNullException("a");
-            if (b == null) throw new ArgumentNullException("b");
-
             if (b.GetLength(0) == b.GetLength(1) &&
                 a.GetLength(0) == a.GetLength(1))
             {
@@ -1216,47 +990,7 @@ namespace Accord.Math
         [Obsolete("Please use Kronecker instead.")]
         public static double[,] KroneckerProduct(this double[,] a, double[,] b)
         {
-            if (a == null) throw new ArgumentNullException("a");
-            if (b == null) throw new ArgumentNullException("b");
-
-            int arows = a.GetLength(0);
-            int acols = a.GetLength(1);
-
-            int brows = b.GetLength(0);
-            int bcols = b.GetLength(1);
-
-            int crows = arows * brows;
-            int ccols = acols * bcols;
-
-            int block = brows * ccols;
-
-            double[,] result = new double[crows, ccols];
-
-            unsafe
-            {
-                fixed (double* ptrR = result, ptrA = a, ptrB = b)
-                {
-                    double* A = ptrA, Ri = ptrR;
-
-                    for (int i = 0; i < arows; Ri += block, i++)
-                    {
-                        double* Rj = Ri;
-
-                        for (int j = 0; j < acols; j++, Rj += bcols, A++)
-                        {
-                            double* R = Rj, B = ptrB;
-
-                            for (int k = 0; k < brows; k++, R += ccols)
-                            {
-                                for (int l = 0; l < bcols; l++, B++)
-                                    *(R + l) = (*A) * (*B);
-                            }
-                        }
-                    }
-                }
-            }
-
-            return result;
+            return Kronecker(a, b);
         }
 
         /// <summary>
@@ -1271,17 +1005,7 @@ namespace Accord.Math
         [Obsolete("Please use Kronecker instead.")]
         public static double[] KroneckerProduct(this double[] a, double[] b)
         {
-            if (a == null) throw new ArgumentNullException("a");
-            if (b == null) throw new ArgumentNullException("b");
-
-            double[] result = new double[a.Length * b.Length];
-
-            int k = 0;
-            for (int i = 0; i < a.Length; i++)
-                for (int j = 0; j < b.Length; j++)
-                    result[k++] = a[i] * b[j];
-
-            return result;
+            return Kronecker(a, b);
         }
         #endregion
 
@@ -1301,31 +1025,7 @@ namespace Accord.Math
         [Obsolete("Please use the Elementwise class instead.")]
         public static double[,] Add(double[,] matrix, double[] vector, int dimension)
         {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            double[,] r = new double[rows, cols];
-
-            if (dimension == 1)
-            {
-                if (rows != vector.Length) throw new DimensionMismatchException("vector",
-                    "Length of vector should equal the number of rows in matrix.");
-
-                for (int j = 0; j < cols; j++)
-                    for (int i = 0; i < rows; i++)
-                        r[i, j] = matrix[i, j] + vector[i];
-            }
-            else
-            {
-                if (cols != vector.Length) throw new DimensionMismatchException("vector",
-                    "Length of vector should equal the number of columns in matrix.");
-
-                for (int i = 0; i < rows; i++)
-                    for (int j = 0; j < cols; j++)
-                        r[i, j] = matrix[i, j] + vector[j];
-            }
-
-            return r;
+            return Elementwise.Add(matrix, vector, dimension);
         }
 
         /// <summary>
@@ -1340,17 +1040,9 @@ namespace Accord.Math
         [Obsolete("Please use the Elementwise class instead.")]
         public static double[,] AddToDiagonal(double[,] matrix, double scalar, bool inPlace = false)
         {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            int min = Math.Min(rows, cols);
-
-            double[,] r = inPlace ? matrix : (double[,])matrix.Clone();
-
-            for (int i = 0; i < min; i++)
-                r[i, i] = matrix[i, i] + scalar;
-
-            return r;
+			if (inPlace)
+				return Elementwise.AddToDiagonal(matrix, scalar, matrix);
+			return Elementwise.AddToDiagonal(matrix, scalar);
         }
 
         /// <summary>
@@ -1365,17 +1057,9 @@ namespace Accord.Math
         [Obsolete("Please use the Elementwise class instead.")]
         public static double[][] AddToDiagonal(double[][] matrix, double scalar, bool inPlace = false)
         {
-            int rows = matrix.Length;
-            int cols = matrix[0].Length;
-
-            int min = Math.Min(rows, cols);
-
-            double[][] r = inPlace ? matrix : matrix.MemberwiseClone();
-
-            for (int i = 0; i < min; i++)
-                r[i][i] = matrix[i][i] + scalar;
-
-            return r;
+            if (inPlace)
+				return Elementwise.AddToDiagonal(matrix, scalar, matrix);
+			return Elementwise.AddToDiagonal(matrix, scalar);
         }
 
         /// <summary>
@@ -1390,7 +1074,9 @@ namespace Accord.Math
         [Obsolete("Please use the Elementwise class instead.")]
         public static double[][] SubtractFromDiagonal(double[][] matrix, double scalar, bool inPlace = false)
         {
-            return AddToDiagonal(matrix, -scalar, inPlace);
+            if (inPlace)
+				return Elementwise.SubtractFromDiagonal(matrix, scalar, matrix);
+			return Elementwise.SubtractFromDiagonal(matrix, scalar);
         }
 
         #endregion

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -133,7 +133,7 @@ namespace Accord.MachineLearning
         {
             this.Proportion = proportion;
             this.IsStratified = false;
-            this.Indices = Categorical.Random(size, proportion);
+            this.Indices = Classes.Random(size, proportion);
 
             this.ValidationSet = Indices.Find(x => x == 0);
             this.TrainingSet = Indices.Find(x => x == 1);

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -116,35 +116,35 @@ namespace Accord.Math
         /// <summary>Maximum gamma on the machine.</summary>
         public const double GammaMax = 171.624376956302725; // TODO: Rename to Max
 
+        private static readonly double[] gamma_P =
+        {
+            1.60119522476751861407E-4,
+            1.19135147006586384913E-3,
+            1.04213797561761569935E-2,
+            4.76367800457137231464E-2,
+            2.07448227648435975150E-1,
+            4.94214826801497100753E-1,
+            9.99999999999999996796E-1
+        };
+
+        private static readonly double[] gamma_Q =
+        {
+            -2.31581873324120129819E-5,
+            5.39605580493303397842E-4,
+            -4.45641913851797240494E-3,
+            1.18139785222060435552E-2,
+            3.58236398605498653373E-2,
+            -2.34591795718243348568E-1,
+            7.14304917030273074085E-2,
+            1.00000000000000000320E0
+        };
+
         /// <summary>
         ///   Gamma function of the specified value.
         /// </summary>
         /// 
         public static double Function(double x)
         {
-            double[] P =
-            {
-                1.60119522476751861407E-4,
-                1.19135147006586384913E-3,
-                1.04213797561761569935E-2,
-                4.76367800457137231464E-2,
-                2.07448227648435975150E-1,
-                4.94214826801497100753E-1,
-                9.99999999999999996796E-1
-            };
-
-            double[] Q =
-            {
-               -2.31581873324120129819E-5,
-                5.39605580493303397842E-4,
-               -4.45641913851797240494E-3,
-                1.18139785222060435552E-2,
-                3.58236398605498653373E-2,
-               -2.34591795718243348568E-1,
-                7.14304917030273074085E-2,
-                1.00000000000000000320E0
-            };
-
             double p, z;
 
             double q = System.Math.Abs(x);
@@ -220,8 +220,8 @@ namespace Accord.Math
                 return z;
 
             x -= 2.0;
-            p = Special.Polevl(x, P, 6);
-            q = Special.Polevl(x, Q, 7);
+            p = Special.Polevl(x, gamma_P, 6);
+            q = Special.Polevl(x, gamma_Q, 7);
             return z * p / q;
 
         }
@@ -402,21 +402,21 @@ namespace Accord.Math
             return value;
         }
 
+        private static readonly double[] STIR =
+        {
+                7.87311395793093628397E-4,
+            -2.29549961613378126380E-4,
+            -2.68132617805781232825E-3,
+                3.47222221605458667310E-3,
+                8.33333333333482257126E-2,
+        };
+
         /// <summary>
         ///   Gamma function as computed by Stirling's formula.
         /// </summary>
         /// 
         public static double Stirling(double x)
         {
-            double[] STIR =
-            {
-                 7.87311395793093628397E-4,
-                -2.29549961613378126380E-4,
-                -2.68132617805781232825E-3,
-                 3.47222221605458667310E-3,
-                 8.33333333333482257126E-2,
-            };
-
             double MAXSTIR = 143.01608;
 
             double w = 1.0 / x;
@@ -563,6 +563,35 @@ namespace Accord.Math
             return ans * ax / a;
         }
 
+        private static readonly double[] log_A =
+        {
+                8.11614167470508450300E-4,
+            -5.95061904284301438324E-4,
+                7.93650340457716943945E-4,
+            -2.77777777730099687205E-3,
+                8.33333333333331927722E-2
+        };
+
+        private static readonly double[] log_B =
+        {
+            -1.37825152569120859100E3,
+            -3.88016315134637840924E4,
+            -3.31612992738871184744E5,
+            -1.16237097492762307383E6,
+            -1.72173700820839662146E6,
+            -8.53555664245765465627E5
+        };
+
+        private static readonly double[] log_C =
+        {
+            -3.51815701436523470549E2,
+            -1.70642106651881159223E4,
+            -2.20528590553854454839E5,
+            -1.13933444367982507207E6,
+            -2.53252307177582951285E6,
+            -2.01889141433532773231E6
+        };
+
         /// <summary>
         ///   Natural logarithm of the gamma function.
         /// </summary>
@@ -573,35 +602,6 @@ namespace Accord.Math
                 return Double.PositiveInfinity;
 
             double p, q, w, z;
-
-            double[] A =
-            {
-                 8.11614167470508450300E-4,
-                -5.95061904284301438324E-4,
-                 7.93650340457716943945E-4,
-                -2.77777777730099687205E-3,
-                 8.33333333333331927722E-2
-            };
-
-            double[] B =
-            {
-                -1.37825152569120859100E3,
-                -3.88016315134637840924E4,
-                -3.31612992738871184744E5,
-                -1.16237097492762307383E6,
-                -1.72173700820839662146E6,
-                -8.53555664245765465627E5
-            };
-
-            double[] C =
-            {
-                -3.51815701436523470549E2,
-                -1.70642106651881159223E4,
-                -2.20528590553854454839E5,
-                -1.13933444367982507207E6,
-                -2.53252307177582951285E6,
-                -2.01889141433532773231E6
-            };
 
             if (x < -34.0)
             {
@@ -652,7 +652,7 @@ namespace Accord.Math
 
                 x -= 2.0;
 
-                p = x * Special.Polevl(x, B, 5) / Special.P1evl(x, C, 6);
+                p = x * Special.Polevl(x, log_B, 5) / Special.P1evl(x, log_C, 6);
 
                 return (Math.Log(z) + p);
             }
@@ -675,7 +675,7 @@ namespace Accord.Math
             }
             else
             {
-                q += Special.Polevl(p, A, 4) / x;
+                q += Special.Polevl(p, log_A, 4) / x;
             }
 
             return q;
@@ -866,47 +866,6 @@ namespace Accord.Math
             return x;
         }
 
-        /// <summary>
-        ///   Random Gamma-distribution number generation 
-        ///   based on Marsaglia's Simple Method (2000).
-        /// </summary>
-        /// 
-        public static double Random(double d, double c)
-        {
-            var g = new GaussianGenerator(0, 1, Generator.Random.Next());
-
-            // References:
-            //
-            // - Marsaglia, G. A Simple Method for Generating Gamma Variables, 2000
-            //
-
-            while (true)
-            {
-                // 2. Generate v = (1+cx)^3 with x normal
-                double x, t, v;
-
-                do
-                {
-                    x = g.Next();
-                    t = (1.0 + c * x);
-                    v = t * t * t;
-                } while (v <= 0);
-
-
-                // 3. Generate uniform U
-                double U = Accord.Math.Random.Generator.Random.NextDouble();
-
-                // 4. If U < 1-0.0331*x^4 return d*v.
-                double x2 = x * x;
-                if (U < 1 - 0.0331 * x2 * x2)
-                    return d * v;
-
-                // 5. If log(U) < 0.5*x^2 + d*(1-v+log(v)) return d*v.
-                if (Math.Log(U) < 0.5 * x2 + d * (1.0 - v + Math.Log(v)))
-                    return d * v;
-
-                // 6. Goto step 2
-            }
-        }
+        
     }
 }

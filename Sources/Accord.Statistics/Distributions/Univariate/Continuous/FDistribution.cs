@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -413,12 +413,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
-        /// 
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples)
+        public override double[] Generate(int samples, double[] result)
         {
-            return Random(d1, d2, samples);
+            return Random(d1, d2, samples, result);
         }
 
         /// <summary>
@@ -445,12 +446,28 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(int d1, int d2, int samples)
         {
-            double[] x = GammaDistribution.Random(shape: d1 / 2.0, scale: 2, samples: samples);
+            return Random(d1, d2, samples, new double[samples]);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   F-distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="d1">The first degree of freedom.</param>
+        /// <param name="d2">The second degree of freedom.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified F-distribution.</returns>
+        /// 
+        public static double[] Random(int d1, int d2, int samples, double[] result)
+        {
+            double[] x = GammaDistribution.Random(shape: d1 / 2.0, scale: 2, samples: samples, result: result);
             double[] y = GammaDistribution.Random(shape: d2 / 2.0, scale: 2, samples: samples);
 
             for (int i = 0; i < x.Length; i++)
-                x[i] = x[i] / y[i];
-
+                x[i] /= y[i];
             return x;
         }
 

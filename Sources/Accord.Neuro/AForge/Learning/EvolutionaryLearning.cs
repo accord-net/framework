@@ -13,6 +13,7 @@ namespace Accord.Neuro.Learning
     using Accord;
     using Accord.Genetic;
     using Accord.Math.Random;
+    using Accord.Statistics.Distributions.Univariate;
 
     /// <summary>
     /// Neural networks' evolutionary learning algorithm, which is based on Genetic Algorithms.
@@ -74,10 +75,10 @@ namespace Accord.Neuro.Learning
         private int populationSize;
 
         // generator for newly generated neurons
-        private IRandomNumberGenerator chromosomeGenerator;
+        private IRandomNumberGenerator<double> chromosomeGenerator;
         // mutation generators
-        private IRandomNumberGenerator mutationMultiplierGenerator;
-        private IRandomNumberGenerator mutationAdditionGenerator;
+        private IRandomNumberGenerator<double> mutationMultiplierGenerator;
+        private IRandomNumberGenerator<double> mutationAdditionGenerator;
 
         // selection method for chromosomes in population
         private ISelectionMethod selectionMethod;
@@ -112,9 +113,9 @@ namespace Accord.Neuro.Learning
         /// in genetic population (see <see cref="Population.RandomSelectionPortion"/>).</param>
         /// 
         public EvolutionaryLearning(ActivationNetwork activationNetwork, int populationSize,
-            IRandomNumberGenerator chromosomeGenerator,
-            IRandomNumberGenerator mutationMultiplierGenerator,
-            IRandomNumberGenerator mutationAdditionGenerator,
+            IRandomNumberGenerator<double> chromosomeGenerator,
+            IRandomNumberGenerator<double> mutationMultiplierGenerator,
+            IRandomNumberGenerator<double> mutationAdditionGenerator,
             ISelectionMethod selectionMethod,
             double crossOverRate, double mutationRate, double randomSelectionRate)
         {
@@ -182,9 +183,9 @@ namespace Accord.Neuro.Learning
 
             // population parameters
             this.populationSize = populationSize;
-            this.chromosomeGenerator = new UniformGenerator(new Range(-1, 1));
-            this.mutationMultiplierGenerator = new ExponentialGenerator(1);
-            this.mutationAdditionGenerator = new UniformGenerator(new Range(-0.5f, 0.5f));
+            this.chromosomeGenerator = new UniformContinuousDistribution(new Range(-1, 1));
+            this.mutationMultiplierGenerator = new ExponentialDistribution(1);
+            this.mutationAdditionGenerator = new UniformContinuousDistribution(new Range(-0.5f, 0.5f));
             this.selectionMethod = new EliteSelection();
             this.crossOverRate = 0.75;
             this.mutationRate = 0.25;

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -235,7 +235,7 @@ namespace Accord.Tests.Imaging
                     actual[i, j] /= actual[2, 2];
 
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-5));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-5f));
 
 
             x1 = new PointF[]
@@ -271,14 +271,14 @@ namespace Accord.Tests.Imaging
 
             actual = (float[,])Tools.Homography(x1, x2);
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.01));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.01f));
 
         }
 
         [Test]
         public void ToDoubleArrayTest()
         {
-            Bitmap image = Properties.Resources.image1;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.image1);
 
             double[] actual = Tools.ToDoubleArray(image, 0, 0, 1);
 
@@ -320,7 +320,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void SumTest()
         {
-            Bitmap image = Properties.Resources.image1;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.image1);
 
             int expected = 0;
 

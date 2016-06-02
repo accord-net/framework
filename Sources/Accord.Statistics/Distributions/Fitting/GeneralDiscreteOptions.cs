@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -35,7 +35,7 @@ namespace Accord.Statistics.Distributions.Fitting
         /// <summary>
         ///   Gets or sets the minimum allowed probability
         ///   in the frequency tables specifying the discrete
-        ///   distribution.
+        ///   distribution. Default is 1e-10.
         /// </summary>
         /// 
         public double Minimum { get; set; }
@@ -48,13 +48,30 @@ namespace Accord.Statistics.Distributions.Fitting
         public bool UseLaplaceRule { get; set; }
 
         /// <summary>
+        ///   Gets or sets how much percent of the previous value for
+        ///   the distribution should be kept in its updated value. Default is 0.
+        /// </summary>
+        /// 
+        public double Regularization {get; set; }
+
+        /// <summary>
         ///   Initializes a new instance of the <see cref="GeneralDiscreteOptions"/> class.
         /// </summary>
         /// 
         public GeneralDiscreteOptions()
         {
             Minimum = 1e-10;
-            UseLaplaceRule = false;
+        }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public object Clone()
+        {
+            return MemberwiseClone();
         }
 
     }

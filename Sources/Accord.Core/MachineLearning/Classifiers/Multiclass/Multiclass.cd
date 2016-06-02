@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Interface Name="Accord.MachineLearning.IMulticlassClassifier&lt;TInput&gt;">
+    <Position X="2.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multiclass\IMulticlassClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMulticlassDistanceClassifier&lt;TInput, TClasses&gt;">
+    <Position X="8.5" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multiclass\IMulticlassDistanceClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMulticlassOutDistanceClassifier&lt;TInput, TClasses&gt;">
+    <Position X="8.25" Y="2.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multiclass\IMulticlassDistanceClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMulticlassRefDistanceClassifier&lt;TInput, TClasses&gt;">
+    <Position X="12.75" Y="2.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multiclass\IMulticlassDistanceClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMulticlassDistanceClassifier&lt;TInput&gt;">
+    <Position X="2" Y="4.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multiclass\IMulticlassDistanceClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMulticlassGenerativeClassifier&lt;TInput&gt;">
+    <Position X="17.25" Y="2.75" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multiclass\IMulticlassGenerativeClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMulticlassOutGenerativeClassifier&lt;TInput, TClasses&gt;">
+    <Position X="8.5" Y="5.25" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multiclass\IMulticlassGenerativeClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMulticlassRefGenerativeClassifier&lt;TInput, TClasses&gt;">
+    <Position X="17.75" Y="5.25" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multiclass\IMulticlassGenerativeClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IMulticlassGenerativeClassifier&lt;TInput, TClasses&gt;">
+    <Position X="2.25" Y="7.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Multiclass\IMulticlassGenerativeClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

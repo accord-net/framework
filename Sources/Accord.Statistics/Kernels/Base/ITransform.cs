@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -33,6 +33,17 @@ namespace Accord.Statistics.Kernels
     ///
     public interface ITransform : IKernel, ICloneable
     {
+    }
+    
+    /// <summary>
+    ///   Common interface for kernel functions that can explicitly 
+    ///   project input points into the kernel feature space.
+    /// </summary>
+    /// 
+    /// <seealso cref="IKernel"/>
+    ///
+    public interface ITransform<TInput> : IKernel<TInput>, ICloneable
+    {
         /// <summary>
         ///   Projects an input point into feature space.
         /// </summary>
@@ -43,7 +54,8 @@ namespace Accord.Statistics.Kernels
         ///   The feature space representation of the given <paramref name="input"/> point.
         /// </returns>
         /// 
-        double[] Transform(double[] input);
+        double[] Transform(TInput input);
 
+        
     }
 }

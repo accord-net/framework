@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -165,6 +165,7 @@ namespace Accord.Statistics.Distributions.Multivariate
 
         // cache
         IDistribution<double[]>[] cache;
+        ISampleableDistribution<double[]>[] sampleable;
 
 
         /// <summary>
@@ -644,32 +645,28 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public double[][] Generate(int samples)
+        public override double[][] Generate(int samples, double[][] result)
         {
-            double[][] r = new double[samples][];
-            r.ApplyInPlace(x => Generate());
-            return r;
-        }
+            if (sampleable == null)
+            {
+                sampleable = new ISampleableDistribution<double[]>[components.Length];
+                for (int i = 0; i < sampleable.Length; i++)
+                    sampleable[i] = this.components[i] as ISampleableDistribution<double[]>;
+            }
 
-        /// <summary>
-        ///   Generates a random observation from the current distribution.
-        /// </summary>
-        /// 
-        /// <returns>A random observations drawn from this distribution.</returns>
-        /// 
-        public double[] Generate()
-        {
-            // Choose one coefficient at random
-            int c = GeneralDiscreteDistribution.Random(coefficients);
-
-            // Sample from the chosen coefficient
-            var d = components[c] as ISampleableDistribution<double[]>;
-
-            if (d == null) throw new InvalidOperationException();
-
-            return d.Generate();
+            for (int i = 0; i < samples; i++)
+            {
+                // Choose one coefficient at random
+                int j = GeneralDiscreteDistribution.Random(coefficients);
+                
+                // Sample from the chosen coefficient
+                result[i] = sampleable[j].Generate();
+            }
+            return result;
         }
 
         #endregion

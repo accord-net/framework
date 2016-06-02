@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 // Copyright © Philipp Berens, 2011
@@ -789,7 +789,7 @@ namespace Accord.Statistics
             double q1, q3;
             double q2 = Quartiles(angles, out q1, out q3, median, wrap);
 
-            System.Diagnostics.Debug.Assert(q2 == median);
+            Accord.Diagnostics.Debug.Assert(q2 == median);
 
             range = new DoubleRange(q1, q3);
             return median;

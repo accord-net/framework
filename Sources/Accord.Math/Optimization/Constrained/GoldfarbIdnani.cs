@@ -470,7 +470,7 @@ namespace Accord.Math.Optimization
             this.iwzv = new double[NumberOfVariables];
             this.iwrv = new double[r];
             this.iwuv = new double[r + 1];
-            this.iwrm = new double[r * (r + 5) / 2];
+            this.iwrm = new double[r * (r + 1) / 2];
             this.iwsv = new double[NumberOfConstraints];
             this.iwnbv = new double[NumberOfConstraints];
         }
@@ -873,16 +873,17 @@ namespace Accord.Math.Optimization
             for (int i = nact - 1; i >= 0; i--)
             {
                 sum = work[i];
-                l = ((i + 1) * ((i + 1) + 3)) / 2;
-                l1 = l - (i + 1) - 1;
+                l = ((i + 1) * (i + 4)) / 2 - 1;
+                l1 = l - i - 1;
 
                 for (int j = i + 1; j < nact; j++)
                 {
-                    sum -= iwrm[l - 1] * iwrv[j];
+                    sum -= iwrm[l] * iwrv[j];
                     l += j + 1;
                 }
 
                 sum /= iwrm[l1];
+
                 iwrv[i] = sum;
 
                 if (iact[i] < meq)

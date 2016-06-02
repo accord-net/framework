@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -110,20 +110,20 @@ namespace Accord.Tests.Math
             { 
               { 3.000, 1.000, 0.000 },
               { 5.000, 2.000, 1.000 }
-            }.ToArray();
+            }.ToJagged();
 
             double[][] b = new double[,]
             { 
               { 2.000, 4.000 },
               { 4.000, 6.000 },
               { 1.000, 9.000 }
-            }.ToArray();
+            }.ToJagged();
 
             double[][] expected = new double[,]
             { 
               { 10.000, 18.000 },
               { 19.000, 41.000 }
-            }.ToArray();
+            }.ToJagged();
 
             double[][] actual = Matrix.Multiply(a, b);
 
@@ -227,6 +227,56 @@ namespace Accord.Tests.Math
 
             Assert.IsTrue(expected.IsEqual(actual));
         }
+
+        [Test]
+        public void DotWithTransposeTest()
+        {
+            double[,] a = Matrix.Random(5, 3);
+            double[,] b = Matrix.Random(2, 3);
+            double[,] actual = new double[5, 2];
+
+            double[,] expected = Matrix.Dot(a, b.Transpose());
+            Matrix.DotWithTransposed(a, b, actual);
+
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
+        public void DotWithTransposeTest_Jagged1()
+        {
+            double[][] a = Jagged.Random(5, 3);
+            double[,] b = Matrix.Random(2, 3);
+
+            double[][] expected = Matrix.Dot(a, b.Transpose());
+            double[][] actual = Matrix.DotWithTransposed(a, b);
+
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
+        public void DotWithTransposeTest_Jagged2()
+        {
+            double[,] a = Matrix.Random(5, 3);
+            double[][] b = Jagged.Random(2, 3);
+
+            double[][] expected = Matrix.Dot(a, b.Transpose());
+            double[][] actual = Matrix.DotWithTransposed(a, b);
+
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
+        public void DotWithTransposeTest_Jagged()
+        {
+            double[][] a = Jagged.Random(5, 3);
+            double[][] b = Jagged.Random(2, 3);
+
+            double[][] expected = Matrix.Dot(a, b.Transpose());
+            double[][] actual = Matrix.DotWithTransposed(a, b);
+
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
 
     }
 }

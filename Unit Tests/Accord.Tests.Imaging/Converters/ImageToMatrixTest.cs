@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -91,7 +91,7 @@ namespace Accord.Tests.Imaging
         public void ConvertTest()
         {
             ImageToMatrix target = new ImageToMatrix(min: 0, max: 255);
-            Bitmap image = Properties.Resources.image1;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.image1);
 
             new Invert().ApplyInPlace(image);
             new Threshold().ApplyInPlace(image);
@@ -129,7 +129,7 @@ namespace Accord.Tests.Imaging
         public void ConvertTest2()
         {
             // Load a test image
-            Bitmap sourceImage = Properties.Resources.image1;
+            Bitmap sourceImage = Accord.Imaging.Image.Clone(Properties.Resources.image1);
 
             // Make sure values are binary
             new Threshold().ApplyInPlace(sourceImage);
@@ -217,7 +217,7 @@ namespace Accord.Tests.Imaging
         public void ConvertTest4()
         {
             ImageToMatrix target = new ImageToMatrix(min: 0, max: 255);
-            Bitmap image = Properties.Resources.image3;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.image3);
             Assert.AreEqual(PixelFormat.Format32bppArgb, image.PixelFormat);
 
             {

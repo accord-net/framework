@@ -5,7 +5,7 @@
 // Copyright © Diego Catalano, 2013
 // diego.catalano at live.com
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -523,7 +523,7 @@ namespace Accord.Imaging
                         s += (n * n) * p_xmy[n];
 
                     contrast = s;
-                    System.Diagnostics.Debug.Assert(!Double.IsNaN(contrast.Value));
+                    Accord.Diagnostics.Debug.Assert(!Double.IsNaN(contrast.Value));
                 }
                 return contrast.Value;
             }
@@ -556,7 +556,7 @@ namespace Accord.Imaging
                         correlation = (s - mx * my) / (sx * sy);
                     }
 
-                    System.Diagnostics.Debug.Assert(!Double.IsNaN(correlation.Value));
+                    Accord.Diagnostics.Debug.Assert(!Double.IsNaN(correlation.Value));
                 }
 
                 return correlation.Value;
@@ -646,7 +646,7 @@ namespace Accord.Imaging
                         s += i * sums[i];
                     sumAverage = s;
 
-                    System.Diagnostics.Debug.Assert(!Double.IsNaN(sumAverage.Value));
+                    Accord.Diagnostics.Debug.Assert(!Double.IsNaN(sumAverage.Value));
                 }
                 return sumAverage.Value;
             }
@@ -670,7 +670,7 @@ namespace Accord.Imaging
                         s += (i - f8) * (i - f8) * sums[i];
                     sumVariance = s;
 
-                    System.Diagnostics.Debug.Assert(!Double.IsNaN(sumVariance.Value));
+                    Accord.Diagnostics.Debug.Assert(!Double.IsNaN(sumVariance.Value));
                 }
                 return sumVariance.Value;
             }
@@ -687,7 +687,7 @@ namespace Accord.Imaging
             {
                 if (sumEntropy == null)
                     sumEntropy = Sums.Entropy(epsilon);
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(sumEntropy.Value));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(sumEntropy.Value));
                 return sumEntropy.Value;
             }
         }
@@ -703,7 +703,7 @@ namespace Accord.Imaging
             {
                 if (entropy == null)
                     entropy = matrix.Entropy(epsilon);
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(entropy.Value));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(entropy.Value));
                 return entropy.Value;
             }
         }
@@ -719,7 +719,7 @@ namespace Accord.Imaging
             {
                 if (diffVariance == null)
                     diffVariance = Differences.Variance();
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(diffVariance.Value));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(diffVariance.Value));
                 return diffVariance.Value;
             }
         }
@@ -735,7 +735,7 @@ namespace Accord.Imaging
             {
                 if (diffEntropy == null)
                     diffEntropy = Differences.Entropy(epsilon);
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(diffEntropy.Value));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(diffEntropy.Value));
                 return diffEntropy.Value;
             }
         }
@@ -771,7 +771,7 @@ namespace Accord.Imaging
                         information1 = (hxy - hxy1) / Math.Max(hx, hy);
                     }
 
-                    System.Diagnostics.Debug.Assert(!Double.IsNaN(information1.Value));
+                    Accord.Diagnostics.Debug.Assert(!Double.IsNaN(information1.Value));
                 }
 
                 return information1.Value;
@@ -804,7 +804,7 @@ namespace Accord.Imaging
                             hxy2 -= px[i] * py[j] * Math.Log(px[i] * py[j] + epsilon);
 
                     information2 = Math.Sqrt(1.0 - Math.Exp(-2 * (hxy2 - hxy)));
-                    System.Diagnostics.Debug.Assert(!Double.IsNaN(information2.Value));
+                    Accord.Diagnostics.Debug.Assert(!Double.IsNaN(information2.Value));
                 }
 
                 return information2.Value;

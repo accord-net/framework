@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -32,21 +32,35 @@ namespace Accord.Tests.Math
         [Test]
         public void ReshapeTest()
         {
-            int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            int[,] start = 
+            {
+                { 1, 3, 5},
+                { 2, 4, 6},
+            };
+
+            int[] middle = Matrix.Reshape(start);
+
+            int[] array = { 1, 3, 5, 2, 4, 6 };
+            Assert.IsTrue(Matrix.IsEqual(array, middle));
+
             int rows = 3;
-            int cols = 3;
+            int cols = 2;
 
             int[,] expected = 
             {
-                { 1, 4, 7 },
-                { 2, 5, 8 },
-                { 3, 6, 9 },
+                { 1, 3 },
+                { 5, 2 },
+                { 4, 6 },
             };
 
             int[,] actual = Matrix.Reshape(array, rows, cols);
-
             Assert.IsTrue(Matrix.IsEqual(expected, actual));
 
+            rows = 2;
+            cols = 3;
+
+            actual = Matrix.Reshape(array, rows, cols);
+            Assert.IsTrue(Matrix.IsEqual(start, actual));
         }
 
         [Test]
@@ -60,12 +74,12 @@ namespace Accord.Tests.Math
 
             int dimension = 1;
             double[] expected = { 1, 2, 3, 4, 5, 6 };
-            double[] actual = Matrix.Reshape(array, dimension);
+            double[] actual = Matrix.Reshape(array, (MatrixOrder)dimension);
             Assert.IsTrue(Matrix.IsEqual(expected, actual));
 
             dimension = 0;
             expected = new double[] { 1, 4, 2, 5, 3, 6 };
-            actual = Matrix.Reshape(array, dimension);
+            actual = Matrix.Reshape(array, (MatrixOrder)dimension);
             Assert.IsTrue(Matrix.IsEqual(expected, actual));
         }
 
@@ -80,13 +94,13 @@ namespace Accord.Tests.Math
 
             {
                 double[] expected = { 1, 2, 3, 4, 5, 6 };
-                double[] actual = Matrix.Reshape(array, 1);
+                double[] actual = Matrix.Reshape(array, (MatrixOrder)1);
                 Assert.IsTrue(expected.IsEqual(actual));
             }
 
             {
                 double[] expected = { 1, 4, 2, 5, 3, 6 };
-                double[] actual = Matrix.Reshape(array, 0);
+                double[] actual = Matrix.Reshape(array, (MatrixOrder)0);
                 Assert.IsTrue(expected.IsEqual(actual));
             }
         }
@@ -102,13 +116,19 @@ namespace Accord.Tests.Math
 
             {
                 double[] expected = { 1, 2, 3, 4, 5, 6 };
-                double[] actual = Matrix.Reshape(array, 1);
+                double[] actual = Matrix.Reshape(array);
+                Assert.IsTrue(expected.IsEqual(actual));
+            }
+
+            {
+                double[] expected = { 1, 2, 3, 4, 5, 6 };
+                double[] actual = Matrix.Reshape(array, (MatrixOrder)1);
                 Assert.IsTrue(expected.IsEqual(actual));
             }
 
             {
                 double[] expected = { 1, 3, 2, 4, 5, 6 };
-                double[] actual = Matrix.Reshape(array, 0);
+                double[] actual = Matrix.Reshape(array, (MatrixOrder)0);
                 Assert.IsTrue(expected.IsEqual(actual));
             }
         }
@@ -147,14 +167,14 @@ namespace Accord.Tests.Math
             int[,] m = Vector.Range(0, 15).Reshape(3, 5);
 
             var actual = m.Add(5);
-            Assert.IsTrue(actual.IsEqual(new int [,]
+            Assert.IsTrue(actual.IsEqual(new int[,]
             {
                 { 5,    6,   7,  8,  9 }, 
                 { 10,  11,  12, 13, 14 }, 
                 { 15,  16,  17, 18, 19 }, 
             }));
 
-            actual = m.Add(new[] { 10, 20, 30 }, dimension: 0);
+            actual = m.Add(new[] { 10, 20, 30 }, dimension: 1);
             Assert.IsTrue(actual.IsEqual(new int[,]
             {
                 { 10,   11,  12,  13,  14 }, 
@@ -162,7 +182,7 @@ namespace Accord.Tests.Math
                 { 40,   41,  42,  43,  44 }, 
             }));
 
-            actual = m.Add(new[] { 10, 20, 30, 40, 50 }, dimension: 1);
+            actual = m.Add(new[] { 10, 20, 30, 40, 50 }, dimension: 0);
             Assert.IsTrue(actual.IsEqual(new int[,]
             {
                 { 10,   21,  32,  43,  54 }, 

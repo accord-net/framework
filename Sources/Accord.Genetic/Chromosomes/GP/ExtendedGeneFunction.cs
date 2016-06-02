@@ -10,6 +10,7 @@ namespace Accord.Genetic
 {
     using System;
     using AForge;
+    using Accord.Math.Random;
 
     /// <summary>
     /// Genetic programming gene, which represents arithmetic functions, common mathematical functions
@@ -73,18 +74,13 @@ namespace Accord.Genetic
         protected const int FunctionsCount = 9;
 
         // gene type
-        private GPGeneType	type;
+        private GPGeneType type;
         // total amount of variables in the task which is supposed to be solved
-        private int			variablesCount;
+        private int variablesCount;
         //
-        private int			val;
+        private int val;
         // arguments count
-        private int			argumentsCount = 0;
-
-        /// <summary>
-        /// Random number generator for chromosoms generation.
-        /// </summary>
-        protected static ThreadSafeRandom rand = new ThreadSafeRandom( );
+        private int argumentsCount = 0;
 
         /// <summary>
         /// Gene type.
@@ -132,7 +128,7 @@ namespace Accord.Genetic
         /// <remarks><para>The constructor creates randomly initialized gene with random type
         /// and value by calling <see cref="Generate( )"/> method.</para></remarks>
         /// 
-        public ExtendedGeneFunction( int variablesCount ) : this( variablesCount, true ) { }
+        public ExtendedGeneFunction(int variablesCount) : this(variablesCount, true) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExtendedGeneFunction"/> class.
@@ -145,20 +141,20 @@ namespace Accord.Genetic
         /// <remarks><para>The constructor creates randomly initialized gene with random
         /// value and preset gene type.</para></remarks>
         /// 
-        public ExtendedGeneFunction( int variablesCount, GPGeneType type )
+        public ExtendedGeneFunction(int variablesCount, GPGeneType type)
         {
             this.variablesCount = variablesCount;
             // generate the gene value
-            Generate( type );
+            Generate(type);
         }
 
         // Private constructor
-        private ExtendedGeneFunction( int variablesCount, bool random )
+        private ExtendedGeneFunction(int variablesCount, bool random)
         {
             this.variablesCount = variablesCount;
             // generate the gene value
-            if ( random )
-                Generate( );
+            if (random)
+                Generate();
         }
 
         /// <summary>
@@ -167,12 +163,12 @@ namespace Accord.Genetic
         /// 
         /// <returns>Returns string representation of the gene.</returns>
         ///
-        public override string ToString( )
+        public override string ToString()
         {
-            if ( type == GPGeneType.Function )
+            if (type == GPGeneType.Function)
             {
                 // get function string representation
-                switch ( (Functions) val )
+                switch ((Functions)val)
                 {
                     case Functions.Add:			// addition
                         return "+";
@@ -204,7 +200,7 @@ namespace Accord.Genetic
             }
 
             // get argument string representation
-            return string.Format( "${0}", val );
+            return string.Format("${0}", val);
         }
 
         /// <summary>
@@ -213,13 +209,13 @@ namespace Accord.Genetic
         /// 
         /// <remarks><para>The method clones the chromosome returning the exact copy of it.</para></remarks>
         /// 
-        public IGPGene Clone( )
+        public IGPGene Clone()
         {
             // create new gene ...
-            ExtendedGeneFunction clone = new ExtendedGeneFunction( variablesCount, false );
+            ExtendedGeneFunction clone = new ExtendedGeneFunction(variablesCount, false);
             // ... with the same type and value
             clone.type = type;
-            clone.val  = val;
+            clone.val = val;
             clone.argumentsCount = argumentsCount;
 
             return clone;
@@ -231,10 +227,12 @@ namespace Accord.Genetic
         /// 
         /// <remarks><para>The method randomizes the gene, setting its type and value randomly.</para></remarks>
         /// 
-        public void Generate( )
+        public void Generate()
         {
+            var rand = Generator.Random;
+
             // give more chance to function
-            Generate( ( rand.Next( 4 ) == 3 ) ? GPGeneType.Argument : GPGeneType.Function );
+            Generate((rand.Next(4) == 3) ? GPGeneType.Argument : GPGeneType.Function);
         }
 
         /// <summary>
@@ -246,15 +244,19 @@ namespace Accord.Genetic
         /// <remarks><para>The method randomizes a gene, setting its value randomly, but type
         /// is set to the specified one.</para></remarks>
         ///
-        public void Generate( GPGeneType type )
+        public void Generate(GPGeneType type)
         {
+            var rand = Generator.Random;
+
             // gene type
             this.type = type;
+
             // gene value
-            val = rand.Next( ( type == GPGeneType.Function ) ? FunctionsCount : variablesCount );
+            val = rand.Next((type == GPGeneType.Function) ? FunctionsCount : variablesCount);
+            
             // arguments count
-            argumentsCount = ( type == GPGeneType.Argument ) ? 0 :
-                ( val <= (int) Functions.Divide ) ? 2 : 1;
+            argumentsCount = (type == GPGeneType.Argument) ? 0 :
+                (val <= (int)Functions.Divide) ? 2 : 1;
         }
 
         /// <summary>
@@ -266,9 +268,9 @@ namespace Accord.Genetic
         /// but not with particular gene class.</para>
         /// </remarks>
         ///
-        public IGPGene CreateNew( )
+        public IGPGene CreateNew()
         {
-            return new ExtendedGeneFunction( variablesCount );
+            return new ExtendedGeneFunction(variablesCount);
         }
 
         /// <summary>
@@ -282,9 +284,9 @@ namespace Accord.Genetic
         /// but not with particular gene class.</para>
         /// </remarks>
         ///
-        public IGPGene CreateNew( GPGeneType type )
+        public IGPGene CreateNew(GPGeneType type)
         {
-            return new ExtendedGeneFunction( variablesCount, type );
+            return new ExtendedGeneFunction(variablesCount, type);
         }
     }
 }

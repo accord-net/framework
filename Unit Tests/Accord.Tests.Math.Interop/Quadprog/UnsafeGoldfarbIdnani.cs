@@ -5,7 +5,7 @@
 // Copyright © 1995, 1996, 1997, 1998
 // Berwin A. Turlach <bturlach@stats.adelaide.edu.au>
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@
 // also shared under the LGPL license.
 //
 
-namespace Accord.Tests.Math
+namespace Accord.Tests.Interop.Math
 {
     using Accord.Math.Optimization;
     using System;
@@ -166,7 +166,7 @@ namespace Accord.Tests.Math
             double[,] A = constraints.CreateMatrix(function.NumberOfVariables,
                 out constraintValues, out tolerances, out equalities);
 
-            System.Diagnostics.Debug.Assert(A.GetLength(1) == function.NumberOfVariables);
+            Accord.Diagnostics.Debug.Assert(A.GetLength(1) == function.NumberOfVariables);
 
             initialize(function.NumberOfVariables,
                 function.QuadraticTerms, function.LinearTerms,

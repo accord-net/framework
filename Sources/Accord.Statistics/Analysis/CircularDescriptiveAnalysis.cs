@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -388,11 +388,11 @@ namespace Accord.Statistics.Analysis
                 {
                     if (this.sourceRow == null)
                     {
-                        sourceArray = sourceMatrix.ToArray();
+                        sourceArray = sourceMatrix.ToJagged();
                     }
                     else
                     {
-                        sourceArray = sourceRow.ToArray(asColumnVector: true);
+                        sourceArray = sourceRow.ToJagged(asColumnVector: true);
                     }
                 }
 

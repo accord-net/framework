@@ -5,7 +5,7 @@
 // Copyright © Christopher Evans, 2009-2011
 // http://www.chrisevansdev.com/
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -148,7 +148,7 @@ namespace Accord.Imaging
         ///   The initial step to use when building the <see cref="ResponseLayerCollection">
         ///   response filter</see>. Default is 2. </param>
         ///   
-        public SpeededUpRobustFeaturesDetector(float threshold, int octaves, int initial)
+        public SpeededUpRobustFeaturesDetector(double threshold, int octaves, int initial)
         {
             this.threshold = threshold;
             this.octaves = octaves;
@@ -572,5 +572,56 @@ namespace Accord.Imaging
 
         #endregion
 
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A new object that is a copy of this instance.
+        /// </returns>
+        ///
+        public object Clone()
+        {
+            var clone = new SpeededUpRobustFeaturesDetector(threshold, octaves, initial);
+            clone.computeOrientation = computeOrientation;
+            clone.featureType = featureType;
+            clone.initial = initial;
+            clone.octaves = octaves;
+            // Do not copy - gets recreated when needed
+            // if (descriptor != null)
+            //    clone.descriptor = (SpeededUpRobustFeaturesDescriptor)descriptor.Clone();
+            //    clone.responses = (ResponseLayerCollection)responses.Clone();
+            //    clone.integral = (IntegralImage)integral.Clone();
+            clone.threshold = threshold;
+            return clone;
+        }
+
+        /// <summary>
+        ///   Performs application-defined tasks associated with freeing, releasing, 
+        ///   or resetting unmanaged resources.
+        /// </summary>
+        /// 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        ///   Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// 
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged
+        ///   resources; <c>false</c> to release only unmanaged resources.</param>
+        /// 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources
+            }
+
+            // free native resources if there are any.
+        }
     }
 }

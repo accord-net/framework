@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -287,7 +287,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                             lnsum = Special.LogSum(lnsum, logGamma[t, k]);
                         }
 
-                        System.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
+                        Accord.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
 
                         // Normalize if different from zero
                         if (lnsum != Double.NegativeInfinity)
@@ -346,7 +346,7 @@ namespace Accord.Statistics.Models.Markov.Learning
 
                             logA[i, j] = (lnnum == lnden) ? 0 : lnnum - lnden;
 
-                            System.Diagnostics.Debug.Assert(!Double.IsNaN(logA[i, j]));
+                            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logA[i, j]));
                         }
                     }
 

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -788,25 +788,25 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples)
+        public override double[] Generate(int samples, double[] result)
         {
             var generator = Accord.Math.Random.Generator.Random;
 
-            double[] s = new double[samples];
-
             if (weights == null)
             {
-                for (int i = 0; i < s.Length; i++)
-                    s[i] = this.samples[generator.Next(this.samples.Length)];
-                return s;
+                for (int i = 0; i < samples; i++)
+                    result[i] = this.samples[generator.Next(this.samples.Length)];
+                return result;
             }
 
             double u = generator.NextDouble();
             double uniform = u * sumOfWeights;
 
-            for (int i = 0; i < s.Length; i++)
+            for (int i = 0; i < samples; i++)
             {
                 double cumulativeSum = 0;
                 for (int j = 0; j < weights.Length; j++)
@@ -815,13 +815,13 @@ namespace Accord.Statistics.Distributions.Univariate
 
                     if (uniform < cumulativeSum)
                     {
-                        s[i] = this.samples[j];
+                        result[i] = this.samples[j];
                         break;
                     }
                 }
             }
 
-            return s;
+            return result;
         }
 
         /// <summary>

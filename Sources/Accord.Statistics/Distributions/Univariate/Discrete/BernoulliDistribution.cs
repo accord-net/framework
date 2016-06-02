@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -163,7 +163,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
                 else median = 0.5;
 
-                System.Diagnostics.Debug.Assert(median == base.Median);
+                Accord.Diagnostics.Debug.Assert(median == base.Median);
 
                 return median;
             }
@@ -285,10 +285,10 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ComplementaryDistributionFunction(int k)
         {
-            if (k < 0) 
+            if (k < 0)
                 return 1;
 
-            if (k >= 1) 
+            if (k >= 1)
                 return 0;
 
             return probability;
@@ -315,7 +315,7 @@ namespace Accord.Statistics.Distributions.Univariate
             if (k == 1)
                 return probability;
 
-            if (k == 0) 
+            if (k == 0)
                 return complement;
 
             return 0;
@@ -340,10 +340,10 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double LogProbabilityMassFunction(int k)
         {
-            if (k == 1) 
+            if (k == 1)
                 return Math.Log(probability);
 
-            if (k == 0) 
+            if (k == 0)
                 return Math.Log(complement);
 
             return double.NegativeInfinity;
@@ -401,18 +401,17 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override int[] Generate(int samples)
+        public override int[] Generate(int samples, int[] result)
         {
-            int[] r = new int[samples];
-            for (int i = 0; i < r.Length; i++)
-            {
-                double u = Accord.Math.Random.Generator.Random.NextDouble();
-                r[i] = u > this.probability ? 1 : 0;
-            }
+            var rand = Accord.Math.Random.Generator.Random;
+            for (int i = 0; i < result.Length; i++)
+                result[i] = rand.NextDouble() > this.probability ? 1 : 0;
 
-            return r;
+            return result;
         }
 
         /// <summary>

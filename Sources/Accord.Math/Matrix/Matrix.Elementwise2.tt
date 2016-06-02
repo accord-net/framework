@@ -35,10 +35,12 @@ public class MatrixOperationTemplate : Template
 	{
         string[] types =
         { 
-            "int", "short",
+            "int", 
             "float", "double", 
             "byte", "sbyte", 
-            "long", "decimal",
+            "decimal",
+            // "short",
+            // "long",
             // "uint", "ulong", "ushort"
         };
 #>
@@ -46,7 +48,7 @@ public class MatrixOperationTemplate : Template
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -1097,10 +1099,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 */

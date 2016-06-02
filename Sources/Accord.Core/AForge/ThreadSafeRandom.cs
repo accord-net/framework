@@ -19,9 +19,10 @@ namespace Accord
     /// to the base class with a lock. See documentation to <see cref="System.Random"/> for
     /// additional information about the base class.</para></remarks>
     /// 
+    [Obsolete("Prefer the use of ThreadLocal over shared Random objects.")]
     public sealed class ThreadSafeRandom : Random
     {
-        private object sync = new object( );
+        private object sync = new object();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ThreadSafeRandom"/> class.
@@ -29,8 +30,8 @@ namespace Accord
         /// 
         /// <remarks>See <see cref="Random.Next()"/> for more information.</remarks>
         /// 
-        public ThreadSafeRandom( )
-            : base( )
+        public ThreadSafeRandom()
+            : base()
         {
         }
 
@@ -44,8 +45,8 @@ namespace Accord
         /// 
         /// <remarks>See <see cref="Random.Next()"/> for more information.</remarks>
         /// 
-        public ThreadSafeRandom( int seed )
-            : base( seed )
+        public ThreadSafeRandom(int seed)
+            : base(seed)
         {
         }
 
@@ -58,9 +59,10 @@ namespace Accord
         /// 
         /// <remarks>See <see cref="Random.Next()"/> for more information.</remarks>
         /// 
-        public override int Next( )
+        public override int Next()
         {
-            lock ( sync ) return base.Next( );
+            lock (sync)
+                return base.Next();
         }
 
         /// <summary>
@@ -75,9 +77,10 @@ namespace Accord
         /// 
         /// <remarks>See <see cref="Random.Next(int)"/> for more information.</remarks>
         /// 
-        public override int Next( int maxValue )
+        public override int Next(int maxValue)
         {
-            lock ( sync ) return base.Next( maxValue );
+            lock (sync) 
+                return base.Next(maxValue);
         }
 
         /// <summary>
@@ -94,9 +97,10 @@ namespace Accord
         /// 
         /// <remarks>See <see cref="Random.Next(int,int)"/> for more information.</remarks>
         ///
-        public override int Next( int minValue, int maxValue )
+        public override int Next(int minValue, int maxValue)
         {
-            lock ( sync ) return base.Next( minValue, maxValue );
+            lock (sync) 
+                return base.Next(minValue, maxValue);
         }
 
         /// <summary>
@@ -107,9 +111,10 @@ namespace Accord
         /// 
         /// <remarks>See <see cref="Random.NextBytes(byte[])"/> for more information.</remarks>
         ///
-        public override void NextBytes( byte[] buffer )
+        public override void NextBytes(byte[] buffer)
         {
-            lock ( sync ) base.NextBytes( buffer );
+            lock (sync)
+                base.NextBytes(buffer);
         }
 
         /// <summary>
@@ -120,9 +125,10 @@ namespace Accord
         /// 
         /// <remarks>See <see cref="Random.NextDouble()"/> for more information.</remarks>
         ///
-        public override double NextDouble( )
+        public override double NextDouble()
         {
-            lock ( sync ) return base.NextDouble( );
+            lock (sync)
+                return base.NextDouble();
         }
     }
 }

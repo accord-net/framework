@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -311,7 +311,7 @@ namespace Accord.Statistics.Models.Regression
                 if (actualOutput != 1)
                     sum += (1 - expectedOutput) * Math.Log(1 - actualOutput);
 
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
             }
 
             return sum;
@@ -346,7 +346,7 @@ namespace Accord.Statistics.Models.Regression
                 if (actualOutput != 1)
                     sum += (1 - expectedOutput) * Math.Log(1 - actualOutput) * w;
 
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
             }
 
             return sum;

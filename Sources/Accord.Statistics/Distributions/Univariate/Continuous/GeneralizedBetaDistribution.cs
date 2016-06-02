@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -977,12 +977,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
-        /// 
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples)
+        public override double[] Generate(int samples, double[] result)
         {
-            return Random(alpha, beta, min, max, samples);
+            return Random(alpha, beta, min, max, samples, result);
         }
 
         /// <summary>
@@ -1011,15 +1012,34 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double alpha, double beta, double min, double max, int samples)
         {
-            double[] r = BetaDistribution.Random(alpha, beta, samples);
+            return Random(alpha, beta, min, max, samples, new double[samples]);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Beta distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="alpha">The shape parameter α (alpha).</param>
+        /// <param name="beta">The shape parameter β (beta).</param>
+        /// <param name="min">The minimum possible value a.</param>
+        /// <param name="max">The maximum possible value b.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Beta distribution.</returns>
+        /// 
+        public static double[] Random(double alpha, double beta, double min, double max, int samples, double[] result)
+        {
+            BetaDistribution.Random(alpha, beta, samples, result);
 
             if (min != 0 || max != 1)
             {
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = r[i] * (max - min) + min;
+                for (int i = 0; i < result.Length; i++)
+                    result[i] = result[i] * (max - min) + min;
             }
 
-            return r;
+            return result;
         }
 
         /// <summary>

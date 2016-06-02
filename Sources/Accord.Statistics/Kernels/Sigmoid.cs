@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -229,7 +229,7 @@ namespace Accord.Statistics.Kernels
             return MemberwiseClone();
         }
 
-        void IEstimable.Estimate(double[][] inputs)
+        void IEstimable<double[]>.Estimate(double[][] inputs)
         {
             var s = Estimate(inputs);
             this.Alpha = s.Alpha;

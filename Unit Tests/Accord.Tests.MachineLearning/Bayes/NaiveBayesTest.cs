@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,9 +23,11 @@
 namespace Accord.Tests.MachineLearning
 {
     using Accord;
+    using Accord.IO;
     using Accord.MachineLearning;
     using Accord.MachineLearning.Bayes;
     using Accord.Math;
+    using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Filters;
     using NUnit.Framework;
     using System.Data;
@@ -92,7 +94,7 @@ namespace Accord.Tests.MachineLearning
 
 
         [Test]
-        public void ComputeTest()
+        public void ComputeTest_Obsolete()
         {
             DataTable data = new DataTable("Mitchell's Tennis Example");
 
@@ -160,6 +162,77 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        public void ComputeTest()
+        {
+            #region doc_mitchell
+            DataTable data = new DataTable("Mitchell's Tennis Example");
+
+            data.Columns.Add("Day", "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
+
+            data.Rows.Add("D1", "Sunny", "Hot", "High", "Weak", "No");
+            data.Rows.Add("D2", "Sunny", "Hot", "High", "Strong", "No");
+            data.Rows.Add("D3", "Overcast", "Hot", "High", "Weak", "Yes");
+            data.Rows.Add("D4", "Rain", "Mild", "High", "Weak", "Yes");
+            data.Rows.Add("D5", "Rain", "Cool", "Normal", "Weak", "Yes");
+            data.Rows.Add("D6", "Rain", "Cool", "Normal", "Strong", "No");
+            data.Rows.Add("D7", "Overcast", "Cool", "Normal", "Strong", "Yes");
+            data.Rows.Add("D8", "Sunny", "Mild", "High", "Weak", "No");
+            data.Rows.Add("D9", "Sunny", "Cool", "Normal", "Weak", "Yes");
+            data.Rows.Add("D10", "Rain", "Mild", "Normal", "Weak", "Yes");
+            data.Rows.Add("D11", "Sunny", "Mild", "Normal", "Strong", "Yes");
+            data.Rows.Add("D12", "Overcast", "Mild", "High", "Strong", "Yes");
+            data.Rows.Add("D13", "Overcast", "Hot", "Normal", "Weak", "Yes");
+            data.Rows.Add("D14", "Rain", "Mild", "High", "Strong", "No");
+            #endregion
+
+            #region doc_codebook
+            // Create a new codification codebook to
+            // convert strings into discrete symbols
+            Codification codebook = new Codification(data,
+                "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
+
+            // Extract input and output pairs to train
+            DataTable symbols = codebook.Apply(data);
+            int[][] inputs = symbols.ToArray<int>("Outlook", "Temperature", "Humidity", "Wind");
+            int[] outputs = symbols.ToArray<int>("PlayTennis");
+            #endregion
+
+            #region doc_learn
+            // Create a new Naive Bayes learning
+            var learner = new NaiveBayesLearning();
+
+            // Learn a Naive Bayes model from the examples
+            NaiveBayes nb = learner.Learn(inputs, outputs);
+            #endregion
+
+
+            #region doc_test
+            // Consider we would like to know whether one should play tennis at a
+            // sunny, cool, humid and windy day. Let us first encode this instance
+            int[] instance = codebook.Translate("Sunny", "Cool", "High", "Strong");
+
+            // Let us obtain the numeric output that represents the answer
+            int c = nb.Decide(instance); // answer will be 0
+
+            // Now let us convert the numeric output to an actual "Yes" or "No" answer
+            string result = codebook.Translate("PlayTennis", c); // answer will be "No"
+
+            // We can also extract the probabilities for each possible answer
+            double[] probs = nb.Probabilities(instance); // { 0.795, 0.205 }
+            #endregion
+
+            Assert.AreEqual("No", result);
+            Assert.AreEqual(0, c);
+            Assert.AreEqual(0.795, probs[0], 1e-3);
+            Assert.AreEqual(0.205, probs[1], 1e-3);
+            Assert.AreEqual(1, probs.Sum(), 1e-10);
+            Assert.IsFalse(double.IsNaN(probs[0]));
+            Assert.AreEqual(2, probs.Length);
+        }
+
+
+        [Test]
+        [Ignore] // TODO: reactivate once more information is gathered about inhomogeneous linear kernels
         public void ComputeTest2()
         {
 
@@ -252,7 +325,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
-        public void ComputeTest3()
+        public void ComputeTest3_Obsolete()
         {
             // Let's say we have the following data to be classified
             // into three possible classes. Those are the samples:
@@ -304,6 +377,61 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
+        [Test]
+        public void ComputeTest3()
+        {
+            #region doc_multiclass
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            int[][] inputs =
+            {
+                //               input      output
+                new int[] { 0, 1, 1, 0 }, //  0 
+                new int[] { 0, 1, 0, 0 }, //  0
+                new int[] { 0, 0, 1, 0 }, //  0
+                new int[] { 0, 1, 1, 0 }, //  0
+                new int[] { 0, 1, 0, 0 }, //  0
+                new int[] { 1, 0, 0, 0 }, //  1
+                new int[] { 1, 0, 0, 0 }, //  1
+                new int[] { 1, 0, 0, 1 }, //  1
+                new int[] { 0, 0, 0, 1 }, //  1
+                new int[] { 0, 0, 0, 1 }, //  1
+                new int[] { 1, 1, 1, 1 }, //  2
+                new int[] { 1, 0, 1, 1 }, //  2
+                new int[] { 1, 1, 0, 1 }, //  2
+                new int[] { 0, 1, 1, 1 }, //  2
+                new int[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+            };
+
+            // Let us create a learning algorithm
+            var learner = new NaiveBayesLearning();
+            
+            // and teach a model on the data examples
+            NaiveBayes nb = learner.Learn(inputs, outputs);
+
+            // Now, let's test  the model output for the first input sample:
+            int answer = nb.Decide(new int[] { 0, 1, 1, 0 }); // should be 1
+            #endregion
+
+            double error = new ZeroOneLoss(outputs).Loss(nb.Decide(inputs)); 
+            Assert.AreEqual(0, error);
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                error = nb.Compute(inputs[i]);
+                double expected = outputs[i];
+                Assert.AreEqual(expected, error);
+            }
+        }
+
 
         [Test]
         public void DistributionsTest()
@@ -311,11 +439,35 @@ namespace Accord.Tests.MachineLearning
             int classes = 3;
             int[] symbols = { 2, 1 };
             NaiveBayes target = new NaiveBayes(classes, symbols);
-            double[,][] actual = target.Distributions;
+            var actual = target.Distributions;
 
             Assert.IsNotNull(actual);
             Assert.AreEqual(classes, actual.GetLength(0));
             Assert.AreEqual(symbols.Length, actual.GetLength(1));
+        }
+
+        [Test]
+        public void SerializeTest()
+        {
+            int classes = 2;
+            int[] symbols = { 2, 3, 1 };
+            double[] priors = { 0.4, 0.6 };
+            NaiveBayes target = new NaiveBayes(classes, priors, symbols);
+
+            Assert.AreEqual(2, target.ClassCount);
+            Assert.AreEqual(3, target.InputCount);
+            Assert.AreEqual(2, target.Priors.Length);
+            Assert.AreEqual(0.4, target.Priors[0]);
+            Assert.AreEqual(0.6, target.Priors[1]);
+
+            //target.Save(@"C:\Projects\Accord.NET\framework\nb2.bin");
+            target = Serializer.Load<NaiveBayes>(Properties.Resources.nb2);
+
+            Assert.AreEqual(2, target.NumberOfOutputs);
+            Assert.AreEqual(3, target.NumberOfInputs);
+            Assert.AreEqual(2, target.Priors.Length);
+            Assert.AreEqual(0.4, target.Priors[0]);
+            Assert.AreEqual(0.6, target.Priors[1]);
         }
 
     }

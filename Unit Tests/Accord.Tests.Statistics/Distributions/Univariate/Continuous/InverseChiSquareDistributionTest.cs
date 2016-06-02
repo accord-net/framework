@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -254,7 +254,7 @@ namespace Accord.Tests.Statistics
             for (int i = 0; i < actual.Length; i++)
                 actual[i] = ChiSquareDistribution.Inverse(p[i], 1);
 
-            Assert.IsTrue(expected.IsEqual(actual, 1e-14));
+            Assert.IsTrue(expected.IsEqual(actual, atol: 1e-14));
         }
 
 

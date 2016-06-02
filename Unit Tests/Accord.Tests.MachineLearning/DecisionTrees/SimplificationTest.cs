@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -36,24 +36,6 @@ namespace Accord.Tests.MachineLearning
     public class SimplificationTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-
         [Test]
         public void LargeRunTest()
         {
@@ -79,9 +61,9 @@ namespace Accord.Tests.MachineLearning
         {
             Accord.Math.Random.Generator.Seed = 0;
 
-            int[,] random = Matrix.Random(1000, 10, 0, 10).ToInt32();
+            int[,] random = Matrix.Random(1000, 10, 0.0, 10.0).ToInt32();
 
-            int[][] samples = random.ToArray();
+            int[][] samples = random.ToJagged();
             int[] outputs = new int[1000];
 
             for (int i = 0; i < samples.Length; i++)

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -749,7 +749,7 @@ namespace Accord.Tests.Statistics
             //
             int[] states = model.Decode(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 });
 
-            Assert.IsTrue(states.IsEqual(0, 1, 0, 1, 0, 1));
+            Assert.IsTrue(states.IsEqual(new[] { 0, 1, 0, 1, 0, 1 }));
 
             Assert.AreEqual(1.496360383340358, likelihood, 1e-10);
             Assert.AreEqual(0.8798587580029778, a1, 1e-10);

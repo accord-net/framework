@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,74 +22,99 @@
 
 namespace Accord.MachineLearning.VectorMachines.Learning
 {
+    using Accord.Statistics.Kernels;
+    using System;
     using System.Threading;
 
     /// <summary>
     ///   Common interface for Support Machine Vector learning algorithms.
     /// </summary>
     /// 
-    public interface ISupportVectorMachineLearning
+    public interface ILinearSupportVectorMachineLearning :
+        ISupervisedLearning<SupportVectorMachine, double[], double>,
+        ISupervisedLearning<SupportVectorMachine, double[], int>,
+        ISupervisedLearning<SupportVectorMachine, double[], bool>,
+        ISupportVectorMachineLearning
+    {
+    }
+
+    /*public interface ISupportVectorMachineLearning : 
+        ISupportVectorMachineLearning<double[]>
+    {
+    }*/
+
+    /*
+    /// <summary>
+    ///   Common interface for Support Machine Vector learning algorithms.
+    /// </summary>
+    /// 
+    public interface ISupportVectorMachineLearning<TInput> :
+        ISupervisedBinaryLearning<SupportVectorMachine<IKernel<TInput>, TInput>, TInput>,
+        ISupervisedLearning<SupportVectorMachine<IKernel<TInput>, TInput>, TInput, double>
     {
 
-        /// <summary>
-        ///   Runs the learning algorithm.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   The misclassification error rate of
-        ///   the resulting support vector machine.
-        /// </returns>
-        /// 
-        double Run();
+    }*/
 
-        /// <summary>
-        ///   Runs the learning algorithm.
-        /// </summary>
-        /// 
-        /// <param name="computeError">
-        ///   True to compute error after the training
-        ///   process completes, false otherwise.
-        /// </param>
-        /// 
-        /// <returns>
-        ///   The misclassification error rate of the resulting support
-        ///   vector machine if <paramref name="computeError"/> is true,
-        ///   returns zero otherwise.
-        /// </returns>
-        /// 
-        double Run(bool computeError);
+    // TODO: Remove those interfaces
 
+    /// <summary>
+    ///   Common interface for Support Machine Vector learning algorithms.
+    /// </summary>
+    /// 
+    public interface ISupportVectorMachineLearning :
+        ISupportVectorMachineLearning<double[]>
+    {
     }
 
     /// <summary>
-    ///   Common interface for Support Machine Vector learning
-    ///   algorithms which support thread cancellation.
+    ///   Common interface for Support Machine Vector learning algorithms.
     /// </summary>
     /// 
-    public interface ISupportCancellation : ISupportVectorMachineLearning
+    public interface ISupportVectorMachineLearning<TInput> :
+        ISupervisedBinaryLearning<ISupportVectorMachine<TInput>, TInput>,
+        ISupervisedLearning<ISupportVectorMachine<TInput>, TInput, double>
     {
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete]
+        double Run();
 
         /// <summary>
-        ///   Runs the one-against-one learning algorithm.
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete]
+        double Run(bool computeError);
+    }
+
+    /// <summary>
+    ///   Common interface for Support Machine Vector learning algorithms.
+    /// </summary>
+    /// 
+    public interface ISupportVectorMachineLearning<TKernel, TInput> :
+        ISupervisedBinaryLearning<SupportVectorMachine<TKernel, TInput>, TInput>,
+        ISupervisedLearning<SupportVectorMachine<TKernel, TInput>, TInput, double>
+        where TKernel : IKernel<TInput>
+        where TInput : ICloneable
+    {
+        /// <summary>
+        ///   Gets or sets the support vector machine being learned.
         /// </summary>
         /// 
-        /// <param name="computeError">
-        ///   True to compute error after the training
-        ///   process completes, false otherwise. Default is true.
-        /// </param>
-        /// <param name="token">
-        ///   A <see cref="CancellationToken"/> which can be used
-        ///   to request the cancellation of the learning algorithm
-        ///   when it is being run in another thread.
-        /// </param>
-        /// 
-        /// <returns>
-        ///   The misclassification error rate of the resulting support
-        ///   vector machine if <paramref name="computeError"/> is true,
-        ///   returns zero otherwise.
-        /// </returns>
-        /// 
-        double Run(bool computeError, CancellationToken token);
+        SupportVectorMachine<TKernel, TInput> Model { get; set; }
 
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete]
+        double Run();
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete]
+        double Run(bool computeError);
     }
+
+
 }

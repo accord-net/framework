@@ -3,7 +3,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 // Original work copyright © Lutz Roeder, 2000
@@ -150,7 +150,7 @@ namespace Accord.Math.Decompositions
         ///
         public Double[][] DiagonalMatrix
         {
-            get { return Jagged.Diagonal(s); }
+            get { return Jagged.Diagonal(u[0].Length, v[0].Length, s); }
         }
 
         /// <summary>

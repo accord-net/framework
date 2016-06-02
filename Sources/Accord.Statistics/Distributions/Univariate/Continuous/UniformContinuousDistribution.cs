@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -102,6 +102,17 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         public UniformContinuousDistribution() : this(0, 1) { }
+
+        /// <summary>
+        ///   Creates a new uniform distribution defined in the interval [min;max].
+        /// </summary>
+        /// 
+        /// <param name="range">The output range for the uniform distribution.</param>
+        /// 
+        public UniformContinuousDistribution(DoubleRange range)
+            : this(range.Min, range.Max)
+        {
+        }
 
         /// <summary>
         ///   Creates a new uniform distribution defined in the interval [a;b].
@@ -349,11 +360,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples)
+        public override double[] Generate(int samples, double[] result)
         {
-            return Random(a, b, samples);
+            return Random(a, b, samples, result);
         }
 
         /// <summary>
@@ -380,11 +393,27 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double a, double b, int samples)
         {
-            double[] r = new double[samples];
-            for (int i = 0; i < r.Length; i++)
-                r[i] = Accord.Math.Random.Generator.Random.NextDouble() * (b - a) + a;
+            return Random(a, b, samples, new double[samples]);
+        }
 
-            return r;
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Uniform distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="a">The starting number a.</param>
+        /// <param name="b">The ending number b.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Uniform distribution.</returns>
+        /// 
+        public static double[] Random(double a, double b, int samples, double[] result)
+        {
+            var rand = Accord.Math.Random.Generator.Random;
+            for (int i = 0; i < samples; i++)
+                result[i] = rand.NextDouble() * (b - a) + a;
+            return result;
         }
 
         /// <summary>
@@ -398,13 +427,25 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(int samples)
         {
+            return Random(samples, new double[samples]);
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the Uniform 
+        ///   distribution defined in the interval 0 and 1.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Uniform distribution.</returns>
+        /// 
+        public static double[] Random(int samples, double[] result)
+        {
             var random = Accord.Math.Random.Generator.Random;
-
-            double[] r = new double[samples];
-            for (int i = 0; i < r.Length; i++)
-                r[i] = random.NextDouble();
-
-            return r;
+            for (int i = 0; i < samples; i++)
+                result[i] = random.NextDouble();
+            return result;
         }
 
         /// <summary>

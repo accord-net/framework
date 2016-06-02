@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -75,8 +75,8 @@ namespace Accord.Tests.Math
 
 
             // Linear system solving
-            double[][] B = Matrix.ColumnVector(new double[] { 1, 2, 3 }).ToArray();
-            double[][] expected = Matrix.ColumnVector(new double[] { 2.5, 4.0, 3.5 }).ToArray();
+            double[][] B = Matrix.ColumnVector(new double[] { 1, 2, 3 }).ToJagged();
+            double[][] expected = Matrix.ColumnVector(new double[] { 2.5, 4.0, 3.5 }).ToJagged();
             double[][] actual = target.Solve(B);
 
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0000000000001));
@@ -169,7 +169,7 @@ namespace Accord.Tests.Math
                 var target = new JaggedQrDecomposition(value);
                 double[][] actual = target.Solve(b);
 
-                Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-4));
+                Assert.IsTrue(Matrix.IsEqual(expected, actual, atol: 1e-4));
             }
 
             // Vectors
@@ -180,7 +180,7 @@ namespace Accord.Tests.Math
                 var target = new JaggedQrDecomposition(value);
                 double[] actual = target.Solve(b);
 
-                Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-4));
+                Assert.IsTrue(Matrix.IsEqual(expected, actual, atol: 1e-4));
             }
         }
 

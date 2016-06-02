@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -232,7 +232,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         {
             var censor = new SurvivalOutcome[time.Length];
 
-            System.Diagnostics.Debug.Assert(censor[0] == SurvivalOutcome.Failed);
+            Accord.Diagnostics.Debug.Assert(censor[0] == SurvivalOutcome.Failed);
 
             return Run(inputs, time, censor);
         }

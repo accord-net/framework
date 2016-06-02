@@ -9,6 +9,7 @@
 namespace Accord.Math.Random
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Interface for random numbers generators.
@@ -18,6 +19,7 @@ namespace Accord.Math.Random
     /// be implemented by different algorithms for random numbers generatation.</para>
     /// </remarks>
     /// 
+    [Obsolete("Please use IRandomNumberGenerator<T> instead.")]
     public interface IRandomNumberGenerator
     {
         /// <summary>
@@ -38,7 +40,7 @@ namespace Accord.Math.Random
         /// 
         /// <returns>Returns next random number.</returns>
         /// 
-        float Next( );
+        float Next();
 
         /// <summary>
         /// Set seed of the random numbers generator.
@@ -46,6 +48,7 @@ namespace Accord.Math.Random
         /// 
         /// <param name="seed">Seed value.</param>
         /// 
-        void SetSeed( int seed );
+        void SetSeed(int seed);
     }
+
 }

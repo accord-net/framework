@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -156,10 +156,10 @@ namespace Accord.Tests.Statistics
             };
 
             double[] means = Measures.Mean(matrix);
-            Assert.IsTrue(means.IsEqual(4.5000, -0.2500, 7.0000));
+            Assert.IsTrue(means.IsEqual(new[] { 4.5000, -0.2500, 7.0000 }));
 
             double[] stdev = Measures.StandardDeviation(matrix, means);
-            Assert.IsTrue(stdev.IsEqual(3.5355339059327378, 1.0606601717798212, 2.8284271247461903));
+            Assert.IsTrue(stdev.IsEqual(new[] { 3.5355339059327378, 1.0606601717798212, 2.8284271247461903 }));
 
             double[] stdev2 = Measures.StandardDeviation(matrix);
             Assert.IsTrue(stdev2.IsEqual(stdev));
@@ -175,10 +175,10 @@ namespace Accord.Tests.Statistics
             };
 
             double[] means = Measures.Mean(matrix);
-            Assert.IsTrue(means.IsEqual(4.5000, -0.2500, 7.0000));
+            Assert.IsTrue(means.IsEqual(new[] { 4.5000, -0.2500, 7.0000} ));
 
             double[] stdev = Measures.StandardDeviation(matrix, means);
-            Assert.IsTrue(stdev.IsEqual(3.5355339059327378, 1.0606601717798212, 2.8284271247461903));
+            Assert.IsTrue(stdev.IsEqual(new[] { 3.5355339059327378, 1.0606601717798212, 2.8284271247461903 }));
 
             double[] stdev2 = Measures.StandardDeviation(matrix);
             Assert.IsTrue(stdev2.IsEqual(stdev));
@@ -244,7 +244,7 @@ namespace Accord.Tests.Statistics
             };
 
             double[] sums = Matrix.Sum(matrix);
-            Assert.IsTrue(sums.IsEqual(9.0, -0.5, 14.0));
+            Assert.IsTrue(sums.IsEqual(new [] { 9.0, -0.5, 14.0 }));
 
             double[] expected = { 4.5000, -0.2500, 7.0000 };
             double[] actual = Measures.Mean(matrix, sums);
@@ -271,7 +271,7 @@ namespace Accord.Tests.Statistics
             };
 
             double[] rowMean = Measures.Mean(matrix, 0);
-            Assert.IsTrue(rowMean.IsEqual(4.5000, -0.2500, 7.0000));
+            Assert.IsTrue(rowMean.IsEqual(new []{ 4.5000, -0.2500, 7.0000 }));
 
             double[] colMean = Measures.Mean(matrix, 1);
             Assert.IsTrue(colMean.IsEqual(2, 5.5));
@@ -316,10 +316,10 @@ namespace Accord.Tests.Statistics
 
             matrix = matrix.Transpose();
             mean = Measures.Mean(matrix);
-            Assert.IsTrue(mean.IsEqual(2.0000, 5.8999999999999995, 1.5000, -0.43333333333333335));
+            Assert.IsTrue(mean.IsEqual(new[] { 2.0000, 5.8999999999999995, 1.5000, -0.43333333333333335 }));
 
             median = Measures.Median(matrix);
-            Assert.IsTrue(median.IsEqual(2.0000, 7.0000, 2.5000, 0.2000));
+            Assert.IsTrue(median.IsEqual(new[] { 2.0000, 7.0000, 2.5000, 0.2000 }));
         }
 
         [Test]
@@ -342,10 +342,10 @@ namespace Accord.Tests.Statistics
 
             matrix = matrix.Transpose();
             mean = Measures.Mean(matrix);
-            Assert.IsTrue(mean.IsEqual(2.0000, 5.8999999999999995, 1.5000, -0.43333333333333335));
+            Assert.IsTrue(mean.IsEqual(new[] { 2.0000, 5.8999999999999995, 1.5000, -0.43333333333333335 }));
 
             median = Measures.Median(matrix);
-            Assert.IsTrue(median.IsEqual(2.0000, 7.0000, 2.5000, 0.2000));
+            Assert.IsTrue(median.IsEqual(new[] { 2.0000, 7.0000, 2.5000, 0.2000 }));
         }
 
         [Test]
@@ -672,7 +672,7 @@ namespace Accord.Tests.Statistics
                 { 3.9, 2.0, 0.58 },
                 { 4.3, 2.1, 0.62 },
                 { 4.1, 2.2, 0.63 }
-            }.ToArray();
+            }.ToJagged();
 
 
             double[,] expected = new double[,]
@@ -706,7 +706,7 @@ namespace Accord.Tests.Statistics
                 { 3.9, 2.0, 0.58 },
                 { 4.3, 2.1, 0.62 },
                 { 4.1, 2.2, 0.63 }
-            }.ToArray();
+            }.ToJagged();
 
 
             double[,] expected = new double[,]
@@ -737,7 +737,7 @@ namespace Accord.Tests.Statistics
                 { 3.9, 2.0, 0.58 },
                 { 4.3, 2.1, 0.62 },
                 { 4.1, 2.2, 0.63 }
-            }.ToArray();
+            }.ToJagged();
 
 
             double[,] expected = new double[,]
@@ -770,7 +770,7 @@ namespace Accord.Tests.Statistics
                 { 3.9, 2.0, 0.58 },
                 { 4.3, 2.1, 0.62 },
                 { 4.1, 2.2, 0.63 }
-            }.ToArray();
+            }.ToJagged();
 
 
             double[,] expected = new double[,]
@@ -815,7 +815,7 @@ namespace Accord.Tests.Statistics
                 { 3.9, 2.0, 0.58 },
                 { 4.3, 2.1, 0.62 },
                 { 4.1, 2.2, 0.63 }
-            }.ToArray();
+            }.ToJagged();
 
             double[] weights = { 0.9, 0.9, 0.9, 0.9, 0.9 };
 

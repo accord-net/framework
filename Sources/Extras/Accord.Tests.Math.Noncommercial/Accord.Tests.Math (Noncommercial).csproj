@@ -2,8 +2,8 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{4C525826-D64B-4D2D-8BB3-33AF46649B05}</ProjectGuid>
-    <RootNamespace>Accord.Tests.Math</RootNamespace>
-    <AssemblyName>Accord.Tests.Math.Noncommercial</AssemblyName>
+    <RootNamespace>Accord.Tests.Extras.Math.Noncommercial</RootNamespace>
+    <AssemblyName>Accord.Tests.Extras.Math.Noncommercial</AssemblyName>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>

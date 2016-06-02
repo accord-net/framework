@@ -6,7 +6,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -51,11 +51,15 @@ namespace Accord.Math
     string[][] operations =
     {
         new string[] { "Exp", "exponential",  "Math.Exp((double)v)", "double" },
-        new string[] { "Log", "logarithm", "Math.Log((double)v)", "double" },
+        new string[] { "Log", "logarithm", "Math.Log((double)v)", "double" },        
         new string[] { "Sign", "sign", "Math.Sign(v)" },
         new string[] { "Abs", "absolute value", "Math.Abs(v)" },
         new string[] { "Sqrt", "square-root", "Math.Sqrt((double)v)", "double" },
         new string[] { "SignSqrt", "signed square-root", "Math.Sign(v) * Math.Sqrt((double)v)", "double" },
+
+        new string[] { "Floor", "floor", "Math.Floor((double)v)", "double" },
+        new string[] { "Ceiling", "ceiling", "Math.Ceiling((double)v)", "double" },
+        new string[] { "Round", "round", "Math.Round((double)v)", "double" },
     };
 
     foreach (string a in types)

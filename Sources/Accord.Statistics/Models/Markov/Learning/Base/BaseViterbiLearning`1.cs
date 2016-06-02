@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -136,7 +136,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                 else
                 {
                     // Divide in batches
-                    int[] groups = Categorical.Random(observations.Length, batches);
+                    int[] groups = Classes.Random(observations.Length, batches);
 
                     // For each batch
                     for (int j = 0; j < batches; j++)

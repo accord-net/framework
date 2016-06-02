@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -42,7 +42,8 @@ namespace Accord.Statistics.Kernels
         ///   Constructs a new Laplacian Kernel
         /// </summary>
         /// 
-        public Laplacian() : this(1) { }
+        public Laplacian() 
+            : this(1) { }
 
         /// <summary>
         ///   Constructs a new Laplacian Kernel
@@ -264,7 +265,7 @@ namespace Accord.Statistics.Kernels
 
 
 
-        void IEstimable.Estimate(double[][] inputs)
+        void IEstimable<double[]>.Estimate(double[][] inputs)
         {
             var l = Estimate(inputs);
             this.Sigma = l.Sigma;

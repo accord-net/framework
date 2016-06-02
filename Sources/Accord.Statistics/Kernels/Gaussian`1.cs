@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -136,7 +136,7 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="inputs">The input data.</param>
         /// 
-        void IEstimable.Estimate(double[][] inputs)
+        void IEstimable<double[]>.Estimate(double[][] inputs)
         {
             var g = Gaussian.Estimate(innerKernel, inputs);
             this.Gamma = g.Gamma;

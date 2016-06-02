@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,25 +30,9 @@ namespace Accord.Tests.Math
     public class NonnegativeMatrixFactorizationTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
         [Test]
         public void NonNegativeMatrixFactorizationConstructorTest()
         {
-
             Accord.Math.Tools.SetupGenerator(0);
 
             double[,] X =
@@ -67,8 +51,8 @@ namespace Accord.Tests.Math
             var H = nmf.RightNonnegativeFactors;
             var W = nmf.LeftNonnegativeFactors;
 
-            var R = Matrix.Multiply(W, H.Transpose());
-            Assert.IsTrue(R.IsEqual(X, 0.001));
+            var R = Matrix.Multiply(W, H).Transpose();
+            Assert.IsTrue(R.IsEqual(X, 0.05));
         }
 
         [Test]

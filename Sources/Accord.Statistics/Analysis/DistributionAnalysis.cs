@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -34,6 +34,7 @@ namespace Accord.Statistics.Analysis
     using Accord.Statistics.Testing;
     using System.Threading.Tasks;
     using System.Diagnostics.CodeAnalysis;
+    using Accord.Statistics.Distributions.Fitting;
 
     /// <summary>
     ///   Distribution fitness analysis.

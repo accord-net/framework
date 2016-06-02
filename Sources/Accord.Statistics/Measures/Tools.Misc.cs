@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -116,45 +116,6 @@ namespace Accord.Statistics
 
 
 
-        /// <summary>
-        ///   Gets the number of distinct values 
-        ///   present in each column of a matrix.
-        /// </summary>
-        /// 
-        public static int[] DistinctCount(this double[,] sourceMatrix)
-        {
-            double[][] distinct = sourceMatrix.Distinct();
-            int[] counts = new int[distinct.Length];
-            for (int i = 0; i < counts.Length; i++)
-                counts[i] = distinct[i].Length;
-
-            return counts;
-        }
-
-        /// <summary>
-        ///   Gets the number of distinct values 
-        ///   present in each column of a matrix.
-        /// </summary>
-        /// 
-        public static int[] DistinctCount(this double[][] sourceMatrix)
-        {
-            double[][] distinct = sourceMatrix.Distinct();
-            int[] counts = new int[distinct.Length];
-            for (int i = 0; i < counts.Length; i++)
-                counts[i] = distinct[i].Length;
-
-            return counts;
-        }
-
-        /// <summary>
-        ///   Gets the number of distinct values 
-        ///   present in each column of a matrix.
-        /// </summary>
-        /// 
-        public static int DistinctCount(this double[] source)
-        {
-            return source.Distinct().Length;
-        }
 
 
         /// <summary>
@@ -170,7 +131,7 @@ namespace Accord.Statistics
         /// 
         public static double[,] RandomCovariance(int size, double minValue, double maxValue)
         {
-            double[,] A = Accord.Math.Matrix.Random(size, true, minValue, maxValue);
+            double[,] A = Accord.Math.Matrix.Random(size, minValue, maxValue, symmetric: true);
 
             var gso = new GramSchmidtOrthogonalization(A);
             double[,] Q = gso.OrthogonalFactor;
@@ -178,7 +139,7 @@ namespace Accord.Statistics
             double[] diagonal = Vector.Random(size, minValue, maxValue).Abs();
             double[,] psd = Matrix.Dot(Q.TransposeAndDotWithDiagonal(diagonal), Q);
 
-            System.Diagnostics.Debug.Assert(psd.IsPositiveDefinite());
+            Accord.Diagnostics.Debug.Assert(psd.IsPositiveDefinite());
 
             return psd;
         }

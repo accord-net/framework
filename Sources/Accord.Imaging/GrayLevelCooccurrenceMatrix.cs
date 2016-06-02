@@ -5,7 +5,7 @@
 // Copyright © Diego Catalano, 2013
 // diego.catalano at live.com
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@
 
 namespace Accord.Imaging
 {
+    using System;
     using System.Drawing;
 
     /// <summary>
@@ -63,7 +64,7 @@ namespace Accord.Imaging
     ///   Gray-Level Co-occurrence Matrix (GLCM).
     /// </summary>
     /// 
-    public class GrayLevelCooccurrenceMatrix
+    public class GrayLevelCooccurrenceMatrix : ICloneable
     {
 
         private CooccurrenceDegree degree;
@@ -313,6 +314,25 @@ namespace Accord.Imaging
             }
 
             return maxGray;
+        }
+
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A new object that is a copy of this instance.
+        /// </returns>
+        /// 
+        public object Clone()
+        {
+            var clone = new GrayLevelCooccurrenceMatrix();
+            clone.autoGray = autoGray;
+            clone.degree = degree;
+            clone.distance = distance;
+            clone.normalize = normalize;
+            clone.numPairs = numPairs;
+            return clone;
         }
     }
 }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -48,21 +48,14 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public class Gaussian : KernelBase, IKernel, IRadialBasisKernel,
+    public struct Gaussian : IKernel, IRadialBasisKernel,
         IDistance, IEstimable, ICloneable, IReverseDistance
     {
         private double sigma;
         private double gamma;
 
 
-        /// <summary>
-        ///   Constructs a new Gaussian Kernel
-        /// </summary>
-        /// 
-        public Gaussian()
-            : this(1)
-        {
-        }
+
 
         /// <summary>
         ///   Constructs a new Gaussian Kernel
@@ -88,7 +81,6 @@ namespace Accord.Statistics.Kernels
             {
                 sigma = value;
                 gamma = 1.0 / (2.0 * sigma * sigma);
-                OnSigmaChanging();
             }
         }
 
@@ -104,7 +96,6 @@ namespace Accord.Statistics.Kernels
             {
                 sigma = Math.Sqrt(value);
                 gamma = 1.0 / (2.0 * value);
-                OnSigmaChanging();
             }
         }
 
@@ -120,7 +111,6 @@ namespace Accord.Statistics.Kernels
             {
                 gamma = value;
                 sigma = Math.Sqrt(1.0 / (gamma * 2.0));
-                OnSigmaChanging();
             }
         }
 
@@ -132,11 +122,14 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public override double Function(double[] x, double[] y)
+        public double Function(double[] x, double[] y)
         {
+            if (sigma == gamma)
+                Sigma = 1.0; // TODO: Remove if using VS 2015/C# 6
+
             // Optimization in case x and y are
             // exactly the same object reference.
-
+            
             if (x == y)
                 return 1.0;
 
@@ -160,6 +153,9 @@ namespace Accord.Statistics.Kernels
         /// 
         public double Function(double z)
         {
+            if (sigma == gamma)
+                Sigma = 1.0; // TODO: Remove if using VS 2015/C# 6
+
             return Math.Exp(-gamma * z);
         }
 
@@ -173,8 +169,11 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <returns>Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.</returns>
         /// 
-        public override double Distance(double[] x, double[] y)
+        public double Distance(double[] x, double[] y)
         {
+            if (sigma == gamma)
+                Sigma = 1.0; // TODO: Remove if using VS 2015/C# 6
+
             if (x == y)
                 return 0.0;
 
@@ -202,6 +201,9 @@ namespace Accord.Statistics.Kernels
         /// 
         public double ReverseDistance(double[] x, double[] y)
         {
+            if (sigma == gamma)
+                Sigma = 1.0; // TODO: Remove if using VS 2015/C# 6
+
             if (x == y)
                 return 0.0;
 
@@ -225,8 +227,17 @@ namespace Accord.Statistics.Kernels
         /// 
         public double ReverseDistance(double df)
         {
+            if (sigma == gamma)
+                Sigma = 1.0; // TODO: Remove if using VS 2015/C# 6
+
             return (1.0 / -gamma) * Math.Log(1.0 - 0.5 * df);
         }
+
+
+
+
+
+
 
         /// <summary>
         ///   Estimate appropriate values for sigma given a data set.
@@ -372,7 +383,7 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="inputs">The input data.</param>
         /// 
-        void IEstimable.Estimate(double[][] inputs)
+        void IEstimable<double[]>.Estimate(double[][] inputs)
         {
             var g = Gaussian.Estimate(inputs);
             this.Gamma = g.Gamma;
@@ -391,15 +402,6 @@ namespace Accord.Statistics.Kernels
             return MemberwiseClone();
         }
 
-
-        /// <summary>
-        ///   Called when the value for any of the
-        ///   kernel's parameters has changed.
-        /// </summary>
-        /// 
-        protected virtual void OnSigmaChanging()
-        {
-        }
 
 
 

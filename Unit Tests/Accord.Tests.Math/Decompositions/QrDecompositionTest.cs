@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -185,7 +185,7 @@ namespace Accord.Tests.Math
                 QrDecomposition target = new QrDecomposition(value);
                 double[,] actual = target.Solve(b);
 
-                Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-4));
+                Assert.IsTrue(Matrix.IsEqual(expected, actual, atol: 1e-4));
             }
 
             // Vectors
@@ -196,7 +196,7 @@ namespace Accord.Tests.Math
                 QrDecomposition target = new QrDecomposition(value);
                 double[] actual = target.Solve(b);
 
-                Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-4));
+                Assert.IsTrue(Matrix.IsEqual(expected, actual, atol: 1e-4));
             }
         }
 

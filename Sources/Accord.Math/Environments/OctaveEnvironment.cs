@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -162,15 +162,15 @@ namespace Accord.Math.Environments
         /// <summary>Inverts a matrix.</summary>
         protected static mat pinv(double[,] matrix) { return Matrix.PseudoInverse(matrix); }
         /// <summary>Creates a unit matrix.</summary>
-        protected static mat ones(int size) { return Matrix.Create(size, 1.0); }
+        protected static mat ones(int size) { return Matrix.Ones(size, size); }
         /// <summary>Creates a unit matrix.</summary>
         protected static mat ones(int n, int m) { return Matrix.Create(n, m, 1.0); }
         /// <summary>Creates a unit matrix.</summary>
-        protected static mat zeros(int size) { return Matrix.Create(size, 0.0); }
+        protected static mat zeros(int size) { return Matrix.Square(size, 0.0); }
         /// <summary>Creates a unit matrix.</summary>
         protected static mat zeros(int n, int m) { return Matrix.Create(n, m, 0.0); }
         /// <summary>Random vector.</summary>
-        protected static mat rand(int n, int m) { return Matrix.Random(n, m, 0, 1); }
+        protected static mat rand(int n, int m) { return Matrix.Random(n, m); }
         /// <summary>Size of a matrix.</summary>
         protected static double[] size(double[,] m) { return new double[] { m.GetLength(0), m.GetLength(1) }; }
         /// <summary>Rank of a matrix.</summary>

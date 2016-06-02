@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -103,6 +103,17 @@ namespace Accord.MachineLearning
         public static bool operator !=(GridSearchParameter parameter1, GridSearchParameter parameter2)
         {
             return (parameter1.name != parameter2.name || parameter1.value != parameter2.value);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return String.Format("{0}: {1}", name, value);
         }
     }
 

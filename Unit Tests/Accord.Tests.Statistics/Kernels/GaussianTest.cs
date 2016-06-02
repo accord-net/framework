@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -264,7 +264,7 @@ namespace Accord.Tests.Statistics
 
                 double d1 = Distance.SquareEuclidean(phi_x, phi_y);
                 double d2 = kernel.Distance(x, y);
-                double d3 = Accord.Statistics.Tools.Distance(kernel, x, y);
+                double d3 = Accord.Statistics.Tools.Distance(kernel.Gaussian, x, y);
 
                 Assert.AreEqual(d1, d2, 1e-4);
                 Assert.AreEqual(d1, d3, 1e-4);

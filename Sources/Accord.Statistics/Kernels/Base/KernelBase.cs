@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,6 +22,7 @@
 
 namespace Accord.Statistics.Kernels
 {
+    using Accord.Math;
     using Accord.Math.Distances;
     using System;
 
@@ -32,7 +33,18 @@ namespace Accord.Statistics.Kernels
     /// </summary>
     /// 
     [Serializable]
-    public abstract class KernelBase : IDistance, IKernel
+    public abstract class KernelBase : KernelBase<double[]>, IKernel, IDistance
+    {
+    }
+
+    /// <summary>
+    ///   Base class for kernel functions. This class provides automatic
+    ///   distance calculations for classes that do not provide optimized
+    ///   implementations.
+    /// </summary>
+    /// 
+    [Serializable]
+    public abstract class KernelBase<TInput> : IDistance<TInput>, IKernel<TInput>
     {
 
         /// <summary>
@@ -47,7 +59,7 @@ namespace Accord.Statistics.Kernels
         ///   Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.
         /// </returns>
         /// 
-        public virtual double Distance(double[] x, double[] y)
+        public virtual double Distance(TInput x, TInput y)
         {
             return Function(x, x) + Function(y, y) - 2 * Function(x, y);
         }
@@ -64,56 +76,8 @@ namespace Accord.Statistics.Kernels
         ///   Dot product in feature (kernel) space.
         /// </returns>
         /// 
-        public abstract double Function(double[] x, double[] y);
+        public abstract double Function(TInput x, TInput y);
 
-        /// <summary>
-        ///   Creates the Gram matrix from the given vectors.
-        /// </summary>
-        /// 
-        /// <param name="x">The vectors.</param>
-        /// 
-        /// <param name="result">An optional matrix where the result should be stored in.</param>
-        ///   
-        /// <returns>A symmetric matrix containing the dot-products in
-        ///   feature (kernel) space between all vectors in <paramref name="x"/>.</returns>
-        ///   
-        public virtual double[,] ToMatrix(double[][] x, double[,] result = null)
-        {
-            if (result == null)
-                result = new double[x.Length, x.Length];
-            
-            for (int i = 0; i < x.Length; i++)
-                for (int j = i; j < x.Length; j++)
-                    result[j, i] = result[i, j] = Function(x[i], x[j]);
-            
-            return result;
-        }
-
-        /// <summary>
-        ///   Creates the Gram matrix containing all dot products in feature
-        ///   (kernel) space between each vector in <paramref name="x">x</paramref>
-        ///   and the ones in <paramref name="y">y</paramref>.
-        /// </summary>
-        /// 
-        /// <param name="x">The first vectors.</param>
-        /// <param name="y">The second vectors.</param>
-        /// 
-        /// <param name="result">An optional matrix where the result should be stored in.</param>
-        ///   
-        /// <returns>A symmetric matrix containing the dot-products in
-        ///   feature (kernel) space between each vector in <paramref name="x"/>
-        ///   and the ones in <paramref name="y"/>.</returns>
-        ///   
-        public virtual double[,] ToMatrix(double[][] x, double[][] y, double[,] result = null)
-        {
-            if (result == null)
-                result = new double[x.Length, y.Length];
-            
-            for (int i = 0; i < x.Length; i++)
-                for (int j = i; j < x.Length; j++)
-                    result[j, i] = result[i, j] = Function(x[i], y[j]);
-            
-            return result;
-        }
+        
     }
 }

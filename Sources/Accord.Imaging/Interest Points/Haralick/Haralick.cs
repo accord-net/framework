@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -441,6 +441,62 @@ namespace Accord.Imaging
         List<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(UnmanagedImage image)
         {
             return ProcessImage(image).ConvertAll(p => new FeatureDescriptor(p));
+        }
+
+
+        private Haralick()
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A new object that is a copy of this instance.
+        /// </returns>
+        /// 
+        public object Clone()
+        {
+            var clone = new Haralick();
+            clone.autoGray = autoGray;
+            clone.cellSize = cellSize;
+            clone.degrees = degrees;
+            clone.distance = distance;
+            clone.featureCount = featureCount;
+            clone.features = (HaralickDescriptorDictionary[,])features.Clone();
+            clone.matrix = (GrayLevelCooccurrenceMatrix)matrix.Clone();
+            clone.mode = mode;
+            clone.normalize = normalize;
+            return clone;
+        }
+
+        /// <summary>
+        ///   Performs application-defined tasks associated with freeing, releasing, 
+        ///   or resetting unmanaged resources.
+        /// </summary>
+        /// 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        ///   Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// 
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged
+        ///   resources; <c>false</c> to release only unmanaged resources.</param>
+        /// 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources
+            }
+
+            // free native resources if there are any.
         }
     }
 }

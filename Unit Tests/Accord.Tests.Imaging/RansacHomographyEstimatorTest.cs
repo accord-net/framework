@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -118,7 +118,6 @@ namespace Accord.Tests.Imaging
             for (int i = 0; i < 3; i++)
                 for (int j = 0; j < 3; j++)
                     Assert.AreEqual(actual[i, j], expected[i, j], 0.001);
-
         }
     }
 }

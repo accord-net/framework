@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -59,6 +59,9 @@ namespace Accord.MachineLearning
     public class GaussianMixtureModel : IClusteringAlgorithm<double[], double>
     {
         private GaussianClusterCollection clusters;
+
+        [NonSerialized]
+        private ParallelOptions parallelOptions;
 
         /// <summary>
         ///   Gets or sets the maximum number of iterations to
@@ -119,6 +122,21 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         public bool UseLogarithm { get; set; }
+
+        /// <summary>
+        ///   Gets or sets parallelization options.
+        /// </summary>
+        /// 
+        public ParallelOptions ParallelOptions
+        {
+            get
+            {
+                if (parallelOptions == null)
+                    parallelOptions = new ParallelOptions();
+                return parallelOptions;
+            }
+            set { parallelOptions = value; }
+        }
 
         /// <summary>
         ///   Gets or sets the fitting options for the component
@@ -219,6 +237,7 @@ namespace Accord.MachineLearning
             MaxIterations = 0;
             UseLogarithm = true;
             Options = new Statistics.Distributions.Fitting.NormalOptions();
+            ParallelOptions = new ParallelOptions();
 
             // Initialize the model using the created objects.
             this.clusters = new GaussianClusterCollection(components);
@@ -250,7 +269,7 @@ namespace Accord.MachineLearning
                 Threshold = this.Tolerance,
                 InnerOptions = this.Options,
                 Iterations = this.Iterations,
-                Logarithm = this.UseLogarithm
+                Logarithm = this.UseLogarithm,
             };
 
             MultivariateMixture<MultivariateNormalDistribution> model = clusters.Model;
@@ -280,7 +299,7 @@ namespace Accord.MachineLearning
             var kmeans = new KMeans[Initializations];
             double[] errors = new double[Initializations];
 
-            Parallel.For(0, kmeans.Length, i =>
+            Parallel.For(0, kmeans.Length, ParallelOptions, i =>
             {
                 // Create a new K-Means algorithm
                 kmeans[i] = new KMeans(clusters.Count)
@@ -396,6 +415,7 @@ namespace Accord.MachineLearning
             this.MaxIterations = options.Iterations;
             this.UseLogarithm = options.Logarithm;
             this.Tolerance = options.Threshold;
+            this.ParallelOptions = options.ParallelOptions;
 
             Compute(data, options.Weights);
 
@@ -487,12 +507,19 @@ namespace Accord.MachineLearning
         public NormalOptions NormalOptions { get; set; }
 
         /// <summary>
+        ///   Gets or sets parallelization options.
+        /// </summary>
+        /// 
+        public ParallelOptions ParallelOptions { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GaussianMixtureModelOptions"/> class.
         /// </summary>
         /// 
         public GaussianMixtureModelOptions()
         {
             Threshold = 1e-3;
+            ParallelOptions = new ParallelOptions();
         }
 
     }

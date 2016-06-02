@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -94,6 +94,9 @@ namespace Accord.Imaging
         where TPoint : IFeatureDescriptor<TFeature>
     {
 
+        [NonSerialized]
+        private ParallelOptions parallelOptions;
+
         /// <summary>
         ///   Gets the number of words in this codebook.
         /// </summary>
@@ -114,6 +117,21 @@ namespace Accord.Imaging
         public IFeatureDetector<TPoint, TFeature> Detector { get; private set; }
 
         /// <summary>
+        ///   Gets or sets parallelization options.
+        /// </summary>
+        /// 
+        public ParallelOptions ParallelOptions
+        {
+            get
+            {
+                if (parallelOptions == null)
+                    parallelOptions = new ParallelOptions();
+                return parallelOptions;
+            }
+            set { parallelOptions = value; }
+        }
+
+        /// <summary>
         ///   Constructs a new <see cref="BagOfVisualWords"/>.
         /// </summary>
         /// 
@@ -122,9 +140,28 @@ namespace Accord.Imaging
         /// 
         public BagOfVisualWords(IFeatureDetector<TPoint, TFeature> detector, IClusteringAlgorithm<TFeature> algorithm)
         {
+            Init(detector, algorithm);
+        }
+
+        /// <summary>
+        ///   Constructs a new <see cref="BagOfVisualWords"/>.
+        /// </summary>
+        /// 
+        protected BagOfVisualWords()
+        {
+
+        }
+
+        /// <summary>
+        ///   Initializes this instance.
+        /// </summary>
+        /// 
+        protected void Init(IFeatureDetector<TPoint, TFeature> detector, IClusteringAlgorithm<TFeature> algorithm)
+        {
             this.NumberOfWords = algorithm.Clusters.Count;
             this.Clustering = algorithm;
             this.Detector = detector;
+            this.ParallelOptions = new ParallelOptions();
         }
 
         /// <summary>
@@ -141,18 +178,29 @@ namespace Accord.Imaging
             var imagePoints = new List<TPoint>[images.Length];
 
             // For all images
-            for (int i = 0; i < images.Length; i++)
-            {
-                Bitmap image = images[i];
+            Parallel.For(0, images.Length, ParallelOptions,
 
-                // Compute the feature points
-                var points = Detector.ProcessImage(image);
+                () => (IFeatureDetector<TPoint, TFeature>)Detector.Clone(),
 
-                foreach (IFeatureDescriptor<TFeature> point in points)
-                    descriptors.Add(point.Descriptor);
+                (i, state, detector) =>
+                {
+                    Bitmap image = images[i];
 
-                imagePoints[i] = points;
-            }
+                    // Compute the feature points
+                    var points = detector.ProcessImage(image);
+
+                    foreach (IFeatureDescriptor<TFeature> point in points)
+                        descriptors.Add(point.Descriptor);
+
+                    imagePoints[i] = points;
+
+                    return detector;
+                },
+
+                (detector) =>
+                {
+                    detector.Dispose();
+                });
 
             Compute(descriptors.ToArray());
 
@@ -263,7 +311,7 @@ namespace Accord.Imaging
             int[] features = new int[NumberOfWords];
 
             // Detect all activation centroids
-            Parallel.For(0, points.Count, i =>
+            Parallel.For(0, points.Count, ParallelOptions, i =>
             {
                 int j = Clustering.Clusters.Nearest(points[i].Descriptor);
 

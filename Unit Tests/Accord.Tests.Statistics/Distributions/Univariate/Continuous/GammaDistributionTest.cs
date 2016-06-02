@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -176,13 +176,13 @@ namespace Accord.Tests.Statistics
 
             GammaDistribution target = new GammaDistribution(5, 2);
 
-            double[] samples = target.Generate(1000000);
+            double[] samples = target.Generate(10000000);
 
             var actual = GammaDistribution.Estimate(samples);
             actual.Fit(samples);
 
-            Assert.AreEqual(5, actual.Scale, 0.02);
-            Assert.AreEqual(2, actual.Shape, 0.01);
+            Assert.AreEqual(5, actual.Scale, 1e-3);
+            Assert.AreEqual(2, actual.Shape, 1e-3);
         }
 
         [Test]
@@ -192,15 +192,33 @@ namespace Accord.Tests.Statistics
 
             GammaDistribution target = new GammaDistribution(4, 2);
 
-            double[] samples = new double[1000000];
+            double[] samples = new double[10000000];
             for (int i = 0; i < samples.Length; i++)
                 samples[i] = target.Generate();
 
             var actual = GammaDistribution.Estimate(samples);
             actual.Fit(samples);
 
-            Assert.AreEqual(4, actual.Scale, 0.01);
-            Assert.AreEqual(2, actual.Shape, 0.01);
+            Assert.AreEqual(4, actual.Scale, 5e-3);
+            Assert.AreEqual(2, actual.Shape, 5e-3);
+        }
+
+        [Test]
+        public void GenerateTest4()
+        {
+            Accord.Math.Tools.SetupGenerator(1);
+
+            GammaDistribution target = new GammaDistribution(0.4, 0.2);
+
+            double[] samples = new double[10000000];
+            for (int i = 0; i < samples.Length; i++)
+                samples[i] = target.Generate();
+
+            var actual = GammaDistribution.Estimate(samples);
+            actual.Fit(samples);
+
+            Assert.AreEqual(0.4, actual.Scale, 1e-3);
+            Assert.AreEqual(0.2, actual.Shape, 1e-3);
         }
 
 

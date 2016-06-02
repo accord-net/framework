@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -32,11 +32,11 @@ namespace Accord.Tests.Imaging
     using System.IO;
 
 
-    [TestFixture]
+    [TestFixture, Ignore]
     public class BlendTest
     {
 
-        [Test, Ignore]
+        [Test]
         public void Panorama_Example1()
         {
             Accord.Math.Random.Generator.Seed = 0;
@@ -44,8 +44,8 @@ namespace Accord.Tests.Imaging
             // Let's start with two pictures that have been
             // taken from slightly different points of view:
             //
-            Bitmap img1 = Resources.dc_left;
-            Bitmap img2 = Resources.dc_right;
+            Bitmap img1 = Accord.Imaging.Image.Clone(Resources.dc_left);
+            Bitmap img2 = Accord.Imaging.Image.Clone(Resources.dc_right);
 
             // Those pictures are shown below:
             // ImageBox.Show(img1, PictureBoxSizeMode.Zoom, 640, 480);
@@ -87,18 +87,21 @@ namespace Accord.Tests.Imaging
             // Show on screen
             // ImageBox.Show(result, PictureBoxSizeMode.Zoom, 640, 480);
 
-            //result.Save(@"C:\Projects\Accord.NET\net35.png", ImageFormat.Png);
+
+            result = Accord.Imaging.Image.Clone(result);
 
 #if NET35
-            Bitmap image = Properties.Resources.blend_net35;
+            // result.Save(@"C:\Projects\Accord.NET\framework\Unit Tests\Accord.Tests.Imaging\Resources\blend_net35.png", ImageFormat.Png);
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.blend_net35);
 #else
-            Bitmap image = Properties.Resources.blend_net45;
+            // result.Save(@"C:\Projects\Accord.NET\framework\Unit Tests\Accord.Tests.Imaging\Resources\blend_net45.png", ImageFormat.Png);
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.blend_net45);
 #endif
 
 #pragma warning disable 618
-            double[,] expected = image.ToDoubleMatrix(0);
-            double[,] actual = result.ToDoubleMatrix(0);
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.1));
+            double[,] expected = image.ToDoubleMatrix(channel: 0);
+            double[,] actual = result.ToDoubleMatrix(channel: 0);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, atol: 0.1));
 #pragma warning restore 618
         }
 
@@ -106,8 +109,8 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ApplyTest()
         {
-            var img1 = Properties.Resources.image2;
-            var img2 = Properties.Resources.image2;
+            var img1 = Accord.Imaging.Image.Clone(Properties.Resources.image2);
+            var img2 = Accord.Imaging.Image.Clone(Properties.Resources.image2);
 
             MatrixH homography = new MatrixH(1, 0, 32,
                                              0, 1, 0,
@@ -138,11 +141,11 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ApplyTest2()
         {
-            var img1 = Properties.Resources.image2;
-            var img2 = Properties.Resources.image2;
+            var img1 = Accord.Imaging.Image.Clone(Properties.Resources.image2);
+            var img2 = Accord.Imaging.Image.Clone(Properties.Resources.image2);
 
-            var img3 = Properties.Resources.image2;
-            var img4 = Properties.Resources.image2;
+            var img3 = Accord.Imaging.Image.Clone(Properties.Resources.image2);
+            var img4 = Accord.Imaging.Image.Clone(Properties.Resources.image2);
 
 
             MatrixH homography;

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -42,7 +42,7 @@ namespace Accord.Tests.MachineLearning
         {
             Accord.Math.Random.Generator.Seed = 0;
 
-            Bitmap image = Resources.noise_line;
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.noise_line);
 
             //Accord.Controls.ImageBox.Show(image); 
 

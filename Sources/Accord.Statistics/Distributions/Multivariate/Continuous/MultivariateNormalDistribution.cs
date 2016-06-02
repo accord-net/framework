@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -689,50 +689,28 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   Generates a random vector of observations from the current distribution.
         /// </summary>
         /// 
-        /// <returns>A random vector of observations drawn from this distribution.</returns>
-        /// 
-        public double[] Generate()
-        {
-            if (chol == null)
-                throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive definite.");
-
-            var r = new StandardGenerator(Accord.Math.Random.Generator.Random.Next());
-            double[,] A = chol.LeftTriangularFactor;
-
-            double[] sample = new double[Dimension];
-            for (int j = 0; j < sample.Length; j++)
-                sample[j] = r.Next();
-
-            return A.Dot(sample).Add(Mean);
-        }
-
-        /// <summary>
-        ///   Generates a random vector of observations from the current distribution.
-        /// </summary>
-        /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public double[][] Generate(int samples)
+        public override double[][] Generate(int samples, double[][] result)
         {
             if (chol == null)
                 throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive definite.");
 
-            var r = new StandardGenerator(Accord.Math.Random.Generator.Random.Next());
             double[,] A = chol.LeftTriangularFactor;
+            double[] z = new double[Dimension];
+            double[] u = Mean;
 
-            double[][] data = new double[samples][];
-            for (int i = 0; i < data.Length; i++)
+            for (int i = 0; i < samples; i++)
             {
-                double[] sample = new double[Dimension];
-                for (int j = 0; j < sample.Length; j++)
-                    sample[j] = r.Next();
-
-                data[i] = A.Dot(sample).Add(Mean);
+                NormalDistribution.Random(Dimension, result: z);
+                Matrix.Dot(A, z, result: result[i]);
+                Elementwise.Add(result[i], u, result: result[i]);
             }
 
-            return data;
+            return result;
         }
 
         /// <summary>

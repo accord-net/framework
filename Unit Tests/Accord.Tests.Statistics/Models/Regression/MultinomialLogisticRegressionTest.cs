@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -166,7 +166,7 @@ namespace Accord.Tests.Statistics
         {
             MultinomialLogisticRegression mlr = createExample1();
 
-            double[][] inputs = example1.Submatrix(null, 1, 2).ToArray();
+            double[][] inputs = example1.Submatrix(null, 1, 2).ToJagged();
             double[] outputs = example1.Submatrix(null, 0, 0).Reshape(0);
             double[] responses;
 
@@ -359,13 +359,13 @@ namespace Accord.Tests.Statistics
 
         public static void CreateInputOutputsExample1(out double[][] inputs, out int[] outputs)
         {
-            inputs = example1.Submatrix(null, 1, 2).ToArray();
+            inputs = example1.Submatrix(null, 1, 2).ToJagged();
             outputs = example1.Submatrix(null, 0, 0).Reshape(0).Select(x => (int)x - 1).ToArray();
         }
 
         public static void CreateInputOutputsExample2(out double[][] inputs, out int[] outputs)
         {
-            inputs = example1.Submatrix(null, 1, 2).ToArray().InsertColumn().InsertColumn().InsertColumn();
+            inputs = example1.Submatrix(null, 1, 2).ToJagged().InsertColumn().InsertColumn().InsertColumn();
             outputs = example1.Submatrix(null, 0, 0).Reshape(0).Select(x => (int)x - 1).ToArray();
         }
 

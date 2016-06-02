@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -365,7 +365,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   impact in performance.
         /// </remarks>
         /// 
-        public override void Fit(double[] observations, double[] weights, Fitting.IFittingOptions options)
+        public override void Fit(double[] observations, double[] weights, IFittingOptions options)
         {
             if (weights != null)
                 throw new NotSupportedException("Weighted estimation is not supported.");
@@ -388,6 +388,27 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   elements can be either of type double (for univariate data) or
         ///   type double[] (for multivariate data).</param>
         /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// 
+        /// <remarks>
+        ///   Although both double[] and double[][] arrays are supported,
+        ///   providing a double[] for a multivariate distribution or a
+        ///   double[][] for a univariate distribution may have a negative
+        ///   impact in performance.
+        /// </remarks>
+        /// 
+        public void Fit(int[] observations, double[] weights)
+        {
+            Fit(observations, weights, null);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
         /// <param name="options">Optional arguments which may be used during fitting, such
         ///   as regularization constants and additional parameters.</param>
         /// 
@@ -398,7 +419,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   impact in performance.
         /// </remarks>
         /// 
-        public override void Fit(int[] observations, double[] weights, Fitting.IFittingOptions options)
+        public override void Fit(int[] observations, double[] weights, IFittingOptions options)
         {
             if (weights != null)
                 throw new NotSupportedException("Weighted estimation is not supported.");
@@ -408,7 +429,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
             double sum = 0;
             for (int i = 0; i < observations.Length; i++)
-                sum += observations[i] /  (double)numberOfTrials;
+                sum += observations[i] / (double)numberOfTrials;
 
             this.probability = sum / observations.Length;
         }

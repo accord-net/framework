@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -37,7 +37,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindDefectsTest()
         {
-            Bitmap bmp = Properties.Resources.hand;
+            Bitmap bmp = Accord.Imaging.Image.Clone(Properties.Resources.hand);
 
             Bitmap gray = Accord.Imaging.Filters.Grayscale.CommonAlgorithms.BT709.Apply(bmp);
 

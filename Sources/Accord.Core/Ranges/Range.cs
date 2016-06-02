@@ -5,7 +5,7 @@
 // Copyright © AForge.NET, 2007-2011
 // contacts@aforgenet.com
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -183,7 +183,7 @@ namespace Accord
         /// 
         public Range Intersection(Range range)
         {
-            return new Range(Math.Max(this.Min, range.Min), Math.Min(this.Max, range.Max));
+            return new Range(System.Math.Max(this.Min, range.Min), System.Math.Min(this.Max, range.Max));
         }
 
         /// <summary>
@@ -322,13 +322,13 @@ namespace Accord
 
             if (provideInnerRange)
             {
-                iMin = (int)Math.Ceiling(min);
-                iMax = (int)Math.Floor(max);
+                iMin = (int)System.Math.Ceiling(min);
+                iMax = (int)System.Math.Floor(max);
             }
             else
             {
-                iMin = (int)Math.Floor(min);
-                iMax = (int)Math.Ceiling(max);
+                iMin = (int)System.Math.Floor(min);
+                iMax = (int)System.Math.Ceiling(max);
             }
 
             return new IntRange(iMin, iMax);

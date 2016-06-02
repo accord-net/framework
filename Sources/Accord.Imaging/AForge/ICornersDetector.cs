@@ -21,7 +21,7 @@ namespace Accord.Imaging
     /// <remarks><para>The interface specifies set of methods, which should be implemented by different
     /// corners detection algorithms.</para></remarks>
     /// 
-    public interface ICornersDetector
+    public interface ICornersDetector : ICloneable
     {
         /// <summary>
         /// Process image looking for corners.

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -263,7 +263,7 @@ namespace Accord.Statistics.Analysis
             if (inputs.GetLength(0) != times.Length)
                 throw new ArgumentException("The number of rows in the input array must match the number of given outputs.");
 
-            initialize(inputs.ToArray(), times, censor);
+            initialize(inputs.ToJagged(), times, censor);
 
             // Start regression using the Null Model
             this.regression = new ProportionalHazards(inputCount);
@@ -686,7 +686,10 @@ namespace Accord.Statistics.Analysis
                 // Create a diminished inner model without the current variable
                 double[][] data = inputData.RemoveColumn(i);
 
-                System.Diagnostics.Trace.Assert(data[0].Length > 0);
+#if DEBUG
+                if (data[0].Length == 0)
+                    throw new Exception();
+#endif
 
                 Array.Clear(innerModel.Coefficients, 0, inputCount - 1);
 

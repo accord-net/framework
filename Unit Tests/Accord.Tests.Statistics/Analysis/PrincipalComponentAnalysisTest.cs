@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -152,9 +152,9 @@ namespace Accord.Tests.Statistics
             eigenvectors.SetColumn(0, v.Multiply(-1));
 
             // Everything is alright (up to the 9 decimal places shown in the tutorial)
-            Assert.IsTrue(eigenvectors.IsEqual(pca.ComponentMatrix, threshold: 1e-9));
-            Assert.IsTrue(proportion.IsEqual(pca.ComponentProportions, threshold: 1e-9));
-            Assert.IsTrue(eigenvalues.IsEqual(pca.Eigenvalues, threshold: 1e-5));
+            Assert.IsTrue(eigenvectors.IsEqual(pca.ComponentMatrix, rtol: 1e-9));
+            Assert.IsTrue(proportion.IsEqual(pca.ComponentProportions, rtol: 1e-9));
+            Assert.IsTrue(eigenvalues.IsEqual(pca.Eigenvalues, rtol: 1e-5));
 
             // Step 5. Deriving the new data set
             // ---------------------------------
@@ -177,7 +177,7 @@ namespace Accord.Tests.Statistics
             };
 
             // Everything is correct (up to 8 decimal places)
-            Assert.IsTrue(expected.IsEqual(actual, threshold: 1e-8));
+            Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
         }
 
         [Test]
@@ -261,9 +261,9 @@ namespace Accord.Tests.Statistics
             eigenvectors.SetColumn(0, v.Multiply(-1));
 
             // Everything is alright (up to the 9 decimal places shown in the tutorial)
-            Assert.IsTrue(eigenvectors.IsEqual(pca.ComponentMatrix, threshold: 1e-9));
-            Assert.IsTrue(proportion.IsEqual(pca.ComponentProportions, threshold: 1e-9));
-            Assert.IsTrue(eigenvalues.IsEqual(pca.Eigenvalues, threshold: 1e-8));
+            Assert.IsTrue(eigenvectors.IsEqual(pca.ComponentMatrix, rtol: 1e-9));
+            Assert.IsTrue(proportion.IsEqual(pca.ComponentProportions, rtol: 1e-9));
+            Assert.IsTrue(eigenvalues.IsEqual(pca.Eigenvalues, rtol: 1e-8));
 
 
             // Step 5. Deriving the new data set
@@ -287,7 +287,7 @@ namespace Accord.Tests.Statistics
             };
 
             // Everything is correct (up to 8 decimal places)
-            Assert.IsTrue(expected.IsEqual(actual, threshold: 1e-8));
+            Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
         }
 
         [Test]
@@ -526,7 +526,7 @@ namespace Accord.Tests.Statistics
             target.Compute();
 
             // Transform
-            double[][] actual = target.Transform(data.ToArray());
+            double[][] actual = target.Transform(data.ToJagged());
 
             // first inversed.. ?
             double[][] expected = new double[][]

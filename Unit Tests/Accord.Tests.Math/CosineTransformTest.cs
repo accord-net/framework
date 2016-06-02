@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,23 +29,6 @@ namespace Accord.Tests.Math
     [TestFixture]
     public class CosineTransformTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
 
         [Test]
@@ -79,7 +62,7 @@ namespace Accord.Tests.Math
                 { -0.2970, -0.0627,  0.1960,  0.0644, -0.1136, -0.1031 ,   0.1887  ,  0.1444  },
             };
 
-            Assert.IsTrue(actual.IsEqual(expected, 0.05));
+            Assert.IsTrue(actual.IsEqual(expected, atol: 0.05));
         }
 
         [Test]
@@ -113,7 +96,7 @@ namespace Accord.Tests.Math
                 { 0.996078431372549, 0.996078431372549, 0.996078431372549, 0.996078431372549, 0.996078431372549, 0.996078431372549, 0.996078431372549, 0.996078431372549 }
             };
 
-            Assert.IsTrue(actual.IsEqual(expected, 0.05));
+            Assert.IsTrue(actual.IsEqual(expected, atol: 0.05));
         }
     }
 }

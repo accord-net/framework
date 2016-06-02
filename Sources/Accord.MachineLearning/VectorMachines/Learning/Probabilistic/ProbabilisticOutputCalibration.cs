@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Math;
     using Accord.Math.Optimization;
     using Accord.Statistics.Links;
+    using Accord.Statistics.Kernels;
+    using System.Threading;
+    using Accord.Math.Optimization.Losses;
 
     /// <summary>
     ///   Probabilistic Output Calibration.
@@ -114,16 +117,234 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <seealso cref="SequentialMinimalOptimization"/>
     /// <seealso cref="MulticlassSupportVectorLearning"/>
     /// 
-    public class ProbabilisticOutputCalibration : ISupportVectorMachineLearning
+    public class ProbabilisticOutputCalibration
+        : ProbabilisticOutputCalibration<SupportVectorMachine<IKernel<double[]>, double[]>, IKernel<double[]>, double[]>,
+        ISupportVectorMachineLearning
     {
+        /// <summary>
+        ///   Initializes a new instance of Platt's Probabilistic Output Calibration algorithm.
+        /// </summary>
+        /// 
+        /// <param name="machine">The support vector machine to be calibrated.</param>
+        /// 
+        public ProbabilisticOutputCalibration(SupportVectorMachine<IKernel<double[]>, double[]> machine)
+            : base(machine)
+        {
+        }
 
-        private double[][] inputs;
-        private int[] outputs;
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please do not pass parameters in the constructor. Use the default constructor and the Learn method instead.")]
+        public ProbabilisticOutputCalibration(ISupportVectorMachine<double[]> model, double[][] input, int[] output)
+            : base(model, input, output)
+        {
+        }
+
+
+    }
+
+    /// <summary>
+    ///   Probabilistic Output Calibration.
+    /// </summary>
+    /// 
+    /// <remarks>
+    ///   <para>Instead of producing probabilistic outputs, Support Vector Machines
+    ///   express their decisions in the form of a distance from support vectors in
+    ///   feature space. In order to convert the SVM outputs into probabilities,
+    ///   Platt (1999) proposed the calibration of the SVM outputs using a sigmoid
+    ///   (Logit) link function. Later, Lin et al (2007) provided a corrected and
+    ///   improved version of Platt's probabilistic outputs. This class implements
+    ///   the later.</para>
+    ///   
+    ///   <para>This class is not an actual learning algorithm, but a calibrator.
+    ///   Machines passed as input to this algorithm should already have been trained
+    ///   by a proper learning algorithm such as <see cref="SequentialMinimalOptimization">
+    ///   Sequential Minimal Optimization (SMO)</see>.</para>
+    ///   
+    /// <para>
+    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning"/>
+    ///   or <see cref="MultilabelSupportVectorLearning"/> to learn <see cref="MulticlassSupportVectorMachine"/>s
+    ///   using the <c>one-vs-one</c> or <c>one-vs-all</c> multi-class decision strategies, respectively.</para>
+    ///   
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///        John C. Platt. 1999. Probabilistic Outputs for Support Vector Machines and Comparisons to
+    ///        Regularized Likelihood Methods. In ADVANCES IN LARGE MARGIN CLASSIFIERS (1999), pp. 61-74.</description></item>
+    ///     <item><description>
+    ///       Hsuan-Tien Lin, Chih-Jen Lin, and Ruby C. Weng. 2007. A note on Platt's probabilistic outputs
+    ///       for support vector machines. Mach. Learn. 68, 3 (October 2007), 267-276. </description></item>
+    ///   </list></para>   
+    /// </remarks>
+    /// 
+    /// <example>
+    /// <code>
+    /// // Example XOR problem
+    /// double[][] inputs =
+    /// {
+    ///     new double[] { 0, 0 }, // 0 xor 0: 1 (label +1)
+    ///     new double[] { 0, 1 }, // 0 xor 1: 0 (label -1)
+    ///     new double[] { 1, 0 }, // 1 xor 0: 0 (label -1)
+    ///     new double[] { 1, 1 }  // 1 xor 1: 1 (label +1)
+    /// };
+    /// 
+    /// // Dichotomy SVM outputs should be given as [-1;+1]
+    /// int[] labels =
+    /// {
+    ///     1, -1, -1, 1
+    /// };
+    /// 
+    /// // Create a Kernel Support Vector Machine for the given inputs
+    /// KernelSupportVectorMachine svm = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
+    /// 
+    /// // Instantiate a new learning algorithm for SVMs
+    /// SequentialMinimalOptimization smo = new SequentialMinimalOptimization(svm, inputs, labels);
+    /// 
+    /// // Set up the learning algorithm
+    /// smo.Complexity = 1.0;
+    /// 
+    /// // Run the learning algorithm
+    /// double error = smo.Run();
+    /// 
+    /// // Instantiate the probabilistic learning calibration
+    /// var calibration = new ProbabilisticOutputCalibration(svm, inputs, labels);
+    /// 
+    /// // Run the calibration algorithm
+    /// double loglikelihood = calibration.Run();
+    /// 
+    /// 
+    /// // Compute the decision output for one of the input vectors,
+    /// // while also retrieving the probability of the answer
+    /// 
+    /// double probability;
+    /// int decision = svm.Compute(inputs[0], out probability);
+    /// 
+    /// // At this point, decision is +1 with a probability of 75%
+    /// </code>
+    /// </example>
+    ///   
+    /// <seealso cref="SupportVectorMachine"/>
+    /// <seealso cref="KernelSupportVectorMachine"/>
+    /// 
+    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// 
+    public class ProbabilisticOutputCalibration<TKernel, TInput>
+        : ProbabilisticOutputCalibration<SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
+        where TKernel : IKernel<TInput>
+        where TInput : ICloneable
+    {
+        /// <summary>
+        ///   Initializes a new instance of Platt's Probabilistic Output Calibration algorithm.
+        /// </summary>
+        /// 
+        /// <param name="machine">The support vector machine to be calibrated.</param>
+        /// 
+        public ProbabilisticOutputCalibration(SupportVectorMachine<TKernel, TInput> machine)
+            : base(machine)
+        {
+        }
+    }
+
+    /// <summary>
+    ///   Probabilistic Output Calibration.
+    /// </summary>
+    /// 
+    /// <remarks>
+    ///   <para>Instead of producing probabilistic outputs, Support Vector Machines
+    ///   express their decisions in the form of a distance from support vectors in
+    ///   feature space. In order to convert the SVM outputs into probabilities,
+    ///   Platt (1999) proposed the calibration of the SVM outputs using a sigmoid
+    ///   (Logit) link function. Later, Lin et al (2007) provided a corrected and
+    ///   improved version of Platt's probabilistic outputs. This class implements
+    ///   the later.</para>
+    ///   
+    ///   <para>This class is not an actual learning algorithm, but a calibrator.
+    ///   Machines passed as input to this algorithm should already have been trained
+    ///   by a proper learning algorithm such as <see cref="SequentialMinimalOptimization">
+    ///   Sequential Minimal Optimization (SMO)</see>.</para>
+    ///   
+    /// <para>
+    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning"/>
+    ///   or <see cref="MultilabelSupportVectorLearning"/> to learn <see cref="MulticlassSupportVectorMachine"/>s
+    ///   using the <c>one-vs-one</c> or <c>one-vs-all</c> multi-class decision strategies, respectively.</para>
+    ///   
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///        John C. Platt. 1999. Probabilistic Outputs for Support Vector Machines and Comparisons to
+    ///        Regularized Likelihood Methods. In ADVANCES IN LARGE MARGIN CLASSIFIERS (1999), pp. 61-74.</description></item>
+    ///     <item><description>
+    ///       Hsuan-Tien Lin, Chih-Jen Lin, and Ruby C. Weng. 2007. A note on Platt's probabilistic outputs
+    ///       for support vector machines. Mach. Learn. 68, 3 (October 2007), 267-276. </description></item>
+    ///   </list></para>   
+    /// </remarks>
+    /// 
+    /// <example>
+    /// <code>
+    /// // Example XOR problem
+    /// double[][] inputs =
+    /// {
+    ///     new double[] { 0, 0 }, // 0 xor 0: 1 (label +1)
+    ///     new double[] { 0, 1 }, // 0 xor 1: 0 (label -1)
+    ///     new double[] { 1, 0 }, // 1 xor 0: 0 (label -1)
+    ///     new double[] { 1, 1 }  // 1 xor 1: 1 (label +1)
+    /// };
+    /// 
+    /// // Dichotomy SVM outputs should be given as [-1;+1]
+    /// int[] labels =
+    /// {
+    ///     1, -1, -1, 1
+    /// };
+    /// 
+    /// // Create a Kernel Support Vector Machine for the given inputs
+    /// KernelSupportVectorMachine svm = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
+    /// 
+    /// // Instantiate a new learning algorithm for SVMs
+    /// SequentialMinimalOptimization smo = new SequentialMinimalOptimization(svm, inputs, labels);
+    /// 
+    /// // Set up the learning algorithm
+    /// smo.Complexity = 1.0;
+    /// 
+    /// // Run the learning algorithm
+    /// double error = smo.Run();
+    /// 
+    /// // Instantiate the probabilistic learning calibration
+    /// var calibration = new ProbabilisticOutputCalibration(svm, inputs, labels);
+    /// 
+    /// // Run the calibration algorithm
+    /// double loglikelihood = calibration.Run();
+    /// 
+    /// 
+    /// // Compute the decision output for one of the input vectors,
+    /// // while also retrieving the probability of the answer
+    /// 
+    /// double probability;
+    /// int decision = svm.Compute(inputs[0], out probability);
+    /// 
+    /// // At this point, decision is +1 with a probability of 75%
+    /// </code>
+    /// </example>
+    ///   
+    /// <seealso cref="SupportVectorMachine"/>
+    /// <seealso cref="KernelSupportVectorMachine"/>
+    /// 
+    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// 
+    public class ProbabilisticOutputCalibration<TModel, TKernel, TInput>
+        : BinaryLearningBase<TModel, TInput>,
+        ISupportVectorMachineLearning<TInput>
+        where TKernel : IKernel<TInput>
+        where TModel : SupportVectorMachine<TKernel, TInput>
+        where TInput : ICloneable
+    {
 
         private double[] distances;
         private double[] targets;
-
-        private SupportVectorMachine machine;
 
         // Parameter setting
         private int maxIterations = 100;     // Maximum number of iterations
@@ -131,64 +352,16 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         private double sigma = 1e-12;        // Set to any value > 0
         private double tolerance = 1e-5;
 
-        private int negatives;
-        private int positives;
 
         /// <summary>
         ///   Initializes a new instance of Platt's Probabilistic Output Calibration algorithm.
         /// </summary>
         /// 
-        /// <param name="machine">A Support Vector Machine.</param>
-        /// <param name="inputs">The input data points as row vectors.</param>
-        /// <param name="outputs">The classification label for each data point in the range [-1;+1].</param>
+        /// <param name="machine">The support vector machine to be calibrated.</param>
         /// 
-        public ProbabilisticOutputCalibration(SupportVectorMachine machine,
-            double[][] inputs, int[] outputs)
+        public ProbabilisticOutputCalibration(TModel machine)
         {
-
-            // Initial argument checking
-            if (machine == null)
-                throw new ArgumentNullException("machine");
-
-            if (inputs == null)
-                throw new ArgumentNullException("inputs");
-
-            if (outputs == null)
-                throw new ArgumentNullException("outputs");
-
-            if (inputs.Length != outputs.Length)
-                throw new ArgumentException("The number of inputs and outputs does not match.", "outputs");
-
-            for (int i = 0; i < outputs.Length; i++)
-            {
-                if (outputs[i] == 1)
-                    positives++;
-                else if (outputs[i] == -1)
-                    negatives++;
-                else throw new ArgumentOutOfRangeException("outputs", "One of the labels in the output vector is neither +1 or -1.");
-            }
-
-            if (machine.Inputs > 0)
-            {
-                // This machine has a fixed input vector size
-                for (int i = 0; i < inputs.Length; i++)
-                    if (inputs[i].Length != machine.Inputs)
-                        throw new ArgumentException("The size of the input vectors does not match the expected number of inputs of the machine");
-            }
-
-            if (machine.Weights == null)
-                throw new ArgumentException("The machine should have been trained by another method first.", "machine");
-
-            // Machine
-            this.machine = machine;
-
-            // Learning data
-            this.inputs = inputs;
-            this.outputs = outputs;
-
-
-            this.distances = new double[outputs.Length];
-            this.targets = new double[outputs.Length];
+            this.Model = machine;
         }
 
         /// <summary>
@@ -224,50 +397,52 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             set { minStepSize = value; }
         }
 
-        /// <summary>
-        ///   Runs the calibration algorithm.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   The log-likelihood of the calibrated model.
-        /// </returns>
-        /// 
-        public double Run()
-        {
-            return Run(true);
-        }
 
 
         /// <summary>
-        ///   Runs the calibration algorithm.
+        ///   Learns a model that can map the given inputs to the given outputs.
         /// </summary>
         /// 
-        /// <param name="computeError">
-        ///   True to compute error after the training
-        ///   process completes, false otherwise. Default is true.
-        /// </param>
+        /// <param name="inputs">The model inputs.</param>
+        /// <param name="outputs">The desired outputs associated with each <paramref name="inputs">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
         /// 
-        /// <returns>
-        ///   The log-likelihood of the calibrated model.
-        /// </returns>
+        /// <returns>A model that has learned how to produce <paramref name="outputs"/> given <paramref name="inputs"/>.</returns>
         /// 
-        public double Run(bool computeError)
+        public override TModel Learn(TInput[] inputs, bool[] outputs, double[] weights)
         {
+            if (weights != null)
+                throw new NotSupportedException();
+
             // This method is a direct implementation of the algorithm
             // as published by Hsuan-Tien Lin, Chih-Jen Lin and Ruby C.
             // Weng, 2007. See references in documentation for more details.
             // 
 
+            // Learning data
+            this.distances = new double[outputs.Length];
+            this.targets = new double[outputs.Length];
+            int positives = 0;
+            int negatives = 0;
+
+            for (int i = 0; i < outputs.Length; i++)
+            {
+                if (outputs[i])
+                    positives++;
+                else
+                    negatives++;
+            }
+
             // Compute the Support Vector Machine outputs
-            for (int i = 0; i < distances.Length; i++)
-                machine.Compute(inputs[i], out distances[i]);
+            // TODO: rename all 'results' to 'result'
+            Model.Distance(inputs, result: distances);
 
             // Define the target probabilities we aim to produce
             double high = (positives + 1.0) / (positives + 2.0);
             double low = 1.0 / (negatives + 2.0);
 
             for (int i = 0; i < outputs.Length; i++)
-                targets[i] = (outputs[i] == 1) ? high : low;
+                targets[i] = outputs[i] ? high : low;
 
             // Initialize 
             double A = 0.0;
@@ -384,24 +559,71 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
             // The iterative algorithm has converged
-            machine.Link = new LogitLinkFunction(beta: -A, constant: -B);
+            for (int i = 0; i < Model.Weights.Length; i++)
+                Model.Weights[i] *= -A;
+            Model.Threshold = Model.Threshold * -A - B;
+            Model.IsProbabilistic = true;
+
+            return Model;
+        }
 
 
-            // Compute log-likelihood if required
-            return (computeError) ? LogLikelihood(inputs, outputs) : 0.0;
+
+
+
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProbabilisticOutputCalibration{TModel, TKernel, TInput}"/> class.
+        /// </summary>
+        public ProbabilisticOutputCalibration()
+        {
+        }
+
+        TInput[] input;
+        int[] output;
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        protected ProbabilisticOutputCalibration(ISupportVectorMachine<double[]> model, TInput[] input, int[] output)
+        {
+            this.Model = (TModel)model;
+            this.input = input;
+            this.output = output;
         }
 
         /// <summary>
-        ///   Computes the log-likelihood of the current model
-        ///   for the given inputs and outputs.
+        ///   Obsolete.
         /// </summary>
-        /// 
-        /// <param name="inputs">The input data.</param>
-        /// <param name="outputs">The corresponding outputs.</param>
-        /// 
-        /// <returns>The log-likelihood of the model.</returns>
-        /// 
-        public double LogLikelihood(double[][] inputs, int[] outputs)
+        [Obsolete("Please use Learn() instead.")]
+        public double Run()
+        {
+            Learn(input, output, null);
+            return logLikelihood(input, output);
+        }
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please use Learn() instead.")]
+        public double Run(bool computeError)
+        {
+            Learn(input, output, null);
+            if (computeError)
+                return logLikelihood(input, output);
+            return 0;
+        }
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please use Accord.Math.Optimization.BinaryCrossEntropyLoss or any other losses of your choice from the Accord.Math.Optimization namespace.")]
+        public double LogLikelihood(TInput[] inputs, int[] outputs)
+        {
+            return logLikelihood(inputs, outputs);
+        }
+
+        private double logLikelihood(TInput[] inputs, int[] outputs)
         {
             // Compute the log-likelihood of the model
             double logLikelihood = 0.0;
@@ -409,7 +631,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             // Compute the new log-likelihood function
             for (int i = 0; i < inputs.Length; i++)
             {
-                double y; machine.Compute(inputs[i], out y);
+                double y = Model.Distance(inputs[i]);
                 double t = outputs[i] == 1 ? 1 : 0;
 
                 if (y >= 0)
@@ -421,5 +643,28 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             return logLikelihood;
         }
 
+
+
+        ISupportVectorMachine<TInput> ISupervisedLearning<ISupportVectorMachine<TInput>, TInput, int[]>.Learn(TInput[] x, int[][] y, double[] weights)
+        {
+            return Learn(x, y, weights);
+        }
+
+
+        ISupportVectorMachine<TInput> ISupervisedLearning<ISupportVectorMachine<TInput>, TInput, bool[]>.Learn(TInput[] x, bool[][] y, double[] weights)
+        {
+            return Learn(x, y, weights);
+        }
+
+
+        ISupportVectorMachine<TInput> ISupervisedLearning<ISupportVectorMachine<TInput>, TInput, bool>.Learn(TInput[] x, bool[] y, double[] weights)
+        {
+            return Learn(x, y, weights);
+        }
+
+        ISupportVectorMachine<TInput> ISupervisedLearning<ISupportVectorMachine<TInput>, TInput, double>.Learn(TInput[] x, double[] y, double[] weights)
+        {
+            return Learn(x, y, weights);
+        }
     }
 }

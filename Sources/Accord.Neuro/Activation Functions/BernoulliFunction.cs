@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ namespace Accord.Neuro.ActivationFunctions
     using Accord.Neuro.Neurons;
     using Accord.Neuro.Networks;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Math.Random;
 
     /// <summary>
     ///   Bernoulli stochastic activation function.
@@ -86,18 +87,6 @@ namespace Accord.Neuro.ActivationFunctions
     {
 
         private double alpha; // sigmoid's alpha value
-        private static Random random = new ThreadSafeRandom();
-
-        /// <summary>
-        ///   Gets or sets the random sample generator
-        ///   used to activate neurons of this class.
-        /// </summary>
-        /// 
-        public static Random Random
-        {
-            get { return random; }
-            set { random = value; }
-        }
 
         /// <summary>
         ///   Sigmoid's alpha value.
@@ -162,7 +151,7 @@ namespace Accord.Neuro.ActivationFunctions
         public double Generate(double x)
         {
             double y = Function(x);
-            return y > random.NextDouble() ? 1 : 0;
+            return y > Generator.Random.NextDouble() ? 1 : 0;
         }
 
 
@@ -184,7 +173,7 @@ namespace Accord.Neuro.ActivationFunctions
         /// 
         public double Generate2(double y)
         {
-            return y > random.NextDouble() ? 1 : 0;
+            return y > Generator.Random.NextDouble() ? 1 : 0;
         }
 
         /// <summary>

@@ -5,7 +5,7 @@
 // Copyright © AForge.NET, 2007-2011
 // contacts@aforgenet.com
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -152,7 +152,7 @@ namespace Accord
         /// 
         public IntRange Intersection(IntRange range)
         {
-            return new IntRange(Math.Max(this.Min, range.Min), Math.Min(this.Max, range.Max));
+            return new IntRange(System.Math.Max(this.Min, range.Min), System.Math.Min(this.Max, range.Max));
         }
 
         /// <summary>

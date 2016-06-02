@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -179,12 +179,13 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void DeserializationTest1()
         {
-            MemoryStream stream = null;// new MemoryStream(Properties.Resources.tree);
+            MemoryStream stream = new MemoryStream(Properties.Resources.tree);
 
             DecisionTree tree = Serializer.Load<DecisionTree>(stream);
 
             Assert.AreEqual(4, tree.InputCount);
             Assert.AreEqual(2, tree.OutputClasses);
+            Assert.IsNotNull(tree.Root);
 
             DecisionTree newtree;
             int[][] inputs;

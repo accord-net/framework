@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -289,7 +289,7 @@ namespace Accord.Math
 
             while (true)
             {
-                yield return inPlace ? current : (int[])current;
+                yield return inPlace ? current : (int[])current.Clone();
 
                 for (int j = symbols.Length - 1; j >= 0; j--)
                 {

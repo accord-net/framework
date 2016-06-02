@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -49,7 +49,8 @@ namespace Accord.MachineLearning.DecisionTrees
     /// <seealso cref="Learning.C45Learning"/>
     ///
     [Serializable]
-    public class DecisionTree : BaseClassifier, IEnumerable<DecisionNode>
+    [SerializationBinder(typeof(DecisionTree.DecisionTreeBinder))]
+    public class DecisionTree : MulticlassClassifierBase, IEnumerable<DecisionNode>
     {
         private DecisionNode root;
         private DecisionVariableCollection attributes;
@@ -241,19 +242,6 @@ namespace Accord.MachineLearning.DecisionTrees
                 + "the tree is expecting discrete inputs, but it was given only real values.");
         }
 
-
-
-
-
-
-        [OnDeserialized]
-        private void OnDeserialized(StreamingContext context)
-        {
-            foreach (DecisionNode node in this)
-            {
-                node.Owner = this;
-            }
-        }
 
 
         /// <summary>
@@ -589,6 +577,64 @@ namespace Accord.MachineLearning.DecisionTrees
             }
 
         }
+
+
+        #region Serialization backwards compatibility
+
+        internal class DecisionTreeBinder : SerializationBinder
+        {
+            public override Type BindToType(string assemblyName, string typeName)
+            {
+                AssemblyName name = new AssemblyName(assemblyName);
+
+                if (name.Version < new Version(3, 1, 0))
+                {
+                    if (typeName == "Accord.MachineLearning.DecisionTrees.DecisionTree")
+                        return typeof(DecisionTree_2_13);
+                    if (typeName == "AForge.DoubleRange")
+                        return typeof(Accord.DoubleRange);
+                }
+
+                return null;
+            }
+        }
+
+#pragma warning disable 0169
+#pragma warning disable 0649
+
+        [Serializable]
+        class DecisionTree_2_13
+        {
+            public DecisionNode Root { get; set; }
+
+            public DecisionVariableCollection Attributes { get; private set; }
+            
+            public int OutputClasses { get; private set; }
+
+            public int InputCount { get; private set; }
+
+
+
+            public static implicit operator DecisionTree(DecisionTree_2_13 obj)
+            {
+                var tree = new DecisionTree(obj.Attributes, obj.OutputClasses);
+                tree.Root = obj.Root;
+
+                foreach (DecisionNode node in tree)
+                {
+                    if (node.Owner == null)
+                        node.Owner = tree;
+                }
+
+                return tree;
+            }
+        }
+
+#pragma warning restore 0169
+#pragma warning restore 0649
+
+        #endregion
+
     }
 }
 

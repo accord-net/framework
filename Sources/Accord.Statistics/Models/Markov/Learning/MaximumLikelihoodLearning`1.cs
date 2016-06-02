@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -330,8 +330,8 @@ namespace Accord.Statistics.Models.Markov.Learning
                 for (int j = 0; j < states; j++)
                     model.Transitions[i, j] = Math.Log(transitions[i, j] / (double)transitionCount[i]);
 
-            System.Diagnostics.Debug.Assert(!model.Probabilities.HasNaN());
-            System.Diagnostics.Debug.Assert(!model.Transitions.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!model.Probabilities.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!model.Transitions.HasNaN());
 
 
             // 5. Compute log-likelihood

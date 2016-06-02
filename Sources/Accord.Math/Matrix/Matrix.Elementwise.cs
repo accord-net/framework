@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -191,8 +191,8 @@ namespace Accord.Math
         public static double[,] ElementwiseDivide(double[,] a, double[] b, int dimension = 0, bool inPlace = false)
         {
             if (inPlace)
-                return Elementwise.Multiply(a, b, dimension, a);
-            return Elementwise.Multiply(a, b, dimension);
+                return Elementwise.Divide(a, b, dimension, a);
+            return Elementwise.Divide(a, b, dimension);
         }
 
 

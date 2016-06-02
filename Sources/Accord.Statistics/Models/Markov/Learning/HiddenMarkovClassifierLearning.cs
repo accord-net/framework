@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -282,7 +282,7 @@ namespace Accord.Statistics.Models.Markov.Learning
             }
 
 
-            System.Diagnostics.Debug.Assert(!emissions.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!emissions.HasNaN());
 
 
             // Create and return the threshold hidden Markov model

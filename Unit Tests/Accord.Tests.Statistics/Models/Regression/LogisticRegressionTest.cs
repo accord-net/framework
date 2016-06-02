@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -187,14 +187,14 @@ namespace Accord.Tests.Statistics
 
 
             // Fit using extended data
-            double[][] inputs = Matrix.ColumnVector(inputExtended.GetColumn(0)).ToArray();
+            double[][] inputs = Matrix.ColumnVector(inputExtended.GetColumn(0)).ToJagged();
             double[] outputs = inputExtended.GetColumn(1);
             LogisticRegression target = new LogisticRegression(1);
             IterativeReweightedLeastSquares irls = new IterativeReweightedLeastSquares(target);
             irls.Run(inputs, outputs);
 
             // Fit using grouped data
-            double[][] inputs2 = Matrix.ColumnVector(inputGroupProb.GetColumn(0)).ToArray();
+            double[][] inputs2 = Matrix.ColumnVector(inputGroupProb.GetColumn(0)).ToJagged();
             double[] outputs2 = inputGroupProb.GetColumn(1);
             LogisticRegression target2 = new LogisticRegression(1);
             IterativeReweightedLeastSquares irls2 = new IterativeReweightedLeastSquares(target2);
@@ -220,7 +220,7 @@ namespace Accord.Tests.Statistics
             };
 
 
-            double[][] inputs3 = Matrix.ColumnVector(data.GetColumn(0)).ToArray();
+            double[][] inputs3 = Matrix.ColumnVector(data.GetColumn(0)).ToJagged();
             double[] outputs3 = data.GetColumn(1);
             LogisticRegressionAnalysis analysis = new LogisticRegressionAnalysis(inputs3, outputs3);
 
@@ -409,7 +409,7 @@ namespace Accord.Tests.Statistics
                 { 68, 0, 8.38, 1 },
             };
 
-            double[][] input = data.Submatrix(null, 0, 2).ToArray();
+            double[][] input = data.Submatrix(null, 0, 2).ToJagged();
             double[] output = data.GetColumn(3);
 
             LogisticRegression regression = new LogisticRegression(3);

@@ -3,7 +3,7 @@
 using namespace System::Reflection;
 
 [assembly:AssemblyProduct("Accord.NET Framework")]
-[assembly:AssemblyCopyright("Copyright © Accord.NET authors, 2009-2015")]
+[assembly:AssemblyCopyright("Copyright © Accord.NET authors, 2009-2016")]
 [assembly:AssemblyCompany("Accord.NET")]
 [assembly:AssemblyTrademark("")]
 [assembly:AssemblyCulture("")]

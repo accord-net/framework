@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -78,6 +78,36 @@ namespace Accord.IO
         }
 
         /// <summary>
+        ///   Saves an object to a stream, represented as an array of bytes.
+        /// </summary>
+        /// 
+        /// <param name="obj">The object to be serialized.</param>
+        /// 
+        public static byte[] Save<T>(this T obj)
+        {
+            byte[] bytes;
+            Save(obj, out bytes);
+            return bytes;
+        }
+
+        /// <summary>
+        ///   Saves an object to a stream.
+        /// </summary>
+        /// 
+        /// <param name="obj">The object to be serialized.</param>
+        /// <param name="bytes">The sequence of bytes to which the object has been serialized.</param>
+        /// 
+        public static void Save<T>(this T obj, out byte[] bytes)
+        {
+            using (var fs = new MemoryStream())
+            {
+                Save(obj, fs);
+                fs.Seek(0, SeekOrigin.Begin);
+                bytes = fs.ToArray();
+            }
+        }
+
+        /// <summary>
         ///   Loads an object from a stream.
         /// </summary>
         /// 
@@ -107,6 +137,23 @@ namespace Accord.IO
         }
 
         /// <summary>
+        ///   Loads an object from a stream, represented as an array of bytes.
+        /// </summary>
+        /// 
+        /// <param name="bytes">The byte stream containing the object to be deserialized.</param>
+        /// 
+        /// <returns>The deserialized object.</returns>
+        /// 
+        public static T Load<T>(byte[] bytes)
+        {
+            using (var fs = new MemoryStream(bytes, false))
+            {
+                return Load<T>(fs);
+            }
+        }
+
+
+        /// <summary>
         ///   Loads a model from a stream.
         /// </summary>
         /// 
@@ -114,7 +161,7 @@ namespace Accord.IO
         /// <param name="formatter">The binary formatter.</param>
         /// <param name="stream">The stream from which to deserialize the object graph.</param>
         /// 
-        /// <returns></returns>
+        /// <returns>The deserialized object.</returns>
         /// 
         public static T Load<T>(Stream stream, BinaryFormatter formatter)
         {
@@ -143,13 +190,24 @@ namespace Accord.IO
 
         private static SerializationBinder GetBinder(Type type)
         {
+            // Try to get the binder by checking if there type is
+            // marked with a SerializationBinderAttribute
             var attribute = Attribute.GetCustomAttribute(type,
                 typeof(SerializationBinderAttribute)) as SerializationBinderAttribute;
 
-            if (attribute == null)
-                return null;
-            
-            return attribute.Binder;
+            if (attribute != null)
+                return attribute.Binder;
+
+            // Check if the type has an internal static property containing the binder
+            var field = type.GetField("Binder", BindingFlags.NonPublic | BindingFlags.Static);
+            if (field != null)
+            {
+                var binder = field.GetValue(null) as SerializationBinder;
+                if (binder != null)
+                    return binder;
+            }
+
+            return null;
         }
 
         private static Assembly resolve(object sender, ResolveEventArgs args)
@@ -162,5 +220,21 @@ namespace Accord.IO
             return ((AppDomain)sender).Load(display.Name);
         }
 
+
+        /// <summary>
+        ///   Retrieves a value from the SerializationInfo store.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the value to be retrieved.</typeparam>
+        /// <param name="info">The serialization info store containing the value.</param>
+        /// <param name="name">The name of the value.</param>
+        /// <param name="value">The value retrieved from the info store.</param>
+        /// 
+        /// <returns>The value retrieved from the info store.</returns>
+        /// 
+        public static T GetValue<T>(this SerializationInfo info, string name, out T value)
+        {
+            return value = (T)info.GetValue(name, typeof(T));
+        }
     }
 }

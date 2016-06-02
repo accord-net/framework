@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -90,7 +90,7 @@ namespace Accord.Statistics
         public static double[] Proportions(int[] positives, int[] negatives)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Categorical.GetRatio(positives, negatives);
+            return Accord.Statistics.Classes.GetRatio(positives, negatives);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Accord.Statistics
         public static double[] Proportions(int[][] data, int positiveColumn, int negativeColumn)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Categorical.GetRatio(data, positiveColumn, negativeColumn);
+            return Accord.Statistics.Classes.GetRatio(data, positiveColumn, negativeColumn);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Accord.Statistics
         [Obsolete("Please use Categorical.Count instead.")]
         public static int[][] Group(int[][] data, int labelColumn, int dataColumn)
         {
-            return Accord.Statistics.Categorical.Summarize(data, labelColumn, dataColumn);
+            return Accord.Statistics.Classes.Summarize(data, labelColumn, dataColumn);
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Accord.Statistics
         public static int[][] Expand(int[] data, int[] positives, int[] negatives)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Categorical.Expand(data, positives, negatives);
+            return Accord.Statistics.Classes.Expand(data, positives, negatives);
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace Accord.Statistics
         public static int[][] Expand(int[][] data, int labelColumn, int positiveColumn, int negativeColumn)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Categorical.Expand(data, labelColumn, positiveColumn, negativeColumn);
+            return Accord.Statistics.Classes.Expand(data, labelColumn, positiveColumn, negativeColumn);
         }
 
         /// <summary>
@@ -183,11 +183,11 @@ namespace Accord.Statistics
         ///   problem. Each row contains the value 1 on the position corresponding
         ///   to the label index.</returns>
         /// 
-        [Obsolete("Please use Categorical.Expand instead.")]
+        [Obsolete("Please use Jagged.OneHot instead.")]
         public static double[][] Expand(int[] labels)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Categorical.OneHot(labels);
+            return Jagged.OneHot(labels, labels.DistinctCount());
         }
 
         /// <summary>
@@ -204,11 +204,11 @@ namespace Accord.Statistics
         ///   problem. Each row contains the positive value on the position corresponding
         ///   to the label index, and the negative value on all others.</returns>
         /// 
-        [Obsolete("Please use Categorical.Expand instead.")]
+        [Obsolete("Please use Jagged.OneHot instead.")]
         public static double[][] Expand(int[] labels, double negative, double positive)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Categorical.OneHot(labels, negative, positive);
+            return Jagged.OneHot(labels).Replace(0, negative).Replace(1, positive);
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace Accord.Statistics
         public static double[][] Expand(int[] labels, int classes)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Categorical.OneHot(labels, classes);
+            return Jagged.OneHot(labels, classes);
         }
 
         /// <summary>
@@ -250,7 +250,7 @@ namespace Accord.Statistics
         public static double[][] Expand(int[] labels, int classes, double negative, double positive)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Categorical.OneHot(labels, classes, negative, positive);
+            return Jagged.OneHot(labels, classes).Replace(0, negative).Replace(1, positive);
         }
         #endregion
 
@@ -326,7 +326,7 @@ namespace Accord.Statistics
         public static int[] RandomGroups(int size, int groups)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Categorical.Random(size, groups);
+            return Accord.Statistics.Classes.Random(size, groups);
         }
 
         /// <summary>
@@ -341,7 +341,7 @@ namespace Accord.Statistics
         public static int[] RandomGroups(int size, double proportion)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Categorical.Random(size, proportion);
+            return Accord.Statistics.Classes.Random(size, proportion);
         }
 
         /// <summary>
@@ -358,7 +358,7 @@ namespace Accord.Statistics
         public static int[] RandomGroups(int[] labels, int classes, int groups)
         {
             // TODO: Mark as obsolete
-            return Accord.Statistics.Categorical.Random(labels, classes, groups);
+            return Accord.Statistics.Classes.Random(labels, classes, groups);
         }
 
         /// <summary>

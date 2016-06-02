@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -50,78 +50,102 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <seealso cref="SupportVectorMachine"/>
     /// <seealso cref="KernelSupportVectorMachine"/>
     /// 
-    public class LeastSquaresLearning : ISupportVectorMachineLearning
+    public class LeastSquaresLearning : 
+        LeastSquaresLearningBase<SupportVectorMachine<IKernel<double[]>, double[]>, IKernel<double[]>, double[]>
+    {
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please do not pass parameters in the constructor. Use the default constructor and the Learn method instead.")]
+        public LeastSquaresLearning(ISupportVectorMachine<double[]> model, double[][] input, int[] output)
+            : base(model, input, output)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LeastSquaresLearning"/> class.
+        /// </summary>
+        public LeastSquaresLearning()
+        {
+                
+        }
+
+        /// <summary>
+        /// Creates an instance of the model to be learned. Inheritors
+        /// of this abstract class must define this method so new models
+        /// can be created from the training data.
+        /// </summary>
+        protected override SupportVectorMachine<IKernel<double[]>, double[]> Create(int inputs, IKernel<double[]> kernel)
+        {
+            return new SupportVectorMachine<IKernel<double[]>, double[]>(inputs, kernel);
+        }
+    }
+
+    /// <summary>
+    ///   Least Squares SVM (LS-SVM) learning algorithm.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///       <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.43.6438">
+    ///       Suykens, J. A. K., et al. "Least squares support vector machine classifiers: a large scale 
+    ///       algorithm." European Conference on Circuit Theory and Design, ECCTD. Vol. 99. 1999. Available on:
+    ///       http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.43.6438 </a>
+    ///       </description></item>
+    ///     </list></para>  
+    /// </remarks>
+    /// 
+    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// <seealso cref="MultilabelSupportVectorLearning"/>
+    /// 
+    /// <seealso cref="SupportVectorMachine"/>
+    /// <seealso cref="KernelSupportVectorMachine"/>
+    /// 
+    public class LeastSquaresLearning<TKernel, TInput> :
+        LeastSquaresLearningBase<SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
+        where TKernel : IKernel<TInput>
+        where TInput : ICloneable
+    {
+        /// <summary>
+        /// Creates an instance of the model to be learned. Inheritors
+        /// of this abstract class must define this method so new models
+        /// can be created from the training data.
+        /// </summary>
+        protected override SupportVectorMachine<TKernel, TInput> Create(int inputs, TKernel kernel)
+        {
+            return new SupportVectorMachine<TKernel, TInput>(inputs, kernel);
+        }
+    }
+
+    // TODO: Move to base namespace
+    /// <summary>
+    ///   Base class for Least Squares SVM (LS-SVM) learning algorithm.
+    /// </summary>
+    /// 
+    public abstract class LeastSquaresLearningBase<TModel, TKernel, TInput> :
+        BaseSupportVectorClassification<TModel, TKernel, TInput>
+        where TKernel : IKernel<TInput>
+        where TModel : SupportVectorMachine<TKernel, TInput>
+        where TInput : ICloneable
     {
 
-        private double[][] inputs;
-        private int[] outputs;
-
         private double[] diagonal;
-        private double gamma = 0.01;
-        private double tolerance = 1e-6;
-
-        private SupportVectorMachine machine;
-        private IKernel kernel;
-
-        private int cacheSize;
-        private KernelFunctionCache cache;
-
         private int[] ones;
+        private double tolerance = 1e-6;
+        private int cacheSize;
 
+        KernelFunctionCache<TKernel, TInput> cache;
 
         /// <summary>
         ///   Constructs a new Least Squares SVM (LS-SVM) learning algorithm.
         /// </summary>
         /// 
-        /// <param name="machine">A support vector machine.</param>
-        /// <param name="inputs">The input data points as row vectors.</param>
-        /// <param name="outputs">The output label for each input point. Values must be either -1 or +1.</param>
-        /// 
-        public LeastSquaresLearning(SupportVectorMachine machine, double[][] inputs, int[] outputs)
+        public LeastSquaresLearningBase()
         {
-            SupportVectorLearningHelper.CheckArgs(machine, inputs, outputs);
-
-            // Set the machine
-            this.machine = machine;
-
-            // Grab the machine kernel
-            KernelSupportVectorMachine ksvm = machine as KernelSupportVectorMachine;
-            this.kernel = (ksvm == null) ? new Linear() : ksvm.Kernel;
-
-            // Kernel cache
-            this.cacheSize = inputs.Length;
-
-            // Get learning data
-            this.inputs = inputs;
-            this.outputs = outputs;
-
-            this.ones = Vector.Create(outputs.Length, 1);
-        }
-
-
-
-        /// <summary>
-        ///   Complexity (cost) parameter C. Increasing the value of C forces 
-        ///   the creation of a more accurate model that may not generalize well. 
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///   The cost parameter C controls the trade off between allowing training
-        ///   errors and forcing rigid margins. It creates a soft margin that permits
-        ///   some misclassifications. Increasing the value of C increases the cost of
-        ///   misclassifying points and forces the creation of a more accurate model
-        ///   that may not generalize well.
-        /// </remarks>
-        /// 
-        public double Complexity
-        {
-            get { return 1.0 / this.gamma; }
-            set
-            {
-                if (value <= 0)
-                    throw new ArgumentOutOfRangeException("value");
-                this.gamma = 1.0 / value;
-            }
         }
 
         /// <summary>
@@ -160,42 +184,20 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             }
         }
 
-
         /// <summary>
-        ///   Runs the LS-SVM algorithm.
+        /// Runs the main body of the learning algorithm.
         /// </summary>
-        /// 
-        /// <returns>
-        ///   The misclassification error rate of
-        ///   the resulting support vector machine.
-        /// </returns>
-        /// 
-        public double Run()
+        protected override void InnerRun()
         {
-            return Run(false);
-        }
+            TInput[] inputs = Inputs;
+            int[] outputs = Outputs;
+            this.ones = Vector.Create(outputs.Length, 1);
 
-        /// <summary>
-        ///   Runs the LS-SVM algorithm.
-        /// </summary>
-        /// 
-        /// <param name="computeError">
-        ///   True to compute error after the training
-        ///   process completes, false otherwise. Default is true.
-        /// </param>
-        /// 
-        /// <returns>
-        ///   The misclassification error rate of
-        ///   the resulting support vector machine.
-        /// </returns>
-        /// 
-        public double Run(bool computeError)
-        {
             // Create kernel function cache
-            cache = new KernelFunctionCache(kernel, inputs);
             diagonal = new double[inputs.Length];
+            cache = new KernelFunctionCache<TKernel, TInput>(Kernel, inputs);
             for (int i = 0; i < diagonal.Length; i++)
-                diagonal[i] = kernel.Function(inputs[i], inputs[i]) + gamma;
+                diagonal[i] = Kernel.Function(inputs[i], inputs[i]) + 1.0 / C[i];
 
 
             // 1. Solve to find nu and eta
@@ -219,44 +221,21 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             for (int i = 0; i < alpha.Length; i++)
                 alpha[i] = (nu[i] - eta[i] * b) * outputs[i];
 
-            machine.SupportVectors = inputs;
-            machine.Weights = alpha;
-            machine.Threshold = b;
-
-            // Compute error if required.
-            return (computeError) ? ComputeError(inputs, outputs) : 0.0;
-        }
-
-        /// <summary>
-        ///   Computes the error rate for a given set of input and outputs.
-        /// </summary>
-        /// 
-        public double ComputeError(double[][] inputs, int[] expectedOutputs)
-        {
-            // Compute errors
-            int count = 0;
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                bool actual = machine.Compute(inputs[i]) >= 0;
-                bool expected = expectedOutputs[i] >= 0;
-
-                if (actual != expected) count++;
-            }
-
-            // Return misclassification error ratio
-            return count / (double)inputs.Length;
+            Model.SupportVectors = inputs;
+            Model.Weights = alpha;
+            Model.Threshold = b;
         }
 
 
 
         private double[] conjugateGradient(int[] B)
         {
-            int[] y = outputs;
+            int[] y = Outputs;
             double[] x = new double[B.Length];
             double[] r = new double[B.Length];
             double[] p = new double[B.Length]; 
             double[] H = new double[p.Length];
-            double[] col = new double[inputs.Length];
+            double[] col = new double[Inputs.Length];
 
             // Initialization
             for (int i = 0; i < B.Length; i++)
@@ -273,6 +252,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             while (norm > Tolerance)
             {
                 iteration++;
+
+                if (Token.IsCancellationRequested)
+                    break;
 
                 if (iteration > B.Length)
                     break;
@@ -319,6 +301,14 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             }
 
             return x;
+        }
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        protected LeastSquaresLearningBase(ISupportVectorMachine<TInput> model, TInput[] input, int[] output)
+            : base(model, input, output)
+        {
         }
     }
 }

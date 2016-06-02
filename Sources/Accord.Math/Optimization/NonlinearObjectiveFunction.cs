@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -72,7 +72,7 @@ namespace Accord.Math.Optimization
         ///   Gets the index of each input variable in the function.
         /// </summary>
         /// 
-        protected Dictionary<int, string> InnerIndices { get { return indices; } } 
+        protected Dictionary<int, string> InnerIndices { get { return indices; } }
 
         /// <summary>
         ///   Gets the objective function.

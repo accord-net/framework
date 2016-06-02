@@ -73,6 +73,12 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Bayes\Learning\Base\NaiveBayesLearningBase`4.cs" />
+    <Compile Include="Bayes\Learning\Base\NaiveBayesLearningBase`5.cs" />
+    <Compile Include="Bayes\Learning\NaiveBayesLearning`2.cs" />
+    <Compile Include="Bayes\Learning\NaiveBayesLearning.cs" />
+    <Compile Include="Bayes\Bayes.cs" />
+    <Compile Include="Bayes\NaiveBayes`2.cs" />
     <Compile Include="Boosting\Accord.MachineLearning.Boosting.cs" />
     <Compile Include="Boosting\AdaBoost.cs" />
     <Compile Include="BagOfWords.cs" />
@@ -96,6 +102,8 @@
     <Compile Include="DecisionTrees\DecisionBranchNodeCollection.cs" />
     <Compile Include="DecisionTrees\Learning\Accord.MachineLearning.DecisionTrees.Learning.cs" />
     <Compile Include="DecisionTrees\Pruning\Accord.MachineLearning.DecisionTrees.Prunning.cs" />
+    <Compile Include="DecisionTrees\RandomForestLearning.cs" />
+    <Compile Include="DecisionTrees\RandomForest.cs" />
     <Compile Include="DecisionTrees\Rules\Accord.MachineLearning.DecisionTrees.Rules.cs" />
     <Compile Include="DecisionTrees\Rules\Antecedent.cs" />
     <Compile Include="DecisionTrees\Rules\DecisionSet.cs" />
@@ -106,16 +114,23 @@
     <Compile Include="DecisionTrees\Rules\Simplification.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AForge\Exploration Policy\BoltzmannExploration.cs" />
-    <Compile Include="AForge\Exploration Policy\EpsilonGreedyExploration.cs" />
-    <Compile Include="AForge\Exploration Policy\IExplorationPolicy.cs" />
-    <Compile Include="AForge\Exploration Policy\RouletteWheelExploration.cs" />
-    <Compile Include="AForge\Exploration Policy\TabuSearchExploration.cs" />
+    <Compile Include="Exploration Policy\BoltzmannExploration.cs" />
+    <Compile Include="Exploration Policy\EpsilonGreedyExploration.cs" />
+    <Compile Include="Exploration Policy\IExplorationPolicy.cs" />
+    <Compile Include="Exploration Policy\RouletteWheelExploration.cs" />
+    <Compile Include="Exploration Policy\TabuSearchExploration.cs" />
     <Compile Include="Geometry\RansacCircle.cs" />
     <Compile Include="IO\LibSvmModel.cs" />
     <Compile Include="MinimumMeanDistanceClassifier.cs" />
     <Compile Include="KNearestNeighbors`1.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Multiclass\Decision.cs" />
+    <Compile Include="Multiclass\Learning\InnerParameters.cs" />
+    <Compile Include="Multiclass\Learning\OneVsRestLearning.cs" />
+    <Compile Include="Multiclass\Learning\OneVsOneLearning.cs" />
+    <Compile Include="Multiclass\Learning\SubproblemEventArgs.cs" />
+    <Compile Include="Multiclass\OneVsRest.cs" />
+    <Compile Include="Multiclass\OneVsOne.cs" />
     <Compile Include="Performance\Bootstrap\Bootstrap.cs" />
     <Compile Include="Performance\Bootstrap\BootstrapResult.cs" />
     <Compile Include="Performance\Bootstrap\BootstrapValues.cs" />
@@ -144,11 +159,11 @@
     <Compile Include="Performance\SplitSet\SplitSetValidation`1.cs" />
     <Compile Include="GridSearch.cs" />
     <Compile Include="Clustering\KMeans\KMeans.cs" />
-    <Compile Include="AForge\QLearning.cs" />
+    <Compile Include="QLearning.cs" />
     <Compile Include="Ransac.cs" />
     <Compile Include="Geometry\RansacLine.cs" />
     <Compile Include="Geometry\RansacPlane.cs" />
-    <Compile Include="AForge\Sarsa.cs" />
+    <Compile Include="Sarsa.cs" />
     <Compile Include="Structures\KDTreeNodeList.cs" />
     <Compile Include="Structures\KDTreeTraversal.cs" />
     <Compile Include="Structures\KDTreeNodeDistance.cs" />
@@ -157,38 +172,45 @@
     <Compile Include="Structures\KDTreeNode.cs" />
     <Compile Include="Structures\KDTreeNodeCollection.cs" />
     <Compile Include="DecisionTrees\DecisionTreeTraversal.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VectorMachines\Accord.MachineLearning.VectorMachines.cs" />
-    <Compile Include="VectorMachines\Learning\Base\BaseSupportVectorLearning.cs" />
+    <Compile Include="VectorMachines\ISupportVectorMachine`2.cs" />
+    <Compile Include="VectorMachines\KernelSupportVectorMachine.cs" />
+    <Compile Include="VectorMachines\Learning\Base\BaseSupportVectorCalibration.cs" />
+    <Compile Include="VectorMachines\Learning\Base\BaseSupportVectorClassification.cs" />
     <Compile Include="VectorMachines\Learning\Base\BaseSupportVectorRegression.cs" />
-    <Compile Include="VectorMachines\Learning\LinearCoordinateDescent.cs" />
+    <Compile Include="VectorMachines\Learning\Base\ISupportVectorMachineLearning.cs" />
     <Compile Include="VectorMachines\Learning\LeastSquaresLearning.cs" />
+    <Compile Include="VectorMachines\Learning\LinearCoordinateDescent.cs" />
     <Compile Include="VectorMachines\Learning\LinearDualCoordinateDescent.cs" />
+    <Compile Include="VectorMachines\Learning\LinearNewtonMethod.cs" />
+    <Compile Include="VectorMachines\Learning\MulticlassSupportVectorLearning.cs" />
+    <Compile Include="VectorMachines\Learning\MulticlassSupportVectorLearning`2.cs" />
+    <Compile Include="VectorMachines\Learning\MultilabelSupportVectorLearning.cs" />
+    <Compile Include="VectorMachines\Learning\OneclassSupportVectorLearning.cs" />
     <Compile Include="VectorMachines\Learning\Probabilistic\ProbabilisticCoordinateDescent.cs" />
     <Compile Include="VectorMachines\Learning\Probabilistic\ProbabilisticDualCoordinateDescent.cs" />
     <Compile Include="VectorMachines\Learning\Probabilistic\ProbabilisticNewtonMethod.cs" />
-    <Compile Include="VectorMachines\Learning\LinearNewtonMethod.cs" />
-    <Compile Include="VectorMachines\Learning\MultilabelSupportVectorLearning.cs" />
+    <Compile Include="VectorMachines\Learning\Probabilistic\ProbabilisticOutputCalibration.cs" />
     <Compile Include="VectorMachines\Learning\Regression\LinearRegressionCoordinateDescent.cs" />
     <Compile Include="VectorMachines\Learning\Regression\LinearRegressionNewtonMethod.cs" />
+    <Compile Include="VectorMachines\Learning\SequentialMinimalOptimization.cs" />
     <Compile Include="VectorMachines\Learning\SupportVectorLearningHelper.cs" />
     <Compile Include="VectorMachines\Learning\SupportVectorReduction.cs" />
-    <Compile Include="VectorMachines\MultilabelSupportVectorMachine.cs" />
-    <Compile Include="VectorMachines\ISupportVectorMachine.cs" />
-    <Compile Include="VectorMachines\Learning\Base\ISupportVectorMachineLearning.cs" />
-    <Compile Include="VectorMachines\Learning\SequentialMinimalOptimization.cs" />
-    <Compile Include="VectorMachines\KernelSupportVectorMachine.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VectorMachines\MulticlassSupportVectorMachine.cs" />
-    <Compile Include="VectorMachines\Learning\MulticlassSupportVectorLearning.cs" />
-    <Compile Include="VectorMachines\Learning\Probabilistic\ProbabilisticOutputCalibration.cs" />
-    <Compile Include="VectorMachines\Learning\OneclassSupportVectorLearning.cs" />
+    <Compile Include="VectorMachines\MulticlassSupportVectorMachine`2.cs" />
+    <Compile Include="VectorMachines\MultilabelSupportVectorMachine.cs" />
+    <Compile Include="VectorMachines\MultilabelSupportVectorMachine`2.cs" />
     <Compile Include="VectorMachines\SupportVectorMachine.cs" />
+    <Compile Include="VectorMachines\SupportVectorMachine`1.cs" />
+    <Compile Include="VectorMachines\SupportVectorMachine`2.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
       <Private>False</Private>
+      <Aliases>global,core</Aliases>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,27 +27,13 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Statistics.Kernels;
     using NUnit.Framework;
+    using Accord.Math;
+    using Accord.MachineLearning;
 
 
     [TestFixture]
     public class ProbabilisticOutputLearningTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [Test]
@@ -71,7 +57,7 @@ namespace Accord.Tests.MachineLearning
 
             KernelSupportVectorMachine svm = new KernelSupportVectorMachine(new Gaussian(3.6), 2);
 
-            SequentialMinimalOptimization smo = new SequentialMinimalOptimization(svm, inputs, outputs);
+            var smo = new SequentialMinimalOptimization(svm, inputs, outputs);
 
             double error1 = smo.Run();
 
@@ -85,7 +71,7 @@ namespace Accord.Tests.MachineLearning
             }
 
 
-            ProbabilisticOutputCalibration target = new ProbabilisticOutputCalibration(svm, inputs, outputs);
+            var target = new ProbabilisticOutputCalibration(svm, inputs, outputs);
 
             double ll0 = target.LogLikelihood(inputs, outputs);
 
@@ -93,15 +79,23 @@ namespace Accord.Tests.MachineLearning
 
             double ll2 = target.LogLikelihood(inputs, outputs);
 
-            Assert.AreEqual(3.4256203116918824, ll1);
+            Assert.AreEqual(5.5451735748694571, ll1);
             Assert.AreEqual(ll1, ll2);
             Assert.IsTrue(ll1 > ll0);
+
+            double[] newdistances = new double[outputs.Length];
+            for (int i = 0; i < outputs.Length; i++)
+            {
+                int y = svm.Compute(inputs[i], out newdistances[i]);
+                Assert.AreEqual(outputs[i], y);
+            }
 
             double[] probs = new double[outputs.Length];
             for (int i = 0; i < outputs.Length; i++)
             {
-                int y = svm.Compute(inputs[i], out probs[i]);
-                Assert.AreEqual(outputs[i], y);
+                int y;
+                probs[i] = svm.ToMulticlass().Probability(inputs[i], out y);
+                Assert.AreEqual(outputs[i], y == 1 ? 1 : -1);
             }
 
             Assert.AreEqual(0.25, probs[0], 1e-5);
@@ -144,12 +138,15 @@ namespace Accord.Tests.MachineLearning
             // Run the learning algorithm
             double error = smo.Run();
 
+            Assert.IsFalse(svm.IsProbabilistic);
+
             // Instantiate the probabilistic learning calibration
-            ProbabilisticOutputCalibration calibration = new ProbabilisticOutputCalibration(svm, inputs, labels);
+            var calibration = new ProbabilisticOutputCalibration(svm, inputs, labels);
 
             // Run the calibration algorithm
             double loglikelihood = calibration.Run();
 
+            Assert.IsTrue(svm.IsProbabilistic);
 
             // Compute the decision output for one of the input vectors,
             // while also retrieving the probability of the answer
@@ -160,7 +157,7 @@ namespace Accord.Tests.MachineLearning
             // At this point, decision is +1 with a probability of 75%
 
             Assert.AreEqual(1, decision);
-            Assert.AreEqual(0.74999975815069375, probability);
+            Assert.AreEqual(0.74999975815069375, probability, 1e-10);
         }
 
 
@@ -194,8 +191,8 @@ namespace Accord.Tests.MachineLearning
             };
 
             IKernel kernel = new Linear();
-            MulticlassSupportVectorMachine machine = new MulticlassSupportVectorMachine(4, kernel, 3);
-            MulticlassSupportVectorLearning target = new MulticlassSupportVectorLearning(machine, inputs, outputs);
+            var machine = new MulticlassSupportVectorMachine(4, kernel, 3);
+            var target = new MulticlassSupportVectorLearning(machine, inputs, outputs);
 
             target.Algorithm = (svm, classInputs, classOutputs, i, j) =>
                 new SequentialMinimalOptimization(svm, classInputs, classOutputs);
@@ -203,15 +200,67 @@ namespace Accord.Tests.MachineLearning
             double error1 = target.Run();
             Assert.AreEqual(0, error1);
 
+            int[] actual = new int[outputs.Length];
+            var paths = new Decision[outputs.Length][];
+            for (int i = 0; i < actual.Length; i++)
+            {
+                actual[i] = machine.Decide(inputs[i]);
+                paths[i] = machine.GetLastDecisionPath();
+                Assert.AreEqual(outputs[i], actual[i]);
+            }
+
+            var original = (MulticlassSupportVectorMachine)machine.Clone();
+
             target.Algorithm = (svm, classInputs, classOutputs, i, j) =>
                 new ProbabilisticOutputCalibration(svm, classInputs, classOutputs);
 
             double error2 = target.Run();
             Assert.AreEqual(0, error2);
 
+            int[] actual2 = new int[outputs.Length];
+            var paths2 = new Decision[outputs.Length][];
+            for (int i = 0; i < actual.Length; i++)
+            {
+                actual2[i] = machine.Decide(inputs[i]);
+                paths2[i] = machine.GetLastDecisionPath();
+                Assert.AreEqual(outputs[i], actual[i]);
+            }
 
+            var svm21 = machine[2, 1];
+            var org21 = original[2, 1];
+            var probe = inputs[12];
+            var w21 = svm21.Weights;
+            var o21 = org21.Weights;
+            Assert.IsFalse(w21.IsEqual(o21, rtol: 1e-2));
+            bool b = svm21.Decide(probe);
+            bool a = org21.Decide(probe);
+            Assert.AreEqual(a, b);
+
+            double[][] probabilities = machine.Probabilities(inputs);
+
+            //string str = probabilities.ToString(CSharpJaggedMatrixFormatProvider.InvariantCulture);
+
+            double[][] expected = new double[][]
+            {
+                new double[] { 0.978013252309678, 0.00665988562670578, 0.015326862063616 },
+                new double[] { 0.923373734751393, 0.0433240974867644, 0.033302167761843 },
+                new double[] { 0.902265207121918, 0.0651939200306017, 0.0325408728474804 },
+                new double[] { 0.978013252309678, 0.00665988562670578, 0.015326862063616 },
+                new double[] { 0.923373734751393, 0.0433240974867644, 0.033302167761843 },
+                new double[] { 0.0437508203303804, 0.79994737664453, 0.156301803025089 },
+                new double[] { 0.0437508203303804, 0.79994737664453, 0.156301803025089 },
+                new double[] { 0.0147601290467641, 0.948443224264852, 0.0367966466883842 },
+                new double[] { 0.0920231845129213, 0.875878175972548, 0.0320986395145312 },
+                new double[] { 0.0920231845129213, 0.875878175972548, 0.0320986395145312 },
+                new double[] { 0.00868243281954335, 0.00491075178001821, 0.986406815400439 },
+                new double[] { 0.0144769600209954, 0.0552754387307989, 0.930247601248206 },
+                new double[] { 0.0144769600209954, 0.0552754387307989, 0.930247601248206 },
+                new double[] { 0.0584631682316073, 0.0122104663095354, 0.929326365458857 },
+                new double[] { 0.00868243281954335, 0.00491075178001821, 0.986406815400439 } 
+            };
+
+            Assert.IsTrue(probabilities.IsEqual(expected, rtol: 1e-8));
         }
-
 
     }
 }

@@ -1,6 +1,6 @@
 The Accord.NET Framework
 
-Copyright (c) 2009-2015, Accord.NET Authors <authors @ accord-framework.net>
+Copyright (c) 2009-2016, Accord.NET Authors <authors @ accord-framework.net>
 
     This library is free software; you can redistribute it and/or modify it under the terms of
     the GNU Lesser General Public License as published by the Free Software Foundation; either

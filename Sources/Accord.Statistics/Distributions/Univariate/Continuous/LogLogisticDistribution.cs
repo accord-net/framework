@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -189,7 +189,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                System.Diagnostics.Debug.Assert(alpha == base.Median);
+                Accord.Diagnostics.Debug.Assert(alpha == base.Median);
                 return alpha;
             }
         }
@@ -333,7 +333,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             double qdf = (alpha / beta) * Math.Pow(p / (1 - p), 1 / beta - 1);
 
-            System.Diagnostics.Debug.Assert(qdf == base.QuantileDensityFunction(p));
+            Accord.Diagnostics.Debug.Assert(qdf == base.QuantileDensityFunction(p));
 
             return qdf;
         }
@@ -362,7 +362,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
             double icdf = 1 / den;
 
-            System.Diagnostics.Debug.Assert(icdf.IsRelativelyEqual(base.ComplementaryDistributionFunction(x), 1e-10));
+            Accord.Diagnostics.Debug.Assert(icdf.IsEqual(base.ComplementaryDistributionFunction(x), 1e-10));
 
             return icdf;
         }
@@ -398,7 +398,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
             double h = num / den;
 
-            System.Diagnostics.Debug.Assert(h.IsRelativelyEqual(base.HazardFunction(x), 1e-10));
+            Accord.Diagnostics.Debug.Assert(h.IsEqual(base.HazardFunction(x), 1e-10));
 
             return h;
         }

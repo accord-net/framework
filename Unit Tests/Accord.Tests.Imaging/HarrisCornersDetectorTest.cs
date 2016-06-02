@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@ using Accord.Imaging;
 using AForge;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace Accord.Tests.Imaging
 {
@@ -35,7 +36,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ProcessImageTest()
         {
-            UnmanagedImage image = UnmanagedImage.FromManagedImage(Properties.Resources.image1);
+            UnmanagedImage image = UnmanagedImage.FromManagedImage(Accord.Imaging.Image.Clone(Properties.Resources.image1));
 
             HarrisCornersDetector target = new HarrisCornersDetector(0.04f, 1000f, 1.4);
             target.Suppression = 1;
@@ -69,7 +70,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ProcessImageTest2()
         {
-            UnmanagedImage image = UnmanagedImage.FromManagedImage(Properties.Resources.sample_black);
+            UnmanagedImage image = UnmanagedImage.FromManagedImage(Accord.Imaging.Image.Clone(Properties.Resources.sample_black));
 
             HarrisCornersDetector target = new HarrisCornersDetector(HarrisCornerMeasure.Noble, 700f, 1.4, 1);
 

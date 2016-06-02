@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -136,8 +136,10 @@ namespace Accord.Math
 
             if ((x <= 0.0) || (x >= 1.0))
             {
-                if (x == 0.0) return 0.0;
-                if (x == 1.0) return 1.0;
+                if (x == 0.0) 
+                    return 0.0;
+                if (x == 1.0) 
+                    return 1.0;
                 throw new ArgumentOutOfRangeException("x", "Value must be between 0 and 1.");
             }
 

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -192,7 +192,7 @@ namespace Accord.MachineLearning
         /// 
         public static int[] Splittings(int size, int folds)
         {
-            return Categorical.Random(size, folds);
+            return Classes.Random(size, folds);
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace Accord.MachineLearning
         /// 
         public static int[] Splittings(int[] labels, int classes, int folds)
         {
-            return Categorical.Random(labels, classes, folds);
+            return Classes.Random(labels, classes, folds);
         }
 
     }

@@ -8,7 +8,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -66,8 +66,11 @@ namespace Accord.Math
                 r = "int";
             else if (a == "uint" || b == "uint")
                 r = "uint";
-            else 
-                continue;
+            else continue;
+
+            string t = r;
+            if (a == "float" || b == "float")
+                t = "double";
 
 #>
 
@@ -99,10 +102,10 @@ namespace Accord.Math
 #endif
         public static <#=r#> Dot(this <#=a#>[] a, <#=b#>[] b)
         {
-            <#=r#> r = (<#=r#>)0;
+            <#=t#> r = (<#=t#>)0;
             for (int i = 0; i < a.Length; i++)
-                r += (<#=r#>)((<#=r#>)a[i] * (<#=r#>)b[i]);
-            return r;
+                r += (<#=t#>)((<#=t#>)a[i] * (<#=t#>)b[i]);
+            return (<#=r#>)r;
         }
 
 
@@ -224,7 +227,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] Dot(this <#=a#>[][] a, <#=b#>[,] b)
         {
-            return Dot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.Length, b.GetLength(0)));
+            return Dot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.Length, b.GetLength(1)));
         }
 
         /// <summary>
@@ -579,7 +582,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] TransposeAndDotWithDiagonal(this <#=a#>[,] a, <#=b#>[] b)
         {
-            return TransposeAndDotWithDiagonal(a, b, Matrix.Create<<#=r#>>(a.GetLength(0), b.Length));
+            return TransposeAndDotWithDiagonal(a, b, Matrix.Create<<#=r#>>(a.GetLength(1), b.Length));
         }
 
         /// <summary>
@@ -594,7 +597,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] TransposeAndDotWithDiagonal(this <#=a#>[][] a, <#=b#>[] b)
         {
-            return TransposeAndDotWithDiagonal(a, b, Jagged.Create<<#=r#>>(a.GetLength(0), b.Length));
+            return TransposeAndDotWithDiagonal(a, b, Jagged.Create<<#=r#>>(a.GetLength(1), b.Length));
         }
 
 
@@ -788,6 +791,9 @@ namespace Accord.Math
         {
             foreach (string c in new HashSet<string>() { a, b, "double", "int", "float" })
             {
+                string t = c;
+                if (a == "float" || b == "float")
+                    t = "double";
 #>
 
         /// <summary>
@@ -812,10 +818,10 @@ namespace Accord.Math
                 throw new DimensionMismatchException();
 #endif
             var ab = rowVector.Dot(b);
-            <#=c#> result = (<#=c#>)0;
+            <#=t#> result = (<#=t#>)0;
             for (int i = 0; i < ab.Length; i++)
-                result += (<#=c#>)((<#=c#>)ab[i] * (<#=c#>)columnVector[i]);
-            return result;
+                result += (<#=t#>)((<#=t#>)ab[i] * (<#=t#>)columnVector[i]);
+            return (<#=c#>)result;
         }
 
         /// <summary>
@@ -840,10 +846,10 @@ namespace Accord.Math
                 throw new DimensionMismatchException();
 #endif
             var ab = rowVector.Dot(b);
-            <#=c#> result = (<#=c#>)0;
+            <#=t#> result = (<#=t#>)0;
             for (int i = 0; i < ab.Length; i++)
-                result += (<#=c#>)((<#=c#>)ab[i] * (<#=c#>)columnVector[i]);
-            return result;      
+                result += (<#=t#>)((<#=t#>)ab[i] * (<#=t#>)columnVector[i]);
+            return (<#=c#>)result;      
         }
 
 
@@ -858,6 +864,9 @@ namespace Accord.Math
         {
             foreach (string r in new HashSet<string>() { a, b, "double", "int" })
             {
+                string t = r;
+                if (a == "float" || b == "float")
+                    t = "double";
 #>
 
 #region dot
@@ -908,10 +917,10 @@ namespace Accord.Math
                         <#=r#>* pr = R + j;
                         for (int i = 0; i < N; i++)
                         {
-                            <#=r#> s = (<#=r#>)0;
+                            <#=t#> s = (<#=t#>)0;
                             for (int k = 0; k < K; k++)
-                                s += (<#=r#>)((<#=r#>)pa[k] * (<#=r#>)T[k]);
-                            *pr = s;
+                                s += (<#=t#>)((<#=t#>)pa[k] * (<#=t#>)T[k]);
+                            *pr = (<#=r#>)s;
                             pa += K;
                             pr += M;
                         }
@@ -919,12 +928,12 @@ namespace Accord.Math
                 }
             }
 #if DEBUG
-            var C = new <#=r#>[N, M];
+            var C = new double[N, M];
             for (int i = 0; i < N; i++)
                 for (int j = 0; j < M; j++)
                     for (int k = 0; k < K; k++)
-                        C[i, j] += (<#=r#>)((<#=r#>)a[i, k] * (<#=r#>)b[k, j]);
-            if (!Matrix.IsEqual(C.To<double[,]>(), result.To<double[,]>(), 1e-4))
+                        C[i, j] += ((double)a[i, k] * (double)b[k, j]);
+            if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
                 throw new Exception();
 #endif
             return result;
@@ -961,10 +970,10 @@ namespace Accord.Math
 
                 for (int i = 0; i < a.Length; i++)
                 {
-                    <#=r#> s = (<#=r#>)0;
+                    <#=t#> s = (<#=t#>)0;
                     for (int k = 0; k < t.Length; k++)
-                        s += (<#=r#>)((<#=r#>)a[i][k] * (<#=r#>)t[k]);
-                    result[i][j] = s;
+                        s += (<#=t#>)((<#=t#>)a[i][k] * (<#=t#>)t[k]);
+                    result[i][j] = (<#=r#>)s;
                 }
             }
 #if DEBUG
@@ -1015,10 +1024,10 @@ namespace Accord.Math
 
                         for (int i = 0; i < a.Length; i++)
                         {
-                            <#=r#> s = (<#=r#>)0;
+                            <#=t#> s = (<#=t#>)0;
                             for (int k = 0; k < a[i].Length; k++)
-                                s += (<#=r#>)((<#=r#>)a[i][k] * (<#=r#>)T[k]);
-                            result[i][j] = s;
+                                s += (<#=t#>)((<#=t#>)a[i][k] * (<#=t#>)T[k]);
+                            result[i][j] = (<#=r#>)s;
                         }
                     }
                 }
@@ -1046,12 +1055,12 @@ namespace Accord.Math
         public static <#=r#>[][] Dot(this <#=a#>[,] a, <#=b#>[][] b, <#=r#>[][] result)
         {
 #if DEBUG
-            if (a.GetLength(1) != b[0].Length || result.Length > a.Length || result[0].Length > b[0].Length)
+            if (a.GetLength(1) != b.Length || result.Length > a.Length || result[0].Length > b[0].Length)
                 throw new DimensionMismatchException();
 #endif
             // TODO: Optimize
             int N = result.Length;
-            int K = a.GetLength(0);
+            int K = a.GetLength(1);
             int M = result[0].Length;
 
             var t = new <#=b#>[K];
@@ -1063,10 +1072,10 @@ namespace Accord.Math
 
                 for (int i = 0; i < N; i++)
                 {
-                    <#=r#> s = (<#=r#>)0;
+                    <#=t#> s = (<#=t#>)0;
                     for (int k = 0; k < t.Length; k++)
-                        s += (<#=r#>)((<#=r#>)a[i, k] * (<#=r#>)t[k]);
-                    result[i][j] = s;
+                        s += (<#=t#>)((<#=t#>)a[i, k] * (<#=t#>)t[k]);
+                    result[i][j] = (<#=r#>)s;
                 }
             }
 #if DEBUG
@@ -1098,8 +1107,12 @@ namespace Accord.Math
             // TODO: optimize
             int cols = matrix.GetLength(1);
             for (int j = 0; j < cols; j++)
+            {
+                <#=t#> s = (<#=t#>)0;
                 for (int k = 0; k < rowVector.Length; k++)
-                    result[j] += (<#=r#>)((<#=r#>)rowVector[k] * (<#=r#>)matrix[k, j]);
+                    s += (<#=t#>)((<#=t#>)rowVector[k] * (<#=t#>)matrix[k, j]);
+                result[j] = (<#=r#>)s;
+            }
             return result;
         }
 
@@ -1123,8 +1136,12 @@ namespace Accord.Math
 #endif
 
             for (int i = 0; i < matrix.Length; i++)
+            {
+                <#=t#> s = (<#=t#>)0;
                 for (int j = 0; j < columnVector.Length; j++)
-                    result[i] += (<#=r#>)((<#=r#>)matrix[i][j] * (<#=r#>)columnVector[j]);
+                    s += (<#=t#>)((<#=t#>)matrix[i][j] * (<#=t#>)columnVector[j]);
+                result[i] = (<#=r#>)s;
+            }
             return result;
         }
 
@@ -1148,8 +1165,12 @@ namespace Accord.Math
 #endif
             // TODO: Optimize
             for (int i = 0; i < result.Length; i++)
+            {
+                <#=t#> s = (<#=t#>)0;
                 for (int j = 0; j < columnVector.Length; j++)
-                    result[i] += (<#=r#>)((<#=r#>)matrix[i, j] * (<#=r#>)columnVector[j]);
+                    s += (<#=t#>)((<#=t#>)matrix[i, j] * (<#=t#>)columnVector[j]);
+                result[i] = (<#=r#>)s;
+            }
             return result;
         }
 
@@ -1178,10 +1199,10 @@ namespace Accord.Math
                 for (int k = 0; k < rowVector.Length; k++)
                     t[k] = matrix[k][j];
 
-                <#=r#> s = (<#=r#>)0;
+                <#=t#> s = (<#=t#>)0;
                 for (int k = 0; k < t.Length; k++)
-                    s += (<#=r#>)((<#=r#>)rowVector[k] * (<#=r#>)t[k]);
-                result[j] = s;
+                    s += (<#=t#>)((<#=t#>)rowVector[k] * (<#=t#>)t[k]);
+                result[j] = (<#=r#>)s;
             }
 
             return result;
@@ -1233,10 +1254,10 @@ namespace Accord.Math
                         {
                             <#=a#>* pa = A + n * i;
 
-                            <#=r#> s = (<#=r#>)0;
+                            <#=t#> s = (<#=t#>)0;
                             for (int k = 0; k < n; k++)
-                                s += (<#=r#>)((<#=r#>)(*pa++) * (<#=r#>)(*pb++));
-                            *pr = s;
+                                s += (<#=t#>)((<#=t#>)(*pa++) * (<#=t#>)(*pb++));
+                            *pr = (<#=r#>)s;
                         }
                     }
                 }
@@ -1425,10 +1446,10 @@ namespace Accord.Math
 
                 for (int j = 0; j < m; j++)
                 {
-                    <#=r#> s = (<#=r#>)0;
+                    <#=t#> s = (<#=t#>)0;
                     for (int k = 0; k < n; k++)
-                        s += (<#=r#>)((<#=r#>)a[k, j] * (<#=r#>)Bcolj[k]);
-                    result[j, i] = s;
+                        s += (<#=t#>)((<#=t#>)a[k, j] * (<#=t#>)Bcolj[k]);
+                    result[j, i] = (<#=r#>)s;
                 }
             }
 #if DEBUG
@@ -1469,10 +1490,10 @@ namespace Accord.Math
 
                 for (int j = 0; j < m; j++)
                 {
-                    <#=r#> s = (<#=r#>)0;
+                    <#=t#> s = (<#=t#>)0;
                     for (int k = 0; k < Bcolj.Length; k++)
-                        s += (<#=r#>)((<#=r#>)a[k][j] * (<#=r#>)Bcolj[k]);
-                    result[j][i] = s;
+                        s += (<#=t#>)((<#=t#>)a[k][j] * (<#=t#>)Bcolj[k]);
+                    result[j][i] = (<#=r#>)s;
                 }
             }
 #if DEBUG
@@ -1508,10 +1529,10 @@ namespace Accord.Math
             int cols = matrix.GetLength(1);
             for (int j = 0; j < cols; j++)
             {
-                <#=r#> s = (<#=r#>)0;
+                <#=t#> s = (<#=t#>)0;
                 for (int k = 0; k < columnVector.Length; k++)
-                    s += (<#=r#>)((<#=r#>)matrix[k, j] * (<#=r#>)columnVector[k]);
-                result[j] = s;
+                    s += (<#=t#>)((<#=t#>)matrix[k, j] * (<#=t#>)columnVector[k]);
+                result[j] = (<#=r#>)s;
             }
 #if DEBUG
             var C = Dot(matrix.Transpose().To<double[,]>(), columnVector.To<double[]>());
@@ -1542,10 +1563,10 @@ namespace Accord.Math
             int cols = matrix[0].Length;
             for (int j = 0; j < cols; j++)
             {
-                <#=r#> s = (<#=r#>)0;
+                <#=t#> s = (<#=t#>)0;
                 for (int k = 0; k < columnVector.Length; k++)
-                    s += (<#=r#>)((<#=r#>)matrix[k][j] * (<#=r#>)columnVector[k]);
-                result[j] = s;
+                    s += (<#=t#>)((<#=t#>)matrix[k][j] * (<#=t#>)columnVector[k]);
+                result[j] = (<#=r#>)s;
             }
 #if DEBUG
             var C = Dot(matrix.Transpose().To<double[,]>(), columnVector.To<double[]>());
@@ -1655,7 +1676,7 @@ namespace Accord.Math
             int m = a.GetLength(1);
             for (int i = 0; i < diagonal.Length; i++)
                 for (int j = 0; j < m; j++)
-                    result[j, i] = (<#=r#>)((<#=r#>)a[i, j] * (<#=r#>)diagonal[i]);
+                    result[j, i] = (<#=r#>)((<#=t#>)a[i, j] * (<#=t#>)diagonal[i]);
 #if DEBUG
             var C = Dot(a.Transpose().To<double[,]>(), Matrix.Diagonal(diagonal.To<double[]>()));
             if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
@@ -1678,10 +1699,10 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] TransposeAndDotWithDiagonal(this <#=a#>[][] a, <#=b#>[] diagonal, <#=r#>[][] result)
         {
-            int m = a.GetLength(1);
+            int m = a.GetLength(1); 
             for (int i = 0; i < diagonal.Length; i++)
                 for (int j = 0; j < m; j++)
-                    result[j][i] = (<#=r#>)((<#=r#>)a[i][j] * (<#=r#>)diagonal[i]);
+                    result[j][i] = (<#=r#>)((<#=t#>)a[i][j] * (<#=t#>)diagonal[i]);
 #if DEBUG
             var C = Dot(a.Transpose().To<double[,]>(), Matrix.Diagonal(diagonal.To<double[]>()));
             if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
@@ -1715,7 +1736,7 @@ namespace Accord.Math
                     <#=r#>* R = ptrR;
                     for (int i = 0; i < rows; i++)
                         for (int j = 0; j < diagonal.Length; j++)
-                            *R++ = (<#=r#>)((<#=r#>)(*A++) * (<#=r#>)diagonal[j]);
+                            *R++ = (<#=r#>)((<#=t#>)(*A++) * (<#=t#>)diagonal[j]);
                 }
             }
 #if DEBUG
@@ -1743,7 +1764,7 @@ namespace Accord.Math
             int rows = a.Length;
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < diagonal.Length; j++)
-                    result[i][j] = (<#=r#>)((<#=r#>)a[i][j] * (<#=r#>)diagonal[j]);
+                    result[i][j] = (<#=r#>)((<#=t#>)a[i][j] * (<#=t#>)diagonal[j]);
 #if DEBUG
             var C = Dot(a.To<double[,]>(), Matrix.Diagonal(diagonal.To<double[]>()));
             if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
@@ -1777,7 +1798,7 @@ namespace Accord.Math
                     <#=r#>* R = ptrR;
                     for (int i = 0; i < rows; i++)
                         for (int j = 0; j < diagonal.Length; j++)
-                            (*R++) = (<#=r#>)((<#=r#>)(*A++) / (<#=r#>)diagonal[j]);
+                            (*R++) = (<#=r#>)((<#=t#>)(*A++) / (<#=t#>)diagonal[j]);
                 }
             }
 
@@ -1814,7 +1835,7 @@ namespace Accord.Math
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
-                    result[i, j] += (<#=r#>)((<#=r#>)a[i] * (<#=r#>)b[j]);
+                    result[i, j] = (<#=r#>)((<#=t#>)a[i] * (<#=t#>)b[j]);
             return result;
         }
 
@@ -1837,7 +1858,7 @@ namespace Accord.Math
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
-                    result[i][j] += (<#=r#>)((<#=r#>)a[i] * (<#=r#>)b[j]);
+                    result[i][j] = (<#=r#>)((<#=t#>)a[i] * (<#=t#>)b[j]);
             return result;
         }
 
@@ -1859,9 +1880,9 @@ namespace Accord.Math
         {
             return new <#=r#>[] 
             {
-                (<#=r#>)((<#=r#>)a[1]*(<#=r#>)b[2] - (<#=r#>)a[2]*(<#=r#>)b[1]),
-                (<#=r#>)((<#=r#>)a[2]*(<#=r#>)b[0] - (<#=r#>)a[0]*(<#=r#>)b[2]),
-                (<#=r#>)((<#=r#>)a[0]*(<#=r#>)b[1] - (<#=r#>)a[1]*(<#=r#>)b[0])
+                (<#=r#>)((<#=t#>)a[1]*(<#=t#>)b[2] - (<#=t#>)a[2]*(<#=t#>)b[1]),
+                (<#=r#>)((<#=t#>)a[2]*(<#=t#>)b[0] - (<#=t#>)a[0]*(<#=t#>)b[2]),
+                (<#=r#>)((<#=t#>)a[0]*(<#=t#>)b[1] - (<#=t#>)a[1]*(<#=t#>)b[0])
             };
         }
 
@@ -1919,7 +1940,7 @@ namespace Accord.Math
                             for (int k = 0; k < brows; k++, R += ccols)
                             {
                                 for (int l = 0; l < bcols; l++, B++)
-                                    *(R + l) = (<#=r#>)((<#=r#>)(*A) * (<#=r#>)(*B));
+                                    *(R + l) = (<#=r#>)((<#=t#>)(*A) * (<#=t#>)(*B));
                             }
                         }
                     }
@@ -2005,7 +2026,7 @@ namespace Accord.Math
             int k = 0;
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
-                    result[k++] = (<#=r#>)((<#=r#>)a[i] * (<#=r#>)b[j]);
+                    result[k++] = (<#=r#>)((<#=t#>)a[i] * (<#=t#>)b[j]);
             return result;
         }
 

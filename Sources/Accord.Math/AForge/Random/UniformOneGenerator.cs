@@ -32,6 +32,7 @@ namespace Accord.Math.Random
     /// </code>
     /// </remarks>
     /// 
+    [Obsolete("Please use Accord.Statistics.Distributions.Uniform.Standard instead.")]
     public class UniformOneGenerator : IRandomNumberGenerator
     {
         // .NET random generator as a base
@@ -56,25 +57,25 @@ namespace Accord.Math.Random
         }
 
         /// <summary>
-		/// Initializes a new instance of the <see cref="UniformOneGenerator"/> class.
+        /// Initializes a new instance of the <see cref="UniformOneGenerator"/> class.
         /// </summary>
         /// 
         /// <remarks>Initializes random numbers generator with zero seed.</remarks>
         /// 
-        public UniformOneGenerator( )
+        public UniformOneGenerator()
         {
-            rand = new ThreadSafeRandom( 0 );
+            rand = new ThreadSafeRandom(0);
         }
 
         /// <summary>
-		/// Initializes a new instance of the <see cref="UniformOneGenerator"/> class.
+        /// Initializes a new instance of the <see cref="UniformOneGenerator"/> class.
         /// </summary>
         /// 
         /// <param name="seed">Seed value to initialize random numbers generator.</param>
         /// 
-        public UniformOneGenerator( int seed )
+        public UniformOneGenerator(int seed)
         {
-            rand = new ThreadSafeRandom( seed );
+            rand = new ThreadSafeRandom(seed);
         }
 
         /// <summary>
@@ -83,9 +84,9 @@ namespace Accord.Math.Random
         /// 
         /// <returns>Returns next random number.</returns>
         /// 
-        public float Next( )
+        public float Next()
         {
-            return (float) rand.NextDouble( );
+            return (float)rand.NextDouble();
         }
 
         /// <summary>
@@ -97,9 +98,9 @@ namespace Accord.Math.Random
         /// <remarks>Resets random numbers generator initializing it with
         /// specified seed value.</remarks>
         /// 
-        public void SetSeed( int seed )
+        public void SetSeed(int seed)
         {
-            rand = new ThreadSafeRandom( seed );
+            rand = new ThreadSafeRandom(seed);
         }
     }
 }

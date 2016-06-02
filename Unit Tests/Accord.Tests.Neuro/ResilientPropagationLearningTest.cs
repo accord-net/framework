@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -57,7 +57,7 @@ namespace Accord.Tests.Neuro
                 new double[] { -1 }
             };
 
-            Neuron.RandGenerator = new ThreadSafeRandom(0);
+            //Neuron.RandGenerator = new ThreadSafeRandom(0);
             ActivationNetwork network = new ActivationNetwork(
                    new BipolarSigmoidFunction(2), 2, 2, 1);
 

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -246,6 +246,111 @@ namespace Accord.Math
             return SignSqrt(value, Jagged.CreateAs<int, double>(value));
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Floor(this int[] value)
+        {
+            return Floor(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Floor(this int[,] value)
+        {
+            return Floor(value, Matrix.CreateAs<int, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Floor(this int[][] value)
+        {
+            return Floor(value, Jagged.CreateAs<int, double>(value));
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Ceiling(this int[] value)
+        {
+            return Ceiling(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Ceiling(this int[,] value)
+        {
+            return Ceiling(value, Matrix.CreateAs<int, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Ceiling(this int[][] value)
+        {
+            return Ceiling(value, Jagged.CreateAs<int, double>(value));
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Round(this int[] value)
+        {
+            return Round(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Round(this int[,] value)
+        {
+            return Round(value, Matrix.CreateAs<int, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Round(this int[][] value)
+        {
+            return Round(value, Jagged.CreateAs<int, double>(value));
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         /// 
@@ -454,6 +559,111 @@ namespace Accord.Math
         public static double[][] SignSqrt(this short[][] value)
         {
             return SignSqrt(value, Jagged.CreateAs<short, double>(value));
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Floor(this short[] value)
+        {
+            return Floor(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Floor(this short[,] value)
+        {
+            return Floor(value, Matrix.CreateAs<short, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Floor(this short[][] value)
+        {
+            return Floor(value, Jagged.CreateAs<short, double>(value));
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Ceiling(this short[] value)
+        {
+            return Ceiling(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Ceiling(this short[,] value)
+        {
+            return Ceiling(value, Matrix.CreateAs<short, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Ceiling(this short[][] value)
+        {
+            return Ceiling(value, Jagged.CreateAs<short, double>(value));
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Round(this short[] value)
+        {
+            return Round(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Round(this short[,] value)
+        {
+            return Round(value, Matrix.CreateAs<short, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Round(this short[][] value)
+        {
+            return Round(value, Jagged.CreateAs<short, double>(value));
         }
         /// <summary>
         ///   Elementwise exponential.
@@ -666,6 +876,111 @@ namespace Accord.Math
             return SignSqrt(value, Jagged.CreateAs<float, double>(value));
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Floor(this float[] value)
+        {
+            return Floor(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Floor(this float[,] value)
+        {
+            return Floor(value, Matrix.CreateAs<float, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Floor(this float[][] value)
+        {
+            return Floor(value, Jagged.CreateAs<float, double>(value));
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Ceiling(this float[] value)
+        {
+            return Ceiling(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Ceiling(this float[,] value)
+        {
+            return Ceiling(value, Matrix.CreateAs<float, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Ceiling(this float[][] value)
+        {
+            return Ceiling(value, Jagged.CreateAs<float, double>(value));
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Round(this float[] value)
+        {
+            return Round(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Round(this float[,] value)
+        {
+            return Round(value, Matrix.CreateAs<float, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Round(this float[][] value)
+        {
+            return Round(value, Jagged.CreateAs<float, double>(value));
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         /// 
@@ -874,6 +1189,111 @@ namespace Accord.Math
         public static double[][] SignSqrt(this double[][] value)
         {
             return SignSqrt(value, Jagged.CreateAs<double, double>(value));
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Floor(this double[] value)
+        {
+            return Floor(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Floor(this double[,] value)
+        {
+            return Floor(value, Matrix.CreateAs<double, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Floor(this double[][] value)
+        {
+            return Floor(value, Jagged.CreateAs<double, double>(value));
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Ceiling(this double[] value)
+        {
+            return Ceiling(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Ceiling(this double[,] value)
+        {
+            return Ceiling(value, Matrix.CreateAs<double, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Ceiling(this double[][] value)
+        {
+            return Ceiling(value, Jagged.CreateAs<double, double>(value));
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Round(this double[] value)
+        {
+            return Round(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Round(this double[,] value)
+        {
+            return Round(value, Matrix.CreateAs<double, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Round(this double[][] value)
+        {
+            return Round(value, Jagged.CreateAs<double, double>(value));
         }
         /// <summary>
         ///   Elementwise exponential.
@@ -1086,6 +1506,111 @@ namespace Accord.Math
             return SignSqrt(value, Jagged.CreateAs<long, double>(value));
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Floor(this long[] value)
+        {
+            return Floor(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Floor(this long[,] value)
+        {
+            return Floor(value, Matrix.CreateAs<long, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Floor(this long[][] value)
+        {
+            return Floor(value, Jagged.CreateAs<long, double>(value));
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Ceiling(this long[] value)
+        {
+            return Ceiling(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Ceiling(this long[,] value)
+        {
+            return Ceiling(value, Matrix.CreateAs<long, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Ceiling(this long[][] value)
+        {
+            return Ceiling(value, Jagged.CreateAs<long, double>(value));
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Round(this long[] value)
+        {
+            return Round(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Round(this long[,] value)
+        {
+            return Round(value, Matrix.CreateAs<long, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Round(this long[][] value)
+        {
+            return Round(value, Jagged.CreateAs<long, double>(value));
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         /// 
@@ -1294,6 +1819,111 @@ namespace Accord.Math
         public static double[][] SignSqrt(this decimal[][] value)
         {
             return SignSqrt(value, Jagged.CreateAs<decimal, double>(value));
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Floor(this decimal[] value)
+        {
+            return Floor(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Floor(this decimal[,] value)
+        {
+            return Floor(value, Matrix.CreateAs<decimal, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Floor(this decimal[][] value)
+        {
+            return Floor(value, Jagged.CreateAs<decimal, double>(value));
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Ceiling(this decimal[] value)
+        {
+            return Ceiling(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Ceiling(this decimal[,] value)
+        {
+            return Ceiling(value, Matrix.CreateAs<decimal, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Ceiling(this decimal[][] value)
+        {
+            return Ceiling(value, Jagged.CreateAs<decimal, double>(value));
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Round(this decimal[] value)
+        {
+            return Round(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Round(this decimal[,] value)
+        {
+            return Round(value, Matrix.CreateAs<decimal, double>(value));
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Round(this decimal[][] value)
+        {
+            return Round(value, Jagged.CreateAs<decimal, double>(value));
         }
         /// <summary>
         ///   Elementwise exponential.
@@ -1764,6 +2394,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (int)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Floor(this int[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Floor(this int[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Floor(this int[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Ceiling(this int[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Ceiling(this int[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Ceiling(this int[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Round(this int[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Round(this int[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Round(this int[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Round((double)v));
                     }
                 }
             }
@@ -2244,6 +3111,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Floor(this int[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Floor(this int[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Floor(this int[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Ceiling(this int[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Ceiling(this int[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Ceiling(this int[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Round(this int[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Round(this int[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Round(this int[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -2712,6 +3816,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (float)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Floor(this int[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Floor(this int[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Floor(this int[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Ceiling(this int[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Ceiling(this int[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Ceiling(this int[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Round(this int[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Round(this int[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Round(this int[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Round((double)v));
                     }
                 }
             }
@@ -3192,6 +4533,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Floor(this int[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Floor(this int[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Floor(this int[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Ceiling(this int[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Ceiling(this int[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Ceiling(this int[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Round(this int[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Round(this int[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Round(this int[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -3660,6 +5238,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (long)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Floor(this int[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Floor(this int[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Floor(this int[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Ceiling(this int[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Ceiling(this int[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Ceiling(this int[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Round(this int[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Round(this int[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Round(this int[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Round((double)v));
                     }
                 }
             }
@@ -4140,6 +5955,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Floor(this int[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Floor(this int[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Floor(this int[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Ceiling(this int[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Ceiling(this int[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Ceiling(this int[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Round(this int[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Round(this int[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (int* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Round(this int[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -4608,6 +6660,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (int)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Floor(this short[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Floor(this short[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Floor(this short[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Ceiling(this short[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Ceiling(this short[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Ceiling(this short[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Round(this short[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Round(this short[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Round(this short[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Round((double)v));
                     }
                 }
             }
@@ -5088,6 +7377,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Floor(this short[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Floor(this short[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Floor(this short[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Ceiling(this short[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Ceiling(this short[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Ceiling(this short[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Round(this short[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Round(this short[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Round(this short[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -5556,6 +8082,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (float)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Floor(this short[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Floor(this short[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Floor(this short[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Ceiling(this short[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Ceiling(this short[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Ceiling(this short[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Round(this short[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Round(this short[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Round(this short[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Round((double)v));
                     }
                 }
             }
@@ -6036,6 +8799,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Floor(this short[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Floor(this short[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Floor(this short[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Ceiling(this short[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Ceiling(this short[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Ceiling(this short[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Round(this short[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Round(this short[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Round(this short[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -6504,6 +9504,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (long)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Floor(this short[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Floor(this short[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Floor(this short[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Ceiling(this short[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Ceiling(this short[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Ceiling(this short[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Round(this short[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Round(this short[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Round(this short[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Round((double)v));
                     }
                 }
             }
@@ -6984,6 +10221,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Floor(this short[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Floor(this short[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Floor(this short[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Ceiling(this short[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Ceiling(this short[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Ceiling(this short[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Round(this short[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Round(this short[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (short* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Round(this short[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -7452,6 +10926,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (int)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Floor(this float[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Floor(this float[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Floor(this float[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Ceiling(this float[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Ceiling(this float[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Ceiling(this float[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Round(this float[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Round(this float[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Round(this float[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Round((double)v));
                     }
                 }
             }
@@ -7932,6 +11643,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Floor(this float[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Floor(this float[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Floor(this float[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Ceiling(this float[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Ceiling(this float[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Ceiling(this float[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Round(this float[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Round(this float[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Round(this float[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -8400,6 +12348,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (float)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Floor(this float[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Floor(this float[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Floor(this float[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Ceiling(this float[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Ceiling(this float[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Ceiling(this float[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Round(this float[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Round(this float[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Round(this float[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Round((double)v));
                     }
                 }
             }
@@ -8880,6 +13065,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Floor(this float[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Floor(this float[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Floor(this float[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Ceiling(this float[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Ceiling(this float[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Ceiling(this float[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Round(this float[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Round(this float[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Round(this float[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -9348,6 +13770,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (long)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Floor(this float[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Floor(this float[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Floor(this float[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Ceiling(this float[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Ceiling(this float[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Ceiling(this float[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Round(this float[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Round(this float[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Round(this float[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Round((double)v));
                     }
                 }
             }
@@ -9828,6 +14487,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Floor(this float[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Floor(this float[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Floor(this float[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Ceiling(this float[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Ceiling(this float[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Ceiling(this float[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Round(this float[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Round(this float[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (float* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Round(this float[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -10296,6 +15192,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (int)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Floor(this double[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Floor(this double[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Floor(this double[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Ceiling(this double[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Ceiling(this double[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Ceiling(this double[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Round(this double[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Round(this double[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Round(this double[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Round((double)v));
                     }
                 }
             }
@@ -10776,6 +15909,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Floor(this double[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Floor(this double[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Floor(this double[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Ceiling(this double[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Ceiling(this double[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Ceiling(this double[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Round(this double[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Round(this double[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Round(this double[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -11244,6 +16614,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (float)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Floor(this double[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Floor(this double[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Floor(this double[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Ceiling(this double[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Ceiling(this double[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Ceiling(this double[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Round(this double[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Round(this double[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Round(this double[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Round((double)v));
                     }
                 }
             }
@@ -11724,6 +17331,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Floor(this double[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Floor(this double[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Floor(this double[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Ceiling(this double[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Ceiling(this double[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Ceiling(this double[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Round(this double[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Round(this double[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Round(this double[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -12192,6 +18036,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (long)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Floor(this double[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Floor(this double[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Floor(this double[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Ceiling(this double[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Ceiling(this double[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Ceiling(this double[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Round(this double[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Round(this double[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Round(this double[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Round((double)v));
                     }
                 }
             }
@@ -12672,6 +18753,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Floor(this double[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Floor(this double[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Floor(this double[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Ceiling(this double[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Ceiling(this double[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Ceiling(this double[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Round(this double[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Round(this double[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (double* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Round(this double[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -13140,6 +19458,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (int)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Floor(this long[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Floor(this long[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Floor(this long[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Ceiling(this long[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Ceiling(this long[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Ceiling(this long[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Round(this long[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Round(this long[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Round(this long[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Round((double)v));
                     }
                 }
             }
@@ -13620,6 +20175,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Floor(this long[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Floor(this long[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Floor(this long[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Ceiling(this long[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Ceiling(this long[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Ceiling(this long[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Round(this long[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Round(this long[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Round(this long[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -14088,6 +20880,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (float)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Floor(this long[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Floor(this long[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Floor(this long[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Ceiling(this long[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Ceiling(this long[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Ceiling(this long[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Round(this long[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Round(this long[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Round(this long[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Round((double)v));
                     }
                 }
             }
@@ -14568,6 +21597,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Floor(this long[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Floor(this long[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Floor(this long[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Ceiling(this long[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Ceiling(this long[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Ceiling(this long[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Round(this long[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Round(this long[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Round(this long[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -15036,6 +22302,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (long)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Floor(this long[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Floor(this long[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Floor(this long[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Ceiling(this long[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Ceiling(this long[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Ceiling(this long[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Round(this long[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Round(this long[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Round(this long[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Round((double)v));
                     }
                 }
             }
@@ -15516,6 +23019,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Floor(this long[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Floor(this long[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Floor(this long[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Ceiling(this long[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Ceiling(this long[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Ceiling(this long[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Round(this long[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Round(this long[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (long* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Round(this long[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -15984,6 +23724,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (int)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Floor(this decimal[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Floor(this decimal[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Floor(this decimal[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Ceiling(this decimal[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Ceiling(this decimal[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Ceiling(this decimal[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Round(this decimal[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (int)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Round(this decimal[,] value, int[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (int* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (int)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Round(this decimal[][] value, int[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (int)(Math.Round((double)v));
                     }
                 }
             }
@@ -16464,6 +24441,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Floor(this decimal[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Floor(this decimal[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Floor(this decimal[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Ceiling(this decimal[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Ceiling(this decimal[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Ceiling(this decimal[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Round(this decimal[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (short)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Round(this decimal[,] value, short[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (short* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (short)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Round(this decimal[][] value, short[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (short)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -16932,6 +25146,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (float)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Floor(this decimal[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Floor(this decimal[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Floor(this decimal[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Ceiling(this decimal[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Ceiling(this decimal[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Ceiling(this decimal[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Round(this decimal[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (float)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Round(this decimal[,] value, float[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (float* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (float)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Round(this decimal[][] value, float[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (float)(Math.Round((double)v));
                     }
                 }
             }
@@ -17412,6 +25863,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Floor(this decimal[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Floor(this decimal[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Floor(this decimal[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Ceiling(this decimal[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Ceiling(this decimal[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Ceiling(this decimal[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Round(this decimal[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (double)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Round(this decimal[,] value, double[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (double* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (double)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Round(this decimal[][] value, double[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (double)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -17886,6 +26574,243 @@ namespace Accord.Math
             return result;
         }
         /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Floor(this decimal[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Floor(this decimal[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Floor(this decimal[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Ceiling(this decimal[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Ceiling(this decimal[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Ceiling(this decimal[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Round(this decimal[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (long)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] Round(this decimal[,] value, long[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (long* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (long)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] Round(this decimal[][] value, long[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (long)(Math.Round((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         ///   Elementwise exponential.
         /// </summary>
         ///
@@ -18354,6 +27279,243 @@ namespace Accord.Math
                     {
                         var v = value[i][j];
                         result[i][j] = (decimal)(Math.Sign(v) * Math.Sqrt((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Floor(this decimal[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Floor((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Floor(this decimal[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Floor((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise floor.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Floor(this decimal[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Floor((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Ceiling(this decimal[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Ceiling((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Ceiling(this decimal[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise ceiling.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Ceiling(this decimal[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Ceiling((double)v));
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Round(this decimal[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                var v = value[i];
+                result[i] = (decimal)(Math.Round((double)v));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Round(this decimal[,] value, decimal[,] result)
+        {
+            unsafe
+            {
+                fixed (decimal* ptrV = value)
+                fixed (decimal* ptrR = result)
+                {
+                    var pv = ptrV;
+                    var pr = ptrR;
+                    for (int j = 0; j < result.Length; j++, pv++, pr++)
+                    {
+                        var v = *pv;
+                        *pr = (decimal)(Math.Round((double)v));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise round.
+        /// </summary>
+        ///
+        /// <param name="value">A matrix.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as <paramref name="value"/> to perform the operation in place.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Round(this decimal[][] value, decimal[][] result)
+        {
+            unsafe 
+            {
+                for (int i = 0; i < value.Length; i++)
+                {
+                    for (int j = 0; j < value[i].Length; j++)
+                    {
+                        var v = value[i][j];
+                        result[i][j] = (decimal)(Math.Round((double)v));
                     }
                 }
             }

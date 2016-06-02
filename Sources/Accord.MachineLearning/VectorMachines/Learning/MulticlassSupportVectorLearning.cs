@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,73 +27,25 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System.Threading.Tasks;
     using System.Threading;
     using System.Collections.Concurrent;
+    using Accord.MachineLearning;
+    using Accord.Math.Optimization.Losses;
+    using Accord.Statistics.Kernels;
+    using Accord.Statistics;
+
+    using InnerParameters = InnerParameters<SupportVectorMachine<Accord.Statistics.Kernels.IKernel<double[]>>, double[]>;
+    using InnerLearning = ISupervisedLearning<SupportVectorMachine<Accord.Statistics.Kernels.IKernel<double[]>>, double[], bool>;
 
     /// <summary>
-    ///   Configuration function to configure the learning algorithms
-    ///   for each of the Kernel Support Vector Machines used in this
-    ///   Multi-class Support Vector Machine.
+    ///   Obsolete.
     /// </summary>
-    /// 
-    /// <param name="inputs">The input data for the learning algorithm.</param>
-    /// <param name="outputs">The output data for the learning algorithm.</param>
-    /// <param name="machine">The machine for the learning algorithm.</param>
-    /// <param name="class1">The class index corresponding to the negative values
-    ///     in the output values contained in <paramref name="outputs"/>.</param>
-    /// <param name="class2">The class index corresponding to the positive values
-    ///     in the output values contained in <paramref name="outputs"/>.</param>
-    ///     
-    /// <returns>
-    ///   The configured <see cref="ISupportVectorMachineLearning"/> algorithm
-    ///   to be used to train the given <see cref="KernelSupportVectorMachine"/>.
-    /// </returns>
-    /// 
-    public delegate ISupportVectorMachineLearning SupportVectorMachineLearningConfigurationFunction(
-      KernelSupportVectorMachine machine, double[][] inputs, int[] outputs, int class1, int class2);
+#pragma warning disable 0618
+    [Obsolete("Please use the InnerLearning property to configure OneVsOneLearning and OneVsRestLearning classes.")]
+    public delegate ISupportVectorMachineLearning
+        SupportVectorMachineLearningConfigurationFunction(
+            KernelSupportVectorMachine model,
+            double[][] inputs, int[] outputs, int classA, int classB);
+#pragma warning restore 0618
 
-    /// <summary>
-    ///   Subproblem progress event argument.
-    /// </summary>
-    /// 
-    public class SubproblemEventArgs : EventArgs
-    {
-        /// <summary>
-        ///   One of the classes belonging to the subproblem.
-        /// </summary>
-        /// 
-        public int Class1 { get; set; }
-
-        /// <summary>
-        ///  One of the classes belonging to the subproblem.
-        /// </summary>
-        /// 
-        public int Class2 { get; set; }
-
-        /// <summary>
-        ///   Gets the progress of the overall problem,
-        ///   ranging from zero up to <see cref="Maximum"/>.
-        /// </summary>
-        /// 
-        public int Progress { get; set; }
-
-        /// <summary>
-        ///   Gets the maximum value for the current <see cref="Progress"/>.
-        /// </summary>
-        public int Maximum { get; set; }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="SubproblemEventArgs"/> class.
-        /// </summary>
-        /// 
-        /// <param name="class1">One of the classes in the subproblem.</param>
-        /// <param name="class2">The other class in the subproblem.</param>
-        /// 
-        public SubproblemEventArgs(int class1, int class2)
-        {
-            this.Class1 = class1;
-            this.Class2 = class2;
-        }
-
-    }
 
     /// <summary>
     ///   One-against-one Multi-class Support Vector Machine Learning Algorithm
@@ -206,248 +158,19 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <seealso cref="SupportVectorMachine"/>
     /// <seealso cref="KernelSupportVectorMachine"/>
     /// 
-    public class MulticlassSupportVectorLearning : ISupportVectorMachineLearning, ISupportCancellation
+#pragma warning disable 612
+#pragma warning disable 618
+    [Obsolete("Please specify the desired kernel function as a template parameter.")]
+    public class MulticlassSupportVectorLearning :
+        BaseMulticlassSupportVectorLearning<double[],
+            SupportVectorMachine<IKernel<double[]>>, IKernel<double[]>,
+            MulticlassSupportVectorMachine>
+    // TODO: Change to
+    //public class MulticlassSupportVectorLearning :
+    //OneVsOneLearning<double[],
+    //    KernelSupportVectorMachine,
+    //    MulticlassSupportVectorMachine>
     {
-        // Training data
-        private double[][] inputs;
-        private int[] outputs;
-
-        // Machine
-        private MulticlassSupportVectorMachine msvm;
-
-        // Training configuration function
-        private SupportVectorMachineLearningConfigurationFunction configure;
-
-
-        /// <summary>
-        ///   Occurs when the learning of a subproblem has started.
-        /// </summary>
-        /// 
-        public event EventHandler<SubproblemEventArgs> SubproblemStarted;
-
-        /// <summary>
-        ///   Occurs when the learning of a subproblem has finished.
-        /// </summary>
-        /// 
-        public event EventHandler<SubproblemEventArgs> SubproblemFinished;
-
-        /// <summary>
-        ///   Constructs a new Multi-class Support Vector Learning algorithm.
-        /// </summary>
-        /// 
-        /// <param name="inputs">The input learning vectors for the machine learning algorithm.</param>
-        /// <param name="machine">The <see cref="MulticlassSupportVectorMachine"/> to be trained.</param>
-        /// <param name="outputs">The output labels associated with each of the input vectors. The
-        /// class labels should be between 0 and the <see cref="MulticlassSupportVectorMachine.Classes">
-        /// number of classes in the multiclass machine</see>.</param>
-        /// 
-        public MulticlassSupportVectorLearning(MulticlassSupportVectorMachine machine,
-            double[][] inputs, int[] outputs)
-        {
-
-            // Initial argument checking
-            if (machine == null)
-                throw new ArgumentNullException("machine");
-
-            if (inputs == null)
-                throw new ArgumentNullException("inputs");
-
-            if (outputs == null)
-                throw new ArgumentNullException("outputs");
-
-            if (inputs.Length != outputs.Length)
-                throw new DimensionMismatchException("outputs",
-                    "The number of input vectors and output labels does not match.");
-
-            if (machine.Inputs > 0)
-            {
-                // This machine has a fixed input vector size
-                for (int i = 0; i < inputs.Length; i++)
-                {
-                    if (inputs[i].Length != machine.Inputs)
-                    {
-                        throw new DimensionMismatchException("inputs",
-                            "The size of the input vector at index " + i
-                            + " does not match the expected number of inputs of the machine."
-                            + " All input vectors for this machine must have length " + machine.Inputs);
-                    }
-                }
-            }
-
-            for (int i = 0; i < outputs.Length; i++)
-            {
-                if (outputs[i] < 0 || outputs[i] >= machine.Classes)
-                {
-                    throw new ArgumentOutOfRangeException("outputs",
-                        "The output value at index " + i + " is outside the expected class range"
-                        + " All output values must be higher than or equal to 0 and less than " + machine.Classes);
-                }
-            }
-
-
-            // Machine
-            this.msvm = machine;
-
-            // Learning data
-            this.inputs = inputs;
-            this.outputs = outputs;
-
-        }
-
-        /// <summary>
-        ///   Gets or sets the configuration function for the learning algorithm.
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///   The configuration function should return a properly configured ISupportVectorMachineLearning
-        ///   algorithm using the given support vector machine and the input and output data.
-        /// </remarks>
-        /// 
-        public SupportVectorMachineLearningConfigurationFunction Algorithm
-        {
-            get { return configure; }
-            set { configure = value; }
-        }
-
-        /// <summary>
-        ///   Runs the one-against-one learning algorithm.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   The sum of squares error rate for
-        ///   the resulting support vector machine.
-        /// </returns>
-        ///         
-        public double Run()
-        {
-            return Run(true);
-        }
-
-        /// <summary>
-        ///   Runs the one-against-one learning algorithm.
-        /// </summary>
-        /// 
-        /// <param name="computeError">
-        ///   True to compute error after the training
-        ///   process completes, false otherwise. Default is true.
-        /// </param>
-        /// 
-        /// <returns>
-        ///   The sum of squares error rate for
-        ///   the resulting support vector machine.
-        /// </returns>
-        ///         
-        public double Run(bool computeError)
-        {
-            return Run(true, CancellationToken.None);
-        }
-
-        /// <summary>
-        ///   Runs the one-against-one learning algorithm.
-        /// </summary>
-        /// 
-        /// <param name="computeError">
-        ///   True to compute error after the training
-        ///   process completes, false otherwise. Default is true.
-        /// </param>
-        /// <param name="token">
-        ///   A <see cref="CancellationToken"/> which can be used
-        ///   to request the cancellation of the learning algorithm
-        ///   when it is being run in another thread.
-        /// </param>
-        /// 
-        /// <returns>
-        ///   The sum of squares error rate for
-        ///   the resulting support vector machine.
-        /// </returns>
-        /// 
-        public double Run(bool computeError, CancellationToken token)
-        {
-            if (configure == null)
-            {
-                var excp = new InvalidOperationException("Please specify the algorithm configuration function "
-                    + "by setting the Algorithm property for this class. Examples are available in the "
-                    + "documentation for Multiclass Support Vector Learning class (given in the help link).");
-                excp.HelpLink = "http://accord-framework.net/svn/docs/html/T_Accord_MachineLearning_VectorMachines_MulticlassSupportVectorMachine.htm";
-                throw excp;
-            }
-
-
-            int classes = msvm.Classes;
-            int total = (classes * (classes - 1)) / 2;
-            int progress = 0;
-
-            var pairs = new Tuple<int, int>[total];
-            for (int i = 0, k = 0; i < classes; i++)
-                for (int j = 0; j < i; j++, k++)
-                    pairs[k] = Tuple.Create(i, j);
-
-            msvm.Reset();
-
-            // Save exceptions but process all machines
-            var exceptions = new ConcurrentBag<Exception>();
-
-            // For each class i
-            Parallel.For(0, total, k =>
-            {
-                if (token.IsCancellationRequested)
-                    return;
-
-                int i = pairs[k].Item1;
-                int j = pairs[k].Item2;
-
-                // We will start the binary sub-problem
-                var args = new SubproblemEventArgs(i, j);
-                OnSubproblemStarted(args);
-
-                // Retrieve the associated machine
-                KernelSupportVectorMachine machine = msvm[i, j];
-
-                // Retrieve the associated classes
-                int[] idx = outputs.Find(x => x == i || x == j);
-
-                double[][] subInputs = inputs.Submatrix(idx);
-                int[] subOutputs = outputs.Submatrix(idx);
-
-
-                // Transform it into a two-class problem
-                subOutputs.ApplyInPlace(x => x = (x == i) ? -1 : +1);
-
-                // Train the machine on the two-class problem.
-                var subproblem = configure(machine, subInputs, subOutputs, i, j);
-
-                var canCancel = (subproblem as ISupportCancellation);
-
-                try
-                {
-                    if (canCancel != null)
-                        canCancel.Run(false, token);
-                    else subproblem.Run(false);
-                }
-                catch (Exception ex)
-                {
-                    exceptions.Add(ex);
-                }
-
-                // Update and report progress
-                args.Progress = Interlocked.Increment(ref progress);
-                args.Maximum = total;
-
-                OnSubproblemFinished(args);
-            });
-
-
-            if (exceptions.Count > 0)
-            {
-                throw new AggregateException("One or more exceptions were thrown when teaching "
-                    + "the machines. Please check the InnerException property of this AggregateException "
-                    + "to discover what exactly caused this error.", exceptions);
-            }
-
-
-            // Compute error if required.
-            return (computeError) ? ComputeError(inputs, outputs) : 0.0;
-        }
 
         /// <summary>
         ///   Computes the error ratio, the number of
@@ -455,47 +178,302 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   number of samples in a dataset.
         /// </summary>
         /// 
-        public double ComputeError(double[][] inputs, int[] expectedOutputs)
+        [Obsolete()]
+        public double ComputeError(double[][] inputs, int[] expected)
         {
-            // Compute errors
-            int count = 0;
-            for (int i = 0; i < inputs.Length; i++)
+            return new ZeroOneLoss(expected).Loss(Model.Decide(inputs));
+        }
+
+
+        private double[][] input;
+        private int[] output;
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please do not pass parameters in the constructor. Use the default constructor and the Learn method instead.")]
+        public MulticlassSupportVectorLearning(MulticlassSupportVectorMachine model, double[][] input, int[] output)
+        {
+            this.Model = model;
+            this.Kernel = model.Kernel as IKernel;
+            this.input = input;
+            this.output = output;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MulticlassSupportVectorLearning"/> class.
+        /// </summary>
+        public MulticlassSupportVectorLearning()
+        {
+            Learner = (_) => new SequentialMinimalOptimization<IKernel<double[]>>()
             {
-                int actual = msvm.Compute(inputs[i]);
-                int expected = expectedOutputs[i];
+                Kernel = new Linear()
+            };
 
-                if (actual != expected)
-                    Interlocked.Increment(ref count);
+            Kernel = new Linear();
+        }
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please do not pass parameters in the constructor. Use the default constructor and the Learn method instead.")]
+        public double Run()
+        {
+            Learn(input, output);
+            return new ZeroOneLoss(output)
+            {
+                Mean = true
+            }.Loss(Model.Decide(input));
+        }
+
+
+        SupportVectorMachineLearningConfigurationFunction algorithm;
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please set the InnerLearning property instead.")]
+        public SupportVectorMachineLearningConfigurationFunction Algorithm
+        {
+            get { return algorithm; }
+            set
+            {
+                algorithm = value;
+                Learner = Convert(value);
             }
-
-            // Return misclassification error ratio
-            return count / (double)inputs.Length;
-        }
-
-
-        /// <summary>
-        ///   Raises the <see cref="E:SubproblemFinished"/> event.
-        /// </summary>
-        /// 
-        /// <param name="args">The <see cref="Accord.MachineLearning.VectorMachines.Learning.SubproblemEventArgs"/> instance containing the event data.</param>
-        /// 
-        protected void OnSubproblemFinished(SubproblemEventArgs args)
-        {
-            if (SubproblemFinished != null)
-                SubproblemFinished(this, args);
         }
 
         /// <summary>
-        ///   Raises the <see cref="E:SubproblemStarted"/> event.
+        ///   Converts <see cref="SupportVectorMachineLearningConfigurationFunction "/>
+        ///   into a lambda function that can be passed to the <see cref=" OneVsOneLearning{TInput, TBinary, TModel}.Learner"/>
+        ///   property of a <see cref="MulticlassSupportVectorLearning"/> learning algorithm.
         /// </summary>
         /// 
-        /// <param name="args">The <see cref="Accord.MachineLearning.VectorMachines.Learning.SubproblemEventArgs"/> instance containing the event data.</param>
-        /// 
-        protected void OnSubproblemStarted(SubproblemEventArgs args)
+        public Func<InnerParameters, InnerLearning> Convert(SupportVectorMachineLearningConfigurationFunction conf)
         {
-            if (SubproblemStarted != null)
-                SubproblemStarted(this, args);
+            return delegate(InnerParameters parameters)
+            {
+                int[] y = Classes.ToMinusOnePlusOne(parameters.Outputs);
+                var machine = (KernelSupportVectorMachine)parameters.Model;
+                ISupportVectorMachineLearning r = conf(machine, parameters.Inputs, y, parameters.Pair.Class1, parameters.Pair.Class2);
+
+                var c = r as ISupervisedLearning<SupportVectorMachine<IKernel<double[]>>, double[], bool>;
+                if (c != null)
+                    return c;
+
+
+                // TODO: The following checks exist only to provide support to previous way of using
+                // the library and should be removed after a few releases.
+                var svc = r as ISupportVectorMachineLearning;
+                if (svc != null)
+                {
+                    svc.Run();
+                    return null;
+                }
+
+                throw new Exception();
+            };
         }
 
+        /// <summary>
+        /// Creates an instance of the model to be learned. Inheritors
+        /// of this abstract class must define this method so new models
+        /// can be created from the training data.
+        /// </summary>
+        protected override MulticlassSupportVectorMachine Create(int inputs, int classes)
+        {
+            return new MulticlassSupportVectorMachine(inputs, Kernel, classes);
+        }
+
+        /// <summary>
+        ///   Gets or sets the kernel function to be used to learn the
+        ///   <see cref="SupportVectorMachine{TKernel}">kernel support 
+        ///   vector machines</see>.
+        /// </summary>
+        /// 
+        public new IKernel Kernel
+        {
+            get { return base.Kernel as IKernel; }
+            set { base.Kernel = value; }
+        }
+    }
+#pragma warning restore 0612
+#pragma warning restore 0618
+
+    
+    /// <summary>
+    ///   One-against-one Multi-class Support Vector Machine Learning Algorithm
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   This class can be used to train Kernel Support Vector Machines with
+    ///   any algorithm using a <c>one-against-one</c> strategy. The underlying 
+    ///   training algorithm can be configured by defining the <see cref="OneVsOneLearning{TInput, TBinary, TInput}.Learner"/>
+    ///   property.</para>
+    ///   
+    /// <para>
+    ///   One example of learning algorithm that can be used with this class is the
+    ///   <see cref="SequentialMinimalOptimization">Sequential Minimal Optimization
+    ///   </see> (SMO) algorithm.</para>
+    /// </remarks>
+    /// 
+    /// <example>
+    ///   <code>
+    ///   // Sample data
+    ///   //   The following is simple auto association function
+    ///   //   where each input correspond to its own class. This
+    ///   //   problem should be easily solved by a Linear kernel.
+    ///
+    ///   // Sample input data
+    ///   double[][] inputs =
+    ///   {
+    ///       new double[] { 0 },
+    ///       new double[] { 3 },
+    ///       new double[] { 1 },
+    ///       new double[] { 2 },
+    ///   };
+    ///   
+    ///   // Output for each of the inputs
+    ///   int[] outputs = { 0, 3, 1, 2 };
+    ///   
+    ///   
+    ///   // Create a new Linear kernel
+    ///   IKernel kernel = new Linear();
+    ///   
+    ///   // Create a new Multi-class Support Vector Machine with one input,
+    ///   //  using the linear kernel and for four disjoint classes.
+    ///   var machine = new MulticlassSupportVectorMachine(1, kernel, 4);
+    ///   
+    ///   // Create the Multi-class learning algorithm for the machine
+    ///   var teacher = new MulticlassSupportVectorLearning(machine, inputs, outputs);
+    ///   
+    ///   // Configure the learning algorithm to use SMO to train the
+    ///   //  underlying SVMs in each of the binary class subproblems.
+    ///   teacher.Algorithm = (svm, classInputs, classOutputs, i, j) =>
+    ///       new SequentialMinimalOptimization(svm, classInputs, classOutputs);
+    ///   
+    ///   // Run the learning algorithm
+    ///   double error = teacher.Run(); // output should be 0
+    ///   
+    ///   // Compute the decision output for one of the input vectors
+    ///   int decision = machine.Compute(new double[] { 3 }); // result should be 3
+    ///   </code>
+    ///   
+    /// <para>
+    ///   The next example is a simple 3 classes classification problem.
+    ///   It shows how to use a different kernel function, such as the
+    ///   polynomial kernel of degree 2.</para>
+    /// 
+    ///   <code>
+    ///   // Sample input data
+    ///   double[][] inputs =
+    ///   {
+    ///       new double[] { -1, 3, 2 },
+    ///       new double[] { -1, 3, 2 },
+    ///       new double[] { -1, 3, 2 },
+    ///       new double[] { 10, 82, 4 },
+    ///       new double[] { 10, 15, 4 },
+    ///       new double[] { 0, 0, 1 },
+    ///       new double[] { 0, 0, 2 },
+    ///   };
+    ///   
+    ///   // Output for each of the inputs
+    ///   int[] outputs = { 0, 3, 1, 2 };
+    ///   
+    ///   
+    ///   // Create a new polynomial kernel
+    ///   IKernel kernel = new Polynomial(2);
+    ///   
+    ///   // Create a new Multi-class Support Vector Machine with one input,
+    ///   //  using the linear kernel and for four disjoint classes.
+    ///   var machine = new MulticlassSupportVectorMachine(inputs: 3, kernel: kernel, classes: 4);
+    ///   
+    ///   // Create the Multi-class learning algorithm for the machine
+    ///   var teacher = new MulticlassSupportVectorLearning(machine, inputs, outputs);
+    ///   
+    ///   // Configure the learning algorithm to use SMO to train the
+    ///   //  underlying SVMs in each of the binary class subproblems.
+    ///   teacher.Algorithm = (svm, classInputs, classOutputs, i, j) =>
+    ///       new SequentialMinimalOptimization(svm, classInputs, classOutputs);
+    ///   
+    ///   // Run the learning algorithm
+    ///   double error = teacher.Run(); // output should be 0
+    ///   
+    ///   // Compute the decision output for one of the input vectors
+    ///   int decision = machine.Compute( new double[] { -1, 3, 2 });
+    ///   </code>
+    /// </example>
+    /// 
+    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// <seealso cref="MultilabelSupportVectorLearning"/>
+    /// 
+    /// <seealso cref="SupportVectorMachine"/>
+    /// <seealso cref="KernelSupportVectorMachine"/>
+    /// 
+    public class MulticlassSupportVectorLearning<TKernel, TInput> :
+        BaseMulticlassSupportVectorLearning<TInput,
+            SupportVectorMachine<TKernel, TInput>, TKernel,
+            MulticlassSupportVectorMachine<TKernel, TInput>>
+        where TKernel : IKernel<TInput>
+        where TInput : ICloneable
+    {
+        /// <summary>
+        /// Creates an instance of the model to be learned. Inheritors
+        /// of this abstract class must define this method so new models
+        /// can be created from the training data.
+        /// </summary>
+        protected override MulticlassSupportVectorMachine<TKernel, TInput> Create(int inputs, int classes)
+        {
+            return new MulticlassSupportVectorMachine<TKernel, TInput>(inputs, Kernel, classes);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MulticlassSupportVectorLearning{TKernel, TInput}"/> class.
+        /// </summary>
+        public MulticlassSupportVectorLearning()
+        {
+            Learner = (_) => new SequentialMinimalOptimization<TKernel, TInput>();
+        }
+    }
+
+    // TODO: Probably those two will prove not to be necessary in the long term:
+
+    /// <summary>
+    ///   Base class for multi-class support vector learning algorithms.
+    /// </summary>
+    public abstract class BaseMulticlassSupportVectorLearning<TInput, TBinary, TKernel, TModel> :
+        OneVsOneLearning<TInput, TBinary, TModel>
+        where TBinary : SupportVectorMachine<TKernel, TInput>
+        where TModel : OneVsOne<TBinary, TInput>
+        where TKernel : IKernel<TInput>
+        where TInput : ICloneable
+    {
+        /// <summary>
+        ///   Gets or sets the kernel function to be used to learn the
+        ///   <see cref="SupportVectorMachine{TKernel}">kernel support 
+        ///   vector machines</see>.
+        /// </summary>
+        /// 
+        public TKernel Kernel { get; set; }
+    }
+
+    /// <summary>
+    ///   Base class for multi-class support vector learning algorithms.
+    /// </summary>
+    public abstract class BaseMulticlassSupportVectorLearning<TBinary, TKernel, TModel> :
+        OneVsOneLearning<TBinary, TModel>
+        where TBinary : SupportVectorMachine<TKernel>
+        where TModel : OneVsOne<TBinary>
+        where TKernel : IKernel<double[]>
+    {
+        /// <summary>
+        ///   Gets or sets the kernel function to be used to learn the
+        ///   <see cref="SupportVectorMachine{TKernel}">kernel support 
+        ///   vector machines</see>.
+        /// </summary>
+        /// 
+        public TKernel Kernel { get; set; }
     }
 }

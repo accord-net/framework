@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -286,7 +286,7 @@ namespace Accord.Statistics.Analysis
             if (inputs.Length != outputs.Length)
                 throw new ArgumentException("The number of rows in the input array must match the number of given outputs.");
 
-            init(inputs, Categorical.OneHot(outputs));
+            init(inputs, Jagged.OneHot(outputs));
         }
 
         /// <summary>

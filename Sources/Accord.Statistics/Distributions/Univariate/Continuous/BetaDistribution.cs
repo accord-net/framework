@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -758,19 +758,20 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
 
-        #region ISamplableDistribution<double> Members
+        #region ISampleableDistribution<double> Members
 
         /// <summary>
         ///   Generates a random vector of observations from the current distribution.
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples)
+        public override double[] Generate(int samples, double[] result)
         {
-            return Random(alpha, beta, samples);
+            return Random(alpha, beta, samples, result);
         }
 
         /// <summary>
@@ -797,56 +798,32 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double alpha, double beta, int samples)
         {
-            double[] r = new double[samples];
+            return Random(alpha, beta, samples, new double[samples]);
+        }
 
-            if (alpha < 1)
-            {
-                double d = alpha + 1.0 - 1.0 / 3.0;
-                double c = 1.0 / Math.Sqrt(9 * d);
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Beta distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="alpha">The shape parameter α (alpha).</param>
+        /// <param name="beta">The shape parameter β (beta).</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Beta distribution.</returns>
+        /// 
+        public static double[] Random(double alpha, double beta, int samples, double[] result)
+        {
+            var rand = Accord.Math.Random.Generator.Random;
 
-                for (int i = 0; i < r.Length; i++)
-                {
-                    double U = Accord.Math.Random.Generator.Random.Next();
-                    r[i] = Gamma.Random(d, c) * Math.Pow(U, 1.0 / alpha);
-                }
-            }
-            else
-            {
-                double d = alpha - 1.0 / 3.0;
-                double c = 1.0 / Math.Sqrt(9 * d);
+            double[] x = GammaDistribution.Random(alpha, 1, samples, result);
+            double[] y = GammaDistribution.Random(beta, 1, samples);
 
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = Gamma.Random(d, c);
-            }
+            for (int i = 0; i < x.Length; i++)
+                result[i] = x[i] / (x[i] + y[i]);
 
-            if (beta < 1)
-            {
-                double d = beta + 1.0 - 1.0 / 3.0;
-                double c = 1.0 / Math.Sqrt(9 * d);
-
-                for (int i = 0; i < r.Length; i++)
-                {
-                    double U = Accord.Math.Random.Generator.Random.Next();
-
-                    double x = r[i];
-                    double y = Gamma.Random(d, c) * Math.Pow(U, 1.0 / beta);
-                    r[i] = x / (x + y);
-                }
-            }
-            else
-            {
-                double d = beta - 1.0 / 3.0;
-                double c = 1.0 / Math.Sqrt(9 * d);
-
-                for (int i = 0; i < r.Length; i++)
-                {
-                    double x = r[i];
-                    double y = Gamma.Random(d, c);
-                    r[i] = x / (x + y);
-                }
-            }
-
-            return r;
+            return result;
         }
 
         /// <summary>
@@ -861,46 +838,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double alpha, double beta)
         {
-            double r;
+            var rand = Accord.Math.Random.Generator.Random;
 
-            if (alpha < 1)
-            {
-                double d = alpha + 1.0 - 1.0 / 3.0;
-                double c = 1.0 / Math.Sqrt(9 * d);
+            double x = GammaDistribution.Random(alpha, 1);
+            double y = GammaDistribution.Random(beta, 1);
 
-                double U = Accord.Math.Random.Generator.Random.Next();
-                r = Gamma.Random(d, c) * Math.Pow(U, 1.0 / alpha);
-            }
-            else
-            {
-                double d = alpha - 1.0 / 3.0;
-                double c = 1.0 / Math.Sqrt(9 * d);
-
-                r = Gamma.Random(d, c);
-            }
-
-            if (beta < 1)
-            {
-                double d = beta + 1.0 - 1.0 / 3.0;
-                double c = 1.0 / Math.Sqrt(9 * d);
-
-                double U = Accord.Math.Random.Generator.Random.Next();
-
-                double x = r;
-                double y = Gamma.Random(d, c) * Math.Pow(U, 1.0 / beta);
-                r = x / (x + y);
-            }
-            else
-            {
-                double d = beta - 1.0 / 3.0;
-                double c = 1.0 / Math.Sqrt(9 * d);
-
-                double x = r;
-                double y = Gamma.Random(d, c);
-                r = x / (x + y);
-            }
-
-            return r;
+            return x / (x + y);
         }
 
         #endregion
