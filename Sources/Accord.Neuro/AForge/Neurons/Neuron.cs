@@ -45,7 +45,8 @@ using Accord.Statistics.Distributions.Univariate;
         /// 
         /// <remarks>The generator is used for neuron's weights randomization.</remarks>
         /// 
-        protected IRandomNumberGenerator<double> rand = new UniformContinuousDistribution();
+        protected IRandomNumberGenerator<double> rand =
+            new UniformContinuousDistribution();
 
         /// <summary>
         /// Random number generator.

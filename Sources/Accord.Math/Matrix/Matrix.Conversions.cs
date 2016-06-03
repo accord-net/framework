@@ -82,6 +82,15 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please use ToJagged() instead.")]
+        public static T[][] ToArray<T>(this T[] array, bool asColumnVector = true)
+        {
+            return ToJagged(array, asColumnVector: asColumnVector);
+        }
+
+        /// <summary>
         ///   Converts an array into a multidimensional array.
         /// </summary>
         /// 
@@ -129,6 +138,16 @@ namespace Accord.Math
             }
 
             return array;
+        }
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        /// 
+        [Obsolete("Please use ToJagged() instead.")]
+        public static T[][] ToArray<T>(this T[,] matrix, bool transpose = false)
+        {
+            return ToJagged(matrix, transpose);
         }
 
 

@@ -304,7 +304,7 @@ namespace SampleApp
             IKernel kernel = createKernel();
 
             // Estimate a suitable value for SVM's complexity parameter C
-            double c = SequentialMinimalOptimization.EstimateComplexity(kernel, inputs);
+            double c = kernel.EstimateComplexity(inputs);
 
             numC.Value = (decimal)c;
         }

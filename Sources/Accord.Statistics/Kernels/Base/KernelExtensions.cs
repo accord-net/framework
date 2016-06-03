@@ -33,7 +33,7 @@ namespace Accord.Statistics.Kernels
     ///   Extension methods for <see cref="IKernel">kernel functions</see>.
     /// </summary>
     /// 
-    public static class KernelExtensions
+    public static class Kernel
     {
         /// <summary>
         ///   Creates the Gram matrix from the given vectors.
@@ -219,6 +219,39 @@ namespace Accord.Statistics.Kernels
                 positiveCount / positiveSum,
                 negativeCount / negativeSum
             );
+        }
+
+
+        /// <summary>
+        ///   Estimates the complexity parameter C, present in many SVM algorithms,
+        ///   for a given kernel and a given data set by summing every element
+        ///   on the diagonal of the kernel matrix and using an heuristic based
+        ///   on it.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input samples.</param>
+        /// 
+        /// <returns>A suitable value for C.</returns>
+        /// 
+        public static double EstimateComplexity(double[][] inputs)
+        {
+            return EstimateComplexity(new Linear(), inputs);
+        }
+
+        /// <summary>
+        ///   Estimates the complexity parameter C, present in many SVM algorithms,
+        ///   for a given kernel and an unbalanced data set by summing every element
+        ///   on the diagonal of the kernel matrix and using an heuristic based on it.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input samples.</param>
+        /// <param name="outputs">The output samples.</param>
+        /// 
+        /// <returns>A suitable value for positive C and negative C, respectively.</returns>
+        /// 
+        public static Tuple<double, double> EstimateComplexity(double[][] inputs, int[] outputs)
+        {
+            return EstimateComplexity(new Linear(), inputs, outputs);
         }
 
     }

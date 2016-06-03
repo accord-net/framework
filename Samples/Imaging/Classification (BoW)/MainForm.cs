@@ -356,7 +356,7 @@ namespace SampleApp
 
             IKernel kernel = getKernel();
 
-            numComplexity.Value = (decimal)SequentialMinimalOptimization.EstimateComplexity(kernel, inputs);
+            numComplexity.Value = (decimal)kernel.EstimateComplexity(inputs);
         }
 
         /// <summary>

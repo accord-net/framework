@@ -255,7 +255,7 @@ namespace SampleApp.ViewModel
                 int batchCount = Math.Max(1, inputs.Length / BatchSize);
 
                 // Create mini-batches to speed learning
-                int[] groups = Categorical.Random(inputs.Length, batchCount);
+                int[] groups = Classes.Random(inputs.Length, batchCount);
                 double[][][] batches = inputs.Subgroups(groups);
 
                 // Gather learning data for the layer

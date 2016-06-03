@@ -19,6 +19,7 @@ using Accord.Neuro;
 using Accord.Neuro.Learning;
 using Accord.Controls;
 using Accord;
+using Accord.Statistics.Distributions.Univariate;
 
 namespace SampleApp
 {
@@ -489,11 +490,14 @@ namespace SampleApp
         // Worker thread
         void SearchSolution()
         {
-            // set random generators range
-            Neuron.RandRange = new Range(0, 1000);
-
             // create network
             DistanceNetwork network = new DistanceNetwork(2, neurons);
+
+            // set random generators range
+            foreach (var layer in network.Layers)
+                foreach (var neuron in layer.Neurons)
+                    neuron.RandGenerator = new UniformContinuousDistribution(new Range(0, 1000));
+
 
             // create learning algorithm
             ElasticNetworkLearning trainer = new ElasticNetworkLearning(network);

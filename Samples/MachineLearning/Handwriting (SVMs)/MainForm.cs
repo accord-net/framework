@@ -283,7 +283,7 @@ namespace SampleApp
             else
                 kernel = new Polynomial((int)numDegree.Value, (double)numConstant.Value);
 
-            numComplexity.Value = (decimal)SequentialMinimalOptimization.EstimateComplexity(kernel, input);
+            numComplexity.Value = (decimal)kernel.EstimateComplexity(input);
         }
 
 

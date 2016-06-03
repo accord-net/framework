@@ -122,6 +122,12 @@
     <Reference Include="Accord.Genetic">
       <HintPath>..\..\..\Release\net40\Accord.Genetic.dll</HintPath>
     </Reference>
+    <Reference Include="Accord.Math">
+      <HintPath>..\..\..\Release\net40\Accord.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Statistics">
+      <HintPath>..\..\..\Release\net40\Accord.Statistics.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>

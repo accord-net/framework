@@ -43,11 +43,11 @@ namespace Accord.Math
         /// <param name="intercept">Whether an intercept term should be added
         ///   at the beginning of the vector.</param>
         ///
-        public static Sparse<double> Parse(string[] values, bool intercept = false)
+        public static Sparse<double> Parse(string[] values, double? intercept = null)
         {
             var result = new Sparse<double>(values.Length);
 
-            int offset = intercept ? 1 : 0;
+            int offset = intercept.HasValue ? 1 : 0;
             for (int i = 0; i < values.Length; i++)
             {
                 string[] element = values[i].Split(':');
@@ -58,8 +58,8 @@ namespace Accord.Math
                 result.Values[i] = value;
             }
 
-            if (intercept)
-                result.Values[0] = 1;
+            if (intercept.HasValue)
+                result.Values[0] = intercept.Value;
 
             return result;
         }

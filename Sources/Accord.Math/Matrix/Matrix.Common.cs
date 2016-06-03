@@ -1415,10 +1415,7 @@ namespace Accord.Math
         [Obsolete("Please use Apply passing a result parameter instead.")]
         public static void ApplyInPlace<T>(this T[] vector, Func<T, T> func)
         {
-            if (vector == null) throw new ArgumentNullException("vector");
-
-            for (int i = 0; i < vector.Length; i++)
-                vector[i] = func(vector[i]);
+            Apply(vector, func, result: vector);
         }
 
         /// <summary>
@@ -1428,14 +1425,7 @@ namespace Accord.Math
         [Obsolete("Please use Apply passing a result parameter instead.")]
         public static void ApplyInPlace<T>(this T[,] matrix, Func<T, T> func)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
-
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < cols; j++)
-                    matrix[i, j] = func(matrix[i, j]);
+            Apply(matrix, func, result: matrix);
         }
 
         /// <summary>
@@ -1444,18 +1434,18 @@ namespace Accord.Math
         [Obsolete("Please use Apply passing a result parameter instead.")]
         public static void ApplyInPlace<T>(this T[,] matrix, Func<T, int, int, T> func)
         {
-            if (matrix == null)
-                throw new ArgumentNullException("matrix");
-
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < cols; j++)
-                    matrix[i, j] = func(matrix[i, j], i, j);
+            Apply(matrix, func, result: matrix);
         }
 
-
+        /// <summary>
+        ///   Applies a function to every element of the array.
+        /// </summary>
+        /// 
+        [Obsolete("Please use Apply passing a result parameter instead.")]
+        public static T[] ApplyInPlace<T>(this T[] vector, Func<T, int, T> func)
+        {
+            return Apply(vector, func, result: vector);
+        }
 
         /// <summary>
         ///   Applies a function to every element of the array.
@@ -1464,15 +1454,7 @@ namespace Accord.Math
         [Obsolete("Please use Apply passing a result parameter instead.")]
         public static TResult[] ApplyWithIndex<TData, TResult>(this TData[] vector, Func<TData, int, TResult> func)
         {
-            if (vector == null)
-                throw new ArgumentNullException("vector");
-
-            TResult[] result = new TResult[vector.Length];
-
-            for (int i = 0; i < vector.Length; i++)
-                result[i] = func(vector[i], i);
-
-            return result;
+            return Apply(vector, func);
         }
 
         /// <summary>
@@ -1482,18 +1464,7 @@ namespace Accord.Math
         [Obsolete("Please use Apply passing a result parameter instead.")]
         public static TResult[,] ApplyWithIndex<TData, TResult>(this TData[,] matrix, Func<TData, int, int, TResult> func)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
-
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            TResult[,] result = new TResult[rows, cols];
-
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < cols; j++)
-                    result[i, j] = func(matrix[i, j], i, j);
-
-            return result;
+            return Apply(matrix, func);
         }
 
         /// <summary>

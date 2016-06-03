@@ -142,7 +142,7 @@ namespace Accord.IO
         ///   Default is <c>null</c> (don't include anything).
         /// </summary>
         /// 
-        public bool Intercept { get; set; }
+        public double? Intercept { get; set; }
 
         /// <summary>
         ///   Gets the description associated with the last read values.
@@ -163,7 +163,7 @@ namespace Accord.IO
                 if (sampleSize <= 0)
                     sampleSize = guessSampleSize();
 
-                return Intercept ? sampleSize + 1 : sampleSize;
+                return Intercept.HasValue ? sampleSize + 1 : sampleSize;
             }
         }
 

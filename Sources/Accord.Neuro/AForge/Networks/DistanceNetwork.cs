@@ -21,8 +21,6 @@ namespace Accord.Neuro
     [Serializable]
     public class DistanceNetwork : Network
     {
-
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DistanceNetwork"/> class.
         /// </summary>
@@ -33,11 +31,11 @@ namespace Accord.Neuro
         /// <remarks>The new network is randomized (see <see cref="Neuron.Randomize"/>
         /// method) after it is created.</remarks>
         /// 
-        public DistanceNetwork( int inputsCount, int neuronsCount )
-            : base( inputsCount, 1 )
+        public DistanceNetwork(int inputsCount, int neuronsCount)
+            : base(inputsCount, 1)
         {
             // create layer
-            layers[0] = new DistanceLayer( neuronsCount, inputsCount );
+            layers[0] = new DistanceLayer(neuronsCount, inputsCount);
         }
 
         /// <summary>
@@ -49,15 +47,15 @@ namespace Accord.Neuro
         /// <remarks>The method returns index of the neuron, which weights have
         /// the minimum distance from network's input.</remarks>
         /// 
-        public int GetWinner( )
+        public int GetWinner()
         {
             // find the MIN value
             double min = output[0];
-            int    minIndex = 0;
+            int minIndex = 0;
 
-            for ( int i = 1; i < output.Length; i++ )
+            for (int i = 1; i < output.Length; i++)
             {
-                if ( output[i] < min )
+                if (output[i] < min)
                 {
                     // found new MIN value
                     min = output[i];

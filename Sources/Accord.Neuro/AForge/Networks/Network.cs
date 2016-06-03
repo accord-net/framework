@@ -87,10 +87,10 @@ namespace Accord.Neuro
         /// <remarks>Protected constructor, which initializes <see cref="inputsCount"/>,
         /// <see cref="layersCount"/> and <see cref="layers"/> members.</remarks>
         /// 
-        protected Network( int inputsCount, int layersCount )
+        protected Network(int inputsCount, int layersCount)
         {
-            this.inputsCount = Math.Max( 1, inputsCount );
-            this.layersCount = Math.Max( 1, layersCount );
+            this.inputsCount = Math.Max(1, inputsCount);
+            this.layersCount = Math.Max(1, layersCount);
             // create collection of layers
             this.layers = new Layer[this.layersCount];
         }
@@ -116,15 +116,15 @@ namespace Accord.Neuro
         /// of the method, but not on network's output property.</note></para>
         /// </remarks>
         /// 
-        public virtual double[] Compute( double[] input )
+        public virtual double[] Compute(double[] input)
         {
             // local variable to avoid mutlithread conflicts
             double[] output = input;
 
             // compute each layer
-            for ( int i = 0; i < layers.Length; i++ )
+            for (int i = 0; i < layers.Length; i++)
             {
-                output = layers[i].Compute( output );
+                output = layers[i].Compute(output);
             }
 
             // assign output property as well (works correctly for single threaded usage)
@@ -140,11 +140,11 @@ namespace Accord.Neuro
         /// <remarks>Randomizes network's layers by calling <see cref="Layer.Randomize"/> method
         /// of each layer.</remarks>
         /// 
-        public virtual void Randomize( )
+        public virtual void Randomize()
         {
-            foreach ( Layer layer in layers )
+            foreach (Layer layer in layers)
             {
-                layer.Randomize( );
+                layer.Randomize();
             }
         }
 
@@ -156,11 +156,11 @@ namespace Accord.Neuro
         /// 
         /// <remarks><para>The neural network is saved using .NET serialization (binary formatter is used).</para></remarks>
         /// 
-        public void Save( string fileName )
+        public void Save(string fileName)
         {
-            FileStream stream = new FileStream( fileName, FileMode.Create, FileAccess.Write, FileShare.None );
-            Save( stream );
-            stream.Close( );
+            FileStream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
+            Save(stream);
+            stream.Close();
         }
 
         /// <summary>
@@ -171,10 +171,10 @@ namespace Accord.Neuro
         /// 
         /// <remarks><para>The neural network is saved using .NET serialization (binary formatter is used).</para></remarks>
         /// 
-        public void Save( Stream stream )
+        public void Save(Stream stream)
         {
-            IFormatter formatter = new BinaryFormatter( );
-            formatter.Serialize( stream, this );
+            IFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(stream, this);
         }
 
         /// <summary>
@@ -187,11 +187,11 @@ namespace Accord.Neuro
         /// 
         /// <remarks><para>Neural network is loaded from file using .NET serialization (binary formater is used).</para></remarks>
         /// 
-        public static Network Load( string fileName )
+        public static Network Load(string fileName)
         {
-            FileStream stream = new FileStream( fileName, FileMode.Open, FileAccess.Read, FileShare.Read );
-            Network network = Load( stream );
-            stream.Close( );
+            FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+            Network network = Load(stream);
+            stream.Close();
 
             return network;
         }
@@ -206,10 +206,10 @@ namespace Accord.Neuro
         /// 
         /// <remarks><para>Neural network is loaded from file using .NET serialization (binary formater is used).</para></remarks>
         /// 
-        public static Network Load( Stream stream )
+        public static Network Load(Stream stream)
         {
-            IFormatter formatter = new BinaryFormatter( );
-            Network network = (Network) formatter.Deserialize( stream );
+            IFormatter formatter = new BinaryFormatter();
+            Network network = (Network)formatter.Deserialize(stream);
             return network;
         }
     }

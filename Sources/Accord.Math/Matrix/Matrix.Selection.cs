@@ -114,6 +114,15 @@ namespace Accord.Math
         ///   Gets a column vector from a matrix.
         /// </summary>
         /// 
+        public static T[][] GetColumns<T>(this T[][] m, params int[] index)
+        {
+            return GetColumns(m, index, null);
+        }
+
+        /// <summary>
+        ///   Gets a column vector from a matrix.
+        /// </summary>
+        /// 
         public static T[][] GetColumns<T>(this T[][] m, int[] index, T[][] result = null)
         {
             if (result == null)
@@ -165,7 +174,16 @@ namespace Accord.Math
         ///   Gets a row vector from a matrix.
         /// </summary>
         /// 
-        public static T[][] GetRows<T>(this T[][] m, int[] index, T[][] result = null)
+        public static T[][] GetRows<T>(this T[][] m, params  int[] index)
+        {
+            return GetRows(m, index, null);
+        }
+
+        /// <summary>
+        ///   Gets a row vector from a matrix.
+        /// </summary>
+        /// 
+        public static T[][] GetRows<T>(this T[][] m, int[] index, T[][] result)
         {
             if (result == null)
             {
@@ -182,6 +200,14 @@ namespace Accord.Math
             return result;
         }
 
+        /// <summary>
+        ///   Gets a column vector from a matrix.
+        /// </summary>
+        /// 
+        public static T[,] GetColumns<T>(this T[,] m, params int[] index)
+        {
+            return GetColumns(m, index, null);
+        }
 
         /// <summary>
         ///   Gets a column vector from a matrix.

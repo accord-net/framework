@@ -267,8 +267,9 @@ namespace Liblinear
             if (bias > 0)
                 reader.Intercept = bias;
 
-            double[] y; // read inputs and labels
-            double[][] x = reader.ReadToEnd(out y);
+            var r = reader.ReadDenseToEnd();
+            double[][] x = r.Item1;
+            double[] y = r.Item2;
 
             return new Problem()
             {

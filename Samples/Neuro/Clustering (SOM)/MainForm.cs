@@ -18,6 +18,7 @@ using System.Threading;
 using Accord;
 using Accord.Neuro;
 using Accord.Neuro.Learning;
+using Accord.Statistics.Distributions.Univariate;
 
 namespace SampleApp
 {
@@ -316,7 +317,10 @@ namespace SampleApp
         // Randomize weights of network
         private void RandomizeNetwork()
         {
-            Neuron.RandRange = new Range(0, 255);
+            // set random generators range
+            foreach (var layer in network.Layers)
+                foreach (var neuron in layer.Neurons)
+                    neuron.RandGenerator = new UniformContinuousDistribution(new Range(0, 255));
 
             // randomize net
             network.Randomize();

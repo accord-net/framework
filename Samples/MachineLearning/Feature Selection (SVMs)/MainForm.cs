@@ -215,7 +215,7 @@ namespace SampleApp
             double[][] inputs = sourceMatrix.GetColumns(0, 1).ToArray();
 
             // Estimate a suitable value for SVM's complexity parameter C
-            double c = SequentialMinimalOptimization.EstimateComplexity(inputs);
+            double c = Kernel.EstimateComplexity(inputs);
 
             numC.Value = (decimal)c;
         }

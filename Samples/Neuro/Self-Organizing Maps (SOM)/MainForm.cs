@@ -18,6 +18,7 @@ using AForge;
 using Accord.Neuro;
 using Accord.Neuro.Learning;
 using Accord;
+using Accord.Statistics.Distributions.Univariate;
 
 namespace SampleApp
 {
@@ -651,11 +652,14 @@ namespace SampleApp
         // Worker thread
         void SearchSolution()
         {
-            // set random generators range
-            Neuron.RandRange = new Range(0, Math.Max(pointsPanel.ClientRectangle.Width, pointsPanel.ClientRectangle.Height));
-
             // create network
             DistanceNetwork network = new DistanceNetwork(2, networkSize * networkSize);
+
+            // set random generators range
+            foreach (var layer in network.Layers)
+                foreach (var neuron in layer.Neurons)
+                    neuron.RandGenerator = new UniformContinuousDistribution(
+                        new Range(0, Math.Max(pointsPanel.ClientRectangle.Width, pointsPanel.ClientRectangle.Height)));
 
             // create learning algorithm
             SOMLearning trainer = new SOMLearning(network, networkSize, networkSize);

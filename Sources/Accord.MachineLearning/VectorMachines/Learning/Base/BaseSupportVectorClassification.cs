@@ -120,7 +120,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <para>
         ///   If this value is not set and <see cref="UseComplexityHeuristic"/> is set to 
         ///   <c>true</c>, the framework will automatically guess a suitable value for C by
-        ///   calling <see cref="KernelExtensions.EstimateComplexity{TKernel, TInput}(TKernel, TInput[])"/>.  If this value 
+        ///   calling <see cref="Accord.Statistics.Kernels.Kernel.EstimateComplexity{TKernel, TInput}(TKernel, TInput[])"/>.  If this value 
         ///   is manually set to something else, then the class will respect the new value 
         ///   and automatically disable <see cref="UseComplexityHeuristic"/>. </para>
         /// </remarks>

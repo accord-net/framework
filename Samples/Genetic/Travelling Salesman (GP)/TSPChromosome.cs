@@ -8,6 +8,7 @@
 
 using System;
 using Accord.Genetic;
+using Accord.Math.Random;
 
 namespace SampleApp
 {
@@ -86,6 +87,8 @@ namespace SampleApp
             // candidates validness - candidate is valid, if it is not
             // yet in the child
             bool valid1, valid2;
+
+            var rand = Generator.Random;
 
             int j, k = length - 1;
 
