@@ -171,5 +171,23 @@ namespace Accord.Math
         {
             return Distance.Hamming(x, y);
         }
+
+        /// <summary>
+        ///   Gets the Levenshtein distance between two points.
+        /// </summary>
+        ///  
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// 
+        /// <returns>The Levenshtein distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Levenshtein<T>(T[] x, T[] y)
+        {
+            return new Levenshtein<T>().Distance(x, y);
+        }
+
     }
 }

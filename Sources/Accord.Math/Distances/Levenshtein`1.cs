@@ -85,7 +85,7 @@ namespace Accord.Math.Distances
         {
             if (x == null || x.Length == 0)
             {
-                if (y == null || y.Length != 0)
+                if (y == null || y.Length == 0)
                     return 0;
                 return y.Length;
             }

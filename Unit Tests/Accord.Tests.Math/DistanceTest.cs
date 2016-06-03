@@ -276,6 +276,31 @@ namespace Accord.Tests.Math
         }
 
         [Test]
+        public void LevenshteinTest1()
+        {
+            Assert.AreEqual(0, Distance.Levenshtein("", ""));
+            Assert.AreEqual(1, Distance.Levenshtein("", "a"));
+            Assert.AreEqual(1, Distance.Levenshtein("a", ""));
+            Assert.AreEqual(0, Distance.Levenshtein("a", "a"));
+            Assert.AreEqual(0, Distance.Levenshtein(null, null));
+            Assert.AreEqual(1, Distance.Levenshtein(null, "a"));
+            Assert.AreEqual(1, Distance.Levenshtein("a", null));
+            Assert.AreEqual(0, Distance.Levenshtein(null, ""));
+            Assert.AreEqual(5, Distance.Levenshtein("apple", "banana"));
+
+            Assert.AreEqual(0, Distance.Levenshtein(new int [] { }, new int[] { }));
+            Assert.AreEqual(1, Distance.Levenshtein(new int[] { }, new int[] { 1 }));
+            Assert.AreEqual(1, Distance.Levenshtein(new int[] { 1 }, new int[] { }));
+            Assert.AreEqual(0, Distance.Levenshtein(new int[] { 1 }, new int[] { 1 }));
+            Assert.AreEqual(0, Distance.Levenshtein(null, null));
+            Assert.AreEqual(1, Distance.Levenshtein(null, new int[] { 1 }));
+            Assert.AreEqual(1, Distance.Levenshtein(new int[] { 1 }, null));
+            Assert.AreEqual(0, Distance.Levenshtein(new int[] { }, null));
+            Assert.AreEqual(0, Distance.Levenshtein(null, new int[] { }));
+            Assert.AreEqual(5, Distance.Levenshtein(new int[] { 1, 2, 2, 3, 4 }, new int[] { 5, 1, 6, 1, 6, 1 }));
+        }
+
+        [Test]
         public void IsMetricTest()
         {
             Assert.IsTrue(Distance.IsMetric(Distance.Euclidean));
