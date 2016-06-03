@@ -525,7 +525,7 @@ namespace Accord.Statistics.Models.Markov
         ///  size 3 each. Each vector of size 3 will contain probability values that sum
         ///  up to one.</returns>
         /// 
-        public double[][] Posterior(int[] observations, out int[] path)
+        public double[][] Posterior(Array observations, out int[] path)
         {
             double[][] probabilities = Posterior(observations);
 

@@ -91,6 +91,61 @@ namespace Accord.Statistics.Models.Markov
         /// 
         object Tag { get; set; }
 
+
+
+        /// <summary>
+        ///   Calculates the probability of each hidden state for each
+        ///   observation in the observation vector.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   If there are 3 states in the model, and the <paramref name="observations"/>
+        ///   array contains 5 elements, the resulting vector will contain 5 vectors of
+        ///   size 3 each. Each vector of size 3 will contain probability values that sum
+        ///   up to one. By following those probabilities in order, we may decode those
+        ///   probabilities into a sequence of most likely states. However, the sequence
+        ///   of obtained states may not be valid in the model.
+        /// </remarks>
+        /// 
+        /// <param name="observations">A sequence of observations.</param>
+        /// 
+        /// <returns>A vector of the same size as the observation vectors, containing
+        ///  the probabilities for each state in the model for the current observation.
+        ///  If there are 3 states in the model, and the <paramref name="observations"/>
+        ///  array contains 5 elements, the resulting vector will contain 5 vectors of
+        ///  size 3 each. Each vector of size 3 will contain probability values that sum
+        ///  up to one.</returns>
+        /// 
+        double[][] Posterior(Array observations);
+
+        /// <summary>
+        ///   Calculates the probability of each hidden state for each observation 
+        ///   in the observation vector, and uses those probabilities to decode the
+        ///   most likely sequence of states for each observation in the sequence 
+        ///   using the posterior decoding method. See remarks for details.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   If there are 3 states in the model, and the <paramref name="observations"/>
+        ///   array contains 5 elements, the resulting vector will contain 5 vectors of
+        ///   size 3 each. Each vector of size 3 will contain probability values that sum
+        ///   up to one. By following those probabilities in order, we may decode those
+        ///   probabilities into a sequence of most likely states. However, the sequence
+        ///   of obtained states may not be valid in the model.
+        /// </remarks>
+        /// 
+        /// <param name="observations">A sequence of observations.</param>
+        /// <param name="path">The sequence of states most likely associated with each
+        ///   observation, estimated using the posterior decoding method.</param>
+        /// 
+        /// <returns>A vector of the same size as the observation vectors, containing
+        ///  the probabilities for each state in the model for the current observation.
+        ///  If there are 3 states in the model, and the <paramref name="observations"/>
+        ///  array contains 5 elements, the resulting vector will contain 5 vectors of
+        ///  size 3 each. Each vector of size 3 will contain probability values that sum
+        ///  up to one.</returns>
+        /// 
+        double[][] Posterior(Array observations, out int[] path);
     }
 
 }
