@@ -28,6 +28,8 @@ namespace Accord.Statistics.Analysis
     using Accord.Math;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Analysis.ContrastFunctions;
+    using Accord.MachineLearning;
+    using System.Threading;
 
     /// <summary>
     ///   FastICA's algorithms to be used in Independent Component Analysis.
@@ -144,7 +146,7 @@ namespace Accord.Statistics.Analysis
     /// </example>
     /// 
     [Serializable]
-    public class IndependentComponentAnalysis : IMultivariateAnalysis
+    public class IndependentComponentAnalysis : IMultivariateAnalysis, IParallel
     {
         private double[,] sourceMatrix;
 
@@ -171,6 +173,8 @@ namespace Accord.Statistics.Analysis
 
         private IndependentComponentCollection componentCollection;
 
+        [NonSerialized]
+        private ParallelOptions parallelOptions = new ParallelOptions();
 
         //---------------------------------------------
 
@@ -275,6 +279,28 @@ namespace Accord.Statistics.Analysis
 
 
         #region Properties
+        /// <summary>
+        ///   Gets or sets the parallelization options for this algorithm.
+        /// </summary>
+        /// 
+        public ParallelOptions ParallelOptions
+        {
+            get { return parallelOptions; }
+            set { ParallelOptions = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used
+        /// to cancel the algorithm while it is running.
+        /// </summary>
+        /// 
+        public CancellationToken Token
+        {
+            get { return parallelOptions.CancellationToken; }
+            set { parallelOptions.CancellationToken = value; }
+        }
+
+
         /// <summary>
         ///   Source data used in the analysis.
         /// </summary>
@@ -461,7 +487,7 @@ namespace Accord.Statistics.Analysis
                 revertMatrix = parallel(whiten, components, initial);
             }
 
-            
+
 
             // Combine the rotation and demixing matrices
             revertMatrix = whiteningMatrix.DotWithTransposed(revertMatrix);
@@ -474,7 +500,7 @@ namespace Accord.Statistics.Analysis
             // Demix the data into independent components
             resultMatrix = Matrix.Dot(matrix, revertMatrix);
 
-            
+
             // Creates the object-oriented structure to hold the principal components
             var array = new IndependentComponent[components];
             for (int i = 0; i < array.Length; i++)
@@ -638,7 +664,7 @@ namespace Accord.Statistics.Analysis
                     double delta = getMaximumAbsoluteChange(w, w0);
 
                     // Check for convergence
-                    if (!(delta > tolerance * lastChange && iterations < maxIterations))
+                    if (!(delta > tolerance && iterations < maxIterations) || Token.IsCancellationRequested)
                     {
                         stop = true;
                     }
@@ -771,7 +797,7 @@ namespace Accord.Statistics.Analysis
                 double delta = getMaximumAbsoluteChange(W0, W);
 
                 // Check for convergence
-                if (delta < tolerance * lastChange || iterations >= maxIterations)
+                if (delta < tolerance || iterations >= maxIterations || Token.IsCancellationRequested)
                 {
                     stop = true;
                 }
@@ -784,7 +810,7 @@ namespace Accord.Statistics.Analysis
 
 
                     // For each component (in parallel)
-                    Parallel.For(0, components, i =>
+                    Parallel.For(0, components, parallelOptions, i =>
                     {
                         double[] wx = new double[n];
                         double[] dgwx = new double[n];
@@ -988,20 +1014,13 @@ namespace Accord.Statistics.Analysis
         /// 
         private static double getMaximumAbsoluteChange(double[,] W, double[,] W0)
         {
-            int rows = W0.GetLength(0);
-            int cols = W0.GetLength(1);
+            // Used in the parallel method
+            double[] diag = W.DotWithTransposed(W0).Diagonal();
 
-            double max = Math.Abs(W0[0, 0] - W[0, 0]);
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    double d = Math.Abs(W0[i, j] - W[i, j]);
-                    if (d > max) max = d;
-                }
-            }
-
-            return max;
+            return diag.Abs(result: diag)
+                .Subtract(1, result: diag)
+                .Abs(result: diag)
+                .Max();
         }
 
         /// <summary>
@@ -1010,14 +1029,10 @@ namespace Accord.Statistics.Analysis
         /// 
         private static double getMaximumAbsoluteChange(double[] w, double[] w0)
         {
-            double max = Math.Abs(w[0] - w0[0]);
-            for (int i = 1; i < w.Length; i++)
-            {
-                double d = Math.Abs(w[i] - w0[i]);
-                if (d > max) max = d;
-            }
+            // Used in deflation method
+            double[] diag = Elementwise.Multiply(w, w0);
 
-            return max;
+            return Math.Abs(Math.Abs(diag.Sum()) - 1);
         }
     }
 

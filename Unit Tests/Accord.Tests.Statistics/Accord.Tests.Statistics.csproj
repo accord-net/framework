@@ -348,6 +348,7 @@
     <None Include="Accord.snk" />
     <None Include="app.config" />
     <None Include="Resources\CircleWithWeights.xls" />
+    <None Include="Resources\ica_data.dat" />
     <None Include="Resources\examples.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

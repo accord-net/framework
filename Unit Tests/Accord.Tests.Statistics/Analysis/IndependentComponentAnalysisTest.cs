@@ -25,29 +25,17 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using Accord.Statistics;
     using Accord.Statistics.Analysis;
+    using Accord.Statistics.Analysis.ContrastFunctions;
+    using Accord.Tests.Statistics.Properties;
     using NUnit.Framework;
+    using System.Globalization;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
+    using System.Text.RegularExpressions;
 
     [TestFixture]
     public class IndependentComponentAnalysisTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ComputeTest()
@@ -75,7 +63,7 @@ namespace Accord.Tests.Statistics
             // Now, we can use ICA to identify any linear mixing between the variables, such
             // as the matrix multiplication we did above. After it has identified it, we will
             // be able to revert the process, retrieving our original samples again
-            
+
             // Create a new Independent Component Analysis
             var ica = new IndependentComponentAnalysis(input);
 
@@ -94,7 +82,7 @@ namespace Accord.Tests.Statistics
             double[,] result = ica.Result;
 
             // Verify mixing matrix
-            mixingMatrix = mixingMatrix.Divide(mixingMatrix.Sum().Sum());
+            mixingMatrix = mixingMatrix.Divide(mixingMatrix.Sum());
             Assert.IsTrue(mix.IsEqual(mixingMatrix, atol: 0.008));
 
 
@@ -105,7 +93,7 @@ namespace Accord.Tests.Statistics
                 { 0.25,  0.25 },
             };
 
-            revertMatrix = revertMatrix.Divide(revertMatrix.Sum().Sum());
+            revertMatrix = revertMatrix.Divide(revertMatrix.Sum());
             Assert.IsTrue(expected.IsEqual(revertMatrix, atol: 0.008));
         }
 
@@ -310,7 +298,7 @@ namespace Accord.Tests.Statistics
 
             double[,] result = ica.Result;
 
-            mixingMatrix = mixingMatrix.Divide(mixingMatrix.Sum().Sum());
+            mixingMatrix = mixingMatrix.Divide(mixingMatrix.Sum());
             Assert.IsTrue(mix.IsEqual(mixingMatrix, atol: 0.008));
 
             double[,] expected =
@@ -319,10 +307,54 @@ namespace Accord.Tests.Statistics
                 { 0.25,  0.25 },
             };
 
-            revertMatrix = revertMatrix.Divide(revertMatrix.Sum().Sum());
+            revertMatrix = revertMatrix.Divide(revertMatrix.Sum());
             Assert.IsTrue(expected.IsEqual(revertMatrix, atol: 0.008));
 
 
+        }
+
+        [Test]
+        public void ConvergenceTest()
+        {
+            IndependentComponentAnalysis ica;
+
+            // https://github.com/accord-net/framework/issues/225
+            var mixedData = LoadData();
+
+            ica = new IndependentComponentAnalysis(mixedData, AnalysisMethod.Standardize);
+            ica.Overwrite = false;
+            ica.Iterations = 1000;
+            ica.Algorithm = IndependentComponentAlgorithm.Parallel;
+            ica.Contrast = new Kurtosis();
+
+            ica.Compute();
+
+            Assert.AreEqual(3.2178976535060348, ica.WhiteningMatrix.Sum());
+            Assert.AreEqual(1, ica.MixingMatrix.Sum(), 1e-7);
+        }
+
+        private static double[,] LoadData()
+        {
+            int counter = 0;
+            int nchans = 24;
+            int nsamps = 20001;
+            double[,] data = new double[nsamps, nchans];
+            using (StreamReader reader = new StreamReader(new MemoryStream(Resources.ica_data)))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    Regex r = new Regex("\\s+");
+                    var nums = r.Split(line);
+                    for (int i = 1; i < nums.Length; i++)
+                    {
+                        data[i - 1, counter] = double.Parse(nums[i], NumberStyles.Float | NumberStyles.AllowTrailingSign | NumberStyles.AllowThousands);
+                    }
+                    ++counter;
+                }
+            }
+
+            return data;
         }
 
     }
