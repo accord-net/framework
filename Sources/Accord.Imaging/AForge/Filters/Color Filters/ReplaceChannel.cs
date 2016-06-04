@@ -272,7 +272,7 @@ namespace Accord.Imaging.Filters
                 if (chFormat != PixelFormat.Format8bppIndexed)
                     throw new InvalidImagePropertiesException("Channel image's format does not correspond to format of the source image.");
 
-                int offsetCh = chData.Stride - rect.Width;
+                int offsetCh = chStride - rect.Width;
 
                 // do the job
                 byte* dst = (byte*)image.ImageData.ToPointer();
