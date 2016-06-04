@@ -234,7 +234,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public ChiSquareTest ChiSquare(double[][] input, double[][] output)
         {
-            double[] sums = output.Sum();
+            double[] sums = output.Sum(0);
 
             double[] intercept = new double[Categories - 1];
             for (int i = 0; i < intercept.Length; i++)

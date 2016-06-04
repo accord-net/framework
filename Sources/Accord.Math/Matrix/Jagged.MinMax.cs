@@ -31,14 +31,14 @@ namespace Accord.Math
     public static partial class Matrix
     {
 
-        private static int GetLength<T>(T[][] values, int dimension)
+        internal static int GetLength<T>(T[][] values, int dimension)
         {
             if (dimension == 1)
                 return values.Length;
             return values[0].Length;
         }
 
-        private static int GetLength<T>(T[,] values, int dimension)
+        internal static int GetLength<T>(T[,] values, int dimension)
         {
             if (dimension == 1)
                 return values.GetLength(0);

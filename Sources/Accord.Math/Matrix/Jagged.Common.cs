@@ -303,61 +303,7 @@ namespace Accord.Math
         #endregion
 
 
-        #region Summation
-        /// <summary>Calculates the matrix Sum vector.</summary>
-        /// <param name="matrix">A matrix whose sums will be calculated.</param>
-        /// <returns>Returns a vector containing the sums of each variable in the given matrix.</returns>
-        public static double[] Sum(this double[][] matrix)
-        {
-            return Sum(matrix, 0);
-        }
-
-        /// <summary>Calculates the matrix Sum vector.</summary>
-        /// <param name="matrix">A matrix whose sums will be calculated.</param>
-        /// <param name="dimension">The dimension in which the sum will be calculated.</param>
-        /// <returns>Returns a vector containing the sums of each variable in the given matrix.</returns>
-        public static double[] Sum(this double[][] matrix, int dimension)
-        {
-            int rows = matrix.Length;
-            int cols = matrix[0].Length;
-
-            double[] sum;
-
-            if (dimension == 0)
-            {
-                sum = new double[cols];
-
-                for (int i = 0; i < matrix.Length; i++)
-                {
-                    double[] row = matrix[i];
-                    for (int j = 0; j < row.Length; j++)
-                        sum[j] += row[j];
-                }
-            }
-            else if (dimension == 1)
-            {
-                sum = new double[rows];
-
-                for (int j = 0; j < matrix.Length; j++)
-                {
-                    double[] row = matrix[j];
-                    double s = 0.0;
-                    for (int i = 0; i < row.Length; i++)
-                        s += row[i];
-                    sum[j] = s;
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Invalid dimension", "dimension");
-            }
-
-            return sum;
-        }
-
-        #endregion
-
-
+        
 
         #region Operation Mapping (Apply)
 

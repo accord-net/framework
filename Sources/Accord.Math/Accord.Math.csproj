@@ -167,6 +167,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Matrix\Matrix.Reduction.Generated.cs">
+      <DependentUpon>Matrix.Reduction.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Matrix\Matrix.Elementwise.Generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -554,6 +559,11 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Matrix.Conversions.Generated.cs</LastGenOutput>
       <LastOutputs>.\Matrix.Conversions.Generated.cs</LastOutputs>
+    </None>
+    <None Include="Matrix\Matrix.Reduction.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Reduction.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Matrix.Reduction.Generated.cs</LastOutputs>
     </None>
     <None Include="Matrix\Matrix.Elementwise.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

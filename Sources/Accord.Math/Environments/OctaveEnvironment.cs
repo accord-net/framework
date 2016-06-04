@@ -178,7 +178,7 @@ namespace Accord.Math.Environments
 
 
         /// <summary>Matrix sum vector.</summary>
-        protected static double[] sum(double[,] matrix) { return Matrix.Sum(matrix); }
+        protected static double[] sum(double[,] matrix) { return Matrix.Sum(matrix, 0); }
         /// <summary>Sum of vector elements.</summary>
         protected static double sum(double[] vector) { return Matrix.Sum(vector); }
         /// <summary>Product of vector elements.</summary>

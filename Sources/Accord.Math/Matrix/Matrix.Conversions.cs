@@ -278,33 +278,119 @@ namespace Accord.Math
             Type inputElementType = inputType.GetElementType();
             Type outputElementType = outputType.GetElementType();
 
-            // Multidimensional array
-            Array result = Array.CreateInstance(outputElementType, array.GetLength());
+            Array result;
 
-            foreach (var idx in GetIndices(array))
+            if (inputElementType.IsArray && !outputElementType.IsArray)
             {
-                object inputValue = array.GetValue(idx);
-                object outputValue = null;
+                // jagged -> multidimensional
+                result = Array.CreateInstance(outputElementType, array.GetLength(true));
 
-                Array inputArray = inputValue as Array;
+                foreach (var idx in GetIndices(result))
+                {
+                    object inputValue = array.GetValue(true, idx);
+                    object outputValue = convertValue(outputElementType, inputValue);
+                    result.SetValue(outputValue, idx);
+                }
+            }
+            else if (!inputElementType.IsArray && outputElementType.IsArray)
+            {
+                // multidimensional -> jagged
+                result = Array.CreateInstance(outputElementType, array.GetLength(0));
 
-                if (outputElementType.IsEnum)
+                foreach (var idx in GetIndices(array))
                 {
-                    outputValue = Enum.ToObject(outputElementType, (int)System.Convert.ChangeType(inputValue, typeof(int)));
+                    object inputValue = array.GetValue(idx);
+                    object outputValue = convertValue(outputElementType, inputValue);
+                    result.SetValue(outputValue, true, idx);
                 }
-                else if (inputArray != null)
-                {
-                    outputValue = To(inputArray, outputElementType);
-                }
-                else
-                {
-                    outputValue = System.Convert.ChangeType(inputValue, outputElementType);
-                }
+            }
+            else
+            {
+                // Same nature (jagged or multidimensional) array
+                result = Array.CreateInstance(outputElementType, array.GetLength());
 
-                result.SetValue(outputValue, idx);
+                foreach (var idx in GetIndices(array))
+                {
+                    object inputValue = array.GetValue(idx);
+                    object outputValue = convertValue(outputElementType, inputValue);
+                    result.SetValue(outputValue, idx);
+                }
             }
 
             return result;
+        }
+
+        /// <summary>
+        ///  Gets the value at the specified position in the multidimensional System.Array.
+        ///  The indexes are specified as an array of 32-bit integers.
+        /// </summary>
+        /// 
+        /// <param name="array">A jagged or multidimensional array.</param>
+        /// <param name="deep">If set to true, internal arrays in jagged arrays will be followed.</param>
+        /// <param name="indices">A one-dimensional array of 32-bit integers that represent the
+        ///   indexes specifying the position of the System.Array element to get.</param>
+        ///   
+        public static object GetValue(this Array array, bool deep, int[] indices)
+        {
+            if (array.IsVector())
+                return array.GetValue(indices);
+
+            if (deep && array.IsJagged())
+            {
+                Array current = array.GetValue(indices[0]) as Array;
+                int[] last = indices.Submatrix(1, null);
+                return GetValue(current, true, last);
+            }
+            else
+            {
+                return array.GetValue(indices);
+            }
+        }
+
+        /// <summary>
+        ///   Sets a value to the element at the specified position in the multidimensional
+        ///   or jagged System.Array. The indexes are specified as an array of 32-bit integers.
+        /// </summary>
+        /// 
+        /// <param name="array">A jagged or multidimensional array.</param>
+        /// <param name="value">The new value for the specified element.</param>
+        /// <param name="deep">If set to true, internal arrays in jagged arrays will be followed.</param>
+        /// <param name="indices">A one-dimensional array of 32-bit integers that represent
+        ///   the indexes specifying the position of the element to set.</param>
+        ///   
+        public static void SetValue(this Array array, object value, bool deep, int[] indices)
+        {
+            if (deep && array.IsJagged())
+            {
+                Array current = array.GetValue(indices[0]) as Array;
+                int[] last = indices.Submatrix(1, null);
+                SetValue(current, value, true, last);
+            }
+            else
+            {
+                array.SetValue(value, indices);
+            }
+        }
+
+        private static object convertValue(Type outputElementType, object inputValue)
+        {
+            object outputValue = null;
+
+            Array inputArray = inputValue as Array;
+
+            if (outputElementType.IsEnum)
+            {
+                outputValue = Enum.ToObject(outputElementType, (int)System.Convert.ChangeType(inputValue, typeof(int)));
+            }
+            else if (inputArray != null)
+            {
+                outputValue = To(inputArray, outputElementType);
+            }
+            else
+            {
+                outputValue = System.Convert.ChangeType(inputValue, outputElementType);
+            }
+            return outputValue;
         }
 
         #endregion

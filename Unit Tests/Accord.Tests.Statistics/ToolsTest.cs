@@ -243,7 +243,7 @@ namespace Accord.Tests.Statistics
                 { 7,  0.5, 9 },
             };
 
-            double[] sums = Matrix.Sum(matrix);
+            double[] sums = Matrix.Sum(matrix, 0);
             Assert.IsTrue(sums.IsEqual(new [] { 9.0, -0.5, 14.0 }));
 
             double[] expected = { 4.5000, -0.2500, 7.0000 };

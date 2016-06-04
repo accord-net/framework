@@ -409,11 +409,11 @@ namespace Accord.MachineLearning.VectorMachines
                     DistanceByElimination(input, result, cache);
             }
 
-#if DEBUG
-            double[] expected = base.Distances(input, new double[NumberOfOutputs]);
-            if (!result.IsEqual(expected, rtol: 1e-8))
-                throw new Exception();
-#endif
+//#if DEBUG
+//            double[] expected = base.Distances(input, new double[NumberOfOutputs]);
+//            if (!result.IsEqual(expected, rtol: 1e-8))
+//                throw new Exception();
+//#endif
             return result;
         }
 
@@ -531,8 +531,6 @@ namespace Accord.MachineLearning.VectorMachines
                     if (-sum > max)
                         max = -sum;
                 }
-
-
             }
 
             result[i] = max;

@@ -1001,13 +1001,46 @@ namespace Accord.Math
         ///   Gets the length of each dimension of an array.
         /// </summary>
         /// 
-        public static int[] GetLength(this Array array)
+        public static int[] GetLength(this Array array, bool deep = false)
         {
+            if (deep && IsJagged(array))
+            {
+                var rest = GetLength(array.GetValue(0) as Array, deep);
+                return array.Length.Concatenate(rest);
+            }
+
             int[] vector = new int[array.Rank];
             for (int i = 0; i < vector.Length; i++)
                 vector[i] = array.GetUpperBound(i) + 1;
-
             return vector;
+        }
+
+        /// <summary>
+        ///   Determines whether an array is a jagged array 
+        ///   (containing inner arrays as its elements).
+        /// </summary>
+        /// 
+        public static bool IsJagged(this Array array)
+        {
+            return (array.Length > 0 && array.GetValue(0) is Array);
+        }
+
+        /// <summary>
+        ///   Determines whether an array is an multidimensional array.
+        /// </summary>
+        /// 
+        public static bool IsMatrix(this Array array)
+        {
+            return array.Rank > 1;
+        }
+
+        /// <summary>
+        ///   Determines whether an array is a vector.
+        /// </summary>
+        /// 
+        public static bool IsVector(this Array array)
+        {
+            return array.Rank == 1 && !IsJagged(array);
         }
 
         /// <summary>

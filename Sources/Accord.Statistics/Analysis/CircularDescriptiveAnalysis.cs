@@ -754,9 +754,9 @@ namespace Accord.Statistics.Analysis
                 if (sums == null)
                 {
                     if (sourceMatrix != null)
-                        this.sums = Accord.Math.Matrix.Sum(sourceMatrix);
+                        this.sums = Accord.Math.Matrix.Sum(sourceMatrix, 0);
                     else if (sourceArray != null)
-                        this.sums = Accord.Math.Matrix.Sum(sourceArray);
+                        this.sums = Accord.Math.Matrix.Sum(sourceArray, 0);
                     else this.sums = new[] { Accord.Math.Matrix.Sum(sourceRow) };
                 }
 

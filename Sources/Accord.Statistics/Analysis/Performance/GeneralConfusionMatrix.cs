@@ -129,7 +129,7 @@ namespace Accord.Statistics.Analysis
         {
             this.matrix = matrix;
             this.classes = matrix.GetLength(0);
-            this.samples = matrix.Sum().Sum();
+            this.samples = matrix.Sum();
         }
 
         /// <summary>

@@ -626,7 +626,7 @@ namespace Accord.Statistics.Analysis
 
                 // 5. Calculate distances
                 //    d02 = sum(Z.^2)';
-                double[] d02 = Matrix.Sum(Elementwise.Pow(Z, 2));
+                double[] d02 = Matrix.Sum(Elementwise.Pow(Z, 2), 0);
 
 
                 // 6. Get the pre-image using z = -0.5*inv(Z')*(d2-d02)
@@ -638,7 +638,7 @@ namespace Accord.Statistics.Analysis
 
                 // 8. Project the pre-image on the original basis
                 //    using x = U*z + sum(X,2)/nn;
-                double[] x = (U.Dot(z)).Add(Matrix.Sum(X.Transpose()).Multiply(1.0 / nn));
+                double[] x = (U.Dot(z)).Add(Matrix.Sum(X.Transpose(), 0).Multiply(1.0 / nn));
 
 
                 // 9. Store the computed pre-image.
@@ -704,7 +704,7 @@ namespace Accord.Statistics.Analysis
 
             double[] rowMean1 = newK.Mean(1);
             double[] rowMean2 = K.Mean(1);
-            double mean = Matrix.Sum(K, -1)[0] / (samples * dimension);
+            double mean = Matrix.Sum(K) / (samples * dimension);
 
             for (int i = 0; i < samples; i++)
                 for (int j = 0; j < dimension; j++)
@@ -719,7 +719,7 @@ namespace Accord.Statistics.Analysis
 
             double[] rowMean1 = newK.Mean(1);
             double[] rowMean2 = K.Mean(1);
-            double mean = Matrix.Sum(K, -1)[0] / (samples * dimension);
+            double mean = Matrix.Sum(K) / (samples * dimension);
 
             for (int i = 0; i < rowMean1.Length; i++)
                 for (int j = 0; j < rowMean2.Length; j++)

@@ -670,8 +670,8 @@ namespace Accord.Statistics.Analysis
                 if (sums == null)
                 {
                     if (sourceMatrix != null)
-                        this.sums = Accord.Math.Matrix.Sum(sourceMatrix);
-                    else this.sums = Accord.Math.Matrix.Sum(sourceArray);
+                        this.sums = Accord.Math.Matrix.Sum(sourceMatrix, 0);
+                    else this.sums = Accord.Math.Matrix.Sum(sourceArray, 0);
                 }
 
                 return sums;

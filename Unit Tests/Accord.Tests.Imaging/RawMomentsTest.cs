@@ -96,7 +96,7 @@ namespace Accord.Tests.Imaging
                 { 16, 17, 18, 19, 20 },
             };
 
-            double sum = img.Sum().Sum();
+            double sum = img.Sum();
 
             RawMoments raw = new RawMoments(img);
 

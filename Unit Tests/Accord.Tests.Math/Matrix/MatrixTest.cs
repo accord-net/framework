@@ -968,7 +968,7 @@ namespace Accord.Tests.Math
 
             expected = new int[] { 7, 5, 1 };
 
-            actual = Matrix.Sum(value);
+            actual = Matrix.Sum(value, 0);
             Assert.IsTrue(expected.IsEqual(actual));
 
             actual = Matrix.Sum(value, 0);
@@ -993,7 +993,7 @@ namespace Accord.Tests.Math
 
             expected = new double[] { 8, 5.1, 1.7 };
 
-            actual = Matrix.Sum(value);
+            actual = Matrix.Sum(value, 0);
             Assert.IsTrue(expected.IsEqual(actual, 0.000000001));
 
             actual = Matrix.Sum(value, 0);

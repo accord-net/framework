@@ -535,16 +535,24 @@ namespace Accord.Math
         ///   Routine adapted from Lutz Roeder's Mapack for .NET, September 2000.
         /// </remarks>
         /// 
-        public static T[] Submatrix<T>(this T[] source, int startRow, int endRow)
+        public static T[] Submatrix<T>(this T[] source, int? startRow, int? endRow)
         {
+            if (!startRow.HasValue)
+                startRow = 0;
+            if (!endRow.HasValue)
+                endRow = source.Length - 1;
+
             if (startRow < 0)
                 throw new ArgumentOutOfRangeException("startRow");
             if (endRow >= source.Length)
                 throw new ArgumentOutOfRangeException("endRow");
 
-            var destination = new T[endRow - startRow + 1];
-            for (int i = startRow; i <= endRow; i++)
-                destination[i - startRow] = source[i];
+            int e = endRow.Value;
+            int s = startRow.Value;
+
+            var destination = new T[e - s + 1];
+            for (int i = s; i <= e; i++)
+                destination[i - s] = source[i];
 
             return destination;
         }
