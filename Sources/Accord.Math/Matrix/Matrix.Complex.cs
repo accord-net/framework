@@ -169,7 +169,7 @@ namespace Accord.Math
 
             var re = new double[rows, cols];
             for (int i = 0; i < rows; i++)
-                for (int j = 0; i < cols; j++)
+                for (int j = 0; j < cols; j++)
                     re[i, j] = c[i, j].Real;
 
             return re;
@@ -211,7 +211,7 @@ namespace Accord.Math
 
             var im = new double[rows, cols];
             for (int i = 0; i < rows; i++)
-                for (int j = 0; i < cols; j++)
+                for (int j = 0; j < cols; j++)
                     im[i, j] = c[i, j].Imaginary;
 
             return im;

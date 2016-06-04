@@ -347,7 +347,7 @@ namespace Accord.Math.Optimization
 
             string f = constraint.Replace("*", String.Empty).Replace(" ", String.Empty);
 
-            if (f[0] != '-' || f[0] != '+')
+            if (f[0] != '-' && f[0] != '+')
                 f = f.Insert(0, "+");
 
             ConstraintType type;
