@@ -60,7 +60,11 @@ namespace Accord
         /// 
         public int Count
         {
-            get { return list.Count; }
+            get
+            {
+                lock (list)
+                    return list.Count;
+            }
         }
 
         /// <summary>
@@ -69,7 +73,8 @@ namespace Accord
         /// 
         public IEnumerator<T> GetEnumerator()
         {
-            return list.GetEnumerator();
+            lock (list)
+                return list.GetEnumerator();
         }
 
         /// <summary>
@@ -78,7 +83,8 @@ namespace Accord
         /// 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return list.GetEnumerator();
+            lock (list)
+                return list.GetEnumerator();
         }
     }
 }

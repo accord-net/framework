@@ -50,7 +50,9 @@ namespace Accord
         /// <param name="valueFactory">A function which creates the instance value on first access.</param>
         /// 
         public Lazy(Func<T> valueFactory)
-            : this(valueFactory, true) { }
+            : this(valueFactory, true)
+        {
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="Lazy&lt;T&gt;"/> class.

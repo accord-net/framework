@@ -83,7 +83,8 @@ namespace System.Threading.Tasks
         {
             T obj = initial();
             for (int i = start; i < stop; i++)
-                loopBody(i, null, obj);
+                obj = loopBody(i, null, obj);
+            end(obj);
         }
     }
 

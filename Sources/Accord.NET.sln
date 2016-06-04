@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{D059B679-8B38-44FE-BEC6-8DFF9271CE59}"
 EndProject
@@ -14,7 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\Contributors.txt = ..\Contributors.txt
 		..\Copyright.txt = ..\Copyright.txt
 		..\License.txt = ..\License.txt
-		..\README.txt = ..\README.txt
 		..\Release notes.txt = ..\Release notes.txt
 	EndProjectSection
 EndProject

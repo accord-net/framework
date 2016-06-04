@@ -112,8 +112,8 @@ namespace Accord.Tests.MachineLearning
             };
 
             IKernel kernel = new Linear();
-            MulticlassSupportVectorMachine machine = new MulticlassSupportVectorMachine(4, kernel, 3);
-            MulticlassSupportVectorLearning target = new MulticlassSupportVectorLearning(machine, inputs, outputs);
+            var machine = new MulticlassSupportVectorMachine(4, kernel, 3);
+            var target = new MulticlassSupportVectorLearning(machine, inputs, outputs);
 
             target.Algorithm = (svm, classInputs, classOutputs, i, j) =>
                 new SequentialMinimalOptimization(svm, classInputs, classOutputs);
