@@ -418,5 +418,49 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(l, dist.LogProbabilityMassFunction(6));
             Assert.AreEqual(l, dist.LogProbabilityMassFunction(7));
         }
+
+
+        [Test]
+        public void GenerateTest()
+        {
+            double[] transProbRow = { 0.2, 0.5, 0.3 };
+            var gdd = new GeneralDiscreteDistribution(transProbRow);
+            int n = 100000;
+            {
+                int[] samples = gdd.Generate(n);
+                var target = new GeneralDiscreteDistribution(3);
+                target.Fit(samples);
+                Assert.AreEqual(0.2, target.Frequencies[0], 0.01);
+                Assert.AreEqual(0.5, target.Frequencies[1], 0.01);
+                Assert.AreEqual(0.3, target.Frequencies[2], 0.01);
+            }
+
+            {
+                int[] samples = new int[n].Apply((x) => gdd.Generate());
+                var target = new GeneralDiscreteDistribution(3);
+                target.Fit(samples);
+                Assert.AreEqual(0.2, target.Frequencies[0], 0.01);
+                Assert.AreEqual(0.5, target.Frequencies[1], 0.01);
+                Assert.AreEqual(0.3, target.Frequencies[2], 0.01);
+            }
+
+            {
+                double[] samples = gdd.Generate(n).ToDouble();
+                var target = new GeneralDiscreteDistribution(3);
+                target.Fit(samples);
+                Assert.AreEqual(0.2, target.Frequencies[0], 0.01);
+                Assert.AreEqual(0.5, target.Frequencies[1], 0.01);
+                Assert.AreEqual(0.3, target.Frequencies[2], 0.01);
+            }
+
+            {
+                double[] samples = new int[n].Apply((x) => (double)gdd.Generate());
+                var target = new GeneralDiscreteDistribution(3);
+                target.Fit(samples);
+                Assert.AreEqual(0.2, target.Frequencies[0], 0.01);
+                Assert.AreEqual(0.5, target.Frequencies[1], 0.01);
+                Assert.AreEqual(0.3, target.Frequencies[2], 0.01);
+            }
+        }
     }
 }

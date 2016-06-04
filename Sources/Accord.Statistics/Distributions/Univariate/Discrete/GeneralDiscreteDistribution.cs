@@ -504,6 +504,26 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="options">Optional arguments which may be used during fitting, such
         ///   as regularization constants and additional parameters.</param>
         ///   
+        public override void Fit(int[] observations, double[] weights, IFittingOptions options)
+        {
+            GeneralDiscreteOptions discreteOptions = options as GeneralDiscreteOptions;
+            if (options != null && discreteOptions == null)
+                throw new ArgumentException("The specified options' type is invalid.", "options");
+
+            Fit(observations, weights, discreteOptions);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
         public void Fit(double[] observations, double[] weights, GeneralDiscreteOptions options)
         {
             Fit(observations.ToInt32(), weights, options);
@@ -711,16 +731,16 @@ namespace Accord.Statistics.Distributions.Univariate
             var rand = Accord.Math.Random.Generator.Random;
 
             // Use the probabilities to partition the 0,1 interval
-            double[] cumulative = probabilities.CumulativeSum();
+            double[] cumulativeSum = probabilities.CumulativeSum();
 
             for (int j = 0; j < result.Length; j++)
             {
                 double u = rand.NextDouble();
 
                 // Check in which range the values fall into
-                for (int i = 0; i < cumulative.Length - 1; i++)
+                for (int i = 0; i < cumulativeSum.Length; i++)
                 {
-                    if (u <= cumulative[i] && u > cumulative[i + 1])
+                    if (u < cumulativeSum[i])
                     {
                         result[j] = i;
                         break;
