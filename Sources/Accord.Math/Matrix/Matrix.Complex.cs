@@ -361,7 +361,7 @@ namespace Accord.Math
             if (objB == null) throw new ArgumentNullException("objB");
 
             for (int i = 0; i < objA.Length; i++)
-            {
+            { 
                 double xr = objA[i].Real;
                 double yr = objB[i].Real;
                 double xi = objA[i].Imaginary;

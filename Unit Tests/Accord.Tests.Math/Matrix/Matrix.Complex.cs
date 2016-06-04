@@ -119,5 +119,48 @@ namespace Accord.Tests.Math
 
             Assert.IsTrue(expected.IsEqual(actual));
         }
+
+
+        [Test]
+        public void MatrixImTest()
+        {
+            Complex[,] x = 
+            {
+                { new Complex(1, 5), new Complex(2, 6) },
+                { new Complex(3, 7), new Complex(4, 8) },
+                { new Complex(5, 9), new Complex(6, 0) },
+            };
+
+            double[,] expected = 
+            { 
+                { 5, 6 },
+                { 7, 8 },
+                { 9, 0 },
+            };
+
+            double[,] actual = ComplexMatrix.Im(x);
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
+        public void MatrixReTest()
+        {
+            Complex[,] x = 
+            {
+                { new Complex(1, 5), new Complex(2, 6) },
+                { new Complex(3, 7), new Complex(4, 8) },
+                { new Complex(5, 9), new Complex(6, 0) },
+            };
+
+            double[,] expected = 
+            { 
+                { 1, 2 },
+                { 3, 4 },
+                { 5, 6 },
+            };
+
+            double[,] actual = ComplexMatrix.Re(x);
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
     }
 }
