@@ -137,8 +137,8 @@ namespace SampleApp
             
             var meanShift = new MeanShift(pixelSize, kernel, sigma)
             {
-                Tolerance = 0.05,
-                MaxIterations = 10
+                //Tolerance = 0.05,
+                //MaxIterations = 10
             };
 
             

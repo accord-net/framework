@@ -124,7 +124,7 @@ namespace SampleApp
 
                 // 3.3 Computing the sum vector
                 {
-                    double[] sumVector = A.Sum();
+                    double[] sumVector = A.Sum(0);
 
                     // 3.3.1 Computing the total sum of elements
                     double sum = sumVector.Sum();

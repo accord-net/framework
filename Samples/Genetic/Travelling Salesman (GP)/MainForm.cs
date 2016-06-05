@@ -103,7 +103,6 @@ namespace SampleApp
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.generateMapButton = new System.Windows.Forms.Button();
             this.citiesCountBox = new System.Windows.Forms.TextBox();
@@ -171,8 +170,6 @@ namespace SampleApp
             // 
             this.mapControl.Location = new System.Drawing.Point(16, 29);
             this.mapControl.Name = "mapControl";
-            this.mapControl.RangeX = ((Range)(resources.GetObject("mapControl.RangeX")));
-            this.mapControl.RangeY = ((Range)(resources.GetObject("mapControl.RangeY")));
             this.mapControl.Size = new System.Drawing.Size(448, 409);
             this.mapControl.TabIndex = 0;
             // 
