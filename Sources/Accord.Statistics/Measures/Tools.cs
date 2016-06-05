@@ -75,6 +75,7 @@ namespace Accord.Statistics
     /// 
     public static partial class Tools
     {
+        // TODO: Make this class obsolete
 
         #region Summarizing, grouping and extending operations
         /// <summary>
@@ -86,10 +87,9 @@ namespace Accord.Statistics
         /// 
         /// <returns>An array containing the proportion of the first class over the total of occurrences.</returns>
         /// 
-        [Obsolete("Please use Categorical.Proportions instead.")]
+        [Obsolete("Please use Classes.GetRatio instead.")]
         public static double[] Proportions(int[] positives, int[] negatives)
         {
-            // TODO: Mark as obsolete
             return Accord.Statistics.Classes.GetRatio(positives, negatives);
         }
 
@@ -103,10 +103,9 @@ namespace Accord.Statistics
         /// 
         /// <returns>An array containing the proportion of the first class over the total of occurrences.</returns>
         /// 
-        [Obsolete("Please use Categorical.Proportions instead.")]
+        [Obsolete("Please use Classes.GetRatio instead.")]
         public static double[] Proportions(int[][] data, int positiveColumn, int negativeColumn)
         {
-            // TODO: Mark as obsolete
             return Accord.Statistics.Classes.GetRatio(data, positiveColumn, negativeColumn);
         }
 
@@ -123,7 +122,7 @@ namespace Accord.Statistics
         ///    in the second column and the number of occurrences of the second class in the third column.
         /// </returns>
         /// 
-        [Obsolete("Please use Categorical.Count instead.")]
+        [Obsolete("Please use Classes.Summarize instead.")]
         public static int[][] Group(int[][] data, int labelColumn, int dataColumn)
         {
             return Accord.Statistics.Classes.Summarize(data, labelColumn, dataColumn);
@@ -143,10 +142,9 @@ namespace Accord.Statistics
         ///   
         /// <returns>A full sized observation matrix.</returns>
         /// 
-        [Obsolete("Please use Categorical.Expand instead.")]
+        [Obsolete("Please use Classes.Expand instead.")]
         public static int[][] Expand(int[] data, int[] positives, int[] negatives)
         {
-            // TODO: Mark as obsolete
             return Accord.Statistics.Classes.Expand(data, positives, negatives);
         }
 
@@ -164,10 +162,9 @@ namespace Accord.Statistics
         ///   
         /// <returns>A full sized observation matrix.</returns>
         /// 
-        [Obsolete("Please use Categorical.Expand instead.")]
+        [Obsolete("Please use Classes.Expand instead.")]
         public static int[][] Expand(int[][] data, int labelColumn, int positiveColumn, int negativeColumn)
         {
-            // TODO: Mark as obsolete
             return Accord.Statistics.Classes.Expand(data, labelColumn, positiveColumn, negativeColumn);
         }
 
@@ -186,7 +183,6 @@ namespace Accord.Statistics
         [Obsolete("Please use Jagged.OneHot instead.")]
         public static double[][] Expand(int[] labels)
         {
-            // TODO: Mark as obsolete
             return Jagged.OneHot(labels, labels.DistinctCount());
         }
 
@@ -207,7 +203,6 @@ namespace Accord.Statistics
         [Obsolete("Please use Jagged.OneHot instead.")]
         public static double[][] Expand(int[] labels, double negative, double positive)
         {
-            // TODO: Mark as obsolete
             return Jagged.OneHot(labels).Replace(0, negative).Replace(1, positive);
         }
 
@@ -224,10 +219,9 @@ namespace Accord.Statistics
         ///   problem. Each row contains the positive value on the position corresponding
         ///   to the label index, and the negative value on all others.</returns>
         /// 
-        [Obsolete("Please use Categorical.Expand instead.")]
+        [Obsolete("Please use Jagged.OneHot instead.")]
         public static double[][] Expand(int[] labels, int classes)
         {
-            // TODO: Mark as obsolete
             return Jagged.OneHot(labels, classes);
         }
 
@@ -246,10 +240,9 @@ namespace Accord.Statistics
         ///   problem. Each row contains the value 1 on the position corresponding
         ///   to the label index.</returns>
         /// 
-        [Obsolete("Please use Categorical.Expand instead.")]
+        [Obsolete("Please use Jagged.OneHot instead.")]
         public static double[][] Expand(int[] labels, int classes, double negative, double positive)
         {
-            // TODO: Mark as obsolete
             return Jagged.OneHot(labels, classes).Replace(0, negative).Replace(1, positive);
         }
         #endregion
@@ -311,7 +304,6 @@ namespace Accord.Statistics
         [Obsolete("Please use Vector.Sample instead.")]
         public static int[] RandomSample(int n, int k)
         {
-            // TODO: Mark as obsolete
             return Accord.Math.Vector.Sample(k, n);
         }
 
@@ -322,10 +314,9 @@ namespace Accord.Statistics
         /// <param name="size">The sample size.</param>
         /// <param name="groups">The number of groups.</param>
         /// 
-        [Obsolete("Please use Categorical.Random instead.")]
+        [Obsolete("Please use Classes.Random instead.")]
         public static int[] RandomGroups(int size, int groups)
         {
-            // TODO: Mark as obsolete
             return Accord.Statistics.Classes.Random(size, groups);
         }
 
@@ -337,10 +328,9 @@ namespace Accord.Statistics
         /// <param name="size">The sample size.</param>
         /// <param name="proportion">The proportion of samples between the groups.</param>
         /// 
-        [Obsolete("Please use Categorical.Random instead.")]
+        [Obsolete("Please use Classes.Random instead.")]
         public static int[] RandomGroups(int size, double proportion)
         {
-            // TODO: Mark as obsolete
             return Accord.Statistics.Classes.Random(size, proportion);
         }
 
@@ -354,10 +344,9 @@ namespace Accord.Statistics
         /// <param name="classes">The number of different classes in <paramref name="labels"/>.</param>
         /// <param name="groups">The number of groups.</param>
         /// 
-        [Obsolete("Please use Categorical.Random instead.")]
+        [Obsolete("Please use Classes.Random instead.")]
         public static int[] RandomGroups(int[] labels, int classes, int groups)
         {
-            // TODO: Mark as obsolete
             return Accord.Statistics.Classes.Random(labels, classes, groups);
         }
 
@@ -368,7 +357,6 @@ namespace Accord.Statistics
         [Obsolete("Please use Vector.Sample instead.")]
         public static int[] Random(int n)
         {
-            // TODO: Mark as obsolete
             return Vector.Sample(n);
         }
 
@@ -379,7 +367,6 @@ namespace Accord.Statistics
         [Obsolete("Please use Vector.Shuffle instead.")]
         public static void Shuffle<T>(T[] array)
         {
-            // TODO: Mark as obsolete
             Vector.Shuffle(array);
         }
 
@@ -390,7 +377,6 @@ namespace Accord.Statistics
         [Obsolete("Please use Vector.Shuffle instead.")]
         public static void Shuffle<T>(IList<T> array)
         {
-            // TODO: Mark as obsolete
             Vector.Shuffle(array);
         }
 
@@ -414,7 +400,7 @@ namespace Accord.Statistics
         /// 
         public static double[,] Whitening(double[,] value, out double[,] transformMatrix)
         {
-            // TODO: Move into PCA
+            // TODO: Move into PCA and mark as obsolete
             if (value == null)
                 throw new ArgumentNullException("value");
 

@@ -418,6 +418,9 @@ namespace Accord.Math
         ///   Computes log(1-x) without losing precision for small values of x.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Log1m(double x)
         {
             if (x >= 1.0)
@@ -440,6 +443,9 @@ namespace Accord.Math
         ///   - http://www.johndcook.com/csharp_log_one_plus_x.html
         /// </remarks>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Log1p(double x)
         {
             if (x <= -1.0)
@@ -460,6 +466,10 @@ namespace Accord.Math
         ///   References:
         ///   - http://www.johndcook.com/cpp_expm1.html
         /// </remarks>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Expm1(double x)
         {
             if (Math.Abs(x) < 1e-5)
@@ -474,6 +484,7 @@ namespace Accord.Math
         /// <remarks>
         ///   This is a port of the epslon function from EISPACK.
         /// </remarks>
+        /// 
         public static double Epslon(double x)
         {
             double a, b, c, eps;
@@ -501,6 +512,9 @@ namespace Accord.Math
         /// 
         /// <returns>If B > 0 then the result is ABS(A), else it is -ABS(A).</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Sign(double a, double b)
         {
             double x = (a >= 0 ? a : -a);
@@ -511,6 +525,9 @@ namespace Accord.Math
         ///   Computes x + y without losing precision using ln(x) and ln(y).
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double LogDiff(double lna, double lnc)
         {
             if (lna > lnc)
@@ -523,6 +540,9 @@ namespace Accord.Math
         ///   Computes x + y without losing precision using ln(x) and ln(y).
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double LogSum(double lna, double lnc)
         {
             if (lna == Double.NegativeInfinity)
@@ -540,6 +560,9 @@ namespace Accord.Math
         ///   Computes x + y without losing precision using ln(x) and ln(y).
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double LogSum(float lna, float lnc)
         {
             if (lna == Single.NegativeInfinity)
@@ -564,7 +587,9 @@ namespace Accord.Math
         /// <summary>
         ///   Secant.
         /// </summary>
-        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Sec(double x)
         {
             return 1 / Math.Cos(x);
@@ -573,7 +598,9 @@ namespace Accord.Math
         /// <summary>
         ///   Cosecant.
         /// </summary>
-        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Cosec(double x)
         {
             return 1 / Math.Sin(x);
@@ -582,6 +609,9 @@ namespace Accord.Math
         /// <summary>
         ///   Cotangent.
         /// </summary>
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Cotan(double x)
         {
             return 1 / Math.Tan(x);
@@ -591,6 +621,9 @@ namespace Accord.Math
         ///   Inverse secant.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Asec(double x)
         {
             double u = x * x - 1;
@@ -611,6 +644,9 @@ namespace Accord.Math
         ///   Inverse cotangent.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Acotan(double x)
         {
             return 2 * Math.Atan(1) - Math.Atan(x);
@@ -620,6 +656,9 @@ namespace Accord.Math
         ///   Hyperbolic secant.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Sech(double x)
         {
             return 2 / (Math.Exp(x) + Math.Exp(-x));
@@ -629,6 +668,9 @@ namespace Accord.Math
         ///   Hyperbolic secant.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Cosech(double x)
         {
             return 2 / (Math.Exp(x) - Math.Exp(-x));
@@ -638,6 +680,9 @@ namespace Accord.Math
         ///   Hyperbolic cotangent.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Cotanh(double x)
         {
             return (Math.Exp(x) + Math.Exp(-x)) / (Math.Exp(x) - Math.Exp(-x));
@@ -647,6 +692,9 @@ namespace Accord.Math
         ///   Inverse hyperbolic sin.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Asinh(double x)
         {
             double u = x * x + 1;
@@ -657,6 +705,9 @@ namespace Accord.Math
         ///   Inverse hyperbolic cos.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Acosh(double x)
         {
             double u = x * x - 1;
@@ -667,6 +718,9 @@ namespace Accord.Math
         ///   Inverse hyperbolic tangent.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Atanh(double x)
         {
             return Math.Log((1 + x) / (1 - x)) / 2;
@@ -676,6 +730,9 @@ namespace Accord.Math
         ///   Inverse hyperbolic secant.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Asech(double x)
         {
             double u = -x * x + 1;
@@ -686,6 +743,9 @@ namespace Accord.Math
         ///   Inverse hyperbolic cosecant.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Acosech(double x)
         {
             double u = x * x + 1;
@@ -696,6 +756,9 @@ namespace Accord.Math
         ///   Inverse hyperbolic cotangent.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Acotanh(double x)
         {
             return Math.Log((x + 1) / (x - 1)) / 2;
@@ -753,74 +816,13 @@ namespace Accord.Math
             return result;
         }
 
-        // TODO: Move to Classes, rename classes to Labels
-
-        /// <summary>
-        ///   Hyperplane decision function. Return true if distance
-        ///   is higher than zero, and false otherwise.
-        /// </summary>
-        /// 
-        public static bool Decide(double distance)
-        {
-            return distance > 0;
-        }
-
-        /// <summary>
-        ///   Hyperplane decision function. Return true if distance
-        ///   is higher than zero, and false otherwise.
-        /// </summary>
-        /// 
-        public static bool[] Decide(double[] values)
-        {
-            bool[] result = new bool[values.Length];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = Decide(values[i]);
-            return result;
-        }
-
-        /// <summary>
-        ///   Hyperplane decision function. Return true if distance
-        ///   is higher than zero, and false otherwise.
-        /// </summary>
-        /// 
-        public static bool[] Decide(int[] values)
-        {
-            bool[] result = new bool[values.Length];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = Decide(values[i]);
-            return result;
-        }
-
-        /// <summary>
-        ///   Hyperplane decision function. Return true if distance
-        ///   is higher than zero, and false otherwise.
-        /// </summary>
-        /// 
-        public static bool[][] Decide(double[][] values)
-        {
-            bool[][] result = new bool[values.Length][];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = Decide(values[i]);
-            return result;
-        }
-
-        /// <summary>
-        ///   Hyperplane decision function. Return true if distance
-        ///   is higher than zero, and false otherwise.
-        /// </summary>
-        /// 
-        public static bool[][] Decide(int[][] values)
-        {
-            bool[][] result = new bool[values.Length][];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = Decide(values[i]);
-            return result;
-        }
-
         /// <summary>
         ///   Computes log(1 + exp(x)) without losing precision.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Log1pexp(double x)
         {
             // Computes Math.Log(1.0 / (1.0 + Math.Exp(-sum)));

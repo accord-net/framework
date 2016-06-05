@@ -24,6 +24,7 @@ namespace Accord.MachineLearning.VectorMachines
 {
     using Accord.MachineLearning;
     using Accord.Math;
+    using Accord.Statistics;
     using Accord.Statistics.Kernels;
     using System;
     using System.Collections.Generic;
@@ -432,7 +433,7 @@ namespace Accord.MachineLearning.VectorMachines
 
             while (i != j)
             {
-                if (Special.Decide(distance(i, j, input, cache)))
+                if (Classes.Decide(distance(i, j, input, cache)))
                     j++; // i won, so we advance j
                 else
                     i--; // j won, so we advance i
@@ -450,7 +451,7 @@ namespace Accord.MachineLearning.VectorMachines
 
             while (i != j)
             {
-                if (Special.Decide(distance(i, j, input, cache)))
+                if (Classes.Decide(distance(i, j, input, cache)))
                 {
                     path[k++] = new Decision(j, i, i);
                     j++; // i won, so we advance j
@@ -476,7 +477,7 @@ namespace Accord.MachineLearning.VectorMachines
             while (i != j)
             {
                 sum = distance(i, j, input, cache);
-                bool decision = Special.Decide(sum);
+                bool decision = Classes.Decide(sum);
 
                 if (decision)
                 {
@@ -511,7 +512,7 @@ namespace Accord.MachineLearning.VectorMachines
             while (i != j)
             {
                 sum = distance(i, j, input, cache);
-                bool decision = Special.Decide(sum);
+                bool decision = Classes.Decide(sum);
 
                 if (decision)
                 {
@@ -544,7 +545,7 @@ namespace Accord.MachineLearning.VectorMachines
                 int i = Indices[k].Class1;
                 int j = Indices[k].Class2;
 
-                if (Special.Decide(distance(i, j, input, cache)))
+                if (Classes.Decide(distance(i, j, input, cache)))
                     InterlockedEx.Increment(ref result[i]);
                 else InterlockedEx.Increment(ref result[j]);
             });

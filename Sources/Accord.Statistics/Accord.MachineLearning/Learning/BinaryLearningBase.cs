@@ -24,6 +24,7 @@ namespace Accord.MachineLearning
 {
     using Accord.MachineLearning;
     using Accord.Math;
+    using Accord.Statistics;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -68,7 +69,7 @@ namespace Accord.MachineLearning
         /// 
         public TModel Learn(TInput[] x, double[] y, double[] weights = null)
         {
-            return Learn(x, Special.Decide(y), weights);
+            return Learn(x, Classes.Decide(y), weights);
         }
 
         /// <summary>
@@ -83,7 +84,7 @@ namespace Accord.MachineLearning
         /// 
         public TModel Learn(TInput[] x, int[] y, double[] weights = null)
         {
-            return Learn(x, Special.Decide(y), weights);
+            return Learn(x, Classes.Decide(y), weights);
         }
 
         /// <summary>
@@ -98,7 +99,7 @@ namespace Accord.MachineLearning
         /// 
         public TModel Learn(TInput[] x, int[][] y, double[] weights = null)
         {
-            return Learn(x, Special.Decide(y.GetColumn(0)), weights);
+            return Learn(x, Classes.Decide(y.GetColumn(0)), weights);
         }
 
         /// <summary>

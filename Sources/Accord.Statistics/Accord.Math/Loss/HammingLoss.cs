@@ -23,6 +23,7 @@
 namespace Accord.Math.Optimization.Losses
 {
     using Accord.Math;
+    using Accord.Statistics;
     using System;
 
     /// <summary>
@@ -97,7 +98,7 @@ namespace Accord.Math.Optimization.Losses
             int error = 0;
             for (int i = 0; i < Expected.Length; i++)
                 for (int j = 0; j < Expected[i].Length; j++)
-                    if (Special.Decide(Expected[i][j]) != Special.Decide(actual[i][j]))
+                    if (Classes.Decide(Expected[i][j]) != Classes.Decide(actual[i][j]))
                         error++;
 
             if (mean)
@@ -119,7 +120,7 @@ namespace Accord.Math.Optimization.Losses
             int error = 0;
             for (int i = 0; i < Expected.Length; i++)
                 for (int j = 0; j < Expected[i].Length; j++)
-                    if (Special.Decide(Expected[i][j]) != Special.Decide(actual[i][j]))
+                    if (Classes.Decide(Expected[i][j]) != Classes.Decide(actual[i][j]))
                         error++;
 
             if (mean)
@@ -141,7 +142,7 @@ namespace Accord.Math.Optimization.Losses
             int error = 0;
             for (int i = 0; i < Expected.Length; i++)
                 for (int j = 0; j < Expected[i].Length; j++)
-                    if (Special.Decide(Expected[i][j]) != actual[i][j])
+                    if (Classes.Decide(Expected[i][j]) != actual[i][j])
                         error++;
 
             if (mean)

@@ -346,8 +346,8 @@ namespace Accord.Statistics.Kernels
         /// 
         public static double[] Distances(double[][] inputs, int samples)
         {
-            int[] idx = Vector.Sample(inputs.Length, samples);
-            int[] idy = Vector.Sample(inputs.Length, samples);
+            int[] idx = Vector.Sample(samples, inputs.Length);
+            int[] idy = Vector.Sample(samples, inputs.Length);
 
             double[] distances = new double[samples * samples];
 
@@ -501,7 +501,7 @@ namespace Accord.Statistics.Kernels
             if (samples > inputs.Length)
                 throw new ArgumentOutOfRangeException("samples");
 
-            double[] distances = Distances<T>(kernel, inputs, samples);
+            double[] distances = kernel.Distances(inputs, samples);
 
             double q1 = Math.Sqrt(distances[(int)Math.Ceiling(0.15 * distances.Length)] / 2.0);
             double q9 = Math.Sqrt(distances[(int)Math.Ceiling(0.85 * distances.Length)] / 2.0);
@@ -512,39 +512,7 @@ namespace Accord.Statistics.Kernels
             return new Gaussian<T>(kernel, sigma: qm);
         }
 
-        /// <summary>
-        ///   Computes the set of all distances between 
-        ///   all points in a random subset of the data.
-        /// </summary>
-        /// 
-        /// <param name="kernel">The inner kernel.</param>
-        /// <param name="inputs">The inputs points.</param>
-        /// <param name="samples">The number of samples.</param>
-        /// 
-        public static double[] Distances<T>(T kernel, double[][] inputs, int samples)
-            where T : IDistance, ICloneable
-        {
-            int[] idx = Vector.Sample(inputs.Length, samples);
-            int[] idy = Vector.Sample(inputs.Length, samples);
-
-            double[] distances = new double[samples * samples];
-
-            for (int i = 0; i < idx.Length; i++)
-            {
-                double[] x = inputs[idx[i]];
-
-                for (int j = 0; j < idy.Length; j++)
-                {
-                    double[] y = inputs[idy[j]];
-
-                    distances[i * samples + j] = kernel.Distance(x, y);
-                }
-            }
-
-            Array.Sort(distances);
-
-            return distances;
-        }
+      
         #endregion
 
     }

@@ -32,8 +32,6 @@ namespace Accord.Statistics
     /// 
     public static class Classes
     {
-        // TODO: Move this to Math or Core
-
         /// <summary>
         ///   Calculates the prevalence of a class for each variable.
         /// </summary>
@@ -241,17 +239,17 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="samples">The sample size.</param>
-        /// <param name="categories">The number of groups.</param>
+        /// <param name="groups">The number of groups.</param>
         /// 
-        public static int[] Random(int samples, int categories)
+        public static int[] Random(int samples, int groups)
         {
             // Create the index vector
             int[] idx = new int[samples];
 
-            if (categories == 1)
+            if (groups == 1)
                 return idx;
 
-            double n = categories / (double)samples;
+            double n = groups / (double)samples;
             for (int i = 0; i < idx.Length; i++)
                 idx[i] = (int)System.Math.Ceiling((i + 0.9) * n) - 1;
 
@@ -479,5 +477,67 @@ namespace Accord.Statistics
             return result;
         }
 
+
+        /// <summary>
+        ///   Hyperplane decision function. Return true if distance
+        ///   is higher than zero, and false otherwise.
+        /// </summary>
+        /// 
+        public static bool Decide(double distance)
+        {
+            return distance > 0;
+        }
+
+        /// <summary>
+        ///   Hyperplane decision function. Return true if distance
+        ///   is higher than zero, and false otherwise.
+        /// </summary>
+        /// 
+        public static bool[] Decide(double[] values)
+        {
+            bool[] result = new bool[values.Length];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Decide(values[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Hyperplane decision function. Return true if distance
+        ///   is higher than zero, and false otherwise.
+        /// </summary>
+        /// 
+        public static bool[] Decide(int[] values)
+        {
+            bool[] result = new bool[values.Length];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Decide(values[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Hyperplane decision function. Return true if distance
+        ///   is higher than zero, and false otherwise.
+        /// </summary>
+        /// 
+        public static bool[][] Decide(double[][] values)
+        {
+            bool[][] result = new bool[values.Length][];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Decide(values[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Hyperplane decision function. Return true if distance
+        ///   is higher than zero, and false otherwise.
+        /// </summary>
+        /// 
+        public static bool[][] Decide(int[][] values)
+        {
+            bool[][] result = new bool[values.Length][];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Decide(values[i]);
+            return result;
+        }
     }
 }

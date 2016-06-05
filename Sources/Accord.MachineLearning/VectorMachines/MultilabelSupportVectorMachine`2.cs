@@ -24,6 +24,7 @@ namespace Accord.MachineLearning.VectorMachines
 {
     using Accord.MachineLearning;
     using Accord.Math;
+    using Accord.Statistics;
     using Accord.Statistics.Kernels;
     using System;
     using System.Collections.Generic;
@@ -458,7 +459,7 @@ namespace Accord.MachineLearning.VectorMachines
             Cache cache = createOrResetCache();
             Parallel.For(0, Models.Length, ParallelOptions, i =>
             {
-                result[i] = Special.Decide(distance(i, input, cache));
+                result[i] = Classes.Decide(distance(i, input, cache));
             });
             return result;
         }
@@ -486,7 +487,7 @@ namespace Accord.MachineLearning.VectorMachines
             Parallel.For(0, Models.Length, ParallelOptions, i =>
             {
                 result[i] = distance(i, input, cache);
-                d[i] = Special.Decide(result[i]);
+                d[i] = Classes.Decide(result[i]);
             });
 
             decision = d;

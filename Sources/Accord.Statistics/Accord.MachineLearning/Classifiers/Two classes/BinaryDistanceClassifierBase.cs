@@ -60,7 +60,7 @@ namespace Accord.MachineLearning
         public virtual double Distance(TInput input, out bool decision)
         {
             double distance = Distance(input);
-            decision = Special.Decide(distance);
+            decision = Classes.Decide(distance);
             return distance;
         }
 

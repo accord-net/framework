@@ -79,7 +79,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             var kernel = Model.Kernel;
 
             this.Input = supportVectors;
-            this.Output = Special.Decide(alpha);
+            this.Output = Classes.Decide(alpha);
 
             int n = supportVectors.Length;
 

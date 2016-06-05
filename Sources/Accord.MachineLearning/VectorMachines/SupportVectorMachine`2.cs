@@ -198,7 +198,7 @@ namespace Accord.MachineLearning.VectorMachines
             double sum = threshold;
             for (int j = 0; j < supportVectors.Length; j++)
                 sum += weights[j] * kernel.Function(supportVectors[j], input);
-            return Special.Decide(sum);
+            return Classes.Decide(sum);
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace Accord.MachineLearning.VectorMachines
             double sum = threshold;
             for (int j = 0; j < supportVectors.Length; j++)
                 sum += weights[j] * kernel.Function(supportVectors[j], input);
-            decision = Special.Decide(sum);
+            decision = Classes.Decide(sum);
             return -Special.Log1pexp(-sum);
         }
 

@@ -258,7 +258,7 @@
     <Compile Include="Kernels\Base\IEstimable.cs" />
     <Compile Include="Kernels\Base\ITransform.cs" />
     <Compile Include="Kernels\Base\KernelBase.cs" />
-    <Compile Include="Kernels\Base\KernelExtensions.cs" />
+    <Compile Include="Kernels\Base\Kernel.cs" />
     <Compile Include="Kernels\Bessel.cs" />
     <Compile Include="Kernels\BSpline.cs" />
     <Compile Include="Kernels\Cauchy.cs" />
@@ -313,28 +313,29 @@
     <Compile Include="Links\LogLinkFunction.cs" />
     <Compile Include="Links\InverseSquaredLinkFunction.cs" />
     <Compile Include="Links\ProbitLinkFunction.cs" />
-    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassClassifierBase.cs" />
-    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassDistanceClassifierBase.cs" />
-    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelClassifierBase.cs" />
-    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassGenerativeClassifierBase.cs" />
-    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelDistanceClassifierBase.cs" />
-    <Compile Include="MachineLearning\Classifiers\Two classes\BinaryDistanceClassifierBase.cs" />
-    <Compile Include="MachineLearning\Classifiers\Two classes\BinaryClassifierBase.cs" />
-    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassClassifierBase`1.cs" />
-    <Compile Include="MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelGenerativeClassifierBase.cs" />
-    <Compile Include="MachineLearning\Classifiers\Two classes\BinaryGenerativeClassifierBase.cs">
+    <Compile Include="Accord.MachineLearning\Classifiers\ClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassDistanceClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassGenerativeClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelDistanceClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Two classes\BinaryDistanceClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Two classes\BinaryClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassClassifierBase`1.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelGenerativeClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Two classes\BinaryGenerativeClassifierBase.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MachineLearning\Learning\ISupervisedBinaryLearning.cs" />
-    <Compile Include="MachineLearning\Learning\ISupervisedLearning.cs" />
-    <Compile Include="MachineLearning\Learning\ISupervisedMulticlassLearning.cs" />
-    <Compile Include="MachineLearning\Learning\ISupervisedMultilabelLearning.cs" />
-    <Compile Include="MachineLearning\Learning\IUnsupervisedLearning.cs" />
-    <Compile Include="MachineLearning\Learning\BinaryLearningBase.cs" />
-    <Compile Include="MachineLearning\Learning\MulticlassLearningBase.cs" />
-    <Compile Include="MachineLearning\Learning\ParallelMulticlassLearningBase.cs" />
-    <Compile Include="MachineLearning\Learning\ParallelLearningBase.cs" />
-    <Compile Include="MachineLearning\Learning\IParallel.cs" />
+    <Compile Include="Accord.MachineLearning\Learning\ISupervisedBinaryLearning.cs" />
+    <Compile Include="Accord.MachineLearning\Learning\ISupervisedLearning.cs" />
+    <Compile Include="Accord.MachineLearning\Learning\ISupervisedMulticlassLearning.cs" />
+    <Compile Include="Accord.MachineLearning\Learning\ISupervisedMultilabelLearning.cs" />
+    <Compile Include="Accord.MachineLearning\Learning\IUnsupervisedLearning.cs" />
+    <Compile Include="Accord.MachineLearning\Learning\BinaryLearningBase.cs" />
+    <Compile Include="Accord.MachineLearning\Learning\MulticlassLearningBase.cs" />
+    <Compile Include="Accord.MachineLearning\Learning\ParallelMulticlassLearningBase.cs" />
+    <Compile Include="Accord.MachineLearning\Learning\ParallelLearningBase.cs" />
+    <Compile Include="Accord.MachineLearning\Learning\IParallel.cs" />
     <Compile Include="Measures\Measures.Histogram.cs" />
     <Compile Include="Measures\Measures.Vectors.cs" />
     <Compile Include="Measures\Measures.Matrix.cs" />
@@ -458,6 +459,8 @@
     <Compile Include="Running\RunningNormalStatistics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Moving\MovingNormalStatistics.cs" />
+    <Compile Include="Accord.Math\Loss\HammingLoss.cs" />
+    <Compile Include="Accord.Math\Loss\ZeroOneLoss.cs" />
     <Compile Include="Testing\Accord.Statistics.Testing.cs" />
     <Compile Include="Testing\Contingency\ReceiverOperatingCurveTest.cs" />
     <Compile Include="Testing\Contingency\TwoAverageKappaTest.cs" />
@@ -537,9 +540,9 @@
     <None Include="Distributions\Multivariate\Accord.Statistics.Distributions.Multivariate.cd" />
     <None Include="Distributions\Univariate\Accord.Statistics.Distributions.Univariate.cd" />
     <None Include="Kernels\Accord.Statistics.Kernels.cd" />
-    <None Include="MachineLearning\Accord.MachineLearning.Core.cd" />
-    <None Include="MachineLearning\Classifiers\Multiple classes\Multiclass\Multiclass.cd" />
-    <None Include="MachineLearning\Classifiers\Two classes\Binary.cd" />
+    <None Include="Accord.MachineLearning\Accord.MachineLearning.Core.cd" />
+    <None Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\Multiclass.cd" />
+    <None Include="Accord.MachineLearning\Classifiers\Two classes\Binary.cd" />
     <None Include="Models\Accord.Statistics.Models.cd">
       <SubType>Designer</SubType>
     </None>

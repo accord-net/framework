@@ -229,7 +229,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         {
             this.Model = model as TModel;
             this.Input = input;
-            this.Output = Special.Decide(output);
+            this.Output = Classes.Decide(output);
         }
 
         /// <summary>

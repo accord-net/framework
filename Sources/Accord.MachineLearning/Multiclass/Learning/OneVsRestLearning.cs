@@ -34,6 +34,7 @@ namespace Accord.MachineLearning
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.MachineLearning.VectorMachines;
     using Accord.Statistics.Kernels;
+    using Accord.Statistics;
 
     /// <summary>
     ///   Base learning algorithm for <see cref="OneVsRest{TBinary, TModel}"/> multi-class classifiers.
@@ -164,7 +165,7 @@ namespace Accord.MachineLearning
         /// </returns>
         public TModel Learn(TInput[] x, int[][] y, double[] weights = null)
         {
-            return Learn(x, Special.Decide(y), weights);
+            return Learn(x, Classes.Decide(y), weights);
         }
 
         /// <summary>
