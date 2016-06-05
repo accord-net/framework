@@ -89,6 +89,7 @@ namespace Accord.Controls
         /// <remarks><para>The value sets the X range of data to be displayed on the chart.</para></remarks>
         /// 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Range RangeX
         {
             get { return rangeX; }
@@ -107,6 +108,7 @@ namespace Accord.Controls
         /// <remarks>The value sets the Y range of data to be displayed on the chart.</remarks>
         ///
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Range RangeY
         {
             get { return rangeY; }
