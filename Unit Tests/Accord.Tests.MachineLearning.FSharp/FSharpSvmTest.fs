@@ -25,7 +25,7 @@ type FSharpSvmTest() =
 
     // static member error = 0.0 
 
-    static member Run(cost : double, ?method: MulticlassComputeMethod) =
+    static member Run(cost : double, ?methd: MulticlassComputeMethod) =
 
         let root = __SOURCE_DIRECTORY__ 
         let training = root + "/trainingsample.csv"
@@ -75,9 +75,9 @@ type FSharpSvmTest() =
         let config = SupportVectorMachineLearningConfigurationFunction(algorithm)
         learner.Algorithm <- config
  
-        match method with
+        match methd with
         | Some(m) -> svm.Method <- m
-        | None -> printfn "no method"
+        | None -> printfn "no methd"
 
         let error = 
             try
@@ -125,7 +125,7 @@ type FSharpSvmTest() =
 
 
 
-    static member RunNew(cost : double, ?method: MulticlassComputeMethod) =
+    static member RunNew(cost : double, ?methd: MulticlassComputeMethod) =
 
         let root = __SOURCE_DIRECTORY__ 
         let training = root + "/trainingsample.csv"
@@ -159,9 +159,9 @@ type FSharpSvmTest() =
 
         let svm = learner.Learn(observations, labels) 
             
-        match method with
+        match methd with
         | Some(m) -> svm.Method <- m
-        | None -> printfn "no method"
+        | None -> printfn "no methd"
 
 
         (*
@@ -215,7 +215,7 @@ type FSharpSvmTest() =
         Assert.AreEqual(0.9, validation, 0.01)
                 
     [<TestCase()>]
-    member x.fsharp_multiclass_old_method() =
+    member x.fsharp_multiclass_old_methd() =
         let (error, validation) = FSharpSvmTest.Run(0.1)
         Assert.AreEqual(0.9, validation, 0.005)
         Assert.AreEqual(0, error)
@@ -233,13 +233,13 @@ type FSharpSvmTest() =
         Assert.AreEqual(0, error)
 
     [<TestCase()>]
-    member x.fsharp_multiclass_elimination_new_method() =
+    member x.fsharp_multiclass_elimination_new_methd() =
         let (error, validation) = FSharpSvmTest.RunNew(0.1, MulticlassComputeMethod.Elimination)
         Assert.AreEqual(0.918, validation, 1e-3)
         Assert.AreEqual(0.054, error, 1e-3)
 
     [<TestCase()>]
-    member x.fsharp_multiclass_voting_new_method() =
+    member x.fsharp_multiclass_voting_new_methd() =
         let (error, validation) = FSharpSvmTest.RunNew(0.1, MulticlassComputeMethod.Voting)
         Assert.AreEqual(0.922, validation, 0.005)
         Assert.AreEqual(0.054, error, 1e-3)
@@ -251,7 +251,7 @@ type FSharpSvmTest() =
         Assert.AreEqual(0.0546, error, 0.002);
 
     [<TestCase()>]
-    member x.fsharp_multiclass_auto_complexity_new_method() =
+    member x.fsharp_multiclass_auto_complexity_new_methd() =
         let (error, validation) = FSharpSvmTest.RunNew(0.0);
         Assert.AreEqual(0.92, validation, 0.005);
         Assert.AreEqual(0.0546, error, 0.002);

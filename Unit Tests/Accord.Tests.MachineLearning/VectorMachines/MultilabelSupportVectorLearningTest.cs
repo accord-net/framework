@@ -26,6 +26,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
+    using Accord.Statistics;
     using Accord.Statistics.Kernels;
     using NUnit.Framework;
     using System.IO;
@@ -90,7 +91,7 @@ namespace Accord.Tests.MachineLearning
             // a hard-margin linear machine
 
             bool[][] pred = machine.Decide(inputs);
-            bool[][] train = Special.Decide(outputs);
+            bool[][] train = Classes.Decide(outputs);
 
             var and = pred.GetColumn(0);
             Assert.IsTrue(and.IsEqual(train.GetColumn(0)));

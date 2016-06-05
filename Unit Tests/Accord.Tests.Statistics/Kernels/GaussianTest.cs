@@ -26,25 +26,12 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using NUnit.Framework;
     using System.Diagnostics;
+    using Accord.Statistics;
+    using System;
 
     [TestFixture]
     public class GaussianTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
 
 
         [Test]
@@ -166,6 +153,31 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(49, gaussian.SigmaSquared, 1e-10);
             Assert.AreEqual(7, gaussian.Sigma, 1e-10);
             Assert.AreEqual(1.0 / (2 * 49), gaussian.Gamma);
+        }
+
+        [Test]
+        public void estimate_gaussian_distances()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+
+            double[][] data = 
+            {
+                new double[] { 5.1, 3.5, 1.4, 0.2 },
+                new double[] { 5.0, 3.6, 1.4, 0.2 },
+                new double[] { 4.9, 3.0, 1.4, 0.2 },
+                new double[] { 5.8, 4.0, 1.2, 0.2 },
+                new double[] { 4.7, 3.2, 1.3, 0.2 },
+            };
+
+            var actual = Gaussian.Distances(data, 2);
+            Assert.IsTrue(actual.IsSorted());
+            Assert.AreEqual(0.95, actual.Mean(), 1e-5);
+
+            actual = Gaussian.Distances(data, data.Length);
+            Assert.IsTrue(actual.IsSorted());
+            Assert.AreEqual(0.5296, actual.Mean(), 1e-5);
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => Gaussian.Distances(data, 10));
         }
 
         [Test]

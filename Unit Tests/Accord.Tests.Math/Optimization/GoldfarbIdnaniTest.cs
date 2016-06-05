@@ -1554,5 +1554,77 @@ namespace Accord.Tests.Math
 
             double[] violation = constraints.Apply(x => x.GetViolation(solver.Solution));
         }
+
+        [Test]
+        public void GoldfarbIdnaniMinimizeWithEqualityTest2()
+        {
+            // This test reproduces Issue #171 at GitHub
+            // Solve the following optimization problem:
+            //
+            //  min f(x) = a² + b² + c² + d² + e² + f² + 10a + 10b + 30c + 20d + 30e + 20f
+            // 
+            //  s.t.                  a == 4
+            //                b + c + d == 5
+            //                    e + f == 1
+            //                    a + b <= 7
+            //                    c + e <= 1
+            //                    d + f <= 2
+            //                        a >= 0
+            //                        b >= 0
+            //                        c >= 0
+            //                        d >= 0
+            //                        e >= 0
+            //                        f >= 0
+
+            double[,] A =
+            {
+                    { 1,0,0,0,0,0,},
+                    { 0,1,1,1,0,0,},
+                    { 0,0,0,0,1,1,},
+                    { -1,-1,0,0,0,0,},
+                    { 0,0,-1,0,-1,0,},
+                    { 0,0,0,-1,0,-1,},
+                    { 1,0,0,0,0,0,},
+                    { 0,1,0,0,0,0,},
+                    { 0,0,1,0,0,0,},
+                    { 0,0,0,1,0,0,},
+                    { 0,0,0,0,1,0,},
+                    { 0,0,0,0,0,1 },
+            };
+
+            double[] b =
+            {
+                4,5,1,-7,-1,-2,0,0,0,0,0,0
+            };
+
+            double[,] Q =
+            {
+                {  2,  0,  0,  0,  0,  0},
+                {  0,  2,  0,  0,  0,  0},
+                {  0,  0,  2,  0,  0,  0},
+                {  0,  0,  0,  2,  0,  0},
+                {  0,  0,  0,  0,  2,  0},
+                {  0,  0,  0,  0,  0,  2 },
+            };
+
+            double[] d =
+            {
+                10,10,30,20,30,20
+            };
+
+            GoldfarbIdnani target = new GoldfarbIdnani(Q, d, A, b, 3);
+            var tolerance = 0.001;
+            target.ConstraintTolerances.ApplyInPlace(a => tolerance);
+
+            Assert.IsTrue(target.Minimize());
+            double[] solution = target.Solution;
+
+            Assert.AreEqual(4, solution[0], tolerance);
+            Assert.AreEqual(3, solution[1], tolerance);
+            Assert.AreEqual(0.75, solution[2], tolerance);
+            Assert.AreEqual(1.25, solution[3], tolerance);
+            Assert.AreEqual(0.25, solution[4], tolerance);
+            Assert.AreEqual(0.75, solution[5], tolerance);
+        }
     }
 }
