@@ -120,8 +120,7 @@ namespace Accord.Math
 #endif
         public static short[][] ToInt16(this int[,] value, short[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int16)value[i, j];
             return result;
@@ -151,8 +150,7 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this int[][] value, short[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int16)value[i][j];
             return result;            
@@ -242,8 +240,7 @@ namespace Accord.Math
 #endif
         public static float[][] ToSingle(this int[,] value, float[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Single)value[i, j];
             return result;
@@ -273,8 +270,7 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this int[][] value, float[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Single)value[i][j];
             return result;            
@@ -364,8 +360,7 @@ namespace Accord.Math
 #endif
         public static double[][] ToDouble(this int[,] value, double[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Double)value[i, j];
             return result;
@@ -395,8 +390,7 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this int[][] value, double[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Double)value[i][j];
             return result;            
@@ -486,8 +480,7 @@ namespace Accord.Math
 #endif
         public static long[][] ToInt64(this int[,] value, long[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int64)value[i, j];
             return result;
@@ -517,8 +510,7 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this int[][] value, long[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int64)value[i][j];
             return result;            
@@ -608,8 +600,7 @@ namespace Accord.Math
 #endif
         public static byte[][] ToByte(this int[,] value, byte[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Byte)value[i, j];
             return result;
@@ -639,8 +630,7 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this int[][] value, byte[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Byte)value[i][j];
             return result;            
@@ -730,8 +720,7 @@ namespace Accord.Math
 #endif
         public static sbyte[][] ToSByte(this int[,] value, sbyte[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (SByte)value[i, j];
             return result;
@@ -761,8 +750,7 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this int[][] value, sbyte[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (SByte)value[i][j];
             return result;            
@@ -852,8 +840,7 @@ namespace Accord.Math
 #endif
         public static decimal[][] ToDecimal(this int[,] value, decimal[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Decimal)value[i, j];
             return result;
@@ -883,8 +870,7 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this int[][] value, decimal[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Decimal)value[i][j];
             return result;            
@@ -974,8 +960,7 @@ namespace Accord.Math
 #endif
         public static bool[][] ToBoolean(this int[,] value, bool[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = value[i, j] != 0;
             return result;
@@ -1005,8 +990,7 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this int[][] value, bool[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] != 0;
             return result;            
@@ -1096,8 +1080,7 @@ namespace Accord.Math
 #endif
         public static int[][] ToInt32(this short[,] value, int[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int32)value[i, j];
             return result;
@@ -1127,8 +1110,7 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this short[][] value, int[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int32)value[i][j];
             return result;            
@@ -1218,8 +1200,7 @@ namespace Accord.Math
 #endif
         public static float[][] ToSingle(this short[,] value, float[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Single)value[i, j];
             return result;
@@ -1249,8 +1230,7 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this short[][] value, float[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Single)value[i][j];
             return result;            
@@ -1340,8 +1320,7 @@ namespace Accord.Math
 #endif
         public static double[][] ToDouble(this short[,] value, double[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Double)value[i, j];
             return result;
@@ -1371,8 +1350,7 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this short[][] value, double[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Double)value[i][j];
             return result;            
@@ -1462,8 +1440,7 @@ namespace Accord.Math
 #endif
         public static long[][] ToInt64(this short[,] value, long[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int64)value[i, j];
             return result;
@@ -1493,8 +1470,7 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this short[][] value, long[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int64)value[i][j];
             return result;            
@@ -1584,8 +1560,7 @@ namespace Accord.Math
 #endif
         public static byte[][] ToByte(this short[,] value, byte[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Byte)value[i, j];
             return result;
@@ -1615,8 +1590,7 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this short[][] value, byte[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Byte)value[i][j];
             return result;            
@@ -1706,8 +1680,7 @@ namespace Accord.Math
 #endif
         public static sbyte[][] ToSByte(this short[,] value, sbyte[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (SByte)value[i, j];
             return result;
@@ -1737,8 +1710,7 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this short[][] value, sbyte[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (SByte)value[i][j];
             return result;            
@@ -1828,8 +1800,7 @@ namespace Accord.Math
 #endif
         public static decimal[][] ToDecimal(this short[,] value, decimal[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Decimal)value[i, j];
             return result;
@@ -1859,8 +1830,7 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this short[][] value, decimal[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Decimal)value[i][j];
             return result;            
@@ -1950,8 +1920,7 @@ namespace Accord.Math
 #endif
         public static bool[][] ToBoolean(this short[,] value, bool[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = value[i, j] != 0;
             return result;
@@ -1981,8 +1950,7 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this short[][] value, bool[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] != 0;
             return result;            
@@ -2072,8 +2040,7 @@ namespace Accord.Math
 #endif
         public static int[][] ToInt32(this float[,] value, int[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int32)value[i, j];
             return result;
@@ -2103,8 +2070,7 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this float[][] value, int[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int32)value[i][j];
             return result;            
@@ -2194,8 +2160,7 @@ namespace Accord.Math
 #endif
         public static short[][] ToInt16(this float[,] value, short[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int16)value[i, j];
             return result;
@@ -2225,8 +2190,7 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this float[][] value, short[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int16)value[i][j];
             return result;            
@@ -2316,8 +2280,7 @@ namespace Accord.Math
 #endif
         public static double[][] ToDouble(this float[,] value, double[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Double)value[i, j];
             return result;
@@ -2347,8 +2310,7 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this float[][] value, double[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Double)value[i][j];
             return result;            
@@ -2438,8 +2400,7 @@ namespace Accord.Math
 #endif
         public static long[][] ToInt64(this float[,] value, long[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int64)value[i, j];
             return result;
@@ -2469,8 +2430,7 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this float[][] value, long[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int64)value[i][j];
             return result;            
@@ -2560,8 +2520,7 @@ namespace Accord.Math
 #endif
         public static byte[][] ToByte(this float[,] value, byte[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Byte)value[i, j];
             return result;
@@ -2591,8 +2550,7 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this float[][] value, byte[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Byte)value[i][j];
             return result;            
@@ -2682,8 +2640,7 @@ namespace Accord.Math
 #endif
         public static sbyte[][] ToSByte(this float[,] value, sbyte[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (SByte)value[i, j];
             return result;
@@ -2713,8 +2670,7 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this float[][] value, sbyte[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (SByte)value[i][j];
             return result;            
@@ -2804,8 +2760,7 @@ namespace Accord.Math
 #endif
         public static decimal[][] ToDecimal(this float[,] value, decimal[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Decimal)value[i, j];
             return result;
@@ -2835,8 +2790,7 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this float[][] value, decimal[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Decimal)value[i][j];
             return result;            
@@ -2926,8 +2880,7 @@ namespace Accord.Math
 #endif
         public static bool[][] ToBoolean(this float[,] value, bool[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = value[i, j] != 0;
             return result;
@@ -2957,8 +2910,7 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this float[][] value, bool[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] != 0;
             return result;            
@@ -3048,8 +3000,7 @@ namespace Accord.Math
 #endif
         public static int[][] ToInt32(this double[,] value, int[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int32)value[i, j];
             return result;
@@ -3079,8 +3030,7 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this double[][] value, int[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int32)value[i][j];
             return result;            
@@ -3170,8 +3120,7 @@ namespace Accord.Math
 #endif
         public static short[][] ToInt16(this double[,] value, short[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int16)value[i, j];
             return result;
@@ -3201,8 +3150,7 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this double[][] value, short[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int16)value[i][j];
             return result;            
@@ -3292,8 +3240,7 @@ namespace Accord.Math
 #endif
         public static float[][] ToSingle(this double[,] value, float[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Single)value[i, j];
             return result;
@@ -3323,8 +3270,7 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this double[][] value, float[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Single)value[i][j];
             return result;            
@@ -3414,8 +3360,7 @@ namespace Accord.Math
 #endif
         public static long[][] ToInt64(this double[,] value, long[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int64)value[i, j];
             return result;
@@ -3445,8 +3390,7 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this double[][] value, long[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int64)value[i][j];
             return result;            
@@ -3536,8 +3480,7 @@ namespace Accord.Math
 #endif
         public static byte[][] ToByte(this double[,] value, byte[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Byte)value[i, j];
             return result;
@@ -3567,8 +3510,7 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this double[][] value, byte[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Byte)value[i][j];
             return result;            
@@ -3658,8 +3600,7 @@ namespace Accord.Math
 #endif
         public static sbyte[][] ToSByte(this double[,] value, sbyte[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (SByte)value[i, j];
             return result;
@@ -3689,8 +3630,7 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this double[][] value, sbyte[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (SByte)value[i][j];
             return result;            
@@ -3780,8 +3720,7 @@ namespace Accord.Math
 #endif
         public static decimal[][] ToDecimal(this double[,] value, decimal[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Decimal)value[i, j];
             return result;
@@ -3811,8 +3750,7 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this double[][] value, decimal[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Decimal)value[i][j];
             return result;            
@@ -3902,8 +3840,7 @@ namespace Accord.Math
 #endif
         public static bool[][] ToBoolean(this double[,] value, bool[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = value[i, j] != 0;
             return result;
@@ -3933,8 +3870,7 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this double[][] value, bool[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] != 0;
             return result;            
@@ -4024,8 +3960,7 @@ namespace Accord.Math
 #endif
         public static int[][] ToInt32(this long[,] value, int[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int32)value[i, j];
             return result;
@@ -4055,8 +3990,7 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this long[][] value, int[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int32)value[i][j];
             return result;            
@@ -4146,8 +4080,7 @@ namespace Accord.Math
 #endif
         public static short[][] ToInt16(this long[,] value, short[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int16)value[i, j];
             return result;
@@ -4177,8 +4110,7 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this long[][] value, short[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int16)value[i][j];
             return result;            
@@ -4268,8 +4200,7 @@ namespace Accord.Math
 #endif
         public static float[][] ToSingle(this long[,] value, float[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Single)value[i, j];
             return result;
@@ -4299,8 +4230,7 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this long[][] value, float[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Single)value[i][j];
             return result;            
@@ -4390,8 +4320,7 @@ namespace Accord.Math
 #endif
         public static double[][] ToDouble(this long[,] value, double[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Double)value[i, j];
             return result;
@@ -4421,8 +4350,7 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this long[][] value, double[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Double)value[i][j];
             return result;            
@@ -4512,8 +4440,7 @@ namespace Accord.Math
 #endif
         public static byte[][] ToByte(this long[,] value, byte[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Byte)value[i, j];
             return result;
@@ -4543,8 +4470,7 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this long[][] value, byte[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Byte)value[i][j];
             return result;            
@@ -4634,8 +4560,7 @@ namespace Accord.Math
 #endif
         public static sbyte[][] ToSByte(this long[,] value, sbyte[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (SByte)value[i, j];
             return result;
@@ -4665,8 +4590,7 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this long[][] value, sbyte[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (SByte)value[i][j];
             return result;            
@@ -4756,8 +4680,7 @@ namespace Accord.Math
 #endif
         public static decimal[][] ToDecimal(this long[,] value, decimal[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Decimal)value[i, j];
             return result;
@@ -4787,8 +4710,7 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this long[][] value, decimal[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Decimal)value[i][j];
             return result;            
@@ -4878,8 +4800,7 @@ namespace Accord.Math
 #endif
         public static bool[][] ToBoolean(this long[,] value, bool[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = value[i, j] != 0;
             return result;
@@ -4909,8 +4830,7 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this long[][] value, bool[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] != 0;
             return result;            
@@ -5000,8 +4920,7 @@ namespace Accord.Math
 #endif
         public static int[][] ToInt32(this byte[,] value, int[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int32)value[i, j];
             return result;
@@ -5031,8 +4950,7 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this byte[][] value, int[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int32)value[i][j];
             return result;            
@@ -5122,8 +5040,7 @@ namespace Accord.Math
 #endif
         public static short[][] ToInt16(this byte[,] value, short[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int16)value[i, j];
             return result;
@@ -5153,8 +5070,7 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this byte[][] value, short[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int16)value[i][j];
             return result;            
@@ -5244,8 +5160,7 @@ namespace Accord.Math
 #endif
         public static float[][] ToSingle(this byte[,] value, float[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Single)value[i, j];
             return result;
@@ -5275,8 +5190,7 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this byte[][] value, float[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Single)value[i][j];
             return result;            
@@ -5366,8 +5280,7 @@ namespace Accord.Math
 #endif
         public static double[][] ToDouble(this byte[,] value, double[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Double)value[i, j];
             return result;
@@ -5397,8 +5310,7 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this byte[][] value, double[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Double)value[i][j];
             return result;            
@@ -5488,8 +5400,7 @@ namespace Accord.Math
 #endif
         public static long[][] ToInt64(this byte[,] value, long[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int64)value[i, j];
             return result;
@@ -5519,8 +5430,7 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this byte[][] value, long[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int64)value[i][j];
             return result;            
@@ -5610,8 +5520,7 @@ namespace Accord.Math
 #endif
         public static sbyte[][] ToSByte(this byte[,] value, sbyte[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (SByte)value[i, j];
             return result;
@@ -5641,8 +5550,7 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this byte[][] value, sbyte[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (SByte)value[i][j];
             return result;            
@@ -5732,8 +5640,7 @@ namespace Accord.Math
 #endif
         public static decimal[][] ToDecimal(this byte[,] value, decimal[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Decimal)value[i, j];
             return result;
@@ -5763,8 +5670,7 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this byte[][] value, decimal[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Decimal)value[i][j];
             return result;            
@@ -5854,8 +5760,7 @@ namespace Accord.Math
 #endif
         public static bool[][] ToBoolean(this byte[,] value, bool[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = value[i, j] != 0;
             return result;
@@ -5885,8 +5790,7 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this byte[][] value, bool[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] != 0;
             return result;            
@@ -5976,8 +5880,7 @@ namespace Accord.Math
 #endif
         public static int[][] ToInt32(this sbyte[,] value, int[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int32)value[i, j];
             return result;
@@ -6007,8 +5910,7 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this sbyte[][] value, int[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int32)value[i][j];
             return result;            
@@ -6098,8 +6000,7 @@ namespace Accord.Math
 #endif
         public static short[][] ToInt16(this sbyte[,] value, short[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int16)value[i, j];
             return result;
@@ -6129,8 +6030,7 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this sbyte[][] value, short[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int16)value[i][j];
             return result;            
@@ -6220,8 +6120,7 @@ namespace Accord.Math
 #endif
         public static float[][] ToSingle(this sbyte[,] value, float[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Single)value[i, j];
             return result;
@@ -6251,8 +6150,7 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this sbyte[][] value, float[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Single)value[i][j];
             return result;            
@@ -6342,8 +6240,7 @@ namespace Accord.Math
 #endif
         public static double[][] ToDouble(this sbyte[,] value, double[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Double)value[i, j];
             return result;
@@ -6373,8 +6270,7 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this sbyte[][] value, double[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Double)value[i][j];
             return result;            
@@ -6464,8 +6360,7 @@ namespace Accord.Math
 #endif
         public static long[][] ToInt64(this sbyte[,] value, long[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int64)value[i, j];
             return result;
@@ -6495,8 +6390,7 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this sbyte[][] value, long[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int64)value[i][j];
             return result;            
@@ -6586,8 +6480,7 @@ namespace Accord.Math
 #endif
         public static byte[][] ToByte(this sbyte[,] value, byte[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Byte)value[i, j];
             return result;
@@ -6617,8 +6510,7 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this sbyte[][] value, byte[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Byte)value[i][j];
             return result;            
@@ -6708,8 +6600,7 @@ namespace Accord.Math
 #endif
         public static decimal[][] ToDecimal(this sbyte[,] value, decimal[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Decimal)value[i, j];
             return result;
@@ -6739,8 +6630,7 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this sbyte[][] value, decimal[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Decimal)value[i][j];
             return result;            
@@ -6830,8 +6720,7 @@ namespace Accord.Math
 #endif
         public static bool[][] ToBoolean(this sbyte[,] value, bool[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = value[i, j] != 0;
             return result;
@@ -6861,8 +6750,7 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this sbyte[][] value, bool[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] != 0;
             return result;            
@@ -6952,8 +6840,7 @@ namespace Accord.Math
 #endif
         public static int[][] ToInt32(this decimal[,] value, int[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int32)value[i, j];
             return result;
@@ -6983,8 +6870,7 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this decimal[][] value, int[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int32)value[i][j];
             return result;            
@@ -7074,8 +6960,7 @@ namespace Accord.Math
 #endif
         public static short[][] ToInt16(this decimal[,] value, short[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int16)value[i, j];
             return result;
@@ -7105,8 +6990,7 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this decimal[][] value, short[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int16)value[i][j];
             return result;            
@@ -7196,8 +7080,7 @@ namespace Accord.Math
 #endif
         public static float[][] ToSingle(this decimal[,] value, float[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Single)value[i, j];
             return result;
@@ -7227,8 +7110,7 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this decimal[][] value, float[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Single)value[i][j];
             return result;            
@@ -7318,8 +7200,7 @@ namespace Accord.Math
 #endif
         public static double[][] ToDouble(this decimal[,] value, double[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Double)value[i, j];
             return result;
@@ -7349,8 +7230,7 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this decimal[][] value, double[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Double)value[i][j];
             return result;            
@@ -7440,8 +7320,7 @@ namespace Accord.Math
 #endif
         public static long[][] ToInt64(this decimal[,] value, long[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Int64)value[i, j];
             return result;
@@ -7471,8 +7350,7 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this decimal[][] value, long[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Int64)value[i][j];
             return result;            
@@ -7562,8 +7440,7 @@ namespace Accord.Math
 #endif
         public static byte[][] ToByte(this decimal[,] value, byte[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (Byte)value[i, j];
             return result;
@@ -7593,8 +7470,7 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this decimal[][] value, byte[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Byte)value[i][j];
             return result;            
@@ -7684,8 +7560,7 @@ namespace Accord.Math
 #endif
         public static sbyte[][] ToSByte(this decimal[,] value, sbyte[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (SByte)value[i, j];
             return result;
@@ -7715,8 +7590,7 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this decimal[][] value, sbyte[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (SByte)value[i][j];
             return result;            
@@ -7806,8 +7680,7 @@ namespace Accord.Math
 #endif
         public static bool[][] ToBoolean(this decimal[,] value, bool[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = value[i, j] != 0;
             return result;
@@ -7837,8 +7710,7 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this decimal[][] value, bool[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] != 0;
             return result;            
@@ -7928,8 +7800,7 @@ namespace Accord.Math
 #endif
         public static int[][] ToInt32(this bool[,] value, int[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = value[i, j] ? (Int32)1 : (Int32)0;
             return result;
@@ -7959,8 +7830,7 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this bool[][] value, int[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] ? (Int32)1 : (Int32)0;
             return result;            
@@ -8050,8 +7920,7 @@ namespace Accord.Math
 #endif
         public static short[][] ToInt16(this bool[,] value, short[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = value[i, j] ? (Int16)1 : (Int16)0;
             return result;
@@ -8081,8 +7950,7 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this bool[][] value, short[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] ? (Int16)1 : (Int16)0;
             return result;            
@@ -8172,8 +8040,7 @@ namespace Accord.Math
 #endif
         public static float[][] ToSingle(this bool[,] value, float[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = value[i, j] ? (Single)1 : (Single)0;
             return result;
@@ -8203,8 +8070,7 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this bool[][] value, float[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] ? (Single)1 : (Single)0;
             return result;            
@@ -8294,8 +8160,7 @@ namespace Accord.Math
 #endif
         public static double[][] ToDouble(this bool[,] value, double[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = value[i, j] ? (Double)1 : (Double)0;
             return result;
@@ -8325,8 +8190,7 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this bool[][] value, double[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] ? (Double)1 : (Double)0;
             return result;            
@@ -8416,8 +8280,7 @@ namespace Accord.Math
 #endif
         public static long[][] ToInt64(this bool[,] value, long[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = value[i, j] ? (Int64)1 : (Int64)0;
             return result;
@@ -8447,8 +8310,7 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this bool[][] value, long[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] ? (Int64)1 : (Int64)0;
             return result;            
@@ -8538,8 +8400,7 @@ namespace Accord.Math
 #endif
         public static byte[][] ToByte(this bool[,] value, byte[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = value[i, j] ? (Byte)1 : (Byte)0;
             return result;
@@ -8569,8 +8430,7 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this bool[][] value, byte[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] ? (Byte)1 : (Byte)0;
             return result;            
@@ -8660,8 +8520,7 @@ namespace Accord.Math
 #endif
         public static sbyte[][] ToSByte(this bool[,] value, sbyte[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = value[i, j] ? (SByte)1 : (SByte)0;
             return result;
@@ -8691,8 +8550,7 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this bool[][] value, sbyte[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] ? (SByte)1 : (SByte)0;
             return result;            
@@ -8782,8 +8640,7 @@ namespace Accord.Math
 #endif
         public static decimal[][] ToDecimal(this bool[,] value, decimal[][] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = value[i, j] ? (Decimal)1 : (Decimal)0;
             return result;
@@ -8813,8 +8670,7 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this bool[][] value, decimal[,] result)
         {
-            // TODO: Optimize
-            for (int i = 0; i < value.Length; i++)
+                        for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] ? (Decimal)1 : (Decimal)0;
             return result;            

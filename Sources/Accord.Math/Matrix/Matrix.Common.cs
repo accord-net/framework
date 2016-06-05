@@ -619,6 +619,19 @@ namespace Accord.Math
             return matrix.GetLength(1);
         }
 
+        /// <summary>
+        ///   Returns true if a vector of real-valued observations
+        ///   is ordered in ascending or descending order.
+        /// </summary>
+        /// 
+        /// <param name="values">An array of values.</param>
+        /// 
+        public static bool IsSorted<T>(this T[] values) 
+            where T : IComparable<T>
+        {
+            return IsSorted(values, ComparerDirection.Ascending)
+                || IsSorted(values, ComparerDirection.Descending);
+        }
 
         /// <summary>
         ///   Returns true if a vector of real-valued observations
@@ -628,7 +641,8 @@ namespace Accord.Math
         /// <param name="values">An array of values.</param>
         /// <param name="direction">The sort order direction.</param>
         /// 
-        public static bool IsSorted<T>(this T[] values, ComparerDirection direction) where T : IComparable<T>
+        public static bool IsSorted<T>(this T[] values, ComparerDirection direction) 
+            where T : IComparable<T>
         {
             if (direction == ComparerDirection.Ascending)
             {

@@ -167,7 +167,7 @@ namespace Accord.Math
 #endif
         public static <#=b_type#>[][] To<#=b_name#>(this <#=a_type#>[,] value, <#=b_type#>[][] result)
         {
-            // TODO: Optimize
+            <#// TODO: Optimize#>
             for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = <#=begin#>value[i, j]<#=end#>;
@@ -198,7 +198,7 @@ namespace Accord.Math
 #endif
         public static <#=b_type#>[,] To<#=b_name#>(this <#=a_type#>[][] value, <#=b_type#>[,] result)
         {
-            // TODO: Optimize
+            <#// TODO: Optimize#>
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = <#=begin#>value[i][j]<#=end#>;

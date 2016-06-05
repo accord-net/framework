@@ -1058,7 +1058,7 @@ namespace Accord.Math
             if (a.GetLength(1) != b.Length || result.Length > a.Length || result[0].Length > b[0].Length)
                 throw new DimensionMismatchException();
 #endif
-            // TODO: Optimize
+            <#// TODO: Optimize#>
             int N = result.Length;
             int K = a.GetLength(1);
             int M = result[0].Length;
@@ -1104,7 +1104,7 @@ namespace Accord.Math
             if (rowVector.Length != matrix.GetLength(0) || result.Length > matrix.GetLength(1))
                 throw new DimensionMismatchException();
 #endif
-            // TODO: optimize
+            <#// TODO: Optimize#>
             int cols = matrix.GetLength(1);
             for (int j = 0; j < cols; j++)
             {
@@ -1163,7 +1163,7 @@ namespace Accord.Math
             if (matrix.GetLength(1) != columnVector.Length || result.Length > matrix.GetLength(0))
                 throw new DimensionMismatchException();
 #endif
-            // TODO: Optimize
+            <#// TODO: Optimize#>
             for (int i = 0; i < result.Length; i++)
             {
                 <#=t#> s = (<#=t#>)0;
@@ -1285,7 +1285,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] DotWithTransposed(this <#=a#>[][] a, <#=b#>[,] b, <#=r#>[][] result)
         {
-            // TODO: Optimize this call
+            <#// TODO: Optimize this call#>
             return a.Dot(b.Transpose(), result);
         }
 
@@ -1304,7 +1304,7 @@ namespace Accord.Math
 #endif 
         public static <#=r#>[][] DotWithTransposed(this <#=a#>[,] a, <#=b#>[][] b, <#=r#>[][] result)
         {
-            // TODO: Optimize this call
+            <#// TODO: Optimize this call#>
             return a.Dot(b.Transpose(), result);
         }
 
@@ -1323,7 +1323,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] DotWithTransposed(this <#=a#>[][] a, <#=b#>[][] b, <#=r#>[][] result)
         {
-            // TODO: Optimize this call
+            <#// TODO: Optimize this call#>
             return a.Dot(b.Transpose(), result);
         }
 
@@ -1342,7 +1342,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[] DotWithTransposed(this <#=a#>[] rowVector, <#=b#>[,] b, <#=r#>[] result)
         {
-            // TODO: Optimize this call
+            <#// TODO: Optimize this call#>
             return rowVector.Dot(b.Transpose(), result);
         }
 
@@ -1361,7 +1361,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] DotWithTransposed(this <#=a#>[,] a, <#=b#>[] columnVector, <#=r#>[,] result)
         {
-            // TODO: Optimize this call
+            <#// TODO: Optimize this call#>
             return a.Dot(columnVector.Transpose(), result);
         }
 
@@ -1380,7 +1380,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[] DotWithTransposed(this <#=a#>[] rowVector, <#=b#>[][] b, <#=r#>[] result)
         {
-            // TODO: Optimize this call
+            <#// TODO: Optimize this call#>
             return rowVector.Dot(b.Transpose(), result);
         }
 
@@ -1399,7 +1399,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] DotWithTransposed(this <#=a#>[][] a, <#=b#>[] columnVector, <#=r#>[][] result)
         {
-            // TODO: Optimize this call
+            <#// TODO: Optimize this call#>
             <#=b#>[][] t;
             return a.Dot(columnVector.Transpose(out t), result);
         }
@@ -1525,7 +1525,7 @@ namespace Accord.Math
             if (matrix.GetLength(0) != columnVector.Length || result.Length > matrix.GetLength(1))
                 throw new DimensionMismatchException();
 #endif
-            // TODO: optimize
+            <#// TODO: Optimize this call#>
             int cols = matrix.GetLength(1);
             for (int j = 0; j < cols; j++)
             {
@@ -1590,7 +1590,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] TransposeAndDot(this <#=a#>[][] a, <#=b#>[,] b, <#=r#>[][] result)
         {
-            // TODO: optimize
+            <#// TODO: Optimize this call#>
             return a.Transpose().Dot(b, result);
         }
 
@@ -1608,7 +1608,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] TransposeAndDot(this <#=a#>[,] a, <#=b#>[][] b, <#=r#>[][] result)
         {
-            // TODO: optimize
+            <#// TODO: Optimize this call#>
             return a.Transpose().Dot(b, result);
         }
 
@@ -1629,7 +1629,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] TransposeAndDot(this <#=a#>[] rowVector, <#=b#>[,] b, <#=r#>[,] result)
         {
-            // TODO: optimize
+            <#// TODO: Optimize this call#>
             return rowVector.Transpose().Dot(b, result);
         }
 
@@ -1647,7 +1647,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] TransposeAndDot(this <#=a#>[] rowVector, <#=b#>[][] b, <#=r#>[][] result)
         {
-            // TODO: optimize
+            <#// TODO: Optimize this call#>
             <#=a#>[][] t;
             return rowVector.Transpose(out t).Dot(b, result);
         }

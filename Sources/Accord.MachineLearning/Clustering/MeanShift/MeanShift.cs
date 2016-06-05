@@ -459,10 +459,10 @@ namespace Accord.MachineLearning
                 // check for convergence: magnitude of the mean shift
                 // vector converges to zero (Comaniciu 2002, page 606)
                 if (Norm.Euclidean(shift) < Tolerance * Bandwidth)
-                    return supress(points, index, modes);
+                    break;
             }
 
-            throw new NotImplementedException();
+            return supress(points, index, modes);
         }
 
         private double[] supress(double[][] seeds, int index, ConcurrentStack<double[]> candidates)
