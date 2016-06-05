@@ -23,12 +23,13 @@
 namespace Accord.Statistics.Kernels
 {
     using Accord.Math;
+    using Accord.Math.Distances;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    
+
     /// <summary>
     ///   Extension methods for <see cref="IKernel">kernel functions</see>.
     /// </summary>
@@ -254,5 +255,38 @@ namespace Accord.Statistics.Kernels
             return EstimateComplexity(new Linear(), inputs, outputs);
         }
 
+        /// <summary>
+        ///   Computes the set of all distances between 
+        ///   all points in a random subset of the data.
+        /// </summary>
+        /// 
+        /// <param name="kernel">The inner kernel.</param>
+        /// <param name="inputs">The inputs points.</param>
+        /// <param name="samples">The number of samples.</param>
+        /// 
+        public static double[] Distances<T>(this T kernel, double[][] inputs, int samples)
+            where T : IDistance, ICloneable
+        {
+            int[] idx = Vector.Sample(samples, inputs.Length);
+            int[] idy = Vector.Sample(samples, inputs.Length);
+
+            double[] distances = new double[samples * samples];
+
+            for (int i = 0; i < idx.Length; i++)
+            {
+                double[] x = inputs[idx[i]];
+
+                for (int j = 0; j < idy.Length; j++)
+                {
+                    double[] y = inputs[idy[j]];
+
+                    distances[i * samples + j] = kernel.Distance(x, y);
+                }
+            }
+
+            Array.Sort(distances);
+
+            return distances;
+        }
     }
 }
