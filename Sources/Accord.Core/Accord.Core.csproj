@@ -67,8 +67,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AForge\Delegates.cs" />
-    <Compile Include="AForge\DoublePoint.cs" />
+    <Compile Include="AForge.Core\Delegates.cs" />
+    <Compile Include="AForge.Core\DoublePoint.cs" />
     <Compile Include="Attributes\SourceTypeAttribute.cs" />
     <Compile Include="Attributes\SerializationBinderAttribute.cs" />
     <Compile Include="Debug.cs" />
@@ -89,15 +89,15 @@
     <Compile Include="MachineLearning\TransformBase.cs" />
     <Compile Include="Ranges\ByteRange.cs" />
     <Compile Include="Ranges\DoubleRange.cs" />
-    <Compile Include="AForge\EventArgs.cs" />
-    <Compile Include="AForge\Exceptions.cs" />
-    <Compile Include="AForge\IntPoint.cs" />
+    <Compile Include="AForge.Core\EventArgs.cs" />
+    <Compile Include="AForge.Core\Exceptions.cs" />
+    <Compile Include="AForge.Core\IntPoint.cs" />
     <Compile Include="Ranges\IntRange.cs" />
-    <Compile Include="AForge\Point.cs" />
-    <Compile Include="AForge\PolishExpression.cs" />
+    <Compile Include="AForge.Core\Point.cs" />
+    <Compile Include="AForge.Core\PolishExpression.cs" />
     <Compile Include="Ranges\Range.cs" />
-    <Compile Include="AForge\SystemTools.cs" />
-    <Compile Include="AForge\ThreadSafeRandom.cs" />
+    <Compile Include="AForge.Core\SystemTools.cs" />
+    <Compile Include="AForge.Core\ThreadSafeRandom.cs" />
     <Compile Include="Attributes\RealAttribute.cs" />
     <Compile Include="Attributes\IntegerAttribute.cs" />
     <Compile Include="Cast.cs" />
