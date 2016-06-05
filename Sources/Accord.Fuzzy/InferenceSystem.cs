@@ -118,8 +118,8 @@ namespace Accord.Fuzzy
         /// <param name="database">A fuzzy <see cref="Database"/> containing the system linguistic variables.</param>
         /// <param name="defuzzifier">A defuzzyfier method used to evaluate the numeric uotput of the system.</param>
         /// 
-        public InferenceSystem( Database database, IDefuzzifier defuzzifier )
-            : this( database, defuzzifier, new MinimumNorm( ), new MaximumCoNorm( ) )
+        public InferenceSystem(Database database, IDefuzzifier defuzzifier)
+            : this(database, defuzzifier, new MinimumNorm(), new MaximumCoNorm())
         {
         }
 
@@ -136,13 +136,13 @@ namespace Accord.Fuzzy
         /// <param name="conormOperator">A <see cref="ICoNorm"/> operator used to evaluate the
         /// conorms in the <see cref="InferenceSystem"/>. For more information of the conorm evaluation see <see cref="Rule"/>.</param>
         /// 
-        public InferenceSystem( Database database, IDefuzzifier defuzzifier, INorm normOperator, ICoNorm conormOperator )
+        public InferenceSystem(Database database, IDefuzzifier defuzzifier, INorm normOperator, ICoNorm conormOperator)
         {
             this.database = database;
             this.defuzzifier = defuzzifier;
             this.normOperator = normOperator;
             this.conormOperator = conormOperator;
-            this.rulebase = new Rulebase( );
+            this.rulebase = new Rulebase();
         }
 
         /// <summary>
@@ -155,10 +155,10 @@ namespace Accord.Fuzzy
         /// 
         /// <returns>The new <see cref="Rule"/> reference. </returns>
         /// 
-        public Rule NewRule( string name, string rule )
+        public Rule NewRule(string name, string rule)
         {
-            Rule r = new Rule( database, name, rule, normOperator, conormOperator );
-            this.rulebase.AddRule( r );
+            Rule r = new Rule(database, name, rule, normOperator, conormOperator);
+            this.rulebase.AddRule(r);
             return r;
         }
 
@@ -172,9 +172,9 @@ namespace Accord.Fuzzy
         /// <exception cref="KeyNotFoundException">The variable indicated in <paramref name="variableName"/>
         /// was not found in the database.</exception>
         /// 
-        public void SetInput( string variableName, float value )
+        public void SetInput(string variableName, float value)
         {
-            this.database.GetVariable( variableName ).NumericInput = value;
+            this.database.GetVariable(variableName).NumericInput = value;
         }
 
         /// <summary>
@@ -186,9 +186,9 @@ namespace Accord.Fuzzy
         /// <exception cref="KeyNotFoundException">The variable indicated in <paramref name="variableName"/>
         /// was not found in the database.</exception>
         /// 
-        public LinguisticVariable GetLinguisticVariable( string variableName )
+        public LinguisticVariable GetLinguisticVariable(string variableName)
         {
-           return this.database.GetVariable( variableName );
+            return this.database.GetVariable(variableName);
         }
 
         /// <summary>
@@ -200,9 +200,9 @@ namespace Accord.Fuzzy
         /// <exception cref="KeyNotFoundException">The rule indicated in <paramref name="ruleName"/>
         /// was not found in the rulebase.</exception>
         /// 
-        public Rule GetRule( string ruleName )
+        public Rule GetRule(string ruleName)
         {
-            return this.rulebase.GetRule ( ruleName );
+            return this.rulebase.GetRule(ruleName);
         }
 
         /// <summary>
@@ -216,11 +216,11 @@ namespace Accord.Fuzzy
         /// 
         /// <exception cref="KeyNotFoundException">The variable indicated was not found in the database.</exception>
         /// 
-        public float Evaluate( string variableName )
+        public float Evaluate(string variableName)
         {
             // call the defuzzification on fuzzy output 
-            FuzzyOutput fuzzyOutput = ExecuteInference( variableName );
-            float res = defuzzifier.Defuzzify( fuzzyOutput, normOperator );
+            FuzzyOutput fuzzyOutput = ExecuteInference(variableName);
+            float res = defuzzifier.Defuzzify(fuzzyOutput, normOperator);
             return res;
         }
 
@@ -236,24 +236,24 @@ namespace Accord.Fuzzy
         /// 
         /// <exception cref="KeyNotFoundException">The variable indicated was not found in the database.</exception>
         /// 
-        public FuzzyOutput ExecuteInference( string variableName )
+        public FuzzyOutput ExecuteInference(string variableName)
         {
             // gets the variable
-            LinguisticVariable lingVar = database.GetVariable( variableName );
+            LinguisticVariable lingVar = database.GetVariable(variableName);
 
             // object to store the fuzzy output
-            FuzzyOutput fuzzyOutput = new FuzzyOutput( lingVar );
+            FuzzyOutput fuzzyOutput = new FuzzyOutput(lingVar);
 
             // select only rules with the variable as output
-            Rule[] rules = rulebase.GetRules( );
-            foreach ( Rule r in rules )
+            Rule[] rules = rulebase.GetRules();
+            foreach (Rule r in rules)
             {
-                if ( r.Output.Variable.Name == variableName )
+                if (r.Output.Variable.Name == variableName)
                 {
                     string labelName = r.Output.Label.Name;
-                    float firingStrength = r.EvaluateFiringStrength( );
-                    if ( firingStrength > 0 )
-                        fuzzyOutput.AddOutput( labelName, firingStrength );
+                    float firingStrength = r.EvaluateFiringStrength();
+                    if (firingStrength > 0)
+                        fuzzyOutput.AddOutput(labelName, firingStrength);
                 }
             }
 

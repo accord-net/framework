@@ -50,7 +50,7 @@ namespace Accord.Fuzzy
         /// <param name="intervals">Number of segments that the speech universe will be splited
         /// to perform the numerical approximation of the center of area.</param>
         /// 
-        public CentroidDefuzzifier( int intervals )
+        public CentroidDefuzzifier(int intervals)
         {
             this.intervals = intervals;
         }
@@ -70,7 +70,7 @@ namespace Accord.Fuzzy
         /// 
         /// <exception cref="Exception">The numerical output is unavaliable. All memberships are zero.</exception>
         /// 
-        public float Defuzzify( FuzzyOutput fuzzyOutput, INorm normOperator )
+        public float Defuzzify(FuzzyOutput fuzzyOutput, INorm normOperator)
         {
             // results and accumulators
             float weightSum = 0, membershipSum = 0;
@@ -80,17 +80,17 @@ namespace Accord.Fuzzy
             float end = fuzzyOutput.OutputVariable.End;
 
             // increment
-            float increment = ( end - start ) / this.intervals;
+            float increment = (end - start) / this.intervals;
 
             // running through the speech universe and evaluating the labels at each point
-            for ( float x = start; x < end; x += increment )
+            for (float x = start; x < end; x += increment)
             {
                 // we must evaluate x membership to each one of the output labels
-                foreach ( FuzzyOutput.OutputConstraint oc in fuzzyOutput.OutputList )
+                foreach (FuzzyOutput.OutputConstraint oc in fuzzyOutput.OutputList)
                 {
                     // getting the membership for X and constraining it with the firing strength
-                    float membership = fuzzyOutput.OutputVariable.GetLabelMembership( oc.Label, x );
-                    float constrainedMembership = normOperator.Evaluate( membership, oc.FiringStrength );
+                    float membership = fuzzyOutput.OutputVariable.GetLabelMembership(oc.Label, x);
+                    float constrainedMembership = normOperator.Evaluate(membership, oc.FiringStrength);
 
                     weightSum += x * constrainedMembership;
                     membershipSum += constrainedMembership;
@@ -98,8 +98,8 @@ namespace Accord.Fuzzy
             }
 
             // if no membership was found, then the membershipSum is zero and the numerical output is unknown.
-            if ( membershipSum == 0 )
-                throw new Exception( "The numerical output in unavaliable. All memberships are zero." );
+            if (membershipSum == 0)
+                throw new Exception("The numerical output in unavailable. All memberships are zero.");
 
             return weightSum / membershipSum;
         }
