@@ -182,7 +182,7 @@ namespace Accord.MachineLearning.Structures
         /// 
         public int CompareTo(object obj)
         {
-            return distance.CompareTo((KDTreeNodeDistance<T>)obj);
+            return CompareTo((KDTreeNodeDistance<T>)obj);
         }
     }
 }
