@@ -34,15 +34,27 @@ namespace Accord
     /// 
     [Serializable, System.Diagnostics.CodeAnalysis.SuppressMessage(
         "Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
-    internal class SortedSet<T> : IEnumerable<T>
+    public class SortedSet<T> : ISet<T>, IEnumerable<T>
     {
 
         private SortedList<T, int> list;
 
 
-        public T Max { get; set; }
+        /// <summary>
+        /// Gets the maximum.
+        /// </summary>
+        /// <value>
+        /// The maximum.
+        /// </value>
+        public T Max { get; private set; }
 
-        public T Min { get; set; }
+        /// <summary>
+        /// Gets the minimum.
+        /// </summary>
+        /// <value>
+        /// The minimum.
+        /// </value>
+        public T Min { get; private set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="SortedSet&lt;T&gt;"/> class.
@@ -54,18 +66,14 @@ namespace Accord
         }
 
         /// <summary>
-        ///   Determines whether the set contains the specified value.
+        ///   Initializes a new instance of the <see cref="SortedSet&lt;T&gt;"/> class.
         /// </summary>
         /// 
-        /// <param name="value">The value.</param>
-        /// 
-        /// <returns>
-        ///   <c>true</c> if this object contains the specified value; otherwise, <c>false</c>.
-        /// </returns>
-        /// 
-        public bool Contains(T value)
+        public SortedSet(IEnumerable<T> collection)
         {
-            return list.ContainsKey(value);
+            list = new SortedList<T, int>();
+            foreach (var v in collection)
+                this.Add(v);
         }
 
         /// <summary>
@@ -74,19 +82,27 @@ namespace Accord
         /// 
         /// <param name="value">The value.</param>
         /// 
-        public void Add(T value)
+        public override void Add(T value)
         {
             if (!list.ContainsKey(value))
+            {
                 list.Add(value, 0);
+                base.Add(value);
+            }
 
             Min = list.Keys[0];
             Max = list.Keys[list.Count - 1];
         }
 
-        public void Remove(T value)
+        /// <summary>
+        /// Removes the specified value.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        public override bool Remove(T value)
         {
             if (list.Remove(value))
             {
+                base.Remove(value);
                 if (list.Count > 0)
                 {
                     Min = list.Keys[0];
@@ -97,21 +113,57 @@ namespace Accord
                     Min = default(T);
                     Max = default(T);
                 }
+
+                return true;
             }
+
+            return false;
         }
 
-        public void Clear()
+
+        /// <summary>
+        ///   Modifies this set to contain all elements both sets.
+        /// </summary>
+        public void UnionWith(ISet<T> set)
+        {
+            base.set.UnionWith(set);
+            list.Clear();
+            Min = default(T);
+            Max = default(T);
+            foreach (var v in base.set)
+                Add(v);
+        }
+
+        /// <summary>
+        ///   Removes the given elements from this set.
+        /// </summary>
+        public void ExceptWith(ISet<T> set)
+        {
+            base.set.ExceptWith(set);
+            list.Clear();
+            Min = default(T);
+            Max = default(T);
+            foreach (var v in base.set)
+                Add(v);
+        }
+
+
+        /// <summary>
+        /// Clears this instance.
+        /// </summary>
+        public override void Clear()
         {
             list.Clear();
             Min = default(T);
             Max = default(T);
+            base.Clear();
         }
 
         /// <summary>
         ///   Gets the enumerator.
         /// </summary>
         /// 
-        public IEnumerator<T> GetEnumerator()
+        public override IEnumerator<T> GetEnumerator()
         {
             foreach (var item in list)
                 yield return item.Key;
