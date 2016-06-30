@@ -24,10 +24,12 @@ namespace Accord
 {
     using Accord.IO;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Data;
     using System.Globalization;
+    using System.Linq;
     using System.IO;
     using System.Reflection;
     using System.Runtime.InteropServices;
@@ -111,7 +113,8 @@ namespace Accord
         ///   Reads a <c>struct</c> from a stream.
         /// </summary>
         /// 
-        public static bool Read<T>(this BinaryReader stream, out T structure) where T : struct
+        public static bool Read<T>(this BinaryReader stream, out T structure)
+            where T : struct
         {
             var type = typeof(T);
 
@@ -128,6 +131,102 @@ namespace Accord
             handle.Free();
 
             return true;
+        }
+
+
+        /// <summary>
+        ///   Reads a <c>struct</c> from a stream.
+        /// </summary>
+        /// 
+        public static bool Write<T>(this BinaryWriter stream, T[] array)
+            where T : struct
+        {
+            var type = typeof(T);
+            int size = Marshal.SizeOf(type);
+            byte[] buffer = new byte[size * array.Length];
+
+            Buffer.BlockCopy(array, 0, buffer, 0, buffer.Length);
+            stream.Write(buffer, 0, buffer.Length);
+
+            return true;
+        }
+
+        /// <summary>
+        ///   Reads a <c>struct</c> from a stream.
+        /// </summary>
+        /// 
+        public static bool Write<T>(this BinaryWriter stream, T[][] array)
+            where T : struct
+        {
+            var type = typeof(T);
+            int size = Marshal.SizeOf(type);
+            byte[] buffer = new byte[size * array[0].Length];
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                Buffer.BlockCopy(array[i], 0, buffer, 0, buffer.Length);
+                stream.Write(buffer, 0, buffer.Length);
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///   Reads a <c>struct</c> from a stream.
+        /// </summary>
+        /// 
+        public static bool Write<T>(this BinaryWriter stream, T[,] array)
+            where T : struct
+        {
+            var type = typeof(T);
+            int size = Marshal.SizeOf(type);
+            byte[] buffer = new byte[size * array.Length];
+
+            Buffer.BlockCopy(array, 0, buffer, 0, buffer.Length);
+            stream.Write(buffer, 0, buffer.Length);
+
+            return true;
+        }
+
+        /// <summary>
+        ///   Reads a <c>struct</c> from a stream.
+        /// </summary>
+        /// 
+        public static T[][] ReadJagged<T>(this BinaryReader stream, int rows, int columns)
+            where T : struct
+        {
+            var type = typeof(T);
+            int size = Marshal.SizeOf(type);
+            var buffer = new byte[size * columns];
+            T[][] matrix = new T[rows][];
+            for (int i = 0; i < matrix.Length; i++)
+                matrix[i] = new T[columns];
+
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                stream.Read(buffer, 0, buffer.Length);
+                Buffer.BlockCopy(buffer, 0, matrix[i], 0, buffer.Length);
+            }
+
+            return matrix;
+        }
+
+        /// <summary>
+        ///   Reads a <c>struct</c> from a stream.
+        /// </summary>
+        /// 
+        public static T[,] ReadMatrix<T>(this BinaryReader stream, int rows, int columns)
+            where T : struct
+        {
+            var type = typeof(T);
+            int size = Marshal.SizeOf(type);
+            var buffer = new byte[size * rows * columns];
+            var matrix = new T[rows, columns];
+
+            stream.Read(buffer, 0, buffer.Length);
+            Buffer.BlockCopy(buffer, 0, matrix, 0, buffer.Length);
+
+            return matrix;
         }
 
         /// <summary>
@@ -222,8 +321,8 @@ namespace Accord
         {
             return t.IsValueType || t.GetConstructor(Type.EmptyTypes) != null;
         }
-        
-        
+
+
         /// <summary>
         ///   Replaces the format item in a specified string with the string
         ///   representation of a corresponding object in a specified array.
@@ -242,8 +341,73 @@ namespace Accord
             return String.Format(str, args);
         }
 
+        /// <summary>
+        ///   Checks whether two dictionaries have the same contents.
+        /// </summary>
+        /// 
+        public static bool IsEqual<TKey, TValue>(this IDictionary<TKey, TValue> a, IDictionary<TKey, TValue> b)
+        {
+            if (a == b)
+                return true;
 
+            if (a.Count != b.Count)
+                return false;
 
+            var aKeys = new HashSet<TKey>(a.Keys);
+            var bKeys = new HashSet<TKey>(b.Keys);
+            if (!aKeys.SetEquals(b.Keys))
+                return false;
 
+            if (HasMethod<TValue>("SetEquals"))
+            {
+                var setEquals = typeof(TValue).GetMethod("SetEquals");
+                foreach (var k in aKeys)
+                {
+                    if (!(bool)setEquals.Invoke(a[k], new object[] { b[k] }))
+                        return false;
+                }
+            }
+            else
+            {
+                foreach (var k in aKeys)
+                    if (!a[k].Equals(b[k]))
+                        return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        ///   Checks whether an object implements a method with the given name.
+        /// </summary>
+        /// 
+        public static bool HasMethod(this object obj, string methodName)
+        {
+            try
+            {
+                var type = obj.GetType();
+                return type.GetMethod(methodName) != null;
+            }
+            catch (AmbiguousMatchException)
+            {
+                return true;
+            }
+        }
+
+        /// <summary>
+        ///   Checks whether a type implements a method with the given name.
+        /// </summary>
+        /// 
+        public static bool HasMethod<T>(string methodName)
+        {
+            try
+            {
+                var type = typeof(T);
+                return type.GetMethod(methodName) != null;
+            }
+            catch (AmbiguousMatchException)
+            {
+                return true;
+            }
+        }
     }
 }

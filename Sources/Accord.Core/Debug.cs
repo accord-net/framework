@@ -41,10 +41,10 @@ namespace Accord.Diagnostics
         /// </summary>
         /// 
         [Conditional("DEBUG")]
-        public static void Assert(bool condition)
+        public static void Assert(bool condition, string message = "Internal framework error.")
         {
             if (!condition)
-                throw new Exception();
+                throw new Exception(message);
         }
     }
 }
