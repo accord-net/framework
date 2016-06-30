@@ -71,6 +71,10 @@ namespace Accord.IO
         /// 
         public static void Save<T>(this T obj, string path)
         {
+            var dir = Path.GetDirectoryName(path);
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
             using (var fs = new FileStream(path, FileMode.Create))
             {
                 Save(obj, fs);
