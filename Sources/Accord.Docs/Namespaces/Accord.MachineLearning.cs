@@ -83,7 +83,6 @@ namespace Accord.MachineLearning
     /// <seealso cref="Accord.MachineLearning.Boosting"/>
     /// <seealso cref="Accord.MachineLearning.DecisionTrees"/>
     /// <seealso cref="Accord.MachineLearning.Geometry"/>
-    /// <seealso cref="Accord.MachineLearning.Structures"/>
     /// <seealso cref="Accord.MachineLearning.VectorMachines"/>
     /// 
     [CompilerGenerated]

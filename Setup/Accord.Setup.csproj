@@ -14,8 +14,7 @@
   <ItemGroup>
     <None Include="Archiver\Build.cmd" />
     <None Include="Archiver\Samples.cmd" />
-    <None Include="Compile.sh" />
-    <None Include="Compile.cmd" />
+    <None Include="CreateRelease.cmd" />
     <None Include="Installer\Build.cmd" />
     <None Include="NuGet\Accord.Fuzzy.nuspec" />
     <None Include="NuGet\Accord.Genetic.nuspec" />
@@ -48,12 +47,10 @@
     <None Include="NuGet\Push.cmd" />
     <None Include="NuGet\Update.cmd" />
     <None Include="NuGet\NuGet.exe" />
-    <None Include="Package.cmd" />
-    <None Include="Publish.cmd" />
-    <None Include="Scripts\Accord.dll.targets">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Scripts\Accord.Video.Kinect.dll.targets" />
+    <None Include="PublishNuGet.cmd" />
+    <None Include="Scripts\Accord.targets" />
+    <None Include="Scripts\Accord.Video.FFMPEG.targets" />
+    <None Include="Scripts\Accord.Video.Kinect.targets" />
     <None Include="version.cmd" />
   </ItemGroup>
   <ItemGroup />

@@ -34,6 +34,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TClasses">The data type for the class labels. Default is int.</typeparam>
     /// 
     public interface IMulticlassDistanceClassifier<in TInput, TClasses>
+        : IClassifier<TInput, TClasses>
     {
         /// <summary>
         ///   Predicts a class label for each input vector, returning a

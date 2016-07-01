@@ -166,6 +166,18 @@ namespace Accord.IO
         ///   Creates a new <see cref="IdxReader"/>.
         /// </summary>
         /// 
+        /// <param name="file">The byte array representing the contents of the IDX file.</param>
+        /// 
+        public IdxReader(byte[] file)
+            : this(new MemoryStream(file))
+        {
+        }
+
+
+        /// <summary>
+        ///   Creates a new <see cref="IdxReader"/>.
+        /// </summary>
+        /// 
         /// <param name="path">The path for the IDX file.</param>
         /// <param name="compressed">
         ///   Pass <c>true</c> if the stream contains 
