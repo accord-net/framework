@@ -226,6 +226,9 @@ type FSharpSvmTest() =
         Assert.AreEqual(0.9, validation, 0.005)
         Assert.AreEqual(0, error)
 
+
+#if RELEASE // the following tests can take a very long time
+
     [<TestCase()>]
     member x.fsharp_multiclass_voting() =
         let (error, validation) = FSharpSvmTest.Run(0.1, MulticlassComputeMethod.Voting)
@@ -249,6 +252,7 @@ type FSharpSvmTest() =
         let (error, validation) = FSharpSvmTest.Run(0.0);
         Assert.AreEqual(0.92, validation, 0.005);
         Assert.AreEqual(0.0546, error, 0.002);
+#endif
 
     [<TestCase()>]
     member x.fsharp_multiclass_auto_complexity_new_methd() =

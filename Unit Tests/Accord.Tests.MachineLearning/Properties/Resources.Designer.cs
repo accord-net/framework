@@ -301,6 +301,26 @@ namespace Accord.Tests.MachineLearning.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] pca_mnist {
+            get {
+                object obj = ResourceManager.GetObject("pca_mnist", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] pca_mnist_v3_1 {
+            get {
+                object obj = ResourceManager.GetObject("pca_mnist_v3_1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] svm1 {
             get {
                 object obj = ResourceManager.GetObject("svm1", resourceCulture);
@@ -314,6 +334,56 @@ namespace Accord.Tests.MachineLearning.Properties {
         internal static byte[] svm2 {
             get {
                 object obj = ResourceManager.GetObject("svm2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] t10k_images_idx3_ubyte {
+            get {
+                object obj = ResourceManager.GetObject("t10k_images_idx3_ubyte", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] t10k_images_idx3_ubyte1 {
+            get {
+                object obj = ResourceManager.GetObject("t10k_images_idx3_ubyte1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] t10k_labels_idx1_ubyte {
+            get {
+                object obj = ResourceManager.GetObject("t10k_labels_idx1_ubyte", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] train_images_idx3_ubyte {
+            get {
+                object obj = ResourceManager.GetObject("train_images_idx3_ubyte", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] train_labels_idx1_ubyte {
+            get {
+                object obj = ResourceManager.GetObject("train_labels_idx1_ubyte", resourceCulture);
                 return ((byte[])(obj));
             }
         }

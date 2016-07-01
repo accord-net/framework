@@ -161,7 +161,6 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
-        [Ignore] // TODO: Get more information about inhomogeneous linear kernel.
         public void KernelTest2()
         {
             var dataset = SequentialMinimalOptimizationTest.yinyang;
@@ -170,15 +169,9 @@ namespace Accord.Tests.MachineLearning
 
             var svm = new KernelSupportVectorMachine(new Linear(1), inputs: 2);
 
-            bool thrown = false;
+            var p = new ProbabilisticCoordinateDescent(svm, inputs, labels);
 
-            try
-            {
-                new ProbabilisticCoordinateDescent(svm, inputs, labels);
-            }
-            catch (ArgumentException) { thrown = true; }
-
-            Assert.IsTrue(thrown);
+            Assert.NotNull(p);
         }
     }
 }

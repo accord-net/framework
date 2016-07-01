@@ -23,7 +23,6 @@
 namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning;
-    using Accord.MachineLearning.Structures;
     using Accord.Math;
     using Accord.Math.Comparers;
     using Accord.Math.Distances;

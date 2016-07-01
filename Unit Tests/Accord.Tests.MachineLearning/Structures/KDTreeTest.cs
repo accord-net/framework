@@ -22,8 +22,8 @@
 
 namespace Accord.Tests.MachineLearning
 {
+    using Accord.Collections;
     using Accord.MachineLearning;
-    using Accord.MachineLearning.Structures;
     using Accord.Math;
     using Accord.Math.Comparers;
     using Accord.Math.Distances;
@@ -79,14 +79,14 @@ namespace Accord.Tests.MachineLearning
 
             // Locate all nearby points within an Euclidean distance of 1.5
             // (answer should be a single point located at position (5,4))
-            List<KDTreeNodeDistance<int>> result = tree.Nearest(query, radius: 1.5);
+            var result = tree.Nearest(query, radius: 1.5);
 
             // We can also use alternate distance functions
             tree.Distance = new Manhattan();
 
             // And also query for a fixed number of neighbor points
             // (answer should be the points at (5,4), (7,2), (2,3))
-            KDTreeNodeCollection<int> neighbors = tree.Nearest(query, neighbors: 3);
+            var neighbors = tree.Nearest(query, neighbors: 3);
 
 
             Assert.IsTrue(node.IsLeaf);
@@ -243,7 +243,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(points[i][1], retrieval[0].Node.Position[1]);
             }
 
-            KDTreeNodeCollection<int> result = tree.Nearest(new double[] { 3, 3 }, 5);
+            var result = tree.Nearest(new double[] { 3, 3 }, 5);
 
             double[][] expected =
             {
@@ -356,7 +356,7 @@ namespace Accord.Tests.MachineLearning
             };
 
             int i = 0;
-            foreach (var node in tree.Traverse(KDTreeTraversal.InOrder))
+            foreach (var node in tree.Traverse(TreeTraversal.InOrder))
             {
                 Assert.AreEqual(node.Position[0], inOrder[i][0]);
                 Assert.AreEqual(node.Position[1], inOrder[i][1]);
@@ -422,14 +422,15 @@ namespace Accord.Tests.MachineLearning
             };
 
 
-            AreEqual(tree, breadth, KDTreeTraversal.BreadthFirst);
-            AreEqual(tree, preOrder, KDTreeTraversal.PreOrder);
-            AreEqual(tree, inOrder, KDTreeTraversal.InOrder);
-            AreEqual(tree, postOrder, KDTreeTraversal.PostOrder);
+            AreEqual(tree, breadth, TreeTraversal.BreadthFirst);
+            AreEqual(tree, preOrder, TreeTraversal.PreOrder);
+            AreEqual(tree, inOrder, TreeTraversal.InOrder);
+            AreEqual(tree, postOrder, TreeTraversal.PostOrder);
         }
 
 
-        private static void AreEqual(KDTree<int> tree, double[][] expected, Func<KDTree<int>, IEnumerator<KDTreeNode<int>>> method)
+        private static void AreEqual(KDTree<int> tree, double[][] expected, 
+            Func<BinaryTree<KDTreeNode<int>>, IEnumerator<KDTreeNode<int>>> method)
         {
             double[][] actual = tree.Traverse(method.Invoke).Select(p => p.Position).ToArray();
 

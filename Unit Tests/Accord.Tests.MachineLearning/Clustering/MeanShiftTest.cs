@@ -54,6 +54,7 @@ namespace Accord.Tests.MachineLearning
 
             var kernel = new GaussianKernel(dimension: 2);
             MeanShift meanShift = new MeanShift(2, kernel, 2.0);
+            meanShift.UseParallelProcessing = false;
 
             // Compute the model (estimate)
             int[] labels = meanShift.Compute(samples);

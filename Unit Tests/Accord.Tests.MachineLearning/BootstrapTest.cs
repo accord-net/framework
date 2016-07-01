@@ -36,24 +36,6 @@ namespace Accord.Tests.MachineLearning
     public class BootstrapTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-
         [Test]
         public void BootstrapConstructorTest()
         {

@@ -172,4 +172,25 @@
   <data name="validationsample" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\validationsample.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="t10k_images_idx3_ubyte" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mnist\t10k-images-idx3-ubyte.gz;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="t10k_images_idx3_ubyte1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mnist\t10k-images-idx3-ubyte.gz;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="t10k_labels_idx1_ubyte" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mnist\t10k-labels-idx1-ubyte.gz;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="train_images_idx3_ubyte" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mnist\train-images-idx3-ubyte.gz;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="train_labels_idx1_ubyte" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mnist\train-labels-idx1-ubyte.gz;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pca_mnist" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mnist\pca_mnist.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pca_mnist_v3_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mnist\pca_mnist_v3_1.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

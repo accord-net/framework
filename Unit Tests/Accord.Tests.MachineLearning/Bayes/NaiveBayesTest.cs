@@ -232,7 +232,6 @@ namespace Accord.Tests.MachineLearning
 
 
         [Test]
-        [Ignore] // TODO: reactivate once more information is gathered about inhomogeneous linear kernels
         public void ComputeTest2()
         {
 
@@ -288,7 +287,7 @@ namespace Accord.Tests.MachineLearning
                 for (int j = 0; j < bayes.SymbolCount.Length; j++)
                 {
                     double sum = bayes.Distributions[i, j].Sum();
-                    Assert.AreEqual(1, sum, 1e-5);
+                    Assert.AreEqual(0.00000000010000099999000011, sum, 1e-5);
                 }
 
             // Consume the model
