@@ -219,7 +219,8 @@ namespace Accord.Math.Geometry
 
             if ((line.Slope == other.Slope) || (line.IsVertical && other.IsVertical))
             {
-                if (line.Intercept == other.Intercept) throw new InvalidOperationException("Segment is a portion of the specified line.");
+                if (line.Intercept == other.Intercept) 
+                    throw new InvalidOperationException("Segment is a portion of the specified line.");
 
                 // unlike Line.GetIntersectionWith(Line), this does not throw on parallel distinct lines
                 result = null;
