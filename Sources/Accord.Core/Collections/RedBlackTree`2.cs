@@ -117,8 +117,8 @@ namespace Accord.Collections
         ///   Pass <c>true</c> to allow duplicate elements 
         ///   in the tree; <c>false</c> otherwise.</param>
         /// 
-        public RedBlackTree(IComparer<KeyValuePair<TKey, TValue>> comparer,
-            bool allowDuplicates) : base(comparer, allowDuplicates)
+        public RedBlackTree(IComparer<KeyValuePair<TKey, TValue>> comparer, bool allowDuplicates) 
+            : base(comparer, allowDuplicates)
         {
         }
 

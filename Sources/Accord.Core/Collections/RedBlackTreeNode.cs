@@ -51,11 +51,9 @@ namespace Accord.Collections
     /// <typeparam name="T">The type of the value to be stored.</typeparam>
     /// 
     [Serializable]
-    public class RedBlackTreeNode<T>
+    public class RedBlackTreeNode<T> : BinaryNode<RedBlackTreeNode<T>>
     {
         RedBlackTreeNode<T> parent;
-        RedBlackTreeNode<T> left;
-        RedBlackTreeNode<T> right;
 
         RedBlackTreeNodeType color;
 
@@ -90,26 +88,6 @@ namespace Accord.Collections
         }
 
         /// <summary>
-        ///   Gets or sets a reference to this node's right child.
-        /// </summary>
-        /// 
-        public RedBlackTreeNode<T> Right
-        {
-            get { return right; }
-            set { right = value; }
-        }
-
-        /// <summary>
-        ///   Gets or sets a reference to this node's left child.
-        /// </summary>
-        /// 
-        public RedBlackTreeNode<T> Left
-        {
-            get { return left; }
-            set { left = value; }
-        }
-
-        /// <summary>
         ///   Gets or sets this node's color.
         /// </summary>
         /// 
@@ -127,6 +105,19 @@ namespace Accord.Collections
         {
             get { return this.value; }
             set { this.value = value; }
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            if (color == RedBlackTreeNodeType.Black)
+                return "Black: {0)".Format(Value);
+            return "Red: {0)".Format(Value);
         }
     }
 
