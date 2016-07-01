@@ -38,7 +38,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static Tuple<int, int> ArgMax<T>(this T[,] matrix)
-            where T : IComparable
+            where T : IComparable<T>
         {
             Tuple<int, int> index;
             Max(matrix, out index);
@@ -50,7 +50,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static int[] ArgMax<T>(this T[,] matrix, int dimension)
-            where T : IComparable
+            where T : IComparable<T>
         {
             int s = GetLength(matrix, dimension);
             var values = new T[s];
@@ -64,7 +64,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static int[] ArgMax<T>(this T[,] matrix, int dimension, int[] result)
-            where T : IComparable
+            where T : IComparable<T>
         {
             int s = GetLength(matrix, dimension);
             var values = new T[s];
@@ -78,7 +78,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static Tuple<int, int> ArgMin<T>(this T[,] matrix)
-            where T : IComparable
+            where T : IComparable<T>
         {
             Tuple<int, int> index;
             Min(matrix, out index);
@@ -90,7 +90,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static int[] ArgMin<T>(this T[,] matrix, int dimension)
-            where T : IComparable
+            where T : IComparable<T>
         {
             int s = GetLength(matrix, dimension);
             var values = new T[s];
@@ -104,7 +104,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static int[] ArgMin<T>(this T[,] matrix, int dimension, int[] result)
-            where T : IComparable
+            where T : IComparable<T>
         {
             int s = GetLength(matrix, dimension);
             T[] values = new T[s];
@@ -124,7 +124,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static T Max<T>(this T[,] matrix)
-            where T : IComparable
+            where T : IComparable<T>
         {
             Tuple<int, int> index;
             return Max(matrix, out index);
@@ -135,7 +135,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static T Min<T>(this T[,] matrix)
-            where T : IComparable
+            where T : IComparable<T>
         {
             Tuple<int, int> index;
             return Min(matrix, out index);
@@ -149,7 +149,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static T[] Min<T>(this T[,] matrix, int dimension)
-            where T : IComparable
+            where T : IComparable<T>
         {
             int s = GetLength(matrix, dimension);
             var result = new T[s];
@@ -162,7 +162,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static T[] Max<T>(this T[,] matrix, int dimension)
-            where T : IComparable
+            where T : IComparable<T>
         {
             int s = GetLength(matrix, dimension);
             var result = new T[s];
@@ -175,7 +175,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static T[] Max<T>(this T[,] matrix, int dimension, T[] result)
-            where T : IComparable
+            where T : IComparable<T>
         {
             int s = GetLength(matrix, dimension);
             var indices = new int[s];
@@ -187,7 +187,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static T[] Min<T>(this T[,] matrix, int dimension, T[] result)
-            where T : IComparable
+            where T : IComparable<T>
         {
             int s = GetLength(matrix, dimension);
             var indices = new int[s];
@@ -199,7 +199,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static T[] Min<T>(this T[,] matrix, int dimension, out int[] indices)
-            where T : IComparable
+            where T : IComparable<T>
         {
             int s = GetLength(matrix, dimension);
             var result = new T[s];
@@ -212,7 +212,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static T[] Max<T>(this T[,] matrix, int dimension, out int[] indices)
-            where T : IComparable
+            where T : IComparable<T>
         {
             int s = GetLength(matrix, dimension);
             var result = new T[s];
@@ -225,7 +225,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static T[] Max<T>(this T[,] matrix, int dimension, out int[] indices, T[] result)
-            where T : IComparable
+            where T : IComparable<T>
         {
             int s = GetLength(matrix, dimension);
             indices = new int[s];
@@ -237,7 +237,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static T[] Min<T>(this T[,] matrix, int dimension, out int[] indices, T[] result)
-            where T : IComparable
+            where T : IComparable<T>
         {
             int s = GetLength(matrix, dimension);
             indices = new int[s];
@@ -257,7 +257,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static T Max<T>(this T[,] matrix, out Tuple<int, int> imax)
-            where T : IComparable
+            where T : IComparable<T>
         {
             T max = matrix[0, 0];
             imax = Tuple.Create(0, 0);
@@ -282,7 +282,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static T Min<T>(this T[,] matrix, out Tuple<int, int> imin)
-            where T : IComparable
+            where T : IComparable<T>
         {
             T min = matrix[0, 0];
             imin = Tuple.Create(0, 0);
@@ -307,7 +307,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static T[] Max<T>(this T[,] matrix, int dimension, int[] indices, T[] result)
-            where T : IComparable
+            where T : IComparable<T>
         {
             if (dimension == 1) // Search down columns
             {
@@ -349,7 +349,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static T[] Min<T>(this T[,] matrix, int dimension, int[] indices, T[] result)
-            where T : IComparable
+            where T : IComparable<T>
         {
             if (dimension == 1) // Search down columns
             {
@@ -405,7 +405,8 @@ namespace Accord.Math
         /// 
         /// <exception cref="System.ArgumentException">Raised if the array is empty.</exception>
         /// 
-        public static void GetRange<T>(this T[] values, out T min, out T max) where T : IComparable
+        public static void GetRange<T>(this T[] values, out T min, out T max)
+            where T : IComparable<T>
         {
             if (values.Length == 0)
             {
@@ -433,7 +434,8 @@ namespace Accord.Math
         /// 
         /// <exception cref="System.ArgumentException">Raised if the array is empty.</exception>
         /// 
-        public static void GetRange<T>(this T[,] values, out T min, out T max) where T : IComparable
+        public static void GetRange<T>(this T[,] values, out T min, out T max)
+            where T : IComparable<T>
         {
             if (values.Length == 0)
             {
