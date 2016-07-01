@@ -28,31 +28,22 @@ namespace Accord.Statistics
 
     public static partial class Measures
     {
-
         /// <summary>
-        ///   Calculates the matrix Mean vector.
+        ///   Computes the mean value across all dimensions of the given matrix.
         /// </summary>
         /// 
-        /// <param name="matrix">A matrix whose means will be calculated.</param>
-        /// 
-        /// <returns>Returns a row vector containing the column means of the given matrix.</returns>
-        /// 
-        /// <example>
-        ///   <code>
-        ///   double[,] matrix = 
-        ///   {
-        ///      { 2, -1.0, 5 },
-        ///      { 7,  0.5, 9 },
-        ///   };
-        ///    
-        ///   // column means are equal to (4.5, -0.25, 7.0)
-        ///   double[] means = Stats.Mean(matrix);
-        ///   </code>
-        /// </example>
-        /// 
-        public static double[] Mean(this double[,] matrix)
+        public static double Mean(this double[][] matrix)
         {
-            return Mean(matrix, 0);
+            return matrix.Sum() / matrix.Length();
+        }
+
+        /// <summary>
+        ///   Computes the mean value across all dimensions of the given matrix.
+        /// </summary>
+        /// 
+        public static double Mean(this double[,] matrix)
+        {
+            return matrix.Sum() / matrix.Length();
         }
 
         /// <summary>
@@ -91,17 +82,7 @@ namespace Accord.Statistics
             int cols = matrix.GetLength(1);
             double[] mean;
 
-            if (dimension == -1)
-            {
-                // Compute across all dimensions
-                mean = new double[1];
-                double N = rows * cols;
-
-                foreach (double a in matrix)
-                    mean[0] += a;
-                mean[0] /= N;
-            }
-            else if (dimension == 0)
+            if (dimension == 0)
             {
                 mean = new double[cols];
                 double N = rows;
@@ -137,32 +118,6 @@ namespace Accord.Statistics
             }
 
             return mean;
-        }
-
-        /// <summary>
-        ///   Calculates the matrix Mean vector.
-        /// </summary>
-        /// 
-        /// <param name="matrix">A matrix whose means will be calculated.</param>
-        /// 
-        /// <returns>Returns a row vector containing the column means of the given matrix.</returns>
-        /// 
-        /// <example>
-        ///   <code>
-        ///   double[][] matrix = 
-        ///   {
-        ///       new double[] { 2, -1.0, 5 },
-        ///       new double[] { 7,  0.5, 9 },
-        ///   };
-        ///    
-        ///   // column means are equal to (4.5, -0.25, 7.0)
-        ///   double[] means = Stats.Mean(matrix);
-        ///   </code>
-        /// </example>
-        /// 
-        public static double[] Mean(this double[][] matrix)
-        {
-            return Mean(matrix, 0);
         }
 
         /// <summary>
@@ -296,7 +251,7 @@ namespace Accord.Statistics
         /// 
         public static double[] StandardDeviation(this double[,] matrix)
         {
-            return StandardDeviation(matrix, Mean(matrix));
+            return StandardDeviation(matrix, Mean(matrix, dimension: 0));
         }
 
         /// <summary>
@@ -387,34 +342,7 @@ namespace Accord.Statistics
         /// 
         public static double[] StandardDeviation(this double[][] matrix, bool unbiased = true)
         {
-            return StandardDeviation(matrix, Mean(matrix), unbiased);
-        }
-
-
-        /// <summary>
-        ///   Centers an observation, subtracting the empirical 
-        ///   mean from each element in the observation vector.
-        /// </summary>
-        /// 
-        /// <param name="observation">An array of double precision floating-point numbers.</param>
-        /// 
-        public static void Center(double[] observation)
-        {
-            Center(observation, Mean(observation));
-        }
-
-        /// <summary>
-        ///   Centers an observation, subtracting the empirical 
-        ///   mean from each element in the observation vector.
-        /// </summary>
-        /// 
-        /// <param name="values">An array of double precision floating-point numbers.</param>
-        /// <param name="mean">The mean of the <paramref name="values"/>, if already known.</param>
-        /// 
-        public static void Center(double[] values, double mean)
-        {
-            for (int i = 0; i < values.Length; i++)
-                values[i] -= mean;
+            return StandardDeviation(matrix, Mean(matrix, dimension: 0), unbiased);
         }
 
 
@@ -428,7 +356,7 @@ namespace Accord.Statistics
         /// 
         public static double[] Variance(this double[,] matrix)
         {
-            return Variance(matrix, Mean(matrix));
+            return Variance(matrix, Mean(matrix, dimension: 0));
         }
 
         /// <summary>
@@ -481,7 +409,7 @@ namespace Accord.Statistics
         /// 
         public static double[] Variance(this double[][] matrix)
         {
-            return Variance(matrix, Mean(matrix));
+            return Variance(matrix, Mean(matrix, dimension: 0));
         }
 
         /// <summary>
@@ -819,7 +747,7 @@ namespace Accord.Statistics
         /// 
         public static double[] Skewness(this double[,] matrix, bool unbiased = true)
         {
-            double[] means = Mean(matrix);
+            double[] means = Mean(matrix, dimension: 0);
             return Skewness(matrix, means, unbiased);
         }
 
@@ -904,7 +832,7 @@ namespace Accord.Statistics
         /// 
         public static double[] Skewness(this double[][] matrix, bool unbiased = true)
         {
-            double[] means = Mean(matrix);
+            double[] means = Mean(matrix, dimension: 0);
             return Skewness(matrix, means, unbiased);
         }
 
@@ -986,7 +914,7 @@ namespace Accord.Statistics
         /// 
         public static double[] Kurtosis(this double[,] matrix, bool unbiased = true)
         {
-            double[] means = Mean(matrix);
+            double[] means = Mean(matrix, dimension: 0);
             return Kurtosis(matrix, means, unbiased);
         }
 
@@ -1070,7 +998,7 @@ namespace Accord.Statistics
         /// 
         public static double[] Kurtosis(this double[][] matrix, bool unbiased = true)
         {
-            double[] means = Mean(matrix);
+            double[] means = Mean(matrix, dimension: 0);
             return Kurtosis(matrix, means, unbiased);
         }
 
@@ -1186,7 +1114,7 @@ namespace Accord.Statistics
         /// 
         public static double[,] Covariance(this double[,] matrix)
         {
-            return Covariance(matrix, Mean(matrix));
+            return Covariance(matrix, Mean(matrix, dimension: 0));
         }
 
         /// <summary>
@@ -1387,7 +1315,7 @@ namespace Accord.Statistics
         /// 
         public static double[,] Covariance(this double[][] matrix)
         {
-            return Covariance(matrix, Mean(matrix));
+            return Covariance(matrix, Mean(matrix, dimension: 0));
         }
 
         /// <summary>
@@ -1494,7 +1422,7 @@ namespace Accord.Statistics
         /// 
         public static double[,] Scatter(this double[][] matrix, double divisor, int dimension = 0)
         {
-            return Scatter(matrix, Mean(matrix), divisor, dimension);
+            return Scatter(matrix, Mean(matrix, dimension: 0), divisor, dimension);
         }
 
         /// <summary>
@@ -1601,7 +1529,7 @@ namespace Accord.Statistics
         /// <returns>The correlation matrix.</returns>
         public static double[,] Correlation(this double[,] matrix)
         {
-            double[] means = Mean(matrix);
+            double[] means = Mean(matrix, dimension: 0);
             return Correlation(matrix, means, StandardDeviation(matrix, means));
         }
 

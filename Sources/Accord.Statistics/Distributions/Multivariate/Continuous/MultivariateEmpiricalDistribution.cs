@@ -405,7 +405,7 @@ using Accord.Math.Random;
                 if (mean == null)
                 {
                     if (type == WeightType.None)
-                        mean = Measures.Mean(samples);
+                        mean = Measures.Mean(samples, dimension: 0);
 
                     else if (type == WeightType.Repetition)
                         mean = Measures.WeightedMean(samples, repeats);

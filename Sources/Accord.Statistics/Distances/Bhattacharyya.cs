@@ -135,8 +135,8 @@ namespace Accord.Math.Distances
 #endif
         public double Distance(double[][] x, double[][] y)
         {
-            double[] meanX = x.Mean();
-            double[] meanY = y.Mean();
+            double[] meanX = x.Mean(dimension: 0);
+            double[] meanY = y.Mean(dimension: 0);
             double[,] covX = x.Covariance(meanX);
             double[,] covY = y.Covariance(meanY);
 
@@ -160,8 +160,8 @@ namespace Accord.Math.Distances
 #endif
         public double Distance(double[,] x, double[,] y)
         {
-            double[] meanX = x.Mean();
-            double[] meanY = y.Mean();
+            double[] meanX = x.Mean(dimension: 0);
+            double[] meanY = y.Mean(dimension: 0);
             double[,] covX = x.Covariance(meanX);
             double[,] covY = y.Covariance(meanY);
 

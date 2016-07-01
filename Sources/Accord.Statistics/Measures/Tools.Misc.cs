@@ -177,7 +177,7 @@ namespace Accord.Statistics
         /// 
         public static double[,] ZScores(this double[,] matrix)
         {
-            double[] mean = Measures.Mean(matrix);
+            double[] mean = Measures.Mean(matrix, dimension: 0);
             return ZScores(matrix, mean, Measures.StandardDeviation(matrix, mean));
         }
 
@@ -206,7 +206,7 @@ namespace Accord.Statistics
         /// 
         public static double[][] ZScores(this double[][] matrix)
         {
-            double[] mean = Measures.Mean(matrix);
+            double[] mean = Measures.Mean(matrix, dimension: 0);
             return ZScores(matrix, mean, Measures.StandardDeviation(matrix, mean));
         }
 
@@ -226,6 +226,40 @@ namespace Accord.Statistics
         }
 
         /// <summary>
+        ///   Centers an observation, subtracting the empirical 
+        ///   mean from each element in the observation vector.
+        /// </summary>
+        /// 
+        /// <param name="observation">An array of double precision floating-point numbers.</param>
+        /// <param name="result">The destination array where the result of this operation should be stored.</param>
+        /// 
+        public static double[] Center(this double[] observation, double[] result = null)
+        {
+            return Center(observation, observation.Mean(), result);
+        }
+
+        /// <summary>
+        ///   Centers an observation, subtracting the empirical 
+        ///   mean from each element in the observation vector.
+        /// </summary>
+        /// 
+        /// <param name="values">An array of double precision floating-point numbers.</param>
+        /// <param name="mean">The mean of the <paramref name="values"/>, if already known.</param>
+        /// <param name="result">The destination array where the result of this operation should be stored.</param>
+        /// 
+        public static double[] Center(this double[] values, double mean, double[] result = null)
+        {
+            if (result == null)
+                result = new double[values.Length];
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = values[i] - mean;
+
+            return result;
+        }
+
+
+        /// <summary>
         ///   Centers column data, subtracting the empirical mean from each variable.
         /// </summary>
         /// 
@@ -234,7 +268,7 @@ namespace Accord.Statistics
         /// 
         public static double[,] Center(this double[,] matrix, bool inPlace = false)
         {
-            return Center(matrix, Measures.Mean(matrix), inPlace);
+            return Center(matrix, Measures.Mean(matrix, dimension: 0), inPlace);
         }
 
         /// <summary>
@@ -268,7 +302,7 @@ namespace Accord.Statistics
         /// 
         public static double[][] Center(this double[][] matrix, bool inPlace = false)
         {
-            return Center(matrix, Measures.Mean(matrix), inPlace);
+            return Center(matrix, Measures.Mean(matrix, dimension: 0), inPlace);
         }
 
         /// <summary>Centers column data, subtracting the empirical mean from each variable.</summary>
@@ -357,19 +391,29 @@ namespace Accord.Statistics
         ///
         /// <param name="matrix">A matrix where each column represent a variable and each row represent a observation.</param>
         /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param>
+        /// <param name="tol">The minimum value that will be taken as the standard deviation in case the deviation is too close to zero.</param>
         /// <param name="inPlace">True to perform the operation in place, altering the original input matrix.</param>
         /// 
-        public static double[,] Standardize(this double[,] matrix, double[] standardDeviations, bool inPlace = false)
+        public static double[,] Standardize(this double[,] matrix, double[] standardDeviations, bool inPlace = false, double tol = 1e-12)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
 
             double[,] result = inPlace ? matrix : new double[rows, cols];
 
+            for (int i = 0; i < standardDeviations.Length; i++)
+                if (standardDeviations[i] == 0 && tol == 0)
+                    throw new ArithmeticException("Standard deviation cannot be" +
+                    " zero (cannot standardize the constant variable at column index " + i + ").");
+
             for (int i = 0; i < rows; i++)
+            {
                 for (int j = 0; j < cols; j++)
-                    if (standardDeviations[j] != 0 && !Double.IsNaN(standardDeviations[j]))
-                        result[i, j] = matrix[i, j] / standardDeviations[j];
+                {
+                    double stdDev = standardDeviations[j] > 0 ? standardDeviations[j] : tol;
+                    result[i, j] = matrix[i, j] / stdDev;
+                }
+            }
 
             return result;
         }
@@ -396,27 +440,29 @@ namespace Accord.Statistics
         /// <remarks>This method does not remove the empirical mean prior to execution.</remarks>
         /// 
         /// <param name="matrix">A matrix where each column represent a variable and each row represent a observation.</param>
+        /// <param name="tol">The minimum value that will be taken as the standard deviation in case the deviation is too close to zero.</param>
         /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param>
         /// <param name="inPlace">True to perform the operation in place, altering the original input matrix.</param>
         /// 
-        public static double[][] Standardize(this double[][] matrix, double[] standardDeviations, bool inPlace = false)
+        public static double[][] Standardize(this double[][] matrix, double[] standardDeviations, bool inPlace = false, double tol = 1e-12)
         {
-            double[][] result = matrix;
+            double[][] result = inPlace ? matrix : Jagged.CreateAs(matrix);
 
-            if (!inPlace)
-            {
-                result = new double[matrix.Length][];
-                for (int i = 0; i < matrix.Length; i++)
-                    result[i] = new double[matrix[i].Length];
-            }
+            for (int i = 0; i < standardDeviations.Length; i++)
+                if (standardDeviations[i] == 0)
+                    throw new ArithmeticException("Standard deviation cannot be" +
+                    " zero (cannot standardize the constant variable at column index " + i + ").");
+
 
             for (int i = 0; i < matrix.Length; i++)
             {
                 double[] resultRow = result[i];
                 double[] sourceRow = matrix[i];
                 for (int j = 0; j < resultRow.Length; j++)
-                    if (standardDeviations[j] != 0 && !Double.IsNaN(standardDeviations[j]))
-                        resultRow[j] = sourceRow[j] / standardDeviations[j];
+                {
+                    double stdDev = standardDeviations[j] > 0 ? standardDeviations[j] : tol;
+                    resultRow[j] = sourceRow[j] / stdDev;
+                }
             }
 
             return result;

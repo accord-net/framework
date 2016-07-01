@@ -262,7 +262,7 @@ namespace Accord.Statistics.Filters
             int rows = data.Length;
             int cols = data[0].Length;
 
-            double[] means = data.Mean();
+            double[] means = data.Mean(dimension: 0);
             double[] stdDev = data.StandardDeviation(means);
 
             for (int i = 0; i < cols; i++)

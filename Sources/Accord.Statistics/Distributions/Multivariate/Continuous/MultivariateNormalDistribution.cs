@@ -503,7 +503,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             else
             {
                 // Compute mean vector
-                means = Measures.Mean(observations);
+                means = Measures.Mean(observations, dimension: 0);
 
                 // Compute covariance matrix
                 if (options != null && options.Diagonal)
