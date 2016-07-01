@@ -283,7 +283,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
             if (normalize)
             {
                 // Store means as regression centers
-                means = inputs.Mean();
+                means = inputs.Mean(dimension: 0);
                 for (int i = 0; i < means.Length; i++)
                     regression.Offsets[i] = means[i];
 

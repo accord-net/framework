@@ -36,9 +36,10 @@ namespace Accord.Statistics.Analysis
     ///   is known as <see cref="IRegressionAnalysis">regression analysis</see>.</para>  
     /// </remarks>
     /// 
+#pragma warning disable 612, 618
     public interface IDiscriminantAnalysis : IMultivariateAnalysis
+#pragma warning restore 612, 618
     {
-
         /// <summary>
         ///   Gets the classification labels (the dependent variable)
         ///   for each of the source input points.

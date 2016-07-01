@@ -83,7 +83,10 @@ namespace Accord.Statistics.Analysis
     /// <seealso cref="DescriptiveMeasures"/>
     ///
     [Serializable]
+#pragma warning disable 612, 618
     public class DescriptiveAnalysis : IMultivariateAnalysis
+#pragma warning restore 612, 618
+
     {
 
         private int samples;

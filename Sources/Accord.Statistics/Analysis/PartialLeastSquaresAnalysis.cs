@@ -171,7 +171,9 @@ namespace Accord.Statistics.Analysis
     /// </example>
     ///
     [Serializable]
+#pragma warning disable 612, 618
     public class PartialLeastSquaresAnalysis : IMultivariateRegressionAnalysis, IProjectionAnalysis
+#pragma warning restore 612, 618
     {
 
         internal double[,] sourceX;
@@ -257,8 +259,8 @@ namespace Accord.Statistics.Analysis
             this.sourceY = outputs;
 
             // Calculate common measures to speedup other calculations
-            this.meanX = Measures.Mean(inputs);
-            this.meanY = Measures.Mean(outputs);
+            this.meanX = Measures.Mean(inputs, dimension: 0);
+            this.meanY = Measures.Mean(outputs, dimension: 0);
             this.stdDevX = Measures.StandardDeviation(inputs, meanX);
             this.stdDevY = Measures.StandardDeviation(outputs, meanY);
 

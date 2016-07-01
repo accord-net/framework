@@ -20,6 +20,8 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using System;
+
 namespace Accord.Statistics.Analysis
 {
 
@@ -27,6 +29,7 @@ namespace Accord.Statistics.Analysis
     ///   Common interface for multivariate statistical analysis.
     /// </summary>
     /// 
+    [Obsolete]
     public interface IMultivariateAnalysis : IAnalysis
     {
 

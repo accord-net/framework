@@ -85,7 +85,9 @@ namespace Accord.Statistics.Analysis
     /// </code>
     /// </example>
     /// 
+#pragma warning disable 612, 618
     public class ProcrustesAnalysis : IAnalysis
+#pragma warning restore 612, 618
     {
 
         /// <summary>
@@ -154,14 +156,12 @@ namespace Accord.Statistics.Analysis
         double[,] Translate(double[,] samples, double[] centroid)
         {
             if (centroid.Length != samples.GetLength(1))
-            {
                 throw new ArgumentException("Centroid length should be the same length of the samples columns !");
-            }
 
             double[,] res = new double[samples.GetLength(0), samples.GetLength(1)];
 
             // Calculate the matrix mean and translate it according to the required centroid
-            double[] translated_avg = samples.Mean().Subtract(centroid);
+            double[] translated_avg = samples.Mean(0).Subtract(centroid);
 
             // Translate the sample data to the new centroid
             res = samples.Center(translated_avg);
@@ -192,9 +192,7 @@ namespace Accord.Statistics.Analysis
             double sqr = 0.0;
             double[] norm = samples.SquareEuclidean();
             for (int i = 0; i < norm.Length; i++)
-            {
                 sqr += norm[i];
-            }
             sqr = sqr / (double)samples.Length;
             sqr = System.Math.Sqrt(sqr);
 
@@ -311,7 +309,7 @@ namespace Accord.Statistics.Analysis
             p.Source = samples;
 
             // Save the original data center (i.e. mean)
-            p.Center = p.Source.Mean();
+            p.Center = p.Source.Mean(dimension: 0);
             // Translate the samples to zero
             p.Dataset = Translate(samples);
 

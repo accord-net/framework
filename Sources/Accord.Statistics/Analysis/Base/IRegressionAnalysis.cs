@@ -36,7 +36,9 @@ namespace Accord.Statistics.Analysis
     ///   is known as <see cref="IDiscriminantAnalysis">discriminant analysis</see>.</para>  
     /// </remarks>
     /// 
+#pragma warning disable 612, 618
     public interface IRegressionAnalysis : IMultivariateAnalysis
+#pragma warning restore 612, 618
     {
 
         /// <summary>

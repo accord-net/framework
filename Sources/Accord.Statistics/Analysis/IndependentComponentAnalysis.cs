@@ -146,7 +146,9 @@ namespace Accord.Statistics.Analysis
     /// </example>
     /// 
     [Serializable]
+#pragma warning disable 612, 618
     public class IndependentComponentAnalysis : IMultivariateAnalysis, IParallel
+#pragma warning restore 612, 618
     {
         private double[,] sourceMatrix;
 
@@ -242,7 +244,7 @@ namespace Accord.Statistics.Analysis
             this.analysisMethod = method;
 
             // Calculate common measures to speedup other calculations
-            this.columnMeans = Measures.Mean(sourceMatrix);
+            this.columnMeans = Measures.Mean(sourceMatrix, dimension: 0);
             this.columnStdDev = Measures.StandardDeviation(sourceMatrix, columnMeans);
         }
 
@@ -268,7 +270,7 @@ namespace Accord.Statistics.Analysis
             this.analysisMethod = method;
 
             // Calculate common measures to speedup other calculations
-            this.columnMeans = Measures.Mean(sourceMatrix);
+            this.columnMeans = Measures.Mean(sourceMatrix, dimension: 0);
             this.columnStdDev = Measures.StandardDeviation(sourceMatrix, columnMeans);
         }
 

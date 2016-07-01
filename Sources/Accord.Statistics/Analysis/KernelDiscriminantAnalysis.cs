@@ -239,7 +239,7 @@ namespace Accord.Statistics.Analysis
 
 
             // Compute entire data set measures
-            base.Means = Measures.Mean(K);
+            base.Means = Measures.Mean(K, dimension: 0);
             base.StandardDeviations = Measures.StandardDeviation(K, Means);
 
 
@@ -256,7 +256,7 @@ namespace Accord.Statistics.Analysis
                 int count = Kc.GetLength(0);
 
                 // Get the Kernel matrix class mean
-                double[] mean = Measures.Mean(Kc);
+                double[] mean = Measures.Mean(Kc, dimension: 0);
 
 
                 // Construct the Kernel equivalent of the Within-Class Scatter matrix

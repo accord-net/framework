@@ -127,7 +127,9 @@ namespace Accord.Statistics.Analysis
     /// </example>
     /// 
     [Serializable]
+#pragma warning disable 612, 618
     public class LinearDiscriminantAnalysis : IDiscriminantAnalysis, IProjectionAnalysis
+#pragma warning restore 612, 618
     {
         private int dimension;
         private int classes;
@@ -440,7 +442,7 @@ namespace Accord.Statistics.Analysis
         public virtual void Compute()
         {
             // Compute entire data set measures
-            Means = Measures.Mean(source);
+            Means = Measures.Mean(source, dimension: 0);
             StandardDeviations = Measures.StandardDeviation(source, totalMeans);
             double total = dimension;
 
@@ -457,7 +459,7 @@ namespace Accord.Statistics.Analysis
                 int count = subset.GetLength(0);
 
                 // Get the class mean
-                double[] mean = Measures.Mean(subset);
+                double[] mean = Measures.Mean(subset, dimension: 0);
 
 
                 // Continue constructing the Within-Class Scatter Matrix

@@ -20,6 +20,8 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using System;
+
 namespace Accord.Statistics.Analysis
 {
     /// <summary>
@@ -38,7 +40,7 @@ namespace Accord.Statistics.Analysis
         ///   on the Covariance matrix of the given data.
         /// </remarks>
         ///  
-        Center,
+        Center = 0,
 
         /// <summary>
         ///    By choosing Standardize, the method will be run on the mean-centered and
@@ -51,13 +53,67 @@ namespace Accord.Statistics.Analysis
         ///    choose to standardize when dealing with different units of variables.
         /// </remarks>
         /// 
-        Standardize,
+        Standardize = 1,
+    };
+
+    /// <summary>
+    ///   Determines the method to be used in a statistical analysis.
+    /// </summary>
+    /// 
+    public enum PrincipalComponentMethod
+    {
+
+        /// <summary>
+        ///   By choosing Center, the method will be run on the mean-centered data.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   In Principal Component Analysis this means the method will operate
+        ///   on the Covariance matrix of the given data.
+        /// </remarks>
+        ///  
+        Center = 0,
+
+        /// <summary>
+        ///    By choosing Standardize, the method will be run on the mean-centered and
+        ///    standardized data.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///    In Principal Component Analysis this means the method
+        ///    will operate on the Correlation matrix of the given data. One should always
+        ///    choose to standardize when dealing with different units of variables.
+        /// </remarks>
+        /// 
+        Standardize = 1,
+
+        /// <summary>
+        ///   By choosing CorrelationMatrix, the method will interpret the given data
+        ///   as a correlation matrix.
+        /// </summary>
+        /// 
+        CorrelationMatrix = 2,
+
+        /// <summary>
+        ///   By choosing CovarianceMatrix, the method will interpret the given data
+        ///   as a correlation matrix.
+        /// </summary>
+        /// 
+        CovarianceMatrix = 3,
+
+        /// <summary>
+        ///   By choosing KernelMatrix, the method will interpret the given data
+        ///   as a Kernel (Gram) matrix.
+        /// </summary>
+        /// 
+        KernelMatrix = 4,
     };
 
     /// <summary>
     ///   Common interface for statistical analysis.
     /// </summary>
     /// 
+    [Obsolete]
     public interface IAnalysis
     {
 
