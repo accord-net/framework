@@ -1,0 +1,9 @@
+This folder contains the Barnes-Hut implementation of the t-SNE algorithm 
+by Laurens van der Maaten (Delft University of Technology). It was downloaded
+from the GitHub repository on 22-Jun-2016:
+
+	- https://github.com/lvdmaaten/bhtsne, Commit#92637cf2335e6db77862e958e7222ad4935f9345
+
+The particlar commit can be found at:
+
+	- https://github.com/lvdmaaten/bhtsne/tree/92637cf2335e6db77862e958e7222ad4935f9345

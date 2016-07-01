@@ -35,6 +35,18 @@
     <ClInclude Include="Quadprog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="bhtsne\sptree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bhtsne\vptree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VPTreeWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TSNEWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LibLBFGS\lbfgs.cpp">
@@ -86,6 +98,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Quadprog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bhtsne\sptree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bhtsne\tsne.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VPTreeWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bhtsne\vptree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TSNEWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

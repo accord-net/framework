@@ -39,7 +39,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir)LibLBFGS;$(ProjectDir)Lbfgsb3;$(ProjectDir)Quadprog;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Bhtsne;$(ProjectDir)LibLBFGS;$(ProjectDir)Lbfgsb3;$(ProjectDir)Quadprog;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -61,6 +61,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bhtsne\sptree.h" />
+    <ClInclude Include="bhtsne\vptree.h" />
     <ClInclude Include="Lbfgsb3\f2c.h" />
     <ClInclude Include="LibLBFGS\arithmetic_ansi.h" />
     <ClInclude Include="LibLBFGS\lbfgs.h" />
@@ -68,8 +70,13 @@
     <ClInclude Include="Quadpack.h" />
     <ClInclude Include="quadpack\qagi.h" />
     <ClInclude Include="Quadprog.h" />
+    <ClInclude Include="TSNEWrapper.h" />
+    <ClInclude Include="VPTreeWrapper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bhtsne\sptree.cpp" />
+    <ClCompile Include="bhtsne\tsne.cpp" />
+    <ClCompile Include="bhtsne\vptree.cpp" />
     <ClCompile Include="Quadpack.cpp" />
     <ClCompile Include="quadpack\qagi.cpp" />
     <ClCompile Include="quadpack\r1mach.cpp" />
@@ -78,6 +85,8 @@
     <ClCompile Include="quadprog\aind.cpp" />
     <ClCompile Include="quadprog\solve.QP.cpp" />
     <ClCompile Include="quadprog\util.cpp" />
+    <ClCompile Include="TSNEWrapper.cpp" />
+    <ClCompile Include="VPTreeWrapper.cpp" />
     <ClInclude Include="Lbfgsb3\lbfgsb.h">
       <FileType>CppCode</FileType>
     </ClInclude>

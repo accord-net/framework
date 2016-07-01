@@ -73,6 +73,8 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="Bhtsne\TSNETest.cs" />
+    <Compile Include="Bhtsne\VPTreeTest.cs" />
     <Compile Include="GoldfarbIdnaniTest.cs" />
     <Compile Include="BoundedBroydenFletcherGoldfarbShannoTest.cs" />
     <Compile Include="BroydenFletcherGoldfarbShannoTest.cs" />
@@ -94,9 +96,17 @@
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.MachineLearning\Accord.MachineLearning.csproj">
+      <Project>{7ab4bbcc-6222-423d-9ff9-ba9cb7c09199}</Project>
+      <Name>Accord.MachineLearning</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
       <Name>Accord.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Statistics\Accord.Statistics.csproj">
+      <Project>{fd8101dd-c95d-42d6-ad44-ae01c25f2811}</Project>
+      <Name>Accord.Statistics</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Tests.Math.Cpp\Accord.Tests.Math.Cpp.vcxproj">
       <Project>{161bd953-537d-4325-8a00-22475fc9088e}</Project>
