@@ -660,6 +660,42 @@ namespace Accord.Math
         {
             return Accord.Math.Jagged.Diagonal<T>(size, value);
         }
+
+        /// <summary>
+        ///   Returns a block-diagonal matrix with the given matrices on its diagonal.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] Diagonal<T>(T[][,] blocks)
+        {
+            int rows = 0;
+            int cols = 0;
+            for (int i = 0; i < blocks.Length; i++)
+            {
+                rows += blocks[i].Rows();
+                cols += blocks[i].Columns();
+            }
+
+            var result = new T[rows, cols];
+            int currentRow = 0;
+            int currentCol = 0;
+            for (int i = 0; i < blocks.Length; i++)
+            {
+                for (int r = 0; r < blocks[i].GetLength(0); r++)
+                {
+                    for (int c = 0; c < blocks[i].GetLength(1); c++)
+                        result[currentRow + r, currentCol+ c] = blocks[i][r, c];
+                }
+
+                currentRow = blocks[i].GetLength(0);
+                currentCol = blocks[i].GetLength(1);
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region Special matrices
@@ -998,6 +1034,31 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Gets the total length over all dimensions of an array.
+        /// </summary>
+        /// 
+        public static int Length(this Array array, bool deep = true, bool rectangular = true)
+        {
+            if (deep && IsJagged(array))
+            {
+                if (rectangular)
+                {
+                    int rest = Length(array.GetValue(0) as Array, deep);
+                    return array.Length * rest;
+                }
+                else
+                {
+                    int sum = 0;
+                    for (int i = 0; i < array.Length; i++)
+                        sum += Length(array.GetValue(i) as Array, deep);
+                    return sum;
+                }
+            }
+
+            return array.Length;
+        }
+
+        /// <summary>
         ///   Gets the length of each dimension of an array.
         /// </summary>
         /// 
@@ -1022,7 +1083,9 @@ namespace Accord.Math
         /// 
         public static bool IsJagged(this Array array)
         {
-            return (array.Length > 0 && array.GetValue(0) is Array);
+            if (array.Length == 0)
+                return true;
+            return array.Rank == 1 && array.GetValue(0) is Array;
         }
 
         /// <summary>

@@ -152,6 +152,24 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Creates a vector with the given dimension and starting value.
+        /// </summary>
+        /// 
+        /// <param name="size">The number of elements in the vector.</param>
+        /// <param name="values">The initial values for the vector.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[] Create<T>(int size, T[] values)
+        {
+            var v = new T[size];
+            for (int i = 0; i < values.Length; i++)
+                v[i] = values[i];
+            return v;
+        }
+
+        /// <summary>
         ///   Creates a vector with the given value at the positions where
         ///   <paramref name="mask"/> is true, and zero when they are false.
         /// </summary>

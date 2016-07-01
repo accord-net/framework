@@ -737,6 +737,41 @@ namespace Accord.Math
                 result[i][i] = values[i];
             return result;
         }
+
+        /// <summary>
+        ///   Returns a block-diagonal matrix with the given matrices on its diagonal.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[][] Diagonal<T>(T[][][] blocks)
+        {
+            int rows = 0;
+            int cols = 0;
+            for (int i = 0; i < blocks.Length; i++)
+            {
+                rows += blocks[i].Rows();
+                cols += blocks[i].Columns();
+            }
+
+            var result = Jagged.Create<T>(rows, cols);
+            int currentRow = 0;
+            int currentCol = 0;
+            for (int i = 0; i < blocks.Length; i++)
+            {
+                for (int r = 0; r < blocks[i].Length; r++)
+                {
+                    for (int c = 0; c < blocks[i][r].Length; c++)
+                        result[currentRow + r][currentCol + c] = blocks[i][r][c];
+                }
+
+                currentRow = blocks[i].Length;
+                currentCol = blocks[i][0].Length;
+            }
+
+            return result;
+        }
         #endregion
 
 
