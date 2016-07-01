@@ -178,6 +178,35 @@ namespace Accord.Math
         return indent + sb.ToString().Replace("\n", "\n" + indent);
     };
 
+    Func<string, string, string, string, string> reference = (a, b, A, B) =>
+    {
+        StringBuilder sb = new StringBuilder();
+        if (a + A == b + B)
+        {
+            sb.AppendLine("    if (a == b)");
+            sb.AppendLine("        return true;");
+        }
+
+        if (!String.IsNullOrEmpty(A) && String.IsNullOrEmpty(B))
+        {
+            sb.AppendLine("    if (a == null)");
+            sb.AppendLine("        return true;");
+        }
+        else if (String.IsNullOrEmpty(A) && !String.IsNullOrEmpty(B))
+        {
+            sb.AppendLine("    if (b == null)");
+            sb.AppendLine("        return true;");
+        }
+        else 
+        {
+            sb.AppendLine("    if (a == null && b == null)");
+            sb.AppendLine("        return true;");
+            sb.AppendLine("    if (a == null ^ b == null)");
+            sb.AppendLine("        return false;");
+        }
+        return sb.ToString();
+    };
+
     foreach (string a in types)
     {
         foreach (string b in types)
@@ -214,6 +243,7 @@ namespace Accord.Math
 #endif
         public static bool IsEqual(this <#=a#>[] a, <#=b#>[] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
         {
+<#=reference(a, b, "[]", "[]")#>
             if (rtol > 0)
             {
                 for (int i = 0; i < a.Length; i++)
@@ -242,6 +272,7 @@ namespace Accord.Math
 #endif
         public static bool IsEqual(this <#=a#>[,] a, <#=b#>[,] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
         {
+<#=reference(a, b, "[,]", "[,]")#>
             unsafe
             {
                 fixed (<#=a#>* ptrA = a)
@@ -277,6 +308,7 @@ namespace Accord.Math
 #endif
         public static bool IsEqual(this <#=a#>[,] a, <#=b#>[][] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
         {
+<#=reference(a, b, "[,]", "[][]")#>
             if (rtol > 0)
             {
                 for (int i = 0; i < b.Length; i++)
@@ -308,6 +340,7 @@ namespace Accord.Math
 #endif
         public static bool IsEqual(this <#=a#>[][] a, <#=b#>[,] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
         {
+<#=reference(a, b, "[][]", "[,]")#>
             if (rtol > 0)
             {
                 for (int i = 0; i < a.Length; i++)
@@ -339,6 +372,7 @@ namespace Accord.Math
 #endif
         public static bool IsEqual(this <#=a#>[][] a, <#=b#>[][] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
         {
+<#=reference(a, b, "[][]", "[][]")#>
             if (rtol > 0)
             {
                 for (int i = 0; i < a.Length; i++)
@@ -379,6 +413,7 @@ namespace Accord.Math
 #endif
         public static bool IsEqual(this <#=a#>[] a, <#=b#> b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
         {
+<#=reference(a, b, "[]", "")#>
             if (rtol > 0)
             {
                 for (int i = 0; i < a.Length; i++)
@@ -407,6 +442,7 @@ namespace Accord.Math
 #endif
         public static bool IsEqual(this <#=a#>[,] a, <#=b#> b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
         {
+<#=reference(a, b, "[,]", "")#>
             unsafe
             {
                 fixed (<#=a#>* ptrA = a)
@@ -441,6 +477,7 @@ namespace Accord.Math
 #endif
         public static bool IsEqual(this <#=a#>[][] a, <#=b#> b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
         {
+<#=reference(a, b, "[][]", "")#>
             if (rtol > 0)
             {
                 for (int i = 0; i < a.Length; i++)

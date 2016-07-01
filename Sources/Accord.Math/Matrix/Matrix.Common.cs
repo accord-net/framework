@@ -171,8 +171,17 @@ namespace Accord.Math
                         if (arrA != null && arrB != null && IsEqual(arrA, arrB))
                             continue;
 
-                        if (!Object.Equals(a.Current, b.Current))
-                            return false;
+                        if (Object.Equals(a.Current, b.Current))
+                            continue;
+
+                        try
+                        {
+                            if (System.Convert.ToDecimal(a.Current) == System.Convert.ToDecimal(b.Current))
+                                continue;
+                        }
+                        catch { } // TODO: Remove this try-catch block
+
+                        return false;
                     }
 
                     return true;
@@ -626,7 +635,7 @@ namespace Accord.Math
         /// 
         /// <param name="values">An array of values.</param>
         /// 
-        public static bool IsSorted<T>(this T[] values) 
+        public static bool IsSorted<T>(this T[] values)
             where T : IComparable<T>
         {
             return IsSorted(values, ComparerDirection.Ascending)
@@ -641,7 +650,7 @@ namespace Accord.Math
         /// <param name="values">An array of values.</param>
         /// <param name="direction">The sort order direction.</param>
         /// 
-        public static bool IsSorted<T>(this T[] values, ComparerDirection direction) 
+        public static bool IsSorted<T>(this T[] values, ComparerDirection direction)
             where T : IComparable<T>
         {
             if (direction == ComparerDirection.Ascending)
@@ -974,7 +983,7 @@ namespace Accord.Math
 
 
         /// <summary>
-        ///   Gets the determinant of a matrix.
+        ///   Gets the rank of a matrix.
         /// </summary>
         /// 
         public static int Rank(this double[,] matrix)
@@ -985,7 +994,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Gets the determinant of a matrix.
+        ///   Gets the rank of a matrix.
         /// </summary>
         /// 
         public static int Rank(this float[,] matrix)
@@ -1019,7 +1028,7 @@ namespace Accord.Math
         #endregion
 
 
-        
+
 
         /// <summary>Calculates a vector cumulative sum.</summary>
         public static double[] CumulativeSum(this double[] vector)
@@ -1085,7 +1094,7 @@ namespace Accord.Math
             return sum;
         }
 
-        
+
 
         #region Operation Mapping (Apply)
 
@@ -1375,6 +1384,69 @@ namespace Accord.Math
         ///   Pass 0 to perform a copy in column-major copy. Default is 1 
         ///   (row-major, c-style order).</param>
         /// 
+        public static T[] Flatten<T>(this T[,] matrix, MatrixOrder order = MatrixOrder.Default)
+        {
+            return Reshape(matrix, order);
+        }
+
+        /// <summary>
+        ///   Transforms a matrix into a single vector.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A matrix.</param>
+        /// <param name="result">The vector where to store the copy.</param>
+        /// <param name="order">The direction to perform copying. Pass
+        ///   1 to perform a copy by reading the matrix in row-major order.
+        ///   Pass 0 to perform a copy in column-major copy. Default is 1 
+        ///   (row-major, c-style order).</param>
+        /// 
+        public static T[] Flatten<T>(this T[,] matrix, T[] result, MatrixOrder order = MatrixOrder.Default)
+        {
+            return Reshape(matrix, result, order);
+        }
+
+
+        /// <summary>
+        ///   Transforms a jagged array matrix into a single vector.
+        /// </summary>
+        /// 
+        /// <param name="array">A jagged array.</param>
+        /// <param name="order">The direction to perform copying. Pass
+        ///   1 to perform a copy by reading the matrix in row-major order.
+        ///   Pass 0 to perform a copy in column-major copy. Default is 1 
+        ///   (row-major, c-style order).</param>
+        /// 
+        public static T[] Flatten<T>(this T[][] array, MatrixOrder order = MatrixOrder.Default)
+        {
+            return Reshape(array, order);
+        }
+
+        /// <summary>
+        ///   Transforms a jagged array matrix into a single vector.
+        /// </summary>
+        /// 
+        /// <param name="array">A jagged array.</param>
+        /// <param name="result">The vector where to store the copy.</param>
+        /// <param name="order">The direction to perform copying. Pass
+        ///   1 to perform a copy by reading the matrix in row-major order.
+        ///   Pass 0 to perform a copy in column-major copy. Default is 1 
+        ///   (row-major, c-style order).</param>
+        /// 
+        public static T[] Flatten<T>(this T[][] array, T[] result, MatrixOrder order = MatrixOrder.Default)
+        {
+            return Reshape(array, result, order);
+        }
+
+        /// <summary>
+        ///   Transforms a matrix into a single vector.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A matrix.</param>
+        /// <param name="order">The direction to perform copying. Pass
+        ///   1 to perform a copy by reading the matrix in row-major order.
+        ///   Pass 0 to perform a copy in column-major copy. Default is 1 
+        ///   (row-major, c-style order).</param>
+        /// 
         public static T[] Reshape<T>(this T[,] matrix, MatrixOrder order = MatrixOrder.Default)
         {
             int rows = matrix.GetLength(0);
@@ -1548,7 +1620,19 @@ namespace Accord.Math
         /// 
         public static T[,] MemberwiseClone<T>(this T[,] a)
         {
+            // TODO: Rename to Copy and implement shallow and deep copies
             return (T[,])a.Clone();
+        }
+
+        /// <summary>
+        ///   Creates a memberwise copy of a vector matrix. Vector elements
+        ///   themselves are copied only in a shallowed manner (i.e. not cloned).
+        /// </summary>
+        /// 
+        public static T[] MemberwiseClone<T>(this T[] a)
+        {
+            // TODO: Rename to Copy and implement shallow and deep copies
+            return (T[])a.Clone();
         }
 
         /// <summary>
