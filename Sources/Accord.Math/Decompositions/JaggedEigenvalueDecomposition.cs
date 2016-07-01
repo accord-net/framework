@@ -1,5 +1,4 @@
-﻿
-// Accord Math Library
+﻿// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -57,34 +56,51 @@ namespace Accord.Math.Decompositions
     {
         private int n;              // matrix dimension
         private Double[] d, e;      // storage of eigenvalues.
-        private Double[][] V;        // storage of eigenvectors.
-        private Double[][] H;        // storage of nonsymmetric Hessenberg form.
+        private Double[][] V;       // storage of eigenvectors.
+        private Double[][] H;       // storage of nonsymmetric Hessenberg form.
         private Double[] ort;       // storage for nonsymmetric algorithm.
         private bool symmetric;
 
+        private const Double eps = 2 * Constants.DoubleEpsilon;
+
+
         /// <summary>
+        ///   Returns the effective numerical matrix rank.
+        /// </summary>
+        ///
+        /// <value>Number of non-negligible eigen values.</value>
+        ///
+        public int Rank
+        {
+            get
+            {
+                Double tol = n * d[0] * eps;
+
+                int r = 0;
+                for (int i = 0; i < d.Length; i++)
+                    if (d[i] > tol) r++;
+
+                return r;
+            }
+        }
+
+		/// <summary>
         ///   Construct an eigenvalue decomposition.</summary>
         /// <param name="value">
         ///   The matrix to be decomposed.</param>
-        public JaggedEigenvalueDecomposition(Double[][] value)
-            : this(value, value.IsSymmetric(), false)
+        /// <param name="inPlace">
+        ///   Pass <see langword="true"/> to perform the decomposition in place. The matrix
+        ///   <paramref name="value"/> will be destroyed in the process, resulting in less
+        ///   memory comsumption.</param>
+        /// <param name="sort">
+        ///   Pass <see langword="true"/> to sort the eigenvalues and eigenvectors at the end
+        ///   of the decomposition.</param>
+        ///
+        public JaggedEigenvalueDecomposition(Double[][] value, bool inPlace = false, bool sort = false)
+            : this(value, assumeSymmetric: value.IsSymmetric(), inPlace: inPlace, sort: sort)
         {
         }
-
-        /// <summary>
-        ///   Construct an eigenvalue decomposition.</summary>
-        /// <param name="value">
-        ///
-        ///   The matrix to be decomposed.</param>
-        /// <param name="assumeSymmetric">
-        ///   Defines if the matrix should be assumed as being symmetric
-        ///   regardless if it is or not. Default is <see langword="false"/>.</param>
-        ///
-        public JaggedEigenvalueDecomposition(Double[][] value, bool assumeSymmetric)
-            : this(value, assumeSymmetric, false)
-        {
-        }
-
+        
         /// <summary>
         ///   Construct an eigenvalue decomposition.</summary>
         /// <param name="value">
@@ -96,7 +112,12 @@ namespace Accord.Math.Decompositions
         ///   Pass <see langword="true"/> to perform the decomposition in place. The matrix
         ///   <paramref name="value"/> will be destroyed in the process, resulting in less
         ///   memory comsumption.</param>
-        public JaggedEigenvalueDecomposition(Double[][] value, bool assumeSymmetric, bool inPlace)
+        /// <param name="sort">
+        ///   Pass <see langword="true"/> to sort the eigenvalues and eigenvectors at the end
+        ///   of the decomposition.</param>
+        ///
+        public JaggedEigenvalueDecomposition(Double[][] value, bool assumeSymmetric, 
+            bool inPlace = false, bool sort = false)
         {
             if (value == null)
                 throw new ArgumentNullException("value", "Matrix cannot be null.");
@@ -135,6 +156,22 @@ namespace Accord.Math.Decompositions
 
                 // Reduce Hessenberg to real Schur form.
                 this.hqr2();
+            }
+
+            if (sort)
+            {
+                // Sort eigenvalues and vectors in descending order
+                var idx = Vector.Range(n);
+                Array.Sort(idx, (i, j) => 
+                {
+                    if (Math.Abs(d[i]) == Math.Abs(d[j]))
+                        return -Math.Abs(e[i]).CompareTo(Math.Abs(e[j]));
+                    return -Math.Abs(d[i]).CompareTo(Math.Abs(d[j]));
+                });
+
+                this.d = this.d.Submatrix(idx);
+                this.e = this.e.Submatrix(idx);
+                this.V = this.V.Submatrix(null, idx);
             }
         }
 
