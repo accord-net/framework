@@ -106,6 +106,7 @@
     <Compile Include="CombinatoricsTest.cs" />
     <Compile Include="Decompositions\JaggedSingularValueDecompositionTest.cs" />
     <Compile Include="IO\MatReaderTest.cs" />
+    <Compile Include="Matrix\Matrix.Selection.cs" />
     <Compile Include="Matrix\Matrix.Construction.cs" />
     <Compile Include="Matrix\Matrix.Common.cs" />
     <Compile Include="Matrix\VectorTest.cs" />
@@ -173,6 +174,10 @@
     <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
       <Name>Accord.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Statistics\Accord.Statistics.csproj">
+      <Project>{fd8101dd-c95d-42d6-ad44-ae01c25f2811}</Project>
+      <Name>Accord.Statistics</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

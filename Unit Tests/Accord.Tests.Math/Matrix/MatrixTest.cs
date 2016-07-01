@@ -3196,8 +3196,8 @@ namespace Accord.Tests.Math
                 Assert.AreEqual(5, idx.Length);
                 Assert.AreEqual(9, selected[0]);
                 Assert.AreEqual(8, selected[1]);
-                Assert.AreEqual(6, selected[2]);
-                Assert.AreEqual(8, selected[3]);
+                Assert.AreEqual(8, selected[2]);
+                Assert.AreEqual(6, selected[3]);
                 Assert.AreEqual(4, selected[4]);
             }
 
@@ -3205,8 +3205,8 @@ namespace Accord.Tests.Math
                 int[] idx = values.Bottom(5);
                 double[] selected = values.Submatrix(idx);
                 Assert.AreEqual(5, idx.Length);
-                Assert.AreEqual(0, selected[0]);
-                Assert.AreEqual(-2, selected[1]);
+                Assert.AreEqual(-2, selected[0]);
+                Assert.AreEqual(0, selected[1]);
                 Assert.AreEqual(1, selected[2]);
                 Assert.AreEqual(1, selected[3]);
                 Assert.AreEqual(1, selected[4]);

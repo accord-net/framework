@@ -188,7 +188,7 @@ namespace Accord.Tests.Imaging
                     Assert.IsTrue(expected[i].Contains(actual[i][j]));
         }
 
-        [Test]
+        [Test, Timeout(600 * 1000)]
         public void SerializeTest()
         {
             var images = GetImages();

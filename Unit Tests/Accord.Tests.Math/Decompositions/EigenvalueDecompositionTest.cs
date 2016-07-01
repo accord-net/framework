@@ -60,7 +60,7 @@ namespace Accord.Tests.Math
                 { 2, 4 }
             };
 
-            EigenvalueDecomposition target = new EigenvalueDecomposition(A);
+            var target = new EigenvalueDecomposition(A);
 
             var D = target.DiagonalMatrix;
             var Q = target.Eigenvectors;
