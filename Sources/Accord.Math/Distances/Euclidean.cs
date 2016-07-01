@@ -32,7 +32,9 @@ namespace Accord.Math.Distances
     /// <seealso cref="SquareEuclidean"/>
     /// 
     [Serializable]
-    public sealed class Euclidean : IMetric<double[]>, ISimilarity<double[]>,
+    public sealed class Euclidean :
+        IMetric<double>, ISimilarity<double>,
+        IMetric<double[]>, ISimilarity<double[]>,
         IMetric<Tuple<double, double>>, ISimilarity<Tuple<double, double>>
     {
         /// <summary>
@@ -41,6 +43,28 @@ namespace Accord.Math.Distances
         /// 
         public Euclidean()
         {
+        }
+
+        /// <summary>
+        ///   Computes the distance <c>d(x,y)</c> between points
+        ///   <paramref name="x"/> and <paramref name="y"/>.
+        /// </summary>
+        /// 
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
+        /// 
+        /// <returns>
+        ///   A double-precision value representing the distance <c>d(x,y)</c>
+        ///   between <paramref name="x"/> and <paramref name="y"/> according 
+        ///   to the distance function implemented by this class.
+        /// </returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public double Distance(double x, double y)
+        {
+            return Math.Abs(x - y);
         }
 
         /// <summary>
@@ -112,6 +136,20 @@ namespace Accord.Math.Distances
             double dx = x.Item1 - y.Item1;
             double dy = y.Item1 - y.Item2;
             return Math.Sqrt(dx * dx + dy * dy);
+        }
+
+        /// <summary>
+        ///   Gets a similarity measure between two points.
+        /// </summary>
+        /// 
+        /// <param name="x">The first point to be compared.</param>
+        /// <param name="y">The second point to be compared.</param>
+        /// 
+        /// <returns>A similarity measure between x and y.</returns>
+        /// 
+        public double Similarity(double x, double y)
+        {
+            return 1.0 / (1.0 + Math.Abs(x - y));
         }
 
         /// <summary>
