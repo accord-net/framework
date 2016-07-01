@@ -71,6 +71,13 @@
     <Compile Include="AForge.Core\DoublePoint.cs" />
     <Compile Include="Attributes\SourceTypeAttribute.cs" />
     <Compile Include="Attributes\SerializationBinderAttribute.cs" />
+    <Compile Include="Collections\BinaryNode.cs" />
+    <Compile Include="Collections\BinaryTree.cs" />
+    <Compile Include="Collections\PriorityQueue.cs" />
+    <Compile Include="Collections\PriorityQueueNode.cs" />
+    <Compile Include="Collections\Tree.cs" />
+    <Compile Include="Collections\TreeNode.cs" />
+    <Compile Include="Collections\TreeTraversal.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="InterlockedEx.cs" />
     <Compile Include="MachineLearning\Classifiers\IClassifier.cs" />
