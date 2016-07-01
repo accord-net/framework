@@ -126,7 +126,7 @@ namespace Accord.Math.Distances
         ///   of the given covariance matrix.
         /// </returns>
         /// 
-        public SquareMahalanobis FromCovarianceMatrix(double[,] covariance)
+        public static SquareMahalanobis FromCovarianceMatrix(double[,] covariance)
         {
             return new SquareMahalanobis(new CholeskyDecomposition(covariance));
         }
@@ -141,7 +141,7 @@ namespace Accord.Math.Distances
         ///   A Mahalanobis distance using the given precision matrix.
         /// </returns>
         /// 
-        public SquareMahalanobis FromPrecisionMatrix(double[,] precision)
+        public static SquareMahalanobis FromPrecisionMatrix(double[,] precision)
         {
             return new SquareMahalanobis(precision);
         }

@@ -357,26 +357,7 @@ namespace Accord.IO
             return dataset;
         }
 
-
-        private bool unquote(string str, char quote, out string unquoted)
-        {
-            unquoted = str;
-
-            if (String.IsNullOrEmpty(str))
-                return false;
-
-            int length = str.Length;
-            if (length > 1 && str[0] == quote && str[length - 1] == quote)
-            {
-                unquoted = str.Substring(1, length - 2);
-                return true;
-            }
-
-            return false;
-        }
-
     }
-
 
 
 #if NET35

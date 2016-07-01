@@ -247,14 +247,14 @@ namespace Accord.Math.Distances
         ///   Bhattacharyya distance between two Gaussian distributions.
         /// </summary>
         /// 
-        /// <param name="a">The first Normal distribution.</param>
-        /// <param name="b">The second Normal distribution.</param>
+        /// <param name="x">The first Normal distribution.</param>
+        /// <param name="y">The second Normal distribution.</param>
         /// 
         /// <returns>The Bhattacharyya distance between the two distributions.</returns>
         /// 
-        public double Distance(MultivariateNormalDistribution a, MultivariateNormalDistribution b)
+        public double Distance(MultivariateNormalDistribution x, MultivariateNormalDistribution y)
         {
-            return Distance(a.Mean, a.Covariance, b.Mean, b.Covariance);
+            return Distance(x.Mean, x.Covariance, y.Mean, y.Covariance);
         }
     }
 }

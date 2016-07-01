@@ -58,7 +58,7 @@ namespace Accord.MachineLearning
         /// <summary>
         /// Initializes a new instance of the <see cref="ParallelMulticlassLearningBase{TModel, TInput}"/> class.
         /// </summary>
-        public ParallelMulticlassLearningBase()
+        protected ParallelMulticlassLearningBase()
         {
             ParallelOptions = new ParallelOptions();
         }
