@@ -94,7 +94,7 @@ namespace Accord.Tests.Statistics
             };
 
             // Computing the mean of y
-            double[] meanY = Measures.Mean(y);
+            double[] meanY = Measures.Mean(y, dimension: 0);
 
             // Computing the covariance matrix of y
             double[,] covY = Measures.Covariance(y, meanY);
@@ -155,7 +155,7 @@ namespace Accord.Tests.Statistics
                 new double[] { 7,  0.5, 9 },
             };
 
-            double[] means = Measures.Mean(matrix);
+            double[] means = Measures.Mean(matrix, dimension: 0);
             Assert.IsTrue(means.IsEqual(new[] { 4.5000, -0.2500, 7.0000 }));
 
             double[] stdev = Measures.StandardDeviation(matrix, means);
@@ -174,7 +174,7 @@ namespace Accord.Tests.Statistics
                 { 7,  0.5, 9 },
             };
 
-            double[] means = Measures.Mean(matrix);
+            double[] means = Measures.Mean(matrix, dimension: 0);
             Assert.IsTrue(means.IsEqual(new[] { 4.5000, -0.2500, 7.0000} ));
 
             double[] stdev = Measures.StandardDeviation(matrix, means);
@@ -307,7 +307,7 @@ namespace Accord.Tests.Statistics
                 new double[] { 0.2,  0.5, -2 },
             };
 
-            double[] mean = Measures.Mean(matrix);
+            double[] mean = Measures.Mean(matrix, dimension: 0);
             Assert.IsTrue(mean.IsEqual(1.3000, 0.9250, 4.5000));
 
             double[] median = Measures.Median(matrix);
@@ -315,7 +315,7 @@ namespace Accord.Tests.Statistics
 
 
             matrix = matrix.Transpose();
-            mean = Measures.Mean(matrix);
+            mean = Measures.Mean(matrix, dimension: 0);
             Assert.IsTrue(mean.IsEqual(new[] { 2.0000, 5.8999999999999995, 1.5000, -0.43333333333333335 }));
 
             median = Measures.Median(matrix);
@@ -333,7 +333,7 @@ namespace Accord.Tests.Statistics
                 { 0.2,  0.5, -2 },
             };
 
-            double[] mean = Measures.Mean(matrix);
+            double[] mean = Measures.Mean(matrix, dimension: 0);
             Assert.IsTrue(mean.IsEqual(1.3000, 0.9250, 4.5000));
 
             double[] median = Measures.Median(matrix);
@@ -341,7 +341,7 @@ namespace Accord.Tests.Statistics
 
 
             matrix = matrix.Transpose();
-            mean = Measures.Mean(matrix);
+            mean = Measures.Mean(matrix, dimension: 0);
             Assert.IsTrue(mean.IsEqual(new[] { 2.0000, 5.8999999999999995, 1.5000, -0.43333333333333335 }));
 
             median = Measures.Median(matrix);

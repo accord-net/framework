@@ -403,7 +403,7 @@ namespace Accord.Tests.Statistics
                 new double[] { 2.0000,  0.3000 }
             };
 
-            double[] mean = Measures.Mean(observations);
+            double[] mean = Measures.Mean(observations, dimension: 0);
             double[,] cov = Measures.Covariance(observations);
 
             {
@@ -603,7 +603,7 @@ namespace Accord.Tests.Statistics
 
             double[][] sample = normal.Generate(1000000);
 
-            double[] mean = sample.Mean();
+            double[] mean = sample.Mean(dimension: 0);
             double[,] cov = sample.Covariance();
 
             Assert.AreEqual(2, mean[0], 1e-2);
@@ -628,7 +628,7 @@ namespace Accord.Tests.Statistics
             for (int i = 0; i < sample.Length; i++)
                 sample[i] = normal.Generate();
 
-            double[] mean = sample.Mean();
+            double[] mean = sample.Mean(dimension: 0);
             double[,] cov = sample.Covariance();
 
             Assert.AreEqual(2, mean[0], 1e-2);

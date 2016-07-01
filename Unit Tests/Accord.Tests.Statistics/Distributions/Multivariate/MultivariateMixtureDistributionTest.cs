@@ -187,18 +187,18 @@ namespace Accord.Tests.Statistics
             target.Fit(values);
 
 
-            var mean1 = Measures.Mean(part1);
+            var mean1 = Measures.Mean(part1, dimension: 0);
             var var1 = Measures.Variance(part1);
             Assert.AreEqual(mean1[0], target.Components[0].Mean[0], 1e-5);
             Assert.AreEqual(var1[0], target.Components[0].Variance[0], 1e-5);
 
-            var mean2 = Measures.Mean(part2);
+            var mean2 = Measures.Mean(part2, dimension: 0);
             var var2 = Measures.Variance(part2);
             Assert.AreEqual(mean2[0], target.Components[1].Mean[0], 1e-5);
             Assert.AreEqual(var2[0], target.Components[1].Variance[0], 1e-5);
 
 
-            var expectedMean = Measures.Mean(values);
+            var expectedMean = Measures.Mean(values, dimension: 0);
             var expectedVar = Measures.Covariance(values);
 
             var actualMean = target.Mean;
@@ -239,12 +239,12 @@ namespace Accord.Tests.Statistics
 
             target.Fit(values, weights);
 
-            var mean1 = Measures.Mean(part1);
+            var mean1 = Measures.Mean(part1, dimension: 0);
             var var1 = Measures.Variance(part1);
             Assert.AreEqual(mean1[0], target.Components[0].Mean[0], 1e-5);
             Assert.AreEqual(var1[0], target.Components[0].Variance[0], 1e-5);
 
-            var mean2 = Measures.Mean(part2);
+            var mean2 = Measures.Mean(part2, dimension: 0);
             var var2 = Measures.Variance(part2);
             Assert.AreEqual(mean2[0], target.Components[1].Mean[0], 1e-5);
             Assert.AreEqual(var2[0], target.Components[1].Variance[0], 1e-5);
