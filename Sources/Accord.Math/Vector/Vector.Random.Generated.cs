@@ -1152,7 +1152,7 @@ namespace Accord.Math
 
             var vector = new int[size];
             for (int i = 0; i < size; i++)
-                vector[i] = (int)random.Next((int)max, (int)min);
+                vector[i] = (int)random.Next((int)min, (int)max);
             return vector;
         }
         /// <summary>
@@ -1168,7 +1168,7 @@ namespace Accord.Math
 
             var vector = new short[size];
             for (int i = 0; i < size; i++)
-                vector[i] = (short)random.Next((int)max, (int)min);
+                vector[i] = (short)random.Next((int)min, (int)max);
             return vector;
         }
         /// <summary>
@@ -1184,7 +1184,7 @@ namespace Accord.Math
 
             var vector = new byte[size];
             for (int i = 0; i < size; i++)
-                vector[i] = (byte)random.Next((int)max, (int)min);
+                vector[i] = (byte)random.Next((int)min, (int)max);
             return vector;
         }
         /// <summary>
@@ -1200,7 +1200,7 @@ namespace Accord.Math
 
             var vector = new sbyte[size];
             for (int i = 0; i < size; i++)
-                vector[i] = (sbyte)random.Next((int)max, (int)min);
+                vector[i] = (sbyte)random.Next((int)min, (int)max);
             return vector;
         }
         /// <summary>
@@ -1216,7 +1216,7 @@ namespace Accord.Math
 
             var vector = new long[size];
             for (int i = 0; i < size; i++)
-                vector[i] = (long)random.Next((int)max, (int)min);
+                vector[i] = (long)random.Next((int)min, (int)max);
             return vector;
         }
         /// <summary>
@@ -1232,7 +1232,7 @@ namespace Accord.Math
 
             var vector = new ulong[size];
             for (int i = 0; i < size; i++)
-                vector[i] = (ulong)random.Next((int)max, (int)min);
+                vector[i] = (ulong)random.Next((int)min, (int)max);
             return vector;
         }
         /// <summary>
@@ -1248,7 +1248,7 @@ namespace Accord.Math
 
             var vector = new ushort[size];
             for (int i = 0; i < size; i++)
-                vector[i] = (ushort)random.Next((int)max, (int)min);
+                vector[i] = (ushort)random.Next((int)min, (int)max);
             return vector;
         }
         /// <summary>

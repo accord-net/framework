@@ -194,7 +194,7 @@ namespace Accord.Math
 
             var vector = new <#=i#>[size];
             for (int i = 0; i < size; i++)
-                vector[i] = (<#=i#>)random.Next((int)max, (int)min);
+                vector[i] = (<#=i#>)random.Next((int)min, (int)max);
             return vector;
         }
 <#
