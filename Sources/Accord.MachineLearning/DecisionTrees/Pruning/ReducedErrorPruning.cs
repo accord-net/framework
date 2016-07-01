@@ -28,7 +28,7 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
     using System.Text;
     using Accord.Math;
     using Accord.Statistics;
-    using Accord.MachineLearning.Structures;
+    using Accord.Collections;
     using Accord.Math.Optimization.Losses;
 
     /// <summary>

@@ -22,7 +22,7 @@
 
 namespace Accord.MachineLearning
 {
-    using Accord.MachineLearning.Structures;
+    using Accord.Collections;
     using Accord.Math;
     using System;
     using System.Collections.Generic;
@@ -112,8 +112,7 @@ namespace Accord.MachineLearning
         public override int Nearest(double[] point, out double[] response)
         {
             // the tree contains the class label as the value for the seed point.
-            ICollection<KDTreeNodeDistance<int>> values =
-                tree.Nearest(point, algorithm.Bandwidth, algorithm.Maximum);
+            var values = tree.Nearest(point, algorithm.Bandwidth, algorithm.Maximum);
 
             response = new double[algorithm.Clusters.Count];
             int[] counts = new int[algorithm.Clusters.Count];

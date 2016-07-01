@@ -73,6 +73,8 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Rules\AssociationRule.cs" />
+    <Compile Include="Rules\Apriori.cs" />
     <Compile Include="Bayes\Learning\Base\NaiveBayesLearningBase`4.cs" />
     <Compile Include="Bayes\Learning\Base\NaiveBayesLearningBase`5.cs" />
     <Compile Include="Bayes\Learning\NaiveBayesLearning`2.cs" />
@@ -97,6 +99,9 @@
     <Compile Include="Clustering\IClusteringAlgorithm.cs" />
     <Compile Include="Clustering\KModes\KModesCluster.cs" />
     <Compile Include="Clustering\MeanShift\MeanShift.cs" />
+    <Compile Include="Clustering\TSNE.cs" />
+    <Compile Include="Collections\VPTree`1.cs" />
+    <Compile Include="Collections\VPTree`2.cs" />
     <Compile Include="DecisionTrees\Accord.MachineLearning.DecisionTrees.cs" />
     <Compile Include="DecisionTrees\ComparisonKind.cs" />
     <Compile Include="DecisionTrees\DecisionBranchNodeCollection.cs" />
@@ -163,16 +168,25 @@
     <Compile Include="Ransac.cs" />
     <Compile Include="Geometry\RansacLine.cs" />
     <Compile Include="Geometry\RansacPlane.cs" />
+    <Compile Include="Rules\AssociationRuleMatcher.cs" />
     <Compile Include="Sarsa.cs" />
-    <Compile Include="Structures\KDTreeNodeList.cs" />
-    <Compile Include="Structures\KDTreeTraversal.cs" />
-    <Compile Include="Structures\KDTreeNodeDistance.cs" />
-    <Compile Include="Structures\KDTree`1.cs" />
-    <Compile Include="Structures\KDTree.cs" />
-    <Compile Include="Structures\KDTreeNode.cs" />
-    <Compile Include="Structures\KDTreeNodeCollection.cs" />
+    <Compile Include="Collections\Base\KDTreeBase.cs" />
+    <Compile Include="Collections\KDTreeNodeList.cs" />
+    <Compile Include="Collections\SPCell.cs" />
+    <Compile Include="Collections\SPTreeNode.cs" />
+    <Compile Include="Collections\NodeDistance.cs" />
+    <Compile Include="Collections\KDTree`1.cs" />
+    <Compile Include="Collections\KDTree.cs" />
+    <Compile Include="Collections\KDTreeNode.cs" />
+    <Compile Include="Collections\KDTreeNodeCollection.cs" />
     <Compile Include="DecisionTrees\DecisionTreeTraversal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Collections\SPTree.cs" />
+    <Compile Include="Collections\VPTree.cs" />
+    <Compile Include="Collections\Base\VPTreeBase.cs" />
+    <Compile Include="Collections\VPTreeNode`2.cs" />
+    <Compile Include="Collections\Base\VPTreeNodeBase.cs" />
+    <Compile Include="Collections\VPTreeNode`1.cs" />
     <Compile Include="VectorMachines\Accord.MachineLearning.VectorMachines.cs" />
     <Compile Include="VectorMachines\ISupportVectorMachine`2.cs" />
     <Compile Include="VectorMachines\KernelSupportVectorMachine.cs" />
@@ -229,7 +243,7 @@
     <None Include="Boosting\Accord.MachineLearning.Boosting.cd" />
     <None Include="Clustering\Accord.MachineLearning.Clustering.cd" />
     <None Include="DecisionTrees\Accord.MachineLearning.DecisionTrees.cd" />
-    <None Include="Structures\Accord.MachineLearning.Structures.cd" />
+    <None Include="Collections\Accord.MachineLearning.Structures.cd" />
     <None Include="VectorMachines\Accord.MachineLearning.VectorMachines.cd" />
   </ItemGroup>
   <ItemGroup>

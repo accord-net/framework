@@ -25,7 +25,7 @@ namespace Accord.MachineLearning
     using System;
     using System.Linq;
     using Accord.Math;
-    using Accord.MachineLearning.Structures;
+    using Accord.Collections;
     using Accord.Math.Distances;
 
     /// <summary>
@@ -114,11 +114,11 @@ namespace Accord.MachineLearning
         /// 
         public override int Compute(double[] input, out double[] scores)
         {
-            KDTreeNodeCollection<int> neighbors = tree.Nearest(input, this.K);
+            var neighbors = tree.Nearest(input, this.K);
 
             scores = new double[ClassCount];
 
-            foreach (KDTreeNodeDistance<int> point in neighbors)
+            foreach (var point in neighbors)
             {
                 int label = point.Node.Value;
                 double d = point.Distance;
@@ -148,13 +148,13 @@ namespace Accord.MachineLearning
         /// 
         public override double[][] GetNearestNeighbors(double[] input, out int[] labels)
         {
-            KDTreeNodeCollection<int> neighbors = tree.Nearest(input, this.K);
+            var neighbors = tree.Nearest(input, this.K);
 
             double[][] points = new double[neighbors.Count][];
             labels = new int[points.Length];
 
             int k = 0;
-            foreach (KDTreeNodeDistance<int> point in neighbors)
+            foreach (var point in neighbors)
             {
                 points[k] = point.Node.Position;
                 labels[k] = point.Node.Value;

@@ -22,7 +22,7 @@
 
 namespace Accord.MachineLearning
 {
-    using Accord.MachineLearning.Structures;
+    using Accord.Collections;
     using Accord.Math;
     using Accord.Math.Comparers;
     using Accord.Math.Distances;
@@ -350,7 +350,7 @@ namespace Accord.MachineLearning
             var maxima = new ConcurrentStack<double[]>();
 
             // Optimization for uniform kernel
-            Action<ICollection<KDTreeNodeDistance<int>>, double[]> func;
+            Action<ICollection<NodeDistance<KDTreeNode<int>>>, double[]> func;
             if (kernel is UniformKernel)
                 func = uniform;
             else func = general;
@@ -409,7 +409,7 @@ namespace Accord.MachineLearning
 
         private double[] move(KDTree<int> tree, double[][] points, int index,
             ConcurrentStack<double[]> modes,
-            Action<ICollection<KDTreeNodeDistance<int>>, double[]> computeMean)
+            Action<ICollection<NodeDistance<KDTreeNode<int>>>, double[]> computeMean)
         {
             double[] current = points[index];
             double[] mean = new double[current.Length];
@@ -486,7 +486,7 @@ namespace Accord.MachineLearning
             return seeds[index];
         }
 
-        private void general(ICollection<KDTreeNodeDistance<int>> neighbors, double[] result)
+        private void general(ICollection<NodeDistance<KDTreeNode<int>>> neighbors, double[] result)
         {
             Array.Clear(result, 0, result.Length);
 
@@ -494,7 +494,7 @@ namespace Accord.MachineLearning
             double h = Bandwidth * Bandwidth;
 
             // Compute weighted mean
-            foreach (KDTreeNodeDistance<int> neighbor in neighbors)
+            foreach (var neighbor in neighbors)
             {
                 double distance = neighbor.Distance; // ||(x-xi)||
                 double[] point = neighbor.Node.Position;
@@ -518,7 +518,7 @@ namespace Accord.MachineLearning
             }
         }
 
-        private static void uniform(ICollection<KDTreeNodeDistance<int>> neighbors, double[] result)
+        private static void uniform(ICollection<NodeDistance<KDTreeNode<int>>> neighbors, double[] result)
         {
             Array.Clear(result, 0, result.Length);
 
@@ -526,7 +526,7 @@ namespace Accord.MachineLearning
 
             // Optimization for the uniform case: In this case, we just 
             // have to compute the average mean of the neighbor points
-            foreach (KDTreeNodeDistance<int> neighbor in neighbors)
+            foreach (var neighbor in neighbors)
             {
                 double[] point = neighbor.Node.Position;
                 int weight = neighbor.Node.Value; // count
