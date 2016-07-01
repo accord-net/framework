@@ -30,6 +30,7 @@ namespace Accord.Tests.Math
     using Accord.Math.Decompositions;
     using AForge;
     using NUnit.Framework;
+    using Accord.IO;
 
     [TestFixture]
     public partial class MatrixTest
@@ -1418,6 +1419,29 @@ namespace Accord.Tests.Math
 
             Assert.IsTrue(expected.IsEqual(actual, 0.001));
         }
+
+        [Test]
+        public void PseudoInverse4()
+        {
+            double[,] X = CsvReader.FromText(Properties.Resources.pseudoInverse1, false).ToMatrix();
+
+            double[,] invX = X.PseudoInverse();
+            double[,] actual = X.Dot(invX);
+            double[,] expected = Matrix.Identity(9);
+            Assert.IsTrue(expected.IsEqual(actual, 1e-6));
+        }
+
+        [Test]
+        public void PseudoInverse5()
+        {
+            double[][] X = CsvReader.FromText(Properties.Resources.pseudoInverse1, false).ToJagged();
+
+            double[][] invX = X.PseudoInverse();
+            double[][] actual = X.Dot(invX);
+            double[][] expected = Jagged.Identity(9);
+            Assert.IsTrue(expected.IsEqual(actual, 1e-6));
+        }
+
         [Test]
         public void SolveTest()
         {
