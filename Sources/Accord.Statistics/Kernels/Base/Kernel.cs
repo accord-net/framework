@@ -84,8 +84,8 @@ namespace Accord.Statistics.Kernels
                 result = new double[x.Length, y.Length];
 
             for (int i = 0; i < x.Length; i++)
-                for (int j = i; j < x.Length; j++)
-                    result[j, i] = result[i, j] = kernel.Function(x[i], y[j]);
+                for (int j = 0; j < y.Length; j++)
+                    result[i, j] = kernel.Function(x[i], y[j]);
 
             return result;
         }
@@ -138,8 +138,8 @@ namespace Accord.Statistics.Kernels
                 result = Jagged.Create<double>(x.Length, y.Length);
 
             for (int i = 0; i < x.Length; i++)
-                for (int j = i; j < x.Length; j++)
-                    result[j][i] = result[i][j] = kernel.Function(x[i], y[j]);
+                for (int j = 0; j < y.Length; j++)
+                    result[i][j] = kernel.Function(x[i], y[j]);
 
             return result;
         }
@@ -287,6 +287,107 @@ namespace Accord.Statistics.Kernels
             Array.Sort(distances);
 
             return distances;
+        }
+
+        /// <summary>
+        ///   Centers the given kernel matrix K.
+        /// </summary>
+        /// 
+        /// <param name="kernelMatrix">The kernel matrix to be centered.</param>
+        /// <param name="result">The array where to store results.</param>
+        /// 
+        public static double[,] Center(double[,] kernelMatrix, double[,] result = null)
+        {
+            if (result == null)
+                result = Matrix.CreateAs(kernelMatrix);
+
+            double[] rowMean = kernelMatrix.Mean(dimension: 1);
+#if DEBUG
+            // row mean and column means should be equal on a symmetric matrix
+            double[] colMean = kernelMatrix.Mean(dimension: 0);
+            for (int i = 0; i < colMean.Length; i++)
+                Accord.Diagnostics.Debug.Assert(colMean[i] == rowMean[i]);
+#endif
+            double mean = kernelMatrix.Mean();
+
+            for (int i = 0; i < rowMean.Length; i++)
+                for (int j = i; j < rowMean.Length; j++)
+                    result[i, j] = result[j, i] = kernelMatrix[i, j] - rowMean[i] - rowMean[j] + mean;
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Centers the given kernel matrix K.
+        /// </summary>
+        /// 
+        /// <param name="kernelMatrix">The kernel matrix to be centered.</param>
+        /// <param name="rowMean">The row-wise mean vector.</param>
+        /// <param name="mean">The total mean (across all values in the matrix).</param>
+        /// <param name="result">The array where to store results.</param>
+        /// 
+        public static double[][] Center(double[][] kernelMatrix, out double[] rowMean, out double mean, double[][] result = null)
+        {
+            result = (result == null) ? Jagged.CreateAs(kernelMatrix) : kernelMatrix;
+
+            rowMean = kernelMatrix.Mean(dimension: 1);
+#if DEBUG
+            // row mean and column means should be equal on a symmetric matrix
+            double[] colMean = kernelMatrix.Mean(dimension: 0);
+            for (int i = 0; i < colMean.Length; i++)
+                Accord.Diagnostics.Debug.Assert(colMean[i] == rowMean[i]);
+#endif
+            mean = kernelMatrix.Mean(); // TODO: This should become simply mean = K.Mean()
+
+            for (int i = 0; i < rowMean.Length; i++)
+                for (int j = i; j < rowMean.Length; j++)
+                    result[i][j] = result[j][i] = kernelMatrix[i][j] - rowMean[i] - rowMean[j] + mean;
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Centers the given kernel matrix K.
+        /// </summary>
+        /// 
+        /// <param name="kernelMatrix">The kernel matrix to be centered.</param>
+        /// <param name="rowMean">The row-wise mean vector.</param>
+        /// <param name="mean">The total mean (across all values in the matrix).</param>
+        /// <param name="result">The array where to store results.</param>
+        /// 
+        public static double[,] Center(double[,] kernelMatrix, double[] rowMean, double mean, double[,] result = null)
+        {
+            result = (result == null) ? Matrix.CreateAs(kernelMatrix) : kernelMatrix;
+
+            int samples = kernelMatrix.GetLength(0);
+            double[] rowMean1 = kernelMatrix.Mean(1);
+            for (int i = 0; i < samples; i++)
+                for (int j = 0; j < rowMean.Length; j++)
+                    result[i, j] = kernelMatrix[i, j] - rowMean1[i] - rowMean[j] + mean;
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Centers the given kernel matrix K.
+        /// </summary>
+        /// 
+        /// <param name="kernelMatrix">The kernel matrix to be centered.</param>
+        /// <param name="rowMean">The row-wise mean vector.</param>
+        /// <param name="mean">The total mean (across all values in the matrix).</param>
+        /// <param name="result">The array where to store results.</param>
+        /// 
+        public static double[][] Center(double[][] kernelMatrix, double[] rowMean, double mean, double[][] result = null)
+        {
+            result = (result == null) ? Jagged.CreateAs(kernelMatrix) : kernelMatrix;
+
+            int samples = kernelMatrix.GetLength(0);
+            double[] rowMean1 = kernelMatrix.Mean(1);
+            for (int i = 0; i < rowMean1.Length; i++)
+                for (int j = 0; j < rowMean.Length; j++)
+                    result[i][j] = kernelMatrix[i][j] - rowMean1[i] - rowMean[j] + mean;
+
+            return result;
         }
     }
 }
