@@ -24,6 +24,7 @@ namespace Accord.Math
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     ///   Static class for combinatorics functions.
@@ -155,7 +156,7 @@ namespace Accord.Math
         /// };
         /// </code></example>
         ///
-        public static int[][] TruthTable(int[] symbols)
+        public static int[][] TruthTable(this int[] symbols)
         {
             int size = 1;
             for (int i = 0; i < symbols.Length; i++)
@@ -277,7 +278,7 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static IEnumerable<int[]> Sequences(int[] symbols, bool inPlace = false)
+        public static IEnumerable<int[]> Sequences(this int[] symbols, bool inPlace = false)
         {
             var current = new int[symbols.Length];
 
@@ -313,6 +314,50 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="values">The array whose combinations need to be generated.</param>
+        /// <param name="inPlace">
+        ///   If set to true, the different generated combinations will be stored in 
+        ///   the same array, thus preserving memory. However, this may prevent the
+        ///   samples from being stored in other locations without having to clone
+        ///   them. If set to false, a new memory block will be allocated for each
+        ///   new object in the sequence.</param>
+        ///   
+        /// <example>
+        /// <code>
+        ///   // Let's say we would like to generate all possible combinations
+        ///   // of the elements (1, 2, 3). In order to enumerate all those 
+        ///   // combinations, we can use:
+        /// 
+        ///   int[] values = { 1, 2, 3 };
+        ///   
+        ///   foreach (int[] combination in Combinatorics.Combinations(values))
+        ///   {
+        ///       // The combinations will be generated in the following order:
+        ///       //
+        ///       //   { 1 };
+        ///       //   { 2 };
+        ///       //   { 3 };
+        ///       //   { 1, 2 };
+        ///       //   { 1, 3 };
+        ///       //   { 2, 3 };
+        ///       //   { 1, 2, 3 };
+        ///       //
+        ///   }
+        /// </code>
+        /// </example>
+        /// 
+        public static IEnumerable<T[]> Combinations<T>(this T[] values, bool inPlace = false)
+        {
+            // TODO: Test
+            for (int i = 0; i < values.Length; i++)
+                foreach (var value in Combinations(values, i + 1, inPlace))
+                    yield return value;
+        }
+
+        /// <summary>
+        ///   Enumerates all possible value combinations for a given array.
+        /// </summary>
+        /// 
+        /// <param name="values">The array whose combinations need to be generated.</param>
         /// <param name="k">The length of the combinations to be generated.</param>
         /// <param name="inPlace">
         ///   If set to true, the different generated combinations will be stored in 
@@ -324,12 +369,12 @@ namespace Accord.Math
         /// <example>
         /// <code>
         ///   // Let's say we would like to generate all possible combinations
-        ///   // of the elements (1, 2, 3). In order to enumerate all those
-        ///   // combinations, we can use:
+        ///   // of size 2 of the elements (1, 2, 3). In order to enumerate all 
+        ///   // those combinations, we can use:
         /// 
         ///   int[] values = { 1, 2, 3 };
         ///   
-        ///   foreach (int[] combination in Combinatorics.Combinations(values))
+        ///   foreach (int[] combination in Combinatorics.Combinations(values, 2))
         ///   {
         ///       // The combinations will be generated in the following order:
         ///       //
@@ -341,7 +386,7 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static IEnumerable<T[]> Combinations<T>(T[] values, int k, bool inPlace = false)
+        public static IEnumerable<T[]> Combinations<T>(this T[] values, int k, bool inPlace = false)
         {
             // Based on the Knuth algorithm implementation by
             // http://seekwell.wordpress.com/2007/11/17/knuth-generating-all-combinations/
@@ -389,14 +434,39 @@ namespace Accord.Math
                 {
                     c[j - 1] = j - 2;
                     x = c[j] + 1;
-                    if (x == c[j + 1]) j++;
+                    if (x == c[j + 1])
+                        j++;
                     else break;
                 }
 
                 c[j] = x;
                 j--;
             } while (j < t);
+        }
 
+        /// <summary>
+        ///   Generates all possibles subsets of the given set.
+        /// </summary>
+        /// 
+        public static IEnumerable<SortedSet<T>> Subsets<T>(this ISet<T> set, bool inPlace = false)
+        {
+            // TODO: Optimize
+            T[] values = set.ToArray();
+            for (int i = 0; i < values.Length; i++)
+                foreach (var value in Combinations(values, i + 1, inPlace: inPlace))
+                    yield return new SortedSet<T>(value);
+        }
+
+        /// <summary>
+        ///   Generates all possibles subsets of size k of the given set.
+        /// </summary>
+        /// 
+        public static IEnumerable<SortedSet<T>> Subsets<T>(this ISet<T> set, int k, bool inPlace = false)
+        {
+            // TODO: Optimize
+            T[] values = set.ToArray();
+            foreach (var value in Combinations(values, k, inPlace: inPlace))
+                yield return new SortedSet<T>(value);
         }
 
         /// <summary>
