@@ -91,6 +91,7 @@
     <Compile Include="Analysis\DistributionAnalysis.cs" />
     <Compile Include="Analysis\MultinomialLogisticRegressionAnalysis.cs" />
     <Compile Include="Analysis\Performance\WeightedConfusionMatrix.cs" />
+    <Compile Include="Analysis\BasePrincipalComponentAnalysis.cs" />
     <Compile Include="Analysis\ProcustesAnalysis.cs" />
     <Compile Include="Analysis\ProportionalHazardsAnalysis.cs" />
     <Compile Include="Analysis\MultipleLinearRegressionAnalysis.cs" />

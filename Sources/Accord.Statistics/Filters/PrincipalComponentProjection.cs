@@ -88,7 +88,7 @@ namespace Accord.Statistics.Filters
                 columnNames[i] = Columns[i].ColumnName;
 
             double[,] inputMatrix = data.ToMatrix(out columnNames);
-            double[,] outputMatrix = pca.Transform(inputMatrix);
+            double[,] outputMatrix = pca.Transform(inputMatrix.ToJagged()).ToMatrix();
 
             // Generate component column names
             return outputMatrix.ToTable(componentNames);
