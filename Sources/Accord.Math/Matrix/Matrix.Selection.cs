@@ -27,6 +27,7 @@ namespace Accord.Math
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     public static partial class Matrix
     {
@@ -731,12 +732,32 @@ namespace Accord.Math
         /// <param name="values">The values to be ordered.</param>
         /// <param name="indices">The new index positions.</param>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static void Swap<T>(this T[] values, int[] indices)
         {
             T[] newValues = values.Submatrix(indices);
-
             for (int i = 0; i < values.Length; i++)
                 values[i] = newValues[i];
+        }
+
+        /// <summary>
+        ///   Swaps two elements in an array, given their indices.
+        /// </summary>
+        /// 
+        /// <param name="array">The array whose elements will be swapped.</param>
+        /// <param name="a">The index of the first element to be swapped.</param>
+        /// <param name="b">The index of the second element to be swapped.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static void Swap<T>(this T[] array, int a, int b)
+        {
+            T aux = array[a];
+            array[a] = array[b];
+            array[b] = aux;
         }
 
         /// <summary>
@@ -905,12 +926,8 @@ namespace Accord.Math
         /// 
         public static TValue[,] Sort<TKey, TValue>(TKey[] keys, TValue[,] values, IComparer<TKey> comparer)
         {
-            int[] indices = new int[keys.Length];
-            for (int i = 0; i < keys.Length; i++)
-                indices[i] = i;
-
+            int[] indices = Accord.Math.Vector.Range(keys.Length);
             Array.Sort<TKey, int>(keys, indices, comparer);
-
             return values.Submatrix(0, values.GetLength(0) - 1, indices);
         }
 
@@ -924,13 +941,54 @@ namespace Accord.Math
         /// 
         public static TValue[][] Sort<TKey, TValue>(TKey[] keys, TValue[][] values, IComparer<TKey> comparer)
         {
-            int[] indices = new int[keys.Length];
-            for (int i = 0; i < keys.Length; i++)
-                indices[i] = i;
-
+            int[] indices = Accord.Math.Vector.Range(keys.Length);
             Array.Sort<TKey, int>(keys, indices, comparer);
+            return values.Submatrix(null, indices);
+        }
 
-            return values.Submatrix(0, values.Length - 1, indices);
+        /// <summary>
+        ///   Returns a copy of an array in reversed order.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[] Reversed<T>(this T[] values)
+        {
+            var r = new T[values.Length];
+            for (int i = 0; i < r.Length; i++)
+                r[i] = values[values.Length - i - 1];
+            return r;
+        }
+
+        /// <summary>
+        ///   Returns a copy of an array in reversed order.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[] First<T>(this T[] values, int count)
+        {
+            var r = new T[count];
+            for (int i = 0; i < r.Length; i++)
+                r[i] = values[i];
+            return r;
+        }
+
+        /// <summary>
+        ///   Returns the last <paramref name="count"/> elements of an array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[] Last<T>(this T[] values, int count)
+        {
+            var r = new T[count];
+            for (int i = 0; i < r.Length; i++)
+                r[i] = values[values.Length - count + i];
+            return r;
         }
 
         /// <summary>
@@ -938,7 +996,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static int[] Top<T>(this T[] values, int count, bool inPlace = false)
-            where T : IComparable
+            where T : IComparable<T>
         {
             if (count < 0)
             {
@@ -950,21 +1008,13 @@ namespace Accord.Math
                 return new int[0];
 
             if (count > values.Length)
-                return Accord.Math.Vector.Range(0, values.Length);
+                return Accord.Math.Vector.Range(values.Length);
 
             T[] work = (inPlace) ? values : (T[])values.Clone();
-
-            int[] idx = new int[values.Length];
-            for (int i = 0; i < idx.Length; i++)
-                idx[i] = i;
-
-            select(work, idx, 0, values.Length - 1, count, true);
-
-            int[] result = new int[count];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = idx[i];
-
-            return result;
+            int[] idx = Accord.Math.Vector.Range(values.Length);
+            work.NthElement(idx, 0, work.Length, count, asc: false);
+            Accord.Sort.Insertion(work, idx, 0, count, asc: false);
+            return idx.First(count);
         }
 
         /// <summary>
@@ -972,7 +1022,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static int[] Bottom<T>(this T[] values, int count, bool inPlace = false)
-            where T : IComparable
+            where T : IComparable<T>
         {
             if (count < 0)
             {
@@ -987,94 +1037,53 @@ namespace Accord.Math
                 return Accord.Math.Vector.Range(0, values.Length);
 
             T[] work = (inPlace) ? values : (T[])values.Clone();
-
-            int[] idx = new int[values.Length];
-            for (int i = 0; i < idx.Length; i++)
-                idx[i] = i;
-
-            select(work, idx, 0, values.Length - 1, count, false);
-
-            int[] result = new int[count];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = idx[i];
-
-            return result;
+            int[] idx = Accord.Math.Vector.Range(values.Length);
+            work.NthElement(idx, 0, work.Length, count, asc: true);
+            Accord.Sort.Insertion(work, idx, 0, count, asc: true);
+            return idx.First(count);
         }
 
-        private static int select<T>(T[] list, int[] idx, int left, int right, int k, bool asc)
-            where T : IComparable
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please use Accord.Sort.Partition instead.")]
+        public static int Partition<T, TValue>(this T[] list, TValue[] keys, int left, int right, bool asc = true)
+            where T : IComparable<T>
         {
-            while (left != right)
-            {
-                // select pivotIndex between left and right
-                int pivotIndex = (left + right) / 2;
-
-                int pivotNewIndex = partition(list, idx, left, right, pivotIndex, asc);
-                int pivotDist = pivotNewIndex - left + 1;
-
-                if (pivotDist == k)
-                    return pivotNewIndex;
-
-                else if (k < pivotDist)
-                    right = pivotNewIndex - 1;
-                else
-                {
-                    k = k - pivotDist;
-                    left = pivotNewIndex + 1;
-                }
-            }
-
-            return -1;
+            return Accord.Sort.Partition(list, left, right, asc);
         }
 
-        private static int partition<T>(T[] list, int[] idx, int left, int right, int pivotIndex, bool asc)
-            where T : IComparable
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please use Accord.Sort.Partition instead.")]
+        public static int Partition<T>(this T[] list, int left, int right, bool asc = true)
+            where T : IComparable<T>
         {
-            T pivotValue = list[pivotIndex];
-
-            // Move pivot to end
-            swap(ref list[pivotIndex], ref list[right]);
-            swap(ref idx[pivotIndex], ref idx[right]);
-
-            int storeIndex = left;
-
-            if (asc)
-            {
-                for (int i = left; i < right; i++)
-                {
-                    if (list[i].CompareTo(pivotValue) > 0)
-                    {
-                        swap(ref list[storeIndex], ref list[i]);
-                        swap(ref idx[storeIndex], ref idx[i]);
-                        storeIndex++;
-                    }
-                }
-            }
-            else
-            {
-                for (int i = left; i < right; i++)
-                {
-                    if (list[i].CompareTo(pivotValue) < 0)
-                    {
-                        swap(ref list[storeIndex], ref list[i]);
-                        swap(ref idx[storeIndex], ref idx[i]);
-                        storeIndex++;
-                    }
-                }
-            }
-
-            // Move pivot to its final place
-            swap(ref list[right], ref list[storeIndex]);
-            swap(ref idx[right], ref idx[storeIndex]);
-            return storeIndex;
+            return Accord.Sort.Partition(list, left, right, asc);
         }
 
-        private static void swap<T>(ref T a, ref T b)
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please use Accord.Sort.Partition instead.")]
+        public static int Partition<TKey, TValue>(this TKey[] list, TValue[] keys, int left, int right, Func<TKey, TKey, int> compare, bool asc = true)
         {
-            T aux = a;
-            a = b;
-            b = aux;
+            return Accord.Sort.Partition(list, keys, left, right, compare, asc: asc);
         }
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please use Accord.Sort.Partition instead.")]
+        public static int Partition<T>(this T[] list, int left, int right, Func<T, T, int> compare, bool asc = true)
+        {
+            return Accord.Sort.Partition(list, left, right, compare, asc: asc);
+        }
+
+
+
 
         static T cast<T>(this object value)
         {

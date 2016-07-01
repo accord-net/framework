@@ -928,7 +928,7 @@ namespace Accord.Math
                 }
             }
 #if DEBUG
-            var C = new double[N, M];
+            var C = Matrix.CreateAs(result).To<double[,]>();
             for (int i = 0; i < N; i++)
                 for (int j = 0; j < M; j++)
                     for (int k = 0; k < K; k++)
@@ -977,7 +977,8 @@ namespace Accord.Math
                 }
             }
 #if DEBUG
-            var C = Dot(a.ToMatrix().To<double[,]>(), b.ToMatrix().To<double[,]>());
+            var C = Jagged.CreateAs(result).To<double[,]>();
+            C = Dot(a.ToMatrix().To<double[,]>(), b.ToMatrix().To<double[,]>(), C);
             if (!Matrix.IsEqual(C, result.ToMatrix().To<double[,]>(), 1e-4))
                 throw new Exception();
 #endif
@@ -1033,7 +1034,8 @@ namespace Accord.Math
                 }
             }
 #if DEBUG
-            var C = Dot(a.ToMatrix().To<double[,]>(), b.To<double[,]>());
+            var C = Matrix.CreateAs(result).To<double[,]>();
+            C = Dot(a.ToMatrix().To<double[,]>(), b.To<double[,]>(), C);
             if (!Matrix.IsEqual(C, result.ToMatrix().To<double[,]>(), 1e-4))
                 throw new Exception();
 #endif
@@ -1079,7 +1081,8 @@ namespace Accord.Math
                 }
             }
 #if DEBUG
-            var C = Dot(a.To<double[,]>(), b.ToMatrix().To<double[,]>());
+            var C = Matrix.CreateAs(result).To<double[,]>();
+            C = Dot(a.To<double[,]>(), b.ToMatrix().To<double[,]>(), C);
             if (!Matrix.IsEqual(C, result.ToMatrix().To<double[,]>(), 1e-4))
                 throw new Exception();
 #endif
@@ -1263,7 +1266,8 @@ namespace Accord.Math
                 }
             }
 #if DEBUG
-            var C = Dot(a.To<double[,]>(), b.Transpose().To<double[,]>());
+            var C = Matrix.CreateAs(result).To<double[,]>();
+            C = Dot(a.To<double[,]>(), b.Transpose().To<double[,]>(), C);
             if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
                 throw new Exception();
 #endif

@@ -147,5 +147,67 @@ namespace Accord.Math
                 order[i] = keys[i].Key;
         }
 
+
+
+
+
+        /// <summary>
+        ///   Shuffles an array.
+        /// </summary>
+        /// 
+        public static T[] Shuffled<T>(this T[] array)
+        {
+            var clone = (T[])array.Clone();
+            Shuffle(clone);
+            return clone;
+        }
+
+        /// <summary>
+        ///   Shuffles a collection.
+        /// </summary>
+        /// 
+        public static TList Shuffled<TList, T>(this TList array)
+            where TList : ICloneable, IList<T>
+        {
+            var clone = (TList)array.Clone();
+            Shuffle(clone);
+            return clone;
+        }
+
+        /// <summary>
+        ///   Sorts the elements of an entire one-dimensional array using the given comparison.
+        /// </summary>
+        /// 
+        public static T[] Sorted<T>(this T[] values, Comparison<T> comparison, bool stable = false)
+        {
+            var clone = (T[])values.Clone();
+            Sort(clone, comparison, stable);
+            return clone;
+        }
+
+        /// <summary>
+        ///   Sorts the elements of an entire one-dimensional array using the given comparison.
+        /// </summary>
+        /// 
+        public static T[] Sorted<T>(this T[] values, bool stable = false)
+            where T : IComparable<T>
+        {
+            var clone = (T[])values.Clone();
+            Sort(clone, stable);
+            return clone;
+        }
+
+        /// <summary>
+        ///   Sorts the elements of an entire one-dimensional array using the given comparison.
+        /// </summary>
+        /// 
+        public static T[] Sorted<T>(this T[] values, out int[] order, bool stable = false, ComparerDirection direction = ComparerDirection.Ascending)
+            where T : IComparable<T>
+        {
+            var clone = (T[])values.Clone();
+            Sort(clone, out order, stable, direction);
+            return clone;
+        }
+
     }
 }
