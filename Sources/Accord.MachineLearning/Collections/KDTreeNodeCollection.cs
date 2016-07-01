@@ -49,7 +49,7 @@
 //       distribution.
 // 
 
-namespace Accord.MachineLearning.Structures
+namespace Accord.Collections
 {
     using System;
     using System.Collections.Generic;
@@ -60,7 +60,7 @@ namespace Accord.MachineLearning.Structures
     ///   Collection of k-dimensional tree nodes.
     /// </summary>
     /// 
-    /// <typeparam name="T">The type of the value being stored.</typeparam>
+    /// <typeparam name="TNode">The class type for the nodes of the tree.</typeparam>
     /// 
     /// <remarks>
     ///   This class is used to store neighbor nodes when running one of the
@@ -68,13 +68,14 @@ namespace Accord.MachineLearning.Structures
     /// </remarks>
     /// 
     /// <seealso cref="KDTree{T}"/>
-    /// <seealso cref="KDTreeNodeDistance{T}"/>
+    /// <seealso cref="NodeDistance{T}"/>
     /// 
     [Serializable]
-    public class KDTreeNodeCollection<T> : ICollection<KDTreeNodeDistance<T>>
+    public class KDTreeNodeCollection<TNode> : ICollection<NodeDistance<TNode>>
+        where TNode : KDTreeNodeBase<TNode>, IComparable<TNode>, IEquatable<TNode>
     {
         double[] distances;
-        KDTreeNode<T>[] positions;
+        TNode[] positions;
 
         int count;
 
@@ -124,7 +125,7 @@ namespace Accord.MachineLearning.Structures
         ///   Gets the farthest node in the collection (with greatest distance).
         /// </summary>
         /// 
-        public KDTreeNode<T> Farthest
+        public TNode Farthest
         {
             get
             {
@@ -141,7 +142,7 @@ namespace Accord.MachineLearning.Structures
         ///   Gets the nearest node in the collection (with smallest distance).
         /// </summary>
         /// 
-        public KDTreeNode<T> Nearest
+        public TNode Nearest
         {
             get
             {
@@ -166,7 +167,7 @@ namespace Accord.MachineLearning.Structures
 
             Capacity = size;
             distances = new double[size];
-            positions = new KDTreeNode<T>[size];
+            positions = new TNode[size];
         }
 
         /// <summary>
@@ -180,7 +181,7 @@ namespace Accord.MachineLearning.Structures
         /// 
         /// <returns>Returns true if the node has been added; false otherwise.</returns>
         /// 
-        public bool Add(KDTreeNode<T> value, double distance)
+        public bool Add(TNode value, double distance)
         {
             // The list does have a limit. We have to check if the list
             // is already full or not, to see if we can discard or keep
@@ -227,7 +228,7 @@ namespace Accord.MachineLearning.Structures
         /// 
         /// <returns>Returns true if the node has been added; false otherwise.</returns>
         /// 
-        public bool AddFarthest(KDTreeNode<T> value, double distance)
+        public bool AddFarthest(TNode value, double distance)
         {
             // The list does have a limit. We have to check if the list
             // is already full or not, to see if we can discard or keep
@@ -270,7 +271,7 @@ namespace Accord.MachineLearning.Structures
         /// <param name="distance">The distance from the node to the query point.</param>
         /// <param name="item">The item to be added.</param>
         /// 
-        private void add(double distance, KDTreeNode<T> item)
+        private void add(double distance, TNode item)
         {
             positions[count] = item;
             distances[count] = distance;
@@ -294,14 +295,14 @@ namespace Accord.MachineLearning.Structures
         }
 
         /// <summary>
-        ///   Gets the <see cref="Accord.MachineLearning.Structures.KDTreeNodeDistance{T}"/>
+        ///   Gets the <see cref="Accord.Collections.NodeDistance{T}"/>
         ///   at the specified index. Note: this method will iterate over the entire collection
         ///   until the given position is found.
         /// </summary>
         /// 
-        public KDTreeNodeDistance<T> this[int index]
+        public NodeDistance<TNode> this[int index]
         {
-            get { return new KDTreeNodeDistance<T>(positions[index], distances[index]); }
+            get { return new NodeDistance<TNode>(positions[index], distances[index]); }
         }
 
         /// <summary>
@@ -336,10 +337,10 @@ namespace Accord.MachineLearning.Structures
         ///   that can be used to iterate through the collection.
         /// </returns>
         /// 
-        public IEnumerator<KDTreeNodeDistance<T>> GetEnumerator()
+        public IEnumerator<NodeDistance<TNode>> GetEnumerator()
         {
             for (int i = 0; i < positions.Length; i++)
-                yield return new KDTreeNodeDistance<T>(positions[i], distances[i]);
+                yield return new NodeDistance<TNode>(positions[i], distances[i]);
 
             yield break;
         }
@@ -372,7 +373,7 @@ namespace Accord.MachineLearning.Structures
         ///   <c>true</c> if the item is found in the collection; otherwise, <c>false</c>.
         /// </returns>
         /// 
-        public bool Contains(KDTreeNodeDistance<T> item)
+        public bool Contains(NodeDistance<TNode> item)
         {
             int i = Array.IndexOf(positions, item.Node);
 
@@ -392,7 +393,7 @@ namespace Accord.MachineLearning.Structures
         ///    elements copied from tree. The <see cref="System.Array"/> must have zero-based indexing.</param>
         /// <param name="arrayIndex">The zero-based index in <paramref name="array"/> at which copying begins.</param>
         /// 
-        public void CopyTo(KDTreeNodeDistance<T>[] array, int arrayIndex)
+        public void CopyTo(NodeDistance<TNode>[] array, int arrayIndex)
         {
             int index = arrayIndex;
 
@@ -406,7 +407,7 @@ namespace Accord.MachineLearning.Structures
         /// 
         /// <param name="item">The item.</param>
         /// 
-        public void Add(KDTreeNodeDistance<T> item)
+        public void Add(NodeDistance<TNode> item)
         {
             Add(item.Node, item.Distance);
         }
@@ -415,7 +416,7 @@ namespace Accord.MachineLearning.Structures
         ///   Not supported.
         /// </summary>
         /// 
-        public bool Remove(KDTreeNodeDistance<T> item)
+        public bool Remove(NodeDistance<TNode> item)
         {
             throw new NotSupportedException();
         }

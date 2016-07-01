@@ -20,7 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.MachineLearning.Structures
+namespace Accord.Collections
 {
     using Accord.Math.Distances;
     using System;
@@ -38,11 +38,11 @@ namespace Accord.MachineLearning.Structures
     /// 
     /// <seealso cref="KDTree{T}"/>
     /// 
-    public class KDTree : KDTree<Object>
+    public class KDTree : KDTreeBase<KDTreeNode>
     {
 
         /// <summary>
-        ///   Creates a new <see cref="KDTree&lt;Object&gt;"/>.
+        ///   Creates a new <see cref="KDTree"/>.
         /// </summary>
         /// 
         /// <param name="dimensions">The number of dimensions in the tree.</param>
@@ -53,7 +53,7 @@ namespace Accord.MachineLearning.Structures
         }
 
         /// <summary>
-        ///   Creates a new <see cref="KDTree&lt;Object&gt;"/>.
+        ///   Creates a new <see cref="KDTree"/>.
         /// </summary>
         /// 
         /// <param name="dimension">The number of dimensions in the tree.</param>
@@ -65,19 +65,7 @@ namespace Accord.MachineLearning.Structures
         }
 
         /// <summary>
-        ///   Creates a new <see cref="KDTree&lt;Object&gt;"/>.
-        /// </summary>
-        /// 
-        /// <param name="dimension">The number of dimensions in the tree.</param>
-        /// <param name="root">The root node, if already existent.</param>
-        /// 
-        public KDTree(int dimension, KDTreeNode<Object> root)
-            : base(dimension, root)
-        {
-        }
-
-        /// <summary>
-        ///   Creates a new <see cref="KDTree&lt;Object&gt;"/>.
+        ///   Creates a new <see cref="KDTree"/>.
         /// </summary>
         /// 
         /// <param name="dimension">The number of dimensions in the tree.</param>
@@ -91,19 +79,15 @@ namespace Accord.MachineLearning.Structures
         }
 
         /// <summary>
-        ///   Creates a new <see cref="KDTree&lt;Object&gt;"/>.
+        ///   Adds a new point to this tree.
         /// </summary>
         /// 
-        /// <param name="dimension">The number of dimensions in the tree.</param>
-        /// <param name="root">The root node, if already existent.</param>
-        /// <param name="count">The number of elements in the root node.</param>
-        /// <param name="leaves">The number of leaves linked through the root node.</param>
+        /// <param name="position">A double-vector with the same number of elements as dimensions in the tree.</param>
         /// 
-        public KDTree(int dimension, KDTreeNode<Object> root, int count, int leaves)
-            : base(dimension, root, count, leaves)
+        public void Add(double[] position)
         {
+            base.AddNode(position);
         }
-
 
         /// <summary>
         ///   Creates a new k-dimensional tree from the given points.

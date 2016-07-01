@@ -20,7 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.MachineLearning.Structures
+namespace Accord.Collections
 {
     using System;
     using System.Collections.Generic;
@@ -38,10 +38,11 @@ namespace Accord.MachineLearning.Structures
     /// </remarks>
     /// 
     /// <seealso cref="KDTree{T}"/>
-    /// <seealso cref="KDTreeNodeDistance{T}"/>
+    /// <seealso cref="NodeDistance{T}"/>
     /// 
     [Serializable]
-    public class KDTreeNodeList<T> : List<KDTreeNodeDistance<T>>
+    public class KDTreeNodeList<T> : List<NodeDistance<T>>
+        where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
         ///   Initializes a new instance of the <see cref="KDTreeNodeList&lt;T&gt;"/>
