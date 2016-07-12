@@ -256,6 +256,18 @@ namespace Accord.Statistics.Models.Regression.Fitting
             return Run(inputs, outputs.Apply(x => x > 0 ? 1.0 : 0.0));
         }
 
+        /// <summary> 
+        /// Runs one iteration of the Reweighted Least Squares algorithm. 
+        /// </summary> 
+        /// <param name="inputs">The input data.</param> 
+        /// <param name="outputs">The outputs associated with each input vector.</param> 
+        /// <returns>The maximum relative change in the parameters after the iteration.</returns> 
+        ///  
+        public double Run(double[][] inputs, int[] outputs, double[] weights)
+        {
+            return Run(inputs, outputs.Apply(x => x > 0 ? 1.0 : 0.0), weights);
+        }
+
         /// <summary>
         ///   Runs one iteration of the Reweighted Least Squares algorithm.
         /// </summary>
@@ -273,6 +285,25 @@ namespace Accord.Statistics.Models.Regression.Fitting
             for (int i = 0; i < outputs.Length; i++)
                 output[i] = outputs[i][0] > 0 ? 1.0 : 0.0;
             return Run(inputs, output);
+        }
+
+        /// <summary>
+        ///   Runs one iteration of the Reweighted Least Squares algorithm.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data.</param>
+        /// <param name="outputs">The outputs associated with each input vector.</param>
+        /// 
+        /// <returns>The maximum relative change in the parameters after the iteration.</returns>
+        /// 
+        public double Run(double[][] inputs, int[][] outputs, double[] sampleWeight)
+        {
+            if (outputs[0].Length != 1)
+                throw new ArgumentException("Function must have a single output.", "outputs");
+            double[] output = new double[outputs.Length];
+            for (int i = 0; i < outputs.Length; i++)
+                output[i] = outputs[i][0] > 0 ? 1.0 : 0.0;
+            return Run(inputs, output, sampleWeight);
         }
 
         /// <summary>

@@ -75,7 +75,11 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Accord.MachineLearning\Classifiers\TransformBase.cs" />
+    <Compile Include="Accord.MachineLearning\Learning\IDescriptiveLearning.cs" />
+    <Compile Include="Accord.MachineLearning\MinimumMeanDistanceClassifier.cs" />
     <Compile Include="Analysis\Accord.Statistics.Analysis.cs" />
+    <Compile Include="Analysis\BasePrincipalComponentAnalysis.cs" />
     <Compile Include="Analysis\Base\IAnalysisComponent.cs" />
     <Compile Include="Analysis\Base\IAnalysis.cs" />
     <Compile Include="Analysis\Base\IDescriptiveMeasures.cs" />
@@ -89,9 +93,11 @@
     <Compile Include="Analysis\Contrast Functions\Logcosh.cs" />
     <Compile Include="Analysis\CircularDescriptiveAnalysis.cs" />
     <Compile Include="Analysis\DistributionAnalysis.cs" />
+    <Compile Include="Analysis\BaseDiscriminantAnalysis.cs" />
+    <Compile Include="Analysis\IUnsupervisedLearning.cs" />
     <Compile Include="Analysis\MultinomialLogisticRegressionAnalysis.cs" />
     <Compile Include="Analysis\Performance\WeightedConfusionMatrix.cs" />
-    <Compile Include="Analysis\BasePrincipalComponentAnalysis.cs" />
+    <Compile Include="Analysis\Pipeline.cs" />
     <Compile Include="Analysis\ProcustesAnalysis.cs" />
     <Compile Include="Analysis\ProportionalHazardsAnalysis.cs" />
     <Compile Include="Analysis\MultipleLinearRegressionAnalysis.cs" />
@@ -351,6 +357,8 @@
     </Compile>
     <Compile Include="Models\Markov\Learning\Base\BaseViterbiLearning`1.cs" />
     <Compile Include="Models\Regression\Nonlinear\Fitting\NonNegativeLeastSquares.cs" />
+    <Compile Include="Models\Regression\Nonlinear\KernelLogisticRegression.cs" />
+    <Compile Include="Models\Regression\Nonlinear\MultivariateKernelRegression.cs" />
     <Compile Include="Running\IRunning`1.cs" />
     <Compile Include="Models\Markov\Hybrid\IHybridMarkovModel.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovClassifier.cs" />

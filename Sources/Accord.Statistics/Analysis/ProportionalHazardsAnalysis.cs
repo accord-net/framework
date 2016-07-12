@@ -22,6 +22,7 @@
 
 namespace Accord.Statistics.Analysis
 {
+    using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Regression;
@@ -31,6 +32,7 @@ namespace Accord.Statistics.Analysis
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Threading;
 
     /// <summary>
     ///   Cox's Proportional Hazards Survival Analysis.
@@ -158,8 +160,11 @@ namespace Accord.Statistics.Analysis
     /// </example>
     /// 
     [Serializable]
-    public class ProportionalHazardsAnalysis : IRegressionAnalysis
+    public class ProportionalHazardsAnalysis : IRegressionAnalysis,
+        ISupervisedLearning<ProportionalHazards, Tuple<double[], int>, int>
     {
+        public CancellationToken Token { get; set; }
+
         private ProportionalHazards regression;
 
         private int inputCount;
@@ -194,11 +199,6 @@ namespace Accord.Statistics.Analysis
 
         private bool innerComputed = false;
 
-
-        //---------------------------------------------
-
-
-        #region Constructors
 
         /// <summary>
         ///   Constructs a new Cox's Proportional Hazards Analysis.
@@ -349,13 +349,7 @@ namespace Accord.Statistics.Analysis
             this.source = inputs.ToMatrix();
         }
 
-        #endregion
 
-
-        //---------------------------------------------
-
-
-        #region Public Properties
 
         /// <summary>
         ///   Gets or sets the maximum number of iterations to be
@@ -568,13 +562,8 @@ namespace Accord.Statistics.Analysis
             get { return this.confidences; }
         }
 
-        #endregion
 
 
-        //---------------------------------------------
-
-
-        #region Public Methods
 
         /// <summary>
         ///   Gets the Log-Likelihood Ratio between this model and another model.
@@ -644,7 +633,6 @@ namespace Accord.Statistics.Analysis
             return compute();
         }
 
-        #endregion
 
 
 
@@ -735,6 +723,12 @@ namespace Accord.Statistics.Analysis
             Compute();
         }
 
+
+
+        public ProportionalHazards Learn(Tuple<double[], int>[] x, int[] y, double[] weights = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 

@@ -76,7 +76,10 @@ namespace Accord.Statistics.Links
         ///   Creates a new Identity link function.
         /// </summary>
         /// 
-        public IdentityLinkFunction() : this(1, 0) { }
+        public IdentityLinkFunction()
+            : this(1, 0)
+        {
+        }
 
         /// <summary>
         ///   The Identity link function.
@@ -110,6 +113,11 @@ namespace Accord.Statistics.Links
         public double Inverse(double x)
         {
             return B * x + A;
+        }
+
+        public double Log(double x)
+        {
+            return Math.Log(B * x + A);
         }
 
         /// <summary>

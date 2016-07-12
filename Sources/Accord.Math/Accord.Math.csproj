@@ -113,6 +113,17 @@
     <Compile Include="AForge.Math\SVD.cs" />
     <Compile Include="AForge.Math\Vector3.cs" />
     <Compile Include="AForge.Math\Vector4.cs" />
+    <Compile Include="Decompositions\JaggedGeneralizedEigenvalueDecomposition.cs" />
+    <Compile Include="Matrix\Jagged.Product.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Jagged.Product.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Norm.Generated.cs">
+      <DependentUpon>Norm.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Distance.Generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -543,6 +554,15 @@
     <Compile Include="Wavelets\CDF97.cs" />
     <Compile Include="Wavelets\Haar.cs" />
     <Compile Include="Wavelets\Base\IWavelet.cs" />
+    <None Include="Matrix\Jagged.Product.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Jagged.Product.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Jagged.Product.Generated.cs</LastOutputs>
+    </None>
+    <None Include="Norm.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Norm.Generated.cs</LastGenOutput>
+    </None>
     <None Include="Distance.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Distance.Generated.cs</LastGenOutput>

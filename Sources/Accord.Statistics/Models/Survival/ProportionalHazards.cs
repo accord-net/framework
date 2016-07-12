@@ -27,13 +27,14 @@ namespace Accord.Statistics.Models.Regression
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Testing;
     using Accord.Math;
+    using Accord.MachineLearning;
 
     /// <summary>
     ///   Cox's Proportional Hazards Model.
     /// </summary>
     /// 
     [Serializable]
-    public class ProportionalHazards
+    public class ProportionalHazards : BinaryGenerativeClassifierBase<Tuple<double[], int>>
     {
 
         /// <summary>
@@ -502,6 +503,31 @@ namespace Accord.Statistics.Models.Regression
         public double GetHazardRatio(int index)
         {
             return Math.Exp(Coefficients[index]);
+        }
+
+        public override double Distance(Tuple<double[], int> input)
+        {
+            return Compute(input.Item1, input.Item2);
+        }
+
+        public override bool Decide(Tuple<double[], int> input)
+        {
+            return Compute(input.Item1, input.Item2) >= 0.5;
+        }
+
+        public override double LogLikelihood(Tuple<double[], int> input, out bool decision)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override double LogLikelihood(Tuple<double[], int> input)
+        {
+            double sum = 0;
+            for (int i = 0; i < Coefficients.Length; i++)
+                sum += Coefficients[i] * (input.Item1[i] - Offsets[i]);
+            double exp = sum;
+            double h0 = BaselineHazard.CumulativeHazardFunction(input.Item2);
+            return h0 + exp;
         }
     }
 }

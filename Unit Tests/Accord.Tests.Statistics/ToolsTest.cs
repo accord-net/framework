@@ -683,7 +683,7 @@ namespace Accord.Tests.Statistics
             };
 
 
-            double[,] actual = Measures.Covariance(matrix);
+            double[][] actual = Measures.Covariance(matrix);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
 
             actual = Measures.Covariance(matrix, 0);

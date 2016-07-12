@@ -91,6 +91,12 @@ namespace Accord.Statistics.Links
             return Math.Asin(B * x + A);
         }
 
+        public double Log(double x)
+        {
+            return Math.Log(Math.Asin(B * x + A));
+        }
+
+
         /// <summary>
         ///   First derivative of the <see cref="Inverse"/> function.
         /// </summary>

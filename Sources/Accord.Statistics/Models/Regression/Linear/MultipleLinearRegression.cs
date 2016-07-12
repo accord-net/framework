@@ -26,6 +26,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     using System.Text;
     using Accord.Math.Decompositions;
     using Accord.Math;
+    using Accord.MachineLearning;
 
     /// <summary>
     ///   Multiple Linear Regression.
@@ -90,7 +91,8 @@ namespace Accord.Statistics.Models.Regression.Linear
     /// </example>
     /// 
     [Serializable]
-    public class MultipleLinearRegression : ILinearRegression, IFormattable
+    public class MultipleLinearRegression : TransformBase<double[], double>, 
+        ILinearRegression, IFormattable
     {
 
         private double[] coefficients;
@@ -441,10 +443,7 @@ namespace Accord.Statistics.Models.Regression.Linear
             double[] output = new double[input.Length];
 
             for (int j = 0; j < input.Length; j++)
-            {
                 output[j] = Compute(input[j]);
-            }
-
             return output;
         }
 
@@ -547,5 +546,18 @@ namespace Accord.Statistics.Models.Regression.Linear
         }
 
         #endregion
+
+        public override double Transform(double[] input)
+        {
+            double output = 0.0;
+            for (int i = 0; i < input.Length; i++)
+                output += coefficients[i] * input[i];
+
+            if (addIntercept)
+                output += coefficients[input.Length];
+
+            return output;
+        }
+
     }
 }

@@ -174,18 +174,18 @@ namespace Accord.Tests.Statistics
             // Step 1. Get some data
             // ---------------------
 
-            double[,] data = 
+            double[][] data = 
             {
-                { 2.5,  2.4 },
-                { 0.5,  0.7 },
-                { 2.2,  2.9 },
-                { 1.9,  2.2 },
-                { 3.1,  3.0 },
-                { 2.3,  2.7 },
-                { 2.0,  1.6 },
-                { 1.0,  1.1 },
-                { 1.5,  1.6 },
-                { 1.1,  0.9 }
+                new[] { 2.5,  2.4 },
+                new[] { 0.5,  0.7 },
+                new[] { 2.2,  2.9 },
+                new[] { 1.9,  2.2 },
+                new[] { 3.1,  3.0 },
+                new[] { 2.3,  2.7 },
+                new[] { 2.0,  1.6 },
+                new[] { 1.0,  1.1 },
+                new[] { 1.5,  1.6 },
+                new[] { 1.1,  0.9 }
             };
 
 
@@ -260,7 +260,7 @@ namespace Accord.Tests.Statistics
             // Step 5. Deriving the new data set
             // ---------------------------------
 
-            double[,] actual = pca.Transform(data);
+            double[][] actual = pca.Transform(data);
 
             // transformedData shown in pg. 18
             double[,] expected = new double[,]
@@ -333,18 +333,18 @@ namespace Accord.Tests.Statistics
         [Test]
         public void learn_whiten_success()
         {
-            double[,] data = 
+            double[][] data = 
             {
-                { 2.5,  2.4 },
-                { 0.5,  0.7 },
-                { 2.2,  2.9 },
-                { 1.9,  2.2 },
-                { 3.1,  3.0 },
-                { 2.3,  2.7 },
-                { 2.0,  1.6 },
-                { 1.0,  1.1 },
-                { 1.5,  1.6 },
-                { 1.1,  0.9 }
+                new double[] { 2.5,  2.4 },
+                new double[] { 0.5,  0.7 },
+                new double[] { 2.2,  2.9 },
+                new double[] { 1.9,  2.2 },
+                new double[] { 3.1,  3.0 },
+                new double[] { 2.3,  2.7 },
+                new double[] { 2.0,  1.6 },
+                new double[] { 1.0,  1.1 },
+                new double[] { 1.5,  1.6 },
+                new double[] { 1.1,  0.9 }
             };
 
             var method = PrincipalComponentMethod.Center; // PrincipalComponentMethod.Standardize
@@ -365,7 +365,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(proportion.IsEqual(pca.ComponentProportions, rtol: 1e-9));
             Assert.IsTrue(eigenvalues.IsEqual(pca.Eigenvalues, rtol: 1e-5));
 
-            double[,] actual = pca.Transform(data);
+            double[][] actual = pca.Transform(data);
 
             double[][] expected = 
             {
@@ -560,15 +560,15 @@ namespace Accord.Tests.Statistics
         public void transform_more_columns_than_samples_new_interface()
         {
             // Lindsay's tutorial data
-            double[,] datat = data.Transpose();
+            var datat = data.Transpose().ToJagged();
 
             var target = new PrincipalComponentAnalysis();
 
             // Compute
-            target.Learn(datat);
+            var regression = target.Learn(datat);
 
             // Transform
-            double[,] actual = target.Transform(datat);
+            double[][] actual = target.Transform(datat);
 
             // Assert the scores equals the transformation of the input
             Assert.IsNull(target.Result);
@@ -579,6 +579,9 @@ namespace Accord.Tests.Statistics
                 { -0.504975246918104,   -0.00000000000000035735303605122226 }
             };
 
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.01));
+
+            actual = target.Transform(datat);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.01));
         }
 
@@ -677,9 +680,9 @@ namespace Accord.Tests.Statistics
         {
             double[] mean = Measures.Mean(data, dimension: 0);
             double[] stdDev = Measures.StandardDeviation(data);
-            double[,] cov = Measures.Correlation(data);
+            double[][] cov = Measures.Correlation(data.ToJagged());
 
-            var actual = PrincipalComponentAnalysis.FromCorrelationMatrix(mean, stdDev, cov);
+            var actual = PrincipalComponentAnalysis.FromCorrelationMatrix(mean, stdDev, cov.ToMatrix());
             var expected = new PrincipalComponentAnalysis(PrincipalComponentMethod.CorrelationMatrix)
             {
                 Means = mean,
@@ -710,7 +713,7 @@ namespace Accord.Tests.Statistics
         public void covariance_new_interface()
         {
             double[] mean = Measures.Mean(data, dimension: 0);
-            double[,] cov = Measures.Covariance(data);
+            double[][] cov = Measures.Covariance(data.ToJagged());
 
             var target = new PrincipalComponentAnalysis(PrincipalComponentMethod.CovarianceMatrix)
             {

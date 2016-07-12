@@ -93,7 +93,6 @@
     <Compile Include="MachineLearning\ITransform.cs" />
     <Compile Include="MachineLearning\Regression\IMultipleRegression.cs" />
     <Compile Include="MachineLearning\Regression\IRegression.cs" />
-    <Compile Include="MachineLearning\TransformBase.cs" />
     <Compile Include="Ranges\ByteRange.cs" />
     <Compile Include="Ranges\DoubleRange.cs" />
     <Compile Include="AForge.Core\EventArgs.cs" />

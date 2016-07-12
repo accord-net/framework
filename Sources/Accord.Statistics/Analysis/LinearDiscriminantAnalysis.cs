@@ -28,6 +28,10 @@ namespace Accord.Statistics.Analysis
     using Accord.Math;
     using Accord.Math.Comparers;
     using Accord.Math.Decompositions;
+    using Accord.MachineLearning;
+    using System.Threading;
+    using Accord.Statistics.Models.Regression.Linear;
+    using Accord.Math.Distances;
 
     /// <summary>
     ///   Linear Discriminant Analysis (LDA).
@@ -128,46 +132,12 @@ namespace Accord.Statistics.Analysis
     /// 
     [Serializable]
 #pragma warning disable 612, 618
-    public class LinearDiscriminantAnalysis : IDiscriminantAnalysis, IProjectionAnalysis
+    public class LinearDiscriminantAnalysis : BaseDiscriminantAnalysis,
+        IDiscriminantAnalysis, IProjectionAnalysis,
+        ISupervisedLearning<LinearDiscriminantAnalysis.Pipeline, double[], int>
 #pragma warning restore 612, 618
     {
-        private int dimension;
-        private int classes;
 
-        private double[] totalMeans;
-        private double[] totalStdDevs;
-
-        internal int[] classCount;
-        internal double[][] classMeans;
-        internal double[][] classStdDevs;
-        internal double[][,] classScatter;
-
-        internal double[][] projectedMeans;
-
-        // TODO: Use Mahalanobis distance instead of Euclidean
-        // for classification, considering projection covariances.
-        // internal double[][] projectedPrecision;
-
-        private double[,] eigenvectors;
-        private double[] eigenvalues;
-
-        private double[,] result;
-        private double[,] source;
-        private int[] outputs;
-
-        double[,] Sw, Sb, St; // Scatter matrices
-
-        private double[] discriminantProportions;
-        private double[] discriminantCumulative;
-
-        DiscriminantCollection discriminantCollection;
-        DiscriminantAnalysisClassCollection classCollection;
-
-
-        //---------------------------------------------
-
-
-        #region Constructor
         /// <summary>
         ///   Constructs a new Linear Discriminant Analysis object.
         /// </summary>
@@ -176,16 +146,11 @@ namespace Accord.Statistics.Analysis
         /// variables as columns and observations of each variable as rows.</param>
         /// <param name="outputs">The labels for each observation row in the input matrix.</param>
         /// 
+        [Obsolete("Please pass the 'inputs' and 'outputs' parameters to the Learn method instead.")]
         public LinearDiscriminantAnalysis(double[,] inputs, int[] outputs)
         {
-            // Initial argument checking
-            if (inputs == null) throw new ArgumentNullException("inputs");
-            if (outputs == null) throw new ArgumentNullException("outputs");
-
-            if (inputs.GetLength(0) != outputs.Length)
-                throw new ArgumentException(
-                    "The number of rows in the input array must match the number of given outputs.");
-
+            this.source = inputs;
+            this.outputs = outputs;
             init(inputs, outputs);
         }
 
@@ -197,289 +162,84 @@ namespace Accord.Statistics.Analysis
         /// variables as columns and observations of each variable as rows.</param>
         /// <param name="outputs">The labels for each observation row in the input matrix.</param>
         /// 
+        [Obsolete("Please pass the 'inputs' and 'outputs' parameters to the Learn method instead.")]
         public LinearDiscriminantAnalysis(double[][] inputs, int[] outputs)
         {
-            // Initial argument checking
-            if (inputs == null) throw new ArgumentNullException("inputs");
-            if (outputs == null) throw new ArgumentNullException("outputs");
-
-            if (inputs.Length != outputs.Length)
-                throw new ArgumentException(
-                    "The number of rows in the input array must match the number of given outputs.");
-
+            this.source = inputs.ToMatrix();
+            this.outputs = outputs;
             init(inputs.ToMatrix(), outputs);
         }
 
         private void init(double[,] inputs, int[] outputs)
         {
-
             // Gets the number of classes
             int startingClass = outputs.Min();
-            this.classes = outputs.Max() - startingClass + 1;
+            this.NumberOfClasses = outputs.Max() - startingClass + 1;
+            this.NumberOfSamples = inputs.Rows();
+            this.NumberOfInputs = inputs.Columns();
+            this.NumberOfOutputs = inputs.Columns();
 
             // Store the original data
             this.source = inputs;
             this.outputs = outputs;
-            this.dimension = inputs.GetLength(1);
 
             // Creates simple structures to hold information later
-            this.classCount = new int[classes];
-            this.classMeans = new double[classes][];
-            this.classStdDevs = new double[classes][];
-            this.classScatter = new double[classes][,];
-            this.projectedMeans = new double[classes][];
-
+            this.classCount = new int[NumberOfClasses];
+            this.classMeans = new double[NumberOfClasses][];
+            this.classStdDevs = new double[NumberOfClasses][];
+            this.classScatter = new double[NumberOfClasses][][];
+            this.projectedMeans = new double[NumberOfClasses][];
 
             // Creates the object-oriented structure to hold information about the classes
-            DiscriminantAnalysisClass[] collection = new DiscriminantAnalysisClass[classes];
-            for (int i = 0; i < classes; i++)
+            var collection = new DiscriminantAnalysisClass[NumberOfClasses];
+            for (int i = 0; i < collection.Length; i++)
                 collection[i] = new DiscriminantAnalysisClass(this, i, startingClass + i);
             this.classCollection = new DiscriminantAnalysisClassCollection(collection);
         }
-        #endregion
 
 
-        //---------------------------------------------
-
-
-        #region Properties
-        /// <summary>
-        ///   Returns the original supplied data to be analyzed.
-        /// </summary>
-        /// 
-        public double[,] Source
-        {
-            get { return this.source; }
-        }
-
-        /// <summary>
-        ///   Gets the resulting projection of the source data given on
-        ///   the creation of the analysis into discriminant space.
-        /// </summary>
-        /// 
-        public double[,] Result
-        {
-            get { return this.result; }
-            protected set { this.result = value; }
-        }
-
-        /// <summary>
-        ///   Gets the original classifications (labels) of the source data
-        ///   given on the moment of creation of this analysis object.
-        /// </summary>
-        /// 
-        public int[] Classifications
-        {
-            get { return this.outputs; }
-        }
-
-        /// <summary>
-        ///   Gets the mean of the original data given at method construction.
-        /// </summary>
-        /// 
-        public double[] Means
-        {
-            get { return totalMeans; }
-            protected set { totalMeans = value; }
-        }
-
-        /// <summary>
-        ///   Gets the standard mean of the original data given at method construction.
-        /// </summary>
-        /// 
-        public double[] StandardDeviations
-        {
-            get { return totalStdDevs; }
-            protected set { totalStdDevs = value; }
-        }
-
-        /// <summary>
-        ///   Gets the Within-Class Scatter Matrix for the data.
-        /// </summary>
-        /// 
-        public double[,] ScatterWithinClass
-        {
-            get { return Sw; }
-            protected set { Sw = value; }
-        }
-
-        /// <summary>
-        ///   Gets the Between-Class Scatter Matrix for the data.
-        /// </summary>
-        /// 
-        public double[,] ScatterBetweenClass
-        {
-            get { return Sb; }
-            protected set { Sb = value; }
-        }
-
-        /// <summary>
-        ///   Gets the Total Scatter Matrix for the data.
-        /// </summary>
-        /// 
-        public double[,] ScatterMatrix
-        {
-            get { return St; }
-            protected set { St = value; }
-        }
-
-        /// <summary>
-        ///   Gets the Eigenvectors obtained during the analysis,
-        ///   composing a basis for the discriminant factor space.
-        /// </summary>
-        /// 
-        public double[,] DiscriminantMatrix
-        {
-            get { return eigenvectors; }
-            protected set { eigenvectors = value; }
-        }
-
-        /// <summary>
-        ///   Gets the Eigenvalues found by the analysis associated
-        ///   with each vector of the ComponentMatrix matrix.
-        /// </summary>
-        /// 
-        public double[] Eigenvalues
-        {
-            get { return eigenvalues; }
-            protected set { eigenvalues = value; }
-        }
-
-        /// <summary>
-        ///   Gets the level of importance each discriminant factor has in
-        ///   discriminant space. Also known as amount of variance explained.
-        /// </summary>
-        /// 
-        public double[] DiscriminantProportions
-        {
-            get { return discriminantProportions; }
-        }
-
-        /// <summary>
-        ///   The cumulative distribution of the discriminants factors proportions.
-        ///   Also known as the cumulative energy of the first dimensions of the discriminant
-        ///   space or as the amount of variance explained by those dimensions.
-        /// </summary>
-        /// 
-        public double[] CumulativeProportions
-        {
-            get { return discriminantCumulative; }
-        }
-
-        /// <summary>
-        ///   Gets the discriminant factors in a object-oriented fashion.
-        /// </summary>
-        /// 
-        public DiscriminantCollection Discriminants
-        {
-            get { return discriminantCollection; }
-        }
-
-        /// <summary>
-        ///   Gets information about the distinct classes in the analyzed data.
-        /// </summary>
-        ///   
-        public DiscriminantAnalysisClassCollection Classes
-        {
-            get { return classCollection; }
-        }
-
-        /// <summary>
-        ///   Gets the Scatter matrix for each class.
-        /// </summary>
-        /// 
-        protected double[][,] ClassScatter
-        {
-            get { return classScatter; }
-        }
-
-        /// <summary>
-        ///   Gets the Mean vector for each class.
-        /// </summary>
-        /// 
-        protected double[][] ClassMeans
-        {
-            get { return classMeans; }
-        }
-
-        /// <summary>
-        ///   Gets the feature space mean of the projected data.
-        /// </summary>
-        /// 
-        protected double[][] ProjectionMeans
-        {
-            get { return projectedMeans; }
-        }
-
-        /// <summary>
-        ///   Gets the Standard Deviation vector for each class.
-        /// </summary>
-        /// 
-        protected double[][] ClassStandardDeviations
-        {
-            get { return classStdDevs; }
-        }
-
-        /// <summary>
-        ///   Gets the observation count for each class.
-        /// </summary>
-        /// 
-        protected int[] ClassCount
-        {
-            get { return classCount; }
-        }
-        #endregion
-
-
-        //---------------------------------------------
-
-
-        #region Public Methods
         /// <summary>
         ///   Computes the Multi-Class Linear Discriminant Analysis algorithm.
         /// </summary>
         /// 
+        [Obsolete("Please use the Learn method instead.")]
         public virtual void Compute()
         {
+            int dimension = NumberOfOutputs;
+
             // Compute entire data set measures
             Means = Measures.Mean(source, dimension: 0);
             StandardDeviations = Measures.StandardDeviation(source, totalMeans);
             double total = dimension;
 
             // Initialize the scatter matrices
-            this.Sw = new double[dimension, dimension];
-            this.Sb = new double[dimension, dimension];
+            this.Sw = Jagged.Zeros(dimension, dimension);
+            this.Sb = Jagged.Zeros(dimension, dimension);
 
 
             // For each class
             for (int c = 0; c < Classes.Count; c++)
             {
+                int[] idx = Matrix.Find(outputs, y => y == Classes[c].Number);
+
                 // Get the class subset
-                double[,] subset = Classes[c].Subset;
+                double[][] subset = source.Submatrix(idx).ToJagged();
                 int count = subset.GetLength(0);
 
                 // Get the class mean
                 double[] mean = Measures.Mean(subset, dimension: 0);
 
-
                 // Continue constructing the Within-Class Scatter Matrix
-                double[,] Swi = Measures.Scatter(subset, mean, (double)count);
+                double[][] Swi = Measures.Scatter(subset, mean, (double)count);
 
-                // Sw = Sw + Swi
-                for (int i = 0; i < dimension; i++)
-                    for (int j = 0; j < dimension; j++)
-                        Sw[i, j] += Swi[i, j];
-
+                Sw.Add(Swi, result: Sw); // Sw = Sw + Swi
 
                 // Continue constructing the Between-Class Scatter Matrix
                 double[] d = mean.Subtract(totalMeans);
-                double[,] Sbi = Matrix.Outer(d, d).Multiply(total);
+                double[][] Sbi = Jagged.Outer(d, d);
+                Sbi.Multiply(total, result: Sbi);
 
-                // Sb = Sb + Sbi
-                for (int i = 0; i < dimension; i++)
-                    for (int j = 0; j < dimension; j++)
-                        Sb[i, j] += Sbi[i, j];
-
+                Sb.Add(Sbi, result: Sb); // Sb = Sb + Sbi
 
                 // Store some additional information
                 this.classScatter[c] = Swi;
@@ -490,316 +250,144 @@ namespace Accord.Statistics.Analysis
 
 
             // Compute the generalized eigenvalue decomposition
-            GeneralizedEigenvalueDecomposition gevd = new GeneralizedEigenvalueDecomposition(Sb, Sw);
+            var gevd = new JaggedGeneralizedEigenvalueDecomposition(Sb, Sw, sort: true);
 
             // Get the eigenvalues and corresponding eigenvectors
             double[] evals = gevd.RealEigenvalues;
-            double[,] eigs = gevd.Eigenvectors;
-
-            // Sort eigenvalues and vectors in descending order
-            eigs = Matrix.Sort(evals, eigs, new GeneralComparer(ComparerDirection.Descending, true));
-
+            double[][] eigs = gevd.Eigenvectors;
 
             // Store information
             this.Eigenvalues = evals;
-            this.DiscriminantMatrix = eigs;
+            base.eigenvectors = eigs.Transpose();
 
             // Create projections into latent space
-            this.result = Matrix.Dot(source, eigenvectors);
-
+            this.result = Matrix.Dot(source, eigs).ToMatrix();
 
             // Compute feature space means for later classification
             for (int c = 0; c < Classes.Count; c++)
                 projectedMeans[c] = classMeans[c].Dot(eigs);
-
 
             // Computes additional information about the analysis and creates the
             //  object-oriented structure to hold the discriminants found.
             CreateDiscriminants();
         }
 
-        /// <summary>
-        ///   Projects a given matrix into discriminant space.
-        /// </summary>
-        /// 
-        /// <param name="data">The matrix to be projected.</param>
-        /// 
-        public double[,] Transform(double[,] data)
+        public override double[] Transform(double[] input, double[] result)
         {
-            return Transform(data, discriminantCollection.Count);
+            for (int j = 0; j < eigenvectors.Length; j++)
+                for (int k = 0; k < input.Length; k++)
+                    result[j] += input[k] * eigenvectors[j][k]; // already inverted
+            return result;
         }
 
-        /// <summary>
-        ///   Projects a given matrix into discriminant space.
-        /// </summary>
-        /// 
-        /// <param name="data">The matrix to be projected.</param>
-        /// 
-        public double[][] Transform(double[][] data)
+        public override double[][] Transform(double[][] input, double[][] result)
         {
-            return Transform(data, discriminantCollection.Count);
+            for (int i = 0; i < input.Length; i++)
+                for (int j = 0; j < eigenvectors.Length; j++)
+                    for (int k = 0; k < input[i].Length; k++)
+                        result[i][j] += input[i][k] * eigenvectors[j][k]; // already inverted
+            return result;
         }
 
-        /// <summary>
-        ///   Projects a given matrix into latent discriminant variable space.
-        /// </summary>
-        /// 
-        /// <param name="data">The matrix to be projected.</param>
-        /// <param name="dimensions">
-        ///   The number of discriminants to use in the projection.
-        /// </param>
-        /// 
-        public virtual double[,] Transform(double[,] data, int dimensions)
+
+
+
+
+        public CancellationToken Token { get; set; }
+
+        public Pipeline Learn(double[][] x, int[] y, double[] weights = null)
         {
-            if (data == null)
-                throw new ArgumentNullException("data");
+            int dimension = NumberOfOutputs;
 
-            if (eigenvectors == null)
-                throw new InvalidOperationException("The analysis must have been computed first.");
+            // Compute entire data set measures
+            Means = Measures.Mean(source, dimension: 0);
+            StandardDeviations = Measures.StandardDeviation(source, totalMeans);
+            double total = dimension;
 
-            if (data.GetLength(1) != source.GetLength(1))
-                throw new DimensionMismatchException("data", "The input data should have the same number of columns as the original data.");
+            // Initialize the scatter matrices
+            this.Sw = Jagged.Zeros(dimension, dimension);
+            this.Sb = Jagged.Zeros(dimension, dimension);
 
-            if (dimensions < 0 || dimensions > Discriminants.Count)
+
+            // For each class
+            for (int c = 0; c < Classes.Count; c++)
             {
-                throw new ArgumentOutOfRangeException("dimensions",
-                    "The specified number of dimensions must be equal or less than the " +
-                    "number of discriminants available in the Discriminants collection property.");
+                int[] idx = Matrix.Find(y, y_i => y_i == c);
+
+                // Get the class subset
+                double[][] subset = source.Submatrix(idx).ToJagged();
+                int count = subset.GetLength(0);
+
+                // Get the class mean
+                double[] mean = Measures.Mean(subset, dimension: 0);
+
+                // Continue constructing the Within-Class Scatter Matrix
+                double[][] Swi = Measures.Scatter(subset, mean, (double)count);
+
+                Sw.Add(Swi, result: Sw); // Sw = Sw + Swi
+
+                // Continue constructing the Between-Class Scatter Matrix
+                double[] d = mean.Subtract(totalMeans);
+                double[,] Sbi = Matrix.Outer(d, d).Multiply(total);
+
+                Sb.Add(Sbi, result: Sb); // Sb = Sb + Sbi
+
+                // Store some additional information
+                this.classScatter[c] = Swi;
+                this.classCount[c] = count;
+                this.classMeans[c] = mean;
+                this.classStdDevs[c] = Measures.StandardDeviation(subset, mean);
             }
 
-            int rows = data.GetLength(0);
-            int cols = data.GetLength(1);
 
-            // multiply the data matrix by the selected eigenvectors
-            // TODO: Use cache-friendly multiplication
-            double[,] r = new double[rows, dimensions];
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < dimensions; j++)
-                    for (int k = 0; k < cols; k++)
-                        r[i, j] += data[i, k] * eigenvectors[k, j];
+            // Compute the generalized eigenvalue decomposition
+            var gevd = new JaggedGeneralizedEigenvalueDecomposition(Sb, Sw, sort: true);
 
-            return r;
-        }
+            // Get the eigenvalues and corresponding eigenvectors
+            double[] evals = gevd.RealEigenvalues;
+            double[][] eigs = gevd.Eigenvectors;
 
-        /// <summary>
-        ///   Projects a given matrix into latent discriminant variable space.
-        /// </summary>
-        /// 
-        /// <param name="data">The matrix to be projected.</param>
-        /// <param name="dimensions">
-        ///   The number of discriminants to use in the projection.
-        /// </param>
-        /// 
-        public virtual double[][] Transform(double[][] data, int dimensions)
-        {
-            if (data == null)
-                throw new ArgumentNullException("data");
+            // Store information
+            this.Eigenvalues = evals;
+            base.eigenvectors = eigs.Transpose();
 
-            if (eigenvectors == null)
-                throw new InvalidOperationException("The analysis must have been computed first.");
+            // Compute feature space means for later classification
+            for (int c = 0; c < Classes.Count; c++)
+                projectedMeans[c] = classMeans[c].Dot(eigs);
 
-            for (int i = 0; i < data.Length; i++)
-                if (data[i].Length != source.GetLength(1))
-                    throw new DimensionMismatchException("data", "The input data should have the same number of columns as the original data.");
+            // Computes additional information about the analysis and creates the
+            //  object-oriented structure to hold the discriminants found.
+            CreateDiscriminants();
 
-            if (dimensions < 0 || dimensions > Discriminants.Count)
+            return new Pipeline()
             {
-                throw new ArgumentOutOfRangeException("dimensions",
-                    "The specified number of dimensions must be equal or less than the " +
-                    "number of discriminants available in the Discriminants collection property.");
-            }
-
-            int rows = data.Length;
-            int cols = data[0].Length;
-
-            // multiply the data matrix by the selected eigenvectors
-            // TODO: Use cache-friendly multiplication
-            double[][] r = new double[rows][];
-            for (int i = 0; i < rows; i++)
-            {
-                r[i] = new double[dimensions];
-                for (int j = 0; j < dimensions; j++)
-                    for (int k = 0; k < cols; k++)
-                        r[i][j] += data[i][k] * eigenvectors[k, j];
-            }
-
-            return r;
-        }
-
-        /// <summary>
-        ///   Projects a given point into discriminant space.
-        /// </summary>
-        /// 
-        /// <param name="data">The point to be projected.</param>
-        /// 
-        public double[] Transform(double[] data)
-        {
-            return Transform(data.ToMatrix()).GetRow(0);
-        }
-
-        /// <summary>
-        ///   Projects a given point into latent discriminant variable space.
-        /// </summary>
-        /// 
-        /// <param name="data">The point to be projected.</param>
-        /// <param name="discriminants">The number of discriminant variables to use in the projection.</param>
-        /// 
-        public double[] Transform(double[] data, int discriminants)
-        {
-            return Transform(data.ToMatrix(), discriminants).GetRow(0);
-        }
-
-        /// <summary>
-        ///   Returns the minimum number of discriminant space dimensions (discriminant
-        ///   factors) required to represent a given percentile of the data.
-        /// </summary>
-        /// 
-        /// <param name="threshold">The percentile of the data requiring representation.</param>
-        /// <returns>The minimal number of dimensions required.</returns>
-        /// 
-        public int GetNumberOfDimensions(float threshold)
-        {
-            if (threshold < 0 || threshold > 1.0)
-                throw new ArgumentException("Threshold should be a value between 0 and 1", "threshold");
-
-            for (int i = 0; i < discriminantCumulative.Length; i++)
-            {
-                if (discriminantCumulative[i] >= threshold)
-                    return i + 1;
-            }
-
-            return discriminantCumulative.Length;
-        }
-
-        /// <summary>
-        ///   Classifies a new instance into one of the available classes.
-        /// </summary>
-        /// 
-        public int Classify(double[] input)
-        {
-            double[] projection = Transform(input);
-
-            // Select class which higher discriminant function fy
-            int imax = 0;
-            double max = DiscriminantFunction(0, projection);
-            for (int i = 1; i < classCollection.Count; i++)
-            {
-                double fy = DiscriminantFunction(i, projection);
-                if (fy > max)
+                First = CreateRegression(NumberOfOutputs),
+                Second = new MinimumMeanDistanceClassifier()
                 {
-                    max = fy;
-                    imax = i;
+                    Means = projectedMeans,
+                    Distance = new SquareEuclidean()
                 }
-            }
-
-            return classCollection[imax].Number;
+            };
         }
 
-        /// <summary>
-        ///   Classifies a new instance into one of the available classes.
-        /// </summary>
-        /// 
-        public int Classify(double[] input, out double[] responses)
+        public MultivariateLinearRegression CreateRegression(int components)
         {
-            double[] projection = Transform(input);
-            responses = new double[classCollection.Count];
+            double[,] weights = DiscriminantVectors.ToMatrix();
 
-            // Select class which higher discriminant function fy
-            int imax = 0;
-            double max = DiscriminantFunction(0, projection);
-            responses[0] = max;
-            for (int i = 1; i < classCollection.Count; i++)
+            double[] bias = Means.Dot(weights);
+            bias.Multiply(-1, result: bias);
+
+            return new MultivariateLinearRegression(weights, bias, false);
+        }
+
+        public class Pipeline : Pipeline<double[], int, MultivariateLinearRegression, MinimumMeanDistanceClassifier>
+        {
+            public override int[] Transform(double[][] input, int[] result)
             {
-                double fy = DiscriminantFunction(i, projection);
-                responses[i] = fy;
-                if (fy > max)
-                {
-                    max = fy;
-                    imax = i;
-                }
+                return Second.Transform(First.Transform(input));
             }
-
-            return classCollection[imax].Number;
         }
-
-        /// <summary>
-        ///   Classifies new instances into one of the available classes.
-        /// </summary>
-        /// 
-        public int[] Classify(double[][] inputs)
-        {
-            int[] output = new int[inputs.Length];
-            for (int i = 0; i < inputs.Length; i++)
-                output[i] = Classify(inputs[i]);
-            return output;
-        }
-
-        /// <summary>
-        ///   Gets the discriminant function output for class c.
-        /// </summary>
-        /// 
-        /// <param name="c">The class index.</param>
-        /// <param name="projection">The projected input.</param>
-        /// 
-        internal double DiscriminantFunction(int c, double[] projection)
-        {
-            return -Distance.SquareEuclidean(projection, projectedMeans[c]);
-        }
-        #endregion
-
-
-        //---------------------------------------------
-
-
-        #region Protected Methods
-        /// <summary>
-        ///   Creates additional information about principal components.
-        /// </summary>
-        /// 
-        protected void CreateDiscriminants()
-        {
-            int numDiscriminants = eigenvalues.Length;
-            discriminantProportions = new double[numDiscriminants];
-            discriminantCumulative = new double[numDiscriminants];
-
-
-            // Calculate total scatter matrix
-            int size = Sw.GetLength(0);
-            St = new double[size, size];
-            for (int i = 0; i < size; i++)
-                for (int j = 0; j < size; j++)
-                    St[i, j] = Sw[i, j] + Sb[i, j];
-
-
-            // Calculate proportions
-            double sum = 0.0;
-            for (int i = 0; i < numDiscriminants; i++)
-                sum += System.Math.Abs(eigenvalues[i]);
-            sum = (sum == 0) ? 0 : (1.0 / sum);
-
-            for (int i = 0; i < numDiscriminants; i++)
-                discriminantProportions[i] = System.Math.Abs(eigenvalues[i]) * sum;
-
-
-            // Calculate cumulative proportions
-            if (numDiscriminants > 0)
-            {
-                this.discriminantCumulative[0] = this.discriminantProportions[0];
-                for (int i = 1; i < this.discriminantCumulative.Length; i++)
-                    this.discriminantCumulative[i] = this.discriminantCumulative[i - 1] + this.discriminantProportions[i];
-            }
-
-
-            // Creates the object-oriented structure to hold the linear discriminants
-            Discriminant[] discriminants = new Discriminant[numDiscriminants];
-            for (int i = 0; i < numDiscriminants; i++)
-                discriminants[i] = new Discriminant(this, i);
-            this.discriminantCollection = new DiscriminantCollection(discriminants);
-        }
-        #endregion
-
     }
-
 
     #region Support Classes
     /// <summary>
@@ -812,7 +400,7 @@ namespace Accord.Statistics.Analysis
     [Serializable]
     public class DiscriminantAnalysisClass
     {
-        private LinearDiscriminantAnalysis analysis;
+        private BaseDiscriminantAnalysis analysis;
         private int classNumber;
         private int index;
 
@@ -820,7 +408,7 @@ namespace Accord.Statistics.Analysis
         ///   Creates a new Class representation
         /// </summary>
         /// 
-        internal DiscriminantAnalysisClass(LinearDiscriminantAnalysis analysis, int index, int classNumber)
+        internal DiscriminantAnalysisClass(BaseDiscriminantAnalysis analysis, int index, int classNumber)
         {
             this.analysis = analysis;
             this.index = index;
@@ -851,7 +439,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public double Prevalence
         {
-            get { return (double)Count / analysis.Source.GetLength(0); }
+            get { return (double)Count / analysis.NumberOfSamples; }
         }
 
         /// <summary>
@@ -885,15 +473,17 @@ namespace Accord.Statistics.Analysis
         ///   Gets the Scatter matrix for this class.
         /// </summary>
         /// 
-        public double[,] Scatter
+        public double[][] Scatter
         {
             get { return analysis.classScatter[index]; }
         }
 
+#pragma warning disable 612, 618
         /// <summary>
         ///   Gets the indices of the rows in the original data which belong to this class.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public int[] Indices
         {
             get { return Matrix.Find(analysis.Classifications, y => y == classNumber); }
@@ -903,10 +493,13 @@ namespace Accord.Statistics.Analysis
         ///   Gets the subset of the original data spawned by this class.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[,] Subset
         {
+
             get { return analysis.Source.Submatrix(Indices); }
         }
+#pragma warning restore 612, 618
 
         /// <summary>
         ///   Gets the number of observations inside this class.
@@ -923,8 +516,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public double DiscriminantFunction(double[] projection)
         {
-            //return Mean.Multiply(projection) + Bias[index];
-            return analysis.DiscriminantFunction(index, projection);
+            return analysis.Distance(projection, classIndex: index);
         }
     }
 
@@ -939,14 +531,14 @@ namespace Accord.Statistics.Analysis
     [Serializable]
     public class Discriminant : IAnalysisComponent
     {
-        private LinearDiscriminantAnalysis analysis;
+        private BaseDiscriminantAnalysis analysis;
         private int index;
 
         /// <summary>
         ///   Creates a new discriminant factor representation.
         /// </summary>
         /// 
-        internal Discriminant(LinearDiscriminantAnalysis analysis, int index)
+        internal Discriminant(BaseDiscriminantAnalysis analysis, int index)
         {
             this.analysis = analysis;
             this.index = index;
@@ -968,7 +560,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[] Eigenvector
         {
-            get { return analysis.DiscriminantMatrix.GetColumn(index); }
+            get { return analysis.DiscriminantVectors[index]; }
         }
 
         /// <summary>

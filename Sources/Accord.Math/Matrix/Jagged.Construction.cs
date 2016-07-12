@@ -905,17 +905,6 @@ namespace Accord.Math
             return result;
         }
 
-
-
-
-        /// <summary>
-        ///   Creates a rows-by-cols matrix random data drawn from a given distribution.
-        /// </summary>
-        /// 
-        public static double[][] Random(int rows, int cols, double minValue = 0, double maxValue = 1)
-        {
-            return Random<double>(rows, cols, new ZigguratUniformGenerator(minValue, maxValue));
-        }
         #endregion
 
     }

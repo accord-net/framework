@@ -126,7 +126,6 @@
     <Compile Include="Exploration Policy\TabuSearchExploration.cs" />
     <Compile Include="Geometry\RansacCircle.cs" />
     <Compile Include="IO\LibSvmModel.cs" />
-    <Compile Include="MinimumMeanDistanceClassifier.cs" />
     <Compile Include="KNearestNeighbors`1.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Multiclass\Decision.cs" />

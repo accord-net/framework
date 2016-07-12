@@ -27,6 +27,8 @@ namespace Accord.Statistics.Analysis
     using Accord.Math.Comparers;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Kernels;
+    using Accord.MachineLearning;
+    using System.Threading;
 
     /// <summary>
     ///   Kernel (Fisher) Discriminant Analysis.
@@ -111,17 +113,20 @@ namespace Accord.Statistics.Analysis
     /// </example>
     /// 
     [Serializable]
-    public class KernelDiscriminantAnalysis : LinearDiscriminantAnalysis
+    public class KernelDiscriminantAnalysis : BaseDiscriminantAnalysis,
+        ISupervisedLearning<KernelDiscriminantAnalysis, double[], int>
     {
         private IKernel kernel;
         private double regularization = 1e-4;
         private double threshold = 1e-3;
+        private double[][] input;
 
+        
+        public double[][] Input
+        {
+            get { return this.input; }
+        }
 
-        //---------------------------------------------
-
-
-        #region Constructor
         /// <summary>
         ///   Constructs a new Kernel Discriminant Analysis object.
         /// </summary>
@@ -131,12 +136,13 @@ namespace Accord.Statistics.Analysis
         /// <param name="output">The labels for each observation row in the input matrix.</param>
         /// <param name="kernel">The kernel to be used in the analysis.</param>
         /// 
+        [Obsolete("Please pass the 'inputs' and 'outputs' parameters to the Learn method instead.")]
         public KernelDiscriminantAnalysis(double[,] inputs, int[] output, IKernel kernel)
-            : base(inputs, output)
         {
-            if (kernel == null) throw new ArgumentNullException("kernel");
-
             this.kernel = kernel;
+            this.source = inputs;
+            this.outputs = output;
+            init(inputs, output);
         }
 
         /// <summary>
@@ -148,20 +154,45 @@ namespace Accord.Statistics.Analysis
         /// <param name="output">The labels for each observation row in the input matrix.</param>
         /// <param name="kernel">The kernel to be used in the analysis.</param>
         /// 
+        [Obsolete("Please pass the 'inputs' and 'outputs' parameters to the Learn method instead.")]
         public KernelDiscriminantAnalysis(double[][] inputs, int[] output, IKernel kernel)
-            : base(inputs, output)
         {
-            if (kernel == null) throw new ArgumentNullException("kernel");
-
             this.kernel = kernel;
+            this.source = inputs.ToMatrix();
+            this.outputs = output;
+            init(inputs.ToMatrix(), output);
         }
-        #endregion
+
+        private void init(double[,] inputs, int[] outputs)
+        {
+            // Gets the number of classes
+            int startingClass = outputs.Min();
+            this.NumberOfClasses = outputs.Max() - startingClass + 1;
+            this.NumberOfSamples = inputs.Rows();
+            this.NumberOfInputs = inputs.Columns();
+            this.NumberOfOutputs = inputs.Columns();
+
+            // Store the original data
+            this.input = inputs.ToJagged();
+            this.source = inputs;
+            this.outputs = outputs;
+
+            // Creates simple structures to hold information later
+            this.classCount = new int[NumberOfClasses];
+            this.classMeans = new double[NumberOfClasses][];
+            this.classStdDevs = new double[NumberOfClasses][];
+            this.classScatter = new double[NumberOfClasses][][];
+            this.projectedMeans = new double[NumberOfClasses][];
+
+            // Creates the object-oriented structure to hold information about the classes
+            var collection = new DiscriminantAnalysisClass[NumberOfClasses];
+            for (int i = 0; i < collection.Length; i++)
+                collection[i] = new DiscriminantAnalysisClass(this, i, startingClass + i);
+            this.classCollection = new DiscriminantAnalysisClassCollection(collection);
+        }
 
 
-        //---------------------------------------------
 
-
-        #region Public Properties
         /// <summary>
         ///   Gets the Kernel used in the analysis.
         /// </summary>
@@ -205,24 +236,19 @@ namespace Accord.Statistics.Analysis
                 threshold = value;
             }
         }
-        #endregion
 
 
-        //---------------------------------------------
 
 
-        #region Public Methods
         /// <summary>
         ///   Computes the Multi-Class Kernel Discriminant Analysis algorithm.
         /// </summary>
         /// 
-        public override void Compute()
+        public void Compute()
         {
             // Get some initial information
-            int dimension = Source.GetLength(0);
-            double[,] source = Source;
+            int dimension = source.GetLength(0);
             double total = dimension;
-
 
             // Create the Gram (Kernel) Matrix
             double[,] K = new double[dimension, dimension];
@@ -252,7 +278,7 @@ namespace Accord.Statistics.Analysis
             for (int c = 0; c < Classes.Count; c++)
             {
                 // Get the Kernel matrix class subset
-                double[,] Kc = K.Submatrix(Classes[c].Indices);
+                double[,] Kc = K.Submatrix(Matrix.Find(outputs, y_i => y_i == Classes[c].Number));
                 int count = Kc.GetLength(0);
 
                 // Get the Kernel matrix class mean
@@ -279,7 +305,7 @@ namespace Accord.Statistics.Analysis
 
 
                 // Store additional information
-                base.ClassScatter[c] = Swi;
+                base.ClassScatter[c] = Swi.ToJagged();
                 base.ClassCount[c] = count;
                 base.ClassMeans[c] = mean;
                 base.ClassStandardDeviations[c] = Measures.StandardDeviation(Kc, mean);
@@ -362,14 +388,14 @@ namespace Accord.Statistics.Analysis
 
             // Store information
             base.Eigenvalues = evals;
-            base.DiscriminantMatrix = eigs;
-            base.ScatterBetweenClass = Sb;
-            base.ScatterWithinClass = Sw;
+            base.eigenvectors = eigs.ToJagged().Transpose();
+            base.ScatterBetweenClass = Sb.ToJagged();
+            base.ScatterWithinClass = Sw.ToJagged();
 
-
+#pragma warning disable 612, 618
             // Project into the kernel discriminant space
             this.Result = Matrix.Dot(K, eigs);
-
+#pragma warning restore 612, 618
 
             // Compute feature space means for later classification
             for (int c = 0; c < Classes.Count; c++)
@@ -383,113 +409,113 @@ namespace Accord.Statistics.Analysis
             CreateDiscriminants();
         }
 
-        /// <summary>
-        ///   Projects a given matrix into discriminant space.
-        /// </summary>
-        /// 
-        /// <param name="data">The matrix to be projected.</param>
-        /// <param name="dimensions">
-        ///   The number of discriminant dimensions to use in the projection.
-        /// </param>
-        /// 
-        public override double[,] Transform(double[,] data, int dimensions)
+        public override double[] Transform(double[] input, double[] result)
         {
-            if (data == null)
-                throw new ArgumentNullException("data");
-
-            if (DiscriminantMatrix == null)
-                throw new InvalidOperationException("The analysis must have been computed first.");
-
-            if (data.GetLength(1) != Source.GetLength(1))
-                throw new DimensionMismatchException("data", 
-                    "The input data should have the same number of columns as the original data.");
-
-            if (dimensions < 0 || dimensions > Discriminants.Count)
-            {
-                throw new ArgumentOutOfRangeException("dimensions",
-                    "The specified number of dimensions must be equal or less than the " +
-                    "number of discriminants available in the Discriminants collection property.");
-            }
-
-            // Get some information
-            int rows = data.GetLength(0);
-            int N = Source.GetLength(0);
-
-            // Create the Kernel matrix
-            double[,] K = new double[rows, N];
-            for (int i = 0; i < rows; i++)
-            {
-                double[] row = data.GetRow(i);
-                for (int j = 0; j < N; j++)
-                    K[i, j] = kernel.Function(Source.GetRow(j), row);
-            }
-
-            // Project into the kernel discriminant space
-            double[,] result = new double[rows, dimensions];
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < dimensions; j++)
-                    for (int k = 0; k < N; k++)
-                        result[i, j] += K[i, k] * DiscriminantMatrix[k, j];
-
-            return result;
+            return Transform(new[] { input }, new[] { result })[0];
         }
 
-        /// <summary>
-        ///   Projects a given matrix into discriminant space.
-        /// </summary>
-        /// 
-        /// <param name="data">The matrix to be projected.</param>
-        /// <param name="dimensions">
-        ///   The number of discriminant dimensions to use in the projection.
-        /// </param>
-        /// 
-        public override double[][] Transform(double[][] data, int dimensions)
+        public override double[][] Transform(double[][] input, double[][] result)
         {
-            if (data == null)
-                throw new ArgumentNullException("data");
-
-            if (DiscriminantMatrix == null)
-                throw new InvalidOperationException("The analysis must have been computed first.");
-
-            for (int i = 0; i < data.Length; i++)
-                if (data[i].Length != Source.GetLength(1))
-                    throw new DimensionMismatchException("data", 
-                        "The input data should have the same number of columns as the original data.");
-
-            if (dimensions < 0 || dimensions > Discriminants.Count)
-            {
-                throw new ArgumentOutOfRangeException("dimensions",
-                    "The specified number of dimensions must be equal or less than the " +
-                    "number of discriminants available in the Discriminants collection property.");
-            }
-
-            // Get some information
-            int rows = data.GetLength(0);
-            int N = Source.GetLength(0);
-
             // Create the Kernel matrix
-            double[,] K = new double[rows, N];
-            for (int i = 0; i < rows; i++)
-            {
-                double[] row = data[i];
-                for (int j = 0; j < N; j++)
-                    K[i, j] = kernel.Function(Source.GetRow(j), row);
-            }
-
-            // Project into the kernel discriminant space
-            double[][] result = new double[rows][];
-            for (int i = 0; i < rows; i++)
-            {
-                result[i] = new double[dimensions];
-                for (int j = 0; j < dimensions; j++)
-                    for (int k = 0; k < N; k++)
-                        result[i][j] += K[i, k] * DiscriminantMatrix[k, j];
-            }
-
-            return result;
+            double[][] K = kernel.ToJagged2(x: input, y: this.input);
+            // TODO: Do without forming the kernel matrix
+            return K.DotWithTransposed(DiscriminantVectors);
         }
 
-        #endregion
 
+
+        public CancellationToken Token { get; set; }
+
+        public KernelDiscriminantAnalysis Learn(double[][] x, int[] y, double[] weights = null)
+        {
+            this.NumberOfInputs = x.Columns();
+            this.NumberOfOutputs = y.Max();
+
+            // Create the Gram (Kernel) Matrix
+            var K = kernel.ToJagged(x);
+
+            // Compute entire data set measures
+            base.Means = Measures.Mean(K, dimension: 0);
+            base.StandardDeviations = Measures.StandardDeviation(K, Means);
+
+            // Initialize the kernel analogous scatter matrices
+            int dimension = x.Columns();
+            double[][] Sb = Jagged.Zeros(dimension, dimension);
+            double[][] Sw = Jagged.Zeros(dimension, dimension);
+
+            // For each class
+            for (int c = 0; c < Classes.Count; c++)
+            {
+                var idx = Matrix.Find(y, y_i => y_i == c);
+
+                // Get the Kernel matrix class subset
+                double[][] Kc = K.Submatrix(idx);
+                int count = Kc.GetLength(0);
+
+                // Get the Kernel matrix class mean
+                double[] mean = Measures.Mean(Kc, dimension: 0);
+
+                // Construct the Kernel equivalent of the Within-Class Scatter matrix
+                double[][] Swi = Measures.Scatter(Kc, dimension: 0, means: mean);
+                Swi.Divide((double)count, result: Swi);
+                Sw.Add(Swi, result: Sw); // Sw = Sw + Swi
+
+                // Construct the Kernel equivalent of the Between-Class Scatter matrix
+                double[] d = mean.Subtract(base.Means);
+                double[][] Sbi = Jagged.Outer(d, d);
+                Sbi.Multiply(NumberOfOutputs, result: Sbi);
+
+                Sb.Add(Sbi, result: Sb); // Sb = Sb + Sbi
+
+                // Store additional information
+                base.ClassScatter[c] = Swi;
+                base.ClassCount[c] = count;
+                base.ClassMeans[c] = mean;
+                base.ClassStandardDeviations[c] = Measures.StandardDeviation(Kc, mean);
+            }
+
+            // Add regularization to avoid singularity
+            Sw.AddToDiagonal(regularization, result: Sw);
+
+            // Compute the generalized eigenvalue decomposition
+            var gevd = new JaggedGeneralizedEigenvalueDecomposition(Sb, Sw, sort: true);
+
+            if (gevd.IsSingular) // check validity of the results
+            {
+                throw new SingularMatrixException("One of the matrices is singular. Please retry " +
+                    "the method with a higher regularization constant.");
+            }
+
+            // Get the eigenvalues and corresponding eigenvectors
+            double[] evals = gevd.RealEigenvalues;
+            double[][] eigs = gevd.Eigenvectors;
+
+            int nonzero = gevd.Rank;
+            if (NumberOfInputs != 0)
+                nonzero = Math.Min(nonzero, NumberOfInputs);
+            if (NumberOfOutputs != 0)
+                nonzero = Math.Min(nonzero, NumberOfOutputs);
+
+            // Eliminate unwanted components
+            eigs = eigs.Submatrix(null, 0, nonzero - 1);
+            evals = evals.Submatrix(0, nonzero - 1);
+
+            // Store information
+            this.input = x;
+            base.Eigenvalues = evals;
+            base.eigenvectors = eigs.Transpose();
+            base.ScatterBetweenClass = Sb;
+            base.ScatterWithinClass = Sw;
+
+            // Compute feature space means for later classification
+            for (int c = 0; c < Classes.Count; c++)
+                ProjectionMeans[c] = ClassMeans[c].Dot(eigs);
+
+            // Computes additional information about the analysis and creates the
+            //  object-oriented structure to hold the discriminants found.
+            CreateDiscriminants();
+
+            return this;
+        }
     }
 }

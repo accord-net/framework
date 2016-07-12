@@ -262,7 +262,7 @@ namespace Accord.MachineLearning
         /// <param name="result">An array where the scores will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         /// 
-        public double[][] Distances(TInput[] input, double[][] result)
+        public virtual double[][] Distances(TInput[] input, double[][] result)
         {
             for (int i = 0; i < input.Length; i++)
                 Distances(input[i], result[i]);

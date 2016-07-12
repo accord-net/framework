@@ -70,6 +70,15 @@ namespace Accord.Statistics.Links
         /// 
         double Inverse(double x);
 
+        /// <summary>
+        ///   The Log-mean (activation) function.
+        /// </summary>
+        /// 
+        /// <param name="x">A transformed value.</param>
+        /// 
+        /// <returns>The log of the reverse transformed value.</returns>
+        /// 
+        double Log(double x);
 
         /// <summary>
         ///   First derivative of the <see cref="Inverse"/> function.

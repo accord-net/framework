@@ -54,7 +54,10 @@ namespace Accord.Statistics.Links
         ///   Creates a new Absolute link function.
         /// </summary>
         /// 
-        public ThresholdLinkFunction() : this(0) { }
+        public ThresholdLinkFunction()
+            : this(0)
+        {
+        }
 
         /// <summary>
         ///   The Absolute link function.
@@ -80,6 +83,11 @@ namespace Accord.Statistics.Links
         public double Inverse(double x)
         {
             return (x > Threshold) ? +1 : -1;
+        }
+
+        public double Log(double x)
+        {
+            return (x > Threshold) ? Math.Log(+1) : Math.Log(-1);
         }
 
         /// <summary>

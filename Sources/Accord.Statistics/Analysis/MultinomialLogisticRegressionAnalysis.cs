@@ -22,6 +22,7 @@
 
 namespace Accord.Statistics.Analysis
 {
+    using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
@@ -30,6 +31,7 @@ namespace Accord.Statistics.Analysis
     using System;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Threading;
 
     /// <summary>
     ///   Multinomial Logistic Regression Analysis
@@ -61,8 +63,11 @@ namespace Accord.Statistics.Analysis
     /// // TODO: Write example
     /// 
     [Serializable]
-    public class MultinomialLogisticRegressionAnalysis : IMultivariateRegressionAnalysis
+    public class MultinomialLogisticRegressionAnalysis : IMultivariateRegressionAnalysis,
+        ISupervisedLearning<MultinomialLogisticRegression, double[], double[]>,
+        ISupervisedLearning<MultinomialLogisticRegression, double[], int>
     {
+        public CancellationToken Token { get; set; }
 
         int inputCount;
         int outputCount;
@@ -420,9 +425,54 @@ namespace Accord.Statistics.Analysis
             this.coefficientCollection = new MultinomialCoefficientCollection(coefs);
         }
 
+        public MultinomialLogisticRegression Learn(double[][] input, double[][] output, double[] weights = null)
+        {
+            double delta;
+            int iteration = 0;
+
+            var learning = new LowerBoundNewtonRaphson(regression);
+
+            do // learning iterations until convergence
+            {
+                delta = learning.Run(inputData, outputData);
+                iteration++;
+
+            } while (delta > tolerance && iteration < iterations);
+
+            // Check if the full model has converged
+            bool converged = iteration < iterations;
+
+
+            computeInformation();
+
+            return regression;
+        }
+
+        public MultinomialLogisticRegression Learn(double[][] input, int[] output, double[] weights = null)
+        {
+            double delta;
+            int iteration = 0;
+
+            var learning = new LowerBoundNewtonRaphson(regression);
+
+            do // learning iterations until convergence
+            {
+                delta = learning.Run(inputData, outputData);
+                iteration++;
+
+            } while (delta > tolerance && iteration < iterations);
+
+            // Check if the full model has converged
+            bool converged = iteration < iterations;
+
+
+            computeInformation();
+
+            return regression;
+        }
 
         /// <summary>
-        ///   Computes the Multiple Linear Regression Analysis.
+        ///   Computes the Multinomial Logistic Regression Analysis.
         /// </summary>
         /// 
         public bool Compute()

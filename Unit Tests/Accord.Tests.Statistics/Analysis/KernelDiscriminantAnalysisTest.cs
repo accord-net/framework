@@ -31,23 +31,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class KernelDiscriminantAnalysisTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ClassifyTest()
         {
@@ -143,7 +126,7 @@ namespace Accord.Tests.Statistics
             };
 
             // Create a new Linear Discriminant Analysis object
-            KernelDiscriminantAnalysis lda = new KernelDiscriminantAnalysis(inputs, output, new Linear());
+            var lda = new KernelDiscriminantAnalysis(inputs, output, new Linear());
 
             // Compute the analysis
             lda.Compute();
@@ -162,7 +145,6 @@ namespace Accord.Tests.Statistics
                 int actual = lda.Classify(inputs.GetRow(i)); 
                 Assert.AreEqual(expected, actual);
             }
-            
         }
 
         [Test]
@@ -179,7 +161,7 @@ namespace Accord.Tests.Statistics
 
             IKernel kernel = new Gaussian(0.1);
 
-            KernelDiscriminantAnalysis target = new KernelDiscriminantAnalysis(inputs, output, kernel);
+            var target = new KernelDiscriminantAnalysis(inputs, output, kernel);
 
             Assert.AreEqual(3, target.Classes.Count);
             Assert.AreEqual(0, target.Classes[0].Index);
@@ -245,7 +227,7 @@ namespace Accord.Tests.Statistics
             int[] output = Matrix.Expand(new int[,] { { 1 }, { 2 }, { 3 } }, new int[] { 30, 30, 30 }).GetColumn(0);
 
             IKernel kernel = new Gaussian(0.2);
-            KernelDiscriminantAnalysis target = new KernelDiscriminantAnalysis(inputs, output, kernel);
+            var target = new KernelDiscriminantAnalysis(inputs, output, kernel);
 
             target.Compute();
 
@@ -371,8 +353,7 @@ namespace Accord.Tests.Statistics
             int[] output = { 0, 1, 1 };
 
             IKernel kernel = new Gaussian(0.1);
-
-            KernelDiscriminantAnalysis target = new KernelDiscriminantAnalysis(inputs, output, kernel);
+            var target = new KernelDiscriminantAnalysis(inputs, output, kernel);
 
             bool thrown = false;
             try { target.Threshold = -1; }
@@ -397,7 +378,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1, target.Classes[1].Indices[0]);
             Assert.AreEqual(2, target.Classes[1].Indices[1]);
             Assert.AreEqual(0, target.CumulativeProportions.Length);
-            Assert.AreEqual(3, target.DiscriminantMatrix.GetLength(0)); // dimension
+            Assert.AreEqual(0, target.DiscriminantMatrix.GetLength(0)); // dimension
             Assert.AreEqual(0, target.DiscriminantMatrix.GetLength(1)); // components kept
             Assert.AreEqual(0, target.DiscriminantProportions.Length);
             Assert.AreEqual(0, target.Discriminants.Count);

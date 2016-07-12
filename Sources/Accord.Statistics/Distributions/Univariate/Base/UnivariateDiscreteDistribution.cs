@@ -399,6 +399,11 @@ namespace Accord.Statistics.Distributions.Univariate
             return CumulativeHazardFunction((int)x);
         }
 
+        double IUnivariateDistribution.LogCumulativeHazardFunction(double x)
+        {
+            return LogCumulativeHazardFunction((int)x);
+        }
+
         void IDistribution.Fit(Array observations)
         {
             (this as IDistribution).Fit(observations, (IFittingOptions)null);
@@ -843,6 +848,11 @@ namespace Accord.Statistics.Distributions.Univariate
         public virtual double CumulativeHazardFunction(int x)
         {
             return -Math.Log(ComplementaryDistributionFunction(x));
+        }
+
+        public virtual double LogCumulativeHazardFunction(int x)
+        {
+            return Math.Log(-Math.Log(ComplementaryDistributionFunction(x)));
         }
 
         /// <summary>

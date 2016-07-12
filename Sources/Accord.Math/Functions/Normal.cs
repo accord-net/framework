@@ -101,6 +101,20 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Normal cumulative distribution function.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   The area under the Gaussian p.d.f. integrated
+        ///   from minus infinity to the given value.
+        /// </returns>
+        /// 
+        public static double Log(double value)
+        {
+            return Math.Log(0.5 + 0.5 * Special.Erf(value / Constants.Sqrt2));
+        }
+
+        /// <summary>
         ///   Complemented cumulative distribution function.
         /// </summary>
         /// 

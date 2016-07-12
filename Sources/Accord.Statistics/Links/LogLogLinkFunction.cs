@@ -99,6 +99,12 @@ namespace Accord.Statistics.Links
             return Math.Exp(-Math.Exp(B * x + A));
         }
 
+        
+        public double Log(double x)
+        {
+            return -Math.Exp(B * x + A);
+        }
+
         /// <summary>
         ///   First derivative of the <see cref="Inverse"/> function.
         /// </summary>

@@ -29,6 +29,7 @@ namespace Accord.Statistics.Analysis
     using Accord.Statistics.Kernels;
     using Accord.MachineLearning;
     using Accord.Statistics.Analysis.Base;
+    using Accord.Statistics.Models.Regression;
 
     /// <summary>
     ///   Kernel Principal Component Analysis.
@@ -102,8 +103,8 @@ namespace Accord.Statistics.Analysis
     [Serializable]
 #pragma warning disable 612, 618
     public class KernelPrincipalComponentAnalysis : BasePrincipalComponentAnalysis, ITransform<double[], double[]>,
-        IUnsupervisedLearning<KernelPrincipalComponentAnalysis, double[], double[]>,
- IMultivariateAnalysis, IProjectionAnalysis
+        IUnsupervisedLearning<MultivariateKernelRegression, double[], double[]>,
+        IMultivariateAnalysis, IProjectionAnalysis
 #pragma warning restore 612, 618
     {
 
@@ -299,7 +300,8 @@ namespace Accord.Statistics.Analysis
         /// A model that has learned how to produce suitable outputs
         /// given the input data <paramref name="x" />.
         /// </returns>
-        public KernelPrincipalComponentAnalysis Learn(double[,] x)
+        [Obsolete("Please use jagged matrices instead.")]
+        public MultivariateKernelRegression Learn(double[,] x)
         {
             return Learn(x.ToJagged());
         }
@@ -312,7 +314,7 @@ namespace Accord.Statistics.Analysis
         /// A model that has learned how to produce suitable outputs
         /// given the input data <paramref name="x" />.
         /// </returns>
-        public KernelPrincipalComponentAnalysis Learn(double[][] x)
+        public MultivariateKernelRegression Learn(double[][] x)
         {
             this.sourceCentered = null;
             double[][] K;
@@ -385,7 +387,13 @@ namespace Accord.Statistics.Analysis
 
             Accord.Diagnostics.Debug.Assert(NumberOfOutputs > 0);
 
-            return this;
+            return new MultivariateKernelRegression()
+            {
+                NumberOfInputs = NumberOfInputs,
+                NumberOfOutputs = NumberOfOutputs,
+                Kernel = kernel,
+                Weights = ComponentVectors
+            };
         }
 
         /// <summary>
@@ -399,18 +407,9 @@ namespace Accord.Statistics.Analysis
             if (array != null)
                 Learn(array);
             else
+#pragma warning disable 612, 618
                 Learn(source);
-        }
-
-        /// <summary>
-        ///   Projects a given matrix into principal component space.
-        /// </summary>
-        /// 
-        /// <param name="data">The matrix to be projected.</param>
-        /// 
-        public double[][] Transform(double[][] data)
-        {
-            return Transform(data, Jagged.Create<double>(data.Length, NumberOfOutputs));
+#pragma warning restore 612, 618
         }
 
         /// <summary>
@@ -420,7 +419,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="data">The matrix to be projected.</param>
         /// <param name="result">The matrix where to store the results.</param>
         /// 
-        public double[][] Transform(double[][] data, double[][] result)
+        public override double[][] Transform(double[][] data, double[][] result)
         {
             double[][] newK;
 
@@ -442,7 +441,7 @@ namespace Accord.Statistics.Analysis
                     data.Divide(StandardDeviations, dimension: 0, result: data);
 
                 // Create the Kernel matrix
-                newK = kernel.ToJagged(x: data, y: sourceCentered);
+                newK = kernel.ToJagged2(x: data, y: sourceCentered);
 
                 if (centerFeatureSpace)
                     newK = Accord.Statistics.Kernels.Kernel.Center(newK, featureMean, featureGrandMean, result: newK); // overwrite
@@ -452,69 +451,7 @@ namespace Accord.Statistics.Analysis
             return Matrix.DotWithTransposed(newK, ComponentVectors, result: result);
         }
 
-        /// <summary>
-        ///   Projects a given matrix into principal component space.
-        /// </summary>
-        /// 
-        /// <param name="data">The matrix to be projected.</param>
-        /// 
-        public virtual double[,] Transform(double[,] data)
-        {
-#pragma warning disable 612, 618
-            return Transform(data, NumberOfOutputs);
-#pragma warning restore 612, 618
-        }
-
-        /// <summary>
-        ///    Obsolete.
-        /// </summary>
-        [Obsolete("Please set NumberOfOutputs to the desired number of dimensions and call Transform()")]
-        public virtual double[,] Transform(double[,] data, int dimensions)
-        {
-            int previous = NumberOfOutputs;
-            NumberOfOutputs = dimensions;
-            var result = Transform(data.ToJagged()).ToMatrix();
-            NumberOfOutputs = Math.Min(previous, MaximumNumberOfOutputs);
-            return result;
-        }
-
-        /// <summary>
-        ///    Obsolete.
-        /// </summary>
-        [Obsolete("Please set NumberOfOutputs to the desired number of dimensions and call Transform()")]
-        public double[] Transform(double[] data, int dimensions)
-        {
-#pragma warning disable 612, 618
-            return Transform(new[] { data }, NumberOfOutputs)[0];
-#pragma warning restore 612, 618
-        }
-
-        /// <summary>
-        ///   Projects a given matrix into principal component space.
-        /// </summary>
-        /// 
-        /// <param name="data">The matrix to be projected.</param>
-        /// 
-        public double[] Transform(double[] data)
-        {
-#pragma warning disable 612, 618
-            return Transform(data, NumberOfOutputs);
-#pragma warning restore 612, 618
-        }
-
-        /// <summary>
-        ///    Obsolete.
-        /// </summary>
-        [Obsolete("Please set NumberOfOutputs to the desired number of dimensions and call Transform()")]
-        public virtual double[][] Transform(double[][] data, int dimensions)
-        {
-            int previous = NumberOfOutputs;
-            NumberOfOutputs = dimensions;
-            var result = Transform(data);
-            NumberOfOutputs = Math.Min(previous, MaximumNumberOfOutputs);
-            return result;
-        }
-
+        
         /// <summary>
         ///   Reverts a set of projected data into it's original form. Complete reverse
         ///   transformation is not always possible and is not even guaranteed to exist.

@@ -494,5 +494,9 @@ namespace Accord.Math
             return result;
         }
 
+        public static T[] Copy<T>(this T[] vector)
+        {
+            return (T[])vector.Clone();
+        }
     }
 }

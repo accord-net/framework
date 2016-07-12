@@ -130,7 +130,7 @@ namespace Accord.Tests.Statistics
             };
 
             double[] mean = Measures.Mean(observations, dimension: 0);
-            double[,] cov = Measures.Covariance(observations, dimension: 0);
+            double[][] cov = Measures.Covariance(observations, dimension: 0);
 
             var target = new MultivariateEmpiricalDistribution(observations);
 
@@ -164,14 +164,14 @@ namespace Accord.Tests.Statistics
             double[][] samples = target.Generate(10000000);
 
             double[] sampleMean = samples.Mean(dimension: 0);
-            double[,] sampleCov = samples.Covariance();
+            double[][] sampleCov = samples.Covariance();
 
             Assert.AreEqual(2, sampleMean[0], 1e-2);
             Assert.AreEqual(6, sampleMean[1], 1e-2);
-            Assert.AreEqual(2, sampleCov[0, 0], 1e-2);
-            Assert.AreEqual(1, sampleCov[0, 1], 1e-2);
-            Assert.AreEqual(1, sampleCov[1, 0], 1e-2);
-            Assert.AreEqual(5, sampleCov[1, 1], 2e-2);
+            Assert.AreEqual(2, sampleCov[0][0], 1e-2);
+            Assert.AreEqual(1, sampleCov[0][1], 1e-2);
+            Assert.AreEqual(1, sampleCov[1][0], 1e-2);
+            Assert.AreEqual(5, sampleCov[1][1], 2e-2);
         }
 
 

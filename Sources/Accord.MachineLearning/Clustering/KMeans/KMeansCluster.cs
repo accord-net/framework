@@ -38,7 +38,7 @@ namespace Accord.MachineLearning
     [Serializable]
     public class KMeansClusterCollection : ClusterCollection<double[], KMeansClusterCollection.KMeansCluster>
     {
-        double[][,] covariances;
+        double[][][] covariances;
 
         /// <summary>
         ///   k-Means' cluster.
@@ -63,7 +63,7 @@ namespace Accord.MachineLearning
             ///   Gets the covariance matrix for the samples in this cluster.
             /// </summary>
             /// 
-            public double[,] Covariance
+            public double[][] Covariance
             {
                 get { return Owner.covariances[Index]; } 
             }
@@ -84,7 +84,7 @@ namespace Accord.MachineLearning
         /// 
         /// <value>The clusters' variance-covariance matrices.</value>
         /// 
-        public double[][,] Covariances
+        public double[][][] Covariances
         {
             get { return covariances; }
         }
@@ -99,7 +99,7 @@ namespace Accord.MachineLearning
         public KMeansClusterCollection(int k, IDistance<double[]> distance)
             : base(k, distance)
         {
-            covariances = new double[k][,];
+            covariances = new double[k][][];
             for (int i = 0; i < k; i++)
                 Clusters[i] = new KMeansCluster(this, i);
         }

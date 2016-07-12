@@ -85,6 +85,11 @@ namespace Accord.Statistics.Links
             return Normal.Function(x);
         }
 
+        public double Log(double x)
+        {
+            return Normal.Log(x);
+        }
+
         /// <summary>
         ///   First derivative of the <see cref="Inverse"/> function.
         /// </summary>

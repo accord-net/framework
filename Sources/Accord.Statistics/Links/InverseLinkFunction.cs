@@ -69,7 +69,10 @@ namespace Accord.Statistics.Links
         ///   Creates a new Inverse link function.
         /// </summary>
         /// 
-        public InverseLinkFunction() : this(1, 0) { }
+        public InverseLinkFunction()
+            : this(1, 0)
+        {
+        }
 
         /// <summary>
         ///   The Inverse link function.
@@ -95,6 +98,11 @@ namespace Accord.Statistics.Links
         public double Inverse(double x)
         {
             return 1.0 / (B * x + A);
+        }
+
+        public double Log(double x)
+        {
+            return -Math.Log(B * x + A);
         }
 
         /// <summary>

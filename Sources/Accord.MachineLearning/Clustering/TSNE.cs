@@ -106,7 +106,7 @@ namespace Accord.MachineLearning.Clustering
     /// </code> 
     /// </remarks>
     /// 
-    public class TSNE : TransformBase<double[], double[]>
+    public class TSNE : MultipleTransformBase<double[], double>
     {
         const double DBL_MAX = -1.7976931348623157e+308;
         const double DBL_MIN = 2.2250738585072014e-308;
@@ -149,9 +149,10 @@ namespace Accord.MachineLearning.Clustering
         /// <summary>
         ///   Not supported.
         /// </summary>
-        public override double[] Transform(double[] input)
+        /// 
+        public override double[] Transform(double[] input, double[] result)
         {
-            throw new NotSupportedException();
+            return Transform(new[] { input }, new[] { result })[0];
         }
 
         /// <summary>

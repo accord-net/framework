@@ -25,6 +25,7 @@ namespace Accord.Statistics.Models.Regression
     using System;
     using Accord.Statistics.Links;
     using AForge;
+    using Accord.MachineLearning;
 
     /// <summary>
     ///   Binary Logistic Regression.

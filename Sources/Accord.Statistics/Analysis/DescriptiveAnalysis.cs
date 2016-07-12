@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Analysis
 {
     using Accord.Collections;
+    using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using AForge;
@@ -84,9 +85,9 @@ namespace Accord.Statistics.Analysis
     ///
     [Serializable]
 #pragma warning disable 612, 618
-    public class DescriptiveAnalysis : IMultivariateAnalysis
+    public class DescriptiveAnalysis : IMultivariateAnalysis,
+        IDescriptiveLearning<DescriptiveAnalysis, double[]>
 #pragma warning restore 612, 618
-
     {
 
         private int samples;
@@ -125,6 +126,33 @@ namespace Accord.Statistics.Analysis
 
         private DescriptiveMeasureCollection measuresCollection;
 
+        private bool lazy = true;
+
+        /// <summary>
+        ///   Constructs the Descriptive Analysis.
+        /// </summary>
+        /// 
+        /// <param name="data">The source data to perform analysis.</param>
+        /// <param name="columnNames">Names for the analyzed variables.</param>
+        /// 
+        public DescriptiveAnalysis()
+        {
+        }
+
+        /// <summary>
+        ///   Constructs the Descriptive Analysis.
+        /// </summary>
+        /// 
+        /// <param name="data">The source data to perform analysis.</param>
+        /// <param name="columnNames">Names for the analyzed variables.</param>
+        /// 
+        public DescriptiveAnalysis(string[] columnNames)
+        {
+            if (columnNames == null)
+                throw new ArgumentNullException("columnNames");
+
+            init(null, null, columnNames);
+        }
 
         /// <summary>
         ///   Constructs the Descriptive Analysis.
@@ -132,6 +160,7 @@ namespace Accord.Statistics.Analysis
         /// 
         /// <param name="data">The source data to perform analysis.</param>
         /// 
+        [Obsolete("Please call the Learn() method passing the data to be analyzed.")]
         public DescriptiveAnalysis(double[] data)
         {
             if (data == null)
@@ -150,6 +179,7 @@ namespace Accord.Statistics.Analysis
         /// 
         /// <param name="data">The source data to perform analysis.</param>
         /// 
+        [Obsolete("Please call the Learn() method passing the data to be analyzed.")]
         public DescriptiveAnalysis(double[,] data)
         {
             if (data == null)
@@ -165,6 +195,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="data">The source data to perform analysis.</param>
         /// <param name="columnNames">Names for the analyzed variables.</param>
         /// 
+        [Obsolete("Please pass only columnNames and call the Learn() method passing the data to be analyzed.")]
         public DescriptiveAnalysis(double[,] data, string[] columnNames)
         {
             if (data == null)
@@ -182,6 +213,7 @@ namespace Accord.Statistics.Analysis
         /// 
         /// <param name="data">The source data to perform analysis.</param>
         /// 
+        [Obsolete("Please call the Learn() method passing the data to be analyzed.")]
         public DescriptiveAnalysis(double[][] data)
         {
             // Initial argument checking
@@ -198,6 +230,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="data">The source data to perform analysis.</param>
         /// <param name="columnNames">Names for the analyzed variables.</param>
         /// 
+        [Obsolete("Please pass only columnNames and call the Learn() method passing the data to be analyzed.")]
         public DescriptiveAnalysis(double[][] data, string[] columnNames)
         {
             // Initial argument checking
@@ -227,8 +260,6 @@ namespace Accord.Statistics.Analysis
                 this.variables = array[0].Length;
             }
 
-
-
             // Create object-oriented structure to access data
             DescriptiveMeasures[] measures = new DescriptiveMeasures[variables];
             for (int i = 0; i < measures.Length; i++)
@@ -241,6 +272,7 @@ namespace Accord.Statistics.Analysis
         ///   Computes the analysis using given source data and parameters.
         /// </summary>
         /// 
+        [Obsolete("Please use Learn() instead.")]
         public void Compute()
         {
             // Clear analysis
@@ -296,6 +328,52 @@ namespace Accord.Statistics.Analysis
             this.outerFences = null;
         }
 
+        public DescriptiveAnalysis Learn(double[][] data)
+        {
+            reset();
+
+            init(null, data, columnNames);
+
+            if (!lazy)
+            {
+                this.sums = Sums;
+                this.means = Means;
+                this.standardDeviations = StandardDeviations;
+                this.ranges = Ranges;
+                this.kurtosis = Kurtosis;
+                this.skewness = Skewness;
+                this.medians = Medians;
+                this.modes = Modes;
+                this.variances = Variances;
+                this.standardErrors = StandardErrors;
+                this.distinct = Distinct;
+                this.quartiles = Quartiles;
+                this.innerFences = InnerFences;
+                this.outerFences = OuterFences;
+
+                // Mean centered and standardized data
+                this.dScores = DeviationScores;
+                this.zScores = StandardScores;
+
+                // Covariance and correlation
+                this.covarianceMatrix = CovarianceMatrix;
+                this.correlationMatrix = CorrelationMatrix;
+
+                this.confidence = Confidence;
+                this.deviance = Deviance;
+
+                this.sourceArray = null;
+                this.sourceMatrix = null;
+            }
+
+            return this;
+        }
+
+        public bool Lazy
+        {
+            get { return lazy; }
+            set { lazy = value; }
+        }
 
         /// <summary>
         ///   Gets the source matrix from which the analysis was run.
@@ -384,7 +462,7 @@ namespace Accord.Statistics.Analysis
                 {
                     if (sourceMatrix != null)
                         covarianceMatrix = sourceMatrix.Covariance(Means);
-                    else covarianceMatrix = sourceArray.Covariance(Means);
+                    else covarianceMatrix = sourceArray.Covariance(Means).ToMatrix();
                 }
 
                 return covarianceMatrix;
@@ -403,7 +481,7 @@ namespace Accord.Statistics.Analysis
                 {
                     if (sourceMatrix != null)
                         correlationMatrix = sourceMatrix.Correlation(Means, StandardDeviations);
-                    else correlationMatrix = sourceArray.Correlation(Means, StandardDeviations);
+                    else correlationMatrix = sourceArray.Correlation(Means, StandardDeviations).ToMatrix();
                 }
 
                 return correlationMatrix;

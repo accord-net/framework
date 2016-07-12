@@ -25,6 +25,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     using System;
     using Accord.Math;
     using Accord.Math.Decompositions;
+    using Accord.MachineLearning;
 
     /// <summary>
     ///   Multivariate Linear Regression.
@@ -110,7 +111,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     /// </example>
     /// 
     [Serializable]
-    public class MultivariateLinearRegression : ILinearRegression
+    public class MultivariateLinearRegression : MulticlassDistanceClassifierBase<double[]>, ILinearRegression
     {
 
         private double[,] coefficients;
@@ -157,6 +158,17 @@ namespace Accord.Statistics.Models.Regression.Linear
         }
 
         /// <summary>
+        ///   Creates a new Multivariate Linear Regression.
+        /// </summary>
+        /// 
+        public MultivariateLinearRegression(double[][] coefficients, double[] intercepts, bool insertConstant)
+        {
+            this.coefficients = coefficients.ToMatrix();
+            this.intercepts = intercepts;
+            this.insertConstant = insertConstant;
+        }
+
+        /// <summary>
         ///   Gets the coefficient matrix used by the regression model. Each
         ///   column corresponds to the coefficient vector for each of the outputs.
         /// </summary>
@@ -179,15 +191,29 @@ namespace Accord.Statistics.Models.Regression.Linear
         ///   Gets the number of inputs in the model.
         /// </summary>
         /// 
+        [Obsolete("Please use NumberOfInputs instead.")]
         public int Inputs
         {
             get { return coefficients.GetLength(0); }
+        }
+
+        public override int NumberOfInputs
+        {
+            get { return coefficients.Columns(); }
+            set {  }
+        }
+
+        public override int NumberOfOutputs
+        {
+            get { return coefficients.Rows(); }
+            set { }
         }
 
         /// <summary>
         ///   Gets the number of outputs in the model.
         /// </summary>
         /// 
+        [Obsolete("Please use NumberOfInputs instead.")]
         public int Outputs
         {
             get { return coefficients.GetLength(1); }
@@ -469,6 +495,13 @@ namespace Accord.Statistics.Models.Regression.Linear
             return regression;
         }
 
+        public MultivariateLinearRegression Inverse()
+        {
+            var inv = coefficients.PseudoInverse();
+            var b = intercepts.Dot(inv);
+            b.Multiply(-1, result: b);
+            return new MultivariateLinearRegression(inv, b, false);
+        }
 
         #region ILinearRegression Members
         /// <summary>
@@ -479,6 +512,23 @@ namespace Accord.Statistics.Models.Regression.Linear
             return this.Compute(inputs);
         }
         #endregion
+
+
+        public override double[] Distances(double[] input, double[] result)
+        {
+            result.SetTo(Compute(input));
+            return result;
+        }
+
+        public new double[] Transform(double[] input)
+        {
+            return ((ITransform<double[], double[]>)this).Transform(input);
+        }
+
+        public new double[][] Transform(double[][] input)
+        {
+            return ((ITransform<double[], double[]>)this).Transform(input);
+        }
 
     }
 }

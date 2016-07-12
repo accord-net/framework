@@ -686,7 +686,7 @@ namespace Accord.Math
                 for (int r = 0; r < blocks[i].GetLength(0); r++)
                 {
                     for (int c = 0; c < blocks[i].GetLength(1); c++)
-                        result[currentRow + r, currentCol+ c] = blocks[i][r, c];
+                        result[currentRow + r, currentCol + c] = blocks[i][r, c];
                 }
 
                 currentRow = blocks[i].GetLength(0);
@@ -1062,11 +1062,11 @@ namespace Accord.Math
         ///   Gets the length of each dimension of an array.
         /// </summary>
         /// 
-        public static int[] GetLength(this Array array, bool deep = false)
+        public static int[] GetLength(this Array array, bool deep = true)
         {
             if (deep && IsJagged(array))
             {
-                var rest = GetLength(array.GetValue(0) as Array, deep);
+                int[] rest = GetLength(array.GetValue(0) as Array, deep);
                 return array.Length.Concatenate(rest);
             }
 
@@ -1084,7 +1084,7 @@ namespace Accord.Math
         public static bool IsJagged(this Array array)
         {
             if (array.Length == 0)
-                return true;
+                return array.Rank == 1;
             return array.Rank == 1 && array.GetValue(0) is Array;
         }
 

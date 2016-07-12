@@ -317,7 +317,7 @@ namespace Accord.Tests.Statistics
             target.Fit(observations);
 
             double[] expectedMean = Measures.Mean(observations, dimension: 0);
-            double[,] expectedCov = Measures.Covariance(observations, expectedMean);
+            double[][] expectedCov = Measures.Covariance(observations, expectedMean);
 
             MultivariateContinuousDistribution actual = target as MultivariateContinuousDistribution;
 
@@ -341,7 +341,7 @@ namespace Accord.Tests.Statistics
             target.Fit(observations);
 
             double[] expectedMean = Measures.Mean(observations, dimension: 0);
-            double[,] expectedCov = Measures.Covariance(observations, expectedMean);
+            double[][] expectedCov = Measures.Covariance(observations, expectedMean);
 
             MultivariateContinuousDistribution actual = target as MultivariateContinuousDistribution;
 

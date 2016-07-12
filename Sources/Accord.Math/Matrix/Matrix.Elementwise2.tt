@@ -408,7 +408,7 @@ namespace Accord.Math
         {
             foreach (string b in types)
             {
-                var resultTypes = new HashSet<string>() { a, b, "double", "int" };
+                var resultTypes = new HashSet<string>() { a, b, "double", "float", "int" };
                 foreach (string r in resultTypes)
                 {
 #>

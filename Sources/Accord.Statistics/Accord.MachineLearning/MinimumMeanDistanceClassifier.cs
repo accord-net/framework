@@ -39,10 +39,30 @@ namespace Accord.MachineLearning
     /// </remarks>
     /// 
     [Serializable]
-    public class MinimumMeanDistanceClassifier
+    public class MinimumMeanDistanceClassifier : MulticlassClassifierBase
     {
         private double[][] means;
         private IDistance<double[]> distance;
+
+        public double[][] Means
+        {
+            get { return means; }
+            set { means = value; }
+        }
+
+        public IDistance<double[]> Distance
+        {
+            get { return distance; }
+            set { distance = value; }
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="MinimumMeanDistanceClassifier"/> class.
+        /// </summary>
+        /// 
+        public MinimumMeanDistanceClassifier()
+        {
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="MinimumMeanDistanceClassifier"/> class.
@@ -82,6 +102,9 @@ namespace Accord.MachineLearning
 
             int symbols = outputs.Max() + 1;
             int dimension = inputs[0].Length;
+
+            NumberOfInputs = dimension;
+            NumberOfOutputs = symbols;
 
             int[] counts = new int[symbols];
 
@@ -140,6 +163,11 @@ namespace Accord.MachineLearning
         {
             double[] distances;
             return Compute(input, out distances);
+        }
+
+        public override int Decide(double[] input)
+        {
+            return Compute(input);
         }
     }
 }

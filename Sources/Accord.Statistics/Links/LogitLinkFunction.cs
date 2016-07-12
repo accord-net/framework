@@ -112,6 +112,12 @@ namespace Accord.Statistics.Links
             return 1.0 / (1.0 + Math.Exp(-z));
         }
 
+        public double Log(double x)
+        {
+            double z = B * x + A;
+            return Math.Log(1.0) - Math.Log(1.0 + Math.Exp(-z)); // TODO: Log 1+z
+        }
+
         /// <summary>
         ///   First derivative of the <see cref="Inverse"/> function.
         /// </summary>

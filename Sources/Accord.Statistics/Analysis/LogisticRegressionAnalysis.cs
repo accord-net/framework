@@ -22,6 +22,7 @@
 
 namespace Accord.Statistics.Analysis
 {
+    using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
@@ -31,6 +32,7 @@ namespace Accord.Statistics.Analysis
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+using System.Threading;
 
     /// <summary>
     ///   Logistic Regression Analysis.
@@ -190,8 +192,12 @@ namespace Accord.Statistics.Analysis
     /// </example>
     /// 
     [Serializable]
-    public class LogisticRegressionAnalysis : IRegressionAnalysis
+    public class LogisticRegressionAnalysis : IRegressionAnalysis,
+        ISupervisedLearning<LogisticRegression, double[], int>,
+        ISupervisedLearning<LogisticRegression, double[], double>
     {
+        public CancellationToken Token { get; set; }
+
         private LogisticRegression regression;
 
         private int inputCount;
@@ -228,7 +234,6 @@ namespace Accord.Statistics.Analysis
         private bool innerComputed = false;
 
 
-        #region Constructors
         /// <summary>
         ///   Constructs a Logistic Regression Analysis.
         /// </summary>
@@ -346,11 +351,6 @@ namespace Accord.Statistics.Analysis
         }
 
 
-        #endregion
-
-
-
-        #region Public Properties
 
         /// <summary>
         ///   Gets or sets the maximum number of iterations to be
@@ -572,13 +572,9 @@ namespace Accord.Statistics.Analysis
             get { return this.confidences; }
         }
 
-        #endregion
 
 
-        //---------------------------------------------
 
-
-        #region Public Methods
         /// <summary>
         ///   Gets the Log-Likelihood Ratio between this model and another model.
         /// </summary>
@@ -591,6 +587,71 @@ namespace Accord.Statistics.Analysis
             return regression.GetLogLikelihoodRatio(inputData, outputData, model);
         }
 
+
+        public LogisticRegression Learn(double[][] input, double[] output, double[] weights = null)
+        {
+            return compute(input, output, weights);
+        }
+
+        public LogisticRegression Learn(double[][] input, int[] output, double[] weights = null)
+        {
+            return compute(input, output, weights);
+        }
+
+        private LogisticRegression compute(double[][] input, double[] output, double[] weights)
+        {
+            double delta;
+            int iteration = 0;
+
+            var learning = new IterativeReweightedLeastSquares(regression);
+
+            learning.Regularization = regularization;
+
+            do // learning iterations until convergence
+            {
+                delta = learning.Run(input, output, weights);
+                iteration++;
+
+            } while (delta > tolerance && iteration < iterations);
+
+            // Check if the full model has converged
+            bool converged = iteration < iterations;
+
+
+            computeInformation();
+
+            innerComputed = false;
+
+            return regression;
+        }
+
+        private LogisticRegression compute(double[][] input, int[] output, double[] weights)
+        {
+            double delta;
+            int iteration = 0;
+
+            var learning = new IterativeReweightedLeastSquares(regression);
+
+            learning.Regularization = regularization;
+
+            do // learning iterations until convergence
+            {
+                delta = learning.Run(input, output, weights);
+                iteration++;
+
+            } while (delta > tolerance && iteration < iterations);
+
+            // Check if the full model has converged
+            bool converged = iteration < iterations;
+
+
+            computeInformation();
+
+            innerComputed = false;
+
+            return regression;
+        }
+        
 
         /// <summary>
         ///   Computes the Logistic Regression Analysis.
@@ -658,7 +719,6 @@ namespace Accord.Statistics.Analysis
             return compute();
         }
 
-        #endregion
 
         /// <summary>
         ///   Creates a new <see cref="LogisticRegressionAnalysis"/> from summarized data.

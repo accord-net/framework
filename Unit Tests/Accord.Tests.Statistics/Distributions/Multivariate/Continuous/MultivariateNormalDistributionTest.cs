@@ -404,7 +404,7 @@ namespace Accord.Tests.Statistics
             };
 
             double[] mean = Measures.Mean(observations, dimension: 0);
-            double[,] cov = Measures.Covariance(observations);
+            double[][] cov = Measures.Covariance(observations);
 
             {
                 var target = new MultivariateNormalDistribution(2);
@@ -604,15 +604,15 @@ namespace Accord.Tests.Statistics
             double[][] sample = normal.Generate(1000000);
 
             double[] mean = sample.Mean(dimension: 0);
-            double[,] cov = sample.Covariance();
+            double[][] cov = sample.Covariance(dimension: 0);
 
             Assert.AreEqual(2, mean[0], 1e-2);
             Assert.AreEqual(6, mean[1], 1e-2);
 
-            Assert.AreEqual(2, cov[0, 0], 1e-2);
-            Assert.AreEqual(1, cov[0, 1], 1e-2);
-            Assert.AreEqual(1, cov[1, 0], 1e-2);
-            Assert.AreEqual(5, cov[1, 1], 2e-2);
+            Assert.AreEqual(2, cov[0][0], 1e-2);
+            Assert.AreEqual(1, cov[0][1], 1e-2);
+            Assert.AreEqual(1, cov[1][0], 1e-2);
+            Assert.AreEqual(5, cov[1][1], 2e-2);
         }
 
         [Test]
@@ -629,15 +629,15 @@ namespace Accord.Tests.Statistics
                 sample[i] = normal.Generate();
 
             double[] mean = sample.Mean(dimension: 0);
-            double[,] cov = sample.Covariance();
+            double[][] cov = sample.Covariance(dimension: 0);
 
             Assert.AreEqual(2, mean[0], 1e-2);
             Assert.AreEqual(6, mean[1], 1e-2);
 
-            Assert.AreEqual(2, cov[0, 0], 1e-2);
-            Assert.AreEqual(1, cov[0, 1], 1e-2);
-            Assert.AreEqual(1, cov[1, 0], 1e-2);
-            Assert.AreEqual(5, cov[1, 1], 2e-2);
+            Assert.AreEqual(2, cov[0][0], 1e-2);
+            Assert.AreEqual(1, cov[0][1], 1e-2);
+            Assert.AreEqual(1, cov[1][0], 1e-2);
+            Assert.AreEqual(5, cov[1][1], 2e-2);
         }
 
         #region public static resources

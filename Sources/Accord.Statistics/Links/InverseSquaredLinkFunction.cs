@@ -97,6 +97,11 @@ namespace Accord.Statistics.Links
             return 1.0 / Math.Sqrt(B * x + A);
         }
 
+        public double Log(double x)
+        {
+            return -Math.Log(Math.Sqrt(B * x + A));
+        }
+
         /// <summary>
         ///   First derivative of the <see cref="Inverse"/> function.
         /// </summary>

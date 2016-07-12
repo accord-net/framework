@@ -39,7 +39,6 @@ namespace Accord.Math
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
 
-    [GeneratedCode("Accord.NET T4 Templates", "3.1")]
     public static partial class Matrix
     {
 
@@ -886,15 +885,20 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] Dot(this <#=a#>[,] a, <#=b#>[,] b, <#=r#>[,] result)
         {
-#if DEBUG
-            if (a.GetLength(1) != b.GetLength(0) || result.GetLength(0) > a.GetLength(0) || result.GetLength(1) > b.GetLength(1))
-                throw new DimensionMismatchException();
-#endif
             int N = result.GetLength(0);
             int K = a.GetLength(1);
             int M = result.GetLength(1);
             int stride = b.GetLength(1);
+#if DEBUG
+            if (a.GetLength(1) != b.GetLength(0) || result.GetLength(0) > a.GetLength(0) || result.GetLength(1) > b.GetLength(1))
+                throw new DimensionMismatchException();
 
+            var C = Matrix.CreateAs(result).To<double[,]>();
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < M; j++)
+                    for (int k = 0; k < K; k++)
+                        C[i, j] += ((double)a[i, k] * (double)b[k, j]);
+#endif
             var t = new <#=b#>[K];
 
             unsafe
@@ -928,11 +932,6 @@ namespace Accord.Math
                 }
             }
 #if DEBUG
-            var C = Matrix.CreateAs(result).To<double[,]>();
-            for (int i = 0; i < N; i++)
-                for (int j = 0; j < M; j++)
-                    for (int k = 0; k < K; k++)
-                        C[i, j] += ((double)a[i, k] * (double)b[k, j]);
             if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
                 throw new Exception();
 #endif
@@ -956,6 +955,8 @@ namespace Accord.Math
 #if DEBUG
             if (a[0].Length != b.Length || result.Length > a.Length || result[0].Length > b[0].Length)
                 throw new DimensionMismatchException();
+            var C = Jagged.CreateAs(result).To<double[,]>();
+            C = Dot(a.ToMatrix().To<double[,]>(), b.ToMatrix().To<double[,]>(), C);
 #endif
             int N = result.Length;
             int K = a[0].Length;
@@ -977,8 +978,6 @@ namespace Accord.Math
                 }
             }
 #if DEBUG
-            var C = Jagged.CreateAs(result).To<double[,]>();
-            C = Dot(a.ToMatrix().To<double[,]>(), b.ToMatrix().To<double[,]>(), C);
             if (!Matrix.IsEqual(C, result.ToMatrix().To<double[,]>(), 1e-4))
                 throw new Exception();
 #endif
@@ -1002,6 +1001,8 @@ namespace Accord.Math
 #if DEBUG
             if (a[0].Length != b.GetLength(0) || result.Length > a.Length || result[0].Length > b.GetLength(1))
                 throw new DimensionMismatchException();
+            var C = Matrix.CreateAs(result).To<double[,]>();
+            C = Dot(a.ToMatrix().To<double[,]>(), b.To<double[,]>(), C);
 #endif
             int N = result.Length;
             int K = a[0].Length;
@@ -1034,8 +1035,6 @@ namespace Accord.Math
                 }
             }
 #if DEBUG
-            var C = Matrix.CreateAs(result).To<double[,]>();
-            C = Dot(a.ToMatrix().To<double[,]>(), b.To<double[,]>(), C);
             if (!Matrix.IsEqual(C, result.ToMatrix().To<double[,]>(), 1e-4))
                 throw new Exception();
 #endif
@@ -1059,6 +1058,8 @@ namespace Accord.Math
 #if DEBUG
             if (a.GetLength(1) != b.Length || result.Length > a.Length || result[0].Length > b[0].Length)
                 throw new DimensionMismatchException();
+            var C = Matrix.CreateAs(result).To<double[,]>();
+            C = Dot(a.To<double[,]>(), b.ToMatrix().To<double[,]>(), C);
 #endif
             <#// TODO: Optimize#>
             int N = result.Length;
@@ -1081,8 +1082,6 @@ namespace Accord.Math
                 }
             }
 #if DEBUG
-            var C = Matrix.CreateAs(result).To<double[,]>();
-            C = Dot(a.To<double[,]>(), b.ToMatrix().To<double[,]>(), C);
             if (!Matrix.IsEqual(C, result.ToMatrix().To<double[,]>(), 1e-4))
                 throw new Exception();
 #endif
@@ -1238,6 +1237,8 @@ namespace Accord.Math
 #if DEBUG
             if (a.GetLength(1) != b.GetLength(1) || result.GetLength(0) > a.GetLength(0) || result.GetLength(1) > b.GetLength(0))
                 throw new DimensionMismatchException();
+            var C = Matrix.CreateAs(result).To<double[,]>();
+            C = Dot(a.To<double[,]>(), b.Transpose().To<double[,]>(), C);
 #endif
             int n = a.GetLength(1);
             int m = a.GetLength(0);
@@ -1266,8 +1267,6 @@ namespace Accord.Math
                 }
             }
 #if DEBUG
-            var C = Matrix.CreateAs(result).To<double[,]>();
-            C = Dot(a.To<double[,]>(), b.Transpose().To<double[,]>(), C);
             if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
                 throw new Exception();
 #endif
@@ -1437,6 +1436,7 @@ namespace Accord.Math
 #if DEBUG
             if (a.GetLength(0) != b.GetLength(0) || result.GetLength(0) > a.GetLength(1) || result.GetLength(1) > b.GetLength(1))
                 throw new DimensionMismatchException();
+            var C = Dot(a.Transpose().To<double[,]>(), b.To<double[,]>());
 #endif
             int n = a.GetLength(0);
             int m = a.GetLength(1);
@@ -1457,7 +1457,6 @@ namespace Accord.Math
                 }
             }
 #if DEBUG
-            var C = Dot(a.Transpose().To<double[,]>(), b.To<double[,]>());
             if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
                 throw new Exception();
 #endif
@@ -1481,6 +1480,7 @@ namespace Accord.Math
 #if DEBUG
             if (a.Length != b.Length || result.Length > a[0].Length || result[0].Length > b[0].Length)
                 throw new DimensionMismatchException();
+            var C = Dot(a.Transpose().To<double[,]>(), b.To<double[,]>());
 #endif
             int n = a.Length;
             int m = a[0].Length;
@@ -1501,7 +1501,6 @@ namespace Accord.Math
                 }
             }
 #if DEBUG
-            var C = Dot(a.Transpose().To<double[,]>(), b.To<double[,]>());
             if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
                 throw new Exception();
 #endif
@@ -1528,6 +1527,7 @@ namespace Accord.Math
 #if DEBUG
             if (matrix.GetLength(0) != columnVector.Length || result.Length > matrix.GetLength(1))
                 throw new DimensionMismatchException();
+            var C = Dot(matrix.Transpose().To<double[,]>(), columnVector.To<double[]>());
 #endif
             <#// TODO: Optimize this call#>
             int cols = matrix.GetLength(1);
@@ -1539,7 +1539,6 @@ namespace Accord.Math
                 result[j] = (<#=r#>)s;
             }
 #if DEBUG
-            var C = Dot(matrix.Transpose().To<double[,]>(), columnVector.To<double[]>());
             if (!Matrix.IsEqual(C, result.To<double[]>(), 1e-4))
                 throw new Exception();
 #endif
@@ -1563,6 +1562,7 @@ namespace Accord.Math
 #if DEBUG
             if (matrix.Length != columnVector.Length || result.Length > matrix[0].Length)
                 throw new DimensionMismatchException();
+            var C = Dot(matrix.Transpose().To<double[,]>(), columnVector.To<double[]>());
 #endif
             int cols = matrix[0].Length;
             for (int j = 0; j < cols; j++)
@@ -1573,7 +1573,6 @@ namespace Accord.Math
                 result[j] = (<#=r#>)s;
             }
 #if DEBUG
-            var C = Dot(matrix.Transpose().To<double[,]>(), columnVector.To<double[]>());
             if (!Matrix.IsEqual(C, result.To<double[]>(), 1e-4))
                 throw new Exception();
 #endif
@@ -1677,12 +1676,14 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] TransposeAndDotWithDiagonal(this <#=a#>[,] a, <#=b#>[] diagonal, <#=r#>[,] result)
         {
+#if DEBUG
+            var C = Dot(a.Transpose().To<double[,]>(), Matrix.Diagonal(diagonal.To<double[]>()));
+#endif
             int m = a.GetLength(1);
             for (int i = 0; i < diagonal.Length; i++)
                 for (int j = 0; j < m; j++)
                     result[j, i] = (<#=r#>)((<#=t#>)a[i, j] * (<#=t#>)diagonal[i]);
 #if DEBUG
-            var C = Dot(a.Transpose().To<double[,]>(), Matrix.Diagonal(diagonal.To<double[]>()));
             if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
                 throw new Exception();
 #endif
@@ -1703,12 +1704,14 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] TransposeAndDotWithDiagonal(this <#=a#>[][] a, <#=b#>[] diagonal, <#=r#>[][] result)
         {
+#if DEBUG
+            var C = Dot(a.Transpose().To<double[,]>(), Matrix.Diagonal(diagonal.To<double[]>()));
+#endif
             int m = a.GetLength(1); 
             for (int i = 0; i < diagonal.Length; i++)
                 for (int j = 0; j < m; j++)
                     result[j][i] = (<#=r#>)((<#=t#>)a[i][j] * (<#=t#>)diagonal[i]);
 #if DEBUG
-            var C = Dot(a.Transpose().To<double[,]>(), Matrix.Diagonal(diagonal.To<double[]>()));
             if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
                 throw new Exception();
 #endif
@@ -1729,6 +1732,9 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] DotWithDiagonal(this <#=a#>[,] a, <#=b#>[] diagonal, <#=r#>[,] result)
         {
+#if DEBUG
+            var C = Dot(a.To<double[,]>(), Matrix.Diagonal(diagonal.To<double[]>()));
+#endif
             int rows = a.GetLength(0);
 
             unsafe
@@ -1744,7 +1750,6 @@ namespace Accord.Math
                 }
             }
 #if DEBUG
-            var C = Dot(a.To<double[,]>(), Matrix.Diagonal(diagonal.To<double[]>()));
             if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
                 throw new Exception();
 #endif
@@ -1765,12 +1770,14 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] DotWithDiagonal(this <#=a#>[][] a, <#=b#>[] diagonal, <#=r#>[][] result)
         {
+#if DEBUG
+            var C = Dot(a.To<double[,]>(), Matrix.Diagonal(diagonal.To<double[]>()));
+#endif
             int rows = a.Length;
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < diagonal.Length; j++)
                     result[i][j] = (<#=r#>)((<#=t#>)a[i][j] * (<#=t#>)diagonal[j]);
 #if DEBUG
-            var C = Dot(a.To<double[,]>(), Matrix.Diagonal(diagonal.To<double[]>()));
             if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
                 throw new Exception();
 #endif

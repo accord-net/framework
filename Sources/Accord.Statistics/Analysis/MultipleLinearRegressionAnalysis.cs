@@ -30,6 +30,9 @@ namespace Accord.Statistics.Analysis
     using Accord.Statistics.Models.Regression.Linear;
     using Accord.Statistics.Testing;
     using AForge;
+    using Accord.MachineLearning;
+    using Accord.Statistics.Models.Regression;
+    using System.Threading;
 
     /// <summary>
     ///   Multiple Linear Regression Analysis
@@ -127,8 +130,12 @@ namespace Accord.Statistics.Analysis
     /// </example>
     /// 
     [Serializable]
-    public class MultipleLinearRegressionAnalysis : IRegressionAnalysis, IAnova
+    public class MultipleLinearRegressionAnalysis : IRegressionAnalysis, IAnova,
+        ISupervisedLearning<MultipleLinearRegression, double[], double>
     {
+
+        public CancellationToken Token { get; set; }
+
 
         int inputCount;
         int coefficientCount;
@@ -414,6 +421,14 @@ namespace Accord.Statistics.Analysis
 
             this.inputNames = inputNames;
             this.outputName = outputName;
+        }
+
+        public MultipleLinearRegression Learn(double[][] input, double[] output, double[] weights = null)
+        {
+            this.inputData = input;
+            this.outputData = output;
+            Compute();
+            return regression;
         }
 
         /// <summary>

@@ -355,6 +355,19 @@ namespace Accord.Math
             return clone;
         }
 
+        /// <summary>
+        ///   Creates a member-wise copy of a jagged matrix. Matrix elements
+        ///   themselves are copied only in a shallowed manner (i.e. not cloned).
+        /// </summary>
+        /// 
+        public static T[][] Copy<T>(this T[][] a)
+        {
+            T[][] clone = new T[a.Length][];
+            for (int i = 0; i < a.Length; i++)
+                clone[i] = (T[])a[i].Clone();
+            return clone;
+        }
+
 
         /// <summary>
         ///   Copies the content of an array to another array.

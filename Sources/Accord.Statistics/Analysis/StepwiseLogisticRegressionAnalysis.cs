@@ -22,6 +22,7 @@
 
 namespace Accord.Statistics.Analysis
 {
+    using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
@@ -32,6 +33,7 @@ namespace Accord.Statistics.Analysis
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Text;
+    using System.Threading;
 
     /// <summary>
     ///   Backward Stepwise Logistic Regression Analysis.
@@ -140,8 +142,11 @@ namespace Accord.Statistics.Analysis
     /// <seealso cref="LogisticRegressionAnalysis"/>
     /// 
     [Serializable]
-    public class StepwiseLogisticRegressionAnalysis : IRegressionAnalysis
+    public class StepwiseLogisticRegressionAnalysis : IRegressionAnalysis,
+        ISupervisedLearning<LogisticRegression, double[], double>
     {
+
+        public CancellationToken Token { get; set; }
 
         private double[][] inputData;
         private double[] outputData;
@@ -166,10 +171,6 @@ namespace Accord.Statistics.Analysis
         private double tolerance = 10e-4;
 
 
-        //---------------------------------------------
-
-
-        #region Constructors
         /// <summary>
         ///   Constructs a Stepwise Logistic Regression Analysis.
         /// </summary>
@@ -231,10 +232,6 @@ namespace Accord.Statistics.Analysis
 
             this.source = inputs.ToMatrix();
         }
-        #endregion
-
-
-        //---------------------------------------------
 
 
         #region Properties
@@ -362,8 +359,33 @@ namespace Accord.Statistics.Analysis
         #endregion
 
 
-        //---------------------------------------------
 
+        public LogisticRegression Learn(double[][] input, double[] output, double[] weights)
+        {
+            if (weights != null)
+                throw new ArgumentException();
+
+            this.inputData = input;
+            this.outputData = output;
+
+            int changed;
+            do
+            {
+                changed = DoStep();
+            } while (changed != -1);
+
+
+            // Get the final variable selection
+            resultVariables = currentModel.Variables;
+
+            double[][] resultInput = inputData
+                .Submatrix(null, resultVariables);
+
+            // Compute the final model output probabilities
+            result = currentModel.Regression.Compute(resultInput);
+
+            return currentModel.Regression;
+        }
 
         /// <summary>
         ///   Computes the Stepwise Logistic Regression.

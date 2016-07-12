@@ -204,6 +204,19 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <param name="mean">The mean vector μ (mu) for the distribution.</param>
         /// <param name="covariance">The covariance matrix Σ (sigma) for the distribution.</param>
         /// 
+        public MultivariateNormalDistribution(double[] mean, double[][] covariance)
+            : this(mean, covariance.ToMatrix())
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a multivariate Gaussian distribution
+        ///   with given mean vector and covariance matrix.
+        /// </summary>
+        /// 
+        /// <param name="mean">The mean vector μ (mu) for the distribution.</param>
+        /// <param name="covariance">The covariance matrix Σ (sigma) for the distribution.</param>
+        /// 
         public MultivariateNormalDistribution(double[] mean, double[,] covariance)
             : base(mean.Length)
         {
@@ -508,7 +521,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                 // Compute covariance matrix
                 if (options != null && options.Diagonal)
                     cov = Matrix.Diagonal(Measures.Variance(observations, means));
-                cov = Measures.Covariance(observations, means);
+                cov = Measures.Covariance(observations, means).ToMatrix();
             }
 
 

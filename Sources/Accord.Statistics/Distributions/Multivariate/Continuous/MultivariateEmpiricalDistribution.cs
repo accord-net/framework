@@ -461,7 +461,7 @@ using Accord.Math.Random;
                 if (covariance == null)
                 {
                     if (type == WeightType.None)
-                        covariance = Measures.Covariance(samples, Mean);
+                        covariance = Measures.Covariance(samples, Mean).ToMatrix(); // TODO: Switch to double[][]
 
                     else if (type == WeightType.Repetition)
                         covariance = Measures.WeightedCovariance(samples, repeats);

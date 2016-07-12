@@ -26,6 +26,8 @@ namespace Accord.Statistics.Models.Regression
     using System.Linq;
     using Accord.Statistics.Links;
     using Accord.Statistics.Testing;
+    using Accord.MachineLearning;
+    using Accord.Math;
 
     /// <summary>
     ///   Generalized Linear Model Regression.
@@ -104,7 +106,7 @@ namespace Accord.Statistics.Models.Regression
     /// </example>
     /// 
     [Serializable]
-    public class GeneralizedLinearRegression : ICloneable
+    public class GeneralizedLinearRegression : BinaryGenerativeClassifierBase<double[]>, ICloneable
     {
 
         private ILinkFunction linkFunction;
@@ -112,10 +114,6 @@ namespace Accord.Statistics.Models.Regression
         private double[] standardErrors;
 
 
-        //---------------------------------------------
-
-
-        #region Constructor
         /// <summary>
         ///   Creates a new Generalized Linear Regression Model.
         /// </summary>
@@ -159,13 +157,10 @@ namespace Accord.Statistics.Models.Regression
             this.coefficients = coefficients;
             this.standardErrors = standardErrors;
         }
-        #endregion
 
 
-        //---------------------------------------------
 
 
-        #region Properties
         /// <summary>
         ///   Gets the coefficient vector, in which the
         ///   first value is always the intercept value.
@@ -216,13 +211,9 @@ namespace Accord.Statistics.Models.Regression
             set { coefficients[0] = value; }
         }
 
-        #endregion
 
 
-        //---------------------------------------------
 
-
-        #region Public Methods
         /// <summary>
         ///   Computes the model output for the given input vector.
         /// </summary>
@@ -557,8 +548,41 @@ namespace Accord.Statistics.Models.Regression
                     regression.Coefficients, regression.StandardErrors);
             }
         }
-        #endregion
 
 
+
+
+        public override double LogLikelihood(double[] input, out bool decision)
+        {
+            double sum = coefficients[0];
+            for (int i = 1; i < coefficients.Length; i++)
+                sum += input[i - 1] * coefficients[i];
+            decision = Classes.Decide(linkFunction.Log(sum) + 0.5);
+            return linkFunction.Log(sum);
+        }
+
+        public override double LogLikelihood(double[] input)
+        {
+            double sum = coefficients[0];
+            for (int i = 1; i < coefficients.Length; i++)
+                sum += input[i - 1] * coefficients[i];
+            return linkFunction.Log(sum);
+        }
+
+        public override double Distance(double[] input)
+        {
+            double sum = coefficients[0];
+            for (int i = 1; i < coefficients.Length; i++)
+                sum += input[i - 1] * coefficients[i];
+            return sum;
+        }
+
+        public override bool Decide(double[] input)
+        {
+            double sum = coefficients[0];
+            for (int i = 1; i < coefficients.Length; i++)
+                sum += input[i - 1] * coefficients[i];
+            return Classes.Decide(linkFunction.Log(sum) + 0.5);
+        }
     }
 }

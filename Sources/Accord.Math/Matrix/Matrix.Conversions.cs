@@ -307,7 +307,7 @@ namespace Accord.Math
             else
             {
                 // Same nature (jagged or multidimensional) array
-                result = Array.CreateInstance(outputElementType, array.GetLength());
+                result = Array.CreateInstance(outputElementType, array.GetLength(false));
 
                 foreach (var idx in GetIndices(array))
                 {
@@ -425,9 +425,9 @@ namespace Accord.Math
         /// 
         /// <seealso cref="Accord.Math.Vector.GetIndices{T}(T[])"/>
         /// 
-        public static IEnumerable<int[]> GetIndices(this Array array)
+        public static IEnumerable<int[]> GetIndices(this Array array, bool deep = false)
         {
-            return Combinatorics.Sequences(array.GetLength());
+            return Combinatorics.Sequences(array.GetLength(deep));
         }
 
 

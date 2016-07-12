@@ -967,6 +967,20 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Gets the pseudo-determinant of a matrix.
+        /// </summary>
+        /// 
+        public static double PseudoDeterminant(this double[][] matrix)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            return new JaggedSingularValueDecomposition(matrix,
+                computeLeftSingularVectors: false, computeRightSingularVectors: false,
+                autoTranspose: true, inPlace: false).PseudoDeterminant;
+        }
+
+        /// <summary>
         ///   Gets the log of the pseudo-determinant of a matrix.
         /// </summary>
         /// 
@@ -976,6 +990,20 @@ namespace Accord.Math
                 throw new ArgumentNullException("matrix");
 
             return new SingularValueDecomposition(matrix,
+                computeLeftSingularVectors: false, computeRightSingularVectors: false,
+                autoTranspose: true, inPlace: false).LogPseudoDeterminant;
+        }
+
+        /// <summary>
+        ///   Gets the log of the pseudo-determinant of a matrix.
+        /// </summary>
+        /// 
+        public static double LogPseudoDeterminant(this double[][] matrix)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            return new JaggedSingularValueDecomposition(matrix,
                 computeLeftSingularVectors: false, computeRightSingularVectors: false,
                 autoTranspose: true, inPlace: false).LogPseudoDeterminant;
         }
@@ -1633,6 +1661,11 @@ namespace Accord.Math
         {
             // TODO: Rename to Copy and implement shallow and deep copies
             return (T[])a.Clone();
+        }
+
+        public static T[,] Copy<T>(this T[,] a)
+        {
+            return (T[,])a.Clone();
         }
 
         /// <summary>
