@@ -14,10 +14,10 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Data;
 
-using Accord;
-using Accord.Imaging;
-using Accord.Imaging.Filters;
-using Accord.Imaging.Textures;
+using AForge;
+using AForge.Imaging;
+using AForge.Imaging.Filters;
+using AForge.Imaging.Textures;
 
 namespace SampleApp
 {
@@ -74,6 +74,7 @@ namespace SampleApp
         private IContainer components;
 
         private System.Drawing.Bitmap sourceImage;
+        private MenuItem menuItem9;
         private System.Drawing.Bitmap filteredImage;
 
 
@@ -147,6 +148,7 @@ namespace SampleApp
             this.jitterFiltersItem = new System.Windows.Forms.MenuItem();
             this.oilFiltersItem = new System.Windows.Forms.MenuItem();
             this.textureFiltersItem = new System.Windows.Forms.MenuItem();
+            this.menuItem9 = new System.Windows.Forms.MenuItem();
             this.sizeItem = new System.Windows.Forms.MenuItem();
             this.normalSizeItem = new System.Windows.Forms.MenuItem();
             this.stretchedSizeItem = new System.Windows.Forms.MenuItem();
@@ -227,7 +229,8 @@ namespace SampleApp
             this.menuItem8,
             this.jitterFiltersItem,
             this.oilFiltersItem,
-            this.textureFiltersItem});
+            this.textureFiltersItem,
+            this.menuItem9});
             this.filtersItem.Text = "Fi&lters";
             // 
             // noneFiltersItem
@@ -421,6 +424,12 @@ namespace SampleApp
             this.textureFiltersItem.Text = "Texture";
             this.textureFiltersItem.Click += new System.EventHandler(this.textureFiltersItem_Click);
             // 
+            // menuItem9
+            // 
+            this.menuItem9.Index = 33;
+            this.menuItem9.Text = "FastGuidedFilter";
+            this.menuItem9.Click += new System.EventHandler(this.fastGuidedFilterFiltersItem_Click);
+            // 
             // sizeItem
             // 
             this.sizeItem.Index = 2;
@@ -458,24 +467,26 @@ namespace SampleApp
             // 
             // pictureBox
             // 
-            this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox.Location = new System.Drawing.Point(10, 7);
+            this.pictureBox.Location = new System.Drawing.Point(7, 5);
+            this.pictureBox.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(785, 529);
+            this.pictureBox.Size = new System.Drawing.Size(524, 353);
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(804, 543);
+            this.ClientSize = new System.Drawing.Size(536, 362);
             this.Controls.Add(this.pictureBox);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Menu = this.mainMenu;
-            this.MinimumSize = new System.Drawing.Size(512, 351);
+            this.MinimumSize = new System.Drawing.Size(347, 247);
             this.Name = "MainForm";
             this.Text = "Image Processing filters demo";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
@@ -524,7 +535,7 @@ namespace SampleApp
                         // make sure the image has 24 bpp format
                         if (sourceImage.PixelFormat != PixelFormat.Format24bppRgb)
                         {
-                            Bitmap temp = Accord.Imaging.Image.Clone(sourceImage, PixelFormat.Format24bppRgb);
+                            Bitmap temp = AForge.Imaging.Image.Clone(sourceImage, PixelFormat.Format24bppRgb);
                             sourceImage.Dispose();
                             sourceImage = temp;
                         }
@@ -747,11 +758,11 @@ namespace SampleApp
         private void convolutionFiltersItem_Click(object sender, System.EventArgs e)
         {
             ApplyFilter(new Convolution(new int[,] {
-								{ 1, 2, 3, 2, 1 },
-								{ 2, 4, 5, 4, 2 },
-								{ 3, 5, 6, 5, 3 },
-								{ 2, 4, 5, 4, 2 },
-								{ 1, 2, 3, 2, 1 } }));
+                                { 1, 2, 3, 2, 1 },
+                                { 2, 4, 5, 4, 2 },
+                                { 3, 5, 6, 5, 3 },
+                                { 2, 4, 5, 4, 2 },
+                                { 1, 2, 3, 2, 1 } }));
             convolutionFiltersItem.Checked = true;
         }
 
@@ -849,6 +860,32 @@ namespace SampleApp
         {
             ApplyFilter(new Texturer(new TextileTexture(), 1.0, 0.8));
             textureFiltersItem.Checked = true;
+        }
+
+        // On Filters->Texture
+        private void fastGuidedFilterFiltersItem_Click(object sender, EventArgs e)
+        {
+            ClearCurrentImage();
+
+            // apply filter
+            using (var bmp = AForge.Imaging.Image.Convert8bppTo16bpp(sourceImage))
+            {
+                var fastGuidedFilter = new FastGuidedFilter
+                {
+                    KernelSize = 8,
+                    Epsilon = 0.02f,
+                    SubSamplingRatio = 0.25f,
+                    OverlayImage = (Bitmap)bmp.Clone()
+                };
+
+                fastGuidedFilter.ApplyInPlace(bmp);
+                fastGuidedFilter.OverlayImage.Dispose();
+
+                pictureBox.Image?.Dispose();
+
+                // display filtered image
+                pictureBox.Image = AForge.Imaging.Image.Convert16bppTo8bpp(bmp);
+            }
         }
     }
 }
