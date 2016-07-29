@@ -2,7 +2,7 @@
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
-// Copyright © AForge.NET, 2006-2011
+// Copyright Â© AForge.NET, 2006-2011
 // contacts@aforgenet.com
 //
 
@@ -867,7 +867,8 @@ namespace SampleApp
         {
             ClearCurrentImage();
 
-            // apply filter
+            // Spreading pixels values from 0 to 65535 instead of byte values for less loosing data when applying the filter.
+            // Of course, we could use the source image in 8-bit (easiest and fastest way but slightly losing data).
             using (var bmp = AForge.Imaging.Image.Convert8bppTo16bpp(sourceImage))
             {
                 var fastGuidedFilter = new FastGuidedFilter
@@ -878,6 +879,7 @@ namespace SampleApp
                     OverlayImage = (Bitmap)bmp.Clone()
                 };
 
+                // apply filter
                 fastGuidedFilter.ApplyInPlace(bmp);
                 fastGuidedFilter.OverlayImage.Dispose();
 
