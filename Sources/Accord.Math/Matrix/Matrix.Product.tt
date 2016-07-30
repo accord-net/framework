@@ -617,6 +617,22 @@ namespace Accord.Math
             return DivideByDiagonal(a, b, Matrix.CreateAs<<#=a#>, <#=r#>>(a));
         }
 
+                /// <summary>
+        ///   Computes the product A*inv(B) of matrix <c>A</c> and diagonal matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The left matrix <c>A</c>.</param>
+        /// <param name="b">The diagonal vector of inverse right matrix <c>B</c>.</param>
+        /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=r#>[][] DivideByDiagonal(this <#=a#>[][] a, <#=b#>[] b)
+        {
+            return DivideByDiagonal(a, b, Jagged.CreateAs<<#=a#>, <#=r#>>(a));
+        }
+
 #endregion
 
 
@@ -1812,6 +1828,27 @@ namespace Accord.Math
                             (*R++) = (<#=r#>)((<#=t#>)(*A++) / (<#=t#>)diagonal[j]);
                 }
             }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Computes the product A*inv(B) of matrix <c>A</c> and diagonal matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The left matrix <c>A</c>.</param>
+        /// <param name="diagonal">The diagonal vector of inverse right matrix <c>B</c>.</param>
+        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
+        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=r#>[][] DivideByDiagonal(this <#=a#>[][] a, <#=b#>[] diagonal, <#=r#>[][] result)
+        {
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < diagonal.Length; j++)
+                    result[i][j] = (<#=r#>)((<#=t#>)(a[i][j]) / (<#=t#>)diagonal[j]);
 
             return result;
         }

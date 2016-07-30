@@ -204,6 +204,18 @@ namespace Accord.Math
             sb.AppendLine("    if (a == null ^ b == null)");
             sb.AppendLine("        return false;");
         }
+
+		if (!String.IsNullOrEmpty(A) && !String.IsNullOrEmpty(B))
+		{
+			sb.AppendLine("    int[] la = a.GetLength(true);");
+			sb.AppendLine("    int[] lb = b.GetLength(true);");
+			sb.AppendLine("    if (la.Length != lb.Length)");
+			sb.AppendLine("        return false;");
+			sb.AppendLine("    for (int i = 0; i < la.Length; i++)");
+			sb.AppendLine("        if (la[i] != lb[i])");
+			sb.AppendLine("            return false;");
+		}
+
         return sb.ToString();
     };
 

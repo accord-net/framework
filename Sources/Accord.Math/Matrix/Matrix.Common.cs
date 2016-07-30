@@ -30,6 +30,50 @@ namespace Accord.Math
     using System.Runtime.CompilerServices;
     using System.Reflection;
 
+    /// <summary>
+    ///   Special matrix types.
+    /// </summary>
+    /// 
+    [Flags]
+    public enum MatrixType
+    {
+        /// <summary>
+        ///   Symmetric matrix.
+        /// </summary>
+        /// 
+        Symmetric,
+
+        /// <summary>
+        ///   Lower (left) triangular matrix.
+        /// </summary>
+        /// 
+        LowerTriangular,
+
+        /// <summary>
+        ///   Upper (right) triangular matrix.
+        /// </summary>
+        /// 
+        UpperTriangular,
+
+        /// <summary>
+        ///   Diagonal matrix.
+        /// </summary>
+        /// 
+        Diagonal,
+
+        /// <summary>
+        ///   Rectangular matrix.
+        /// </summary>
+        /// 
+        Rectangular,
+
+        /// <summary>
+        ///   Square matrix.
+        /// </summary>
+        /// 
+        Square,
+    }
+
     public static partial class Matrix
     {
 
@@ -143,9 +187,8 @@ namespace Accord.Math
             {
                 var typeA = objA.GetType();
                 var typeB = objB.GetType();
-                var equals = typeof(Matrix).GetMethod("IsEqual", new Type[]
-                {
-                    typeA, typeB, typeof(double), typeof(double) 
+                var equals = typeof(Matrix).GetMethod("IsEqual", new Type[] {
+                    typeA, typeB, typeof(double), typeof(double)
                 });
 
                 var _this = typeof(Matrix).GetMethod("IsEqual", new Type[] {
@@ -153,9 +196,8 @@ namespace Accord.Math
                 });
 
                 if (equals != _this)
-                {
                     return (bool)equals.Invoke(null, new object[] { objA, objB, atol, rtol });
-                }
+
                 if (atol == 0 && rtol == 0)
                 {
                     var a = objA.GetEnumerator();
@@ -510,23 +552,6 @@ namespace Accord.Math
         /// 
         /// <param name="rowVector">A row vector.</param>
         /// <param name="result">The matrix where to store the transpose.</param>
-        ///
-        /// <returns>The transpose of the given vector.</returns>
-        /// 
-        public static T[,] Transpose<T>(this T[] rowVector, out T[,] result)
-        {
-            result = new T[rowVector.Length, 1];
-            for (int i = 0; i < rowVector.Length; i++)
-                result[i, 0] = rowVector[i];
-            return result;
-        }
-
-        /// <summary>
-        ///   Gets the transpose of a row vector.
-        /// </summary>
-        /// 
-        /// <param name="rowVector">A row vector.</param>
-        /// <param name="result">The matrix where to store the transpose.</param>
         /// 
         /// <returns>The transpose of the given vector.</returns>
         /// 
@@ -582,12 +607,12 @@ namespace Accord.Math
             for (int i = 0; i < size.Length; i++)
                 size[i] = array.GetLength(i);
 
-            Array r = Array.CreateInstance(array.GetType().GetElementType(), size.Submatrix(order));
+            Array r = Array.CreateInstance(array.GetType().GetElementType(), size.Get(order));
 
             // Generate all indices for accessing the matrix 
             foreach (int[] pos in Combinatorics.Sequences(size, true))
             {
-                int[] newPos = pos.Submatrix(order);
+                int[] newPos = pos.Get(order);
                 object value = array.GetValue(pos);
                 r.SetValue(value, newPos);
             }
@@ -599,6 +624,20 @@ namespace Accord.Math
 
 
         #region Matrix Characteristics
+
+        /// <summary>
+        ///   Gets the number of rows in a vector.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements in the column vector.</typeparam>
+        /// <param name="vector">The vector whose number of rows must be computed.</param>
+        /// 
+        /// <returns>The number of rows in the column vector.</returns>
+        /// 
+        public static int Rows<T>(this T[] vector)
+        {
+            return vector.Length;
+        }
 
         /// <summary>
         ///   Gets the number of rows in a multidimensional matrix.
@@ -743,6 +782,171 @@ namespace Accord.Math
                         return false;
 
             return true;
+        }
+
+        /// <summary>
+        ///   Converts a matrix to lower triangular form, if possible.
+        /// </summary>
+        /// 
+        public static T[,] ToLowerTriangular<T>(this T[,] matrix, MatrixType from, T[,] result = null)
+        {
+            if (result == null)
+                result = Matrix.CreateAs(matrix);
+            matrix.CopyTo(result);
+
+            switch (from)
+            {
+                case MatrixType.LowerTriangular:
+                case MatrixType.Diagonal:
+                    break;
+
+                case MatrixType.UpperTriangular:
+                    Transpose(result, inPlace: true);
+                    break;
+
+                default:
+                    throw new ArgumentException("Only LowerTriangular, UpperTriangular and Diagonal matrices are supported at this time.", "matrixType");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a matrix to upper triangular form, if possible.
+        /// </summary>
+        /// 
+        public static T[,] ToUpperTriangular<T>(this T[,] matrix, MatrixType from, T[,] result = null)
+        {
+            if (result == null)
+                result = Matrix.CreateAs(matrix);
+            matrix.CopyTo(result);
+
+            switch (from)
+            {
+                case MatrixType.UpperTriangular:
+                case MatrixType.Diagonal:
+                    break;
+
+                case MatrixType.LowerTriangular:
+                    Transpose(result, inPlace: true);
+                    break;
+
+                default:
+                    throw new ArgumentException("Only LowerTriangular, UpperTriangular and Diagonal matrices are supported at this time.", "matrixType");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a matrix to lower triangular form, if possible.
+        /// </summary>
+        /// 
+        public static T[][] ToLowerTriangular<T>(this T[][] matrix, MatrixType from, T[][] result = null)
+        {
+            if (result == null)
+                result = Jagged.CreateAs(matrix);
+            matrix.CopyTo(result);
+
+            switch (from)
+            {
+                case MatrixType.LowerTriangular:
+                case MatrixType.Diagonal:
+                    break;
+
+                case MatrixType.UpperTriangular:
+                    Transpose(result, inPlace: true);
+                    break;
+
+                default:
+                    throw new ArgumentException("Only LowerTriangular, UpperTriangular and Diagonal matrices are supported at this time.", "matrixType");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a matrix to upper triangular form, if possible.
+        /// </summary>
+        /// 
+        public static T[][] ToUpperTriangular<T>(this T[][] matrix, MatrixType from, T[][] result = null)
+        {
+            if (result == null)
+                result = Jagged.CreateAs(matrix);
+            matrix.CopyTo(result);
+
+            switch (from)
+            {
+                case MatrixType.UpperTriangular:
+                case MatrixType.Diagonal:
+                    break;
+
+                case MatrixType.LowerTriangular:
+                    Transpose(result, inPlace: true);
+                    break;
+
+                default:
+                    throw new ArgumentException("Only LowerTriangular, UpperTriangular and Diagonal matrices are supported at this time.", "matrixType");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the lower triangular part of a matrix.
+        /// </summary>
+        /// 
+        public static T[,] GetLowerTriangle<T>(this T[,] matrix, bool includeDiagonal = true)
+        {
+            int s = includeDiagonal ? 1 : 0;
+            var r = Matrix.CreateAs(matrix);
+            for (int i = 0; i < matrix.Rows(); i++)
+                for (int j = 0; j < i + s; j++)
+                    r[i, j] = matrix[i, j]; ;
+            return r;
+        }
+
+        /// <summary>
+        ///   Gets the upper triangular part of a matrix.
+        /// </summary>
+        /// 
+        public static T[,] GetUpperTriangle<T>(this T[,] matrix, bool includeDiagonal = false)
+        {
+            int s = includeDiagonal ? 0 : 1;
+            var r = Matrix.CreateAs(matrix);
+            for (int i = 0; i < matrix.Rows(); i++)
+                for (int j = i + s; j < matrix.Columns(); j++)
+                    r[i, j] = matrix[i, j]; ;
+            return r;
+        }
+
+        /// <summary>
+        ///   Transforms a triangular matrix in a symmetric matrix by copying
+        ///   its elements to the other, unfilled part of the matrix.
+        /// </summary>
+        /// 
+        public static T[,] GetSymmetric<T>(this T[,] matrix, MatrixType type, T[,] result = null)
+        {
+            if (result == null)
+                result = Matrix.CreateAs(matrix);
+
+            switch (type)
+            {
+                case MatrixType.LowerTriangular:
+                    for (int i = 0; i < matrix.Rows(); i++)
+                        for (int j = 0; j <= i; j++)
+                            result[i, j] = result[j, i] = matrix[i, j];
+                    break;
+                case MatrixType.UpperTriangular:
+                    for (int i = 0; i < matrix.Rows(); i++)
+                        for (int j = i; j <= matrix.Columns(); j++)
+                            result[i, j] = result[j, i] = matrix[i, j];
+                    break;
+                default:
+                    throw new Exception("Matrix type can be either LowerTriangular or UpperTrianguler.");
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -901,9 +1105,9 @@ namespace Accord.Math
 
             if (symmetric) // Use faster robust Cholesky decomposition
             {
-                var chol = new CholeskyDecomposition(matrix, robust: true, lowerTriangular: true);
+                var chol = new CholeskyDecomposition(matrix, robust: true);
 
-                if (!chol.PositiveDefinite)
+                if (!chol.IsPositiveDefinite)
                 {
                     throw new ArgumentException("The matrix could not be decomposed using " +
                         " a robust Cholesky decomposition. Please specify symmetric as false " +
@@ -937,9 +1141,9 @@ namespace Accord.Math
 
             if (symmetric) // Use faster robust Cholesky decomposition
             {
-                var chol = new CholeskyDecomposition(matrix, robust: true, lowerTriangular: true);
+                var chol = new CholeskyDecomposition(matrix, robust: true);
 
-                if (!chol.PositiveDefinite)
+                if (!chol.IsPositiveDefinite)
                 {
                     throw new ArgumentException("The matrix could not be decomposed using " +
                         " a robust Cholesky decomposition. Please specify symmetric as false " +
@@ -1050,7 +1254,7 @@ namespace Accord.Math
         {
             if (matrix == null) throw new ArgumentNullException("matrix");
 
-            return new CholeskyDecomposition(matrix).PositiveDefinite;
+            return new CholeskyDecomposition(matrix).IsPositiveDefinite;
         }
 
         #endregion
@@ -1654,7 +1858,7 @@ namespace Accord.Math
 
         /// <summary>
         ///   Creates a memberwise copy of a vector matrix. Vector elements
-        ///   themselves are copied only in a shallowed manner (i.e. not cloned).
+        ///   themselves are copied only in a shallow manner (i.e. not cloned).
         /// </summary>
         /// 
         public static T[] MemberwiseClone<T>(this T[] a)
@@ -1663,6 +1867,11 @@ namespace Accord.Math
             return (T[])a.Clone();
         }
 
+        /// <summary>
+        ///   Creates a memberwise copy of a matrix. Matrix elements
+        ///   themselves are copied only in a shallow manner (i.e. not cloned).
+        /// </summary>
+        /// 
         public static T[,] Copy<T>(this T[,] a)
         {
             return (T[,])a.Clone();
@@ -1679,7 +1888,8 @@ namespace Accord.Math
         /// 
         public static void CopyTo<T>(this T[,] matrix, T[,] destination)
         {
-            Array.Copy(matrix, 0, destination, 0, matrix.Length);
+            if (matrix != destination)
+                Array.Copy(matrix, 0, destination, 0, matrix.Length);
         }
 
 
@@ -1710,7 +1920,8 @@ namespace Accord.Math
         /// 
         public static void SetTo<T>(this T[] destination, T[] matrix)
         {
-            Array.Copy(matrix, 0, destination, 0, matrix.Length);
+            if (matrix != destination)
+                Array.Copy(matrix, 0, destination, 0, matrix.Length);
         }
 
         /// <summary>

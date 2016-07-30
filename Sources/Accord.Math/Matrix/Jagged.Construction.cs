@@ -599,6 +599,15 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Creates a square matrix with ones across its diagonal.
+        /// </summary>
+        /// 
+        public static T[][] Identity<T>(int size)
+        {
+            return Diagonal(size, (T)System.Convert.ChangeType(1, typeof(T)));
+        }
+
+        /// <summary>
         ///   Creates a jagged magic square matrix.
         /// </summary>
         /// 

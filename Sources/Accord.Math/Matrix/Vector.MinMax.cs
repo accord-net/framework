@@ -31,6 +31,18 @@ namespace Accord.Math
     public static partial class Matrix
     {
 
+        /// <summary>
+        ///   Gets the indices that sort a vector.
+        /// </summary>
+        /// 
+        public static int[] ArgSort<T>(this T[] values)
+            where T : IComparable<T>
+        {
+            int[] idx;
+            values.Copy().Sort(out idx);
+            return idx;
+        }
+
         #region Vector ArgMin/ArgMax
 
         /// <summary>

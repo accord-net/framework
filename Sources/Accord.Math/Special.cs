@@ -74,7 +74,7 @@ namespace Accord.Math
             9.34528527171957607540E2,
             1.02755188689515710272E3,
             5.57535335369399327526E2
-		};
+        };
 
         private static readonly double[] erfc_Q =
         {
@@ -86,7 +86,7 @@ namespace Accord.Math
             2.24633760818710981792E3,
             1.65666309194161350182E3,
             5.57535340817727675546E2
-		};
+        };
 
         private static readonly double[] erfc_R =
         {
@@ -96,7 +96,7 @@ namespace Accord.Math
             6.16021097993053585195E0,
             7.40974269950448939160E0,
             2.97886665372100240670E0
-		};
+        };
 
         private static readonly double[] erfc_S =
         {
@@ -106,7 +106,7 @@ namespace Accord.Math
             1.70814450747565897222E1,
             9.60896809063285878198E0,
             3.36907645100081516050E0
-		};
+        };
 
         /// <summary>
         ///   Complementary error function of the specified value.
@@ -122,16 +122,20 @@ namespace Accord.Math
 
             if (value < 0.0)
                 x = -value;
-            else x = value;
+            else
+                x = value;
 
-            if (x < 1.0) return 1.0 - Erf(value);
+            if (x < 1.0)
+                return 1.0 - Erf(value);
 
             z = -value * value;
 
             if (z < -Constants.LogMax)
             {
-                if (value < 0) return (2.0);
-                else return (0.0);
+                if (value < 0)
+                    return (2.0);
+                else
+                    return (0.0);
             }
 
             z = System.Math.Exp(z);
@@ -149,13 +153,15 @@ namespace Accord.Math
 
             y = (z * p) / q;
 
-            if (value < 0) y = 2.0 - y;
+            if (value < 0)
+                y = 2.0 - y;
 
             if (y == 0.0)
             {
-                if (value < 0) 
+                if (value < 0)
                     return 2.0;
-                else return (0.0);
+                else
+                    return (0.0);
             }
 
             return y;
@@ -168,7 +174,7 @@ namespace Accord.Math
             2.23200534594684319226E3,
             7.00332514112805075473E3,
             5.55923013010394962768E4
-		};
+        };
 
         private static readonly double[] erfc_U =
         {
@@ -177,7 +183,7 @@ namespace Accord.Math
             4.59432382970980127987E3,
             2.26290000613890934246E4,
             4.92673942608635921086E4
-		};
+        };
 
         /// <summary>
         ///   Error function of the specified value.
@@ -376,9 +382,12 @@ namespace Accord.Math
             {
                 // Initialize factorial cache
                 fcache = new double[33];
-                fcache[0] = 1; fcache[1] = 1;
-                fcache[2] = 2; fcache[3] = 6;
-                fcache[4] = 24; ftop = 4;
+                fcache[0] = 1;
+                fcache[1] = 1;
+                fcache[2] = 2;
+                fcache[3] = 6;
+                fcache[4] = 24;
+                ftop = 4;
             }
 
             if (n < 0)
@@ -491,12 +500,13 @@ namespace Accord.Math
 
             a = 1.3333333333333333;
 
-        L10:
+            L10:
             b = a - 1.0;
             c = b + b + b;
             eps = System.Math.Abs(c - 1.0);
 
-            if (eps == 0.0) goto L10;
+            if (eps == 0.0)
+                goto L10;
 
             return eps * System.Math.Abs(x);
         }

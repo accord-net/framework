@@ -709,6 +709,15 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Creates a square matrix with ones across its diagonal.
+        /// </summary>
+        /// 
+        public static T[,] Identity<T>(int size)
+        {
+            return Diagonal(size, (T)System.Convert.ChangeType(1, typeof(T)));
+        }
+
+        /// <summary>
         ///   Returns the Identity matrix of the given size.
         /// </summary>
         /// 
@@ -1061,6 +1070,10 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the length of each dimension of an array.
         /// </summary>
+        /// 
+        /// <param name="array">The array.</param>
+        /// <param name="deep">Pass true to retrieve all dimensions of the array,
+        ///   even if it contains nested arrays (as in jagged matrices)</param>
         /// 
         public static int[] GetLength(this Array array, bool deep = true)
         {
