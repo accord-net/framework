@@ -162,8 +162,7 @@ type FSharpMultilabelSvmTest() =
 
 
 
-
-
+#if RELEASE // the following tests can take a very long time
         
     [<TestCase()>]
     member x.ConvergenceException() =
@@ -207,4 +206,4 @@ type FSharpMultilabelSvmTest() =
         Assert.AreEqual(0.884, validation, 0.005);
         Assert.AreEqual(0.9286, training, 0.005);
 
-        
+#endif

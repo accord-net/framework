@@ -164,17 +164,17 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [Test]
-        public void SerializationTest1()
-        {
-            DecisionTree tree;
-            int[][] inputs;
-            int[] outputs;
+        //[Test]
+        //public void SerializationTest1()
+        //{
+        //    DecisionTree tree;
+        //    int[][] inputs;
+        //    int[] outputs;
 
-            ID3LearningTest.CreateMitchellExample(out tree, out inputs, out outputs);
+        //    ID3LearningTest.CreateMitchellExample(out tree, out inputs, out outputs);
 
-            Serializer.Save(tree, @"C:\Users\CésarRoberto\Desktop\tree.bin");
-        }
+        //    Serializer.Save(tree, @"C:\Users\CésarRoberto\Desktop\tree.bin");
+        //}
 
         [Test]
         public void DeserializationTest1()

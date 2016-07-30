@@ -37,6 +37,7 @@ namespace Accord.Tests.MachineLearning
     using NUnit.Framework;
     using System;
     using Accord.Math.Optimization.Losses;
+    using System.Diagnostics;
 
     [TestFixture]
     public class MulticlassSupportVectorMachineTest
@@ -544,7 +545,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [Test]
+        [Test, Conditional("RELEASE")]
         public void kaggle_digits_old_style()
         {
             string root = Environment.CurrentDirectory;
@@ -584,7 +585,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [Test]
+        [Test, Conditional("RELEASE")]
         public void kaggle_digits()
         {
             string root = Environment.CurrentDirectory;

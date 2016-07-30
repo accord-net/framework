@@ -204,6 +204,7 @@ type FSharpSvmTest() =
         I can just keep going. 
         *)
 
+#if RELEASE // the following tests can take a very long time
                 
     [<TestCase()>]
     member x.fsharp_multiclass_old_methd() =
@@ -216,9 +217,6 @@ type FSharpSvmTest() =
         let (error, validation) = FSharpSvmTest.Run(0.1, MulticlassComputeMethod.Elimination)
         Assert.AreEqual(0.9, validation, 0.005)
         Assert.AreEqual(0, error)
-
-
-#if RELEASE // the following tests can take a very long time
 
     [<TestCase()>]
     member x.fsharp_multiclass_convergence_exception() =

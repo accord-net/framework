@@ -488,7 +488,7 @@ namespace Accord.Tests.MachineLearning
 
             double[][] inputs = new double[text.Length][];
             for (int i = 0; i < inputs.Length; i++)
-                inputs[i] = text[i].Submatrix(4).Convert(s => Double.Parse(s, System.Globalization.CultureInfo.InvariantCulture));
+                inputs[i] = text[i].First(4).Convert(s => Double.Parse(s, System.Globalization.CultureInfo.InvariantCulture));
 
             string[] labels = text.GetColumn(4);
 
@@ -546,7 +546,7 @@ namespace Accord.Tests.MachineLearning
 
             double[][] inputs = new double[text.Length][];
             for (int i = 0; i < inputs.Length; i++)
-                inputs[i] = text[i].Submatrix(4).Convert(s => Double.Parse(s, System.Globalization.CultureInfo.InvariantCulture));
+                inputs[i] = text[i].First(4).Convert(s => Double.Parse(s, System.Globalization.CultureInfo.InvariantCulture));
 
             string[] labels = text.GetColumn(4);
 
