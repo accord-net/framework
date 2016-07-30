@@ -43,7 +43,10 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="classIndex">The index of the class whose score will be computed.</param>
         /// 
-        public abstract double LogLikelihood(TInput input, int classIndex);
+        public virtual double LogLikelihood(TInput input, int classIndex)
+        {
+            return LogLikelihoods(input)[classIndex];
+        }
 
 
         /// <summary>

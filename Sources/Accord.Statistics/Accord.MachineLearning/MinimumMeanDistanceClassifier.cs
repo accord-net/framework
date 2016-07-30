@@ -39,18 +39,26 @@ namespace Accord.MachineLearning
     /// </remarks>
     /// 
     [Serializable]
-    public class MinimumMeanDistanceClassifier : MulticlassClassifierBase
+    public class MinimumMeanDistanceClassifier : MulticlassDistanceClassifierBase<double[]>
     {
         private double[][] means;
-        private IDistance<double[]> distance;
+        private IDistance<double[]> distance = new SquareEuclidean();
 
+        /// <summary>
+        ///   Gets or sets the class means to which samples will be compared against.
+        /// </summary>
+        /// 
         public double[][] Means
         {
             get { return means; }
             set { means = value; }
         }
 
-        public IDistance<double[]> Distance
+        /// <summary>
+        ///   Gets or sets the distance function to be used when comparing a sample to a class mean.
+        /// </summary>
+        /// 
+        public IDistance<double[]> Function
         {
             get { return distance; }
             set { distance = value; }
@@ -100,17 +108,9 @@ namespace Accord.MachineLearning
         {
             this.distance = distance;
 
-            int symbols = outputs.Max() + 1;
-            int dimension = inputs[0].Length;
+            means = Jagged.Zeros(NumberOfOutputs, NumberOfInputs);
 
-            NumberOfInputs = dimension;
-            NumberOfOutputs = symbols;
-
-            int[] counts = new int[symbols];
-
-            means = new double[symbols][];
-            for (int i = 0; i < means.Length; i++)
-                means[i] = new double[dimension];
+            int[] counts = new int[NumberOfOutputs];
 
             // Compute the average of the input vectors for each of
             // the output classes. Afterwards, a decision can be cast
@@ -124,9 +124,7 @@ namespace Accord.MachineLearning
                 counts[k]++;
             }
 
-            for (int i = 0; i < means.Length; i++)
-                for (int j = 0; j < means[i].Length; j++)
-                    means[i][j] /= counts[i];
+            means.Divide(counts, dimension: 0, result: means);
         }
 
         /// <summary>
@@ -138,10 +136,10 @@ namespace Accord.MachineLearning
         /// 
         /// <returns>The output label assigned to this point.</returns>
         /// 
+        [Obsolete("Please use Decide instead.")]
         public int Compute(double[] input, out double[] distances)
         {
             distances = new double[means.Length];
-
             for (int i = 0; i < distances.Length; i++)
                 distances[i] = distance.Distance(input, means[i]);
 
@@ -159,15 +157,27 @@ namespace Accord.MachineLearning
         /// 
         /// <returns>The output label assigned to this point.</returns>
         /// 
+        [Obsolete("Please use Decide instead.")]
         public int Compute(double[] input)
         {
             double[] distances;
             return Compute(input, out distances);
         }
 
-        public override int Decide(double[] input)
+        /// <summary>
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and each class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="result">An array where the result will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns></returns>
+        public override double[] Distances(double[] input, double[] result)
         {
-            return Compute(input);
+            for (int i = 0; i < means.Length; i++)
+                result[i] = distance.Distance(input, means[i]);
+            return result;
         }
+        
     }
 }
