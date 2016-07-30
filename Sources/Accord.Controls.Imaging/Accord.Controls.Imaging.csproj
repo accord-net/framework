@@ -76,9 +76,7 @@
     <Compile Include="AForge\ColorSlider.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="AForge\Histogram.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="AForge\Histogram.cs" />
     <Compile Include="AForge\HuePicker.cs">
       <SubType>Component</SubType>
     </Compile>
