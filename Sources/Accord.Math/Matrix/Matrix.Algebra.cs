@@ -812,33 +812,7 @@ namespace Accord.Math
         #endregion
 
 
-        #region Division
-
-        /// <summary>
-        ///   Divides two matrices by multiplying A by the inverse of B.
-        /// </summary>
-        /// 
-        /// <param name="a">The first matrix.</param>
-        /// <param name="b">The second matrix (which will be inverted).</param>
-        /// 
-        /// <returns>The result from the division <c>AB^-1</c> of the given matrices.</returns>
-        /// 
-        public static double[,] Divide(this double[,] a, double[,] b)
-        {
-            if (b.GetLength(0) == b.GetLength(1) &&
-                a.GetLength(0) == a.GetLength(1))
-            {
-                // Solve by LU Decomposition if matrix is square.
-                return new LuDecomposition(b, true).SolveTranspose(a);
-            }
-            else
-            {
-                // Solve by QR Decomposition if not.
-                return new QrDecomposition(b, true).SolveTranspose(a);
-            }
-        }
-
-        #endregion
+      
 
         #region Products
         /// <summary>

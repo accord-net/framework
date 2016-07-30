@@ -494,6 +494,10 @@ namespace Accord.Math
             return result;
         }
 
+        /// <summary>
+        ///   Creates a shallow copy of the array.
+        /// </summary>
+        /// 
         public static T[] Copy<T>(this T[] vector)
         {
             return (T[])vector.Clone();

@@ -1,5 +1,4 @@
-﻿
-// Accord Math Library
+﻿// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -34,6 +33,7 @@ namespace Accord.Math.Decompositions
     /// <summary>
     ///      QR decomposition for a rectangular matrix.
     /// </summary>
+    ///
     /// <remarks>
     /// <para>
     ///   For an m-by-n matrix <c>A</c> with <c>m >= n</c>, the QR decomposition
@@ -138,8 +138,8 @@ namespace Accord.Math.Decompositions
             // Copy right hand side
             int count = value.GetLength(1);
             var X = (Single[,])value.Clone();
-            int m = qr.GetLength(0);
-            int n = qr.GetLength(1);
+            int m = qr.GetLength(0); // m == X.Length
+            int n = qr.GetLength(1); 
 
             // Compute Y = transpose(Q)*B
             for (int k = 0; k < n; k++)
@@ -196,28 +196,28 @@ namespace Accord.Math.Decompositions
             // Copy right hand side
             int count = value.GetLength(0);
             var X = value.Transpose();
-            int m = qr.GetLength(0);
-            int n = qr.GetLength(1);
+            int n = qr.GetLength(0);
+            int m = qr.GetLength(1);
 
             // Compute Y = transpose(Q)*B
-            for (int k = 0; k < n; k++)
+            for (int k = 0; k < m; k++)
             {
                 for (int j = 0; j < count; j++)
                 {
                     Single s = 0;
 
-                    for (int i = k; i < m; i++)
+                    for (int i = k; i < n; i++)
                         s += qr[i, k] * X[i, j];
 
                     s = -s / qr[k, k];
 
-                    for (int i = k; i < m; i++)
+                    for (int i = k; i < n; i++)
                         X[i, j] += s * qr[i, k];
                 }
             }
 
             // Solve R*X = Y;
-            for (int k = n - 1; k >= 0; k--)
+            for (int k = m - 1; k >= 0; k--)
             {
                 for (int j = 0; j < count; j++)
                     X[k, j] /= Rdiag[k];
@@ -227,8 +227,8 @@ namespace Accord.Math.Decompositions
                         X[i, j] -= X[k, j] * qr[i, k];
             }
 
-            var r = new Single[count, n];
-            for (int i = 0; i < n; i++)
+            var r = new Single[count, m];
+            for (int i = 0; i < m; i++)
                 for (int j = 0; j < count; j++)
                     r[j, i] = X[i, j];
 
@@ -279,7 +279,7 @@ namespace Accord.Math.Decompositions
                     X[i] -= X[k] * qr[i, k];
             }
 
-            return X.Submatrix(n);
+            return X.First(n);
         }
 
         /// <summary>Shows if the matrix <c>A</c> is of full rank.</summary>
@@ -305,12 +305,11 @@ namespace Accord.Math.Decompositions
         {
             get
             {
-                int n = this.qr.GetLength(1);
-                var x = new Single[n, n];
+                var x = Matrix.CreateAs(qr);
 
-                for (int i = 0; i < n; i++)
+                for (int i = 0; i < x.Rows(); i++)
                 {
-                    for (int j = 0; j < n; j++)
+                    for (int j = 0; j < x.Columns(); j++)
                     {
                         if (i < j)
                         {
@@ -336,28 +335,28 @@ namespace Accord.Math.Decompositions
         {
             get
             {
-                int rows = qr.GetLength(0);
-                int cols = qr.GetLength(1);
-                var x = new Single[rows, cols];
+                int n = qr.GetLength(0);
+                int m = qr.GetLength(1);
+                var x = new Single[n, n];
 
-                for (int k = cols - 1; k >= 0; k--)
+                for (int k = m - 1; k >= 0; k--)
                 {
-                    for (int i = 0; i < rows; i++)
+                    for (int i = 0; i < n; i++)
                         x[i, k] = 0;
 
                     x[k, k] = 1;
-                    for (int j = k; j < cols; j++)
+                    for (int j = k; j < m; j++)
                     {
                         if (qr[k, k] != 0)
                         {
                             Single s = 0;
 
-                            for (int i = k; i < rows; i++)
+                            for (int i = k; i < n; i++)
                                 s += qr[i, k] * x[i, j];
 
                             s = -s / qr[k, k];
 
-                            for (int i = k; i < rows; i++)
+                            for (int i = k; i < n; i++)
                                 x[i, j] += s * qr[i, k];
                         }
                     }
@@ -379,50 +378,30 @@ namespace Accord.Math.Decompositions
             if (!this.FullRank)
                 throw new InvalidOperationException("Matrix is rank deficient.");
 
-            // Copy right hand side
-            int m = qr.GetLength(0);
-            int n = qr.GetLength(1);
-            var X = new Single[m, m];
-
-            // Compute Y = transpose(Q)
-            for (int k = n - 1; k >= 0; k--)
-            {
-                for (int i = 0; i < m; i++)
-                    X[k, i] = 0;
-
-                X[k, k] = 1;
-                for (int j = k; j < n; j++)
-                {
-                    if (qr[k, k] != 0)
-                    {
-                        Single s = 0;
-
-                        for (int i = k; i < m; i++)
-                            s += qr[i, k] * X[j, i];
-
-                        s = -s / qr[k, k];
-
-                        for (int i = k; i < m; i++)
-                            X[j, i] += s * qr[i, k];
-                    }
-                }
-            }
-
-            // Solve R*X = Y;
-            for (int k = n - 1; k >= 0; k--)
-            {
-                for (int j = 0; j < m; j++)
-                    X[k, j] /= Rdiag[k];
-
-                for (int i = 0; i < k; i++)
-                    for (int j = 0; j < m; j++)
-                        X[i, j] -= X[k, j] * qr[i, k];
-            }
-
-            return X;
+            return Solve(Matrix.Diagonal(qr.GetLength(1), qr.GetLength(0), (Single)1));
         }
 
+        /// <summary>
+        ///   Reverses the decomposition, reconstructing the original matrix <c>X</c>.
+        /// </summary>
+        /// 
+        public Single[,] Reverse()
+        {
+            return OrthogonalFactor.Dot(UpperTriangularFactor);
+        }
 
+        /// <summary>
+        ///   Computes <c>(Xt * X)^1</c> (the inverse of the covariance matrix). This
+        ///   matrix can be used to determine standard errors for the coefficients when
+        ///   solving a linear set of equations through any of the <see cref="Solve(Single[,])"/>
+        ///   methods.
+        /// </summary>
+        /// 
+        public Single[,] GetInformationMatrix()
+        {
+            var X = Reverse();
+            return X.TransposeAndDot(X).Inverse();
+        }
 
         #region ICloneable Members
 

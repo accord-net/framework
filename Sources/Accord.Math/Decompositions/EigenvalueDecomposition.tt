@@ -3,16 +3,16 @@
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 <#@ include file="T4Toolbox.tt" #>
 <#
-	new DecompositionTemplate("",  "Double") .RenderToFile("EigenvalueDecomposition.cs");
-	new DecompositionTemplate("F", "Single") .RenderToFile("EigenvalueDecompositionF.cs");
+    new DecompositionTemplate("",  "Double") .RenderToFile("EigenvalueDecomposition.cs");
+    new DecompositionTemplate("F", "Single") .RenderToFile("EigenvalueDecompositionF.cs");
 #>
 <#+
     public class DecompositionTemplate : Template
     {
         public string Suffix { get; set; }
-		public string T { get; set; }
+        public string T { get; set; }
 
-		public DecompositionTemplate(string suffix, string dataType) { this.Suffix = suffix; this.T = dataType; }
+        public DecompositionTemplate(string suffix, string dataType) { this.Suffix = suffix; this.T = dataType; }
 
         public override string TransformText() {
 #>
@@ -163,9 +163,9 @@ namespace Accord.Math.Decompositions
                     return -Math.Abs(d[i]).CompareTo(Math.Abs(d[j]));
                 });
 
-                this.d = this.d.Submatrix(idx);
-                this.e = this.e.Submatrix(idx);
-                this.V = this.V.Submatrix(null, idx);
+                this.d = this.d.Get(idx);
+                this.e = this.e.Get(idx);
+                this.V = this.V.Get(null, idx);
             }
         }
 
@@ -1015,6 +1015,14 @@ namespace Accord.Math.Decompositions
         }
         #endregion
 
+        /// <summary>
+        ///   Reverses the decomposition, reconstructing the original matrix <c>X</c>.
+        /// </summary>
+        /// 
+        public <#=T#>[,] Reverse()
+        {
+            return V.DotWithDiagonal(d).Divide(V);
+        }
 
 
         #region ICloneable Members

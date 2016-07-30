@@ -114,11 +114,29 @@
     <Compile Include="AForge.Math\Vector3.cs" />
     <Compile Include="AForge.Math\Vector4.cs" />
     <Compile Include="Decompositions\JaggedGeneralizedEigenvalueDecomposition.cs" />
+    <Compile Include="Decompositions\JaggedSingularValueDecomposition.cs">
+      <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedSingularValueDecompositionD.cs">
+      <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedSingularValueDecompositionF.cs">
+      <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\SingularValueDecompositionD.cs">
+      <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
+    </Compile>
     <Compile Include="Matrix\Jagged.Product.Generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Jagged.Product.tt</DependentUpon>
     </Compile>
+    <Compile Include="Matrix\Matrix.Linear.Generated.cs">
+      <DependentUpon>Matrix.Linear.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Get.cs" />
     <Compile Include="Norm.Generated.cs">
       <DependentUpon>Norm.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -301,12 +319,6 @@
     <Compile Include="Decompositions\JaggedLuDecomposition.cs">
       <DependentUpon>JaggedLuDecomposition.tt</DependentUpon>
     </Compile>
-    <Compile Include="Decompositions\JaggedSingularValueDecomposition.cs">
-      <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\JaggedSingularValueDecompositionF.cs">
-      <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
-    </Compile>
     <Compile Include="Decompositions\SingularValueDecomposition.cs">
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
     </Compile>
@@ -433,6 +445,7 @@
       <LastOutputs>
 .\JaggedSingularValueDecomposition.cs
 .\JaggedSingularValueDecomposition.txt
+.\JaggedSingularValueDecompositionD.cs
 .\JaggedSingularValueDecompositionF.cs
 </LastOutputs>
       <LastGenOutput>JaggedSingularValueDecomposition.txt</LastGenOutput>
@@ -463,6 +476,7 @@
       <LastOutputs>
 .\SingularValueDecomposition.cs
 .\SingularValueDecomposition.txt
+.\SingularValueDecompositionD.cs
 .\SingularValueDecompositionF.cs
 </LastOutputs>
     </None>
@@ -492,7 +506,6 @@
     <Compile Include="Matrix\Matrix.Parsing.cs" />
     <Compile Include="Matrix\Matrix.Complex.cs" />
     <Compile Include="Matrix\Matrix.Elementwise.cs" />
-    <Compile Include="Matrix\Matrix.Linear.cs" />
     <Compile Include="Matrix\Matrix.Conversions.cs" />
     <Compile Include="Matrix\Matrix.Algebra.cs" />
     <Compile Include="Matrix\Matrix.Selection.cs">
@@ -644,7 +657,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastOutputs>
 .\LuDecomposition.cs
-.\LuDecompositionBase1.cs
+.\LuDecomposition.txt
 .\LuDecompositionD.cs
 .\LuDecompositionF.cs
 </LastOutputs>
@@ -736,6 +749,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
     </Content>
+    <None Include="Matrix\Matrix.Linear.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Linear.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Matrix.Linear.Generated.cs</LastOutputs>
+    </None>
   </ItemGroup>
   <ItemGroup />
 </Project>

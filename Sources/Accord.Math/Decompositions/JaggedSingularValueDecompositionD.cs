@@ -1,23 +1,4 @@
-﻿<#@ template debug="false" hostspecific="true" language="C#" #>
-<#@ output extension=".txt" #>
-<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
-<#@ include file="T4Toolbox.tt" #>
-<#
-	new DecompositionTemplate("",  "Double") .RenderToFile("JaggedSingularValueDecomposition.cs");
-	new DecompositionTemplate("F", "Single") .RenderToFile("JaggedSingularValueDecompositionF.cs");
-    new DecompositionTemplate("D", "Decimal") .RenderToFile("JaggedSingularValueDecompositionD.cs");
-#>
-<#+
-    public class DecompositionTemplate : Template
-    {
-        public string Suffix { get; set; }
-		public string T { get; set; }
-
-		public DecompositionTemplate(string suffix, string dataType) { this.Suffix = suffix; this.T = dataType; }
-
-        public override string TransformText() {
-#>
-// Accord Math Library
+﻿// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -70,7 +51,7 @@ namespace Accord.Math.Decompositions
     ///   and right eigenvectors. If the routine is computed on A directly, the diagonal
     ///   of singular values may contain one or more zeros. The identity A = U * S * V'
     ///   may still hold, however. To overcome this problem, pass true to the
-    ///   <see cref="JaggedSingularValueDecomposition<#=Suffix#>(<#=T#>[][], bool, bool, bool)">autoTranspose</see>
+    ///   <see cref="JaggedSingularValueDecompositionD(Decimal[][], bool, bool, bool)">autoTranspose</see>
 	///   argument of the class constructor.</para>
     ///
     ///  <para>
@@ -78,30 +59,30 @@ namespace Accord.Math.Decompositions
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class JaggedSingularValueDecomposition<#=Suffix#> : ICloneable, ISolverArrayDecomposition<<#=T#>>
+    public sealed class JaggedSingularValueDecompositionD : ICloneable, ISolverArrayDecomposition<Decimal>
     {
-        private <#=T#>[][] u; // left singular vectors
-        private <#=T#>[][] v; // right singular vectors
-        private <#=T#>[] s;  // singular values
+        private Decimal[][] u; // left singular vectors
+        private Decimal[][] v; // right singular vectors
+        private Decimal[] s;  // singular values
         private int m;
         private int n;
         private bool swapped;
 
         private int[] si; // sorting order
 
-        private const <#=T#> eps = 2 * Constants.<#=T#>Epsilon;
-        private const <#=T#> tiny = Constants.<#=T#>Small;
+        private const Decimal eps = 2 * Constants.DecimalEpsilon;
+        private const Decimal tiny = Constants.DecimalSmall;
 
-        <#=T#>? determinant;
-        <#=T#>? lndeterminant;
-        <#=T#>? pseudoDeterminant;
-        <#=T#>? lnpseudoDeterminant;
+        Decimal? determinant;
+        Decimal? lndeterminant;
+        Decimal? pseudoDeterminant;
+        Decimal? lnpseudoDeterminant;
 
         /// <summary>
         ///   Returns the condition number <c>max(S) / min(S)</c>.
         /// </summary>
         ///
-        public <#=T#> Condition
+        public Decimal Condition
         {
             get { return s[0] / s[System.Math.Max(m, n) - 1]; }
         }
@@ -110,16 +91,16 @@ namespace Accord.Math.Decompositions
         ///   Returns the singularity threshold.
         /// </summary>
         ///
-        public <#=T#> Threshold
+        public Decimal Threshold
         {
-            get { return Constants.<#=T#>Epsilon * System.Math.Max(m, n) * s[0]; }
+            get { return Constants.DecimalEpsilon * System.Math.Max(m, n) * s[0]; }
         }
 
         /// <summary>
         ///   Returns the Two norm.
         /// </summary>
         ///
-        public <#=T#> TwoNorm
+        public Decimal TwoNorm
         {
             get { return s[0]; }
         }
@@ -134,7 +115,7 @@ namespace Accord.Math.Decompositions
         {
             get
             {
-                <#=T#> tol = System.Math.Max(m, n) * s[0] * eps;
+                Decimal tol = System.Math.Max(m, n) * s[0] * eps;
 
                 int r = 0;
                 for (int i = 0; i < s.Length; i++)
@@ -157,7 +138,7 @@ namespace Accord.Math.Decompositions
         ///   Gets the one-dimensional array of singular values.
         /// </summary>        
         ///
-        public <#=T#>[] Diagonal
+        public Decimal[] Diagonal
         {
             get { return this.s; }
         }
@@ -166,7 +147,7 @@ namespace Accord.Math.Decompositions
         ///  Returns the block diagonal matrix of singular values.
         /// </summary>        
         ///
-        public <#=T#>[][] DiagonalMatrix
+        public Decimal[][] DiagonalMatrix
         {
             get { return Jagged.Diagonal(u[0].Length, v[0].Length, s); }
         }
@@ -175,7 +156,7 @@ namespace Accord.Math.Decompositions
         ///   Returns the V matrix of Singular Vectors.
         /// </summary>        
         ///
-        public <#=T#>[][] RightSingularVectors
+        public Decimal[][] RightSingularVectors
         {
             get { return v; }
         }
@@ -184,7 +165,7 @@ namespace Accord.Math.Decompositions
         ///   Returns the U matrix of Singular Vectors.
         /// </summary>        
         ///
-        public <#=T#>[][] LeftSingularVectors
+        public Decimal[][] LeftSingularVectors
         {
             get { return u; }
         }
@@ -202,13 +183,13 @@ namespace Accord.Math.Decompositions
         ///   Returns the absolute value of the matrix determinant.
         /// </summary>
         ///
-        public <#=T#> AbsoluteDeterminant
+        public Decimal AbsoluteDeterminant
         {
             get
             {
                 if (!determinant.HasValue)
                 {
-                    <#=T#> det = 1;
+                    Decimal det = 1;
                     for (int i = 0; i < s.Length; i++)
                         det *= s[i];
                     determinant = det;
@@ -222,7 +203,7 @@ namespace Accord.Math.Decompositions
         ///   Returns the log of the absolute value for the matrix determinant.
         /// </summary>
         ///
-        public <#=T#> LogDeterminant
+        public Decimal LogDeterminant
         {
             get
             {
@@ -231,7 +212,7 @@ namespace Accord.Math.Decompositions
                     double det = 0;
                     for (int i = 0; i < s.Length; i++)
                         det += Math.Log((double)s[i]);
-                    lndeterminant = (<#=T#>)det;
+                    lndeterminant = (Decimal)det;
                 }
 
                 return lndeterminant.Value;
@@ -243,13 +224,13 @@ namespace Accord.Math.Decompositions
         ///   Returns the pseudo-determinant for the matrix.
         /// </summary>
         ///
-        public <#=T#> PseudoDeterminant
+        public Decimal PseudoDeterminant
         {
             get
             {
                 if (!pseudoDeterminant.HasValue)
                 {
-                    <#=T#> det = 1;
+                    Decimal det = 1;
                     for (int i = 0; i < s.Length; i++)
                         if (s[i] != 0) det *= s[i];
                     pseudoDeterminant = det;
@@ -263,7 +244,7 @@ namespace Accord.Math.Decompositions
         ///   Returns the log of the pseudo-determinant for the matrix.
         /// </summary>
         ///
-        public <#=T#> LogPseudoDeterminant
+        public Decimal LogPseudoDeterminant
         {
             get
             {
@@ -272,7 +253,7 @@ namespace Accord.Math.Decompositions
                     double det = 0;
                     for (int i = 0; i < s.Length; i++)
                         if (s[i] != 0) det += Math.Log((double)s[i]);
-                    lnpseudoDeterminant = (<#=T#>)det;
+                    lnpseudoDeterminant = (Decimal)det;
                 }
 
                 return lnpseudoDeterminant.Value;
@@ -287,7 +268,7 @@ namespace Accord.Math.Decompositions
         /// <param name="value">
         ///   The matrix to be decomposed.</param>
         ///
-        public JaggedSingularValueDecomposition<#=Suffix#>(<#=T#>[][] value)
+        public JaggedSingularValueDecompositionD(Decimal[][] value)
             : this(value, true, true)
         {
         }
@@ -308,7 +289,7 @@ namespace Accord.Math.Decompositions
         ///   should be computed. Pass <see langword="false"/> otherwise. Default
         ///   is <see langword="true"/>.</param>
         /// 
-        public JaggedSingularValueDecomposition<#=Suffix#>(<#=T#>[][] value,
+        public JaggedSingularValueDecompositionD(Decimal[][] value,
             bool computeLeftSingularVectors, bool computeRightSingularVectors)
             : this(value, computeLeftSingularVectors, computeRightSingularVectors, false)
         {
@@ -333,7 +314,7 @@ namespace Accord.Math.Decompositions
         ///   case JAMA's assumptions about the dimensionality of the matrix are violated.
         ///   Pass <see langword="false"/> otherwise. Default is <see langword="false"/>.</param>
         /// 
-        public JaggedSingularValueDecomposition<#=Suffix#>(<#=T#>[][] value, 
+        public JaggedSingularValueDecompositionD(Decimal[][] value, 
             bool computeLeftSingularVectors, bool computeRightSingularVectors, bool autoTranspose)
             : this(value, computeLeftSingularVectors, computeRightSingularVectors, autoTranspose, false)
         {
@@ -362,13 +343,13 @@ namespace Accord.Math.Decompositions
         ///   <paramref name="value"/> will be destroyed in the process, resulting in less
         ///   memory comsumption.</param>
         /// 
-        public JaggedSingularValueDecomposition<#=Suffix#>(<#=T#>[][] value,
+        public JaggedSingularValueDecompositionD(Decimal[][] value,
            bool computeLeftSingularVectors, bool computeRightSingularVectors, bool autoTranspose, bool inPlace)
         {
             if (value == null)
                 throw new ArgumentNullException("value", "Matrix cannot be null.");
 
-            <#=T#>[][] a;
+            Decimal[][] a;
             m = value.Length;    // rows
 
             if (m == 0)
@@ -403,7 +384,7 @@ namespace Accord.Math.Decompositions
                         "WARNING: Computing SVD on a matrix with more columns than rows.");
 
                     // Proceed anyway
-                    a = inPlace ? value : (<#=T#>[][])value.MemberwiseClone();
+                    a = inPlace ? value : (Decimal[][])value.MemberwiseClone();
                 }
                 else
                 {
@@ -421,23 +402,23 @@ namespace Accord.Math.Decompositions
             else
             {
                 // Input matrix is ok
-                a = inPlace ? value : (<#=T#>[][])value.MemberwiseClone();
+                a = inPlace ? value : (Decimal[][])value.MemberwiseClone();
             }
 
 
             int nu = System.Math.Min(m, n);
             int ni = System.Math.Min(m + 1, n);
-            s = new <#=T#>[ni];
-            u = new <#=T#>[m][];
+            s = new Decimal[ni];
+            u = new Decimal[m][];
             for (int i = 0; i < u.Length; i++)
-              u[i] = new <#=T#>[nu];
+              u[i] = new Decimal[nu];
 
-            v = new <#=T#>[n][];
+            v = new Decimal[n][];
             for (int i = 0; i < v.Length; i++)
-              v[i] = new <#=T#>[n];
+              v[i] = new Decimal[n];
 
-            <#=T#>[] e = new <#=T#>[n];
-            <#=T#>[] work = new <#=T#>[m];
+            Decimal[] e = new Decimal[n];
+            Decimal[] work = new Decimal[m];
             bool wantu = computeLeftSingularVectors;
             bool wantv = computeRightSingularVectors;
 
@@ -479,7 +460,7 @@ namespace Accord.Math.Decompositions
                     if ((k < nct) & (s[k] != 0))
                     {
                         // Apply the transformation.
-                        <#=T#> t = 0;
+                        Decimal t = 0;
                         for (int i = k; i < a.Length; i++)
                           t += a[i][k] * a[i][j];
 
@@ -537,7 +518,7 @@ namespace Accord.Math.Decompositions
 
                        for (int j = k + 1; j < n; j++)
                        {
-                          <#=T#> t = -e[j] / e[k+1];
+                          Decimal t = -e[j] / e[k+1];
                           for (int i = k + 1; i < work.Length; i++) 
                              a[i][j] += t * work[i];
                        }
@@ -581,7 +562,7 @@ namespace Accord.Math.Decompositions
                     {
                         for (int j = k + 1; j < nu; j++)
                         {
-                            <#=T#> t = 0;
+                            Decimal t = 0;
                             for (int i = k; i < u.Length; i++)
                                 t += u[i][k] * u[i][j];
 
@@ -628,7 +609,7 @@ namespace Accord.Math.Decompositions
 
                         for (int j = k + 1; j < n; j++) // pseudo-correction
                         {
-                            <#=T#> t = 0;
+                            Decimal t = 0;
                             for (int i = k + 1; i < v.Length; i++)
                                 t += v[i][k] * v[i][j];
 
@@ -648,7 +629,7 @@ namespace Accord.Math.Decompositions
 
             int pp = p-1;
             int iter = 0;
-            <#=T#> eps = Constants.<#=T#>Epsilon;
+            Decimal eps = Constants.DecimalEpsilon;
             while (p > 0)
             {
                 int k,kase;
@@ -671,20 +652,7 @@ namespace Accord.Math.Decompositions
                         break;
 
                     var alpha = tiny + eps * (System.Math.Abs(s[k]) + System.Math.Abs(s[k + 1]));
-<#+
-                if (T == "Decimal")
-                {
-#>
                     if (System.Math.Abs(e[k]) <= alpha)
-<#+
-                }
-                else
-                {
-#>
-                    if (System.Math.Abs(e[k]) <= alpha || <#=T#>.IsNaN(e[k]))
-<#+
-                }
-#>
                     {
                         e[k] = 0;
                         break;
@@ -702,8 +670,8 @@ namespace Accord.Math.Decompositions
                        if (ks == k)
                           break;
 
-                       <#=T#> t = (ks != p     ? Math.Abs(e[ks])   : (<#=T#>)0) + 
-                                  (ks != k + 1 ? Math.Abs(e[ks-1]) : (<#=T#>)0);
+                       Decimal t = (ks != p     ? Math.Abs(e[ks])   : (Decimal)0) + 
+                                  (ks != k + 1 ? Math.Abs(e[ks-1]) : (Decimal)0);
 
                        if (Math.Abs(s[ks]) <= eps*t) 
                        {
@@ -733,13 +701,13 @@ namespace Accord.Math.Decompositions
                     // Deflate negligible s(p).
                     case 1:
                     {
-                       <#=T#> f = e[p - 2];
+                       Decimal f = e[p - 2];
                        e[p-2] = 0;
                        for (int j = p - 2; j >= k; j--) 
                        {
-                          <#=T#> t = Tools.Hypotenuse(s[j],f);
-                          <#=T#> cs = s[j] / t;
-                          <#=T#> sn = f / t;
+                          Decimal t = Tools.Hypotenuse(s[j],f);
+                          Decimal cs = s[j] / t;
+                          Decimal sn = f / t;
                           s[j] = t;
                           if (j != k) 
                           {
@@ -763,13 +731,13 @@ namespace Accord.Math.Decompositions
 
                     case 2:
                     {
-                       <#=T#> f = e[k - 1];
+                       Decimal f = e[k - 1];
                        e[k - 1] = 0;
                        for (int j = k; j < p; j++)
                        {
-                          <#=T#> t = Tools.Hypotenuse(s[j], f);
-                          <#=T#> cs = s[j] / t;
-                          <#=T#> sn = f / t;
+                          Decimal t = Tools.Hypotenuse(s[j], f);
+                          Decimal cs = s[j] / t;
+                          Decimal sn = f / t;
                           s[j] = t;
                           f = -sn * e[j];
                           e[j] = cs * e[j];
@@ -790,51 +758,35 @@ namespace Accord.Math.Decompositions
                     case 3:
                         {
                            // Calculate the shift.
-                           <#=T#> scale = Math.Max(Math.Max(Math.Max(Math.Max(
+                           Decimal scale = Math.Max(Math.Max(Math.Max(Math.Max(
                                    Math.Abs(s[p-1]),Math.Abs(s[p-2])),Math.Abs(e[p-2])), 
                                    Math.Abs(s[k])),Math.Abs(e[k]));
-                           <#=T#> sp = s[p-1] / scale;
-                           <#=T#> spm1 = s[p-2] / scale;
-                           <#=T#> epm1 = e[p-2] / scale;
-                           <#=T#> sk = s[k] / scale;
-                           <#=T#> ek = e[k] / scale;
-                           <#=T#> b = ((spm1 + sp)*(spm1 - sp) + epm1*epm1)/2;
-                           <#=T#> c = (sp*epm1)*(sp*epm1);
-                           <#=T#> shift = 0;
+                           Decimal sp = s[p-1] / scale;
+                           Decimal spm1 = s[p-2] / scale;
+                           Decimal epm1 = e[p-2] / scale;
+                           Decimal sk = s[k] / scale;
+                           Decimal ek = e[k] / scale;
+                           Decimal b = ((spm1 + sp)*(spm1 - sp) + epm1*epm1)/2;
+                           Decimal c = (sp*epm1)*(sp*epm1);
+                           Decimal shift = 0;
                            if ((b != 0) || (c != 0))
                            {
-<#+
-                           if (T == "Decimal")
-                           {
-#>
                             if (b < 0)
 								shift = -Tools.Sqrt(b * b + c);
 							else
 								shift = Tools.Sqrt(b * b + c);
-<#+
-                           }
-                           else
-                           {
-#>
-                            if (b < 0)
-								shift = -(<#=T#>)System.Math.Sqrt(b * b + c);
-							else
-								shift = (<#=T#>)System.Math.Sqrt(b * b + c);
-<#+
-                           }
-#>
                               shift = c / (b + shift);
                            }
 
-                           <#=T#> f = (sk + sp)*(sk - sp) + (<#=T#>)shift;
-                           <#=T#> g = sk*ek;
+                           Decimal f = (sk + sp)*(sk - sp) + (Decimal)shift;
+                           Decimal g = sk*ek;
    
                            // Chase zeros.
                            for (int j = k; j < p - 1; j++)
                            {
-                              <#=T#> t = Tools.Hypotenuse(f, g);
-                              <#=T#> cs = f / t;
-                              <#=T#> sn = g / t;
+                              Decimal t = Tools.Hypotenuse(f, g);
+                              Decimal cs = f / t;
+                              Decimal sn = g / t;
 
                               if (j != k)
                                  e[j - 1] = t;
@@ -885,7 +837,7 @@ namespace Accord.Math.Decompositions
                             // Make the singular values positive.
                             if (s[k] <= 0)
                             {
-                                s[k] = (s[k] < 0 ? -s[k] : (<#=T#>)0);
+                                s[k] = (s[k] < 0 ? -s[k] : (Decimal)0);
 
                                 if (wantv)
                                 {
@@ -900,7 +852,7 @@ namespace Accord.Math.Decompositions
                                 if (s[k] >= s[k + 1])
                                     break;
 
-                                <#=T#> t = s[k];
+                                Decimal t = s[k];
                                 s[k] = s[k + 1];
                                 s[k+1] = t;
                                 if (wantv && (k < n - 1))
@@ -950,7 +902,7 @@ namespace Accord.Math.Decompositions
         /// </summary>
         /// <param name="value">Parameter B from the equation AX = B.</param>
         /// <returns>The solution X from equation AX = B.</returns>
-        public <#=T#>[][] Solve(<#=T#>[][] value)
+        public Decimal[][] Solve(Decimal[][] value)
         {
             // Additionally an important property is that if there does not exists a solution
             // when the matrix A is singular but replacing 1/Li with 0 will provide a solution
@@ -961,7 +913,7 @@ namespace Accord.Math.Decompositions
             // L is a diagonal matrix with non-negative matrix elements having the same
             // dimension as A, Wi ? 0. The diagonal elements of L are the singular values of matrix A.
 
-            <#=T#>[][] Y = value;
+            Decimal[][] Y = value;
 
             // Create L*, which is a diagonal matrix with elements
             //    L*[i] = 1/L[i]  if L[i] < e, else 0, 
@@ -973,14 +925,14 @@ namespace Accord.Math.Decompositions
             // systems even if the matrices are singular or close to singular.
 
             //singularity threshold
-            <#=T#> e = this.Threshold;
+            Decimal e = this.Threshold;
 
 
             int scols = s.Length;
-            var Ls = new <#=T#>[scols][];
+            var Ls = new Decimal[scols][];
             for (int i = 0; i < s.Length; i++)
             {
-                Ls[i] = new <#=T#>[scols];
+                Ls[i] = new Decimal[scols];
                 if (System.Math.Abs(s[i]) <= e)
                     Ls[i][i] = 0;
                 else Ls[i][i] = 1 / s[i];
@@ -992,14 +944,14 @@ namespace Accord.Math.Decompositions
             //(V x L* x Ut) x Y
             int vrows = v.Length;
             int urows = u.Length;
-            var VLU = new <#=T#>[vrows][];
+            var VLU = new Decimal[vrows][];
             for (int i = 0; i < vrows; i++)
             {
-                VLU[i] = new <#=T#>[scols];
+                VLU[i] = new Decimal[scols];
 
                 for (int j = 0; j < urows; j++)
                 {
-                    <#=T#> sum = 0;
+                    Decimal sum = 0;
                     for (int k = 0; k < urows; k++)
                         sum += VL[i][k] * u[j][k];
                     VLU[i][j] = sum;
@@ -1015,7 +967,7 @@ namespace Accord.Math.Decompositions
         /// </summary>
         /// <param name="value">Parameter B from the equation AX = B.</param>
         /// <returns>The solution X from equation AX = B.</returns>
-        public <#=T#>[][] SolveTranspose(<#=T#>[][] value)
+        public Decimal[][] SolveTranspose(Decimal[][] value)
         {
             // Additionally an important property is that if there does not exists a solution
             // when the matrix A is singular but replacing 1/Li with 0 will provide a solution
@@ -1026,7 +978,7 @@ namespace Accord.Math.Decompositions
             // L is a diagonal matrix with non-negative matrix elements having the same
             // dimension as A, Wi ? 0. The diagonal elements of L are the singular values of matrix A.
 
-            <#=T#>[][] Y = value;
+            Decimal[][] Y = value;
 
             // Create L*, which is a diagonal matrix with elements
             //    L*[i] = 1/L[i]  if L[i] < e, else 0, 
@@ -1038,14 +990,14 @@ namespace Accord.Math.Decompositions
             // systems even if the matrices are singular or close to singular.
 
             //singularity threshold
-            <#=T#> e = this.Threshold;
+            Decimal e = this.Threshold;
 
 
             int scols = s.Length;
-            var Ls = new <#=T#>[scols][];
+            var Ls = new Decimal[scols][];
             for (int i = 0; i < s.Length; i++)
             {
-                Ls[i] = new <#=T#>[scols];
+                Ls[i] = new Decimal[scols];
                 if (System.Math.Abs(s[i]) <= e)
                     Ls[i][i] = 0;
                 else Ls[i][i] = 1 / s[i];
@@ -1057,14 +1009,14 @@ namespace Accord.Math.Decompositions
             //(V x L* x Ut) x Y
             int vrows = v.Length;
             int urows = u.Length;
-            var VLU = new <#=T#>[vrows][];
+            var VLU = new Decimal[vrows][];
             for (int i = 0; i < vrows; i++)
             {
-                VLU[i] = new <#=T#>[scols];
+                VLU[i] = new Decimal[scols];
 
                 for (int j = 0; j < urows; j++)
                 {
-                    <#=T#> sum = 0;
+                    Decimal sum = 0;
                     for (int k = 0; k < urows; k++)
                         sum += VL[i][k] * u[j][k];
                     VLU[i][j] = sum;
@@ -1079,7 +1031,7 @@ namespace Accord.Math.Decompositions
         /// </summary>
         /// <param name="value">Parameter B from the equation AX = B.</param>
         /// <returns>The solution X from equation AX = B.</returns>
-        public <#=T#>[][] SolveForDiagonal(<#=T#>[] value)
+        public Decimal[][] SolveForDiagonal(Decimal[] value)
         {
             // Additionally an important property is that if there does not exists a solution
             // when the matrix A is singular but replacing 1/Li with 0 will provide a solution
@@ -1090,7 +1042,7 @@ namespace Accord.Math.Decompositions
             // L is a diagonal matrix with non-negative matrix elements having the same
             // dimension as A, Wi ? 0. The diagonal elements of L are the singular values of matrix A.
 
-            <#=T#>[] Y = value;
+            Decimal[] Y = value;
 
             // Create L*, which is a diagonal matrix with elements
             //    L*[i] = 1/L[i]  if L[i] < e, else 0, 
@@ -1102,32 +1054,32 @@ namespace Accord.Math.Decompositions
             // systems even if the matrices are singular or close to singular.
 
             //singularity threshold
-            <#=T#> e = this.Threshold;
+            Decimal e = this.Threshold;
 
 
             int scols = s.Length;
-            var Ls = new <#=T#>[scols][];
+            var Ls = new Decimal[scols][];
             for (int i = 0; i < s.Length; i++)
             {
-                Ls[i] = new <#=T#>[scols];
+                Ls[i] = new Decimal[scols];
                 if (System.Math.Abs(s[i]) <= e)
                     Ls[i][i] = 0;
                 else Ls[i][i] = 1 / s[i];
             }
 
             //(V x L*) x Ut x Y
-            <#=T#>[][] VL = Matrix.Dot(v, Ls);
+            Decimal[][] VL = Matrix.Dot(v, Ls);
 
             //(V x L* x Ut) x Y
             int vrows = v.Length;
             int urows = u.Length;
-            var VLU = new <#=T#>[vrows][];
+            var VLU = new Decimal[vrows][];
             for (int i = 0; i < vrows; i++)
             {
-                VLU[i] = new <#=T#>[scols];
+                VLU[i] = new Decimal[scols];
                 for (int j = 0; j < urows; j++)
                 {
-                    <#=T#> sum = 0;
+                    Decimal sum = 0;
                     for (int k = 0; k < urows; k++)
                         sum += VL[i][k] * u[j][k];
                     VLU[i][j] = sum;
@@ -1145,7 +1097,7 @@ namespace Accord.Math.Decompositions
         ///
         /// <returns>The x from equation Ax = b.</returns>
         ///
-        public <#=T#>[] SolveTranspose(<#=T#>[] value)
+        public Decimal[] SolveTranspose(Decimal[] value)
         {
             // Additionally an important property is that if there does not exists a solution
             // when the matrix A is singular but replacing 1/Li with 0 will provide a solution
@@ -1156,7 +1108,7 @@ namespace Accord.Math.Decompositions
             // L is a diagonal matrix with non-negative matrix elements having the same
             // dimension as A, Wi ? 0. The diagonal elements of L are the singular values of matrix A.
 
-            <#=T#>[] Y = value;
+            Decimal[] Y = value;
 
             // Create L*, which is a diagonal matrix with elements
             //    L*[i] = 1/L[i]  if L[i] < e, else 0, 
@@ -1168,32 +1120,32 @@ namespace Accord.Math.Decompositions
             // systems even if the matrices are singular or close to singular.
 
             //singularity threshold
-            <#=T#> e = this.Threshold;
+            Decimal e = this.Threshold;
 
 
             int scols = s.Length;
-            var Ls = new <#=T#>[scols][];
+            var Ls = new Decimal[scols][];
             for (int i = 0; i < s.Length; i++)
             {
-                Ls[i] = new <#=T#>[scols];
+                Ls[i] = new Decimal[scols];
                 if (System.Math.Abs(s[i]) <= e)
                     Ls[i][i] = 0;
                 else Ls[i][i] = 1 / s[i];
             }
 
             //(V x L*) x Ut x Y
-            <#=T#>[][] VL = Matrix.Dot(v, Ls);
+            Decimal[][] VL = Matrix.Dot(v, Ls);
 
             //(V x L* x Ut) x Y
             int vrows = v.Length;
             int urows = u.Length;
-            var VLU = new <#=T#>[vrows][];
+            var VLU = new Decimal[vrows][];
             for (int i = 0; i < vrows; i++)
             {
-                VLU[i] = new <#=T#>[scols];
+                VLU[i] = new Decimal[scols];
                 for (int j = 0; j < urows; j++)
                 {
-                    <#=T#> sum = 0;
+                    Decimal sum = 0;
                     for (int k = 0; k < urows; k++)
                         sum += VL[i][k] * u[j][k];
                     VLU[i][j] = sum;
@@ -1208,7 +1160,7 @@ namespace Accord.Math.Decompositions
         /// </summary>
         /// <param name="value">The b from the equation Ax = b.</param>
         /// <returns>The x from equation Ax = b.</returns>
-        public <#=T#>[] Solve(<#=T#>[] value)
+        public Decimal[] Solve(Decimal[] value)
         {
             // Additionally an important property is that if there does not exists a solution
             // when the matrix A is singular but replacing 1/Li with 0 will provide a solution
@@ -1220,7 +1172,7 @@ namespace Accord.Math.Decompositions
             // dimension as A, Wi ? 0. The diagonal elements of L are the singular values of matrix A.
 
             //singularity threshold
-            <#=T#> e = this.Threshold;
+            Decimal e = this.Threshold;
 
             var Y = value;
 
@@ -1236,10 +1188,10 @@ namespace Accord.Math.Decompositions
 
             int scols = s.Length;
 
-            var Ls = new <#=T#>[scols][];
+            var Ls = new Decimal[scols][];
             for (int i = 0; i < s.Length; i++)
             {
-                Ls[i] = new <#=T#>[scols];
+                Ls[i] = new Decimal[scols];
                 if (System.Math.Abs(s[i]) <= e)
                     Ls[i][i] = 0;
                 else Ls[i][i] = 1 / s[i];
@@ -1251,13 +1203,13 @@ namespace Accord.Math.Decompositions
             //(V x L* x Ut) x Y
             int urows = u.Length;
             int vrows = v.Length;
-            var VLU = new <#=T#>[vrows][];
+            var VLU = new Decimal[vrows][];
             for (int i = 0; i < vrows; i++)
             {
-                VLU[i] = new <#=T#>[urows];
+                VLU[i] = new Decimal[urows];
                 for (int j = 0; j < urows; j++)
                 {
-                    <#=T#> sum = 0;
+                    Decimal sum = 0;
                     for (int k = 0; k < scols; k++)
                         sum += VL[i][k] * u[j][k];
                     VLU[i][j] = sum;
@@ -1272,17 +1224,17 @@ namespace Accord.Math.Decompositions
         ///   Computes the (pseudo-)inverse of the matrix given to the Singular value decomposition.
         /// </summary>
         ///
-        public <#=T#>[][] Inverse()
+        public Decimal[][] Inverse()
         {
-            <#=T#> e = this.Threshold;
+            Decimal e = this.Threshold;
 
             // X = V*S^-1
             int vrows = v.Length;
             int vcols = v[0].Length;
-            var X = new <#=T#>[vrows][];
+            var X = new Decimal[vrows][];
             for (int i = 0; i < vrows; i++)
             {
-                X[i] = new <#=T#>[s.Length];
+                X[i] = new Decimal[s.Length];
                 for (int j = 0; j < vcols; j++)
                 {
                     if (System.Math.Abs(s[j]) > e)
@@ -1293,13 +1245,13 @@ namespace Accord.Math.Decompositions
             // Y = X*U'
             int urows = u.Length;
             int ucols = u[0].Length;
-            var Y = new <#=T#>[vrows][];
+            var Y = new Decimal[vrows][];
             for (int i = 0; i < vrows; i++)
             {
-                Y[i] = new <#=T#>[urows];
+                Y[i] = new Decimal[urows];
                 for (int j = 0; j < urows; j++)
                 {
-                    <#=T#> sum = 0;
+                    Decimal sum = 0;
                     for (int k = 0; k < ucols; k++)
                         sum += X[i][k] * u[j][k];
                     Y[i][j] = sum;
@@ -1313,7 +1265,7 @@ namespace Accord.Math.Decompositions
         ///   Reverses the decomposition, reconstructing the original matrix <c>X</c>.
         /// </summary>
         /// 
-        public <#=T#>[][] Reverse()
+        public Decimal[][] Reverse()
         {
             return LeftSingularVectors.Dot(DiagonalMatrix).DotWithTransposed(RightSingularVectors);
         }
@@ -1321,21 +1273,21 @@ namespace Accord.Math.Decompositions
         /// <summary>
         ///   Computes <c>(Xt * X)^1</c> (the inverse of the covariance matrix). This
         ///   matrix can be used to determine standard errors for the coefficients when
-        ///   solving a linear set of equations through any of the <see cref="Solve(<#=T#>[][])"/>
+        ///   solving a linear set of equations through any of the <see cref="Solve(Decimal[][])"/>
         ///   methods.
         /// </summary>
         /// 
-        public <#=T#>[][] GetInformationMatrix()
+        public Decimal[][] GetInformationMatrix()
         {
-            <#=T#> e = this.Threshold;
+            Decimal e = this.Threshold;
 
             // X = V*S^-1
             int vrows = v.Length;
             int vcols = v[0].Length;
-            var X = new <#=T#>[vrows][];
+            var X = new Decimal[vrows][];
             for (int i = 0; i < vrows; i++)
             {
-                X[i] = new <#=T#>[s.Length];
+                X[i] = new Decimal[s.Length];
                 for (int j = 0; j < vcols; j++)
                 {
                     if (System.Math.Abs(s[j]) > e)
@@ -1344,13 +1296,13 @@ namespace Accord.Math.Decompositions
             }
 
             // Y = X*V'
-            var Y = new <#=T#>[vrows][];
+            var Y = new Decimal[vrows][];
             for (int i = 0; i < vrows; i++)
             {
-                Y[i] = new <#=T#>[vrows];
+                Y[i] = new Decimal[vrows];
                 for (int j = 0; j < vrows; j++)
                 {
-                    <#=T#> sum = 0;
+                    Decimal sum = 0;
                     for (int k = 0; k < vrows; k++)
                         sum += X[i][k] * v[j][k];
                     Y[i][j] = sum;
@@ -1361,7 +1313,7 @@ namespace Accord.Math.Decompositions
         }
 
         #region ICloneable Members
-        private JaggedSingularValueDecomposition<#=Suffix#>()
+        private JaggedSingularValueDecompositionD()
         {
         }
 
@@ -1374,14 +1326,14 @@ namespace Accord.Math.Decompositions
         ///
         public object Clone()
         {
-            var svd = new JaggedSingularValueDecomposition<#=Suffix#>();
+            var svd = new JaggedSingularValueDecompositionD();
             svd.m = m;
             svd.n = n;
-            svd.s = (<#=T#>[])s.Clone();
+            svd.s = (Decimal[])s.Clone();
             svd.si = (int[])si.Clone();
             svd.swapped = swapped;
-            if (u != null) svd.u = (<#=T#>[][])u.MemberwiseClone();
-            if (v != null) svd.v = (<#=T#>[][])v.MemberwiseClone();
+            if (u != null) svd.u = (Decimal[][])u.MemberwiseClone();
+            if (v != null) svd.v = (Decimal[][])v.MemberwiseClone();
 
             return svd;
         }
@@ -1391,8 +1343,3 @@ namespace Accord.Math.Decompositions
     }
 }
 
-<#+
-            return GenerationEnvironment.ToString();
-        }
-    }
-#>
