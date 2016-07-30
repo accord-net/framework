@@ -1380,6 +1380,12 @@ namespace Accord.Tests.Math
 
             actual = Matrix.PseudoInverse(value.Transpose());
             Assert.IsTrue(Matrix.IsEqual(expected.Transpose(), actual, 0.001));
+
+            actual = Matrix.PseudoInverse(value.ToJagged()).ToMatrix();
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+
+            actual = Matrix.PseudoInverse(value.ToJagged().Transpose()).ToMatrix();
+            Assert.IsTrue(Matrix.IsEqual(expected.Transpose(), actual, 0.001));
         }
 
         [Test]
@@ -1462,8 +1468,10 @@ namespace Accord.Tests.Math
             };
 
             double[] actual = Matrix.Solve(value, rhs);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-3));
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            actual = Matrix.Solve(value.ToJagged(), rhs);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-3));
         }
 
         [Test]
@@ -1481,8 +1489,10 @@ namespace Accord.Tests.Math
             double[] expected = { 2.5000, 4.0000, 3.5000 };
 
             double[] actual = Matrix.Solve(value, b);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0000000000001));
+            actual = Matrix.Solve(value.ToJagged(), b);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
         }
 
         [Test]
@@ -1510,7 +1520,10 @@ namespace Accord.Tests.Math
             };
 
             double[,] actual = Matrix.Divide(a, b);
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-3));
+
+            actual = Matrix.Divide(a.ToJagged(), b.ToJagged()).ToMatrix();
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-3));
         }
 
         [Test]
@@ -1523,12 +1536,16 @@ namespace Accord.Tests.Math
                 { 0, 1, 6, 1 },
             };
 
+            var stra = a.ToString(OctaveMatrixFormatProvider.InvariantCulture);
+
             double[,] b =
             {
                 { 1, 0, 7, 7 },
                 { 5, 2, 1, 2 },
                 { 1, 5, 2, 1 },
             };
+
+            var strb = b.ToString(OctaveMatrixFormatProvider.InvariantCulture);
 
             double[,] expected =
             {
@@ -1538,7 +1555,10 @@ namespace Accord.Tests.Math
             };
 
             double[,] actual = Matrix.Divide(a, b);
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-3));
+
+            actual = Matrix.Divide(a.ToJagged(), b.ToJagged()).ToMatrix();
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-3));
         }
 
         [Test]
@@ -1554,6 +1574,8 @@ namespace Accord.Tests.Math
                 { 5,     1,     1 }
             };
 
+            var stra = a.ToString(OctaveMatrixFormatProvider.InvariantCulture);
+
             double[,] b =
             {
                 { 1, 0, 0 },
@@ -1561,8 +1583,13 @@ namespace Accord.Tests.Math
                 { 0, 0, 1 },
             };
 
+            var strb = b.ToString(OctaveMatrixFormatProvider.InvariantCulture);
+
             double[,] actual = Matrix.Divide(a, b);
-            Assert.IsTrue(Matrix.IsEqual(a, actual, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(a, actual, 1e-3));
+
+            actual = Matrix.Divide(a.ToJagged(), b.ToJagged()).ToMatrix();
+            Assert.IsTrue(Matrix.IsEqual(a, actual, 1e-3));
         }
 
         [Test]
@@ -1583,7 +1610,10 @@ namespace Accord.Tests.Math
             Matrix.DivideByDiagonal(a, b, result);
 
             double[,] expected = Matrix.Divide(a, Matrix.Diagonal(b));
+            Assert.IsTrue(expected.IsEqual(result, 1e-6));
 
+            result = Matrix.DivideByDiagonal(a.ToJagged(), b).ToMatrix();
+            expected = Matrix.Divide(a.ToJagged(), Jagged.Diagonal(b)).ToMatrix();
             Assert.IsTrue(expected.IsEqual(result, 1e-6));
         }
         #endregion
@@ -1636,13 +1666,14 @@ namespace Accord.Tests.Math
         {
             double[,] m =
             {
-                { 0.000, 4.000, 0.000, 2.000 },
-                { 4.000, 1.000, 2.000, 4.000 },
-                { 0.000, 2.000, 1.000, 1.000 },
-                { 2.000, 4.000, 1.000, 1.000 }
+                { 0, 4, 0, 2 },
+                { 4, 1, 2, 4 },
+                { 0, 2, 1, 1 },
+                { 2, 4, 1, 1 }
             };
 
             Assert.IsTrue(m.IsSymmetric());
+            Assert.IsFalse(m.IsPositiveDefinite());
 
             double expected = 44;
 
@@ -1921,6 +1952,72 @@ namespace Accord.Tests.Math
             Assert.IsTrue(D.IsLowerTriangular());
             Assert.IsTrue(D.IsDiagonal());
         }
+
+        [Test]
+        public void ToUpperTriangularTest()
+        {
+            double[,] U =
+            {
+                { 1, 2, 1, },
+                { 0, 2, 1, },
+                { 0, 0, 1, },
+            };
+
+            double[,] L =
+            {
+                { 1, 0, 0, },
+                { 5, 2, 0, },
+                { 2, 1, 1, },
+            };
+
+            double[,] X =
+            {
+                { 1, 0, 5, },
+                { 0, 2, 0, },
+                { 6, 0, 3, },
+            };
+
+            Assert.IsTrue(U.ToUpperTriangular(from: MatrixType.UpperTriangular).GetUpperTriangle(true).IsEqual(U));
+            Assert.IsTrue(U.ToLowerTriangular(from: MatrixType.UpperTriangular).GetLowerTriangle(true).IsEqual(U.Transpose()));
+
+            Assert.IsTrue(L.ToUpperTriangular(from: MatrixType.LowerTriangular).GetUpperTriangle(true).IsEqual(L.Transpose()));
+            Assert.IsTrue(L.ToLowerTriangular(from: MatrixType.LowerTriangular).GetLowerTriangle(true).IsEqual(L));
+
+            var LowerToUpper = X.ToUpperTriangular(from: MatrixType.LowerTriangular);
+            var UpperToUpper = X.ToUpperTriangular(from: MatrixType.UpperTriangular);
+            var LowerToLower = X.ToLowerTriangular(from: MatrixType.LowerTriangular);
+            var UpperToLower = X.ToLowerTriangular(from: MatrixType.UpperTriangular);
+
+            var a = LowerToUpper.ToCSharp();
+            var b = UpperToUpper.ToCSharp();
+            var c = LowerToLower.ToCSharp();
+            var d = UpperToLower.ToCSharp();
+
+            Assert.IsTrue(LowerToUpper.IsEqual(new double[,] {
+                { 1, 0, 6 },
+                { 0, 2, 0 },
+                { 5, 0, 3 }
+            }));
+
+            Assert.IsTrue(UpperToUpper.IsEqual(new double[,] {
+                { 1, 0, 5 },
+                { 0, 2, 0 },
+                { 6, 0, 3 }
+            }));
+
+            Assert.IsTrue(LowerToLower.IsEqual(new double[,] {
+                { 1, 0, 5 },
+                { 0, 2, 0 },
+                { 6, 0, 3 }
+            }));
+
+            Assert.IsTrue(UpperToLower.IsEqual(new double[,] {
+                { 1, 0, 6 },
+                { 0, 2, 0 },
+                { 5, 0, 3 }
+            }));
+        }
+
         #endregion
 
         #region Transpose
@@ -3245,15 +3342,15 @@ namespace Accord.Tests.Math
             {
                 double[] values = Matrix.Random(20, -1.0, 1.0);
 
-                for (int k = 0; k < 11; k++)
+                for (int k = 1; k < 11; k++)
                 {
                     double[] actualTop = values.Submatrix(values.Top(k));
                     double[] actualBottom = values.Submatrix(values.Bottom(k));
 
                     Array.Sort(values);
 
-                    double[] expectedTop = values.Submatrix(values.Length - k, values.Length - 1);
-                    double[] expectedBottom = values.Submatrix(0, k - 1);
+                    double[] expectedTop = values.Get(values.Length - k, values.Length);
+                    double[] expectedBottom = values.Get(0, k);
 
                     Assert.AreEqual(k, actualTop.Length);
                     Assert.AreEqual(k, actualBottom.Length);

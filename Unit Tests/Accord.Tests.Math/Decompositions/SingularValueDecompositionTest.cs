@@ -30,23 +30,6 @@ namespace Accord.Tests.Math
     public class SingularValueDecompositionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void InverseTest()
         {
@@ -56,7 +39,7 @@ namespace Accord.Tests.Math
                   { 2.0, 2.0 }
             };
 
-            SingularValueDecomposition target = new SingularValueDecomposition(value);
+            var target = new SingularValueDecomposition(value);
 
             double[,] expected = new double[,]
             {
@@ -65,10 +48,36 @@ namespace Accord.Tests.Math
             };
 
             double[,] actual = target.Solve(Matrix.Identity(2));
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-3));
+            Assert.IsTrue(Matrix.IsEqual(value, target.Reverse(), 1e-3));
 
             actual = target.Inverse();
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-3));
+        }
+
+        [Test]
+        public void InverseTest2()
+        {
+            int n = 5;
+
+            var I = Matrix.Identity(n);
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    double[,] value = Matrix.Magic(n);
+
+                    var target = new SingularValueDecomposition(value);
+
+                    double[,] solution = target.Solve(I);
+                    double[,] inverse = target.Inverse();
+                    double[,] reverse = target.Reverse();
+
+                    Assert.IsTrue(Matrix.IsEqual(solution, inverse, 1e-4));
+                    Assert.IsTrue(Matrix.IsEqual(value, reverse, 1e-4));
+                }
+            }
         }
 
         [Test]
@@ -117,13 +126,14 @@ namespace Accord.Tests.Math
                  { 7, 8 }
              }.Transpose(); // value is 2x4, having less rows than columns.
 
-            SingularValueDecomposition target = new SingularValueDecomposition(value, true, true, false);
+            var target = new SingularValueDecomposition(value, true, true, false);
 
             double[,] actual = target.LeftSingularVectors.Multiply(
                 target.DiagonalMatrix).Multiply(target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
-            Assert.IsTrue(Matrix.IsEqual(actual, value, 0.01));
+            Assert.IsTrue(Matrix.IsEqual(actual, value, 1e-2));
+            Assert.IsTrue(Matrix.IsEqual(target.Reverse(), value, 1e-2));
 
             // Checking values
             double[,] U =
@@ -155,7 +165,7 @@ namespace Accord.Tests.Math
             };
 
             // The diagonal values should be equal
-            Assert.IsTrue(Matrix.IsEqual(target.Diagonal.Submatrix(2), 
+            Assert.IsTrue(Matrix.IsEqual(target.Diagonal.First(2), 
                 Matrix.Diagonal(S), 0.001));
         }
 
@@ -176,14 +186,15 @@ namespace Accord.Tests.Math
                  { 7, 8 }
              }.Transpose(); // value is 2x4, having less rows than columns.
 
-            SingularValueDecomposition target = new SingularValueDecomposition(value, true, true, true);
+            var target = new SingularValueDecomposition(value, true, true, true);
 
             double[,] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors, 
                 Matrix.Diagonal(target.Diagonal)), target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
             Assert.IsTrue(Matrix.IsEqual(actual, value, 0.01));
-
+            Assert.IsTrue(Matrix.IsEqual(target.Reverse(), value, 1e-2));
+            
             // Checking values
             double[,] U =
             {
@@ -239,6 +250,7 @@ namespace Accord.Tests.Math
 
             // Checking the decomposition
             Assert.IsTrue(Matrix.IsEqual(actual, value, 0.01));
+            Assert.IsTrue(Matrix.IsEqual(target.Reverse(), value, 1e-2));
 
             double[,] U = // economy svd
             {
@@ -289,7 +301,7 @@ namespace Accord.Tests.Math
                  { 7, 8 }
              }.Transpose(); // value is 2x4, having less rows than columns.
 
-            SingularValueDecomposition target = new SingularValueDecomposition(value, true, false, true);
+            var target = new SingularValueDecomposition(value, true, false, true);
 
 
             // Checking values
@@ -340,7 +352,7 @@ namespace Accord.Tests.Math
                  { 7, 8 }
              }.Transpose(); // value is 2x4, having less rows than columns.
 
-            SingularValueDecomposition target = new SingularValueDecomposition(value, false, true, true);
+            var target = new SingularValueDecomposition(value, false, true, true);
 
 
             // Checking values
@@ -399,12 +411,21 @@ namespace Accord.Tests.Math
 
             double[,] value2 = value1.Transpose();
 
-            var target1 = new SingularValueDecomposition(value1, true, true, true, true);
-            var target2 = new SingularValueDecomposition(value2, true, true, true, true);
+            var cvalue1 = value1.Copy();
+            var cvalue2 = value2.Copy();
+
+            var target1 = new SingularValueDecomposition(cvalue1, true, true, true, true);
+            var target2 = new SingularValueDecomposition(cvalue2, true, true, true, true);
+
+            Assert.IsFalse(cvalue1.IsEqual(value1, 1e-5));
+            // Assert.IsFalse(cvalue2.IsEqual(value2, 1e-5));
 
             Assert.IsTrue(target1.LeftSingularVectors.IsEqual(target2.RightSingularVectors));
             Assert.IsTrue(target1.RightSingularVectors.IsEqual(target2.LeftSingularVectors));
             Assert.IsTrue(target1.DiagonalMatrix.IsEqual(target2.DiagonalMatrix));
+
+            Assert.IsTrue(Matrix.IsEqual(target1.Reverse(), value1, 1e-5));
+            Assert.IsTrue(Matrix.IsEqual(target2.Reverse(), value2, 1e-5));
         }
 
         [Test]
@@ -437,6 +458,7 @@ namespace Accord.Tests.Math
 
                 // Checking the decomposition
                 Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-8));
+                Assert.IsTrue(Matrix.IsEqual(target.Reverse(), expected, 1e-8));
             }
 
             {
