@@ -63,10 +63,16 @@ namespace Accord.Statistics.Analysis
     /// // TODO: Write example
     /// 
     [Serializable]
-    public class MultinomialLogisticRegressionAnalysis : IMultivariateRegressionAnalysis,
+    public class MultinomialLogisticRegressionAnalysis : TransformBase<double[], int>,
+        IMultivariateRegressionAnalysis,
         ISupervisedLearning<MultinomialLogisticRegression, double[], double[]>,
         ISupervisedLearning<MultinomialLogisticRegression, double[], int>
     {
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        /// 
         public CancellationToken Token { get; set; }
 
         int inputCount;
@@ -78,9 +84,11 @@ namespace Accord.Statistics.Analysis
         private string[] inputNames;
         private string[] outputNames;
 
+        [Obsolete]
         private double[][] inputData;
+        [Obsolete]
         private double[][] outputData;
-
+        [Obsolete]
         private double[][] results;
 
         private double[][] coefficients;
@@ -109,12 +117,14 @@ namespace Accord.Statistics.Analysis
         ///   Source data used in the analysis.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[][] Array { get { return inputData; } }
 
         /// <summary>
         ///   Source data used in the analysis.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[,] Source { get { return inputData.ToMatrix(); } }
 
         /// <summary>
@@ -122,6 +132,7 @@ namespace Accord.Statistics.Analysis
         ///   for each of the source input points.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[,] Output { get { return outputData.ToMatrix(); } }
 
         /// <summary>
@@ -129,6 +140,7 @@ namespace Accord.Statistics.Analysis
         ///   for each of the source input points.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[][] Outputs
         {
             get { return outputData; }
@@ -138,6 +150,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the resulting values obtained by the regression model.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[][] Results
         {
             get { return results; }
@@ -279,6 +292,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="inputs">The input data for the analysis.</param>
         /// <param name="outputs">The output data for the analysis.</param>
         /// 
+        [Obsolete("Please pass the inputs and outputs to the Learn() method.")]
         public MultinomialLogisticRegressionAnalysis(double[][] inputs, int[] outputs)
         {
             // Initial argument checking
@@ -301,6 +315,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="inputs">The input data for the analysis.</param>
         /// <param name="outputs">The output data for the analysis.</param>
         /// 
+        [Obsolete("Please pass the inputs and outputs to the Learn() method.")]
         public MultinomialLogisticRegressionAnalysis(double[][] inputs, double[][] outputs)
         {
             // Initial argument checking
@@ -325,6 +340,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="inputNames">The names of the input variables.</param>
         /// <param name="outputNames">The names of the output variables.</param>
         /// 
+        [Obsolete("Please pass the inputs and outputs to the Learn() method.")]
         public MultinomialLogisticRegressionAnalysis(double[][] inputs, int[] outputs,
             String[] inputNames, String[] outputNames)
             : this(inputs, outputs)
@@ -341,6 +357,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="inputNames">The names of the input variables.</param>
         /// <param name="outputNames">The names of the output variables.</param>
         /// 
+        [Obsolete("Please pass the inputs and outputs to the Learn() method.")]
         public MultinomialLogisticRegressionAnalysis(double[][] inputs, double[][] outputs,
             String[] inputNames, String[] outputNames)
             : this(inputs, outputs)
@@ -368,6 +385,7 @@ namespace Accord.Statistics.Analysis
             this.outputNames = outputNames;
         }
 
+        [Obsolete]
         private void init(double[][] inputs, double[][] outputs)
         {
             this.inputCount = inputs[0].Length;
@@ -384,8 +402,6 @@ namespace Accord.Statistics.Analysis
             // Store data sets
             this.inputData = inputs;
             this.outputData = outputs;
-
-
 
             // Create the linear regression
             regression = new MultinomialLogisticRegression(inputCount, outputCount);
@@ -425,7 +441,16 @@ namespace Accord.Statistics.Analysis
             this.coefficientCollection = new MultinomialCoefficientCollection(coefs);
         }
 
-        public MultinomialLogisticRegression Learn(double[][] input, double[][] output, double[] weights = null)
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public MultinomialLogisticRegression Learn(double[][] x, double[][] y, double[] weights = null)
         {
             double delta;
             int iteration = 0;
@@ -434,7 +459,7 @@ namespace Accord.Statistics.Analysis
 
             do // learning iterations until convergence
             {
-                delta = learning.Run(inputData, outputData);
+                delta = learning.Run(x, y);
                 iteration++;
 
             } while (delta > tolerance && iteration < iterations);
@@ -442,39 +467,30 @@ namespace Accord.Statistics.Analysis
             // Check if the full model has converged
             bool converged = iteration < iterations;
 
-
-            computeInformation();
+            computeInformation(x, y);
 
             return regression;
         }
 
-        public MultinomialLogisticRegression Learn(double[][] input, int[] output, double[] weights = null)
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public MultinomialLogisticRegression Learn(double[][] x, int[] y, double[] weights = null)
         {
-            double delta;
-            int iteration = 0;
-
-            var learning = new LowerBoundNewtonRaphson(regression);
-
-            do // learning iterations until convergence
-            {
-                delta = learning.Run(inputData, outputData);
-                iteration++;
-
-            } while (delta > tolerance && iteration < iterations);
-
-            // Check if the full model has converged
-            bool converged = iteration < iterations;
-
-
-            computeInformation();
-
-            return regression;
+            return Learn(x, Jagged.OneHot(y), weights);
         }
 
         /// <summary>
         ///   Computes the Multinomial Logistic Regression Analysis.
         /// </summary>
         /// 
+        [Obsolete("Please use the Learn method instead.")]
         public bool Compute()
         {
             double delta;
@@ -493,15 +509,17 @@ namespace Accord.Statistics.Analysis
             bool converged = iteration < iterations;
 
 
-            computeInformation();
+            computeInformation(inputData, outputData);
 
             return converged;
         }
 
-        private void computeInformation()
+        private void computeInformation(double[][] inputData, double[][] outputData)
         {
             // Store model information
-            this.results = regression.Compute(inputData);
+#pragma warning disable 612, 618
+            results = regression.Compute(inputData);
+#pragma warning restore 612, 618
 
             this.deviance = regression.GetDeviance(inputData, outputData);
             this.logLikelihood = regression.GetLogLikelihood(inputData, outputData);
@@ -519,9 +537,22 @@ namespace Accord.Statistics.Analysis
             }
         }
 
+        [Obsolete("Please use the Learn method instead.")]
         void IAnalysis.Compute()
         {
             Compute();
+        }
+
+        /// <summary>
+        /// Applies the transformation to an input, producing an associated output.
+        /// </summary>
+        /// <param name="input">The input data to which the transformation should be applied.</param>
+        /// <returns>
+        /// The output generated by applying this transformation to the given input.
+        /// </returns>
+        public override int Transform(double[] input)
+        {
+            return regression.Transform(input);
         }
     }
 

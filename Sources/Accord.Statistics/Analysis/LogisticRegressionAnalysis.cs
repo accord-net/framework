@@ -192,36 +192,44 @@ using System.Threading;
     /// </example>
     /// 
     [Serializable]
-    public class LogisticRegressionAnalysis : IRegressionAnalysis,
+    public class LogisticRegressionAnalysis : TransformBase<double[], double>, // TODO: Rename to BinaryLogLikelihoodClassifierBase
+        IRegressionAnalysis,
         ISupervisedLearning<LogisticRegression, double[], int>,
         ISupervisedLearning<LogisticRegression, double[], double>
     {
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
         public CancellationToken Token { get; set; }
 
         private LogisticRegression regression;
 
-        private int inputCount;
         private double[] coefficients;
         private double[] standardErrors;
         private double[] oddsRatios;
 
         private WaldTest[] waldTests;
         private ChiSquareTest[] ratioTests;
-
         private DoubleRange[] confidences;
 
         private double deviance;
         private double logLikelihood;
         private ChiSquareTest chiSquare;
 
+        [Obsolete]
         private double[][] inputData;
+        [Obsolete]
         private double[] outputData;
+        [Obsolete]
         private double[] weights;
 
         private string[] inputNames;
         private string outputName;
 
+        [Obsolete]
         private double[,] sourceMatrix;
+        [Obsolete]
         private double[] result;
 
         double regularization = 1e-10;
@@ -241,6 +249,7 @@ using System.Threading;
         /// <param name="inputs">The input data for the analysis.</param>
         /// <param name="outputs">The output data for the analysis.</param>
         /// 
+        [Obsolete("Please pass the inputs and outputs to the Learn method instead.")]
         public LogisticRegressionAnalysis(double[][] inputs, double[] outputs)
         {
             if (inputs == null)
@@ -259,7 +268,7 @@ using System.Threading;
             initialize(inputs, outputs);
 
             // Start regression using the Null Model
-            this.regression = new LogisticRegression(inputCount);
+            this.regression = new LogisticRegression(NumberOfInputs);
         }
 
         /// <summary>
@@ -270,6 +279,7 @@ using System.Threading;
         /// <param name="outputs">The output data for the analysis.</param>
         /// <param name="weights">The weights associated with each input vector.</param>
         /// 
+        [Obsolete("Please pass the inputs and outputs to the Learn method instead.")]
         public LogisticRegressionAnalysis(double[][] inputs, double[] outputs, double[] weights)
             : this(inputs, outputs)
         {
@@ -294,6 +304,7 @@ using System.Threading;
         /// <param name="inputNames">The names of the input variables.</param>
         /// <param name="outputName">The name of the output variable.</param>
         /// 
+        [Obsolete("Please pass the inputs and outputs to the Learn method instead.")]
         public LogisticRegressionAnalysis(double[][] inputs, double[] outputs,
             String[] inputNames, String outputName)
             : this(inputs, outputs)
@@ -312,6 +323,7 @@ using System.Threading;
         /// <param name="outputName">The name of the output variable.</param>
         /// <param name="weights">The weights associated with each input vector.</param>
         /// 
+        [Obsolete("Please pass the inputs and outputs to the Learn method instead.")]
         public LogisticRegressionAnalysis(double[][] inputs, double[] outputs, double[] weights,
             String[] inputNames, String outputName)
             : this(inputs, outputs, weights)
@@ -320,15 +332,24 @@ using System.Threading;
             this.outputName = outputName;
         }
 
+        /// <summary>
+        ///   Constructs a Logistic Regression Analysis.
+        /// </summary>
+        /// 
+        public LogisticRegressionAnalysis()
+        {
+            this.NumberOfOutputs = 1;
+        }
+
+        [Obsolete]
         private void initialize(double[][] inputs, double[] outputs)
         {
-            this.inputCount = inputs[0].Length;
-            int coefficientCount = inputCount + 1;
+            this.NumberOfInputs = inputs[0].Length;
+            int coefficientCount = NumberOfInputs + 1;
 
             // Store data sets
             this.inputData = inputs;
             this.outputData = outputs;
-
 
             // Create additional structures
             this.coefficients = new double[coefficientCount];
@@ -339,7 +360,7 @@ using System.Threading;
             this.ratioTests = new ChiSquareTest[coefficientCount];
 
             this.outputName = "Output";
-            this.inputNames = new string[inputCount];
+            this.inputNames = new string[NumberOfInputs];
             for (int i = 0; i < inputNames.Length; i++)
                 inputNames[i] = "Input " + i;
 
@@ -389,9 +410,18 @@ using System.Threading;
         }
 
         /// <summary>
+        ///   Gets or sets whether nested models should be computed in
+        ///   order to calculate the likelihood-ratio test of each of
+        ///   the coefficients. Default is false.
+        /// </summary>
+        /// 
+        public bool ComputeInnerModels { get; set; }
+
+        /// <summary>
         ///   Gets the source matrix from which the analysis was run.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[,] Source
         {
             get
@@ -406,6 +436,7 @@ using System.Threading;
         ///   Gets the source matrix from which the analysis was run.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[][] Array
         {
             get { return inputData; }
@@ -416,6 +447,7 @@ using System.Threading;
         ///   for each of the source input points.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[] Outputs
         {
             get { return outputData; }
@@ -426,6 +458,7 @@ using System.Threading;
         ///   by the logistic regression model.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[] Result
         {
             get { return result; }
@@ -435,6 +468,7 @@ using System.Threading;
         ///   Gets the sample weight associated with each input vector.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[] Weights
         {
             get { return weights; }
@@ -546,8 +580,10 @@ using System.Threading;
         {
             get
             {
+#pragma warning disable 612, 618
                 if (innerComputed == false)
-                    computeInner();
+                    computeInner(Source.ToJagged(), Outputs, Weights);
+#pragma warning restore 612, 618
 
                 return this.ratioTests;
             }
@@ -582,20 +618,39 @@ using System.Threading;
         /// <param name="model">Another logistic regression model.</param>
         /// <returns>The Likelihood-Ratio between the two models.</returns>
         /// 
+        [Obsolete("This method will be removed.")]
         public double GetLikelihoodRatio(GeneralizedLinearRegression model)
         {
             return regression.GetLogLikelihoodRatio(inputData, outputData, model);
         }
 
 
-        public LogisticRegression Learn(double[][] input, double[] output, double[] weights = null)
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public LogisticRegression Learn(double[][] x, double[] y, double[] weights = null)
         {
-            return compute(input, output, weights);
+            return compute(x, y, weights);
         }
 
-        public LogisticRegression Learn(double[][] input, int[] output, double[] weights = null)
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public LogisticRegression Learn(double[][] x, int[] y, double[] weights = null)
         {
-            return compute(input, output, weights);
+            return compute(x, y.ToDouble(), weights);
         }
 
         private LogisticRegression compute(double[][] input, double[] output, double[] weights)
@@ -618,40 +673,15 @@ using System.Threading;
             bool converged = iteration < iterations;
 
 
-            computeInformation();
+            computeInformation(input, output, weights);
 
             innerComputed = false;
+            if (ComputeInnerModels)
+                computeInner(input, output, weights);
 
             return regression;
         }
 
-        private LogisticRegression compute(double[][] input, int[] output, double[] weights)
-        {
-            double delta;
-            int iteration = 0;
-
-            var learning = new IterativeReweightedLeastSquares(regression);
-
-            learning.Regularization = regularization;
-
-            do // learning iterations until convergence
-            {
-                delta = learning.Run(input, output, weights);
-                iteration++;
-
-            } while (delta > tolerance && iteration < iterations);
-
-            // Check if the full model has converged
-            bool converged = iteration < iterations;
-
-
-            computeInformation();
-
-            innerComputed = false;
-
-            return regression;
-        }
-        
 
         /// <summary>
         ///   Computes the Logistic Regression Analysis.
@@ -667,6 +697,7 @@ using System.Threading;
         ///   True if the model converged, false otherwise.
         /// </returns>
         /// 
+        [Obsolete("Please use the Learn() method instead.")]
         public bool Compute()
         {
             return compute();
@@ -676,11 +707,12 @@ using System.Threading;
         ///   Computes the Logistic Regression Analysis for an already computed regression.
         /// </summary>
         /// 
+        [Obsolete("Please use the Learn() method instead.")]
         public void Compute(LogisticRegression regression)
         {
             this.regression = regression;
 
-            computeInformation();
+            computeInformation(Source.ToJagged(), Outputs, Weights);
 
             innerComputed = false;
         }
@@ -710,7 +742,7 @@ using System.Threading;
         ///   True if the model converged, false otherwise.
         /// </returns>
         /// 
-        [Obsolete("Please set up the Iterations and Tolerance properties and call Compute() instead.")]
+        [Obsolete("Please set up the Iterations and Tolerance properties and call Learn() instead.")]
         public bool Compute(double limit = 1e-5, int maxIterations = 50)
         {
             this.iterations = maxIterations;
@@ -735,6 +767,7 @@ using System.Threading;
         ///   A <see cref="LogisticRegressionAnalysis"/> created from the given summary data.
         /// </returns>
         /// 
+        [Obsolete("Please use the Learn method instead.")]
         public static LogisticRegressionAnalysis FromSummary(double[][] data, int[] positives, int[] negatives)
         {
             double[] rate = new double[data.Length];
@@ -749,7 +782,7 @@ using System.Threading;
             return new LogisticRegressionAnalysis(data, rate, weights);
         }
 
-
+        [Obsolete]
         private bool compute()
         {
             double delta;
@@ -769,26 +802,24 @@ using System.Threading;
             // Check if the full model has converged
             bool converged = iteration < iterations;
 
-
-            computeInformation();
-
+            computeInformation(inputData, outputData, weights);
             innerComputed = false;
 
             return converged;
         }
 
-        private void computeInner()
+        private void computeInner(double[][] inputData, double[] outputData, double[] weights)
         {
             double limit = tolerance;
             int maxIterations = iterations;
 
             // Perform likelihood-ratio tests against diminished nested models
-            var innerModel = new LogisticRegression(inputCount - 1);
+            var innerModel = new LogisticRegression(NumberOfInputs);
             var learning = new IterativeReweightedLeastSquares(innerModel);
 
             learning.Regularization = regularization;
 
-            for (int i = 0; i < inputCount; i++)
+            for (int i = 0; i < NumberOfInputs; i++)
             {
                 // Create a diminished inner model without the current variable
                 double[][] data = inputData.RemoveColumn(i);
@@ -810,10 +841,12 @@ using System.Threading;
             innerComputed = true;
         }
 
-        private void computeInformation()
+        private void computeInformation(double[][] inputData, double[] outputData, double[] weights)
         {
             // Store model information
-            this.result = regression.Compute(inputData);
+#pragma warning disable 612, 618
+            result = regression.Compute(inputData);
+#pragma warning restore 612, 618
 
             if (weights == null)
             {
@@ -845,11 +878,23 @@ using System.Threading;
         ///   Computes the analysis using given source data and parameters.
         /// </summary>
         /// 
+        [Obsolete("Please use the Learn() method instead.")]
         void IAnalysis.Compute()
         {
             Compute();
         }
 
+        /// <summary>
+        /// Applies the transformation to an input, producing an associated output.
+        /// </summary>
+        /// <param name="input">The input data to which the transformation should be applied.</param>
+        /// <returns>
+        /// The output generated by applying this transformation to the given input.
+        /// </returns>
+        public override double Transform(double[] input)
+        {
+            return (regression as ITransform<double[], double>).Transform(input);
+        }
     }
 
 
@@ -987,8 +1032,6 @@ using System.Threading;
         {
             return String.Format("{0}; {1} ({2}, {3})", Name, Value, ConfidenceLower, ConfidenceUpper);
         }
-
-
     }
 
     /// <summary>

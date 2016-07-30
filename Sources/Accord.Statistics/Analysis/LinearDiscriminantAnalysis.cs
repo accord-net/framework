@@ -70,7 +70,7 @@ namespace Accord.Statistics.Analysis
     /// <para>
     ///   This class can also be bound to standard controls such as the 
     ///   <a href="http://msdn.microsoft.com/en-us/library/system.windows.forms.datagridview.aspx">DataGridView</a>
-    ///   by setting their DataSource property to the analysis' <see cref="Discriminants"/> property.</para>
+    ///   by setting their DataSource property to the analysis' <see cref="BaseDiscriminantAnalysis.Discriminants"/> property.</para>
     ///   
     /// <para>
     ///    References:
@@ -149,8 +149,6 @@ namespace Accord.Statistics.Analysis
         [Obsolete("Please pass the 'inputs' and 'outputs' parameters to the Learn method instead.")]
         public LinearDiscriminantAnalysis(double[,] inputs, int[] outputs)
         {
-            this.source = inputs;
-            this.outputs = outputs;
             init(inputs, outputs);
         }
 
@@ -165,36 +163,7 @@ namespace Accord.Statistics.Analysis
         [Obsolete("Please pass the 'inputs' and 'outputs' parameters to the Learn method instead.")]
         public LinearDiscriminantAnalysis(double[][] inputs, int[] outputs)
         {
-            this.source = inputs.ToMatrix();
-            this.outputs = outputs;
             init(inputs.ToMatrix(), outputs);
-        }
-
-        private void init(double[,] inputs, int[] outputs)
-        {
-            // Gets the number of classes
-            int startingClass = outputs.Min();
-            this.NumberOfClasses = outputs.Max() - startingClass + 1;
-            this.NumberOfSamples = inputs.Rows();
-            this.NumberOfInputs = inputs.Columns();
-            this.NumberOfOutputs = inputs.Columns();
-
-            // Store the original data
-            this.source = inputs;
-            this.outputs = outputs;
-
-            // Creates simple structures to hold information later
-            this.classCount = new int[NumberOfClasses];
-            this.classMeans = new double[NumberOfClasses][];
-            this.classStdDevs = new double[NumberOfClasses][];
-            this.classScatter = new double[NumberOfClasses][][];
-            this.projectedMeans = new double[NumberOfClasses][];
-
-            // Creates the object-oriented structure to hold information about the classes
-            var collection = new DiscriminantAnalysisClass[NumberOfClasses];
-            for (int i = 0; i < collection.Length; i++)
-                collection[i] = new DiscriminantAnalysisClass(this, i, startingClass + i);
-            this.classCollection = new DiscriminantAnalysisClassCollection(collection);
         }
 
 
@@ -205,87 +174,25 @@ namespace Accord.Statistics.Analysis
         [Obsolete("Please use the Learn method instead.")]
         public virtual void Compute()
         {
-            int dimension = NumberOfOutputs;
+            Learn(Source.ToJagged(), Classifications);
 
-            // Compute entire data set measures
-            Means = Measures.Mean(source, dimension: 0);
-            StandardDeviations = Measures.StandardDeviation(source, totalMeans);
-            double total = dimension;
-
-            // Initialize the scatter matrices
-            this.Sw = Jagged.Zeros(dimension, dimension);
-            this.Sb = Jagged.Zeros(dimension, dimension);
-
-
-            // For each class
-            for (int c = 0; c < Classes.Count; c++)
-            {
-                int[] idx = Matrix.Find(outputs, y => y == Classes[c].Number);
-
-                // Get the class subset
-                double[][] subset = source.Submatrix(idx).ToJagged();
-                int count = subset.GetLength(0);
-
-                // Get the class mean
-                double[] mean = Measures.Mean(subset, dimension: 0);
-
-                // Continue constructing the Within-Class Scatter Matrix
-                double[][] Swi = Measures.Scatter(subset, mean, (double)count);
-
-                Sw.Add(Swi, result: Sw); // Sw = Sw + Swi
-
-                // Continue constructing the Between-Class Scatter Matrix
-                double[] d = mean.Subtract(totalMeans);
-                double[][] Sbi = Jagged.Outer(d, d);
-                Sbi.Multiply(total, result: Sbi);
-
-                Sb.Add(Sbi, result: Sb); // Sb = Sb + Sbi
-
-                // Store some additional information
-                this.classScatter[c] = Swi;
-                this.classCount[c] = count;
-                this.classMeans[c] = mean;
-                this.classStdDevs[c] = Measures.StandardDeviation(subset, mean);
-            }
-
-
-            // Compute the generalized eigenvalue decomposition
-            var gevd = new JaggedGeneralizedEigenvalueDecomposition(Sb, Sw, sort: true);
-
-            // Get the eigenvalues and corresponding eigenvectors
-            double[] evals = gevd.RealEigenvalues;
-            double[][] eigs = gevd.Eigenvectors;
-
-            // Store information
-            this.Eigenvalues = evals;
-            base.eigenvectors = eigs.Transpose();
-
-            // Create projections into latent space
-            this.result = Matrix.Dot(source, eigs).ToMatrix();
-
-            // Compute feature space means for later classification
-            for (int c = 0; c < Classes.Count; c++)
-                projectedMeans[c] = classMeans[c].Dot(eigs);
-
-            // Computes additional information about the analysis and creates the
-            //  object-oriented structure to hold the discriminants found.
-            CreateDiscriminants();
+            this.Result = this.Source.DotWithTransposed(DiscriminantVectors).ToMatrix();
         }
 
-        public override double[] Transform(double[] input, double[] result)
-        {
-            for (int j = 0; j < eigenvectors.Length; j++)
-                for (int k = 0; k < input.Length; k++)
-                    result[j] += input[k] * eigenvectors[j][k]; // already inverted
-            return result;
-        }
-
+        /// <summary>
+        /// Applies the transformation to an input, producing an associated output.
+        /// </summary>
+        /// <param name="input">The input data to which the transformation should be applied.</param>
+        /// <param name="result">A location to store the output, avoiding unnecessary memory allocations.</param>
+        /// <returns>
+        /// The output generated by applying this transformation to the given input.
+        /// </returns>
         public override double[][] Transform(double[][] input, double[][] result)
         {
             for (int i = 0; i < input.Length; i++)
-                for (int j = 0; j < eigenvectors.Length; j++)
+                for (int j = 0; j < DiscriminantVectors.Length; j++)
                     for (int k = 0; k < input[i].Length; k++)
-                        result[i][j] += input[i][k] * eigenvectors[j][k]; // already inverted
+                        result[i][j] += input[i][k] * DiscriminantVectors[j][k]; 
             return result;
         }
 
@@ -293,29 +200,32 @@ namespace Accord.Statistics.Analysis
 
 
 
-        public CancellationToken Token { get; set; }
-
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
         public Pipeline Learn(double[][] x, int[] y, double[] weights = null)
         {
-            int dimension = NumberOfOutputs;
-
             // Compute entire data set measures
-            Means = Measures.Mean(source, dimension: 0);
-            StandardDeviations = Measures.StandardDeviation(source, totalMeans);
-            double total = dimension;
+            Means = Measures.Mean(x, dimension: 0);
+            StandardDeviations = Measures.StandardDeviation(x, Means);
 
             // Initialize the scatter matrices
-            this.Sw = Jagged.Zeros(dimension, dimension);
-            this.Sb = Jagged.Zeros(dimension, dimension);
-
+            var Sw = Jagged.Zeros(NumberOfInputs, NumberOfInputs);
+            var Sb = Jagged.Zeros(NumberOfInputs, NumberOfInputs);
 
             // For each class
             for (int c = 0; c < Classes.Count; c++)
             {
-                int[] idx = Matrix.Find(y, y_i => y_i == c);
+                int[] idx = Matrix.Find(y, y_i => y_i == Classes[c].Number);
 
                 // Get the class subset
-                double[][] subset = source.Submatrix(idx).ToJagged();
+                double[][] subset = x.Get(idx);
                 int count = subset.GetLength(0);
 
                 // Get the class mean
@@ -327,8 +237,9 @@ namespace Accord.Statistics.Analysis
                 Sw.Add(Swi, result: Sw); // Sw = Sw + Swi
 
                 // Continue constructing the Between-Class Scatter Matrix
-                double[] d = mean.Subtract(totalMeans);
-                double[,] Sbi = Matrix.Outer(d, d).Multiply(total);
+                double[] d = mean.Subtract(Means);
+                double[][] Sbi = Jagged.Outer(d, d);
+                Sbi.Multiply(NumberOfInputs, result: Sbi);
 
                 Sb.Add(Sbi, result: Sb); // Sb = Sb + Sbi
 
@@ -349,10 +260,12 @@ namespace Accord.Statistics.Analysis
 
             // Store information
             this.Eigenvalues = evals;
-            base.eigenvectors = eigs.Transpose();
+            this.DiscriminantVectors = eigs.Transpose();
+            base.ScatterBetweenClass = Sb;
+            base.ScatterWithinClass = Sw;
 
             // Compute feature space means for later classification
-            for (int c = 0; c < Classes.Count; c++)
+            for (int c = 0; c < projectedMeans.Length; c++)
                 projectedMeans[c] = classMeans[c].Dot(eigs);
 
             // Computes additional information about the analysis and creates the
@@ -361,30 +274,50 @@ namespace Accord.Statistics.Analysis
 
             return new Pipeline()
             {
-                First = CreateRegression(NumberOfOutputs),
+                NumberOfInputs = NumberOfInputs,
+                NumberOfOutputs = NumberOfClasses,
+                First = new MultivariateLinearRegression()
+                {
+                    Weights = DiscriminantVectors,
+                    Intercepts = Means.Dot(DiscriminantVectors).Multiply(-1)
+                },
                 Second = new MinimumMeanDistanceClassifier()
                 {
-                    Means = projectedMeans,
-                    Distance = new SquareEuclidean()
-                }
+                    Means = projectedMeans
+                },
             };
         }
 
-        public MultivariateLinearRegression CreateRegression(int components)
+        /// <summary>
+        ///   Standard regression and classification pipeline for <see cref="LinearDiscriminantAnalysis"/>.
+        /// </summary>
+        /// 
+        [Serializable]
+        public sealed class Pipeline : MulticlassDistanceClassifierBase<double[]>
         {
-            double[,] weights = DiscriminantVectors.ToMatrix();
+            /// <summary>
+            /// Gets or sets the first step in the pipeline.
+            /// </summary>
+            /// 
+            public MultivariateLinearRegression First { get; set; }
 
-            double[] bias = Means.Dot(weights);
-            bias.Multiply(-1, result: bias);
+            /// <summary>
+            /// Gets or sets the second step in the pipeline.
+            /// </summary>
+            /// 
+            public MinimumMeanDistanceClassifier Second { get; set; }
 
-            return new MultivariateLinearRegression(weights, bias, false);
-        }
-
-        public class Pipeline : Pipeline<double[], int, MultivariateLinearRegression, MinimumMeanDistanceClassifier>
-        {
-            public override int[] Transform(double[][] input, int[] result)
+            /// <summary>
+            /// Computes a numerical score measuring the association between
+            /// the given <paramref name="input" /> vector and each class.
+            /// </summary>
+            /// <param name="input">The input vector.</param>
+            /// <param name="result">An array where the result will be stored,
+            /// avoiding unnecessary memory allocations.</param>
+            /// <returns></returns>
+            public override double[][] Distances(double[][] input, double[][] result)
             {
-                return Second.Transform(First.Transform(input));
+                return Second.Distances(First.Transform(input), result);
             }
         }
     }

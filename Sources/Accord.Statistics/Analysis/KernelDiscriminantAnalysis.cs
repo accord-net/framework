@@ -29,6 +29,7 @@ namespace Accord.Statistics.Analysis
     using Accord.Statistics.Kernels;
     using Accord.MachineLearning;
     using System.Threading;
+    using Models.Regression;
 
     /// <summary>
     ///   Kernel (Fisher) Discriminant Analysis.
@@ -47,7 +48,7 @@ namespace Accord.Statistics.Analysis
     /// <para>
     ///   This class can also be bound to standard controls such as the 
     ///   <a href="http://msdn.microsoft.com/en-us/library/system.windows.forms.datagridview.aspx">DataGridView</a>
-    ///   by setting their DataSource property to the analysis' <see cref="LinearDiscriminantAnalysis.Discriminants"/> property.</para>
+    ///   by setting their DataSource property to the analysis' <see cref="BaseDiscriminantAnalysis.Discriminants"/> property.</para>
     ///   
     /// <para>
     ///   References:
@@ -114,17 +115,23 @@ namespace Accord.Statistics.Analysis
     /// 
     [Serializable]
     public class KernelDiscriminantAnalysis : BaseDiscriminantAnalysis,
-        ISupervisedLearning<KernelDiscriminantAnalysis, double[], int>
+        ISupervisedLearning<KernelDiscriminantAnalysis.Pipeline, double[], int>
     {
         private IKernel kernel;
         private double regularization = 1e-4;
         private double threshold = 1e-3;
         private double[][] input;
 
-        
+        /// <summary>
+        ///   Gets or sets the matrix of original values used to create
+        ///   this analysis. Those values are required to build kernel 
+        ///  (Gram) matrices when classifying new samples.
+        /// </summary>
+        /// 
         public double[][] Input
         {
             get { return this.input; }
+            set { this.input = value; }
         }
 
         /// <summary>
@@ -140,8 +147,6 @@ namespace Accord.Statistics.Analysis
         public KernelDiscriminantAnalysis(double[,] inputs, int[] output, IKernel kernel)
         {
             this.kernel = kernel;
-            this.source = inputs;
-            this.outputs = output;
             init(inputs, output);
         }
 
@@ -158,39 +163,8 @@ namespace Accord.Statistics.Analysis
         public KernelDiscriminantAnalysis(double[][] inputs, int[] output, IKernel kernel)
         {
             this.kernel = kernel;
-            this.source = inputs.ToMatrix();
-            this.outputs = output;
             init(inputs.ToMatrix(), output);
         }
-
-        private void init(double[,] inputs, int[] outputs)
-        {
-            // Gets the number of classes
-            int startingClass = outputs.Min();
-            this.NumberOfClasses = outputs.Max() - startingClass + 1;
-            this.NumberOfSamples = inputs.Rows();
-            this.NumberOfInputs = inputs.Columns();
-            this.NumberOfOutputs = inputs.Columns();
-
-            // Store the original data
-            this.input = inputs.ToJagged();
-            this.source = inputs;
-            this.outputs = outputs;
-
-            // Creates simple structures to hold information later
-            this.classCount = new int[NumberOfClasses];
-            this.classMeans = new double[NumberOfClasses][];
-            this.classStdDevs = new double[NumberOfClasses][];
-            this.classScatter = new double[NumberOfClasses][][];
-            this.projectedMeans = new double[NumberOfClasses][];
-
-            // Creates the object-oriented structure to hold information about the classes
-            var collection = new DiscriminantAnalysisClass[NumberOfClasses];
-            for (int i = 0; i < collection.Length; i++)
-                collection[i] = new DiscriminantAnalysisClass(this, i, startingClass + i);
-            this.classCollection = new DiscriminantAnalysisClassCollection(collection);
-        }
-
 
 
         /// <summary>
@@ -244,20 +218,23 @@ namespace Accord.Statistics.Analysis
         ///   Computes the Multi-Class Kernel Discriminant Analysis algorithm.
         /// </summary>
         /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
         public void Compute()
         {
+            this.input = Source.ToJagged();
+
             // Get some initial information
-            int dimension = source.GetLength(0);
+            int dimension = Source.GetLength(0);
             double total = dimension;
 
             // Create the Gram (Kernel) Matrix
             double[,] K = new double[dimension, dimension];
             for (int i = 0; i < dimension; i++)
             {
-                double[] row = source.GetRow(i);
+                double[] row = Source.GetRow(i);
                 for (int j = i; j < dimension; j++)
                 {
-                    double s = kernel.Function(row, source.GetRow(j));
+                    double s = kernel.Function(row, Source.GetRow(j));
                     K[i, j] = s; // Assume K will be symmetric
                     K[j, i] = s;
                 }
@@ -278,7 +255,7 @@ namespace Accord.Statistics.Analysis
             for (int c = 0; c < Classes.Count; c++)
             {
                 // Get the Kernel matrix class subset
-                double[,] Kc = K.Submatrix(Matrix.Find(outputs, y_i => y_i == Classes[c].Number));
+                double[,] Kc = K.Submatrix(Matrix.Find(Classifications, y_i => y_i == Classes[c].Number));
                 int count = Kc.GetLength(0);
 
                 // Get the Kernel matrix class mean
@@ -388,45 +365,49 @@ namespace Accord.Statistics.Analysis
 
             // Store information
             base.Eigenvalues = evals;
-            base.eigenvectors = eigs.ToJagged().Transpose();
+            base.DiscriminantVectors = eigs.ToJagged().Transpose();
             base.ScatterBetweenClass = Sb.ToJagged();
             base.ScatterWithinClass = Sw.ToJagged();
 
-#pragma warning disable 612, 618
             // Project into the kernel discriminant space
             this.Result = Matrix.Dot(K, eigs);
-#pragma warning restore 612, 618
 
             // Compute feature space means for later classification
             for (int c = 0; c < Classes.Count; c++)
-            {
                 ProjectionMeans[c] = ClassMeans[c].Dot(eigs);
-            }
-
 
             // Computes additional information about the analysis and creates the
             //  object-oriented structure to hold the discriminants found.
             CreateDiscriminants();
         }
 
-        public override double[] Transform(double[] input, double[] result)
-        {
-            return Transform(new[] { input }, new[] { result })[0];
-        }
-
+        /// <summary>
+        /// Applies the transformation to an input, producing an associated output.
+        /// </summary>
+        /// <param name="input">The input data to which the transformation should be applied.</param>
+        /// <param name="result">A location to store the output, avoiding unnecessary memory allocations.</param>
+        /// <returns>
+        /// The output generated by applying this transformation to the given input.
+        /// </returns>
         public override double[][] Transform(double[][] input, double[][] result)
         {
-            // Create the Kernel matrix
-            double[][] K = kernel.ToJagged2(x: input, y: this.input);
             // TODO: Do without forming the kernel matrix
+            double[][] K = kernel.ToJagged2(x: input, y: this.input);
             return K.DotWithTransposed(DiscriminantVectors);
         }
 
 
-
-        public CancellationToken Token { get; set; }
-
-        public KernelDiscriminantAnalysis Learn(double[][] x, int[] y, double[] weights = null)
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        /// 
+        public Pipeline Learn(double[][] x, int[] y, double[] weights = null)
         {
             this.NumberOfInputs = x.Columns();
             this.NumberOfOutputs = y.Max();
@@ -449,7 +430,7 @@ namespace Accord.Statistics.Analysis
                 var idx = Matrix.Find(y, y_i => y_i == c);
 
                 // Get the Kernel matrix class subset
-                double[][] Kc = K.Submatrix(idx);
+                double[][] Kc = K.Get(idx);
                 int count = Kc.GetLength(0);
 
                 // Get the Kernel matrix class mean
@@ -497,13 +478,13 @@ namespace Accord.Statistics.Analysis
                 nonzero = Math.Min(nonzero, NumberOfOutputs);
 
             // Eliminate unwanted components
-            eigs = eigs.Submatrix(null, 0, nonzero - 1);
-            evals = evals.Submatrix(0, nonzero - 1);
+            eigs = eigs.Get(null, 0, nonzero - 1);
+            evals = evals.Get(0, nonzero - 1);
 
             // Store information
             this.input = x;
             base.Eigenvalues = evals;
-            base.eigenvectors = eigs.Transpose();
+            base.DiscriminantVectors = eigs.Transpose();
             base.ScatterBetweenClass = Sb;
             base.ScatterWithinClass = Sw;
 
@@ -515,7 +496,61 @@ namespace Accord.Statistics.Analysis
             //  object-oriented structure to hold the discriminants found.
             CreateDiscriminants();
 
-            return this;
+            return new Pipeline()
+            {
+                First = CreateRegression(NumberOfOutputs),
+                Second = new MinimumMeanDistanceClassifier()
+                {
+                    Means = projectedMeans
+                }
+            };
+        }
+
+        private MultivariateKernelRegression CreateRegression(int components)
+        {
+            double[][] weights = DiscriminantVectors;
+            double[] bias = Means.Dot(weights);
+            bias.Multiply(-1, result: bias);
+
+            return new MultivariateKernelRegression()
+            {
+                Weights = weights,
+                Intercept = bias,
+                Inputs = input
+            };
+        }
+
+        /// <summary>
+        ///   Standard regression and classification pipeline for <see cref="LinearDiscriminantAnalysis"/>.
+        /// </summary>
+        /// 
+        [Serializable]
+        public sealed class Pipeline : MulticlassDistanceClassifierBase<double[]>
+        {
+            /// <summary>
+            /// Gets or sets the first step in the pipeline.
+            /// </summary>
+            /// 
+            public MultivariateKernelRegression First { get; set; }
+
+            /// <summary>
+            /// Gets or sets the second step in the pipeline.
+            /// </summary>
+            /// 
+            public MinimumMeanDistanceClassifier Second { get; set; }
+
+            /// <summary>
+            /// Computes a numerical score measuring the association between
+            /// the given <paramref name="input" /> vector and each class.
+            /// </summary>
+            /// <param name="input">The input vector.</param>
+            /// <param name="result">An array where the result will be stored,
+            /// avoiding unnecessary memory allocations.</param>
+            /// <returns></returns>
+            public override double[][] Distances(double[][] input, double[][] result)
+            {
+                return Second.Distances(First.Transform(input), result);
+            }
         }
     }
 }

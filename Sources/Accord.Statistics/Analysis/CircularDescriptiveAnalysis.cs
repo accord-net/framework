@@ -223,7 +223,6 @@ namespace Accord.Statistics.Analysis
         ///   Constructs the Circular Descriptive Analysis.
         /// </summary>
         /// 
-        /// <param name="data">The source data to perform analysis.</param>
         /// <param name="length">The length of each circular variable (i.e. 24 for hours).</param>
         /// <param name="columnNames">Names for the analyzed variables.</param>
         /// 
@@ -236,9 +235,7 @@ namespace Accord.Statistics.Analysis
         ///   Constructs the Circular Descriptive Analysis.
         /// </summary>
         /// 
-        /// <param name="data">The source data to perform analysis.</param>
         /// <param name="length">The length of each circular variable (i.e. 24 for hours).</param>
-        /// <param name="columnNames">Names for the analyzed variables.</param>
         /// 
         public CircularDescriptiveAnalysis(double[] length)
         {
@@ -365,6 +362,14 @@ namespace Accord.Statistics.Analysis
             this.standardErrors = null;
         }
 
+        /// <summary>
+        /// Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <returns>
+        /// A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.
+        /// </returns>
         public CircularDescriptiveAnalysis Learn(double[][] x)
         {
             reset();
@@ -428,6 +433,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the source matrix from which the analysis was run.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[,] Source
         {
             get
@@ -452,6 +458,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the source matrix from which the analysis was run.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[][] Array
         {
             get
@@ -472,6 +479,13 @@ namespace Accord.Statistics.Analysis
             }
         }
 
+        /// <summary>
+        ///   Gets or sets whether the properties of this class should
+        ///   be computed only when necessary. If set to true, a copy
+        ///   of the input data will be maintained inside an instance
+        ///   of this class, using more memory.
+        /// </summary>
+        /// 
         public bool Lazy
         {
             get { return lazy; }
@@ -482,6 +496,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the source matrix from which the analysis was run.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[][] Angles
         {
             get { return this.angles; }
@@ -1249,6 +1264,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the transformed variable's observations.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[] Angles
         {
             get { return analysis.Angles[index]; }
@@ -1285,6 +1301,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the variable's observations.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[] Samples
         {
             get { return analysis.Source.GetColumn(index); }

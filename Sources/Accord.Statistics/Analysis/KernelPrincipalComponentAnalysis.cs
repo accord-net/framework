@@ -360,8 +360,8 @@ namespace Accord.Statistics.Analysis
                 nonzero = Math.Min(nonzero, NumberOfOutputs);
 
             // Eliminate unwanted components
-            eigs = eigs.Submatrix(null, 0, nonzero - 1);
-            evals = evals.Submatrix(0, nonzero - 1);
+            eigs = eigs.Get(null, 0, nonzero);
+            evals = evals.Get(0, nonzero);
 
             // Normalize eigenvectors
             if (centerFeatureSpace)
@@ -539,7 +539,7 @@ namespace Accord.Statistics.Analysis
                 for (int i = 0; i < X.GetLength(0); i++)
                 {
                     inx[i] = i;
-                    d2[i] = distance.ReverseDistance(y, result.GetRow(i).Submatrix(y.Length));
+                    d2[i] = distance.ReverseDistance(y, result.GetRow(i).First(y.Length));
 
                     if (Double.IsNaN(d2[i]))
                         d2[i] = Double.PositiveInfinity;
@@ -555,9 +555,9 @@ namespace Accord.Statistics.Analysis
                     if (Double.IsInfinity(d2[i]))
                         break;
 
-                inx = inx.Submatrix(def);
-                X = X.Submatrix(inx).Transpose(); // X is in input space
-                d2 = d2.Submatrix(def);       // distances in input space
+                inx = inx.First(def);
+                X = X.Get(inx).Transpose(); // X is in input space
+                d2 = d2.First(def);       // distances in input space
 
 
                 // 3. Perform SVD
@@ -590,7 +590,7 @@ namespace Accord.Statistics.Analysis
                 double[][] inv = Matrix.PseudoInverse(Z.Transpose());
 
                 double[] w = (-0.5).Multiply(inv).Dot(d2.Subtract(d02));
-                double[] z = w.Submatrix(U.Columns());
+                double[] z = w.First(U.Columns());
 
 
                 // 8. Project the pre-image on the original basis

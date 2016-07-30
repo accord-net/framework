@@ -146,7 +146,14 @@ namespace Accord.Statistics.Analysis
         ISupervisedLearning<LogisticRegression, double[], double>
     {
 
-        public CancellationToken Token { get; set; }
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        public CancellationToken Token
+        {
+            get; set;
+        }
 
         private double[][] inputData;
         private double[] outputData;
@@ -181,10 +188,10 @@ namespace Accord.Statistics.Analysis
         public StepwiseLogisticRegressionAnalysis(double[][] inputs, double[] outputs)
         {
             // Initial argument checking
-            if (inputs == null) 
+            if (inputs == null)
                 throw new ArgumentNullException("inputs");
 
-            if (outputs == null) 
+            if (outputs == null)
                 throw new ArgumentNullException("outputs");
 
             if (inputs.Length != outputs.Length)
@@ -214,10 +221,10 @@ namespace Accord.Statistics.Analysis
         public StepwiseLogisticRegressionAnalysis(double[][] inputs, double[] outputs, String[] inputNames, String outputName)
         {
             // Initial argument checking
-            if (inputs == null) 
+            if (inputs == null)
                 throw new ArgumentNullException("inputs");
 
-            if (outputs == null) 
+            if (outputs == null)
                 throw new ArgumentNullException("outputs");
 
             if (inputs.Length != outputs.Length)
@@ -234,7 +241,6 @@ namespace Accord.Statistics.Analysis
         }
 
 
-        #region Properties
 
         /// <summary>
         ///   Gets or sets the maximum number of iterations to be
@@ -321,9 +327,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the name of the input variables.
         /// </summary>
         /// 
-        public String[] Inputs
-        {
-            get { return this.inputNames; }
+        public String[] Inputs { get { return this.inputNames; }
         }
 
         /// <summary>
@@ -356,17 +360,26 @@ namespace Accord.Statistics.Analysis
         {
             get { return this.resultVariables; }
         }
-        #endregion
 
 
 
-        public LogisticRegression Learn(double[][] input, double[] output, double[] weights)
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        /// <exception cref="System.ArgumentException"></exception>
+        public LogisticRegression Learn(double[][] x, double[] y, double[] weights = null)
         {
             if (weights != null)
                 throw new ArgumentException();
 
-            this.inputData = input;
-            this.outputData = output;
+            this.inputData = x;
+            this.outputData = y;
 
             int changed;
             do
@@ -378,8 +391,7 @@ namespace Accord.Statistics.Analysis
             // Get the final variable selection
             resultVariables = currentModel.Variables;
 
-            double[][] resultInput = inputData
-                .Submatrix(null, resultVariables);
+            double[][] resultInput = inputData.Submatrix(null, resultVariables);
 
             // Compute the final model output probabilities
             result = currentModel.Regression.Compute(resultInput);
@@ -400,7 +412,7 @@ namespace Accord.Statistics.Analysis
 
             } while (changed != -1);
 
-            
+
             // Get the final variable selection
             resultVariables = currentModel.Variables;
 
@@ -461,7 +473,7 @@ namespace Accord.Statistics.Analysis
                 // Create a diminished nested model without the current variable
                 LogisticRegression regression = new LogisticRegression(currentModel.Regression.Inputs - 1);
                 int[] variables = currentModel.Variables.RemoveAt(i);
-                double[][] subset = inputData.Submatrix(0, inputData.Length - 1, variables);
+                double[][] subset = inputData.Get(null, variables);
 
                 fit(regression, subset, outputData);
 
@@ -479,7 +491,8 @@ namespace Accord.Statistics.Analysis
             }
 
             // Select the model with the highest p-value
-            double pmax = 0; int imax = -1;
+            double pmax = 0;
+            int imax = -1;
             for (int i = 0; i < nestedModels.Length; i++)
             {
                 if (nestedModels[i].ChiSquare.PValue >= pmax)
@@ -552,7 +565,10 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         [Browsable(false)]
-        public NestedLogisticCoefficientCollection Coefficients { get; private set; }
+        public NestedLogisticCoefficientCollection Coefficients
+        {
+            get; private set;
+        }
 
 
         /// <summary>
@@ -561,21 +577,30 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         [Browsable(false)]
-        public StepwiseLogisticRegressionAnalysis Analysis { get; private set; }
+        public StepwiseLogisticRegressionAnalysis Analysis
+        {
+            get; private set;
+        }
 
         /// <summary>
         ///   Gets the regression model.
         /// </summary>
         /// 
         [Browsable(false)]
-        public LogisticRegression Regression { get; private set; }
+        public LogisticRegression Regression
+        {
+            get; private set;
+        }
 
         /// <summary>
         ///   Gets the subset of the original variables used by the model.
         /// </summary>
         /// 
         [Browsable(false)]
-        public int[] Variables { get; private set; }
+        public int[] Variables
+        {
+            get; private set;
+        }
 
         /// <summary>
         ///   Gets the name of the variables used in
@@ -583,21 +608,30 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         [DisplayName("Inputs")]
-        public string Names { get; private set; }
+        public string Names
+        {
+            get; private set;
+        }
 
         /// <summary>
         ///   Gets the Chi-Square Likelihood Ratio test for the model.
         /// </summary>
         /// 
         [DisplayName("Likelihood-ratio")]
-        public ChiSquareTest ChiSquare { get; private set; }
+        public ChiSquareTest ChiSquare
+        {
+            get; private set;
+        }
 
         /// <summary>
         ///   Gets the subset of the original variables used by the model.
         /// </summary>
         /// 
         [Browsable(false)]
-        public string[] Inputs { get; private set; }
+        public string[] Inputs
+        {
+            get; private set;
+        }
 
         /// <summary>
         ///   Gets the Odds Ratio for each coefficient
@@ -605,7 +639,10 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         [Browsable(false)]
-        public double[] OddsRatios { get; private set; }
+        public double[] OddsRatios
+        {
+            get; private set;
+        }
 
         /// <summary>
         ///   Gets the Standard Error for each coefficient
@@ -613,21 +650,30 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         [Browsable(false)]
-        public double[] StandardErrors { get; internal set; }
+        public double[] StandardErrors
+        {
+            get; internal set;
+        }
 
         /// <summary>
         ///   Gets the Wald Tests for each coefficient.
         /// </summary>
         /// 
         [Browsable(false)]
-        public WaldTest[] WaldTests { get; internal set; }
+        public WaldTest[] WaldTests
+        {
+            get; internal set;
+        }
 
         /// <summary>
         ///   Gets the value of each coefficient.
         /// </summary>
         /// 
         [Browsable(false)]
-        public double[] CoefficientValues { get; private set; }
+        public double[] CoefficientValues
+        {
+            get; private set;
+        }
 
         /// <summary>
         ///   Gets the 95% Confidence Intervals (C.I.)
@@ -635,14 +681,20 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         [Browsable(false)]
-        public DoubleRange[] Confidences { get; private set; }
+        public DoubleRange[] Confidences
+        {
+            get; private set;
+        }
 
         /// <summary>
         ///   Gets the Likelihood-Ratio Tests for each coefficient.
         /// </summary>
         /// 
         [Browsable(false)]
-        public ChiSquareTest[] LikelihoodRatioTests { get; private set; }
+        public ChiSquareTest[] LikelihoodRatioTests
+        {
+            get; private set;
+        }
 
         /// <summary>
         ///   Constructs a new Logistic regression model.
@@ -656,7 +708,7 @@ namespace Accord.Statistics.Analysis
 
             int coefficientCount = regression.Coefficients.Length;
 
-            this.Inputs = analysis.Inputs.Submatrix(variables);
+            this.Inputs = analysis.Inputs.Get(variables);
             this.ChiSquare = chiSquare;
             this.LikelihoodRatioTests = tests;
             this.Variables = variables;
@@ -704,7 +756,9 @@ namespace Accord.Statistics.Analysis
         ReadOnlyCollection<StepwiseLogisticRegressionModel>
     {
         internal StepwiseLogisticRegressionModelCollection(StepwiseLogisticRegressionModel[] models)
-            : base(models) { }
+            : base(models)
+        {
+        }
     }
 
     /// <summary>
@@ -734,7 +788,7 @@ namespace Accord.Statistics.Analysis
         {
             get
             {
-                if (index == 0) 
+                if (index == 0)
                     return "Intercept";
                 return analysis.Inputs[index - 1];
             }
@@ -747,7 +801,10 @@ namespace Accord.Statistics.Analysis
         [DisplayName("Odds ratio")]
         public double OddsRatio
         {
-            get { return analysis.OddsRatios[index]; }
+            get
+            {
+                return analysis.OddsRatios[index];
+            }
         }
 
         /// <summary>
@@ -757,7 +814,10 @@ namespace Accord.Statistics.Analysis
         [DisplayName("Std. Error")]
         public double StandardError
         {
-            get { return analysis.StandardErrors[index]; }
+            get
+            {
+                return analysis.StandardErrors[index];
+            }
         }
 
         /// <summary>
@@ -767,7 +827,10 @@ namespace Accord.Statistics.Analysis
         [Browsable(false)]
         public DoubleRange Confidence
         {
-            get { return analysis.Confidences[index]; }
+            get
+            {
+                return analysis.Confidences[index];
+            }
         }
 
         /// <summary>
@@ -777,7 +840,10 @@ namespace Accord.Statistics.Analysis
         [DisplayName("Upper confidence limit")]
         public double ConfidenceUpper
         {
-            get { return Confidence.Max; }
+            get
+            {
+                return Confidence.Max;
+            }
         }
 
         /// <summary>
@@ -787,7 +853,10 @@ namespace Accord.Statistics.Analysis
         [DisplayName("Lower confidence limit")]
         public double ConfidenceLower
         {
-            get { return Confidence.Min; }
+            get
+            {
+                return Confidence.Min;
+            }
         }
 
         /// <summary>
@@ -797,7 +866,10 @@ namespace Accord.Statistics.Analysis
         [DisplayName("Value")]
         public double Value
         {
-            get { return analysis.CoefficientValues[index]; }
+            get
+            {
+                return analysis.CoefficientValues[index];
+            }
         }
 
         /// <summary>
@@ -807,7 +879,10 @@ namespace Accord.Statistics.Analysis
         [DisplayName("Wald p-value")]
         public WaldTest Wald
         {
-            get { return analysis.WaldTests[index]; }
+            get
+            {
+                return analysis.WaldTests[index];
+            }
         }
 
         /// <summary>
@@ -836,6 +911,8 @@ namespace Accord.Statistics.Analysis
     public class NestedLogisticCoefficientCollection : ReadOnlyCollection<NestedLogisticCoefficient>
     {
         internal NestedLogisticCoefficientCollection(IList<NestedLogisticCoefficient> coefficients)
-            : base(coefficients) { }
+            : base(coefficients)
+        {
+        }
     }
 }

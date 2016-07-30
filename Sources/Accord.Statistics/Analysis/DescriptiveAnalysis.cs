@@ -132,9 +132,6 @@ namespace Accord.Statistics.Analysis
         ///   Constructs the Descriptive Analysis.
         /// </summary>
         /// 
-        /// <param name="data">The source data to perform analysis.</param>
-        /// <param name="columnNames">Names for the analyzed variables.</param>
-        /// 
         public DescriptiveAnalysis()
         {
         }
@@ -143,7 +140,6 @@ namespace Accord.Statistics.Analysis
         ///   Constructs the Descriptive Analysis.
         /// </summary>
         /// 
-        /// <param name="data">The source data to perform analysis.</param>
         /// <param name="columnNames">Names for the analyzed variables.</param>
         /// 
         public DescriptiveAnalysis(string[] columnNames)
@@ -328,11 +324,19 @@ namespace Accord.Statistics.Analysis
             this.outerFences = null;
         }
 
-        public DescriptiveAnalysis Learn(double[][] data)
+        /// <summary>
+        /// Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <returns>
+        /// A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.
+        /// </returns>
+        public DescriptiveAnalysis Learn(double[][] x)
         {
             reset();
 
-            init(null, data, columnNames);
+            init(null, x, columnNames);
 
             if (!lazy)
             {
@@ -369,6 +373,13 @@ namespace Accord.Statistics.Analysis
             return this;
         }
 
+        /// <summary>
+        ///   Gets or sets whether the properties of this class should
+        ///   be computed only when necessary. If set to true, a copy
+        ///   of the input data will be maintained inside an instance
+        ///   of this class, using more memory.
+        /// </summary>
+        /// 
         public bool Lazy
         {
             get { return lazy; }
@@ -379,6 +390,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the source matrix from which the analysis was run.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[,] Source
         {
             get
@@ -393,6 +405,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the source matrix from which the analysis was run.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[][] Array
         {
             get
@@ -431,7 +444,12 @@ namespace Accord.Statistics.Analysis
             get
             {
                 if (this.dScores == null)
-                    this.dScores = Source.Center(Means, inPlace: false);
+                {
+                    if (sourceMatrix != null)
+                        this.dScores = sourceMatrix.Center(Means, inPlace: false);
+                    else this.dScores = sourceArray.Center(Means, inPlace: false).ToMatrix();
+                }
+                    
                 return this.dScores;
             }
         }
@@ -1094,6 +1112,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the variable's observations.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[] Samples
         {
             get { return analysis.Source.GetColumn(index); }
