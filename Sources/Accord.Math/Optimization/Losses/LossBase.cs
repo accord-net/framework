@@ -28,26 +28,27 @@ namespace Accord.Math.Optimization.Losses
     ///   Base class for <see cref="ILoss{T}">loss functions</see>.
     /// </summary>
     /// 
-    /// <typeparam name="T">The type for the expected data.</typeparam>
+    /// <typeparam name="TInput">The type for the expected data.</typeparam>
+    /// <typeparam name="TOutput">The type for the loss value. Default is double.</typeparam>
     /// 
     [Serializable]
-    public abstract class LossBase<T> : ILoss<T>
+    public abstract class LossBase<TInput, TOutput> : ILoss<TInput, TOutput>
     {
-        private T expected;
+        private TInput expected;
 
         /// <summary>
         ///   Gets the expected outputs (the ground truth).
         /// </summary>
         /// 
-        public T Expected { get { return expected; } }
+        public TInput Expected { get { return expected; } }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="LossBase{T}"/> class.
+        ///   Initializes a new instance of the <see cref="LossBase{TInput, TOutput}"/> class.
         /// </summary>
         /// 
         /// <param name="expected">The expected outputs (ground truth).</param>
         /// 
-        public LossBase(T expected)
+        protected LossBase(TInput expected)
         {
             this.expected = expected;
         }
@@ -64,8 +65,27 @@ namespace Accord.Math.Optimization.Losses
         ///   the actual predicted values.
         /// </returns>
         /// 
-        public abstract double Loss(T actual);
+        public abstract TOutput Loss(TInput actual);
+    }
 
-      
+    /// <summary>
+    ///   Base class for <see cref="ILoss{T}">loss functions</see>.
+    /// </summary>
+    /// 
+    /// <typeparam name="T">The type for the expected data.</typeparam>
+    /// 
+    [Serializable]
+    public abstract class LossBase<T> : LossBase<T, double>, ILoss<T>
+    {
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="LossBase{TInput, TOutput}"/> class.
+        /// </summary>
+        /// 
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
+        protected LossBase(T expected)
+            : base(expected)
+        {
+        }
     }
 }

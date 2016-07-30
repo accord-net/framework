@@ -364,7 +364,7 @@ namespace Accord.Math.Optimization
 
 
                 // Check if the decomposition exists
-                if (decomposition.IsNotDefined)
+                if (decomposition.IsUndefined)
                 {
                     // The Hessian is singular. Continue to the next
                     // iteration until the diagonal update transforms
