@@ -36,7 +36,7 @@ namespace Accord.Math
     /// 
     /// <typeparam name="T">The type for the non-zero elements in this vector.</typeparam>
     /// 
-    public class Sparse<T> : IEnumerable<T>, ICloneable,
+    public sealed class Sparse<T> : IEnumerable<T>, ICloneable,
         IList<T>, IList, IFormattable
     {
         private int[] indices;
