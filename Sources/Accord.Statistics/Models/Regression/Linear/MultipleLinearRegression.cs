@@ -27,6 +27,8 @@ namespace Accord.Statistics.Models.Regression.Linear
     using Accord.Math.Decompositions;
     using Accord.Math;
     using Accord.MachineLearning;
+    using Fitting;
+    using Math.Optimization.Losses;
 
     /// <summary>
     ///   Multiple Linear Regression.
@@ -91,15 +93,14 @@ namespace Accord.Statistics.Models.Regression.Linear
     /// </example>
     /// 
     [Serializable]
-    public class MultipleLinearRegression : TransformBase<double[], double>, 
+    public class MultipleLinearRegression : TransformBase<double[], double>,
         ILinearRegression, IFormattable
     {
-
         private double[] coefficients;
+
+        [Obsolete]
         private bool addIntercept;
-        
-        // TODO: Remove the addIntercept option, and move the learning to
-        // a separate dedicate class that can create the model from the data
+        private double intercept;
 
 
         /// <summary>
@@ -109,7 +110,9 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// <param name="inputs">The number of inputs for the regression.</param>
         /// 
         public MultipleLinearRegression(int inputs)
-            : this(inputs, false) { }
+            : this(inputs, 0)
+        {
+        }
 
         /// <summary>
         ///   Creates a new Multiple Linear Regression.
@@ -118,12 +121,35 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// <param name="inputs">The number of inputs for the regression.</param>
         /// <param name="intercept">True to use an intercept term, false otherwise. Default is false.</param>
         /// 
+        [Obsolete("Please do not pass a boolean value as the intercept value.")]
         public MultipleLinearRegression(int inputs, bool intercept)
         {
             if (intercept)
                 inputs++;
             this.coefficients = new double[inputs];
             this.addIntercept = intercept;
+            NumberOfOutputs = 1;
+        }
+
+        /// <summary>
+        ///   Creates a new Multiple Linear Regression.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The number of inputs for the regression.</param>
+        /// <param name="intercept">True to use an intercept term, false otherwise. Default is false.</param>
+        /// 
+        public MultipleLinearRegression(int inputs, double intercept = 0)
+        {
+            this.coefficients = new double[inputs];
+            this.intercept = intercept;
+            NumberOfOutputs = 1;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultipleLinearRegression"/> class.
+        /// </summary>
+        public MultipleLinearRegression()
+        {
         }
 
 
@@ -132,15 +158,29 @@ namespace Accord.Statistics.Models.Regression.Linear
         ///   contains an intercept term, it will be in the end of the vector.
         /// </summary>
         /// 
+        [Obsolete("Please use Weights instead.")]
         public double[] Coefficients
         {
             get { return coefficients; }
         }
 
         /// <summary>
+        ///   Gets or sets the linear weights of the regression model. The
+        ///   intercept term is not stored in this vector, but is instead
+        ///   available through the <see cref="Intercept"/> property.
+        /// </summary>
+        /// 
+        public double[] Weights
+        {
+            get { return coefficients; }
+            set { coefficients = value; }
+        }
+
+        /// <summary>
         ///   Gets the number of inputs for the regression model.
         /// </summary>
         /// 
+        [Obsolete("Please use NumberOfInputs instead.")]
         public int Inputs
         {
             get { return coefficients.Length - (addIntercept ? 1 : 0); }
@@ -150,9 +190,20 @@ namespace Accord.Statistics.Models.Regression.Linear
         ///   Gets whether this model has an additional intercept term.
         /// </summary>
         /// 
+        [Obsolete("Please check Intercept instead.")]
         public bool HasIntercept
         {
             get { return addIntercept; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the intercept value for the regression.
+        /// </summary>
+        /// 
+        public double Intercept
+        {
+            get { return intercept; }
+            set { intercept = value; }
         }
 
         /// <summary>
@@ -168,6 +219,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         ///    
         /// <returns>The Sum-Of-Squares error of the regression.</returns>
         /// 
+        [Obsolete("Please use the LinearLeastSquares class instead.")]
         public virtual double Regress(double[][] inputs, double[] outputs, bool robust)
         {
             if (inputs.Length != outputs.Length)
@@ -186,6 +238,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// <param name="outputs">The output values for each input vector.</param>
         /// <returns>The Sum-Of-Squares error of the regression.</returns>
         /// 
+        [Obsolete("Please use the LinearLeastSquares class instead.")]
         public virtual double Regress(double[][] inputs, double[] outputs)
         {
             if (inputs.Length != outputs.Length)
@@ -209,7 +262,8 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         /// <returns>The Sum-Of-Squares error of the regression.</returns>
         /// 
-        public double Regress(double[][] inputs, double[] outputs, 
+        [Obsolete("Please use the LinearLeastSquares class instead.")]
+        public double Regress(double[][] inputs, double[] outputs,
             out double[,] informationMatrix, bool robust = true)
         {
             if (inputs.Length != outputs.Length)
@@ -228,25 +282,15 @@ namespace Accord.Statistics.Models.Regression.Linear
             return error;
         }
 
-
+        [Obsolete]
         private double regress(double[][] inputs, double[] outputs, out double[,] designMatrix, bool robust)
         {
             if (inputs.Length != outputs.Length)
                 throw new ArgumentException("Number of input and output samples does not match", "outputs");
 
-            int parameters = Inputs;
-            int rows = inputs.Length;   // number of instance points
-            int cols = Inputs;          // dimension of each point
-
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                if (inputs[i].Length != parameters)
-                {
-                    throw new DimensionMismatchException("inputs", String.Format(
-                        "Input vectors should have length {0}. The row at index {1} of the" +
-                        " inputs matrix has length {2}.", parameters, i, inputs[i].Length));
-                }
-            }
+            int rows = inputs.Length;    // number of instance points
+            int cols = inputs[0].Length; // dimension of each point
+            NumberOfInputs = cols;
 
             ISolverMatrixDecomposition<double> solver;
 
@@ -297,7 +341,8 @@ namespace Accord.Statistics.Models.Regression.Linear
 
             // Solve V*C = B to find C (the coefficients)
             coefficients = solver.Solve(outputs);
-
+            if (addIntercept)
+                intercept = coefficients[coefficients.Length - 1];
 
             // Calculate Sum-Of-Squares error
             double error = 0.0;
@@ -330,79 +375,12 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         /// <returns>The R² (r-squared) coefficient for the given data.</returns>
         /// 
-        public double CoefficientOfDetermination(double[][] inputs, double[] outputs)
+        public double CoefficientOfDetermination(double[][] inputs, double[] outputs, bool adjust = false)
         {
-            return CoefficientOfDetermination(inputs, outputs, false);
-        }
-
-        /// <summary>
-        ///   Gets the coefficient of determination, as known as R² (r-squared).
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///   <para>
-        ///    The coefficient of determination is used in the context of statistical models
-        ///    whose main purpose is the prediction of future outcomes on the basis of other
-        ///    related information. It is the proportion of variability in a data set that
-        ///    is accounted for by the statistical model. It provides a measure of how well
-        ///    future outcomes are likely to be predicted by the model.</para>
-        ///   <para>
-        ///    The R² coefficient of determination is a statistical measure of how well the
-        ///    regression line approximates the real data points. An R² of 1.0 indicates
-        ///    that the regression line perfectly fits the data.</para> 
-        /// </remarks>
-        /// 
-        /// <returns>The R² (r-squared) coefficient for the given data.</returns>
-        /// 
-        public double CoefficientOfDetermination(double[][] inputs, double[] outputs, bool adjust)
-        {
-            // R-squared = 100 * SS(regression) / SS(total)
-
-            int n = inputs.Length;
-            int p = Inputs;
-            double SSe = 0.0;
-            double SSt = 0.0;
-            double avg = 0.0;
-            double d;
-
-            // Calculate output mean
-            for (int i = 0; i < outputs.Length; i++)
-                avg += outputs[i];
-            avg /= inputs.Length;
-
-            // Calculate SSe and SSt
-            for (int i = 0; i < outputs.Length; i++)
+            return new RSquaredLoss(NumberOfInputs, outputs)
             {
-                d = outputs[i] - Compute(inputs[i]);
-                SSe += d * d;
-
-                d = outputs[i] - avg;
-                SSt += d * d;
-            }
-
-            // Calculate R-Squared
-            double r2 = (SSt != 0) ? 1.0 - (SSe / SSt) : 1.0;
-
-            if (!adjust)
-            {
-                // Return ordinary R-Squared
-                return r2;
-            }
-            else
-            {
-                if (r2 == 1)
-                    return 1;
-
-                if (n - p == 1.0)
-                {
-                    return double.NaN;
-                }
-                else
-                {
-                    // Return adjusted R-Squared
-                    return 1.0 - (1.0 - r2) * ((n - 1.0) / (n - p - 1.0));
-                }
-            }
+                Adjust = adjust
+            }.Loss(Transform(inputs));
         }
 
         /// <summary>
@@ -413,12 +391,9 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         /// <returns>The calculated output.</returns>
         /// 
+        [Obsolete("Please use Transform instead.")]
         public double Compute(double[] input)
         {
-            if (input.Length != Inputs)
-                throw new DimensionMismatchException("input",
-                    String.Format("Input vectors should have length {0}.", Inputs));
-
             double output = 0.0;
 
             for (int i = 0; i < input.Length; i++)
@@ -438,10 +413,10 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         /// <returns>The calculated outputs.</returns>
         /// 
+        [Obsolete("Please use Transform instead.")]
         public double[] Compute(double[][] input)
         {
             double[] output = new double[input.Length];
-
             for (int j = 0; j < input.Length; j++)
                 output[j] = Compute(input[j]);
             return output;
@@ -468,11 +443,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         public static MultipleLinearRegression FromData(double[][] x, double[] y)
         {
-            var regression = new MultipleLinearRegression(x[0].Length);
-
-            regression.Regress(x, y);
-
-            return regression;
+            return new OrdinaryLeastSquares().Learn(x, y);
         }
 
         /// <summary>
@@ -484,6 +455,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         /// <returns>A linear regression with the given coefficients.</returns>
         /// 
+        [Obsolete("Please use the parameterless constructor and set Weights and Intercept directly.")]
         public static MultipleLinearRegression FromCoefficients(double[] coefficients, bool intercept)
         {
             var regression = new MultipleLinearRegression(coefficients.Length, intercept);
@@ -491,14 +463,13 @@ namespace Accord.Statistics.Models.Regression.Linear
             return regression;
         }
 
-        #region ILinearRegression Members
+        [Obsolete("Please use Transform instead.")]
         double[] ILinearRegression.Compute(double[] inputs)
         {
             return new double[] { this.Compute(inputs) };
         }
-        #endregion
 
-        #region IFormattable Members
+
 
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
@@ -518,44 +489,44 @@ namespace Accord.Statistics.Models.Regression.Linear
         {
             StringBuilder sb = new StringBuilder();
 
-            int inputs = (addIntercept) ? coefficients.Length - 1 : coefficients.Length;
-
             sb.Append("y(");
-            for (int i = 0; i < inputs; i++)
+            for (int i = 0; i < NumberOfInputs; i++)
             {
                 sb.AppendFormat("x{0}", i);
 
-                if (i < inputs - 1)
+                if (i < NumberOfInputs - 1)
                     sb.Append(", ");
             }
 
             sb.Append(") = ");
 
-            for (int i = 0; i < inputs; i++)
+            for (int i = 0; i < NumberOfInputs; i++)
             {
-                sb.AppendFormat("{0}*x{1}", Coefficients[i].ToString(format, formatProvider), i);
+                sb.AppendFormat("{0}*x{1}", Weights[i].ToString(format, formatProvider), i);
 
-                if (i < inputs - 1)
+                if (i < NumberOfInputs - 1)
                     sb.Append(" + ");
             }
 
-            if (addIntercept)
-                sb.AppendFormat(" + {0}", coefficients[inputs].ToString(format, formatProvider));
+            if (Intercept != 0)
+                sb.AppendFormat(" + {0}", Intercept.ToString(format, formatProvider));
 
             return sb.ToString();
         }
 
-        #endregion
 
+        /// <summary>
+        /// Applies the transformation to an input, producing an associated output.
+        /// </summary>
+        /// <param name="input">The input data to which the transformation should be applied.</param>
+        /// <returns>
+        /// The output generated by applying this transformation to the given input.
+        /// </returns>
         public override double Transform(double[] input)
         {
-            double output = 0.0;
+            double output = intercept;
             for (int i = 0; i < input.Length; i++)
                 output += coefficients[i] * input[i];
-
-            if (addIntercept)
-                output += coefficients[input.Length];
-
             return output;
         }
 

@@ -261,6 +261,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// </summary> 
         /// <param name="inputs">The input data.</param> 
         /// <param name="outputs">The outputs associated with each input vector.</param> 
+        /// <param name="weights">The weights associated with each sample.</param>
+        /// 
         /// <returns>The maximum relative change in the parameters after the iteration.</returns> 
         ///  
         public double Run(double[][] inputs, int[] outputs, double[] weights)
@@ -293,6 +295,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// 
         /// <param name="inputs">The input data.</param>
         /// <param name="outputs">The outputs associated with each input vector.</param>
+        /// <param name="sampleWeight">The weight associated with each sample.</param>
         /// 
         /// <returns>The maximum relative change in the parameters after the iteration.</returns>
         /// 

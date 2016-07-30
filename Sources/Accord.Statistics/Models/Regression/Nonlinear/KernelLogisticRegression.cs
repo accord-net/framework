@@ -30,10 +30,57 @@ namespace Accord.Statistics.Models.Regression
     using System.Text;
     using System.Threading.Tasks;
 
-    public class KernelLogisticRegression<TKernel> : MulticlassDistanceClassifierBase<double[]>
+    /// <summary>
+    ///   Logistic regression using Kernels.
+    /// </summary>
+    /// 
+    /// <typeparam name="TKernel">The kernel function.</typeparam>
+    /// 
+    public class KernelLogisticRegression<TKernel> : MulticlassGenerativeClassifierBase<double[]>
+        where TKernel : IKernel<double[]>
     {
+        /// <summary>
+        ///   Gets or sets the kernel function.
+        /// </summary>
+        /// 
+        public TKernel Kernel { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the original input data that is needed to 
+        ///   compute the kernel (Gram) matrices for the regression.
+        /// </summary>
+        /// 
+        public double[][] Inputs { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the linear weights of the regression model. The
+        ///   intercept term is not stored in this vector, but is instead
+        ///   available through the <see cref="Intercept"/> property.
+        /// </summary>
+        /// 
+        public double[][] Weights { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the intercept value for the regression.
+        /// </summary>
+        /// 
+        public double[] Intercept { get; set; }
+
+        /// <summary>Logs the likelihoods.</summary>
+        /// <param name="input">The input.</param>
+        /// <param name="results">The results.</param>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public override double[] LogLikelihoods(double[] input, double[] results)
+        {
+            throw new NotImplementedException();
+        }
     }
 
+    /// <summary>
+    ///   Logistic regression using Kernels.
+    /// </summary>
+    /// 
     public class KernelLogisticRegression : KernelLogisticRegression<IKernel>
     {
     }

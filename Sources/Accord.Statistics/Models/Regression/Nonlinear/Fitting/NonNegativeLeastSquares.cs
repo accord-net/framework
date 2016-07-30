@@ -27,8 +27,11 @@ namespace Accord.Statistics.Models.Regression.Fitting
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using Accord.Math;
     using Accord.Statistics.Models.Regression.Linear;
+    using MachineLearning;
+    using Math.Optimization.Losses;
 
     /// <summary>
     ///   Non-negative Least Squares for <see cref="NonlinearRegression"/> optimization.
@@ -44,7 +47,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
     ///   </list></para>
     /// </remarks>
     /// 
-    public class NonNegativeLeastSquares : IRegressionFitting
+    public class NonNegativeLeastSquares : IRegressionFitting, 
+        ISupervisedLearning<MultipleLinearRegression, double[], double>
     {
         MultipleLinearRegression regression;
 
@@ -54,8 +58,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
         double tolerance = 0.001;
         double[][] scatter;
         double[] vector;
-        double[] weights;
-        double[][] _x;
+        double[] W;
+        double[][] X;
         int cols;
         int maxIter;
 
@@ -63,7 +67,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         ///   Gets the coefficient vector being fitted.
         /// </summary>
         /// 
-        public double[] Coefficients { get { return regression.Coefficients; } }
+        public double[] Coefficients { get { return regression.Weights; } }
 
         /// <summary>
         ///   Gets or sets the maximum number of iterations to be performed.
@@ -87,6 +91,12 @@ namespace Accord.Statistics.Models.Regression.Fitting
         }
 
         /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        public CancellationToken Token { get; set; }
+
+        /// <summary>
         ///   Initializes a new instance of the <see cref="NonNegativeLeastSquares"/> class.
         /// </summary>
         /// 
@@ -95,9 +105,9 @@ namespace Accord.Statistics.Models.Regression.Fitting
         public NonNegativeLeastSquares(MultipleLinearRegression regression)
         {
             this.regression = regression;
-            this.cols = regression.Coefficients.Length;
+            this.cols = regression.Weights.Length;
             this.s = new double[cols];
-            this.weights = new double[cols];
+            this.W = new double[cols];
         }
 
 
@@ -112,11 +122,27 @@ namespace Accord.Statistics.Models.Regression.Fitting
         ///   The sum of squared errors after the learning.
         /// </returns>
         /// 
+        [Obsolete("Please use the Learn() method instead.")]
         public double Run(double[][] inputs, double[] outputs)
         {
-            this._x = inputs;
-            this.scatter = _x.TransposeAndDot(_x);
-            this.vector = _x.TransposeAndDot(outputs);
+            this.regression = Learn(inputs, outputs);
+            return new SquareLoss(inputs).Loss(regression.Transform(inputs));
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public MultipleLinearRegression Learn(double[][] x, double[] y, double[] weights = null)
+        {
+            this.X = x;
+            this.scatter = X.TransposeAndDot(X);
+            this.vector = X.TransposeAndDot(y);
 
             // Initialization
             p.Clear();
@@ -124,14 +150,14 @@ namespace Accord.Statistics.Models.Regression.Fitting
             for (var i = 0; i < cols; i++)
                 r.Add(i);
 
-            var x = Coefficients;
+            var w = Coefficients;
 
-            ComputeWeights(x);
+            ComputeWeights(w);
             var iter = 0;
             int maxWeightIndex;
-            weights.Max(out maxWeightIndex);
+            W.Max(out maxWeightIndex);
 
-            while (r.Count > 0 && weights[maxWeightIndex] > tolerance && iter < maxIter)
+            while (r.Count > 0 && W[maxWeightIndex] > tolerance && iter < maxIter)
             {
                 // Include the index j in P and remove it from R
                 if (!p.Contains(maxWeightIndex))
@@ -145,22 +171,22 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
                 while (GetElements(s, p).Min() <= 0 && iter2 < maxIter)
                 {
-                    InnerLoop(x);
+                    InnerLoop(w);
                     iter2++;
                 }
 
                 // 5
-                Array.Copy(s, x, s.Length);
+                Array.Copy(s, w, s.Length);
 
                 // 6
-                ComputeWeights(x);
+                ComputeWeights(w);
 
-                weights.Max(out maxWeightIndex);
+                W.Max(out maxWeightIndex);
                 iter++;
             }
 
             //Coefficients = x;
-            return weights[maxWeightIndex];
+            return regression;
         }
 
         private void InnerLoop(double[] x)
@@ -202,7 +228,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
         private void ComputeWeights(double[] x)
         {
-            weights = vector.Subtract(scatter.Dot(x));
+            W = vector.Subtract(scatter.Dot(x));
         }
 
         private void GetSP()
@@ -215,8 +241,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
             double[] columnVector = GetElements(vector, p);
             double[] result = left.Dot(columnVector);
-            for (var i = 0; i < p.Count; i++)
-
+            for (int i = 0; i < p.Count; i++)
                 s[p[i]] = result[i];
         }
 
@@ -227,5 +252,6 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 z[i] = vector[elementsIndex[i]];
             return z;
         }
+
     }
 }

@@ -34,7 +34,7 @@ namespace Accord.Statistics.Models.Regression
     /// </summary>
     /// 
     [Serializable]
-    public class ProportionalHazards : BinaryGenerativeClassifierBase<Tuple<double[], int>>
+    public sealed class ProportionalHazards : BinaryGenerativeClassifierBase<Tuple<double[], double>>
     {
 
         /// <summary>
@@ -505,22 +505,51 @@ namespace Accord.Statistics.Models.Regression
             return Math.Exp(Coefficients[index]);
         }
 
-        public override double Distance(Tuple<double[], int> input)
+        /// <summary>
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and its most strongly
+        /// associated class (as predicted by the classifier).
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// 
+        public override double Distance(Tuple<double[], double> input)
         {
             return Compute(input.Item1, input.Item2);
         }
 
-        public override bool Decide(Tuple<double[], int> input)
+        /// <summary>
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <returns>
+        /// A class-label that best described <paramref name="input" /> according
+        /// to this classifier.
+        /// </returns>
+        public override bool Decide(Tuple<double[], double> input)
         {
             return Compute(input.Item1, input.Item2) >= 0.5;
         }
 
-        public override double LogLikelihood(Tuple<double[], int> input, out bool decision)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihood that the input vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        public override double LogLikelihood(Tuple<double[], double> input, out bool decision)
         {
-            throw new NotImplementedException();
+            var r = LogLikelihood(input);
+            decision = r >= 0.5;
+            return r;
         }
 
-        public override double LogLikelihood(Tuple<double[], int> input)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihood that the input vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        public override double LogLikelihood(Tuple<double[], double> input)
         {
             double sum = 0;
             for (int i = 0; i < Coefficients.Length; i++)
