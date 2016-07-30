@@ -366,8 +366,8 @@ namespace Accord.MachineLearning
 
             int[] idx = distances.Bottom(k, inPlace: true);
 
-            labels = outputs.Submatrix(idx);
-            return inputs.Submatrix(idx);
+            labels = outputs.Get(idx);
+            return inputs.Get(idx);
         }
 
 

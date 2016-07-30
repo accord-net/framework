@@ -115,8 +115,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             // Retain only multipliers which are not zero
             int[] idx = alpha.Find(a => a != 0);
-            Model.Weights = alpha.Submatrix(idx);
-            Model.SupportVectors = supportVectors.Submatrix(idx);
+            Model.Weights = alpha.Get(idx);
+            Model.SupportVectors = supportVectors.Get(idx);
         }
 
 

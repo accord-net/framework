@@ -574,7 +574,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             Trace.WriteLine("#nonzeros/#features = " + nnz + "/" + w.Length);
 
             Model.Weights = new double[] { 1.0 };
-            Model.SupportVectors = new[] { weights.Submatrix(weights.Length - 1) };
+            Model.SupportVectors = new[] { weights.First(weights.Length - 1) };
             Model.Threshold = weights[biasIndex];
             Model.IsProbabilistic = true;
         }

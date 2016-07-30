@@ -145,8 +145,8 @@ namespace Accord.MachineLearning.DecisionTrees
 
             Parallel.For(0, trees.Length, i =>
             {
-                var x = inputs.Submatrix(idx);
-                var y = output.Submatrix(idx);
+                var x = inputs.Get(idx);
+                var y = output.Get(idx);
 
                 var c45 = new C45Learning()
                 {

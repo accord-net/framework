@@ -130,7 +130,7 @@ namespace Accord.MachineLearning.Geometry
                 return null;
 
             // Compute the final plane
-            Plane plane = fitting(points.Submatrix(inliers));
+            Plane plane = fitting(points.Get(inliers));
 
             return plane;
         }

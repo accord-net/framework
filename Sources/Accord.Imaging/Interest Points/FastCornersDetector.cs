@@ -333,8 +333,8 @@ namespace Accord.Imaging
             {
                 // 3. Perform Non-Maximum Suppression
                 int[] idx = maximum(corners, scores);
-                corners = corners.Submatrix(idx);
-                scores = scores.Submatrix(idx);
+                corners = corners.Get(idx);
+                scores = scores.Get(idx);
             }
 
             this.scores = scores;

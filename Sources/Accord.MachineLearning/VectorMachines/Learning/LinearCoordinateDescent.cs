@@ -609,7 +609,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             Debug.WriteLine("Objective value = " + v);
             Debug.WriteLine("#nonzeros/#features = " + nnz + "/" + w.Length);
 
-            Model.SupportVectors = new[] { w.Submatrix(Model.NumberOfInputs) };
+            Model.SupportVectors = new[] { w.First(Model.NumberOfInputs) };
             Model.Weights = new[] { 1.0 };
             Model.Threshold = w[biasIndex];
         }

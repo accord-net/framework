@@ -311,7 +311,7 @@ namespace Accord.Controls
             Array.Sort(x, idx);
 
             for (int i = 0; i < series.Length; i++)
-                series[i] = series[i].Submatrix(idx);
+                series[i] = series[i].Get(idx);
 
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
 

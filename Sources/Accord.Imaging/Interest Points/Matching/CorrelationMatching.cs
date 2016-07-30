@@ -273,8 +273,8 @@ namespace Accord.Imaging
             }
 
             // Extract matched points from original arrays
-            var m1 = points1.Submatrix(p1ind.ToArray());
-            var m2 = points2.Submatrix(p2ind.ToArray());
+            var m1 = points1.Get(p1ind.ToArray());
+            var m2 = points2.Get(p2ind.ToArray());
 
             // Create matching point pairs
             return new IntPoint[][] { m1, m2 };
@@ -381,7 +381,7 @@ namespace Accord.Imaging
                         distances[i] = dx * dx + dy * dy;
                     }
 
-                    candidates = idx2.Submatrix(Matrix.Find(distances, d => d < m));
+                    candidates = idx2.Get(Matrix.Find(distances, d => d < m));
                 }
 
 

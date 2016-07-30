@@ -171,7 +171,7 @@ namespace Accord.MachineLearning.Geometry
             ransac.Compute(points.Length, out inliers);
 
             // Compute the final line
-            Line line = fitting(points.Submatrix(inliers));
+            Line line = fitting(points.Get(inliers));
 
             return line;
         }

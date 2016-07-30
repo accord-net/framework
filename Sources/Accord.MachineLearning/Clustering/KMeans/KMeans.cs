@@ -441,7 +441,7 @@ namespace Accord.MachineLearning
                     double[][] centroids = clusters.Centroids;
 
                     // Extract the data for the current cluster
-                    double[][] sub = data.Submatrix(labels.Find(x => x == i));
+                    double[][] sub = data.Get(labels.Find(x => x == i));
 
                     if (sub.Length > 0)
                     {

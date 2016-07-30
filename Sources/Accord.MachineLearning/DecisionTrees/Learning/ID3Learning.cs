@@ -423,7 +423,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 };
 
 
-                int[][] inputSubset = input.Submatrix(maxGainPartition[i]);
+                int[][] inputSubset = input.Get(maxGainPartition[i]);
                 int[] outputSubset = maxGainOutputs[i];
 
                 split(children[i], inputSubset, outputSubset, height + 1); // recursion
@@ -470,7 +470,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
                 // For each of the instances under responsibility
                 // of this node, check which have the same value
-                outputSubset[i] = output.Submatrix(partitions[i]);
+                outputSubset[i] = output.Get(partitions[i]);
 
                 // Check the entropy gain originating from this partitioning
                 double e = Measures.Entropy(outputSubset[i], outputClasses);

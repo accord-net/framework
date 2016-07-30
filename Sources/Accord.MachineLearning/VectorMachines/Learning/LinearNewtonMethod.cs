@@ -344,7 +344,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             double[] w = tron.Solution;
 
-            Model.SupportVectors = new[] { w.Submatrix(Model.NumberOfInputs) };
+            Model.SupportVectors = new[] { w.First(Model.NumberOfInputs) };
             Model.Weights = new[] { 1.0 };
             Model.Threshold = w[biasIndex];
         }

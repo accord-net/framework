@@ -190,12 +190,12 @@ namespace Accord.MachineLearning
                     System.Diagnostics.Trace.TraceWarning("Class pair ({0}, {1}) does not have any examples.", i, j);
                 }
 
-                TInput[] subx = x.Submatrix(idx);
-                bool[] suby = y.Submatrix(idx).Apply(y_i => y_i == i);
+                TInput[] subx = x.Get(idx);
+                bool[] suby = y.Get(idx).Apply(y_i => y_i == i);
 
                 double[] subw = null;
                 if (weights != null)
-                    subw = weights.Submatrix(idx);
+                    subw = weights.Get(idx);
 
                 try
                 {

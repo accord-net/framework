@@ -137,7 +137,7 @@ namespace Accord.MachineLearning.Bayes
                 // Estimate conditional distributions
                 // Get variables values in class i
                 int[] idx = y.Find(y_i => y_i == i);
-                TInput[][] values = x.Submatrix(idx, transpose: true);
+                TInput[][] values = x.Get(idx, transpose: true);
 
                 if (Empirical)
                     Model.Priors[i] = idx.Length / (double)x.Length;
