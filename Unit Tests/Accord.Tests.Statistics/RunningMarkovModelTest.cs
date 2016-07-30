@@ -120,7 +120,7 @@ namespace Accord.Tests.Statistics
                 {
                     double actual = running.Peek(sequence[j]);
 
-                    double[][] window = sequence.Submatrix(2);
+                    double[][] window = sequence.First(2);
                     double expected = hmm.Evaluate(window.Concatenate(sequence[j]));
 
                     Assert.AreEqual(expected, actual);

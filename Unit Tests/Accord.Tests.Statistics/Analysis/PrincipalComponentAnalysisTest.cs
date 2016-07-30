@@ -794,9 +794,18 @@ namespace Accord.Tests.Statistics
                 thrown = true;
             }
 
-            // Assert that an appropriate exception has been
-            //   thrown in the case of a constant variable.
-            Assert.IsTrue(thrown);
+            // Default behavior changed: now an exception is not thrown anymore.
+            // Instead, a small constant is added when computing standard deviations.
+            Assert.IsFalse(thrown);
+
+            var str1 = pca.SingularValues.ToCSharp();
+            var str2 = pca.ComponentVectors.ToCSharp();
+
+            Assert.IsTrue(pca.SingularValues.IsEqual(new double[] { 1.73205080756888, 0 }, 1e-7));
+            Assert.IsTrue(pca.ComponentVectors.IsEqual(new double[][] {
+                new double[] { 1, 0 },
+                new double[] { 0, -1 }
+            }, 1e-7));
         }
 
         [Test]

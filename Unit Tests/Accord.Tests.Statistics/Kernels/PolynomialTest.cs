@@ -216,7 +216,8 @@ namespace Accord.Tests.Statistics
             };
 
             var target = new Polynomial(1);
-            var linear = new Linear();
+            var linear = new Linear(constant: 1);
+            Assert.AreEqual(target.Constant, linear.Constant);
 
             double[][] expected = data.Apply(x => linear.Transform(x));
             double[][] actual = data.Apply(target.Transform);

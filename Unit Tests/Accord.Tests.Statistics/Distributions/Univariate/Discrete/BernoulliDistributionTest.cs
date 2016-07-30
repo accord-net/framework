@@ -182,7 +182,7 @@ namespace Accord.Tests.Statistics
             BernoulliDistribution target = new BernoulliDistribution(prob);
             target.Fit(target.Generate(trials).Select(x => (double)x).ToArray());
 
-            Assert.AreEqual(target.Mean, prob, 0.01);
+            Assert.AreEqual(target.Mean, prob, 1e-2);
         }
     }
 }

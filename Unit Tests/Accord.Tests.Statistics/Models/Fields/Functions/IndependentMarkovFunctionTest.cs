@@ -90,7 +90,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             // Train the sequence classifier using the algorithm
             double logLikelihood = teacher.Run(sequences, labels);
 
-            Assert.AreEqual(-13.271981026832929d, logLikelihood);
+            Assert.AreEqual(-13.271981026832929d, logLikelihood, 1e-10);
 
             return classifier;
         }
@@ -254,7 +254,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             // Train the sequence classifier using the algorithm
             double logLikelihood = teacher.Run(sequences2, labels2);
 
-            Assert.AreEqual(-3.0493028798326081d, logLikelihood);
+            Assert.AreEqual(-3.0493028798326081d, logLikelihood, 1e-10);
 
             return classifier;
         }

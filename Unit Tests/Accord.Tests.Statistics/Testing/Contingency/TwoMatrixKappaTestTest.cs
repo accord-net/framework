@@ -237,7 +237,7 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(DistributionTail.TwoTail, target.Tail);
                 Assert.AreEqual(v1 + v2, target.OverallVariance);
 
-                Assert.AreEqual(0.1839669091631167, target.Statistic, 1e-16);
+                Assert.AreEqual(0.1839669091631167, target.Statistic, 1e-10);
                 Assert.IsFalse(double.IsNaN(target.Statistic));
                 Assert.IsFalse(target.Significant);
             }

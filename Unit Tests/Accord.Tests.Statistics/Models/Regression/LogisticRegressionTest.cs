@@ -465,9 +465,9 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(30.507262964894068, actual, 1e-8);
 
             Assert.AreEqual(3, regression.Coefficients.Length);
-            Assert.AreEqual(-0.38409721299838279, regression.Coefficients[0]);
-            Assert.AreEqual(0.1065137931017601, regression.Coefficients[1]);
-            Assert.AreEqual(17.275849279015059, regression.Coefficients[2]);
+            Assert.AreEqual(-0.38409721299838279, regression.Coefficients[0], 1e-10);
+            Assert.AreEqual(0.1065137931017601, regression.Coefficients[1], 1e-10);
+            Assert.AreEqual(17.275849279015059, regression.Coefficients[2], 1e-10);
 
             for (int i = 0; i < 50; i++)
                 newError = irls.Run(inputs, output);
