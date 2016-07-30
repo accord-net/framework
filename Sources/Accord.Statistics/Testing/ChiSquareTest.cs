@@ -252,8 +252,8 @@ namespace Accord.Statistics.Testing
             }
 
 
-            ebins = ebins.Submatrix(size + 2);
-            expected = expected.Submatrix(ebins.Length - 2);
+            ebins = ebins.First(size + 2);
+            expected = expected.First(ebins.Length - 2);
 
             double[] observed = new double[expected.Length];
             for (int i = 0; i < observed.Length; i++)

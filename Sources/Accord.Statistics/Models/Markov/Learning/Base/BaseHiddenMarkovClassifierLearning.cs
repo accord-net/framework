@@ -172,7 +172,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                 // Select the input/output set corresponding
                 //  to the model's specialization class
                 int[] inx = outputs.Find(y => y == i);
-                T[] observations = inputs.Submatrix(inx);
+                T[] observations = inputs.Get(inx);
 
                 classCounts[i] = observations.Length;
 

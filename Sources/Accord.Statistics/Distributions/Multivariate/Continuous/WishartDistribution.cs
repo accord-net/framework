@@ -141,10 +141,10 @@ namespace Accord.Statistics.Distributions.Multivariate
 
             this.chol = new CholeskyDecomposition(scale);
 
-            if (!chol.PositiveDefinite)
+            if (!chol.IsPositiveDefinite)
                 throw new NonPositiveDefiniteMatrixException("scale");
-            if (!chol.Symmetric)
-                throw new NonSymmetricMatrixException("scale");
+            //if (!chol.Symmetric)
+            //    throw new NonSymmetricMatrixException("scale");
 
             double a = Math.Pow(chol.Determinant, n / 2.0);
             double b = Math.Pow(2, (n * size) / 2.0);

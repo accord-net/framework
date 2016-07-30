@@ -850,6 +850,18 @@ namespace Accord.Statistics.Distributions.Univariate
             return -Math.Log(ComplementaryDistributionFunction(x));
         }
 
+        /// <summary>
+        ///   Gets the log-cumulative hazard function for this
+        ///   distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">
+        ///   A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The logarithm of the cumulative hazard function <c>H(x)</c>  
+        ///   evaluated at <c>x</c> in the current distribution.</returns>
+        /// 
         public virtual double LogCumulativeHazardFunction(int x)
         {
             return Math.Log(-Math.Log(ComplementaryDistributionFunction(x)));

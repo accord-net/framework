@@ -152,7 +152,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             // Remove zero elements
             int[] idx = ranks.Find(x => x != 0);
-            this.Ranks = ranks.Submatrix(idx);
+            this.Ranks = ranks.Get(idx);
             this.Samples = idx.Length;
 
             if (forceExact || Samples < 12)
