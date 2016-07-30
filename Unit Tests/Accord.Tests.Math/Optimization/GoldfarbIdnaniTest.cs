@@ -1287,7 +1287,7 @@ namespace Accord.Tests.Math
             GoldfarbIdnani gfI = new GoldfarbIdnani(Q, dvec, AMat, b, 2);
 
             for (int i = 0; i < gfI.ConstraintTolerances.Length; i++)
-                Assert.AreEqual(0, gfI.ConstraintTolerances[i]);
+                Assert.AreEqual(LinearConstraint.DefaultTolerance, gfI.ConstraintTolerances[i]);
 
             bool success = gfI.Minimize();
 

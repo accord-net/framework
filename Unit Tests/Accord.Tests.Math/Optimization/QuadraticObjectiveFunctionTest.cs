@@ -494,8 +494,8 @@ namespace Accord.Tests.Math
                             y = (j - 5) / 10.0;
                             z = (k - 5) / 10.0;
 
-                            double a = fl.Function(new[] { x, y, z }.Submatrix(fl.NumberOfVariables));
-                            double e = gl.Function(new[] { x, y, z }.Submatrix(fl.NumberOfVariables));
+                            double a = fl.Function(new[] { x, y, z }.First(fl.NumberOfVariables));
+                            double e = gl.Function(new[] { x, y, z }.First(fl.NumberOfVariables));
 
                             Assert.AreEqual(e, a, 1e-10);
                             Assert.IsFalse(Double.IsNaN(a));
