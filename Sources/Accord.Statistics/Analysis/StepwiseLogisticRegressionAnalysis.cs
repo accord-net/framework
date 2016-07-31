@@ -394,7 +394,7 @@ namespace Accord.Statistics.Analysis
             double[][] resultInput = inputData.Submatrix(null, resultVariables);
 
             // Compute the final model output probabilities
-            result = currentModel.Regression.Compute(resultInput);
+            result = currentModel.Regression.Distance(resultInput);
 
             return currentModel.Regression;
         }
@@ -420,7 +420,7 @@ namespace Accord.Statistics.Analysis
                 .Submatrix(null, resultVariables);
 
             // Compute the final model output probabilities
-            result = currentModel.Regression.Compute(resultInput);
+            result = currentModel.Regression.Distance(resultInput);
         }
 
         /// <summary>
@@ -532,21 +532,16 @@ namespace Accord.Statistics.Analysis
         /// 
         private bool fit(LogisticRegression regression, double[][] input, double[] output)
         {
-            IterativeReweightedLeastSquares irls =
-                new IterativeReweightedLeastSquares(regression);
-
-            double delta;
-            int iteration = 0;
-
-            do // learning iterations until convergence
+            var irls = new IterativeReweightedLeastSquares(regression)
             {
-                delta = irls.Run(input, output);
-                iteration++;
+                Tolerance = tolerance,
+                Iterations = iterations,
+            };
 
-            } while (delta > tolerance && iteration < iterations);
+            irls.Learn(input, output);
 
             // Check if the full model has converged
-            return iteration <= iterations;
+            return irls.Iterations <= iterations;
         }
 
     }

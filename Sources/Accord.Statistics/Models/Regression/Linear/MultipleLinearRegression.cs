@@ -28,7 +28,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     using Accord.Math;
     using Accord.MachineLearning;
     using Fitting;
-    using Math.Optimization.Losses;
+    using Accord.Math.Optimization.Losses;
 
     /// <summary>
     ///   Multiple Linear Regression.
@@ -93,8 +93,10 @@ namespace Accord.Statistics.Models.Regression.Linear
     /// </example>
     /// 
     [Serializable]
+#pragma warning disable 612, 618
     public class MultipleLinearRegression : TransformBase<double[], double>,
         ILinearRegression, IFormattable
+#pragma warning restore 612, 618
     {
         private double[] coefficients;
 
@@ -127,7 +129,9 @@ namespace Accord.Statistics.Models.Regression.Linear
             if (intercept)
                 inputs++;
             this.coefficients = new double[inputs];
+#pragma warning disable 612, 618
             this.addIntercept = intercept;
+#pragma warning restore 612, 618
             NumberOfOutputs = 1;
         }
 
@@ -183,17 +187,21 @@ namespace Accord.Statistics.Models.Regression.Linear
         [Obsolete("Please use NumberOfInputs instead.")]
         public int Inputs
         {
+#pragma warning disable 612, 618
             get { return coefficients.Length - (addIntercept ? 1 : 0); }
+#pragma warning restore 612, 618
         }
 
         /// <summary>
         ///   Gets whether this model has an additional intercept term.
         /// </summary>
         /// 
-        [Obsolete("Please check Intercept instead.")]
+        [Obsolete("Please check the Intercept value instead.")]
         public bool HasIntercept
         {
+#pragma warning disable 612, 618
             get { return addIntercept; }
+#pragma warning restore 612, 618
         }
 
         /// <summary>
@@ -219,7 +227,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         ///    
         /// <returns>The Sum-Of-Squares error of the regression.</returns>
         /// 
-        [Obsolete("Please use the LinearLeastSquares class instead.")]
+        [Obsolete("Please use the OrdinaryLeastSquares class instead.")]
         public virtual double Regress(double[][] inputs, double[] outputs, bool robust)
         {
             if (inputs.Length != outputs.Length)
@@ -238,14 +246,16 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// <param name="outputs">The output values for each input vector.</param>
         /// <returns>The Sum-Of-Squares error of the regression.</returns>
         /// 
-        [Obsolete("Please use the LinearLeastSquares class instead.")]
+        [Obsolete("Please use the OrdinaryLeastSquares class instead.")]
         public virtual double Regress(double[][] inputs, double[] outputs)
         {
             if (inputs.Length != outputs.Length)
                 throw new ArgumentException("Number of input and output samples does not match", "outputs");
 
             double[,] design;
+#pragma warning disable 612, 618
             return regress(inputs, outputs, out design, true);
+#pragma warning restore 612, 618
         }
 
         /// <summary>
@@ -262,7 +272,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         /// <returns>The Sum-Of-Squares error of the regression.</returns>
         /// 
-        [Obsolete("Please use the LinearLeastSquares class instead.")]
+        [Obsolete("Please use the OrdinaryLeastSquares class instead.")]
         public double Regress(double[][] inputs, double[] outputs,
             out double[,] informationMatrix, bool robust = true)
         {
@@ -271,7 +281,9 @@ namespace Accord.Statistics.Models.Regression.Linear
 
             double[,] design;
 
+#pragma warning disable 612, 618
             double error = regress(inputs, outputs, out design, robust);
+#pragma warning restore 612, 618
 
             double[,] cov = design.TransposeAndDot(design);
             informationMatrix = new SingularValueDecomposition(cov,
@@ -394,15 +406,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         [Obsolete("Please use Transform instead.")]
         public double Compute(double[] input)
         {
-            double output = 0.0;
-
-            for (int i = 0; i < input.Length; i++)
-                output += coefficients[i] * input[i];
-
-            if (addIntercept)
-                output += coefficients[input.Length];
-
-            return output;
+            return Transform(input);
         }
 
         /// <summary>
@@ -416,10 +420,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         [Obsolete("Please use Transform instead.")]
         public double[] Compute(double[][] input)
         {
-            double[] output = new double[input.Length];
-            for (int j = 0; j < input.Length; j++)
-                output[j] = Compute(input[j]);
-            return output;
+            return Transform(input);
         }
 
 

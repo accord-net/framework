@@ -38,8 +38,10 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   wherever a standard <see cref="BaumWelchLearning"/> class would be used.
     /// </remarks>
     /// 
+#pragma warning disable 612, 618
     public class MultipleBaumWelchLearning : IUnsupervisedLearning, IConvergenceLearning,
         IUnsupervisedLearning<int[]>
+#pragma warning restore 612, 618
     {
 
         private HiddenMarkovModel template;

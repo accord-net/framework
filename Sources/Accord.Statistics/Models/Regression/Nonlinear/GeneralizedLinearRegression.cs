@@ -126,6 +126,8 @@ namespace Accord.Statistics.Models.Regression
             this.linkFunction = function;
             this.coefficients = new double[inputs + 1];
             this.standardErrors = new double[inputs + 1];
+            this.NumberOfInputs = inputs;
+            this.NumberOfOutputs = 1;
         }
 
         /// <summary>
@@ -146,12 +148,22 @@ namespace Accord.Statistics.Models.Regression
         ///   Creates a new Generalized Linear Regression Model.
         /// </summary>
         /// 
+        public GeneralizedLinearRegression()
+        {
+            this.NumberOfOutputs = 1;
+        }
+
+        /// <summary>
+        ///   Creates a new Generalized Linear Regression Model.
+        /// </summary>
+        /// 
         /// <param name="function">The link function to use.</param>
         /// <param name="coefficients">The coefficient vector.</param>
         /// <param name="standardErrors">The standard error vector.</param>
         /// 
         public GeneralizedLinearRegression(ILinkFunction function,
             double[] coefficients, double[] standardErrors)
+            : this()
         {
             this.linkFunction = function;
             this.coefficients = coefficients;
@@ -222,13 +234,12 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <returns>The output value.</returns>
         /// 
+        [Obsolete("Please use the Distance method instead.")]
         public double Compute(double[] input)
         {
             double sum = coefficients[0];
-
             for (int i = 1; i < coefficients.Length; i++)
                 sum += input[i - 1] * coefficients[i];
-
             return linkFunction.Inverse(sum);
         }
 
@@ -240,13 +251,14 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <returns>The array of output values.</returns>
         /// 
+        [Obsolete("Please use the Distance method instead.")]
         public double[] Compute(double[][] input)
         {
             double[] output = new double[input.Length];
-
+#pragma warning disable 612, 618
             for (int i = 0; i < input.Length; i++)
                 output[i] = Compute(input[i]);
-
+#pragma warning restore 612, 618
             return output;
         }
 
@@ -293,7 +305,7 @@ namespace Accord.Statistics.Models.Regression
 
             for (int i = 0; i < input.Length; i++)
             {
-                double actualOutput = Compute(input[i]);
+                double actualOutput = Distance(input[i]);
                 double expectedOutput = output[i];
 
                 if (actualOutput != 0)
@@ -328,7 +340,7 @@ namespace Accord.Statistics.Models.Regression
             for (int i = 0; i < input.Length; i++)
             {
                 double w = weights[i];
-                double actualOutput = Compute(input[i]);
+                double actualOutput = Distance(input[i]);
                 double expectedOutput = output[i];
 
                 if (actualOutput != 0)
@@ -594,7 +606,7 @@ namespace Accord.Statistics.Models.Regression
             double sum = coefficients[0];
             for (int i = 1; i < coefficients.Length; i++)
                 sum += input[i - 1] * coefficients[i];
-            return sum;
+            return linkFunction.Inverse(sum);
         }
 
         /// <summary>
@@ -611,7 +623,7 @@ namespace Accord.Statistics.Models.Regression
             double sum = coefficients[0];
             for (int i = 1; i < coefficients.Length; i++)
                 sum += input[i - 1] * coefficients[i];
-            return Classes.Decide(linkFunction.Log(sum) + 0.5);
+            return Classes.Decide(linkFunction.Inverse(sum) + 0.5);
         }
     }
 }

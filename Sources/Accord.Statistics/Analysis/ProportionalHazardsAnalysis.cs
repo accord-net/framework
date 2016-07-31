@@ -650,7 +650,7 @@ namespace Accord.Statistics.Analysis
             learning.Iterations = Iterations;
             learning.Tolerance = Tolerance;
 
-            learning.Run(inputData, timeData, censorData);
+            learning.Learn(inputData, timeData, censorData);
 
             // Check if the full model has converged
             bool converged = learning.CurrentIteration < Iterations;
@@ -688,7 +688,7 @@ namespace Accord.Statistics.Analysis
                 learning.Iterations = Iterations;
                 learning.Tolerance = Tolerance;
 
-                learning.Run(data, timeData, censorData);
+                learning.Learn(data, timeData, censorData);
 
 
                 double ratio = 2.0 * (logLikelihood - innerModel.GetPartialLogLikelihood(data, timeData, censorData));
@@ -701,7 +701,9 @@ namespace Accord.Statistics.Analysis
         private void computeInformation()
         {
             // Store model information
+#pragma warning disable 612, 618
             this.result = regression.Compute(inputData, timeData);
+#pragma warning restore 612, 618
             this.deviance = regression.GetDeviance(inputData, timeData, censorData);
             this.logLikelihood = regression.GetPartialLogLikelihood(inputData, timeData, censorData);
             this.chiSquare = regression.ChiSquare(inputData, timeData, censorData);
@@ -740,9 +742,6 @@ namespace Accord.Statistics.Analysis
         /// </returns>
         public ProportionalHazards Learn(Tuple<double[], double>[] x, int[] y, double[] weights = null)
         {
-            var inputData = x.Apply(x_i => x_i.Item1);
-            var timeData = x.Apply(x_i => x_i.Item2);
-            var censorData = y;
             var learning = new ProportionalHazardsNewtonRaphson(regression);
 
             Array.Clear(regression.Coefficients, 0, regression.Coefficients.Length);
@@ -751,7 +750,7 @@ namespace Accord.Statistics.Analysis
             learning.Iterations = Iterations;
             learning.Tolerance = Tolerance;
 
-            learning.Run(inputData, timeData, censorData);
+            learning.Learn(x, y, weights);
 
             // Check if the full model has converged
             computeInformation();

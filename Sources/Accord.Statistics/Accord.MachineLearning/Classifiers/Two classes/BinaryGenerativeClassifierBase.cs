@@ -26,6 +26,8 @@ namespace Accord.MachineLearning
     using Accord.Statistics;
     using System;
 
+    // TODO: Rename to BinaryLikelihoodClassifierBase
+
     /// <summary>
     ///   Base class for <see cref="IBinaryGenerativeClassifier{TInput}">
     ///   generative binary classifiers</see>.

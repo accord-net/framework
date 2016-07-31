@@ -200,6 +200,12 @@ namespace Accord.Math.Optimization
             get { return decomposition.InverseDiagonal().Sqrt(); }
         }
 
+        /// <summary>
+        /// Gets the value at the solution found. This should be
+        /// the minimum value found for the objective function.
+        /// </summary>
+        /// 
+        public double Value { get; set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="LevenbergMarquardt"/> class.
@@ -397,7 +403,7 @@ namespace Accord.Math.Optimization
             lambda /= v;
 
 
-            return sumOfSquaredErrors;
+            return Value = sumOfSquaredErrors;
         }
 
         /// <summary>

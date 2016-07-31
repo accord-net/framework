@@ -22,7 +22,7 @@
 
 namespace Accord.Statistics.Models.Regression.Linear
 {
-    using Math.Optimization.Losses;
+    using Accord.Math.Optimization.Losses;
     using Fitting;
     using System;
     using MachineLearning;
@@ -108,7 +108,9 @@ namespace Accord.Statistics.Models.Regression.Linear
     /// </example>
     /// 
     [Serializable]
+#pragma warning disable 612, 618
     public class SimpleLinearRegression : TransformBase<double, double>, ILinearRegression
+#pragma warning restore 612, 618
     {
         [Obsolete]
         private MultipleLinearRegression regression;
@@ -155,7 +157,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// <param name="outputs">The output data.</param>
         /// <returns>The regression Sum-of-Squares error.</returns>
         /// 
-        [Obsolete("Please use the LinearLeastSquares class.")]
+        [Obsolete("Please use the OrdinaryLeastSquares class.")]
         public double Regress(double[] inputs, double[] outputs)
         {
             if (inputs.Length != outputs.Length)
@@ -165,10 +167,12 @@ namespace Accord.Statistics.Models.Regression.Linear
             for (int i = 0; i < inputs.Length; i++)
                 X[i] = new double[] { 1.0, inputs[i] };
 
+#pragma warning disable 612, 618
             regression = new MultipleLinearRegression(2, false);
             double err = regression.Regress(X, outputs);
             slope = regression.Coefficients[1];
             intercept = regression.Coefficients[0];
+#pragma warning restore 612, 618
             return err;
         }
 

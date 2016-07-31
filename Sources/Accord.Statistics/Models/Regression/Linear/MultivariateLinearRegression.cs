@@ -113,7 +113,9 @@ namespace Accord.Statistics.Models.Regression.Linear
     /// </example>
     /// 
     [Serializable]
+#pragma warning disable 612, 618
     public class MultivariateLinearRegression : MultipleTransformBase<double[], double>, ILinearRegression
+#pragma warning restore 612, 618
     {
         private double[][] weights;
 
@@ -325,7 +327,7 @@ namespace Accord.Statistics.Models.Regression.Linear
             double error = 0.0, e;
             for (int i = 0; i < outputs.Length; i++)
             {
-                double[] y = Compute(inputs[i]);
+                double[] y = Transform(inputs[i]);
 
                 for (int c = 0; c < y.Length; c++)
                 {

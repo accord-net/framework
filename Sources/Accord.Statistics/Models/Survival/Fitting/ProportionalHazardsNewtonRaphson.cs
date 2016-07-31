@@ -29,12 +29,19 @@ namespace Accord.Statistics.Models.Regression.Fitting
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions;
     using Accord.Math.Comparers;
+    using Accord.MachineLearning;
+    using System.Threading;
 
     /// <summary>
     ///   Newton-Raphson learning updates for Cox's Proportional Hazards models.
     /// </summary>
     /// 
-    public class ProportionalHazardsNewtonRaphson : ISurvivalFitting, IConvergenceLearning
+#pragma warning disable 612, 618
+    public class ProportionalHazardsNewtonRaphson :
+        ISupervisedLearning<ProportionalHazards, Tuple<double[], double>, int>,
+        ISupervisedLearning<ProportionalHazards, Tuple<double[], double>, bool>,
+        ISurvivalFitting, IConvergenceLearning
+#pragma warning disable 612, 618
     {
 
         private ProportionalHazards regression;
@@ -180,6 +187,14 @@ namespace Accord.Statistics.Models.Regression.Fitting
             set { normalize = value; }
         }
 
+
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        public CancellationToken Token { get; set; }
+
+
         /// <summary>
         ///   Gets or sets the smoothing factor used to avoid numerical
         ///   problems in the beginning of the training. Default is 0.1.
@@ -192,19 +207,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
         ///   for Cox's Proportional Hazards models.
         /// </summary>
         /// 
-        /// <param name="hazards">The model to estimate.</param>
-        /// 
-        public ProportionalHazardsNewtonRaphson(ProportionalHazards hazards)
+        public ProportionalHazardsNewtonRaphson()
         {
-            this.regression = hazards;
-            this.parameterCount = hazards.Coefficients.Length;
-
-            this.hessian = new double[parameterCount, parameterCount];
-            this.gradient = new double[parameterCount];
-
-            this.partialHessian = new double[parameterCount, parameterCount];
-            this.partialGradient = new double[parameterCount];
-
             this.convergence = new RelativeParameterConvergence()
             {
                 Iterations = 0,
@@ -214,7 +218,34 @@ namespace Accord.Statistics.Models.Regression.Fitting
             this.Estimator = HazardEstimator.BreslowNelsonAalen;
             this.Ties = HazardTiesMethod.Efron;
             this.Lambda = 0.1;
+            this.Token = new CancellationToken();
         }
+
+        /// <summary>
+        ///   Constructs a new Newton-Raphson learning algorithm
+        ///   for Cox's Proportional Hazards models.
+        /// </summary>
+        /// 
+        /// <param name="hazards">The model to estimate.</param>
+        /// 
+        public ProportionalHazardsNewtonRaphson(ProportionalHazards hazards)
+            : this()
+        {
+            init(hazards);
+        }
+
+        private void init(ProportionalHazards hazards)
+        {
+            this.regression = hazards;
+            this.parameterCount = hazards.Coefficients.Length;
+
+            this.hessian = new double[parameterCount, parameterCount];
+            this.gradient = new double[parameterCount];
+
+            this.partialHessian = new double[parameterCount, parameterCount];
+            this.partialGradient = new double[parameterCount];
+        }
+
 
 
         /// <summary>
@@ -226,8 +257,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// 
         /// <returns>The maximum relative change in the parameters after the iteration.</returns>
         /// 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming",
-            "CA1725:ParameterNamesShouldMatchBaseDeclaration", MessageId = "1#")]
+        [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(double[][] inputs, double[] time)
         {
             var censor = new SurvivalOutcome[time.Length];
@@ -247,6 +277,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// 
         /// <returns>The maximum relative change in the parameters after the iteration.</returns>
         /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(double[][] inputs, double[] time, int[] censor)
         {
             return Run(inputs, time, censor.To<SurvivalOutcome[]>());
@@ -262,7 +293,146 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// 
         /// <returns>The maximum relative change in the parameters after the iteration.</returns>
         /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(double[][] inputs, double[] time, SurvivalOutcome[] censor)
+        {
+            Learn(inputs, time, censor, null);
+            return regression.GetPartialLogLikelihood(inputs, time, censor);
+        }
+
+        /// <summary>
+        ///   Runs the Newton-Raphson update for Cox's hazards learning until convergence.
+        /// </summary>
+        /// 
+        /// <param name="censor">The output (event) associated with each input vector.</param>
+        /// <param name="time">The time-to-event for the non-censored training samples.</param>
+        /// 
+        /// <returns>The maximum relative change in the parameters after the iteration.</returns>
+        /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
+        public double Run(double[] time, int[] censor)
+        {
+            return Run(time, censor.To<SurvivalOutcome[]>());
+        }
+
+        /// <summary>
+        ///   Runs the Newton-Raphson update for Cox's hazards learning until convergence.
+        /// </summary>
+        /// 
+        /// <param name="censor">The output (event) associated with each input vector.</param>
+        /// <param name="time">The time-to-event for the non-censored training samples.</param>
+        /// 
+        /// <returns>The maximum relative change in the parameters after the iteration.</returns>
+        /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
+        public double Run(double[] time, SurvivalOutcome[] censor)
+        {
+            if (time.Length != censor.Length)
+            {
+                throw new DimensionMismatchException("time",
+                    "The time and output vector must have the same length.");
+            }
+
+            // Sort data by time to accelerate performance
+            EmpiricalHazardDistribution.Sort(ref time, ref censor);
+
+            createBaseline(time, censor);
+
+            return regression.GetPartialLogLikelihood(time, censor);
+        }
+
+        private void createBaseline(double[] time, SurvivalOutcome[] censor, double[] output = null)
+        {
+            if (regression.BaselineHazard == null)
+                return;
+
+            var hazard = regression.BaselineHazard as IFittableDistribution<double, EmpiricalHazardOptions>;
+            if (hazard != null)
+            {
+                // Compute an estimate of the cumulative Hazard
+                //   function using the Nelson-Aalen estimator
+                hazard.Fit(time, output, new EmpiricalHazardOptions()
+                {
+                    Outcome = censor,
+                    Estimator = Estimator,
+                    Ties = Ties
+                });
+                return;
+            }
+
+            var survival = regression.BaselineHazard as IFittableDistribution<double, SurvivalOptions>;
+            if (survival != null)
+            {
+                // Compute an estimate of the cumulative Hazard
+                //   function using the Kaplan-Meier estimator
+                survival.Fit(time, new SurvivalOptions()
+                {
+                    Outcome = censor,
+                });
+            }
+        }
+
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public ProportionalHazards Learn(Tuple<double[], double>[] x, bool[] y, double[] weights = null)
+        {
+            double[][] inputs = x.Apply(x_i => x_i.Item1);
+            double[] time = x.Apply(x_i => x_i.Item2);
+            return Learn(inputs, time, y.To<SurvivalOutcome[]>(), weights);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public ProportionalHazards Learn(Tuple<double[], double>[] x, int[] y, double[] weights = null)
+        {
+            double[][] inputs = x.Apply(x_i => x_i.Item1);
+            double[] time = x.Apply(x_i => x_i.Item2);
+            return Learn(inputs, time, y.To<SurvivalOutcome[]>(), weights);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public ProportionalHazards Learn(Tuple<double[], double>[] x, SurvivalOutcome[] y, double[] weights = null)
+        {
+            double[][] inputs = x.Apply(x_i => x_i.Item1);
+            double[] time = x.Apply(x_i => x_i.Item2);
+            SurvivalOutcome[] censor = y;
+            return Learn(inputs, time, censor, weights);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="inputs">The model inputs.</param>
+        /// <param name="censor">The output (event) associated with each input vector.</param>
+        /// <param name="time">The time-to-event for the non-censored training samples.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="censor" /> given <paramref name="inputs" /> and <paramref name="time" />.
+        /// </returns>
+        public ProportionalHazards Learn(double[][] inputs, double[] time, SurvivalOutcome[] censor, double[] weights = null)
         {
             if (inputs.Length != time.Length || time.Length != censor.Length)
             {
@@ -316,7 +486,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
             if (parameterCount == 0)
             {
                 createBaseline(time, censor, output);
-                return regression.GetPartialLogLikelihood(inputs, time, censor);
+                return regression;
             }
 
             CurrentIteration = 0;
@@ -425,6 +595,9 @@ namespace Accord.Statistics.Models.Regression.Fitting
                     output[i] = Math.Exp(sum);
                 }
 
+                if (Token.IsCancellationRequested)
+                    return regression;
+
             } while (!convergence.HasConverged);
 
 
@@ -445,79 +618,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
             if (computeBaselineFunction)
                 createBaseline(time, censor, output);
 
-            return regression.GetPartialLogLikelihood(inputs, time, censor);
+            return regression;
         }
-
-        /// <summary>
-        ///   Runs the Newton-Raphson update for Cox's hazards learning until convergence.
-        /// </summary>
-        /// 
-        /// <param name="censor">The output (event) associated with each input vector.</param>
-        /// <param name="time">The time-to-event for the non-censored training samples.</param>
-        /// 
-        /// <returns>The maximum relative change in the parameters after the iteration.</returns>
-        /// 
-        public double Run(double[] time, int[] censor)
-        {
-            return Run(time, censor.To<SurvivalOutcome[]>());
-        }
-
-        /// <summary>
-        ///   Runs the Newton-Raphson update for Cox's hazards learning until convergence.
-        /// </summary>
-        /// 
-        /// <param name="censor">The output (event) associated with each input vector.</param>
-        /// <param name="time">The time-to-event for the non-censored training samples.</param>
-        /// 
-        /// <returns>The maximum relative change in the parameters after the iteration.</returns>
-        /// 
-        public double Run(double[] time, SurvivalOutcome[] censor)
-        {
-            if (time.Length != censor.Length)
-            {
-                throw new DimensionMismatchException("time",
-                    "The time and output vector must have the same length.");
-            }
-
-            // Sort data by time to accelerate performance
-            EmpiricalHazardDistribution.Sort(ref time, ref censor);
-
-            createBaseline(time, censor);
-
-            return regression.GetPartialLogLikelihood(time, censor);
-        }
-
-        private void createBaseline(double[] time, SurvivalOutcome[] censor, double[] output = null)
-        {
-            if (regression.BaselineHazard == null)
-                return;
-
-            var hazard = regression.BaselineHazard as IFittableDistribution<double, EmpiricalHazardOptions>;
-            if (hazard != null)
-            {
-                // Compute an estimate of the cumulative Hazard
-                //   function using the Nelson-Aalen estimator
-                hazard.Fit(time, output, new EmpiricalHazardOptions()
-                {
-                    Outcome = censor,
-                    Estimator = Estimator,
-                    Ties = Ties
-                });
-                return;
-            }
-
-            var survival = regression.BaselineHazard as IFittableDistribution<double, SurvivalOptions>;
-            if (survival != null)
-            {
-                // Compute an estimate of the cumulative Hazard
-                //   function using the Kaplan-Meier estimator
-                survival.Fit(time, new SurvivalOptions()
-                {
-                    Outcome = censor,
-                });
-            }
-        }
-
-
     }
 }

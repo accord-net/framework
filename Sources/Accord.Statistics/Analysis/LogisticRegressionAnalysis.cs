@@ -271,6 +271,8 @@ using System.Threading;
             this.regression = new LogisticRegression(NumberOfInputs);
         }
 
+#pragma warning disable 612, 618
+
         /// <summary>
         ///   Constructs a Logistic Regression Analysis.
         /// </summary>
@@ -312,6 +314,8 @@ using System.Threading;
             this.inputNames = inputNames;
             this.outputName = outputName;
         }
+#pragma warning restore 612, 618
+
 
         /// <summary>
         ///   Constructs a Logistic Regression Analysis.
@@ -417,6 +421,7 @@ using System.Threading;
         /// 
         public bool ComputeInnerModels { get; set; }
 
+#pragma warning disable 612, 618
         /// <summary>
         ///   Gets the source matrix from which the analysis was run.
         /// </summary>
@@ -473,6 +478,8 @@ using System.Threading;
         {
             get { return weights; }
         }
+#pragma warning restore 612, 618
+
 
         /// <summary>
         ///   Gets the Logistic Regression model created
@@ -621,7 +628,9 @@ using System.Threading;
         [Obsolete("This method will be removed.")]
         public double GetLikelihoodRatio(GeneralizedLinearRegression model)
         {
+#pragma warning disable 612, 618
             return regression.GetLogLikelihoodRatio(inputData, outputData, model);
+#pragma warning restore 612, 618
         }
 
 
@@ -655,23 +664,14 @@ using System.Threading;
 
         private LogisticRegression compute(double[][] input, double[] output, double[] weights)
         {
-            double delta;
-            int iteration = 0;
-
-            var learning = new IterativeReweightedLeastSquares(regression);
-
-            learning.Regularization = regularization;
-
-            do // learning iterations until convergence
+            var learning = new IterativeReweightedLeastSquares(regression)
             {
-                delta = learning.Run(input, output, weights);
-                iteration++;
+                Regularization = regularization,
+                Iterations = iterations,
+                Tolerance = tolerance
+            };
 
-            } while (delta > tolerance && iteration < iterations);
-
-            // Check if the full model has converged
-            bool converged = iteration < iterations;
-
+            learning.Learn(input, output, weights);
 
             computeInformation(input, output, weights);
 
@@ -711,8 +711,9 @@ using System.Threading;
         public void Compute(LogisticRegression regression)
         {
             this.regression = regression;
-
+#pragma warning disable 612, 618
             computeInformation(Source.ToJagged(), Outputs, Weights);
+#pragma warning restore 612, 618
 
             innerComputed = false;
         }
@@ -782,6 +783,7 @@ using System.Threading;
             return new LogisticRegressionAnalysis(data, rate, weights);
         }
 
+#pragma warning disable 612, 618
         [Obsolete]
         private bool compute()
         {
@@ -807,32 +809,25 @@ using System.Threading;
 
             return converged;
         }
+#pragma warning restore 612, 618
 
         private void computeInner(double[][] inputData, double[] outputData, double[] weights)
         {
-            double limit = tolerance;
-            int maxIterations = iterations;
-
-            // Perform likelihood-ratio tests against diminished nested models
-            var innerModel = new LogisticRegression(NumberOfInputs);
-            var learning = new IterativeReweightedLeastSquares(innerModel);
-
-            learning.Regularization = regularization;
-
             for (int i = 0; i < NumberOfInputs; i++)
             {
                 // Create a diminished inner model without the current variable
                 double[][] data = inputData.RemoveColumn(i);
 
-                int iteration = 0;
-                double delta = 0;
-
-                do // learning iterations until convergence
+                // Perform likelihood-ratio tests against diminished nested models
+                var innerModel = new LogisticRegression(NumberOfInputs);
+                var learning = new IterativeReweightedLeastSquares(innerModel)
                 {
-                    delta = learning.Run(data, outputData, weights);
-                    iteration++;
+                    Iterations = iterations,
+                    Tolerance = tolerance,
+                    Regularization = regularization
+                }; 
 
-                } while (delta > limit && iteration < maxIterations);
+                learning.Learn(data, outputData, weights);
 
                 double ratio = 2.0 * (logLikelihood - innerModel.GetLogLikelihood(data, outputData));
                 ratioTests[i + 1] = new ChiSquareTest(ratio, 1);

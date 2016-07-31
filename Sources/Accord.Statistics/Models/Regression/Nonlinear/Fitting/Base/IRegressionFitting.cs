@@ -22,14 +22,15 @@
 
 namespace Accord.Statistics.Models.Regression.Fitting
 {
+    using System;
 
     /// <summary>
     ///   Common interface for regression fitting methods.
     /// </summary>
     /// 
+    [Obsolete("Please use ISupervisedLearning instead.")]
     interface IRegressionFitting
     {
-
         /// <summary>
         ///   Runs the fitting algorithm.
         /// </summary>

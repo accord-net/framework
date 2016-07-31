@@ -31,7 +31,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
     using Accord.Math;
     using Accord.Statistics.Models.Regression.Linear;
     using MachineLearning;
-    using Math.Optimization.Losses;
+    using Accord.Math.Optimization.Losses;
 
     /// <summary>
     ///   Non-negative Least Squares for <see cref="NonlinearRegression"/> optimization.
@@ -47,8 +47,10 @@ namespace Accord.Statistics.Models.Regression.Fitting
     ///   </list></para>
     /// </remarks>
     /// 
+#pragma warning disable 612, 618
     public class NonNegativeLeastSquares : IRegressionFitting, 
         ISupervisedLearning<MultipleLinearRegression, double[], double>
+#pragma warning restore 612, 618
     {
         MultipleLinearRegression regression;
 

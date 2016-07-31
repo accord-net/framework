@@ -40,7 +40,9 @@ namespace Accord.Statistics.Models.Regression.Linear
     /// </remarks>
     /// 
     [Serializable]
+#pragma warning disable 612, 618
     public class PolynomialRegression : TransformBase<double, double>, ILinearRegression, IFormattable
+#pragma warning restore 612, 618
     {
         private MultipleLinearRegression regression;
 
@@ -95,7 +97,9 @@ namespace Accord.Statistics.Models.Regression.Linear
         [Obsolete("Please use Weights instead.")]
         public double[] Coefficients
         {
+#pragma warning disable 612, 618
             get { return regression.Coefficients; }
+#pragma warning restore 612, 618
         }
 
         /// <summary>
@@ -134,7 +138,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         /// <returns>The regression Sum-of-Squares error.</returns>
         /// 
-        [Obsolete("Please use the LinearLeastSquares class instead.")]
+        [Obsolete("Please use the OrdinaryLeastSquares class instead.")]
         public double Regress(double[] inputs, double[] outputs)
         {
             if (inputs.Length != outputs.Length)
@@ -189,7 +193,7 @@ namespace Accord.Statistics.Models.Regression.Linear
             for (int j = 0; j < order; j++)
                 polynomial[j] = Math.Pow(input, order - j - 1);
 
-            return regression.Compute(polynomial);
+            return regression.Transform(polynomial);
         }
 
 

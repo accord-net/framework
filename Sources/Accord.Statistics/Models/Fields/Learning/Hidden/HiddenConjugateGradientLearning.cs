@@ -38,7 +38,6 @@ namespace Accord.Statistics.Models.Fields.Learning
     ///   page. All learning algorithms can be utilized in a similar manner.</para>
     /// </example>
     /// 
-    /// 
     public class HiddenConjugateGradientLearning<T> : IHiddenConditionalRandomFieldLearning<T>,
         IConvergenceLearning, IDisposable
     {

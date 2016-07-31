@@ -112,7 +112,7 @@ namespace Accord.Statistics.Analysis
         private double tolerance = 1e-5;
 
 
-
+#pragma warning disable 612, 618
         /// <summary>
         ///   Source data used in the analysis.
         /// </summary>
@@ -155,6 +155,7 @@ namespace Accord.Statistics.Analysis
         {
             get { return results; }
         }
+#pragma warning restore 612, 618
 
         /// <summary>
         ///   Gets or sets the maximum number of iterations to be
@@ -340,10 +341,12 @@ namespace Accord.Statistics.Analysis
         /// <param name="inputNames">The names of the input variables.</param>
         /// <param name="outputNames">The names of the output variables.</param>
         /// 
+#pragma warning disable 612, 618
         [Obsolete("Please pass the inputs and outputs to the Learn() method.")]
         public MultinomialLogisticRegressionAnalysis(double[][] inputs, int[] outputs,
             String[] inputNames, String[] outputNames)
             : this(inputs, outputs)
+#pragma warning restore 612, 618
         {
             names(inputNames, outputNames);
         }
@@ -357,6 +360,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="inputNames">The names of the input variables.</param>
         /// <param name="outputNames">The names of the output variables.</param>
         /// 
+#pragma warning disable 612, 618
         [Obsolete("Please pass the inputs and outputs to the Learn() method.")]
         public MultinomialLogisticRegressionAnalysis(double[][] inputs, double[][] outputs,
             String[] inputNames, String[] outputNames)
@@ -385,7 +389,6 @@ namespace Accord.Statistics.Analysis
             this.outputNames = outputNames;
         }
 
-        [Obsolete]
         private void init(double[][] inputs, double[][] outputs)
         {
             this.inputCount = inputs[0].Length;
@@ -440,6 +443,7 @@ namespace Accord.Statistics.Analysis
 
             this.coefficientCollection = new MultinomialCoefficientCollection(coefs);
         }
+#pragma warning restore 612, 618
 
         /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.
@@ -452,20 +456,13 @@ namespace Accord.Statistics.Analysis
         /// </returns>
         public MultinomialLogisticRegression Learn(double[][] x, double[][] y, double[] weights = null)
         {
-            double delta;
-            int iteration = 0;
-
-            var learning = new LowerBoundNewtonRaphson(regression);
-
-            do // learning iterations until convergence
+            var learning = new LowerBoundNewtonRaphson(regression)
             {
-                delta = learning.Run(x, y);
-                iteration++;
+                Tolerance = tolerance,
+                Iterations = iterations
+            };
 
-            } while (delta > tolerance && iteration < iterations);
-
-            // Check if the full model has converged
-            bool converged = iteration < iterations;
+            learning.Learn(x, y, weights);
 
             computeInformation(x, y);
 
@@ -493,6 +490,7 @@ namespace Accord.Statistics.Analysis
         [Obsolete("Please use the Learn method instead.")]
         public bool Compute()
         {
+#pragma warning disable 612, 618
             double delta;
             int iteration = 0;
 
@@ -508,10 +506,10 @@ namespace Accord.Statistics.Analysis
             // Check if the full model has converged
             bool converged = iteration < iterations;
 
-
             computeInformation(inputData, outputData);
 
             return converged;
+#pragma warning restore 612, 618
         }
 
         private void computeInformation(double[][] inputData, double[][] outputData)

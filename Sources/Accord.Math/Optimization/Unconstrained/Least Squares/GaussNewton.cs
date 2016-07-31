@@ -162,6 +162,12 @@ namespace Accord.Math.Optimization
             get { return decomposition.Inverse().Diagonal().Sqrt(); }
         }
 
+        /// <summary>
+        /// Gets the value at the solution found. This should be
+        /// the minimum value found for the objective function.
+        /// </summary>
+        /// 
+        public double Value { get; set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="GaussNewton"/> class.
@@ -227,7 +233,7 @@ namespace Accord.Math.Optimization
             for (int i = 0; i < deltas.Length; i++)
                 weights[i] -= deltas[i];
 
-            return ComputeError(inputs, outputs);
+            return Value = ComputeError(inputs, outputs);
         }
 
 

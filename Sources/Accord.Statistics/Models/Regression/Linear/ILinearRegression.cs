@@ -38,6 +38,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     ///   for computing actual regression.</para>
     /// </remarks>
     /// 
+    [Obsolete("Please use ITransform instead.")]
     public interface ILinearRegression
     {
         /// <summary>

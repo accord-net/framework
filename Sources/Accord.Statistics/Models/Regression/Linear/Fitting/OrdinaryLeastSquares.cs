@@ -30,7 +30,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     using System.Text;
     using System.Threading.Tasks;
     using System.Threading;
-    using Math.Decompositions;
+    using Accord.Math.Decompositions;
 
     /// <summary>
     ///   Least Squares learning algorithm for linear regression models.
