@@ -32,10 +32,10 @@ namespace Accord.MachineLearning
     /// 
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// 
-    public interface IBinaryGenerativeClassifier<TInput> : 
-        IBinaryDistanceClassifier<TInput>,
-        IMulticlassOutGenerativeClassifier<TInput, bool>,
-        IMulticlassGenerativeClassifier<TInput>
+    public interface IBinaryLikelihoodClassifier<TInput> : 
+        IBinaryScoreClassifier<TInput>,
+        IMulticlassOutLikelihoodClassifier<TInput, bool>,
+        IMulticlassLikelihoodClassifier<TInput>
     {
         /// <summary>
         ///   Views this instance as a multi-class generative classifier,
@@ -43,9 +43,9 @@ namespace Accord.MachineLearning
         ///   of integer labels.
         /// </summary>
         /// 
-        /// <returns>This instance seen as an <see cref="IMulticlassGenerativeClassifier{TInput}"/>.</returns>
+        /// <returns>This instance seen as an <see cref="IMulticlassLikelihoodClassifier{TInput}"/>.</returns>
         /// 
-        new IMulticlassGenerativeClassifier<TInput> ToMulticlass();
+        new IMulticlassLikelihoodClassifier<TInput> ToMulticlass();
 
         //new IMultilabelGenerativeClassifier<TInput> ToMultilabel();
     }

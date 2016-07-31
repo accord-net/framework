@@ -32,10 +32,10 @@ namespace Accord.MachineLearning
     /// 
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// 
-    public interface IBinaryDistanceClassifier<TInput> :
+    public interface IBinaryScoreClassifier<TInput> :
         IBinaryClassifier<TInput>,
-        IMulticlassOutDistanceClassifier<TInput, bool>,
-        IMulticlassDistanceClassifier<TInput>
+        IMulticlassOutScoreClassifier<TInput, bool>,
+        IMulticlassScoreClassifier<TInput>
     {
         /// <summary>
         ///   Views this instance as a multi-class distance classifier,
@@ -43,9 +43,9 @@ namespace Accord.MachineLearning
         ///   of integer labels.
         /// </summary>
         /// 
-        /// <returns>This instance seen as an <see cref="IMulticlassDistanceClassifier{TInput}"/>.</returns>
+        /// <returns>This instance seen as an <see cref="IMulticlassScoreClassifier{TInput}"/>.</returns>
         /// 
-        new IMulticlassDistanceClassifier<TInput> ToMulticlass();
+        new IMulticlassScoreClassifier<TInput> ToMulticlass();
 
         //new IMultilabelDistanceClassifier<TInput> ToMultilabel();
     }

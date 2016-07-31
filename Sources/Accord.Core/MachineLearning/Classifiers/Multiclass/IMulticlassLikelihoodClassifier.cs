@@ -30,8 +30,8 @@ namespace Accord.MachineLearning
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// <typeparam name="TClasses">The data type for the class labels. Default is int.</typeparam>
     /// 
-    public interface IMulticlassGenerativeClassifier<TInput, TClasses> :
-        IMulticlassDistanceClassifier<TInput, TClasses>
+    public interface IMulticlassLikelihoodClassifier<TInput, TClasses> :
+        IMulticlassScoreClassifier<TInput, TClasses>
     {
         /// <summary>
         ///   Predicts a class label for each input vector, returning the
@@ -95,10 +95,10 @@ namespace Accord.MachineLearning
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// <typeparam name="TClasses">The data type for the class labels. Default is int.</typeparam>
     /// 
-    public interface IMulticlassOutGenerativeClassifier<TInput, TClasses> :
-        IMulticlassOutDistanceClassifier<TInput, TClasses>,
-        IMultilabelOutGenerativeClassifier<TInput, TClasses>,
-        IMulticlassGenerativeClassifier<TInput, TClasses>
+    public interface IMulticlassOutLikelihoodClassifier<TInput, TClasses> :
+        IMulticlassOutScoreClassifier<TInput, TClasses>,
+        IMultilabelOutLikelihoodClassifier<TInput, TClasses>,
+        IMulticlassLikelihoodClassifier<TInput, TClasses>
     {
         /// <summary>
         ///   Predicts a class label for the given input vector, returning the
@@ -130,9 +130,9 @@ namespace Accord.MachineLearning
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// <typeparam name="TClasses">The data type for the class labels. Default is int.</typeparam>
     /// 
-    public interface IMulticlassRefGenerativeClassifier<TInput, TClasses> :
-        IMulticlassRefDistanceClassifier<TInput, TClasses>,
-        IMultilabelRefGenerativeClassifier<TInput, TClasses>
+    public interface IMulticlassRefLikelihoodClassifier<TInput, TClasses> :
+        IMulticlassRefScoreClassifier<TInput, TClasses>,
+        IMultilabelRefLikelihoodClassifier<TInput, TClasses>
         //IMulticlassGenerativeClassifier<TInput, TClasses>
     {
         ///// <summary>
@@ -163,14 +163,14 @@ namespace Accord.MachineLearning
     /// 
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// 
-    public interface IMulticlassGenerativeClassifier<TInput> :
-        IMulticlassOutGenerativeClassifier<TInput, int>,
-        IMulticlassOutGenerativeClassifier<TInput, double>,
-        IMulticlassRefGenerativeClassifier<TInput, int[]>,
-        IMulticlassRefGenerativeClassifier<TInput, bool[]>,
-        IMulticlassRefGenerativeClassifier<TInput, double[]>,
-        IMulticlassDistanceClassifier<TInput>,
-        IMultilabelGenerativeClassifier<TInput>
+    public interface IMulticlassLikelihoodClassifier<TInput> :
+        IMulticlassOutLikelihoodClassifier<TInput, int>,
+        IMulticlassOutLikelihoodClassifier<TInput, double>,
+        IMulticlassRefLikelihoodClassifier<TInput, int[]>,
+        IMulticlassRefLikelihoodClassifier<TInput, bool[]>,
+        IMulticlassRefLikelihoodClassifier<TInput, double[]>,
+        IMulticlassScoreClassifier<TInput>,
+        IMultilabelLikelihoodClassifier<TInput>
     {
 
         /// <summary>
@@ -238,9 +238,9 @@ namespace Accord.MachineLearning
         ///   of one-hot vectors.
         /// </summary>
         /// 
-        /// <returns>This instance seen as an <see cref="IMultilabelGenerativeClassifier{TInput}"/>.</returns>
+        /// <returns>This instance seen as an <see cref="IMultilabelLikelihoodClassifier{TInput}"/>.</returns>
         /// 
-        new IMultilabelGenerativeClassifier<TInput> ToMultilabel();
+        new IMultilabelLikelihoodClassifier<TInput> ToMultilabel();
     }
 
 }

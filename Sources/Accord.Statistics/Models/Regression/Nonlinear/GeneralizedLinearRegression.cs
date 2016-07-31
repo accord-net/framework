@@ -106,7 +106,7 @@ namespace Accord.Statistics.Models.Regression
     /// </example>
     /// 
     [Serializable]
-    public class GeneralizedLinearRegression : BinaryGenerativeClassifierBase<double[]>, ICloneable
+    public class GeneralizedLinearRegression : BinaryLikelihoodClassifierBase<double[]>, ICloneable
     {
 
         private ILinkFunction linkFunction;
@@ -234,7 +234,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <returns>The output value.</returns>
         /// 
-        [Obsolete("Please use the Distance method instead.")]
+        [Obsolete("Please use the Score method instead.")]
         public double Compute(double[] input)
         {
             double sum = coefficients[0];
@@ -251,7 +251,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <returns>The array of output values.</returns>
         /// 
-        [Obsolete("Please use the Distance method instead.")]
+        [Obsolete("Please use the Score method instead.")]
         public double[] Compute(double[][] input)
         {
             double[] output = new double[input.Length];
@@ -305,7 +305,7 @@ namespace Accord.Statistics.Models.Regression
 
             for (int i = 0; i < input.Length; i++)
             {
-                double actualOutput = Distance(input[i]);
+                double actualOutput = Score(input[i]);
                 double expectedOutput = output[i];
 
                 if (actualOutput != 0)
@@ -340,7 +340,7 @@ namespace Accord.Statistics.Models.Regression
             for (int i = 0; i < input.Length; i++)
             {
                 double w = weights[i];
-                double actualOutput = Distance(input[i]);
+                double actualOutput = Score(input[i]);
                 double expectedOutput = output[i];
 
                 if (actualOutput != 0)
@@ -601,7 +601,7 @@ namespace Accord.Statistics.Models.Regression
         /// </summary>
         /// <param name="input">The input vector.</param>
         /// <returns></returns>
-        public override double Distance(double[] input)
+        public override double Score(double[] input)
         {
             double sum = coefficients[0];
             for (int i = 1; i < coefficients.Length; i++)

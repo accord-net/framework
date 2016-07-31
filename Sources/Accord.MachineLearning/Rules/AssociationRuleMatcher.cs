@@ -37,8 +37,8 @@ namespace Accord.MachineLearning.Rules
     /// 
     [Serializable]
     public class AssociationRuleMatcher<T> :
-        IMulticlassRefDistanceClassifier<T[], T[][]>,
-        IMulticlassRefDistanceClassifier<SortedSet<T>, SortedSet<T>[]>
+        IMulticlassRefScoreClassifier<T[], T[][]>,
+        IMulticlassRefScoreClassifier<SortedSet<T>, SortedSet<T>[]>
     {
         int items;
         AssociationRule<T>[] rules;
@@ -106,7 +106,7 @@ namespace Accord.MachineLearning.Rules
         /// <param name="decision">The class labels associated with each input
         /// vector, as predicted by the classifier. If passed as null, the classifier
         /// will create a new array.</param>
-        public double[] Distances(SortedSet<T> input, ref SortedSet<T>[] decision)
+        public double[] Scores(SortedSet<T> input, ref SortedSet<T>[] decision)
         {
             var matchs = new List<SortedSet<T>>();
             var scores = new List<double>();
@@ -138,9 +138,9 @@ namespace Accord.MachineLearning.Rules
         /// <param name="result">An array where the distances will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///   
-        public double[] Distances(SortedSet<T> input, ref SortedSet<T>[] decision, double[] result)
+        public double[] Scores(SortedSet<T> input, ref SortedSet<T>[] decision, double[] result)
         {
-            var r = Distances(input, ref decision);
+            var r = Scores(input, ref decision);
             Array.Copy(r, result, r.Length);
             return result;
         }
@@ -165,6 +165,9 @@ namespace Accord.MachineLearning.Rules
             return matchs.ToArray();
         }
 
+        // TODO: Move the below functionality to a base class in the
+        // MachineLearning namespace (BaseScoreClassifier)
+
         /// <summary>
         /// Computes a class-label decision for a given <paramref name="input" />.
         /// </summary>
@@ -176,8 +179,7 @@ namespace Accord.MachineLearning.Rules
         /// </returns>
         public SortedSet<T>[][] Decide(SortedSet<T>[] input)
         {
-            var result = new SortedSet<T>[input.Length][];
-            return Decide(input, result);
+            return Decide(input, new SortedSet<T>[input.Length][]);
         }
 
         /// <summary>
@@ -207,9 +209,9 @@ namespace Accord.MachineLearning.Rules
         /// <param name="decision">The class labels associated with each input
         /// vector, as predicted by the classifier. If passed as null, the classifier
         /// will create a new array.</param>
-        public double[][] Distances(SortedSet<T>[] input, ref SortedSet<T>[][] decision)
+        public double[][] Scores(SortedSet<T>[] input, ref SortedSet<T>[][] decision)
         {
-            return Distances(input, ref decision, new double[input.Length][]);
+            return Scores(input, ref decision, new double[input.Length][]);
         }
 
         /// <summary>
@@ -223,9 +225,9 @@ namespace Accord.MachineLearning.Rules
         /// will create a new array.</param>
         /// <param name="result">An array where the distances will be stored,
         ///   avoiding unnecessary memory allocations.</param>
-        public double[][] Distances(SortedSet<T>[] input, ref SortedSet<T>[][] decision, double[][] result)
+        public double[][] Scores(SortedSet<T>[] input, ref SortedSet<T>[][] decision, double[][] result)
         {
-            var r = Distances(input, ref decision);
+            var r = Scores(input, ref decision);
             r.CopyTo(result);
             return r;
         }
@@ -282,10 +284,10 @@ namespace Accord.MachineLearning.Rules
         /// <param name="decision">The class labels associated with each input
         /// vector, as predicted by the classifier. If passed as null, the classifier
         /// will create a new array.</param>
-        public double[] Distances(T[] input, ref T[][] decision)
+        public double[] Scores(T[] input, ref T[][] decision)
         {
             SortedSet<T>[] d = null;
-            var r = Distances(new SortedSet<T>(input), ref d);
+            var r = Scores(new SortedSet<T>(input), ref d);
             decision = d.Apply(x => x.ToArray());
             return r;
         }
@@ -301,10 +303,10 @@ namespace Accord.MachineLearning.Rules
         /// will create a new array.</param>
         /// <param name="result">An array where the distances will be stored,
         ///   avoiding unnecessary memory allocations.</param>
-        public double[] Distances(T[] input, ref T[][] decision, double[] result)
+        public double[] Scores(T[] input, ref T[][] decision, double[] result)
         {
             SortedSet<T>[] d = null;
-            var r = Distances(new SortedSet<T>(input), ref d);
+            var r = Scores(new SortedSet<T>(input), ref d);
             decision = d.Apply(x => x.ToArray());
             Array.Copy(r, result, r.Length);
             return r;
@@ -319,9 +321,9 @@ namespace Accord.MachineLearning.Rules
         /// <param name="decision">The class labels associated with each input
         /// vector, as predicted by the classifier. If passed as null, the classifier
         /// will create a new array.</param>
-        public double[][] Distances(T[][] input, ref T[][][] decision)
+        public double[][] Scores(T[][] input, ref T[][][] decision)
         {
-            return Distances(input, ref decision, new double[input.Length][]);
+            return Scores(input, ref decision, new double[input.Length][]);
         }
 
         /// <summary>
@@ -335,10 +337,10 @@ namespace Accord.MachineLearning.Rules
         /// will create a new array.</param>
         /// <param name="result">An array where the distances will be stored,
         ///   avoiding unnecessary memory allocations.</param>
-        public double[][] Distances(T[][] input, ref T[][][] decision, double[][] result)
+        public double[][] Scores(T[][] input, ref T[][][] decision, double[][] result)
         {
             for (int i = 0; i < input.Length; i++)
-                result[i] = Distances(input[i], ref decision[i]);
+                result[i] = Scores(input[i], ref decision[i]);
             return result;
         }
 

@@ -293,7 +293,7 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         [Serializable]
-        public sealed class Pipeline : MulticlassDistanceClassifierBase<double[]>
+        public sealed class Pipeline : MulticlassScoreClassifierBase<double[]>
         {
             /// <summary>
             /// Gets or sets the first step in the pipeline.
@@ -315,9 +315,9 @@ namespace Accord.Statistics.Analysis
             /// <param name="result">An array where the result will be stored,
             /// avoiding unnecessary memory allocations.</param>
             /// <returns></returns>
-            public override double[][] Distances(double[][] input, double[][] result)
+            public override double[][] Scores(double[][] input, double[][] result)
             {
-                return Second.Distances(First.Transform(input), result);
+                return Second.Scores(First.Transform(input), result);
             }
         }
     }
@@ -449,7 +449,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public double DiscriminantFunction(double[] projection)
         {
-            return analysis.Distance(projection, classIndex: index);
+            return analysis.Score(projection, classIndex: index);
         }
     }
 

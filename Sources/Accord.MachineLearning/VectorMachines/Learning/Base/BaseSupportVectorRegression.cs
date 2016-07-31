@@ -277,7 +277,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         [Obsolete("Please use Accord.Math.Optimization.SquareLoss or any other losses of your choice from the Accord.Math.Optimization namespace.")]
         public double ComputeError(TInput[] inputs, double[] expectedOutputs)
         {
-            return new SquareLoss(expectedOutputs).Loss(Model.Distance(inputs));
+            return new SquareLoss(expectedOutputs).Loss(Model.Score(inputs));
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         public double Run()
         {
             Learn(Inputs, Outputs, null);
-            return new SquareLoss(Outputs).Loss(Model.Distance(Inputs));
+            return new SquareLoss(Outputs).Loss(Model.Score(Inputs));
         }
     }
 }

@@ -63,7 +63,7 @@ type FSharpMultilabelSvmTest() =
             Array.zip validationLabels validationObservations 
             |> Array.map (fun (l, o) -> 
                 let d = ref 0
-                let output = svm.Distances(o, d)
+                let output = svm.Scores(o, d)
                 if !d = l then 1. else 0.)
             |> Array.average
             
@@ -97,7 +97,7 @@ type FSharpMultilabelSvmTest() =
             Array.zip labels observations 
             |> Array.map (fun (l, o) -> 
                 let d = ref 0
-                let output = svm.Distances(o, d)
+                let output = svm.Scores(o, d)
                 if !d = l then 1. else 0.)
             |> Array.average
 
@@ -107,7 +107,7 @@ type FSharpMultilabelSvmTest() =
             Array.zip validationLabels validationObservations 
             |> Array.map (fun (l, o) -> 
                 let d = ref 0
-                let output = svm.Distances(o, d)
+                let output = svm.Scores(o, d)
                 if !d = l then 1. else 0.)
             |> Array.average
             
@@ -144,7 +144,7 @@ type FSharpMultilabelSvmTest() =
             Array.zip labels observations 
             |> Array.map (fun (l, o) -> 
                 let d = ref 0
-                let output = svm.Distances(o, d)
+                let output = svm.Scores(o, d)
                 if !d = l then 1. else 0.)
             |> Array.average
 
@@ -154,7 +154,7 @@ type FSharpMultilabelSvmTest() =
             Array.zip validationLabels validationObservations 
             |> Array.map (fun (l, o) -> 
                 let d = ref 0
-                let output = svm.Distances(o, d)
+                let output = svm.Scores(o, d)
                 if !d = l then 1. else 0.)
             |> Array.average
             

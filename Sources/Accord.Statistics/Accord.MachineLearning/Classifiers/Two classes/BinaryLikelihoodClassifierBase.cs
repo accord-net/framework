@@ -29,16 +29,16 @@ namespace Accord.MachineLearning
     // TODO: Rename to BinaryLikelihoodClassifierBase
 
     /// <summary>
-    ///   Base class for <see cref="IBinaryGenerativeClassifier{TInput}">
+    ///   Base class for <see cref="IBinaryLikelihoodClassifier{TInput}">
     ///   generative binary classifiers</see>.
     /// </summary>
     /// 
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// 
     [Serializable]
-    public abstract class BinaryGenerativeClassifierBase<TInput> :
-        BinaryDistanceClassifierBase<TInput>,
-        IBinaryGenerativeClassifier<TInput>
+    public abstract class BinaryLikelihoodClassifierBase<TInput> :
+        BinaryScoreClassifierBase<TInput>,
+        IBinaryLikelihoodClassifier<TInput>
     {
 
         /// <summary>
@@ -98,17 +98,17 @@ namespace Accord.MachineLearning
         #region LogLikelihoods
 
         // Input, classIndex
-        double IMultilabelGenerativeClassifier<TInput>.LogLikelihood(TInput input, int classIndex)
+        double IMultilabelLikelihoodClassifier<TInput>.LogLikelihood(TInput input, int classIndex)
         {
             return ToMultilabel().LogLikelihoods(input)[classIndex];
         }
 
-        double[] IMultilabelGenerativeClassifier<TInput>.LogLikelihood(TInput[] input, int classIndex)
+        double[] IMultilabelLikelihoodClassifier<TInput>.LogLikelihood(TInput[] input, int classIndex)
         {
             return ToMulticlass().LogLikelihood(input, classIndex, new double[input.Length]);
         }
 
-        double[] IMultilabelGenerativeClassifier<TInput>.LogLikelihood(TInput[] input, int classIndex, double[] result)
+        double[] IMultilabelLikelihoodClassifier<TInput>.LogLikelihood(TInput[] input, int classIndex, double[] result)
         {
             var temp = new double[NumberOfOutputs];
             for (int i = 0; i < input.Length; i++)
@@ -122,12 +122,12 @@ namespace Accord.MachineLearning
 
 
         // Input, classIndex[]
-        double[] IMultilabelGenerativeClassifier<TInput>.LogLikelihood(TInput[] input, int[] classIndex)
+        double[] IMultilabelLikelihoodClassifier<TInput>.LogLikelihood(TInput[] input, int[] classIndex)
         {
             return ToMulticlass().LogLikelihood(input, classIndex, new double[input.Length]);
         }
 
-        double[] IMultilabelGenerativeClassifier<TInput>.LogLikelihood(TInput[] input, int[] classIndex, double[] result)
+        double[] IMultilabelLikelihoodClassifier<TInput>.LogLikelihood(TInput[] input, int[] classIndex, double[] result)
         {
             var temp = new double[NumberOfOutputs];
             for (int i = 0; i < input.Length; i++)
@@ -142,7 +142,7 @@ namespace Accord.MachineLearning
 
         // Input
 
-        double[] IMultilabelGenerativeClassifier<TInput>.LogLikelihoods(TInput input)
+        double[] IMultilabelLikelihoodClassifier<TInput>.LogLikelihoods(TInput input)
         {
             return ToMultilabel().LogLikelihoods(input, new double[NumberOfOutputs]);
         }
@@ -157,7 +157,7 @@ namespace Accord.MachineLearning
             return LogLikelihood(input, new double[input.Length]);
         }
 
-        double[][] IMultilabelGenerativeClassifier<TInput>.LogLikelihoods(TInput[] input)
+        double[][] IMultilabelLikelihoodClassifier<TInput>.LogLikelihoods(TInput[] input)
         {
             return ToMultilabel().LogLikelihoods(input, create<double>(input));
         }
@@ -165,7 +165,7 @@ namespace Accord.MachineLearning
 
         // Input, result
 
-        double[] IMultilabelGenerativeClassifier<TInput>.LogLikelihoods(TInput input, double[] result)
+        double[] IMultilabelLikelihoodClassifier<TInput>.LogLikelihoods(TInput input, double[] result)
         {
             double d = LogLikelihood(input);
             result[0] = +d;
@@ -188,7 +188,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[][] IMultilabelGenerativeClassifier<TInput>.LogLikelihoods(TInput[] input, double[][] result)
+        double[][] IMultilabelLikelihoodClassifier<TInput>.LogLikelihoods(TInput[] input, double[][] result)
         {
             for (int i = 0; i < input.Length; i++)
             {
@@ -203,7 +203,7 @@ namespace Accord.MachineLearning
 
         // Input, decision
 
-        double IMulticlassOutGenerativeClassifier<TInput, double>.LogLikelihood(TInput input, out double decision)
+        double IMulticlassOutLikelihoodClassifier<TInput, double>.LogLikelihood(TInput input, out double decision)
         {
             bool value;
             double d = LogLikelihood(input, out value);
@@ -211,7 +211,7 @@ namespace Accord.MachineLearning
             return d;
         }
 
-        double IMulticlassOutGenerativeClassifier<TInput, int>.LogLikelihood(TInput input, out int decision)
+        double IMulticlassOutLikelihoodClassifier<TInput, int>.LogLikelihood(TInput input, out int decision)
         {
             bool value;
             double d = LogLikelihood(input, out value);
@@ -221,17 +221,17 @@ namespace Accord.MachineLearning
 
 
 
-        double[] IMultilabelOutGenerativeClassifier<TInput, bool>.LogLikelihoods(TInput input, out bool decision)
+        double[] IMultilabelOutLikelihoodClassifier<TInput, bool>.LogLikelihoods(TInput input, out bool decision)
         {
             return LogLikelihoods(input, out decision, new double[NumberOfOutputs]);
         }
 
-        double[] IMultilabelOutGenerativeClassifier<TInput, int>.LogLikelihoods(TInput input, out int decision)
+        double[] IMultilabelOutLikelihoodClassifier<TInput, int>.LogLikelihoods(TInput input, out int decision)
         {
             return ToMultilabel().LogLikelihoods(input, out decision, new double[NumberOfOutputs]);
         }
 
-        double[] IMultilabelOutGenerativeClassifier<TInput, double>.LogLikelihoods(TInput input, out double decision)
+        double[] IMultilabelOutLikelihoodClassifier<TInput, double>.LogLikelihoods(TInput input, out double decision)
         {
             return ToMultilabel().LogLikelihoods(input, out decision, new double[NumberOfOutputs]);
         }
@@ -247,12 +247,12 @@ namespace Accord.MachineLearning
             return LogLikelihoods(input, ref decision, new double[NumberOfOutputs]);
         }
 
-        double[] IMultilabelRefGenerativeClassifier<TInput, int[]>.LogLikelihoods(TInput input, ref int[] decision)
+        double[] IMultilabelRefLikelihoodClassifier<TInput, int[]>.LogLikelihoods(TInput input, ref int[] decision)
         {
             return ToMultilabel().LogLikelihoods(input, ref decision, new double[NumberOfOutputs]);
         }
 
-        double[] IMultilabelRefGenerativeClassifier<TInput, double[]>.LogLikelihoods(TInput input, ref double[] decision)
+        double[] IMultilabelRefLikelihoodClassifier<TInput, double[]>.LogLikelihoods(TInput input, ref double[] decision)
         {
             return ToMultilabel().LogLikelihoods(input, ref decision, new double[NumberOfOutputs]);
         }
@@ -313,7 +313,7 @@ namespace Accord.MachineLearning
         }
 
 
-        double[] IMultilabelOutGenerativeClassifier<TInput, double>.LogLikelihoods(TInput input, out double decision, double[] result)
+        double[] IMultilabelOutLikelihoodClassifier<TInput, double>.LogLikelihoods(TInput input, out double decision, double[] result)
         {
             bool value;
             double d = LogLikelihood(input, out value);
@@ -324,7 +324,7 @@ namespace Accord.MachineLearning
         }
 
 
-        double[] IMultilabelOutGenerativeClassifier<TInput, int>.LogLikelihoods(TInput input, out int decision, double[] result)
+        double[] IMultilabelOutLikelihoodClassifier<TInput, int>.LogLikelihoods(TInput input, out int decision, double[] result)
         {
             bool value;
             double d = LogLikelihood(input, out value);
@@ -352,7 +352,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[] IMultilabelRefGenerativeClassifier<TInput, int[]>.LogLikelihoods(TInput input, ref int[] decision, double[] result)
+        double[] IMultilabelRefLikelihoodClassifier<TInput, int[]>.LogLikelihoods(TInput input, ref int[] decision, double[] result)
         {
             bool value;
             double d = LogLikelihood(input, out value);
@@ -362,7 +362,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[] IMultilabelRefGenerativeClassifier<TInput, double[]>.LogLikelihoods(TInput input, ref double[] decision, double[] result)
+        double[] IMultilabelRefLikelihoodClassifier<TInput, double[]>.LogLikelihoods(TInput input, ref double[] decision, double[] result)
         {
             bool value;
             double d = LogLikelihood(input, out value);
@@ -375,12 +375,12 @@ namespace Accord.MachineLearning
 
         // Input[], decision[]
 
-        double[] IMulticlassGenerativeClassifier<TInput, int>.LogLikelihood(TInput[] input, ref int[] decision)
+        double[] IMulticlassLikelihoodClassifier<TInput, int>.LogLikelihood(TInput[] input, ref int[] decision)
         {
             return ToMulticlass().LogLikelihood(input, ref decision, new double[input.Length]);
         }
 
-        double[] IMulticlassGenerativeClassifier<TInput, double>.LogLikelihood(TInput[] input, ref double[] decision)
+        double[] IMulticlassLikelihoodClassifier<TInput, double>.LogLikelihood(TInput[] input, ref double[] decision)
         {
             return ToMulticlass().LogLikelihood(input, ref decision, new double[input.Length]);
         }
@@ -415,13 +415,13 @@ namespace Accord.MachineLearning
 
 
 
-        double[][] IMultilabelGenerativeClassifier<TInput, int>.LogLikelihoods(TInput[] input, ref int[] decision)
+        double[][] IMultilabelLikelihoodClassifier<TInput, int>.LogLikelihoods(TInput[] input, ref int[] decision)
         {
             return ToMultilabel().LogLikelihoods(input, ref decision, create<double>(input));
         }
 
 
-        double[][] IMultilabelGenerativeClassifier<TInput, double>.LogLikelihoods(TInput[] input, ref double[] decision)
+        double[][] IMultilabelLikelihoodClassifier<TInput, double>.LogLikelihoods(TInput[] input, ref double[] decision)
         {
             return ToMultilabel().LogLikelihoods(input, ref decision, create<double>(input));
         }
@@ -439,7 +439,7 @@ namespace Accord.MachineLearning
         }
 
 
-        double[][] IMultilabelGenerativeClassifier<TInput, int[]>.LogLikelihoods(TInput[] input, ref int[][] decision)
+        double[][] IMultilabelLikelihoodClassifier<TInput, int[]>.LogLikelihoods(TInput[] input, ref int[][] decision)
         {
             return ToMultilabel().LogLikelihoods(input, ref decision, create<double>(input));
         }
@@ -457,7 +457,7 @@ namespace Accord.MachineLearning
         }
 
 
-        double[][] IMultilabelGenerativeClassifier<TInput, double[]>.LogLikelihoods(TInput[] input, ref double[][] decision)
+        double[][] IMultilabelLikelihoodClassifier<TInput, double[]>.LogLikelihoods(TInput[] input, ref double[][] decision)
         {
             return ToMultilabel().LogLikelihoods(input, ref decision, create<double>(input));
         }
@@ -485,7 +485,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[] IMulticlassGenerativeClassifier<TInput, int>.LogLikelihood(TInput[] input, ref int[] decision, double[] result)
+        double[] IMulticlassLikelihoodClassifier<TInput, int>.LogLikelihood(TInput[] input, ref int[] decision, double[] result)
         {
             decision = create(input, decision);
             for (int i = 0; i < input.Length; i++)
@@ -493,7 +493,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[] IMulticlassGenerativeClassifier<TInput, double>.LogLikelihood(TInput[] input, ref double[] decision, double[] result)
+        double[] IMulticlassLikelihoodClassifier<TInput, double>.LogLikelihood(TInput[] input, ref double[] decision, double[] result)
         {
             decision = create(input, decision);
             for (int i = 0; i < input.Length; i++)
@@ -517,7 +517,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[][] IMultilabelGenerativeClassifier<TInput, int[]>.LogLikelihoods(TInput[] input, ref int[][] decision, double[][] result)
+        double[][] IMultilabelLikelihoodClassifier<TInput, int[]>.LogLikelihoods(TInput[] input, ref int[][] decision, double[][] result)
         {
             decision = create(input, decision);
             int value;
@@ -543,7 +543,7 @@ namespace Accord.MachineLearning
 
 
 
-        double[][] IMultilabelGenerativeClassifier<TInput, double[]>.LogLikelihoods(TInput[] input, ref double[][] decision, double[][] result)
+        double[][] IMultilabelLikelihoodClassifier<TInput, double[]>.LogLikelihoods(TInput[] input, ref double[][] decision, double[][] result)
         {
             decision = create(input, decision);
             int value;
@@ -575,7 +575,7 @@ namespace Accord.MachineLearning
 
 
 
-        double[][] IMultilabelGenerativeClassifier<TInput, int>.LogLikelihoods(TInput[] input, ref int[] decision, double[][] result)
+        double[][] IMultilabelLikelihoodClassifier<TInput, int>.LogLikelihoods(TInput[] input, ref int[] decision, double[][] result)
         {
             decision = create(input, decision);
             for (int i = 0; i < input.Length; i++)
@@ -584,7 +584,7 @@ namespace Accord.MachineLearning
         }
 
 
-        double[][] IMultilabelGenerativeClassifier<TInput, double>.LogLikelihoods(TInput[] input, ref double[] decision, double[][] result)
+        double[][] IMultilabelLikelihoodClassifier<TInput, double>.LogLikelihoods(TInput[] input, ref double[] decision, double[][] result)
         {
             decision = create(input, decision);
             for (int i = 0; i < input.Length; i++)
@@ -625,18 +625,18 @@ namespace Accord.MachineLearning
         #region Probability
 
         // Input, classIndex
-        double IMultilabelGenerativeClassifier<TInput>.Probability(TInput input, int classIndex)
+        double IMultilabelLikelihoodClassifier<TInput>.Probability(TInput input, int classIndex)
         {
             return ToMultilabel().Probabilities(input)[classIndex];
         }
 
-        double[] IMultilabelGenerativeClassifier<TInput>.Probability(TInput[] input, int classIndex)
+        double[] IMultilabelLikelihoodClassifier<TInput>.Probability(TInput[] input, int classIndex)
         {
             return ToMulticlass().Probability(input, classIndex, new double[input.Length]);
         }
 
 
-        double[] IMultilabelGenerativeClassifier<TInput>.Probability(TInput[] input, int classIndex, double[] result)
+        double[] IMultilabelLikelihoodClassifier<TInput>.Probability(TInput[] input, int classIndex, double[] result)
         {
             var temp = new double[NumberOfOutputs];
             for (int i = 0; i < input.Length; i++)
@@ -650,12 +650,12 @@ namespace Accord.MachineLearning
 
 
         // Input, classIndex[]
-        double[] IMultilabelGenerativeClassifier<TInput>.Probability(TInput[] input, int[] classIndex)
+        double[] IMultilabelLikelihoodClassifier<TInput>.Probability(TInput[] input, int[] classIndex)
         {
             return ToMulticlass().Probability(input, classIndex, new double[input.Length]);
         }
 
-        double[] IMultilabelGenerativeClassifier<TInput>.Probability(TInput[] input, int[] classIndex, double[] result)
+        double[] IMultilabelLikelihoodClassifier<TInput>.Probability(TInput[] input, int[] classIndex, double[] result)
         {
             var temp = new double[NumberOfOutputs];
             for (int i = 0; i < input.Length; i++)
@@ -670,7 +670,7 @@ namespace Accord.MachineLearning
 
         // Input
 
-        double[] IMultilabelGenerativeClassifier<TInput>.Probabilities(TInput input)
+        double[] IMultilabelLikelihoodClassifier<TInput>.Probabilities(TInput input)
         {
             return ToMultilabel().Probabilities(input, new double[NumberOfOutputs]);
         }
@@ -685,7 +685,7 @@ namespace Accord.MachineLearning
             return Probability(input, new double[input.Length]);
         }
 
-        double[][] IMultilabelGenerativeClassifier<TInput>.Probabilities(TInput[] input)
+        double[][] IMultilabelLikelihoodClassifier<TInput>.Probabilities(TInput[] input)
         {
             return ToMultilabel().Probabilities(input, create<double>(input));
         }
@@ -722,7 +722,7 @@ namespace Accord.MachineLearning
 
         // Input, result
 
-        double[] IMultilabelGenerativeClassifier<TInput>.Probabilities(TInput input, double[] result)
+        double[] IMultilabelLikelihoodClassifier<TInput>.Probabilities(TInput input, double[] result)
         {
             double d = Probability(input);
             result[0] = d;
@@ -744,7 +744,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[][] IMultilabelGenerativeClassifier<TInput>.Probabilities(TInput[] input, double[][] result)
+        double[][] IMultilabelLikelihoodClassifier<TInput>.Probabilities(TInput[] input, double[][] result)
         {
             for (int i = 0; i < input.Length; i++)
             {
@@ -759,7 +759,7 @@ namespace Accord.MachineLearning
 
         // Input, decision
 
-        double IMulticlassOutGenerativeClassifier<TInput, double>.Probability(TInput input, out double decision)
+        double IMulticlassOutLikelihoodClassifier<TInput, double>.Probability(TInput input, out double decision)
         {
             bool value;
             double d = Probability(input, out value);
@@ -767,7 +767,7 @@ namespace Accord.MachineLearning
             return d;
         }
 
-        double IMulticlassOutGenerativeClassifier<TInput, int>.Probability(TInput input, out int decision)
+        double IMulticlassOutLikelihoodClassifier<TInput, int>.Probability(TInput input, out int decision)
         {
             bool value;
             double d = Probability(input, out value);
@@ -790,12 +790,12 @@ namespace Accord.MachineLearning
             return Probabilities(input, out decision, new double[NumberOfOutputs]);
         }
 
-        double[] IMultilabelOutGenerativeClassifier<TInput, int>.Probabilities(TInput input, out int decision)
+        double[] IMultilabelOutLikelihoodClassifier<TInput, int>.Probabilities(TInput input, out int decision)
         {
             return ToMultilabel().Probabilities(input, out decision, new double[NumberOfOutputs]);
         }
 
-        double[] IMultilabelOutGenerativeClassifier<TInput, double>.Probabilities(TInput input, out double decision)
+        double[] IMultilabelOutLikelihoodClassifier<TInput, double>.Probabilities(TInput input, out double decision)
         {
             return ToMultilabel().Probabilities(input, out decision, new double[NumberOfOutputs]);
         }
@@ -811,12 +811,12 @@ namespace Accord.MachineLearning
             return ToMultilabel().Probabilities(input, ref decision, new double[NumberOfOutputs]);
         }
 
-        double[] IMultilabelRefGenerativeClassifier<TInput, int[]>.Probabilities(TInput input, ref int[] decision)
+        double[] IMultilabelRefLikelihoodClassifier<TInput, int[]>.Probabilities(TInput input, ref int[] decision)
         {
             return ToMultilabel().Probabilities(input, ref decision, new double[NumberOfOutputs]);
         }
 
-        double[] IMultilabelRefGenerativeClassifier<TInput, double[]>.Probabilities(TInput input, ref double[] decision)
+        double[] IMultilabelRefLikelihoodClassifier<TInput, double[]>.Probabilities(TInput input, ref double[] decision)
         {
             return ToMultilabel().Probabilities(input, ref decision, new double[NumberOfOutputs]);
         }
@@ -847,7 +847,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[] IMultilabelOutGenerativeClassifier<TInput, double>.Probabilities(TInput input, out double decision, double[] result)
+        double[] IMultilabelOutLikelihoodClassifier<TInput, double>.Probabilities(TInput input, out double decision, double[] result)
         {
             bool value;
             double d = Probability(input, out value);
@@ -857,7 +857,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[] IMultilabelOutGenerativeClassifier<TInput, int>.Probabilities(TInput input, out int decision, double[] result)
+        double[] IMultilabelOutLikelihoodClassifier<TInput, int>.Probabilities(TInput input, out int decision, double[] result)
         {
             bool value;
             double d = Probability(input, out value);
@@ -867,7 +867,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[] IMultilabelRefGenerativeClassifier<TInput, bool[]>.Probabilities(TInput input, ref bool[] decision, double[] result)
+        double[] IMultilabelRefLikelihoodClassifier<TInput, bool[]>.Probabilities(TInput input, ref bool[] decision, double[] result)
         {
             bool value;
             double d = Probability(input, out value);
@@ -877,7 +877,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[] IMultilabelRefGenerativeClassifier<TInput, int[]>.Probabilities(TInput input, ref int[] decision, double[] result)
+        double[] IMultilabelRefLikelihoodClassifier<TInput, int[]>.Probabilities(TInput input, ref int[] decision, double[] result)
         {
             bool value;
             double d = Probability(input, out value);
@@ -887,7 +887,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[] IMultilabelRefGenerativeClassifier<TInput, double[]>.Probabilities(TInput input, ref double[] decision, double[] result)
+        double[] IMultilabelRefLikelihoodClassifier<TInput, double[]>.Probabilities(TInput input, ref double[] decision, double[] result)
         {
             bool value;
             double d = Probability(input, out value);
@@ -900,12 +900,12 @@ namespace Accord.MachineLearning
 
         // Input[], decision[]
 
-        double[] IMulticlassGenerativeClassifier<TInput, int>.Probability(TInput[] input, ref int[] decision)
+        double[] IMulticlassLikelihoodClassifier<TInput, int>.Probability(TInput[] input, ref int[] decision)
         {
             return ToMulticlass().Probability(input, ref decision, new double[input.Length]);
         }
 
-        double[] IMulticlassGenerativeClassifier<TInput, double>.Probability(TInput[] input, ref double[] decision)
+        double[] IMulticlassLikelihoodClassifier<TInput, double>.Probability(TInput[] input, ref double[] decision)
         {
             return ToMulticlass().Probability(input, ref decision, new double[input.Length]);
         }
@@ -940,12 +940,12 @@ namespace Accord.MachineLearning
 
 
 
-        double[][] IMultilabelGenerativeClassifier<TInput, int>.Probabilities(TInput[] input, ref int[] decision)
+        double[][] IMultilabelLikelihoodClassifier<TInput, int>.Probabilities(TInput[] input, ref int[] decision)
         {
             return ToMultilabel().Probabilities(input, ref decision, create<double>(input));
         }
 
-        double[][] IMultilabelGenerativeClassifier<TInput, double>.Probabilities(TInput[] input, ref double[] decision)
+        double[][] IMultilabelLikelihoodClassifier<TInput, double>.Probabilities(TInput[] input, ref double[] decision)
         {
             return ToMultilabel().Probabilities(input, ref decision, create<double>(input));
         }
@@ -961,17 +961,17 @@ namespace Accord.MachineLearning
             return Probabilities(input, ref decision, create<double>(input));
         }
 
-        double[][] IMultilabelGenerativeClassifier<TInput, int[]>.Probabilities(TInput[] input, ref int[][] decision)
+        double[][] IMultilabelLikelihoodClassifier<TInput, int[]>.Probabilities(TInput[] input, ref int[][] decision)
         {
             return ToMultilabel().Probabilities(input, ref decision, create<double>(input));
         }
 
-        double[][] IMultilabelGenerativeClassifier<TInput, bool[]>.Probabilities(TInput[] input, ref bool[][] decision)
+        double[][] IMultilabelLikelihoodClassifier<TInput, bool[]>.Probabilities(TInput[] input, ref bool[][] decision)
         {
             return ToMultilabel().Probabilities(input, ref decision, create<double>(input));
         }
 
-        double[][] IMultilabelGenerativeClassifier<TInput, double[]>.Probabilities(TInput[] input, ref double[][] decision)
+        double[][] IMultilabelLikelihoodClassifier<TInput, double[]>.Probabilities(TInput[] input, ref double[][] decision)
         {
             return ToMultilabel().Probabilities(input, ref decision, create<double>(input));
         }
@@ -999,7 +999,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[] IMulticlassGenerativeClassifier<TInput, int>.Probability(TInput[] input, ref int[] decision, double[] result)
+        double[] IMulticlassLikelihoodClassifier<TInput, int>.Probability(TInput[] input, ref int[] decision, double[] result)
         {
             decision = create(input, decision);
             for (int i = 0; i < input.Length; i++)
@@ -1007,7 +1007,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[] IMulticlassGenerativeClassifier<TInput, double>.Probability(TInput[] input, ref double[] decision, double[] result)
+        double[] IMulticlassLikelihoodClassifier<TInput, double>.Probability(TInput[] input, ref double[] decision, double[] result)
         {
             decision = create(input, decision);
             for (int i = 0; i < input.Length; i++)
@@ -1015,7 +1015,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[][] IMultilabelGenerativeClassifier<TInput, bool[]>.Probabilities(TInput[] input, ref bool[][] decision, double[][] result)
+        double[][] IMultilabelLikelihoodClassifier<TInput, bool[]>.Probabilities(TInput[] input, ref bool[][] decision, double[][] result)
         {
             decision = create(input, decision);
             for (int i = 0; i < input.Length; i++)
@@ -1023,7 +1023,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[][] IMultilabelGenerativeClassifier<TInput, int[]>.Probabilities(TInput[] input, ref int[][] decision, double[][] result)
+        double[][] IMultilabelLikelihoodClassifier<TInput, int[]>.Probabilities(TInput[] input, ref int[][] decision, double[][] result)
         {
             decision = create(input, decision);
             int value;
@@ -1049,7 +1049,7 @@ namespace Accord.MachineLearning
 
 
 
-        double[][] IMultilabelGenerativeClassifier<TInput, double[]>.Probabilities(TInput[] input, ref double[][] decision, double[][] result)
+        double[][] IMultilabelLikelihoodClassifier<TInput, double[]>.Probabilities(TInput[] input, ref double[][] decision, double[][] result)
         {
             decision = create(input, decision);
             int value;
@@ -1080,7 +1080,7 @@ namespace Accord.MachineLearning
 
 
 
-        double[][] IMultilabelGenerativeClassifier<TInput, int>.Probabilities(TInput[] input, ref int[] decision, double[][] result)
+        double[][] IMultilabelLikelihoodClassifier<TInput, int>.Probabilities(TInput[] input, ref int[] decision, double[][] result)
         {
             decision = create(input, decision);
             for (int i = 0; i < input.Length; i++)
@@ -1088,7 +1088,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[][] IMultilabelGenerativeClassifier<TInput, double>.Probabilities(TInput[] input, ref double[] decision, double[][] result)
+        double[][] IMultilabelLikelihoodClassifier<TInput, double>.Probabilities(TInput[] input, ref double[] decision, double[][] result)
         {
             decision = create(input, decision);
             for (int i = 0; i < input.Length; i++)
@@ -1179,11 +1179,11 @@ namespace Accord.MachineLearning
         /// of integer labels.
         /// </summary>
         /// <returns>
-        /// This instance seen as an <see cref="IMulticlassGenerativeClassifier{TInput}" />.
+        /// This instance seen as an <see cref="IMulticlassLikelihoodClassifier{TInput}" />.
         /// </returns>
-        new public IMulticlassGenerativeClassifier<TInput> ToMulticlass()
+        new public IMulticlassLikelihoodClassifier<TInput> ToMulticlass()
         {
-            return (IMulticlassGenerativeClassifier<TInput>)this;
+            return (IMulticlassLikelihoodClassifier<TInput>)this;
         }
 
         /// <summary>
@@ -1192,11 +1192,11 @@ namespace Accord.MachineLearning
         /// of one-hot vectors.
         /// </summary>
         /// <returns>
-        /// This instance seen as an <see cref="IMultilabelGenerativeClassifier{TInput}" />.
+        /// This instance seen as an <see cref="IMultilabelLikelihoodClassifier{TInput}" />.
         /// </returns>
-        new public IMultilabelGenerativeClassifier<TInput> ToMultilabel()
+        new public IMultilabelLikelihoodClassifier<TInput> ToMultilabel()
         {
-            return (IMultilabelGenerativeClassifier<TInput>)this;
+            return (IMultilabelLikelihoodClassifier<TInput>)this;
         }
 
     }

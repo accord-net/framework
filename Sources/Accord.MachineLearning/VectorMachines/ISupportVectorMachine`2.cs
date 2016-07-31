@@ -33,7 +33,7 @@ namespace Accord.MachineLearning.VectorMachines
     /// 
     /// <typeparam name="TInput">The type of the input data handled by the machine.</typeparam>
     /// 
-    public interface ISupportVectorMachine<TInput> : IBinaryGenerativeClassifier<TInput>
+    public interface ISupportVectorMachine<TInput> : IBinaryLikelihoodClassifier<TInput>
     {
         /// <summary>
         ///   Gets or sets the collection of weights used by this machine.
@@ -60,11 +60,11 @@ namespace Accord.MachineLearning.VectorMachines
         IKernel<TInput> Kernel { get; set; }
 
         /// <summary>
-        ///   Gets or sets whether this machine has been calibrated to
-        ///   produce probabilistic outputs (through the <see cref="BinaryGenerativeClassifierBase{TInput}.Probability(TInput)"/>
-        ///   and <see cref="BinaryGenerativeClassifierBase{TInput}.Probability(TInput)"/> methods).
+        ///   Gets whether this machine has been calibrated to
+        ///   produce probabilistic outputs (through the <see cref="BinaryLikelihoodClassifierBase{TInput}.Probability(TInput)"/>
+        ///   method).
         /// </summary>
-        ///
+        /// 
         bool IsProbabilistic { get; set; }
 
         /// <summary>

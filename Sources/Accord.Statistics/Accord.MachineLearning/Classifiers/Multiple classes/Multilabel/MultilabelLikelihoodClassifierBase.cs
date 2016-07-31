@@ -26,16 +26,16 @@ namespace Accord.MachineLearning
     using System;
 
     /// <summary>
-    ///   Base class for <see cref="IMultilabelGenerativeClassifier{TInput}">
+    ///   Base class for <see cref="IMultilabelLikelihoodClassifier{TInput}">
     ///   generative multi-label classifiers</see>.
     /// </summary>
     /// 
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// 
     [Serializable]
-    public abstract class MultilabelGenerativeClassifierBase<TInput> :
-        MultilabelDistanceClassifierBase<TInput>,
-        IMultilabelGenerativeClassifier<TInput>
+    public abstract class MultilabelLikelihoodClassifierBase<TInput> :
+        MultilabelScoreClassifierBase<TInput>,
+        IMultilabelLikelihoodClassifier<TInput>
     {
 
         // Main overridable methods
@@ -77,7 +77,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public virtual double[] LogLikelihoods(TInput input, ref bool[] decision, double[] result)
         {
-            return Distances(input, ref decision, result);
+            return Scores(input, ref decision, result);
         }
 
 

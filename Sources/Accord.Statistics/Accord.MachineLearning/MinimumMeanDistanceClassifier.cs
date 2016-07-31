@@ -39,7 +39,7 @@ namespace Accord.MachineLearning
     /// </remarks>
     /// 
     [Serializable]
-    public class MinimumMeanDistanceClassifier : MulticlassDistanceClassifierBase<double[]>
+    public class MinimumMeanDistanceClassifier : MulticlassScoreClassifierBase<double[]>
     {
         private double[][] means;
         private IDistance<double[]> distance = new SquareEuclidean();
@@ -172,7 +172,7 @@ namespace Accord.MachineLearning
         /// <param name="result">An array where the result will be stored,
         /// avoiding unnecessary memory allocations.</param>
         /// <returns></returns>
-        public override double[] Distances(double[] input, double[] result)
+        public override double[] Scores(double[] input, double[] result)
         {
             for (int i = 0; i < means.Length; i++)
                 result[i] = distance.Distance(input, means[i]);

@@ -58,7 +58,7 @@ namespace Accord.Statistics.Models.Regression
     /// </example>
     /// 
     [Serializable]
-    public class MultinomialLogisticRegression : MulticlassDistanceClassifierBase<double[]>,
+    public class MultinomialLogisticRegression : MulticlassScoreClassifierBase<double[]>,
         ICloneable
     {
 

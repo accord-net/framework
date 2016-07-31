@@ -305,7 +305,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
             for (int i = 0; i < inputs.Length; i++)
             {
-                double actual = Model.Distance(inputs[i]);
+                double actual = Model.Score(inputs[i]);
                 double expected = outputs[i];
                 double delta = actual - expected;
                 sum += delta * delta;
@@ -549,7 +549,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 // Compute errors and weighting matrix
                 for (int i = 0; i < x.Length; i++)
                 {
-                    double actual = regression.Distance(x[i]);
+                    double actual = regression.Score(x[i]);
 
                     // Calculate error vector
                     errors[i] = actual - y[i];

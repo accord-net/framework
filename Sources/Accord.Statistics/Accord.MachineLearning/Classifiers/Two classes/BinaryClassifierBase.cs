@@ -357,7 +357,7 @@ namespace Accord.MachineLearning
         /// of one-hot vectors.
         /// </summary>
         /// <returns>
-        /// This instance seen as an <see cref="IMultilabelGenerativeClassifier{TInput}" />.
+        /// This instance seen as an <see cref="IMultilabelLikelihoodClassifier{TInput}" />.
         /// </returns>
         public IMultilabelClassifier<TInput> ToMultilabel()
         {

@@ -435,7 +435,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             // Compute the Support Vector Machine outputs
             // TODO: rename all 'results' to 'result'
-            Model.Distance(inputs, result: distances);
+            Model.Score(inputs, result: distances);
 
             // Define the target probabilities we aim to produce
             double high = (positives + 1.0) / (positives + 2.0);
@@ -631,7 +631,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             // Compute the new log-likelihood function
             for (int i = 0; i < inputs.Length; i++)
             {
-                double y = Model.Distance(inputs[i]);
+                double y = Model.Score(inputs[i]);
                 double t = outputs[i] == 1 ? 1 : 0;
 
                 if (y >= 0)

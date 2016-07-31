@@ -37,7 +37,7 @@ namespace Accord.Statistics.Analysis
     /// 
     [Serializable]
 #pragma warning disable 612, 618
-    public abstract class BaseDiscriminantAnalysis : MulticlassDistanceClassifierBase<double[]>,
+    public abstract class BaseDiscriminantAnalysis : MulticlassScoreClassifierBase<double[]>,
         ITransform<double[], double[]>
 #pragma warning restore 612, 618
     {
@@ -457,7 +457,7 @@ namespace Accord.Statistics.Analysis
         public int Classify(double[] input, out double[] responses)
         {
             int decision;
-            responses = Distances(input, out decision);
+            responses = Scores(input, out decision);
             return classCollection[decision].Number;
         }
 
@@ -479,7 +479,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="result">An array where the result will be stored,
         /// avoiding unnecessary memory allocations.</param>
         /// <returns></returns>
-        public override double[] Distances(double[] input, double[] result)
+        public override double[] Scores(double[] input, double[] result)
         {
             double[] projection = Transform(input);
             for (int i = 0; i < projectedMeans.Length; i++)

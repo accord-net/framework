@@ -251,7 +251,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         public double Run()
         {
             Learn(inputs);
-            return new LogLikelihoodLoss().Loss(machine.Distance(inputs));
+            return new LogLikelihoodLoss().Loss(machine.Score(inputs));
         }
     }
 }

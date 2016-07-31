@@ -68,7 +68,7 @@ namespace Accord.MachineLearning
     /// 
     [Serializable]
     public class OneVsOne<TBinary, TInput> :
-        MulticlassGenerativeClassifierBase<TInput>,
+        MulticlassLikelihoodClassifierBase<TInput>,
         IEnumerable<KeyValuePair<ClassPair, TBinary>>, IParallel
         where TBinary : class, IClassifier<TInput, bool>, ICloneable
     {
@@ -300,7 +300,7 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="result">An array where the result will be stored,
         /// avoiding unnecessary memory allocations.</param>
-        public override double[] Distances(TInput input, double[] result)
+        public override double[] Scores(TInput input, double[] result)
         {
             if (method == MulticlassComputeMethod.Voting)
                 return DistanceByVoting(input, result);
@@ -319,7 +319,7 @@ namespace Accord.MachineLearning
         /// <returns></returns>
         public override double[] LogLikelihoods(TInput input, double[] result)
         {
-            return Distances(input, result);
+            return Scores(input, result);
         }
 
         /// <summary>
@@ -330,7 +330,7 @@ namespace Accord.MachineLearning
         /// <param name="classIndex">The index of the class whose score will be computed.</param>
         public override double LogLikelihood(TInput input, int classIndex)
         {
-            return Distances(input)[classIndex];
+            return Scores(input)[classIndex];
         }
 
 
@@ -391,10 +391,10 @@ namespace Accord.MachineLearning
 
             while (i != j)
             {
-                var model = Models[i - 1][j] as IBinaryDistanceClassifier<TInput>;
+                var model = Models[i - 1][j] as IBinaryScoreClassifier<TInput>;
 
                 bool decision;
-                double distance = model.Distance(input, out decision);
+                double distance = model.Score(input, out decision);
 
                 if (decision)
                 {
@@ -428,10 +428,10 @@ namespace Accord.MachineLearning
 
             while (i != j)
             {
-                var model = Models[i - 1][j] as IBinaryDistanceClassifier<TInput>;
+                var model = Models[i - 1][j] as IBinaryScoreClassifier<TInput>;
 
                 bool decision;
-                sum = model.Distance(input, out decision);
+                sum = model.Score(input, out decision);
 
                 if (decision)
                 {

@@ -35,7 +35,7 @@ namespace Accord.Statistics.Models.Regression
     /// 
     [Serializable]
     public sealed class ProportionalHazards :
-        BinaryGenerativeClassifierBase<Tuple<double[], double>>
+        BinaryLikelihoodClassifierBase<Tuple<double[], double>>
     {
 
         /// <summary>
@@ -539,7 +539,7 @@ namespace Accord.Statistics.Models.Regression
         /// </summary>
         /// <param name="input">The input vector.</param>
         /// 
-        public override double Distance(Tuple<double[], double> input)
+        public override double Score(Tuple<double[], double> input)
         {
 #pragma warning disable 612, 618
             return Compute(input.Item1, input.Item2);

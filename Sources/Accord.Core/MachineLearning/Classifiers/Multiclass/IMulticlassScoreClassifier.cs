@@ -33,7 +33,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// <typeparam name="TClasses">The data type for the class labels. Default is int.</typeparam>
     /// 
-    public interface IMulticlassDistanceClassifier<in TInput, TClasses>
+    public interface IMulticlassScoreClassifier<in TInput, TClasses>
         : IClassifier<TInput, TClasses>
     {
         /// <summary>
@@ -46,7 +46,7 @@ namespace Accord.MachineLearning
         /// <param name="decision">The class labels predicted for each input
         ///   vector, as predicted by the classifier.</param>
         /// 
-        double[] Distance(TInput[] input, ref TClasses[] decision);
+        double[] Score(TInput[] input, ref TClasses[] decision);
 
         /// <summary>
         ///   Predicts a class label for each input vector, returning a
@@ -60,7 +60,7 @@ namespace Accord.MachineLearning
         /// <param name="result">An array where the distances will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         /// 
-        double[] Distance(TInput[] input, ref TClasses[] decision, double[] result);
+        double[] Score(TInput[] input, ref TClasses[] decision, double[] result);
 
     }
 
@@ -74,9 +74,9 @@ namespace Accord.MachineLearning
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// <typeparam name="TClasses">The data type for the class labels. Default is int.</typeparam>
     /// 
-    public interface IMulticlassOutDistanceClassifier<TInput, TClasses> :
-        IMulticlassDistanceClassifier<TInput, TClasses>,
-        IMultilabelOutDistanceClassifier<TInput, TClasses>
+    public interface IMulticlassOutScoreClassifier<TInput, TClasses> :
+        IMulticlassScoreClassifier<TInput, TClasses>,
+        IMultilabelOutScoreClassifier<TInput, TClasses>
     {
         /// <summary>
         ///   Predicts a class label for the input vector, returning a
@@ -87,7 +87,7 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="decision">The class label predicted by the classifier.</param>
         /// 
-        double Distance(TInput input, out TClasses decision);
+        double Score(TInput input, out TClasses decision);
     }
 
     /// <summary>
@@ -100,9 +100,9 @@ namespace Accord.MachineLearning
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// <typeparam name="TClasses">The data type for the class labels. Default is int.</typeparam>
     /// 
-    public interface IMulticlassRefDistanceClassifier<TInput, TClasses> :
+    public interface IMulticlassRefScoreClassifier<TInput, TClasses> :
         //IMulticlassDistanceClassifier<TInput, TClasses>,
-        IMultilabelRefDistanceClassifier<TInput, TClasses>
+        IMultilabelRefScoreClassifier<TInput, TClasses>
     {
         ///// <summary>
         /////   Predicts a class label for the input vector, returning a
@@ -125,13 +125,13 @@ namespace Accord.MachineLearning
     /// 
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// 
-    public interface IMulticlassDistanceClassifier<TInput> :
-        IMulticlassOutDistanceClassifier<TInput, int>,
-        IMulticlassOutDistanceClassifier<TInput, double>,
-        IMulticlassRefDistanceClassifier<TInput, int[]>,
-        IMulticlassRefDistanceClassifier<TInput, bool[]>,
-        IMulticlassRefDistanceClassifier<TInput, double[]>,
-        IMultilabelDistanceClassifier<TInput>,
+    public interface IMulticlassScoreClassifier<TInput> :
+        IMulticlassOutScoreClassifier<TInput, int>,
+        IMulticlassOutScoreClassifier<TInput, double>,
+        IMulticlassRefScoreClassifier<TInput, int[]>,
+        IMulticlassRefScoreClassifier<TInput, bool[]>,
+        IMulticlassRefScoreClassifier<TInput, double[]>,
+        IMultilabelScoreClassifier<TInput>,
         IMulticlassClassifier<TInput>
     {
 
@@ -143,7 +143,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="input">The input vector.</param>
         /// 
-        double Distance(TInput input);
+        double Score(TInput input);
 
         /// <summary>
         ///   Computes a numerical score measuring the association between
@@ -153,7 +153,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="input">A set of input vectors.</param>
         /// 
-        double[] Distance(TInput[] input);
+        double[] Score(TInput[] input);
 
         /// <summary>
         ///   Computes a numerical score measuring the association between
@@ -165,7 +165,7 @@ namespace Accord.MachineLearning
         /// <param name="result">An array where the result will be stored, 
         ///   avoiding unnecessary memory allocations.</param>
         ///
-        double[] Distance(TInput[] input, double[] result);
+        double[] Score(TInput[] input, double[] result);
 
         /// <summary>
         ///   Views this instance as a multi-label distance classifier,
@@ -173,8 +173,8 @@ namespace Accord.MachineLearning
         ///   of one-hot vectors.
         /// </summary>
         /// 
-        /// <returns>This instance seen as an <see cref="IMultilabelDistanceClassifier{TInput}"/>.</returns>
+        /// <returns>This instance seen as an <see cref="IMultilabelScoreClassifier{TInput}"/>.</returns>
         /// 
-        new IMultilabelDistanceClassifier<TInput> ToMultilabel();
+        new IMultilabelScoreClassifier<TInput> ToMultilabel();
     }
 }

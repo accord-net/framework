@@ -394,7 +394,7 @@ namespace Accord.Statistics.Analysis
             double[][] resultInput = inputData.Submatrix(null, resultVariables);
 
             // Compute the final model output probabilities
-            result = currentModel.Regression.Distance(resultInput);
+            result = currentModel.Regression.Score(resultInput);
 
             return currentModel.Regression;
         }
@@ -420,7 +420,7 @@ namespace Accord.Statistics.Analysis
                 .Submatrix(null, resultVariables);
 
             // Compute the final model output probabilities
-            result = currentModel.Regression.Distance(resultInput);
+            result = currentModel.Regression.Score(resultInput);
         }
 
         /// <summary>

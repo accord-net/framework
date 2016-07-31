@@ -322,15 +322,15 @@
     <Compile Include="Links\ProbitLinkFunction.cs" />
     <Compile Include="Accord.MachineLearning\Classifiers\ClassifierBase.cs" />
     <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassDistanceClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassScoreClassifierBase.cs" />
     <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassGenerativeClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelDistanceClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Two classes\BinaryDistanceClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassLikelihoodClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelScoreClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Two classes\BinaryScoreClassifierBase.cs" />
     <Compile Include="Accord.MachineLearning\Classifiers\Two classes\BinaryClassifierBase.cs" />
     <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassClassifierBase`1.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelGenerativeClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Two classes\BinaryGenerativeClassifierBase.cs">
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelLikelihoodClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Two classes\BinaryLikelihoodClassifierBase.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Accord.MachineLearning\Learning\ISupervisedBinaryLearning.cs" />

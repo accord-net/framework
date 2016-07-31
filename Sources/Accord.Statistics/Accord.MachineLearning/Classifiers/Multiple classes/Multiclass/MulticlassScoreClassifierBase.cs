@@ -26,14 +26,14 @@ namespace Accord.MachineLearning
     using System;
 
     /// <summary>
-    /// Base class for <see cref="IMulticlassDistanceClassifier{TInput}">
+    /// Base class for <see cref="IMulticlassScoreClassifier{TInput}">
     /// score-based multi-class classifiers</see>.
     /// </summary>
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     [Serializable]
-    public abstract class MulticlassDistanceClassifierBase<TInput> :
+    public abstract class MulticlassScoreClassifierBase<TInput> :
         MulticlassClassifierBase<TInput>,
-        IMulticlassDistanceClassifier<TInput>
+        IMulticlassScoreClassifier<TInput>
     {
 
       
@@ -49,10 +49,10 @@ namespace Accord.MachineLearning
         /// <param name="result">An array where the result will be stored, 
         ///   avoiding unnecessary memory allocations.</param>
         ///
-        public virtual double[] Distances(TInput input, double[] result)
+        public virtual double[] Scores(TInput input, double[] result)
         {
             for (int i = 0; i < NumberOfOutputs; i++)
-                result[i] = Distance(input, i);
+                result[i] = Score(input, i);
             return result;
         }
 
@@ -66,9 +66,9 @@ namespace Accord.MachineLearning
         /// <param name="result">An array where the scores will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         /// 
-        public virtual double[] Distances(TInput input, out int decision, double[] result)
+        public virtual double[] Scores(TInput input, out int decision, double[] result)
         {
-            Distances(input, result);
+            Scores(input, result);
             decision = result.ArgMax();
             return result;
         }
@@ -81,9 +81,9 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="classIndex">The index of the class whose score will be computed.</param>
         /// 
-        public virtual double Distance(TInput input, int classIndex)
+        public virtual double Score(TInput input, int classIndex)
         {
-            return Distances(input)[classIndex];
+            return Scores(input)[classIndex];
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Accord.MachineLearning
             int imin = 0;
             for (int i = 0; i < NumberOfOutputs; i++)
             {
-                double d = Distance(input, classIndex: i);
+                double d = Score(input, classIndex: i);
                 if (d < min)
                 {
                     min = d;
@@ -123,9 +123,9 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="classIndex">The index of the class whose score will be computed.</param>
         /// 
-        public double[] Distance(TInput[] input, int[] classIndex)
+        public double[] Score(TInput[] input, int[] classIndex)
         {
-            return Distance(input, classIndex, new double[input.Length]);
+            return Score(input, classIndex, new double[input.Length]);
         }
 
         /// <summary>
@@ -138,11 +138,11 @@ namespace Accord.MachineLearning
         /// <param name="result">An array where the scores will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         /// 
-        public double[] Distance(TInput[] input, int[] classIndex, double[] result)
+        public double[] Score(TInput[] input, int[] classIndex, double[] result)
         {
             double[] temp = new double[NumberOfOutputs];
             for (int i = 0; i < input.Length; i++)
-                result[i] = Distances(input[i], temp)[classIndex[i]];
+                result[i] = Scores(input[i], temp)[classIndex[i]];
             return result;
         }
 
@@ -155,9 +155,9 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="classIndex">The index of the class whose score will be computed.</param>
         /// 
-        public double[] Distance(TInput[] input, int classIndex)
+        public double[] Score(TInput[] input, int classIndex)
         {
-            return Distance(input, classIndex, new double[input.Length]);
+            return Score(input, classIndex, new double[input.Length]);
         }
 
         /// <summary>
@@ -170,11 +170,11 @@ namespace Accord.MachineLearning
         /// <param name="result">An array where the scores will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         /// 
-        public double[] Distance(TInput[] input, int classIndex, double[] result)
+        public double[] Score(TInput[] input, int classIndex, double[] result)
         {
             double[] temp = new double[NumberOfOutputs];
             for (int i = 0; i < input.Length; i++)
-                result[i] = Distances(input[i], temp)[classIndex];
+                result[i] = Scores(input[i], temp)[classIndex];
             return result;
         }
 
@@ -194,10 +194,10 @@ namespace Accord.MachineLearning
         /// </summary>
         /// <param name="input">The input vector.</param>
         /// 
-        public double Distance(TInput input)
+        public double Score(TInput input)
         {
             int value;
-            var result = Distances(input, out value);
+            var result = Scores(input, out value);
             return result[value];
         }
 
@@ -208,9 +208,9 @@ namespace Accord.MachineLearning
         /// </summary>
         /// <param name="input">The input vector.</param>
         /// 
-        public double[] Distance(TInput[] input)
+        public double[] Score(TInput[] input)
         {
-            return Distance(input, new double[input.Length]);
+            return Score(input, new double[input.Length]);
         }
 
         /// <summary>
@@ -222,10 +222,10 @@ namespace Accord.MachineLearning
         /// <param name="result">An array where the scores will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         /// 
-        public double[] Distance(TInput[] input, double[] result)
+        public double[] Score(TInput[] input, double[] result)
         {
             for (int i = 0; i < input.Length; i++)
-                result[i] = Distance(input[i]);
+                result[i] = Score(input[i]);
             return result;
         }
 
@@ -235,9 +235,9 @@ namespace Accord.MachineLearning
         /// </summary>
         /// <param name="input">The input vector.</param>
         /// 
-        public double[] Distances(TInput input)
+        public double[] Scores(TInput input)
         {
-            return Distances(input, new double[NumberOfOutputs]);
+            return Scores(input, new double[NumberOfOutputs]);
         }
 
         /// <summary>
@@ -246,9 +246,9 @@ namespace Accord.MachineLearning
         /// </summary>
         /// <param name="input">The input vector.</param>
         /// 
-        public double[][] Distances(TInput[] input)
+        public double[][] Scores(TInput[] input)
         {
-            return Distances(input, create<double>(input));
+            return Scores(input, create<double>(input));
         }
 
 
@@ -262,10 +262,10 @@ namespace Accord.MachineLearning
         /// <param name="result">An array where the scores will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         /// 
-        public virtual double[][] Distances(TInput[] input, double[][] result)
+        public virtual double[][] Scores(TInput[] input, double[][] result)
         {
             for (int i = 0; i < input.Length; i++)
-                Distances(input[i], result[i]);
+                Scores(input[i], result[i]);
             return result;
         }
 
@@ -282,9 +282,9 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="decision">The class label predicted by the classifier.</param>
         /// 
-        public double Distance(TInput input, out int decision)
+        public double Score(TInput input, out int decision)
         {
-            double[] result = Distances(input, out decision);
+            double[] result = Scores(input, out decision);
             return result[decision];
         }
 
@@ -296,10 +296,10 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="decision">The class label predicted by the classifier.</param>
         /// 
-        public double Distance(TInput input, out double decision)
+        public double Score(TInput input, out double decision)
         {
             int value;
-            double[] result = Distances(input, out value);
+            double[] result = Scores(input, out value);
             decision = value;
             return result[value];
         }
@@ -312,9 +312,9 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="decision">The class label predicted by the classifier.</param>
         /// 
-        public double[] Distances(TInput input, out int decision)
+        public double[] Scores(TInput input, out int decision)
         {
-            return Distances(input, out decision, new double[NumberOfOutputs]);
+            return Scores(input, out decision, new double[NumberOfOutputs]);
         }
 
         /// <summary>
@@ -325,30 +325,30 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="decision">The class label predicted by the classifier.</param>
         /// 
-        public double[] Distances(TInput input, out double decision)
+        public double[] Scores(TInput input, out double decision)
         {
-            return Distances(input, out decision, new double[NumberOfOutputs]);
+            return Scores(input, out decision, new double[NumberOfOutputs]);
         }
 
-        double[] IMultilabelRefDistanceClassifier<TInput, bool[]>.Distances(TInput input, ref bool[] decision)
+        double[] IMultilabelRefScoreClassifier<TInput, bool[]>.Scores(TInput input, ref bool[] decision)
         {
-            return ToMultilabel().Distances(input, ref decision, new double[NumberOfOutputs]);
-        }
-
-
-        double[] IMultilabelRefDistanceClassifier<TInput, int[]>.Distances(TInput input, ref int[] decision)
-        {
-            return ToMultilabel().Distances(input, ref decision, new double[NumberOfOutputs]);
+            return ToMultilabel().Scores(input, ref decision, new double[NumberOfOutputs]);
         }
 
 
-        double[] IMultilabelRefDistanceClassifier<TInput, double[]>.Distances(TInput input, ref double[] decision)
+        double[] IMultilabelRefScoreClassifier<TInput, int[]>.Scores(TInput input, ref int[] decision)
         {
-            return ToMultilabel().Distances(input, ref decision, new double[NumberOfOutputs]);
+            return ToMultilabel().Scores(input, ref decision, new double[NumberOfOutputs]);
         }
 
 
-        //double IMulticlassRefDistanceClassifier<TInput, int[]>.Distance(TInput input, ref int[] decision)
+        double[] IMultilabelRefScoreClassifier<TInput, double[]>.Scores(TInput input, ref double[] decision)
+        {
+            return ToMultilabel().Scores(input, ref decision, new double[NumberOfOutputs]);
+        }
+
+
+        //double IMulticlassRefDistanceClassifier<TInput, int[]>.Score(TInput input, ref int[] decision)
         //{
         //    decision = create(input, decision);
         //    int value;
@@ -357,7 +357,7 @@ namespace Accord.MachineLearning
         //    return result;
         //}
 
-        //double IMulticlassRefDistanceClassifier<TInput, bool[]>.Distance(TInput input, ref bool[] decision)
+        //double IMulticlassRefDistanceClassifier<TInput, bool[]>.Score(TInput input, ref bool[] decision)
         //{
         //    decision = create(input, decision);
         //    int value;
@@ -366,7 +366,7 @@ namespace Accord.MachineLearning
         //    return result;
         //}
 
-        //double IMulticlassRefDistanceClassifier<TInput, double[]>.Distance(TInput input, ref double[] decision)
+        //double IMulticlassRefDistanceClassifier<TInput, double[]>.Score(TInput input, ref double[] decision)
         //{
         //    decision = create(input, decision);
         //    int value;
@@ -390,37 +390,37 @@ namespace Accord.MachineLearning
         /// <param name="result">An array where the scores will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         /// 
-        public double[] Distances(TInput input, out double decision, double[] result)
+        public double[] Scores(TInput input, out double decision, double[] result)
         {
             int value;
-            Distances(input, out value, result);
+            Scores(input, out value, result);
             decision = value;
             return result;
         }
 
-        double[] IMultilabelRefDistanceClassifier<TInput, bool[]>.Distances(TInput input, ref bool[] decision, double[] result)
+        double[] IMultilabelRefScoreClassifier<TInput, bool[]>.Scores(TInput input, ref bool[] decision, double[] result)
         {
             decision = create(input, decision);
             int value;
-            Distances(input, out value, result);
+            Scores(input, out value, result);
             Vector.OneHot<bool>(value, decision);
             return result;
         }
 
-        double[] IMultilabelRefDistanceClassifier<TInput, int[]>.Distances(TInput input, ref int[] decision, double[] result)
+        double[] IMultilabelRefScoreClassifier<TInput, int[]>.Scores(TInput input, ref int[] decision, double[] result)
         {
             decision = create(input, decision);
             int value;
-            Distances(input, out value, result);
+            Scores(input, out value, result);
             Vector.OneHot<int>(value, decision);
             return result;
         }
 
-        double[] IMultilabelRefDistanceClassifier<TInput, double[]>.Distances(TInput input, ref double[] decision, double[] result)
+        double[] IMultilabelRefScoreClassifier<TInput, double[]>.Scores(TInput input, ref double[] decision, double[] result)
         {
             decision = create(input, decision);
             int value;
-            Distances(input, out value, result);
+            Scores(input, out value, result);
             Vector.OneHot<double>(value, decision);
             return result;
         }
@@ -438,9 +438,9 @@ namespace Accord.MachineLearning
         /// <param name="decision">The class labels predicted for each input
         /// vector, as predicted by the classifier.</param>
         /// 
-        public double[] Distance(TInput[] input, ref int[] decision)
+        public double[] Score(TInput[] input, ref int[] decision)
         {
-            return Distance(input, ref decision, new double[input.Length]);
+            return Score(input, ref decision, new double[input.Length]);
         }
 
         /// <summary>
@@ -452,22 +452,22 @@ namespace Accord.MachineLearning
         /// <param name="decision">The class labels predicted for each input
         /// vector, as predicted by the classifier.</param>
         /// 
-        public double[] Distance(TInput[] input, ref double[] decision)
+        public double[] Score(TInput[] input, ref double[] decision)
         {
-            return Distance(input, ref decision, new double[input.Length]);
+            return Score(input, ref decision, new double[input.Length]);
         }
 
-        //double[] IMulticlassDistanceClassifier<TInput, bool[]>.Distance(TInput[] input, ref bool[][] decision)
+        //double[] IMulticlassDistanceClassifier<TInput, bool[]>.Score(TInput[] input, ref bool[][] decision)
         //{
         //    return ToMulticlass().Distance(input, ref decision, new double[input.Length]);
         //}
 
-        //double[] IMulticlassDistanceClassifier<TInput, int[]>.Distance(TInput[] input, ref int[][] decision)
+        //double[] IMulticlassDistanceClassifier<TInput, int[]>.Score(TInput[] input, ref int[][] decision)
         //{
         //    return ToMulticlass().Distance(input, ref decision, new double[input.Length]);
         //}
 
-        //double[] IMultilabelDistanceClassifier<TInput, double[]>.Distance(TInput[] input, ref double[][] decision)
+        //double[] IMultilabelDistanceClassifier<TInput, double[]>.Score(TInput[] input, ref double[][] decision)
         //{
         //    return ToMulticlass().Distance(input, ref decision, new double[input.Length]);
         //}
@@ -482,9 +482,9 @@ namespace Accord.MachineLearning
         /// vector, as predicted by the classifier. If passed as null, the classifier
         /// will create a new array.</param>
         /// 
-        public double[][] Distances(TInput[] input, ref int[] decision)
+        public double[][] Scores(TInput[] input, ref int[] decision)
         {
-            return Distances(input, ref decision, create<double>(input));
+            return Scores(input, ref decision, create<double>(input));
         }
 
         /// <summary>
@@ -497,24 +497,24 @@ namespace Accord.MachineLearning
         /// vector, as predicted by the classifier. If passed as null, the classifier
         /// will create a new array.</param>
         /// 
-        public double[][] Distances(TInput[] input, ref double[] decision)
+        public double[][] Scores(TInput[] input, ref double[] decision)
         {
-            return Distances(input, ref decision, create<double>(input));
+            return Scores(input, ref decision, create<double>(input));
         }
 
-        double[][] IMultilabelDistanceClassifier<TInput, int[]>.Distances(TInput[] input, ref int[][] decision)
+        double[][] IMultilabelScoreClassifier<TInput, int[]>.Scores(TInput[] input, ref int[][] decision)
         {
-            return ToMultilabel().Distances(input, ref decision, create<double>(input));
+            return ToMultilabel().Scores(input, ref decision, create<double>(input));
         }
 
-        double[][] IMultilabelDistanceClassifier<TInput, bool[]>.Distances(TInput[] input, ref bool[][] decision)
+        double[][] IMultilabelScoreClassifier<TInput, bool[]>.Scores(TInput[] input, ref bool[][] decision)
         {
-            return ToMultilabel().Distances(input, ref decision, create<double>(input));
+            return ToMultilabel().Scores(input, ref decision, create<double>(input));
         }
 
-        double[][] IMultilabelDistanceClassifier<TInput, double[]>.Distances(TInput[] input, ref double[][] decision)
+        double[][] IMultilabelScoreClassifier<TInput, double[]>.Scores(TInput[] input, ref double[][] decision)
         {
-            return ToMultilabel().Distances(input, ref decision, create<double>(input));
+            return ToMultilabel().Scores(input, ref decision, create<double>(input));
         }
 
 
@@ -533,11 +533,11 @@ namespace Accord.MachineLearning
         /// <param name="result">An array where the scores will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         /// 
-        public double[] Distance(TInput[] input, ref int[] decision, double[] result)
+        public double[] Score(TInput[] input, ref int[] decision, double[] result)
         {
             decision = create(input, decision);
             for (int i = 0; i < input.Length; i++)
-                result[i] = Distance(input[i], out decision[i]);
+                result[i] = Score(input[i], out decision[i]);
             return result;
         }
 
@@ -552,15 +552,15 @@ namespace Accord.MachineLearning
         /// <param name="result">An array where the scores will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///   
-        public double[] Distance(TInput[] input, ref double[] decision, double[] result)
+        public double[] Score(TInput[] input, ref double[] decision, double[] result)
         {
             decision = create(input, decision);
             for (int i = 0; i < input.Length; i++)
-                result[i] = Distance(input[i], out decision[i]);
+                result[i] = Score(input[i], out decision[i]);
             return result;
         }
 
-        //double[] IMulticlassDistanceClassifier<TInput, double[]>.Distance(TInput[] input, ref double[][] decision, double[] result)
+        //double[] IMulticlassDistanceClassifier<TInput, double[]>.Score(TInput[] input, ref double[][] decision, double[] result)
         //{
         //    decision = create(input, decision);
         //    var temp = new double[NumberOfOutputs];
@@ -574,7 +574,7 @@ namespace Accord.MachineLearning
         //    return result;
         //}
 
-        //double[] IMulticlassDistanceClassifier<TInput, int[]>.Distance(TInput[] input, ref int[][] decision, double[] result)
+        //double[] IMulticlassDistanceClassifier<TInput, int[]>.Score(TInput[] input, ref int[][] decision, double[] result)
         //{
         //    decision = create(input, decision);
         //    var temp = new double[NumberOfOutputs];
@@ -588,7 +588,7 @@ namespace Accord.MachineLearning
         //    return result;
         //}
 
-        //double[] IMulticlassDistanceClassifier<TInput, bool[]>.Distance(TInput[] input, ref bool[][] decision, double[] result)
+        //double[] IMulticlassDistanceClassifier<TInput, bool[]>.Score(TInput[] input, ref bool[][] decision, double[] result)
         //{
         //    decision = create(input, decision);
         //    var temp = new double[NumberOfOutputs];
@@ -613,11 +613,11 @@ namespace Accord.MachineLearning
         /// will create a new array.</param>
         /// <param name="result">An array where the scores will be stored,
         ///   avoiding unnecessary memory allocations.</param>
-        public double[][] Distances(TInput[] input, ref int[] decision, double[][] result)
+        public double[][] Scores(TInput[] input, ref int[] decision, double[][] result)
         {
             decision = create(input, decision);
             for (int i = 0; i < input.Length; i++)
-                Distances(input[i], out decision[i], result[i]);
+                Scores(input[i], out decision[i], result[i]);
             return result;
         }
 
@@ -633,41 +633,41 @@ namespace Accord.MachineLearning
         /// <param name="result">An array where the scores will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         /// 
-        public double[][] Distances(TInput[] input, ref double[] decision, double[][] result)
+        public double[][] Scores(TInput[] input, ref double[] decision, double[][] result)
         {
             decision = create(input, decision);
             for (int i = 0; i < input.Length; i++)
-                Distances(input[i], out decision[i], result[i]);
+                Scores(input[i], out decision[i], result[i]);
             return result;
         }
 
-        double[][] IMultilabelDistanceClassifier<TInput, bool[]>.Distances(TInput[] input, ref bool[][] decision, double[][] result)
+        double[][] IMultilabelScoreClassifier<TInput, bool[]>.Scores(TInput[] input, ref bool[][] decision, double[][] result)
         {
             decision = create(input, decision);
             for (int i = 0; i < input.Length; i++)
-                ToMultilabel().Distances(input[i], ref decision[i], result[i]);
+                ToMultilabel().Scores(input[i], ref decision[i], result[i]);
             return result;
         }
 
-        double[][] IMultilabelDistanceClassifier<TInput, int[]>.Distances(TInput[] input, ref int[][] decision, double[][] result)
+        double[][] IMultilabelScoreClassifier<TInput, int[]>.Scores(TInput[] input, ref int[][] decision, double[][] result)
         {
             decision = create(input, decision);
             int value;
             for (int i = 0; i < input.Length; i++)
             {
-                Distances(input[i], out value, result[i]);
+                Scores(input[i], out value, result[i]);
                 decision[i] = Vector.OneHot<int>(value, decision[i]);
             }
             return result;
         }
 
-        double[][] IMultilabelDistanceClassifier<TInput, double[]>.Distances(TInput[] input, ref double[][] decision, double[][] result)
+        double[][] IMultilabelScoreClassifier<TInput, double[]>.Scores(TInput[] input, ref double[][] decision, double[][] result)
         {
             decision = create(input, decision);
             int value;
             for (int i = 0; i < input.Length; i++)
             {
-                Distances(input[i], out value, result[i]);
+                Scores(input[i], out value, result[i]);
                 decision[i] = Vector.OneHot<double>(value, decision[i]);
             }
             return result;
@@ -690,7 +690,7 @@ namespace Accord.MachineLearning
         /// </returns>
         public override double[] Transform(TInput input, double[] result)
         {
-            return Distances(input, result);
+            return Scores(input, result);
         }
 
         /// <summary>
@@ -703,7 +703,7 @@ namespace Accord.MachineLearning
         /// </returns>
         public override double[][] Transform(TInput[] input, double[][] result)
         {
-            return Distances(input, result);
+            return Scores(input, result);
         }
 
         /// <summary>
@@ -712,11 +712,11 @@ namespace Accord.MachineLearning
         /// of one-hot vectors.
         /// </summary>
         /// <returns>
-        /// This instance seen as an <see cref="IMultilabelDistanceClassifier{TInput}" />.
+        /// This instance seen as an <see cref="IMultilabelScoreClassifier{TInput}" />.
         /// </returns>
-        new public IMultilabelDistanceClassifier<TInput> ToMultilabel()
+        new public IMultilabelScoreClassifier<TInput> ToMultilabel()
         {
-            return (IMultilabelDistanceClassifier<TInput>)this;
+            return (IMultilabelScoreClassifier<TInput>)this;
         }
     }
 }

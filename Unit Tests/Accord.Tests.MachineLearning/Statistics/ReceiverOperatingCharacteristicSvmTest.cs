@@ -83,7 +83,7 @@ namespace Accord.Tests.Statistics
             // Extract the input labels predicted by the machine
             double[] predicted = new double[inputs.Length];
             for (int i = 0; i < predicted.Length; i++)
-                predicted[i] = machine.Distance(inputs[i]);
+                predicted[i] = machine.Score(inputs[i]);
 
 
             // Create a new ROC curve to assess the performance of the model

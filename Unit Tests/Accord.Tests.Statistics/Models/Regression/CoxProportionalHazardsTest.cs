@@ -155,7 +155,7 @@ namespace Accord.Tests.Statistics
 
 
             regression.Intercept = regression.Coefficients.Dot(regression.Offsets);
-            actual = regression.Distance(inputs.Zip(time, Tuple.Create).ToArray());
+            actual = regression.Score(inputs.Zip(time, Tuple.Create).ToArray());
 
             Assert.IsTrue(actual.IsEqual(expected, 1e-6));
         }
