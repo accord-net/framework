@@ -90,6 +90,9 @@
     <Compile Include="MachineLearning\Classifiers\Multiclass\Binary\IBinaryClassifier.cs" />
     <Compile Include="MachineLearning\Classifiers\Multiclass\Binary\IBinaryScoreClassifier.cs" />
     <Compile Include="MachineLearning\Classifiers\Multiclass\Binary\IBinaryLikelihoodClassifier.cs" />
+    <Compile Include="MachineLearning\Classifiers\Tagging\ITagger.cs" />
+    <Compile Include="MachineLearning\Classifiers\Tagging\ILikelihoodTagger.cs" />
+    <Compile Include="MachineLearning\Classifiers\Tagging\IScoreTagger.cs" />
     <Compile Include="MachineLearning\ITransform.cs" />
     <Compile Include="MachineLearning\Regression\IMultipleRegression.cs" />
     <Compile Include="MachineLearning\Regression\IRegression.cs" />
