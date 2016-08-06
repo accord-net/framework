@@ -816,6 +816,25 @@ namespace Accord.Math
             return r;
         }
 
+        /// <summary>
+        ///   Returns a new multidimensional matrix.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static TOutput[][][] CreateAs<TInput, TOutput>(TInput[][][] matrix)
+        {
+            var r = new TOutput[matrix.Length][][];
+            for (int i = 0; i < r.Length; i++)
+            {
+                r[i] = new TOutput[matrix[i].Length][];
+                for (int j = 0; j < r[i].Length; j++)
+                    r[i][j] = new TOutput[matrix[i][j].Length];
+            }
+            return r;
+        }
+
 
         /// <summary>
         ///   Transforms a vector into a matrix of given dimensions.

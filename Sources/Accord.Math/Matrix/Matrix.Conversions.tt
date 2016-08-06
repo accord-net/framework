@@ -118,6 +118,17 @@ namespace Accord.Math
             return To<#=b_name#>(value, Jagged.CreateAs<<#=a_type#>, <#=b_type#>>(value));
         }
 
+        /// <summary>
+        ///   Converts a <#=a_desc#> to a <#=b_desc#>.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=b_type#>[][][] To<#=b_name#>(this <#=a_type#>[][][] value)
+        {
+            return To<#=b_name#>(value, Jagged.CreateAs<<#=a_type#>, <#=b_type#>>(value));
+        }
 
 
 
@@ -186,6 +197,22 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i][j] = <#=begin#>value[i][j]<#=end#>;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged <#=a_desc#> array to a jagged <#=b_desc#> array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=b_type#>[][][] To<#=b_name#>(this <#=a_type#>[][][] value, <#=b_type#>[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = <#=begin#>value[i][j][k]<#=end#>;
             return result;            
         }
 

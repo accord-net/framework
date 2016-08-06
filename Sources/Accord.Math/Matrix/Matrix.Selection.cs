@@ -164,6 +164,7 @@ namespace Accord.Math
         /// <summary>
         ///   Gets a row vector from a matrix.
         /// </summary>
+        ///
         public static T[] GetRow<T>(this T[,] m, int index, T[] result = null)
         {
             if (result == null)

@@ -204,6 +204,20 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Creates a vector with the shape of the given vector.
+        /// </summary>
+        /// 
+        /// <param name="vector">The vector whose shape should be copied.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[] CreateAs<T>(T[] vector)
+        {
+            return new T[vector.Length];
+        }
+
+        /// <summary>
         ///   Creates a one-hot vector, where all values are zero except for the indicated
         ///   <paramref name="index"/>, which is set to one.
         /// </summary>

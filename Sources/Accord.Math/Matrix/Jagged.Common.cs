@@ -359,7 +359,7 @@ namespace Accord.Math
         #endregion
 
 
-        
+
 
         #region Operation Mapping (Apply)
 
@@ -440,6 +440,22 @@ namespace Accord.Math
                 for (int i = 0; i < matrix.Length; i++)
                     for (int j = 0; j < matrix[i].Length; j++)
                         destination[i][j] = matrix[i][j];
+        }
+
+        /// <summary>
+        ///   Copies the content of an array to another array.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
+        /// 
+        /// <param name="vector">The source vector to be copied.</param>
+        /// <param name="destination">The matrix where the elements should be copied to.</param>
+        /// 
+        public static void CopyTo<T>(this T[] vector, T[] destination)
+        {
+            if (vector != destination)
+                for (int i = 0; i < vector.Length; i++)
+                    destination[i] = vector[i];
         }
 
         /// <summary>

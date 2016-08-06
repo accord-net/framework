@@ -71,6 +71,17 @@ namespace Accord.Math
             return ToInt16(value, Jagged.CreateAs<int, short>(value));
         }
 
+        /// <summary>
+        ///   Converts a integer to a short integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this int[][][] value)
+        {
+            return ToInt16(value, Jagged.CreateAs<int, short>(value));
+        }
 
 
 
@@ -142,6 +153,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged integer array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this int[][][] value, short[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int16)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged integer array to a multidimensional short integer array.
         /// </summary>
         /// 
@@ -191,6 +218,17 @@ namespace Accord.Math
             return ToSingle(value, Jagged.CreateAs<int, float>(value));
         }
 
+        /// <summary>
+        ///   Converts a integer to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this int[][][] value)
+        {
+            return ToSingle(value, Jagged.CreateAs<int, float>(value));
+        }
 
 
 
@@ -262,6 +300,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged integer array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this int[][][] value, float[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Single)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged integer array to a multidimensional single-precision floating point array.
         /// </summary>
         /// 
@@ -311,6 +365,17 @@ namespace Accord.Math
             return ToDouble(value, Jagged.CreateAs<int, double>(value));
         }
 
+        /// <summary>
+        ///   Converts a integer to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this int[][][] value)
+        {
+            return ToDouble(value, Jagged.CreateAs<int, double>(value));
+        }
 
 
 
@@ -382,6 +447,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged integer array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this int[][][] value, double[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Double)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged integer array to a multidimensional double-precision floating point array.
         /// </summary>
         /// 
@@ -431,6 +512,17 @@ namespace Accord.Math
             return ToInt64(value, Jagged.CreateAs<int, long>(value));
         }
 
+        /// <summary>
+        ///   Converts a integer to a long integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this int[][][] value)
+        {
+            return ToInt64(value, Jagged.CreateAs<int, long>(value));
+        }
 
 
 
@@ -502,6 +594,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged integer array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this int[][][] value, long[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int64)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged integer array to a multidimensional long integer array.
         /// </summary>
         /// 
@@ -551,6 +659,17 @@ namespace Accord.Math
             return ToByte(value, Jagged.CreateAs<int, byte>(value));
         }
 
+        /// <summary>
+        ///   Converts a integer to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this int[][][] value)
+        {
+            return ToByte(value, Jagged.CreateAs<int, byte>(value));
+        }
 
 
 
@@ -622,6 +741,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged integer array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this int[][][] value, byte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Byte)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged integer array to a multidimensional 8-bit byte array.
         /// </summary>
         /// 
@@ -671,6 +806,17 @@ namespace Accord.Math
             return ToSByte(value, Jagged.CreateAs<int, sbyte>(value));
         }
 
+        /// <summary>
+        ///   Converts a integer to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this int[][][] value)
+        {
+            return ToSByte(value, Jagged.CreateAs<int, sbyte>(value));
+        }
 
 
 
@@ -742,6 +888,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged integer array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this int[][][] value, sbyte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (SByte)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged integer array to a multidimensional signed 7-bit byte array.
         /// </summary>
         /// 
@@ -791,6 +953,17 @@ namespace Accord.Math
             return ToDecimal(value, Jagged.CreateAs<int, decimal>(value));
         }
 
+        /// <summary>
+        ///   Converts a integer to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this int[][][] value)
+        {
+            return ToDecimal(value, Jagged.CreateAs<int, decimal>(value));
+        }
 
 
 
@@ -862,6 +1035,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged integer array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this int[][][] value, decimal[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Decimal)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged integer array to a multidimensional decimal fixed-point array.
         /// </summary>
         /// 
@@ -911,6 +1100,17 @@ namespace Accord.Math
             return ToBoolean(value, Jagged.CreateAs<int, bool>(value));
         }
 
+        /// <summary>
+        ///   Converts a integer to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this int[][][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<int, bool>(value));
+        }
 
 
 
@@ -982,6 +1182,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged integer array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this int[][][] value, bool[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] != 0;
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged integer array to a multidimensional boolean array.
         /// </summary>
         /// 
@@ -1031,6 +1247,17 @@ namespace Accord.Math
             return ToInt32(value, Jagged.CreateAs<short, int>(value));
         }
 
+        /// <summary>
+        ///   Converts a short integer to a integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this short[][][] value)
+        {
+            return ToInt32(value, Jagged.CreateAs<short, int>(value));
+        }
 
 
 
@@ -1102,6 +1329,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged short integer array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this short[][][] value, int[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int32)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged short integer array to a multidimensional integer array.
         /// </summary>
         /// 
@@ -1151,6 +1394,17 @@ namespace Accord.Math
             return ToSingle(value, Jagged.CreateAs<short, float>(value));
         }
 
+        /// <summary>
+        ///   Converts a short integer to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this short[][][] value)
+        {
+            return ToSingle(value, Jagged.CreateAs<short, float>(value));
+        }
 
 
 
@@ -1222,6 +1476,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged short integer array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this short[][][] value, float[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Single)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged short integer array to a multidimensional single-precision floating point array.
         /// </summary>
         /// 
@@ -1271,6 +1541,17 @@ namespace Accord.Math
             return ToDouble(value, Jagged.CreateAs<short, double>(value));
         }
 
+        /// <summary>
+        ///   Converts a short integer to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this short[][][] value)
+        {
+            return ToDouble(value, Jagged.CreateAs<short, double>(value));
+        }
 
 
 
@@ -1342,6 +1623,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged short integer array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this short[][][] value, double[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Double)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged short integer array to a multidimensional double-precision floating point array.
         /// </summary>
         /// 
@@ -1391,6 +1688,17 @@ namespace Accord.Math
             return ToInt64(value, Jagged.CreateAs<short, long>(value));
         }
 
+        /// <summary>
+        ///   Converts a short integer to a long integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this short[][][] value)
+        {
+            return ToInt64(value, Jagged.CreateAs<short, long>(value));
+        }
 
 
 
@@ -1462,6 +1770,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged short integer array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this short[][][] value, long[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int64)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged short integer array to a multidimensional long integer array.
         /// </summary>
         /// 
@@ -1511,6 +1835,17 @@ namespace Accord.Math
             return ToByte(value, Jagged.CreateAs<short, byte>(value));
         }
 
+        /// <summary>
+        ///   Converts a short integer to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this short[][][] value)
+        {
+            return ToByte(value, Jagged.CreateAs<short, byte>(value));
+        }
 
 
 
@@ -1582,6 +1917,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged short integer array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this short[][][] value, byte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Byte)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged short integer array to a multidimensional 8-bit byte array.
         /// </summary>
         /// 
@@ -1631,6 +1982,17 @@ namespace Accord.Math
             return ToSByte(value, Jagged.CreateAs<short, sbyte>(value));
         }
 
+        /// <summary>
+        ///   Converts a short integer to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this short[][][] value)
+        {
+            return ToSByte(value, Jagged.CreateAs<short, sbyte>(value));
+        }
 
 
 
@@ -1702,6 +2064,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged short integer array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this short[][][] value, sbyte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (SByte)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged short integer array to a multidimensional signed 7-bit byte array.
         /// </summary>
         /// 
@@ -1751,6 +2129,17 @@ namespace Accord.Math
             return ToDecimal(value, Jagged.CreateAs<short, decimal>(value));
         }
 
+        /// <summary>
+        ///   Converts a short integer to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this short[][][] value)
+        {
+            return ToDecimal(value, Jagged.CreateAs<short, decimal>(value));
+        }
 
 
 
@@ -1822,6 +2211,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged short integer array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this short[][][] value, decimal[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Decimal)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged short integer array to a multidimensional decimal fixed-point array.
         /// </summary>
         /// 
@@ -1871,6 +2276,17 @@ namespace Accord.Math
             return ToBoolean(value, Jagged.CreateAs<short, bool>(value));
         }
 
+        /// <summary>
+        ///   Converts a short integer to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this short[][][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<short, bool>(value));
+        }
 
 
 
@@ -1942,6 +2358,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged short integer array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this short[][][] value, bool[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] != 0;
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged short integer array to a multidimensional boolean array.
         /// </summary>
         /// 
@@ -1991,6 +2423,17 @@ namespace Accord.Math
             return ToInt32(value, Jagged.CreateAs<float, int>(value));
         }
 
+        /// <summary>
+        ///   Converts a single-precision floating point to a integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this float[][][] value)
+        {
+            return ToInt32(value, Jagged.CreateAs<float, int>(value));
+        }
 
 
 
@@ -2062,6 +2505,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged single-precision floating point array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this float[][][] value, int[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int32)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged single-precision floating point array to a multidimensional integer array.
         /// </summary>
         /// 
@@ -2111,6 +2570,17 @@ namespace Accord.Math
             return ToInt16(value, Jagged.CreateAs<float, short>(value));
         }
 
+        /// <summary>
+        ///   Converts a single-precision floating point to a short integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this float[][][] value)
+        {
+            return ToInt16(value, Jagged.CreateAs<float, short>(value));
+        }
 
 
 
@@ -2182,6 +2652,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged single-precision floating point array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this float[][][] value, short[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int16)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged single-precision floating point array to a multidimensional short integer array.
         /// </summary>
         /// 
@@ -2231,6 +2717,17 @@ namespace Accord.Math
             return ToDouble(value, Jagged.CreateAs<float, double>(value));
         }
 
+        /// <summary>
+        ///   Converts a single-precision floating point to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this float[][][] value)
+        {
+            return ToDouble(value, Jagged.CreateAs<float, double>(value));
+        }
 
 
 
@@ -2302,6 +2799,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged single-precision floating point array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this float[][][] value, double[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Double)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged single-precision floating point array to a multidimensional double-precision floating point array.
         /// </summary>
         /// 
@@ -2351,6 +2864,17 @@ namespace Accord.Math
             return ToInt64(value, Jagged.CreateAs<float, long>(value));
         }
 
+        /// <summary>
+        ///   Converts a single-precision floating point to a long integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this float[][][] value)
+        {
+            return ToInt64(value, Jagged.CreateAs<float, long>(value));
+        }
 
 
 
@@ -2422,6 +2946,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged single-precision floating point array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this float[][][] value, long[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int64)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged single-precision floating point array to a multidimensional long integer array.
         /// </summary>
         /// 
@@ -2471,6 +3011,17 @@ namespace Accord.Math
             return ToByte(value, Jagged.CreateAs<float, byte>(value));
         }
 
+        /// <summary>
+        ///   Converts a single-precision floating point to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this float[][][] value)
+        {
+            return ToByte(value, Jagged.CreateAs<float, byte>(value));
+        }
 
 
 
@@ -2542,6 +3093,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged single-precision floating point array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this float[][][] value, byte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Byte)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged single-precision floating point array to a multidimensional 8-bit byte array.
         /// </summary>
         /// 
@@ -2591,6 +3158,17 @@ namespace Accord.Math
             return ToSByte(value, Jagged.CreateAs<float, sbyte>(value));
         }
 
+        /// <summary>
+        ///   Converts a single-precision floating point to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this float[][][] value)
+        {
+            return ToSByte(value, Jagged.CreateAs<float, sbyte>(value));
+        }
 
 
 
@@ -2662,6 +3240,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged single-precision floating point array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this float[][][] value, sbyte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (SByte)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged single-precision floating point array to a multidimensional signed 7-bit byte array.
         /// </summary>
         /// 
@@ -2711,6 +3305,17 @@ namespace Accord.Math
             return ToDecimal(value, Jagged.CreateAs<float, decimal>(value));
         }
 
+        /// <summary>
+        ///   Converts a single-precision floating point to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this float[][][] value)
+        {
+            return ToDecimal(value, Jagged.CreateAs<float, decimal>(value));
+        }
 
 
 
@@ -2782,6 +3387,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged single-precision floating point array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this float[][][] value, decimal[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Decimal)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged single-precision floating point array to a multidimensional decimal fixed-point array.
         /// </summary>
         /// 
@@ -2831,6 +3452,17 @@ namespace Accord.Math
             return ToBoolean(value, Jagged.CreateAs<float, bool>(value));
         }
 
+        /// <summary>
+        ///   Converts a single-precision floating point to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this float[][][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<float, bool>(value));
+        }
 
 
 
@@ -2902,6 +3534,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged single-precision floating point array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this float[][][] value, bool[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] != 0;
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged single-precision floating point array to a multidimensional boolean array.
         /// </summary>
         /// 
@@ -2951,6 +3599,17 @@ namespace Accord.Math
             return ToInt32(value, Jagged.CreateAs<double, int>(value));
         }
 
+        /// <summary>
+        ///   Converts a double-precision floating point to a integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this double[][][] value)
+        {
+            return ToInt32(value, Jagged.CreateAs<double, int>(value));
+        }
 
 
 
@@ -3022,6 +3681,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged double-precision floating point array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this double[][][] value, int[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int32)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged double-precision floating point array to a multidimensional integer array.
         /// </summary>
         /// 
@@ -3071,6 +3746,17 @@ namespace Accord.Math
             return ToInt16(value, Jagged.CreateAs<double, short>(value));
         }
 
+        /// <summary>
+        ///   Converts a double-precision floating point to a short integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this double[][][] value)
+        {
+            return ToInt16(value, Jagged.CreateAs<double, short>(value));
+        }
 
 
 
@@ -3142,6 +3828,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged double-precision floating point array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this double[][][] value, short[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int16)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged double-precision floating point array to a multidimensional short integer array.
         /// </summary>
         /// 
@@ -3191,6 +3893,17 @@ namespace Accord.Math
             return ToSingle(value, Jagged.CreateAs<double, float>(value));
         }
 
+        /// <summary>
+        ///   Converts a double-precision floating point to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this double[][][] value)
+        {
+            return ToSingle(value, Jagged.CreateAs<double, float>(value));
+        }
 
 
 
@@ -3262,6 +3975,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged double-precision floating point array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this double[][][] value, float[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Single)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged double-precision floating point array to a multidimensional single-precision floating point array.
         /// </summary>
         /// 
@@ -3311,6 +4040,17 @@ namespace Accord.Math
             return ToInt64(value, Jagged.CreateAs<double, long>(value));
         }
 
+        /// <summary>
+        ///   Converts a double-precision floating point to a long integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this double[][][] value)
+        {
+            return ToInt64(value, Jagged.CreateAs<double, long>(value));
+        }
 
 
 
@@ -3382,6 +4122,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged double-precision floating point array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this double[][][] value, long[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int64)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged double-precision floating point array to a multidimensional long integer array.
         /// </summary>
         /// 
@@ -3431,6 +4187,17 @@ namespace Accord.Math
             return ToByte(value, Jagged.CreateAs<double, byte>(value));
         }
 
+        /// <summary>
+        ///   Converts a double-precision floating point to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this double[][][] value)
+        {
+            return ToByte(value, Jagged.CreateAs<double, byte>(value));
+        }
 
 
 
@@ -3502,6 +4269,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged double-precision floating point array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this double[][][] value, byte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Byte)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged double-precision floating point array to a multidimensional 8-bit byte array.
         /// </summary>
         /// 
@@ -3551,6 +4334,17 @@ namespace Accord.Math
             return ToSByte(value, Jagged.CreateAs<double, sbyte>(value));
         }
 
+        /// <summary>
+        ///   Converts a double-precision floating point to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this double[][][] value)
+        {
+            return ToSByte(value, Jagged.CreateAs<double, sbyte>(value));
+        }
 
 
 
@@ -3622,6 +4416,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged double-precision floating point array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this double[][][] value, sbyte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (SByte)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged double-precision floating point array to a multidimensional signed 7-bit byte array.
         /// </summary>
         /// 
@@ -3671,6 +4481,17 @@ namespace Accord.Math
             return ToDecimal(value, Jagged.CreateAs<double, decimal>(value));
         }
 
+        /// <summary>
+        ///   Converts a double-precision floating point to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this double[][][] value)
+        {
+            return ToDecimal(value, Jagged.CreateAs<double, decimal>(value));
+        }
 
 
 
@@ -3742,6 +4563,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged double-precision floating point array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this double[][][] value, decimal[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Decimal)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged double-precision floating point array to a multidimensional decimal fixed-point array.
         /// </summary>
         /// 
@@ -3791,6 +4628,17 @@ namespace Accord.Math
             return ToBoolean(value, Jagged.CreateAs<double, bool>(value));
         }
 
+        /// <summary>
+        ///   Converts a double-precision floating point to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this double[][][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<double, bool>(value));
+        }
 
 
 
@@ -3862,6 +4710,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged double-precision floating point array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this double[][][] value, bool[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] != 0;
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged double-precision floating point array to a multidimensional boolean array.
         /// </summary>
         /// 
@@ -3911,6 +4775,17 @@ namespace Accord.Math
             return ToInt32(value, Jagged.CreateAs<long, int>(value));
         }
 
+        /// <summary>
+        ///   Converts a long integer to a integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this long[][][] value)
+        {
+            return ToInt32(value, Jagged.CreateAs<long, int>(value));
+        }
 
 
 
@@ -3982,6 +4857,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged long integer array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this long[][][] value, int[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int32)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged long integer array to a multidimensional integer array.
         /// </summary>
         /// 
@@ -4031,6 +4922,17 @@ namespace Accord.Math
             return ToInt16(value, Jagged.CreateAs<long, short>(value));
         }
 
+        /// <summary>
+        ///   Converts a long integer to a short integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this long[][][] value)
+        {
+            return ToInt16(value, Jagged.CreateAs<long, short>(value));
+        }
 
 
 
@@ -4102,6 +5004,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged long integer array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this long[][][] value, short[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int16)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged long integer array to a multidimensional short integer array.
         /// </summary>
         /// 
@@ -4151,6 +5069,17 @@ namespace Accord.Math
             return ToSingle(value, Jagged.CreateAs<long, float>(value));
         }
 
+        /// <summary>
+        ///   Converts a long integer to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this long[][][] value)
+        {
+            return ToSingle(value, Jagged.CreateAs<long, float>(value));
+        }
 
 
 
@@ -4222,6 +5151,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged long integer array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this long[][][] value, float[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Single)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged long integer array to a multidimensional single-precision floating point array.
         /// </summary>
         /// 
@@ -4271,6 +5216,17 @@ namespace Accord.Math
             return ToDouble(value, Jagged.CreateAs<long, double>(value));
         }
 
+        /// <summary>
+        ///   Converts a long integer to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this long[][][] value)
+        {
+            return ToDouble(value, Jagged.CreateAs<long, double>(value));
+        }
 
 
 
@@ -4342,6 +5298,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged long integer array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this long[][][] value, double[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Double)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged long integer array to a multidimensional double-precision floating point array.
         /// </summary>
         /// 
@@ -4391,6 +5363,17 @@ namespace Accord.Math
             return ToByte(value, Jagged.CreateAs<long, byte>(value));
         }
 
+        /// <summary>
+        ///   Converts a long integer to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this long[][][] value)
+        {
+            return ToByte(value, Jagged.CreateAs<long, byte>(value));
+        }
 
 
 
@@ -4462,6 +5445,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged long integer array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this long[][][] value, byte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Byte)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged long integer array to a multidimensional 8-bit byte array.
         /// </summary>
         /// 
@@ -4511,6 +5510,17 @@ namespace Accord.Math
             return ToSByte(value, Jagged.CreateAs<long, sbyte>(value));
         }
 
+        /// <summary>
+        ///   Converts a long integer to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this long[][][] value)
+        {
+            return ToSByte(value, Jagged.CreateAs<long, sbyte>(value));
+        }
 
 
 
@@ -4582,6 +5592,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged long integer array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this long[][][] value, sbyte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (SByte)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged long integer array to a multidimensional signed 7-bit byte array.
         /// </summary>
         /// 
@@ -4631,6 +5657,17 @@ namespace Accord.Math
             return ToDecimal(value, Jagged.CreateAs<long, decimal>(value));
         }
 
+        /// <summary>
+        ///   Converts a long integer to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this long[][][] value)
+        {
+            return ToDecimal(value, Jagged.CreateAs<long, decimal>(value));
+        }
 
 
 
@@ -4702,6 +5739,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged long integer array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this long[][][] value, decimal[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Decimal)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged long integer array to a multidimensional decimal fixed-point array.
         /// </summary>
         /// 
@@ -4751,6 +5804,17 @@ namespace Accord.Math
             return ToBoolean(value, Jagged.CreateAs<long, bool>(value));
         }
 
+        /// <summary>
+        ///   Converts a long integer to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this long[][][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<long, bool>(value));
+        }
 
 
 
@@ -4822,6 +5886,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged long integer array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this long[][][] value, bool[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] != 0;
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged long integer array to a multidimensional boolean array.
         /// </summary>
         /// 
@@ -4871,6 +5951,17 @@ namespace Accord.Math
             return ToInt32(value, Jagged.CreateAs<byte, int>(value));
         }
 
+        /// <summary>
+        ///   Converts a 8-bit byte to a integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this byte[][][] value)
+        {
+            return ToInt32(value, Jagged.CreateAs<byte, int>(value));
+        }
 
 
 
@@ -4942,6 +6033,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged 8-bit byte array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this byte[][][] value, int[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int32)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged 8-bit byte array to a multidimensional integer array.
         /// </summary>
         /// 
@@ -4991,6 +6098,17 @@ namespace Accord.Math
             return ToInt16(value, Jagged.CreateAs<byte, short>(value));
         }
 
+        /// <summary>
+        ///   Converts a 8-bit byte to a short integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this byte[][][] value)
+        {
+            return ToInt16(value, Jagged.CreateAs<byte, short>(value));
+        }
 
 
 
@@ -5062,6 +6180,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged 8-bit byte array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this byte[][][] value, short[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int16)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged 8-bit byte array to a multidimensional short integer array.
         /// </summary>
         /// 
@@ -5111,6 +6245,17 @@ namespace Accord.Math
             return ToSingle(value, Jagged.CreateAs<byte, float>(value));
         }
 
+        /// <summary>
+        ///   Converts a 8-bit byte to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this byte[][][] value)
+        {
+            return ToSingle(value, Jagged.CreateAs<byte, float>(value));
+        }
 
 
 
@@ -5182,6 +6327,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged 8-bit byte array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this byte[][][] value, float[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Single)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged 8-bit byte array to a multidimensional single-precision floating point array.
         /// </summary>
         /// 
@@ -5231,6 +6392,17 @@ namespace Accord.Math
             return ToDouble(value, Jagged.CreateAs<byte, double>(value));
         }
 
+        /// <summary>
+        ///   Converts a 8-bit byte to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this byte[][][] value)
+        {
+            return ToDouble(value, Jagged.CreateAs<byte, double>(value));
+        }
 
 
 
@@ -5302,6 +6474,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged 8-bit byte array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this byte[][][] value, double[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Double)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged 8-bit byte array to a multidimensional double-precision floating point array.
         /// </summary>
         /// 
@@ -5351,6 +6539,17 @@ namespace Accord.Math
             return ToInt64(value, Jagged.CreateAs<byte, long>(value));
         }
 
+        /// <summary>
+        ///   Converts a 8-bit byte to a long integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this byte[][][] value)
+        {
+            return ToInt64(value, Jagged.CreateAs<byte, long>(value));
+        }
 
 
 
@@ -5422,6 +6621,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged 8-bit byte array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this byte[][][] value, long[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int64)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged 8-bit byte array to a multidimensional long integer array.
         /// </summary>
         /// 
@@ -5471,6 +6686,17 @@ namespace Accord.Math
             return ToSByte(value, Jagged.CreateAs<byte, sbyte>(value));
         }
 
+        /// <summary>
+        ///   Converts a 8-bit byte to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this byte[][][] value)
+        {
+            return ToSByte(value, Jagged.CreateAs<byte, sbyte>(value));
+        }
 
 
 
@@ -5542,6 +6768,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged 8-bit byte array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this byte[][][] value, sbyte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (SByte)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged 8-bit byte array to a multidimensional signed 7-bit byte array.
         /// </summary>
         /// 
@@ -5591,6 +6833,17 @@ namespace Accord.Math
             return ToDecimal(value, Jagged.CreateAs<byte, decimal>(value));
         }
 
+        /// <summary>
+        ///   Converts a 8-bit byte to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this byte[][][] value)
+        {
+            return ToDecimal(value, Jagged.CreateAs<byte, decimal>(value));
+        }
 
 
 
@@ -5662,6 +6915,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged 8-bit byte array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this byte[][][] value, decimal[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Decimal)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged 8-bit byte array to a multidimensional decimal fixed-point array.
         /// </summary>
         /// 
@@ -5711,6 +6980,17 @@ namespace Accord.Math
             return ToBoolean(value, Jagged.CreateAs<byte, bool>(value));
         }
 
+        /// <summary>
+        ///   Converts a 8-bit byte to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this byte[][][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<byte, bool>(value));
+        }
 
 
 
@@ -5782,6 +7062,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged 8-bit byte array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this byte[][][] value, bool[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] != 0;
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged 8-bit byte array to a multidimensional boolean array.
         /// </summary>
         /// 
@@ -5831,6 +7127,17 @@ namespace Accord.Math
             return ToInt32(value, Jagged.CreateAs<sbyte, int>(value));
         }
 
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this sbyte[][][] value)
+        {
+            return ToInt32(value, Jagged.CreateAs<sbyte, int>(value));
+        }
 
 
 
@@ -5902,6 +7209,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this sbyte[][][] value, int[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int32)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged signed 7-bit byte array to a multidimensional integer array.
         /// </summary>
         /// 
@@ -5951,6 +7274,17 @@ namespace Accord.Math
             return ToInt16(value, Jagged.CreateAs<sbyte, short>(value));
         }
 
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a short integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this sbyte[][][] value)
+        {
+            return ToInt16(value, Jagged.CreateAs<sbyte, short>(value));
+        }
 
 
 
@@ -6022,6 +7356,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this sbyte[][][] value, short[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int16)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged signed 7-bit byte array to a multidimensional short integer array.
         /// </summary>
         /// 
@@ -6071,6 +7421,17 @@ namespace Accord.Math
             return ToSingle(value, Jagged.CreateAs<sbyte, float>(value));
         }
 
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this sbyte[][][] value)
+        {
+            return ToSingle(value, Jagged.CreateAs<sbyte, float>(value));
+        }
 
 
 
@@ -6142,6 +7503,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this sbyte[][][] value, float[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Single)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged signed 7-bit byte array to a multidimensional single-precision floating point array.
         /// </summary>
         /// 
@@ -6191,6 +7568,17 @@ namespace Accord.Math
             return ToDouble(value, Jagged.CreateAs<sbyte, double>(value));
         }
 
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this sbyte[][][] value)
+        {
+            return ToDouble(value, Jagged.CreateAs<sbyte, double>(value));
+        }
 
 
 
@@ -6262,6 +7650,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this sbyte[][][] value, double[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Double)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged signed 7-bit byte array to a multidimensional double-precision floating point array.
         /// </summary>
         /// 
@@ -6311,6 +7715,17 @@ namespace Accord.Math
             return ToInt64(value, Jagged.CreateAs<sbyte, long>(value));
         }
 
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a long integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this sbyte[][][] value)
+        {
+            return ToInt64(value, Jagged.CreateAs<sbyte, long>(value));
+        }
 
 
 
@@ -6382,6 +7797,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this sbyte[][][] value, long[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int64)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged signed 7-bit byte array to a multidimensional long integer array.
         /// </summary>
         /// 
@@ -6431,6 +7862,17 @@ namespace Accord.Math
             return ToByte(value, Jagged.CreateAs<sbyte, byte>(value));
         }
 
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this sbyte[][][] value)
+        {
+            return ToByte(value, Jagged.CreateAs<sbyte, byte>(value));
+        }
 
 
 
@@ -6502,6 +7944,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this sbyte[][][] value, byte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Byte)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged signed 7-bit byte array to a multidimensional 8-bit byte array.
         /// </summary>
         /// 
@@ -6551,6 +8009,17 @@ namespace Accord.Math
             return ToDecimal(value, Jagged.CreateAs<sbyte, decimal>(value));
         }
 
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this sbyte[][][] value)
+        {
+            return ToDecimal(value, Jagged.CreateAs<sbyte, decimal>(value));
+        }
 
 
 
@@ -6622,6 +8091,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this sbyte[][][] value, decimal[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Decimal)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged signed 7-bit byte array to a multidimensional decimal fixed-point array.
         /// </summary>
         /// 
@@ -6671,6 +8156,17 @@ namespace Accord.Math
             return ToBoolean(value, Jagged.CreateAs<sbyte, bool>(value));
         }
 
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this sbyte[][][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<sbyte, bool>(value));
+        }
 
 
 
@@ -6742,6 +8238,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this sbyte[][][] value, bool[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] != 0;
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged signed 7-bit byte array to a multidimensional boolean array.
         /// </summary>
         /// 
@@ -6791,6 +8303,17 @@ namespace Accord.Math
             return ToInt32(value, Jagged.CreateAs<decimal, int>(value));
         }
 
+        /// <summary>
+        ///   Converts a decimal fixed-point to a integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this decimal[][][] value)
+        {
+            return ToInt32(value, Jagged.CreateAs<decimal, int>(value));
+        }
 
 
 
@@ -6862,6 +8385,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this decimal[][][] value, int[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int32)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged decimal fixed-point array to a multidimensional integer array.
         /// </summary>
         /// 
@@ -6911,6 +8450,17 @@ namespace Accord.Math
             return ToInt16(value, Jagged.CreateAs<decimal, short>(value));
         }
 
+        /// <summary>
+        ///   Converts a decimal fixed-point to a short integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this decimal[][][] value)
+        {
+            return ToInt16(value, Jagged.CreateAs<decimal, short>(value));
+        }
 
 
 
@@ -6982,6 +8532,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this decimal[][][] value, short[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int16)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged decimal fixed-point array to a multidimensional short integer array.
         /// </summary>
         /// 
@@ -7031,6 +8597,17 @@ namespace Accord.Math
             return ToSingle(value, Jagged.CreateAs<decimal, float>(value));
         }
 
+        /// <summary>
+        ///   Converts a decimal fixed-point to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this decimal[][][] value)
+        {
+            return ToSingle(value, Jagged.CreateAs<decimal, float>(value));
+        }
 
 
 
@@ -7102,6 +8679,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this decimal[][][] value, float[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Single)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged decimal fixed-point array to a multidimensional single-precision floating point array.
         /// </summary>
         /// 
@@ -7151,6 +8744,17 @@ namespace Accord.Math
             return ToDouble(value, Jagged.CreateAs<decimal, double>(value));
         }
 
+        /// <summary>
+        ///   Converts a decimal fixed-point to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this decimal[][][] value)
+        {
+            return ToDouble(value, Jagged.CreateAs<decimal, double>(value));
+        }
 
 
 
@@ -7222,6 +8826,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this decimal[][][] value, double[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Double)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged decimal fixed-point array to a multidimensional double-precision floating point array.
         /// </summary>
         /// 
@@ -7271,6 +8891,17 @@ namespace Accord.Math
             return ToInt64(value, Jagged.CreateAs<decimal, long>(value));
         }
 
+        /// <summary>
+        ///   Converts a decimal fixed-point to a long integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this decimal[][][] value)
+        {
+            return ToInt64(value, Jagged.CreateAs<decimal, long>(value));
+        }
 
 
 
@@ -7342,6 +8973,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this decimal[][][] value, long[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int64)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged decimal fixed-point array to a multidimensional long integer array.
         /// </summary>
         /// 
@@ -7391,6 +9038,17 @@ namespace Accord.Math
             return ToByte(value, Jagged.CreateAs<decimal, byte>(value));
         }
 
+        /// <summary>
+        ///   Converts a decimal fixed-point to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this decimal[][][] value)
+        {
+            return ToByte(value, Jagged.CreateAs<decimal, byte>(value));
+        }
 
 
 
@@ -7462,6 +9120,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this decimal[][][] value, byte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Byte)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged decimal fixed-point array to a multidimensional 8-bit byte array.
         /// </summary>
         /// 
@@ -7511,6 +9185,17 @@ namespace Accord.Math
             return ToSByte(value, Jagged.CreateAs<decimal, sbyte>(value));
         }
 
+        /// <summary>
+        ///   Converts a decimal fixed-point to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this decimal[][][] value)
+        {
+            return ToSByte(value, Jagged.CreateAs<decimal, sbyte>(value));
+        }
 
 
 
@@ -7582,6 +9267,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this decimal[][][] value, sbyte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (SByte)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged decimal fixed-point array to a multidimensional signed 7-bit byte array.
         /// </summary>
         /// 
@@ -7631,6 +9332,17 @@ namespace Accord.Math
             return ToBoolean(value, Jagged.CreateAs<decimal, bool>(value));
         }
 
+        /// <summary>
+        ///   Converts a decimal fixed-point to a boolean.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this decimal[][][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<decimal, bool>(value));
+        }
 
 
 
@@ -7702,6 +9414,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this decimal[][][] value, bool[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] != 0;
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged decimal fixed-point array to a multidimensional boolean array.
         /// </summary>
         /// 
@@ -7751,6 +9479,17 @@ namespace Accord.Math
             return ToInt32(value, Jagged.CreateAs<bool, int>(value));
         }
 
+        /// <summary>
+        ///   Converts a boolean to a integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this bool[][][] value)
+        {
+            return ToInt32(value, Jagged.CreateAs<bool, int>(value));
+        }
 
 
 
@@ -7822,6 +9561,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged boolean array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this bool[][][] value, int[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] ? (Int32)1 : (Int32)0;
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged boolean array to a multidimensional integer array.
         /// </summary>
         /// 
@@ -7871,6 +9626,17 @@ namespace Accord.Math
             return ToInt16(value, Jagged.CreateAs<bool, short>(value));
         }
 
+        /// <summary>
+        ///   Converts a boolean to a short integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this bool[][][] value)
+        {
+            return ToInt16(value, Jagged.CreateAs<bool, short>(value));
+        }
 
 
 
@@ -7942,6 +9708,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged boolean array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this bool[][][] value, short[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] ? (Int16)1 : (Int16)0;
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged boolean array to a multidimensional short integer array.
         /// </summary>
         /// 
@@ -7991,6 +9773,17 @@ namespace Accord.Math
             return ToSingle(value, Jagged.CreateAs<bool, float>(value));
         }
 
+        /// <summary>
+        ///   Converts a boolean to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this bool[][][] value)
+        {
+            return ToSingle(value, Jagged.CreateAs<bool, float>(value));
+        }
 
 
 
@@ -8062,6 +9855,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged boolean array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this bool[][][] value, float[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] ? (Single)1 : (Single)0;
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged boolean array to a multidimensional single-precision floating point array.
         /// </summary>
         /// 
@@ -8111,6 +9920,17 @@ namespace Accord.Math
             return ToDouble(value, Jagged.CreateAs<bool, double>(value));
         }
 
+        /// <summary>
+        ///   Converts a boolean to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this bool[][][] value)
+        {
+            return ToDouble(value, Jagged.CreateAs<bool, double>(value));
+        }
 
 
 
@@ -8182,6 +10002,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged boolean array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this bool[][][] value, double[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] ? (Double)1 : (Double)0;
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged boolean array to a multidimensional double-precision floating point array.
         /// </summary>
         /// 
@@ -8231,6 +10067,17 @@ namespace Accord.Math
             return ToInt64(value, Jagged.CreateAs<bool, long>(value));
         }
 
+        /// <summary>
+        ///   Converts a boolean to a long integer.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this bool[][][] value)
+        {
+            return ToInt64(value, Jagged.CreateAs<bool, long>(value));
+        }
 
 
 
@@ -8302,6 +10149,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged boolean array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this bool[][][] value, long[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] ? (Int64)1 : (Int64)0;
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged boolean array to a multidimensional long integer array.
         /// </summary>
         /// 
@@ -8351,6 +10214,17 @@ namespace Accord.Math
             return ToByte(value, Jagged.CreateAs<bool, byte>(value));
         }
 
+        /// <summary>
+        ///   Converts a boolean to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this bool[][][] value)
+        {
+            return ToByte(value, Jagged.CreateAs<bool, byte>(value));
+        }
 
 
 
@@ -8422,6 +10296,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged boolean array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this bool[][][] value, byte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] ? (Byte)1 : (Byte)0;
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged boolean array to a multidimensional 8-bit byte array.
         /// </summary>
         /// 
@@ -8471,6 +10361,17 @@ namespace Accord.Math
             return ToSByte(value, Jagged.CreateAs<bool, sbyte>(value));
         }
 
+        /// <summary>
+        ///   Converts a boolean to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this bool[][][] value)
+        {
+            return ToSByte(value, Jagged.CreateAs<bool, sbyte>(value));
+        }
 
 
 
@@ -8542,6 +10443,22 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged boolean array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this bool[][][] value, sbyte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] ? (SByte)1 : (SByte)0;
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged boolean array to a multidimensional signed 7-bit byte array.
         /// </summary>
         /// 
@@ -8591,6 +10508,17 @@ namespace Accord.Math
             return ToDecimal(value, Jagged.CreateAs<bool, decimal>(value));
         }
 
+        /// <summary>
+        ///   Converts a boolean to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this bool[][][] value)
+        {
+            return ToDecimal(value, Jagged.CreateAs<bool, decimal>(value));
+        }
 
 
 
@@ -8658,6 +10586,22 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i][j] = value[i][j] ? (Decimal)1 : (Decimal)0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this bool[][][] value, decimal[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] ? (Decimal)1 : (Decimal)0;
             return result;            
         }
 
