@@ -25,28 +25,12 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Multivariate;
     using NUnit.Framework;
     using System;
+    using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
 
     [TestFixture]
     public class JointDistributionTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
 
         [Test]
         public void JointDistributionConstructorTest()
@@ -173,6 +157,218 @@ namespace Accord.Tests.Statistics
             actual = target.ProbabilityMassFunction(new[] { 2, 1 });
             Assert.AreEqual(0.25, actual);
 
+        }
+
+
+        [Test]
+        public void FitTest5()
+        {
+            JointDistribution target = new JointDistribution(new[] { 4 });
+            double[] values = { 0.00, 1.00, 2.00, 3.00 };
+            double[] weights = { 0.25, 0.25, 0.25, 0.25 };
+
+            target.Fit(Jagged.ColumnVector(values), weights);
+
+            double[] expected = { 0.25, 0.25, 0.25, 0.25 };
+            double[] actual = target.Frequencies;
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual));
+        }
+
+        [Test]
+        public void FitTest6()
+        {
+            double[] expected = { 0.50, 0.00, 0.25, 0.25 };
+
+            JointDistribution target;
+
+            double[] values = { 0.00, 2.00, 3.00 };
+            double[] weights = { 0.50, 0.25, 0.25 };
+            target = new JointDistribution(new[] { 4 });
+            target.Fit(Jagged.ColumnVector(values), weights);
+            double[] actual = target.Frequencies;
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual));
+
+            // --
+
+            double[] values2 = { 0.00, 0.00, 2.00, 3.00 };
+            double[] weights2 = { 0.25, 0.25, 0.25, 0.25 };
+            target = new JointDistribution(new[] { 4 });
+            target.Fit(Jagged.ColumnVector(values2), weights2);
+            double[] actual2 = target.Frequencies;
+            Assert.IsTrue(Matrix.IsEqual(expected, actual2));
+        }
+
+        [Test]
+        public void FitTest3()
+        {
+            JointDistribution target = new JointDistribution(new[] { -1 }, new[] { 4 });
+            double[] values = { 0.00, 1.00, 2.00, 3.00 };
+            double[] weights = { 0.25, 0.25, 0.25, 0.25 };
+
+            target.Fit(Jagged.ColumnVector(values).Subtract(1), weights);
+
+            double[] expected = { 0.25, 0.25, 0.25, 0.25 };
+            double[] actual = target.Frequencies;
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual));
+        }
+
+        [Test]
+        public void FitTest4()
+        {
+            double[] expected = { 0.50, 0.00, 0.25, 0.25 };
+
+            JointDistribution target;
+
+            double[] values = { 0.00, 2.00, 3.00 };
+            double[] weights = { 0.50, 0.25, 0.25 };
+            target = new JointDistribution(new[] { -1 }, new[] { 4 });
+            target.Fit(Jagged.ColumnVector(values).Subtract(1), weights);
+            double[] actual = target.Frequencies;
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual));
+
+            // --
+
+            double[] values2 = { 0.00, 0.00, 2.00, 3.00 };
+            double[] weights2 = { 0.25, 0.25, 0.25, 0.25 };
+            target = new JointDistribution(new[] { -1 }, new[] { 4 });
+            target.Fit(Jagged.ColumnVector(values2).Subtract(1), weights2);
+            double[] actual2 = target.Frequencies;
+            Assert.IsTrue(Matrix.IsEqual(expected, actual2));
+        }
+
+        [Test]
+        public void FitTest_vector_inputs()
+        {
+            double[] expected = { 0.50, 0.00, 0.25, 0.25 };
+
+            JointDistribution target;
+
+            double[] values = { 0.00, 2.00, 3.00 };
+            double[] weights = { 0.50, 0.25, 0.25 };
+            target = new JointDistribution(new[] { 4 });
+            target.Fit(Jagged.ColumnVector(values), weights);
+            double[] actual = target.Frequencies;
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual));
+        }
+
+        [Test]
+        public void DistributionFunctionTest()
+        {
+            var target = new JointDistribution(new[] { 0.1, 0.4, 0.5 });
+
+            double actual;
+
+            actual = target.DistributionFunction(new[] { 0 });
+            Assert.AreEqual(0.1, actual, 1e-6);
+
+            actual = target.DistributionFunction(new[] { 1 });
+            Assert.AreEqual(0.5, actual, 1e-6);
+
+            actual = target.DistributionFunction(new[] { 2 });
+            Assert.AreEqual(1.0, actual, 1e-6);
+
+            actual = target.DistributionFunction(new[] { 3 });
+            Assert.AreEqual(1.0, actual, 1e-6);
+        }
+
+        [Test]
+        public void MeanTest()
+        {
+            var target = new JointDistribution(new[] { 0.1, 0.4, 0.5 });
+            double expected = 0 * 0.1 + 1 * 0.4 + 2 * 0.5;
+            double actual = target.Mean[0];
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void MeanTest2()
+        {
+            var target = new JointDistribution(new [] { 42 }, new[] { 0.1, 0.4, 0.5 });
+            double expected = 42 * 0.1 + 43 * 0.4 + 44 * 0.5;
+            double actual = target.Mean[0];
+             
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void MeanTest3()
+        {
+            var target = new JointDistribution(new[] { 2 }, new [] { 0.5, 0.5 });
+            double expected = (2.0 + 3.0) / 2.0;
+            double actual = target.Mean[0];
+
+            Assert.AreEqual(expected, actual);
+        }
+
+
+
+        [Test]
+        public void UniformTest()
+        {
+            int a = 2;
+            int b = 5;
+            int n = b - a + 1;
+
+            // Wikipedia definitions
+            double expectedMean = (a + b) / 2.0;
+            double expectedVar = (System.Math.Pow(b - a + 1, 2) - 1) / 12.0;
+            double p = 1.0 / n;
+
+
+            JointDistribution dist = JointDistribution.Uniform(1, a, b);
+
+            Assert.AreEqual(expectedMean, dist.Mean[0]);
+            // Assert.AreEqual(expectedVar, dist.Variance);
+            Assert.AreEqual(n, dist.Frequencies.Length);
+
+
+            Assert.AreEqual(0, dist.ProbabilityMassFunction(new[] { 0 }));
+            Assert.AreEqual(0, dist.ProbabilityMassFunction(new[] { 1 }));
+            Assert.AreEqual(p, dist.ProbabilityMassFunction(new[] { 2 }));
+            Assert.AreEqual(p, dist.ProbabilityMassFunction(new[] { 3 }));
+            Assert.AreEqual(p, dist.ProbabilityMassFunction(new[] { 4 }));
+            Assert.AreEqual(p, dist.ProbabilityMassFunction(new[] { 5 }));
+            Assert.AreEqual(0, dist.ProbabilityMassFunction(new[] { 6 }));
+            Assert.AreEqual(0, dist.ProbabilityMassFunction(new[] { 7 }));
+        }
+
+        [Test]
+        public void ProbabilityMassFunctionTest()
+        {
+            JointDistribution dist = JointDistribution.Uniform(1, 2, 5);
+            double p = 0.25;
+            Assert.AreEqual(0, dist.ProbabilityMassFunction(new[] { 0 }));
+            Assert.AreEqual(0, dist.ProbabilityMassFunction(new[] { 1 }));
+            Assert.AreEqual(p, dist.ProbabilityMassFunction(new[] { 2 }));
+            Assert.AreEqual(p, dist.ProbabilityMassFunction(new[] { 3 }));
+            Assert.AreEqual(p, dist.ProbabilityMassFunction(new[] { 4 }));
+            Assert.AreEqual(p, dist.ProbabilityMassFunction(new[] { 5 }));
+            Assert.AreEqual(0, dist.ProbabilityMassFunction(new[] { 6 }));
+            Assert.AreEqual(0, dist.ProbabilityMassFunction(new[] { 7 }));
+        }
+
+        [Test]
+        public void LogProbabilityMassFunctionTest()
+        {
+            JointDistribution dist = JointDistribution.Uniform(1, 2, 5);
+
+            double p = System.Math.Log(0.25);
+            double l = System.Math.Log(0);
+
+            Assert.AreEqual(l, dist.LogProbabilityMassFunction(new[] { 0 }));
+            Assert.AreEqual(l, dist.LogProbabilityMassFunction(new[] { 1 }));
+            Assert.AreEqual(p, dist.LogProbabilityMassFunction(new[] { 2 }));
+            Assert.AreEqual(p, dist.LogProbabilityMassFunction(new[] { 3 }));
+            Assert.AreEqual(p, dist.LogProbabilityMassFunction(new[] { 4 }));
+            Assert.AreEqual(p, dist.LogProbabilityMassFunction(new[] { 5 }));
+            Assert.AreEqual(l, dist.LogProbabilityMassFunction(new[] { 6 }));
+            Assert.AreEqual(l, dist.LogProbabilityMassFunction(new[] { 7 }));
         }
 
     }

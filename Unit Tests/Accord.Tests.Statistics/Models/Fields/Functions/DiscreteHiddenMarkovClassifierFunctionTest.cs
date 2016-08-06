@@ -33,22 +33,6 @@ namespace Accord.Tests.Statistics.Models.Fields
     public class DiscreteHiddenMarkovClassifierPotentialFunctionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
         public static HiddenMarkovClassifier CreateModel1()
         {
             // Declare some testing data
@@ -82,7 +66,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             int[] states = new int[] { 2, 2 };
 
             // Creates a new Hidden Markov Model Classifier with the given parameters
-            HiddenMarkovClassifier classifier = new HiddenMarkovClassifier(classes, states, symbols);
+            var classifier = new HiddenMarkovClassifier(classes, states, symbols);
 
 
             // Create a new learning algorithm to train the sequence classifier

@@ -36,8 +36,92 @@ namespace Accord.Tests.Statistics
     using NUnit.Framework;
 
     [TestFixture]
-    public class GenericHiddenMarkovModelTest
+    public class GenericHiddenMarkovModelTest2
     {
+
+        public static HiddenMarkovModel<GeneralDiscreteDistribution, int> CreateDiscrete(double[,] transitions,
+            double[,] emissions, double[] probabilities, bool logarithm = false)
+        {
+            ITopology topology = new Custom(transitions, probabilities, logarithm);
+
+            if (emissions == null)
+            {
+                throw new ArgumentNullException("emissions");
+            }
+
+            if (emissions.GetLength(0) != topology.States)
+            {
+                throw new ArgumentException(
+                    "The emission matrix should have the same number of rows as the number of states in the model.",
+                    "emissions");
+            }
+
+
+            // Initialize B using a discrete distribution
+            var B = new GeneralDiscreteDistribution[topology.States];
+            for (int i = 0; i < B.Length; i++)
+                B[i] = new GeneralDiscreteDistribution(Accord.Math.Matrix.GetRow(emissions, i));
+
+            return new HiddenMarkovModel<GeneralDiscreteDistribution, int>(topology, B);
+        }
+
+        public static HiddenMarkovModel<GeneralDiscreteDistribution, int> CreateDiscrete(ITopology topology, int symbols)
+        {
+            return CreateDiscrete(topology, symbols, false);
+        }
+
+        public static HiddenMarkovModel<GeneralDiscreteDistribution, int> CreateDiscrete(ITopology topology, int symbols, bool random)
+        {
+            if (symbols <= 0)
+            {
+                throw new ArgumentOutOfRangeException("symbols",
+                    "Number of symbols should be higher than zero.");
+            }
+
+            double[,] A;
+            double[] pi;
+            topology.Create(true, out A, out pi);
+
+            // Initialize B with a uniform discrete distribution
+            var B = new GeneralDiscreteDistribution[topology.States];
+
+            if (random)
+            {
+                for (int i = 0; i < B.Length; i++)
+                {
+                    double[] probabilities = new double[symbols];
+
+                    double sum = 0;
+                    for (int j = 0; j < probabilities.Length; j++)
+                        sum += probabilities[j] = Accord.Math.Random.Generator.Random.NextDouble();
+
+                    for (int j = 0; j < probabilities.Length; j++)
+                        probabilities[j] /= sum;
+
+                    B[i] = new GeneralDiscreteDistribution(true, probabilities.Log());
+                }
+            }
+            else
+            {
+                for (int i = 0; i < B.Length; i++)
+                    B[i] = new GeneralDiscreteDistribution(logarithm: true, symbols: symbols);
+            }
+
+
+            return new HiddenMarkovModel<GeneralDiscreteDistribution, int>(A, B, pi, logarithm: true);
+        }
+
+
+        public static HiddenMarkovModel<GeneralDiscreteDistribution, int> CreateDiscrete(int states, int symbols)
+        {
+            return CreateDiscrete(new Ergodic(states), symbols);
+        }
+
+
+        public static HiddenMarkovModel<GeneralDiscreteDistribution, int> CreateDiscrete(int states, int symbols, bool random)
+        {
+            return CreateDiscrete(new Ergodic(states, random), symbols, random);
+        }
 
         [Test]
         public void ConstructorTest()
@@ -45,7 +129,7 @@ namespace Accord.Tests.Statistics
             double[,] A;
             double[] pi;
 
-            var hmm = HiddenMarkovModel.CreateGeneric(2, 4);
+            var hmm = CreateDiscrete(2, 4);
 
             A = new double[,]
             {
@@ -59,14 +143,12 @@ namespace Accord.Tests.Statistics
             var logPi = pi.Log();
 
             Assert.AreEqual(2, hmm.States);
-            Assert.AreEqual(1, hmm.Dimension);
-            Assert.IsTrue(logA.IsEqual(hmm.Transitions));
-            Assert.IsTrue(logPi.IsEqual(hmm.Probabilities));
+            Assert.AreEqual(1, hmm.NumberOfInputs);
+            Assert.IsTrue(logA.IsEqual(hmm.LogTransitions));
+            Assert.IsTrue(logPi.IsEqual(hmm.LogInitial));
 
 
-
-
-            hmm = HiddenMarkovModel.CreateGeneric(new Forward(2), 4);
+            hmm = CreateDiscrete(new Forward(2), 4);
 
             A = new double[,]
             {
@@ -80,9 +162,9 @@ namespace Accord.Tests.Statistics
             logPi = pi.Log();
 
             Assert.AreEqual(2, hmm.States);
-            Assert.AreEqual(1, hmm.Dimension);
-            Assert.IsTrue(logA.IsEqual(hmm.Transitions));
-            Assert.IsTrue(logPi.IsEqual(hmm.Probabilities));
+            Assert.AreEqual(1, hmm.NumberOfInputs);
+            Assert.IsTrue(logA.IsEqual(hmm.LogTransitions));
+            Assert.IsTrue(logPi.IsEqual(hmm.LogInitial));
 
 
 
@@ -103,15 +185,15 @@ namespace Accord.Tests.Statistics
                 0.6, 0.4
             };
 
-            hmm = new HiddenMarkovModel<GeneralDiscreteDistribution>(A, B, pi);
+            hmm = new HiddenMarkovModel<GeneralDiscreteDistribution, int>(A, B, pi);
 
             logA = A.Log();
             logPi = pi.Log();
 
             Assert.AreEqual(2, hmm.States);
-            Assert.AreEqual(1, hmm.Dimension);
-            Assert.IsTrue(logA.IsEqual(hmm.Transitions));
-            Assert.IsTrue(logPi.IsEqual(hmm.Probabilities));
+            Assert.AreEqual(1, hmm.NumberOfInputs);
+            Assert.IsTrue(logA.IsEqual(hmm.LogTransitions));
+            Assert.IsTrue(logPi.IsEqual(hmm.LogInitial));
             Assert.AreEqual(B, hmm.Emissions);
         }
 
@@ -128,7 +210,7 @@ namespace Accord.Tests.Statistics
             double[] pi = new double[] { 1, 0 };
 
             var distribution = new MultivariateNormalDistribution(3);
-            var hmm = new HiddenMarkovModel<MultivariateNormalDistribution>(2, distribution);
+            var hmm = new HiddenMarkovModel<MultivariateNormalDistribution, double[]>(2, distribution);
 
             for (int i = 0; i < hmm.Emissions.Length; i++)
             {
@@ -139,7 +221,7 @@ namespace Accord.Tests.Statistics
 
                 MultivariateNormalDistribution n = b as MultivariateNormalDistribution;
 
-                Assert.AreEqual(n.Dimension, hmm.Dimension);
+                Assert.AreEqual(n.Dimension, hmm.NumberOfInputs);
 
                 Assert.AreNotSame(n.Covariance, distribution.Covariance);
                 Assert.IsTrue(n.Covariance.IsEqual(distribution.Covariance));
@@ -149,14 +231,14 @@ namespace Accord.Tests.Statistics
             }
 
             Assert.AreEqual(2, hmm.States);
-            Assert.AreEqual(3, hmm.Dimension);
+            Assert.AreEqual(3, hmm.NumberOfInputs);
             Assert.AreEqual(2, hmm.Emissions.Length);
 
             var logA = Matrix.Log(A);
             var logPi = Matrix.Log(pi);
 
-            Assert.IsTrue(logA.IsEqual(hmm.Transitions));
-            Assert.IsTrue(logPi.IsEqual(hmm.Probabilities));
+            Assert.IsTrue(logA.IsEqual(hmm.LogTransitions));
+            Assert.IsTrue(logPi.IsEqual(hmm.LogInitial));
         }
 
         [Test]
@@ -176,7 +258,7 @@ namespace Accord.Tests.Statistics
                 new MultivariateNormalDistribution(new[] { 2.0, 0.0 }, new[,] { {1.1, 0.1}, {1.0, 6.0} }),
             };
 
-            var hmm = new HiddenMarkovModel<MultivariateNormalDistribution>(A, emissions, pi);
+            var hmm = new HiddenMarkovModel<MultivariateNormalDistribution, double[]>(A, emissions, pi);
 
             for (int i = 0; i < hmm.Emissions.Length; i++)
             {
@@ -189,10 +271,10 @@ namespace Accord.Tests.Statistics
             A = A.Log();
             pi = pi.Log();
             Assert.AreEqual(2, hmm.States);
-            Assert.AreEqual(2, hmm.Dimension);
+            Assert.AreEqual(2, hmm.NumberOfInputs);
             Assert.AreEqual(2, hmm.Emissions.Length);
-            Assert.IsTrue(A.IsEqual(hmm.Transitions));
-            Assert.IsTrue(pi.IsEqual(hmm.Probabilities));
+            Assert.IsTrue(A.IsEqual(hmm.LogTransitions));
+            Assert.IsTrue(pi.IsEqual(hmm.LogInitial));
         }
 
         [Test]
@@ -202,14 +284,14 @@ namespace Accord.Tests.Statistics
             var dhmm = new HiddenMarkovModel(10, 50, true);
 
             Accord.Math.Random.Generator.Seed = 0;
-            var chmm = HiddenMarkovModel.CreateGeneric(10, 50, true);
+            var chmm = CreateDiscrete(10, 50, true);
 
             for (int i = 0; i < dhmm.Probabilities.Length; i++)
-                Assert.AreEqual(dhmm.Probabilities[i], chmm.Probabilities[i]);
+                Assert.AreEqual(dhmm.LogInitial[i], chmm.LogInitial[i]);
 
             for (int i = 0; i < dhmm.States; i++)
                 for (int j = 0; j < dhmm.States; j++)
-                    Assert.AreEqual(dhmm.Transitions[i, j], chmm.Transitions[i, j]);
+                    Assert.AreEqual(dhmm.Transitions[i, j], chmm.LogTransitions[i][j]);
 
             for (int i = 0; i < dhmm.States; i++)
                 for (int j = 0; j < dhmm.Symbols; j++)
@@ -241,7 +323,7 @@ namespace Accord.Tests.Statistics
             };
 
             // Create a new hidden Markov model with discrete probabilities
-            var hmm = new HiddenMarkovModel<GeneralDiscreteDistribution>(transitions, emissions, initial);
+            var hmm = new HiddenMarkovModel<GeneralDiscreteDistribution, double>(transitions, emissions, initial);
 
             // After that, one could, for example, query the probability
             // of a sequence occurring. We will consider the sequence
@@ -285,7 +367,7 @@ namespace Accord.Tests.Statistics
                 0.6, 0.4
             };
 
-            var hmm = new HiddenMarkovModel<GeneralDiscreteDistribution>(transitions, emissions, initial);
+            var hmm = new HiddenMarkovModel<GeneralDiscreteDistribution, int>(transitions, emissions, initial);
 
             int[] sequence = new int[] { 0, 1, 2 };
 
@@ -318,7 +400,7 @@ namespace Accord.Tests.Statistics
                 0.6, 0.4
             };
 
-            var hmm = HiddenMarkovModel.CreateGeneric(transitions, emissions, initial);
+            var hmm = new HiddenMarkovModel<GeneralDiscreteDistribution, double>(transitions, GeneralDiscreteDistribution.FromMatrix(emissions), initial);
 
             double logLikelihood;
             double[] sequence = new double[] { 0, 1, 2 };
@@ -333,69 +415,11 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
-        public void DecodeTest3()
-        {
-            double[,] transitions = 
-            {  
-                { 0.7, 0.3 },
-                { 0.4, 0.6 }
-            };
-
-            double[,] emissions = 
-            {  
-                { 0.1, 0.4, 0.5 },
-                { 0.6, 0.3, 0.1 }
-            };
-
-            double[] initial = { 0.6, 0.4 };
-
-            var hmm = HiddenMarkovModel.CreateGeneric(transitions, emissions, initial);
-
-            bool thrown = false;
-            try
-            {
-                double logLikelihood;
-                int[] path = hmm.Decode(new double[][]
-                {
-                    new double[] { 0, 1, 2 },
-                    new double[] { 0, 1, 2 },
-                }, out logLikelihood);
-            }
-            catch
-            {
-                thrown = true;
-            }
-
-            Assert.IsTrue(thrown);
-        }
-
-        [Test]
-        public void DecodeTest4()
-        {
-            var density = new MultivariateNormalDistribution(3);
-
-            var hmm = new HiddenMarkovModel<MultivariateNormalDistribution>(2, density);
-
-            bool thrown = false;
-            try
-            {
-                double logLikelihood;
-                int[] path = hmm.Decode(new double[] { 0, 1, 2 }, out logLikelihood);
-            }
-            catch
-            {
-                thrown = true;
-            }
-
-            Assert.IsTrue(thrown);
-        }
-
-        [Test]
         public void DecodeTest5()
         {
             var density = new MultivariateNormalDistribution(3);
 
-            var hmm = new HiddenMarkovModel<MultivariateNormalDistribution>(2, density);
+            var hmm = new HiddenMarkovModel<MultivariateNormalDistribution, double[]>(2, density);
 
 
             double logLikelihood;
@@ -408,160 +432,40 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-11.206778379787982, logLikelihood);
         }
 
+        //[Test]
+        //public void InitializeTest1()
+        //{
+        //    double[][] sequences = new double[][] 
+        //    {
+        //        new double[] { 0,1,1,1,1,0,1,1,1,1 },
+        //        new double[] { 0,1,1,1,0,1,1,1,1,1 },
+        //        new double[] { 0,1,1,1,1,1,1,1,1,1 },
+        //        new double[] { 0,1,1,1,1,1         },
+        //        new double[] { 0,1,1,1,1,1,1       },
+        //        new double[] { 0,1,1,1,1,1,1,1,1,1 },
+        //        new double[] { 0,1,1,1,1,1,1,1,1,1 },
+        //    };
 
+        //    // Creates a new Hidden Markov Model with 3 states
+        //    var hmm = CreateDiscrete(3, 2);
 
-        [Test]
-        public void LearnTest5()
-        {
+        //    // Try to fit the model to the data until the difference in
+        //    //  the average log-likelihood changes only by as little as 0.0001
+        //    var teacher = new BaumWelchLearning<GeneralDiscreteDistribution, double>()
+        //    {
+        //        Topology = new Ergodic(3),
+        //        Tolerance = 0.0001
+        //    };
 
-            double[][][] sequences = new double[][][] 
-            {
-                new double[][] { new double[] { 0 }, new double[] { 3 }, new double[] { 1} },
-                new double[][] { new double[] { 0 }, new double[] { 2 } },
-                new double[][] { new double[] { 1 }, new double[] { 0 }, new double[] { 3 } },
-                new double[][] { new double[] { 3 }, new double[] { 4 } },
-                new double[][] { new double[] { 0 }, new double[] { 1 }, new double[] { 3 }, new double[] { 5 } },
-                new double[][] { new double[] { 0 }, new double[] { 3 }, new double[] { 4 } },
-                new double[][] { new double[] { 0 }, new double[] { 1 }, new double[] { 3 }, new double[] { 5 } },
-                new double[][] { new double[] { 0 }, new double[] { 1 }, new double[] { 3 }, new double[] { 5 } },
-                new double[][] { new double[] { 0 }, new double[] { 1 }, new double[] { 3 }, new double[] { 4 }, new double[] { 5 } },
-            };
+        //    var target = teacher.CreateModel(sequences);
 
-            var hmm = HiddenMarkovModel.CreateGeneric(3, 6);
-
-            var teacher = new BaumWelchLearning<GeneralDiscreteDistribution>(hmm) { Iterations = 100, Tolerance = 0 };
-            double ll = teacher.Run(sequences);
-
-            double l0; hmm.Decode(sequences[0], out l0);
-            double l1; hmm.Decode(sequences[1], out l1);
-            double l2; hmm.Decode(sequences[2], out l2);
-
-            double pl = System.Math.Exp(ll);
-            double p0 = System.Math.Exp(l0);
-            double p1 = System.Math.Exp(l1);
-            double p2 = System.Math.Exp(l2);
-
-            Assert.AreEqual(0.82996841576789704, pl, 1e-6);
-            Assert.AreEqual(0.014012065043262257, p0, 1e-6);
-            Assert.AreEqual(0.016930905415294066, p1, 1e-6);
-            Assert.AreEqual(0.0019365959189660638, p2, 1e-6);
-
-            Assert.AreEqual(1, hmm.Dimension);
-
-
-
-
-            double[][] sequences2 = new double[][] 
-            {
-                new double[] { 0, 3, 1 },
-                new double[] { 0, 2 },
-                new double[] { 1, 0, 3 },
-                new double[] { 3, 4 },
-                new double[] { 0, 1, 3, 5 },
-                new double[] { 0, 3, 4 },
-                new double[] { 0, 1, 3, 5 },
-                new double[] { 0, 1, 3, 5 },
-                new double[] { 0, 1, 3, 4, 5 },
-            };
-
-            hmm = HiddenMarkovModel.CreateGeneric(3, 6);
-
-            teacher = new BaumWelchLearning<GeneralDiscreteDistribution>(hmm) { Iterations = 100 };
-            double ll2 = teacher.Run(sequences2);
-
-            double l02; hmm.Decode(sequences2[0], out l02);
-            double l12; hmm.Decode(sequences2[1], out l12);
-            double l22; hmm.Decode(sequences2[2], out l22);
-
-            Assert.AreEqual(ll, ll2);
-            Assert.AreEqual(l0, l02);
-            Assert.AreEqual(l1, l12);
-            Assert.AreEqual(l2, l22);
-
-            Assert.AreEqual(1, hmm.Dimension);
-        }
-
-        [Test]
-        public void LearnIntegersTest5()
-        {
-
-            int[][][] sequences = new int[][][] 
-            {
-                new int[][] { new int[] { 0 }, new int[] { 3 }, new int[] { 1} },
-                new int[][] { new int[] { 0 }, new int[] { 2 } },
-                new int[][] { new int[] { 1 }, new int[] { 0 }, new int[] { 3 } },
-                new int[][] { new int[] { 3 }, new int[] { 4 } },
-                new int[][] { new int[] { 0 }, new int[] { 1 }, new int[] { 3 }, new int[] { 5 } },
-                new int[][] { new int[] { 0 }, new int[] { 3 }, new int[] { 4 } },
-                new int[][] { new int[] { 0 }, new int[] { 1 }, new int[] { 3 }, new int[] { 5 } },
-                new int[][] { new int[] { 0 }, new int[] { 1 }, new int[] { 3 }, new int[] { 5 } },
-                new int[][] { new int[] { 0 }, new int[] { 1 }, new int[] { 3 }, new int[] { 4 }, new int[] { 5 } },
-            };
-
-            var hmm = HiddenMarkovModel.CreateGeneric(3, 6);
-
-            Assert.AreEqual(3, hmm.States);
-            Assert.AreEqual(3, hmm.Emissions.Length);
-            for (int i = 0; i < 3; i++)
-                Assert.AreEqual(6, hmm.Emissions[i].Length);
-
-            var teacher = new BaumWelchLearning<GeneralDiscreteDistribution>(hmm) { Iterations = 100, Tolerance = 0 };
-            double ll = teacher.Run(sequences);
-
-            double l0; hmm.Decode(sequences[0], out l0);
-            double l1; hmm.Decode(sequences[1], out l1);
-            double l2; hmm.Decode(sequences[2], out l2);
-
-            double pl = System.Math.Exp(ll);
-            double p0 = System.Math.Exp(l0);
-            double p1 = System.Math.Exp(l1);
-            double p2 = System.Math.Exp(l2);
-
-            Assert.AreEqual(0.82996841576789704, pl, 1e-6);
-            Assert.AreEqual(0.014012065043262257, p0, 1e-6);
-            Assert.AreEqual(0.016930905415294066, p1, 1e-6);
-            Assert.AreEqual(0.0019365959189660638, p2, 1e-6);
-
-            Assert.AreEqual(1, hmm.Dimension);
-
-
-
-
-            int[][] sequences2 = new int[][] 
-            {
-                new int[] { 0, 3, 1 },
-                new int[] { 0, 2 },
-                new int[] { 1, 0, 3 },
-                new int[] { 3, 4 },
-                new int[] { 0, 1, 3, 5 },
-                new int[] { 0, 3, 4 },
-                new int[] { 0, 1, 3, 5 },
-                new int[] { 0, 1, 3, 5 },
-                new int[] { 0, 1, 3, 4, 5 },
-            };
-
-            hmm = HiddenMarkovModel.CreateGeneric(3, 6);
-
-            teacher = new BaumWelchLearning<GeneralDiscreteDistribution>(hmm) { Iterations = 100 };
-            double ll2 = teacher.Run(sequences2);
-
-            double l02; hmm.Decode(sequences2[0], out l02);
-            double l12; hmm.Decode(sequences2[1], out l12);
-            double l22; hmm.Decode(sequences2[2], out l22);
-
-            Assert.AreEqual(ll, ll2);
-            Assert.AreEqual(l0, l02);
-            Assert.AreEqual(l1, l12);
-            Assert.AreEqual(l2, l22);
-
-            Assert.AreEqual(1, hmm.Dimension);
-        }
-
+        //    Assert.AreEqual(hmm.States, target.States);
+        //    Assert.IsTrue(hmm.LogTransitions.IsEqual(target.LogTransitions));
+        //}
 
         [Test]
         public void LearnTest3()
         {
-
             double[][] sequences = new double[][] 
             {
                 new double[] { 0,1,1,1,1,0,1,1,1,1 },
@@ -574,23 +478,29 @@ namespace Accord.Tests.Statistics
             };
 
             // Creates a new Hidden Markov Model with 3 states
-            var hmm = HiddenMarkovModel.CreateGeneric(3, 2);
+            var hmm = CreateDiscrete(3, 2);
 
             // Try to fit the model to the data until the difference in
             //  the average log-likelihood changes only by as little as 0.0001
-            var teacher = new BaumWelchLearning<GeneralDiscreteDistribution>(hmm) { Tolerance = 0.0001 };
-            double ll = teacher.Run(sequences);
+            var teacher = new BaumWelchLearning<GeneralDiscreteDistribution, int>(hmm)
+            {
+                Topology = new Ergodic(3),
+                Tolerance = 0.0001
+            };
+
+            var hmm2 = teacher.Learn(sequences.ToInt32());
+            double ll = teacher.LogLikelihood;
 
             // Calculate the probability that the given
             //  sequences originated from the model
-            double l1; hmm.Decode(new double[] { 0, 1 }, out l1);        // 0.4999
-            double l2; hmm.Decode(new double[] { 0, 1, 1, 1 }, out l2);  // 0.1145
+            double l1; hmm.Decode(new int[] { 0, 1 }, out l1);        // 0.4999
+            double l2; hmm.Decode(new int[] { 0, 1, 1, 1 }, out l2);  // 0.1145
 
-            double l3; hmm.Decode(new double[] { 1, 1 }, out l3);        // 0.0000
-            double l4; hmm.Decode(new double[] { 1, 0, 0, 0 }, out l4);  // 0.0000
+            double l3; hmm.Decode(new int[] { 1, 1 }, out l3);        // 0.0000
+            double l4; hmm.Decode(new int[] { 1, 0, 0, 0 }, out l4);  // 0.0000
 
-            double l5; hmm.Decode(new double[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 }, out l5); // 0.0002
-            double l6; hmm.Decode(new double[] { 0, 1, 1, 1, 1, 1, 1, 0, 1 }, out l6); // 0.0002
+            double l5; hmm.Decode(new int[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 }, out l5); // 0.0002
+            double l6; hmm.Decode(new int[] { 0, 1, 1, 1, 1, 1, 1, 0, 1 }, out l6); // 0.0002
 
 
             ll = System.Math.Exp(ll);
@@ -612,7 +522,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(l1 > l3 && l1 > l4);
             Assert.IsTrue(l2 > l3 && l2 > l4);
 
-            Assert.AreEqual(1, hmm.Dimension);
+            Assert.AreEqual(1, hmm.NumberOfInputs);
         }
 
         [Test]
@@ -626,7 +536,7 @@ namespace Accord.Tests.Statistics
             // distribution to detect if a given sequence starts
             // with a zero and has any number of ones after that.
 
-            double[][] sequences = new double[][] 
+            int[][] sequences = new double[][] 
             {
                 new double[] { 0,1,1,1,1,0,1,1,1,1 },
                 new double[] { 0,1,1,1,0,1,1,1,1,1 },
@@ -635,36 +545,38 @@ namespace Accord.Tests.Statistics
                 new double[] { 0,1,1,1,1,1,1       },
                 new double[] { 0,1,1,1,1,1,1,1,1,1 },
                 new double[] { 0,1,1,1,1,1,1,1,1,1 },
-            };
+            }.ToInt32();
 
             // Create a new Hidden Markov Model with 3 states and
             //  a generic discrete distribution with two symbols
-            var hmm = HiddenMarkovModel.CreateGeneric(3, 2);
+            var hmm = CreateDiscrete(3, 2);
 
             // Try to fit the model to the data until the difference in
             //  the average log-likelihood changes only by as little as 0.0001
-            var teacher = new BaumWelchLearning<GeneralDiscreteDistribution>(hmm)
+            var teacher = new BaumWelchLearning<GeneralDiscreteDistribution, int>(hmm)
             {
                 Tolerance = 0.0001,
                 Iterations = 0
             };
 
-            double ll = Math.Exp(teacher.Run(sequences));
+            var hmm2 = teacher.Learn(sequences);
+            Assert.AreSame(hmm, hmm2);
+            double ll = Math.Exp(teacher.LogLikelihood);
 
             // Calculate the probability that the given
             //  sequences originated from the model
-            double l1 = Math.Exp(hmm.Evaluate(new double[] { 0, 1 }));       // 0.999
-            double l2 = Math.Exp(hmm.Evaluate(new double[] { 0, 1, 1, 1 })); // 0.916
+            double l1 = Math.Exp(hmm.Evaluate(new int[] { 0, 1 }));       // 0.999
+            double l2 = Math.Exp(hmm.Evaluate(new int[] { 0, 1, 1, 1 })); // 0.916
 
             // Sequences which do not start with zero have much lesser probability.
-            double l3 = Math.Exp(hmm.Evaluate(new double[] { 1, 1 }));       // 0.000
-            double l4 = Math.Exp(hmm.Evaluate(new double[] { 1, 0, 0, 0 })); // 0.000
+            double l3 = Math.Exp(hmm.Evaluate(new int[] { 1, 1 }));       // 0.000
+            double l4 = Math.Exp(hmm.Evaluate(new int[] { 1, 0, 0, 0 })); // 0.000
 
             // Sequences which contains few errors have higher probability
             //  than the ones which do not start with zero. This shows some
             //  of the temporal elasticity and error tolerance of the HMMs.
-            double l5 = Math.Exp(hmm.Evaluate(new double[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 })); // 0.034
-            double l6 = Math.Exp(hmm.Evaluate(new double[] { 0, 1, 1, 1, 1, 1, 1, 0, 1 })); // 0.034
+            double l5 = Math.Exp(hmm.Evaluate(new int[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 })); // 0.034
+            double l6 = Math.Exp(hmm.Evaluate(new int[] { 0, 1, 1, 1, 1, 1, 1, 0, 1 })); // 0.034
 
 
             Assert.AreEqual(1.2114235662225716, ll, 1e-4);
@@ -707,18 +619,19 @@ namespace Accord.Tests.Statistics
 
             // Creates a continuous hidden Markov Model with two states organized in a forward
             //  topology and an underlying univariate Normal distribution as probability density.
-            var model = new HiddenMarkovModel<NormalDistribution>(new Ergodic(2), density);
+            var model = new HiddenMarkovModel<NormalDistribution, double>(new Ergodic(2), density);
 
             // Configure the learning algorithms to train the sequence classifier until the
             // difference in the average log-likelihood changes only by as little as 0.0001
-            var teacher = new BaumWelchLearning<NormalDistribution>(model)
+            var teacher = new BaumWelchLearning<NormalDistribution, double>(model)
             {
                 Tolerance = 0.0001,
                 Iterations = 0,
             };
 
             // Fit the model
-            double logLikelihood = teacher.Run(sequences);
+            teacher.Learn(sequences);
+            double logLikelihood = teacher.LogLikelihood;
 
             // See the log-probability of the sequences learned
             double a1 = model.Evaluate(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 }); // -0.12799388666109757
@@ -744,12 +657,6 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.0117804233450216, a2, 1e-10);
             Assert.AreEqual(1.8031545195073828E-130, a3, 1e-10);
 
-            Assert.IsFalse(double.IsNaN(logLikelihood));
-            Assert.IsFalse(double.IsNaN(a1));
-            Assert.IsFalse(double.IsNaN(a2));
-            Assert.IsFalse(double.IsNaN(a3));
-
-
             Assert.AreEqual(2, model.Emissions.Length);
             var state1 = (model.Emissions[0] as NormalDistribution);
             var state2 = (model.Emissions[1] as NormalDistribution);
@@ -763,14 +670,14 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(state1.Variance));
             Assert.IsFalse(Double.IsNaN(state2.Variance));
 
-            Assert.AreEqual(2, model.Transitions.GetLength(0));
-            Assert.AreEqual(2, model.Transitions.GetLength(1));
+            Assert.AreEqual(2, model.LogTransitions.GetLength(0));
+            Assert.AreEqual(2, model.LogTransitions.Columns());
 
-            var A = model.Transitions.Exp();
-            Assert.AreEqual(0, A[0, 0], 1e-16);
-            Assert.AreEqual(1, A[0, 1], 1e-16);
-            Assert.AreEqual(1, A[1, 0], 1e-16);
-            Assert.AreEqual(0, A[1, 1], 1e-16);
+            var A = model.LogTransitions.Exp();
+            Assert.AreEqual(0, A[0][0], 1e-16);
+            Assert.AreEqual(1, A[0][1], 1e-16);
+            Assert.AreEqual(1, A[1][0], 1e-16);
+            Assert.AreEqual(0, A[1][1], 1e-16);
 
             Assert.IsFalse(A.HasNaN());
         }
@@ -791,11 +698,11 @@ namespace Accord.Tests.Statistics
 
             // Creates a continuous hidden Markov Model with two states organized in a forward
             //  topology and an underlying univariate Normal distribution as probability density.
-            var model = new HiddenMarkovModel<NormalDistribution>(new Ergodic(2), density);
+            var model = new HiddenMarkovModel<NormalDistribution, double>(new Ergodic(2), density);
 
             // Configure the learning algorithms to train the sequence classifier until the
             // difference in the average log-likelihood changes only by as little as 0.0001
-            var teacher = new BaumWelchLearning<NormalDistribution>(model)
+            var teacher = new BaumWelchLearning<NormalDistribution, double>(model)
             {
                 Tolerance = 0.0001,
                 Iterations = 0,
@@ -806,7 +713,9 @@ namespace Accord.Tests.Statistics
             };
 
             // Fit the model
-            double likelihood = teacher.Run(sequences);
+            teacher.Learn(sequences);
+
+            double likelihood = teacher.LogLikelihood;
 
 
             // See the probability of the sequences learned
@@ -835,13 +744,13 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(state1.Variance < 1e-30);
             Assert.IsTrue(state2.Variance < 1e-30);
 
-            var A = model.Transitions.Exp();
+            var A = model.LogTransitions.Exp();
             Assert.AreEqual(2, A.GetLength(0));
-            Assert.AreEqual(2, A.GetLength(1));
-            Assert.AreEqual(0, A[0, 0]);
-            Assert.AreEqual(1, A[0, 1]);
-            Assert.AreEqual(1, A[1, 0]);
-            Assert.AreEqual(0, A[1, 1]);
+            Assert.AreEqual(2, A.Columns());
+            Assert.AreEqual(0, A[0][0]);
+            Assert.AreEqual(1, A[0][1]);
+            Assert.AreEqual(1, A[1][0]);
+            Assert.AreEqual(0, A[1][1]);
         }
 
         [Test]
@@ -980,23 +889,24 @@ namespace Accord.Tests.Statistics
             };
 
             var density = new MultivariateNormalDistribution(3);
-            var model = new HiddenMarkovModel<MultivariateNormalDistribution>(new Forward(5), density);
+            var model = new HiddenMarkovModel<MultivariateNormalDistribution, double[]>(new Forward(5), density);
 
-            var learning = new BaumWelchLearning<MultivariateNormalDistribution>(model)
+            var learning = new BaumWelchLearning<MultivariateNormalDistribution, double[]>(model)
             {
                 Tolerance = 0.0001,
                 Iterations = 0,
                 FittingOptions = new NormalOptions() { Regularization = 0.0001 }
             };
 
-            double logLikelihood = learning.Run(observations);
+            learning.Learn(observations);
+            double logLikelihood = learning.LogLikelihood;
 
             Assert.IsFalse(Double.IsNaN(logLikelihood));
 
-            foreach (double value in model.Transitions)
+            foreach (double value in model.LogTransitions.ToMatrix())
                 Assert.IsFalse(Double.IsNaN(value));
 
-            foreach (double value in model.Probabilities)
+            foreach (double value in model.LogInitial)
                 Assert.IsFalse(Double.IsNaN(value));
         }
 
@@ -1037,18 +947,19 @@ namespace Accord.Tests.Statistics
 
             // Creates a continuous hidden Markov Model with two states organized in a forward
             //  topology and an underlying univariate Normal distribution as probability density.
-            var model = new HiddenMarkovModel<MultivariateNormalDistribution>(new Forward(2), density);
+            var model = new HiddenMarkovModel<MultivariateNormalDistribution, double[]>(new Forward(2), density);
 
             // Configure the learning algorithms to train the sequence classifier until the
             // difference in the average log-likelihood changes only by as little as 0.0001
-            var teacher = new BaumWelchLearning<MultivariateNormalDistribution>(model)
+            var teacher = new BaumWelchLearning<MultivariateNormalDistribution, double[]>(model)
             {
                 Tolerance = 0.0001,
                 Iterations = 0,
             };
 
             // Fit the model
-            double logLikelihood = teacher.Run(sequences);
+            teacher.Learn(sequences);
+            double logLikelihood = teacher.LogLikelihood;
 
             // See the likelihood of the sequences learned
             double a1 = Math.Exp(model.Evaluate(new[] { 
@@ -1109,22 +1020,23 @@ namespace Accord.Tests.Statistics
             };
 
             // Specify a initial independent normal distribution for the samples.
-            var density = new Independent<NormalDistribution>(initial_components);
+            var density = new Independent<NormalDistribution, double>(initial_components);
 
             // Creates a continuous hidden Markov Model with two states organized in an Ergodic
             //  topology and an underlying independent Normal distribution as probability density.
-            var model = new HiddenMarkovModel<Independent<NormalDistribution>>(new Ergodic(2), density);
+            var model = new HiddenMarkovModel<Independent<NormalDistribution>, double[]>(new Ergodic(2), density);
 
             // Configure the learning algorithms to train the sequence classifier until the
             // difference in the average log-likelihood changes only by as little as 0.0001
-            var teacher = new BaumWelchLearning<Independent<NormalDistribution>>(model)
+            var teacher = new BaumWelchLearning<Independent<NormalDistribution>, double[]>(model)
             {
                 Tolerance = 0.0001,
                 Iterations = 0,
             };
 
             // Fit the model
-            double error = teacher.Run(data);
+            teacher.Learn(data);
+            double error = teacher.LogLikelihood;
 
             // Get the hidden state associated with each observation
             //
@@ -1140,7 +1052,6 @@ namespace Accord.Tests.Statistics
         [Test]
         public void LearnTest11()
         {
-
             // Suppose we have a set of six sequences and we would like to
             // fit a hidden Markov model with mixtures of Normal distributions
             // as the emission densities. 
@@ -1168,11 +1079,11 @@ namespace Accord.Tests.Statistics
 
             // Let's then create a continuous hidden Markov Model with two states organized in a forward
             //  topology with the underlying univariate Normal mixture distribution as probability density.
-            var model = new HiddenMarkovModel<Mixture<NormalDistribution>>(new Forward(2), density);
+            var model = new HiddenMarkovModel<Mixture<NormalDistribution>, double>(new Forward(2), density);
 
             // Now we should configure the learning algorithms to train the sequence classifier. We will
             // learn until the difference in the average log-likelihood changes only by as little as 0.0001
-            var teacher = new BaumWelchLearning<Mixture<NormalDistribution>>(model)
+            var teacher = new BaumWelchLearning<Mixture<NormalDistribution>, double>(model)
             {
                 Tolerance = 0.0001,
                 Iterations = 0,
@@ -1194,7 +1105,8 @@ namespace Accord.Tests.Statistics
             };
 
             // Finally, we can fit the model
-            double logLikelihood = teacher.Run(sequences);
+            teacher.Learn(sequences);
+            double logLikelihood = teacher.LogLikelihood;
 
             // And now check the likelihood of some approximate sequences.
             double a1 = Math.Exp(model.Evaluate(new double[] { 1, 1, 2, 2, 3 })); // 2.3413833128741038E+45
@@ -1243,11 +1155,11 @@ namespace Accord.Tests.Statistics
 
             // Let's then create a continuous hidden Markov Model with two states organized in a forward
             //  topology with the underlying univariate Normal mixture distribution as probability density.
-            var model = new HiddenMarkovModel<Mixture<NormalDistribution>>(new Forward(2), density);
+            var model = new HiddenMarkovModel<Mixture<NormalDistribution>, double>(new Forward(2), density);
 
             // Now we should configure the learning algorithms to train the sequence classifier. We will
             // learn until the difference in the average log-likelihood changes only by as little as 0.0001
-            var teacher = new BaumWelchLearning<Mixture<NormalDistribution>>(model)
+            var teacher = new BaumWelchLearning<Mixture<NormalDistribution>, double>(model)
             {
                 Tolerance = 0.0001,
                 Iterations = 0,
@@ -1269,7 +1181,8 @@ namespace Accord.Tests.Statistics
             };
 
             // Finally, we can fit the model
-            double logLikelihood = teacher.Run(sequences);
+            teacher.Learn(sequences);
+            double logLikelihood = teacher.LogLikelihood;
 
             // And now check the likelihood of some approximate sequences.
             double[] newSequence = { -0.223, -1.05, -0.574, 0.965, -0.448, 0.265, 0.087, 0.362, 0.717, -0.032 };
@@ -1280,15 +1193,12 @@ namespace Accord.Tests.Statistics
             // We can see that the likelihood of an unrelated sequence is much smaller:
             double a3 = Math.Exp(model.Evaluate(new double[] { 8, 2, 6, 4, 1 })); // 0.0
 
-
             Assert.IsTrue(a1 > 1e+10);
             Assert.IsTrue(a3 < 1e+10);
-
-            Assert.IsFalse(Double.IsNaN(a1));
-            Assert.IsFalse(Double.IsNaN(a3));
         }
 
         [Test]
+        [ExpectedException(ExpectedException = typeof(ArgumentException))]
         public void LearnTest_EmptySequence()
         {
             double[][] sequences =
@@ -1301,30 +1211,15 @@ namespace Accord.Tests.Statistics
                 new double[] { 0.265, 0.087, 0.362, 0.717, -0.032, -0.346, -0.989, -0.619, 0.02, -0.297 },
             };
 
+            var model = new HiddenMarkovModel<NormalDistribution, double>(new Ergodic(2), new NormalDistribution());
 
-            var density = new NormalDistribution(mean: 2, stdDev: 1.0);
-
-            var model = new HiddenMarkovModel<NormalDistribution>(new Forward(2), density);
-
-            var teacher = new BaumWelchLearning<NormalDistribution>(model)
+            var teacher = new BaumWelchLearning<NormalDistribution, double>(model)
             {
                 Tolerance = 0.0001,
                 Iterations = 0,
             };
 
-            bool thrown = false;
-
-            try
-            {
-                double logLikelihood = teacher.Run(sequences);
-            }
-            catch (ArgumentException ex)
-            {
-                Assert.AreEqual("observations", ex.ParamName);
-                thrown = true;
-            }
-
-            Assert.IsTrue(thrown);
+            teacher.Learn(sequences);
         }
 
         [Test]
@@ -1409,7 +1304,7 @@ namespace Accord.Tests.Statistics
                     new double[] { 10, 3 },
                 };
             }
-            
+
             checkDegenerate(list, 3);
         }
 
@@ -1421,17 +1316,17 @@ namespace Accord.Tests.Statistics
             try
             {
                 var density = new MultivariateNormalDistribution(2);
-                var model = new HiddenMarkovModel<MultivariateNormalDistribution>(new Forward(states), density);
+                var model = new HiddenMarkovModel<MultivariateNormalDistribution, double[]>(new Forward(states), density);
 
-                var learning = new BaumWelchLearning<MultivariateNormalDistribution>(model)
+                var learning = new BaumWelchLearning<MultivariateNormalDistribution, double[]>(model)
                 {
                     Tolerance = 0.0001,
                     Iterations = 0,
                 };
 
-                double logLikelihood = learning.Run(observations);
+                learning.Learn(observations);
 
-                Assert.AreEqual(0, logLikelihood);
+                Assert.AreEqual(0, learning.LogLikelihood);
             }
             catch (NonPositiveDefiniteMatrixException)
             {
@@ -1442,23 +1337,23 @@ namespace Accord.Tests.Statistics
 
             {
                 var density = new MultivariateNormalDistribution(2);
-                var model = new HiddenMarkovModel<MultivariateNormalDistribution>(new Forward(states), density);
+                var model = new HiddenMarkovModel<MultivariateNormalDistribution, double[]>(new Forward(states), density);
 
-                var learning = new BaumWelchLearning<MultivariateNormalDistribution>(model)
+                var learning = new BaumWelchLearning<MultivariateNormalDistribution, double[]>(model)
                 {
                     Tolerance = 0.0001,
                     Iterations = 0,
                     FittingOptions = new NormalOptions() { Robust = true }
                 };
 
-                double logLikelihood = learning.Run(observations);
+                learning.Learn(observations);
 
-                Assert.IsFalse(Double.IsNaN(logLikelihood));
+                Assert.IsFalse(Double.IsNaN(learning.LogLikelihood));
 
-                foreach (double value in model.Transitions)
+                foreach (double value in model.LogTransitions.ToMatrix())
                     Assert.IsFalse(Double.IsNaN(value));
 
-                foreach (double value in model.Probabilities)
+                foreach (double value in model.LogInitial)
                     Assert.IsFalse(Double.IsNaN(value));
             }
         }
@@ -1467,7 +1362,7 @@ namespace Accord.Tests.Statistics
         public void FittingOptionsTest()
         {
             // Create a degenerate problem
-            double[][] sequences = new double[][] 
+            double[][][] sequences = new double[][] 
             {
                 new double[] { 1,1,1,1,1,0,1,1,1,1 },
                 new double[] { 1,1,1,1,0,1,1,1,1,1 },
@@ -1476,16 +1371,16 @@ namespace Accord.Tests.Statistics
                 new double[] { 1,1,1,1,1,1,1       },
                 new double[] { 1,1,1,1,1,1,1,1,1,1 },
                 new double[] { 1,1,1,1,1,1,1,1,1,1 },
-            };
+            }.Apply((xi, i, j) => new[] { xi });
 
             // Creates a continuous hidden Markov Model with two states organized in a ergodic
             //  topology and an underlying multivariate Normal distribution as density.
             var density = new MultivariateNormalDistribution(1);
 
-            var model = new HiddenMarkovModel<MultivariateNormalDistribution>(new Ergodic(2), density);
+            var model = new HiddenMarkovModel<MultivariateNormalDistribution, double[]>(new Ergodic(2), density);
 
             // Configure the learning algorithms to train the sequence classifier
-            var teacher = new BaumWelchLearning<MultivariateNormalDistribution>(model)
+            var teacher = new BaumWelchLearning<MultivariateNormalDistribution, double[]>(model)
             {
                 Tolerance = 0.0001,
                 Iterations = 0,
@@ -1495,7 +1390,8 @@ namespace Accord.Tests.Statistics
             };
 
             // Fit the model. No exceptions will be thrown
-            double logLikelihood = teacher.Run(sequences);
+            teacher.Learn(sequences);
+            double logLikelihood = teacher.LogLikelihood;
             double likelihood = Math.Exp(logLikelihood);
 
             Assert.AreEqual(5.3782215178437722, logLikelihood, 1e-15);
@@ -1510,225 +1406,26 @@ namespace Accord.Tests.Statistics
 
             thrown = false;
             density = new MultivariateNormalDistribution(1);
-            model = new HiddenMarkovModel<MultivariateNormalDistribution>(new Ergodic(2), density);
-            teacher = new BaumWelchLearning<MultivariateNormalDistribution>(model) { Tolerance = 0.0001, Iterations = 0, };
+            model = new HiddenMarkovModel<MultivariateNormalDistribution, double[]>(new Ergodic(2), density);
+            teacher = new BaumWelchLearning<MultivariateNormalDistribution, double[]>(model) { Tolerance = 0.0001, Iterations = 0, };
             Assert.IsNull(teacher.FittingOptions);
-            try { teacher.Run(sequences); }
+            try { teacher.Learn(sequences); }
             catch { thrown = true; }
             Assert.IsTrue(thrown);
 
             thrown = false;
             density = new Accord.Statistics.Distributions.Multivariate.MultivariateNormalDistribution(1);
-            model = new HiddenMarkovModel<MultivariateNormalDistribution>(new Ergodic(2), density);
-            teacher = new BaumWelchLearning<MultivariateNormalDistribution>(model)
+            model = new HiddenMarkovModel<MultivariateNormalDistribution, double[]>(new Ergodic(2), density);
+            teacher = new BaumWelchLearning<MultivariateNormalDistribution, double[]>(model)
             {
                 Tolerance = 0.0001,
                 Iterations = 0,
                 FittingOptions = new NormalOptions() { Regularization = 0 }
             };
             Assert.IsNotNull(teacher.FittingOptions);
-            try { teacher.Run(sequences); }
+            try { teacher.Learn(sequences); }
             catch { thrown = true; }
             Assert.IsTrue(thrown);
-        }
-
-
-        [Test]
-        public void PredictTest()
-        {
-            double[][] sequences = new double[][] 
-            {
-                new double[] { 0, 3, 1, 2 },
-            };
-
-
-            var hmm = HiddenMarkovModel.CreateGeneric(new Forward(4), 4);
-
-            var teacher = new BaumWelchLearning<GeneralDiscreteDistribution>(hmm)
-            {
-                Tolerance = 1e-10,
-                Iterations = 0
-            };
-            double ll = teacher.Run(sequences);
-
-            double l11, l12, l13, l14;
-
-            double p1 = hmm.Predict(new double[] { 0 }, out l11);
-            double p2 = hmm.Predict(new double[] { 0, 3 }, out l12);
-            double p3 = hmm.Predict(new double[] { 0, 3, 1 }, out l13);
-            double p4 = hmm.Predict(new double[] { 0, 3, 1, 2 }, out l14);
-
-            Assert.AreEqual(3, p1);
-            Assert.AreEqual(1, p2);
-            Assert.AreEqual(2, p3);
-            Assert.AreEqual(2, p4);
-
-            double l21 = hmm.Evaluate(new double[] { 0, 3 });
-            double l22 = hmm.Evaluate(new double[] { 0, 3, 1 });
-            double l23 = hmm.Evaluate(new double[] { 0, 3, 1, 2 });
-            double l24 = hmm.Evaluate(new double[] { 0, 3, 1, 2, 2 });
-
-            Assert.AreEqual(l11, l21, 1e-10);
-            Assert.AreEqual(l12, l22, 1e-10);
-            Assert.AreEqual(l13, l23, 1e-10);
-            Assert.AreEqual(l14, l24, 1e-2);
-
-            Assert.IsFalse(double.IsNaN(l11));
-            Assert.IsFalse(double.IsNaN(l12));
-            Assert.IsFalse(double.IsNaN(l13));
-            Assert.IsFalse(double.IsNaN(l14));
-
-            Assert.IsFalse(double.IsNaN(l21));
-            Assert.IsFalse(double.IsNaN(l22));
-            Assert.IsFalse(double.IsNaN(l23));
-            Assert.IsFalse(double.IsNaN(l24));
-
-            double ln1;
-            double[] pn = hmm.Predict(new double[] { 0 }, 4, out ln1);
-
-            Assert.AreEqual(4, pn.Length);
-            Assert.AreEqual(3, pn[0]);
-            Assert.AreEqual(1, pn[1]);
-            Assert.AreEqual(2, pn[2]);
-            Assert.AreEqual(2, pn[3]);
-
-            double ln2 = hmm.Evaluate(new double[] { 0, 3, 1, 2, 2 });
-
-            Assert.AreEqual(ln1, ln2, 1e-2);
-            Assert.IsFalse(double.IsNaN(ln1));
-            Assert.IsFalse(double.IsNaN(ln2));
-
-
-            // Get the mixture distribution defining next state likelihoods
-            Mixture<GeneralDiscreteDistribution> mixture = null;
-            double ml11;
-            double mp1 = hmm.Predict(new double[] { 0 }, out ml11, out mixture);
-
-            Assert.AreEqual(l11, ml11);
-            Assert.AreEqual(p1, mp1);
-            Assert.IsNotNull(mixture);
-
-            Assert.AreEqual(4, mixture.Coefficients.Length);
-            Assert.AreEqual(4, mixture.Components.Length);
-            Assert.AreEqual(0, mixture.Coefficients[0], 1e-10);
-            Assert.AreEqual(1, mixture.Coefficients[1], 1e-10);
-            Assert.AreEqual(0, mixture.Coefficients[2], 1e-10);
-            Assert.AreEqual(0, mixture.Coefficients[3], 1e-10);
-
-            for (int i = 0; i < mixture.Coefficients.Length; i++)
-                Assert.IsFalse(double.IsNaN(mixture.Coefficients[i]));
-
-        }
-
-        [Test]
-        public void PredictTest2()
-        {
-            // Create continuous sequences. In the sequence below, there
-            // seems to be two states, one for values equal to 1 and another
-            // for values equal to 2.
-            double[][] sequences = new double[][] 
-            {
-                new double[] { 1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2 }             
-            };
-
-            // Specify a initial normal distribution for the samples.
-            NormalDistribution density = new NormalDistribution();
-
-            // Creates a continuous hidden Markov Model with two states organized in a forward
-            //  topology and an underlying univariate Normal distribution as probability density.
-            var model = new HiddenMarkovModel<NormalDistribution>(new Ergodic(2), density);
-
-            // Configure the learning algorithms to train the sequence classifier until the
-            // difference in the average log-likelihood changes only by as little as 0.0001
-            var teacher = new BaumWelchLearning<NormalDistribution>(model)
-            {
-                Tolerance = 0.0001,
-                Iterations = 0,
-
-                // However, we will need to specify a regularization constant as the
-                //  variance of each state will likely be zero (all values are equal)
-                FittingOptions = new NormalOptions() { Regularization = double.Epsilon }
-            };
-
-            // Fit the model
-            double likelihood = teacher.Run(sequences);
-
-
-            double a1 = model.Predict(new double[] { 1, 2, 1 });
-            double a2 = model.Predict(new double[] { 1, 2, 1, 2 });
-
-            Assert.AreEqual(2, a1, 1e-10);
-            Assert.AreEqual(1, a2, 1e-10);
-            Assert.IsFalse(Double.IsNaN(a1));
-            Assert.IsFalse(Double.IsNaN(a2));
-
-            double p1, p2;
-            Mixture<NormalDistribution> d1, d2;
-            double b1 = model.Predict(new double[] { 1, 2, 1 }, out p1, out d1);
-            double b2 = model.Predict(new double[] { 1, 2, 1, 2 }, out p2, out d2);
-
-            Assert.AreEqual(2, b1, 1e-10);
-            Assert.AreEqual(1, b2, 1e-10);
-            Assert.IsFalse(Double.IsNaN(b1));
-            Assert.IsFalse(Double.IsNaN(b2));
-
-            Assert.AreEqual(0, d1.Coefficients[0]);
-            Assert.AreEqual(1, d1.Coefficients[1]);
-
-            Assert.AreEqual(1, d2.Coefficients[0]);
-            Assert.AreEqual(0, d2.Coefficients[1]);
-        }
-
-        [Test]
-        public void PredictTest3()
-        {
-            // We will try to create a Hidden Markov Model which
-            // can recognize (and predict) the following sequences:
-            double[][] sequences = 
-            {
-                new double[] { 1, 2, 3, 4, 5 },
-                new double[] { 1, 2, 4, 3, 5 },
-                new double[] { 1, 2, 5 },
-            };
-
-            // Creates a new left-to-right (forward) Hidden Markov Model
-            //  with 4 states for an output alphabet of six characters.
-            var hmm = HiddenMarkovModel.CreateGeneric(new Forward(4), 6);
-
-            // Try to fit the model to the data until the difference in
-            //  the average log-likelihood changes only by as little as 0.0001
-            var teacher = new BaumWelchLearning<GeneralDiscreteDistribution>(hmm)
-            {
-                Tolerance = 0.0001,
-                Iterations = 0
-            };
-
-            // Run the learning algorithm on the model
-            double logLikelihood = teacher.Run(sequences);
-
-            // Now, we will try to predict the next
-            //   observations after a base sequence
-
-            double[] input = { 1, 2 }; // base sequence for prediction
-
-
-            // Predict the next observation in sequence
-            Mixture<GeneralDiscreteDistribution> mixture = null;
-
-            double prediction = hmm.Predict(input, out mixture);
-
-            Assert.AreEqual(5, prediction);
-
-            // At this point, prediction probabilities
-            // should be equilibrated around 3, 4 and 5
-            Assert.AreEqual(4, mixture.Mean, 0.1);
-
-            double[] input2 = { 1 };
-
-            // The only possible value after 1 must be 2.
-            prediction = hmm.Predict(input2, out mixture);
-
-            Assert.AreEqual(2, prediction);
         }
 
         [Test]
@@ -1754,7 +1451,7 @@ namespace Accord.Tests.Statistics
                 0.6, 0.4
             };
 
-            var hmm = new HiddenMarkovModel<GeneralDiscreteDistribution>(A, B, pi);
+            var hmm = new HiddenMarkovModel<GeneralDiscreteDistribution, double>(A, B, pi);
 
 
             double logLikelihood;
@@ -1764,14 +1461,12 @@ namespace Accord.Tests.Statistics
             double expected = hmm.Evaluate(samples, path);
 
             Assert.AreEqual(expected, logLikelihood);
-
         }
 
         [Test]
         public void PosteriorTest1()
         {
             // Example from http://ai.stanford.edu/~serafim/CS262_2007/notes/lecture5.pdf
-       
 
             double[,] A = 
             {
@@ -1787,7 +1482,7 @@ namespace Accord.Tests.Statistics
 
             double[] pi = { 0.5, 0.5 };
 
-            var hmm = HiddenMarkovModel.CreateGeneric(A, B, pi);
+            var hmm = new HiddenMarkovModel<GeneralDiscreteDistribution, int>(A, GeneralDiscreteDistribution.FromMatrix(B), pi);
 
             int[] x = new int[] { 1, 2, 1, 5, 6, 2, 1, 5, 2, 4 }.Subtract(1);
             int[] y = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };

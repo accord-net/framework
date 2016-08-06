@@ -1037,7 +1037,7 @@ namespace Accord.Tests.Math
                 { 4, 5, 6 }
             };
 
-            double[][] actual2 = A.CumulativeSum(1);
+            double[][] actual2 = A.ToJagged().CumulativeSum(1);
             double[][] expected2 =
             {
                 new double[] { 1, 2, 3 },
@@ -1046,7 +1046,7 @@ namespace Accord.Tests.Math
 
             Assert.IsTrue(actual2.IsEqual(expected2));
 
-            double[][] actual3 = A.CumulativeSum(0);
+            double[][] actual3 = A.ToJagged().CumulativeSum(0);
             double[][] expected3 = 
             {
                 new double[] {1,  4 },

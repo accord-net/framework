@@ -544,8 +544,8 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-
-        [Test, Conditional("RELEASE")]
+#if RELEASE
+        [Test]
         public void kaggle_digits_old_style()
         {
             string root = Environment.CurrentDirectory;
@@ -670,6 +670,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(0.082, val);
             }
         }
+#endif
 
         private static Tuple<double[][], int[]> readData(string filePath)
         {

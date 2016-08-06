@@ -214,7 +214,6 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void CrossvalidationConstructorTest2()
         {
-
             Accord.Math.Tools.SetupGenerator(0);
 
             // This is a sample code on how to use Cross-Validation
@@ -251,7 +250,6 @@ namespace Accord.Tests.MachineLearning
                 0,0,0,0,0,0,0,0,0,0, // First 10 sequences are of class 0
                 1,1,1,1,1,1,1,1,1,1, // Last 10 sequences are of class 1
             };
-
 
 
             // Create a new Cross-validation algorithm passing the data set size and the number of folds

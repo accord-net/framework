@@ -194,7 +194,7 @@ namespace Accord.Tests.Statistics
                 for (int j = 0; j < 3; j++)
                     Assert.AreEqual(Double.NegativeInfinity, threshold.Transitions[i, j]);
 
-            Assert.IsFalse(Matrix.HasNaN(threshold.Transitions));
+            Assert.IsFalse(Matrix.HasNaN(threshold.LogTransitions));
 
             classifier.Sensitivity = 0.5;
 
