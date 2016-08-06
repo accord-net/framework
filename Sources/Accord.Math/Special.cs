@@ -586,7 +586,20 @@ namespace Accord.Math
             return lnc + Special.Log1p(Math.Exp(lna - lnc));
         }
 
-
+        /// <summary>
+        ///   Computes sum(x) without losing precision using ln(x_0) ... ln(x_n).
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double LogSumExp(this double[] array)
+        {
+            double sum = Double.NegativeInfinity;
+            for (int i = 0; i < array.Length; i++)
+                sum = Special.LogSum(array[i], sum);
+            return sum;
+        }
         #endregion
 
 
