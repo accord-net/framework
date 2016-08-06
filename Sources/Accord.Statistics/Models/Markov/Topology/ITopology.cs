@@ -66,7 +66,7 @@ namespace Accord.Statistics.Models.Markov.Topology
         /// <summary>
         ///   Gets the number of states in this topology.
         /// </summary>
-        int States { get; }
+        int States { get; set;  }
 
         /// <summary>
         ///   Creates the state transitions matrix and the 

@@ -22,6 +22,8 @@
 
 namespace Accord.Statistics.Models.Markov.Learning
 {
+#pragma warning disable 612, 618
+
     using System;
     using Accord.Math;
     using Accord.Statistics.Models.Markov;
@@ -44,7 +46,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   of <see cref="HiddenMarkovModel.Emissions">emission probabilities B</see>, and the
     ///   <see cref="IHiddenMarkovModel.Probabilities">initial probability vector π</see>) that 
     ///   would result in a model having a high likelihood of being able 
-    ///   to <see cref="HiddenMarkovModel.Generate(int)">generate</see> a set of training 
+    ///   to <see cref="HiddenMarkovModel{TDistribution, TObservation}.Generate(int)">generate</see> a set of training 
     ///   sequences given to this algorithm.</para>
     ///   
     ///   <para>
@@ -241,7 +243,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         protected override void UpdateEmissions()
         {
-            var B = model.Emissions;
+            var B = model.LogEmissions;
             int states = model.States;
             int symbols = model.Symbols;
 
@@ -266,9 +268,9 @@ namespace Accord.Statistics.Models.Markov.Learning
                     }
 
                     // TODO: avoid locking a parameter in zero.
-                    B[i, j] = lnnum - lnden;
+                    B[i][j] = lnnum - lnden;
 
-                    Accord.Diagnostics.Debug.Assert(!Double.IsNaN(B[i, j]));
+                    Accord.Diagnostics.Debug.Assert(!Double.IsNaN(B[i][j]));
                 }
             }
         }

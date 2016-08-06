@@ -28,6 +28,8 @@ namespace Accord.Statistics.Models.Markov.Learning
     using Accord.Statistics.Models.Markov.Topology;
     using System.Diagnostics;
 
+#pragma warning disable 612, 618
+
     /// <summary>
     ///   Configuration function delegate for Sequence Classifier Learning algorithms.
     /// </summary>

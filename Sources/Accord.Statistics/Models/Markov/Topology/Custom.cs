@@ -24,6 +24,7 @@ namespace Accord.Statistics.Models.Markov.Topology
 {
     using System;
     using Accord.Math;
+    using System.Data;
 
     /// <summary>
     ///   Custom Topology for Hidden Markov Model.
@@ -159,6 +160,7 @@ namespace Accord.Statistics.Models.Markov.Topology
         public int States
         {
             get { return states; }
+            set { throw new ReadOnlyException("Property is read-only."); }
         }
 
         /// <summary>

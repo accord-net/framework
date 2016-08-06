@@ -27,6 +27,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using System.Collections.Generic;
+#pragma warning disable 612, 618
 
     /// <summary>
     ///    Maximum Likelihood learning algorithm for discrete-density Hidden Markov Models.
@@ -324,13 +325,13 @@ namespace Accord.Statistics.Models.Markov.Learning
 
 
             for (int i = 0; i < initial.Length; i++)
-                model.Probabilities[i] = Math.Log(initial[i] / (double)initialCount);
+                model.LogInitial[i] = Math.Log(initial[i] / (double)initialCount);
 
             for (int i = 0; i < transitionCount.Length; i++)
                 for (int j = 0; j < states; j++)
-                    model.Transitions[i, j] = Math.Log(transitions[i, j] / (double)transitionCount[i]);
+                    model.LogTransitions[i][j] = Math.Log(transitions[i, j] / (double)transitionCount[i]);
 
-            Accord.Diagnostics.Debug.Assert(!model.Probabilities.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!model.LogInitial.HasNaN());
             Accord.Diagnostics.Debug.Assert(!model.Transitions.HasNaN());
 
 

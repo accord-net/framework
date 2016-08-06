@@ -24,6 +24,7 @@ namespace Accord.Statistics.Models.Markov.Learning
 {
     using System;
     using Accord.Math;
+#pragma warning disable 612, 618
 
     /// <summary>
     ///   Viterbi learning algorithm.

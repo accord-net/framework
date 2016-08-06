@@ -26,6 +26,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     using System.Threading.Tasks;
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Markov.Topology;
+    using Accord.Math;
 
     /// <summary>
     ///   Multiple-trials Baum-Welch learning.
@@ -239,9 +240,9 @@ namespace Accord.Statistics.Models.Markov.Learning
         
         private static void copy(HiddenMarkovModel from, HiddenMarkovModel to)
         {
-            Array.Copy(from.Transitions, to.Transitions, to.Transitions.Length);
-            Array.Copy(from.Emissions, to.Emissions, to.Emissions.Length);
-            Array.Copy(from.Probabilities, to.Probabilities, to.Probabilities.Length);
+            from.LogTransitions.CopyTo(to.LogTransitions);
+            from.LogEmissions.CopyTo(to.LogEmissions);
+            from.LogInitial.CopyTo(to.LogInitial);
         }
 #endif
 

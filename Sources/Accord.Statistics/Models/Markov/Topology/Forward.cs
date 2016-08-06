@@ -95,6 +95,11 @@ namespace Accord.Statistics.Models.Markov.Topology
         public int States
         {
             get { return states; }
+            set
+            {
+                states = value;
+                pi = Vector.Create(pi);
+            }
         }
 
         /// <summary>

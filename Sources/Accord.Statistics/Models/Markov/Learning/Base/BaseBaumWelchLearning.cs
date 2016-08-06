@@ -19,6 +19,7 @@
 //    License along with this library; if not, write to the Free Software
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
+#pragma warning disable 612, 618
 
 namespace Accord.Statistics.Models.Markov.Learning
 {
@@ -225,8 +226,8 @@ namespace Accord.Statistics.Models.Markov.Learning
 
             // Grab model information
             int states = model.States;
-            var logA = model.Transitions;
-            var logP = model.Probabilities;
+            var logA = model.LogTransitions;
+            var logP = model.LogInitial;
 
 
             // Initialize the algorithm
@@ -344,9 +345,9 @@ namespace Accord.Statistics.Models.Markov.Learning
                                 }
                             }
 
-                            logA[i, j] = (lnnum == lnden) ? 0 : lnnum - lnden;
+                            logA[i][j] = (lnnum == lnden) ? 0 : lnnum - lnden;
 
-                            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logA[i, j]));
+                            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logA[i][j]));
                         }
                     }
 

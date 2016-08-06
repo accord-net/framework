@@ -22,6 +22,8 @@
 
 namespace Accord.Statistics.Models.Fields.Functions
 {
+#pragma warning disable 612, 618
+
     using System;
     using System.Collections.Generic;
     using Accord.Statistics.Distributions;
@@ -98,7 +100,7 @@ namespace Accord.Statistics.Models.Fields.Functions
                 // Create features for initial state probabilities
                 for (int i = 0; i < model.States; i++)
                 {
-                    edgeParams.Add(model.Probabilities[i]);
+                    edgeParams.Add(model.LogInitial[i]);
                     edgeFeatures.Add(new InitialFeature<double[]>(this, c, i));
                 }
 
@@ -228,7 +230,7 @@ namespace Accord.Statistics.Models.Fields.Functions
                 // Create features for initial state probabilities
                 for (int i = 0; i < model.States; i++)
                 {
-                    edgeParams.Add(model.Probabilities[i]);
+                    edgeParams.Add(model.LogInitial[i]);
                     edgeFeatures.Add(new InitialFeature<double[]>(this, c, i));
                 }
 
@@ -333,7 +335,7 @@ namespace Accord.Statistics.Models.Fields.Functions
             // Create features for initial state probabilities
             for (int i = 0; i < model.States; i++)
             {
-                edgeParams.Add(model.Probabilities[i]);
+                edgeParams.Add(model.LogInitial[i]);
                 edgeFeatures.Add(new InitialFeature<double[]>(this, 0, i));
             }
 
@@ -447,7 +449,7 @@ namespace Accord.Statistics.Models.Fields.Functions
                 // Create features for initial state probabilities
                 for (int i = 0; i < model.States; i++)
                 {
-                    edgeParams.Add(model.Probabilities[i]);
+                    edgeParams.Add(model.LogInitial[i]);
                     edgeFeatures.Add(new InitialFeature<double[]>(this, c, i));
                 }
 
