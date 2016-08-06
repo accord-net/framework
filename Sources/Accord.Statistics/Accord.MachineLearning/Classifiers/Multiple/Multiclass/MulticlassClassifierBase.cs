@@ -29,6 +29,7 @@ namespace Accord.MachineLearning
     /// <summary>
     /// Base class for multi-class classifiers.
     /// </summary>
+    /// 
     [Serializable]
     public abstract class MulticlassClassifierBase :
         MulticlassClassifierBase<double[]>,
