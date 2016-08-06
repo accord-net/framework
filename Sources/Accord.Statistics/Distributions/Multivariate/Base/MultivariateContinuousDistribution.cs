@@ -65,6 +65,7 @@ using Accord.Math.Random;
     public abstract class MultivariateContinuousDistribution : DistributionBase,
         IMultivariateDistribution, 
         IMultivariateDistribution<double[]>,
+        IFittableDistribution<double[]>,
         ISampleableDistribution<double[]>,
         ISampleableDistribution<int[]>,
         IFormattable

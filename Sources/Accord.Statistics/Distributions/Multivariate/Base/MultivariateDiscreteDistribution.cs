@@ -63,6 +63,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     [Serializable]
     public abstract class MultivariateDiscreteDistribution : DistributionBase,
         IMultivariateDistribution, IMultivariateDistribution<int[]>,
+        IMultivariateDistribution<double[]>,
         ISampleableDistribution<int[]>, ISampleableDistribution<double[]>,
         IDistribution<double[]>, IFormattable
     {
