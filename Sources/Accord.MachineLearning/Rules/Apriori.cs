@@ -104,13 +104,14 @@ namespace Accord.MachineLearning.Rules
         /// </summary>
         /// 
         /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
         /// 
         /// <returns>A model that has learned how to produce suitable outputs
         ///   given the input data <paramref name="x"/>.</returns>
         /// 
-        public AssociationRuleMatcher<T> Learn(T[][] x)
+        public AssociationRuleMatcher<T> Learn(T[][] x, double[] weights = null)
         {
-            return Learn(x.Apply(xi => new SortedSet<T>(xi)));
+            return Learn(x.Apply(xi => new SortedSet<T>(xi)), weights);
         }
 
         /// <summary>
@@ -118,11 +119,12 @@ namespace Accord.MachineLearning.Rules
         /// </summary>
         /// 
         /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
         /// 
         /// <returns>A model that has learned how to produce suitable outputs
         ///   given the input data <paramref name="x"/>.</returns>
         /// 
-        public AssociationRuleMatcher<T> Learn(SortedSet<T>[] x)
+        public AssociationRuleMatcher<T> Learn(SortedSet<T>[] x, double[] weights = null)
         {
             frequent.Clear();
             var L = new HashSet<SortedSet<T>>(new Comparer());

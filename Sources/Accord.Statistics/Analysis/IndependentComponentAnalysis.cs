@@ -541,7 +541,7 @@ namespace Accord.Statistics.Analysis
             return demix.Transform(data.ToDouble().Transpose()).ToSingle().Transpose(); // TODO: Implement float support in linear regression
         }
 
-        
+
 
         /// <summary>
         ///   Combines components into a single mixture (mixing).
@@ -773,7 +773,7 @@ namespace Accord.Statistics.Analysis
                 else
                 {
                     // Advance to the next iteration
-                    W0 = W; 
+                    W0 = W;
                     W = Jagged.Zeros(components, m);
                     lastChange = delta;
                     iterations++;
@@ -865,11 +865,12 @@ namespace Accord.Statistics.Analysis
         /// Learns a model that can map the given inputs to the desired outputs.
         /// </summary>
         /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
         /// <returns>
         /// A model that has learned how to produce suitable outputs
         /// given the input data <paramref name="x" />.
         /// </returns>
-        public MultivariateLinearRegression Learn(double[][] x)
+        public MultivariateLinearRegression Learn(double[][] x, double[] weights = null)
         {
             // Calculate common measures to speedup other calculations
             this.columnMeans = Measures.Mean(x, dimension: 0);

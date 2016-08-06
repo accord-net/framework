@@ -310,11 +310,12 @@ namespace Accord.Statistics.Analysis
         /// Learns a model that can map the given inputs to the desired outputs.
         /// </summary>
         /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
         /// <returns>
         /// A model that has learned how to produce suitable outputs
         /// given the input data <paramref name="x" />.
         /// </returns>
-        public MultivariateKernelRegression Learn(double[][] x)
+        public MultivariateKernelRegression Learn(double[][] x, double[] weights = null)
         {
             this.sourceCentered = null;
             double[][] K;
