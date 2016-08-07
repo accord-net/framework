@@ -32,6 +32,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// 
     public interface ILikelihoodTagger<TInput> :
+        ITransform<TInput[], double>,
         IScoreTagger<TInput>
     {
         /// <summary>
