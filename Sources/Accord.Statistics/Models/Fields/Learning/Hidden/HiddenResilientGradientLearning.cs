@@ -20,6 +20,8 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+#pragma warning disable 612, 618
+
 namespace Accord.Statistics.Models.Fields.Learning
 {
     using System;
@@ -27,6 +29,7 @@ namespace Accord.Statistics.Models.Fields.Learning
     using System.Threading;
     using System.Threading.Tasks;
     using Accord.Math;
+    using Accord.MachineLearning;
 
     /// <summary>
     ///   Resilient Gradient Learning.
@@ -102,7 +105,9 @@ namespace Accord.Statistics.Models.Fields.Learning
     /// </code>
     /// </example>
     /// 
-    public class HiddenResilientGradientLearning<T> : IHiddenConditionalRandomFieldLearning<T>,
+    public class HiddenResilientGradientLearning<T> :
+        ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>, 
+        IHiddenConditionalRandomFieldLearning<T>,
         IConvergenceLearning, IDisposable
     {
 
@@ -125,6 +130,7 @@ namespace Accord.Statistics.Models.Fields.Learning
         // update values, also known as deltas
         private double[] weightsUpdates;
 
+        public CancellationToken Token { get; set; }
 
         /// <summary>
         ///   Gets or sets the model being trained.
@@ -432,6 +438,11 @@ namespace Accord.Statistics.Models.Fields.Learning
             });
         }
 
+        public HiddenConditionalRandomField<T> Learn(T[][] x, int[] y, double[] weights = null)
+        {
+            Run(x, y);
+            return Model;
+        }
 
 
         #region IDisposable Members

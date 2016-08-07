@@ -178,6 +178,19 @@ namespace Accord.Statistics.Models.Markov
             return result[decision];
         }
 
+        public override double LogLikelihood(TObservation[] input, out int decision)
+        {
+            return Math.Log(Probability(input, out decision));
+        }
+
+        public override double Probability(TObservation[] input, out int decision)
+        {
+            double[] result = Probabilities(input, out decision);
+            if (decision == -1)
+                return 1.0 - result.Sum();
+            return result[decision];
+        }
+
         public override double LogLikelihood(TObservation[] input, int classIndex)
         {
             int decision;

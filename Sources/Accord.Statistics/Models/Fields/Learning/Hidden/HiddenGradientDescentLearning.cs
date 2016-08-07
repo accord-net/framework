@@ -20,6 +20,8 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+#pragma warning disable 612, 618
+
 namespace Accord.Statistics.Models.Fields.Learning
 {
     using System;
@@ -27,6 +29,7 @@ namespace Accord.Statistics.Models.Fields.Learning
     using System.Threading;
     using System.Threading.Tasks;
     using Accord.Math;
+    using Accord.MachineLearning;
 
     /// <summary>
     ///   Stochastic Gradient Descent learning algorithm for <see cref="HiddenConditionalRandomField{T}">
@@ -44,7 +47,9 @@ namespace Accord.Statistics.Models.Fields.Learning
     /// 
     /// <seealso cref="HiddenResilientGradientLearning{T}"/>
     /// 
-    public class HiddenGradientDescentLearning<T> : IHiddenConditionalRandomFieldLearning<T>,
+    public class HiddenGradientDescentLearning<T> :
+        ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>, 
+        IHiddenConditionalRandomFieldLearning<T>,
         IConvergenceLearning, IDisposable
     {
         private double learningRate = 100;
@@ -61,6 +66,9 @@ namespace Accord.Statistics.Models.Fields.Learning
 
 
         private Object lockObj = new Object();
+
+        public CancellationToken Token { get; set; }
+
 
         /// <summary>
         ///   Gets or sets the learning rate to use as the gradient
@@ -314,7 +322,11 @@ namespace Accord.Statistics.Models.Fields.Learning
                 ProgressChanged(this, args);
         }
 
-
+        public HiddenConditionalRandomField<T> Learn(T[][] x, int[] y, double[] weights = null)
+        {
+            Run(x, y);
+            return Model;
+        }
 
         #region IDisposable Members
 

@@ -395,7 +395,7 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="decision">The class label predicted by the classifier.</param>
         /// 
-        public double LogLikelihood(TInput input, out int decision)
+        public virtual double LogLikelihood(TInput input, out int decision)
         {
             double[] result = LogLikelihoods(input, out decision);
             return result[decision];
@@ -900,7 +900,7 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="decision">The class label predicted by the classifier.</param>
         /// 
-        public double Probability(TInput input, out int decision)
+        public virtual double Probability(TInput input, out int decision)
         {
             double[] result = Probabilities(input, out decision);
             return result[decision];
@@ -916,9 +916,9 @@ namespace Accord.MachineLearning
         public double Probability(TInput input, out double decision)
         {
             int value;
-            double[] result = Probabilities(input, out value);
+            double result = Probability(input, out value);
             decision = value;
-            return result[value];
+            return result;
         }
 
         /// <summary>

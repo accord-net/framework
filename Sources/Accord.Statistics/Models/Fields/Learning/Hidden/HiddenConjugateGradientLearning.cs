@@ -22,9 +22,13 @@
 
 namespace Accord.Statistics.Models.Fields.Learning
 {
+#pragma warning disable 612, 618
+
     using System;
     using System.ComponentModel;
     using Accord.Math.Optimization;
+    using Accord.MachineLearning;
+    using System.Threading;
 
     /// <summary>
     ///   Conjugate Gradient learning algorithm for <see cref="HiddenConditionalRandomField{T}">
@@ -38,12 +42,16 @@ namespace Accord.Statistics.Models.Fields.Learning
     ///   page. All learning algorithms can be utilized in a similar manner.</para>
     /// </example>
     /// 
-    public class HiddenConjugateGradientLearning<T> : IHiddenConditionalRandomFieldLearning<T>,
+    public class HiddenConjugateGradientLearning<T> : 
+        ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>,
+        IHiddenConditionalRandomFieldLearning<T>,
         IConvergenceLearning, IDisposable
     {
 
         private ForwardBackwardGradient<T> calculator;
         private ConjugateGradient optimizer;
+
+        public CancellationToken Token { get; set; }
 
         /// <summary>
         ///   Gets or sets the model being trained.
@@ -219,6 +227,11 @@ namespace Accord.Statistics.Models.Fields.Learning
             throw new NotSupportedException();
         }
 
+        public HiddenConditionalRandomField<T> Learn(T[][] x, int[] y, double[] weights = null)
+        {
+            Run(x, y);
+            return Model;
+        }
 
         #region IDisposable Members
 

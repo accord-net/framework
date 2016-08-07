@@ -22,6 +22,8 @@
 
 namespace Accord.Statistics.Models.Fields
 {
+    using Accord.Math;
+    using Accord.MachineLearning;
     using Accord.Statistics.Models.Fields.Functions;
     using System;
     using System.IO;
@@ -40,9 +42,9 @@ namespace Accord.Statistics.Models.Fields
     /// </remarks>
     /// 
     [Serializable]
-    public class ConditionalRandomField<T> : ICloneable
+    public class ConditionalRandomField<T> : TaggerBase<T>
     {
-        
+
         /// <summary>
         ///   Gets the number of states in this
         ///   linear-chain Conditional Random Field.
@@ -225,12 +227,15 @@ namespace Accord.Statistics.Models.Fields
 
 
 
+#pragma warning disable 612, 618
+
         /// <summary>
         ///   Saves the random field to a stream.
         /// </summary>
         /// 
         /// <param name="stream">The stream to which the random field is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.Serializer instead.")]
         public void Save(Stream stream)
         {
             BinaryFormatter b = new BinaryFormatter();
@@ -243,6 +248,7 @@ namespace Accord.Statistics.Models.Fields
         /// 
         /// <param name="path">The stream to which the random field is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.Serializer instead.")]
         public void Save(string path)
         {
             Save(new FileStream(path, FileMode.Create));
@@ -256,6 +262,7 @@ namespace Accord.Statistics.Models.Fields
         /// 
         /// <returns>The deserialized random field.</returns>
         /// 
+        [Obsolete("Please use Accord.Serializer instead.")]
         public static ConditionalRandomField<T> Load(Stream stream)
         {
             BinaryFormatter b = new BinaryFormatter();
@@ -270,10 +277,13 @@ namespace Accord.Statistics.Models.Fields
         /// 
         /// <returns>The deserialized random field.</returns>
         /// 
+        [Obsolete("Please use Accord.Serializer instead.")]
         public static ConditionalRandomField<T> Load(string path)
         {
             return Load(new FileStream(path, FileMode.Open));
         }
+#pragma warning restore 612, 618
+
 
         #region ICloneable Members
 
@@ -291,6 +301,15 @@ namespace Accord.Statistics.Models.Fields
         }
 
         #endregion
+
+
+        public override int[][] Decide(T[][] input, int[][] result)
+        {
+            double logLikelihood;
+            for (int i = 0; i < input.Length; i++)
+                Compute(input[i], out logLikelihood).CopyTo(result[i]);
+            return result;
+        }
     }
 
 }

@@ -22,13 +22,14 @@
 
 namespace Accord.Statistics.Models.Fields
 {
-    using Accord.Math;
-    using Accord.Statistics.Models.Fields.Functions;
-    using Accord.Statistics.Models.Fields.Learning;
-    using System;
-    using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
-    using System.Threading.Tasks;
+    using Accord.MachineLearning;
+using Accord.Math;
+using Accord.Statistics.Models.Fields.Functions;
+using Accord.Statistics.Models.Fields.Learning;
+using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
 
     /// <summary>
     ///   Hidden Conditional Random Field (HCRF).
@@ -246,13 +247,15 @@ namespace Accord.Statistics.Models.Fields
     /// <see cref="HiddenResilientGradientLearning{T}"/>
     /// 
     [Serializable]
-    public class HiddenConditionalRandomField<T> : ICloneable
+    public class HiddenConditionalRandomField<T> : MulticlassClassifierBase<T[]>, 
+        ICloneable
     {
 
         /// <summary>
         ///   Gets the number of outputs assumed by the model.
         /// </summary>
         /// 
+        [Obsolete("Please use NumberOfOutputs instead.")]
         public int Outputs { get { return Function.Outputs; } }
 
         /// <summary>
@@ -272,6 +275,7 @@ namespace Accord.Statistics.Models.Fields
         public HiddenConditionalRandomField(IPotentialFunction<T> function)
         {
             this.Function = function;
+            this.NumberOfOutputs = function.Outputs;
         }
 
         /// <summary>
@@ -533,7 +537,7 @@ namespace Accord.Statistics.Models.Fields
         {
             double sum = 0;
 
-            for (int j = 0; j < Outputs; j++)
+            for (int j = 0; j < NumberOfOutputs; j++)
             {
                 double logLikelihood;
 
@@ -555,7 +559,7 @@ namespace Accord.Statistics.Models.Fields
         {
             double sum = 0;
 
-            for (int j = 0; j < Outputs; j++)
+            for (int j = 0; j < NumberOfOutputs; j++)
             {
                 double logLikelihood;
 
@@ -572,7 +576,7 @@ namespace Accord.Statistics.Models.Fields
 
         private double[] computeLogLikelihood(T[] observations)
         {
-            double[] logLikelihoods = new double[Outputs];
+            double[] logLikelihoods = new double[NumberOfOutputs];
 
 
 #if SERIAL || DEBUG  // For all possible outputs for the model,
@@ -667,5 +671,10 @@ namespace Accord.Statistics.Models.Fields
         }
 
         #endregion
+
+        public override int Decide(T[] input)
+        {
+            return Compute(input);
+        }
     }
 }

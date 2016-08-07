@@ -19,25 +19,31 @@
 //    License along with this library; if not, write to the Free Software
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
+#pragma warning disable 612, 618
 
 namespace Accord.Statistics.Models.Fields.Learning
 {
+    using Accord.MachineLearning;
     using Accord.Math.Optimization;
     using Accord.Statistics.Models.Fields.Features;
     using Accord.Statistics.Models.Fields.Functions;
     using System;
+using System.Threading;
 
     /// <summary>
     ///   Quasi-Newton (L-BFGS) learning algorithm for <see cref="ConditionalRandomField{T}">
     ///   Conditional Hidden Fields</see>.
     /// </summary>
     /// 
-    public class QuasiNewtonLearning<T> : IConditionalRandomFieldLearning<T>
+    public class QuasiNewtonLearning<T> : 
+        ISupervisedLearning<ConditionalRandomField<T>, T[], int[]>,
+        IConditionalRandomFieldLearning<T>
     {
 
         private BoundedBroydenFletcherGoldfarbShanno lbfgs;
         private ConditionalRandomField<T> model;
 
+        public CancellationToken Token { get; set; }
 
         /// <summary>
         ///   Constructs a new L-BFGS learning algorithm.
@@ -202,5 +208,10 @@ namespace Accord.Statistics.Models.Fields.Learning
             return z;
         }
 
+        public ConditionalRandomField<T> Learn(T[][] x, int[][] y, double[] weights = null)
+        {
+            Run(x, y);
+            return model;
+        }
     }
 }
