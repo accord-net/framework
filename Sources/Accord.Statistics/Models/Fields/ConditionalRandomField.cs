@@ -303,6 +303,16 @@ namespace Accord.Statistics.Models.Fields
         #endregion
 
 
+        /// <summary>
+        /// Computes class-label decisions for the given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vectors that should be classified as
+        /// any of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <param name="result">The location where to store the class-labels.</param>
+        /// <returns>
+        /// A set of class-labels that best describe the <paramref name="input" />
+        /// vectors according to this classifier.
+        /// </returns>
         public override int[][] Decide(T[][] input, int[][] result)
         {
             double logLikelihood;

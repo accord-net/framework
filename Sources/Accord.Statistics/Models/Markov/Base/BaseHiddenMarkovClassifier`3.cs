@@ -164,11 +164,21 @@ namespace Accord.Statistics.Models.Markov
             get { return classPriors; }
         }
 
+        /// <summary>
+        /// Computes the log-likelihood that the given input vector
+        /// belongs to its decided class.
+        /// </summary>
+        /// 
         public override double LogLikelihood(TObservation[] input)
         {
             return Math.Log(Probability(input));
         }
 
+        /// <summary>
+        /// Computes the likelihood that the given input vector
+        /// belongs to its decided class.
+        /// </summary>
+        /// 
         public override double Probability(TObservation[] input)
         {
             int decision;
@@ -178,11 +188,21 @@ namespace Accord.Statistics.Models.Markov
             return result[decision];
         }
 
+        /// <summary>
+        /// Computes the log-likelihood that the given input vector
+        /// belongs to its decided class.
+        /// </summary>
+        /// 
         public override double LogLikelihood(TObservation[] input, out int decision)
         {
             return Math.Log(Probability(input, out decision));
         }
 
+        /// <summary>
+        /// Computes the probability that the given input vector
+        /// belongs to its decided class.
+        /// </summary>
+        /// 
         public override double Probability(TObservation[] input, out int decision)
         {
             double[] result = Probabilities(input, out decision);
@@ -191,18 +211,43 @@ namespace Accord.Statistics.Models.Markov
             return result[decision];
         }
 
+        /// <summary>
+        /// Computes the log-likelihood that the given input vector
+        /// belongs to the specified <paramref name="classIndex" />.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="classIndex">The index of the class whose score will be computed.</param>
+        /// <returns></returns>
         public override double LogLikelihood(TObservation[] input, int classIndex)
         {
             int decision;
             return Math.Log(Probabilities(input, out decision)[classIndex]);
         }
 
+        /// <summary>
+        /// Computes the probabilities that the given input
+        /// vector belongs to each of the possible classes.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The decided class for the input.</param>
+        /// <param name="result">An array where the probabilities will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns></returns>
         public override double[] Probabilities(TObservation[] input, out int decision, double[] result)
         {
             LogLikelihoods(input, out decision, result);
             return result.Exp(result: result);
         }
 
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The decided class for the input.</param>
+        /// <param name="result">An array where the probabilities will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns></returns>
         public override double[] LogLikelihoods(TObservation[] input, out int decision, double[] result)
         {
             // Evaluate the probability of the sequence for every model in the set
@@ -236,6 +281,15 @@ namespace Accord.Statistics.Models.Markov
             return result;
         }
 
+        /// <summary>
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <returns>
+        /// A class-label that best described <paramref name="input" /> according
+        /// to this classifier.
+        /// </returns>
         public override int Decide(TObservation[] input)
         {
             int decision;

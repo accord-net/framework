@@ -73,7 +73,6 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="Multiclass\Generative.cs" />
     <Compile Include="Rules\AssociationRule.cs" />
     <Compile Include="Rules\Apriori.cs" />
     <Compile Include="Bayes\Learning\Base\NaiveBayesLearningBase`4.cs" />

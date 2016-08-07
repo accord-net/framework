@@ -43,7 +43,11 @@ namespace Accord.Statistics.Models.Markov.Learning
         where TModel : HiddenMarkovModel<TDistribution, TObservation>
         where TDistribution : IDistribution<TObservation>
     {
-
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        /// 
         public CancellationToken Token { get; set; }
 
         /// <summary>
@@ -54,14 +58,18 @@ namespace Accord.Statistics.Models.Markov.Learning
         public TClassifier Classifier { get; private set; }
 
         /// <summary>
-        ///   Gets or sets the configuration function specifying which
-        ///   training algorithm should be used for each of the models
-        ///   in the hidden Markov model set.
+        ///   Obsolete.
         /// </summary>
         /// 
         [Obsolete("Please use the Learner property instead.")]
         public ClassifierLearningAlgorithmConfiguration Algorithm { get; set; }
 
+        /// <summary>
+        ///   Gets or sets the configuration function specifying which
+        ///   training algorithm should be used for each of the models
+        ///   in the hidden Markov model set.
+        /// </summary>
+        /// 
         public Func<int, IUnsupervisedLearning<TModel, TObservation[], int[]>> Learner { get; set; }
 
         /// <summary>
@@ -80,6 +88,10 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         public bool Empirical { get; set; }
 
+        /// <summary>
+        ///   Gets the log-likelihood at the end of the training.
+        /// </summary>
+        /// 
         public double LogLikelihood { get; set; }
 
         /// <summary>

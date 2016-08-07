@@ -123,6 +123,9 @@ namespace Accord.Statistics.Models.Markov.Learning
         {
         }
 
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
         [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(int[] observations)
         {
@@ -130,6 +133,9 @@ namespace Accord.Statistics.Models.Markov.Learning
             return LogLikelihood;
         }
 
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
         [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(int[][] observations)
         {

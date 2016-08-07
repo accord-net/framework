@@ -73,7 +73,7 @@ namespace Accord.MachineLearning
         /// <param name="classIndex">Index of the class.</param>
         /// 
         /// <returns>
-        ///   A <see cref="IGenerativeModel{T}"/> that has been
+        ///   A <see cref="IGenerative{T}"/> that has been
         ///   trained to recognize samples from the chosen class.
         /// </returns>
         /// 
@@ -89,7 +89,7 @@ namespace Accord.MachineLearning
         /// <param name="classIndex">Index of the class.</param>
         /// 
         /// <returns>
-        ///   A <see cref="IGenerativeModel{T}"/> that has been
+        ///   A <see cref="IGenerative{T}"/> that has been
         ///   trained to recognize samples from the chosen class.
         /// </returns>
         /// 

@@ -130,6 +130,10 @@ namespace Accord.Statistics.Models.Fields.Learning
         // update values, also known as deltas
         private double[] weightsUpdates;
 
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
         public CancellationToken Token { get; set; }
 
         /// <summary>
@@ -438,6 +442,15 @@ namespace Accord.Statistics.Models.Fields.Learning
             });
         }
 
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
         public HiddenConditionalRandomField<T> Learn(T[][] x, int[] y, double[] weights = null)
         {
             Run(x, y);

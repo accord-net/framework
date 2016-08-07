@@ -56,6 +56,11 @@ namespace Accord.Statistics.Models.Markov.Learning
         {
         }
 
+        /// <summary>
+        ///   Creates a new instance of the learning algorithm for a given 
+        ///   Markov sequence classifier.
+        /// </summary>
+        /// 
         public HiddenMarkovClassifierLearning(HiddenMarkovClassifier<TDistribution, TObservation> classifier)
             : base(classifier)
         {

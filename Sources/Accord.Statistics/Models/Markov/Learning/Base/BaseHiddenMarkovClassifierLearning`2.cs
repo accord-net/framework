@@ -138,6 +138,11 @@ namespace Accord.Statistics.Models.Markov.Learning
             this.Algorithm = algorithm;
         }
 
+        /// <summary>
+        ///   Creates a new instance of the learning algorithm for a given 
+        ///   Markov sequence classifier.
+        /// </summary>
+        /// 
         protected BaseHiddenMarkovClassifierLearning(TClassifier classifier)
         {
             this.Classifier = classifier;
@@ -150,6 +155,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// </summary>
         /// <returns>The sum log-likelihood for all models after training.</returns>
         /// 
+        [Obsolete("Please use the Learn method.")]
         protected double Run<T>(T[] inputs, int[] outputs)
         {
             if (inputs == null) 

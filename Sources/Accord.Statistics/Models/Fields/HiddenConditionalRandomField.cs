@@ -672,6 +672,15 @@ using System.Threading.Tasks;
 
         #endregion
 
+        /// <summary>
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <returns>
+        /// A class-label that best described <paramref name="input" /> according
+        /// to this classifier.
+        /// </returns>
         public override int Decide(T[] input)
         {
             return Compute(input);

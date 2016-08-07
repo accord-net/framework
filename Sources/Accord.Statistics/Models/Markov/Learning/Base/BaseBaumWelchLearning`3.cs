@@ -88,6 +88,10 @@ namespace Accord.Statistics.Models.Markov.Learning
 
         private ITopology topology;
 
+        /// <summary>
+        ///   Gets all observations as a single vector.
+        /// </summary>
+        /// 
         protected TObservation[][] Observations { get { return vectorObservations; } }
 
         /// <summary>
