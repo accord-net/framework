@@ -43,7 +43,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     public class BaumWelchLearning<TDistribution, TObservation, TOptions> :
         BaseBaumWelchLearningOptions<HiddenMarkovModel<TDistribution, TObservation>, TDistribution, TObservation, TOptions>,
         IConvergenceLearning
-        where TDistribution : IFittableDistribution<TObservation, TOptions>, new()
+        where TDistribution : IFittableDistribution<TObservation, TOptions>
         where TOptions : class, IFittingOptions, new()
     {
 

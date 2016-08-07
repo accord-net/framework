@@ -51,6 +51,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <seealso cref="BaumWelchLearning"/>
     /// <seealso cref="BaumWelchLearning{T}"/>
     /// 
+    [Obsolete("This class will be removed")]
     public abstract class BaseBaumWelchLearning : IConvergenceLearning
     {
 

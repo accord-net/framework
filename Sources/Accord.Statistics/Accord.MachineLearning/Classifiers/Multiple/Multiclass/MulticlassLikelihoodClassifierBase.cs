@@ -179,7 +179,7 @@ namespace Accord.MachineLearning
         /// <param name="result">An array where the probabilities will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///   
-        public double[] Probabilities(TInput input, double[] result)
+        public virtual double[] Probabilities(TInput input, double[] result)
         {
             LogLikelihoods(input, result);
             Special.Softmax(result, result);
@@ -197,7 +197,7 @@ namespace Accord.MachineLearning
         /// <param name="result">An array where the log-likelihoods will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         /// 
-        public double[] Probabilities(TInput input, out int decision, double[] result)
+        public virtual double[] Probabilities(TInput input, out int decision, double[] result)
         {
             result = Probabilities(input, result);
             decision = result.ArgMax();
@@ -314,7 +314,7 @@ namespace Accord.MachineLearning
         /// </summary>
         /// <param name="input">The input vector.</param>
         /// 
-        public double LogLikelihood(TInput input)
+        public virtual double LogLikelihood(TInput input)
         {
             int value;
             var result = LogLikelihoods(input, out value);
@@ -817,7 +817,7 @@ namespace Accord.MachineLearning
         /// probability that the input vector belongs to its predicted class.
         /// </summary>
         /// <param name="input">The input vector.</param>
-        public double Probability(TInput input)
+        public virtual double Probability(TInput input)
         {
             int value;
             var result = Probabilities(input, out value);

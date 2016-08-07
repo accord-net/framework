@@ -500,7 +500,7 @@ namespace Accord.Math
 
             a = 1.3333333333333333;
 
-            L10:
+        L10:
             b = a - 1.0;
             c = b + b + b;
             eps = System.Math.Abs(c - 1.0);
@@ -833,8 +833,11 @@ namespace Accord.Math
                 sum += u;
             }
 
-            for (int i = 0; i < result.Length; i++)
-                result[i] /= sum;
+            if (sum != 0)
+            {
+                for (int i = 0; i < result.Length; i++)
+                    result[i] /= sum;
+            }
 
             return result;
         }

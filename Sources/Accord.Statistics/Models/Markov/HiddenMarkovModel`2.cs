@@ -22,8 +22,6 @@
 
 namespace Accord.Statistics.Models.Markov
 {
-#pragma warning disable 612, 618
-
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
@@ -39,153 +37,83 @@ namespace Accord.Statistics.Models.Markov
     ///   Arbitrary-density Hidden Markov Model.
     /// </summary>
     /// 
-    /// <remarks>
-    /// <para>
-    ///   Hidden Markov Models (HMM) are stochastic methods to model temporal and sequence
-    ///   data. They are especially known for their application in temporal pattern recognition
-    ///   such as speech, handwriting, gesture recognition, part-of-speech tagging, musical
-    ///   score following, partial discharges and bioinformatics.</para>
-    ///   
-    /// <para>
-    ///   This page refers to the arbitrary-density (continuous emission distributions) version
-    ///   of the model. For discrete distributions, please see <see cref="HiddenMarkovModel"/>.
-    /// </para>
-    /// 
-    /// <para>
-    ///   Dynamical systems of discrete nature assumed to be governed by a Markov chain emits
-    ///   a sequence of observable outputs. Under the Markov assumption, it is also assumed that
-    ///   the latest output depends only on the current state of the system. Such states are often
-    ///   not known from the observer when only the output values are observable.</para>
-    ///   
-    /// <para>
-    ///   Hidden Markov Models attempt to model such systems and allow, among other things,
-    ///   <list type="number">
-    ///     <item><description>
-    ///       To infer the most likely sequence of states that produced a given output sequence,</description></item>
-    ///     <item><description>
-    ///       Infer which will be the most likely next state (and thus predicting the next output),</description></item>
-    ///     <item><description>
-    ///       Calculate the probability that a given sequence of outputs originated from the system
-    ///       (allowing the use of hidden Markov models for sequence classification).</description></item>
-    ///     </list></para>
-    ///     
-    ///  <para>     
-    ///   The “hidden” in Hidden Markov Models comes from the fact that the observer does not
-    ///   know in which state the system may be in, but has only a probabilistic insight on where
-    ///   it should be.</para>
-    ///   
-    ///  <para>
-    ///   The arbitrary-density Hidden Markov Model uses any probability density function (such
-    ///   as <see cref="Accord.Statistics.Distributions.Univariate.NormalDistribution">Gaussian</see>
-    ///   <see cref="Accord.Statistics.Distributions.Univariate.Mixture{T}">Mixture Model</see>) for
-    ///   computing the state probability. In other words, in a continuous HMM the matrix of emission
-    ///   probabilities B is replaced by an array of either discrete or continuous probability density
-    ///   functions.</para>
-    ///  
-    ///  <para>
-    ///   If a <see cref="Accord.Statistics.Distributions.Univariate.GeneralDiscreteDistribution">general
-    ///   discrete distribution</see> is used as the underlying probability density function, the
-    ///   model becomes equivalent to the <see cref="HiddenMarkovModel">discrete Hidden Markov Model</see>.
-    ///  </para>
-    ///  
-    /// <para>
-    ///   For a more thorough explanation on some fundamentals on how Hidden Markov Models work,
-    ///   please see the <see cref="HiddenMarkovModel"/> documentation page. To learn a Markov
-    ///   model, you can find a list of both <see cref="ISupervisedLearning">supervised</see> and
-    ///   <see cref="IUnsupervisedLearning">unsupervised</see> learning algorithms in the
-    ///   <see cref="Accord.Statistics.Models.Markov.Learning"/> namespace.</para>
-    ///   
-    /// <para>
-    ///   References:
-    ///   <list type="bullet">
-    ///     <item><description>
-    ///       Wikipedia contributors. "Linear regression." Wikipedia, the Free Encyclopedia.
-    ///       Available at: http://en.wikipedia.org/wiki/Hidden_Markov_model </description></item>
-    ///     <item><description>
-    ///       Bishop, Christopher M.; Pattern Recognition and Machine Learning. 
-    ///       Springer; 1st ed. 2006.</description></item>
-    ///   </list></para>
-    /// </remarks>
-    /// 
-    /// <example>
-    ///   <para>The example below reproduces the same example given in the Wikipedia
-    ///   entry for the Viterbi algorithm (http://en.wikipedia.org/wiki/Viterbi_algorithm).
-    ///   As an arbitrary density model, one can use it with any available <see cref="IDistribution">
-    ///   probability distributions</see>, including with a discrete probability. In the 
-    ///   following example, the generic model is used with a <see cref="GeneralDiscreteDistribution"/>
-    ///   to reproduce the same example given in <see cref="HiddenMarkovModel{TDistribution}"/>.
-    ///   Below, the model's parameters are initialized manually. However, it is possible to learn
-    ///   those automatically using <see cref="BaumWelchLearning{TDistribution}"/>.</para>
-    /// 
-    /// <code>
-    ///   // Create the transition matrix A
-    ///   double[,] transitions = 
-    ///   {  
-    ///       { 0.7, 0.3 },
-    ///       { 0.4, 0.6 }
-    ///   };
-    ///   
-    ///   // Create the vector of emission densities B
-    ///   GeneralDiscreteDistribution[] emissions = 
-    ///   {  
-    ///       new GeneralDiscreteDistribution(0.1, 0.4, 0.5),
-    ///       new GeneralDiscreteDistribution(0.6, 0.3, 0.1)
-    ///   };
-    ///   
-    ///   // Create the initial probabilities pi
-    ///   double[] initial =
-    ///   {
-    ///       0.6, 0.4
-    ///   };
-    ///   
-    ///   // Create a new hidden Markov model with discrete probabilities
-    ///   var hmm = new HiddenMarkovModel&lt;GeneralDiscreteDistribution>(transitions, emissions, initial);
-    ///   
-    ///   // After that, one could, for example, query the probability
-    ///   // of a sequence occurring. We will consider the sequence
-    ///   double[] sequence = new double[] { 0, 1, 2 };
-    ///   
-    ///   // And now we will evaluate its likelihood
-    ///   double logLikelihood = hmm.Evaluate(sequence);
-    ///   
-    ///   // At this point, the log-likelihood of the sequence
-    ///   // occurring within the model is -3.3928721329161653.
-    ///   
-    ///   // We can also get the Viterbi path of the sequence
-    ///   int[] path = hmm.Decode(sequence, out logLikelihood);
-    ///   
-    ///   // At this point, the state path will be 1-0-0 and the
-    ///   // log-likelihood will be -4.3095199438871337
-    /// </code>
-    /// </example>
-    /// 
-    /// <seealso cref="BaumWelchLearning{T}">Baum-Welch, one of the most famous 
-    ///   learning algorithms for Hidden Markov Models.</seealso>
-    /// <seealso cref="HiddenMarkovModel">Discrete-density Hidden Markov Model</seealso>
-    /// <seealso cref="Accord.Statistics.Models.Markov.Learning"/>
-    /// 
     [Serializable]
-    [Obsolete("Please use HiddenMarkovModel<TDistribution, TObservation> instead.")]
-    public class HiddenMarkovModel<TDistribution> : BaseHiddenMarkovModel, IHiddenMarkovModel, ICloneable
-        where TDistribution : IDistribution
+    public class HiddenMarkovModel<TDistribution, TObservation> : 
+        LikelihoodTaggerBase<TObservation>, ICloneable
+        where TDistribution : IDistribution<TObservation>
     {
-
         // Model is defined as M = (A, B, pi)
         private TDistribution[] B; // emission probabilities
 
-        // The other parameters are defined in HiddenMarkovModelBase
-        // private double[,] A; // Transition probabilities
-        // private double[] pi; // Initial state probabilities
+        // Model is defined as M = (A, B, pi)
+        private double[][] logA; // Transition probabilities
+        private double[] logPi; // Initial state probabilities
+
+        private int states;  // number of states
+        private object tag;
 
 
-        private int dimension = 1;
-        private bool multivariate;
+        /// <summary>
+        ///   Constructs a new Hidden Markov Model.
+        /// </summary>
+        /// 
+        protected HiddenMarkovModel(ITopology topology)
+        {
+            double[,] a;
+            this.states = topology.Create(true, out a, out logPi);
+            logA = a.ToJagged();
+
+            NumberOfInputs = 1;
+        }
+
+        /// <summary>
+        ///   Constructs a new Hidden Markov Model.
+        /// </summary>
+        /// 
+        protected HiddenMarkovModel()
+        {
+            NumberOfInputs = 1;
+        }
 
 
 
+        /// <summary>
+        ///   Gets the number of states of this model.
+        /// </summary>
+        /// 
+        public int States
+        {
+            get { return this.states; }
+        }
 
+        /// <summary>
+        ///   Gets the log-initial probabilities <c>log(pi)</c> for this model.
+        /// </summary>
+        /// 
+        public double[] LogInitial
+        {
+            get { return this.logPi; }
+        }
 
-        #region Constructors
+        /// <summary>
+        ///   Gets the log-transition matrix <c>log(A)</c> for this model.
+        /// </summary>
+        /// 
+        public double[][] LogTransitions
+        {
+            get { return this.logA; }
+        }
+
+        /// <summary>
+        ///   Gets or sets a user-defined tag associated with this model.
+        /// </summary>
+        /// 
+        public object Tag
+        {
+            get { return tag; }
+            set { tag = value; }
+        }
+
         /// <summary>
         ///   Constructs a new Hidden Markov Model with arbitrary-density state probabilities.
         /// </summary>
@@ -200,12 +128,10 @@ namespace Accord.Statistics.Models.Markov
         /// </param>
         /// 
         public HiddenMarkovModel(ITopology topology, TDistribution emissions)
-            : base(topology)
+            : this(topology)
         {
             if (emissions == null)
-            {
                 throw new ArgumentNullException("emissions");
-            }
 
             // Initialize B using the initial distribution
             B = new TDistribution[States];
@@ -215,10 +141,7 @@ namespace Accord.Statistics.Models.Markov
 
 
             if (emissions is IMultivariateDistribution)
-            {
-                multivariate = true;
-                dimension = ((IMultivariateDistribution)B[0]).Dimension;
-            }
+                NumberOfInputs = ((IMultivariateDistribution)B[0]).Dimension;
         }
 
 
@@ -235,12 +158,10 @@ namespace Accord.Statistics.Models.Markov
         /// </param>
         /// 
         public HiddenMarkovModel(ITopology topology, TDistribution[] emissions)
-            : base(topology)
+            : this(topology)
         {
             if (emissions == null)
-            {
                 throw new ArgumentNullException("emissions");
-            }
 
             if (emissions.Length != States)
             {
@@ -253,12 +174,22 @@ namespace Accord.Statistics.Models.Markov
 
             // Assume all emissions have same form
             if (B[0] is IMultivariateDistribution)
-            {
-                multivariate = true;
-                dimension = ((IMultivariateDistribution)B[0]).Dimension;
-            }
+                NumberOfInputs = ((IMultivariateDistribution)B[0]).Dimension;
         }
 
+
+        /// <summary>
+        ///   Constructs a new Hidden Markov Model with arbitrary-density state probabilities.
+        /// </summary>
+        /// 
+        /// <param name="transitions">The transitions matrix A for this model.</param>
+        /// <param name="emissions">The emissions matrix B for this model.</param>
+        /// <param name="probabilities">The initial state probabilities for this model.</param>
+        /// <param name="logarithm">Set to true if the matrices are given with logarithms of the
+        /// intended probabilities; set to false otherwise. Default is false.</param>
+        /// 
+        public HiddenMarkovModel(double[][] transitions, TDistribution[] emissions, double[] probabilities, bool logarithm = false)
+            : this(new Custom(transitions.ToMatrix(), probabilities, logarithm), emissions) { }
 
         /// <summary>
         ///   Constructs a new Hidden Markov Model with arbitrary-density state probabilities.
@@ -283,23 +214,8 @@ namespace Accord.Statistics.Models.Markov
         /// 
         public HiddenMarkovModel(int states, TDistribution emissions)
             : this(new Topology.Ergodic(states), emissions) { }
-        #endregion
 
 
-
-
-
-        #region Public Properties
-
-        /// <summary>
-        ///   Gets the number of dimensions in the
-        ///   probability distributions for the states.
-        /// </summary>
-        /// 
-        public int Dimension
-        {
-            get { return this.dimension; }
-        }
 
         /// <summary>
         ///   Gets the Emission matrix (B) for this model.
@@ -308,15 +224,13 @@ namespace Accord.Statistics.Models.Markov
         public TDistribution[] Emissions
         {
             get { return this.B; }
+            protected set { this.B = value; }
         }
 
-        #endregion
 
 
 
 
-
-        #region Public Methods
 
         /// <summary>
         ///   Calculates the most likely sequence of hidden states
@@ -334,7 +248,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <returns>The sequence of states that most likely produced the sequence.</returns>
         /// 
-        public int[] Decode(Array observations)
+        public int[] Decode(TObservation[] observations)
         {
             double logLikelihood;
             return Decode(observations, out logLikelihood);
@@ -358,7 +272,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <returns>The sequence of states that most likely produced the sequence.</returns>
         /// 
-        public int[] Decode(Array observations, out double logLikelihood)
+        public int[] Decode(TObservation[] observations, out double logLikelihood)
         {
             if (observations == null)
                 throw new ArgumentNullException("observations");
@@ -369,13 +283,10 @@ namespace Accord.Statistics.Models.Markov
                 return new int[0];
             }
 
-            // Argument check
-            double[][] x = MarkovHelperMethods.checkAndConvert(observations, dimension);
-
-            return viterbi(x, out logLikelihood);
+            return viterbi(observations, out logLikelihood);
         }
 
-        private int[] viterbi(double[][] x, out double logLikelihood)
+        private int[] viterbi(TObservation[] x, out double logLikelihood)
         {
             // Viterbi-forward algorithm.
             int T = x.Length;
@@ -384,30 +295,30 @@ namespace Accord.Statistics.Models.Markov
             double maxWeight;
             double weight;
 
-            double[] logPi = Probabilities;
-            double[,] logA = Transitions;
+            double[] logPi = LogInitial;
+            double[][] logA = LogTransitions;
 
             int[,] s = new int[states, T];
-            double[,] lnFwd = new double[states, T];
+            double[][] lnFwd = Jagged.Zeros(states, T);
 
 
             // Base
             for (int i = 0; i < states; i++)
-                lnFwd[i, 0] = logPi[i] + B[i].LogProbabilityFunction(x[0]);
+                lnFwd[i][0] = logPi[i] + B[i].LogProbabilityFunction(x[0]);
 
             // Induction
             for (int t = 1; t < T; t++)
             {
-                double[] observation = x[t];
+                TObservation observation = x[t];
 
                 for (int j = 0; j < states; j++)
                 {
                     maxState = 0;
-                    maxWeight = lnFwd[0, t - 1] + logA[0, j];
+                    maxWeight = lnFwd[0][t - 1] + logA[0][j];
 
                     for (int i = 1; i < states; i++)
                     {
-                        weight = lnFwd[i, t - 1] + logA[i, j];
+                        weight = lnFwd[i][t - 1] + logA[i][j];
 
                         if (weight > maxWeight)
                         {
@@ -416,21 +327,21 @@ namespace Accord.Statistics.Models.Markov
                         }
                     }
 
-                    lnFwd[j, t] = maxWeight + B[j].LogProbabilityFunction(observation);
+                    lnFwd[j][t] = maxWeight + B[j].LogProbabilityFunction(observation);
                     s[j, t] = maxState;
                 }
             }
 
             // Find maximum value for time T-1
             maxState = 0;
-            maxWeight = lnFwd[0, T - 1];
+            maxWeight = lnFwd[0][T - 1];
 
             for (int i = 1; i < states; i++)
             {
-                if (lnFwd[i, T - 1] > maxWeight)
+                if (lnFwd[i][T - 1] > maxWeight)
                 {
                     maxState = i;
-                    maxWeight = lnFwd[i, T - 1];
+                    maxWeight = lnFwd[i][T - 1];
                 }
             }
 
@@ -473,7 +384,7 @@ namespace Accord.Statistics.Models.Markov
         ///  size 3 each. Each vector of size 3 will contain probability values that sum
         ///  up to one.</returns>
         /// 
-        public double[][] Posterior(Array observations)
+        public double[][] Posterior(TObservation[] observations)
         {
             // Reference: C. S. Foo, CS262 Winter 2007, Lecture 5, Stanford
             // http://ai.stanford.edu/~serafim/CS262_2007/notes/lecture5.pdf
@@ -481,13 +392,11 @@ namespace Accord.Statistics.Models.Markov
             if (observations == null)
                 throw new ArgumentNullException("observations");
 
-            double[][] x = MarkovHelperMethods.checkAndConvert(observations, dimension);
-
             double logLikelihood;
 
             // Compute forward and backward probabilities
-            double[,] lnFwd = ForwardBackwardAlgorithm.LogForward(this, x, out logLikelihood);
-            double[,] lnBwd = ForwardBackwardAlgorithm.LogBackward(this, x);
+            double[,] lnFwd = ForwardBackwardAlgorithm.LogForward(this, observations, out logLikelihood);
+            double[,] lnBwd = ForwardBackwardAlgorithm.LogBackward(this, observations);
 
             double[][] probabilities = new double[observations.Length][];
 
@@ -529,7 +438,8 @@ namespace Accord.Statistics.Models.Markov
         ///  size 3 each. Each vector of size 3 will contain probability values that sum
         ///  up to one.</returns>
         /// 
-        public double[][] Posterior(Array observations, out int[] path)
+        [Obsolete("Please use LogLikelihoods(observations) instead.")]
+        public double[][] Posterior(TObservation[] observations, out int[] path)
         {
             double[][] probabilities = Posterior(observations);
 
@@ -558,7 +468,8 @@ namespace Accord.Statistics.Models.Markov
         ///   The log-likelihood that the given sequence has been generated by this model.
         /// </returns>
         /// 
-        public double Evaluate(Array observations)
+        [Obsolete("Please use LogLikelihood(observations) instead.")]
+        public double Evaluate(TObservation[] observations)
         {
             if (observations == null)
                 throw new ArgumentNullException("observations");
@@ -566,15 +477,11 @@ namespace Accord.Statistics.Models.Markov
             if (observations.Length == 0)
                 return Double.NegativeInfinity;
 
-
-            double[][] x = MarkovHelperMethods.checkAndConvert(observations, dimension);
-
-
             // Forward algorithm
             double logLikelihood;
 
             // Compute forward probabilities
-            ForwardBackwardAlgorithm.LogForward(this, x, out logLikelihood);
+            ForwardBackwardAlgorithm.LogForward(this, observations, out logLikelihood);
 
             // Return the sequence probability
             return logLikelihood;
@@ -593,7 +500,8 @@ namespace Accord.Statistics.Models.Markov
         ///   been generated by this model along the given sequence of states.
         /// </returns>
         /// 
-        public double Evaluate(Array observations, int[] path)
+        [Obsolete("Please use LogLikelihood(observations, path) instead.")]
+        public double Evaluate(TObservation[] observations, int[] path)
         {
             if (observations == null)
                 throw new ArgumentNullException("observations");
@@ -604,18 +512,15 @@ namespace Accord.Statistics.Models.Markov
             if (observations.Length == 0)
                 return Double.NegativeInfinity;
 
-
-            double[][] x = MarkovHelperMethods.checkAndConvert(observations, dimension);
-
             try
             {
-                double logLikelihood = Probabilities[path[0]]
-                    + Emissions[path[0]].LogProbabilityFunction(x[0]);
+                double logLikelihood = LogInitial[path[0]]
+                    + Emissions[path[0]].LogProbabilityFunction(observations[0]);
 
                 for (int i = 1; i < observations.Length; i++)
                 {
-                    double a = Transitions[path[i - 1], path[i]];
-                    double b = Emissions[path[i]].LogProbabilityFunction(x[i]);
+                    double a = LogTransitions[path[i - 1]][path[i]];
+                    double b = Emissions[path[i]].LogProbabilityFunction(observations[i]);
                     logLikelihood += a + b;
                 }
 
@@ -638,11 +543,8 @@ namespace Accord.Statistics.Models.Markov
         /// <param name="observations">A sequence of observations. Predictions will be made regarding 
         ///   the next observations that should be coming after the last observation in this sequence.</param>
         /// 
-        public double[] Predict(double[][] observations)
+        public TObservation Predict(TObservation[] observations)
         {
-            if (!multivariate)
-                throw new ArgumentException("Model is univariate.", "observations");
-
             if (observations == null)
                 throw new ArgumentNullException("observations");
 
@@ -655,80 +557,22 @@ namespace Accord.Statistics.Models.Markov
         /// </summary>
         /// 
         /// <param name="observations">A sequence of observations. Predictions will be made regarding 
-        ///   the next observation that should be coming after the last observation in this sequence.</param>
-        /// 
-        public double Predict(double[] observations)
-        {
-            if (multivariate)
-                throw new ArgumentException("Model is multivariate.", "observations");
-
-            if (observations == null)
-                throw new ArgumentNullException("observations");
-
-
-            double logLikelihood;
-            return Predict(observations, out logLikelihood);
-        }
-
-        /// <summary>
-        ///   Predicts the next observation occurring after a given observation sequence.
-        /// </summary>
-        /// 
-        /// <param name="observations">A sequence of observations. Predictions will be made regarding 
         ///   the next observations that should be coming after the last observation in this sequence.</param>
         /// <param name="logLikelihood">The log-likelihood of the given sequence, plus the predicted
         ///   next observation. Exponentiate this value (use the System.Math.Exp function) to obtain
         ///   a <c>likelihood</c> value.</param>
         /// 
-        public double[] Predict(double[][] observations, out double logLikelihood)
+        public TObservation Predict(TObservation[] observations, out double logLikelihood)
         {
-            if (!multivariate)
-                throw new ArgumentException("Model is univariate.", "observations");
-
             if (observations == null)
                 throw new ArgumentNullException("observations");
-
 
             // Matrix to store the probabilities in assuming the next
             // observations (prediction) will belong to each state.
             double[][] weights;
 
             // Compute the next observation (currently only one ahead is supported).
-            double[][] prediction = predict(observations, 1, out logLikelihood, out weights);
-
-            return prediction[0];
-        }
-
-        /// <summary>
-        ///   Predicts the next observation occurring after a given observation sequence.
-        /// </summary>
-        /// 
-        /// <param name="observations">A sequence of observations. Predictions will be made regarding 
-        ///   the next observations that should be coming after the last observation in this sequence.</param>
-        /// <param name="logLikelihood">The log-likelihood of the given sequence, plus the predicted
-        ///   next observation. Exponentiate this value (use the System.Math.Exp function) to obtain
-        ///   a <c>likelihood</c> value.</param>
-        /// 
-        public double Predict(double[] observations, out double logLikelihood)
-        {
-            if (multivariate)
-                throw new ArgumentException("Model is multivariate.", "observations");
-
-            if (observations == null)
-                throw new ArgumentNullException("observations");
-
-
-            // Convert to multivariate observations
-            double[][] obs = MarkovHelperMethods.convertNoCheck(observations, dimension);
-
-            // Matrix to store the probabilities in assuming the next
-            // observations (prediction) will belong to each state.
-            double[][] weights;
-
-            // Compute the next observation (currently only one ahead is supported).
-            double[][] prediction = predict(obs, 1, out logLikelihood, out weights);
-
-            return prediction[0][0];
+            return predict(observations, 1, out logLikelihood, out weights)[0];
         }
 
         /// <summary>
@@ -744,17 +588,11 @@ namespace Accord.Statistics.Models.Markov
         ///   that are likely to be generated. Taking the mode of this distribution might give the most likely
         ///   next value in the observed sequence.</param>
         /// 
-        public double[] Predict<TMultivariate>(double[][] observations,
-            out double logLikelihood, out MultivariateMixture<TMultivariate> probabilities)
+        public TObservation Predict<TMultivariate>(TObservation[] observations, out double logLikelihood, out MultivariateMixture<TMultivariate> probabilities)
             where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution<double[]>
         {
-            if (!multivariate)
-                throw new ArgumentException("Model is univariate.", "observations");
-
             // Compute the next observation (currently only one ahead is supported)
-            double[][] prediction = predict(observations, out logLikelihood, out probabilities);
-
-            return prediction[0];
+            return predict(observations, out logLikelihood, out probabilities)[0];
         }
 
         /// <summary>
@@ -767,19 +605,13 @@ namespace Accord.Statistics.Models.Markov
         ///   that are likely to be generated. Taking the mode of this distribution might give the most likely
         ///   next value in the observed sequence.</param>
         /// 
-        public double[] Predict<TMultivariate>(double[][] observations,
-            out MultivariateMixture<TMultivariate> probabilities)
+        public TObservation Predict<TMultivariate>(TObservation[] observations, out MultivariateMixture<TMultivariate> probabilities)
             where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution<double[]>
         {
-            if (!multivariate)
-                throw new ArgumentException("Model is univariate.", "observations");
-
             double probability;
 
             // Compute the next observation (currently only one ahead is supported)
-            double[][] prediction = predict(observations, out probability, out probabilities);
-
-            return prediction[0];
+            return predict(observations, out probability, out probabilities)[0];
         }
 
 
@@ -793,19 +625,13 @@ namespace Accord.Statistics.Models.Markov
         ///   that are likely to be generated. Taking the mode of this distribution might give the most likely
         ///   next value in the observed sequence.</param>
         /// 
-        public double Predict<TUnivariate>(double[] observations, out Mixture<TUnivariate> probabilities)
+        public TObservation Predict<TUnivariate>(TObservation[] observations, out Mixture<TUnivariate> probabilities)
             where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution<double>
         {
-            if (multivariate)
-                throw new ArgumentException("Model is multivariate.", "observations");
-
             double probability;
 
             // Compute the next observation (as if it were multidimensional)
-            double[] prediction = predict(observations, out probability, out probabilities);
-
-            // Return the first (single) dimension of the next observation.
-            return prediction[0];
+            return predict(observations, out probability, out probabilities)[0];
         }
 
         /// <summary>
@@ -821,18 +647,11 @@ namespace Accord.Statistics.Models.Markov
         ///   that are likely to be generated. Taking the mode of this distribution might give the most likely
         ///   next value in the observed sequence.</param>
         /// 
-        public double Predict<TUnivariate>(double[] observations,
-            out double logLikelihood, out Mixture<TUnivariate> probabilities)
+        public TObservation Predict<TUnivariate>(TObservation[] observations, out double logLikelihood, out Mixture<TUnivariate> probabilities)
             where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution<double>
         {
-            if (multivariate)
-                throw new ArgumentException("Model is multivariate.", "observations");
-
-            // Compute the next observation (as if it were multidimensional)
-            double[] prediction = predict(observations, out logLikelihood, out probabilities);
-
             // Return the first (single) dimension of the next observation.
-            return prediction[0];
+            return predict(observations, out logLikelihood, out probabilities)[0];
         }
 
         /// <summary>
@@ -846,53 +665,14 @@ namespace Accord.Statistics.Models.Markov
         ///   next observation. Exponentiate this value (use the System.Math.Exp function) to obtain
         ///   a <c>likelihood</c> value.</param>
         /// 
-        public double[][] Predict(double[][] observations, int next, out double logLikelihood)
+        public TObservation[] Predict(TObservation[] observations, int next, out double logLikelihood)
         {
-            if (!multivariate)
-                throw new ArgumentException("Model is univariate.", "observations");
-
             // Matrix to store the probabilities in assuming the next
             // observations (prediction) will belong to each state.
             double[][] weights;
 
             // Compute the next observations
-            double[][] prediction = predict(observations, next, out logLikelihood, out weights);
-
-            return prediction;
-        }
-
-        /// <summary>
-        ///   Predicts the next observations occurring after a given observation sequence.
-        /// </summary>
-        /// 
-        /// <param name="observations">A sequence of observations. Predictions will be made regarding 
-        ///   the next observations that should be coming after the last observation in this sequence.</param>
-        /// <param name="next">The number of observations to be predicted. Default is 1.</param>
-        /// <param name="logLikelihood">The log-likelihood of the given sequence, plus the predicted
-        ///   next observations. Exponentiate this value (use the System.Math.Exp function) to obtain
-        ///   a <c>likelihood</c> value.</param>
-        ///   
-        public double[] Predict(double[] observations, int next, out double logLikelihood)
-        {
-            if (multivariate)
-                throw new ArgumentException("Model is multivariate.", "observations");
-
-            if (observations == null)
-                throw new ArgumentNullException("observations");
-
-
-            // Convert to multivariate observations
-            double[][] obs = MarkovHelperMethods.convertNoCheck(observations, dimension);
-
-            // Matrix to store the probabilities in assuming the next
-            // observations (prediction) will belong to each state.
-            double[][] weights;
-
-            // Compute the next observations
-            double[][] prediction = predict(obs, next, out logLikelihood, out weights);
-
-            // Return the first (single) dimension of the next observations.
-            return Accord.Math.Matrix.Concatenate(prediction);
+            return predict(observations, next, out logLikelihood, out weights);
         }
 
         /// <summary>
@@ -903,7 +683,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <returns>A random vector of observations drawn from the model.</returns>
         /// 
-        public Array Generate(int samples)
+        public TObservation[] Generate(int samples)
         {
             int[] path; double logLikelihood;
             return Generate(samples, out path, out logLikelihood);
@@ -919,78 +699,43 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <returns>A random vector of observations drawn from the model.</returns>
         /// 
-        public Array Generate(int samples, out int[] path, out double logLikelihood)
+        public TObservation[] Generate(int samples, out int[] path, out double logLikelihood)
         {
-            double[] transitions = Probabilities;
+            double[] transitions = LogInitial;
 
             logLikelihood = 0; // log(1)
             path = new int[samples];
 
-            var multivariate = Emissions as ISampleableDistribution<double[]>[];
-            if (multivariate != null)
+            TObservation[] observations = new TObservation[samples];
+
+
+            // For each observation to be generated
+            for (int t = 0; t < observations.Length; t++)
             {
-                double[][] observations = new double[samples][];
+                // Navigate randomly on one of the state transitions
+                int state = GeneralDiscreteDistribution.Random(Elementwise.Exp(transitions));
 
-                // For each observation to be generated
-                for (int t = 0; t < observations.Length; t++)
-                {
-                    // Navigate randomly on one of the state transitions
-                    int state = GeneralDiscreteDistribution.Random(Elementwise.Exp(transitions));
+                // Generate a sample for the state
+                var sampling = (ISampleableDistribution<TObservation>)Emissions[state];
+                TObservation symbol = sampling.Generate();
 
-                    // Generate a sample for the state
-                    double[] symbol = multivariate[state].Generate();
+                // Store the sample
+                observations[t] = symbol;
+                path[t] = state;
 
-                    // Store the sample
-                    observations[t] = symbol;
-                    path[t] = state;
+                // Compute log-likelihood up to this point
+                logLikelihood += transitions[state] +
+                    Emissions[state].LogProbabilityFunction(symbol);
 
-                    // Compute log-likelihood up to this point
-                    logLikelihood += transitions[state] +
-                        Emissions[state].LogProbabilityFunction(symbol);
-
-                    // Continue sampling
-                    transitions = Transitions.GetRow(state);
-                }
-
-                return observations;
+                // Continue sampling
+                transitions = LogTransitions.GetRow(state);
             }
 
-            var univariate = Emissions as ISampleableDistribution<double>[];
-            if (univariate != null)
-            {
-                double[] observations = new double[samples];
-
-                // For each observation to be generated
-                for (int t = 0; t < observations.Length; t++)
-                {
-                    // Navigate randomly on one of the state transitions
-                    int state = GeneralDiscreteDistribution.Random(Elementwise.Exp(transitions));
-
-                    // Generate a sample for the state
-                    double symbol = univariate[state].Generate();
-
-                    // Store the sample
-                    observations[t] = symbol;
-                    path[t] = state;
-
-                    // Compute log-likelihood up to this point
-                    logLikelihood += transitions[state] +
-                        Emissions[state].LogProbabilityFunction(symbol);
-
-                    // Continue sampling
-                    transitions = Transitions.GetRow(state);
-                }
-
-                return observations;
-            }
-
-            throw new ArgumentException("The model's emission distributions do not support sampling.");
+            return observations;
         }
 
-        #endregion
 
 
-        //---------------------------------------------
 
 
         #region Private Methods
@@ -999,8 +744,7 @@ namespace Accord.Statistics.Models.Markov
         ///   Predicts the next observation occurring after a given observation sequence.
         /// </summary>
         /// 
-        private double[][] predict<TMultivariate>(double[][] observations,
-            out double logLikelihood, out MultivariateMixture<TMultivariate> probabilities)
+        private TObservation[] predict<TMultivariate>(TObservation[] observations, out double logLikelihood, out MultivariateMixture<TMultivariate> probabilities)
             where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution<double[]>
         {
             // Matrix to store the probabilities in assuming the next
@@ -1008,7 +752,7 @@ namespace Accord.Statistics.Models.Markov
             double[][] weights;
 
             // Compute the next observation (currently only one ahead is supported).
-            double[][] prediction = predict(observations, 1, out logLikelihood, out weights);
+            TObservation[] prediction = predict(observations, 1, out logLikelihood, out weights);
 
             // Create the mixture distribution defining the model likelihood in
             // assuming the next observation belongs will belong to each state.
@@ -1022,42 +766,37 @@ namespace Accord.Statistics.Models.Markov
         ///   Predicts the next observation occurring after a given observation sequence.
         /// </summary>
         /// 
-        private double[] predict<TUnivariate>(double[] observations,
-            out double logLikelihood, out Mixture<TUnivariate> probabilities)
+        private TObservation[] predict<TUnivariate>(TObservation[] observations, out double logLikelihood, out Mixture<TUnivariate> probabilities)
             where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution<double>
         {
-            // Convert to multivariate observations
-            double[][] obs = MarkovHelperMethods.convertNoCheck(observations, dimension);
-
             // Matrix to store the probabilities in assuming the next
             // observations (prediction) will belong to each state.
             double[][] weights;
 
             // Compute the next observation (currently only one ahead is supported).
-            double[][] prediction = predict(obs, 1, out logLikelihood, out weights);
+            TObservation[] prediction = predict(observations, 1, out logLikelihood, out weights);
 
             // Create the mixture distribution defining the model likelihood in
             // assuming the next observation belongs will belong to each state.
             TUnivariate[] b = Array.ConvertAll(B, x => (TUnivariate)x);
             probabilities = new Mixture<TUnivariate>(weights[1].Exp(), b);
 
-            return prediction[0];
+            return prediction;
         }
 
         /// <summary>
         ///   Predicts the next observation occurring after a given observation sequence.
         /// </summary>
         /// 
-        private double[][] predict(double[][] observations, int next,
-            out double logLikelihood, out double[][] lnFuture)
+        private TObservation[] predict(TObservation[] observations, int next, out double logLikelihood, out double[][] lnFuture)
         {
             int states = States;
             int T = next;
 
-            double[,] lnA = Transitions;
+            double[][] lnA = LogTransitions;
 
-            double[][] prediction = new double[next][];
-            double[][] expectation = new double[states][];
+            TObservation[] prediction = new TObservation[next];
+            TObservation[] expectation = new TObservation[states];
 
             // Compute expectations for each state
             for (int i = 0; i < states; i++)
@@ -1088,7 +827,7 @@ namespace Accord.Statistics.Models.Markov
                 {
                     double sum = Double.NegativeInfinity;
                     for (int j = 0; j < states; j++)
-                        sum = Special.LogSum(sum, lnFwd[t][j] + lnA[j, i]);
+                        sum = Special.LogSum(sum, lnFwd[t][j] + lnA[j][i]);
 
                     weights[i] = sum + B[i].LogProbabilityFunction(expectation[i]);
                 }
@@ -1121,13 +860,13 @@ namespace Accord.Statistics.Models.Markov
             return prediction;
         }
 
-        private static double[] getMode(TDistribution dist)
+        private static TObservation getMode(TDistribution dist)
         {
-            var uni = dist as IUnivariateDistribution;
-            if (uni != null) return new double[] { uni.Mode };
+            var uni = dist as IUnivariateDistribution<TObservation>;
+            if (uni != null)
+                return uni.InverseDistributionFunction(1.0);
 
-            var multi = dist as IMultivariateDistribution;
-            return multi.Mode;
+            throw new NotSupportedException();
         }
 
         private void checkHiddenStates(IndexOutOfRangeException ex, int[] path)
@@ -1154,81 +893,102 @@ namespace Accord.Statistics.Models.Markov
         ///   A new object that is a copy of this instance.
         /// </returns>
         /// 
-        public object Clone()
+        public virtual object Clone()
         {
-            double[,] A = (double[,])Transitions.Clone();
-            double[] pi = (double[])Probabilities.Clone();
+            double[][] A = LogTransitions.Copy();
+            double[] pi = LogInitial.Copy();
+            TDistribution[] B = Emissions.MemberwiseClone();
 
-            TDistribution[] B = new TDistribution[Emissions.Length];
-            for (int i = 0; i < Emissions.Length; i++)
-                B[i] = (TDistribution)Emissions[i].Clone();
-
-            return new HiddenMarkovModel<TDistribution>(A, B, pi, logarithm: true);
+            return new HiddenMarkovModel<TDistribution, TObservation>(A, B, pi, logarithm: true);
         }
 
 
 
-
-        #region Load & Save methods
+#pragma warning disable 612, 618
 
         /// <summary>
-        ///   Saves the hidden Markov model to a stream.
+        /// Predicts a the probability that the sequence vector
+        /// has been generated by this log-likelihood tagger along
+        /// the given path of hidden states.
         /// </summary>
         /// 
-        /// <param name="stream">The stream to which the model is to be serialized.</param>
-        /// 
-        public void Save(Stream stream)
+        public double LogLikelihood(TObservation[] sequences, int[] path)
         {
-            BinaryFormatter b = new BinaryFormatter();
-            b.Serialize(stream, this);
+            return Evaluate(sequences, path);
         }
 
         /// <summary>
-        ///   Saves the hidden Markov model to a stream.
+        /// Predicts a the probability that the sequence vector
+        /// has been generated by this log-likelihood tagger.
         /// </summary>
         /// 
-        /// <param name="path">The stream to which the model is to be serialized.</param>
-        /// 
-        public void Save(string path)
+        public override double[] LogLikelihood(TObservation[][] sequences, double[] result)
         {
-            using (FileStream fs = new FileStream(path, FileMode.Create))
+            // TODO: Implement efficiently
+            for (int i = 0; i < sequences.Length; i++)
+                result[i] = Evaluate(sequences[i]);
+            return result;
+        }
+
+        /// <summary>
+        /// Predicts a the probability that the sequence vector
+        /// has been generated by this log-likelihood tagger.
+        /// </summary>
+        /// 
+        public override double[] LogLikelihood(TObservation[][] sequences, ref int[][] decision, double[] result)
+        {
+            // TODO: Implement efficiently
+            for (int i = 0; i < sequences.Length; i++)
             {
-                Save(fs);
+                decision[i] = Decode(sequences[i]);
+                result[i] = Evaluate(sequences[i]);
             }
+
+            return result;
         }
 
         /// <summary>
-        ///   Loads a hidden Markov model from a stream.
+        /// Predicts a the log-likelihood for each of the observations in
+        /// the sequence vector assuming each of the possible states in the
+        /// tagger model.
         /// </summary>
-        /// 
-        /// <param name="stream">The stream from which the model is to be deserialized.</param>
-        /// 
-        /// <returns>The deserialized model.</returns>
-        /// 
-        public static HiddenMarkovModel<TDistribution> Load(Stream stream)
+        public override double[][] LogLikelihoods(TObservation[] sequence, double[][] result)
         {
-            BinaryFormatter b = new BinaryFormatter();
-            return (HiddenMarkovModel<TDistribution>)b.Deserialize(stream);
+            return Posterior(sequence);
         }
 
         /// <summary>
-        ///   Loads a hidden Markov model from a file.
+        /// Predicts a the log-likelihood for each of the observations in
+        /// the sequence vector assuming each of the possible states in the
+        /// tagger model.
         /// </summary>
-        /// 
-        /// <param name="path">The path to the file from which the model is to be deserialized.</param>
-        /// 
-        /// <returns>The deserialized model.</returns>
-        /// 
-        public static HiddenMarkovModel<TDistribution> Load(string path)
+        public override double[][] LogLikelihoods(TObservation[] sequence, ref int[] decision, double[][] result)
         {
-            using (FileStream fs = new FileStream(path, FileMode.Open))
-            {
-                return Load(fs);
-            }
+            // TODO: Implement efficiently
+            decision = Decide(sequence);
+            return Posterior(sequence);
         }
 
-        #endregion
+
+        /// <summary>
+        /// Computes class-label decisions for the given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vectors that should be classified as
+        /// any of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <param name="result">The location where to store the class-labels.</param>
+        /// <returns>
+        /// A set of class-labels that best describe the <paramref name="input" />
+        /// vectors according to this classifier.
+        /// </returns>
+        public override int[][] Decide(TObservation[][] input, int[][] result)
+        {
+            // TODO: Implement efficiently
+            for (int i = 0; i < input.Length; i++)
+                result[i] = Decode(input[i]);
+            return result;
+        }
+#pragma warning restore 612, 618
+
 
     }
-
 }

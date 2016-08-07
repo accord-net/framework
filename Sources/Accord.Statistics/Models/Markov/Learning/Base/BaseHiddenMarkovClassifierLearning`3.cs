@@ -27,57 +27,24 @@ namespace Accord.Statistics.Models.Markov.Learning
     using System.Threading.Tasks;
     using Accord.Statistics.Models.Markov.Topology;
     using System.Diagnostics;
+    using Accord.Statistics.Distributions;
+    using System.Threading;
+    using Accord.MachineLearning;
 
 #pragma warning disable 612, 618
-
-    /// <summary>
-    ///   Configuration function delegate for Sequence Classifier Learning algorithms.
-    /// </summary>
-    public delegate IUnsupervisedLearning ClassifierLearningAlgorithmConfiguration(int modelIndex);
-
-    /// <summary>
-    ///   Submodel learning event arguments.
-    /// </summary>
-    public class GenerativeLearningEventArgs : EventArgs
-    {
-        /// <summary>
-        ///   Gets the generative class model to 
-        ///   which this event refers to.
-        /// </summary>
-        public int Class { get; set; }
-
-        /// <summary>
-        ///   Gets the total number of models
-        ///   to be learned.
-        /// </summary>
-        /// 
-        public int Total { get; set; }
-
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="GenerativeLearningEventArgs"/> class.
-        /// </summary>
-        /// 
-        /// <param name="classLabel">The class label.</param>
-        /// <param name="classes">The total number of classes.</param>
-        /// 
-        public GenerativeLearningEventArgs(int classLabel, int classes)
-        {
-            this.Class = classLabel;
-            this.Total = classes;
-        }
-
-    }
 
     /// <summary>
     ///   Abstract base class for Sequence Classifier learning algorithms.
     /// </summary>
     /// 
-    public abstract class BaseHiddenMarkovClassifierLearning<TClassifier, TModel>
-        where TClassifier : BaseHiddenMarkovClassifier<TModel>
-        where TModel : IHiddenMarkovModel
+    public abstract class BaseHiddenMarkovClassifierLearning<TClassifier, TModel, TDistribution, TObservation>
+        : Accord.MachineLearning.ISupervisedLearning<TClassifier, TObservation[], int>
+        where TClassifier : BaseHiddenMarkovClassifier<TModel, TDistribution, TObservation>
+        where TModel : HiddenMarkovModel<TDistribution, TObservation>
+        where TDistribution : IDistribution<TObservation>
     {
 
+        public CancellationToken Token { get; set; }
 
         /// <summary>
         ///   Gets the classifier being trained by this instance.
@@ -92,7 +59,10 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   in the hidden Markov model set.
         /// </summary>
         /// 
+        [Obsolete("Please use the Learner property instead.")]
         public ClassifierLearningAlgorithmConfiguration Algorithm { get; set; }
+
+        public Func<int, IUnsupervisedLearning<TModel, TObservation[], int[]>> Learner { get; set; }
 
         /// <summary>
         ///   Gets or sets a value indicating whether a threshold model
@@ -109,6 +79,8 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// </summary>
         /// 
         public bool Empirical { get; set; }
+
+        public double LogLikelihood { get; set; }
 
         /// <summary>
         ///   Occurs when the learning of a class model has started.
@@ -128,6 +100,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   function.
         /// </summary>
         /// 
+        [Obsolete("Please set the learning algorithm using the Learner property.")]
         protected BaseHiddenMarkovClassifierLearning(TClassifier classifier,
             ClassifierLearningAlgorithmConfiguration algorithm)
         {
@@ -135,19 +108,42 @@ namespace Accord.Statistics.Models.Markov.Learning
             this.Algorithm = algorithm;
         }
 
+        /// <summary>
+        ///   Creates a new instance of the learning algorithm for a given 
+        ///   Markov sequence classifier using the specified configuration
+        ///   function.
+        /// </summary>
+        /// 
+        protected BaseHiddenMarkovClassifierLearning(TClassifier classifier,
+            Func<int, IUnsupervisedLearning<TModel, TObservation[], int[]>> learner)
+        {
+            this.Classifier = classifier;
+            this.Learner = learner;
+        }
 
+        /// <summary>
+        ///   Creates a new instance of the learning algorithm for a given 
+        ///   Markov sequence classifier using the specified configuration
+        ///   function.
+        /// </summary>
+        /// 
+        protected BaseHiddenMarkovClassifierLearning(TClassifier classifier)
+        {
+            this.Classifier = classifier;
+        }
 
         /// <summary>
         ///   Trains each model to recognize each of the output labels.
         /// </summary>
         /// <returns>The sum log-likelihood for all models after training.</returns>
         /// 
+        [Obsolete("Please use the Learn(x, y) method instead.")]
         protected double Run<T>(T[] inputs, int[] outputs)
         {
-            if (inputs == null) 
+            if (inputs == null)
                 throw new ArgumentNullException("inputs");
 
-            if (outputs == null) 
+            if (outputs == null)
                 throw new ArgumentNullException("outputs");
 
             if (inputs.Length != outputs.Length)
@@ -181,7 +177,8 @@ namespace Accord.Statistics.Models.Markov.Learning
                 if (observations.Length > 0)
                 {
                     // Create and configure the learning algorithm
-                    IUnsupervisedLearning teacher = Algorithm(i);
+                    // Backward compatibility case
+                    var teacher = Algorithm(i);
 
                     // Train the current model in the input/output subset
                     logLikelihood[i] = teacher.Run(observations as Array[]);
@@ -223,7 +220,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         protected ITopology CreateThresholdTopology()
         {
-            TModel[] models = Classifier.Models;
+            var models = Classifier.Models;
 
             int states = 0;
 
@@ -248,7 +245,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                 for (int j = 0; j < models[i].States; j++)
                 {
                     // Retrieve the state self-transition probability
-                    double self = Math.Exp(models[i].Transitions[j, j]);
+                    double self = Math.Exp(models[i].LogTransitions[j][j]);
 
                     // Make sure the exp-log conversion was within limits
                     if (self < 0) self = 0; else if (self > 1) self = 1;
@@ -280,7 +277,7 @@ namespace Accord.Statistics.Models.Markov.Learning
             return new Custom(transitions, initial, logarithm: false);
         }
 
-        
+
         private static void check(double[,] transitions, int index)
         {
             // Check if they indeed sum up to one
@@ -313,6 +310,74 @@ namespace Accord.Statistics.Models.Markov.Learning
         {
             if (ClassModelLearningStarted != null)
                 ClassModelLearningStarted(this, args);
+        }
+
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public TClassifier Learn(TObservation[][] x, int[] y, double[] weights = null)
+        {
+            if (x.Length != y.Length)
+                throw new DimensionMismatchException("outputs",
+                    "The number of inputs and outputs does not match.");
+
+            for (int i = 0; i < y.Length; i++)
+                if (y[i] < 0 || y[i] >= Classifier.Classes)
+                    throw new ArgumentOutOfRangeException("outputs");
+
+
+            int classes = Classifier.Classes;
+            double[] logLikelihood = new double[classes];
+            int[] classCounts = new int[classes];
+
+
+            // For each model,
+            Parallel.For(0, classes, i =>
+            {
+                // We will start the class model learning problem
+                var args = new GenerativeLearningEventArgs(i, classes);
+                OnGenerativeClassModelLearningStarted(args);
+
+                // Select the input/output set corresponding
+                //  to the model's specialization class
+                int[] inx = y.Find(y_j => y_j == i);
+                TObservation[][] observations = x.Get(inx);
+
+                classCounts[i] = observations.Length;
+
+                if (observations.Length > 0)
+                {
+                    // Create and configure the learning algorithm
+                    var teacher = Learner(i);
+                    var model = teacher.Learn(observations);
+                    logLikelihood[i] = model.LogLikelihood(observations).Sum();
+                }
+
+                // Update and report progress
+                OnGenerativeClassModelLearningFinished(args);
+            });
+
+            if (Empirical)
+            {
+                for (int i = 0; i < classes; i++)
+                    Classifier.Priors[i] = (double)classCounts[i] / x.Length;
+            }
+
+            if (Rejection)
+            {
+                Classifier.Threshold = Threshold();
+            }
+
+            LogLikelihood = logLikelihood.Sum();
+
+            return Classifier;
         }
     }
 }

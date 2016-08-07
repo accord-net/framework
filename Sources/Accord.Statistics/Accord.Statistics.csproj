@@ -356,11 +356,19 @@
     <Compile Include="Models\Fields\Potential Functions\Clique Factor Potentials\Specialized\MarkovIndependentFactor.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\Markov\Base\BaseHiddenMarkovClassifier`3.cs" />
     <Compile Include="Models\Markov\ForwardBackwardAlgorithm`2.cs" />
+    <Compile Include="Models\Markov\HiddenMarkovClassifier`2.cs" />
+    <Compile Include="Models\Markov\HiddenMarkovModel`2.cs" />
+    <Compile Include="Models\Markov\Learning\Base\BaseBaumWelchLearning.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Markov\Learning\Base\BaseHiddenMarkovClassifierLearning`3.cs" />
     <Compile Include="Models\Markov\Learning\Base\BaseHiddenMarkovModelLearning.cs" />
     <Compile Include="Models\Markov\Learning\Base\BaseViterbiLearning`1.cs" />
     <Compile Include="Models\Markov\Learning\Base\BaseBaumWelchLearning`3.cs" />
     <Compile Include="Models\Markov\Learning\BaumWelchLearning`2.cs" />
+    <Compile Include="Models\Markov\Learning\HiddenMarkovClassifierLearning`2.cs" />
     <Compile Include="Models\Regression\Linear\Fitting\PolynomialLeastSquares.cs" />
     <Compile Include="Models\Regression\Linear\Fitting\OrdinaryLeastSquares.cs" />
     <Compile Include="Models\Regression\Nonlinear\Fitting\NonNegativeLeastSquares.cs" />
@@ -369,7 +377,6 @@
     <Compile Include="Models\Markov\Hybrid\IHybridMarkovModel.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovClassifier.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovModel.cs" />
-    <Compile Include="Models\Markov\Learning\MultipleBaumWelchLearning.cs" />
     <Compile Include="Models\Markov\MarkovHelperMethods.cs" />
     <Compile Include="Models\Regression\Nonlinear\Fitting\NonlinearLeastSquares.cs" />
     <Compile Include="Models\Regression\Nonlinear\GeneralizedLinearRegression.cs" />
@@ -437,10 +444,9 @@
     <Compile Include="Models\Markov\HiddenMarkovClassifier`1.cs" />
     <Compile Include="Models\Markov\HiddenMarkovModel.cs" />
     <Compile Include="Models\Markov\Learning\HiddenMarkovClassifierLearning.cs" />
-    <Compile Include="Models\Markov\Learning\Base\BaseHiddenMarkovClassifierLearning.cs" />
+    <Compile Include="Models\Markov\Learning\Base\BaseHiddenMarkovClassifierLearning`2.cs" />
     <Compile Include="Models\Markov\Learning\Base\ISupervisedLearning.cs" />
     <Compile Include="Models\Markov\Learning\Base\IUnsupervisedLearning.cs" />
-    <Compile Include="Models\Markov\Learning\Base\BaseBaumWelchLearning.cs" />
     <Compile Include="Models\Markov\Learning\BaumWelchLearning.cs" />
     <Compile Include="Models\Markov\Learning\BaumWelchLearning`1.cs" />
     <Compile Include="Models\Markov\Learning\HiddenMarkovClassifierLearning`1.cs" />

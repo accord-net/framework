@@ -88,6 +88,8 @@ namespace Accord.Statistics.Models.Markov.Learning
 
         private ITopology topology;
 
+        protected TObservation[][] Observations { get { return vectorObservations; } }
+
         /// <summary>
         ///   Gets or sets the distribution fitting options
         ///   to use when estimating distribution densities
@@ -399,7 +401,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         {
             for (int i = 0; i < observations.Length; i++)
                 if (observations[i].Length == 0)
-                    throw new ArgumentException("observations");
+                    throw new ArgumentException("The observation at position {0} has zero length.".Format(i), "observations");
 
             if (weights != null)
                 if (weights.Length != observations.Length)

@@ -19,6 +19,7 @@
 //    License along with this library; if not, write to the Free Software
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
+#pragma warning disable 612, 618
 
 namespace Accord.Statistics.Running
 {
@@ -34,6 +35,7 @@ namespace Accord.Statistics.Running
     /// <seealso cref="HiddenMarkovClassifier{TDistribution}"/>
     /// <seealso cref="RunningMarkovClassifier"/>
     /// 
+    [Obsolete("This class will be removed.")]
     [Serializable]
     public class RunningMarkovClassifier<TDistribution> : IRunning<double[]>
         where TDistribution : IDistribution
