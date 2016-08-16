@@ -178,17 +178,11 @@
     <Compile Include="Distances\SquareEuclidean.cs" />
     <Compile Include="Distances\Euclidean.cs" />
     <Compile Include="Distances\Base\IDistance.cs" />
-    <Compile Include="Matrix\Matrix.Add.Generated.cs">
-      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
-    </Compile>
     <Compile Include="Matrix\Jagged.Common.cs" />
     <Compile Include="Matrix\Matrix.Comparisons1.Generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Matrix.Comparisons.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Matrix\Matrix.Divide.Generated.cs">
-      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
     </Compile>
     <Compile Include="Matrix\Matrix.Conversions.Generated.cs">
       <DependentUpon>Matrix.Conversions.tt</DependentUpon>
@@ -199,11 +193,6 @@
       <DependentUpon>Matrix.Reduction.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Matrix\Matrix.Elementwise.Generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Matrix.Elementwise.tt</DependentUpon>
     </Compile>
     <Compile Include="Matrix\Jagged.MinMax.cs" />
     <Compile Include="Matrix\Matrix.Product1.Generated.cs">
@@ -219,12 +208,6 @@
     <Compile Include="Matrix\JaggedReducedRowEchelonForm.cs" />
     <Compile Include="Matrix\Vector.MinMax.cs" />
     <Compile Include="Matrix\Matrix.MinMax.cs" />
-    <Compile Include="Matrix\Matrix.Multiply.Generated.cs">
-      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Matrix\Matrix.Subtract.Generated.cs">
-      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
-    </Compile>
     <Compile Include="Optimization\Losses\LogLikelihoodLoss.cs" />
     <Compile Include="Optimization\Losses\CategoryCrossEntropyLoss.cs" />
     <Compile Include="Optimization\Losses\LossBase.cs" />
@@ -596,22 +579,6 @@
       <LastGenOutput>Matrix.Reduction.Generated.cs</LastGenOutput>
       <LastOutputs>.\Matrix.Reduction.Generated.cs</LastOutputs>
     </None>
-    <None Include="Matrix\Matrix.Elementwise.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastOutputs>.\Matrix.Elementwise.Generated.cs</LastOutputs>
-      <LastGenOutput>Matrix.Elementwise.Generated.cs</LastGenOutput>
-    </None>
-    <None Include="Matrix\Matrix.Elementwise2.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastOutputs>
-.\Matrix.Add.Generated.cs
-.\Matrix.Divide.Generated.cs
-.\Matrix.Elementwise2.txt
-.\Matrix.Multiply.Generated.cs
-.\Matrix.Subtract.Generated.cs
-</LastOutputs>
-      <LastGenOutput>Matrix.Elementwise2.txt</LastGenOutput>
-    </None>
     <None Include="Matrix\Matrix.Product.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Matrix.Product1.Generated.cs</LastGenOutput>
@@ -671,6 +638,10 @@
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -743,11 +714,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
-    </Content>
-    <Content Include="Matrix\Matrix.Elementwise2.txt">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
     </Content>
     <None Include="Matrix\Matrix.Linear.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

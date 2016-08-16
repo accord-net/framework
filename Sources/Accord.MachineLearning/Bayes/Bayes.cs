@@ -27,7 +27,7 @@ namespace Accord.MachineLearning.Bayes
     using System;
 
     /// <summary>
-    ///   Bayes decision algorithm (not-naive).
+    ///   Bayes decision algorithm (not naive).
     /// </summary>
     /// 
     /// <typeparam name="TDistribution">The type for the distributions used to model each class.</typeparam>

@@ -53,7 +53,7 @@ namespace Accord.MachineLearning.Bayes
     ///   special <see cref="NaiveBayes.Normal(int, int)">named constructor to create classifiers assuming normal 
     ///   distributions for each variable</see>. For arbitrary distribution classifiers, please see
     ///   <see cref="NaiveBayes{TDistribution}"/>. </para>
-    /// 
+    ///  
     /// <para>
     ///   References:
     ///   <list type="bullet">
@@ -112,9 +112,6 @@ namespace Accord.MachineLearning.Bayes
     /// 
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_test" />
     /// 
-    /// <para> 
-    ///   </para>
-    ///   
     /// <para>
     ///   In this second example, we will be creating a simple multi-class
     ///   classification problem using integer vectors and learning a discrete

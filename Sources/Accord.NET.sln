@@ -111,6 +111,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Accord.Tests.Math.FSharp", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Tests.Math.Interop", "..\Unit Tests\Accord.Tests.Math.Interop\Accord.Tests.Math.Interop.csproj", "{F5820249-C973-4EF3-91B3-4B46F2961816}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Math.Core", "Accord.Math.Core\Accord.Math.Core.csproj", "{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -462,6 +464,14 @@ Global
 		{F5820249-C973-4EF3-91B3-4B46F2961816}.NET40|Any CPU.Build.0 = NET40|Any CPU
 		{F5820249-C973-4EF3-91B3-4B46F2961816}.NET45|Any CPU.ActiveCfg = NET45|Any CPU
 		{F5820249-C973-4EF3-91B3-4B46F2961816}.NET45|Any CPU.Build.0 = NET45|Any CPU
+		{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}.NET35|Any CPU.ActiveCfg = NET35|Any CPU
+		{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}.NET35|Any CPU.Build.0 = NET35|Any CPU
+		{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}.NET40|Any CPU.ActiveCfg = NET40|Any CPU
+		{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}.NET40|Any CPU.Build.0 = NET40|Any CPU
+		{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}.NET45|Any CPU.ActiveCfg = NET45|Any CPU
+		{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}.NET45|Any CPU.Build.0 = NET45|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
