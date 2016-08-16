@@ -118,5 +118,11 @@ namespace Accord.Math.Optimization
         /// 
         double[] StandardErrors { get; }
 
+        /// <summary>
+        ///   Gets the value at the solution found. This should be
+        ///   the minimum value found for the objective function.
+        /// </summary>
+        /// 
+        double Value { get; set; }
     }
 }

@@ -653,10 +653,10 @@ namespace Accord.Statistics.Analysis
         {
             // Get ratings for true positives
             int[] positiveIndices = this.measurement.Find(x => x == dtrue);
-            double[] X = this.prediction.Submatrix(positiveIndices);
+            double[] X = this.prediction.Get(positiveIndices);
 
             int[] negativeIndices = this.measurement.Find(x => x == dfalse);
-            double[] Y = this.prediction.Submatrix(negativeIndices);
+            double[] Y = this.prediction.Get(negativeIndices);
 
             positiveResults = X;
             negativeResults = Y;

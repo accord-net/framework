@@ -401,10 +401,13 @@ namespace Accord.Statistics
 
             double[,] result = inPlace ? matrix : new double[rows, cols];
 
-            for (int i = 0; i < standardDeviations.Length; i++)
-                if (standardDeviations[i] == 0 && tol == 0)
-                    throw new ArithmeticException("Standard deviation cannot be" +
-                    " zero (cannot standardize the constant variable at column index " + i + ").");
+            if (tol == 0)
+            {
+                for (int i = 0; i < standardDeviations.Length; i++)
+                    if (standardDeviations[i] == 0 && tol == 0)
+                        throw new ArithmeticException("Standard deviation cannot be" +
+                        " zero (cannot standardize the constant variable at column index " + i + ").");
+            }
 
             for (int i = 0; i < rows; i++)
             {
@@ -448,10 +451,13 @@ namespace Accord.Statistics
         {
             double[][] result = inPlace ? matrix : Jagged.CreateAs(matrix);
 
-            for (int i = 0; i < standardDeviations.Length; i++)
-                if (standardDeviations[i] == 0)
-                    throw new ArithmeticException("Standard deviation cannot be" +
-                    " zero (cannot standardize the constant variable at column index " + i + ").");
+            if (tol == 0)
+            {
+                for (int i = 0; i < standardDeviations.Length; i++)
+                    if (standardDeviations[i] == 0)
+                        throw new ArithmeticException("Standard deviation cannot be" +
+                        " zero (cannot standardize the constant variable at column index " + i + ").");
+            }
 
 
             for (int i = 0; i < matrix.Length; i++)

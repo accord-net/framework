@@ -142,8 +142,8 @@ namespace Accord.Statistics.Models.Markov.Learning
                     for (int j = 0; j < batches; j++)
                     {
                         var idx = groups.Find(x => x == j);
-                        var inputs = observations.Submatrix(idx);
-                        var outputs = paths.Submatrix(idx);
+                        var inputs = observations.Get(idx);
+                        var outputs = paths.Get(idx);
                         RunEpoch(inputs, outputs);
                     }
                 }

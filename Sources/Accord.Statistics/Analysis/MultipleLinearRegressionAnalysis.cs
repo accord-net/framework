@@ -30,6 +30,9 @@ namespace Accord.Statistics.Analysis
     using Accord.Statistics.Models.Regression.Linear;
     using Accord.Statistics.Testing;
     using AForge;
+    using Accord.MachineLearning;
+    using Accord.Statistics.Models.Regression;
+    using System.Threading;
 
     /// <summary>
     ///   Multiple Linear Regression Analysis
@@ -127,20 +130,28 @@ namespace Accord.Statistics.Analysis
     /// </example>
     /// 
     [Serializable]
-    public class MultipleLinearRegressionAnalysis : IRegressionAnalysis, IAnova
+    public class MultipleLinearRegressionAnalysis : TransformBase<double[], double>,
+        IRegressionAnalysis, IAnova,
+        ISupervisedLearning<MultipleLinearRegression, double[], double>
     {
 
-        int inputCount;
-        int coefficientCount;
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        public CancellationToken Token { get; set; }
+
 
         internal MultipleLinearRegression regression;
 
         private string[] inputNames;
         private string outputName;
 
+        [Obsolete]
         private double[][] inputData;
+        [Obsolete]
         private double[] outputData;
-
+        [Obsolete]
         private double[] results;
 
 
@@ -182,12 +193,14 @@ namespace Accord.Statistics.Analysis
         ///   Source data used in the analysis.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[,] Source { get; private set; }
 
         /// <summary>
         ///   Source data used in the analysis.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[][] Array { get { return inputData; } }
 
         /// <summary>
@@ -195,6 +208,7 @@ namespace Accord.Statistics.Analysis
         ///   for each of the source input points.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[] Outputs
         {
             get { return outputData; }
@@ -205,11 +219,17 @@ namespace Accord.Statistics.Analysis
         ///   by the linear regression model.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[] Results
         {
             get { return results; }
         }
 
+        /// <summary>
+        ///   Gets or sets the learning algorithm used to learn the <see cref="MultipleLinearRegression"/>.
+        /// </summary>
+        /// 
+        public OrdinaryLeastSquares OrdinaryLeastSquares { get; set; }
 
         /// <summary>
         ///   Gets the standard deviation of the errors. 
@@ -291,7 +311,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[] CoefficientValues
         {
-            get { return this.regression.Coefficients; }
+            get { return this.regression.Weights.Concatenate(regression.Intercept); }
         }
 
         /// <summary>
@@ -342,42 +362,43 @@ namespace Accord.Statistics.Analysis
         /// <param name="outputs">The output data for the analysis.</param>
         /// <param name="intercept">True to use an intercept term, false otherwise. Default is false.</param>
         /// 
+        [Obsolete("Please pass the 'inputs' and 'outputs' parameters to the Learn method instead.")]
         public MultipleLinearRegressionAnalysis(double[][] inputs, double[] outputs, bool intercept = false)
         {
             // Initial argument checking
-            if (inputs == null) 
+            if (inputs == null)
                 throw new ArgumentNullException("inputs");
 
-            if (outputs == null) 
+            if (outputs == null)
                 throw new ArgumentNullException("outputs");
 
             if (inputs.Length != outputs.Length)
                 throw new ArgumentException("The number of rows in the input array must match the number of given outputs.");
 
-            this.inputCount = inputs[0].Length;
+            this.NumberOfInputs = inputs[0].Length;
+            this.NumberOfOutputs = 1;
 
             for (int i = 0; i < inputs.Length; i++)
-                if (inputs[i].Length != inputCount)
+                if (inputs[i].Length != NumberOfInputs)
                     throw new ArgumentException("All input vectors must have the same length.");
 
             // Store data sets
             this.inputData = inputs;
             this.outputData = outputs;
 
-
-
             // Create the linear regression
-            regression = new MultipleLinearRegression(inputCount, intercept: intercept);
+            regression = new MultipleLinearRegression(NumberOfInputs, intercept);
+            OrdinaryLeastSquares = new OrdinaryLeastSquares() { UseIntercept = intercept };
 
             // Create additional structures
-            this.coefficientCount = regression.Coefficients.Length;
+            int coefficientCount = NumberOfInputs + 1;
             this.standardErrors = new double[coefficientCount];
             this.confidences = new DoubleRange[coefficientCount];
             this.ftests = new FTest[coefficientCount];
             this.ttests = new TTest[coefficientCount];
 
             this.outputName = "Output";
-            this.inputNames = new string[inputCount];
+            this.inputNames = new string[NumberOfInputs];
             for (int i = 0; i < inputNames.Length; i++)
                 inputNames[i] = "Input " + i;
 
@@ -401,6 +422,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="inputNames">The names of the input variables.</param>
         /// <param name="outputName">The name of the output variable.</param>
         /// 
+        [Obsolete("Please pass the 'inputs' and 'outputs' parameters to the Learn method instead.")]
         public MultipleLinearRegressionAnalysis(double[][] inputs, double[] outputs,
             String[] inputNames, String outputName, bool intercept = false)
             : this(inputs, outputs, intercept)
@@ -408,7 +430,7 @@ namespace Accord.Statistics.Analysis
             if (inputNames.Length != this.inputNames.Length)
             {
                 throw new ArgumentException("The input names vector should have the same length"
-                  + " as the number of variables in the analysis. In this analysis, there are " 
+                  + " as the number of variables in the analysis. In this analysis, there are "
                   + this.inputNames.Length + " variables expected.");
             }
 
@@ -417,43 +439,61 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public MultipleLinearRegression Learn(double[][] x, double[] y, double[] weights = null)
+        {
+            compute(x, y);
+            return regression;
+        }
+
+        /// <summary>
         ///   Computes the Multiple Linear Regression Analysis.
         /// </summary>
         /// 
+        [Obsolete("Please use the Learn method instead.")]
         public void Compute()
         {
-            int n = inputData.Length;
-            int p = inputCount;
+            compute(Source.ToJagged(), Outputs);
+        }
 
-            SSt = SSe = outputMean = 0.0;
+        private void compute(double[][] x, double[] y)
+        {
+            int n = x.Length;
+            int p = NumberOfInputs;
+
+            SSt = 0;
+            SSe = 0;
+            outputMean = 0.0;
 
             // Compute the regression
-            double[,] informationMatrix;
-            regression.Regress(inputData, outputData,
-                out informationMatrix);
-
+            regression = OrdinaryLeastSquares.Learn(x, y);
+            double[][] informationMatrix = OrdinaryLeastSquares.GetInformationMatrix();
 
             // Calculate mean of the expected outputs
-            for (int i = 0; i < outputData.Length; i++)
-                outputMean += outputData[i];
-            outputMean /= outputData.Length;
+            outputMean = y.Mean();
 
             // Calculate actual outputs (results)
-            results = new double[inputData.Length];
-            for (int i = 0; i < inputData.Length; i++)
-                results[i] = regression.Compute(inputData[i]);
+#pragma warning disable 612, 618
+            results = regression.Transform(x);
 
             // Calculate SSe and SSt
-            for (int i = 0; i < inputData.Length; i++)
+            for (int i = 0; i < x.Length; i++)
             {
                 double d;
-
-                d = outputData[i] - results[i];
+                d = y[i] - results[i];
                 SSe += d * d;
 
-                d = outputData[i] - outputMean;
+                d = y[i] - outputMean;
                 SSt += d * d;
             }
+
 
             // Calculate SSr
             SSr = SSt - SSe;
@@ -492,7 +532,6 @@ namespace Accord.Statistics.Analysis
             ftest = new FTest(MSr / MSe, DFr, DFe);
             stdError = Math.Sqrt(MSe);
 
-
             // Create the ANOVA table
             List<AnovaVariationSource> table = new List<AnovaVariationSource>();
             table.Add(new AnovaVariationSource(this, "Regression", SSr, DFr, MSr, ftest));
@@ -500,19 +539,17 @@ namespace Accord.Statistics.Analysis
             table.Add(new AnovaVariationSource(this, "Total", SSt, DFt, MSt, null));
             this.anovaTable = new AnovaSourceCollection(table);
 
-
             // Compute coefficient standard errors;
-            standardErrors = new double[coefficientCount];
-            for (int i = 0; i < standardErrors.Length; i++)
-                standardErrors[i] = Math.Sqrt(MSe * informationMatrix[i, i]);
-
+            standardErrors = new double[NumberOfInputs + 1];
+            for (int i = 0; i < informationMatrix.Length; i++)
+                standardErrors[i] = Math.Sqrt(MSe * informationMatrix[i][i]);
 
             // Compute coefficient tests
-            for (int i = 0; i < regression.Coefficients.Length; i++)
+            for (int i = 0; i < CoefficientValues.Length; i++)
             {
-                double tStatistic = regression.Coefficients[i] / standardErrors[i];
+                double tStatistic = CoefficientValues[i] / standardErrors[i];
 
-                ttests[i] = new TTest(estimatedValue: regression.Coefficients[i],
+                ttests[i] = new TTest(estimatedValue: CoefficientValues[i],
                     standardError: standardErrors[i], degreesOfFreedom: DFe);
 
                 ftests[i] = new FTest(tStatistic * tStatistic, 1, DFe);
@@ -524,7 +561,8 @@ namespace Accord.Statistics.Analysis
             // Compute model performance tests
             ttest = new TTest(results, outputMean);
             ztest = new ZTest(results, outputMean);
-            chiSquareTest = new ChiSquareTest(outputData, results, n - p - 1);
+            chiSquareTest = new ChiSquareTest(y, results, n - p - 1);
+#pragma warning restore 612, 618
         }
 
         internal void setConfidenceIntervals(double percent)
@@ -533,9 +571,20 @@ namespace Accord.Statistics.Analysis
             for (int i = 0; i < ttests.Length; i++)
                 confidences[i] = ttest.GetConfidenceInterval(percent);
         }
+
+        /// <summary>
+        /// Applies the transformation to an input, producing an associated output.
+        /// </summary>
+        /// <param name="input">The input data to which the transformation should be applied.</param>
+        /// <returns>
+        /// The output generated by applying this transformation to the given input.
+        /// </returns>
+        public override double Transform(double[] input)
+        {
+            return regression.Transform(input);
+        }
     }
 
-    #region Support Classes
     /// <summary>
     /// <para>
     ///   Represents a Linear Regression coefficient found in the Multiple
@@ -608,14 +657,14 @@ namespace Accord.Statistics.Analysis
         /// </value>
         /// 
         [DisplayName("Intercept?")]
-        public bool IsIntercept { get { return Analysis.regression.HasIntercept && index == Analysis.regression.Coefficients.Length - 1; } }
+        public bool IsIntercept { get { return index == Analysis.NumberOfInputs; } }
 
         /// <summary>
         ///   Gets the coefficient value.
         /// </summary>
         /// 
         [DisplayName("Value")]
-        public double Value { get { return Analysis.regression.Coefficients[index]; } }
+        public double Value { get { return Analysis.CoefficientValues[index]; } }
 
         /// <summary>
         ///   Gets the Standard Error for the current coefficient.
@@ -692,6 +741,5 @@ namespace Accord.Statistics.Analysis
             this.analysis = analysis;
         }
     }
-    #endregion
 
 }

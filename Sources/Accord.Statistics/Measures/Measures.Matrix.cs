@@ -1313,7 +1313,7 @@ namespace Accord.Statistics
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] Covariance(this double[][] matrix)
+        public static double[][] Covariance(this double[][] matrix)
         {
             return Covariance(matrix, Mean(matrix, dimension: 0));
         }
@@ -1337,7 +1337,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] Covariance(this double[][] matrix, int dimension)
+        public static double[][] Covariance(this double[][] matrix, int dimension)
         {
             int size = (dimension == 0) ? matrix.Length : matrix[0].Length;
             return Scatter(matrix, Mean(matrix, dimension), size - 1, dimension);
@@ -1359,7 +1359,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] Covariance(this double[][] matrix, double[] means)
+        public static double[][] Covariance(this double[][] matrix, double[] means)
         {
             return Scatter(matrix, means, matrix.Length - 1, 0);
         }
@@ -1380,7 +1380,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] Scatter(this double[][] matrix, double[] means)
+        public static double[][] Scatter(this double[][] matrix, double[] means)
         {
             return Scatter(matrix, means, 1.0, 0);
         }
@@ -1397,7 +1397,7 @@ namespace Accord.Statistics
         /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="divisor">A real number to divide each member of the matrix.</param>
         /// <returns>The covariance matrix.</returns>
-        public static double[,] Scatter(this double[][] matrix, double[] means, double divisor)
+        public static double[][] Scatter(this double[][] matrix, double[] means, double divisor)
         {
             return Scatter(matrix, means, divisor, 0);
         }
@@ -1420,7 +1420,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] Scatter(this double[][] matrix, double divisor, int dimension = 0)
+        public static double[][] Scatter(this double[][] matrix, double divisor, int dimension = 0)
         {
             return Scatter(matrix, Mean(matrix, dimension: 0), divisor, dimension);
         }
@@ -1443,7 +1443,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] Scatter(this double[][] matrix, double[] means, int dimension)
+        public static double[][] Scatter(this double[][] matrix, double[] means, int dimension)
         {
             return Scatter(matrix, means, 1.0, dimension);
         }
@@ -1463,20 +1463,21 @@ namespace Accord.Statistics
         ///   Pass 0 to if mean vector is a row vector, 1 otherwise. Default value is 0.
         /// </param>
         /// <returns>The covariance matrix.</returns>
-        public static double[,] Scatter(double[][] matrix, double[] means, double divisor, int dimension)
+        public static double[][] Scatter(double[][] matrix, double[] means, double divisor, int dimension)
         {
             int rows = matrix.Length;
-            if (rows == 0) return new double[0, 0];
+            if (rows == 0) 
+                return new double[0][];
             int cols = matrix[0].Length;
 
-            double[,] cov;
+            double[][] cov;
 
             if (dimension == 0)
             {
                 if (means.Length != cols)
                     throw new ArgumentException("Length of the mean vector should equal the number of columns", "means");
 
-                cov = new double[cols, cols];
+                cov = Jagged.Zeros(cols, cols);
                 for (int i = 0; i < cols; i++)
                 {
                     for (int j = i; j < cols; j++)
@@ -1485,8 +1486,8 @@ namespace Accord.Statistics
                         for (int k = 0; k < rows; k++)
                             s += (matrix[k][j] - means[j]) * (matrix[k][i] - means[i]);
                         s /= divisor;
-                        cov[i, j] = s;
-                        cov[j, i] = s;
+                        cov[i][j] = s;
+                        cov[j][i] = s;
                     }
                 }
             }
@@ -1495,7 +1496,7 @@ namespace Accord.Statistics
                 if (means.Length != rows)
                     throw new ArgumentException("Length of the mean vector should equal the number of rows", "means");
 
-                cov = new double[rows, rows];
+                cov = Jagged.Zeros(rows, rows);
                 for (int i = 0; i < rows; i++)
                 {
                     for (int j = i; j < rows; j++)
@@ -1504,8 +1505,8 @@ namespace Accord.Statistics
                         for (int k = 0; k < cols; k++)
                             s += (matrix[j][k] - means[j]) * (matrix[i][k] - means[i]);
                         s /= divisor;
-                        cov[i, j] = s;
-                        cov[j, i] = s;
+                        cov[i][j] = s;
+                        cov[j][i] = s;
                     }
                 }
             }
@@ -1528,6 +1529,21 @@ namespace Accord.Statistics
         /// <param name="matrix">A multi-dimensional array containing the matrix values.</param>
         /// <returns>The correlation matrix.</returns>
         public static double[,] Correlation(this double[,] matrix)
+        {
+            double[] means = Mean(matrix, dimension: 0);
+            return Correlation(matrix, means, StandardDeviation(matrix, means));
+        }
+
+        /// <summary>
+        ///   Calculates the correlation matrix for a matrix of samples.
+        /// </summary>
+        /// <remarks>
+        ///   In statistics and probability theory, the correlation matrix is the same
+        ///   as the covariance matrix of the standardized random variables.
+        /// </remarks>
+        /// <param name="matrix">A multi-dimensional array containing the matrix values.</param>
+        /// <returns>The correlation matrix.</returns>
+        public static double[][] Correlation(this double[][] matrix)
         {
             double[] means = Mean(matrix, dimension: 0);
             return Correlation(matrix, means, StandardDeviation(matrix, means));
@@ -1588,7 +1604,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The correlation matrix.</returns>
         /// 
-        public static double[,] Correlation(this double[][] matrix, double[] means, double[] standardDeviations)
+        public static double[][] Correlation(this double[][] matrix, double[] means, double[] standardDeviations)
         {
             double[][] scores = Tools.ZScores(matrix, means, standardDeviations);
 
@@ -1596,7 +1612,7 @@ namespace Accord.Statistics
             int cols = matrix[0].Length;
 
             double N = rows;
-            double[,] cor = new double[cols, cols];
+            double[][] cor = Jagged.Zeros(cols, cols);
             for (int i = 0; i < cols; i++)
             {
                 for (int j = i; j < cols; j++)
@@ -1605,8 +1621,8 @@ namespace Accord.Statistics
                     for (int k = 0; k < scores.Length; k++)
                         c += scores[k][j] * scores[k][i];
                     c /= N - 1.0;
-                    cor[i, j] = c;
-                    cor[j, i] = c;
+                    cor[i][j] = c;
+                    cor[j][i] = c;
                 }
             }
 

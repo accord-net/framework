@@ -76,7 +76,10 @@ namespace Accord.Statistics.Links
         ///   Creates a new Identity link function.
         /// </summary>
         /// 
-        public IdentityLinkFunction() : this(1, 0) { }
+        public IdentityLinkFunction()
+            : this(1, 0)
+        {
+        }
 
         /// <summary>
         ///   The Identity link function.
@@ -110,6 +113,14 @@ namespace Accord.Statistics.Links
         public double Inverse(double x)
         {
             return B * x + A;
+        }
+
+        /// <summary>The logarithm of the inverse of the link function.</summary>
+        /// <param name="x">A transformed value.</param>
+        /// <returns>The log of the reverse transformed value.</returns>
+        public double Log(double x)
+        {
+            return Math.Log(B * x + A);
         }
 
         /// <summary>

@@ -27,21 +27,29 @@ namespace Accord.Statistics.Models.Regression
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Testing;
     using Accord.Math;
+    using Accord.MachineLearning;
 
     /// <summary>
     ///   Cox's Proportional Hazards Model.
     /// </summary>
     /// 
     [Serializable]
-    public class ProportionalHazards
+    public sealed class ProportionalHazards :
+        BinaryLikelihoodClassifierBase<Tuple<double[], double>>
     {
 
         /// <summary>
-        ///   Gets the mean vector used to center
-        ///   observations before computations.
+        ///   Gets the mean vector used to center observations before computations.
         /// </summary>
         /// 
+        [Obsolete("Please use Intercept instead.")]
         public double[] Offsets { get; private set; }
+
+        /// <summary>
+        ///   Gets or sets the intercept (bias) for the regression model.
+        /// </summary>
+        /// 
+        public double Intercept { get; set; }
 
         /// <summary>
         ///   Gets the coefficient vector, in which the
@@ -90,10 +98,21 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public ProportionalHazards(int inputs, IUnivariateDistribution baseline)
         {
-            Offsets = new double[inputs];
             Coefficients = new double[inputs];
             StandardErrors = new double[inputs];
+#pragma warning disable 612, 618
+            Offsets = new double[inputs];
+#pragma warning restore 612, 618
             BaselineHazard = baseline;
+        }
+
+        /// <summary>
+        ///   Creates a new Cox Proportional-Hazards Model.
+        /// </summary>
+        /// 
+        public ProportionalHazards()
+        {
+            BaselineHazard = new EmpiricalHazardDistribution();
         }
 
         /// <summary>
@@ -103,6 +122,7 @@ namespace Accord.Statistics.Models.Regression
         /// <param name="input">The input vector.</param>
         /// <returns>The output value.</returns>
         /// 
+        [Obsolete("Please use Scores instead.")]
         public double Compute(double[] input)
         {
             double sum = 0;
@@ -118,11 +138,14 @@ namespace Accord.Statistics.Models.Regression
         /// <param name="input">The input vector.</param>
         /// <returns>The output value.</returns>
         /// 
+        [Obsolete("Please use Scores instead.")]
         public double[] Compute(double[][] input)
         {
+#pragma warning disable 612, 618
             double[] result = new double[input.Length];
             for (int i = 0; i < result.Length; i++)
                 result[i] = Compute(input[i]);
+#pragma warning restore 612, 618
             return result;
         }
 
@@ -136,6 +159,7 @@ namespace Accord.Statistics.Models.Regression
         /// <returns>The probabilities of the event occurring at 
         /// the given time for the given observation.</returns>
         /// 
+        [Obsolete("Please use Scores instead.")]
         public double Compute(double[] input, double time)
         {
             if (BaselineHazard == null)
@@ -159,6 +183,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <returns>The probabilities of the event occurring at the given time.</returns>
         /// 
+        [Obsolete("Please use Scores instead.")]
         public double Compute(double time)
         {
             if (BaselineHazard == null)
@@ -195,12 +220,15 @@ namespace Accord.Statistics.Models.Regression
         /// <returns>The probabilities of the event occurring at 
         /// the given times for the given observations.</returns>
         /// 
+        [Obsolete("Please use Scores instead.")]
         public double[] Compute(double[][] input, double[] time)
         {
+#pragma warning disable 612, 618
             double[] result = new double[input.Length];
             for (int i = 0; i < result.Length; i++)
                 result[i] = Compute(input[i], time[i]);
             return result;
+#pragma warning restore 612, 618
         }
 
         /// <summary>
@@ -416,7 +444,7 @@ namespace Accord.Statistics.Models.Regression
         {
             return 2.0 * (this.GetPartialLogLikelihood(input, time, output) - hazards.GetPartialLogLikelihood(input, time, output));
         }
-        
+
         /// <summary>
         ///   The likelihood ratio test of the overall model, also called the model chi-square test.
         /// </summary>
@@ -480,7 +508,7 @@ namespace Accord.Statistics.Models.Regression
             var regression = new ProportionalHazards(Coefficients.Length);
             regression.Coefficients = (double[])this.Coefficients.Clone();
             regression.StandardErrors = (double[])this.StandardErrors.Clone();
-            regression.Offsets = (double[])this.Offsets.Clone();
+            regression.Intercept = this.Intercept;
             return regression;
         }
 
@@ -502,6 +530,64 @@ namespace Accord.Statistics.Models.Regression
         public double GetHazardRatio(int index)
         {
             return Math.Exp(Coefficients[index]);
+        }
+
+        /// <summary>
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and its most strongly
+        /// associated class (as predicted by the classifier).
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// 
+        public override double Score(Tuple<double[], double> input)
+        {
+#pragma warning disable 612, 618
+            return Compute(input.Item1, input.Item2);
+#pragma warning restore 612, 618
+        }
+
+        /// <summary>
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <returns>
+        /// A class-label that best described <paramref name="input" /> according
+        /// to this classifier.
+        /// </returns>
+        public override bool Decide(Tuple<double[], double> input)
+        {
+#pragma warning disable 612, 618
+            return Compute(input.Item1, input.Item2) >= 0.5;
+#pragma warning restore 612, 618
+        }
+
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihood that the input vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        public override double LogLikelihood(Tuple<double[], double> input, out bool decision)
+        {
+            var r = LogLikelihood(input);
+            decision = r >= 0.5;
+            return r;
+        }
+
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihood that the input vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        public override double LogLikelihood(Tuple<double[], double> input)
+        {
+            double sum = Intercept;
+            for (int i = 0; i < Coefficients.Length; i++)
+                sum += Coefficients[i] * input.Item1[i];
+            double exp = sum;
+            double h0 = BaselineHazard.CumulativeHazardFunction(input.Item2);
+            return h0 + exp;
         }
     }
 }

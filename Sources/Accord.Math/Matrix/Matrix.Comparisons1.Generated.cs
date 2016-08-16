@@ -50,6 +50,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -125,6 +132,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -205,6 +219,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -281,6 +302,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -359,6 +387,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -792,6 +827,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -865,6 +907,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -945,6 +994,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -1021,6 +1077,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -1097,6 +1160,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -1530,6 +1600,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -1615,6 +1692,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -1707,6 +1791,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -1795,6 +1886,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -1883,6 +1981,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -2376,6 +2481,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -2461,6 +2573,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -2553,6 +2672,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -2641,6 +2767,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -2729,6 +2862,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -3222,6 +3362,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -3295,6 +3442,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -3375,6 +3529,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -3451,6 +3612,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -3527,6 +3695,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -3960,6 +4135,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -4033,6 +4215,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -4113,6 +4302,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -4189,6 +4385,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -4265,6 +4468,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -4698,6 +4908,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -4771,6 +4988,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -4851,6 +5075,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -4927,6 +5158,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -5003,6 +5241,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -5436,6 +5681,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -5509,6 +5761,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -5589,6 +5848,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -5665,6 +5931,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -5741,6 +6014,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -6174,6 +6454,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -6247,6 +6534,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -6327,6 +6621,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -6403,6 +6704,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -6479,6 +6787,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -6914,6 +7229,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -6989,6 +7311,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -7069,6 +7398,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -7145,6 +7481,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -7223,6 +7566,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -7656,6 +8006,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -7741,6 +8098,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -7833,6 +8197,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -7921,6 +8292,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -8009,6 +8387,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -8502,6 +8887,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -8587,6 +8979,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -8679,6 +9078,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -8767,6 +9173,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -8855,6 +9268,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -9348,6 +9768,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -9421,6 +9848,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -9501,6 +9935,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -9577,6 +10018,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -9653,6 +10101,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -10086,6 +10541,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -10159,6 +10621,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -10239,6 +10708,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -10315,6 +10791,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -10391,6 +10874,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -10824,6 +11314,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -10897,6 +11394,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -10977,6 +11481,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -11053,6 +11564,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -11129,6 +11647,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -11562,6 +12087,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -11635,6 +12167,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -11715,6 +12254,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -11791,6 +12337,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -11867,6 +12420,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -12300,6 +12860,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -12385,6 +12952,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -12477,6 +13051,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -12565,6 +13146,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -12653,6 +13241,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -13146,6 +13741,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -13231,6 +13833,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -13323,6 +13932,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -13411,6 +14027,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -13499,6 +14122,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -13994,6 +14624,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -14093,6 +14730,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -14197,6 +14841,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -14297,6 +14948,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -14399,6 +15057,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -14952,6 +15617,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -15049,6 +15721,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -15153,6 +15832,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -15253,6 +15939,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -15353,6 +16046,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -15906,6 +16606,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -15991,6 +16698,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -16083,6 +16797,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -16171,6 +16892,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -16259,6 +16987,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -16752,6 +17487,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -16833,6 +17575,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -16921,6 +17670,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -17005,6 +17761,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -17089,6 +17852,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -17562,6 +18332,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -17647,6 +18424,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -17739,6 +18523,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -17827,6 +18618,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -17915,6 +18713,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -18408,6 +19213,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -18493,6 +19305,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -18585,6 +19404,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -18673,6 +19499,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -18761,6 +19594,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -19254,6 +20094,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -19339,6 +20186,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -19431,6 +20285,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -19519,6 +20380,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -19607,6 +20475,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -20100,6 +20975,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -20185,6 +21067,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -20277,6 +21166,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -20365,6 +21261,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -20453,6 +21356,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -20946,6 +21856,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -21043,6 +21960,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -21147,6 +22071,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -21247,6 +22178,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -21347,6 +22285,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -21902,6 +22847,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -22001,6 +22953,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -22105,6 +23064,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -22205,6 +23171,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -22307,6 +23280,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -22860,6 +23840,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -22945,6 +23932,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -23037,6 +24031,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -23125,6 +24126,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -23213,6 +24221,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -23706,6 +24721,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -23787,6 +24809,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -23875,6 +24904,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -23959,6 +24995,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -24043,6 +25086,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -24516,6 +25566,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -24601,6 +25658,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -24693,6 +25757,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -24781,6 +25852,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -24869,6 +25947,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -25362,6 +26447,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -25447,6 +26539,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -25539,6 +26638,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -25627,6 +26733,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -25715,6 +26828,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -26208,6 +27328,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -26281,6 +27408,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -26361,6 +27495,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -26437,6 +27578,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -26513,6 +27661,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -26946,6 +28101,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -27019,6 +28181,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -27099,6 +28268,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -27175,6 +28351,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -27251,6 +28434,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -27684,6 +28874,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -27769,6 +28966,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -27861,6 +29065,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -27949,6 +29160,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -28037,6 +29255,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -28530,6 +29755,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -28615,6 +29847,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -28707,6 +29946,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -28795,6 +30041,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -28883,6 +30136,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -29378,6 +30638,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -29453,6 +30720,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -29533,6 +30807,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -29609,6 +30890,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -29687,6 +30975,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -30120,6 +31415,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -30193,6 +31495,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -30273,6 +31582,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -30349,6 +31665,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -30425,6 +31748,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -30858,6 +32188,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -30931,6 +32268,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -31011,6 +32355,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -31087,6 +32438,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -31163,6 +32521,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -31596,6 +32961,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -31669,6 +33041,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -31749,6 +33128,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -31825,6 +33211,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -31901,6 +33294,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -32334,6 +33734,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -32407,6 +33814,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -32487,6 +33901,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -32563,6 +33984,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -32639,6 +34067,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -33072,6 +34507,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -33145,6 +34587,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -33225,6 +34674,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -33301,6 +34757,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -33377,6 +34840,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -33810,6 +35280,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -33891,6 +35368,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -33979,6 +35463,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -34063,6 +35554,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -34147,6 +35645,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -34620,6 +36125,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -34701,6 +36213,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -34789,6 +36308,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -34873,6 +36399,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -34957,6 +36490,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -35430,6 +36970,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -35503,6 +37050,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -35583,6 +37137,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -35659,6 +37220,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -35735,6 +37303,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -36170,6 +37745,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -36245,6 +37827,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -36325,6 +37914,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -36401,6 +37997,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -36479,6 +38082,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -36912,6 +38522,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -36985,6 +38602,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -37065,6 +38689,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -37141,6 +38772,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -37217,6 +38855,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -37650,6 +39295,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -37723,6 +39375,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -37803,6 +39462,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -37879,6 +39545,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -37955,6 +39628,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -38388,6 +40068,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -38461,6 +40148,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -38541,6 +40235,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -38617,6 +40318,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -38693,6 +40401,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -39126,6 +40841,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -39199,6 +40921,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -39279,6 +41008,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -39355,6 +41091,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -39431,6 +41174,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -39864,6 +41614,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -39949,6 +41706,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -40041,6 +41805,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -40129,6 +41900,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -40217,6 +41995,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -40710,6 +42495,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -40795,6 +42587,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -40887,6 +42686,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -40975,6 +42781,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -41063,6 +42876,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -41556,6 +43376,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -41629,6 +43456,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -41709,6 +43543,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -41785,6 +43626,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -41861,6 +43709,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -42294,6 +44149,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -42367,6 +44229,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -42447,6 +44316,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -42523,6 +44399,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -42599,6 +44482,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -43034,6 +44924,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -43109,6 +45006,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -43189,6 +45093,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -43265,6 +45176,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -43343,6 +45261,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -43776,6 +45701,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -43849,6 +45781,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -43929,6 +45868,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -44005,6 +45951,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -44081,6 +46034,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -44514,6 +46474,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -44587,6 +46554,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -44667,6 +46641,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -44743,6 +46724,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -44819,6 +46807,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -45252,6 +47247,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -45325,6 +47327,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -45405,6 +47414,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -45481,6 +47497,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -45557,6 +47580,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -45990,6 +48020,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -46075,6 +48112,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -46167,6 +48211,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -46255,6 +48306,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -46343,6 +48401,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -46836,6 +48901,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -46921,6 +48993,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -47013,6 +49092,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -47101,6 +49187,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -47189,6 +49282,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -47682,6 +49782,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -47755,6 +49862,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -47835,6 +49949,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -47911,6 +50032,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -47987,6 +50115,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -48420,6 +50555,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -48493,6 +50635,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -48573,6 +50722,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -48649,6 +50805,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -48725,6 +50888,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -49158,6 +51328,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -49231,6 +51408,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -49311,6 +51495,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -49387,6 +51578,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -49463,6 +51661,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -49898,6 +52103,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -49973,6 +52185,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             unsafe
             {
@@ -50053,6 +52272,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -50129,6 +52355,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {
@@ -50207,6 +52440,13 @@ namespace Accord.Math
         return true;
     if (a == null ^ b == null)
         return false;
+    int[] la = a.GetLength(true);
+    int[] lb = b.GetLength(true);
+    if (la.Length != lb.Length)
+        return false;
+    for (int i = 0; i < la.Length; i++)
+        if (la[i] != lb[i])
+            return false;
 
             if (rtol > 0)
             {

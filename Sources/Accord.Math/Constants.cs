@@ -84,6 +84,17 @@ namespace Accord.Math
         public const double DoubleEpsilon = 1.11022302462515654042e-16;
 
         /// <summary>
+        ///   Double-precision machine round-off error.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This value is actually different from Double.Epsilon. It
+        ///   is defined as 1.11022302462515654042E-16.
+        /// </remarks>
+        /// 
+        public const decimal DecimalEpsilon = 0.0000000000000000000000000001M;
+
+        /// <summary>
         ///   Single-precision machine round-off error.
         /// </summary>
         /// 
@@ -113,6 +124,12 @@ namespace Accord.Math
         /// </remarks>
         /// 
         public const float SingleSmall = 1.493221789605150e-40f;
+
+        /// <summary>
+        ///   Fixed-precision small value.
+        /// </summary>
+        /// 
+        public const decimal DecimalSmall = Decimal.MinValue;
 
         /// <summary>
         ///   Maximum log on the machine.

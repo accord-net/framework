@@ -22,6 +22,8 @@
 
 namespace Accord.Statistics.Models.Markov
 {
+#pragma warning disable 612, 618
+
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
@@ -31,6 +33,7 @@ namespace Accord.Statistics.Models.Markov
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Statistics.Models.Markov.Topology;
+    using Accord.MachineLearning;
 
     /// <summary>
     ///   Arbitrary-density Hidden Markov Model.
@@ -162,6 +165,7 @@ namespace Accord.Statistics.Models.Markov
     /// <seealso cref="Accord.Statistics.Models.Markov.Learning"/>
     /// 
     [Serializable]
+    [Obsolete("Please use HiddenMarkovModel<TDistribution, TObservation> instead.")]
     public class HiddenMarkovModel<TDistribution> : BaseHiddenMarkovModel, IHiddenMarkovModel, ICloneable
         where TDistribution : IDistribution
     {
@@ -1226,4 +1230,5 @@ namespace Accord.Statistics.Models.Markov
         #endregion
 
     }
+
 }

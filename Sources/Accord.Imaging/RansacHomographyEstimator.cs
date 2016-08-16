@@ -312,8 +312,8 @@ namespace Accord.Imaging
         private MatrixH homography(int[] points)
         {
             // Retrieve the original points
-            PointF[] x1 = this.pointSet1.Submatrix(points);
-            PointF[] x2 = this.pointSet2.Submatrix(points);
+            PointF[] x1 = this.pointSet1.Get(points);
+            PointF[] x2 = this.pointSet2.Get(points);
 
             // Compute the homography
             return Tools.Homography(x1, x2);
@@ -350,8 +350,8 @@ namespace Accord.Imaging
         /// 
         private bool degenerate(int[] points)
         {
-            PointF[] x1 = this.pointSet1.Submatrix(points);
-            PointF[] x2 = this.pointSet2.Submatrix(points);
+            PointF[] x1 = this.pointSet1.Get(points);
+            PointF[] x2 = this.pointSet2.Get(points);
 
             // If any three of the four points in each set is collinear,
             //  the resulting homography matrix will be degenerate.

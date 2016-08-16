@@ -27,14 +27,14 @@ namespace Accord.MachineLearning.Bayes
     using System;
 
     /// <summary>
-    ///   Bayes decision algorithm (not-naive).
+    ///   Bayes decision algorithm (not naive).
     /// </summary>
     /// 
     /// <typeparam name="TDistribution">The type for the distributions used to model each class.</typeparam>
     /// <typeparam name="TInput">The type for the samples modeled by the distributions.</typeparam>
     /// 
     [Serializable]
-    public class Bayes<TDistribution, TInput> : MulticlassGenerativeClassifierBase<TInput>
+    public class Bayes<TDistribution, TInput> : MulticlassLikelihoodClassifierBase<TInput>
         where TDistribution : IFittableDistribution<TInput>, 
         IMultivariateDistribution<TInput>
     {
@@ -156,7 +156,7 @@ namespace Accord.MachineLearning.Bayes
         /// </summary>
         /// <param name="input">The input vector.</param>
         /// <param name="classIndex">The index of the class whose score will be computed.</param>
-        public override double Distance(TInput input, int classIndex)
+        public override double Score(TInput input, int classIndex)
         {
             double log = distributions[classIndex].LogProbabilityFunction(input);
             return -Math.Log(priors[classIndex]) - log;

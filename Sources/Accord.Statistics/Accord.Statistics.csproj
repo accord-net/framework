@@ -75,7 +75,25 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Accord.MachineLearning\Classifiers\Binary\BinaryClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Binary\BinaryLikelihoodClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Binary\BinaryScoreClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple\Multiclass\MulticlassClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple\Multiclass\MulticlassClassifierBase`1.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple\Multiclass\MulticlassLikelihoodClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple\Multiclass\MulticlassScoreClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple\Multilabel\MultilabelClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple\Multilabel\MultilabelLikelihoodClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple\Multilabel\MultilabelScoreClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Tagging\LikelihoodTaggerBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Tagging\ScoreTaggerBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Tagging\TaggerBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\TransformBase.cs" />
+    <Compile Include="Accord.MachineLearning\Learning\IDescriptiveLearning.cs" />
+    <Compile Include="Accord.MachineLearning\MinimumMeanDistanceClassifier.cs" />
+    <Compile Include="Accord.Math\Loss\RSquaredLoss.cs" />
     <Compile Include="Analysis\Accord.Statistics.Analysis.cs" />
+    <Compile Include="Analysis\BasePrincipalComponentAnalysis.cs" />
     <Compile Include="Analysis\Base\IAnalysisComponent.cs" />
     <Compile Include="Analysis\Base\IAnalysis.cs" />
     <Compile Include="Analysis\Base\IDescriptiveMeasures.cs" />
@@ -89,9 +107,10 @@
     <Compile Include="Analysis\Contrast Functions\Logcosh.cs" />
     <Compile Include="Analysis\CircularDescriptiveAnalysis.cs" />
     <Compile Include="Analysis\DistributionAnalysis.cs" />
+    <Compile Include="Analysis\BaseDiscriminantAnalysis.cs" />
+    <Compile Include="Analysis\IUnsupervisedLearning.cs" />
     <Compile Include="Analysis\MultinomialLogisticRegressionAnalysis.cs" />
     <Compile Include="Analysis\Performance\WeightedConfusionMatrix.cs" />
-    <Compile Include="Analysis\BasePrincipalComponentAnalysis.cs" />
     <Compile Include="Analysis\ProcustesAnalysis.cs" />
     <Compile Include="Analysis\ProportionalHazardsAnalysis.cs" />
     <Compile Include="Analysis\MultipleLinearRegressionAnalysis.cs" />
@@ -315,18 +334,6 @@
     <Compile Include="Links\InverseSquaredLinkFunction.cs" />
     <Compile Include="Links\ProbitLinkFunction.cs" />
     <Compile Include="Accord.MachineLearning\Classifiers\ClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassDistanceClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassGenerativeClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelDistanceClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Two classes\BinaryDistanceClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Two classes\BinaryClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassClassifierBase`1.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelGenerativeClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Two classes\BinaryGenerativeClassifierBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Accord.MachineLearning\Learning\ISupervisedBinaryLearning.cs" />
     <Compile Include="Accord.MachineLearning\Learning\ISupervisedLearning.cs" />
     <Compile Include="Accord.MachineLearning\Learning\ISupervisedMulticlassLearning.cs" />
@@ -349,13 +356,27 @@
     <Compile Include="Models\Fields\Potential Functions\Clique Factor Potentials\Specialized\MarkovIndependentFactor.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\Markov\Base\BaseHiddenMarkovClassifier`3.cs" />
+    <Compile Include="Models\Markov\ForwardBackwardAlgorithm`2.cs" />
+    <Compile Include="Models\Markov\HiddenMarkovClassifier`2.cs" />
+    <Compile Include="Models\Markov\HiddenMarkovModel`2.cs" />
+    <Compile Include="Models\Markov\Learning\Base\BaseBaumWelchLearning.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Markov\Learning\Base\BaseHiddenMarkovClassifierLearning`3.cs" />
+    <Compile Include="Models\Markov\Learning\Base\BaseHiddenMarkovModelLearning.cs" />
     <Compile Include="Models\Markov\Learning\Base\BaseViterbiLearning`1.cs" />
+    <Compile Include="Models\Markov\Learning\Base\BaseBaumWelchLearning`3.cs" />
+    <Compile Include="Models\Markov\Learning\BaumWelchLearning`2.cs" />
+    <Compile Include="Models\Markov\Learning\HiddenMarkovClassifierLearning`2.cs" />
+    <Compile Include="Models\Regression\Linear\Fitting\PolynomialLeastSquares.cs" />
+    <Compile Include="Models\Regression\Linear\Fitting\OrdinaryLeastSquares.cs" />
     <Compile Include="Models\Regression\Nonlinear\Fitting\NonNegativeLeastSquares.cs" />
+    <Compile Include="Models\Regression\Nonlinear\MultivariateKernelRegression.cs" />
     <Compile Include="Running\IRunning`1.cs" />
     <Compile Include="Models\Markov\Hybrid\IHybridMarkovModel.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovClassifier.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovModel.cs" />
-    <Compile Include="Models\Markov\Learning\MultipleBaumWelchLearning.cs" />
     <Compile Include="Models\Markov\MarkovHelperMethods.cs" />
     <Compile Include="Models\Regression\Nonlinear\Fitting\NonlinearLeastSquares.cs" />
     <Compile Include="Models\Regression\Nonlinear\GeneralizedLinearRegression.cs" />
@@ -423,10 +444,9 @@
     <Compile Include="Models\Markov\HiddenMarkovClassifier`1.cs" />
     <Compile Include="Models\Markov\HiddenMarkovModel.cs" />
     <Compile Include="Models\Markov\Learning\HiddenMarkovClassifierLearning.cs" />
-    <Compile Include="Models\Markov\Learning\Base\BaseHiddenMarkovClassifierLearning.cs" />
+    <Compile Include="Models\Markov\Learning\Base\BaseHiddenMarkovClassifierLearning`2.cs" />
     <Compile Include="Models\Markov\Learning\Base\ISupervisedLearning.cs" />
     <Compile Include="Models\Markov\Learning\Base\IUnsupervisedLearning.cs" />
-    <Compile Include="Models\Markov\Learning\Base\BaseBaumWelchLearning.cs" />
     <Compile Include="Models\Markov\Learning\BaumWelchLearning.cs" />
     <Compile Include="Models\Markov\Learning\BaumWelchLearning`1.cs" />
     <Compile Include="Models\Markov\Learning\HiddenMarkovClassifierLearning`1.cs" />
@@ -527,6 +547,10 @@
       <Name>Accord.Core</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
       <Name>Accord.Math</Name>
@@ -534,6 +558,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Accord.MachineLearning\Classifiers\Binary\Binary.cd" />
+    <None Include="Accord.MachineLearning\Classifiers\Multiple\Multiclass\Multiclass.cd" />
     <None Include="Accord.snk" />
     <None Include="Accord.Statistics.cd" />
     <None Include="Analysis\Accord.Statistics.Analysis.cd" />
@@ -542,8 +568,6 @@
     <None Include="Distributions\Univariate\Accord.Statistics.Distributions.Univariate.cd" />
     <None Include="Kernels\Accord.Statistics.Kernels.cd" />
     <None Include="Accord.MachineLearning\Accord.MachineLearning.Core.cd" />
-    <None Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\Multiclass.cd" />
-    <None Include="Accord.MachineLearning\Classifiers\Two classes\Binary.cd" />
     <None Include="Models\Accord.Statistics.Models.cd">
       <SubType>Designer</SubType>
     </None>
@@ -574,6 +598,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Models\Regression\Linear\Fitting\Base\" />
     <Folder Include="Running\Markov\Base\" />
   </ItemGroup>
   <ItemGroup>

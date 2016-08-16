@@ -36,7 +36,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TInput">The type for the output data that originates from the model.</typeparam>
     /// <typeparam name="TOutput">The type for the input data that enters the model.</typeparam>
     /// 
-    public interface IUnsupervisedLearning<out TModel, in TInput, TOutput>
+    public interface IUnsupervisedLearning<out TModel, in TInput, out TOutput>
         where TModel : ITransform<TInput, TOutput>
     {
 
@@ -45,11 +45,12 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
         /// 
         /// <returns>A model that has learned how to produce suitable outputs
         ///   given the input data <paramref name="x"/>.</returns>
         /// 
-        TModel Learn(TInput[] x);
+        TModel Learn(TInput[] x, double[] weights = null);
 
     }
 }

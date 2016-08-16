@@ -22,11 +22,13 @@
 
 namespace Accord.Statistics.Models.Fields.Learning
 {
+    using System;
 
     /// <summary>
     ///   Common interface for Conditional Random Fields learning algorithms.
     /// </summary>
     /// 
+    [Obsolete("Please use ISupervisedLearning<ConditionalRandomField<T>, T[], int[]> instead.")]
     public interface IConditionalRandomFieldLearning<T>
     {
         /// <summary>

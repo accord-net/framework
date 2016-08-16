@@ -108,7 +108,7 @@ namespace Accord.MachineLearning.VectorMachines
     /// 
     [Serializable]
     public class SupportVectorMachine<TKernel, TInput> :
-        BinaryGenerativeClassifierBase<TInput>,
+        BinaryLikelihoodClassifierBase<TInput>,
         ISupportVectorMachine<TInput>, ICloneable
         where TKernel : IKernel<TInput>
         where TInput : ICloneable
@@ -129,11 +129,10 @@ namespace Accord.MachineLearning.VectorMachines
             set { kernel = value; }
         }
 
-        //[Obsolete("Probabilistic outputs can always be retrieved using the Probability methods.")]
         /// <summary>
-        ///   Gets or sets whether this machine has been calibrated to
-        ///   produce probabilistic outputs (through the <see cref="BinaryGenerativeClassifierBase{TInput}.Probability(TInput)"/>
-        ///   and <see cref="BinaryGenerativeClassifierBase{TInput}.Probability(TInput)"/> methods).
+        ///   Gets whether this machine has been calibrated to
+        ///   produce probabilistic outputs (through the <see cref="BinaryLikelihoodClassifierBase{TInput}.Probability(TInput)"/>
+        ///   method).
         /// </summary>
         /// 
         public bool IsProbabilistic { get; set; }
@@ -207,7 +206,7 @@ namespace Accord.MachineLearning.VectorMachines
         /// associated class (as predicted by the classifier).
         /// </summary>
         /// <param name="input">The input vector.</param>
-        public override double Distance(TInput input)
+        public override double Score(TInput input)
         {
             double sum = threshold;
             for (int j = 0; j < supportVectors.Length; j++)
@@ -292,7 +291,7 @@ namespace Accord.MachineLearning.VectorMachines
             if (IsProbabilistic)
                 output = Probability(inputs, out decision);
             else
-                output = Distance(inputs, out decision);
+                output = Score(inputs, out decision);
             return Classes.ToMinusOnePlusOne(decision);
         }
 
@@ -318,7 +317,7 @@ namespace Accord.MachineLearning.VectorMachines
         {
             if (IsProbabilistic)
                 return Probability(inputs);
-            return Distance(inputs);
+            return Score(inputs);
         }
 
         /// <summary>

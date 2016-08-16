@@ -437,6 +437,24 @@ namespace Accord.Statistics.Distributions.Multivariate
             covariance = null;
         }
 
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <returns>
+        /// A random vector of observations drawn from this distribution.
+        /// </returns>
+        public override double[][] Generate(int samples, double[][] result)
+        {
+            var gen = components.Apply(x => (ISampleableDistribution<double>)x);
+
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < gen.Length; j++)
+                    result[i][j] = gen[j].Generate();
+
+            return result;
+        }
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.

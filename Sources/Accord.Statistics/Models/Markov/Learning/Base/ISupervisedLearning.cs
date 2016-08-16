@@ -44,6 +44,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <see cref="MaximumLikelihoodLearning"/>
     /// <see cref="MaximumLikelihoodLearning{TDistribution}"/>
     /// 
+    [Obsolete("Please use Accord.MachineLearning.ISupervisedLearning instead.")]
     public interface ISupervisedLearning
     {
 

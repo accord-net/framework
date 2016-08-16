@@ -160,7 +160,7 @@ namespace Accord.MachineLearning.Geometry
 
             ransac.Compute(points.Length, out inliers);
 
-            Circle circle = fitting(points.Submatrix(inliers));
+            Circle circle = fitting(points.Get(inliers));
 
             return circle;
         }

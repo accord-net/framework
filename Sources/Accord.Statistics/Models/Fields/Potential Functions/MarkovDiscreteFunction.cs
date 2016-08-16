@@ -19,6 +19,7 @@
 //    License along with this library; if not, write to the Free Software
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
+#pragma warning disable 612, 618
 
 namespace Accord.Statistics.Models.Fields.Functions
 {
@@ -202,7 +203,7 @@ namespace Accord.Statistics.Models.Fields.Functions
                 // Create features for initial state probabilities
                 for (int i = 0; i < model.States; i++)
                 {
-                    edgeParams.Add(model.Probabilities[i]);
+                    edgeParams.Add(model.LogInitial[i]);
                     edgeFeatures.Add(new InitialFeature<int>(this, c, i));
                 }
 
@@ -361,7 +362,7 @@ namespace Accord.Statistics.Models.Fields.Functions
             // Create features for initial state probabilities
             for (int i = 0; i < states; i++)
             {
-                edgeParams.Add(model.Probabilities[i]);
+                edgeParams.Add(model.LogInitial[i]);
                 edgeFeatures.Add(new InitialFeature<int>(this, 0, i));
             }
 

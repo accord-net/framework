@@ -48,6 +48,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <see cref="ViterbiLearning"/>
     /// <see cref="ViterbiLearning{TDistribution}"/>
     /// 
+    [Obsolete("Please use Accord.MachineLearning.IUnsupervisedLearning instead.")]
     public interface IUnsupervisedLearning
     {
 
@@ -91,6 +92,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <see cref="ViterbiLearning"/>
     /// <see cref="ViterbiLearning{TDistribution}"/>
     /// 
+    [Obsolete("Please use Accord.MachineLearning.IUnsupervisedLearning instead.")]
     public interface IUnsupervisedLearning<T> : IUnsupervisedLearning
     {
 
@@ -115,6 +117,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   Markov models which support for weighted training samples.
     /// </summary>
     /// 
+    [Obsolete("Please use Accord.MachineLearning.IUnsupervisedLearning instead.")]
     public interface IWeightedUnsupervisedLearning
     {
 

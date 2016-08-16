@@ -51,6 +51,11 @@
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net45\</OutputPath>
     <DefineConstants>TRACE;NET45</DefineConstants>
     <NoWarn>0612, 0618</NoWarn>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
@@ -92,6 +97,7 @@
     <Compile Include="AForge\Vector3Test.cs" />
     <Compile Include="Collections\RedBlackTreeDictionaryTest.cs" />
     <Compile Include="Collections\RedBlackTreeTest.cs" />
+    <Compile Include="Decompositions\JaggedCholeskyDecompositionTest.cs" />
     <Compile Include="Decompositions\JaggedEigenvalueDecompositionTest.cs" />
     <Compile Include="Decompositions\JaggedQrDecompositionTest.cs" />
     <Compile Include="Functions\OwensTTest.cs" />
@@ -174,6 +180,10 @@
     <ProjectReference Include="..\..\Sources\Accord.IO\Accord.IO.csproj">
       <Project>{63184ebd-6b28-4066-aaee-5b99431e31f4}</Project>
       <Name>Accord.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>

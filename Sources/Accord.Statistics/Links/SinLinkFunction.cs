@@ -92,6 +92,19 @@ namespace Accord.Statistics.Links
         }
 
         /// <summary>
+        /// The logarithm of the inverse of the link function.
+        /// </summary>
+        /// <param name="x">A transformed value.</param>
+        /// <returns>
+        /// The log of the reverse transformed value.
+        /// </returns>
+        public double Log(double x)
+        {
+            return Math.Log(Math.Asin(B * x + A));
+        }
+
+
+        /// <summary>
         ///   First derivative of the <see cref="Inverse"/> function.
         /// </summary>
         /// 

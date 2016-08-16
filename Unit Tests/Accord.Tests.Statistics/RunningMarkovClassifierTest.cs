@@ -37,24 +37,6 @@ namespace Accord.Tests.Statistics
     public class GenericRunningMarkovClassifierTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-
         [Test]
         public void PushTest()
         {

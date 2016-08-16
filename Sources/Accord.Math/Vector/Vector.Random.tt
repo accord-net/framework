@@ -138,7 +138,7 @@ namespace Accord.Math
             }
 
             <#=i#>[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace Accord.Math
             int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
 
             <#=i#>[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 <#
     }

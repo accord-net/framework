@@ -22,27 +22,19 @@
 
 namespace Accord.Statistics.Models
 {
+    using System;
 
     /// <summary>
     ///   Common interface for Hidden Conditional Random Fields learning algorithms.
     /// </summary>
     /// 
-    public interface IConvergenceLearning
+    public interface IConvergenceLearning // TODO: Move to a general place
     {
-
        
         /// <summary>
-        ///   Gets or sets the maximum change in the average log-likelihood
-        ///   after an iteration of the algorithm used to detect convergence.
+        ///   Gets or sets the tolerance value used to determine 
+        ///   whether the algorithm has converged. 
         /// </summary>
-        /// 
-        /// <remarks>
-        ///   This is the likelihood convergence limit L between two iterations of the algorithm. The
-        ///   algorithm will stop when the change in the likelihood for two consecutive iterations
-        ///   has not changed by more than L percent of the likelihood. If left as zero, the
-        ///   algorithm will ignore this parameter and iterate over a number of fixed iterations
-        ///   specified by the previous parameter.
-        /// </remarks>
         /// 
         double Tolerance { get; set; }
        
@@ -51,12 +43,6 @@ namespace Accord.Statistics.Models
         ///   Gets or sets the maximum number of iterations
         ///   performed by the learning algorithm.
         /// </summary>
-        /// 
-        /// <remarks>
-        ///   This is the maximum number of iterations to be performed by the learning algorithm. If
-        ///   specified as zero, the algorithm will learn until convergence of the model average
-        ///   likelihood respecting the desired limit.
-        /// </remarks>
         /// 
         int Iterations { get; set; }
 

@@ -195,8 +195,8 @@ namespace Accord.Statistics.Distributions.Univariate
         public static double UMinimum(double[] ranks, int n1, int n2)
         {
             // Split the rankings back and sum
-            double[] rank1 = ranks.Submatrix(0, n1 - 1);
-            double[] rank2 = ranks.Submatrix(n1, n1 + n2 - 1);
+            double[] rank1 = ranks.Get(0, n1 - 1);
+            double[] rank2 = ranks.Get(n1, n1 + n2 - 1);
 
             double t1 = rank1.Sum();
             double t2 = rank2.Sum();

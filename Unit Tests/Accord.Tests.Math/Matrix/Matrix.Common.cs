@@ -136,6 +136,17 @@ namespace Accord.Tests.Math
 
 
         [Test]
+        public void GetLengthTest()
+        {
+            var a = Jagged.Zeros(1, 1);
+            var b = Matrix.Zeros(1, 1);
+            int[] actual = a.GetLength();
+            int[] expected = b.GetLength();
+
+            Assert.IsTrue(actual.IsEqual(expected));
+        }
+
+        [Test]
         public void RelativelyEqualsTest()
         {
             Assert.IsFalse(double.PositiveInfinity.IsRelativelyEqual(1, 1e-10));

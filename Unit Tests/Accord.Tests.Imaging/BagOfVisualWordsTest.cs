@@ -75,7 +75,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(719, points[4].Count);
             Assert.AreEqual(1265, points[5].Count);
 
-            double tol = 1e-7;
+            double tol = 1e-5;
             Assert.AreEqual(388.04225639880224, points[0][0].X, tol);
             Assert.AreEqual(105.9954439039073, points[0][0].Y, tol);
 

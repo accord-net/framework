@@ -190,10 +190,22 @@ namespace Accord.Statistics.Distributions.Multivariate
                 // init is set to false during cloning
                 double[] mean = new double[dimension];
                 double[,] cov = Matrix.Identity(dimension);
-                var chol = new CholeskyDecomposition(cov,
-                    robust: false, lowerTriangular: true);
+                var chol = new CholeskyDecomposition(cov);
                 initialize(mean, cov, chol, svd: null);
             }
+        }
+
+        /// <summary>
+        ///   Constructs a multivariate Gaussian distribution
+        ///   with given mean vector and covariance matrix.
+        /// </summary>
+        /// 
+        /// <param name="mean">The mean vector μ (mu) for the distribution.</param>
+        /// <param name="covariance">The covariance matrix Σ (sigma) for the distribution.</param>
+        /// 
+        public MultivariateNormalDistribution(double[] mean, double[][] covariance)
+            : this(mean, covariance.ToMatrix())
+        {
         }
 
         /// <summary>
@@ -218,10 +230,9 @@ namespace Accord.Statistics.Distributions.Multivariate
                 throw new DimensionMismatchException("covariance",
                     "Covariance matrix should have the same dimensions as mean vector's length.");
 
-            var chol = new CholeskyDecomposition(covariance,
-                robust: false, lowerTriangular: true);
+            var chol = new CholeskyDecomposition(covariance);
 
-            if (!chol.PositiveDefinite)
+            if (!chol.IsPositiveDefinite)
                 throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive definite." +
                     " If are trying to estimate a distribution from data, please try using the Estimate method.");
 
@@ -508,7 +519,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                 // Compute covariance matrix
                 if (options != null && options.Diagonal)
                     cov = Matrix.Diagonal(Measures.Variance(observations, means));
-                cov = Measures.Covariance(observations, means);
+                cov = Measures.Covariance(observations, means).ToMatrix();
             }
 
 
@@ -521,10 +532,9 @@ namespace Accord.Statistics.Distributions.Multivariate
                 // fitting. If the matrix is not positive semi-definite, 
                 // throw an exception.
 
-                chol = new CholeskyDecomposition(cov,
-                    robust: false, lowerTriangular: true);
+                chol = new CholeskyDecomposition(cov);
 
-                if (!chol.PositiveDefinite)
+                if (!chol.IsPositiveDefinite)
                 {
                     throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive "
                         + "definite. Try specifying a regularization constant in the fitting options "
@@ -553,8 +563,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             }
 
 
-            chol = new CholeskyDecomposition(cov,
-                     robust: false, lowerTriangular: true);
+            chol = new CholeskyDecomposition(cov);
 
             // Check if need to add a regularization constant
             double regularization = options.Regularization;
@@ -563,7 +572,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             {
                 int dimension = observations[0].Length;
 
-                while (!chol.PositiveDefinite)
+                while (!chol.IsPositiveDefinite)
                 {
                     for (int i = 0; i < dimension; i++)
                     {
@@ -578,7 +587,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                 }
             }
 
-            if (!chol.PositiveDefinite)
+            if (!chol.IsPositiveDefinite)
             {
                 throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive "
                     + "definite. Try specifying a regularization constant in the fitting options "

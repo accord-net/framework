@@ -77,7 +77,7 @@ namespace Accord.Statistics.Kernels
         ///   feature (kernel) space between each vector in <paramref name="x"/>
         ///   and the ones in <paramref name="y"/>.</returns>
         ///   
-        public static double[,] ToMatrix<TKernel, TInput>(this TKernel kernel, TInput[] x, TInput[] y, double[,] result = null)
+        public static double[,] ToMatrix2<TKernel, TInput>(this TKernel kernel, TInput[] x, TInput[] y, double[,] result = null)
             where TKernel : IKernel<TInput>
         {
             if (result == null)
@@ -131,7 +131,7 @@ namespace Accord.Statistics.Kernels
         ///   feature (kernel) space between each vector in <paramref name="x"/>
         ///   and the ones in <paramref name="y"/>.</returns>
         ///   
-        public static double[][] ToJagged<TKernel, TInput>(this TKernel kernel, TInput[] x, TInput[] y, double[][] result = null)
+        public static double[][] ToJagged2<TKernel, TInput>(this TKernel kernel, TInput[] x, TInput[] y, double[][] result = null)
             where TKernel : IKernel<TInput>
         {
             if (result == null)

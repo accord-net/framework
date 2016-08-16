@@ -91,7 +91,7 @@ namespace Accord.Statistics.Analysis
     {
 
         /// <summary>
-        /// Creates a Procrustes Aanalysis object using the given sample data
+        /// Creates a Procrustes Analysis object using the given sample data
         /// </summary>
         /// <param name="samples">Data containing multiple dataset to run the analysis on</param>
         public ProcrustesAnalysis(params double[][,] samples)
@@ -190,7 +190,7 @@ namespace Accord.Statistics.Analysis
         double GetDatasetScale(double[,] samples)
         {
             double sqr = 0.0;
-            double[] norm = samples.SquareEuclidean();
+            double[] norm = samples.SquareEuclidean(dimension: 0);
             for (int i = 0; i < norm.Length; i++)
                 sqr += norm[i];
             sqr = sqr / (double)samples.Length;

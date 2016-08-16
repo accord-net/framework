@@ -32,21 +32,6 @@ namespace Accord.Tests.Statistics
     public class BernoulliDistributionTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
         [Test]
         public void ConstructorTest()
         {
@@ -192,12 +177,12 @@ namespace Accord.Tests.Statistics
         public void GenerationTest()
         {
             double prob = 0.5;
-            int trials = 10000;
+            int trials = 100000;
 
             BernoulliDistribution target = new BernoulliDistribution(prob);
             target.Fit(target.Generate(trials).Select(x => (double)x).ToArray());
 
-            Assert.AreEqual(target.Mean, prob, 0.01);
+            Assert.AreEqual(target.Mean, prob, 1e-2);
         }
     }
 }

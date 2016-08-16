@@ -167,11 +167,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// Learns a model that can map the given inputs to the desired outputs.
         /// </summary>
         /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
         /// <returns>
         /// A model that has learned how to produce suitable outputs
         /// given the input data <paramref name="x" />.
         /// </returns>
-        public TModel Learn(TInput[] x)
+        public TModel Learn(TInput[] x, double[] weights = null)
         {
             this.inputs = x;
             double[] zeros = new double[inputs.Length];
@@ -251,7 +252,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         public double Run()
         {
             Learn(inputs);
-            return new LogLikelihoodLoss().Loss(machine.Distance(inputs));
+            return new LogLikelihoodLoss().Loss(machine.Score(inputs));
         }
     }
 }

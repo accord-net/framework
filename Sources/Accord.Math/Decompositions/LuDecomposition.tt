@@ -3,17 +3,17 @@
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 <#@ include file="T4Toolbox.tt" #>
 <#
-	new DecompositionTemplate("",  "Double") .RenderToFile("LuDecomposition.cs");
-	new DecompositionTemplate("F", "Single") .RenderToFile("LuDecompositionF.cs");
-	new DecompositionTemplate("D", "Decimal").RenderToFile("LuDecompositionD.cs");
+    new DecompositionTemplate("",  "Double") .RenderToFile("LuDecomposition.cs");
+    new DecompositionTemplate("F", "Single") .RenderToFile("LuDecompositionF.cs");
+    new DecompositionTemplate("D", "Decimal").RenderToFile("LuDecompositionD.cs");
 #>
 <#+
     public class DecompositionTemplate : Template
     {
         public string Suffix { get; set; }
-		public string T { get; set; }
+        public string T { get; set; }
 
-		public DecompositionTemplate(string suffix, string dataType) { this.Suffix = suffix; this.T = dataType; }
+        public DecompositionTemplate(string suffix, string dataType) { this.Suffix = suffix; this.T = dataType; }
 
         public override string TransformText() {
 #>
@@ -414,7 +414,7 @@ namespace Accord.Math.Decompositions
 
             // Copy right hand side with pivoting
             int count = value.GetLength(1);
-            <#=T#>[,] X = value.Submatrix(pivotVector, null);
+            <#=T#>[,] X = value.Get(pivotVector, null);
 
 
             // Solve L*Y = B(piv,:)
@@ -456,7 +456,7 @@ namespace Accord.Math.Decompositions
 
 
             // Copy right hand side with pivoting
-            var X = value.Submatrix(null, pivotVector);
+            var X = value.Get(null, pivotVector);
 
             int count = X.GetLength(1);
 
@@ -525,6 +525,28 @@ namespace Accord.Math.Decompositions
             return X;
         }
 
+        /// <summary>
+        ///   Reverses the decomposition, reconstructing the original matrix <c>X</c>.
+        /// </summary>
+        /// 
+        public <#=T#>[,] Reverse()
+        {
+            return LowerTriangularFactor.Dot(UpperTriangularFactor)
+                .Get(PivotPermutationVector.ArgSort(), null);
+        }
+
+        /// <summary>
+        ///   Computes <c>(Xt * X)^1</c> (the inverse of the covariance matrix). This
+        ///   matrix can be used to determine standard errors for the coefficients when
+        ///   solving a linear set of equations through any of the <see cref="Solve(<#=T#>[,])"/>
+        ///   methods.
+        /// </summary>
+        /// 
+        public <#=T#>[,] GetInformationMatrix()
+        {
+            var X = Reverse();
+            return X.TransposeAndDot(X).Inverse();
+        }
 
 
         #region ICloneable Members

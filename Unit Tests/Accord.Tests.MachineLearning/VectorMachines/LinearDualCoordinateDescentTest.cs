@@ -167,7 +167,6 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void SparseLinearTest()
         {
-
             MulticlassSupportVectorMachine<Linear> svm1;
             MulticlassSupportVectorMachine<Linear, Sparse<double>> svm2;
 
@@ -222,7 +221,7 @@ namespace Accord.Tests.MachineLearning
                 {
                     double[] expected = ma.SupportVectors[j];
                     double[] actual = mb.SupportVectors[j].ToDense(4);
-                    Assert.IsTrue(expected.IsEqual(actual));
+                    Assert.IsTrue(expected.IsEqual(actual, 1e-6));
                 }
             }
         }

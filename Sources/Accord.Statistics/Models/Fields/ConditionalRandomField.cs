@@ -22,6 +22,8 @@
 
 namespace Accord.Statistics.Models.Fields
 {
+    using Accord.Math;
+    using Accord.MachineLearning;
     using Accord.Statistics.Models.Fields.Functions;
     using System;
     using System.IO;
@@ -40,9 +42,9 @@ namespace Accord.Statistics.Models.Fields
     /// </remarks>
     /// 
     [Serializable]
-    public class ConditionalRandomField<T> : ICloneable
+    public class ConditionalRandomField<T> : TaggerBase<T>
     {
-        
+
         /// <summary>
         ///   Gets the number of states in this
         ///   linear-chain Conditional Random Field.
@@ -95,7 +97,7 @@ namespace Accord.Statistics.Models.Fields
 
         /// <summary>
         ///   Computes the log-likelihood of the model for the given observations.
-        ///   This method is equivalent to the <see cref="Accord.Statistics.Models.Markov.HiddenMarkovModel.Evaluate(int[], int[])"/>
+        ///   This method is equivalent to the <see cref="Accord.Statistics.Models.Markov.HiddenMarkovModel{TDistribution, TObservation}.LogLikelihood(TObservation[], int[])"/>
         ///   method.
         /// </summary>
         /// 
@@ -225,12 +227,15 @@ namespace Accord.Statistics.Models.Fields
 
 
 
+#pragma warning disable 612, 618
+
         /// <summary>
         ///   Saves the random field to a stream.
         /// </summary>
         /// 
         /// <param name="stream">The stream to which the random field is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.Serializer instead.")]
         public void Save(Stream stream)
         {
             BinaryFormatter b = new BinaryFormatter();
@@ -243,6 +248,7 @@ namespace Accord.Statistics.Models.Fields
         /// 
         /// <param name="path">The stream to which the random field is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.Serializer instead.")]
         public void Save(string path)
         {
             Save(new FileStream(path, FileMode.Create));
@@ -256,6 +262,7 @@ namespace Accord.Statistics.Models.Fields
         /// 
         /// <returns>The deserialized random field.</returns>
         /// 
+        [Obsolete("Please use Accord.Serializer instead.")]
         public static ConditionalRandomField<T> Load(Stream stream)
         {
             BinaryFormatter b = new BinaryFormatter();
@@ -270,10 +277,13 @@ namespace Accord.Statistics.Models.Fields
         /// 
         /// <returns>The deserialized random field.</returns>
         /// 
+        [Obsolete("Please use Accord.Serializer instead.")]
         public static ConditionalRandomField<T> Load(string path)
         {
             return Load(new FileStream(path, FileMode.Open));
         }
+#pragma warning restore 612, 618
+
 
         #region ICloneable Members
 
@@ -291,6 +301,25 @@ namespace Accord.Statistics.Models.Fields
         }
 
         #endregion
+
+
+        /// <summary>
+        /// Computes class-label decisions for the given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vectors that should be classified as
+        /// any of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <param name="result">The location where to store the class-labels.</param>
+        /// <returns>
+        /// A set of class-labels that best describe the <paramref name="input" />
+        /// vectors according to this classifier.
+        /// </returns>
+        public override int[][] Decide(T[][] input, int[][] result)
+        {
+            double logLikelihood;
+            for (int i = 0; i < input.Length; i++)
+                Compute(input[i], out logLikelihood).CopyTo(result[i]);
+            return result;
+        }
     }
 
 }

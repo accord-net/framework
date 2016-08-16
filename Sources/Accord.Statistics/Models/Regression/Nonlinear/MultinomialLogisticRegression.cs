@@ -26,6 +26,7 @@ namespace Accord.Statistics.Models.Regression
     using Accord.Math;
     using Accord.Statistics.Testing;
     using AForge;
+    using Accord.MachineLearning;
 
     /// <summary>
     ///   Nominal Multinomial Logistic Regression.
@@ -57,7 +58,8 @@ namespace Accord.Statistics.Models.Regression
     /// </example>
     /// 
     [Serializable]
-    public class MultinomialLogisticRegression : ICloneable
+    public class MultinomialLogisticRegression : MulticlassScoreClassifierBase<double[]>,
+        ICloneable
     {
 
         private int inputs;

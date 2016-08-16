@@ -33,6 +33,7 @@
     <Optimize>false</Optimize>
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net35\</OutputPath>

@@ -130,7 +130,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     /// </example>
     /// 
     [Serializable]
-    [Obsolete]
+    //[Obsolete]
     public class Independent<TDistribution, TObservation, TOptions> :
         Independent<TDistribution, TObservation>,
         IFittableDistribution<TObservation[], IndependentOptions<TOptions>>

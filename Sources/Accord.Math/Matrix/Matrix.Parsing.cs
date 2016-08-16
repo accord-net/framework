@@ -49,6 +49,26 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Returns a <see cref="System.String"/> represents a matrix.
+        /// </summary>
+        /// <param name="matrix">The matrix.</param>
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
+        /// <example>
+        ///   Please see <see cref="CSharpMatrixFormatProvider"/>,
+        ///   <see cref="CSharpJaggedMatrixFormatProvider"/>, <see cref="CSharpArrayFormatProvider"/>,
+        ///   <see cref="OctaveMatrixFormatProvider"/>, or <see cref="OctaveArrayFormatProvider"/> 
+        ///   for more details.
+        /// </example>
+        /// 
+        public static string ToCSharp<T>(this T[,] matrix)
+        {
+            return ToString(matrix, CSharpMatrixFormatProvider.InvariantCulture);
+        }
+
+        /// <summary>
         ///   Returns a <see cref="System.String"/> that represents a matrix.
         /// </summary>
         /// 
@@ -194,6 +214,29 @@ namespace Accord.Math
         /// </example>
         /// 
         /// 
+        public static string ToCSharp<T>(this T[][] matrix)
+        {
+            return ToString(matrix, CSharpJaggedMatrixFormatProvider.InvariantCulture);
+        }
+
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents a matrix.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
+        /// <example>
+        ///   Please see <see cref="CSharpMatrixFormatProvider"/>,
+        ///   <see cref="CSharpJaggedMatrixFormatProvider"/>, <see cref="CSharpArrayFormatProvider"/>,
+        ///   <see cref="OctaveMatrixFormatProvider"/>, or <see cref="OctaveArrayFormatProvider"/> 
+        ///   for more details.
+        /// </example>
+        /// 
+        /// 
         public static string ToString<T>(this T[][] matrix)
         {
             return ToString(matrix, DefaultMatrixFormatProvider.CurrentCulture);
@@ -302,6 +345,27 @@ namespace Accord.Math
         public static string ToString<T>(this T[] array)
         {
             return ToString(array, DefaultArrayFormatProvider.CurrentCulture);
+        }
+
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents an array.
+        /// </summary>
+        /// 
+        /// <param name="array">The array.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
+        /// <example>
+        ///   Please see <see cref="CSharpMatrixFormatProvider"/>,
+        ///   <see cref="OctaveArrayFormatProvider"/> or <see cref="DefaultArrayFormatProvider"/>
+        ///   for examples and more details.
+        /// </example>
+        /// 
+        public static string ToCSharp<T>(this T[] array)
+        {
+            return ToString(array, CSharpArrayFormatProvider.InvariantCulture);
         }
 
         /// <summary>

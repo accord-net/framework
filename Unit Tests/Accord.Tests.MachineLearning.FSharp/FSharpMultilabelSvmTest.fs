@@ -63,7 +63,7 @@ type FSharpMultilabelSvmTest() =
             Array.zip validationLabels validationObservations 
             |> Array.map (fun (l, o) -> 
                 let d = ref 0
-                let output = svm.Distances(o, d)
+                let output = svm.Scores(o, d)
                 if !d = l then 1. else 0.)
             |> Array.average
             
@@ -97,7 +97,7 @@ type FSharpMultilabelSvmTest() =
             Array.zip labels observations 
             |> Array.map (fun (l, o) -> 
                 let d = ref 0
-                let output = svm.Distances(o, d)
+                let output = svm.Scores(o, d)
                 if !d = l then 1. else 0.)
             |> Array.average
 
@@ -107,7 +107,7 @@ type FSharpMultilabelSvmTest() =
             Array.zip validationLabels validationObservations 
             |> Array.map (fun (l, o) -> 
                 let d = ref 0
-                let output = svm.Distances(o, d)
+                let output = svm.Scores(o, d)
                 if !d = l then 1. else 0.)
             |> Array.average
             
@@ -144,7 +144,7 @@ type FSharpMultilabelSvmTest() =
             Array.zip labels observations 
             |> Array.map (fun (l, o) -> 
                 let d = ref 0
-                let output = svm.Distances(o, d)
+                let output = svm.Scores(o, d)
                 if !d = l then 1. else 0.)
             |> Array.average
 
@@ -154,7 +154,7 @@ type FSharpMultilabelSvmTest() =
             Array.zip validationLabels validationObservations 
             |> Array.map (fun (l, o) -> 
                 let d = ref 0
-                let output = svm.Distances(o, d)
+                let output = svm.Scores(o, d)
                 if !d = l then 1. else 0.)
             |> Array.average
             
@@ -162,8 +162,7 @@ type FSharpMultilabelSvmTest() =
 
 
 
-
-
+#if RELEASE // the following tests can take a very long time
         
     [<TestCase()>]
     member x.ConvergenceException() =
@@ -207,4 +206,4 @@ type FSharpMultilabelSvmTest() =
         Assert.AreEqual(0.884, validation, 0.005);
         Assert.AreEqual(0.9286, training, 0.005);
 
-        
+#endif

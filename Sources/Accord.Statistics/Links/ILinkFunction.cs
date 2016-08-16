@@ -61,7 +61,7 @@ namespace Accord.Statistics.Links
         double Function(double x);
 
         /// <summary>
-        ///   The mean (activation) function.
+        ///   The inverse of the link function.
         /// </summary>
         /// 
         /// <param name="x">A transformed value.</param>
@@ -70,6 +70,15 @@ namespace Accord.Statistics.Links
         /// 
         double Inverse(double x);
 
+        /// <summary>
+        ///   The logarithm of the inverse of the link function.
+        /// </summary>
+        /// 
+        /// <param name="x">A transformed value.</param>
+        /// 
+        /// <returns>The log of the reverse transformed value.</returns>
+        /// 
+        double Log(double x);
 
         /// <summary>
         ///   First derivative of the <see cref="Inverse"/> function.

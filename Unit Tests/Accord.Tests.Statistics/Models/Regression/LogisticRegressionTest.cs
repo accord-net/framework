@@ -34,22 +34,6 @@ namespace Accord.Tests.Statistics
     public class LogisticRegressionTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ComputeTest()
         {
@@ -78,6 +62,7 @@ namespace Accord.Tests.Statistics
             {
                 0, 0, 0, 1, 1, 1, 0, 0, 0, 1
             };
+
 
 
             // To verify this hypothesis, we are going to create a logistic
@@ -435,10 +420,10 @@ namespace Accord.Tests.Statistics
             error /= output.Length;
 
             Assert.AreEqual(error, 0);
-            Assert.AreEqual(-355.59378247276379, regression.Coefficients[0]);
-            Assert.AreEqual(1.2646432605797491, regression.Coefficients[1]);
-            Assert.AreEqual(-10.710529810144157, regression.Coefficients[2]);
-            Assert.AreEqual(44.089493151268726, regression.Coefficients[3]);
+            Assert.AreEqual(-355.59378247276379, regression.Coefficients[0], 1e-7);
+            Assert.AreEqual(1.2646432605797491, regression.Coefficients[1], 1e-7);
+            Assert.AreEqual(-10.710529810144157, regression.Coefficients[2], 1e-7);
+            Assert.AreEqual(44.089493151268726, regression.Coefficients[3], 1e-7);
         }
 
         [Test]
@@ -465,9 +450,9 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(30.507262964894068, actual, 1e-8);
 
             Assert.AreEqual(3, regression.Coefficients.Length);
-            Assert.AreEqual(-0.38409721299838279, regression.Coefficients[0]);
-            Assert.AreEqual(0.1065137931017601, regression.Coefficients[1]);
-            Assert.AreEqual(17.275849279015059, regression.Coefficients[2]);
+            Assert.AreEqual(-0.38409721299838279, regression.Coefficients[0], 1e-10);
+            Assert.AreEqual(0.1065137931017601, regression.Coefficients[1], 1e-10);
+            Assert.AreEqual(17.275849279015059, regression.Coefficients[2], 1e-7);
 
             for (int i = 0; i < 50; i++)
                 newError = irls.Run(inputs, output);

@@ -67,8 +67,10 @@ namespace Accord.Statistics.Links
         ///   Creates a new Log link function.
         /// </summary>
         /// 
-        public LogLinkFunction() 
-            : this(1, 0) { }
+        public LogLinkFunction()
+            : this(1, 0)
+        {
+        }
 
 
         /// <summary>
@@ -105,7 +107,7 @@ namespace Accord.Statistics.Links
         /// 
         /// <returns>The reverse transformed value.</returns>
         /// 
-        public double LogInverse(double x)
+        public double Log(double x)
         {
             return B * x + A;
         }

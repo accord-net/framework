@@ -62,6 +62,7 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return p; }
         }
 
+
         /// <summary>
         ///   Creates a new symmetric geometric distribution.
         /// </summary>
@@ -182,6 +183,51 @@ namespace Accord.Statistics.Distributions.Univariate
             return lnconstant + Math.Abs(k) * Math.Log(1 - p);
         }
 
+        /// <summary>
+        /// Generates a random observation from the current distribution.
+        /// </summary>
+        /// <returns>
+        /// A random observations drawn from this distribution.
+        /// </returns>
+        public override int Generate()
+        {
+            double u = Accord.Math.Random.Generator.Random.NextDouble();
+            return Math.Sign(u - 0.5) * (int)GeometricDistribution.Random(p);
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <returns>
+        /// A random vector of observations drawn from this distribution.
+        /// </returns>
+        public override double[] Generate(int samples, double[] result)
+        {
+            GeometricDistribution.Random(p, samples, result);
+            var rand = Accord.Math.Random.Generator.Random;
+            for (int i = 0; i < samples; i++)
+                result[i] *= Math.Sign(rand.NextDouble() - 0.5);
+            return result;
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <returns>
+        /// A random vector of observations drawn from this distribution.
+        /// </returns>
+        public override int[] Generate(int samples, int[] result)
+        {
+            GeometricDistribution.Random(p, samples, result);
+            var rand = Accord.Math.Random.Generator.Random;
+            for (int i = 0; i < samples; i++)
+                result[i] *= Math.Sign(rand.NextDouble() - 0.5);
+            return result;
+        }
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
@@ -210,6 +256,7 @@ namespace Accord.Statistics.Distributions.Univariate
             return String.Format(formatProvider, "SymmetricGeometric(x; p = {0})",
                 p.ToString(format, formatProvider));
         }
+
 
     }
 }

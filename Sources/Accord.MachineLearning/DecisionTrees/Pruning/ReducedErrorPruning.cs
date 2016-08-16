@@ -113,7 +113,7 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
 
             if (maxGain >= 0 && maxNode != null)
             {
-                int[] o = outputs.Submatrix(info[maxNode].subset.ToArray());
+                int[] o = outputs.Get(info[maxNode].subset.ToArray());
 
                 // prune the maximum gain node
                 int common = Measures.Mode(o);

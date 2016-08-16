@@ -25,18 +25,27 @@ namespace Accord.Statistics.Models.Regression.Fitting
     using System;
     using Accord.Math;
     using Accord.Math.Decompositions;
+    using Accord.MachineLearning;
+    using System.Threading;
 
     /// <summary>
     ///   Stochastic Gradient Descent learning for Logistic Regression fitting.
     /// </summary>
     /// 
-    public class LogisticGradientDescent : IRegressionFitting
+#pragma warning disable 612, 618
+    public class LogisticGradientDescent :
+        ISupervisedLearning<LogisticRegression, double[], int>,
+        ISupervisedLearning<LogisticRegression, double[], bool>,
+        ISupervisedLearning<LogisticRegression, double[], double>,
+        IRegressionFitting, IConvergenceLearning
+#pragma warning restore 612, 618
     {
 
         private LogisticRegression regression;
 
         private int parameterCount;
         private bool stochastic = false;
+        private RelativeParameterConvergence convergence;
 
         private double rate = 0.1;
 
@@ -92,6 +101,38 @@ namespace Accord.Statistics.Models.Regression.Fitting
             set { rate = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the maximum number of iterations
+        /// performed by the learning algorithm.
+        /// </summary>
+        public int Iterations
+        {
+            get { return convergence.Iterations; }
+            set { convergence.Iterations = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the tolerance value used to determine
+        /// whether the algorithm has converged.
+        /// </summary>
+        public double Tolerance
+        {
+            get { return convergence.Tolerance; }
+            set { convergence.Tolerance = value; }
+        }
+
+        /// <summary>
+        ///   Constructs a new Gradient Descent algorithm.
+        /// </summary>
+        /// 
+        public LogisticGradientDescent()
+        {
+            convergence = new RelativeParameterConvergence()
+            {
+                Iterations = 0,
+                Tolerance = 1e-8
+            };
+        }
 
         /// <summary>
         ///   Constructs a new Gradient Descent algorithm.
@@ -100,6 +141,12 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// <param name="regression">The regression to estimate.</param>
         /// 
         public LogisticGradientDescent(LogisticRegression regression)
+            : this()
+        {
+            init(regression);
+        }
+
+        private void init(LogisticRegression regression)
         {
             this.regression = regression;
 
@@ -118,6 +165,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// 
         /// <returns>The maximum relative change in the parameters after the iteration.</returns>
         /// 
+        [Obsolete("Please use the Learn(x, y) method instead.")]
         public double Run(double[][] inputs, double[][] outputs)
         {
             if (outputs[0].Length != 1)
@@ -134,29 +182,13 @@ namespace Accord.Statistics.Models.Regression.Fitting
         ///   Runs a single pass of the gradient descent algorithm.
         /// </summary>
         /// 
+        [Obsolete("Please use the Learn(x, y) method instead.")]
         public double Run(double[] input, double output)
         {
-            // Initial definitions and memory allocations
-            double[] coefficients = regression.Coefficients;
-            this.previous = (double[])coefficients.Clone();
-
-
-            // 1. Compute local gradient estimate
-            double actual = regression.Compute(input);
-            double error = output - actual;
-
-            gradient[0] = error;
-            for (int i = 0; i < input.Length; i++)
-                gradient[i + 1] = input[i] * error;
-
-            // 2. Update using the local estimate
-            for (int i = 0; i < coefficients.Length; i++)
-                coefficients[i] += rate * gradient[i];
-
-            // 3. Return maximum parameter change
-            for (int i = 0; i < previous.Length; i++)
-                deltas[i] = Math.Abs(coefficients[i] - previous[i]) / Math.Abs(previous[i]);
-
+            int old = convergence.Iterations;
+            convergence.Iterations = 1;
+            Learn(new[] { input }, new[] { output });
+            convergence.Iterations = old;
             return Matrix.Max(deltas);
         }
 
@@ -167,47 +199,13 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// <param name="outputs">The outputs associated with each input vector.</param>
         /// <returns>The maximum relative change in the parameters after the iteration.</returns>
         /// 
+        [Obsolete("Please use the Learn(x, y) method instead.")]
         public double Run(double[][] inputs, double[] outputs)
         {
-            // Initial definitions and memory allocations
-            double[] coefficients = this.regression.Coefficients;
-            double[] previous = (double[])coefficients.Clone();
-
-
-            if (stochastic)
-            {
-                // Use stochastic gradient estimates 
-                for (int i = 0; i < inputs.Length; i++)
-                {
-                    Run(inputs[i], outputs[i]);
-                }
-            }
-            else
-            {
-                // Compute the complete error gradient
-                Array.Clear(gradient, 0, gradient.Length);
-
-                for (int i = 0; i < inputs.Length; i++)
-                {
-                    double actual = regression.Compute(inputs[i]);
-                    double error = outputs[i] - actual;
-
-                    gradient[0] += error;
-                    for (int j = 0; j < inputs[i].Length; j++)
-                        gradient[j + 1] += inputs[i][j] * error;
-                }
-
-                // Update coefficients using the gradient
-                for (int i = 0; i < coefficients.Length; i++)
-                    coefficients[i] += rate * gradient[i];
-            }
-
-
-            // Return the maximum parameter change
-            this.previous = previous;
-            for (int i = 0; i < previous.Length; i++)
-                deltas[i] = Math.Abs(coefficients[i] - previous[i]) / Math.Abs(previous[i]);
-
+            int old = convergence.Iterations;
+            convergence.Iterations = 1;
+            Learn(inputs, outputs);
+            convergence.Iterations = old;
             return Matrix.Max(deltas);
         }
 
@@ -221,13 +219,16 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// 
         /// <returns>The sum-of-squared errors.</returns>
         /// 
+        [Obsolete("Please use the LogLikelihoodLoss class instead.")]
         public double ComputeError(double[][] inputs, double[] outputs)
         {
             double sum = 0;
 
             for (int i = 0; i < inputs.Length; i++)
             {
+#pragma warning disable 612, 618
                 double actual = regression.Compute(inputs[i]);
+#pragma warning restore 612, 618
                 double expected = outputs[i];
                 double delta = actual - expected;
                 sum += delta * delta;
@@ -236,5 +237,118 @@ namespace Accord.Statistics.Models.Regression.Fitting
             return sum;
         }
 
+
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        /// 
+        public CancellationToken Token { get; set; }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        /// 
+        public LogisticRegression Learn(double[][] x, int[] y, double[] weights = null)
+        {
+            return Learn(x, y.ToDouble(), weights);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        /// 
+        public LogisticRegression Learn(double[][] x, bool[] y, double[] weights = null)
+        {
+            return Learn(x, y.ToDouble(), weights);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        /// 
+        public LogisticRegression Learn(double[][] x, double[] y, double[] weights = null)
+        {
+            if (regression == null)
+            {
+                init(new LogisticRegression(x.Columns()));
+            }
+
+            // Initial definitions and memory allocations
+            double[] coefficients = this.regression.Coefficients;
+            double[] previous = (double[])coefficients.Clone();
+            convergence.Clear();
+
+            do
+            {
+                if (stochastic)
+                {
+                    for (int j = 0; j < x.Length; j++)
+                    {
+                        // 1. Compute local gradient estimate
+                        double actual = regression.Score(x[j]);
+                        double error = y[j] - actual;
+
+                        gradient[0] = error;
+                        for (int i = 0; i < x[j].Length; i++)
+                            gradient[i + 1] = x[j][i] * error;
+
+                        // 2. Update using the local estimate
+                        for (int i = 0; i < coefficients.Length; i++)
+                            coefficients[i] += rate * gradient[i];
+                    }
+                }
+                else
+                {
+                    // Compute the complete error gradient
+                    Array.Clear(gradient, 0, gradient.Length);
+
+                    for (int i = 0; i < x.Length; i++)
+                    {
+                        double actual = regression.Score(x[i]);
+                        double error = y[i] - actual;
+
+                        gradient[0] += error;
+                        for (int j = 0; j < x[i].Length; j++)
+                            gradient[j + 1] += x[i][j] * error;
+                    }
+
+                    // Update coefficients using the gradient
+                    for (int i = 0; i < coefficients.Length; i++)
+                        coefficients[i] += rate * gradient[i] / x.Length;
+                }
+
+                // Return the maximum parameter change
+                this.previous = previous;
+                for (int i = 0; i < previous.Length; i++)
+                    deltas[i] = Math.Abs(coefficients[i] - previous[i]) / Math.Abs(previous[i]);
+
+                convergence.NewValues = coefficients;
+
+                if (Token.IsCancellationRequested)
+                    return regression;
+
+            } while (!convergence.HasConverged);
+
+            return regression;
+        }
     }
 }

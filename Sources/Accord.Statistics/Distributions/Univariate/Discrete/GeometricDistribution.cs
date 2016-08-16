@@ -86,7 +86,8 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     [Serializable]
     public class GeometricDistribution : UnivariateDiscreteDistribution,
-        IFittableDistribution<double, IFittingOptions>
+        IFittableDistribution<double, IFittingOptions>,
+        ISampleableDistribution<int>
     {
 
         // Distribution parameters
@@ -111,7 +112,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public GeometricDistribution([Unit] double probabilityOfSuccess)
         {
             if (probabilityOfSuccess < 0 || probabilityOfSuccess > 1)
-                throw new ArgumentOutOfRangeException("probabilityOfSuccess", 
+                throw new ArgumentOutOfRangeException("probabilityOfSuccess",
                     "A probability must be between 0 and 1.");
 
             this.p = probabilityOfSuccess;
@@ -232,7 +233,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityMassFunction(int k)
         {
-            if (k < 0) 
+            if (k < 0)
                 return 0;
 
             return Math.Pow(1 - p, k) * p;
@@ -313,6 +314,91 @@ namespace Accord.Statistics.Distributions.Univariate
                 mean = Measures.WeightedMean(observations, weights);
 
             p = 1.0 / (1.0 - mean);
+        }
+
+        /// <summary>
+        /// Generates a random observation from the current distribution.
+        /// </summary>
+        /// <returns>
+        /// A random observations drawn from this distribution.
+        /// </returns>
+        public override int Generate()
+        {
+            return (int)Random(p);
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <returns>
+        /// A random vector of observations drawn from this distribution.
+        /// </returns>
+        public override double[] Generate(int samples, double[] result)
+        {
+            return Random(p, samples, result);
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <returns>
+        /// A random vector of observations drawn from this distribution.
+        /// </returns>
+        public override int[] Generate(int samples, int[] result)
+        {
+            return Random(p, samples, result);
+        }
+
+        /// <summary>
+        /// Generates a random observation from the current distribution.
+        /// </summary>
+        /// <param name="p">The probability of success.</param>
+        /// <returns>
+        /// A random observations drawn from this distribution.
+        /// </returns>
+        public static double Random(double p)
+        {
+            var rand = Accord.Math.Random.Generator.Random;
+            return Math.Floor(Special.Log1m(rand.NextDouble()) / Special.Log1m(p));
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="p">The probability of success.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <returns>
+        /// A random vector of observations drawn from this distribution.
+        /// </returns>
+        public static double[] Random(double p, int samples, double[] result)
+        {
+            var rand = Accord.Math.Random.Generator.Random;
+            for (int i = 0; i < samples; i++)
+                result[i] = Math.Floor(Special.Log1m(rand.NextDouble()) / Special.Log1m(p));
+            return result;
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="p">The probability of success.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <returns>
+        /// A random vector of observations drawn from this distribution.
+        /// </returns>
+
+        public static int[] Random(double p, int samples, int[] result)
+        {
+            var rand = Accord.Math.Random.Generator.Random;
+            for (int i = 0; i < samples; i++)
+                result[i] = (int)Math.Floor(Special.Log1m(rand.NextDouble()) / Special.Log1m(p));
+            return result;
         }
 
         /// <summary>

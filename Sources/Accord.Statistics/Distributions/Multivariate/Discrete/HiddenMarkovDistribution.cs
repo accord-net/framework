@@ -125,7 +125,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public override double ProbabilityMassFunction(int[] x)
         {
-            return Math.Exp(model.Evaluate(x));
+            return Math.Exp(model.LogLikelihood(x));
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public override double LogProbabilityMassFunction(int[] x)
         {
-            return model.Evaluate(x);
+            return model.LogLikelihood(x);
         }
 
         /// <summary>

@@ -441,7 +441,7 @@ namespace Accord.MachineLearning
                     double[][] centroids = clusters.Centroids;
 
                     // Extract the data for the current cluster
-                    double[][] sub = data.Submatrix(labels.Find(x => x == i));
+                    double[][] sub = data.Get(labels.Find(x => x == i));
 
                     if (sub.Length > 0)
                     {
@@ -451,7 +451,7 @@ namespace Accord.MachineLearning
                     else
                     {
                         // The cluster doesn't have any samples
-                        clusters.Covariances[i] = new double[Dimension, Dimension];
+                        clusters.Covariances[i] = Jagged.Zeros(Dimension, Dimension);
                     }
                 });
             }
@@ -712,7 +712,7 @@ namespace Accord.MachineLearning
                 {
                     kmeans.Clusters.Proportions[i] = obj.clusters.proportions[i];
                     kmeans.Clusters.Centroids[i] = obj.clusters.centroids[i];
-                    kmeans.Clusters.Covariances[i] = obj.clusters.covariances[i];
+                    kmeans.Clusters.Covariances[i] = obj.clusters.covariances[i].ToJagged();
                 }
 
                 return kmeans;

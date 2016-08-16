@@ -145,9 +145,9 @@ namespace Accord.Math.Decompositions
                     return -Math.Abs(d[i]).CompareTo(Math.Abs(d[j]));
                 });
 
-                this.d = this.d.Submatrix(idx);
-                this.e = this.e.Submatrix(idx);
-                this.V = this.V.Submatrix(null, idx);
+                this.d = this.d.Get(idx);
+                this.e = this.e.Get(idx);
+                this.V = this.V.Get(null, idx);
             }
         }
 
@@ -997,6 +997,14 @@ namespace Accord.Math.Decompositions
         }
         #endregion
 
+        /// <summary>
+        ///   Reverses the decomposition, reconstructing the original matrix <c>X</c>.
+        /// </summary>
+        /// 
+        public Double[,] Reverse()
+        {
+            return V.DotWithDiagonal(d).Divide(V);
+        }
 
 
         #region ICloneable Members

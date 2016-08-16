@@ -22,6 +22,7 @@
 
 namespace Accord.Statistics.Analysis
 {
+    using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Regression;
@@ -31,6 +32,7 @@ namespace Accord.Statistics.Analysis
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Threading;
 
     /// <summary>
     ///   Cox's Proportional Hazards Survival Analysis.
@@ -158,8 +160,15 @@ namespace Accord.Statistics.Analysis
     /// </example>
     /// 
     [Serializable]
-    public class ProportionalHazardsAnalysis : IRegressionAnalysis
+    public class ProportionalHazardsAnalysis : IRegressionAnalysis,
+        ISupervisedLearning<ProportionalHazards, Tuple<double[], double>, int>
     {
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        public CancellationToken Token { get; set; }
+
         private ProportionalHazards regression;
 
         private int inputCount;
@@ -194,11 +203,6 @@ namespace Accord.Statistics.Analysis
 
         private bool innerComputed = false;
 
-
-        //---------------------------------------------
-
-
-        #region Constructors
 
         /// <summary>
         ///   Constructs a new Cox's Proportional Hazards Analysis.
@@ -349,13 +353,7 @@ namespace Accord.Statistics.Analysis
             this.source = inputs.ToMatrix();
         }
 
-        #endregion
 
-
-        //---------------------------------------------
-
-
-        #region Public Properties
 
         /// <summary>
         ///   Gets or sets the maximum number of iterations to be
@@ -568,13 +566,8 @@ namespace Accord.Statistics.Analysis
             get { return this.confidences; }
         }
 
-        #endregion
 
 
-        //---------------------------------------------
-
-
-        #region Public Methods
 
         /// <summary>
         ///   Gets the Log-Likelihood Ratio between this model and another model.
@@ -644,7 +637,6 @@ namespace Accord.Statistics.Analysis
             return compute();
         }
 
-        #endregion
 
 
 
@@ -658,7 +650,7 @@ namespace Accord.Statistics.Analysis
             learning.Iterations = Iterations;
             learning.Tolerance = Tolerance;
 
-            learning.Run(inputData, timeData, censorData);
+            learning.Learn(inputData, timeData, censorData);
 
             // Check if the full model has converged
             bool converged = learning.CurrentIteration < Iterations;
@@ -696,7 +688,7 @@ namespace Accord.Statistics.Analysis
                 learning.Iterations = Iterations;
                 learning.Tolerance = Tolerance;
 
-                learning.Run(data, timeData, censorData);
+                learning.Learn(data, timeData, censorData);
 
 
                 double ratio = 2.0 * (logLikelihood - innerModel.GetPartialLogLikelihood(data, timeData, censorData));
@@ -709,7 +701,9 @@ namespace Accord.Statistics.Analysis
         private void computeInformation()
         {
             // Store model information
+#pragma warning disable 612, 618
             this.result = regression.Compute(inputData, timeData);
+#pragma warning restore 612, 618
             this.deviance = regression.GetDeviance(inputData, timeData, censorData);
             this.logLikelihood = regression.GetPartialLogLikelihood(inputData, timeData, censorData);
             this.chiSquare = regression.ChiSquare(inputData, timeData, censorData);
@@ -735,6 +729,35 @@ namespace Accord.Statistics.Analysis
             Compute();
         }
 
+
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public ProportionalHazards Learn(Tuple<double[], double>[] x, int[] y, double[] weights = null)
+        {
+            var learning = new ProportionalHazardsNewtonRaphson(regression);
+
+            Array.Clear(regression.Coefficients, 0, regression.Coefficients.Length);
+
+
+            learning.Iterations = Iterations;
+            learning.Tolerance = Tolerance;
+
+            learning.Learn(x, y, weights);
+
+            // Check if the full model has converged
+            computeInformation();
+            innerComputed = false;
+
+            return regression;
+        }
     }
 
 

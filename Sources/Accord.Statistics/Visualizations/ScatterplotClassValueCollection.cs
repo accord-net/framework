@@ -61,7 +61,7 @@ namespace Accord.Statistics.Visualizations
         /// 
         public double[] XAxis
         {
-            get { return parent.XAxis.Submatrix(Indices); }
+            get { return parent.XAxis.Get(Indices); }
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Accord.Statistics.Visualizations
         /// 
         public double[] YAxis
         {
-            get { return parent.YAxis.Submatrix(Indices); }
+            get { return parent.YAxis.Get(Indices); }
         }
 
         /// <summary>

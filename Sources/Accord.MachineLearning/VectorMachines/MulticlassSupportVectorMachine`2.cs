@@ -336,7 +336,7 @@ namespace Accord.MachineLearning.VectorMachines
             );
 
 #if DEBUG
-            double expected = machine.Distance(input);
+            double expected = machine.Score(input);
             Accord.Diagnostics.Debug.Assert(sum.IsEqual(expected, rtol: 1e-3));
 #endif
 
@@ -394,7 +394,7 @@ namespace Accord.MachineLearning.VectorMachines
         /// <param name="result">An array where the result will be stored,
         /// avoiding unnecessary memory allocations.</param>
         /// <returns></returns>
-        public override double[] Distances(TInput input, double[] result)
+        public override double[] Scores(TInput input, double[] result)
         {
             Cache cache = createOrResetCache();
 

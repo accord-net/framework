@@ -28,6 +28,8 @@ namespace Accord.Statistics.Models.Markov
     ///   Common interface for sequence classifiers using <see cref="IHiddenMarkovModel">
     ///   hidden Markov models</see>.
     /// </summary>
+    ///
+    [Obsolete("Please use IMulticlassClassifier from Accord.MachineLearning namespace.")]
     public interface IHiddenMarkovClassifier
     {
 

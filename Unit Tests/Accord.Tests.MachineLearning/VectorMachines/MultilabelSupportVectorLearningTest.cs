@@ -242,7 +242,7 @@ namespace Accord.Tests.MachineLearning
             for (int i = 0; i < inputs.Length; i++)
             {
                 int actual;
-                msvm.Distances(inputs[i], out actual);
+                msvm.Scores(inputs[i], out actual);
                 Assert.AreEqual(y[i], actual);
             }
         }

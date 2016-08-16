@@ -39,9 +39,9 @@ namespace Accord.MachineLearning
     /// 
     [Serializable]
     public class OneVsRest<TModel, TInput> :
-        MultilabelGenerativeClassifierBase<TInput>,
+        MultilabelLikelihoodClassifierBase<TInput>,
         IEnumerable<KeyValuePair<int, TModel>>
-        where TModel : IBinaryDistanceClassifier<TInput>
+        where TModel : IBinaryScoreClassifier<TInput>
     {
         private TModel[] models;
 
@@ -126,9 +126,9 @@ namespace Accord.MachineLearning
         /// <param name="decision">The class label associated with the input
         /// vector, as predicted by the classifier.</param>
         /// <returns></returns>
-        public override double Distance(TInput input, int classIndex, out bool decision)
+        public override double Score(TInput input, int classIndex, out bool decision)
         {
-            return models[classIndex].Distance(input, out decision);
+            return models[classIndex].Score(input, out decision);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Accord.MachineLearning
         /// vector, as predicted by the classifier.</param>
         public override double LogLikelihood(TInput input, int classIndex, out bool decision)
         {
-            var model = models[classIndex] as IBinaryGenerativeClassifier<TInput>;
+            var model = models[classIndex] as IBinaryLikelihoodClassifier<TInput>;
             if (model == null)
                 throw new NotSupportedException();
             return model.LogLikelihood(input, out decision);
@@ -198,7 +198,7 @@ namespace Accord.MachineLearning
     /// 
     [Serializable]
     public class OneVsRest<TModel> : OneVsRest<TModel, double[]>
-       where TModel : IBinaryDistanceClassifier<double[]>
+       where TModel : IBinaryScoreClassifier<double[]>
     {
         /// <summary>
         ///   Initializes a new instance of the <see cref="OneVsRest{TBinary}"/> class.

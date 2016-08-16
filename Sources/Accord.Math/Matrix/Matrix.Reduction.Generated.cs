@@ -8147,5 +8147,941 @@ namespace Accord.Math
             return result;
         }
 
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] CumulativeSum(this int[] vector)
+        {
+            if (vector.Length == 0)
+                return new int[0];
+
+            return CumulativeSum(vector, Accord.Math.Vector.CreateAs(vector));
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] CumulativeSum(this int[] vector, int[] result)
+        {
+            result[0] = vector[0];
+            for (int i = 1; i < vector.Length; i++)
+                result[i] = (int)(result[i - 1] + vector[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] CumulativeSum(this int[][] matrix, int dimension)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+            if (dimension == 1)
+                return CumulativeSum(matrix, dimension, Jagged.Zeros<int>(rows, cols));
+            return CumulativeSum(matrix, dimension, Jagged.Zeros<int>(cols, rows));
+        }        
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] CumulativeSum(this int[][] matrix, int dimension, int[][] result)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
+            if (dimension == 1)
+            {
+                matrix.GetRow(0, result: result[0]);
+                for (int i = 1; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i][j] = (int)(result[i - 1][j] + matrix[i][j]);
+            }
+            else if (dimension == 0)
+            {
+                matrix.GetColumn(0, result: result[0]);
+                for (int i = 1; i < cols; i++)
+                    for (int j = 0; j < rows; j++)
+                        result[i][j] = (int)(result[i - 1][j] + matrix[j][i]);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] CumulativeSum(this int[,] matrix, int dimension)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+            if (dimension == 1)
+                return CumulativeSum(matrix, dimension, Matrix.Zeros<int>(rows, cols));
+            return CumulativeSum(matrix, dimension, Matrix.Zeros<int>(cols, rows));
+        }        
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] CumulativeSum(this int[,] matrix, int dimension, int[,] result)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
+            if (dimension == 1)
+            {
+                result.SetColumn(0, matrix.GetRow(0));
+                for (int i = 1; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (int)(result[i - 1, j] + matrix[i, j]);
+            }
+            else if (dimension == 0)
+            {
+                result.SetColumn(0, matrix.GetColumn(0));
+                for (int i = 1; i < cols; i++)
+                    for (int j = 0; j < rows; j++)
+                        result[i, j] = (int)(result[i - 1, j] + matrix[j, i]);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] CumulativeSum(this short[] vector)
+        {
+            if (vector.Length == 0)
+                return new short[0];
+
+            return CumulativeSum(vector, Accord.Math.Vector.CreateAs(vector));
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] CumulativeSum(this short[] vector, short[] result)
+        {
+            result[0] = vector[0];
+            for (int i = 1; i < vector.Length; i++)
+                result[i] = (short)(result[i - 1] + vector[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] CumulativeSum(this short[][] matrix, int dimension)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+            if (dimension == 1)
+                return CumulativeSum(matrix, dimension, Jagged.Zeros<short>(rows, cols));
+            return CumulativeSum(matrix, dimension, Jagged.Zeros<short>(cols, rows));
+        }        
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] CumulativeSum(this short[][] matrix, int dimension, short[][] result)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
+            if (dimension == 1)
+            {
+                matrix.GetRow(0, result: result[0]);
+                for (int i = 1; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i][j] = (short)(result[i - 1][j] + matrix[i][j]);
+            }
+            else if (dimension == 0)
+            {
+                matrix.GetColumn(0, result: result[0]);
+                for (int i = 1; i < cols; i++)
+                    for (int j = 0; j < rows; j++)
+                        result[i][j] = (short)(result[i - 1][j] + matrix[j][i]);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] CumulativeSum(this short[,] matrix, int dimension)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+            if (dimension == 1)
+                return CumulativeSum(matrix, dimension, Matrix.Zeros<short>(rows, cols));
+            return CumulativeSum(matrix, dimension, Matrix.Zeros<short>(cols, rows));
+        }        
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] CumulativeSum(this short[,] matrix, int dimension, short[,] result)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
+            if (dimension == 1)
+            {
+                result.SetColumn(0, matrix.GetRow(0));
+                for (int i = 1; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)(result[i - 1, j] + matrix[i, j]);
+            }
+            else if (dimension == 0)
+            {
+                result.SetColumn(0, matrix.GetColumn(0));
+                for (int i = 1; i < cols; i++)
+                    for (int j = 0; j < rows; j++)
+                        result[i, j] = (short)(result[i - 1, j] + matrix[j, i]);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] CumulativeSum(this float[] vector)
+        {
+            if (vector.Length == 0)
+                return new float[0];
+
+            return CumulativeSum(vector, Accord.Math.Vector.CreateAs(vector));
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] CumulativeSum(this float[] vector, float[] result)
+        {
+            result[0] = vector[0];
+            for (int i = 1; i < vector.Length; i++)
+                result[i] = (float)(result[i - 1] + vector[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] CumulativeSum(this float[][] matrix, int dimension)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+            if (dimension == 1)
+                return CumulativeSum(matrix, dimension, Jagged.Zeros<float>(rows, cols));
+            return CumulativeSum(matrix, dimension, Jagged.Zeros<float>(cols, rows));
+        }        
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] CumulativeSum(this float[][] matrix, int dimension, float[][] result)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
+            if (dimension == 1)
+            {
+                matrix.GetRow(0, result: result[0]);
+                for (int i = 1; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i][j] = (float)(result[i - 1][j] + matrix[i][j]);
+            }
+            else if (dimension == 0)
+            {
+                matrix.GetColumn(0, result: result[0]);
+                for (int i = 1; i < cols; i++)
+                    for (int j = 0; j < rows; j++)
+                        result[i][j] = (float)(result[i - 1][j] + matrix[j][i]);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] CumulativeSum(this float[,] matrix, int dimension)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+            if (dimension == 1)
+                return CumulativeSum(matrix, dimension, Matrix.Zeros<float>(rows, cols));
+            return CumulativeSum(matrix, dimension, Matrix.Zeros<float>(cols, rows));
+        }        
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] CumulativeSum(this float[,] matrix, int dimension, float[,] result)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
+            if (dimension == 1)
+            {
+                result.SetColumn(0, matrix.GetRow(0));
+                for (int i = 1; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (float)(result[i - 1, j] + matrix[i, j]);
+            }
+            else if (dimension == 0)
+            {
+                result.SetColumn(0, matrix.GetColumn(0));
+                for (int i = 1; i < cols; i++)
+                    for (int j = 0; j < rows; j++)
+                        result[i, j] = (float)(result[i - 1, j] + matrix[j, i]);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] CumulativeSum(this double[] vector)
+        {
+            if (vector.Length == 0)
+                return new double[0];
+
+            return CumulativeSum(vector, Accord.Math.Vector.CreateAs(vector));
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] CumulativeSum(this double[] vector, double[] result)
+        {
+            result[0] = vector[0];
+            for (int i = 1; i < vector.Length; i++)
+                result[i] = (double)(result[i - 1] + vector[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] CumulativeSum(this double[][] matrix, int dimension)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+            if (dimension == 1)
+                return CumulativeSum(matrix, dimension, Jagged.Zeros<double>(rows, cols));
+            return CumulativeSum(matrix, dimension, Jagged.Zeros<double>(cols, rows));
+        }        
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] CumulativeSum(this double[][] matrix, int dimension, double[][] result)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
+            if (dimension == 1)
+            {
+                matrix.GetRow(0, result: result[0]);
+                for (int i = 1; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i][j] = (double)(result[i - 1][j] + matrix[i][j]);
+            }
+            else if (dimension == 0)
+            {
+                matrix.GetColumn(0, result: result[0]);
+                for (int i = 1; i < cols; i++)
+                    for (int j = 0; j < rows; j++)
+                        result[i][j] = (double)(result[i - 1][j] + matrix[j][i]);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] CumulativeSum(this double[,] matrix, int dimension)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+            if (dimension == 1)
+                return CumulativeSum(matrix, dimension, Matrix.Zeros<double>(rows, cols));
+            return CumulativeSum(matrix, dimension, Matrix.Zeros<double>(cols, rows));
+        }        
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] CumulativeSum(this double[,] matrix, int dimension, double[,] result)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
+            if (dimension == 1)
+            {
+                result.SetColumn(0, matrix.GetRow(0));
+                for (int i = 1; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)(result[i - 1, j] + matrix[i, j]);
+            }
+            else if (dimension == 0)
+            {
+                result.SetColumn(0, matrix.GetColumn(0));
+                for (int i = 1; i < cols; i++)
+                    for (int j = 0; j < rows; j++)
+                        result[i, j] = (double)(result[i - 1, j] + matrix[j, i]);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] CumulativeSum(this long[] vector)
+        {
+            if (vector.Length == 0)
+                return new long[0];
+
+            return CumulativeSum(vector, Accord.Math.Vector.CreateAs(vector));
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] CumulativeSum(this long[] vector, long[] result)
+        {
+            result[0] = vector[0];
+            for (int i = 1; i < vector.Length; i++)
+                result[i] = (long)(result[i - 1] + vector[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] CumulativeSum(this long[][] matrix, int dimension)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+            if (dimension == 1)
+                return CumulativeSum(matrix, dimension, Jagged.Zeros<long>(rows, cols));
+            return CumulativeSum(matrix, dimension, Jagged.Zeros<long>(cols, rows));
+        }        
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] CumulativeSum(this long[][] matrix, int dimension, long[][] result)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
+            if (dimension == 1)
+            {
+                matrix.GetRow(0, result: result[0]);
+                for (int i = 1; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i][j] = (long)(result[i - 1][j] + matrix[i][j]);
+            }
+            else if (dimension == 0)
+            {
+                matrix.GetColumn(0, result: result[0]);
+                for (int i = 1; i < cols; i++)
+                    for (int j = 0; j < rows; j++)
+                        result[i][j] = (long)(result[i - 1][j] + matrix[j][i]);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] CumulativeSum(this long[,] matrix, int dimension)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+            if (dimension == 1)
+                return CumulativeSum(matrix, dimension, Matrix.Zeros<long>(rows, cols));
+            return CumulativeSum(matrix, dimension, Matrix.Zeros<long>(cols, rows));
+        }        
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] CumulativeSum(this long[,] matrix, int dimension, long[,] result)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
+            if (dimension == 1)
+            {
+                result.SetColumn(0, matrix.GetRow(0));
+                for (int i = 1; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (long)(result[i - 1, j] + matrix[i, j]);
+            }
+            else if (dimension == 0)
+            {
+                result.SetColumn(0, matrix.GetColumn(0));
+                for (int i = 1; i < cols; i++)
+                    for (int j = 0; j < rows; j++)
+                        result[i, j] = (long)(result[i - 1, j] + matrix[j, i]);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] CumulativeSum(this decimal[] vector)
+        {
+            if (vector.Length == 0)
+                return new decimal[0];
+
+            return CumulativeSum(vector, Accord.Math.Vector.CreateAs(vector));
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] CumulativeSum(this decimal[] vector, decimal[] result)
+        {
+            result[0] = vector[0];
+            for (int i = 1; i < vector.Length; i++)
+                result[i] = (decimal)(result[i - 1] + vector[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] CumulativeSum(this decimal[][] matrix, int dimension)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+            if (dimension == 1)
+                return CumulativeSum(matrix, dimension, Jagged.Zeros<decimal>(rows, cols));
+            return CumulativeSum(matrix, dimension, Jagged.Zeros<decimal>(cols, rows));
+        }        
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] CumulativeSum(this decimal[][] matrix, int dimension, decimal[][] result)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
+            if (dimension == 1)
+            {
+                matrix.GetRow(0, result: result[0]);
+                for (int i = 1; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i][j] = (decimal)(result[i - 1][j] + matrix[i][j]);
+            }
+            else if (dimension == 0)
+            {
+                matrix.GetColumn(0, result: result[0]);
+                for (int i = 1; i < cols; i++)
+                    for (int j = 0; j < rows; j++)
+                        result[i][j] = (decimal)(result[i - 1][j] + matrix[j][i]);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] CumulativeSum(this decimal[,] matrix, int dimension)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+            if (dimension == 1)
+                return CumulativeSum(matrix, dimension, Matrix.Zeros<decimal>(rows, cols));
+            return CumulativeSum(matrix, dimension, Matrix.Zeros<decimal>(cols, rows));
+        }        
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] CumulativeSum(this decimal[,] matrix, int dimension, decimal[,] result)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
+            if (dimension == 1)
+            {
+                result.SetColumn(0, matrix.GetRow(0));
+                for (int i = 1; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (decimal)(result[i - 1, j] + matrix[i, j]);
+            }
+            else if (dimension == 0)
+            {
+                result.SetColumn(0, matrix.GetColumn(0));
+                for (int i = 1; i < cols; i++)
+                    for (int j = 0; j < rows; j++)
+                        result[i, j] = (decimal)(result[i - 1, j] + matrix[j, i]);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
     }
 }

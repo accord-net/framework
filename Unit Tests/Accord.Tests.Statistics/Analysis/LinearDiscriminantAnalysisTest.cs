@@ -30,22 +30,6 @@ namespace Accord.Tests.Statistics
     public class LinearDiscriminantAnalysisTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         // This is the same data used in the example by Gutierrez-Osuna
         // http://research.cs.tamu.edu/prism/lectures/pr/pr_l10.pdf
 
@@ -207,7 +191,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void ProjectionTest()
         {
-            LinearDiscriminantAnalysis lda = new LinearDiscriminantAnalysis(inputs, output);
+            var lda = new LinearDiscriminantAnalysis(inputs, output);
 
             // Compute the analysis
             lda.Compute();
@@ -246,13 +230,13 @@ namespace Accord.Tests.Statistics
         [Test]
         public void ClassifyTest()
         {
-            LinearDiscriminantAnalysis lda = new LinearDiscriminantAnalysis(inputs, output);
+            var lda = new LinearDiscriminantAnalysis(inputs, output);
 
             // Compute the analysis
             lda.Compute();
 
             for (int i = 0; i < output.Length; i++)
-                Assert.AreEqual(lda.Classify(inputs.GetRow(i)), output[i]);
+                Assert.AreEqual(output[i], lda.Classify(inputs.GetRow(i)));
         }
 
     }

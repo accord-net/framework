@@ -174,8 +174,8 @@ namespace Accord.Statistics.Testing
             double[] rank = samples.Rank();
 
             // Split the rankings back and sum
-            Rank1 = rank.Submatrix(0, n1 - 1);
-            Rank2 = rank.Submatrix(n1, n - 1);
+            Rank1 = rank.Get(0, n1);
+            Rank2 = rank.Get(n1, n);
 
             double t1 = Rank1.Sum();
             double t2 = Rank2.Sum();

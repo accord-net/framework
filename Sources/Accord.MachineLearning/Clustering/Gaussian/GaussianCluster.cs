@@ -378,10 +378,10 @@ namespace Accord.MachineLearning
             for (int i = 0; i < Count; i++)
             {
                 double[] mean = kmeans.Clusters.Centroids[i];
-                double[,] covariance = kmeans.Clusters.Covariances[i];
+                double[][] covariance = kmeans.Clusters.Covariances[i];
 
                 if (covariance == null || !covariance.IsPositiveDefinite())
-                    covariance = Matrix.Identity(kmeans.Dimension);
+                    covariance = Jagged.Identity(kmeans.Dimension);
 
                 distributions[i] = new MultivariateNormalDistribution(mean, covariance);
             }

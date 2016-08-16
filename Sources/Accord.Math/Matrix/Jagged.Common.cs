@@ -212,6 +212,62 @@ namespace Accord.Math
             return true;
         }
 
+        /// <summary>
+        ///   Gets the lower triangular part of a matrix.
+        /// </summary>
+        /// 
+        public static T[][] GetLowerTriangle<T>(this T[][] matrix, bool includeDiagonal = true)
+        {
+            int s = includeDiagonal ? 1 : 0;
+            var r = Jagged.CreateAs(matrix);
+            for (int i = 0; i < matrix.Rows(); i++)
+                for (int j = 0; j < i + s; j++)
+                    r[i][j] = matrix[i][j]; ;
+            return r;
+        }
+
+        /// <summary>
+        ///   Gets the upper triangular part of a matrix.
+        /// </summary>
+        /// 
+        public static T[][] GetUpperTriangle<T>(this T[][] matrix, bool includeDiagonal = false)
+        {
+            int s = includeDiagonal ? 0 : 1;
+            var r = Jagged.CreateAs(matrix);
+            for (int i = 0; i < matrix.Rows(); i++)
+                for (int j = i + s; j < matrix.Columns(); j++)
+                    r[i][j] = matrix[i][j]; ;
+            return r;
+        }
+
+        /// <summary>
+        ///   Transforms a triangular matrix in a symmetric matrix by copying
+        ///   its elements to the other, unfilled part of the matrix.
+        /// </summary>
+        /// 
+        public static T[][] GetSymmetric<T>(this T[][] matrix, MatrixType type, T[][] result = null)
+        {
+            if (result == null)
+                result = Jagged.CreateAs(matrix);
+
+            switch (type)
+            {
+                case MatrixType.LowerTriangular:
+                    for (int i = 0; i < matrix.Rows(); i++)
+                        for (int j = 0; j <= i; j++)
+                            result[i][j] = result[j][i] = matrix[i][j];
+                    break;
+                case MatrixType.UpperTriangular:
+                    for (int i = 0; i < matrix.Rows(); i++)
+                        for (int j = i; j <= matrix.Columns(); j++)
+                            result[i][j] = result[j][i] = matrix[i][j];
+                    break;
+                default:
+                    throw new Exception("Matrix type can be either LowerTriangular or UpperTrianguler.");
+            }
+
+            return result;
+        }
 
         /// <summary>
         ///   Returns true if a matrix is diagonal.
@@ -298,12 +354,12 @@ namespace Accord.Math
         /// 
         public static bool IsPositiveDefinite(this double[][] matrix)
         {
-            return new JaggedCholeskyDecomposition(matrix).PositiveDefinite;
+            return new JaggedCholeskyDecomposition(matrix).IsPositiveDefinite;
         }
         #endregion
 
 
-        
+
 
         #region Operation Mapping (Apply)
 
@@ -355,6 +411,19 @@ namespace Accord.Math
             return clone;
         }
 
+        /// <summary>
+        ///   Creates a member-wise copy of a jagged matrix. Matrix elements
+        ///   themselves are copied only in a shallowed manner (i.e. not cloned).
+        /// </summary>
+        /// 
+        public static T[][] Copy<T>(this T[][] a)
+        {
+            T[][] clone = new T[a.Length][];
+            for (int i = 0; i < a.Length; i++)
+                clone[i] = (T[])a[i].Clone();
+            return clone;
+        }
+
 
         /// <summary>
         ///   Copies the content of an array to another array.
@@ -367,9 +436,26 @@ namespace Accord.Math
         /// 
         public static void CopyTo<T>(this T[][] matrix, T[][] destination)
         {
-            for (int i = 0; i < matrix.Length; i++)
-                for (int j = 0; j < matrix[i].Length; j++)
-                    destination[i][j] = matrix[i][j];
+            if (matrix != destination)
+                for (int i = 0; i < matrix.Length; i++)
+                    for (int j = 0; j < matrix[i].Length; j++)
+                        destination[i][j] = matrix[i][j];
+        }
+
+        /// <summary>
+        ///   Copies the content of an array to another array.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
+        /// 
+        /// <param name="vector">The source vector to be copied.</param>
+        /// <param name="destination">The matrix where the elements should be copied to.</param>
+        /// 
+        public static void CopyTo<T>(this T[] vector, T[] destination)
+        {
+            if (vector != destination)
+                for (int i = 0; i < vector.Length; i++)
+                    destination[i] = vector[i];
         }
 
         /// <summary>

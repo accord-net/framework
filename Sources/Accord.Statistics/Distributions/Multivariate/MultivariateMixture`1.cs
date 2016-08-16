@@ -559,10 +559,10 @@ namespace Accord.Statistics.Distributions.Multivariate
                     double[][] means = new double[components.Length][];
                     for (int k = 0; k < components.Length; k++)
                         means[k] = components[k].Mean;
-                    double[,] VarE = Measures.Scatter(means, (double)components.Length);
+                    double[][] VarE = Measures.Scatter(means, (double)components.Length);
 
                     // Var[X] = E[Var [X|Y]] + Var[E[X|Y]]
-                    covariance = EVar.Add(VarE);
+                    covariance = EVar.Add(VarE, result: EVar);
                 }
 
                 return covariance;

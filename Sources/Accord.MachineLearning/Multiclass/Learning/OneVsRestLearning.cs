@@ -47,7 +47,7 @@ namespace Accord.MachineLearning
         OneVsRestLearning<double[], TBinary, TModel>,
         ISupervisedLearning<TModel, double[], int>
         where TModel : OneVsRest<TBinary>
-        where TBinary : class, IBinaryDistanceClassifier<double[]>
+        where TBinary : class, IBinaryScoreClassifier<double[]>
     {
     }
 
@@ -64,7 +64,7 @@ namespace Accord.MachineLearning
         ISupervisedLearning<TModel, TInput, int>,
         ISupervisedLearning<TModel, TInput, int[]>,
         ISupervisedLearning<TModel, TInput, bool[]>
-        where TBinary : IBinaryDistanceClassifier<TInput>
+        where TBinary : IBinaryScoreClassifier<TInput>
         where TModel : OneVsRest<TBinary, TInput>
     {
 

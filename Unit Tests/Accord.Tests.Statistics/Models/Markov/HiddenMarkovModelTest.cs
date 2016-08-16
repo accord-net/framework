@@ -35,23 +35,6 @@ namespace Accord.Tests.Statistics
     public class HiddenMarkovModelTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ConstructorTest()
         {
@@ -78,7 +61,7 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(2, hmm.States);
             Assert.AreEqual(4, hmm.Symbols);
-            Assert.IsTrue(Matrix.Log(A).IsEqual(hmm.Transitions));
+            Assert.IsTrue(Matrix.Log(A).IsEqual(hmm.LogTransitions));
             Assert.IsTrue(Matrix.Log(B).IsEqual(hmm.Emissions));
             Assert.IsTrue(Matrix.Log(pi).IsEqual(hmm.Probabilities));
 
@@ -102,7 +85,7 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(2, hmm.States);
             Assert.AreEqual(4, hmm.Symbols);
-            Assert.IsTrue(Matrix.Log(A).IsEqual(hmm.Transitions));
+            Assert.IsTrue(Matrix.Log(A).IsEqual(hmm.LogTransitions));
             Assert.IsTrue(Matrix.Log(B).IsEqual(hmm.Emissions));
             Assert.IsTrue(Matrix.Log(pi).IsEqual(hmm.Probabilities));
 
@@ -110,8 +93,8 @@ namespace Accord.Tests.Statistics
             hmm = new HiddenMarkovModel(A, B, pi);
             Assert.AreEqual(2, hmm.States);
             Assert.AreEqual(4, hmm.Symbols);
-            Assert.IsTrue(Matrix.Log(A).IsEqual(hmm.Transitions));
-            Assert.IsTrue(Matrix.Log(B).IsEqual(hmm.Emissions));
+            Assert.IsTrue(Matrix.Log(A).IsEqual(hmm.LogTransitions));
+            Assert.IsTrue(Matrix.Log(B).IsEqual(hmm.Emissions, 1e-10));
             Assert.IsTrue(Matrix.Log(pi).IsEqual(hmm.Probabilities));
         }
 
@@ -438,66 +421,6 @@ namespace Accord.Tests.Statistics
             }
 
             Assert.IsTrue(thrown);
-        }
-
-        [Test]
-        public void PredictTest()
-        {
-            int[][] sequences = new int[][] 
-            {
-                new int[] { 0, 3, 1, 2 },
-            };
-
-
-            HiddenMarkovModel hmm = new HiddenMarkovModel(new Forward(4), 4);
-
-            var teacher = new BaumWelchLearning(hmm) { Tolerance = 1e-10, Iterations = 0 };
-            double ll = teacher.Run(sequences);
-
-            double l11, l12, l13, l14;
-
-            int p1 = hmm.Predict(new int[] { 0 }, 1, out l11)[0];
-            int p2 = hmm.Predict(new int[] { 0, 3 }, 1, out l12)[0];
-            int p3 = hmm.Predict(new int[] { 0, 3, 1 }, 1, out l13)[0];
-            int p4 = hmm.Predict(new int[] { 0, 3, 1, 2 }, 1, out l14)[0];
-
-            Assert.AreEqual(3, p1);
-            Assert.AreEqual(1, p2);
-            Assert.AreEqual(2, p3);
-            Assert.AreEqual(2, p4);
-
-            double l21 = hmm.Evaluate(new int[] { 0, 3 });
-            double l22 = hmm.Evaluate(new int[] { 0, 3, 1 });
-            double l23 = hmm.Evaluate(new int[] { 0, 3, 1, 2 });
-            double l24 = hmm.Evaluate(new int[] { 0, 3, 1, 2, 2 });
-
-            Assert.AreEqual(l11, l21, 1e-10);
-            Assert.AreEqual(l12, l22, 1e-10);
-            Assert.AreEqual(l13, l23, 1e-10);
-            Assert.AreEqual(l14, l24, 1e-10);
-
-            Assert.IsFalse(double.IsNaN(l11));
-            Assert.IsFalse(double.IsNaN(l12));
-            Assert.IsFalse(double.IsNaN(l13));
-            Assert.IsFalse(double.IsNaN(l14));
-
-            Assert.IsFalse(double.IsNaN(l21));
-            Assert.IsFalse(double.IsNaN(l22));
-            Assert.IsFalse(double.IsNaN(l23));
-            Assert.IsFalse(double.IsNaN(l24));
-
-            double ln1;
-            int[] pn = hmm.Predict(new int[] { 0 }, 4, out ln1);
-
-            Assert.AreEqual(4, pn.Length);
-            Assert.AreEqual(3, pn[0]);
-            Assert.AreEqual(1, pn[1]);
-            Assert.AreEqual(2, pn[2]);
-            Assert.AreEqual(2, pn[3]);
-
-            double ln2 = hmm.Evaluate(new int[] { 0, 3, 1, 2, 2 });
-
-            Assert.AreEqual(ln1, ln2, 1e-10);
         }
 
         [Test]

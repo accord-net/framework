@@ -25,8 +25,12 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Regression;
+    using System.Linq;
     using NUnit.Framework;
     using System;
+#if NET35
+    using Tuple = Accord.Tuple;
+#endif
 
     [TestFixture]
     public class CoxProportionalHazardsTest
@@ -128,8 +132,7 @@ namespace Accord.Tests.Statistics
                 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1
             };
 
-            ProportionalHazards regression = new ProportionalHazards(1,
-                new EmpiricalHazardDistribution(distTimes, distHazards));
+            var regression = new ProportionalHazards(1, new EmpiricalHazardDistribution(distTimes, distHazards));
 
             regression.Coefficients[0] = 0.37704239281494084;
             regression.StandardErrors[0] = 0.25415755113043753;
@@ -151,10 +154,13 @@ namespace Accord.Tests.Statistics
                 actual[i] = regression.Compute(inputs[i], time[i]);
 
             for (int i = 0; i < actual.Length; i++)
-            {
                 Assert.AreEqual(expected[i], actual[i], 1e-6);
-                Assert.IsFalse(Double.IsNaN(actual[i]));
-            }
+
+
+            regression.Intercept = regression.Coefficients.Dot(regression.Offsets);
+            actual = regression.Score(inputs.Zip(time, Tuple.Create).ToArray());
+
+            Assert.IsTrue(actual.IsEqual(expected, 1e-6));
         }
 
 

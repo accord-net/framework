@@ -261,6 +261,20 @@ namespace Accord.Statistics.Distributions
         double CumulativeHazardFunction(double x);
 
         /// <summary>
+        ///   Gets the cumulative hazard function for this
+        ///   distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">
+        ///   A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The cumulative hazard function <c>H(x)</c>  
+        ///   evaluated at <c>x</c> in the current distribution.</returns>
+        /// 
+        double LogCumulativeHazardFunction(double x);
+
+        /// <summary>
         ///   Gets the first derivative of the <see cref="InverseDistributionFunction">
         ///   inverse distribution function</see> (icdf) for this distribution evaluated
         ///   at probability <c>p</c>. 

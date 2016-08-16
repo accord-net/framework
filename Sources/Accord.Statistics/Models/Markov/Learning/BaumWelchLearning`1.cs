@@ -22,6 +22,8 @@
 
 namespace Accord.Statistics.Models.Markov.Learning
 {
+#pragma warning disable 612, 618
+
     using System;
     using Accord.Math;
     using Accord.Statistics.Models.Markov;
@@ -436,6 +438,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <seealso cref="BaumWelchLearning"/>
     /// <seealso cref="BaumWelchLearning{TDistribution}"/>
     /// 
+    [Obsolete("Please use BaumWelchLearning<TDistribution, TObservation> instead.")]
     public class BaumWelchLearning<TDistribution> : BaseBaumWelchLearning, IUnsupervisedLearning, IConvergenceLearning
         where TDistribution : IDistribution
     {

@@ -357,7 +357,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             Trace.WriteLine("Objective value = " + v);
 
             Model.Weights = new double[] { 1.0 };
-            Model.SupportVectors = new[] { w.Submatrix(w.Length - 1) };
+            Model.SupportVectors = new[] { w.First(w.Length - 1) };
             Model.Threshold = weights[biasIndex];
             Model.IsProbabilistic = true;
         }

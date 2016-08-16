@@ -847,6 +847,23 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Gets the log of the cumulative hazard function for this
+        ///   distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">
+        ///   A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The cumulative hazard function <c>H(x)</c>  
+        ///   evaluated at <c>x</c> in the current distribution.</returns>
+        /// 
+        public virtual double LogCumulativeHazardFunction(double x)
+        {
+            return Math.Log(-Math.Log(ComplementaryDistributionFunction(x)));
+        }
+
+        /// <summary>
         ///   Fits the underlying distribution to a given set of observations.
         /// </summary>
         /// 

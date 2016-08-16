@@ -1,5 +1,4 @@
-﻿
-// Accord Math Library
+﻿// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -211,7 +210,7 @@ namespace Accord.Math.Decompositions
                 {
                     double det = 0;
                     for (int i = 0; i < s.Length; i++)
-                        det += Math.Log(s[i]);
+                        det += Math.Log((double)s[i]);
                     lndeterminant = (Double)det;
                 }
 
@@ -252,7 +251,7 @@ namespace Accord.Math.Decompositions
                 {
                     double det = 0;
                     for (int i = 0; i < s.Length; i++)
-                        if (s[i] != 0) det += Math.Log(s[i]);
+                        if (s[i] != 0) det += Math.Log((double)s[i]);
                     lnpseudoDeterminant = (Double)det;
                 }
 
@@ -684,7 +683,7 @@ namespace Accord.Math.Decompositions
 
 							var alpha = tiny + eps * (System.Math.Abs(s[k]) + System.Math.Abs(s[k + 1]));
 
-							if (System.Math.Abs(e[k]) <= alpha || Double.IsNaN(e[k]))
+                            if (System.Math.Abs(e[k]) <= alpha || Double.IsNaN(e[k]))
 							{
 								e[k] = 0;
 								break;
@@ -797,15 +796,14 @@ namespace Accord.Math.Decompositions
 									Double ek = e[k] / scale;
 									Double b = ((spm1 + sp) * (spm1 - sp) + epm1 * epm1) / 2;
 									Double c = (sp * epm1) * (sp * epm1);
-									double shift = 0;
+									Double shift = 0;
 
 									if ((b != 0) | (c != 0))
 									{
-										if (b < 0)
-											shift = -System.Math.Sqrt(b * b + c);
-										else
-											shift = System.Math.Sqrt(b * b + c);
-
+                                        if (b < 0)
+								            shift = -(Double)System.Math.Sqrt(b * b + c);
+							            else
+								            shift = (Double)System.Math.Sqrt(b * b + c);
 										shift = c / (b + shift);
 									}
 
@@ -1027,6 +1025,68 @@ namespace Accord.Math.Decompositions
         }
 
         /// <summary>
+        ///   Solves a linear equation system of the form XA = B.
+        /// </summary>
+        /// <param name="value">Parameter B from the equation XA = B.</param>
+        /// <returns>The solution X from equation XA = B.</returns>
+        public Double[,] SolveTranspose(Double[,] value)
+        {
+            // Additionally an important property is that if there does not exists a solution
+            // when the matrix A is singular but replacing 1/Li with 0 will provide a solution
+            // that minimizes the residue |AX -Y|. SVD finds the least squares best compromise
+            // solution of the linear equation system. Interestingly SVD can be also used in an
+            // over-determined system where the number of equations exceeds that of the parameters.
+
+            // L is a diagonal matrix with non-negative matrix elements having the same
+            // dimension as A, Wi ? 0. The diagonal elements of L are the singular values of matrix A.
+
+            Double[,] Y = value;
+
+            // Create L*, which is a diagonal matrix with elements
+            //    L*[i] = 1/L[i]  if L[i] < e, else 0, 
+            // where e is the so-called singularity threshold.
+
+            // In other words, if L[i] is zero or close to zero (smaller than e),
+            // one must replace 1/L[i] with 0. The value of e depends on the precision
+            // of the hardware. This method can be used to solve linear equations
+            // systems even if the matrices are singular or close to singular.
+
+            //singularity threshold
+            Double e = this.Threshold;
+
+
+            int scols = s.Length;
+            var Ls = new Double[scols, scols];
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (System.Math.Abs(s[i]) <= e)
+                    Ls[i, i] = 0;
+                else Ls[i, i] = 1 / s[i];
+            }
+
+            //(V x L*) x Ut x Y
+            var VL = Matrix.Dot(v, Ls);
+
+            //(V x L* x Ut) x Y
+            int vrows = v.GetLength(0);
+            int urows = u.GetLength(0);
+            var VLU = new Double[vrows, scols];
+            for (int i = 0; i < vrows; i++)
+            {
+                for (int j = 0; j < urows; j++)
+                {
+                    Double sum = 0;
+                    for (int k = 0; k < urows; k++)
+                        sum += VL[i, k] * u[j, k];
+                    VLU[i, j] = sum;
+                }
+            }
+
+            //(V x L* x Ut x Y)
+            return Matrix.Dot(Y, VLU);
+        }
+
+        /// <summary>
         ///   Solves a linear equation system of the form AX = B.
         /// </summary>
         /// <param name="value">Parameter B from the equation AX = B.</param>
@@ -1153,6 +1213,69 @@ namespace Accord.Math.Decompositions
         }
 
         /// <summary>
+        ///   Solves a linear equation system of the form xA = b.
+        /// </summary>
+        /// <param name="value">The b from the equation xA = b.</param>
+        /// <returns>The x from equation Ax = b.</returns>
+        public Double[] SolveTranspose(Double[] value)
+        {
+            // Additionally an important property is that if there does not exists a solution
+            // when the matrix A is singular but replacing 1/Li with 0 will provide a solution
+            // that minimizes the residue |AX -Y|. SVD finds the least squares best compromise
+            // solution of the linear equation system. Interestingly SVD can be also used in an
+            // over-determined system where the number of equations exceeds that of the parameters.
+
+            // L is a diagonal matrix with non-negative matrix elements having the same
+            // dimension as A, Wi ? 0. The diagonal elements of L are the singular values of matrix A.
+
+            //singularity threshold
+            Double e = this.Threshold;
+
+            var Y = value;
+
+            // Create L*, which is a diagonal matrix with elements
+            //    L*i = 1/Li  if Li = e, else 0, 
+            // where e is the so-called singularity threshold.
+
+            // In other words, if Li is zero or close to zero (smaller than e),
+            // one must replace 1/Li with 0. The value of e depends on the precision
+            // of the hardware. This method can be used to solve linear equations
+            // systems even if the matrices are singular or close to singular.
+
+
+            int scols = s.Length;
+
+            var Ls = new Double[scols, scols];
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (System.Math.Abs(s[i]) <= e)
+                    Ls[i, i] = 0;
+                else Ls[i, i] = 1 / s[i];
+            }
+
+            //(V x L*) x Ut x Y
+            var VL = Matrix.Dot(v, Ls);
+
+            //(V x L* x Ut) x Y
+            int urows = u.GetLength(0);
+            int vrows = v.GetLength(0);
+            var VLU = new Double[vrows, urows];
+            for (int i = 0; i < vrows; i++)
+            {
+                for (int j = 0; j < urows; j++)
+                {
+                    Double sum = 0;
+                    for (int k = 0; k < scols; k++)
+                        sum += VL[i, k] * u[j, k];
+                    VLU[i, j] = sum;
+                }
+            }
+
+            //(V x L* x Ut x Y)
+            return Matrix.Dot(Y, VLU);
+        }
+
+        /// <summary>
         ///   Computes the (pseudo-)inverse of the matrix given to the Singular value decomposition.
         /// </summary>
         ///
@@ -1191,7 +1314,54 @@ namespace Accord.Math.Decompositions
             return Y;
         }
 
+        /// <summary>
+        ///   Reverses the decomposition, reconstructing the original matrix <c>X</c>.
+        /// </summary>
+        /// 
+        public Double[,] Reverse()
+        {
+            return LeftSingularVectors.Dot(DiagonalMatrix).DotWithTransposed(RightSingularVectors);
+        }
 
+        /// <summary>
+        ///   Computes <c>(Xt * X)^1</c> (the inverse of the covariance matrix). This
+        ///   matrix can be used to determine standard errors for the coefficients when
+        ///   solving a linear set of equations through any of the <see cref="Solve(Double[,])"/>
+        ///   methods.
+        /// </summary>
+        /// 
+        public Double[,] GetInformationMatrix()
+        {
+            Double e = this.Threshold;
+
+            // X = V*S^-1
+            int vrows = v.GetLength(0);
+            int vcols = v.GetLength(1);
+            var X = new Double[vrows, s.Length];
+            for (int i = 0; i < vrows; i++)
+            {
+                for (int j = 0; j < vcols; j++)
+                {
+                    if (System.Math.Abs(s[j]) > e)
+                        X[i, j] = v[i, j] / s[j];
+                }
+            }
+
+            // Y = X*V'
+            var Y = new Double[vrows, vrows];
+            for (int i = 0; i < vrows; i++)
+            {
+                for (int j = 0; j < vrows; j++)
+                {
+                    Double sum = 0;
+                    for (int k = 0; k < vcols; k++)
+                        sum += X[i, k] * v[j, k];
+                    Y[i, j] = sum;
+                }
+            }
+
+            return Y;
+        }
 
         #region ICloneable Members
         private SingularValueDecomposition()

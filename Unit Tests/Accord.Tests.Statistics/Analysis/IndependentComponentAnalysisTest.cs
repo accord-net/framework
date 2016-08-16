@@ -76,15 +76,14 @@ namespace Accord.Tests.Statistics
             // used to alter the data. Note that the analysis was able to detect
             // this information automatically:
 
-            double[,] mixingMatrix = ica.MixingMatrix; // same as the 'mix' matrix
-            double[,] revertMatrix = ica.DemixingMatrix; // inverse of the 'mix' matrix
+            double[][] mixingMatrix = ica.MixingMatrix; // same as the 'mix' matrix
+            double[][] revertMatrix = ica.DemixingMatrix; // inverse of the 'mix' matrix
 
             double[,] result = ica.Result;
 
             // Verify mixing matrix
             mixingMatrix = mixingMatrix.Divide(mixingMatrix.Sum());
             Assert.IsTrue(mix.IsEqual(mixingMatrix, atol: 0.008));
-
 
             // Verify demixing matrix
             double[,] expected =
@@ -164,7 +163,7 @@ namespace Accord.Tests.Statistics
 
             double[,] X = Matrix.Multiply(S, A);
 
-            IndependentComponentAnalysis ica = new IndependentComponentAnalysis(X);
+            var ica = new IndependentComponentAnalysis(X);
 
 
             ica.Compute(2);
@@ -190,7 +189,7 @@ namespace Accord.Tests.Statistics
 
             double[,] X = S.Multiply(A);
 
-            IndependentComponentAnalysis ica = new IndependentComponentAnalysis(X);
+            var ica = new IndependentComponentAnalysis(X);
 
 
             ica.Compute(2);
@@ -199,7 +198,10 @@ namespace Accord.Tests.Statistics
 
             var expected = Accord.Statistics.Tools.ZScores(X);
             var actual = Accord.Statistics.Tools.ZScores(ica.Combine(result));
+            Assert.IsTrue(expected.IsEqual(actual, 1e-4));
 
+            expected = X;
+            actual = ica.Combine(result);
             Assert.IsTrue(expected.IsEqual(actual, 1e-4));
         }
 
@@ -246,7 +248,7 @@ namespace Accord.Tests.Statistics
 
             double[,] X = S.Multiply(A);
 
-            IndependentComponentAnalysis ica = new IndependentComponentAnalysis(X);
+            var ica = new IndependentComponentAnalysis(X);
 
 
             ica.Compute(2);
@@ -293,8 +295,8 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(IndependentComponentAlgorithm.Parallel, ica.Algorithm);
 
-            double[,] mixingMatrix = ica.MixingMatrix; // same as the 'mix' matrix
-            double[,] revertMatrix = ica.DemixingMatrix; // inverse of the 'mix' matrix
+            double[][] mixingMatrix = ica.MixingMatrix; // same as the 'mix' matrix
+            double[][] revertMatrix = ica.DemixingMatrix; // inverse of the 'mix' matrix
 
             double[,] result = ica.Result;
 
@@ -309,8 +311,6 @@ namespace Accord.Tests.Statistics
 
             revertMatrix = revertMatrix.Divide(revertMatrix.Sum());
             Assert.IsTrue(expected.IsEqual(revertMatrix, atol: 0.008));
-
-
         }
 
         [Test]

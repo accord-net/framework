@@ -118,7 +118,7 @@ namespace Accord.Tests.MachineLearning
             var tree = new DecisionTree(attributes, classes: 5);
 
             C45Learning c45 = new C45Learning(tree);
-            double error = c45.Run(inputs.Submatrix(first), outputs.Submatrix(first));
+            double error = c45.Run(inputs.First(first), outputs.First(first));
 
             Assert.AreEqual(0, error);
 

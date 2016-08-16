@@ -137,8 +137,8 @@ namespace Accord.Math.Distances
         {
             double[] meanX = x.Mean(dimension: 0);
             double[] meanY = y.Mean(dimension: 0);
-            double[,] covX = x.Covariance(meanX);
-            double[,] covY = y.Covariance(meanY);
+            double[][] covX = x.Covariance(meanX);
+            double[][] covY = y.Covariance(meanY);
 
             return Distance(meanX, covX, meanY, covY);
         }
@@ -200,6 +200,30 @@ namespace Accord.Math.Distances
         /// <param name="covX">Covariance matrix for the first distribution.</param>
         /// <param name="meanY">Mean for the second distribution.</param>
         /// <param name="covY">Covariance matrix for the second distribution.</param>
+        /// 
+        /// <returns>The Bhattacharyya distance between the two distributions.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public double Distance(double[] meanX, double[][] covX, double[] meanY, double[][] covY)
+        {
+            int n = meanX.Length;
+
+            double lnDetX = covX.LogPseudoDeterminant();
+            double lnDetY = covY.LogPseudoDeterminant();
+
+            return Distance(meanX, covX, lnDetX, meanY, covY, lnDetY);
+        }
+
+        /// <summary>
+        ///   Bhattacharyya distance between two Gaussian distributions.
+        /// </summary>
+        /// 
+        /// <param name="meanX">Mean for the first distribution.</param>
+        /// <param name="covX">Covariance matrix for the first distribution.</param>
+        /// <param name="meanY">Mean for the second distribution.</param>
+        /// <param name="covY">Covariance matrix for the second distribution.</param>
         /// <param name="lnDetCovX">The logarithm of the determinant for 
         ///   the covariance matrix of the first distribution.</param>
         /// <param name="lnDetCovY">The logarithm of the determinant for 
@@ -223,6 +247,57 @@ namespace Accord.Math.Distances
                     P[i, j] = (covX[i, j] + covY[i, j]) / 2.0;
 
             var svd = new SingularValueDecomposition(P);
+            double detP = svd.LogPseudoDeterminant;
+
+            double[] d = new double[meanX.Length];
+            for (int i = 0; i < meanX.Length; i++)
+                d[i] = meanX[i] - meanY[i];
+
+            double[] z = svd.Solve(d);
+
+            double r = 0.0;
+            for (int i = 0; i < d.Length; i++)
+                r += d[i] * z[i];
+
+            double mahalanobis = Math.Abs(r);
+
+            double a = (1.0 / 8.0) * mahalanobis;
+            double b = (0.5) * (detP - 0.5 * (lnDetCovX + lnDetCovY));
+
+            return a + b;
+        }
+
+        /// <summary>
+        ///   Bhattacharyya distance between two Gaussian distributions.
+        /// </summary>
+        /// 
+        /// <param name="meanX">Mean for the first distribution.</param>
+        /// <param name="covX">Covariance matrix for the first distribution.</param>
+        /// <param name="meanY">Mean for the second distribution.</param>
+        /// <param name="covY">Covariance matrix for the second distribution.</param>
+        /// <param name="lnDetCovX">The logarithm of the determinant for 
+        ///   the covariance matrix of the first distribution.</param>
+        /// <param name="lnDetCovY">The logarithm of the determinant for 
+        ///   the covariance matrix of the second distribution.</param>
+        /// 
+        /// <returns>The Bhattacharyya distance between the two distributions.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public double Distance(
+            double[] meanX, double[][] covX, double lnDetCovX,
+            double[] meanY, double[][] covY, double lnDetCovY)
+        {
+            int n = meanX.Length;
+
+            // P = (covX + covY) / 2
+            var P = Jagged.Zeros(n, n);
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < n; j++)
+                    P[i][j] = (covX[i][j] + covY[i][j]) / 2.0;
+
+            var svd = new JaggedSingularValueDecomposition(P);
             double detP = svd.LogPseudoDeterminant;
 
             double[] d = new double[meanX.Length];

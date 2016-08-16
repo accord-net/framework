@@ -22,6 +22,7 @@
 
 namespace Accord.Statistics.Analysis
 {
+    using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
@@ -31,6 +32,7 @@ namespace Accord.Statistics.Analysis
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+using System.Threading;
 
     /// <summary>
     ///   Logistic Regression Analysis.
@@ -190,32 +192,44 @@ namespace Accord.Statistics.Analysis
     /// </example>
     /// 
     [Serializable]
-    public class LogisticRegressionAnalysis : IRegressionAnalysis
+    public class LogisticRegressionAnalysis : TransformBase<double[], double>, // TODO: Rename to BinaryLogLikelihoodClassifierBase
+        IRegressionAnalysis,
+        ISupervisedLearning<LogisticRegression, double[], int>,
+        ISupervisedLearning<LogisticRegression, double[], double>
     {
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        public CancellationToken Token { get; set; }
+
         private LogisticRegression regression;
 
-        private int inputCount;
         private double[] coefficients;
         private double[] standardErrors;
         private double[] oddsRatios;
 
         private WaldTest[] waldTests;
         private ChiSquareTest[] ratioTests;
-
         private DoubleRange[] confidences;
 
         private double deviance;
         private double logLikelihood;
         private ChiSquareTest chiSquare;
 
+        [Obsolete]
         private double[][] inputData;
+        [Obsolete]
         private double[] outputData;
+        [Obsolete]
         private double[] weights;
 
         private string[] inputNames;
         private string outputName;
 
+        [Obsolete]
         private double[,] sourceMatrix;
+        [Obsolete]
         private double[] result;
 
         double regularization = 1e-10;
@@ -228,7 +242,6 @@ namespace Accord.Statistics.Analysis
         private bool innerComputed = false;
 
 
-        #region Constructors
         /// <summary>
         ///   Constructs a Logistic Regression Analysis.
         /// </summary>
@@ -236,6 +249,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="inputs">The input data for the analysis.</param>
         /// <param name="outputs">The output data for the analysis.</param>
         /// 
+        [Obsolete("Please pass the inputs and outputs to the Learn method instead.")]
         public LogisticRegressionAnalysis(double[][] inputs, double[] outputs)
         {
             if (inputs == null)
@@ -254,8 +268,10 @@ namespace Accord.Statistics.Analysis
             initialize(inputs, outputs);
 
             // Start regression using the Null Model
-            this.regression = new LogisticRegression(inputCount);
+            this.regression = new LogisticRegression(NumberOfInputs);
         }
+
+#pragma warning disable 612, 618
 
         /// <summary>
         ///   Constructs a Logistic Regression Analysis.
@@ -265,6 +281,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="outputs">The output data for the analysis.</param>
         /// <param name="weights">The weights associated with each input vector.</param>
         /// 
+        [Obsolete("Please pass the inputs and outputs to the Learn method instead.")]
         public LogisticRegressionAnalysis(double[][] inputs, double[] outputs, double[] weights)
             : this(inputs, outputs)
         {
@@ -289,6 +306,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="inputNames">The names of the input variables.</param>
         /// <param name="outputName">The name of the output variable.</param>
         /// 
+        [Obsolete("Please pass the inputs and outputs to the Learn method instead.")]
         public LogisticRegressionAnalysis(double[][] inputs, double[] outputs,
             String[] inputNames, String outputName)
             : this(inputs, outputs)
@@ -296,6 +314,8 @@ namespace Accord.Statistics.Analysis
             this.inputNames = inputNames;
             this.outputName = outputName;
         }
+#pragma warning restore 612, 618
+
 
         /// <summary>
         ///   Constructs a Logistic Regression Analysis.
@@ -307,6 +327,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="outputName">The name of the output variable.</param>
         /// <param name="weights">The weights associated with each input vector.</param>
         /// 
+        [Obsolete("Please pass the inputs and outputs to the Learn method instead.")]
         public LogisticRegressionAnalysis(double[][] inputs, double[] outputs, double[] weights,
             String[] inputNames, String outputName)
             : this(inputs, outputs, weights)
@@ -315,15 +336,24 @@ namespace Accord.Statistics.Analysis
             this.outputName = outputName;
         }
 
+        /// <summary>
+        ///   Constructs a Logistic Regression Analysis.
+        /// </summary>
+        /// 
+        public LogisticRegressionAnalysis()
+        {
+            this.NumberOfOutputs = 1;
+        }
+
+        [Obsolete]
         private void initialize(double[][] inputs, double[] outputs)
         {
-            this.inputCount = inputs[0].Length;
-            int coefficientCount = inputCount + 1;
+            this.NumberOfInputs = inputs[0].Length;
+            int coefficientCount = NumberOfInputs + 1;
 
             // Store data sets
             this.inputData = inputs;
             this.outputData = outputs;
-
 
             // Create additional structures
             this.coefficients = new double[coefficientCount];
@@ -334,7 +364,7 @@ namespace Accord.Statistics.Analysis
             this.ratioTests = new ChiSquareTest[coefficientCount];
 
             this.outputName = "Output";
-            this.inputNames = new string[inputCount];
+            this.inputNames = new string[NumberOfInputs];
             for (int i = 0; i < inputNames.Length; i++)
                 inputNames[i] = "Input " + i;
 
@@ -346,11 +376,6 @@ namespace Accord.Statistics.Analysis
         }
 
 
-        #endregion
-
-
-
-        #region Public Properties
 
         /// <summary>
         ///   Gets or sets the maximum number of iterations to be
@@ -389,9 +414,19 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        ///   Gets or sets whether nested models should be computed in
+        ///   order to calculate the likelihood-ratio test of each of
+        ///   the coefficients. Default is false.
+        /// </summary>
+        /// 
+        public bool ComputeInnerModels { get; set; }
+
+#pragma warning disable 612, 618
+        /// <summary>
         ///   Gets the source matrix from which the analysis was run.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[,] Source
         {
             get
@@ -406,6 +441,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the source matrix from which the analysis was run.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[][] Array
         {
             get { return inputData; }
@@ -416,6 +452,7 @@ namespace Accord.Statistics.Analysis
         ///   for each of the source input points.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[] Outputs
         {
             get { return outputData; }
@@ -426,6 +463,7 @@ namespace Accord.Statistics.Analysis
         ///   by the logistic regression model.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[] Result
         {
             get { return result; }
@@ -435,10 +473,13 @@ namespace Accord.Statistics.Analysis
         ///   Gets the sample weight associated with each input vector.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[] Weights
         {
             get { return weights; }
         }
+#pragma warning restore 612, 618
+
 
         /// <summary>
         ///   Gets the Logistic Regression model created
@@ -546,8 +587,10 @@ namespace Accord.Statistics.Analysis
         {
             get
             {
+#pragma warning disable 612, 618
                 if (innerComputed == false)
-                    computeInner();
+                    computeInner(Source.ToJagged(), Outputs, Weights);
+#pragma warning restore 612, 618
 
                 return this.ratioTests;
             }
@@ -572,13 +615,9 @@ namespace Accord.Statistics.Analysis
             get { return this.confidences; }
         }
 
-        #endregion
 
 
-        //---------------------------------------------
 
-
-        #region Public Methods
         /// <summary>
         ///   Gets the Log-Likelihood Ratio between this model and another model.
         /// </summary>
@@ -586,9 +625,61 @@ namespace Accord.Statistics.Analysis
         /// <param name="model">Another logistic regression model.</param>
         /// <returns>The Likelihood-Ratio between the two models.</returns>
         /// 
+        [Obsolete("This method will be removed.")]
         public double GetLikelihoodRatio(GeneralizedLinearRegression model)
         {
+#pragma warning disable 612, 618
             return regression.GetLogLikelihoodRatio(inputData, outputData, model);
+#pragma warning restore 612, 618
+        }
+
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public LogisticRegression Learn(double[][] x, double[] y, double[] weights = null)
+        {
+            return compute(x, y, weights);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public LogisticRegression Learn(double[][] x, int[] y, double[] weights = null)
+        {
+            return compute(x, y.ToDouble(), weights);
+        }
+
+        private LogisticRegression compute(double[][] input, double[] output, double[] weights)
+        {
+            var learning = new IterativeReweightedLeastSquares(regression)
+            {
+                Regularization = regularization,
+                Iterations = iterations,
+                Tolerance = tolerance
+            };
+
+            learning.Learn(input, output, weights);
+
+            computeInformation(input, output, weights);
+
+            innerComputed = false;
+            if (ComputeInnerModels)
+                computeInner(input, output, weights);
+
+            return regression;
         }
 
 
@@ -606,6 +697,7 @@ namespace Accord.Statistics.Analysis
         ///   True if the model converged, false otherwise.
         /// </returns>
         /// 
+        [Obsolete("Please use the Learn() method instead.")]
         public bool Compute()
         {
             return compute();
@@ -615,11 +707,13 @@ namespace Accord.Statistics.Analysis
         ///   Computes the Logistic Regression Analysis for an already computed regression.
         /// </summary>
         /// 
+        [Obsolete("Please use the Learn() method instead.")]
         public void Compute(LogisticRegression regression)
         {
             this.regression = regression;
-
-            computeInformation();
+#pragma warning disable 612, 618
+            computeInformation(Source.ToJagged(), Outputs, Weights);
+#pragma warning restore 612, 618
 
             innerComputed = false;
         }
@@ -649,7 +743,7 @@ namespace Accord.Statistics.Analysis
         ///   True if the model converged, false otherwise.
         /// </returns>
         /// 
-        [Obsolete("Please set up the Iterations and Tolerance properties and call Compute() instead.")]
+        [Obsolete("Please set up the Iterations and Tolerance properties and call Learn() instead.")]
         public bool Compute(double limit = 1e-5, int maxIterations = 50)
         {
             this.iterations = maxIterations;
@@ -658,7 +752,6 @@ namespace Accord.Statistics.Analysis
             return compute();
         }
 
-        #endregion
 
         /// <summary>
         ///   Creates a new <see cref="LogisticRegressionAnalysis"/> from summarized data.
@@ -675,6 +768,7 @@ namespace Accord.Statistics.Analysis
         ///   A <see cref="LogisticRegressionAnalysis"/> created from the given summary data.
         /// </returns>
         /// 
+        [Obsolete("Please use the Learn method instead.")]
         public static LogisticRegressionAnalysis FromSummary(double[][] data, int[] positives, int[] negatives)
         {
             double[] rate = new double[data.Length];
@@ -689,7 +783,8 @@ namespace Accord.Statistics.Analysis
             return new LogisticRegressionAnalysis(data, rate, weights);
         }
 
-
+#pragma warning disable 612, 618
+        [Obsolete]
         private bool compute()
         {
             double delta;
@@ -709,39 +804,30 @@ namespace Accord.Statistics.Analysis
             // Check if the full model has converged
             bool converged = iteration < iterations;
 
-
-            computeInformation();
-
+            computeInformation(inputData, outputData, weights);
             innerComputed = false;
 
             return converged;
         }
+#pragma warning restore 612, 618
 
-        private void computeInner()
+        private void computeInner(double[][] inputData, double[] outputData, double[] weights)
         {
-            double limit = tolerance;
-            int maxIterations = iterations;
-
-            // Perform likelihood-ratio tests against diminished nested models
-            var innerModel = new LogisticRegression(inputCount - 1);
-            var learning = new IterativeReweightedLeastSquares(innerModel);
-
-            learning.Regularization = regularization;
-
-            for (int i = 0; i < inputCount; i++)
+            for (int i = 0; i < NumberOfInputs; i++)
             {
                 // Create a diminished inner model without the current variable
                 double[][] data = inputData.RemoveColumn(i);
 
-                int iteration = 0;
-                double delta = 0;
-
-                do // learning iterations until convergence
+                // Perform likelihood-ratio tests against diminished nested models
+                var innerModel = new LogisticRegression(NumberOfInputs);
+                var learning = new IterativeReweightedLeastSquares(innerModel)
                 {
-                    delta = learning.Run(data, outputData, weights);
-                    iteration++;
+                    Iterations = iterations,
+                    Tolerance = tolerance,
+                    Regularization = regularization
+                }; 
 
-                } while (delta > limit && iteration < maxIterations);
+                learning.Learn(data, outputData, weights);
 
                 double ratio = 2.0 * (logLikelihood - innerModel.GetLogLikelihood(data, outputData));
                 ratioTests[i + 1] = new ChiSquareTest(ratio, 1);
@@ -750,10 +836,12 @@ namespace Accord.Statistics.Analysis
             innerComputed = true;
         }
 
-        private void computeInformation()
+        private void computeInformation(double[][] inputData, double[] outputData, double[] weights)
         {
             // Store model information
-            this.result = regression.Compute(inputData);
+#pragma warning disable 612, 618
+            result = regression.Compute(inputData);
+#pragma warning restore 612, 618
 
             if (weights == null)
             {
@@ -785,11 +873,23 @@ namespace Accord.Statistics.Analysis
         ///   Computes the analysis using given source data and parameters.
         /// </summary>
         /// 
+        [Obsolete("Please use the Learn() method instead.")]
         void IAnalysis.Compute()
         {
             Compute();
         }
 
+        /// <summary>
+        /// Applies the transformation to an input, producing an associated output.
+        /// </summary>
+        /// <param name="input">The input data to which the transformation should be applied.</param>
+        /// <returns>
+        /// The output generated by applying this transformation to the given input.
+        /// </returns>
+        public override double Transform(double[] input)
+        {
+            return (regression as ITransform<double[], double>).Transform(input);
+        }
     }
 
 
@@ -927,8 +1027,6 @@ namespace Accord.Statistics.Analysis
         {
             return String.Format("{0}; {1} ({2}, {3})", Name, Value, ConfidenceLower, ConfidenceUpper);
         }
-
-
     }
 
     /// <summary>

@@ -23,12 +23,16 @@
 namespace Accord.Statistics.Models.Regression.Fitting
 {
     using Accord.Statistics.Distributions.Univariate;
+    using System;
 
     /// <summary>
     ///   Common interface for regression fitting methods.
     /// </summary>
     /// 
+#pragma warning disable 612, 618
+    [Obsolete("Please use ISupervisedLearning instead.")]
     interface ISurvivalFitting : IRegressionFitting
+#pragma warning restore 612, 618
     {
 
         /// <summary>

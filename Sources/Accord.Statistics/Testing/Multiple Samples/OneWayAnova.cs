@@ -163,7 +163,7 @@ namespace Accord.Statistics.Testing
             for (int i = 0; i < groups.Length; i++)
             {
                 int[] idx = labels.Find(label => label == i);
-                double[] group = samples.Submatrix(idx);
+                double[] group = samples.Get(idx);
 
                 groups[i] = group;
                 sizes[i] = group.Length;

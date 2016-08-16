@@ -193,6 +193,9 @@ namespace Accord.Math
         {
             get
             {
+                if (maxIterations > 0 && CurrentIteration >= maxIterations)
+                    return true;
+
                 if (NewValues == null && OldValues == null)
                     return true;
                 if (OldValues == null)
@@ -226,19 +229,6 @@ namespace Accord.Math
                         return true;
 
                     if (maxChange <= tolerance)
-                        return true;
-
-                    if (maxIterations > 0)
-                    {
-                        // Maximum iterations should also be respected
-                        if (CurrentIteration >= maxIterations)
-                            return true;
-                    }
-                }
-                else
-                {
-                    // Stopping criteria is number of iterations
-                    if (CurrentIteration == maxIterations)
                         return true;
                 }
 

@@ -101,6 +101,20 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Normal cumulative distribution function.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   The area under the Gaussian p.d.f. integrated
+        ///   from minus infinity to the given value.
+        /// </returns>
+        /// 
+        public static double Log(double value)
+        {
+            return 0.5 * Special.Log1p(Special.Erf(value / Constants.Sqrt2));
+        }
+
+        /// <summary>
         ///   Complemented cumulative distribution function.
         /// </summary>
         /// 
@@ -123,10 +137,10 @@ namespace Accord.Math
             -1.2391658386738125
         };
 
-        private static readonly double[] inverse_Q0 = 
+        private static readonly double[] inverse_Q0 =
         {
             1.9544885833814176,
-            4.6762791289888153, 
+            4.6762791289888153,
             86.360242139089053,
             -225.46268785411937,
             200.26021238006066,
@@ -135,7 +149,7 @@ namespace Accord.Math
             -1.1833162112133
         };
 
-        private static readonly double[] inverse_P1 = 
+        private static readonly double[] inverse_P1 =
         {
             4.0554489230596245,
             31.525109459989388,
@@ -148,38 +162,38 @@ namespace Accord.Math
             -0.00085745678515468545
         };
 
-        private static readonly double[] inverse_Q1 = 
+        private static readonly double[] inverse_Q1 =
         {
             15.779988325646675,
-            45.390763512887922, 
-            41.317203825467203, 
-            15.04253856929075, 
-            2.5046494620830941, 
-            -0.14218292285478779, 
+            45.390763512887922,
+            41.317203825467203,
+            15.04253856929075,
+            2.5046494620830941,
+            -0.14218292285478779,
             -0.038080640769157827,
             -0.00093325948089545744
         };
 
-        private static readonly double[] inverse_P2 = 
+        private static readonly double[] inverse_P2 =
         {
-            3.2377489177694603, 
-            6.9152288906898418, 
+            3.2377489177694603,
+            6.9152288906898418,
             3.9388102529247444,
-            1.3330346081580755, 
-            0.20148538954917908, 
+            1.3330346081580755,
+            0.20148538954917908,
             0.012371663481782003,
-            0.00030158155350823543, 
+            0.00030158155350823543,
             2.6580697468673755E-06,
             6.2397453918498331E-09
         };
 
-        private static readonly double[] inverse_Q2 = 
+        private static readonly double[] inverse_Q2 =
         {
             6.02427039364742,
             3.6798356385616087,
             1.3770209948908132,
-            0.21623699359449663, 
-            0.013420400608854318, 
+            0.21623699359449663,
+            0.013420400608854318,
             0.00032801446468212774,
             2.8924786474538068E-06,
             6.7901940800998127E-09
@@ -306,7 +320,7 @@ namespace Accord.Math
             return 0.5 + sum * Math.Exp(-0.5 * pwr - 0.5 * Constants.Log2PI);
         }
 
-        private static readonly double[] high_R = 
+        private static readonly double[] high_R =
         {
             1.25331413731550025,   0.421369229288054473,  0.236652382913560671,
             0.162377660896867462,  0.123131963257932296,  0.0990285964717319214,
@@ -562,9 +576,9 @@ namespace Accord.Math
 
         private static readonly double[] BVND_WN20 =
         {
-            0.01761400713915212, 0.04060142980038694, 
+            0.01761400713915212, 0.04060142980038694,
             0.06267204833410906, 0.08327674157670475,
-            0.1019301198172404,  0.1181945319615184, 
+            0.1019301198172404,  0.1181945319615184,
             0.1316886384491766,  0.1420961093183821,
             0.1491729864726037,  0.1527533871307259
         };
@@ -579,8 +593,8 @@ namespace Accord.Math
         };
 
         private static readonly double[] BVND_WN12 =
-        { 
-            0.04717533638651177, 0.1069393259953183, 0.1600783285433464, 
+        {
+            0.04717533638651177, 0.1069393259953183, 0.1600783285433464,
             0.2031674267230659,  0.2334925365383547, 0.2491470458134029,
         };
 
@@ -592,16 +606,16 @@ namespace Accord.Math
 
         private static readonly double[] BVND_WN6 =
         {
-            0.1713244923791705, 
-            0.3607615730481384, 
-            0.4679139345726904 
+            0.1713244923791705,
+            0.3607615730481384,
+            0.4679139345726904
         };
 
-        private static readonly double[] BVND_XN6 = 
-        { 
-            -0.9324695142031522, 
-            -0.6612093864662647, 
-            -0.2386191860831970 
+        private static readonly double[] BVND_XN6 =
+        {
+            -0.9324695142031522,
+            -0.6612093864662647,
+            -0.2386191860831970
         };
 
         /// <summary>

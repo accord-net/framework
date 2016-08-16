@@ -307,7 +307,7 @@ namespace Accord.Math
             else
             {
                 // Same nature (jagged or multidimensional) array
-                result = Array.CreateInstance(outputElementType, array.GetLength());
+                result = Array.CreateInstance(outputElementType, array.GetLength(false));
 
                 foreach (var idx in GetIndices(array))
                 {
@@ -338,7 +338,7 @@ namespace Accord.Math
             if (deep && array.IsJagged())
             {
                 Array current = array.GetValue(indices[0]) as Array;
-                int[] last = indices.Submatrix(1, null);
+                int[] last = indices.Get(1, 0);
                 return GetValue(current, true, last);
             }
             else
@@ -363,7 +363,7 @@ namespace Accord.Math
             if (deep && array.IsJagged())
             {
                 Array current = array.GetValue(indices[0]) as Array;
-                int[] last = indices.Submatrix(1, null);
+                int[] last = indices.Get(1, 0);
                 SetValue(current, value, true, last);
             }
             else
@@ -401,6 +401,8 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="array">The array whose indices will be returned.</param>
+        /// <param name="deep">Pass true to retrieve all dimensions of the array,
+        ///   even if it contains nested arrays (as in jagged matrices)</param>
         /// 
         /// <returns>
         ///   An enumerable object that can be used to iterate over all
@@ -425,9 +427,9 @@ namespace Accord.Math
         /// 
         /// <seealso cref="Accord.Math.Vector.GetIndices{T}(T[])"/>
         /// 
-        public static IEnumerable<int[]> GetIndices(this Array array)
+        public static IEnumerable<int[]> GetIndices(this Array array, bool deep = false)
         {
-            return Combinatorics.Sequences(array.GetLength());
+            return Combinatorics.Sequences(array.GetLength(deep));
         }
 
 

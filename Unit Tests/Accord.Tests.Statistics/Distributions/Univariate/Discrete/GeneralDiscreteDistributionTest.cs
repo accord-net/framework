@@ -31,8 +31,6 @@ namespace Accord.Tests.Statistics
     public class DiscreteDistributionTest
     {
 
-
-
         [Test]
         public void ConstructorTest()
         {

@@ -179,7 +179,7 @@ namespace Accord.Tests.MachineLearning.Structures
 
             Array.Sort(distances, nearestIndices);
 
-            int[] idx = nearestIndices.Submatrix(k);
+            int[] idx = nearestIndices.First(k);
 
             labels = outputs.Submatrix(idx);
             return inputs.Submatrix(idx);

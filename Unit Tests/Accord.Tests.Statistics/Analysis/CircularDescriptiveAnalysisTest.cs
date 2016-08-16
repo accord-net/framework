@@ -33,23 +33,6 @@ namespace Accord.Tests.Statistics
     public class CircularDescriptiveAnalysisTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void DescriptiveAnalysisConstructorTest1()
         {
@@ -247,11 +230,11 @@ namespace Accord.Tests.Statistics
                 out expectedVar, out expectedMed,
                 out expectedError);
 
-            expectedMean = expectedMean.Submatrix(1);
-            expectedStdDev = expectedStdDev.Submatrix(1);
-            expectedVar = expectedVar.Submatrix(1);
-            expectedMed = expectedMed.Submatrix(1);
-            expectedError = expectedError.Submatrix(1);
+            expectedMean = expectedMean.First(1);
+            expectedStdDev = expectedStdDev.First(1);
+            expectedVar = expectedVar.First(1);
+            expectedMed = expectedMed.First(1);
+            expectedError = expectedError.First(1);
 
             var angles = analysis.Angles;
             var cos = analysis.CosineSum;

@@ -37,6 +37,7 @@ namespace Accord.Tests.MachineLearning
     using NUnit.Framework;
     using System;
     using Accord.Math.Optimization.Losses;
+    using System.Diagnostics;
 
     [TestFixture]
     public class MulticlassSupportVectorMachineTest
@@ -543,7 +544,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-
+#if RELEASE
         [Test]
         public void kaggle_digits_old_style()
         {
@@ -584,7 +585,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [Test]
+        [Test, Conditional("RELEASE")]
         public void kaggle_digits()
         {
             string root = Environment.CurrentDirectory;
@@ -669,6 +670,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(0.082, val);
             }
         }
+#endif
 
         private static Tuple<double[][], int[]> readData(string filePath)
         {

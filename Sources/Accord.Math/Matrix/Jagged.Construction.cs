@@ -599,6 +599,15 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Creates a square matrix with ones across its diagonal.
+        /// </summary>
+        /// 
+        public static T[][] Identity<T>(int size)
+        {
+            return Diagonal(size, (T)System.Convert.ChangeType(1, typeof(T)));
+        }
+
+        /// <summary>
         ///   Creates a jagged magic square matrix.
         /// </summary>
         /// 
@@ -807,6 +816,25 @@ namespace Accord.Math
             return r;
         }
 
+        /// <summary>
+        ///   Returns a new multidimensional matrix.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static TOutput[][][] CreateAs<TInput, TOutput>(TInput[][][] matrix)
+        {
+            var r = new TOutput[matrix.Length][][];
+            for (int i = 0; i < r.Length; i++)
+            {
+                r[i] = new TOutput[matrix[i].Length][];
+                for (int j = 0; j < r[i].Length; j++)
+                    r[i][j] = new TOutput[matrix[i][j].Length];
+            }
+            return r;
+        }
+
 
         /// <summary>
         ///   Transforms a vector into a matrix of given dimensions.
@@ -905,17 +933,6 @@ namespace Accord.Math
             return result;
         }
 
-
-
-
-        /// <summary>
-        ///   Creates a rows-by-cols matrix random data drawn from a given distribution.
-        /// </summary>
-        /// 
-        public static double[][] Random(int rows, int cols, double minValue = 0, double maxValue = 1)
-        {
-            return Random<double>(rows, cols, new ZigguratUniformGenerator(minValue, maxValue));
-        }
         #endregion
 
     }

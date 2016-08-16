@@ -39,23 +39,6 @@ namespace Accord.Tests.Statistics
     public class GenericHiddenMarkovModelTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ConstructorTest()
         {
@@ -230,7 +213,7 @@ namespace Accord.Tests.Statistics
 
             for (int i = 0; i < dhmm.States; i++)
                 for (int j = 0; j < dhmm.Symbols; j++)
-                    Assert.AreEqual(dhmm.Emissions[i, j], Math.Log(chmm.Emissions[i][j]), 1e-10);
+                    Assert.AreEqual(dhmm.Emissions[i, j], chmm.Emissions[i][j], 1e-10);
         }
 
         [Test]
@@ -516,6 +499,11 @@ namespace Accord.Tests.Statistics
             };
 
             var hmm = HiddenMarkovModel.CreateGeneric(3, 6);
+
+            Assert.AreEqual(3, hmm.States);
+            Assert.AreEqual(3, hmm.Emissions.Length);
+            for (int i = 0; i < 3; i++)
+                Assert.AreEqual(6, hmm.Emissions[i].Length);
 
             var teacher = new BaumWelchLearning<GeneralDiscreteDistribution>(hmm) { Iterations = 100, Tolerance = 0 };
             double ll = teacher.Run(sequences);
@@ -1729,12 +1717,11 @@ namespace Accord.Tests.Statistics
 
             double prediction = hmm.Predict(input, out mixture);
 
+            Assert.AreEqual(5, prediction);
 
             // At this point, prediction probabilities
             // should be equilibrated around 3, 4 and 5
             Assert.AreEqual(4, mixture.Mean, 0.1);
-            Assert.IsFalse(double.IsNaN(mixture.Mean));
-
 
             double[] input2 = { 1 };
 

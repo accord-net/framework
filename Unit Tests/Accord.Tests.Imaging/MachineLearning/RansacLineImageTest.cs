@@ -57,8 +57,8 @@ namespace Accord.Tests.MachineLearning
             RansacLine ransac = new RansacLine(5, 1e-10);
             Line line = ransac.Estimate(cloud);
 
-            Assert.AreEqual(0.501134932f, line.Intercept);
-            Assert.AreEqual(-0.865369201f, line.Slope);
+            Assert.AreEqual(0.501134932f, line.Intercept, 1e-5);
+            Assert.AreEqual(-0.865369201f, line.Slope, 1e-5);
 
             //var result = new LineMarker(line).Apply(image);
             //Accord.Controls.ImageBox.Show(result);

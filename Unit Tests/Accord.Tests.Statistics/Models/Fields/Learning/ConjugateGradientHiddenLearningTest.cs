@@ -33,22 +33,6 @@ namespace Accord.Tests.Statistics.Models.Fields
     public class ConjugateGradientHiddenLearningTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void RunTest()
         {
@@ -86,10 +70,8 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
 
             Assert.AreEqual(-0.0019419916698781847, ll0, 1e-10);
-            Assert.AreEqual(0.00050271005636426391, error, 1e-10);
+            Assert.AreEqual(0.00042159045406053863, error, 1e-10);
             Assert.AreEqual(error, -ll1);
-            Assert.IsFalse(Double.IsNaN(ll0));
-            Assert.IsFalse(Double.IsNaN(error));
 
             for (int i = 0; i < inputs.Length; i++)
                 Assert.AreEqual(expected[i], actual[i]);

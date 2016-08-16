@@ -514,8 +514,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                         Comparison = ComparisonKind.Equal,
                     };
 
-                    inputSubset = input.Submatrix(maxGainPartition[i]);
-                    outputSubset = output.Submatrix(maxGainPartition[i]);
+                    inputSubset = input.Get(maxGainPartition[i]);
+                    outputSubset = output.Get(maxGainPartition[i]);
                     split(children[i], inputSubset, outputSubset, height + 1); // recursion
                 }
 
@@ -546,13 +546,13 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 };
 
                 // Create a branch for lower values
-                inputSubset = input.Submatrix(maxGainPartition[0]);
-                outputSubset = output.Submatrix(maxGainPartition[0]);
+                inputSubset = input.Get(maxGainPartition[0]);
+                outputSubset = output.Get(maxGainPartition[0]);
                 split(children[0], inputSubset, outputSubset, height + 1);
 
                 // Create a branch for higher values
-                inputSubset = input.Submatrix(maxGainPartition[1]);
-                outputSubset = output.Submatrix(maxGainPartition[1]);
+                inputSubset = input.Get(maxGainPartition[1]);
+                outputSubset = output.Get(maxGainPartition[1]);
                 split(children[1], inputSubset, outputSubset, height + 1);
 
                 root.Branches.AttributeIndex = maxGainAttribute;
@@ -568,7 +568,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 // We will set the class label for this node as the
                 // majority of the currently selected output classes.
 
-                outputSubset = output.Submatrix(maxGainPartition[0]);
+                outputSubset = output.Get(maxGainPartition[0]);
                 root.Output = Measures.Mode(outputSubset);
             }
 
@@ -618,7 +618,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
                 // For each of the instances under responsibility
                 // of this node, check which have the same value
-                int[] outputSubset = output.Submatrix(partitions[i]);
+                int[] outputSubset = output.Get(partitions[i]);
 
                 // Check the entropy gain originating from this partitioning
                 double e = Measures.Entropy(outputSubset, outputClasses);
