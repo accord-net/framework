@@ -28,6 +28,9 @@ namespace Accord.Tests.Statistics
     using System.Linq;
     using NUnit.Framework;
     using System;
+#if NET35
+    using Tuple = Accord.Tuple;
+#endif
 
     [TestFixture]
     public class CoxProportionalHazardsTest

@@ -36,8 +36,7 @@ namespace Accord
     internal class ThreadLocal<T> : IDisposable
     {
         [ThreadStatic]
-        private static readonly Dictionary<object, T> lookupTable =
-            new Dictionary<object, T>();
+        private static readonly Dictionary<object, T> lookupTable = new Dictionary<object, T>();
 
         private Func<T> init;
 
@@ -77,14 +76,20 @@ namespace Accord
         {
             get
             {
-                T returnValue;
-                if (!lookupTable.TryGetValue(this, out returnValue))
-                    returnValue = lookupTable[this] = init();
-                return returnValue;
+                lock (lookupTable)
+                {
+                    T returnValue;
+                    if (!lookupTable.TryGetValue(this, out returnValue))
+                        returnValue = lookupTable[this] = init();
+                    return returnValue;
+                }
             }
             set
             {
-                lookupTable[this] = value;
+                lock (lookupTable)
+                {
+                    lookupTable[this] = value;
+                }
             }
         }
 
@@ -110,8 +115,11 @@ namespace Accord
         {
             if (disposing)
             {
-                if (lookupTable.ContainsKey(this))
-                    lookupTable.Remove(this);
+                lock (lookupTable)
+                {
+                    if (lookupTable.ContainsKey(this))
+                        lookupTable.Remove(this);
+                }
             }
         }
 
