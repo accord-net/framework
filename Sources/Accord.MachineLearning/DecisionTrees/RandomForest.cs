@@ -46,24 +46,27 @@ namespace Accord.MachineLearning.DecisionTrees
     /// </summary>
     /// 
     [Serializable]
-    public class RandomForest
+    public class RandomForest : MulticlassClassifierBase
     {
         private DecisionTree[] trees;
 
-        private int classes;
 
         /// <summary>
         ///   Gets the trees in the random forest.
         /// </summary>
         /// 
-        public DecisionTree[] Trees { get { return trees; } }
+        public DecisionTree[] Trees
+        {
+            get { return trees; }
+        }
 
         /// <summary>
         ///   Gets the number of classes that can be recognized
         ///   by this random forest.
         /// </summary>
         /// 
-        public int Classes { get { return classes; } }
+        [Obsolete("Please use NumberOfOutputs instead.")]
+        public int Classes { get { return NumberOfOutputs; } }
 
         /// <summary>
         ///   Creates a new random forest.
@@ -75,7 +78,7 @@ namespace Accord.MachineLearning.DecisionTrees
         public RandomForest(int trees, int classes)
         {
             this.trees = new DecisionTree[trees];
-            this.classes = classes;
+            this.NumberOfOutputs = classes;
         }
 
         /// <summary>
@@ -86,17 +89,30 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         /// <returns>The forest decision for the given vector.</returns>
         /// 
+        [Obsolete("Please use Decide() instead.")]
         public int Compute(double[] data)
         {
-            int[] responses = new int[classes];
+            return Decide(data);
+        }
+
+
+        /// <summary>
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <returns>A class-label that best described <paramref name="input" /> according
+        /// to this classifier.</returns>
+        public override int Decide(double[] input)
+        {
+            int[] responses = new int[NumberOfOutputs];
             Parallel.For(0, trees.Length, i =>
             {
-                int j = trees[i].Decide(data);
+                int j = trees[i].Decide(input);
                 Interlocked.Increment(ref responses[j]);
             });
 
             return responses.ArgMax();
         }
-
     }
 }
