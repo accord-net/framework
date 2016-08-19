@@ -82,6 +82,9 @@
     <Reference Include="Accord.Math">
       <HintPath>..\..\..\Release\net40\Accord.Math.dll</HintPath>
     </Reference>
+    <Reference Include="Accord.Math.Core">
+      <HintPath>..\..\..\Release\net40\Accord.Math.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Accord.Statistics">
       <HintPath>..\..\..\Release\net40\Accord.Statistics.dll</HintPath>
     </Reference>

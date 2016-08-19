@@ -159,8 +159,6 @@ namespace SampleApp
             // 
             this.chart.Location = new System.Drawing.Point(16, 29);
             this.chart.Name = "chart";
-            this.chart.RangeX = ((Accord.Range)(resources.GetObject("chart.RangeX")));
-            this.chart.RangeY = ((Accord.Range)(resources.GetObject("chart.RangeY")));
             this.chart.Size = new System.Drawing.Size(320, 293);
             this.chart.TabIndex = 0;
             // 
@@ -306,8 +304,6 @@ namespace SampleApp
             // 
             this.errorChart.Location = new System.Drawing.Point(16, 29);
             this.errorChart.Name = "errorChart";
-            this.errorChart.RangeX = ((Accord.Range)(resources.GetObject("errorChart.RangeX")));
-            this.errorChart.RangeY = ((Accord.Range)(resources.GetObject("errorChart.RangeY")));
             this.errorChart.Size = new System.Drawing.Size(320, 176);
             this.errorChart.TabIndex = 0;
             this.errorChart.Text = "chart1";
@@ -321,6 +317,7 @@ namespace SampleApp
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "OneLayerPerceptronForm";
             this.Text = "One-Layer Perceptron Classifier";

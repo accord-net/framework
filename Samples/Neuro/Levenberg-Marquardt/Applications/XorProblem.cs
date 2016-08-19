@@ -316,8 +316,6 @@ namespace SampleApp
             // 
             this.errorChart.Location = new System.Drawing.Point(16, 29);
             this.errorChart.Name = "errorChart";
-            this.errorChart.RangeX = ((Range)(resources.GetObject("errorChart.RangeX")));
-            this.errorChart.RangeY = ((Range)(resources.GetObject("errorChart.RangeY")));
             this.errorChart.Size = new System.Drawing.Size(320, 300);
             this.errorChart.TabIndex = 2;
             this.errorChart.Text = "chart1";
@@ -338,6 +336,7 @@ namespace SampleApp
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "XorProblem";
             this.Text = "XOR Problem (Levenberg-Marquardt)";

@@ -37,6 +37,7 @@ using Accord.MachineLearning;
 using Accord.MachineLearning.VectorMachines;
 using Accord.MachineLearning.VectorMachines.Learning;
 using Accord.Math;
+using Accord.Statistics;
 using Accord.Statistics.Analysis;
 using Accord.Statistics.Kernels;
 using AForge;
@@ -57,7 +58,7 @@ namespace SampleApp
     public partial class MainForm : Form
     {
 
-        IClusteringAlgorithm<double[]> clustering;
+        IMulticlassClassifier<double[], int> clustering;
 
         string[] columnNames; // stores the column names for the loaded data
 
@@ -97,20 +98,13 @@ namespace SampleApp
             double[,] table = (dgvLearningSource.DataSource as DataTable).ToMatrix(out columnNames);
 
             // Get only the input vector values (first two columns)
-            double[][] inputs = table.GetColumns(0, 1).ToArray();
+            double[][] inputs = table.GetColumns(0, 1).ToJagged();
 
-            // Get only the output labels (last column)
-            int[] outputs = table.GetColumn(2).ToInt32();
-
-
-            // Create the specified Kernel
-            clustering = createClustering();
-
-
+            
             try
             {
-                // Run
-                clustering.Compute(inputs);
+                // Create and run the specified algorithm
+                this.clustering = createClustering(inputs);
 
                 lbStatus.Text = "Training complete!";
             }
@@ -119,7 +113,6 @@ namespace SampleApp
                 lbStatus.Text = "Convergence could not be attained. "+
                     "The learned clustering might still be usable.";
             }
-
 
             createSurface(table);
         }
@@ -135,7 +128,7 @@ namespace SampleApp
                 Vector.Interval(ranges[1], 0.05));
 
             // Classify each point in the Cartesian coordinate system
-            double[] result = map.Apply(clustering.Clusters.Nearest).ToDouble();
+            double[] result = clustering.Decide(map).ToDouble();
             double[,] surface = map.ToMatrix().InsertColumn(result);
 
             CreateScatterplot(zedGraphControl2, surface);
@@ -160,22 +153,17 @@ namespace SampleApp
 
 
             // Extract the first and second columns (X and Y)
-            double[][] inputs = table.GetColumns(0, 1).ToArray();
+            double[][] inputs = table.GetColumns(0, 1).ToJagged();
 
             // Extract the expected output labels
-            int[] expected = table.GetColumn(2).ToInt32();
+            int[] expected = table.GetColumn(2).ToZeroOne();
 
-
-            int[] output = new int[expected.Length];
-
-            // Compute the actual machine outputs
-            for (int i = 0; i < expected.Length; i++)
-                output[i] = clustering.Clusters.Nearest(inputs[i]);
-
+            // Compute cluster decisions for each point
+            int[] output = clustering.Decide(inputs);
 
 
             // Use confusion matrix to compute some performance metrics
-            ConfusionMatrix confusionMatrix = new ConfusionMatrix(output, expected, 1, -1);
+            ConfusionMatrix confusionMatrix = new ConfusionMatrix(output, expected, 1, 0);
             dgvPerformance.DataSource = new [] { confusionMatrix };
 
 
@@ -190,19 +178,19 @@ namespace SampleApp
         ///   Creates the clustering algorithm.
         /// </summary>
         /// 
-        private IClusteringAlgorithm<double[]> createClustering()
+        private IMulticlassClassifier<double[]> createClustering(double[][] data)
         {
             if (rbKMeans.Checked)
-                return new KMeans((int)numKMeans.Value);
+                return new KMeans((int)numKMeans.Value).Learn(data);
 
             if (rbMeanShift.Checked)
             {
                 var kernel = new Accord.Statistics.Distributions.DensityKernels.GaussianKernel(2);
-                return new MeanShift(2, kernel, (double)numRadius.Value);
+                return new MeanShift(2, kernel, (double)numRadius.Value).Learn(data);
             }
 
             if (rbGMM.Checked)
-                return new GaussianMixtureModel((int)numGaussians.Value);
+                return new GaussianMixtureModel((int)numGaussians.Value).Learn(data);
 
             throw new Exception();
         }
@@ -314,16 +302,16 @@ namespace SampleApp
             PointPairList list4 = new PointPairList(); // Z = +1, Error
             for (int i = 0; i < output.Length; i++)
             {
-                if (output[i] == -1)
+                if (output[i] == 0)
                 {
-                    if (expected[i] == -1)
+                    if (expected[i] == 0)
                         list1.Add(inputs[i][0], inputs[i][1]);
                     if (expected[i] == 1)
                         list3.Add(inputs[i][0], inputs[i][1]);
                 }
                 else
                 {
-                    if (expected[i] == -1)
+                    if (expected[i] == 0)
                         list4.Add(inputs[i][0], inputs[i][1]);
                     if (expected[i] == 1)
                         list2.Add(inputs[i][0], inputs[i][1]);

@@ -85,6 +85,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Release\net40\Accord.Math.dll</HintPath>
     </Reference>
+    <Reference Include="Accord.Math.Core">
+      <HintPath>..\..\..\Release\net40\Accord.Math.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Accord.Statistics, Version=2.12.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Release\net40\Accord.Statistics.dll</HintPath>

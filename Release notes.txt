@@ -4,13 +4,12 @@ Accord.NET Framework 3.2.0 release notes
 
  Accord.NET 3.2 "auto-generated" release
 
-
 Version updates and fixes:
   - GH-76/GC-24: Add easier creating and handling of factors for categorical variables
   - GH-123: Bug in the Euclidean on Accord.Math.Distance
   - GH-124: Fixing the Envelop filter as missing loop variables were not being incremented
   - GH-135: When the from and to ranges are equal, scaled values should remain unchanged
-  - GH-159: Gamma Distributioon Fit stalls for some arrays
+  - GH-159: Gamma Distribution Fit stalls for some arrays
   - GH-162: ntdll on OS X
   - GH-167: Posterior method has wrong signature in continuous hidden Markov Models
   - GH-171: Quadratic Programming (Goldfarb-Idnani) NoPossibleSolution on possible problems
