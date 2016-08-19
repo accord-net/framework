@@ -416,6 +416,8 @@ namespace Accord.Statistics.Analysis
             this.confidences = new DoubleRange[outputCount - 1][];
             this.oddsRatios = new double[outputCount - 1][];
             this.waldTests = new WaldTest[outputCount - 1][];
+            this.NumberOfInputs = inputs.Columns();
+            this.NumberOfOutputs = outputs.Columns();
 
             for (int i = 0; i < confidences.Length; i++)
             {

@@ -238,8 +238,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
         {
             this.regression = regression;
 
-            K = regression.Categories - 1;
-            M = regression.Inputs + 1;
+            K = regression.NumberOfOutputs - 1;
+            M = regression.NumberOfInputs + 1;
             parameterCount = K * M;
 
             solution = regression.Coefficients.Reshape();

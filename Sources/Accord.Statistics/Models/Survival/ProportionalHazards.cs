@@ -75,6 +75,7 @@ namespace Accord.Statistics.Models.Regression
         ///   Gets the number of inputs handled by this model.
         /// </summary>
         /// 
+        [Obsolete("Please use NumberOfInputs instead.")]
         public int Inputs
         {
             get { return Coefficients.Length; }
@@ -122,7 +123,7 @@ namespace Accord.Statistics.Models.Regression
         /// <param name="input">The input vector.</param>
         /// <returns>The output value.</returns>
         /// 
-        [Obsolete("Please use Scores instead.")]
+        [Obsolete("Please use Probability() instead.")]
         public double Compute(double[] input)
         {
             double sum = 0;
@@ -138,7 +139,7 @@ namespace Accord.Statistics.Models.Regression
         /// <param name="input">The input vector.</param>
         /// <returns>The output value.</returns>
         /// 
-        [Obsolete("Please use Scores instead.")]
+        [Obsolete("Please use Probability() instead.")]
         public double[] Compute(double[][] input)
         {
 #pragma warning disable 612, 618
@@ -159,7 +160,7 @@ namespace Accord.Statistics.Models.Regression
         /// <returns>The probabilities of the event occurring at 
         /// the given time for the given observation.</returns>
         /// 
-        [Obsolete("Please use Scores instead.")]
+        [Obsolete("Please use Probability() instead.")]
         public double Compute(double[] input, double time)
         {
             if (BaselineHazard == null)
@@ -183,7 +184,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <returns>The probabilities of the event occurring at the given time.</returns>
         /// 
-        [Obsolete("Please use Scores instead.")]
+        [Obsolete("Please use Probability() instead.")]
         public double Compute(double time)
         {
             if (BaselineHazard == null)
@@ -220,7 +221,7 @@ namespace Accord.Statistics.Models.Regression
         /// <returns>The probabilities of the event occurring at 
         /// the given times for the given observations.</returns>
         /// 
-        [Obsolete("Please use Scores instead.")]
+        [Obsolete("Please use Probability() instead.")]
         public double[] Compute(double[][] input, double[] time)
         {
 #pragma warning disable 612, 618
@@ -490,7 +491,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public ChiSquareTest ChiSquare(double[][] input, double[] time, SurvivalOutcome[] output)
         {
-            ProportionalHazards regression = new ProportionalHazards(Inputs);
+            ProportionalHazards regression = new ProportionalHazards(NumberOfInputs);
 
             double ratio = GetLogLikelihoodRatio(input, time, output, regression);
 
@@ -533,20 +534,6 @@ namespace Accord.Statistics.Models.Regression
         }
 
         /// <summary>
-        /// Computes a numerical score measuring the association between
-        /// the given <paramref name="input" /> vector and its most strongly
-        /// associated class (as predicted by the classifier).
-        /// </summary>
-        /// <param name="input">The input vector.</param>
-        /// 
-        public override double Score(Tuple<double[], double> input)
-        {
-#pragma warning disable 612, 618
-            return Compute(input.Item1, input.Item2);
-#pragma warning restore 612, 618
-        }
-
-        /// <summary>
         /// Computes a class-label decision for a given <paramref name="input" />.
         /// </summary>
         /// <param name="input">The input vector that should be classified into
@@ -557,9 +544,7 @@ namespace Accord.Statistics.Models.Regression
         /// </returns>
         public override bool Decide(Tuple<double[], double> input)
         {
-#pragma warning disable 612, 618
-            return Compute(input.Item1, input.Item2) >= 0.5;
-#pragma warning restore 612, 618
+            return Probability(input) >= 0.5;
         }
 
         /// <summary>
@@ -585,9 +570,8 @@ namespace Accord.Statistics.Models.Regression
             double sum = Intercept;
             for (int i = 0; i < Coefficients.Length; i++)
                 sum += Coefficients[i] * input.Item1[i];
-            double exp = sum;
-            double h0 = BaselineHazard.CumulativeHazardFunction(input.Item2);
-            return h0 + exp;
+            double h0 = BaselineHazard.LogCumulativeHazardFunction(input.Item2);
+            return h0 + sum;
         }
     }
 }

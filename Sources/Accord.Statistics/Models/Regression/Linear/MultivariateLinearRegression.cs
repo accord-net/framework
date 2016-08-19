@@ -467,7 +467,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         public MultivariateLinearRegression Inverse()
         {
-            var inv = Weights.PseudoInverse();
+            double[][] inv = Weights.PseudoInverse();
             return new MultivariateLinearRegression()
             {
                 Weights = inv,

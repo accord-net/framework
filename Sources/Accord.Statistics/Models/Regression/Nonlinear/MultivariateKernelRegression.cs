@@ -51,7 +51,7 @@ namespace Accord.Statistics.Models.Regression
         ///   compute the kernel (Gram) matrices for the regression.
         /// </summary>
         /// 
-        public double[][] Inputs { get; set; }
+        public double[][] BasisVectors { get; set; }
 
         /// <summary>
         ///   Gets or sets the linear weights of the regression model. The
@@ -78,7 +78,7 @@ namespace Accord.Statistics.Models.Regression
         /// </returns>
         public override double[][] Transform(double[][] input, double[][] result)
         {
-            var newK = Kernel.ToJagged2(x: input, y: Inputs);
+            var newK = Kernel.ToJagged2(x: input, y: BasisVectors);
 
             // Project into the kernel principal components
             return Matrix.DotWithTransposed(newK, Weights, result: result);
