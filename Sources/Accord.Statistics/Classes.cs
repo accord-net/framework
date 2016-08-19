@@ -403,6 +403,24 @@ namespace Accord.Statistics
         }
 
         /// <summary>
+        ///   Converts a boolean variable into a 0-or-1 representation (0 is false, 1 is true).
+        /// </summary>
+        /// 
+        public static int ToZeroOne(this int p)
+        {
+            return Decide(p) ? 1 : 0;
+        }
+
+        /// <summary>
+        ///   Converts a boolean variable into a 0-or-1 representation (0 is false, 1 is true).
+        /// </summary>
+        /// 
+        public static int ToZeroOne(this double p)
+        {
+            return Decide(p) ? 1 : 0;
+        }
+
+        /// <summary>
         ///   Converts boolean variables into a 0-or-1 representation (0 is false, 1 is true).
         /// </summary>
         /// 
@@ -411,6 +429,30 @@ namespace Accord.Statistics
             var result = new int[p.Length];
             for (int i = 0; i < p.Length; i++)
                 result[i] = p[i] ? 1 : 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts boolean variables into a 0-or-1 representation (0 is false, 1 is true).
+        /// </summary>
+        /// 
+        public static int[] ToZeroOne(this int[] p)
+        {
+            var result = new int[p.Length];
+            for (int i = 0; i < p.Length; i++)
+                result[i] = Decide(p[i]) ? 1 : 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts boolean variables into a 0-or-1 representation (0 is false, 1 is true).
+        /// </summary>
+        /// 
+        public static int[] ToZeroOne(this double[] p)
+        {
+            var result = new int[p.Length];
+            for (int i = 0; i < p.Length; i++)
+                result[i] = Decide(p[i]) ? 1 : 0;
             return result;
         }
 
@@ -424,6 +466,24 @@ namespace Accord.Statistics
         }
 
         /// <summary>
+        ///   Converts a boolean variable into a -1 or +1 representation (-1 is false, +1 is true).
+        /// </summary>
+        /// 
+        public static int ToMinusOnePlusOne(this int p)
+        {
+            return Decide(p) ? 1 : -1;
+        }
+
+        /// <summary>
+        ///   Converts a boolean variable into a -1 or +1 representation (-1 is false, +1 is true).
+        /// </summary>
+        /// 
+        public static int ToMinusOnePlusOne(this double p)
+        {
+            return Decide(p) ? 1 : -1;
+        }
+
+        /// <summary>
         ///   Converts boolean variables into a -1 or +1 representation (-1 is false, +1 is true).
         /// </summary>
         /// 
@@ -432,6 +492,30 @@ namespace Accord.Statistics
             var result = new int[p.Length];
             for (int i = 0; i < p.Length; i++)
                 result[i] = p[i] ? 1 : -1;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts boolean variables into a -1 or +1 representation (-1 is false, +1 is true).
+        /// </summary>
+        /// 
+        public static int[] ToMinusOnePlusOne(this int[] p)
+        {
+            var result = new int[p.Length];
+            for (int i = 0; i < p.Length; i++)
+                result[i] = Decide(p[i]) ? 1 : -1;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts boolean variables into a -1 or +1 representation (-1 is false, +1 is true).
+        /// </summary>
+        /// 
+        public static int[] ToMinusOnePlusOne(this double[] p)
+        {
+            var result = new int[p.Length];
+            for (int i = 0; i < p.Length; i++)
+                result[i] = Decide(p[i]) ? 1 : -1;
             return result;
         }
 
