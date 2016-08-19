@@ -292,9 +292,9 @@ namespace Accord.Math
         /// </summary>
         /// 
         [Obsolete("Please use Get instead.")]
-        public static T Submatrix<T>(this T[] source, int index)
+        public static T[] Submatrix<T>(this T[] source, int first)
         {
-            return Get(source, index);
+            return Get(source, 0, first);
         }
 
         /// <summary>

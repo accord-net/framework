@@ -52,7 +52,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this int[] a, int[] b)
+        public static int[][] Outer(int[] a, int[] b)
         {
             return Outer(a, b, Jagged.Zeros<int>(a.Length, b.Length));
         }
@@ -73,7 +73,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this int[] a, double[] b)
+        public static double[][] Outer(int[] a, double[] b)
         {
             return Outer(a, b, Jagged.Zeros<double>(a.Length, b.Length));
         }
@@ -94,7 +94,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this int[] a, float[] b)
+        public static float[][] Outer(int[] a, float[] b)
         {
             return Outer(a, b, Jagged.Zeros<float>(a.Length, b.Length));
         }
@@ -115,7 +115,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this double[] a, double[] b)
+        public static double[][] Outer(double[] a, double[] b)
         {
             return Outer(a, b, Jagged.Zeros<double>(a.Length, b.Length));
         }
@@ -136,7 +136,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this double[] a, int[] b)
+        public static double[][] Outer(double[] a, int[] b)
         {
             return Outer(a, b, Jagged.Zeros<double>(a.Length, b.Length));
         }
@@ -157,7 +157,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this double[] a, float[] b)
+        public static double[][] Outer(double[] a, float[] b)
         {
             return Outer(a, b, Jagged.Zeros<double>(a.Length, b.Length));
         }
@@ -178,7 +178,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this float[] a, float[] b)
+        public static float[][] Outer(float[] a, float[] b)
         {
             return Outer(a, b, Jagged.Zeros<float>(a.Length, b.Length));
         }
@@ -199,7 +199,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this float[] a, double[] b)
+        public static double[][] Outer(float[] a, double[] b)
         {
             return Outer(a, b, Jagged.Zeros<double>(a.Length, b.Length));
         }
@@ -220,7 +220,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this float[] a, int[] b)
+        public static float[][] Outer(float[] a, int[] b)
         {
             return Outer(a, b, Jagged.Zeros<float>(a.Length, b.Length));
         }
@@ -241,7 +241,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static long[][] Outer(this long[] a, long[] b)
+        public static long[][] Outer(long[] a, long[] b)
         {
             return Outer(a, b, Jagged.Zeros<long>(a.Length, b.Length));
         }
@@ -262,7 +262,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this long[] a, double[] b)
+        public static double[][] Outer(long[] a, double[] b)
         {
             return Outer(a, b, Jagged.Zeros<double>(a.Length, b.Length));
         }
@@ -283,7 +283,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this long[] a, int[] b)
+        public static int[][] Outer(long[] a, int[] b)
         {
             return Outer(a, b, Jagged.Zeros<int>(a.Length, b.Length));
         }
@@ -304,7 +304,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this long[] a, float[] b)
+        public static float[][] Outer(long[] a, float[] b)
         {
             return Outer(a, b, Jagged.Zeros<float>(a.Length, b.Length));
         }
@@ -325,7 +325,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Outer(this decimal[] a, decimal[] b)
+        public static decimal[][] Outer(decimal[] a, decimal[] b)
         {
             return Outer(a, b, Jagged.Zeros<decimal>(a.Length, b.Length));
         }
@@ -346,7 +346,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this decimal[] a, double[] b)
+        public static double[][] Outer(decimal[] a, double[] b)
         {
             return Outer(a, b, Jagged.Zeros<double>(a.Length, b.Length));
         }
@@ -367,7 +367,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this decimal[] a, int[] b)
+        public static int[][] Outer(decimal[] a, int[] b)
         {
             return Outer(a, b, Jagged.Zeros<int>(a.Length, b.Length));
         }
@@ -388,7 +388,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this decimal[] a, float[] b)
+        public static float[][] Outer(decimal[] a, float[] b)
         {
             return Outer(a, b, Jagged.Zeros<float>(a.Length, b.Length));
         }
@@ -409,7 +409,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Outer(this byte[] a, byte[] b)
+        public static byte[][] Outer(byte[] a, byte[] b)
         {
             return Outer(a, b, Jagged.Zeros<byte>(a.Length, b.Length));
         }
@@ -430,7 +430,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this byte[] a, double[] b)
+        public static double[][] Outer(byte[] a, double[] b)
         {
             return Outer(a, b, Jagged.Zeros<double>(a.Length, b.Length));
         }
@@ -451,7 +451,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this byte[] a, int[] b)
+        public static int[][] Outer(byte[] a, int[] b)
         {
             return Outer(a, b, Jagged.Zeros<int>(a.Length, b.Length));
         }
@@ -472,7 +472,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this byte[] a, float[] b)
+        public static float[][] Outer(byte[] a, float[] b)
         {
             return Outer(a, b, Jagged.Zeros<float>(a.Length, b.Length));
         }
@@ -493,7 +493,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static short[][] Outer(this short[] a, short[] b)
+        public static short[][] Outer(short[] a, short[] b)
         {
             return Outer(a, b, Jagged.Zeros<short>(a.Length, b.Length));
         }
@@ -514,7 +514,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this short[] a, double[] b)
+        public static double[][] Outer(short[] a, double[] b)
         {
             return Outer(a, b, Jagged.Zeros<double>(a.Length, b.Length));
         }
@@ -535,7 +535,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this short[] a, int[] b)
+        public static int[][] Outer(short[] a, int[] b)
         {
             return Outer(a, b, Jagged.Zeros<int>(a.Length, b.Length));
         }
@@ -556,7 +556,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this short[] a, float[] b)
+        public static float[][] Outer(short[] a, float[] b)
         {
             return Outer(a, b, Jagged.Zeros<float>(a.Length, b.Length));
         }
@@ -577,7 +577,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static sbyte[][] Outer(this sbyte[] a, sbyte[] b)
+        public static sbyte[][] Outer(sbyte[] a, sbyte[] b)
         {
             return Outer(a, b, Jagged.Zeros<sbyte>(a.Length, b.Length));
         }
@@ -598,7 +598,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this sbyte[] a, double[] b)
+        public static double[][] Outer(sbyte[] a, double[] b)
         {
             return Outer(a, b, Jagged.Zeros<double>(a.Length, b.Length));
         }
@@ -619,7 +619,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this sbyte[] a, int[] b)
+        public static int[][] Outer(sbyte[] a, int[] b)
         {
             return Outer(a, b, Jagged.Zeros<int>(a.Length, b.Length));
         }
@@ -640,7 +640,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this sbyte[] a, float[] b)
+        public static float[][] Outer(sbyte[] a, float[] b)
         {
             return Outer(a, b, Jagged.Zeros<float>(a.Length, b.Length));
         }
@@ -661,7 +661,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this int[] a, int[] b, int[][] result)
+        public static int[][] Outer(int[] a, int[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -684,7 +684,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this int[] a, int[] b, double[][] result)
+        public static double[][] Outer(int[] a, int[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -707,7 +707,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this int[] a, double[] b, int[][] result)
+        public static int[][] Outer(int[] a, double[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -730,7 +730,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this int[] a, double[] b, double[][] result)
+        public static double[][] Outer(int[] a, double[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -753,7 +753,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this int[] a, float[] b, int[][] result)
+        public static int[][] Outer(int[] a, float[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -776,7 +776,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this int[] a, float[] b, float[][] result)
+        public static float[][] Outer(int[] a, float[] b, float[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -799,7 +799,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this int[] a, float[] b, double[][] result)
+        public static double[][] Outer(int[] a, float[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -822,7 +822,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this double[] a, double[] b, double[][] result)
+        public static double[][] Outer(double[] a, double[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -845,7 +845,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this double[] a, double[] b, int[][] result)
+        public static int[][] Outer(double[] a, double[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -868,7 +868,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this double[] a, int[] b, double[][] result)
+        public static double[][] Outer(double[] a, int[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -891,7 +891,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this double[] a, int[] b, int[][] result)
+        public static int[][] Outer(double[] a, int[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -914,7 +914,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this double[] a, float[] b, double[][] result)
+        public static double[][] Outer(double[] a, float[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -937,7 +937,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this double[] a, float[] b, float[][] result)
+        public static float[][] Outer(double[] a, float[] b, float[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -960,7 +960,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this double[] a, float[] b, int[][] result)
+        public static int[][] Outer(double[] a, float[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -983,7 +983,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this float[] a, float[] b, float[][] result)
+        public static float[][] Outer(float[] a, float[] b, float[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1006,7 +1006,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this float[] a, float[] b, double[][] result)
+        public static double[][] Outer(float[] a, float[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1029,7 +1029,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this float[] a, float[] b, int[][] result)
+        public static int[][] Outer(float[] a, float[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1052,7 +1052,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this float[] a, double[] b, float[][] result)
+        public static float[][] Outer(float[] a, double[] b, float[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1075,7 +1075,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this float[] a, double[] b, double[][] result)
+        public static double[][] Outer(float[] a, double[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1098,7 +1098,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this float[] a, double[] b, int[][] result)
+        public static int[][] Outer(float[] a, double[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1121,7 +1121,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this float[] a, int[] b, float[][] result)
+        public static float[][] Outer(float[] a, int[] b, float[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1144,7 +1144,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this float[] a, int[] b, int[][] result)
+        public static int[][] Outer(float[] a, int[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1167,7 +1167,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this float[] a, int[] b, double[][] result)
+        public static double[][] Outer(float[] a, int[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1190,7 +1190,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static long[][] Outer(this long[] a, long[] b, long[][] result)
+        public static long[][] Outer(long[] a, long[] b, long[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1213,7 +1213,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this long[] a, long[] b, double[][] result)
+        public static double[][] Outer(long[] a, long[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1236,7 +1236,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this long[] a, long[] b, int[][] result)
+        public static int[][] Outer(long[] a, long[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1259,7 +1259,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static long[][] Outer(this long[] a, double[] b, long[][] result)
+        public static long[][] Outer(long[] a, double[] b, long[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1282,7 +1282,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this long[] a, double[] b, double[][] result)
+        public static double[][] Outer(long[] a, double[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1305,7 +1305,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this long[] a, double[] b, int[][] result)
+        public static int[][] Outer(long[] a, double[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1328,7 +1328,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static long[][] Outer(this long[] a, int[] b, long[][] result)
+        public static long[][] Outer(long[] a, int[] b, long[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1351,7 +1351,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this long[] a, int[] b, int[][] result)
+        public static int[][] Outer(long[] a, int[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1374,7 +1374,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this long[] a, int[] b, double[][] result)
+        public static double[][] Outer(long[] a, int[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1397,7 +1397,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static long[][] Outer(this long[] a, float[] b, long[][] result)
+        public static long[][] Outer(long[] a, float[] b, long[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1420,7 +1420,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this long[] a, float[] b, float[][] result)
+        public static float[][] Outer(long[] a, float[] b, float[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1443,7 +1443,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this long[] a, float[] b, double[][] result)
+        public static double[][] Outer(long[] a, float[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1466,7 +1466,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this long[] a, float[] b, int[][] result)
+        public static int[][] Outer(long[] a, float[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1489,7 +1489,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Outer(this decimal[] a, decimal[] b, decimal[][] result)
+        public static decimal[][] Outer(decimal[] a, decimal[] b, decimal[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1512,7 +1512,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this decimal[] a, decimal[] b, double[][] result)
+        public static double[][] Outer(decimal[] a, decimal[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1535,7 +1535,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this decimal[] a, decimal[] b, int[][] result)
+        public static int[][] Outer(decimal[] a, decimal[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1558,7 +1558,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Outer(this decimal[] a, double[] b, decimal[][] result)
+        public static decimal[][] Outer(decimal[] a, double[] b, decimal[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1581,7 +1581,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this decimal[] a, double[] b, double[][] result)
+        public static double[][] Outer(decimal[] a, double[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1604,7 +1604,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this decimal[] a, double[] b, int[][] result)
+        public static int[][] Outer(decimal[] a, double[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1627,7 +1627,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Outer(this decimal[] a, int[] b, decimal[][] result)
+        public static decimal[][] Outer(decimal[] a, int[] b, decimal[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1650,7 +1650,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this decimal[] a, int[] b, int[][] result)
+        public static int[][] Outer(decimal[] a, int[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1673,7 +1673,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this decimal[] a, int[] b, double[][] result)
+        public static double[][] Outer(decimal[] a, int[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1696,7 +1696,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Outer(this decimal[] a, float[] b, decimal[][] result)
+        public static decimal[][] Outer(decimal[] a, float[] b, decimal[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1719,7 +1719,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this decimal[] a, float[] b, float[][] result)
+        public static float[][] Outer(decimal[] a, float[] b, float[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1742,7 +1742,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this decimal[] a, float[] b, double[][] result)
+        public static double[][] Outer(decimal[] a, float[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1765,7 +1765,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this decimal[] a, float[] b, int[][] result)
+        public static int[][] Outer(decimal[] a, float[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1788,7 +1788,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Outer(this byte[] a, byte[] b, byte[][] result)
+        public static byte[][] Outer(byte[] a, byte[] b, byte[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1811,7 +1811,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this byte[] a, byte[] b, double[][] result)
+        public static double[][] Outer(byte[] a, byte[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1834,7 +1834,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this byte[] a, byte[] b, int[][] result)
+        public static int[][] Outer(byte[] a, byte[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1857,7 +1857,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Outer(this byte[] a, double[] b, byte[][] result)
+        public static byte[][] Outer(byte[] a, double[] b, byte[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1880,7 +1880,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this byte[] a, double[] b, double[][] result)
+        public static double[][] Outer(byte[] a, double[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1903,7 +1903,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this byte[] a, double[] b, int[][] result)
+        public static int[][] Outer(byte[] a, double[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1926,7 +1926,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Outer(this byte[] a, int[] b, byte[][] result)
+        public static byte[][] Outer(byte[] a, int[] b, byte[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1949,7 +1949,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this byte[] a, int[] b, int[][] result)
+        public static int[][] Outer(byte[] a, int[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1972,7 +1972,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this byte[] a, int[] b, double[][] result)
+        public static double[][] Outer(byte[] a, int[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -1995,7 +1995,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Outer(this byte[] a, float[] b, byte[][] result)
+        public static byte[][] Outer(byte[] a, float[] b, byte[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2018,7 +2018,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this byte[] a, float[] b, float[][] result)
+        public static float[][] Outer(byte[] a, float[] b, float[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2041,7 +2041,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this byte[] a, float[] b, double[][] result)
+        public static double[][] Outer(byte[] a, float[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2064,7 +2064,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this byte[] a, float[] b, int[][] result)
+        public static int[][] Outer(byte[] a, float[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2087,7 +2087,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static short[][] Outer(this short[] a, short[] b, short[][] result)
+        public static short[][] Outer(short[] a, short[] b, short[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2110,7 +2110,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this short[] a, short[] b, double[][] result)
+        public static double[][] Outer(short[] a, short[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2133,7 +2133,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this short[] a, short[] b, int[][] result)
+        public static int[][] Outer(short[] a, short[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2156,7 +2156,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static short[][] Outer(this short[] a, double[] b, short[][] result)
+        public static short[][] Outer(short[] a, double[] b, short[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2179,7 +2179,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this short[] a, double[] b, double[][] result)
+        public static double[][] Outer(short[] a, double[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2202,7 +2202,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this short[] a, double[] b, int[][] result)
+        public static int[][] Outer(short[] a, double[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2225,7 +2225,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static short[][] Outer(this short[] a, int[] b, short[][] result)
+        public static short[][] Outer(short[] a, int[] b, short[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2248,7 +2248,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this short[] a, int[] b, int[][] result)
+        public static int[][] Outer(short[] a, int[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2271,7 +2271,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this short[] a, int[] b, double[][] result)
+        public static double[][] Outer(short[] a, int[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2294,7 +2294,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static short[][] Outer(this short[] a, float[] b, short[][] result)
+        public static short[][] Outer(short[] a, float[] b, short[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2317,7 +2317,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this short[] a, float[] b, float[][] result)
+        public static float[][] Outer(short[] a, float[] b, float[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2340,7 +2340,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this short[] a, float[] b, double[][] result)
+        public static double[][] Outer(short[] a, float[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2363,7 +2363,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this short[] a, float[] b, int[][] result)
+        public static int[][] Outer(short[] a, float[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2386,7 +2386,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static sbyte[][] Outer(this sbyte[] a, sbyte[] b, sbyte[][] result)
+        public static sbyte[][] Outer(sbyte[] a, sbyte[] b, sbyte[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2409,7 +2409,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this sbyte[] a, sbyte[] b, double[][] result)
+        public static double[][] Outer(sbyte[] a, sbyte[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2432,7 +2432,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this sbyte[] a, sbyte[] b, int[][] result)
+        public static int[][] Outer(sbyte[] a, sbyte[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2455,7 +2455,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static sbyte[][] Outer(this sbyte[] a, double[] b, sbyte[][] result)
+        public static sbyte[][] Outer(sbyte[] a, double[] b, sbyte[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2478,7 +2478,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this sbyte[] a, double[] b, double[][] result)
+        public static double[][] Outer(sbyte[] a, double[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2501,7 +2501,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this sbyte[] a, double[] b, int[][] result)
+        public static int[][] Outer(sbyte[] a, double[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2524,7 +2524,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static sbyte[][] Outer(this sbyte[] a, int[] b, sbyte[][] result)
+        public static sbyte[][] Outer(sbyte[] a, int[] b, sbyte[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2547,7 +2547,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this sbyte[] a, int[] b, int[][] result)
+        public static int[][] Outer(sbyte[] a, int[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2570,7 +2570,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this sbyte[] a, int[] b, double[][] result)
+        public static double[][] Outer(sbyte[] a, int[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2593,7 +2593,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static sbyte[][] Outer(this sbyte[] a, float[] b, sbyte[][] result)
+        public static sbyte[][] Outer(sbyte[] a, float[] b, sbyte[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2616,7 +2616,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Outer(this sbyte[] a, float[] b, float[][] result)
+        public static float[][] Outer(sbyte[] a, float[] b, float[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2639,7 +2639,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Outer(this sbyte[] a, float[] b, double[][] result)
+        public static double[][] Outer(sbyte[] a, float[] b, double[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
@@ -2662,7 +2662,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Outer(this sbyte[] a, float[] b, int[][] result)
+        public static int[][] Outer(sbyte[] a, float[] b, int[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)

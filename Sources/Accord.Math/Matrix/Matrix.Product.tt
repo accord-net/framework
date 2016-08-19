@@ -158,7 +158,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[] Dot(this <#=a#>[] rowVector, <#=b#>[][] b)
         {
-            return Dot(rowVector, b, new <#=r#>[b[0].Length]);
+            return Dot(rowVector, b, new <#=r#>[b.Columns()]);
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] Dot(this <#=a#>[][] a, <#=b#>[][] b)
         {
-            return Dot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.Length, b[0].Length));
+            return Dot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.Length, b.Columns()));
         }
 
         /// <summary>
@@ -243,7 +243,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] Dot(this <#=a#>[,] a, <#=b#>[][] b)
         {
-            return Dot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.GetLength(0), b[0].Length));
+            return Dot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.GetLength(0), b.Columns()));
         }
 
 
@@ -437,7 +437,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] TransposeAndDot(this <#=a#>[] columnVector, <#=b#>[][] b)
         {
-            return TransposeAndDot(columnVector, b, Accord.Math.Jagged.Create<<#=r#>>(columnVector.Length, b[0].Length));
+            return TransposeAndDot(columnVector, b, Accord.Math.Jagged.Create<<#=r#>>(columnVector.Length, b.Columns()));
         }
 
         /// <summary>
@@ -471,7 +471,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] TransposeAndDot(this <#=a#>[][] a, <#=b#>[][] b)
         {
-            return TransposeAndDot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a[0].Length, b[0].Length));
+            return TransposeAndDot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a[0].Length, b.Columns()));
         }
 
         /// <summary>
@@ -522,7 +522,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] TransposeAndDot(this <#=a#>[,] a, <#=b#>[][] b)
         {
-            return TransposeAndDot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.GetLength(0), b[0].Length));
+            return TransposeAndDot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.GetLength(0), b.Columns()));
         }
 
 #endregion
@@ -678,15 +678,8 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Gets the outer product (matrix product) between two vectors (a*bT).
+        ///   Gets the inner product (dot product) between two vectors (a*bT).
         /// </summary>
-        /// 
-        /// <remarks>
-        ///   In linear algebra, the outer product typically refers to the tensor
-        ///   product of two vectors. The result of applying the outer product to
-        ///   a pair of vectors is a matrix. The name contrasts with the inner product,
-        ///   which takes as input a pair of vectors and produces a scalar.
-        /// </remarks>
         /// 
         [Obsolete("Please use Matrix.Dot instead.")]
         public static <#=r#> Inner(this <#=a#>[] a, <#=b#>[] b)
@@ -727,7 +720,7 @@ namespace Accord.Math
         public static <#=r#>[][] Kronecker(this <#=a#>[][] a, <#=b#>[][] b)
         {
             int crows = a.Length * b.Length;
-            int ccols = a[0].Length * b[0].Length;
+            int ccols = a[0].Length * b.Columns();
             return Kronecker(a, b, Accord.Math.Jagged.Create<<#=r#>>(crows, ccols));
         }
 
@@ -829,7 +822,7 @@ namespace Accord.Math
         public static <#=c#> DotAndDot(this <#=a#>[] rowVector, <#=b#>[][] b, <#=c#>[] columnVector)
         {
 #if DEBUG
-            if (rowVector.Length != b.GetLength(0) || b[0].Length != columnVector.Length)
+            if (rowVector.Length != b.GetLength(0) || b.Columns() != columnVector.Length)
                 throw new DimensionMismatchException();
 #endif
             var ab = rowVector.Dot(b);
@@ -969,7 +962,7 @@ namespace Accord.Math
         public static <#=r#>[][] Dot(this <#=a#>[][] a, <#=b#>[][] b, <#=r#>[][] result)
         {
 #if DEBUG
-            if (a[0].Length != b.Length || result.Length > a.Length || result[0].Length > b[0].Length)
+            if (a[0].Length != b.Length || result.Length > a.Length || result[0].Length > b.Columns())
                 throw new DimensionMismatchException();
             var C = Jagged.CreateAs(result).To<double[,]>();
             C = Dot(a.ToMatrix().To<double[,]>(), b.ToMatrix().To<double[,]>(), C);
@@ -1072,7 +1065,7 @@ namespace Accord.Math
         public static <#=r#>[][] Dot(this <#=a#>[,] a, <#=b#>[][] b, <#=r#>[][] result)
         {
 #if DEBUG
-            if (a.GetLength(1) != b.Length || result.Length > a.Length || result[0].Length > b[0].Length)
+            if (a.GetLength(1) != b.Length || result.Length > a.Length || result[0].Length > b.Columns())
                 throw new DimensionMismatchException();
             var C = Matrix.CreateAs(result).To<double[,]>();
             C = Dot(a.To<double[,]>(), b.ToMatrix().To<double[,]>(), C);
@@ -1494,13 +1487,13 @@ namespace Accord.Math
         public static <#=r#>[][] TransposeAndDot(this <#=a#>[][] a, <#=b#>[][] b, <#=r#>[][] result)
         {
 #if DEBUG
-            if (a.Length != b.Length || result.Length > a[0].Length || result[0].Length > b[0].Length)
+            if (a.Length != b.Length || result.Length > a[0].Length || result[0].Length > b.Columns())
                 throw new DimensionMismatchException();
             var C = Dot(a.Transpose().To<double[,]>(), b.To<double[,]>());
 #endif
             int n = a.Length;
             int m = a[0].Length;
-            int p = b[0].Length;
+            int p = b.Columns();
 
             var Bcolj = new <#=b#>[n];
             for (int i = 0; i < p; i++)

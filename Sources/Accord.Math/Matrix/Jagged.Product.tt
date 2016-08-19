@@ -88,7 +88,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[][] Outer(this <#=a#>[] a, <#=b#>[] b)
+        public static <#=r#>[][] Outer(<#=a#>[] a, <#=b#>[] b)
         {
             return Outer(a, b, Jagged.Zeros<<#=r#>>(a.Length, b.Length));
         }
@@ -124,7 +124,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[][] Outer(this <#=a#>[] a, <#=b#>[] b, <#=r#>[][] result)
+        public static <#=r#>[][] Outer(<#=a#>[] a, <#=b#>[] b, <#=r#>[][] result)
         {
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < b.Length; j++)
