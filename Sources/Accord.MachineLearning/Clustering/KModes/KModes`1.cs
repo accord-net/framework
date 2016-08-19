@@ -47,7 +47,8 @@ namespace Accord.MachineLearning
     /// <seealso cref="MeanShift"/>
     /// 
     [Serializable]
-    public class KModes<T> : IClusteringAlgorithm<T[]>
+    public class KModes<T> : IClusteringAlgorithm<T[]>,
+        IUnsupervisedLearning<KModesClusterCollection<T>, T[], int>
     {
 
         private KModesClusterCollection<T> clusters;
@@ -179,25 +180,40 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="points">The data where to compute the algorithm.</param>
         /// 
+        [Obsolete("Please use Learn(x) instead.")]
         public int[] Compute(T[][] points)
         {
+            return Learn(points).Decide(points);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
+        /// <returns>A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.</returns>
+        /// <exception cref="ArgumentNullException">points</exception>
+        /// <exception cref="ArgumentException">Not enough points. There should be more points than the number K of clusters.</exception>
+        public KModesClusterCollection<T> Learn(T[][] x, double[] weights = null)
+        {
             // Initial argument checking
-            if (points == null)
+            if (x == null)
                 throw new ArgumentNullException("points");
 
-            if (points.Length < K)
+            if (x.Length < K)
                 throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.");
 
             int k = this.K;
-            int rows = points.Length;
-            int cols = points[0].Length;
+            int rows = x.Length;
+            int cols = x[0].Length;
 
             // Perform a random initialization of the clusters
             // if the algorithm has not been initialized before.
             //
             if (this.Clusters.Centroids[0] == null)
             {
-                Clusters.Randomize(points);
+                Clusters.Randomize(x);
             }
 
             // Initial variables
@@ -227,13 +243,13 @@ namespace Accord.MachineLearning
                 // information into the newClusters variable.
 
                 // For each point in the data set,
-                for (int i = 0; i < points.Length; i++)
+                for (int i = 0; i < x.Length; i++)
                 {
                     // Get the point
-                    T[] point = points[i];
+                    T[] point = x[i];
 
                     // Compute the nearest cluster centroid
-                    int c = labels[i] = Clusters.Nearest(points[i]);
+                    int c = labels[i] = Clusters.Decide(x[i]);
 
                     // Accumulate in the corresponding centroid
                     clusters[c].Add(point);
@@ -280,15 +296,15 @@ namespace Accord.MachineLearning
             for (int i = 0; i < k; i++)
             {
                 // Compute the proportion of samples in the cluster
-                proportions[i] = clusters[i].Count / (double)points.Length;
+                proportions[i] = clusters[i].Count / (double)x.Length;
             }
 
             if (ComputeError)
                 // Compute the average error
-                Error = Clusters.Distortion(points, labels);
+                Error = Clusters.Distortion(x, labels);
 
             // Return the classification result
-            return labels;
+            return Clusters;
         }
 
         /// <summary>
@@ -325,6 +341,11 @@ namespace Accord.MachineLearning
         IClusterCollection<T[]> IClusteringAlgorithm<T[]>.Clusters
         {
             get { return clusters; }
+        }
+
+        IClusterCollection<T[]> IUnsupervisedLearning<IClusterCollection<T[]>, T[], int>.Learn(T[][] x, double[] weights)
+        {
+            return Learn(x);
         }
 
     }

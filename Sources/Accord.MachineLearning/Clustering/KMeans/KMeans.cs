@@ -202,7 +202,8 @@ namespace Accord.MachineLearning
     ///
     [Serializable]
     [SerializationBinder(typeof(KMeans.KMeansBinder))]
-    public class KMeans : IClusteringAlgorithm<double[], double>
+    public class KMeans : IClusteringAlgorithm<double[], double>,
+        IUnsupervisedLearning<KMeansClusterCollection, double[], int>
     {
 
         private KMeansClusterCollection clusters;
@@ -380,6 +381,40 @@ namespace Accord.MachineLearning
             clusters.Randomize(points, UseSeeding);
         }
 
+        /// <summary>
+        /// Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
+        /// <returns>A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.</returns>
+        public virtual KMeansClusterCollection Learn(double[][] x, double[] weights = null)
+        {
+            // Initial argument checking
+            if (x == null)
+                throw new ArgumentNullException("x");
+
+            if (x.Length < K)
+                throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.", "x");
+             
+            if (weights == null)
+                weights = Vector.Ones(x.Length);
+
+            if (x.Length != weights.Length)
+                throw new DimensionMismatchException("weights", "Data weights vector must be the same length as data samples.");
+
+            double weightSum = weights.Sum();
+            if (weightSum <= 0)
+                throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.", "x");
+
+            int cols = x[0].Length;
+            for (int i = 0; i < x.Length; i++)
+                if (x[i].Length != cols)
+                    throw new DimensionMismatchException("x", "The points matrix should be rectangular. The vector at position {} has a different length than previous ones.");
+            
+            Compute(x, weights, weightSum);
+            return clusters;
+        }
 
         /// <summary>
         ///   Divides the input data into K clusters. 
@@ -387,6 +422,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="data">The data where to compute the algorithm.</param>
         ///   
+        [Obsolete("Please use Learn(x) instead.")]
         public int[] Compute(double[][] data)
         {
             return Compute(data, Vector.Ones(data.Length));
@@ -399,35 +435,10 @@ namespace Accord.MachineLearning
         /// <param name="data">The data where to compute the algorithm.</param>
         /// <param name="weights">The weight associated with each data point.</param>
         ///   
+        [Obsolete("Please use Learn(x) instead.")]
         public virtual int[] Compute(double[][] data, double[] weights)
         {
-            // Initial argument checking
-            if (data == null)
-                throw new ArgumentNullException("data");
-
-            if (data.Length < K)
-                throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.");
-
-            if (weights == null)
-                throw new ArgumentNullException("weights");
-
-            if (data.Length != weights.Length)
-                throw new ArgumentException("Data weights vector must be the same length as data samples.");
-
-            double weightSum = weights.Sum();
-            if (weightSum <= 0)
-                throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.");
-
-            int cols = data[0].Length;
-            for (int i = 0; i < data.Length; i++)
-                if (data[i].Length != cols)
-                    throw new DimensionMismatchException("data", "The points matrix should be rectangular. The vector at position {} has a different length than previous ones.");
-
-            int[] labels = Compute(data, weights, weightSum);
-
-            ComputeInformation(data, labels);
-
-            return labels;
+            return Learn(data, weights).Decide(data);
         }
 
         private void ComputeInformation(double[][] data, int[] labels)
@@ -470,7 +481,7 @@ namespace Accord.MachineLearning
         /// <param name="weights">The weight to consider for each data sample. This is used in weighted K-Means</param>
         /// <param name="weightSum">The total sum of the weights in <paramref name="weights"/>.</param>
         ///   
-        protected virtual int[] Compute(double[][] data, double[] weights, double weightSum)
+        private int[] Compute(double[][] data, double[] weights, double weightSum)
         {
             this.Iterations = 0;
 
@@ -527,7 +538,7 @@ namespace Accord.MachineLearning
                     double weight = weights[i];
 
                     // Get the nearest cluster centroid
-                    int c = labels[i] = Clusters.Nearest(point);
+                    int c = labels[i] = Clusters.Decide(point);
 
                     // Get the closest cluster centroid
                     double[] centroid = newCentroids[c];
@@ -575,6 +586,8 @@ namespace Accord.MachineLearning
                 clusters.Proportions[i] = count[i] / weightSum;
             }
 
+            ComputeInformation(data, labels);
+
             return labels;
         }
 
@@ -616,6 +629,11 @@ namespace Accord.MachineLearning
             get { return clusters; }
         }
 
+        IClusterCollection<double[]> IUnsupervisedLearning<IClusterCollection<double[]>, double[], int>.Learn(double[][] x, double[] weights)
+        {
+            return Learn(x);
+        }
+
         [OnDeserialized]
         private void OnDeserializedMethod(StreamingContext context)
         {
@@ -642,7 +660,7 @@ namespace Accord.MachineLearning
         [Obsolete("Please get the error value through this class' Error property.")]
         public int[] Compute(double[][] data, out double error)
         {
-            int[] labels = Compute(data);
+            int[] labels = Learn(data).Decide(data);
             error = Error;
             return labels;
         }
@@ -740,5 +758,8 @@ namespace Accord.MachineLearning
 #pragma warning restore 0649
 
         #endregion
+
+
+
     }
 }

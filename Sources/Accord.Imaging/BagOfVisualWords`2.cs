@@ -224,7 +224,7 @@ namespace Accord.Imaging
             }
 
             // Compute the descriptors clusters
-            Clustering.Compute(features);
+            Clustering.Learn(features);
         }
 
         /// <summary>
@@ -313,7 +313,7 @@ namespace Accord.Imaging
             // Detect all activation centroids
             Parallel.For(0, points.Count, ParallelOptions, i =>
             {
-                int j = Clustering.Clusters.Nearest(points[i].Descriptor);
+                int j = Clustering.Clusters.Decide(points[i].Descriptor);
 
                 // Form feature vector
                 Interlocked.Increment(ref features[j]);

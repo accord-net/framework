@@ -97,7 +97,7 @@ namespace Accord.MachineLearning
         /// <param name="data">The data where to compute the algorithm.</param>
         /// <param name="weights">The weight associated with each data point.</param>
         /// 
-        public override int[] Compute(double[][] data, double[] weights)
+        public override KMeansClusterCollection Learn(double[][] data, double[] weights)
         {
             // Initial argument checking
             if (data == null)
@@ -165,14 +165,14 @@ namespace Accord.MachineLearning
             }
 
 
-            return Clusters.Nearest(data);
+            return Clusters;
         }
 
         private static Tuple<double[][], double[][]> split(double[][] cluster, KMeans kmeans)
         {
             kmeans.Randomize(cluster);
 
-            int[] idx = kmeans.Compute(cluster);
+            int[] idx = kmeans.Learn(cluster).Decide(cluster);
 
             List<double[]> a = new List<double[]>();
             List<double[]> b = new List<double[]>();

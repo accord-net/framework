@@ -40,7 +40,8 @@ namespace Accord.MachineLearning
     /// <seealso cref="GaussianMixtureModel"/>
     /// 
     [Serializable]
-    public class ClusterCollection<TData, TCentroids, TCluster> : IClusterCollection<TData, TCluster>
+    public class ClusterCollection<TData, TCentroids, TCluster> 
+        : MulticlassScoreClassifierBase<TData>, IClusterCollection<TData, TCluster>
     {
         /// <summary>
         ///   Data cluster.
@@ -141,6 +142,7 @@ namespace Accord.MachineLearning
             this.centroids = new TCentroids[k];
             this.clusters = new TCluster[k];
             this.Distance = distance;
+            this.NumberOfOutputs = k;
         }
 
         /// <summary>
@@ -203,23 +205,10 @@ namespace Accord.MachineLearning
         ///   The index of the nearest cluster to the given data point.
         /// </returns>
         ///   
+        [Obsolete("Please use Decide() instead.")]
         public virtual int Nearest(TData point)
         {
-            int imin = 0;
-            double min = Distance.Distance(point, centroids[0]);
-
-            for (int i = 1; i < centroids.Length; i++)
-            {
-                double d = Distance.Distance(point, centroids[i]);
-
-                if (d < min)
-                {
-                    min = d;
-                    imin = i;
-                }
-            }
-
-            return imin;
+            return Decide(point);
         }
 
         /// <summary>
@@ -233,14 +222,12 @@ namespace Accord.MachineLearning
         ///   The index of the nearest cluster to the given data point.
         /// </returns>
         ///   
+        [Obsolete("Please use Scores() instead.")]
         public virtual int Nearest(TData point, out double[] responses)
         {
-            responses = new double[centroids.Length];
-            for (int i = 0; i < responses.Length; i++)
-                responses[i] = Distance.Distance(point, centroids[i]);
-
-            int imin; responses.Min(out imin);
-            return imin;
+            int decision;
+            responses = Scores(point, out decision);
+            return decision;
         }
 
         /// <summary>
@@ -255,17 +242,12 @@ namespace Accord.MachineLearning
         ///   The index of the nearest cluster
         ///   to the given data point. </returns>
         ///   
+        [Obsolete("Please use Score() instead.")]
         public virtual int Nearest(TData point, out double response)
         {
-            if (point == null)
-                throw new ArgumentNullException("point");
-
-            double[] responses;
-            int index = Nearest(point, out responses);
-
-            double sum = responses.Sum();
-            response = responses[index] / sum;
-            return index;
+            int decision;
+            response = Score(point, out decision);
+            return decision;
         }
 
         /// <summary>
@@ -278,15 +260,10 @@ namespace Accord.MachineLearning
         ///   An array containing the index of the nearest cluster
         ///   to the corresponding point in the input array.</returns>
         ///   
+        [Obsolete("Please use Decide() instead.")]
         public virtual int[] Nearest(TData[] points)
         {
-            var labels = new int[points.Length];
-            Parallel.For(0, points.Length, i =>
-            {
-                labels[i] = Nearest(points[i]);
-            });
-
-            return labels;
+            return Decide(points);
         }
 
         /// <summary>
@@ -300,17 +277,12 @@ namespace Accord.MachineLearning
         ///   An array containing the index of the nearest cluster
         ///   to the corresponding point in the input array.</returns>
         ///   
+        [Obsolete("Please use Scores() instead.")]
         public virtual int[] Nearest(TData[] points, out double[][] responses)
         {
-            var labels = new int[points.Length];
-            responses = new double[points.Length][];
-            var r = responses;
-            Parallel.For(0, points.Length, i =>
-            {
-                labels[i] = Nearest(points[i], out r[i]);
-            });
-
-            return labels;
+            int[] decisions = new int[points.Length];
+            responses = Scores(points, ref decisions);
+            return decisions;
         }
 
         /// <summary>
@@ -332,7 +304,7 @@ namespace Accord.MachineLearning
         public virtual double Distortion(TData[] data, int[] labels = null, double[] weights = null)
         {
             if (labels == null)
-                labels = Nearest(data);
+                labels = Decide(data);
 
             if (weights == null)
             {
@@ -464,6 +436,20 @@ namespace Accord.MachineLearning
         IEnumerator IEnumerable.GetEnumerator()
         {
             return clusters.GetEnumerator();
+        }
+
+
+        /// <summary>
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and a given
+        /// <paramref name="classIndex" />.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="classIndex">The index of the class whose score will be computed.</param>
+        /// <returns>System.Double.</returns>
+        public override double Score(TData input, int classIndex)
+        {
+            return -Distance.Distance(input, centroids[classIndex]);
         }
     }
 }

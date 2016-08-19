@@ -22,6 +22,7 @@
 
 namespace Accord.MachineLearning
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
 
@@ -37,6 +38,7 @@ namespace Accord.MachineLearning
     /// <seealso cref="GaussianMixtureModel"/>
     /// 
     public interface IClusteringAlgorithm<TData>
+        : IUnsupervisedLearning<IClusterCollection<TData>, TData, int>
     {
         /// <summary>
         ///   Divides the input data into a number of clusters. 
@@ -48,6 +50,7 @@ namespace Accord.MachineLearning
         ///   The labellings for the input data.
         /// </returns>
         /// 
+        [Obsolete("Please use Learn(inputs) instead.")]
         int[] Compute(TData[] points);
 
         /// <summary>
@@ -83,7 +86,9 @@ namespace Accord.MachineLearning
         ///   The labellings for the input data.
         /// </returns>
         /// 
+        [Obsolete("Please use Learn(inputs) instead.")]
         int[] Compute(TData[] points, TWeights[] weights);
+
     }
 
     /// <summary>
@@ -92,7 +97,8 @@ namespace Accord.MachineLearning
     /// 
     /// <typeparam name="TData">The type of the data being clustered, such as <see cref="T:double[]"/>.</typeparam>
     /// 
-    public interface IClusterCollection<in TData> : IEnumerable
+    public interface IClusterCollection<TData> : IEnumerable, 
+        IMulticlassScoreClassifier<TData, int>
     {
         /// <summary>
         ///   Gets the number of clusters in the collection.
@@ -109,6 +115,7 @@ namespace Accord.MachineLearning
         ///   The index of the nearest cluster
         ///   to the given data point. </returns>
         ///   
+        [Obsolete("Please use Decide() instead.")]
         int Nearest(TData point);
     }
 

@@ -84,69 +84,47 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
-        ///   Returns the closest cluster to an input point.
-        /// </summary>v
-        /// 
-        /// <param name="point">The input vector.</param>
-        /// <returns>
-        ///   The index of the nearest cluster
-        ///   to the given data point. </returns>
-        /// 
-        public override int Nearest(double[] point)
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <returns>A class-label that best described <paramref name="input" /> according
+        /// to this classifier.</returns>
+        public override int Decide(double[] input)
         {
             // the tree contains the class label as the value for the seed point.
-            return tree.Nearest(point).Value;
+            return tree.Nearest(input).Value;
         }
 
         /// <summary>
-        ///   Returns the closest cluster to an input point.
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and each class.
         /// </summary>
-        /// 
-        /// <param name="point">The input vector.</param>
-        /// <param name="response">The responses for each of the cluster labels.</param>
-        /// 
-        /// <returns>
-        ///   The index of the nearest cluster
-        ///   to the given data point. </returns>
-        /// 
-        public override int Nearest(double[] point, out double[] response)
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The decision.</param>
+        /// <param name="result">An array where the result will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public override double[] Scores(double[] input, out int decision, double[] result)
         {
             // the tree contains the class label as the value for the seed point.
-            var values = tree.Nearest(point, algorithm.Bandwidth, algorithm.Maximum);
+            var values = tree.Nearest(input, algorithm.Bandwidth, algorithm.Maximum);
 
-            response = new double[algorithm.Clusters.Count];
             int[] counts = new int[algorithm.Clusters.Count];
             double sum = 0;
             foreach (var value in values)
             {
                 int j = value.Node.Value;
-                response[j] += 1 / (1 + value.Distance);
+                result[j] += 1 / (1 + value.Distance);
                 counts[j] += 1;
-                sum += response[j];
+                sum += result[j];
             }
 
-            Elementwise.Divide(response, counts, result: response);
+            Elementwise.Divide(result, counts, result: result);
 
-            return response.ArgMax();
-        }
+            decision = result.ArgMax();
 
-        /// <summary>
-        ///   Returns the closest cluster to an input point.
-        /// </summary>
-        /// 
-        /// <param name="point">The input vector.</param>
-        /// <returns>
-        ///   The index of the nearest cluster
-        ///   to the given data point. </returns>
-        /// 
-        public override int[] Nearest(double[][] point)
-        {
-            int[] labels = new int[point.Length];
-            Parallel.For(0, labels.Length, i =>
-            {
-                labels[i] = Nearest(point[i]);
-            });
-            return labels;
+            return result;
         }
 
         /// <summary>

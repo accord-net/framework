@@ -291,52 +291,18 @@ namespace Accord.MachineLearning
                 Clusters[i] = new GaussianCluster(this, i);
         }
 
-        /// <summary>
-        ///   Returns the closest cluster to an input point.
-        /// </summary>
-        /// 
-        /// <param name="point">The input vector.</param>
-        /// <param name="response">A value between 0 and 1 representing
-        ///   the confidence in the generated classification.</param>
-        /// 
-        /// <returns>
-        ///   The index of the nearest cluster
-        ///   to the given data point. </returns>
-        ///   
-        public override int Nearest(double[] point, out double response)
-        {
-            if (point == null)
-                throw new ArgumentNullException("point");
-
-            double[] responses;
-            int index = Nearest(point, out responses);
-
-            double sum = responses.Sum();
-            response = responses[index] / sum;
-            return index;
-        }
 
         /// <summary>
-        ///   Returns the closest cluster to an input point.
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and a given
+        /// <paramref name="classIndex" />.
         /// </summary>
-        /// 
-        /// <param name="point">The input vector.</param>
-        /// <param name="responses">The likelihood for each of the classes.</param>
-        /// 
-        /// <returns>
-        ///   The index of the nearest cluster
-        ///   to the given data point. </returns>
-        ///   
-        public override int Nearest(double[] point, out double[] responses)
+        /// <param name="input">The input vector.</param>
+        /// <param name="classIndex">The index of the class whose score will be computed.</param>
+        /// <returns>System.Double.</returns>
+        public override double Score(double[] input, int classIndex)
         {
-            if (point == null)
-                throw new ArgumentNullException("point");
-
-            responses = new double[model.Components.Length];
-            for (int i = 0; i < responses.Length; i++)
-                responses[i] = model.ProbabilityDensityFunction(i, point);
-
-            return responses.ArgMax();
+            return model.LogProbabilityDensityFunction(classIndex, input);
         }
 
         /// <summary>

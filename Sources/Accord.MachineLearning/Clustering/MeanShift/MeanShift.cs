@@ -157,7 +157,8 @@ namespace Accord.MachineLearning
     /// <see cref="KModes{T}"/>
     /// 
     [Serializable]
-    public class MeanShift : IClusteringAlgorithm<double[]>
+    public class MeanShift : IClusteringAlgorithm<double[]>, 
+        IUnsupervisedLearning<MeanShiftClusterCollection, double[], int>
     {
 
         private int dimension;
@@ -315,6 +316,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="points">The data where to compute the algorithm.</param>
         /// 
+        [Obsolete("Please use Learn(x) instead.")]
         public int[] Compute(double[][] points)
         {
             return Compute(points, Vector.Ones<int>(points.Length));
@@ -327,9 +329,36 @@ namespace Accord.MachineLearning
         /// <param name="points">The data where to compute the algorithm.</param>
         /// <param name="weights">The weight associated with each data point.</param>
         /// 
+        [Obsolete("Please use Learn(x) instead.")]
         public int[] Compute(double[][] points, int[] weights)
         {
-            if (points.Length != weights.Length)
+            return Learn(points, weights).Decide(points);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
+        /// <returns>A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.</returns>
+        public MeanShiftClusterCollection Learn(double[][] x, double[] weights)
+        {
+            if (weights != null)
+                throw new NotSupportedException();
+            return Learn(x);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
+        /// <returns>A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.</returns>
+        public MeanShiftClusterCollection Learn(double[][] x, int[] weights = null)
+        {
+            if (x.Length != weights.Length)
             {
                 throw new DimensionMismatchException("weights",
                     "The weights and points vector must have the same dimension.");
@@ -337,10 +366,10 @@ namespace Accord.MachineLearning
 
             // First of all, construct map of the original points. We will
             // be saving the weight of every point in the node of the tree.
-            KDTree<int> tree = KDTree.FromData(points, weights, Distance);
+            KDTree<int> tree = KDTree.FromData(x, weights, Distance);
 
             // Let's sample some points in the problem surface
-            double[][] seeds = createSeeds(points, 2 * Bandwidth);
+            double[][] seeds = createSeeds(x, 2 * Bandwidth);
 
             // Now, we will duplicate those points and make them "move" 
             // into this surface in the direction of the surface modes.
@@ -389,10 +418,10 @@ namespace Accord.MachineLearning
             {
                 int sum = 0;
                 int[] counts = new int[modes.Length];
-                labels = new int[points.Length];
+                labels = new int[x.Length];
                 for (int i = 0; i < labels.Length; i++)
                 {
-                    int j = tree.Nearest(points[i]).Value;
+                    int j = tree.Nearest(x[i]).Value;
                     labels[i] = j;
                     counts[j] += weights[i];
                     sum += weights[i];
@@ -400,11 +429,9 @@ namespace Accord.MachineLearning
 
                 for (int i = 0; i < counts.Length; i++)
                     clusters.Proportions[i] = counts[i] / (double)sum;
-
-                return labels;
             }
 
-            return null;
+            return clusters;
         }
 
         private double[] move(KDTree<int> tree, double[][] points, int index,
@@ -650,6 +677,11 @@ namespace Accord.MachineLearning
         IClusterCollection<double[]> IClusteringAlgorithm<double[]>.Clusters
         {
             get { throw new NotImplementedException(); }
+        }
+
+        IClusterCollection<double[]> IUnsupervisedLearning<IClusterCollection<double[]>, double[], int>.Learn(double[][] x, double[] weights)
+        {
+            return Learn(x);
         }
     }
 }
