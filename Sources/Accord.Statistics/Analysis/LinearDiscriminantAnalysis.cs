@@ -139,6 +139,16 @@ namespace Accord.Statistics.Analysis
     {
 
         /// <summary>
+        ///   Gets a classification pipeline that can be used to classify
+        ///   new samples into one of the <see cref="BaseDiscriminantAnalysis.NumberOfClasses"/> 
+        ///   learned in this discriminant analysis. This pipeline is
+        ///   only available after a call to the <see cref="Learn"/> method.
+        /// </summary>
+        /// 
+        public Pipeline Classifier { get; private set; }
+
+#pragma warning disable 612, 618
+        /// <summary>
         ///   Constructs a new Linear Discriminant Analysis object.
         /// </summary>
         /// 
@@ -165,6 +175,7 @@ namespace Accord.Statistics.Analysis
         {
             init(inputs.ToMatrix(), outputs);
         }
+#pragma warning disable 612, 618
 
 
         /// <summary>
@@ -192,7 +203,7 @@ namespace Accord.Statistics.Analysis
             for (int i = 0; i < input.Length; i++)
                 for (int j = 0; j < DiscriminantVectors.Length; j++)
                     for (int k = 0; k < input[i].Length; k++)
-                        result[i][j] += input[i][k] * DiscriminantVectors[j][k]; 
+                        result[i][j] += input[i][k] * DiscriminantVectors[j][k];
             return result;
         }
 
@@ -263,6 +274,8 @@ namespace Accord.Statistics.Analysis
             this.DiscriminantVectors = eigs.Transpose();
             base.ScatterBetweenClass = Sb;
             base.ScatterWithinClass = Sw;
+            this.NumberOfInputs = x.Columns();
+            this.NumberOfOutputs = eigs.Columns();
 
             // Compute feature space means for later classification
             for (int c = 0; c < projectedMeans.Length; c++)
@@ -272,20 +285,74 @@ namespace Accord.Statistics.Analysis
             //  object-oriented structure to hold the discriminants found.
             CreateDiscriminants();
 
+            this.Classifier = CreateClassifier();
+
+            return Classifier;
+        }
+
+        private Pipeline CreateClassifier()
+        {
             return new Pipeline()
             {
                 NumberOfInputs = NumberOfInputs,
                 NumberOfOutputs = NumberOfClasses,
                 First = new MultivariateLinearRegression()
                 {
-                    Weights = DiscriminantVectors,
-                    Intercepts = Means.Dot(DiscriminantVectors).Multiply(-1)
+                    Weights = DiscriminantVectors.Transpose(),
+                    NumberOfInputs = NumberOfInputs,
+                    NumberOfOutputs = NumberOfOutputs,
                 },
                 Second = new MinimumMeanDistanceClassifier()
                 {
-                    Means = projectedMeans
+                    Means = projectedMeans,
+                    NumberOfInputs = NumberOfOutputs,
+                    NumberOfOutputs = NumberOfClasses,
                 },
             };
+        }
+
+        /// <summary>
+        ///   Classifies a new instance into one of the available classes.
+        /// </summary>
+        /// 
+        [Obsolete("Please use Classifier.Decide() instead.")]
+        public override int Classify(double[] input)
+        {
+            return Classes[Classifier.Decide(input)].Number;
+        }
+
+        /// <summary>
+        ///   Classifies a new instance into one of the available classes.
+        /// </summary>
+        /// 
+        [Obsolete("Please use Classifier.Decide() or Classifier.Scores() instead.")]
+        public override int Classify(double[] input, out double[] responses)
+        {
+            int decision;
+            responses = Classifier.Scores(input, out decision);
+            return Classes[decision].Number;
+        }
+
+        /// <summary>
+        ///   Classifies new instances into one of the available classes.
+        /// </summary>
+        /// 
+        [Obsolete("Please use Classifier.Decide() instead.")]
+        public override int[] Classify(double[][] inputs)
+        {
+            int[] result = Classifier.Decide(inputs);
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Classes[result[i]].Number;
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the output of the discriminant function for a given class.
+        /// </summary>
+        /// 
+        public override double DiscriminantFunction(double[] input, int classIndex)
+        {
+            return Classifier.Score(input, classIndex);
         }
 
         /// <summary>
@@ -318,6 +385,19 @@ namespace Accord.Statistics.Analysis
             public override double[][] Scores(double[][] input, double[][] result)
             {
                 return Second.Scores(First.Transform(input), result);
+            }
+
+            /// <summary>
+            /// Computes a numerical score measuring the association between
+            /// the given <paramref name="input" /> vector and a given
+            /// <paramref name="classIndex" />.
+            /// </summary>
+            /// <param name="input">The input vector.</param>
+            /// <param name="classIndex">The index of the class whose score will be computed.</param>
+            /// <returns>System.Double.</returns>
+            public override double Score(double[] input, int classIndex)
+            {
+                return Second.Score(First.Transform(input), classIndex);
             }
         }
     }
@@ -449,7 +529,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public double DiscriminantFunction(double[] projection)
         {
-            return analysis.Score(projection, classIndex: index);
+            return analysis.DiscriminantFunction(projection, classIndex: index);
         }
     }
 

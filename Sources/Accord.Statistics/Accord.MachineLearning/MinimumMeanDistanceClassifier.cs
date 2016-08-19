@@ -175,8 +175,21 @@ namespace Accord.MachineLearning
         public override double[] Scores(double[] input, double[] result)
         {
             for (int i = 0; i < means.Length; i++)
-                result[i] = distance.Distance(input, means[i]);
+                result[i] = -distance.Distance(input, means[i]);
             return result;
+        }
+
+        /// <summary>
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and a given
+        /// <paramref name="classIndex" />.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="classIndex">The index of the class whose score will be computed.</param>
+        /// <returns>System.Double.</returns>
+        public override double Score(double[] input, int classIndex)
+        {
+            return -distance.Distance(input, means[classIndex]);
         }
         
     }

@@ -123,6 +123,15 @@ namespace Accord.Statistics.Analysis
         private double[][] input;
 
         /// <summary>
+        ///   Gets a classification pipeline that can be used to classify
+        ///   new samples into one of the <see cref="BaseDiscriminantAnalysis.NumberOfClasses"/> 
+        ///   learned in this discriminant analysis. This pipeline is
+        ///   only available after a call to the <see cref="Learn"/> method.
+        /// </summary>
+        /// 
+        public Pipeline Classifier { get; private set; }
+
+        /// <summary>
         ///   Gets or sets the matrix of original values used to create
         ///   this analysis. Those values are required to build kernel 
         ///  (Gram) matrices when classifying new samples.
@@ -295,7 +304,7 @@ namespace Accord.Statistics.Analysis
 
 
             // Compute the generalized eigenvalue decomposition
-            GeneralizedEigenvalueDecomposition gevd = new GeneralizedEigenvalueDecomposition(Sb, Sw);
+            var gevd = new GeneralizedEigenvalueDecomposition(Sb, Sw);
 
             if (gevd.IsSingular) // check validity of the results
             {
@@ -362,12 +371,12 @@ namespace Accord.Statistics.Analysis
                 }
             }
 
-
             // Store information
             base.Eigenvalues = evals;
             base.DiscriminantVectors = eigs.ToJagged().Transpose();
             base.ScatterBetweenClass = Sb.ToJagged();
             base.ScatterWithinClass = Sw.ToJagged();
+            this.NumberOfOutputs = eigs.Columns();
 
             // Project into the kernel discriminant space
             this.Result = Matrix.Dot(K, eigs);
@@ -379,6 +388,35 @@ namespace Accord.Statistics.Analysis
             // Computes additional information about the analysis and creates the
             //  object-oriented structure to hold the discriminants found.
             CreateDiscriminants();
+
+            this.Classifier = CreateClassifier();
+        }
+
+        private Pipeline CreateClassifier()
+        {
+            if (NumberOfOutputs == 0)
+                return null;
+
+            return new Pipeline()
+            {
+                NumberOfInputs = NumberOfInputs,
+                NumberOfOutputs = NumberOfClasses,
+                First = new MultivariateKernelRegression()
+                {
+                    Weights = DiscriminantVectors,
+                    Intercept = Means.DotWithTransposed(DiscriminantVectors).Multiply(-1),
+                    BasisVectors = input,
+                    Kernel = Kernel,
+                    NumberOfInputs = NumberOfInputs,
+                    NumberOfOutputs = NumberOfOutputs,
+                },
+                Second = new MinimumMeanDistanceClassifier()
+                {
+                    Means = projectedMeans,
+                    NumberOfInputs = NumberOfOutputs,
+                    NumberOfOutputs = NumberOfClasses,
+                }
+            };
         }
 
         /// <summary>
@@ -410,7 +448,8 @@ namespace Accord.Statistics.Analysis
         public Pipeline Learn(double[][] x, int[] y, double[] weights = null)
         {
             this.NumberOfInputs = x.Columns();
-            this.NumberOfOutputs = y.Max();
+            this.NumberOfOutputs = x.Columns();
+            this.NumberOfClasses = y.Max();
 
             // Create the Gram (Kernel) Matrix
             var K = kernel.ToJagged(x);
@@ -496,28 +535,54 @@ namespace Accord.Statistics.Analysis
             //  object-oriented structure to hold the discriminants found.
             CreateDiscriminants();
 
-            return new Pipeline()
-            {
-                First = CreateRegression(NumberOfOutputs),
-                Second = new MinimumMeanDistanceClassifier()
-                {
-                    Means = projectedMeans
-                }
-            };
+            this.Classifier = CreateClassifier();
+
+            return Classifier;
         }
 
-        private MultivariateKernelRegression CreateRegression(int components)
-        {
-            double[][] weights = DiscriminantVectors;
-            double[] bias = Means.Dot(weights);
-            bias.Multiply(-1, result: bias);
 
-            return new MultivariateKernelRegression()
-            {
-                Weights = weights,
-                Intercept = bias,
-                Inputs = input
-            };
+        /// <summary>
+        ///   Classifies a new instance into one of the available classes.
+        /// </summary>
+        /// 
+        [Obsolete("Please use Classifier.Decide() instead.")]
+        public override int Classify(double[] input)
+        {
+            return Classes[Classifier.Decide(input)].Number;
+        }
+
+        /// <summary>
+        ///   Classifies a new instance into one of the available classes.
+        /// </summary>
+        /// 
+        [Obsolete("Please use Classifier.Decide() or Classifier.Scores() instead.")]
+        public override int Classify(double[] input, out double[] responses)
+        {
+            int decision;
+            responses = Classifier.Scores(input, out decision);
+            return Classes[decision].Number;
+        }
+
+        /// <summary>
+        ///   Classifies new instances into one of the available classes.
+        /// </summary>
+        /// 
+        [Obsolete("Please use Classifier.Decide() instead.")]
+        public override  int[] Classify(double[][] inputs)
+        {
+            int[] result = Classifier.Decide(inputs);
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Classes[result[i]].Number;
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the output of the discriminant function for a given class.
+        /// </summary>
+        /// 
+        public override double DiscriminantFunction(double[] input, int classIndex)
+        {
+            return Classifier.Score(input, classIndex);
         }
 
         /// <summary>
@@ -550,6 +615,19 @@ namespace Accord.Statistics.Analysis
             public override double[][] Scores(double[][] input, double[][] result)
             {
                 return Second.Scores(First.Transform(input), result);
+            }
+
+            /// <summary>
+            /// Computes a numerical score measuring the association between
+            /// the given <paramref name="input" /> vector and a given
+            /// <paramref name="classIndex" />.
+            /// </summary>
+            /// <param name="input">The input vector.</param>
+            /// <param name="classIndex">The index of the class whose score will be computed.</param>
+            /// <returns>System.Double.</returns>
+            public override double Score(double[] input, int classIndex)
+            {
+                return Second.Score(First.Transform(input), classIndex);
             }
         }
     }
