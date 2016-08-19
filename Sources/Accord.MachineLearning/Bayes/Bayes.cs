@@ -149,18 +149,5 @@ namespace Accord.MachineLearning.Bayes
             return Math.Log(priors[classIndex]) + log;
         }
 
-        /// <summary>
-        /// Computes a numerical score measuring the association between
-        /// the given <paramref name="input" /> vector and a given
-        /// <paramref name="classIndex" />.
-        /// </summary>
-        /// <param name="input">The input vector.</param>
-        /// <param name="classIndex">The index of the class whose score will be computed.</param>
-        public override double Score(TInput input, int classIndex)
-        {
-            double log = distributions[classIndex].LogProbabilityFunction(input);
-            return -Math.Log(priors[classIndex]) - log;
-        }
-
     }
 }

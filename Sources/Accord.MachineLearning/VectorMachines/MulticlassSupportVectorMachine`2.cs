@@ -109,8 +109,8 @@ namespace Accord.MachineLearning.VectorMachines
     ///       <a href="http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html">
     ///        http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html </a></description></item>
     ///     </list></para>
-    ///     
     /// </remarks>
+    /// 
     [Serializable]
     public class MulticlassSupportVectorMachine<TModel, TKernel, TInput> :
         OneVsOne<TModel, TInput>,
@@ -184,8 +184,6 @@ namespace Accord.MachineLearning.VectorMachines
 
 
 
-        #region Properties
-
 
         /// <summary>
         ///   Gets the total number of support vectors
@@ -249,9 +247,6 @@ namespace Accord.MachineLearning.VectorMachines
                 return sharedVectorsCount.Value;
             }
         }
-
-        #endregion
-
 
 
 

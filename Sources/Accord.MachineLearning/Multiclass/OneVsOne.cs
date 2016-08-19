@@ -304,6 +304,7 @@ namespace Accord.MachineLearning
         {
             if (method == MulticlassComputeMethod.Voting)
                 return DistanceByVoting(input, result);
+
             if (Track)
                 return DistanceByElimination(input, result, lastDecisionPath.Value);
             return DistanceByElimination(input, result);
