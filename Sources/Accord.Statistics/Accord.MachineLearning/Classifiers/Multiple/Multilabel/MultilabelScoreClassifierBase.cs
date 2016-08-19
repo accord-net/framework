@@ -418,19 +418,19 @@ namespace Accord.MachineLearning
 
         int IClassifier<TInput, int>.Decide(TInput input)
         {
-            int imin = 0;
-            double min = Double.PositiveInfinity;
+            int imax = 0;
+            double max = Double.NegativeInfinity;
             for (int i = 0; i < NumberOfOutputs; i++)
             {
                 double output = Score(input, i);
-                if (output < min)
+                if (output > max)
                 {
-                    min = output;
-                    imin = i;
+                    max = output;
+                    imax = i;
                 }
             }
 
-            return imin;
+            return imax;
         }
 
         int[] IClassifier<TInput, int>.Decide(TInput[] input)

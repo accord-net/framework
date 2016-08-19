@@ -81,10 +81,7 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="classIndex">The index of the class whose score will be computed.</param>
         /// 
-        public virtual double Score(TInput input, int classIndex)
-        {
-            return Scores(input)[classIndex];
-        }
+        public abstract double Score(TInput input, int classIndex);
 
         /// <summary>
         /// Computes a class-label decision for a given <paramref name="input" />.
@@ -97,19 +94,19 @@ namespace Accord.MachineLearning
         /// </returns>
         public override int Decide(TInput input)
         {
-            double min = Double.PositiveInfinity;
-            int imin = 0;
+            double max = Double.NegativeInfinity;
+            int imax = 0;
             for (int i = 0; i < NumberOfOutputs; i++)
             {
                 double d = Score(input, classIndex: i);
-                if (d < min)
+                if (d > max)
                 {
-                    min = d;
-                    imin = i;
+                    max = d;
+                    imax = i;
                 }
             }
 
-            return imin;
+            return imax;
         }
 
 

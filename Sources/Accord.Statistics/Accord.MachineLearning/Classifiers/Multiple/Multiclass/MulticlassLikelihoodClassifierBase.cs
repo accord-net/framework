@@ -37,6 +37,19 @@ namespace Accord.MachineLearning
 
 
         /// <summary>
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and a given
+        /// <paramref name="classIndex" />.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="classIndex">The index of the class whose score will be computed.</param>
+        /// <returns>System.Double.</returns>
+        public override double Score(TInput input, int classIndex)
+        {
+            return LogLikelihood(input, classIndex);
+        }
+
+        /// <summary>
         /// Computes the log-likelihood that the given input vector
         /// belongs to the specified <paramref name="classIndex" />.
         /// </summary>

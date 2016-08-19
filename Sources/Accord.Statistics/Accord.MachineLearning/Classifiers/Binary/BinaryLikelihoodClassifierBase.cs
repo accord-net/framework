@@ -41,6 +41,20 @@ namespace Accord.MachineLearning
         IBinaryLikelihoodClassifier<TInput>
     {
 
+
+        /// <summary>
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and its most strongly
+        /// associated class (as predicted by the classifier).
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <returns>System.Double.</returns>
+        public override double Score(TInput input)
+        {
+            return LogLikelihood(input);
+        }
+
+
         /// <summary>
         ///   Predicts a class label vector for the given input vector, returning the
         ///   log-likelihood that the input vector belongs to its predicted class.
@@ -62,10 +76,10 @@ namespace Accord.MachineLearning
         public virtual double Probability(TInput input, out bool decision)
         {
             double exp = Math.Exp(LogLikelihood(input, out decision));
-#if DEBUG
-            if (exp < 0 || exp > 1)
-                throw new InvalidOperationException();
-#endif
+//#if DEBUG
+//            if (exp < 0 || exp > 1)
+//                throw new InvalidOperationException();
+//#endif
             return exp;
         }
 
@@ -86,10 +100,10 @@ namespace Accord.MachineLearning
         public double Probability(TInput input)
         {
             double exp = Math.Exp(LogLikelihood(input));
-#if DEBUG
-            if (exp < 0 || exp > 1)
-                throw new InvalidOperationException();
-#endif
+//#if DEBUG
+//            if (exp < 0 || exp > 1)
+//                throw new InvalidOperationException();
+//#endif
             return exp;
         }
 
