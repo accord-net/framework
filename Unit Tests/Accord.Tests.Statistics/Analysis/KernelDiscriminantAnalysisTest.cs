@@ -74,6 +74,10 @@ namespace Accord.Tests.Statistics
             // Now we can project the data into KDA space:
             double[][] projection = kda.Transform(inputs);
 
+            double[][] classifierProjection = kda.Classifier.First.Transform(inputs);
+            Assert.IsTrue(projection.IsEqual(classifierProjection));
+
+
             // Or perform classification using:
             int[] results = kda.Classify(inputs);
 
@@ -202,7 +206,7 @@ namespace Accord.Tests.Statistics
             int[] output = { 0, 1 };
 
             IKernel kernel = new Gaussian(0.1);
-            KernelDiscriminantAnalysis target = new KernelDiscriminantAnalysis(inputs, output, kernel);
+            var target = new KernelDiscriminantAnalysis(inputs, output, kernel);
             target.Threshold = 0;
 
             target.Compute();
@@ -224,7 +228,8 @@ namespace Accord.Tests.Statistics
             // Schölkopf KPCA toy example
             double[,] inputs = scholkopf();
 
-            int[] output = Matrix.Expand(new int[,] { { 1 }, { 2 }, { 3 } }, new int[] { 30, 30, 30 }).GetColumn(0);
+            int[] output = Matrix.Expand(new int[,] { { 1 }, { 2 }, { 3 } }, 
+                    new int[] { 30, 30, 30 }).GetColumn(0);
 
             IKernel kernel = new Gaussian(0.2);
             var target = new KernelDiscriminantAnalysis(inputs, output, kernel);
@@ -251,7 +256,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(result, projection));
         }
 
-        private static double[,] scholkopf()
+        public static double[,] scholkopf()
         {
             double[,] inputs =
             {
@@ -315,7 +320,7 @@ namespace Accord.Tests.Statistics
             int[] output = Matrix.Expand(new int[,] { { 1 }, { 2 }, { 3 } }, new int[] { 30, 30, 30 }).GetColumn(0);
 
             IKernel kernel = new Gaussian(0.2);
-            KernelDiscriminantAnalysis target = new KernelDiscriminantAnalysis(inputs, output, kernel);
+            var target = new KernelDiscriminantAnalysis(inputs, output, kernel);
 
             target.Compute();
 
@@ -337,6 +342,27 @@ namespace Accord.Tests.Statistics
             double[][] result = target.Result.ToJagged();
             double[][] projection = target.Transform(inputs);
             Assert.IsTrue(Matrix.IsEqual(result, projection));
+
+            int[] actual2 = target.Classify(inputs);
+            Assert.IsTrue(Matrix.IsEqual(actual2, output));
+
+            int[] actual3 = new int[inputs.Length];
+            double[][] scores = new double[inputs.Length][];
+            for (int i = 0; i < inputs.Length; i++)
+                actual3[i] = target.Classify(inputs[i], out scores[i]);
+            Assert.IsTrue(Matrix.IsEqual(actual3, output));
+
+            scores = scores.Get(0, 5, null);
+
+            double[][] expected = new double[][] {
+                new double[] { -6.23928931356786E-06, -5.86731829543872, -4.76988430445096 },
+                new double[] { -9.44593697210785E-05, -5.92312597750504, -4.82189359956088 },
+                new double[] { -0.000286839977573986, -5.95629842504978, -4.85283341267476 },
+                new double[] { -4.38986003009456E-05, -5.84990179343448, -4.75189423787298 },
+                new double[] { -0.000523817959022851, -5.77534144986199, -4.683120454667 } 
+            };
+
+            Assert.IsTrue(Matrix.IsEqual(scores, expected, 1e-6));
         }
 
 

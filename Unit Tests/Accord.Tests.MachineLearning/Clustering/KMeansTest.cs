@@ -140,7 +140,8 @@ namespace Accord.Tests.MachineLearning
                 kmeans = new KMeans(3);
                 kmeans.Compute(observations, out e);
 
-                if (error != e) differ = true;
+                if (error != e)
+                    differ = true;
             }
 
             Assert.IsTrue(differ);
@@ -169,6 +170,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        [ExpectedException(typeof(ArgumentException))]
         public void KMeansMoreClustersThanSamples()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -192,18 +194,7 @@ namespace Accord.Tests.MachineLearning
 
             KMeans kmeans = new KMeans(15);
 
-            bool thrown = false;
-
-            try
-            {
-                int[] labels = kmeans.Compute(observations);
-            }
-            catch (ArgumentException)
-            {
-                thrown = true;
-            }
-
-            Assert.IsTrue(thrown);
+            int[] labels = kmeans.Compute(observations);
         }
 
         [Test]

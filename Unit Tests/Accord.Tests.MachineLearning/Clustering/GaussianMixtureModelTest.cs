@@ -43,7 +43,6 @@ namespace Accord.Tests.MachineLearning
     public class GaussianMixtureModelTest
     {
 
-
         [Test]
         public void GaussianMixtureModelConstructorTest()
         {
@@ -237,6 +236,7 @@ namespace Accord.Tests.MachineLearning
 
                 int a = 1;
                 int b = 0;
+                double tol = 1e-6;
 
                 if (!gmm.Gaussians[a].Mean[0].IsRelativelyEqual(6.41922, 1e-4))
                 {
@@ -245,11 +245,11 @@ namespace Accord.Tests.MachineLearning
                     b = t;
                 }
 
-                Assert.AreEqual(6.4192285647145395, gmm.Gaussians[a].Mean[0], 1e-10);
-                Assert.AreEqual(0.2888226129013588, gmm.Gaussians[b].Mean[0], 1e-10);
+                Assert.AreEqual(6.4192285647145395, gmm.Gaussians[a].Mean[0], tol);
+                Assert.AreEqual(0.2888226129013588, gmm.Gaussians[b].Mean[0], tol);
 
-                Assert.AreEqual(0.32321638614859777, gmm.Gaussians[a].Proportion, 1e-6);
-                Assert.AreEqual(0.67678361385140218, gmm.Gaussians[b].Proportion, 1e-6);
+                Assert.AreEqual(0.32321638614859777, gmm.Gaussians[a].Proportion, tol);
+                Assert.AreEqual(0.67678361385140218, gmm.Gaussians[b].Proportion, tol);
                 Assert.AreEqual(1, gmm.Gaussians[0].Proportion + gmm.Gaussians[1].Proportion);
             }
 
@@ -264,11 +264,12 @@ namespace Accord.Tests.MachineLearning
 
                 gmm.UseLogarithm = false;
                 gmm.ParallelOptions.MaxDegreeOfParallelism = 1;
-                gmm.Compute(points, weights);
+                gmm.Learn(points, weights);
 
 
                 int a = 1;
                 int b = 0;
+                double tol = 1e-6;
 
                 if (!gmm.Gaussians[a].Mean[0].IsRelativelyEqual(6.41922, 1e-4))
                 {
@@ -277,11 +278,11 @@ namespace Accord.Tests.MachineLearning
                     b = t;
                 }
 
-                Assert.AreEqual(6.4192285647145395, gmm.Gaussians[a].Mean[0], 1e-10);
-                Assert.AreEqual(0.2888226129013588, gmm.Gaussians[b].Mean[0], 1e-10);
+                Assert.AreEqual(6.4192285647145395, gmm.Gaussians[a].Mean[0], tol);
+                Assert.AreEqual(0.2888226129013588, gmm.Gaussians[b].Mean[0], tol);
 
-                Assert.AreEqual(0.32321638614859777, gmm.Gaussians[a].Proportion, 1e-6);
-                Assert.AreEqual(0.67678361385140218, gmm.Gaussians[b].Proportion, 1e-6);
+                Assert.AreEqual(0.32321638614859777, gmm.Gaussians[a].Proportion, tol);
+                Assert.AreEqual(0.67678361385140218, gmm.Gaussians[b].Proportion, tol);
                 Assert.AreEqual(1, gmm.Gaussians[0].Proportion + gmm.Gaussians[1].Proportion);
             }
 
@@ -344,18 +345,19 @@ namespace Accord.Tests.MachineLearning
 
             int a = 0;
             int b = 1;
+            double tol = 1e-3;
 
-            if ((-0.407859903454185).IsRelativelyEqual(gmm.Gaussians[1].Mean[0], 1e-4))
+            if ((-0.407859903454185).IsRelativelyEqual(gmm.Gaussians[1].Mean[0], tol))
             {
                 a = 1;
                 b = 0;
             }
 
-            Assert.AreEqual(-0.407859903454185, gmm.Gaussians[a].Mean[0], 1e-4);
-            Assert.AreEqual(-0.053911705279706859, gmm.Gaussians[a].Mean[1], 1e-3);
+            Assert.AreEqual(-0.407859903454185, gmm.Gaussians[a].Mean[0], tol);
+            Assert.AreEqual(-0.053911705279706859, gmm.Gaussians[a].Mean[1], tol);
 
-            Assert.AreEqual(0.39380877640250328, gmm.Gaussians[b].Mean[0], 1e-4);
-            Assert.AreEqual(0.047186154880776772, gmm.Gaussians[b].Mean[1], 1e-4);
+            Assert.AreEqual(0.39380877640250328, gmm.Gaussians[b].Mean[0], tol);
+            Assert.AreEqual(0.047186154880776772, gmm.Gaussians[b].Mean[1], tol);
 
             Assert.AreEqual(1, gmm.Gaussians[0].Proportion + gmm.Gaussians[1].Proportion, 1e-15);
 

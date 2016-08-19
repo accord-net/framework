@@ -221,7 +221,7 @@ namespace Accord.Tests.MachineLearning
                 {
                     double[] expected = ma.SupportVectors[j];
                     double[] actual = mb.SupportVectors[j].ToDense(4);
-                    Assert.IsTrue(expected.IsEqual(actual, 1e-6));
+                    Assert.IsTrue(expected.IsEqual(actual, 1e-5));
                 }
             }
         }

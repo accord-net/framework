@@ -157,8 +157,8 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(expected[i], actual[i], 1e-6);
 
 
-            regression.Intercept = regression.Coefficients.Dot(regression.Offsets);
-            actual = regression.Score(inputs.Zip(time, Tuple.Create).ToArray());
+            regression.Intercept = -regression.Coefficients.Dot(regression.Offsets);
+            actual = regression.Probability(inputs.Zip(time, Tuple.Create).ToArray());
 
             Assert.IsTrue(actual.IsEqual(expected, 1e-6));
         }
