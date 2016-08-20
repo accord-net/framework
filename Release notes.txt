@@ -1,6 +1,6 @@
 Accord.NET Framework 3.2.0 release notes
 -----------------------------------------
-20.07.2016.
+20.08.2016.
 
  Accord.NET 3.2 "auto-generated" release
 
@@ -50,7 +50,7 @@ Version updates and fixes:
   - Updating RedBlackTrees to implement the new base classes for tree structures;
   - Updating KD-Trees to implement the base classes for tree structures (introduces breaking changes).
 
- * Sample applications
+* Sample applications
   - Fixing wrong arguments in sample applications.
 
 * Math
@@ -92,9 +92,14 @@ Version updates and fixes:
   - Adding loss functions to be used in the unified framework;
   - Moving the Elementwise class to a separate Accord.Math.Core project in order to avoid
     excessive build times due the number of auto-generated methods in this class;
-  - Adding overloads to Eigenvalue decomposition to automatically sorter eigenvectors and eigenvalues in descending order of absolute eigenvalue.
-  - Adding a dedicated Sort static class with ordering-related methods such as Partition, Introsort and NthElement.
-  - Expanding decompositions with two additional methods: GetInformationMatrix and Reverse. GetInformationMatrix can be used to retrieve the standard errors for each coefficient when solving a linear system; Reverse reconstructs the original matrix using the definition of the decomposition.
+  - Adding overloads to Eigenvalue decomposition to automatically sorter eigenvectors and 
+    eigenvalues in descending order of absolute eigenvalue;
+  - Adding a dedicated Sort static class with ordering-related methods such as Partition,
+    Introsort and NthElement.
+  - Expanding decompositions with two additional methods: GetInformationMatrix and Reverse
+    GetInformationMatrix can be used to retrieve the standard errors for each coefficient 
+	when solving a linear system; Reverse reconstructs the original matrix using the definition
+	of the decomposition;
   - Deprecating Submatrix in favor of Get (methods with non-inclusive last indices);
   - Adding ArgSort function for retrieving the indices that can be used to sort a vector;
   - Adding LogSumExp to the set of special functions.
@@ -167,8 +172,8 @@ Version updates and fixes:
   - Updating Hidden Markov Models to use the new Tagger interfaces and base classes.
 
 * Genetics
-   - Updating the Genetics project to use the new sample generators based on statistical 
-     distributions;
+  - Updating the Genetics project to use the new sample generators based on statistical 
+    distributions;
     
 
     
