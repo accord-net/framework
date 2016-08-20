@@ -70,6 +70,8 @@
       <DocumentationSource sourceFile="..\..\..\Release\net45\Noncommercial\Accord.Math.Noncommercial.xml" />
       <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Audio.DirectSound.dll" />
       <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Audio.DirectSound.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Math.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Math.xml" />
     </DocumentationSources>
     <CopyrightText>Accord.NET Framework &amp;#169%3b 2009-2016. All documentation is licensed under the Creative Commons Attribution/Share-Alike License.</CopyrightText>
     <FeedbackEMailAddress>feedback%40accord-framework.net</FeedbackEMailAddress>
@@ -250,8 +252,20 @@
     <RootNamespaceContainer>True</RootNamespaceContainer>
     <RootNamespaceTitle>Framework modules</RootNamespaceTitle>
     <ApiFilter>
-      <Filter entryType="Namespace" fullName="System.Collections.Generic" isExposed="False" />
-    </ApiFilter>
+      <Filter entryType="Namespace" fullName="Accord.Math" isExposed="True">
+  <Filter entryType="Class" fullName="Accord.Math.Matrix" filterName="Matrix" isExposed="True">
+    <Filter entryType="Method" fullName="Accord.Math.Matrix.Dot" filterName="Dot" isExposed="False" />
+    <Filter entryType="Method" fullName="Accord.Math.Matrix.DotAndDot" filterName="DotAndDot" isExposed="False" />
+    <Filter entryType="Method" fullName="Accord.Math.Matrix.DotWithDiagonal" filterName="DotWithDiagonal" isExposed="False" />
+    <Filter entryType="Method" fullName="Accord.Math.Matrix.DotWithTransposed" filterName="DotWithTransposed" isExposed="False" />
+    <Filter entryType="Method" fullName="Accord.Math.Matrix.TransposeAndDot" filterName="TransposeAndDot" isExposed="False" />
+    <Filter entryType="Method" fullName="Accord.Math.Matrix.TransposeAndDotWithDiagonal" filterName="TransposeAndDotWithDiagonal" isExposed="False" />
+    <Filter entryType="Method" fullName="Accord.Math.Matrix.TransposeAndMultiply" filterName="TransposeAndMultiply" isExposed="False" />
+    <Filter entryType="Method" fullName="Accord.Math.Matrix.TransposeAndMultiplyByDiagonal" filterName="TransposeAndMultiplyByDiagonal" isExposed="False" />
+  </Filter>
+</Filter>
+<Filter entryType="Namespace" fullName="AForge.Math" isExposed="False" />
+<Filter entryType="Namespace" fullName="System.Collections.Generic" isExposed="False" /></ApiFilter>
     <HelpFileFormat>HtmlHelp1, Website</HelpFileFormat>
     <ComponentConfigurations>
       <ComponentConfig id="Code Block Component" enabled="True">
@@ -264,7 +278,7 @@
         </component>
       </ComponentConfig>
     </ComponentConfigurations>
-    <CleanIntermediates>True</CleanIntermediates>
+    <CleanIntermediates>False</CleanIntermediates>
     <PresentationStyle>VS2013</PresentationStyle>
     <SyntaxFilters>C#, Visual Basic</SyntaxFilters>
     <NamingMethod>MemberName</NamingMethod>
