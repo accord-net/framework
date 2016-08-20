@@ -16,9 +16,9 @@ using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 
-using AForge.MachineLearning;
+using Accord.MachineLearning;
 
-namespace Animat
+namespace SampleApp
 {
     public partial class MainForm : Form
     {

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 // Copyright © Andrew Kirillov, 2005-2009
@@ -32,8 +32,6 @@ namespace Accord.Neuro.Learning
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AForge.Neuro;
-    using AForge.Neuro.Learning;
 
 #if !NET35
     /// <summary>
@@ -125,7 +123,7 @@ namespace Accord.Neuro.Learning
     /// // indicator vectors, where a 1 into a position signifies that this
     /// // position indicates the class the sample belongs to.
     /// //
-    /// double[][] outputs = Accord.Statistics.Tools.Expand(classes, -1, +1);
+    /// double[][] outputs = Measures.Expand(classes, -1, +1);
     /// 
     /// // Create an activation function for the net
     /// var function = new BipolarSigmoidFunction();
@@ -186,6 +184,7 @@ namespace Accord.Neuro.Learning
         private double[][][] weightsPreviousDerivatives;
         private double[][] thresholdsPreviousDerivatives;
 
+        private double priorSumOfSquaredErrors;
 
         /// <summary>
         ///   Gets or sets the maximum possible update step,
@@ -271,6 +270,8 @@ namespace Accord.Neuro.Learning
 
             weightsUpdates = new double[network.Layers.Length][][];
             thresholdsUpdates = new double[network.Layers.Length][];
+
+            priorSumOfSquaredErrors = double.MaxValue;
 
             // Initialize layer derivatives and updates
             for (int i = 0; i < network.Layers.Length; i++)
@@ -362,7 +363,7 @@ namespace Accord.Neuro.Learning
 
             // For all examples in batch
             Parallel.For(0, input.Length,
-
+                
                 // Initialize
                 () => 0.0,
 
@@ -399,8 +400,9 @@ namespace Accord.Neuro.Learning
 
 
             // Update the network
-            UpdateNetwork();
-
+            bool errIncrease = sumOfSquaredErrors > priorSumOfSquaredErrors;
+            UpdateNetwork(errIncrease);
+            priorSumOfSquaredErrors = sumOfSquaredErrors;
 
             return sumOfSquaredErrors;
         }
@@ -409,7 +411,7 @@ namespace Accord.Neuro.Learning
         ///   Update network weights.
         /// </summary>
         /// 
-        private void UpdateNetwork()
+        private void UpdateNetwork(bool errIncrease = false)
         {
             // For each layer of the network
             for (int i = 0; i < weightsUpdates.Length; i++)
@@ -448,7 +450,10 @@ namespace Accord.Neuro.Learning
                         }
                         else if (S < 0.0)
                         {
-                            neuronWeightUpdates[k] = Math.Max(neuronWeightUpdates[k] * etaMinus, deltaMin);
+                            var delta = Math.Max(neuronWeightUpdates[k] * etaMinus, deltaMin);
+                            if (errIncrease)
+                                neuron.Weights[k] -= neuronWeightUpdates[k]; // revert previous update
+                            neuronWeightUpdates[k] = delta;
                             neuronPreviousWeightDerivatives[k] = 0.0;
                         }
                         else
@@ -468,8 +473,11 @@ namespace Accord.Neuro.Learning
                     }
                     else if (S < 0.0)
                     {
-                        layerThresholdUpdates[j] = Math.Max(layerThresholdUpdates[j] * etaMinus, deltaMin);
-                        layerThresholdDerivatives[j] = 0.0;
+                        var delta = Math.Max(layerThresholdUpdates[j] * etaMinus, deltaMin);
+                        if (errIncrease)
+                            neuron.Threshold -= layerThresholdUpdates[j]; // revert previous update
+                        layerThresholdUpdates[j] = delta;
+                        layerPreviousThresholdDerivatives[j] = 0.0;
                     }
                     else
                     {
@@ -731,13 +739,13 @@ namespace Accord.Neuro.Learning
     ///   AForge.Neuro.Learning.ResilientBackpropagationLearning.
     /// </summary>
     /// 
-    public class ParallelResilientBackpropagationLearning : AForge.Neuro.Learning.ResilientBackpropagationLearning
+    public class ParallelResilientBackpropagationLearning : ResilientBackpropagationLearning
     {
         /// <summary>
         ///   Initializes a new instance of the <see cref="ParallelResilientBackpropagationLearning"/> class.
         /// </summary>
         /// 
-        public ParallelResilientBackpropagationLearning(AForge.Neuro.ActivationNetwork network)
+        public ParallelResilientBackpropagationLearning(ActivationNetwork network)
             : base(network) { }
 
         /// <summary>

@@ -34,7 +34,7 @@ using Accord.MachineLearning.VectorMachines;
 using Accord.MachineLearning.VectorMachines.Learning;
 using Accord.Math;
 using Accord.Statistics.Kernels;
-using Handwriting.SVMs.Properties;
+using SampleApp.Properties;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -42,7 +42,7 @@ using System.IO;
 using System.Windows.Forms;
 using ZedGraph;
 
-namespace Handwriting.SVMs
+namespace SampleApp
 {
     /// <summary>
     ///   Handwritten digits recognition sample application using
@@ -283,7 +283,7 @@ namespace Handwriting.SVMs
             else
                 kernel = new Polynomial((int)numDegree.Value, (double)numConstant.Value);
 
-            numComplexity.Value = (decimal)SequentialMinimalOptimization.EstimateComplexity(kernel, input);
+            numComplexity.Value = (decimal)kernel.EstimateComplexity(input);
         }
 
 
@@ -423,7 +423,7 @@ namespace Handwriting.SVMs
                     double max = responses.Max();
                     double min = responses.Min();
 
-                    responses = Accord.Math.Tools.Scale(min, max, 0, 1, responses);
+                    responses = responses.Scale(min, max, 0.0, 1.0);
                 }
 
                 // Set the actual classification answer 
@@ -483,8 +483,7 @@ namespace Handwriting.SVMs
             {
                 var vector = m.SupportVectors[i];
                 var weight = m.Weights[i];
-                double[] f = vector.Apply(x => x *
-                       Accord.Math.Tools.Scale(min, max, -1, 1, weight));
+                double[] f = vector.Apply(x => x * weight.Scale(min, max, -1, 1));
                 dgvVectors.Rows.Add(Features.Export(f), m.Weights[i]);
             }
         }

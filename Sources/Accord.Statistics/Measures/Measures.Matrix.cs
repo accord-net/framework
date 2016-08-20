@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,34 +26,24 @@ namespace Accord.Statistics
     using AForge;
     using System;
 
-    // TODO: Rename to Measures
-    public static partial class Tools
+    public static partial class Measures
     {
-
         /// <summary>
-        ///   Calculates the matrix Mean vector.
+        ///   Computes the mean value across all dimensions of the given matrix.
         /// </summary>
         /// 
-        /// <param name="matrix">A matrix whose means will be calculated.</param>
-        /// 
-        /// <returns>Returns a row vector containing the column means of the given matrix.</returns>
-        /// 
-        /// <example>
-        ///   <code>
-        ///   double[,] matrix = 
-        ///   {
-        ///      { 2, -1.0, 5 },
-        ///      { 7,  0.5, 9 },
-        ///   };
-        ///    
-        ///   // column means are equal to (4.5, -0.25, 7.0)
-        ///   double[] means = Accord.Statistics.Tools.Mean(matrix);
-        ///   </code>
-        /// </example>
-        /// 
-        public static double[] Mean(this double[,] matrix)
+        public static double Mean(this double[][] matrix)
         {
-            return Mean(matrix, 0);
+            return matrix.Sum() / matrix.Length();
+        }
+
+        /// <summary>
+        ///   Computes the mean value across all dimensions of the given matrix.
+        /// </summary>
+        /// 
+        public static double Mean(this double[,] matrix)
+        {
+            return matrix.Sum() / matrix.Length();
         }
 
         /// <summary>
@@ -79,10 +69,10 @@ namespace Accord.Statistics
         ///   };
         ///   
         ///   // column means are equal to (4.5, -0.25, 7.0)
-        ///   double[] colMeans = Accord.Statistics.Tools.Mean(matrix, 0);
+        ///   double[] colMeans = Stats.Mean(matrix, 0);
         ///     
         ///   // row means are equal to (2.0, 5.5)
-        ///   double[] rowMeans = Accord.Statistics.Tools.Mean(matrix, 1);
+        ///   double[] rowMeans = Stats.Mean(matrix, 1);
         ///   </code>
         /// </example>
         /// 
@@ -92,17 +82,7 @@ namespace Accord.Statistics
             int cols = matrix.GetLength(1);
             double[] mean;
 
-            if (dimension == -1)
-            {
-                // Compute across all dimensions
-                mean = new double[1];
-                double N = rows * cols;
-
-                foreach (double a in matrix)
-                    mean[0] += a;
-                mean[0] /= N;
-            }
-            else if (dimension == 0)
+            if (dimension == 0)
             {
                 mean = new double[cols];
                 double N = rows;
@@ -145,32 +125,6 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="matrix">A matrix whose means will be calculated.</param>
-        /// 
-        /// <returns>Returns a row vector containing the column means of the given matrix.</returns>
-        /// 
-        /// <example>
-        ///   <code>
-        ///   double[][] matrix = 
-        ///   {
-        ///       new double[] { 2, -1.0, 5 },
-        ///       new double[] { 7,  0.5, 9 },
-        ///   };
-        ///    
-        ///   // column means are equal to (4.5, -0.25, 7.0)
-        ///   double[] means = Accord.Statistics.Tools.Mean(matrix);
-        ///   </code>
-        /// </example>
-        /// 
-        public static double[] Mean(this double[][] matrix)
-        {
-            return Mean(matrix, 0);
-        }
-
-        /// <summary>
-        ///   Calculates the matrix Mean vector.
-        /// </summary>
-        /// 
-        /// <param name="matrix">A matrix whose means will be calculated.</param>
         /// <param name="dimension">
         ///   The dimension along which the means will be calculated. Pass
         ///   0 to compute a row vector containing the mean of each column,
@@ -189,10 +143,10 @@ namespace Accord.Statistics
         ///   };
         ///   
         ///   // column means are equal to (4.5, -0.25, 7.0)
-        ///   double[] colMeans = Accord.Statistics.Tools.Mean(matrix, 0);
+        ///   double[] colMeans = Stats.Mean(matrix, 0);
         ///     
         ///   // row means are equal to (2.0, 5.5)
-        ///   double[] rowMeans = Accord.Statistics.Tools.Mean(matrix, 1);
+        ///   double[] rowMeans = Stats.Mean(matrix, 1);
         ///   </code>
         /// </example>
         /// 
@@ -250,7 +204,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>Returns a vector containing the means of the given matrix.</returns>
         /// 
-        public static double[] Mean(double[,] matrix, double[] sums)
+        public static double[] Mean(this double[,] matrix, double[] sums)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -273,7 +227,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>Returns a vector containing the means of the given matrix.</returns>
         /// 
-        public static double[] Mean(double[][] matrix, double[] sums)
+        public static double[] Mean(this double[][] matrix, double[] sums)
         {
             int rows = matrix.Length;
             int cols = matrix[0].Length;
@@ -297,7 +251,7 @@ namespace Accord.Statistics
         /// 
         public static double[] StandardDeviation(this double[,] matrix)
         {
-            return StandardDeviation(matrix, Mean(matrix));
+            return StandardDeviation(matrix, Mean(matrix, dimension: 0));
         }
 
         /// <summary>
@@ -311,7 +265,7 @@ namespace Accord.Statistics
         /// 
         public static double[] StandardDeviation(this double[,] matrix, double[] means)
         {
-            return Matrix.Sqrt(Variance(matrix, means));
+            return Elementwise.Sqrt(Variance(matrix, means));
         }
 
         /// <summary>
@@ -350,7 +304,7 @@ namespace Accord.Statistics
         /// 
         public static double[] StandardDeviation(this double[][] matrix, double[] means, bool unbiased = true)
         {
-            return Matrix.Sqrt(Variance(matrix, means, unbiased));
+            return Elementwise.Sqrt(Variance(matrix, means, unbiased));
         }
 
         /// <summary>
@@ -388,34 +342,7 @@ namespace Accord.Statistics
         /// 
         public static double[] StandardDeviation(this double[][] matrix, bool unbiased = true)
         {
-            return StandardDeviation(matrix, Mean(matrix), unbiased);
-        }
-
-
-        /// <summary>
-        ///   Centers an observation, subtracting the empirical 
-        ///   mean from each element in the observation vector.
-        /// </summary>
-        /// 
-        /// <param name="observation">An array of double precision floating-point numbers.</param>
-        /// 
-        public static void Center(double[] observation)
-        {
-            Center(observation, Mean(observation));
-        }
-
-        /// <summary>
-        ///   Centers an observation, subtracting the empirical 
-        ///   mean from each element in the observation vector.
-        /// </summary>
-        /// 
-        /// <param name="values">An array of double precision floating-point numbers.</param>
-        /// <param name="mean">The mean of the <paramref name="values"/>, if already known.</param>
-        /// 
-        public static void Center(double[] values, double mean)
-        {
-            for (int i = 0; i < values.Length; i++)
-                values[i] -= mean;
+            return StandardDeviation(matrix, Mean(matrix, dimension: 0), unbiased);
         }
 
 
@@ -429,7 +356,7 @@ namespace Accord.Statistics
         /// 
         public static double[] Variance(this double[,] matrix)
         {
-            return Variance(matrix, Mean(matrix));
+            return Variance(matrix, Mean(matrix, dimension: 0));
         }
 
         /// <summary>
@@ -482,7 +409,7 @@ namespace Accord.Statistics
         /// 
         public static double[] Variance(this double[][] matrix)
         {
-            return Variance(matrix, Mean(matrix));
+            return Variance(matrix, Mean(matrix, dimension: 0));
         }
 
         /// <summary>
@@ -764,7 +691,7 @@ namespace Accord.Statistics
             {
                 var col = matrix.GetColumn(i);
 
-                mode[i] = Tools.Mode(col, out bestCount, inPlace: true, alreadySorted: false);
+                mode[i] = Mode(col, out bestCount, inPlace: true, alreadySorted: false);
             }
 
             return mode;
@@ -791,7 +718,7 @@ namespace Accord.Statistics
             {
                 var col = matrix.GetColumn(i);
 
-                mode[i] = Tools.Mode(col, out bestCount, inPlace: true, alreadySorted: false);
+                mode[i] = Mode(col, out bestCount, inPlace: true, alreadySorted: false);
             }
 
             return mode;
@@ -820,7 +747,7 @@ namespace Accord.Statistics
         /// 
         public static double[] Skewness(this double[,] matrix, bool unbiased = true)
         {
-            double[] means = Mean(matrix);
+            double[] means = Mean(matrix, dimension: 0);
             return Skewness(matrix, means, unbiased);
         }
 
@@ -905,7 +832,7 @@ namespace Accord.Statistics
         /// 
         public static double[] Skewness(this double[][] matrix, bool unbiased = true)
         {
-            double[] means = Mean(matrix);
+            double[] means = Mean(matrix, dimension: 0);
             return Skewness(matrix, means, unbiased);
         }
 
@@ -987,7 +914,7 @@ namespace Accord.Statistics
         /// 
         public static double[] Kurtosis(this double[,] matrix, bool unbiased = true)
         {
-            double[] means = Mean(matrix);
+            double[] means = Mean(matrix, dimension: 0);
             return Kurtosis(matrix, means, unbiased);
         }
 
@@ -1071,7 +998,7 @@ namespace Accord.Statistics
         /// 
         public static double[] Kurtosis(this double[][] matrix, bool unbiased = true)
         {
-            double[] means = Mean(matrix);
+            double[] means = Mean(matrix, dimension: 0);
             return Kurtosis(matrix, means, unbiased);
         }
 
@@ -1187,7 +1114,7 @@ namespace Accord.Statistics
         /// 
         public static double[,] Covariance(this double[,] matrix)
         {
-            return Covariance(matrix, Mean(matrix));
+            return Covariance(matrix, Mean(matrix, dimension: 0));
         }
 
         /// <summary>
@@ -1328,8 +1255,8 @@ namespace Accord.Statistics
 
             if (dimension == 0)
             {
-                if (means.Length != cols) throw new ArgumentException(
-                    "Length of the mean vector should equal the number of columns", "means");
+                if (means.Length != cols)
+                    throw new ArgumentException("Length of the mean vector should equal the number of columns", "means");
 
                 cov = new double[cols, cols];
                 for (int i = 0; i < cols; i++)
@@ -1386,9 +1313,9 @@ namespace Accord.Statistics
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] Covariance(this double[][] matrix)
+        public static double[][] Covariance(this double[][] matrix)
         {
-            return Covariance(matrix, Mean(matrix));
+            return Covariance(matrix, Mean(matrix, dimension: 0));
         }
 
         /// <summary>
@@ -1410,7 +1337,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] Covariance(this double[][] matrix, int dimension)
+        public static double[][] Covariance(this double[][] matrix, int dimension)
         {
             int size = (dimension == 0) ? matrix.Length : matrix[0].Length;
             return Scatter(matrix, Mean(matrix, dimension), size - 1, dimension);
@@ -1432,7 +1359,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] Covariance(this double[][] matrix, double[] means)
+        public static double[][] Covariance(this double[][] matrix, double[] means)
         {
             return Scatter(matrix, means, matrix.Length - 1, 0);
         }
@@ -1453,7 +1380,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] Scatter(this double[][] matrix, double[] means)
+        public static double[][] Scatter(this double[][] matrix, double[] means)
         {
             return Scatter(matrix, means, 1.0, 0);
         }
@@ -1470,7 +1397,7 @@ namespace Accord.Statistics
         /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="divisor">A real number to divide each member of the matrix.</param>
         /// <returns>The covariance matrix.</returns>
-        public static double[,] Scatter(this double[][] matrix, double[] means, double divisor)
+        public static double[][] Scatter(this double[][] matrix, double[] means, double divisor)
         {
             return Scatter(matrix, means, divisor, 0);
         }
@@ -1493,9 +1420,9 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] Scatter(this double[][] matrix, double divisor, int dimension = 0)
+        public static double[][] Scatter(this double[][] matrix, double divisor, int dimension = 0)
         {
-            return Scatter(matrix, Mean(matrix), divisor, dimension);
+            return Scatter(matrix, Mean(matrix, dimension: 0), divisor, dimension);
         }
 
         /// <summary>
@@ -1516,7 +1443,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] Scatter(this double[][] matrix, double[] means, int dimension)
+        public static double[][] Scatter(this double[][] matrix, double[] means, int dimension)
         {
             return Scatter(matrix, means, 1.0, dimension);
         }
@@ -1536,20 +1463,21 @@ namespace Accord.Statistics
         ///   Pass 0 to if mean vector is a row vector, 1 otherwise. Default value is 0.
         /// </param>
         /// <returns>The covariance matrix.</returns>
-        public static double[,] Scatter(double[][] matrix, double[] means, double divisor, int dimension)
+        public static double[][] Scatter(double[][] matrix, double[] means, double divisor, int dimension)
         {
             int rows = matrix.Length;
-            if (rows == 0) return new double[0, 0];
+            if (rows == 0) 
+                return new double[0][];
             int cols = matrix[0].Length;
 
-            double[,] cov;
+            double[][] cov;
 
             if (dimension == 0)
             {
-                if (means.Length != cols) throw new ArgumentException(
-                    "Length of the mean vector should equal the number of columns", "means");
+                if (means.Length != cols)
+                    throw new ArgumentException("Length of the mean vector should equal the number of columns", "means");
 
-                cov = new double[cols, cols];
+                cov = Jagged.Zeros(cols, cols);
                 for (int i = 0; i < cols; i++)
                 {
                     for (int j = i; j < cols; j++)
@@ -1558,17 +1486,17 @@ namespace Accord.Statistics
                         for (int k = 0; k < rows; k++)
                             s += (matrix[k][j] - means[j]) * (matrix[k][i] - means[i]);
                         s /= divisor;
-                        cov[i, j] = s;
-                        cov[j, i] = s;
+                        cov[i][j] = s;
+                        cov[j][i] = s;
                     }
                 }
             }
             else if (dimension == 1)
             {
-                if (means.Length != rows) throw new ArgumentException(
-                    "Length of the mean vector should equal the number of rows", "means");
+                if (means.Length != rows)
+                    throw new ArgumentException("Length of the mean vector should equal the number of rows", "means");
 
-                cov = new double[rows, rows];
+                cov = Jagged.Zeros(rows, rows);
                 for (int i = 0; i < rows; i++)
                 {
                     for (int j = i; j < rows; j++)
@@ -1577,8 +1505,8 @@ namespace Accord.Statistics
                         for (int k = 0; k < cols; k++)
                             s += (matrix[j][k] - means[j]) * (matrix[i][k] - means[i]);
                         s /= divisor;
-                        cov[i, j] = s;
-                        cov[j, i] = s;
+                        cov[i][j] = s;
+                        cov[j][i] = s;
                     }
                 }
             }
@@ -1600,9 +1528,24 @@ namespace Accord.Statistics
         /// </remarks>
         /// <param name="matrix">A multi-dimensional array containing the matrix values.</param>
         /// <returns>The correlation matrix.</returns>
-        public static double[,] Correlation(double[,] matrix)
+        public static double[,] Correlation(this double[,] matrix)
         {
-            double[] means = Mean(matrix);
+            double[] means = Mean(matrix, dimension: 0);
+            return Correlation(matrix, means, StandardDeviation(matrix, means));
+        }
+
+        /// <summary>
+        ///   Calculates the correlation matrix for a matrix of samples.
+        /// </summary>
+        /// <remarks>
+        ///   In statistics and probability theory, the correlation matrix is the same
+        ///   as the covariance matrix of the standardized random variables.
+        /// </remarks>
+        /// <param name="matrix">A multi-dimensional array containing the matrix values.</param>
+        /// <returns>The correlation matrix.</returns>
+        public static double[][] Correlation(this double[][] matrix)
+        {
+            double[] means = Mean(matrix, dimension: 0);
             return Correlation(matrix, means, StandardDeviation(matrix, means));
         }
 
@@ -1621,9 +1564,9 @@ namespace Accord.Statistics
         /// 
         /// <returns>The correlation matrix.</returns>
         /// 
-        public static double[,] Correlation(double[,] matrix, double[] means, double[] standardDeviations)
+        public static double[,] Correlation(this double[,] matrix, double[] means, double[] standardDeviations)
         {
-            double[,] scores = ZScores(matrix, means, standardDeviations);
+            double[,] scores = Tools.ZScores(matrix, means, standardDeviations);
 
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -1661,15 +1604,15 @@ namespace Accord.Statistics
         /// 
         /// <returns>The correlation matrix.</returns>
         /// 
-        public static double[,] Correlation(double[][] matrix, double[] means, double[] standardDeviations)
+        public static double[][] Correlation(this double[][] matrix, double[] means, double[] standardDeviations)
         {
-            double[][] scores = ZScores(matrix, means, standardDeviations);
+            double[][] scores = Tools.ZScores(matrix, means, standardDeviations);
 
             int rows = matrix.Length;
             int cols = matrix[0].Length;
 
             double N = rows;
-            double[,] cor = new double[cols, cols];
+            double[][] cor = Jagged.Zeros(cols, cols);
             for (int i = 0; i < cols; i++)
             {
                 for (int j = i; j < cols; j++)
@@ -1678,269 +1621,14 @@ namespace Accord.Statistics
                     for (int k = 0; k < scores.Length; k++)
                         c += scores[k][j] * scores[k][i];
                     c /= N - 1.0;
-                    cor[i, j] = c;
-                    cor[j, i] = c;
+                    cor[i][j] = c;
+                    cor[j][i] = c;
                 }
             }
 
             return cor;
         }
 
-
-        /// <summary> 
-        ///   Generates the Standard Scores, also known as Z-Scores, from the given data. 
-        /// </summary> 
-        /// 
-        /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param> 
-        /// 
-        /// <returns>The Z-Scores for the matrix.</returns> 
-        /// 
-        public static double[,] ZScores(double[,] matrix)
-        {
-            double[] mean = Mean(matrix);
-            return ZScores(matrix, mean, StandardDeviation(matrix, mean));
-        }
-
-        /// <summary> 
-        ///   Generates the Standard Scores, also known as Z-Scores, from the given data. 
-        /// </summary> 
-        /// 
-        /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param> 
-        /// <param name="means">The mean value of the given values, if already known.</param> 
-        /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param> 
-        /// 
-        /// <returns>The Z-Scores for the matrix.</returns> 
-        /// 
-        public static double[,] ZScores(double[,] matrix, double[] means, double[] standardDeviations)
-        {
-            return Center(matrix, means, inPlace: false).Standardize(standardDeviations, inPlace: true);
-        }
-
-        /// <summary> 
-        ///   Generates the Standard Scores, also known as Z-Scores, from the given data. 
-        /// </summary> 
-        /// 
-        /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param> 
-        /// 
-        /// <returns>The Z-Scores for the matrix.</returns> 
-        /// 
-        public static double[][] ZScores(double[][] matrix)
-        {
-            double[] mean = Mean(matrix);
-            return ZScores(matrix, mean, StandardDeviation(matrix, mean));
-        }
-
-        /// <summary> 
-        ///   Generates the Standard Scores, also known as Z-Scores, from the given data. 
-        /// </summary> 
-        ///  
-        /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param> 
-        /// <param name="means">The mean value of the given values, if already known.</param> 
-        /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param> 
-        ///  
-        /// <returns>The Z-Scores for the matrix.</returns> 
-        ///  
-        public static double[][] ZScores(double[][] matrix, double[] means, double[] standardDeviations)
-        {
-            return Center(matrix, means, inPlace: false).Standardize(standardDeviations, inPlace: true);
-        }
-
-        /// <summary>
-        ///   Centers column data, subtracting the empirical mean from each variable.
-        /// </summary>
-        /// 
-        /// <param name="matrix">A matrix where each column represent a variable and each row represent a observation.</param>
-        /// <param name="inPlace">True to perform the operation in place, altering the original input matrix.</param>
-        /// 
-        public static double[,] Center(this double[,] matrix, bool inPlace = false)
-        {
-            return Center(matrix, Mean(matrix), inPlace);
-        }
-
-        /// <summary>
-        ///   Centers column data, subtracting the empirical mean from each variable.
-        /// </summary>   
-        /// 
-        /// <param name="matrix">A matrix where each column represent a variable and each row represent a observation.</param>
-        /// <param name="means">The mean value of the given values, if already known.</param>
-        /// <param name="inPlace">True to perform the operation in place, altering the original input matrix.</param>
-        /// 
-        public static double[,] Center(this double[,] matrix, double[] means, bool inPlace = false)
-        {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            double[,] result = inPlace ? matrix : new double[rows, cols];
-
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < cols; j++)
-                    result[i, j] = matrix[i, j] - means[j];
-
-            return result;
-        }
-
-        /// <summary>
-        ///   Centers column data, subtracting the empirical mean from each variable.
-        /// </summary>
-        /// 
-        /// <param name="matrix">A matrix where each column represent a variable and each row represent a observation.</param>
-        /// <param name="inPlace">True to perform the operation in place, altering the original input matrix.</param>
-        /// 
-        public static double[][] Center(this double[][] matrix, bool inPlace = false)
-        {
-            return Center(matrix, Mean(matrix), inPlace);
-        }
-
-        /// <summary>Centers column data, subtracting the empirical mean from each variable.</summary>
-        /// 
-        /// <param name="matrix">A matrix where each column represent a variable and each row represent a observation.</param>
-        /// <param name="means">The mean value of the given values, if already known.</param>
-        /// <param name="inPlace">True to perform the operation in place, altering the original input matrix.</param>
-        /// 
-        public static double[][] Center(this double[][] matrix, double[] means, bool inPlace = false)
-        {
-            double[][] result = matrix;
-
-            if (!inPlace)
-            {
-                result = new double[matrix.Length][];
-                for (int i = 0; i < matrix.Length; i++)
-                    result[i] = new double[matrix[i].Length];
-            }
-
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                double[] row = result[i];
-                for (int j = 0; j < row.Length; j++)
-                    row[j] = matrix[i][j] - means[j];
-            }
-
-            return result;
-        }
-
-
-        /// <summary>
-        ///   Standardizes column data, removing the empirical standard deviation from each variable.
-        /// </summary>
-        /// 
-        /// <remarks>This method does not remove the empirical mean prior to execution.</remarks>
-        /// 
-        /// <param name="values">An array of double precision floating-point numbers.</param>
-        /// <param name="inPlace">True to perform the operation in place, 
-        ///   altering the original input matrix.</param>
-        /// 
-        public static double[] Standardize(this double[] values, bool inPlace = false)
-        {
-            return Standardize(values, StandardDeviation(values), inPlace);
-        }
-
-        /// <summary>
-        ///   Standardizes column data, removing the empirical standard deviation from each variable.
-        /// </summary>
-        /// 
-        /// <remarks>This method does not remove the empirical mean prior to execution.</remarks>
-        /// 
-        /// <param name="values">An array of double precision floating-point numbers.</param>
-        /// <param name="standardDeviation">The standard deviation of the given 
-        /// <paramref name="values"/>, if already known.</param>
-        /// <param name="inPlace">True to perform the operation in place, altering the original input matrix.</param>
-        /// 
-        public static double[] Standardize(this double[] values, double standardDeviation, bool inPlace = false)
-        {
-
-            double[] result = inPlace ? values : new double[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                result[i] = values[i] / standardDeviation;
-
-            return result;
-        }
-
-        /// <summary>
-        ///   Standardizes column data, removing the empirical standard deviation from each variable.
-        /// </summary>
-        /// 
-        /// <remarks>This method does not remove the empirical mean prior to execution.</remarks>
-        /// 
-        /// <param name="matrix">A matrix where each column represent a variable and each row represent a observation.</param>
-        /// <param name="inPlace">True to perform the operation in place, altering the original input matrix.</param>
-        /// 
-        public static double[,] Standardize(this double[,] matrix, bool inPlace = false)
-        {
-            return Standardize(matrix, StandardDeviation(matrix), inPlace);
-        }
-
-        /// <summary>
-        ///   Standardizes column data, removing the empirical standard deviation from each variable.
-        /// </summary>
-        /// 
-        /// <remarks>This method does not remove the empirical mean prior to execution.</remarks>
-        ///
-        /// <param name="matrix">A matrix where each column represent a variable and each row represent a observation.</param>
-        /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param>
-        /// <param name="inPlace">True to perform the operation in place, altering the original input matrix.</param>
-        /// 
-        public static double[,] Standardize(this double[,] matrix, double[] standardDeviations, bool inPlace = false)
-        {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            double[,] result = inPlace ? matrix : new double[rows, cols];
-
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < cols; j++)
-                    if (standardDeviations[j] != 0 && !Double.IsNaN(standardDeviations[j]))
-                        result[i, j] = matrix[i, j] / standardDeviations[j];
-
-            return result;
-        }
-
-
-        /// <summary>
-        ///   Standardizes column data, removing the empirical standard deviation from each variable.
-        /// </summary>
-        /// 
-        /// <remarks>This method does not remove the empirical mean prior to execution.</remarks>
-        /// 
-        /// <param name="matrix">A matrix where each column represent a variable and each row represent a observation.</param>
-        /// <param name="inPlace">True to perform the operation in place, altering the original input matrix.</param>
-        /// 
-        public static double[][] Standardize(this double[][] matrix, bool inPlace = false)
-        {
-            return Standardize(matrix, StandardDeviation(matrix), inPlace);
-        }
-
-        /// <summary>
-        ///   Standardizes column data, removing the empirical standard deviation from each variable.
-        /// </summary>
-        ///
-        /// <remarks>This method does not remove the empirical mean prior to execution.</remarks>
-        /// 
-        /// <param name="matrix">A matrix where each column represent a variable and each row represent a observation.</param>
-        /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param>
-        /// <param name="inPlace">True to perform the operation in place, altering the original input matrix.</param>
-        /// 
-        public static double[][] Standardize(this double[][] matrix, double[] standardDeviations, bool inPlace = false)
-        {
-            double[][] result = matrix;
-
-            if (!inPlace)
-            {
-                result = new double[matrix.Length][];
-                for (int i = 0; i < matrix.Length; i++)
-                    result[i] = new double[matrix[i].Length];
-            }
-
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                double[] resultRow = result[i];
-                double[] sourceRow = matrix[i];
-                for (int j = 0; j < resultRow.Length; j++)
-                    if (standardDeviations[j] != 0 && !Double.IsNaN(standardDeviations[j]))
-                        resultRow[j] = sourceRow[j] / standardDeviations[j];
-            }
-
-            return result;
-        }
 
     }
 }

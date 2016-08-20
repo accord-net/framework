@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using Accord.Statistics.Testing;
+    using Accord.Statistics;
     using AForge;
 
     /// <summary>
@@ -35,7 +36,7 @@ namespace Accord.Statistics.Distributions.Univariate
     /// <para>
     ///   This is the distribution for <see cref="MannWhitneyWilcoxonTest">Mann-Whitney's U</see>
     ///   statistic used in <see cref="MannWhitneyWilcoxonTest"/>. This distribution is based on
-    ///   sample <see cref="Accord.Statistics.Tools.Rank"/> statistics.</para>
+    ///   sample <see cref="Accord.Statistics.Tools.Rank(double[], bool)"/> statistics.</para>
     /// <para>
     ///   This is the distribution for the first sample statistic, U1. Some textbooks
     ///   (and statistical packages) use alternate definitions for U, which should be
@@ -194,8 +195,8 @@ namespace Accord.Statistics.Distributions.Univariate
         public static double UMinimum(double[] ranks, int n1, int n2)
         {
             // Split the rankings back and sum
-            double[] rank1 = ranks.Submatrix(0, n1 - 1);
-            double[] rank2 = ranks.Submatrix(n1, n1 + n2 - 1);
+            double[] rank1 = ranks.Get(0, n1 - 1);
+            double[] rank2 = ranks.Get(n1, n1 + n2 - 1);
 
             double t1 = rank1.Sum();
             double t2 = rank2.Sum();
@@ -313,7 +314,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 

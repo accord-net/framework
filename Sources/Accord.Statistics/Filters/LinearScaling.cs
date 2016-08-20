@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -106,7 +106,7 @@ namespace Accord.Statistics.Filters
                     try
                     {
                         double value = System.Convert.ToDouble(row[name]);
-                        row[name] = Tools.Scale(options.SourceRange, options.OutputRange, value);
+                        row[name] = Vector.Scale(value, options.SourceRange, options.OutputRange);
                     }
                     catch (Exception ex)
                     {

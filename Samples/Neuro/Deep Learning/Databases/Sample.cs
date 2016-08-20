@@ -19,12 +19,12 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace DeepLearning
+namespace SampleApp
 {
     using System;
     using System.ComponentModel;
     using System.Windows.Media.Imaging;
-    using DeepLearning.Databases;
+    using SampleApp.Databases;
 
     public enum Set { None, Training, Testing };
 

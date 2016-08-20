@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -214,7 +214,6 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void CrossvalidationConstructorTest2()
         {
-
             Accord.Math.Tools.SetupGenerator(0);
 
             // This is a sample code on how to use Cross-Validation
@@ -251,7 +250,6 @@ namespace Accord.Tests.MachineLearning
                 0,0,0,0,0,0,0,0,0,0, // First 10 sequences are of class 0
                 1,1,1,1,1,1,1,1,1,1, // Last 10 sequences are of class 1
             };
-
 
 
             // Create a new Cross-validation algorithm passing the data set size and the number of folds
@@ -330,11 +328,11 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void NotEnoughSamplesTest1()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             int[] labels = Matrix.Vector(10, 1).Concatenate(Matrix.Vector(30, 0));
 
-            Accord.Statistics.Tools.Shuffle(labels);
+            Vector.Shuffle(labels);
 
             var crossvalidation = new CrossValidation<MulticlassSupportVectorMachine>(size: 40, folds: 10)
             {
@@ -387,7 +385,7 @@ namespace Accord.Tests.MachineLearning
 
             int[] labels = Matrix.Vector(10, 1).Concatenate(Matrix.Vector(30, 0));
 
-            Accord.Statistics.Tools.Shuffle(labels);
+            Vector.Shuffle(labels);
 
             var crossvalidation = new CrossValidation<MulticlassSupportVectorMachine>(labels, 2, folds: 10)
             {

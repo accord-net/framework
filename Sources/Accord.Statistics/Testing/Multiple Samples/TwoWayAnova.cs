@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -280,7 +280,7 @@ namespace Accord.Statistics.Testing
             double sum = 0;
             for (int i = 0; i < samples.Length; i++)
                 for (int j = 0; j < samples[i].Length; j++)
-                    sum += cellMeans[i, j] = Statistics.Tools.Mean(samples[i][j]);
+                    sum += cellMeans[i, j] = Measures.Mean(samples[i][j]);
 
 
             // Step 2. Calculate the total mean (grand mean)

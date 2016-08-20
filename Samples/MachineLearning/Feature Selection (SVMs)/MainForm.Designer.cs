@@ -1,4 +1,4 @@
-﻿namespace Classification.SVMs
+﻿namespace SampleApp
 {
     partial class MainForm
     {

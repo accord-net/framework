@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
 {
     using System;
     using Accord.Math.Optimization;
+using Accord.MachineLearning;
+    using System.Threading;
 
     /// <summary>
     ///   Non-linear Least Squares for <see cref="NonlinearRegression"/> optimization.
@@ -82,7 +84,11 @@ namespace Accord.Statistics.Models.Regression.Fitting
     /// double[] predict = inputs.Apply(regression.Compute);
     /// </code>
     /// </example>
-    public class NonlinearLeastSquares : IRegressionFitting
+#pragma warning disable 612, 618
+    public class NonlinearLeastSquares : 
+        ISupervisedLearning<NonlinearRegression, double[], double>,
+        IRegressionFitting
+#pragma warning restore 612, 618
     {
         private ILeastSquaresMethod solver;
         private NonlinearRegression regression;
@@ -164,9 +170,32 @@ namespace Accord.Statistics.Models.Regression.Fitting
         ///   The sum of squared errors after the learning.
         /// </returns>
         /// 
+        [Obsolete("Please use the Learn() method instead.")]
         public double Run(double[][] inputs, double[] outputs)
         {
-            double error = solver.Minimize(inputs, outputs);
+            Learn(inputs, outputs);
+            return solver.Value;
+        }
+
+
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        public CancellationToken Token { get; set; }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public NonlinearRegression Learn(double[][] x, double[] y, double[] weights = null)
+        {
+            double error = solver.Minimize(x, y);
 
             if (computeStandardErrors)
             {
@@ -180,8 +209,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 throw new Exception();
 #endif
 
-            return error;
+            return regression;
         }
-
     }
 }

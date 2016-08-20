@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -39,7 +39,7 @@ namespace Accord
     [Serializable]
     public class ISet<T> : ICollection<T>
     {
-        private HashSet<T> set;
+        internal HashSet<T> set;
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="ISet&lt;T&gt;"/> class.
@@ -99,7 +99,7 @@ namespace Accord
         /// 
         /// <param name="item">The item.</param>
         /// 
-        public void Add(T item)
+        public virtual void Add(T item)
         {
             set.Add(item);
         }
@@ -108,7 +108,7 @@ namespace Accord
         ///   Clears this instance.
         /// </summary>
         /// 
-        public void Clear()
+        public virtual void Clear()
         {
             set.Clear();
         }
@@ -168,7 +168,7 @@ namespace Accord
         /// 
         /// <param name="item">The item.</param>
         /// 
-        public bool Remove(T item)
+        public virtual bool Remove(T item)
         {
             return set.Remove(item);
         }
@@ -181,7 +181,7 @@ namespace Accord
         /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
         /// </returns>
         /// 
-        public IEnumerator<T> GetEnumerator()
+        public virtual IEnumerator<T> GetEnumerator()
         {
             return set.GetEnumerator();
         }
@@ -218,6 +218,15 @@ namespace Accord
 
             return true;
         }
+
+        /// <summary>
+        /// Determines whether this instance is a subset of the specified set.
+        /// </summary>
+        public bool IsSubsetOf(IEnumerable<T> set)
+        {
+            return this.set.IsSubsetOf(set);
+        }
+
     }
 }
 #endif

@@ -19,7 +19,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace DeepLearning.Controls
+namespace SampleApp.Controls
 {
     using System;
     using System.Drawing;
@@ -29,7 +29,7 @@ namespace DeepLearning.Controls
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using System.Windows.Threading;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging.Filters;
 
     public partial class DrawingCanvas : UserControl
     {

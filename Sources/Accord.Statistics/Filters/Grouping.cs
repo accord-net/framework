@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -116,7 +116,7 @@ namespace Accord.Statistics.Filters
                 if (Columns.Count == 0)
                 {
                     // No. Just generate assign groups at random
-                    groupIndices = Accord.Statistics.Tools.RandomGroups(data.Rows.Count, Proportion);
+                    groupIndices = Classes.Random(data.Rows.Count, Proportion);
                 }
 
                 else

@@ -6,13 +6,14 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Genetic
+namespace Accord.Genetic
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Text;
     using AForge;
+    using Accord.Math.Random;
 
     /// <summary>
     /// The chromosome represents a Gene Expression, which is used for
@@ -59,11 +60,6 @@ namespace AForge.Genetic
         protected IGPGene[] genes;
 
         /// <summary>
-        /// Random generator used for chromosoms' generation.
-        /// </summary>
-        protected static ThreadSafeRandom rand = new ThreadSafeRandom( );
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="GEPChromosome"/> class.
         /// </summary>
         /// 
@@ -74,18 +70,18 @@ namespace AForge.Genetic
         /// which has all genes of the same type and properties as the specified <paramref name="ancestor"/>.
         /// </para></remarks>
         ///
-        public GEPChromosome( IGPGene ancestor, int headLength )
+        public GEPChromosome(IGPGene ancestor, int headLength)
         {
             // store head length
             this.headLength = headLength;
             // calculate chromosome's length
-            length = headLength + headLength * ( ancestor.MaxArgumentsCount - 1 ) + 1;
+            length = headLength + headLength * (ancestor.MaxArgumentsCount - 1) + 1;
             // allocate genes array
             genes = new IGPGene[length];
             // save ancestor as a temporary head
             genes[0] = ancestor;
             // generate the chromosome
-            Generate( );
+            Generate();
         }
 
         /// <summary>
@@ -94,7 +90,7 @@ namespace AForge.Genetic
         /// 
         /// <param name="source">Source GEP chromosome to clone from.</param>
         /// 
-        protected GEPChromosome( GEPChromosome source )
+        protected GEPChromosome(GEPChromosome source)
         {
             headLength = source.headLength;
             length = source.length;
@@ -102,8 +98,8 @@ namespace AForge.Genetic
             // allocate genes array
             genes = new IGPGene[length];
             // copy genes
-            for ( int i = 0; i < length; i++ )
-                genes[i] = source.genes[i].Clone( );
+            for (int i = 0; i < length; i++)
+                genes[i] = source.genes[i].Clone();
         }
 
         /// <summary>
@@ -114,10 +110,10 @@ namespace AForge.Genetic
         /// <returns>Returns string representation of the expression represented by the GEP
         /// chromosome.</returns>
         /// 
-        public override string ToString( )
+        public override string ToString()
         {
             // return string representation of the chromosomes tree
-            return GetTree( ).ToString( );
+            return GetTree().ToString();
         }
 
         /// <summary>
@@ -128,16 +124,16 @@ namespace AForge.Genetic
         /// 
         /// <remarks><para><note>The method is used for debugging mostly.</note></para></remarks>
         /// 
-        public string ToStringNative( )
+        public string ToStringNative()
         {
-            StringBuilder sb = new StringBuilder( );
+            StringBuilder sb = new StringBuilder();
 
-            foreach ( IGPGene gene in genes )
+            foreach (IGPGene gene in genes)
             {
-                sb.Append( gene.ToString( ) );
-                sb.Append( " " );
+                sb.Append(gene.ToString());
+                sb.Append(" ");
             }
-            return sb.ToString( );
+            return sb.ToString();
         }
 
         /// <summary>
@@ -147,19 +143,19 @@ namespace AForge.Genetic
         /// <remarks><para>Regenerates chromosome's value using random number generator.</para>
         /// </remarks>
         ///
-        public override void Generate( )
+        public override void Generate()
         {
             // randomize the root
-            genes[0].Generate( );
+            genes[0].Generate();
             // generate the rest of the head
-            for ( int i = 1; i < headLength; i++ )
+            for (int i = 1; i < headLength; i++)
             {
-                genes[i] = genes[0].CreateNew( );
+                genes[i] = genes[0].CreateNew();
             }
             // generate the tail
-            for ( int i = headLength; i < length; i++ )
+            for (int i = headLength; i < length; i++)
             {
-                genes[i] = genes[0].CreateNew( GPGeneType.Argument );
+                genes[i] = genes[0].CreateNew(GPGeneType.Argument);
             }
         }
 
@@ -172,7 +168,7 @@ namespace AForge.Genetic
         /// <remarks><para>The method builds expression's tree for the native linear representation
         /// of the GEP chromosome.</para></remarks>
         /// 
-        protected GPTreeNode GetTree( )
+        protected GPTreeNode GetTree()
         {
             // function node queue. the queue contains function node,
             // which requires children. when a function node receives
@@ -180,42 +176,42 @@ namespace AForge.Genetic
             Queue<GPTreeNode> functionNodes = new Queue<GPTreeNode>();
 
             // create root node
-            GPTreeNode root = new GPTreeNode( genes[0] );
+            GPTreeNode root = new GPTreeNode(genes[0]);
 
             // check children amount of the root node
-            if ( root.Gene.ArgumentsCount != 0 )
+            if (root.Gene.ArgumentsCount != 0)
             {
-                root.Children = new List<GPTreeNode>( );
+                root.Children = new List<GPTreeNode>();
                 // place the root to the queue
-                functionNodes.Enqueue( root );
+                functionNodes.Enqueue(root);
 
                 // go through genes
-                for ( int i = 1; i < length; i++ )
+                for (int i = 1; i < length; i++)
                 {
                     // create new node
-                    GPTreeNode node = new GPTreeNode( genes[i] );
+                    GPTreeNode node = new GPTreeNode(genes[i]);
 
                     // if next gene represents function, place it to the queue
-                    if ( genes[i].GeneType == GPGeneType.Function )
+                    if (genes[i].GeneType == GPGeneType.Function)
                     {
-                        node.Children = new List<GPTreeNode>( );
-                        functionNodes.Enqueue( node );
+                        node.Children = new List<GPTreeNode>();
+                        functionNodes.Enqueue(node);
                     }
 
                     // get function node from the top of the queue
-                    GPTreeNode parent = (GPTreeNode) functionNodes.Peek( );
+                    GPTreeNode parent = (GPTreeNode)functionNodes.Peek();
 
                     // add new node to children of the parent node
-                    parent.Children.Add( node );
+                    parent.Children.Add(node);
 
                     // remove the parent node from the queue, if it is
                     // already complete
-                    if ( parent.Children.Count == parent.Gene.ArgumentsCount )
+                    if (parent.Children.Count == parent.Gene.ArgumentsCount)
                     {
-                        functionNodes.Dequeue( );
+                        functionNodes.Dequeue();
 
                         // check the queue if it is empty
-                        if ( functionNodes.Count == 0 )
+                        if (functionNodes.Count == 0)
                             break;
                     }
                 }
@@ -232,9 +228,9 @@ namespace AForge.Genetic
         /// initialized. The method is useful as factory method for those classes, which work
         /// with chromosome's interface, but not with particular chromosome type.</para></remarks>
         /// 
-        public override IChromosome CreateNew( )
+        public override IChromosome CreateNew()
         {
-            return new GEPChromosome( genes[0].Clone( ), headLength );
+            return new GEPChromosome(genes[0].Clone(), headLength);
         }
 
         /// <summary>
@@ -246,9 +242,9 @@ namespace AForge.Genetic
         /// <remarks><para>The method clones the chromosome returning the exact copy of it.</para>
         /// </remarks>
         ///
-        public override IChromosome Clone( )
+        public override IChromosome Clone()
         {
-            return new GEPChromosome( this );
+            return new GEPChromosome(this);
         }
 
         /// <summary>
@@ -259,21 +255,23 @@ namespace AForge.Genetic
         /// randomly: <see cref="MutateGene"/>, <see cref="TransposeIS"/>, <see cref="TransposeRoot"/>.
         /// </para></remarks>
         /// 
-        public override void Mutate( )
+        public override void Mutate()
         {
+            var rand = Generator.Random;
+
             // randomly choose mutation method
-            switch ( rand.Next( 3 ) )
+            switch (rand.Next(3))
             {
                 case 0:		// ordinary gene mutation
-                    MutateGene( );
+                    MutateGene();
                     break;
 
                 case 1:		// IS transposition
-                    TransposeIS( );
+                    TransposeIS();
                     break;
 
                 case 2:		// root transposition
-                    TransposeRoot( );
+                    TransposeRoot();
                     break;
             }
         }
@@ -285,21 +283,23 @@ namespace AForge.Genetic
         /// <remarks><para>The method performs usual gene mutation by randomly changing randomly selected
         /// gene.</para></remarks>
         /// 
-        protected void MutateGene( )
+        protected void MutateGene()
         {
-            // select random point of mutation
-            int mutationPoint = rand.Next( length );
+            var rand = Generator.Random;
 
-            if ( mutationPoint < headLength )
+            // select random point of mutation
+            int mutationPoint = rand.Next(length);
+
+            if (mutationPoint < headLength)
             {
                 // genes from head can be randomized freely (type may change)
-                genes[mutationPoint].Generate( );
+                genes[mutationPoint].Generate();
             }
             else
             {
                 // genes from tail cannot change their type - they
                 // should be always arguments
-                genes[mutationPoint].Generate( GPGeneType.Argument );
+                genes[mutationPoint].Generate(GPGeneType.Argument);
             }
         }
 
@@ -311,29 +311,36 @@ namespace AForge.Genetic
         /// of genes into chromosome's head (into randomly selected position). First gene of the chromosome's head 
         /// is not affected - can not be selected as target point.</para></remarks>
         /// 
-        protected void TransposeIS( )
+        protected void TransposeIS()
         {
+            var rand = Generator.Random;
+
             // select source point (may be any point of the chromosome)
-            int sourcePoint = rand.Next( length );
+            int sourcePoint = rand.Next(length);
+
             // calculate maxim source length
             int maxSourceLength = length - sourcePoint;
-            // select tartget insertion point in the head (except first position)
-            int targetPoint = rand.Next( headLength - 1 ) + 1;
+
+            // select target insertion point in the head (except first position)
+            int targetPoint = rand.Next(headLength - 1) + 1;
+
             // calculate maximum target length
             int maxTargetLength = headLength - targetPoint;
-            // select randomly transposon length
-            int transposonLength = rand.Next( Math.Min( maxTargetLength, maxSourceLength ) ) + 1;
+
+            // select randomly transposed length
+            int transposonLength = rand.Next(Math.Min(maxTargetLength, maxSourceLength)) + 1;
+            
             // genes copy
             IGPGene[] genesCopy = new IGPGene[transposonLength];
 
             // copy genes from source point
-            for ( int i = sourcePoint, j = 0; j < transposonLength; i++, j++ )
+            for (int i = sourcePoint, j = 0; j < transposonLength; i++, j++)
             {
-                genesCopy[j] = genes[i].Clone( );
+                genesCopy[j] = genes[i].Clone();
             }
 
             // copy genes to target point
-            for ( int i = targetPoint, j = 0; j < transposonLength; i++, j++ )
+            for (int i = targetPoint, j = 0; j < transposonLength; i++, j++)
             {
                 genes[i] = genesCopy[j];
             }
@@ -351,40 +358,46 @@ namespace AForge.Genetic
         /// into chromosome's head shifting existing elements in the head.</para>
         /// </remarks>
         ///
-        protected void TransposeRoot( )
+        protected void TransposeRoot()
         {
+            var rand = Generator.Random;
+
             // select source point (may be any point in the head of the chromosome)
-            int sourcePoint = rand.Next( headLength );
-            // scan downsrteam the head searching for function gene
-            while ( ( genes[sourcePoint].GeneType != GPGeneType.Function ) && ( sourcePoint < headLength ) )
+            int sourcePoint = rand.Next(headLength);
+            
+            // scan downstream the head searching for function gene
+            while ((genes[sourcePoint].GeneType != GPGeneType.Function) && (sourcePoint < headLength))
             {
                 sourcePoint++;
             }
+
             // return (do nothing) if function gene was not found
-            if ( sourcePoint == headLength )
+            if (sourcePoint == headLength)
                 return;
 
             // calculate maxim source length
             int maxSourceLength = headLength - sourcePoint;
-            // select randomly transposon length
-            int transposonLength = rand.Next( maxSourceLength ) + 1;
+
+            // select randomly transposed length
+            int transposonLength = rand.Next(maxSourceLength) + 1;
+
             // genes copy
             IGPGene[] genesCopy = new IGPGene[transposonLength];
 
             // copy genes from source point
-            for ( int i = sourcePoint, j = 0; j < transposonLength; i++, j++ )
+            for (int i = sourcePoint, j = 0; j < transposonLength; i++, j++)
             {
-                genesCopy[j] = genes[i].Clone( );
+                genesCopy[j] = genes[i].Clone();
             }
 
             // shift the head
-            for ( int i = headLength - 1; i >= transposonLength; i-- )
+            for (int i = headLength - 1; i >= transposonLength; i--)
             {
                 genes[i] = genes[i - transposonLength];
             }
 
             // put new root
-            for ( int i = 0; i < transposonLength; i++ )
+            for (int i = 0; i < transposonLength; i++)
             {
                 genes[i] = genesCopy[i];
             }
@@ -399,21 +412,22 @@ namespace AForge.Genetic
         /// <remarks><para>The method performs one-point or two-point crossover selecting
         /// them randomly with equal probability.</para></remarks>
         /// 
-        public override void Crossover( IChromosome pair )
+        public override void Crossover(IChromosome pair)
         {
-            GEPChromosome p = (GEPChromosome) pair;
+            var rand = Generator.Random;
+            GEPChromosome p = (GEPChromosome)pair;
 
             // check for correct chromosome
-            if ( p != null )
+            if (p != null)
             {
                 // choose recombination method
-                if ( rand.Next( 2 ) == 0 )
+                if (rand.Next(2) == 0)
                 {
-                    RecombinationOnePoint( p );
+                    RecombinationOnePoint(p);
                 }
                 else
                 {
-                    RecombinationTwoPoint( p );
+                    RecombinationTwoPoint(p);
                 }
             }
         }
@@ -424,18 +438,21 @@ namespace AForge.Genetic
         /// 
         /// <param name="pair">Pair chromosome to crossover with.</param>
         /// 
-        public void RecombinationOnePoint( GEPChromosome pair )
+        public void RecombinationOnePoint(GEPChromosome pair)
         {
+            var rand = Generator.Random;
+
             // check for correct pair
-            if ( ( pair.length == length ) )
+            if ((pair.length == length))
             {
                 // crossover point
-                int crossOverPoint = rand.Next( length - 1 ) + 1;
+                int crossOverPoint = rand.Next(length - 1) + 1;
+
                 // length of chromosome to be crossed
                 int crossOverLength = length - crossOverPoint;
 
                 // swap parts of chromosomes
-                Recombine( genes, pair.genes, crossOverPoint, crossOverLength );
+                Recombine(genes, pair.genes, crossOverPoint, crossOverLength);
             }
         }
 
@@ -445,26 +462,28 @@ namespace AForge.Genetic
         /// 
         /// <param name="pair">Pair chromosome to crossover with.</param>
         /// 
-        public void RecombinationTwoPoint( GEPChromosome pair )
+        public void RecombinationTwoPoint(GEPChromosome pair)
         {
+            var rand = Generator.Random;
+
             // check for correct pair
-            if ( ( pair.length == length ) )
+            if ((pair.length == length))
             {
                 // crossover point
-                int crossOverPoint = rand.Next( length - 1 ) + 1;
+                int crossOverPoint = rand.Next(length - 1) + 1;
                 // length of chromosome to be crossed
                 int crossOverLength = length - crossOverPoint;
 
                 // if crossover length already equals to 1, then it becomes
                 // usual one point crossover. otherwise crossover length
                 // also randomly chosen
-                if ( crossOverLength != 1 )
+                if (crossOverLength != 1)
                 {
-                    crossOverLength = rand.Next( crossOverLength - 1 ) + 1;
+                    crossOverLength = rand.Next(crossOverLength - 1) + 1;
                 }
 
                 // swap parts of chromosomes
-                Recombine( genes, pair.genes, crossOverPoint, crossOverLength );
+                Recombine(genes, pair.genes, crossOverPoint, crossOverLength);
             }
         }
 
@@ -481,17 +500,17 @@ namespace AForge.Genetic
         /// <remarks><para>The method performs interchanging of genes between two chromosomes
         /// starting from the <paramref name="point"/> position.</para></remarks>
         ///
-        protected static void Recombine( IGPGene[] src1, IGPGene[] src2, int point, int length )
+        protected static void Recombine(IGPGene[] src1, IGPGene[] src2, int point, int length)
         {
             // temporary array
             IGPGene[] temp = new IGPGene[length];
 
             // copy part of first chromosome to temp
-            Array.Copy( src1, point, temp, 0, length );
+            Array.Copy(src1, point, temp, 0, length);
             // copy part of second chromosome to the first
-            Array.Copy( src2, point, src1, point, length );
+            Array.Copy(src2, point, src1, point, length);
             // copy temp to the second
-            Array.Copy( temp, 0, src2, point, length );
+            Array.Copy(temp, 0, src2, point, length);
         }
     }
 }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -34,24 +34,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class MultipleLinearRegressionAnalysisTest
     {
-
-
-        private TestContext testContextInstance;
-
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ComputeTest()
@@ -201,7 +183,7 @@ namespace Accord.Tests.Statistics
             // pairs. The first two columns have values for the
             // input variables, and the last for the output:
 
-            double[][] inputs = example.GetColumns(0, 1);
+            double[][] inputs = example.GetColumns(new[] { 0, 1 });
             double[] output = example.GetColumn(2);
 
             // Next, we can create a new multiple linear regression for the variables
@@ -246,17 +228,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(30.989640986710953, stde[2], 1e-10);
             Assert.IsFalse(coef.HasNaN());
 
-            Assert.AreEqual(0.62879941171298936, rsquared);
+            Assert.AreEqual(0.62879941171298936, rsquared, 1e-10);
 
-            Assert.AreEqual(0.99999999999999822, ztest.PValue);
+            Assert.AreEqual(0.99999999999999822, ztest.PValue, 1e-10);
             Assert.AreEqual(0.018986050133298293, ftest.PValue, 1e-10);
 
-            Assert.AreEqual(0.0062299844256985537, ttest0.PValue);
+            Assert.AreEqual(0.0062299844256985537, ttest0.PValue, 1e-10);
             Assert.AreEqual(0.53484850318449118, ttest1.PValue, 1e-14);
             Assert.IsFalse(Double.IsNaN(ttest1.PValue));
 
-            Assert.AreEqual(3.2616314640800566, ci.Min);
-            Assert.AreEqual(14.219378746271506, ci.Max);
+            Assert.AreEqual(3.2616314640800566, ci.Min, 1e-10);
+            Assert.AreEqual(14.219378746271506, ci.Max, 1e-10);
         }
 
         [Test]
@@ -303,7 +285,7 @@ namespace Accord.Tests.Statistics
             };
 
 
-            double[][] inputs = example2.GetColumns(1, 2);
+            double[][] inputs = example2.GetColumns(new[] { 1, 2 });
             double[] outputs = example2.GetColumn(0);
 
             bool thrown = false;
@@ -321,6 +303,9 @@ namespace Accord.Tests.Statistics
             target = new MultipleLinearRegressionAnalysis(inputs, outputs, new string[2], "Test", false);
 
             target.Compute();
+
+            Assert.AreEqual(2, target.NumberOfInputs);
+            Assert.AreEqual(1, target.NumberOfOutputs);
 
             Assert.AreEqual(target.Array, inputs);
             Assert.AreEqual(target.Outputs, outputs);
@@ -384,11 +369,19 @@ namespace Accord.Tests.Statistics
 
             MultipleLinearRegression mlr = new MultipleLinearRegression(2, false);
             mlr.Regress(inputs, outputs);
+
+            Assert.AreEqual(2, target.NumberOfInputs);
+            Assert.AreEqual(1, target.NumberOfOutputs);
+
+            double[] actual = target.Transform(inputs);
+            double[] expected = mlr.Transform(inputs);
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-8));
+
             double r2 = mlr.CoefficientOfDetermination(inputs, outputs, false);
             double r2a = mlr.CoefficientOfDetermination(inputs, outputs, true);
 
-            Assert.AreEqual(r2, target.RSquared);
-            Assert.AreEqual(r2a, target.RSquareAdjusted);
+            Assert.AreEqual(r2, target.RSquared, 1e-6);
+            Assert.AreEqual(r2a, target.RSquareAdjusted, 1e-6);
         }
     }
 }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,9 +24,9 @@ namespace Accord.Tests.Imaging
 {
     using Accord.Imaging;
     using AForge;
-    using AForge.Imaging;
     using NUnit.Framework;
     using System.Collections.Generic;
+    using System.Drawing;
 
     [TestFixture]
     public class FastCornersDetectorTest
@@ -36,7 +36,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ProcessImageTest()
         {
-            UnmanagedImage image = UnmanagedImage.FromManagedImage(Properties.Resources.sample_black);
+            UnmanagedImage image = UnmanagedImage.FromManagedImage(Accord.Imaging.Image.Clone(Properties.Resources.sample_black));
 
             FastCornersDetector target = new FastCornersDetector();
             target.Suppress = false;
@@ -60,7 +60,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ProcessImageTest2()
         {
-            UnmanagedImage image = UnmanagedImage.FromManagedImage(Properties.Resources.lena512);
+            UnmanagedImage image = UnmanagedImage.FromManagedImage(Accord.Imaging.Image.Clone(Properties.Resources.lena512));
 
             FastCornersDetector target = new FastCornersDetector();
             target.Suppress = true;

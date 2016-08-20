@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,35 +22,26 @@
 
 namespace Accord.Tests.MachineLearning
 {
+#if NET35
+    extern alias core;
+    using Parallel = core::System.Threading.Tasks.Parallel;
+#endif
 
     using System.IO;
     using System.Threading.Tasks;
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
+    using Accord.Statistics;
     using Accord.Math;
     using Accord.Statistics.Kernels;
     using NUnit.Framework;
+    using System;
+    using Accord.Math.Optimization.Losses;
+    using System.Diagnostics;
 
     [TestFixture]
     public class MulticlassSupportVectorMachineTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void MulticlassSupportVectorMachineConstructorTest()
@@ -67,7 +58,8 @@ namespace Accord.Tests.MachineLearning
             {
                 for (int j = 0; j < classes; j++)
                 {
-                    if (i == j) continue;
+                    if (i == j)
+                        continue;
 
                     var machine = target[i, j];
                     Assert.IsNotNull(machine);
@@ -134,11 +126,14 @@ namespace Accord.Tests.MachineLearning
                     Complexity = 1
                 };
 
+            msvm.ParallelOptions.MaxDegreeOfParallelism = 1;
+            smo.ParallelOptions.MaxDegreeOfParallelism = 1;
+
             Assert.AreEqual(0, msvm.GetLastKernelEvaluations());
 
             double error = smo.Run();
 
-            Assert.AreEqual(6, msvm.GetLastKernelEvaluations());
+            // Assert.AreEqual(6, msvm.GetLastKernelEvaluations());
 
             int[] evals = new int[inputs.Length];
             int[] evalexp = { 8, 8, 7, 7, 7, 7, 6, 6 };
@@ -164,6 +159,183 @@ namespace Accord.Tests.MachineLearning
             for (int i = 0; i < evals.Length; i++)
                 Assert.AreEqual(msvm.SupportVectorUniqueCount, evals[i], 1);
         }
+
+
+        [Test]
+        public void LinearComputeTest1()
+        {
+            double[][] inputs =
+            {
+                new double[] { 1, 4, 2, 0, 1 },
+                new double[] { 1, 3, 2, 0, 1 },
+                new double[] { 3, 0, 1, 1, 1 },
+                new double[] { 3, 0, 1, 0, 1 },
+                new double[] { 0, 5, 5, 5, 5 },
+                new double[] { 1, 5, 5, 5, 5 },
+                new double[] { 1, 0, 0, 0, 0 },
+                new double[] { 1, 0, 0, 0, 0 },
+            };
+
+            int[] outputs =
+            {
+                0, 0,
+                1, 1,
+                2, 2,
+                3, 3,
+            };
+
+
+            var msvm = new MulticlassSupportVectorMachine(5, 4);
+            var smo = new MulticlassSupportVectorLearning(msvm, inputs, outputs);
+            smo.Algorithm = (svm, classInputs, classOutputs, i, j) =>
+                new LinearCoordinateDescent(svm, classInputs, classOutputs)
+                {
+                    Complexity = 1
+                };
+
+            msvm.ParallelOptions.MaxDegreeOfParallelism = 1;
+            smo.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            Assert.AreEqual(0, msvm.GetLastKernelEvaluations());
+
+            double error = smo.Run();
+
+            // Linear machines in compact form do not require kernel evaluations
+            Assert.AreEqual(0, msvm.GetLastKernelEvaluations());
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double expected = outputs[i];
+                double actual = msvm.Compute(inputs[i], MulticlassComputeMethod.Elimination);
+                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(0, msvm.GetLastKernelEvaluations());
+            }
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double expected = outputs[i];
+                double actual = msvm.Compute(inputs[i], MulticlassComputeMethod.Voting);
+                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(0, msvm.GetLastKernelEvaluations());
+            }
+        }
+
+        [Test]
+        public void multiclass_new_usage_method_linear()
+        {
+            double[][] inputs =
+            {
+                new double[] { 1, 4, 2, 0, 1 },
+                new double[] { 1, 3, 2, 0, 1 },
+                new double[] { 3, 0, 1, 1, 1 },
+                new double[] { 3, 0, 1, 0, 1 },
+                new double[] { 0, 5, 5, 5, 5 },
+                new double[] { 1, 5, 5, 5, 5 },
+                new double[] { 1, 0, 0, 0, 0 },
+                new double[] { 1, 0, 0, 0, 0 },
+            };
+
+            int[] outputs =
+            {
+                0, 0,
+                1, 1,
+                2, 2,
+                3, 3,
+            };
+
+            var learner = new MulticlassSupportVectorLearning<Linear>();
+
+            learner.Learner = (_) => new LinearCoordinateDescent()
+            {
+                Complexity = 1
+            };
+
+            learner.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            MulticlassSupportVectorMachine<Linear> msvm = learner.Learn(inputs, outputs);
+
+            // Linear machines in compact form do not require kernel evaluations
+            Assert.AreEqual(0, msvm.GetLastKernelEvaluations());
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double expected = outputs[i];
+                msvm.Method = MulticlassComputeMethod.Elimination;
+                double actual = msvm.Decide(inputs[i]);
+                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(0, msvm.GetLastKernelEvaluations());
+            }
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double expected = outputs[i];
+                msvm.Method = MulticlassComputeMethod.Voting;
+                double actual = msvm.Decide(inputs[i]);
+                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(0, msvm.GetLastKernelEvaluations());
+            }
+        }
+
+        [Test]
+        public void multiclass_new_usage_method_polynomial()
+        {
+            double[][] inputs =
+            {
+                new double[] { 1, 4, 2, 0, 1 },
+                new double[] { 1, 3, 2, 0, 1 },
+                new double[] { 3, 0, 1, 1, 1 },
+                new double[] { 3, 0, 1, 0, 1 },
+                new double[] { 0, 5, 5, 5, 5 },
+                new double[] { 1, 5, 5, 5, 5 },
+                new double[] { 1, 0, 0, 0, 0 },
+                new double[] { 1, 0, 0, 0, 0 },
+            };
+
+            int[] outputs =
+            {
+                0, 0,
+                1, 1,
+                2, 2,
+                3, 3,
+            };
+
+            var learner = new MulticlassSupportVectorLearning<Polynomial>()
+            {
+                Learner = (p) => new SequentialMinimalOptimization<Polynomial>()
+                {
+                    Model = p.Model,
+                    Complexity = 1,
+                    Kernel = new Polynomial(2)
+                }
+            };
+
+            learner.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            MulticlassSupportVectorMachine<Polynomial> msvm = learner.Learn(inputs, outputs);
+
+            Assert.AreEqual(0, msvm.GetLastKernelEvaluations());
+
+            int[] evals = { 8, 8, 7, 7, 7, 7, 6, 6 };
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double expected = outputs[i];
+                msvm.Method = MulticlassComputeMethod.Elimination;
+                double actual = msvm.Decide(inputs[i]);
+                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(evals[i], msvm.GetLastKernelEvaluations());
+            }
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double expected = outputs[i];
+                msvm.Method = MulticlassComputeMethod.Voting;
+                double actual = msvm.Decide(inputs[i]);
+                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(8, msvm.GetLastKernelEvaluations());
+            }
+        }
+
 
         [Test]
         public void ComputeTest2()
@@ -212,18 +384,21 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(0, msvm.GetLastKernelEvaluations());
 
+#if DEBUG
+            msvm.ParallelOptions.MaxDegreeOfParallelism = 1;
+            ml.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
+
             // Executes the training algorithm
             double error = ml.Run();
+            Assert.AreEqual(error, 0);
 
             Assert.AreEqual(6, msvm.GetLastKernelEvaluations());
 
             int[] evals = new int[input.Length];
             int[] evalexp = { 8, 8, 7, 7, 7, 7, 6, 6 };
-#if NET35
-            AForge.Parallel.For(0, input.Length, i =>
-#else
+
             Parallel.For(0, input.Length, i =>
-#endif
             {
                 double[] data = input[i];
                 double[] responses;
@@ -237,11 +412,7 @@ namespace Accord.Tests.MachineLearning
             for (int i = 0; i < evals.Length; i++)
                 Assert.AreEqual(evals[i], evalexp[i]);
 
-#if NET35
-            AForge.Parallel.For(0, input.Length, i =>
-#else
             Parallel.For(0, input.Length, i =>
-#endif
             {
                 double[] data = input[i];
                 double[] responses;
@@ -360,7 +531,164 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(1542, ksvm.SupportVectorSharedCount);
             Assert.AreEqual(1542, ksvm.SupportVectorUniqueCount);
             Assert.AreEqual(false, ksvm.IsProbabilistic);
+            Assert.AreEqual(0, ksvm.Machines[0][0].Weights.Sum());
+            Assert.AreEqual(1.2115858453473118E-08d, ksvm.Machines[0][0].Weights.Variance());
+            Assert.AreEqual(-0.00049625205093878355d, ksvm.Machines[0][0].Threshold);
+            Assert.AreEqual(764, ksvm.Machines[0][0].SupportVectors.Length);
+
+            Assert.AreEqual(0, ksvm.Machines[1][1].Weights.Sum());
+            Assert.AreEqual(1.2115031055900578E-08d, ksvm.Machines[1][1].Weights.Variance());
+            Assert.AreEqual(0.00010847163737093268, ksvm.Machines[1][1].Threshold);
+            Assert.AreEqual(806, ksvm.Machines[1][1].SupportVectors.Length);
+
         }
 
+
+#if RELEASE
+        [Test]
+        public void kaggle_digits_old_style()
+        {
+            string root = Environment.CurrentDirectory;
+            var training = Properties.Resources.trainingsample;
+            var validation = Properties.Resources.validationsample;
+
+            var tset = readData(training);
+            var observations = tset.Item1;
+            var labels = tset.Item2;
+
+            var teacher = new MulticlassSupportVectorLearning();
+
+            var svm = teacher.Learn(observations, labels);
+
+            {
+                var trainingLoss = new ZeroOneLoss(labels)
+                {
+                    Mean = true
+                };
+
+                double error = trainingLoss.Loss(svm.Decide(observations));
+                Assert.AreEqual(0.054, error);
+            }
+
+            {
+                var vset = readData(validation);
+                var validationData = vset.Item1;
+                var validationLabels = vset.Item2;
+
+                var validationLoss = new ZeroOneLoss(validationLabels)
+                {
+                    Mean = true
+                };
+
+                double val = validationLoss.Loss(svm.Decide(validationData));
+                Assert.AreEqual(0.082, val);
+            }
+        }
+
+        [Test, Conditional("RELEASE")]
+        public void kaggle_digits()
+        {
+            string root = Environment.CurrentDirectory;
+            var training = Properties.Resources.trainingsample;
+            var validation = Properties.Resources.validationsample;
+
+            var tset = readData(training);
+            var observations = tset.Item1;
+            var labels = tset.Item2;
+
+            var teacher = new MulticlassSupportVectorLearning<Linear>();
+
+            var svm = teacher.Learn(observations, labels);
+
+            {
+                var trainingLoss = new ZeroOneLoss(labels)
+                {
+                    Mean = true
+                };
+
+                double error = trainingLoss.Loss(svm.Decide(observations));
+                Assert.AreEqual(0.054, error);
+            }
+
+            {
+                var vset = readData(validation);
+                var validationData = vset.Item1;
+                var validationLabels = vset.Item2;
+
+                var validationLoss = new ZeroOneLoss(validationLabels)
+                {
+                    Mean = true
+                };
+
+                double val = validationLoss.Loss(svm.Decide(validationData));
+                Assert.AreEqual(0.082, val);
+            }
+        }
+
+        [Test]
+        public void kaggle_digits_with_compress()
+        {
+            string root = Environment.CurrentDirectory;
+            var training = Properties.Resources.trainingsample;
+            var validation = Properties.Resources.validationsample;
+
+            var tset = readData(training);
+            var observations = tset.Item1;
+            var labels = tset.Item2;
+
+            var teacher = new MulticlassSupportVectorLearning<Linear>();
+
+            var svm = teacher.Learn(observations, labels);
+
+            Assert.AreEqual(50, svm.Models[0][0].SupportVectors.Length);
+            Assert.AreEqual(127, svm.Models[1][0].SupportVectors.Length);
+            svm.Compress();
+            Assert.AreEqual(1, svm.Models[0][0].SupportVectors.Length);
+            Assert.AreEqual(1, svm.Models[1][0].SupportVectors.Length);
+
+            {
+                var trainingLoss = new ZeroOneLoss(labels)
+                {
+                    Mean = true
+                };
+
+                double error = trainingLoss.Loss(svm.Decide(observations));
+                Assert.AreEqual(0.054, error);
+            }
+
+            {
+                var vset = readData(validation);
+                var validationData = vset.Item1;
+                var validationLabels = vset.Item2;
+
+                var validationLoss = new ZeroOneLoss(validationLabels)
+                {
+                    Mean = true
+                };
+
+                double val = validationLoss.Loss(svm.Decide(validationData));
+                Assert.AreEqual(0.082, val);
+            }
+        }
+#endif
+
+        private static Tuple<double[][], int[]> readData(string filePath)
+        {
+            var lines = filePath.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            var output = new int[lines.Length - 1];
+            var inputs = new double[lines.Length - 1][];
+            for (int i = 0; i < lines.Length - 1; i++)
+            {
+                string[] parts = lines[i + 1].Split(',');
+                output[i] = int.Parse(parts[0]);
+                inputs[i] = new double[parts.Length - 1];
+                for (int j = 0; j < parts.Length - 1; j++)
+                {
+                    inputs[i][j] = double.Parse(parts[1 + j]);
+                }
+            }
+
+            return Tuple.Create(inputs, output);
+        }
     }
 }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -32,23 +32,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class CircularDescriptiveAnalysisTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void DescriptiveAnalysisConstructorTest1()
@@ -247,11 +230,11 @@ namespace Accord.Tests.Statistics
                 out expectedVar, out expectedMed,
                 out expectedError);
 
-            expectedMean = expectedMean.Submatrix(1);
-            expectedStdDev = expectedStdDev.Submatrix(1);
-            expectedVar = expectedVar.Submatrix(1);
-            expectedMed = expectedMed.Submatrix(1);
-            expectedError = expectedError.Submatrix(1);
+            expectedMean = expectedMean.First(1);
+            expectedStdDev = expectedStdDev.First(1);
+            expectedVar = expectedVar.First(1);
+            expectedMed = expectedMed.First(1);
+            expectedError = expectedError.First(1);
 
             var angles = analysis.Angles;
             var cos = analysis.CosineSum;
@@ -323,7 +306,7 @@ namespace Accord.Tests.Statistics
             out double[] expectedVar, out double[] expectedMed,
             out double[] expectedErrors)
         {
-            var data = analysis.Source.Transpose().ToArray();
+            var data = analysis.Source.Transpose().ToJagged();
 
             double[] expectedLengths = { 24, 60, 7 };
             expectedMean = data.ApplyWithIndex((x, i) => Circular.Mean(x, expectedLengths[i]));
@@ -345,7 +328,7 @@ namespace Accord.Tests.Statistics
            out double[] expectedVar, out double[] expectedMed,
            out double[] expectedErrors)
         {
-            var data = original.ToArray(asColumnVector: false);
+            var data = original.ToJagged(asColumnVector: false);
 
             double[] expectedLengths = { originalLength };
             expectedMean = data.ApplyWithIndex((x, i) => Circular.Mean(x, expectedLengths[i]));

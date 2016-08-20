@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@
 //    License along with this library; if not, write to the Free Software
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
+#pragma warning disable 612, 618
 
 namespace Accord.Statistics.Models.Markov.Learning
 {
@@ -28,6 +29,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Models.Markov.Topology;
+    using Accord.Statistics.Distributions.Univariate;
 
     /// <summary>
     ///   Learning algorithm for discrete-density <see cref="HiddenMarkovClassifier">
@@ -134,7 +136,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <seealso cref="HiddenMarkovClassifierLearning{TDistribution}"/>
     /// 
     public class HiddenMarkovClassifierLearning :
-        BaseHiddenMarkovClassifierLearning<HiddenMarkovClassifier, HiddenMarkovModel>
+        BaseHiddenMarkovClassifierLearning<HiddenMarkovClassifier, HiddenMarkovModel, GeneralDiscreteDistribution, int>
     {
 
         private int smoothingKernelSize = 3;
@@ -165,8 +167,8 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// </summary>
         /// 
         public HiddenMarkovClassifierLearning(HiddenMarkovClassifier classifier,
-            ClassifierLearningAlgorithmConfiguration algorithm)
-            : base(classifier, algorithm)
+            Func<int, Accord.MachineLearning.IUnsupervisedLearning<HiddenMarkovModel, int[], int[]>> learner)
+            : base(classifier, learner)
         {
             createSmoothingKernel();
         }
@@ -178,6 +180,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         /// <returns>The sum log-likelihood for all models after training.</returns>
         /// 
+        [Obsolete("Please use the Learn(x, y) method instead.")]
         public double Run(int[][] inputs, int[] outputs)
         {
             if (inputs == null)
@@ -200,7 +203,8 @@ namespace Accord.Statistics.Models.Markov.Learning
                 }
             }
 
-            return base.Run<int[]>(inputs, outputs);
+            Learn(inputs, outputs);
+            return LogLikelihood;
         }
 
 
@@ -253,7 +257,7 @@ namespace Accord.Statistics.Models.Markov.Learning
             for (int i = 0, modelStartIndex = 0; i < models.Length; i++)
             {
                 // Retrieve the model definition matrices
-                var B = Matrix.Exp(models[i].Emissions);
+                var B = Elementwise.Exp(models[i].Emissions);
 
                 // Now, for each state 'j' in the model
                 for (int j = 0; j < models[i].States; j++)
@@ -282,7 +286,7 @@ namespace Accord.Statistics.Models.Markov.Learning
             }
 
 
-            System.Diagnostics.Debug.Assert(!emissions.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!emissions.HasNaN());
 
 
             // Create and return the threshold hidden Markov model

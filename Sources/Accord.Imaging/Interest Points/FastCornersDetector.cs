@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -64,8 +64,8 @@ namespace Accord.Imaging
     using System.Linq;
     using Accord.Math;
     using AForge;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
 
     /// <summary>
     ///   Features from Accelerated Segment Test (FAST) corners detector.
@@ -333,8 +333,8 @@ namespace Accord.Imaging
             {
                 // 3. Perform Non-Maximum Suppression
                 int[] idx = maximum(corners, scores);
-                corners = corners.Submatrix(idx);
-                scores = scores.Submatrix(idx);
+                corners = corners.Get(idx);
+                scores = scores.Get(idx);
             }
 
             this.scores = scores;
@@ -6339,5 +6339,17 @@ namespace Accord.Imaging
         }
         #endregion
 
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A new object that is a copy of this instance.
+        /// </returns>
+        /// 
+        public object Clone()
+        {
+            return new FastCornersDetector(threshold);
+        }
     }
 }

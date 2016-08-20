@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -246,9 +246,9 @@ namespace Accord.Tests.Statistics
             Matrix.IsEqual(new int[] { 2, 3, 2 }, codeBook.Translate(colNames, new[] { "3", "5", "7" }));
             Matrix.IsEqual(new int[] { 2, 4, 6 }, codeBook.Translate(colNames, new[] { "3", "6", "9" }));
 
-            Matrix.IsEqual(new int[] { 2 }, codeBook.Translate(colNames.Submatrix(1), new[] { "3" }));
-            Matrix.IsEqual(new int[] { 2, 4 }, codeBook.Translate(colNames.Submatrix(2), new[] { "3", "6" }));
-            Matrix.IsEqual(new int[] { 2, 4, 6 }, codeBook.Translate(colNames.Submatrix(3), new[] { "3", "6", "9" }));
+            Matrix.IsEqual(new int[] { 2 }, codeBook.Translate(colNames.First(1), new[] { "3" }));
+            Matrix.IsEqual(new int[] { 2, 4 }, codeBook.Translate(colNames.First(2), new[] { "3", "6" }));
+            Matrix.IsEqual(new int[] { 2, 4, 6 }, codeBook.Translate(colNames.First(3), new[] { "3", "6", "9" }));
 
             bool thrown = false;
 

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@
 //    License along with this library; if not, write to the Free Software
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
+#pragma warning disable 612, 618
 
 namespace Accord.Statistics.Models.Fields.Functions
 {
@@ -137,8 +138,8 @@ namespace Accord.Statistics.Models.Fields.Functions
                 factorIndex += classParams.Count + stateParams.Count + edgeParams.Count;
             }
 
-            System.Diagnostics.Debug.Assert(factorIndex == factorParams.Count);
-            System.Diagnostics.Debug.Assert(factorIndex == factorFeatures.Count);
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorParams.Count);
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorFeatures.Count);
 
             this.Weights = factorParams.ToArray();
             this.Features = factorFeatures.ToArray();
@@ -202,7 +203,7 @@ namespace Accord.Statistics.Models.Fields.Functions
                 // Create features for initial state probabilities
                 for (int i = 0; i < model.States; i++)
                 {
-                    edgeParams.Add(model.Probabilities[i]);
+                    edgeParams.Add(model.LogInitial[i]);
                     edgeFeatures.Add(new InitialFeature<int>(this, c, i));
                 }
 
@@ -251,8 +252,8 @@ namespace Accord.Statistics.Models.Fields.Functions
                 factorIndex += classParams.Count + stateParams.Count + edgeParams.Count;
             }
 
-            System.Diagnostics.Debug.Assert(factorIndex == factorParams.Count);
-            System.Diagnostics.Debug.Assert(factorIndex == factorFeatures.Count);
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorParams.Count);
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorFeatures.Count);
 
             this.Weights = factorParams.ToArray();
             this.Features = factorFeatures.ToArray();
@@ -361,7 +362,7 @@ namespace Accord.Statistics.Models.Fields.Functions
             // Create features for initial state probabilities
             for (int i = 0; i < states; i++)
             {
-                edgeParams.Add(model.Probabilities[i]);
+                edgeParams.Add(model.LogInitial[i]);
                 edgeFeatures.Add(new InitialFeature<int>(this, 0, i));
             }
 

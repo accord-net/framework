@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -894,7 +894,7 @@ namespace Accord.Math.Integration
             L60:
                     ++numrl2;
 
-                    System.Diagnostics.Debug.Assert(numrl2 > 1);
+                    Accord.Diagnostics.Debug.Assert(numrl2 > 1);
 
                     rlist2[numrl2 - 1] = area;
                     qelg_(ref numrl2, rlist2, ref reseps, ref abseps, res3la, ref nres);
@@ -1059,7 +1059,7 @@ namespace Accord.Math.Integration
             ++(nres);
             abserr = oflow;
 
-            System.Diagnostics.Debug.Assert(n > 0 && n < 52);
+            Accord.Diagnostics.Debug.Assert(n > 0 && n < 52);
 
             result = epstab[n];
             if (n < 3)
@@ -1068,8 +1068,8 @@ namespace Accord.Math.Integration
             }
             limexp = 50;
 
-            System.Diagnostics.Debug.Assert(n > 0 && n < 52);
-            System.Diagnostics.Debug.Assert(n + 2 > 0 && n + 2 < 52);
+            Accord.Diagnostics.Debug.Assert(n > 0 && n < 52);
+            Accord.Diagnostics.Debug.Assert(n + 2 > 0 && n + 2 < 52);
 
             epstab[n + 2] = epstab[n];
             newelm = (n - 1) / 2;
@@ -1082,8 +1082,8 @@ namespace Accord.Math.Integration
                 k3 = k1 - 2;
                 res = epstab[k1 + 2];
 
-                System.Diagnostics.Debug.Assert(k3 > 0 && k3 < 52);
-                System.Diagnostics.Debug.Assert(k2 > 0 && k2 < 52);
+                Accord.Diagnostics.Debug.Assert(k3 > 0 && k3 < 52);
+                Accord.Diagnostics.Debug.Assert(k2 > 0 && k2 < 52);
 
                 e0 = epstab[k3];
                 e1 = epstab[k2];
@@ -1111,7 +1111,7 @@ namespace Accord.Math.Integration
                 goto L100;
             L10:
 
-                System.Diagnostics.Debug.Assert(k1 > 0 && k1 < 52);
+                Accord.Diagnostics.Debug.Assert(k1 > 0 && k1 < 52);
 
                 e3 = epstab[k1];
                 epstab[k1] = e1;
@@ -1148,7 +1148,7 @@ namespace Accord.Math.Integration
                 L30:
                 res = e1 + 1.0 / ss;
 
-                System.Diagnostics.Debug.Assert(k1 > 0 && k1 < 52);
+                Accord.Diagnostics.Debug.Assert(k1 > 0 && k1 < 52);
 
                 epstab[k1] = res;
                 k1 += -2;
@@ -1181,8 +1181,8 @@ namespace Accord.Math.Integration
             {
                 ib2 = ib + 2;
 
-                System.Diagnostics.Debug.Assert(ib > 0 && ib < 52);
-                System.Diagnostics.Debug.Assert(ib2 > 0 && ib2 < 52);
+                Accord.Diagnostics.Debug.Assert(ib > 0 && ib < 52);
+                Accord.Diagnostics.Debug.Assert(ib2 > 0 && ib2 < 52);
 
                 epstab[ib] = epstab[ib2];
                 ib = ib2;
@@ -1195,8 +1195,8 @@ namespace Accord.Math.Integration
             indx = num - n + 1;
             for (i__ = 1; i__ <= n; ++i__)
             {
-                System.Diagnostics.Debug.Assert(i__ > 0 && i__ < 52);
-                System.Diagnostics.Debug.Assert(indx > 0 && indx < 52);
+                Accord.Diagnostics.Debug.Assert(i__ > 0 && i__ < 52);
+                Accord.Diagnostics.Debug.Assert(indx > 0 && indx < 52);
 
                 epstab[i__] = epstab[indx];
                 ++indx;
@@ -1208,7 +1208,7 @@ namespace Accord.Math.Integration
                 goto L90;
             }
 
-            System.Diagnostics.Debug.Assert(nres > 0 && nres < 4);
+            Accord.Diagnostics.Debug.Assert(nres > 0 && nres < 4);
 
             res3la[nres] = result;
             abserr = oflow;
@@ -1308,7 +1308,7 @@ namespace Accord.Math.Integration
                     fval1 = fval1 / absc1 / absc1;
                     fval2 = fval2 / absc2 / absc2;
 
-                    System.Diagnostics.Debug.Assert(j > 0);
+                    Accord.Diagnostics.Debug.Assert(j > 0);
 
                     fv1[j - 1] = fval1;
                     fv2[j - 1] = fval2;
@@ -1322,7 +1322,7 @@ namespace Accord.Math.Integration
                 resasc = wgk[7] * Math.Abs(fc - reskh);
                 for (j = 1; j <= 7; ++j)
                 {
-                    System.Diagnostics.Debug.Assert(j > 0);
+                    Accord.Diagnostics.Debug.Assert(j > 0);
 
                     resasc += wgk[j - 1] * (Math.Abs(fv1[j - 1] - reskh)
                         + Math.Abs(fv2[j - 1] - reskh));

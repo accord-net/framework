@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -160,7 +160,7 @@ namespace Accord.MachineLearning.Geometry
 
             ransac.Compute(points.Length, out inliers);
 
-            Circle circle = fitting(points.Submatrix(inliers));
+            Circle circle = fitting(points.Get(inliers));
 
             return circle;
         }
@@ -169,7 +169,7 @@ namespace Accord.MachineLearning.Geometry
 
         private Circle define(int[] x)
         {
-            System.Diagnostics.Debug.Assert(x.Length == 3);
+            Accord.Diagnostics.Debug.Assert(x.Length == 3);
             return new Circle(points[x[0]], points[x[1]], points[x[2]]);
         }
 
@@ -183,7 +183,7 @@ namespace Accord.MachineLearning.Geometry
 
         private bool degenerate(int[] indices)
         {
-            System.Diagnostics.Debug.Assert(indices.Length == 3);
+            Accord.Diagnostics.Debug.Assert(indices.Length == 3);
 
             Point p1 = points[indices[0]];
             Point p2 = points[indices[1]];
@@ -212,9 +212,8 @@ namespace Accord.MachineLearning.Geometry
             }
 
             // get AT * A and AT * Y
-            double[,] AT = A.Transpose();
-            double[,] B = AT.Multiply(A);
-            double[,] Z = AT.Multiply(Y);
+            double[,] B = Matrix.TransposeAndDot(A, A);
+            double[,] Z = Matrix.TransposeAndDot(A, Y);
 
             // solve for c
             double[,] c = Matrix.Solve(B, Z, true);

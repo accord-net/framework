@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -34,34 +34,10 @@ namespace Accord.Tests.Imaging
     public class SpeededUpRobustFeaturesDescriptorTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ProcessImageTest()
         {
-            Bitmap[] bitmaps = 
-            {
-                Resources.flower01,
-                Resources.flower03,
-                Resources.flower06,
-                Resources.flower07,
-                Resources.flower09,
-                Resources.flower10,
-            };
+            var bitmaps = BagOfVisualWordsTest.GetImages();
 
             foreach (Bitmap img in bitmaps)
             {
@@ -134,7 +110,5 @@ namespace Accord.Tests.Imaging
             }
 
         }
-
-
     }
 }

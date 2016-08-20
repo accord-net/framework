@@ -62,6 +62,9 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
+    <Reference Include="envdte, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'NET35'" />
@@ -71,49 +74,158 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="AForge\ContinuousHistogram.cs" />
-    <Compile Include="AForge\FourierTransform.cs" />
-    <Compile Include="AForge\Gaussian.cs" />
-    <Compile Include="AForge\Geometry\ClosePointsMergingOptimizer.cs" />
-    <Compile Include="AForge\Geometry\CoplanarPosit.cs" />
-    <Compile Include="AForge\Geometry\FlatAnglesOptimizer.cs" />
-    <Compile Include="AForge\Geometry\GeometryTools.cs" />
-    <Compile Include="AForge\Geometry\GrahamConvexHull.cs" />
-    <Compile Include="AForge\Geometry\IConvexHullAlgorithm.cs" />
-    <Compile Include="AForge\Geometry\IShapeOptimizer.cs" />
-    <Compile Include="AForge\Geometry\Line.cs" />
-    <Compile Include="AForge\Geometry\LineSegment.cs" />
-    <Compile Include="AForge\Geometry\LineStraighteningOptimizer.cs" />
-    <Compile Include="AForge\Geometry\PointsCloud.cs" />
-    <Compile Include="AForge\Geometry\POSIT.cs" />
-    <Compile Include="AForge\Geometry\ShapeType.cs" />
-    <Compile Include="AForge\Geometry\SimpleShapeChecker.cs" />
-    <Compile Include="AForge\Histogram.cs" />
-    <Compile Include="AForge\Matrix3x3.cs" />
-    <Compile Include="AForge\Matrix4x4.cs" />
-    <Compile Include="AForge\Metrics\CosineDistance.cs" />
-    <Compile Include="AForge\Metrics\CosineSimilarity.cs" />
-    <Compile Include="AForge\Metrics\EuclideanDistance.cs" />
-    <Compile Include="AForge\Metrics\EuclideanSimilarity.cs" />
-    <Compile Include="AForge\Metrics\HammingDistance.cs" />
-    <Compile Include="AForge\Metrics\IDistance.cs" />
-    <Compile Include="AForge\Metrics\ISimilarity.cs" />
-    <Compile Include="AForge\Metrics\JaccardDistance.cs" />
-    <Compile Include="AForge\Metrics\ManhattanDistance.cs" />
-    <Compile Include="AForge\Metrics\PearsonCorrelation.cs" />
-    <Compile Include="AForge\PerlinNoise.cs" />
-    <Compile Include="AForge\Random\ExponentialGenerator.cs" />
-    <Compile Include="AForge\Random\GaussianGenerator.cs" />
-    <Compile Include="AForge\Random\IRandomNumberGenerator.cs" />
-    <Compile Include="AForge\Random\StandardGenerator.cs" />
-    <Compile Include="AForge\Random\UniformGenerator.cs" />
-    <Compile Include="AForge\Random\UniformOneGenerator.cs" />
-    <Compile Include="AForge\Statistics.cs" />
-    <Compile Include="AForge\SVD.cs" />
-    <Compile Include="AForge\Tools.cs" />
-    <Compile Include="AForge\Vector3.cs" />
-    <Compile Include="AForge\Vector4.cs" />
-    <Compile Include="Indices.cs" />
+    <Compile Include="AForge.Math\ContinuousHistogram.cs" />
+    <Compile Include="AForge.Math\FourierTransform.cs" />
+    <Compile Include="AForge.Math\Gaussian.cs" />
+    <Compile Include="AForge.Math\Geometry\ClosePointsMergingOptimizer.cs" />
+    <Compile Include="AForge.Math\Geometry\CoplanarPosit.cs" />
+    <Compile Include="AForge.Math\Geometry\FlatAnglesOptimizer.cs" />
+    <Compile Include="AForge.Math\Geometry\GeometryTools.cs" />
+    <Compile Include="AForge.Math\Geometry\GrahamConvexHull.cs" />
+    <Compile Include="AForge.Math\Geometry\IConvexHullAlgorithm.cs" />
+    <Compile Include="AForge.Math\Geometry\IShapeOptimizer.cs" />
+    <Compile Include="AForge.Math\Geometry\Line.cs" />
+    <Compile Include="AForge.Math\Geometry\LineSegment.cs" />
+    <Compile Include="AForge.Math\Geometry\LineStraighteningOptimizer.cs" />
+    <Compile Include="AForge.Math\Geometry\PointsCloud.cs" />
+    <Compile Include="AForge.Math\Geometry\POSIT.cs" />
+    <Compile Include="AForge.Math\Geometry\ShapeType.cs" />
+    <Compile Include="AForge.Math\Geometry\SimpleShapeChecker.cs" />
+    <Compile Include="AForge.Math\Matrix3x3.cs" />
+    <Compile Include="AForge.Math\Matrix4x4.cs" />
+    <Compile Include="AForge.Math\Metrics\CosineDistance.cs" />
+    <Compile Include="AForge.Math\Metrics\CosineSimilarity.cs" />
+    <Compile Include="AForge.Math\Metrics\EuclideanDistance.cs" />
+    <Compile Include="AForge.Math\Metrics\EuclideanSimilarity.cs" />
+    <Compile Include="AForge.Math\Metrics\HammingDistance.cs" />
+    <Compile Include="AForge.Math\Metrics\IDistance.cs" />
+    <Compile Include="AForge.Math\Metrics\ISimilarity.cs" />
+    <Compile Include="AForge.Math\Metrics\JaccardDistance.cs" />
+    <Compile Include="AForge.Math\Metrics\ManhattanDistance.cs" />
+    <Compile Include="AForge.Math\Metrics\PearsonCorrelation.cs" />
+    <Compile Include="AForge.Math\PerlinNoise.cs" />
+    <Compile Include="AForge.Math\Random\ExponentialGenerator.cs" />
+    <Compile Include="AForge.Math\Random\GaussianGenerator.cs" />
+    <Compile Include="AForge.Math\Random\IRandomNumberGenerator.cs" />
+    <Compile Include="AForge.Math\Random\StandardGenerator.cs" />
+    <Compile Include="AForge.Math\Random\UniformGenerator.cs" />
+    <Compile Include="AForge.Math\Random\UniformOneGenerator.cs" />
+    <Compile Include="AForge.Math\SVD.cs" />
+    <Compile Include="AForge.Math\Vector3.cs" />
+    <Compile Include="AForge.Math\Vector4.cs" />
+    <Compile Include="Decompositions\JaggedGeneralizedEigenvalueDecomposition.cs" />
+    <Compile Include="Decompositions\JaggedSingularValueDecomposition.cs">
+      <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedSingularValueDecompositionD.cs">
+      <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedSingularValueDecompositionF.cs">
+      <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\SingularValueDecompositionD.cs">
+      <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Jagged.Product.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Jagged.Product.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Linear.Generated.cs">
+      <DependentUpon>Matrix.Linear.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Get.cs" />
+    <Compile Include="Norm.Generated.cs">
+      <DependentUpon>Norm.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Distance.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Distance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Distances\Base\IMetric.cs" />
+    <Compile Include="Distances\Base\ISimilarity.cs" />
+    <Compile Include="Distances\Jaccard.cs" />
+    <Compile Include="Distances\ArgMax.cs" />
+    <Compile Include="Distances\Matching.cs" />
+    <Compile Include="Distances\RogersTanimoto.cs" />
+    <Compile Include="Distances\RusselRao.cs" />
+    <Compile Include="Distances\SokalMichener.cs" />
+    <Compile Include="Distances\SokalSneath.cs" />
+    <Compile Include="Distances\Kulczynski.cs" />
+    <Compile Include="Distances\Yule.cs" />
+    <Compile Include="Distances\Dice.cs" />
+    <Compile Include="Distances\Hamming.cs" />
+    <Compile Include="Distances\Jaccard`1.cs" />
+    <Compile Include="Distances\Hellinger.cs" />
+    <Compile Include="Distances\Canberra.cs" />
+    <Compile Include="Distances\Chebyshev.cs" />
+    <Compile Include="Distances\Levenshtein.cs" />
+    <Compile Include="Distances\Mahalanobis.cs" />
+    <Compile Include="Distances\PearsonCorrelation.cs" />
+    <Compile Include="Distances\Cosine.cs" />
+    <Compile Include="Distances\Modular.cs" />
+    <Compile Include="Distances\Minkowski.cs" />
+    <Compile Include="Distances\Hamming`1.cs" />
+    <Compile Include="Distances\Levenshtein`1.cs" />
+    <Compile Include="Distances\Manhattan.cs" />
+    <Compile Include="Distances\BrayCurtis.cs" />
+    <Compile Include="Distances\SquaredMahalanobis.cs" />
+    <Compile Include="Distances\SquareEuclidean.cs" />
+    <Compile Include="Distances\Euclidean.cs" />
+    <Compile Include="Distances\Base\IDistance.cs" />
+    <Compile Include="Matrix\Jagged.Common.cs" />
+    <Compile Include="Matrix\Matrix.Comparisons1.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Matrix.Comparisons.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Conversions.Generated.cs">
+      <DependentUpon>Matrix.Conversions.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Reduction.Generated.cs">
+      <DependentUpon>Matrix.Reduction.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Matrix\Jagged.MinMax.cs" />
+    <Compile Include="Matrix\Matrix.Product1.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Matrix.Product.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Jagged.Random.Generated.cs">
+      <DependentUpon>Jagged.Random.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Matrix\JaggedReducedRowEchelonForm.cs" />
+    <Compile Include="Matrix\Vector.MinMax.cs" />
+    <Compile Include="Matrix\Matrix.MinMax.cs" />
+    <Compile Include="Optimization\Losses\LogLikelihoodLoss.cs" />
+    <Compile Include="Optimization\Losses\CategoryCrossEntropyLoss.cs" />
+    <Compile Include="Optimization\Losses\LossBase.cs" />
+    <Compile Include="Optimization\Losses\AbsoluteLoss.cs" />
+    <Compile Include="Optimization\Losses\BinaryCrossEntropyLoss.cs" />
+    <Compile Include="Optimization\Losses\HingeLoss.cs" />
+    <Compile Include="Optimization\Losses\ILoss.cs" />
+    <Compile Include="Optimization\Losses\LogisticLoss.cs" />
+    <Compile Include="Optimization\Losses\SquareLoss.cs" />
+    <Compile Include="Optimization\Unconstrained\TrustRegionNewtonMethod.cs" />
+    <Compile Include="Random\IRandomNumberGenerator.cs" />
+    <Compile Include="Random\ZigguratExponentialGenerator.cs" />
+    <Compile Include="Random\ZigguratUniformGenerator.cs" />
+    <Compile Include="Random\ZigguratUniformOneGenerator.cs" />
+    <Compile Include="Random\ZigguratNormalGenerator.cs" />
+    <Compile Include="Sort.cs" />
+    <Compile Include="Vector\Vector.Sparse.cs" />
+    <Compile Include="Vector\Vector.Common.cs" />
     <Compile Include="IO\Mat\MatArrayFlags.cs" />
     <Compile Include="IO\Mat\MatArrayType.cs" />
     <Compile Include="IO\Mat\MatDataTag.cs" />
@@ -152,7 +264,6 @@
     <Compile Include="Decompositions\QrDecompositionF.cs">
       <DependentUpon>QrDecomposition.tt</DependentUpon>
     </Compile>
-    <Compile Include="Dissimilarity.cs" />
     <Compile Include="Functions\OwensT.cs" />
     <Compile Include="Integration\Accord.Math.Integration.cs" />
     <Compile Include="Integration\Base\IMultidimensionalIntegration.cs" />
@@ -190,12 +301,6 @@
     <Compile Include="Decompositions\GramSchmidtOrthogonalization.cs" />
     <Compile Include="Decompositions\JaggedLuDecomposition.cs">
       <DependentUpon>JaggedLuDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\JaggedSingularValueDecomposition.cs">
-      <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\JaggedSingularValueDecompositionF.cs">
-      <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
     </Compile>
     <Compile Include="Decompositions\SingularValueDecomposition.cs">
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
@@ -235,7 +340,6 @@
     <Compile Include="Optimization\Unconstrained\NelderMead.cs" />
     <Compile Include="Optimization\Unconstrained\ResilientBackpropagation.cs" />
     <Compile Include="Optimization\Unconstrained\Subplex.cs" />
-    <Compile Include="Optimization\Unconstrained\TrustRegionNewtonMethod.cs" />
     <Compile Include="Taylor.cs" />
     <Compile Include="Transforms\FourierTransform2.cs" />
     <Compile Include="Transforms\HartleyTransform.cs" />
@@ -324,6 +428,7 @@
       <LastOutputs>
 .\JaggedSingularValueDecomposition.cs
 .\JaggedSingularValueDecomposition.txt
+.\JaggedSingularValueDecompositionD.cs
 .\JaggedSingularValueDecompositionF.cs
 </LastOutputs>
       <LastGenOutput>JaggedSingularValueDecomposition.txt</LastGenOutput>
@@ -354,6 +459,7 @@
       <LastOutputs>
 .\SingularValueDecomposition.cs
 .\SingularValueDecomposition.txt
+.\SingularValueDecompositionD.cs
 .\SingularValueDecompositionF.cs
 </LastOutputs>
     </None>
@@ -383,7 +489,6 @@
     <Compile Include="Matrix\Matrix.Parsing.cs" />
     <Compile Include="Matrix\Matrix.Complex.cs" />
     <Compile Include="Matrix\Matrix.Elementwise.cs" />
-    <Compile Include="Matrix\Matrix.Linear.cs" />
     <Compile Include="Matrix\Matrix.Conversions.cs" />
     <Compile Include="Matrix\Matrix.Algebra.cs" />
     <Compile Include="Matrix\Matrix.Selection.cs">
@@ -414,14 +519,102 @@
     <Compile Include="Functions\Bessel.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Jagged.cs" />
-    <Compile Include="Vector\Vector.Scale.cs" />
-    <Compile Include="Vector\Vector.cs" />
+    <Compile Include="Matrix\Jagged.Construction.cs" />
+    <Compile Include="Vector\Vector.Construction.cs" />
+    <Compile Include="Vector\Vector.Interval.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Vector.Interval.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vector\Vector.Order.cs" />
+    <Compile Include="Matrix\Matrix.Random.Generated.cs">
+      <DependentUpon>Matrix.Random.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Vector\Vector.Random.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Vector.Random.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vector\Vector.Range.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Vector.Range.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vector\Vector.Scale.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Vector.Scale.tt</DependentUpon>
+    </Compile>
     <Compile Include="Wavelets\CDF97.cs" />
     <Compile Include="Wavelets\Haar.cs" />
     <Compile Include="Wavelets\Base\IWavelet.cs" />
+    <None Include="Matrix\Jagged.Product.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Jagged.Product.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Jagged.Product.Generated.cs</LastOutputs>
+    </None>
+    <None Include="Norm.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Norm.Generated.cs</LastGenOutput>
+    </None>
+    <None Include="Distance.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Distance.Generated.cs</LastGenOutput>
+    </None>
     <None Include="Integration\Accord.Math.Integration.cd" />
+    <None Include="Matrix\Matrix.Comparisons.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>.\Matrix.Comparisons1.Generated.cs</LastOutputs>
+      <LastGenOutput>Matrix.Comparisons1.Generated.cs</LastGenOutput>
+    </None>
+    <None Include="Matrix\Matrix.Conversions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Conversions.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Matrix.Conversions.Generated.cs</LastOutputs>
+    </None>
+    <None Include="Matrix\Matrix.Reduction.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Reduction.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Matrix.Reduction.Generated.cs</LastOutputs>
+    </None>
+    <None Include="Matrix\Matrix.Product.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Product1.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Matrix.Product1.Generated.cs</LastOutputs>
+    </None>
+    <None Include="Matrix\Jagged.Random.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Jagged.Random.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Jagged.Random.Generated.cs</LastOutputs>
+    </None>
     <None Include="Optimization\Accord.Math.Optimization.cd" />
+    <None Include="Matrix\Matrix.Random.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Random.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Matrix.Random.Generated.cs</LastOutputs>
+    </None>
+    <None Include="Vector\Vector.Random.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>.\Vector.Random.Generated.cs</LastOutputs>
+      <LastGenOutput>Vector.Random.Generated.cs</LastGenOutput>
+    </None>
+    <None Include="Vector\Vector.Range.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>.\Vector.Range.Generated.cs</LastOutputs>
+      <LastGenOutput>Vector.Range.Generated.cs</LastGenOutput>
+    </None>
+    <None Include="Vector\Vector.Interval.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>.\Vector.Interval.Generated.cs</LastOutputs>
+      <LastGenOutput>Vector.Interval.Generated.cs</LastGenOutput>
+    </None>
+    <None Include="Vector\Vector.Scale.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>.\Vector.Scale.Generated.cs</LastOutputs>
+      <LastGenOutput>Vector.Scale.Generated.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.Math.cd" />
@@ -431,7 +624,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastOutputs>
 .\LuDecomposition.cs
-.\LuDecompositionBase1.cs
+.\LuDecomposition.txt
 .\LuDecompositionD.cs
 .\LuDecompositionF.cs
 </LastOutputs>
@@ -445,6 +638,10 @@
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -518,6 +715,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
     </Content>
+    <None Include="Matrix\Matrix.Linear.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Linear.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Matrix.Linear.Generated.cs</LastOutputs>
+    </None>
   </ItemGroup>
   <ItemGroup />
 </Project>

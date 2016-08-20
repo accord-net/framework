@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -157,7 +157,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void GenerateTest2()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Tools.SetupGenerator(42);
 
             NakagamiDistribution target = new NakagamiDistribution(4, 2);
 

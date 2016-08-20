@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Neuro", "Neuro", "{BE29F5CB-80FB-4CF1-9135-800534B264D3}"
 EndProject
@@ -173,6 +173,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filters (Tables)", "Statistics\Filters (Tables)\Filters (Tables).csproj", "{6449C3DE-E27F-45A6-AAED-BF7E3028CD0B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Detection (Shape)", "Imaging\Detection (Shape)\Detection (Shape).csproj", "{722FD1AB-4193-45B1-A94E-10B6E5C9AA05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clustering 2D (K-Means, MeanShift, GMM)", "MachineLearning\Clustering 2D (K-Means, MeanShift, GMM)\Clustering 2D (K-Means, MeanShift, GMM).csproj", "{A8AD00C6-19D5-4BF4-81D6-E9ECE047F48D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -485,6 +487,7 @@ Global
 		{744FC79F-5B6D-44AD-8C34-1ABB6EABAE6B}.Mono|x86.ActiveCfg = Release|x86
 		{744FC79F-5B6D-44AD-8C34-1ABB6EABAE6B}.Mono|x86.Build.0 = Release|x86
 		{744FC79F-5B6D-44AD-8C34-1ABB6EABAE6B}.Release|x86.ActiveCfg = Release|x86
+		{744FC79F-5B6D-44AD-8C34-1ABB6EABAE6B}.Release|x86.Build.0 = Release|x86
 		{EE5B96F4-EEB3-4606-98C9-6F1242B41FD2}.Debug|x86.ActiveCfg = Debug|x86
 		{EE5B96F4-EEB3-4606-98C9-6F1242B41FD2}.Debug|x86.Build.0 = Debug|x86
 		{EE5B96F4-EEB3-4606-98C9-6F1242B41FD2}.Mono|x86.ActiveCfg = Release|x86
@@ -611,6 +614,12 @@ Global
 		{722FD1AB-4193-45B1-A94E-10B6E5C9AA05}.Mono|x86.Build.0 = Release|x86
 		{722FD1AB-4193-45B1-A94E-10B6E5C9AA05}.Release|x86.ActiveCfg = Release|x86
 		{722FD1AB-4193-45B1-A94E-10B6E5C9AA05}.Release|x86.Build.0 = Release|x86
+		{A8AD00C6-19D5-4BF4-81D6-E9ECE047F48D}.Debug|x86.ActiveCfg = Debug|x86
+		{A8AD00C6-19D5-4BF4-81D6-E9ECE047F48D}.Debug|x86.Build.0 = Debug|x86
+		{A8AD00C6-19D5-4BF4-81D6-E9ECE047F48D}.Mono|x86.ActiveCfg = Release|x86
+		{A8AD00C6-19D5-4BF4-81D6-E9ECE047F48D}.Mono|x86.Build.0 = Release|x86
+		{A8AD00C6-19D5-4BF4-81D6-E9ECE047F48D}.Release|x86.ActiveCfg = Release|x86
+		{A8AD00C6-19D5-4BF4-81D6-E9ECE047F48D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -688,6 +697,7 @@ Global
 		{7FA21B39-6926-412C-BB5E-99F957E5CC19} = {BE29F5CB-80FB-4CF1-9135-800534B264D3}
 		{6449C3DE-E27F-45A6-AAED-BF7E3028CD0B} = {473A7C08-02A2-473A-BEC6-891F035674FD}
 		{722FD1AB-4193-45B1-A94E-10B6E5C9AA05} = {B0536923-080A-43F7-8C8A-C7D579AB0DB5}
+		{A8AD00C6-19D5-4BF4-81D6-E9ECE047F48D} = {A0409E80-C6CE-4DEA-9825-92A2A6BDDC45}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Accord.NET.vsmdi

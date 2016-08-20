@@ -6,12 +6,12 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Video.Kinect
+namespace Accord.Video.Kinect
 {
     using System;
     using System.Collections.Generic;
     using System.Threading;
-    using AForge;
+    using Accord;
 
     /// <summary>
     /// The class provides access to Microsoft's Xbox <a href="http://en.wikipedia.org/wiki/Kinect">Kinect</a>

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -35,7 +35,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void RunTest()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             // Sample data
             //   The following is a simple auto association function
@@ -112,8 +112,8 @@ namespace Accord.Tests.MachineLearning
             };
 
             IKernel kernel = new Linear();
-            MulticlassSupportVectorMachine machine = new MulticlassSupportVectorMachine(4, kernel, 3);
-            MulticlassSupportVectorLearning target = new MulticlassSupportVectorLearning(machine, inputs, outputs);
+            var machine = new MulticlassSupportVectorMachine(4, kernel, 3);
+            var target = new MulticlassSupportVectorLearning(machine, inputs, outputs);
 
             target.Algorithm = (svm, classInputs, classOutputs, i, j) =>
                 new SequentialMinimalOptimization(svm, classInputs, classOutputs);
@@ -197,6 +197,7 @@ namespace Accord.Tests.MachineLearning
             }
 
         }
+
         [Test]
         public void LinearTest()
         {
@@ -244,6 +245,10 @@ namespace Accord.Tests.MachineLearning
                     }
             };
 
+#if DEBUG
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
+
             // Teach the machine
             double error = teacher.Run(); // should be 0.
 
@@ -253,6 +258,178 @@ namespace Accord.Tests.MachineLearning
                 error = machine.Compute(inputs[i]);
                 double expected = outputs[i];
                 Assert.AreEqual(expected, error);
+            }
+        }
+
+
+
+        [Test]
+        public void multiclass_linear_new_usage()
+        {
+
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            double[][] inputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 1, 1, 1, 1 }, //  2
+                new double[] { 1, 0, 1, 1 }, //  2
+                new double[] { 1, 1, 0, 1 }, //  2
+                new double[] { 0, 1, 1, 1 }, //  2
+                new double[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+            };
+
+            // Create a one-vs-one learning algorithm using LIBLINEAR's L2-loss SVC dual
+            var teacher = new MulticlassSupportVectorLearning<Linear>();
+            teacher.Learner = (p) => new LinearDualCoordinateDescent()
+            {
+                Loss = Loss.L2
+            };
+
+#if DEBUG
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
+
+            // Learn a machine
+            var machine = teacher.Learn(inputs, outputs);
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double actual = machine.Decide(inputs[i]);
+                double expected = outputs[i];
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [Test]
+        public void multiclass_gaussian_new_usage()
+        {
+
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            double[][] inputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 1, 1, 1, 1 }, //  2
+                new double[] { 1, 0, 1, 1 }, //  2
+                new double[] { 1, 1, 0, 1 }, //  2
+                new double[] { 0, 1, 1, 1 }, //  2
+                new double[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+            };
+
+            // Create a one-vs-one learning algorithm using LIBLINEAR's L2-loss SVC dual
+            var teacher = new MulticlassSupportVectorLearning<Gaussian>();
+            teacher.Learner = (p) => new SequentialMinimalOptimization<Gaussian>()
+            {
+                Kernel = new Gaussian(0.1)
+            };
+
+#if DEBUG
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
+
+            // Learn a machine
+            var machine = teacher.Learn(inputs, outputs);
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double actual = machine.Decide(inputs[i]);
+                double expected = outputs[i];
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+
+
+        [Test]
+        public void multiclass_linear_smo_new_usage()
+        {
+
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            double[][] inputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 1, 1, 1, 1 }, //  2
+                new double[] { 1, 0, 1, 1 }, //  2
+                new double[] { 1, 1, 0, 1 }, //  2
+                new double[] { 0, 1, 1, 1 }, //  2
+                new double[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+            };
+
+            // Create a one-vs-one learning algorithm using LIBLINEAR's L2-loss SVC dual
+            var teacher = new MulticlassSupportVectorLearning<Linear>();
+            teacher.Learner = (p) => new SequentialMinimalOptimization<Linear>()
+            {
+                UseComplexityHeuristic = true
+            };
+
+#if DEBUG
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
+
+            // Learn a machine
+            var machine = teacher.Learn(inputs, outputs);
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double actual = machine.Decide(inputs[i]);
+                double expected = outputs[i];
+                Assert.AreEqual(expected, actual);
             }
         }
     }

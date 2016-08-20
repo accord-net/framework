@@ -16,8 +16,9 @@ using System.IO;
 using System.Threading;
 
 using AForge;
-using AForge.Genetic;
-using AForge.Controls;
+using Accord.Genetic;
+using Accord.Controls;
+using Accord;
 
 namespace SampleApp
 {
@@ -31,7 +32,7 @@ namespace SampleApp
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.ComponentModel.IContainer components;
         private System.Windows.Forms.GroupBox groupBox2;
-        private AForge.Controls.Chart chart;
+        private Accord.Controls.Chart chart;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox populationSizeBox;
@@ -132,7 +133,7 @@ namespace SampleApp
             this.loadDataButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.chart = new AForge.Controls.Chart();
+            this.chart = new Accord.Controls.Chart();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.moreSettingsButton = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();

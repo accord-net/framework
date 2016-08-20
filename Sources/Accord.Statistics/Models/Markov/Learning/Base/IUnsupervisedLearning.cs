@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -48,6 +48,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <see cref="ViterbiLearning"/>
     /// <see cref="ViterbiLearning{TDistribution}"/>
     /// 
+    [Obsolete("Please use Accord.MachineLearning.IUnsupervisedLearning instead.")]
     public interface IUnsupervisedLearning
     {
 
@@ -91,6 +92,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <see cref="ViterbiLearning"/>
     /// <see cref="ViterbiLearning{TDistribution}"/>
     /// 
+    [Obsolete("Please use Accord.MachineLearning.IUnsupervisedLearning instead.")]
     public interface IUnsupervisedLearning<T> : IUnsupervisedLearning
     {
 
@@ -115,6 +117,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   Markov models which support for weighted training samples.
     /// </summary>
     /// 
+    [Obsolete("Please use Accord.MachineLearning.IUnsupervisedLearning instead.")]
     public interface IWeightedUnsupervisedLearning
     {
 

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -70,7 +70,7 @@ namespace Accord.Tests.Math
         [Test]
         public void lbfgsTest2()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             // Suppose we would like to find the minimum of the function
             // 

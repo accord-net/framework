@@ -15,8 +15,8 @@ using System.Drawing.Imaging;
 using System.Text;
 using System.Windows.Forms;
 
-using AForge.Imaging;
-using AForge.Imaging.Textures;
+using Accord.Imaging;
+using Accord.Imaging.Textures;
 
 namespace SampleApp
 {

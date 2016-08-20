@@ -5,7 +5,7 @@
 // LumenWorks.Framework.IO.CSV.CsvReader
 // Copyright (c) 2005 Sébastien Lorion
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 // This class has been based on the original work by Sébastien Lorion, originally
@@ -125,6 +125,17 @@ namespace Accord.IO
 
 
 
+        /// <summary>
+        ///   Initializes a new instance of the CsvReader class.
+        /// </summary>
+        /// 
+        /// <param name="path">The path for the CSV file.</param>
+        /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
+        /// 
+        public CsvReader(string path, bool hasHeaders)
+            : this(new StreamReader(path), hasHeaders, DefaultDelimiter, DefaultBufferSize)
+        {
+        }
 
         /// <summary>
         ///   Initializes a new instance of the CsvReader class.
@@ -495,6 +506,58 @@ namespace Accord.IO
             return lines;
         }
 
+        /// <summary>
+        ///   Reads the entire stream into a multi-dimensional matrix.
+        /// </summary>
+        /// 
+        public double[,] ToMatrix()
+        {
+            return ToMatrix<double>();
+        }
+
+        /// <summary>
+        ///   Reads the entire stream into a multi-dimensional matrix.
+        /// </summary>
+        /// 
+        public T[,] ToMatrix<T>()
+        {
+            var lines = ReadToEnd();
+            var m = new T[lines.Count, lines[0].Length];
+
+            for (int i = 0; i < lines.Count; i++)
+                for (int j = 0; j < lines[i].Length; j++)
+                    m[i, j] = (T)System.Convert.ChangeType(lines[i][j], typeof(T));
+
+            return m;
+        }
+
+        /// <summary>
+        ///   Reads the entire stream into a jagged matrix.
+        /// </summary>
+        /// 
+        public double[][] ToJagged()
+        {
+            return ToJagged<double>();
+        }
+
+        /// <summary>
+        ///   Reads the entire stream into a jagged matrix.
+        /// </summary>
+        /// 
+        public T[][] ToJagged<T>()
+        {
+            var lines = ReadToEnd();
+            var m = new T[lines.Count][];
+
+            for (int i = 0; i < lines.Count; i++)
+            {
+                m[i] = new T[lines[0].Length];
+                for (int j = 0; j < lines[i].Length; j++)
+                    m[i][j] = (T)System.Convert.ChangeType(lines[i][j], typeof(T));
+            }
+
+            return m;
+        }
 
         /// <summary>
         ///   Gets the field with the specified name and record position. <see cref="M:hasHeaders"/> must be <see langword="true"/>.

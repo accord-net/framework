@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,6 +28,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
+    using Accord.Math.Random;
 
     /// <summary>
     ///   Univariate general discrete distribution, also referred as the
@@ -87,8 +88,14 @@ namespace Accord.Statistics.Distributions.Univariate
     /// </example>
     /// 
     [Serializable]
-    public class GeneralDiscreteDistribution : UnivariateDiscreteDistribution,
+    public sealed class GeneralDiscreteDistribution : UnivariateDiscreteDistribution,
+        IUnivariateFittableDistribution,
         IFittableDistribution<double, GeneralDiscreteOptions>,
+        IFittableDistribution<double[], GeneralDiscreteOptions>,
+        IFittableDistribution<int, GeneralDiscreteOptions>,
+        IFittable<double[], GeneralDiscreteOptions>,
+        IFittable<double, GeneralDiscreteOptions>,
+        IFittable<int, GeneralDiscreteOptions>,
         ISampleableDistribution<int>, ISampleableDistribution<double>
     {
 
@@ -102,6 +109,28 @@ namespace Accord.Statistics.Distributions.Univariate
         private double? entropy;
         private int? mode;
 
+        private bool log = false;
+
+
+        /// <summary>
+        ///   Constructs a new generic discrete distribution.
+        /// </summary>
+        /// 
+        /// <param name="probabilities">
+        ///   The frequency of occurrence for each integer value in the
+        ///   distribution. The distribution is assumed to begin in the
+        ///   interval defined by start up to size of this vector.</param>
+        /// <param name="logarithm">
+        ///   True if the distribution should be represented using logarithms; false otherwise.
+        /// </param>
+        ///   
+        public GeneralDiscreteDistribution(bool logarithm, params double[] probabilities)
+        {
+            if (probabilities == null)
+                throw new ArgumentNullException("probabilities");
+
+            initialize(0, probabilities, logarithm);
+        }
 
         /// <summary>
         ///   Constructs a new generic discrete distribution.
@@ -117,10 +146,10 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   
         public GeneralDiscreteDistribution(int start, params double[] probabilities)
         {
-            if (probabilities == null) 
+            if (probabilities == null)
                 throw new ArgumentNullException("probabilities");
 
-            initialize(start, probabilities);
+            initialize(start, probabilities, false);
         }
 
         /// <summary>
@@ -134,10 +163,13 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The number of discrete values within the distribution.
         ///   The distribution is assumed to belong to the interval
         ///   [start, start + symbols].</param>
+        /// <param name="logarithm">
+        ///   True if the distribution should be represented using logarithms; false otherwise.
+        /// </param>
         ///   
-        public GeneralDiscreteDistribution(int start, int symbols)
+        public GeneralDiscreteDistribution(int start, int symbols, bool logarithm = false)
         {
-            initialize(start, symbols);
+            initialize(start, symbols, logarithm);
         }
 
         /// <summary>
@@ -162,10 +194,14 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The number of discrete values within the distribution.
         ///   The distribution is assumed to belong to the interval
         ///   [start, start + symbols].</param>
+        /// <param name="logarithm">
+        ///   True if the distribution should be represented using logarithms; false otherwise.
+        /// </param>
         ///   
-        public GeneralDiscreteDistribution(int symbols)
-            : this(0, symbols)
+        public GeneralDiscreteDistribution(int symbols, bool logarithm = false)
+            : this(0, symbols, logarithm)
         {
+            this.LogProbabilityMassFunction(symbols);
         }
 
         /// <summary>
@@ -201,6 +237,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public double this[int i]
         {
             get { return probabilities[i]; }
+            set { probabilities[i] = value; }
         }
 
         /// <summary>
@@ -233,13 +270,21 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Gets the probabilities associated
-        ///   with each discrete variable value.
+        ///   Gets the probabilities associated with each discrete variable value.
+        ///   Note: if the frequencies in this property are manually changed, the
+        ///   rest of the class properties (Mode, Mean, ...) will not be automatically
+        ///   updated to reflect the actual inserted values.
         /// </summary>
         /// 
         public double[] Frequencies
         {
             get { return probabilities; }
+            set
+            {
+                if (!probabilities.DimensionEquals(value))
+                    throw new DimensionMismatchException("value");
+                probabilities = value;
+            }
         }
 
         /// <summary>
@@ -252,9 +297,18 @@ namespace Accord.Statistics.Distributions.Univariate
             {
                 if (!mean.HasValue)
                 {
-                    mean = start;
-                    for (int i = 0; i < probabilities.Length; i++)
-                        mean += i * probabilities[i];
+                    if (log)
+                    {
+                        mean = start;
+                        for (int i = 0; i < probabilities.Length; i++)
+                            mean += i * Math.Exp(probabilities[i]);
+                    }
+                    else
+                    {
+                        mean = start;
+                        for (int i = 0; i < probabilities.Length; i++)
+                            mean += i * probabilities[i];
+                    }
                 }
                 return mean.Value;
             }
@@ -272,12 +326,23 @@ namespace Accord.Statistics.Distributions.Univariate
                 {
                     double m = Mean;
                     double v = 0;
-                    for (int i = 0; i < probabilities.Length; i++)
-                    {
-                        double d = i + start - m;
-                        v += probabilities[i] * (d * d);
-                    }
 
+                    if (log)
+                    {
+                        for (int i = 0; i < probabilities.Length; i++)
+                        {
+                            double d = i + start - m;
+                            v += Math.Exp(probabilities[i]) * (d * d);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < probabilities.Length; i++)
+                        {
+                            double d = i + start - m;
+                            v += probabilities[i] * (d * d);
+                        }
+                    }
                     this.variance = v;
                 }
                 return variance.Value;
@@ -293,21 +358,7 @@ namespace Accord.Statistics.Distributions.Univariate
             get
             {
                 if (!mode.HasValue)
-                {
-                    double max = 0;
-                    int imax = 0;
-                    for (int i = 0; i < probabilities.Length; i++)
-                    {
-                        if (probabilities[i] >= max)
-                        {
-                            max = probabilities[i];
-                            imax = i;
-                        }
-                    }
-
-                    mode = imax;
-                }
-
+                    mode = probabilities.ArgMax();
                 return mode.Value;
             }
         }
@@ -324,8 +375,16 @@ namespace Accord.Statistics.Distributions.Univariate
                 if (!entropy.HasValue)
                 {
                     entropy = 0.0;
-                    for (int i = 0; i < probabilities.Length; i++)
-                        entropy -= probabilities[i] * System.Math.Log(probabilities[i]);
+                    if (log)
+                    {
+                        for (int i = 0; i < probabilities.Length; i++)
+                            entropy -= Math.Exp(probabilities[i]) * System.Math.Log(probabilities[i]);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < probabilities.Length; i++)
+                            entropy -= probabilities[i] * System.Math.Log(probabilities[i]);
+                    }
                 }
                 return entropy.Value;
             }
@@ -336,7 +395,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.IntRange" /> containing
+        ///   A <see cref="IntRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -369,17 +428,26 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             int value = k - start;
 
-            if (value < 0) 
+            if (value < 0)
                 return 0;
 
-            if (value >= probabilities.Length) 
+            if (value >= probabilities.Length)
                 return 1.0;
 
-            double sum = 0.0;
-            for (int i = 0; i <= value; i++)
-                sum += probabilities[i];
-
-            return sum;
+            if (log)
+            {
+                double sum = Double.NegativeInfinity;
+                for (int i = 0; i <= value; i++)
+                    sum = Special.LogSum(probabilities[i], sum);
+                return sum;
+            }
+            else
+            {
+                double sum = 0.0;
+                for (int i = 0; i <= value; i++)
+                    sum += probabilities[i];
+                return sum;
+            }
         }
 
 
@@ -407,6 +475,8 @@ namespace Accord.Statistics.Distributions.Univariate
             if (value < 0 || value >= probabilities.Length)
                 return 0;
 
+            if (log)
+                return Math.Exp(probabilities[value]);
             return probabilities[value];
         }
 
@@ -434,6 +504,8 @@ namespace Accord.Statistics.Distributions.Univariate
             if (value < 0 || value >= probabilities.Length)
                 return double.NegativeInfinity;
 
+            if (log)
+                return probabilities[value];
             return Math.Log(probabilities[value]);
         }
 
@@ -445,7 +517,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override int Generate()
         {
-            return Random(probabilities);
+            return Random(probabilities, log: log);
         }
 
         /// <summary>
@@ -453,12 +525,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override int[] Generate(int samples)
+        public override int[] Generate(int samples, int[] result)
         {
-            return Random(probabilities, samples);
+            return Random(probabilities, samples, result, log: log);
         }
 
         /// <summary>
@@ -492,25 +565,291 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="options">Optional arguments which may be used during fitting, such
         ///   as regularization constants and additional parameters.</param>
         ///   
+        public override void Fit(int[] observations, double[] weights, IFittingOptions options)
+        {
+            GeneralDiscreteOptions discreteOptions = options as GeneralDiscreteOptions;
+            if (options != null && discreteOptions == null)
+                throw new ArgumentException("The specified options' type is invalid.", "options");
+
+            Fit(observations, weights, discreteOptions);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
         public void Fit(double[] observations, double[] weights, GeneralDiscreteOptions options)
         {
-            double[] p = new double[probabilities.Length];
+            Fit(observations.ToInt32(), weights, options);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        ///   
+        public void Fit(int[] observations, double[] weights)
+        {
+            Fit(observations, weights, null);
+        }
+
+
+
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A new object that is a copy of this instance.
+        /// </returns>
+        /// 
+        public override object Clone()
+        {
+            var c = new GeneralDiscreteDistribution();
+            c.probabilities = (double[])probabilities.Clone();
+            c.start = start;
+            c.mean = mean;
+            c.entropy = entropy;
+            c.variance = variance;
+            c.log = log;
+            return c;
+        }
+
+
+        private void initialize(int s, double[] prob, bool logarithm)
+        {
+            if (logarithm)
+            {
+                // assert that probabilities sum up to 1.
+                double sum = prob.LogSumExp();
+                if (sum != Double.NegativeInfinity && sum != 0)
+                    prob.Subtract(sum, result: prob);
+            }
+            else
+            {
+                double sum = prob.Sum();
+                if (sum != 0 && sum != 1)
+                    prob.Divide(sum, result: prob);
+            }
+
+            this.start = s;
+            this.probabilities = prob;
+
+            this.log = logarithm;
+            this.mean = null;
+            this.variance = null;
+            this.entropy = null;
+        }
+
+        private void initialize(int s, int symbols, bool logarithm)
+        {
+            this.start = s;
+            this.probabilities = new double[symbols];
+
+            // Initialize with uniform distribution
+            for (int i = 0; i < symbols; i++)
+                probabilities[i] = 1.0 / symbols;
+
+            if (logarithm)
+                probabilities.Log(result: probabilities);
+
+            this.log = logarithm;
+            this.mean = null;
+            this.variance = null;
+            this.entropy = null;
+        }
+
+
+        #region ISamplableDistribution<double> Members
+
+        double[] IRandomNumberGenerator<double>.Generate(int samples)
+        {
+            return Generate(samples).ToDouble();
+        }
+
+        double IRandomNumberGenerator<double>.Generate()
+        {
+            return Generate();
+        }
+
+        #endregion
+
+        /// <summary>
+        ///   Returns a random sample within the given symbol probabilities.
+        /// </summary>
+        /// 
+        /// <param name="probabilities">The probabilities for the discrete symbols.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// 
+        /// <returns>A random sample within the given probabilities.</returns>
+        /// 
+        public static int[] Random(double[] probabilities, int samples)
+        {
+            return Random(probabilities, samples, new int[samples]);
+        }
+
+        /// <summary>
+        ///   Returns a random sample within the given symbol probabilities.
+        /// </summary>
+        /// 
+        /// <param name="probabilities">The probabilities for the discrete symbols.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="log">Pass true if the <paramref name="probabilities"/> vector
+        ///   contains log-probabilities instead of standard probabilities.</param>
+        ///
+        /// <returns>A random sample within the given probabilities.</returns>
+        /// 
+        public static int[] Random(double[] probabilities, int samples, int[] result, bool log = false)
+        {
+            var rand = Accord.Math.Random.Generator.Random;
+
+            if (log)
+            {
+                double[] cumulativeSum = probabilities.Exp();
+                // Use the probabilities to partition the 0,1 interval
+                probabilities.CumulativeSum(result: cumulativeSum);
+
+                for (int j = 0; j < result.Length; j++)
+                {
+                    double u = rand.NextDouble();
+
+                    // Check in which range the values fall into
+                    for (int i = 0; i < cumulativeSum.Length; i++)
+                    {
+                        if (u < cumulativeSum[i])
+                        {
+                            result[j] = i;
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Use the probabilities to partition the 0,1 interval
+                double[] cumulativeSum = probabilities.CumulativeSum();
+
+                for (int j = 0; j < result.Length; j++)
+                {
+                    double u = rand.NextDouble();
+
+                    // Check in which range the values fall into
+                    for (int i = 0; i < cumulativeSum.Length; i++)
+                    {
+                        if (u < cumulativeSum[i])
+                        {
+                            result[j] = i;
+                            break;
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        ///   Returns a random symbol within the given symbol probabilities.
+        /// </summary>
+        /// 
+        /// <param name="probabilities">The probabilities for the discrete symbols.</param>
+        /// <param name="log">Pass true if the <paramref name="probabilities"/> vector
+        ///   contains log-probabilities instead of standard probabilities.</param>
+        /// 
+        /// <returns>A random symbol within the given probabilities.</returns>
+        /// 
+        public static int Random(double[] probabilities, bool log = false)
+        {
+            double uniform = Accord.Math.Random.Generator.Random.NextDouble();
+
+            double cumulativeSum = 0;
+
+            // Use the probabilities to partition the [0,1] interval 
+            //  and check inside which range the values fall into.
+            if (log)
+            {
+                for (int i = 0; i < probabilities.Length; i++)
+                {
+                    cumulativeSum += Math.Exp(probabilities[i]);
+                    if (uniform < cumulativeSum)
+                        return i;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < probabilities.Length; i++)
+                {
+                    cumulativeSum += probabilities[i];
+                    if (uniform < cumulativeSum)
+                        return i;
+                }
+            }
+
+            throw new InvalidOperationException("Generated value is not between 0 and 1.");
+        }
+
+
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
+        public override string ToString(string format, IFormatProvider formatProvider)
+        {
+            var provider = new CSharpArrayFormatProvider(formatProvider,
+                includeTypeName: false, includeSemicolon: false);
+
+            if (log)
+                return String.Format("Categorical(x; p = log({0}))", probabilities.ToString(format, provider));
+            return String.Format("Categorical(x; p = {0})", probabilities.ToString(format, provider));
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public void Fit(int[] observations, double[] weights, GeneralDiscreteOptions options)
+        {
+            var p = new double[probabilities.Length];
 
             // Parse options
             double minimum = 0;
             bool useLaplace = false;
+            double regularization = 0;
 
             if (options != null)
             {
                 minimum = options.Minimum;
                 useLaplace = options.UseLaplaceRule;
+                regularization = options.Regularization;
             }
 
 
             if (weights == null)
             {
                 for (int i = 0; i < observations.Length; i++)
-                    p[(int)observations[i] - start]++;
+                    p[observations[i] - start]++;
             }
             else
             {
@@ -519,16 +858,118 @@ namespace Accord.Statistics.Distributions.Univariate
                         "weights");
 
                 for (int i = 0; i < observations.Length; i++)
-                    p[(int)observations[i] - start] += weights[i] * observations.Length;
+                    p[observations[i] - start] += weights[i] * observations.Length;
+            }
+
+            if (regularization > 0)
+            {
+                for (int i = 0; i < p.Length; i++)
+                {
+                    double prev = log ? Math.Exp(this.probabilities[i]) : probabilities[i];
+                    double num = p[i] + prev * regularization;
+                    double den = p.Length + regularization;
+                    p[i] = num / den;
+                }
             }
 
             if (useLaplace)
             {
                 for (int i = 0; i < p.Length; i++)
-                    p[i]++;
+                    p[i] = (p[i] + 1) / (double)(observations.Length + p.Length);
+            }
+            else if (observations.Length != 0)
+            {
+                for (int i = 0; i < p.Length; i++)
+                    p[i] /= observations.Length;
+            }
+
+            if (minimum != 0)
+            {
+                double sum = 0;
+                for (int i = 0; i < p.Length; i++)
+                {
+                    if (p[i] == 0)
+                        p[i] = options.Minimum;
+                    sum += p[i];
+                }
 
                 for (int i = 0; i < p.Length; i++)
-                    p[i] /= observations.Length + p.Length;
+                    p[i] /= sum;
+            }
+
+            Accord.Diagnostics.Debug.Assert(!p.HasNaN());
+
+            if (log)
+                p.Log(result: p);
+
+            initialize(0, p, log);
+        }
+
+        // TODO: unify both methods 
+        // can only be done after HMM interface normalization is over
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public void Fit(double[][] observations, double[] weights = null, GeneralDiscreteOptions options = null)
+        {
+            // TODO : Model the sum of weights
+            var p = new double[probabilities.Length];
+
+            // Parse options
+            double minimum = 0;
+            bool useLaplace = false;
+            double regularization = 0;
+
+            // TODO: Transfer the common parts to specialized functions
+            if (options != null)
+            {
+                minimum = options.Minimum;
+                useLaplace = options.UseLaplaceRule;
+                regularization = options.Regularization;
+            }
+
+
+            if (weights == null)
+            {
+                for (int i = 0; i < observations.Length; i++)
+                    for (int j = 0; j < observations[i].Length; j++)
+                        p[j] += observations[i][j];
+            }
+            else
+            {
+                if (observations.Length != weights.Length)
+                    throw new ArgumentException("The weight vector should have the same size as the observations",
+                        "weights");
+
+                for (int i = 0; i < observations.Length; i++)
+                    for (int j = 0; j < observations[i].Length; j++)
+                        p[j] += observations[i][j] * weights[i];
+            }
+
+            if (regularization > 0)
+            {
+                for (int i = 0; i < p.Length; i++)
+                {
+                    double prev = log ? Math.Exp(this.probabilities[i]) : probabilities[i];
+                    double num = p[i] + prev * regularization;
+                    double den = p.Length + regularization;
+                    p[i] = num / den;
+                }
+            }
+
+            if (useLaplace)
+            {
+                for (int i = 0; i < p.Length; i++)
+                    p[i] = (p[i] + 1) / (double)(observations.Length + p.Length);
             }
             else
             {
@@ -550,167 +991,66 @@ namespace Accord.Statistics.Distributions.Univariate
                     p[i] /= sum;
             }
 
-            System.Diagnostics.Debug.Assert(!p.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!p.HasNaN());
 
-            initialize(0, p);
+            if (log)
+                p.Log(result: p);
+
+            initialize(0, p, log);
         }
 
         /// <summary>
-        ///   Creates a new object that is a copy of the current instance.
+        ///   Fits the underlying distribution to a given set of observations.
         /// </summary>
         /// 
-        /// <returns>
-        ///   A new object that is a copy of this instance.
-        /// </returns>
-        /// 
-        public override object Clone()
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        ///   
+        public void Fit(double[][] observations)
         {
-            GeneralDiscreteDistribution c = new GeneralDiscreteDistribution();
-
-            c.probabilities = (double[])probabilities.Clone();
-            c.start = start;
-            c.mean = mean;
-            c.entropy = entropy;
-            c.variance = variance;
-
-            return c;
-        }
-
-
-        private GeneralDiscreteDistribution()
-        {
-        }
-
-        private void initialize(int s, double[] prob)
-        {
-            double sum = 0;
-            for (int i = 0; i < prob.Length; i++)
-                sum += prob[i];
-
-            if (sum != 0 && sum != 1)
-            {
-                // assert that probabilities sum up to 1.
-                for (int i = 0; i < prob.Length; i++)
-                    prob[i] /= sum;
-            }
-
-            this.start = s;
-            this.probabilities = prob;
-
-            this.mean = null;
-            this.variance = null;
-            this.entropy = null;
-        }
-
-        private void initialize(int s, int symbols)
-        {
-            this.start = s;
-            this.probabilities = new double[symbols];
-
-            // Initialize with uniform distribution
-            for (int i = 0; i < symbols; i++)
-                probabilities[i] = 1.0 / symbols;
-
-            this.mean = null;
-            this.variance = null;
-            this.entropy = null;
-        }
-
-
-        #region ISamplableDistribution<double> Members
-
-        double[] ISampleableDistribution<double>.Generate(int samples)
-        {
-            return Generate(samples).ToDouble();
-        }
-
-        double ISampleableDistribution<double>.Generate()
-        {
-            return Generate();
-        }
-
-        #endregion
-
-        /// <summary>
-        ///   Returns a random sample within the given symbol probabilities.
-        /// </summary>
-        /// 
-        /// <param name="probabilities">The probabilities for the discrete symbols.</param>
-        /// <param name="samples">The number of samples to generate.</param>
-        /// 
-        /// <returns>A random sample within the given probabilities.</returns>
-        /// 
-        public static int[] Random(double[] probabilities, int samples)
-        {
-            double[] uniform = new double[samples];
-            for (int i = 0; i < uniform.Length; i++)
-                uniform[i] = Accord.Math.Tools.Random.NextDouble();
-
-            // Use the probabilities to partition the 0,1 interval
-            double[] cumulative = probabilities.CumulativeSum();
-
-            int[] result = new int[samples];
-
-            for (int j = 0; j < result.Length; j++)
-            {
-                // Check in which range the values fall into
-                for (int i = 0; i < cumulative.Length - 1; i++)
-                {
-                    if (uniform[j] <= cumulative[i] && uniform[j] > cumulative[i + 1])
-                    {
-                        result[j] = i; break;
-                    }
-                }
-            }
-
-            return result;
+            Fit(observations, null, null);
         }
 
         /// <summary>
-        ///   Returns a random symbol within the given symbol probabilities.
+        ///   Fits the underlying distribution to a given set of observations.
         /// </summary>
         /// 
-        /// <param name="probabilities">The probabilities for the discrete symbols.</param>
-        /// 
-        /// <returns>A random symbol within the given probabilities.</returns>
-        /// 
-        public static int Random(double[] probabilities)
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        ///   
+        public void Fit(double[][] observations, double[] weights)
         {
-            double uniform = Accord.Math.Tools.Random.NextDouble();
-
-            double cumulativeSum = 0;
-
-            // Use the probabilities to partition the [0,1] interval 
-            //  and check inside which range the values fall into.
-
-            for (int i = 0; i < probabilities.Length; i++)
-            {
-                cumulativeSum += probabilities[i];
-
-                if (uniform < cumulativeSum)
-                    return i;
-            }
-
-            throw new InvalidOperationException("Generated value is not between 0 and 1.");
+            Fit(observations, weights, null);
         }
 
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
+        ///   Creates general discrete distributions given a matrix of symbol probabilities.
         /// </summary>
         /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public override string ToString(string format, IFormatProvider formatProvider)
+        public static GeneralDiscreteDistribution[] FromMatrix(double[,] probabilities, bool logarithm = false)
         {
-            var provider = new CSharpArrayFormatProvider(formatProvider,
-                includeTypeName: false, includeSemicolon: false);
-
-            return String.Format("Categorical(x; p = {0})", probabilities
-                .ToString(format, provider));
+            var B = new GeneralDiscreteDistribution[probabilities.Rows()];
+            for (int i = 0; i < B.Length; i++)
+                B[i] = new GeneralDiscreteDistribution(logarithm, probabilities.GetRow(i));
+            return B;
         }
+
+        /// <summary>
+        ///   Creates general discrete distributions given a matrix of symbol probabilities.
+        /// </summary>
+        /// 
+        public static GeneralDiscreteDistribution[] FromMatrix(double[][] probabilities, bool logarithm = false)
+        {
+            var B = new GeneralDiscreteDistribution[probabilities.Rows()];
+            for (int i = 0; i < B.Length; i++)
+                B[i] = new GeneralDiscreteDistribution(logarithm, probabilities[i]);
+            return B;
+        }
+
 
     }
 }

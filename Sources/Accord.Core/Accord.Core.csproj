@@ -67,19 +67,47 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AForge\Delegates.cs" />
-    <Compile Include="AForge\DoublePoint.cs" />
-    <Compile Include="AForge\DoubleRange.cs" />
-    <Compile Include="AForge\EventArgs.cs" />
-    <Compile Include="AForge\Exceptions.cs" />
-    <Compile Include="AForge\IntPoint.cs" />
-    <Compile Include="AForge\IntRange.cs" />
-    <Compile Include="AForge\Parallel.cs" />
-    <Compile Include="AForge\Point.cs" />
-    <Compile Include="AForge\PolishExpression.cs" />
-    <Compile Include="AForge\Range.cs" />
-    <Compile Include="AForge\SystemTools.cs" />
-    <Compile Include="AForge\ThreadSafeRandom.cs" />
+    <Compile Include="AForge.Core\Delegates.cs" />
+    <Compile Include="AForge.Core\DoublePoint.cs" />
+    <Compile Include="Attributes\SourceTypeAttribute.cs" />
+    <Compile Include="Attributes\SerializationBinderAttribute.cs" />
+    <Compile Include="Collections\BinaryNode.cs" />
+    <Compile Include="Collections\BinaryTree.cs" />
+    <Compile Include="Collections\PriorityQueue.cs" />
+    <Compile Include="Collections\PriorityQueueNode.cs" />
+    <Compile Include="Collections\Tree.cs" />
+    <Compile Include="Collections\TreeNode.cs" />
+    <Compile Include="Collections\TreeTraversal.cs" />
+    <Compile Include="Debug.cs" />
+    <Compile Include="InterlockedEx.cs" />
+    <Compile Include="MachineLearning\Classifiers\IClassifier.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiclass\IMulticlassClassifier.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiclass\IMulticlassScoreClassifier.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiclass\IMulticlassLikelihoodClassifier.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multilabel\IMultilabelClassifier.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multilabel\IMultilabelScoreClassifier.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multilabel\IMultilabelLikelihoodClassifier.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiclass\Binary\IBinaryClassifier.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiclass\Binary\IBinaryScoreClassifier.cs" />
+    <Compile Include="MachineLearning\Classifiers\Multiclass\Binary\IBinaryLikelihoodClassifier.cs" />
+    <Compile Include="MachineLearning\Classifiers\Tagging\ITagger.cs" />
+    <Compile Include="MachineLearning\Classifiers\Tagging\ILikelihoodTagger.cs" />
+    <Compile Include="MachineLearning\Classifiers\Tagging\IScoreTagger.cs" />
+    <Compile Include="MachineLearning\ITransform.cs" />
+    <Compile Include="MachineLearning\Regression\IMultipleRegression.cs" />
+    <Compile Include="MachineLearning\Regression\IRegression.cs" />
+    <Compile Include="MachineLearning\Unsupervised\IGenerative.cs" />
+    <Compile Include="Ranges\ByteRange.cs" />
+    <Compile Include="Ranges\DoubleRange.cs" />
+    <Compile Include="AForge.Core\EventArgs.cs" />
+    <Compile Include="AForge.Core\Exceptions.cs" />
+    <Compile Include="AForge.Core\IntPoint.cs" />
+    <Compile Include="Ranges\IntRange.cs" />
+    <Compile Include="AForge.Core\Point.cs" />
+    <Compile Include="AForge.Core\PolishExpression.cs" />
+    <Compile Include="Ranges\Range.cs" />
+    <Compile Include="AForge.Core\SystemTools.cs" />
+    <Compile Include="AForge.Core\ThreadSafeRandom.cs" />
     <Compile Include="Attributes\RealAttribute.cs" />
     <Compile Include="Attributes\IntegerAttribute.cs" />
     <Compile Include="Cast.cs" />
@@ -118,6 +146,10 @@
     <Compile Include="Collections\RedBlackTreeDictionary`2.cs" />
     <Compile Include="Collections\RedBlackTreeNode.cs" />
     <Compile Include="Collections\RedBlackTree`1.cs" />
+    <Compile Include="Ranges\IRange`1.cs" />
+    <Compile Include="Serializer.cs" />
+    <Compile Include="Sparse.cs" />
+    <Compile Include="Sparse`1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.dll.config">
@@ -125,6 +157,9 @@
     </None>
     <None Include="Accord.snk" />
     <None Include="Accord.Core.cd" />
+    <None Include="MachineLearning\Classifiers\Multiclass\Binary\Binary.cd" />
+    <None Include="MachineLearning\Classifiers\Multiclass\Multiclass.cd" />
+    <None Include="MachineLearning\Classifiers\Multilabel\Multilabel.cd" />
     <None Include="Properties\VersionInfo.tt">
       <SubType>Code</SubType>
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -154,6 +189,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

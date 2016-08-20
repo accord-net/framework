@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -134,10 +134,10 @@ namespace Accord.Statistics.Distributions.Multivariate
 
             var chol = new CholeskyDecomposition(inverseScale);
 
-            if (!chol.PositiveDefinite)
+            if (!chol.IsPositiveDefinite)
                 throw new NonPositiveDefiniteMatrixException("scale");
-            if (!chol.Symmetric)
-                throw new NonSymmetricMatrixException("scale");
+            //if (!chol.Symmetric)
+            //    throw new NonSymmetricMatrixException("scale");
 
             double a = Math.Pow(chol.Determinant, v / 2.0);
             double b = Math.Pow(2, (v * size) / 2.0);

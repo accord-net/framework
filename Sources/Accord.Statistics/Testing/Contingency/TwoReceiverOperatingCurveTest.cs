@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -89,8 +89,8 @@ namespace Accord.Statistics.Testing
             double[] Vx2 = curve2.NegativeAccuracies;
             double[] Vy2 = curve2.PositiveAccuracies;
 
-            double covx = Statistics.Tools.Covariance(Vx1, Vx2);
-            double covy = Statistics.Tools.Covariance(Vy1, Vy2);
+            double covx = Measures.Covariance(Vx1, Vx2);
+            double covy = Measures.Covariance(Vy1, Vy2);
             double cov = covx / Vx1.Length + covy / Vy1.Length;
 
             this.EstimatedValue1 = curve1.Area;

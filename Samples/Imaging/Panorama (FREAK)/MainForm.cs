@@ -37,6 +37,8 @@ using Accord.Imaging;
 using Accord.Imaging.Filters;
 using Accord.Math;
 using AForge;
+using Accord.Math.Distances;
+using Accord;
 
 namespace SampleApp
 {
@@ -90,7 +92,7 @@ namespace SampleApp
             }
 
             // Step 2: Match feature points using a k-NN
-            var matcher = new KNearestNeighborMatching<byte[]>(5, Distance.BitwiseHamming);
+            var matcher = new KNearestNeighborMatching<byte[]>(5, new Hamming());
             IntPoint[][] matches = matcher.Match(keyPoints1, keyPoints2);
             
             // Get the two sets of points

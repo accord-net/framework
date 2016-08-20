@@ -35,13 +35,13 @@
 //   http://www.aforgenet.com/framework/
 //
 
+using Accord;
 using Accord.IO;
 using Accord.Math;
 using Accord.Neuro;
 using Accord.Neuro.Learning;
 using AForge;
-using AForge.Controls;
-using AForge.Neuro;
+using Accord.Controls;
 using System;
 using System.Drawing;
 using System.Globalization;
@@ -60,7 +60,7 @@ namespace SampleApp
         private System.Windows.Forms.ColumnHeader yColumnHeader;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.GroupBox groupBox2;
-        private AForge.Controls.Chart chart;
+        private Accord.Controls.Chart chart;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TextBox alphaBox;
         private System.Windows.Forms.Label label2;
@@ -149,7 +149,7 @@ namespace SampleApp
             this.loadDataButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.chart = new AForge.Controls.Chart();
+            this.chart = new Accord.Controls.Chart();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cbNguyenWidrow = new System.Windows.Forms.CheckBox();
             this.neuronsBox = new System.Windows.Forms.TextBox();
@@ -236,8 +236,6 @@ namespace SampleApp
             // 
             this.chart.Location = new System.Drawing.Point(16, 29);
             this.chart.Name = "chart";
-            this.chart.RangeX = ((AForge.Range)(resources.GetObject("chart.RangeX")));
-            this.chart.RangeY = ((AForge.Range)(resources.GetObject("chart.RangeY")));
             this.chart.Size = new System.Drawing.Size(448, 424);
             this.chart.TabIndex = 0;
             // 
@@ -425,6 +423,7 @@ namespace SampleApp
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Approximation";
             this.Text = "Approximation using Multi-Layer Neural Network (Resilient Backpropagation)";
@@ -600,8 +599,8 @@ namespace SampleApp
 
             // prepare learning data
             DoubleRange unit = new DoubleRange(-1, 1);
-            double[][] input = Tools.Scale(from: xRange, to: unit, x: data.GetColumn(0)).ToArray();
-            double[][] output = Tools.Scale(from: yRange, to: unit, x: data.GetColumn(1)).ToArray();
+            double[][] input = data.GetColumn(0).Scale(fromRange: xRange, toRange: unit).ToArray();
+            double[][] output = data.GetColumn(1).Scale(fromRange: yRange, toRange: unit).ToArray();
 
 
             // create multi-layer neural network
@@ -635,8 +634,8 @@ namespace SampleApp
                 {
                     double x = input[j][0];
                     double y = network.Compute(new[] { x })[0];
-                    solution[j, 0] = Tools.Scale(from: unit, to: xRange, x: x);
-                    solution[j, 1] = Tools.Scale(from: unit, to: yRange, x: y);
+                    solution[j, 0] = x.Scale(fromRange: unit, toRange: xRange);
+                    solution[j, 1] = y.Scale(fromRange: unit, toRange: yRange);
                 }
 
                 chart.UpdateDataSeries("solution", solution);

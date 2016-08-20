@@ -45,6 +45,8 @@ using Accord.MachineLearning.VectorMachines.Learning;
 using Accord.Math;
 using Accord.Statistics.Kernels;
 using AForge;
+using Accord;
+using Accord.Math.Distances;
 
 namespace SampleApp
 {
@@ -88,7 +90,7 @@ namespace SampleApp
             // are replicable across application runs. Comment the 
             // following line to generate truly random data splits.
             //
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             cbStrategy.DataSource = Enum.GetValues(typeof(SelectionStrategy));
 
@@ -125,7 +127,7 @@ namespace SampleApp
                 FileInfo[] files = GetFilesByExtensions(classFolder, ".jpg", ".png").ToArray();
 
                 // Shuffle the samples
-                Accord.Statistics.Tools.Shuffle(files);
+                Vector.Shuffle(files);
 
                 for (int i = 0; i < files.Length; i++)
                 {
@@ -197,7 +199,7 @@ namespace SampleApp
                 // Alternative creation using the FREAK detector
 
                 // Create a Binary-Split clustering algorithm
-                var kmodes = new KModes<byte>(numberOfWords, Distance.BitwiseHamming);
+                var kmodes = new KModes<byte>(numberOfWords, new Hamming());
                 var detector = new FastRetinaKeypointDetector();
 
                 // Create bag-of-words (BoW) with the given algorithm
@@ -354,7 +356,7 @@ namespace SampleApp
 
             IKernel kernel = getKernel();
 
-            numComplexity.Value = (decimal)SequentialMinimalOptimization.EstimateComplexity(kernel, inputs);
+            numComplexity.Value = (decimal)kernel.EstimateComplexity(inputs);
         }
 
         /// <summary>

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -110,6 +110,15 @@ namespace Accord.Statistics.Links
         {
             double z = B * x + A;
             return 1.0 / (1.0 + Math.Exp(-z));
+        }
+
+        /// <summary>The logarithm of the inverse of the link function.</summary>
+        /// <param name="x">A transformed value.</param>
+        /// <returns>The log of the reverse transformed value.</returns>
+        public double Log(double x)
+        {
+            double z = B * x + A;
+            return Math.Log(1.0) - Math.Log(1.0 + Math.Exp(-z)); // TODO: Log 1+z
         }
 
         /// <summary>

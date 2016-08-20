@@ -6,10 +6,11 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Genetic
+namespace Accord.Genetic
 {
     using System;
     using AForge;
+    using Accord.Math.Random;
 
     /// <summary>
     /// Genetic programming gene, which represents simple arithmetic functions and arguments.
@@ -51,16 +52,11 @@ namespace AForge.Genetic
         protected const int FunctionsCount = 4;
 
         // gene type
-        private GPGeneType	type;
+        private GPGeneType type;
         // total amount of variables in the task which is supposed to be solved
         private int variablesCount;
         //
         private int val;
-
-        /// <summary>
-        /// Random number generator for chromosoms generation.
-        /// </summary>
-        protected static ThreadSafeRandom rand = new ThreadSafeRandom( );
 
         /// <summary>
         /// Gene type.
@@ -82,7 +78,7 @@ namespace AForge.Genetic
         /// 
         public int ArgumentsCount
         {
-            get { return ( type == GPGeneType.Argument ) ? 0 : 2; }
+            get { return (type == GPGeneType.Argument) ? 0 : 2; }
         }
 
         /// <summary>
@@ -108,7 +104,7 @@ namespace AForge.Genetic
         /// <remarks><para>The constructor creates randomly initialized gene with random type
         /// and value by calling <see cref="Generate( )"/> method.</para></remarks>
         /// 
-        public SimpleGeneFunction( int variablesCount ) : this( variablesCount, true ) { }
+        public SimpleGeneFunction(int variablesCount) : this(variablesCount, true) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleGeneFunction"/> class.
@@ -121,20 +117,20 @@ namespace AForge.Genetic
         /// <remarks><para>The constructor creates randomly initialized gene with random
         /// value and preset gene type.</para></remarks>
         /// 
-        public SimpleGeneFunction( int variablesCount, GPGeneType type )
+        public SimpleGeneFunction(int variablesCount, GPGeneType type)
         {
             this.variablesCount = variablesCount;
             // generate the gene value
-            Generate( type );
+            Generate(type);
         }
 
         // Private constructor
-        private SimpleGeneFunction( int variablesCount, bool random )
+        private SimpleGeneFunction(int variablesCount, bool random)
         {
             this.variablesCount = variablesCount;
             // generate the gene value
-            if ( random )
-                Generate( );
+            if (random)
+                Generate();
         }
 
         /// <summary>
@@ -143,12 +139,12 @@ namespace AForge.Genetic
         /// 
         /// <returns>Returns string representation of the gene.</returns>
         /// 
-        public override string ToString( )
+        public override string ToString()
         {
-            if ( type == GPGeneType.Function )
+            if (type == GPGeneType.Function)
             {
                 // get function string representation
-                switch ( (Functions) val )
+                switch ((Functions)val)
                 {
                     case Functions.Add:			// addition
                         return "+";
@@ -165,7 +161,7 @@ namespace AForge.Genetic
             }
 
             // get argument string representation
-            return string.Format( "${0}", val );
+            return string.Format("${0}", val);
         }
 
         /// <summary>
@@ -174,10 +170,10 @@ namespace AForge.Genetic
         /// 
         /// <remarks><para>The method clones the chromosome returning the exact copy of it.</para></remarks>
         /// 
-        public IGPGene Clone( )
+        public IGPGene Clone()
         {
             // create new gene ...
-            SimpleGeneFunction clone = new SimpleGeneFunction( variablesCount, false );
+            SimpleGeneFunction clone = new SimpleGeneFunction(variablesCount, false);
             // ... with the same type and value
             clone.type = type;
             clone.val = val;
@@ -191,10 +187,10 @@ namespace AForge.Genetic
         /// 
         /// <remarks><para>The method randomizes the gene, setting its type and value randomly.</para></remarks>
         /// 
-        public void Generate( )
+        public void Generate()
         {
             // give more chance to function
-            Generate( ( rand.Next( 4 ) == 3 ) ? GPGeneType.Argument : GPGeneType.Function );
+            Generate((Generator.Random.Next(4) == 3) ? GPGeneType.Argument : GPGeneType.Function);
         }
 
         /// <summary>
@@ -206,12 +202,12 @@ namespace AForge.Genetic
         /// <remarks><para>The method randomizes a gene, setting its value randomly, but type
         /// is set to the specified one.</para></remarks>
         ///
-        public void Generate( GPGeneType type )
+        public void Generate(GPGeneType type)
         {
             // gene type
             this.type = type;
             // gene value
-            val = rand.Next( ( type == GPGeneType.Function ) ? FunctionsCount : variablesCount );
+            val = Generator.Random.Next((type == GPGeneType.Function) ? FunctionsCount : variablesCount);
 
         }
 
@@ -224,9 +220,9 @@ namespace AForge.Genetic
         /// but not with particular gene class.</para>
         /// </remarks>
         /// 
-        public IGPGene CreateNew( )
+        public IGPGene CreateNew()
         {
-            return new SimpleGeneFunction( variablesCount );
+            return new SimpleGeneFunction(variablesCount);
         }
 
         /// <summary>
@@ -240,9 +236,9 @@ namespace AForge.Genetic
         /// but not with particular gene class.</para>
         /// </remarks>
         /// 
-        public IGPGene CreateNew( GPGeneType type )
+        public IGPGene CreateNew(GPGeneType type)
         {
-            return new SimpleGeneFunction( variablesCount, type );
+            return new SimpleGeneFunction(variablesCount, type);
         }
     }
 }

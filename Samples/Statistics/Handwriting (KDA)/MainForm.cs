@@ -300,7 +300,7 @@ namespace Handwriting.KDA
                 double min = responses.Min();
 
                 for (int i = 0; i < responses.Length; i++)
-                    responses[i] = Tools.Scale(min, max, 0, 1, responses[i]);
+                    responses[i] = responses[i].Scale(min, max, 0, 1);
 
                 // Create the bar graph to show the relative responses
                 CreateBarGraph(graphClassification, responses);

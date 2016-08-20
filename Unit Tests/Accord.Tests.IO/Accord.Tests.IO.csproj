@@ -33,18 +33,22 @@
     <Optimize>false</Optimize>
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net35\</OutputPath>
     <DefineConstants>TRACE;NET35</DefineConstants>
+    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net40\</OutputPath>
     <DefineConstants>TRACE;NET40</DefineConstants>
+    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET45|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net45\</OutputPath>
     <DefineConstants>TRACE;NET45</DefineConstants>
+    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
@@ -92,6 +96,10 @@
     <ProjectReference Include="..\..\Sources\Accord.IO\Accord.IO.csproj">
       <Project>{63184EBD-6B28-4066-AAEE-5B99431E31F4}</Project>
       <Name>Accord.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
+      <Project>{f718e9a8-db62-4785-8c49-4333a60d256a}</Project>
+      <Name>Accord.Math</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

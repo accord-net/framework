@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -39,23 +39,6 @@ namespace Accord.Tests.Statistics
     public class GenericHiddenMarkovModelTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ConstructorTest()
         {
@@ -72,8 +55,8 @@ namespace Accord.Tests.Statistics
 
             pi = new double[] { 1, 0 };
 
-            var logA = Matrix.Log(A);
-            var logPi = Matrix.Log(pi);
+            var logA = A.Log();
+            var logPi = pi.Log();
 
             Assert.AreEqual(2, hmm.States);
             Assert.AreEqual(1, hmm.Dimension);
@@ -93,8 +76,8 @@ namespace Accord.Tests.Statistics
 
             pi = new double[] { 1, 0 };
 
-            logA = Matrix.Log(A);
-            logPi = Matrix.Log(pi);
+            logA = A.Log();
+            logPi = pi.Log();
 
             Assert.AreEqual(2, hmm.States);
             Assert.AreEqual(1, hmm.Dimension);
@@ -122,8 +105,8 @@ namespace Accord.Tests.Statistics
 
             hmm = new HiddenMarkovModel<GeneralDiscreteDistribution>(A, B, pi);
 
-            logA = Matrix.Log(A);
-            logPi = Matrix.Log(pi);
+            logA = A.Log();
+            logPi = pi.Log();
 
             Assert.AreEqual(2, hmm.States);
             Assert.AreEqual(1, hmm.Dimension);
@@ -203,8 +186,8 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(b, e);
             }
 
-            A = Matrix.Log(A);
-            pi = Matrix.Log(pi);
+            A = A.Log();
+            pi = pi.Log();
             Assert.AreEqual(2, hmm.States);
             Assert.AreEqual(2, hmm.Dimension);
             Assert.AreEqual(2, hmm.Emissions.Length);
@@ -215,10 +198,10 @@ namespace Accord.Tests.Statistics
         [Test]
         public void ConstructorTest_RandomEquals()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
             var dhmm = new HiddenMarkovModel(10, 50, true);
 
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
             var chmm = HiddenMarkovModel.CreateGeneric(10, 50, true);
 
             for (int i = 0; i < dhmm.Probabilities.Length; i++)
@@ -230,7 +213,7 @@ namespace Accord.Tests.Statistics
 
             for (int i = 0; i < dhmm.States; i++)
                 for (int j = 0; j < dhmm.Symbols; j++)
-                    Assert.AreEqual(dhmm.Emissions[i, j], Math.Log(chmm.Emissions[i][j]), 1e-10);
+                    Assert.AreEqual(dhmm.Emissions[i, j], chmm.Emissions[i][j], 1e-10);
         }
 
         [Test]
@@ -517,6 +500,11 @@ namespace Accord.Tests.Statistics
 
             var hmm = HiddenMarkovModel.CreateGeneric(3, 6);
 
+            Assert.AreEqual(3, hmm.States);
+            Assert.AreEqual(3, hmm.Emissions.Length);
+            for (int i = 0; i < 3; i++)
+                Assert.AreEqual(6, hmm.Emissions[i].Length);
+
             var teacher = new BaumWelchLearning<GeneralDiscreteDistribution>(hmm) { Iterations = 100, Tolerance = 0 };
             double ll = teacher.Run(sequences);
 
@@ -749,7 +737,7 @@ namespace Accord.Tests.Statistics
             //
             int[] states = model.Decode(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 });
 
-            Assert.IsTrue(states.IsEqual(0, 1, 0, 1, 0, 1));
+            Assert.IsTrue(states.IsEqual(new[] { 0, 1, 0, 1, 0, 1 }));
 
             Assert.AreEqual(1.496360383340358, likelihood, 1e-10);
             Assert.AreEqual(0.8798587580029778, a1, 1e-10);
@@ -778,7 +766,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2, model.Transitions.GetLength(0));
             Assert.AreEqual(2, model.Transitions.GetLength(1));
 
-            var A = Matrix.Exp(model.Transitions);
+            var A = model.Transitions.Exp();
             Assert.AreEqual(0, A[0, 0], 1e-16);
             Assert.AreEqual(1, A[0, 1], 1e-16);
             Assert.AreEqual(1, A[1, 0], 1e-16);
@@ -847,7 +835,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(state1.Variance < 1e-30);
             Assert.IsTrue(state2.Variance < 1e-30);
 
-            var A = Matrix.Exp(model.Transitions);
+            var A = model.Transitions.Exp();
             Assert.AreEqual(2, A.GetLength(0));
             Assert.AreEqual(2, A.GetLength(1));
             Assert.AreEqual(0, A[0, 0]);
@@ -1405,9 +1393,10 @@ namespace Accord.Tests.Statistics
 
         [Test]
         [Category("Intensive")]
+        [Ignore]
         public void BigSampleLearnTest13()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             var list = new double[1000000][][];
 
@@ -1728,12 +1717,11 @@ namespace Accord.Tests.Statistics
 
             double prediction = hmm.Predict(input, out mixture);
 
+            Assert.AreEqual(5, prediction);
 
             // At this point, prediction probabilities
             // should be equilibrated around 3, 4 and 5
             Assert.AreEqual(4, mixture.Mean, 0.1);
-            Assert.IsFalse(double.IsNaN(mixture.Mean));
-
 
             double[] input2 = { 1 };
 
@@ -1814,7 +1802,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.00000000015756235243, py, 1e-16);
 
 
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
             var u = new UniformDiscreteDistribution(0, 6);
 
             int[] sequence = u.Generate(1000);

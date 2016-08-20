@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="DeepLearning.NetworkLayer"
+﻿<UserControl x:Class="SampleApp.NetworkLayer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="251" d:DesignWidth="122" xmlns:my="clr-namespace:DeepLearning"
+             d:DesignHeight="251" d:DesignWidth="122" xmlns:my="clr-namespace:SampleApp"
              MaxWidth="100" BorderThickness="1">
     <Grid VerticalAlignment="Center">
         <WrapPanel HorizontalAlignment="Stretch" Name="stackPanel1" VerticalAlignment="Center" Orientation="Vertical" Margin="10,0">

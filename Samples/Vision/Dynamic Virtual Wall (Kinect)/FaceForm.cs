@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Accord.Controls.Vision;
 
-namespace KinectController
+namespace SampleApp
 {
     public partial class FaceForm : Form
     {

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     using System.Threading.Tasks;
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Markov.Topology;
+    using Accord.Math;
 
     /// <summary>
     ///   Multiple-trials Baum-Welch learning.
@@ -38,8 +39,10 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   wherever a standard <see cref="BaumWelchLearning"/> class would be used.
     /// </remarks>
     /// 
+#pragma warning disable 612, 618
     public class MultipleBaumWelchLearning : IUnsupervisedLearning, IConvergenceLearning,
         IUnsupervisedLearning<int[]>
+#pragma warning restore 612, 618
     {
 
         private HiddenMarkovModel template;
@@ -237,9 +240,9 @@ namespace Accord.Statistics.Models.Markov.Learning
         
         private static void copy(HiddenMarkovModel from, HiddenMarkovModel to)
         {
-            Array.Copy(from.Transitions, to.Transitions, to.Transitions.Length);
-            Array.Copy(from.Emissions, to.Emissions, to.Emissions.Length);
-            Array.Copy(from.Probabilities, to.Probabilities, to.Probabilities.Length);
+            from.LogTransitions.CopyTo(to.LogTransitions);
+            from.LogEmissions.CopyTo(to.LogEmissions);
+            from.LogInitial.CopyTo(to.LogInitial);
         }
 #endif
 

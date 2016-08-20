@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -126,7 +126,7 @@ namespace Accord.Statistics.Distributions.Fitting
                 LogGamma[k] = new double[N];
 
             // Clone the current distribution values
-            double[] logPi = Matrix.Log(coefficients);
+            double[] logPi = coefficients.Log();
             var pdf = new IFittableDistribution<TObservation>[components.Length];
 
             for (int i = 0; i < components.Length; i++)
@@ -238,19 +238,13 @@ namespace Accord.Statistics.Distributions.Fitting
             TObservation[] observations)
         {
             double logLikelihood = 0.0;
-           
+
 #if NET35
             for (int i = 0; i < observations.Length; i++)
             {
                 var x = observations[i];
-
-                double sum = 0.0;
-
                 for (int k = 0; k < lnpi.Length; k++)
-                        sum = Special.LogSum(sum, lnpi[k] + pdf[k].LogProbabilityFunction(x));
-
-                if (sum > 0) 
-                    logLikelihood += Math.Log(sum);
+                    logLikelihood = Special.LogSum(logLikelihood, lnpi[k] + pdf[k].LogProbabilityFunction(x));
             }
 #else
             object syncObj = new object();
@@ -279,8 +273,8 @@ namespace Accord.Statistics.Distributions.Fitting
             );
 #endif
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
-            
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
+
             return logLikelihood;
         }
 

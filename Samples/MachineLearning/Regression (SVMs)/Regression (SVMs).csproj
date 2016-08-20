@@ -8,7 +8,7 @@
     <ProjectGuid>{9C863BCC-46C3-4B54-9B92-B4CC32812C76}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Regression.SVMs</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Regression %28SVMs%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -81,6 +81,9 @@
     </Reference>
     <Reference Include="Accord.Math">
       <HintPath>..\..\..\Release\net40\Accord.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Math.Core">
+      <HintPath>..\..\..\Release\net40\Accord.Math.Core.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Statistics">
       <HintPath>..\..\..\Release\net40\Accord.Statistics.dll</HintPath>

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 // Copyright © Peter Kovesi, 1995-2010
@@ -57,7 +57,7 @@ namespace Accord.Imaging
     using System.Linq;
     using Accord.Math;
     using AForge;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging.Filters;
 
     /// <summary>
     ///   Maximum cross-correlation feature point matching algorithm.
@@ -244,8 +244,8 @@ namespace Accord.Imaging
 
 
             // Select points with maximum correlation measures
-            int[] colp2forp1; Matrix.Max(correlationMatrix, 1, out colp2forp1);
-            int[] rowp1forp2; Matrix.Max(correlationMatrix, 0, out rowp1forp2);
+            int[] colp2forp1 = Matrix.ArgMax(correlationMatrix, 1);
+            int[] rowp1forp2 = Matrix.ArgMax(correlationMatrix, 0);
 
             // Construct the lists of matched point indices
             int rows = correlationMatrix.GetLength(0);
@@ -273,8 +273,8 @@ namespace Accord.Imaging
             }
 
             // Extract matched points from original arrays
-            var m1 = points1.Submatrix(p1ind.ToArray());
-            var m2 = points2.Submatrix(p2ind.ToArray());
+            var m1 = points1.Get(p1ind.ToArray());
+            var m2 = points2.Get(p2ind.ToArray());
 
             // Create matching point pairs
             return new IntPoint[][] { m1, m2 };
@@ -381,7 +381,7 @@ namespace Accord.Imaging
                         distances[i] = dx * dx + dy * dy;
                     }
 
-                    candidates = idx2.Submatrix(Matrix.Find(distances, d => d < m));
+                    candidates = idx2.Get(Matrix.Find(distances, d => d < m));
                 }
 
 

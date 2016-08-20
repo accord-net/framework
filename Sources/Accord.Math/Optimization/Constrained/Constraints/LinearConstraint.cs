@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -59,6 +59,12 @@ namespace Accord.Math.Optimization
     /// 
     public class LinearConstraint : IConstraint
     {
+        /// <summary>
+        ///   Gets the default constant violation tolerance (1e-12).
+        /// </summary>
+        /// 
+        public const double DefaultTolerance = 1e-12;
+
         private int[] indices;
         private double[] scalars;
 
@@ -70,7 +76,7 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the index of the variables (in respective to the
-        ///   object function index) of the variables participating
+        ///   objective function) of the variables participating
         ///   in this constraint.
         /// </summary>
         /// 
@@ -128,6 +134,11 @@ namespace Accord.Math.Optimization
         /// 
         public double Tolerance { get; set; }
 
+        private LinearConstraint()
+        {
+            this.Tolerance = DefaultTolerance;
+        }
+
         /// <summary>
         ///   Constructs a new linear constraint.
         /// </summary>
@@ -135,10 +146,11 @@ namespace Accord.Math.Optimization
         /// <param name="numberOfVariables">The number of variables in the constraint.</param>
         /// 
         public LinearConstraint(int numberOfVariables)
+            : this()
         {
             this.NumberOfVariables = numberOfVariables;
-            this.indices = Matrix.Indices(0, numberOfVariables);
-            this.scalars = Matrix.Vector(numberOfVariables, 1.0);
+            this.indices = Vector.Range(numberOfVariables);
+            this.scalars = Vector.Ones(numberOfVariables);
             this.ShouldBe = ConstraintType.GreaterThanOrEqualTo;
 
             this.Function = compute;
@@ -153,9 +165,10 @@ namespace Accord.Math.Optimization
         /// how variables should be combined in the constraint.</param>
         /// 
         public LinearConstraint(params double[] coefficients)
+            : this()
         {
             this.NumberOfVariables = coefficients.Length;
-            this.indices = Matrix.Indices(0, coefficients.Length);
+            this.indices = Vector.Range(0, coefficients.Length);
             this.CombinedAs = coefficients;
             this.ShouldBe = ConstraintType.GreaterThanOrEqualTo;
 
@@ -176,6 +189,7 @@ namespace Accord.Math.Optimization
         ///   be parsed. Default is CultureInfo.InvariantCulture.</param>
         /// 
         public LinearConstraint(IObjectiveFunction function, string constraint, CultureInfo format)
+            : this()
         {
             parseString(function, constraint, format);
 
@@ -207,6 +221,7 @@ namespace Accord.Math.Optimization
         ///   this constraint in the form of a lambda expression.</param>
         /// 
         public LinearConstraint(IObjectiveFunction function, Expression<Func<bool>> constraint)
+            : this()
         {
             parseExpression(function, constraint);
 
@@ -347,7 +362,7 @@ namespace Accord.Math.Optimization
 
             string f = constraint.Replace("*", String.Empty).Replace(" ", String.Empty);
 
-            if (f[0] != '-' || f[0] != '+')
+            if (f[0] != '-' && f[0] != '+')
                 f = f.Insert(0, "+");
 
             ConstraintType type;

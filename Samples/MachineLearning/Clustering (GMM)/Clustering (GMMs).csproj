@@ -8,7 +8,7 @@
     <ProjectGuid>{6EE43C30-5232-4B18-802B-7D536EA4DCCE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Clustering.GMMs</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Clustering %28GMMs%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

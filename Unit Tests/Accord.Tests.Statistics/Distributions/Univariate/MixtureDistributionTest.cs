@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Math;
+    using Accord.Statistics;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
     using NUnit.Framework;
@@ -71,19 +72,19 @@ namespace Accord.Tests.Statistics
 
 
             Assert.AreEqual(3.5, mean);
-            Assert.AreEqual(3.4999998506015895, median);
-            Assert.AreEqual(3.25, var);
+            Assert.AreEqual(3.4999998506015895, median, 1e-10);
+            Assert.AreEqual(3.25, var, 1e-10);
             Assert.AreEqual(0.91373394208601633, chf, 1e-10);
-            Assert.AreEqual(0.59897597553494908, cdf);
-            Assert.AreEqual(0.14499174984363708, pmf1);
-            Assert.AreEqual(0.19590437513747333, pmf2);
-            Assert.AreEqual(0.13270883471234715, pmf3);
-            Assert.AreEqual(-1.8165661905848629, lpmf);
-            Assert.AreEqual(0.40541978256972522, hf);
-            Assert.AreEqual(0.40102402446505092, ccdf);
-            Assert.AreEqual(1.5866611690305092, icdf1);
-            Assert.AreEqual(3.1968506765456883, icdf2);
-            Assert.AreEqual(5.6437596300843076, icdf3);
+            Assert.AreEqual(0.59897597553494908, cdf, 1e-10);
+            Assert.AreEqual(0.14499174984363708, pmf1, 1e-10);
+            Assert.AreEqual(0.19590437513747333, pmf2, 1e-10);
+            Assert.AreEqual(0.13270883471234715, pmf3, 1e-10);
+            Assert.AreEqual(-1.8165661905848629, lpmf, 1e-10);
+            Assert.AreEqual(0.40541978256972522, hf, 1e-10);
+            Assert.AreEqual(0.40102402446505092, ccdf, 1e-10);
+            Assert.AreEqual(1.5866611690305092, icdf1, 1e-10);
+            Assert.AreEqual(3.1968506765456883, icdf2, 1e-10);
+            Assert.AreEqual(5.6437596300843076, icdf3, 1e-10);
             Assert.AreEqual("Mixture(x; 0.5*N(x; μ = 2, σ² = 1) + 0.5*N(x; μ = 5, σ² = 1))", str);
 
             Assert.IsFalse(double.IsNaN(icdf1));
@@ -92,12 +93,12 @@ namespace Accord.Tests.Statistics
             var range2 = mix.GetRange(0.99);
             var range3 = mix.GetRange(0.01);
 
-            Assert.AreEqual(0.71839556342582434, range1.Min);
-            Assert.AreEqual(6.2816044312576365, range1.Max);
-            Assert.AreEqual(-0.053753308211290443, range2.Min);
-            Assert.AreEqual(7.0537533150666105, range2.Max);
-            Assert.AreEqual(-0.053753308211289402, range3.Min);
-            Assert.AreEqual(7.0537533150666105, range3.Max);
+            Assert.AreEqual(0.71839556342582434, range1.Min, 1e-10);
+            Assert.AreEqual(6.2816044312576365, range1.Max, 1e-10);
+            Assert.AreEqual(-0.053753308211290443, range2.Min, 1e-10);
+            Assert.AreEqual(7.0537533150666105, range2.Max, 1e-10);
+            Assert.AreEqual(-0.053753308211289402, range3.Min, 1e-10);
+            Assert.AreEqual(7.0537533150666105, range3.Max, 1e-10);
         }
 
         [Test]
@@ -128,7 +129,7 @@ namespace Accord.Tests.Statistics
             double mean = mix.Mean;     // 3.5
 
             Assert.AreEqual(3.5, mean);
-            Assert.AreEqual(3.4999998506015895, median);
+            Assert.AreEqual(3.4999998506015895, median, 1e-10);
             Assert.AreEqual(3.25, var);
         }
 
@@ -152,21 +153,21 @@ namespace Accord.Tests.Statistics
             target.Fit(values, options);
             var actual = target;
 
-            var mean1 = Accord.Statistics.Tools.Mean(part1);
-            var var1 = Accord.Statistics.Tools.Variance(part1);
+            var mean1 = Measures.Mean(part1);
+            var var1 = Measures.Variance(part1);
             Assert.AreEqual(mean1, actual.Components[0].Mean, 1e-6);
             Assert.AreEqual(var1, actual.Components[0].Variance, 1e-6);
 
-            var mean2 = Accord.Statistics.Tools.Mean(part2);
-            var var2 = Accord.Statistics.Tools.Variance(part2);
+            var mean2 = Measures.Mean(part2);
+            var var2 = Measures.Variance(part2);
             Assert.AreEqual(mean2, actual.Components[1].Mean, 1e-6);
             Assert.AreEqual(var2, actual.Components[1].Variance, 1e-5);
 
-            var expectedMean = Accord.Statistics.Tools.Mean(values);
+            var expectedMean = Measures.Mean(values);
             var actualMean = actual.Mean;
             Assert.AreEqual(expectedMean, actualMean, 1e-7);
 
-            var expectedVar = Accord.Statistics.Tools.Variance(values, false);
+            var expectedVar = Measures.Variance(values, false);
             var actualVar = actual.Variance;
             Assert.AreEqual(expectedVar, actualVar, 0.15);
         }
@@ -195,17 +196,17 @@ namespace Accord.Tests.Statistics
 
             target.Fit(values, weights, opt);
 
-            var mean1 = Accord.Statistics.Tools.Mean(part1);
-            var var1 = Accord.Statistics.Tools.Variance(part1);
+            var mean1 = Measures.Mean(part1);
+            var var1 = Measures.Variance(part1);
             Assert.AreEqual(mean1, target.Components[0].Mean, 1e-5);
             Assert.AreEqual(var1, target.Components[0].Variance, 1e-5);
 
-            var mean2 = Accord.Statistics.Tools.Mean(part2);
-            var var2 = Accord.Statistics.Tools.Variance(part2);
+            var mean2 = Measures.Mean(part2);
+            var var2 = Measures.Variance(part2);
             Assert.AreEqual(mean2, target.Components[1].Mean, 1e-5);
             Assert.AreEqual(var2, target.Components[1].Variance, 1e-5);
 
-            var expectedMean = Accord.Statistics.Tools.WeightedMean(values, weights);
+            var expectedMean = Measures.WeightedMean(values, weights);
             var actualMean = target.Mean;
             Assert.AreEqual(expectedMean, actualMean, 1e-5);
         }

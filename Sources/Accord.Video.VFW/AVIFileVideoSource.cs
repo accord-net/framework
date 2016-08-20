@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Video.VFW
+namespace Accord.Video.VFW
 {
     using System;
 	using System.Drawing;
@@ -14,7 +14,7 @@ namespace AForge.Video.VFW
 	using System.IO;
 	using System.Threading;
 
-    using AForge.Video;
+    using Accord.Video;
 
 	/// <summary>
 	/// AVI file video source.

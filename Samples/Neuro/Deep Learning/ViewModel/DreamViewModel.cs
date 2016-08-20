@@ -19,14 +19,14 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace DeepLearning.ViewModel
+namespace SampleApp.ViewModel
 {
     using System;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Threading.Tasks;
     using System.Windows.Threading;
-    using DeepLearning.Databases;
+    using SampleApp.Databases;
 
     /// <summary>
     ///   This is the View-Model for the dream tab.

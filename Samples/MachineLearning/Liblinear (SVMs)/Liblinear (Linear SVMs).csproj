@@ -8,7 +8,7 @@
     <ProjectGuid>{1E055676-77A0-4C5B-B449-FF58CA5066E0}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Liblinear</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>linear</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>

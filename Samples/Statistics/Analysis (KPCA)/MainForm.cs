@@ -186,7 +186,7 @@ namespace Analysis.KPCA
             else
             {
                 result = kpca.Transform(inputs, 1);
-                result = result.InsertColumn(Matrix.Vector(result.GetLength(0), 0.0));
+                result = result.InsertColumn(Vector.Zeros(result.GetLength(0)));
             }
 
             // Create a new plot with the original Z column

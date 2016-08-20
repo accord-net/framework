@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -169,24 +169,13 @@ namespace Accord.Controls
 
 
         /// <summary>
-        ///   Displays an histogram with the specified data.
-        /// </summary>
-        /// 
-        /// <param name="values">The histogram values.</param>
-        /// 
-        public static HistogramBox Show(double[] values)
-        {
-            return Show("Histogram", values);
-        }
-
-        /// <summary>
         ///   Displays a histogram with the specified data.
         /// </summary>
         /// 
         /// <param name="title">The title for the histogram window.</param>
         /// <param name="values">The histogram values.</param>
         /// 
-        public static HistogramBox Show(string title, double[] values)
+        public static HistogramBox Show(double[] values, string title = "Histogram")
         {
             return show(title, values);
         }
@@ -195,11 +184,12 @@ namespace Accord.Controls
         ///   Displays a histogram.
         /// </summary>
         /// 
+        /// <param name="title">The title for the histogram window.</param>
         /// <param name="histogram">The histogram to show.</param>
         /// 
-        public static HistogramBox Show(Histogram histogram)
+        public static HistogramBox Show(Histogram histogram, string title = "Histogram")
         {
-            return show(histogram.Title, histogram.Values.ToDouble());
+            return show(title, histogram.Values.ToDouble());
         }
 
 

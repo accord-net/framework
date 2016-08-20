@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -388,7 +388,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -771,8 +771,8 @@ namespace Accord.Statistics.Distributions.Univariate
             int[] idx;
             Vector.Sort(keys, out idx, stable: true, direction: ComparerDirection.Descending);
 
-            time = time.Submatrix(idx);
-            output = output.Submatrix(idx);
+            time = time.Get(idx);
+            output = output.Get(idx);
 
             return idx;
         }
@@ -792,7 +792,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public static int[] Sort(ref double[] time, ref SurvivalOutcome[] output, ref double[][] inputs)
         {
             int[] idx = Sort(ref time, ref output);
-            inputs = inputs.Submatrix(idx);
+            inputs = inputs.Get(idx);
             return idx;
         }
 
@@ -811,7 +811,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public static int[] Sort(ref double[] time, ref SurvivalOutcome[] output, ref double[] weights)
         {
             int[] idx = Sort(ref time, ref output);
-            weights = weights.Submatrix(idx);
+            weights = weights.Get(idx);
             return idx;
         }
 

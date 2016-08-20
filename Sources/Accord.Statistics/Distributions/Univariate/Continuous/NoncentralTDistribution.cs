@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -226,7 +226,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -380,6 +380,8 @@ namespace Accord.Statistics.Distributions.Univariate
             // Initialize twin series.
             double en = 1.0;
             double x = t * t / (t * t + df);
+            if (Double.IsNaN(x))
+                x = 1;
             double value = 0;
 
             if (x <= 0.0)
@@ -421,7 +423,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 value = value + p * xodd + q * xeven;
                 double errbd = 2.0 * s * (xodd - godd);
 
-                if (errbd <= errmax)
+                if (errbd <= errmax || Double.IsNaN(errbd))
                     break;
 
                 if (itrmax < en)

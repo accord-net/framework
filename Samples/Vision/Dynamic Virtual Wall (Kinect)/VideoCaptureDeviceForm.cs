@@ -6,11 +6,11 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using AForge.Video;
-using AForge.Video.DirectShow;
-using AForge.Video.Kinect;
+using Accord.Video;
+using Accord.Video.DirectShow;
+using Accord.Video.Kinect;
 
-namespace KinectController
+namespace SampleApp
 {
     public partial class VideoCaptureDeviceForm : Form
     {

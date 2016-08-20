@@ -39,7 +39,7 @@ using Accord.Math;
 using Accord.Statistics.Distributions.Multivariate;
 using ZedGraph;
 
-namespace Clustering.GMMs
+namespace SampleApp
 {
     /// <summary>
     ///   Clustering sample application. This application produces random data from
@@ -76,7 +76,7 @@ namespace Clustering.GMMs
             for (int i = 0; i < k; i++)
             {
                 // Create random centroid to place the Gaussian distribution
-                double[] mean = Matrix.Random(2, -6.0, +6.0);
+                double[] mean = Vector.Random(2, -6.0, +6.0);
 
                 // Create random covariance matrix for the distribution
                 double[,] covariance = Accord.Statistics.Tools.RandomCovariance(2, -5, 5);
@@ -84,7 +84,7 @@ namespace Clustering.GMMs
                 // Create the Gaussian distribution
                 var gaussian = new MultivariateNormalDistribution(mean, covariance);
 
-                int samples = Accord.Math.Tools.Random.Next(150, 250);
+                int samples = Accord.Math.Random.Generator.Random.Next(150, 250);
                 data[i] = gaussian.Generate(samples);
             }
 

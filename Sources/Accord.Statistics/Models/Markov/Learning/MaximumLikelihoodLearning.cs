@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@ namespace Accord.Statistics.Models.Markov.Learning
 {
     using System;
     using Accord.Math;
+#pragma warning disable 612, 618
 
     /// <summary>
     ///    Maximum Likelihood learning algorithm for <see cref="HiddenMarkovModel">
@@ -246,19 +247,19 @@ namespace Accord.Statistics.Models.Markov.Learning
             }
 
             for (int i = 0; i < initial.Length; i++)
-                model.Probabilities[i] = Math.Log(initial[i] / (double)initialCount);
+                model.LogInitial[i] = Math.Log(initial[i] / (double)initialCount);
 
             for (int i = 0; i < transitionCount.Length; i++)
                 for (int j = 0; j < states; j++)
-                    model.Transitions[i, j] = Math.Log(transitions[i, j] / (double)transitionCount[i]);
+                    model.LogTransitions[i][j] = Math.Log(transitions[i, j] / (double)transitionCount[i]);
 
             for (int i = 0; i < emissionCount.Length; i++)
                 for (int j = 0; j < symbols; j++)
-                    model.Emissions[i, j] = Math.Log(emissions[i, j] / (double)emissionCount[i]);
+                    model.LogEmissions[i][j] = Math.Log(emissions[i, j] / (double)emissionCount[i]);
 
-            System.Diagnostics.Debug.Assert(!model.Probabilities.HasNaN());
-            System.Diagnostics.Debug.Assert(!model.Transitions.HasNaN());
-            System.Diagnostics.Debug.Assert(!model.Emissions.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!model.LogInitial.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!model.LogTransitions.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!model.Emissions.HasNaN());
 
 
             // 5. Compute log-likelihood

@@ -15,9 +15,11 @@ using System.Data;
 using System.Threading;
 
 using AForge;
-using AForge.Neuro;
-using AForge.Neuro.Learning;
-using AForge.Controls;
+using Accord.Neuro;
+using Accord.Neuro.Learning;
+using Accord.Controls;
+using Accord;
+using Accord.Statistics.Distributions.Univariate;
 
 namespace SampleApp
 {
@@ -41,7 +43,7 @@ namespace SampleApp
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.Button startButton;
-        private AForge.Controls.Chart chart;
+        private Accord.Controls.Chart chart;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox radiusBox;
         /// <summary>
@@ -120,7 +122,7 @@ namespace SampleApp
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
-            this.chart = new AForge.Controls.Chart();
+            this.chart = new Accord.Controls.Chart();
             // 
             // groupBox1
             // 
@@ -488,11 +490,14 @@ namespace SampleApp
         // Worker thread
         void SearchSolution()
         {
-            // set random generators range
-            Neuron.RandRange = new Range(0, 1000);
-
             // create network
             DistanceNetwork network = new DistanceNetwork(2, neurons);
+
+            // set random generators range
+            foreach (var layer in network.Layers)
+                foreach (var neuron in layer.Neurons)
+                    neuron.RandGenerator = new UniformContinuousDistribution(new Range(0, 1000));
+
 
             // create learning algorithm
             ElasticNetworkLearning trainer = new ElasticNetworkLearning(network);

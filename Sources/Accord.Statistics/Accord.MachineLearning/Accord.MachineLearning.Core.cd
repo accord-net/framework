@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.MachineLearning.ClassifierBase&lt;TInput, TClasses, TScores&gt;">
+    <Position X="7.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>MachineLearning\ClassifierBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.ClassifierBase&lt;TInput, TScores&gt;">
+    <Position X="7.25" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\ClassifierBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.ClassifierBase&lt;TInput&gt;">
+    <Position X="6.25" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\ClassifierBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.ClassifierBase">
+    <Position X="6.25" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>MachineLearning\ClassifierBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.GenerativeClassifierBase&lt;TInput&gt;">
+    <Position X="8.5" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAIQAAAAAAAAAAAAAABAQAAA=</HashCode>
+      <FileName>MachineLearning\GenerativeClassifierBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.GenerativeClassifierBase">
+    <Position X="8.5" Y="19.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAIQAAAAAAAAAAAAAABAQAAA=</HashCode>
+      <FileName>MachineLearning\GenerativeClassifierBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.TransformBase&lt;TInput, TOutput&gt;">
+    <Position X="8.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAEAAAAAAAAAAAAAQAAAAAABAAAAAAAAQAAAA=</HashCode>
+      <FileName>MachineLearning\TransformBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.TransformBase&lt;TInput&gt;">
+    <Position X="10.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\TransformBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.TransformBase">
+    <Position X="10.75" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\TransformBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Accord.MachineLearning.IClassifier&lt;TInput, TClasses, TScores&gt;">
+    <Position X="2.75" Y="3" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>MachineLearning\IClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IClassifier&lt;TInput, TScores&gt;">
+    <Position X="2.75" Y="5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\IClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IClassifier&lt;TInput&gt;">
+    <Position X="1.5" Y="6.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\IClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IClassifier">
+    <Position X="1" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\IClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IGenerativeClassifier&lt;TInput, TOutput&gt;">
+    <Position X="5" Y="6.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>MachineLearning\IGenerativeClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IGenerativeClassifier&lt;TInput&gt;">
+    <Position X="3.25" Y="9" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\IGenerativeClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IGenerativeClassifier">
+    <Position X="2.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\IGenerativeClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.ISupervisedLearning&lt;TModel, TInput, TOutput&gt;" Collapsed="true">
+    <Position X="13.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>MachineLearning\ISupervisedLearning.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.ITransform&lt;TInput, TOutput&gt;">
+    <Position X="1.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAEAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\ITransform.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.ITransform&lt;TInput&gt;">
+    <Position X="0.5" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\ITransform.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.ITransform">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\ITransform.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IUnsupervisedLearning&lt;TModel, TInput, TOutput&gt;" Collapsed="true">
+    <Position X="15" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>MachineLearning\IUnsupervisedLearning.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

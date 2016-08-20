@@ -6,10 +6,11 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Genetic
+namespace Accord.Genetic
 {
     using System;
     using AForge;
+    using Accord.Math.Random;
 
     /// <summary>
     /// Binary chromosome, which supports length from 2 till 64.
@@ -30,11 +31,6 @@ namespace AForge.Genetic
         /// Numerical chromosome's value.
         /// </summary>
         protected ulong val = 0;
-
-        /// <summary>
-        /// Random number generator for chromosoms generation, crossover, mutation, etc.
-        /// </summary>
-        protected static ThreadSafeRandom rand = new ThreadSafeRandom( );
 
         /// <summary>
         /// Chromosome's maximum length.
@@ -64,7 +60,7 @@ namespace AForge.Genetic
         /// 
         public ulong Value
         {
-            get { return val & ( 0xFFFFFFFFFFFFFFFF >> ( 64 - length ) ); }
+            get { return val & (0xFFFFFFFFFFFFFFFF >> (64 - length)); }
         }
 
         /// <summary>
@@ -76,7 +72,7 @@ namespace AForge.Genetic
         /// 
         public ulong MaxValue
         {
-            get { return 0xFFFFFFFFFFFFFFFF >> ( 64 - length ); }
+            get { return 0xFFFFFFFFFFFFFFFF >> (64 - length); }
         }
 
         /// <summary>
@@ -85,11 +81,11 @@ namespace AForge.Genetic
         /// 
         /// <param name="length">Chromosome's length in bits, [2, <see cref="MaxLength"/>].</param>
         /// 
-        public BinaryChromosome( int length )
+        public BinaryChromosome(int length)
         {
-            this.length = Math.Max( 2, Math.Min( MaxLength, length ) );
+            this.length = Math.Max(2, Math.Min(MaxLength, length));
             // randomize the chromosome
-            Generate( );
+            Generate();
         }
 
         /// <summary>
@@ -101,10 +97,10 @@ namespace AForge.Genetic
         /// <remarks><para>This is a copy constructor, which creates the exact copy
         /// of specified chromosome.</para></remarks>
         /// 
-        protected BinaryChromosome( BinaryChromosome source )
+        protected BinaryChromosome(BinaryChromosome source)
         {
-            length  = source.length;
-            val     = source.val;
+            length = source.length;
+            val = source.val;
             fitness = source.fitness;
         }
 
@@ -114,19 +110,19 @@ namespace AForge.Genetic
         /// 
         /// <returns>Returns string representation of the chromosome.</returns>
         /// 
-        public override string ToString( )
+        public override string ToString()
         {
-            ulong	tval = val;
-            char[]	chars = new char[length];
+            ulong tval = val;
+            char[] chars = new char[length];
 
-            for ( int i = length - 1; i >= 0; i-- )
+            for (int i = length - 1; i >= 0; i--)
             {
-                chars[i] = (char) ( ( tval & 1 ) + '0' );
+                chars[i] = (char)((tval & 1) + '0');
                 tval >>= 1;
             }
 
             // return the result string
-            return new string( chars );
+            return new string(chars);
         }
 
         /// <summary>
@@ -136,13 +132,13 @@ namespace AForge.Genetic
         /// <remarks><para>Regenerates chromosome's value using random number generator.</para>
         /// </remarks>
         /// 
-        public override void Generate( )
+        public override void Generate()
         {
             byte[] bytes = new byte[8];
 
             // generate value
-            rand.NextBytes( bytes );
-            val = BitConverter.ToUInt64( bytes, 0 );
+            Generator.Random.NextBytes(bytes);
+            val = BitConverter.ToUInt64(bytes, 0);
         }
 
         /// <summary>
@@ -153,9 +149,9 @@ namespace AForge.Genetic
         /// initialized. The method is useful as factory method for those classes, which work
         /// with chromosome's interface, but not with particular chromosome type.</para></remarks>
         /// 
-        public override IChromosome CreateNew( )
+        public override IChromosome CreateNew()
         {
-            return new BinaryChromosome( length );
+            return new BinaryChromosome(length);
         }
 
         /// <summary>
@@ -167,9 +163,9 @@ namespace AForge.Genetic
         /// <remarks><para>The method clones the chromosome returning the exact copy of it.</para>
         /// </remarks>
         ///
-        public override IChromosome Clone( )
+        public override IChromosome Clone()
         {
-            return new BinaryChromosome( this );
+            return new BinaryChromosome(this);
         }
 
         /// <summary>
@@ -179,9 +175,9 @@ namespace AForge.Genetic
         /// <remarks><para>The method performs chromosome's mutation, changing randomly
         /// one of its bits.</para></remarks>
         /// 
-        public override void Mutate( )
+        public override void Mutate()
         {
-            val ^= ( (ulong) 1 << rand.Next( length ) );
+            val ^= ((ulong)1 << Generator.Random.Next(length));
         }
 
         /// <summary>
@@ -193,23 +189,23 @@ namespace AForge.Genetic
         /// <remarks><para>The method performs crossover between two chromosomes – interchanging
         /// range of bits between these chromosomes.</para></remarks>
         ///
-        public override void Crossover( IChromosome pair )
+        public override void Crossover(IChromosome pair)
         {
-            BinaryChromosome p = (BinaryChromosome) pair;
+            BinaryChromosome p = (BinaryChromosome)pair;
 
             // check for correct pair
-            if ( ( p != null ) && ( p.length == length ) )
+            if ((p != null) && (p.length == length))
             {
-                int		crossOverPoint = 63 - rand.Next( length - 1 );
-                ulong	mask1 = 0xFFFFFFFFFFFFFFFF >> crossOverPoint;
-                ulong	mask2 = ~mask1;
+                int crossOverPoint = 63 - Generator.Random.Next(length - 1);
+                ulong mask1 = 0xFFFFFFFFFFFFFFFF >> crossOverPoint;
+                ulong mask2 = ~mask1;
 
-                ulong	v1 = val;
-                ulong	v2 = p.val;
+                ulong v1 = val;
+                ulong v2 = p.val;
 
                 // calculate new values
-                val   = ( v1 & mask1 ) | ( v2 & mask2 );
-                p.val = ( v2 & mask1 ) | ( v1 & mask2 );
+                val = (v1 & mask1) | (v2 & mask2);
+                p.val = (v2 & mask1) | (v1 & mask2);
             }
         }
     }

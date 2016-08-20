@@ -34,7 +34,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Accord.Imaging;
-using AForge.Imaging.Filters;
+using Accord.Imaging.Filters;
 
 namespace SampleApp
 {

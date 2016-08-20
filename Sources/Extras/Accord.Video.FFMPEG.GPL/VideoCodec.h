@@ -15,7 +15,7 @@ extern int pixel_formats[];
 
 extern int CODECS_COUNT;
 
-namespace AForge { namespace Video { namespace FFMPEG
+namespace Accord { namespace Video { namespace FFMPEG
 {
 	/// <summary>
 	/// Enumeration of some video codecs from FFmpeg library, which are available for writing video files.

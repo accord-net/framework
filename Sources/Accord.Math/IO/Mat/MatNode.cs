@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -117,7 +117,7 @@ namespace Accord.IO
                 Array src = Value as Array;
                 Array dst = Array.CreateInstance(targetType, dimensions);
 
-                foreach (int[] idx in Indices.From(src))
+                foreach (int[] idx in src.GetIndices())
                     dst.SetValue(Convert.ChangeType(src.GetValue(idx), targetType), idx);
 
                 return (T)Convert.ChangeType(dst, typeof(T));
@@ -405,7 +405,7 @@ namespace Accord.IO
                         Buffer.BlockCopy(rawData, 0, array, 0, length);
 
                         if (matReader.Transpose)
-                            array = array.Transpose(Matrix.Indices(dimensions.Length, 0));
+                            array = array.Transpose(Accord.Math.Vector.Range(dimensions.Length, 0));
 
                         value = array;
                     }
@@ -490,7 +490,7 @@ namespace Accord.IO
             Array array = Array.CreateInstance(type, dimensions);
             Buffer.BlockCopy(rawData, 0, array, 0, rawData.Length);
             if (matReader.Transpose)
-                array = array.Transpose(Matrix.Indices(dimensions.Length, 0));
+                array = array.Transpose(Accord.Math.Vector.Range(dimensions.Length, 0));
             return array;
         }
 

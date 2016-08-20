@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -260,9 +260,12 @@ namespace Accord.Tests.IO
         }
 
         [Test]
+        [Category("Office")]
         public void ConstructorExcel10Test()
         {
             // If a 64-bit ACE is installed, this test requires a 64-bit process to run correctly.
+            // You also need to configure the test runner to use x64 instead of x86:
+            // https://msdn.microsoft.com/library/ee782531(VS.110).aspx
             string path = Path.Combine("Resources", "sample.xlsx");
             ExcelReader target = new ExcelReader(path);
 

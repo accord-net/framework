@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,6 +28,7 @@ namespace Accord.Tests.Statistics
     using Tools = Accord.Statistics.Tools;
     using System;
     using Accord.Statistics.Models.Regression.Linear;
+    using Accord.Statistics;
 
     [TestFixture]
     public class PartialLeastSquaresAnalysisTest
@@ -156,7 +157,7 @@ namespace Accord.Tests.Statistics
 
 
             // Test computation
-            double[][] aY = regression.Compute(inputs.ToArray());
+            double[][] aY = regression.Compute(inputs.ToJagged());
 
             for (int i = 0; i < outputs.GetLength(0); i++)
             {
@@ -188,22 +189,22 @@ namespace Accord.Tests.Statistics
             // test factor proportions
             double[] expectedX = { 0.86, 0.12, 0.00, 0.86 };
             double[] actualX = pls.Predictors.FactorProportions;
-            Assert.IsTrue(expectedX.IsEqual(actualX, 0.01));
+            Assert.IsTrue(expectedX.IsEqual(actualX, atol: 0.01));
 
             double[] expectedY = { 0.67, 0.13, 0.17, 0.00 };
             double[] actualY = pls.Dependents.FactorProportions;
-            Assert.IsTrue(expectedY.IsEqual(actualY, 0.01));
+            Assert.IsTrue(expectedY.IsEqual(actualY, atol: 0.01));
 
 
             // Test Properties
-            double[,] weights = pls.Weights;
+            double[][] weights = pls.Weights;
             double[,] actual = pls.Predictors.Result;
 
             double[,] X0 = (double[,])pls.Source.Clone(); Tools.Center(X0, inPlace: true);
             double[,] Y0 = (double[,])pls.Output.Clone(); Tools.Center(Y0, inPlace: true);
 
             // XSCORES = X0*W
-            double[,] expected = X0.Multiply(weights);
+            double[][] expected = X0.Dot(weights);
             Assert.IsTrue(expected.IsEqual(actual, 0.01));
 
         }
@@ -249,8 +250,10 @@ namespace Accord.Tests.Statistics
 
             target.Compute();
 
-            double[,] x1 = target.Predictors.Result.Multiply(target.Predictors.FactorMatrix.Transpose()).Add(Tools.Mean(X), 0);
-            double[,] y1 = target.Dependents.Result.Multiply(target.Dependents.FactorMatrix.Transpose()).Add(Tools.Mean(Y), 0);
+            double[,] x1 = Matrix.Multiply(target.Predictors.Result,
+                target.Predictors.FactorMatrix.Transpose().ToMatrix()).Add(Measures.Mean(X, dimension: 0), 0);
+            double[,] y1 = Matrix.Multiply(target.Dependents.Result,
+                target.Dependents.FactorMatrix.Transpose().ToMatrix()).Add(Measures.Mean(Y, dimension: 0), 0);
 
 
             // XS*XL' ~ X0
@@ -261,10 +264,10 @@ namespace Accord.Tests.Statistics
 
 
             // ti' * tj = 0; 
-            double[,] t = target.scoresX;
-            for (int i = 0; i < t.GetLength(1); i++)
+            double[][] t = target.scoresX;
+            for (int i = 0; i < t.Columns(); i++)
             {
-                for (int j = 0; j < t.GetLength(1); j++)
+                for (int j = 0; j < t.Columns(); j++)
                 {
                     if (i != j)
                         Assert.AreEqual(0, t.GetColumn(i).InnerProduct(t.GetColumn(j)), 0.01);
@@ -272,10 +275,10 @@ namespace Accord.Tests.Statistics
             }
 
             // wi' * wj = 0;
-            double[,] w = target.Weights;
-            for (int i = 0; i < w.GetLength(1); i++)
+            double[][] w = target.Weights;
+            for (int i = 0; i < w.Columns(); i++)
             {
-                for (int j = 0; j < w.GetLength(1); j++)
+                for (int j = 0; j < w.Columns(); j++)
                 {
                     if (i != j)
                         Assert.AreEqual(0, w.GetColumn(i).InnerProduct(w.GetColumn(j)), 0.01);
@@ -376,7 +379,7 @@ namespace Accord.Tests.Statistics
 
             // Test X
             double[,] t = target.Predictors.Result;
-            double[,] p = target.Predictors.FactorMatrix;
+            double[,] p = target.Predictors.FactorMatrix.ToMatrix();
             double[,] tp = t.Multiply(p.Transpose());
             for (int i = 0; i < tp.GetLength(0); i++)
                 for (int j = 0; j < tp.GetLength(1); j++)
@@ -387,7 +390,7 @@ namespace Accord.Tests.Statistics
             double[] ymean = target.Dependents.Means;
             double[] ystdd = target.Dependents.StandardDeviations;
             double[,] u = target.Dependents.Result;
-            double[,] q = target.Dependents.FactorMatrix;
+            double[,] q = target.Dependents.FactorMatrix.ToMatrix();
             double[,] uq = u.Multiply(q.Transpose());
             for (int i = 0; i < uq.GetLength(0); i++)
             {
@@ -408,7 +411,7 @@ namespace Accord.Tests.Statistics
             // test regression for classification
             var regression = target.CreateRegression();
 
-            double[][] Y = regression.Compute(test.ToArray());
+            double[][] Y = regression.Compute(test.ToJagged());
 
             int cl;
             Matrix.Max(Y[0], out cl);
@@ -438,29 +441,29 @@ namespace Accord.Tests.Statistics
             // First columns should be equal
             Assert.IsTrue(Matrix.IsEqual(
                 target.Predictors.Result.GetColumn(0).Abs(),
-                target2.Predictors.Result.GetColumn(0).Abs(), 0.00001));
+                target2.Predictors.Result.GetColumn(0).Abs(), atol: 0.00001));
 
             Assert.IsTrue(Matrix.IsEqual(
                 target.Predictors.FactorMatrix.GetColumn(0).Abs(),
-                target2.Predictors.FactorMatrix.GetColumn(0).Abs(), 0.00001));
+                target2.Predictors.FactorMatrix.GetColumn(0).Abs(), atol: 0.00001));
 
             // Others are approximations
             Assert.IsTrue(Matrix.IsEqual(
                 target.Predictors.Result.GetColumn(1).Abs(),
-                target2.Predictors.Result.GetColumn(1).Abs(), 0.001));
+                target2.Predictors.Result.GetColumn(1).Abs(), atol: 0.001));
 
             Assert.IsTrue(Matrix.IsEqual(
                 target.Predictors.FactorMatrix.GetColumn(1).Abs(),
-                target2.Predictors.FactorMatrix.GetColumn(1).Abs(), 0.01));
+                target2.Predictors.FactorMatrix.GetColumn(1).Abs(), atol: 0.01));
 
             // Explained variance proportion should be similar
             Assert.IsTrue(Matrix.IsEqual(
                 target.Predictors.FactorProportions.Submatrix(2),
-                target2.Predictors.FactorProportions.Submatrix(2), 0.05));
+                target2.Predictors.FactorProportions.Submatrix(2), atol: 0.05));
 
             Assert.IsTrue(Matrix.IsEqual(
                 target.Dependents.FactorProportions,
-                target2.Dependents.FactorProportions, 0.8));
+                target2.Dependents.FactorProportions, atol: 0.8));
 
         }
 
@@ -529,11 +532,11 @@ namespace Accord.Tests.Statistics
             double[] eProportionsY = { 0.50000000000000033, 0.50000000000000011, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00 };
 
 
-            double[,] aXL = pls.Predictors.FactorMatrix;
-            double[,] aYL = pls.Dependents.FactorMatrix;
+            double[,] aXL = pls.Predictors.FactorMatrix.ToMatrix();
+            double[,] aYL = pls.Dependents.FactorMatrix.ToMatrix();
             double[,] aXS = pls.Predictors.Result;
             double[,] aYS = pls.Dependents.Result;
-            double[,] aW = pls.Weights;
+            double[][] aW = pls.Weights;
 
             var regression = pls.CreateRegression();
             double[,] aB = regression.Coefficients;
@@ -563,7 +566,6 @@ namespace Accord.Tests.Statistics
         [Test]
         public void VariableImportanceTest()
         {
-
             double[,] X =
             {
                 { 2.5, 2.4 },
@@ -599,7 +601,7 @@ namespace Accord.Tests.Statistics
 
             pls.Compute(1);
 
-            double[,] actual1 = pls.Importance;
+            double[][] actual1 = pls.Importance;
             double[] actual1v = pls.Factors[0].VariableImportance;
             double[] expected1v = { 0.9570761, 1.041156 };
             Assert.IsTrue(Matrix.IsEqual(actual1v, expected1v, 0.0001));
@@ -616,7 +618,7 @@ namespace Accord.Tests.Statistics
             double[] expected2v2 = { 1.0187709, 0.980870 };
             Assert.IsTrue(Matrix.IsEqual(actual2v2, expected2v2, 0.0001));
 
-            double[,] actual2 = pls.Importance;
+            double[][] actual2 = pls.Importance;
             double[,] expected2 = new double[,]
             {
                 { 0.9570761, 1.0187709 },

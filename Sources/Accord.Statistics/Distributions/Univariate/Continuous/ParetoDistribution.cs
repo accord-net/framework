@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -193,7 +193,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -390,16 +390,16 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples)
+        public override double[] Generate(int samples, double[] result)
         {
-            double[] U = UniformContinuousDistribution.Standard.Generate(samples);
-
-            for (int i = 0; i < U.Length; i++)
-                U[i] = xm / Math.Pow(U[i], 1.0 / alpha);
-
-            return U;
+            UniformContinuousDistribution.Random(samples, result);
+            for (int i = 0; i < samples; i++)
+                result[i] = xm / Math.Pow(result[i], 1.0 / alpha);
+            return result;
         }
 
         /// <summary>
@@ -410,9 +410,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Generate()
         {
-            double U = UniformContinuousDistribution.Standard.Generate();
-
-            return xm / Math.Pow(U, 1.0 / alpha);
+            double u = UniformContinuousDistribution.Standard.Generate();
+            return xm / Math.Pow(u, 1.0 / alpha);
         }
     }
 }

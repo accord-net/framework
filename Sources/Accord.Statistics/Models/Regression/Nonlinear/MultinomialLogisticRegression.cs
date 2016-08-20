@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,8 @@ namespace Accord.Statistics.Models.Regression
     using Accord.Math;
     using Accord.Statistics.Testing;
     using AForge;
+    using Accord.MachineLearning;
+    using System.Runtime.Serialization;
 
     /// <summary>
     ///   Nominal Multinomial Logistic Regression.
@@ -57,20 +59,22 @@ namespace Accord.Statistics.Models.Regression
     /// </example>
     /// 
     [Serializable]
-    public class MultinomialLogisticRegression : ICloneable
+    public class MultinomialLogisticRegression : MulticlassLikelihoodClassifierBase<double[]>,
+        ICloneable
     {
 
+#pragma warning disable 0649
+        [Obsolete]
         private int inputs;
+        [Obsolete]
         private int categories;
+#pragma warning restore 0649
 
         private double[][] coefficients;
         private double[][] standardErrors;
 
 
-        //---------------------------------------------
 
-
-        #region Constructors
         /// <summary>
         ///   Creates a new Multinomial Logistic Regression Model.
         /// </summary>
@@ -85,8 +89,8 @@ namespace Accord.Statistics.Models.Regression
             if (categories < 1)
                 throw new ArgumentOutOfRangeException("categories");
 
-            this.categories = categories;
-            this.inputs = inputs;
+            this.NumberOfOutputs = categories;
+            this.NumberOfInputs = inputs;
             this.coefficients = new double[categories - 1][];
             this.standardErrors = new double[categories - 1][];
 
@@ -111,12 +115,11 @@ namespace Accord.Statistics.Models.Regression
             for (int i = 0; i < coefficients.Length; i++)
                 coefficients[i][0] = intercepts[i];
         }
-        #endregion
 
 
         /// <summary>
         ///   Gets the coefficient vectors, in which the
-        ///   first columns are always the intercept values.
+        ///   first column are the intercept values.
         /// </summary>
         /// 
         public double[][] Coefficients
@@ -139,17 +142,19 @@ namespace Accord.Statistics.Models.Regression
         ///   Gets the number of categories of the model.
         /// </summary>
         /// 
+        [Obsolete("Please use NumberOfOutputs instead.")]
         public int Categories
         {
-            get { return categories; }
+            get { return NumberOfOutputs; }
         }
 
         /// <summary>
         ///   Gets the number of inputs of the model.
         /// </summary>
+        [Obsolete("Please use NumberOfInputs instead.")]
         public int Inputs
         {
-            get { return inputs; }
+            get { return NumberOfInputs; }
         }
 
 
@@ -166,33 +171,10 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <returns>The output value.</returns>
         /// 
+        [Obsolete("Please use Probabilities() instead.")]
         public double[] Compute(double[] input)
         {
-            if (input.Length != inputs)
-                throw new DimensionMismatchException("input");
-
-
-            double[] responses = new double[categories];
-            double sum = responses[0] = 1;
-
-            for (int j = 1; j <= coefficients.Length; j++)
-            {
-                // Get category coefficients
-                double[] c = coefficients[j - 1];
-
-                double logit = c[0]; // intercept
-
-                for (int i = 0; i < input.Length; i++)
-                    logit += c[i + 1] * input[i];
-
-                sum += responses[j] = Math.Exp(logit);
-            }
-
-            // Normalize the probabilities
-            for (int i = 0; i < responses.Length; i++)
-                responses[i] /= sum;
-
-            return responses;
+            return Probabilities(input);
         }
 
         /// <summary>
@@ -207,14 +189,62 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <returns>The output value.</returns>
         /// 
+        [Obsolete("Please use Probabilities() instead.")]
         public double[][] Compute(double[][] input)
         {
-            double[][] output = new double[input.Length][];
+            return Probabilities(input);
+        }
 
+        /// <summary>
+        /// Computes the log-likelihood that the given input vector
+        /// belongs to the specified <paramref name="classIndex" />.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="classIndex">The index of the class whose score will be computed.</param>
+        /// <returns>System.Double.</returns>
+        public override double LogLikelihood(double[] input, int classIndex)
+        {
+            if (classIndex == 0)
+                return 0;
+
+            // Get category coefficients
+            double[] c = coefficients[classIndex - 1];
+
+            double logit = c[0]; // intercept
             for (int i = 0; i < input.Length; i++)
-                output[i] = Compute(input[i]);
+                logit += c[i + 1] * input[i];
 
-            return output;
+            return logit;
+        }
+
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <param name="result">An array where the probabilities will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public override double[] LogLikelihoods(double[] input, out int decision, double[] result)
+        {
+            for (int j = 1; j < coefficients.Length; j++)
+            {
+                // Get category coefficients
+                double[] c = coefficients[j - 1];
+
+                double logit = c[0]; // intercept
+                for (int i = 0; i < input.Length; i++)
+                    logit += c[i + 1] * input[i];
+
+                result[j] = logit;
+            }
+
+            decision = result.ArgMax();
+
+            return result;
         }
 
         /// <summary>
@@ -234,17 +264,17 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public ChiSquareTest ChiSquare(double[][] input, double[][] output)
         {
-            double[] sums = output.Sum();
+            double[] sums = output.Sum(0);
 
-            double[] intercept = new double[Categories - 1];
+            double[] intercept = new double[NumberOfOutputs - 1];
             for (int i = 0; i < intercept.Length; i++)
                 intercept[i] = Math.Log(sums[i + 1] / sums[0]);
 
-            var regression = new MultinomialLogisticRegression(Inputs, Categories, intercept);
+            var regression = new MultinomialLogisticRegression(NumberOfInputs, NumberOfOutputs, intercept);
 
             double ratio = GetLogLikelihoodRatio(input, output, regression);
 
-            return new ChiSquareTest(ratio, (Inputs) * (Categories - 1));
+            return new ChiSquareTest(ratio, (NumberOfInputs) * (NumberOfOutputs - 1));
         }
 
         /// <summary>
@@ -264,7 +294,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public ChiSquareTest ChiSquare(double[][] input, int[] classes)
         {
-            return ChiSquare(input, Statistics.Tools.Expand(classes));
+            return ChiSquare(input, Jagged.OneHot(classes));
         }
 
         /// <summary>
@@ -299,7 +329,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public DoubleRange[] GetConfidenceInterval(int category)
         {
-            var ranges = new DoubleRange[inputs + 1];
+            var ranges = new DoubleRange[NumberOfInputs + 1];
             for (int i = 0; i < ranges.Length; i++)
                 ranges[i] = GetConfidenceInterval(category, i);
             return ranges;
@@ -347,7 +377,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public double[] GetOddsRatio(int category)
         {
-            var odds = new double[inputs + 1];
+            var odds = new double[NumberOfInputs + 1];
             for (int i = 0; i < odds.Length; i++)
                 odds[i] = GetOddsRatio(category, i);
             return odds;
@@ -393,7 +423,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public WaldTest[] GetWaldTest(int category)
         {
-            var tests = new WaldTest[inputs + 1];
+            var tests = new WaldTest[NumberOfInputs + 1];
             for (int i = 0; i < tests.Length; i++)
                 tests[i] = GetWaldTest(category, i);
             return tests;
@@ -456,7 +486,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public double GetLogLikelihood(double[][] inputs, int[] classes)
         {
-            return GetLogLikelihood(inputs, Statistics.Tools.Expand(classes));
+            return GetLogLikelihood(inputs, Jagged.OneHot(classes));
         }
 
         /// <summary>
@@ -476,7 +506,7 @@ namespace Accord.Statistics.Models.Regression
 
             for (int i = 0; i < input.Length; i++)
             {
-                double[] y = Compute(input[i]);
+                double[] y = Probabilities(input[i]);
                 double[] o = output[i];
                 y = y.Multiply(o.Sum());
 
@@ -485,7 +515,7 @@ namespace Accord.Statistics.Models.Regression
                     if (o[j] > 0)
                         sum += o[j] * (Math.Log(y[j] / o[j]));
 
-                    System.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
+                    Accord.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
                 }
             }
 
@@ -512,6 +542,18 @@ namespace Accord.Statistics.Models.Regression
         }
 
 
+        [OnDeserialized]
+        private void onDeserialized(StreamingContext context)
+        {
+            if (NumberOfInputs == 0 && NumberOfOutputs == 0)
+            {
+#pragma warning disable 0618, 0612
+                NumberOfOutputs = inputs;
+                NumberOfOutputs = categories;
+#pragma warning restore 0618, 0612
+            }
+        }
+
         #region ICloneable Members
 
 
@@ -521,7 +563,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public object Clone()
         {
-            var mlr = new MultinomialLogisticRegression(Inputs, Categories);
+            var mlr = new MultinomialLogisticRegression(NumberOfInputs, NumberOfOutputs);
             for (int i = 0; i < coefficients.Length; i++)
             {
                 for (int j = 0; j < coefficients[i].Length; j++)

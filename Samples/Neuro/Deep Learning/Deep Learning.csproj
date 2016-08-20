@@ -8,7 +8,7 @@
     <ProjectGuid>{07337787-AD77-4061-A0A0-C8D83AF3B977}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DeepLearning</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>DeepLearning</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -37,23 +37,6 @@ namespace Accord.Tests.Statistics.Models.Fields
     [TestFixture]
     public class ForwardBackwardAlgorithmTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void BackwardTest()
@@ -612,8 +595,8 @@ namespace Accord.Tests.Statistics.Models.Fields
                         .ForwardBackwardAlgorithm.LogForward(hmm, observations, out expectedLogLikelihood);
 
                     double actualLogLikelihood;
-                    double[,] actual = Accord.Statistics.Models.Fields.
-                        ForwardBackwardAlgorithm.LogForward(function.Factors[0], observations, 0, out actualLogLikelihood);
+                    double[,] actual = Accord.Statistics.Models.Fields
+                        .ForwardBackwardAlgorithm.LogForward(function.Factors[0], observations, 0, out actualLogLikelihood);
 
 
                     Assert.IsTrue(expected.IsEqual(actual, 1e-10));

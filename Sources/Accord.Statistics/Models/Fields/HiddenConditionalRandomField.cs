@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,13 +22,14 @@
 
 namespace Accord.Statistics.Models.Fields
 {
-    using Accord.Math;
-    using Accord.Statistics.Models.Fields.Functions;
-    using Accord.Statistics.Models.Fields.Learning;
-    using System;
-    using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
-    using System.Threading.Tasks;
+    using Accord.MachineLearning;
+using Accord.Math;
+using Accord.Statistics.Models.Fields.Functions;
+using Accord.Statistics.Models.Fields.Learning;
+using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
 
     /// <summary>
     ///   Hidden Conditional Random Field (HCRF).
@@ -246,13 +247,15 @@ namespace Accord.Statistics.Models.Fields
     /// <see cref="HiddenResilientGradientLearning{T}"/>
     /// 
     [Serializable]
-    public class HiddenConditionalRandomField<T> : ICloneable
+    public class HiddenConditionalRandomField<T> : MulticlassClassifierBase<T[]>, 
+        ICloneable
     {
 
         /// <summary>
         ///   Gets the number of outputs assumed by the model.
         /// </summary>
         /// 
+        [Obsolete("Please use NumberOfOutputs instead.")]
         public int Outputs { get { return Function.Outputs; } }
 
         /// <summary>
@@ -272,6 +275,7 @@ namespace Accord.Statistics.Models.Fields
         public HiddenConditionalRandomField(IPotentialFunction<T> function)
         {
             this.Function = function;
+            this.NumberOfOutputs = function.Outputs;
         }
 
         /// <summary>
@@ -448,10 +452,10 @@ namespace Accord.Statistics.Models.Fields
 
             double logZxy = logLikelihoods[output];
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(logZx));
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(logZxy));
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihoods[output]));
-            // System.Diagnostics.Debug.Assert(!Double.IsInfinity(logZx));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logZx));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logZxy));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihoods[output]));
+            // Accord.Diagnostics.Debug.Assert(!Double.IsInfinity(logZx));
 
             // Return the marginal
             if (logZx == logZxy)
@@ -503,7 +507,7 @@ namespace Accord.Statistics.Models.Fields
 
             double z = Math.Exp(logLikelihood);
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(z));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(z));
 
             return z;
         }
@@ -520,7 +524,7 @@ namespace Accord.Statistics.Models.Fields
 
             double z = logLikelihood;
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(z));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(z));
 
             return z;
         }
@@ -533,7 +537,7 @@ namespace Accord.Statistics.Models.Fields
         {
             double sum = 0;
 
-            for (int j = 0; j < Outputs; j++)
+            for (int j = 0; j < NumberOfOutputs; j++)
             {
                 double logLikelihood;
 
@@ -542,7 +546,7 @@ namespace Accord.Statistics.Models.Fields
                 sum += Math.Exp(logLikelihood);
             }
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
 
             return sum;
         }
@@ -555,7 +559,7 @@ namespace Accord.Statistics.Models.Fields
         {
             double sum = 0;
 
-            for (int j = 0; j < Outputs; j++)
+            for (int j = 0; j < NumberOfOutputs; j++)
             {
                 double logLikelihood;
 
@@ -564,7 +568,7 @@ namespace Accord.Statistics.Models.Fields
                 sum += Math.Exp(logLikelihood);
             }
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
 
             return Math.Log(sum);
         }
@@ -572,7 +576,7 @@ namespace Accord.Statistics.Models.Fields
 
         private double[] computeLogLikelihood(T[] observations)
         {
-            double[] logLikelihoods = new double[Outputs];
+            double[] logLikelihoods = new double[NumberOfOutputs];
 
 
 #if SERIAL || DEBUG  // For all possible outputs for the model,
@@ -591,7 +595,7 @@ namespace Accord.Statistics.Models.Fields
                 // Accumulate output's likelihood
                 logLikelihoods[y] = logLikelihood;
 
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
             }
 #if !(SERIAL || DEBUG)
 );
@@ -667,5 +671,19 @@ namespace Accord.Statistics.Models.Fields
         }
 
         #endregion
+
+        /// <summary>
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <returns>
+        /// A class-label that best described <paramref name="input" /> according
+        /// to this classifier.
+        /// </returns>
+        public override int Decide(T[] input)
+        {
+            return Compute(input);
+        }
     }
 }

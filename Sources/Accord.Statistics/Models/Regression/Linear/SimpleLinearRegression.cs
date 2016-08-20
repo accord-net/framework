@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,7 +22,10 @@
 
 namespace Accord.Statistics.Models.Regression.Linear
 {
+    using Accord.Math.Optimization.Losses;
+    using Fitting;
     using System;
+    using MachineLearning;
 
     /// <summary>
     ///   Simple Linear Regression of the form y = Ax + B.
@@ -105,9 +108,15 @@ namespace Accord.Statistics.Models.Regression.Linear
     /// </example>
     /// 
     [Serializable]
-    public class SimpleLinearRegression : ILinearRegression
+#pragma warning disable 612, 618
+    public class SimpleLinearRegression : TransformBase<double, double>, ILinearRegression
+#pragma warning restore 612, 618
     {
+        [Obsolete]
         private MultipleLinearRegression regression;
+
+        private double slope;
+        private double intercept;
 
         /// <summary>
         ///   Creates a new Simple Linear Regression of the form y = Ax + B.
@@ -115,7 +124,8 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         public SimpleLinearRegression()
         {
-            this.regression = new MultipleLinearRegression(2);
+            NumberOfInputs = 1;
+            NumberOfOutputs = 1;
         }
 
         /// <summary>
@@ -124,7 +134,8 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         public double Slope
         {
-            get { return regression.Coefficients[1]; }
+            get { return slope; }
+            set { slope = value; }
         }
 
         /// <summary>
@@ -133,9 +144,9 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         public double Intercept
         {
-            get { return regression.Coefficients[0]; }
+            get { return intercept; }
+            set { intercept = value; }
         }
-
 
         /// <summary>
         ///   Performs the regression using the input and output
@@ -146,20 +157,23 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// <param name="outputs">The output data.</param>
         /// <returns>The regression Sum-of-Squares error.</returns>
         /// 
+        [Obsolete("Please use the OrdinaryLeastSquares class.")]
         public double Regress(double[] inputs, double[] outputs)
         {
             if (inputs.Length != outputs.Length)
                 throw new ArgumentException("Number of input and output samples does not match", "outputs");
 
             double[][] X = new double[inputs.Length][];
-
             for (int i = 0; i < inputs.Length; i++)
-            {
-                // b[0]*1 + b[1]*inputs[i]
                 X[i] = new double[] { 1.0, inputs[i] };
-            }
 
-            return regression.Regress(X, outputs);
+#pragma warning disable 612, 618
+            regression = new MultipleLinearRegression(2, false);
+            double err = regression.Regress(X, outputs);
+            slope = regression.Coefficients[1];
+            intercept = regression.Coefficients[0];
+#pragma warning restore 612, 618
+            return err;
         }
 
         /// <summary>
@@ -169,14 +183,12 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// <param name="input">An array of input values.</param>
         /// <returns>The array of calculated output values.</returns>
         /// 
+        [Obsolete("Please use Transform instead.")]
         public double[] Compute(double[] input)
         {
             double[] output = new double[input.Length];
-
-            // Call Compute(v) for each input vector v
             for (int i = 0; i < input.Length; i++)
                 output[i] = Compute(input[i]);
-
             return output;
         }
 
@@ -187,6 +199,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// <param name="input">The input value.</param>
         /// <returns>The calculated output.</returns>
         /// 
+        [Obsolete("Please use Transform instead.")]
         public double Compute(double input)
         {
             return Slope * input + Intercept;
@@ -213,15 +226,10 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         public double CoefficientOfDetermination(double[] inputs, double[] outputs, bool adjust)
         {
-            double[][] X = new double[inputs.Length][];
-
-            for (int i = 0; i < inputs.Length; i++)
+            return new RSquaredLoss(NumberOfInputs, outputs)
             {
-                // b[0]*1 + b[1]*inputs[i]
-                X[i] = new double[] { 1.0, inputs[i] };
-            }
-
-            return regression.CoefficientOfDetermination(X, outputs, adjust);
+                Adjust = adjust
+            }.Loss(Transform(inputs));
         }
 
         /// <summary>
@@ -304,18 +312,14 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         public static SimpleLinearRegression FromData(double[] x, double[] y)
         {
-            SimpleLinearRegression regression = new SimpleLinearRegression();
-
-            regression.Regress(x, y);
-
-            return regression;
+            return new OrdinaryLeastSquares().Learn(x, y);
         }
 
 
-        #region ILinearRegression Members
         /// <summary>
         ///   Computes the model output for a given input.
         /// </summary>
+        [Obsolete("Please use Transform instead.")]
         double[] ILinearRegression.Compute(double[] inputs)
         {
             if (inputs.Length > 1)
@@ -323,7 +327,17 @@ namespace Accord.Statistics.Models.Regression.Linear
 
             return new double[] { this.Compute(inputs[0]) };
         }
-        #endregion
 
+        /// <summary>
+        /// Applies the transformation to an input, producing an associated output.
+        /// </summary>
+        /// <param name="input">The input data to which the transformation should be applied.</param>
+        /// <returns>
+        /// The output generated by applying this transformation to the given input.
+        /// </returns>
+        public override double Transform(double input)
+        {
+            return Slope * input + Intercept;
+        }
     }
 }

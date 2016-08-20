@@ -8,7 +8,7 @@
     <ProjectGuid>{09D9131B-3277-476F-8500-311E69B58AFB}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GloveTracking</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Gloves %28Color tracking%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

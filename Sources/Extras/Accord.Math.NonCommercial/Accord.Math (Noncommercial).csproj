@@ -58,6 +58,12 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\net45\Noncommercial\Accord.Math.Noncommercial.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Noncommercial\Accord.Math.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <NoWarn>0612, 0618</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <NoWarn>
+    </NoWarn>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>

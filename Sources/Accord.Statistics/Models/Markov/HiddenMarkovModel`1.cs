@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,6 +22,8 @@
 
 namespace Accord.Statistics.Models.Markov
 {
+#pragma warning disable 612, 618
+
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
@@ -31,6 +33,7 @@ namespace Accord.Statistics.Models.Markov
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Statistics.Models.Markov.Topology;
+    using Accord.MachineLearning;
 
     /// <summary>
     ///   Arbitrary-density Hidden Markov Model.
@@ -162,6 +165,7 @@ namespace Accord.Statistics.Models.Markov
     /// <seealso cref="Accord.Statistics.Models.Markov.Learning"/>
     /// 
     [Serializable]
+    [Obsolete("Please use HiddenMarkovModel<TDistribution, TObservation> instead.")]
     public class HiddenMarkovModel<TDistribution> : BaseHiddenMarkovModel, IHiddenMarkovModel, ICloneable
         where TDistribution : IDistribution
     {
@@ -525,7 +529,7 @@ namespace Accord.Statistics.Models.Markov
         ///  size 3 each. Each vector of size 3 will contain probability values that sum
         ///  up to one.</returns>
         /// 
-        public double[][] Posterior(int[] observations, out int[] path)
+        public double[][] Posterior(Array observations, out int[] path)
         {
             double[][] probabilities = Posterior(observations);
 
@@ -931,7 +935,7 @@ namespace Accord.Statistics.Models.Markov
                 for (int t = 0; t < observations.Length; t++)
                 {
                     // Navigate randomly on one of the state transitions
-                    int state = GeneralDiscreteDistribution.Random(Matrix.Exp(transitions));
+                    int state = GeneralDiscreteDistribution.Random(Elementwise.Exp(transitions));
 
                     // Generate a sample for the state
                     double[] symbol = multivariate[state].Generate();
@@ -960,7 +964,7 @@ namespace Accord.Statistics.Models.Markov
                 for (int t = 0; t < observations.Length; t++)
                 {
                     // Navigate randomly on one of the state transitions
-                    int state = GeneralDiscreteDistribution.Random(Matrix.Exp(transitions));
+                    int state = GeneralDiscreteDistribution.Random(Elementwise.Exp(transitions));
 
                     // Generate a sample for the state
                     double symbol = univariate[state].Generate();
@@ -1226,4 +1230,5 @@ namespace Accord.Statistics.Models.Markov
         #endregion
 
     }
+
 }

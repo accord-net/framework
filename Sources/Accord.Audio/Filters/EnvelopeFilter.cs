@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -98,7 +98,7 @@ namespace Accord.Audio.Filters
                 for (int i = 0; i < channels; i++, src++, dst++)
                     *dst = System.Math.Abs(*src);
 
-                for (int i = channels; i < length; i++)
+                for (int i = channels; i < length; i++, src++, dst++)
                 {
                     float abs = System.Math.Abs(*src);
                     *dst = dst[-channels] + Alpha * (abs - dst[-channels]);

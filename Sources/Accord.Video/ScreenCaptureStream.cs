@@ -9,7 +9,7 @@
 // cesarsouza@gmail.com
 //
 
-namespace AForge.Video
+namespace Accord.Video
 {
     using System;
     using System.Drawing;

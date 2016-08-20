@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,9 +25,9 @@ namespace Accord.Vision.Tracking
     using System;
     using System.Drawing;
     using AForge;
-    using AForge.Imaging;
-    using AForge.Math.Geometry;
-    using Point = AForge.Point;
+    using Accord.Imaging;
+    using Accord.Math.Geometry;
+    using Point = Accord.Point;
     using System.Xml.Serialization;
 
 

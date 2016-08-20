@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@
 //    License along with this library; if not, write to the Free Software
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
+#pragma warning disable 612, 618
 
 namespace Accord.Statistics.Models.Markov
 {
@@ -58,6 +59,7 @@ namespace Accord.Statistics.Models.Markov
     /// <seealso cref="HiddenMarkovClassifier"/>
     ///   
     [Serializable]
+    [Obsolete("Please use HiddenMarkovClassifier<TDistribution, TObservation> instead.")]
     public class HiddenMarkovClassifier<TDistribution> : BaseHiddenMarkovClassifier<HiddenMarkovModel<TDistribution>>,
         IEnumerable<HiddenMarkovModel<TDistribution>>, IHiddenMarkovClassifier where TDistribution : IDistribution
     {
@@ -318,6 +320,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <param name="stream">The stream to which the classifier is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.Serializer.Save instead.")]
         public void Save(Stream stream)
         {
             BinaryFormatter b = new BinaryFormatter();
@@ -330,6 +333,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <param name="path">The stream to which the classifier is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.Serializer.Save instead.")]
         public void Save(string path)
         {
             using (FileStream fs = new FileStream(path, FileMode.Create))
@@ -346,6 +350,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <returns>The deserialized classifier.</returns>
         /// 
+        [Obsolete("Please use Accord.Serializer.Load instead.")]
         public static HiddenMarkovClassifier<TDistribution> Load(Stream stream)
         {
             BinaryFormatter b = new BinaryFormatter();
@@ -360,6 +365,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <returns>The deserialized classifier.</returns>
         /// 
+        [Obsolete("Please use Accord.Serializer.Load instead.")]
         public static HiddenMarkovClassifier<TDistribution> Load(string path)
         {
             using (FileStream fs = new FileStream(path, FileMode.Open))

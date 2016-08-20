@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,8 +25,8 @@ namespace Accord.Tests.Imaging
     using System.Drawing;
     using Accord.Imaging.Converters;
     using AForge;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
     using NUnit.Framework;
 
     [TestFixture]
@@ -110,7 +110,7 @@ namespace Accord.Tests.Imaging
                  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 8
                  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 9
                  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 10
-                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 11
+                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 11new Bitmap(Properties
                  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 12
                  { 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }, // 13
                  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 14
@@ -126,7 +126,7 @@ namespace Accord.Tests.Imaging
             c.Convert(imageActual, out actual);
 
             double[,] expected;
-            Bitmap imageExpected = Properties.Resources.image1;
+            Bitmap imageExpected = Accord.Imaging.Image.Clone(Properties.Resources.image1);
             new Threshold().ApplyInPlace(imageExpected);
             new Invert().ApplyInPlace(imageExpected);
             c.Convert(imageExpected, out expected);

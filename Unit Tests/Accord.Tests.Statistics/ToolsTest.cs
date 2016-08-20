@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -54,8 +54,8 @@ namespace Accord.Tests.Statistics
             double[,] CX = Matrix.Centering(3).Multiply(X); // Remove means from rows
             double[,] XC = X.Multiply(Matrix.Centering(4)); // Remove means from columns
 
-            double[] colMean = Tools.Mean(X, 1);
-            double[] rowMean = Tools.Mean(X, 0);
+            double[] colMean = Measures.Mean(X, 1);
+            double[] rowMean = Measures.Mean(X, 0);
 
             Assert.IsTrue(rowMean.IsEqual(new double[] { 3.0, 4.0, 4.3333, 34.0 }, 0.001));
             Assert.IsTrue(colMean.IsEqual(new double[] { 2.0, 27.75, 4.25 }, 0.001));
@@ -69,10 +69,16 @@ namespace Accord.Tests.Statistics
 
             double[,] S1 = XC.Multiply(X.Transpose());
             double[,] S2 = Xc.Multiply(Xc.Transpose());
-            double[,] S3 = Tools.Scatter(X, colMean, 1);
+            double[,] S3 = Measures.Scatter(X, colMean, 1);
 
             Assert.IsTrue(Matrix.IsEqual(S1, S2));
             Assert.IsTrue(Matrix.IsEqual(S2, S3));
+
+            double[,] S4 = XC.DotWithTransposed(X);
+            double[,] S5 = Xc.DotWithTransposed(Xc);
+
+            Assert.IsTrue(Matrix.IsEqual(S1, S4));
+            Assert.IsTrue(Matrix.IsEqual(S2, S5));
         }
 
 
@@ -88,10 +94,10 @@ namespace Accord.Tests.Statistics
             };
 
             // Computing the mean of y
-            double[] meanY = Tools.Mean(y);
+            double[] meanY = Measures.Mean(y, dimension: 0);
 
             // Computing the covariance matrix of y
-            double[,] covY = Tools.Covariance(y, meanY);
+            double[,] covY = Measures.Covariance(y, meanY);
 
             // Inverting the covariance matrix
             double[,] precision = covY.Inverse();
@@ -106,11 +112,11 @@ namespace Accord.Tests.Statistics
         [Test]
         public void SubgroupTest1()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             double[] value = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
 
-            int[] idx = Accord.Statistics.Tools.RandomGroups(value.Length, 4);
+            int[] idx = Tools.RandomGroups(value.Length, 4);
 
             double[][] groups = value.Subgroups(idx);
 
@@ -149,13 +155,13 @@ namespace Accord.Tests.Statistics
                 new double[] { 7,  0.5, 9 },
             };
 
-            double[] means = Tools.Mean(matrix);
-            Assert.IsTrue(means.IsEqual(4.5000, -0.2500, 7.0000));
+            double[] means = Measures.Mean(matrix, dimension: 0);
+            Assert.IsTrue(means.IsEqual(new[] { 4.5000, -0.2500, 7.0000 }));
 
-            double[] stdev = Tools.StandardDeviation(matrix, means);
-            Assert.IsTrue(stdev.IsEqual(3.5355339059327378, 1.0606601717798212, 2.8284271247461903));
+            double[] stdev = Measures.StandardDeviation(matrix, means);
+            Assert.IsTrue(stdev.IsEqual(new[] { 3.5355339059327378, 1.0606601717798212, 2.8284271247461903 }));
 
-            double[] stdev2 = Tools.StandardDeviation(matrix);
+            double[] stdev2 = Measures.StandardDeviation(matrix);
             Assert.IsTrue(stdev2.IsEqual(stdev));
         }
 
@@ -168,13 +174,13 @@ namespace Accord.Tests.Statistics
                 { 7,  0.5, 9 },
             };
 
-            double[] means = Tools.Mean(matrix);
-            Assert.IsTrue(means.IsEqual(4.5000, -0.2500, 7.0000));
+            double[] means = Measures.Mean(matrix, dimension: 0);
+            Assert.IsTrue(means.IsEqual(new[] { 4.5000, -0.2500, 7.0000} ));
 
-            double[] stdev = Tools.StandardDeviation(matrix, means);
-            Assert.IsTrue(stdev.IsEqual(3.5355339059327378, 1.0606601717798212, 2.8284271247461903));
+            double[] stdev = Measures.StandardDeviation(matrix, means);
+            Assert.IsTrue(stdev.IsEqual(new[] { 3.5355339059327378, 1.0606601717798212, 2.8284271247461903 }));
 
-            double[] stdev2 = Tools.StandardDeviation(matrix);
+            double[] stdev2 = Measures.StandardDeviation(matrix);
             Assert.IsTrue(stdev2.IsEqual(stdev));
         }
 
@@ -183,7 +189,7 @@ namespace Accord.Tests.Statistics
         {
             double[] values = { -5, 0.2, 2 };
             double expected = 3.6350149013908224;
-            double actual = Tools.StandardDeviation(values);
+            double actual = Measures.StandardDeviation(values);
             Assert.AreEqual(expected, actual);
         }
 
@@ -191,13 +197,13 @@ namespace Accord.Tests.Statistics
         public void WeightedVarianceTest1()
         {
             double[] original = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
-            double expected = Tools.Variance(original, unbiased: false);
+            double expected = Measures.Variance(original, unbiased: false);
 
             double[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
             double[] samples = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
 
             weights = weights.Divide(weights.Sum());
-            double actual = Tools.WeightedVariance(samples, weights, unbiased: false);
+            double actual = Measures.WeightedVariance(samples, weights, unbiased: false);
 
             Assert.AreEqual(expected, actual);
         }
@@ -209,7 +215,7 @@ namespace Accord.Tests.Statistics
             double[] samples = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
 
             weights = weights.Divide(weights.Sum());
-            double actual = Tools.WeightedVariance(samples, weights);
+            double actual = Measures.WeightedVariance(samples, weights);
 
             Assert.AreEqual(1.3655172413793104, actual);
         }
@@ -218,11 +224,11 @@ namespace Accord.Tests.Statistics
         public void WeightedVarianceTest2()
         {
             double[] original = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
-            double expected = Tools.Variance(original);
+            double expected = Measures.Variance(original);
 
             var repeats = new[] { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
             var samples = new[] { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3.0 };
-            double actual = Tools.WeightedVariance(samples, repeats);
+            double actual = Measures.WeightedVariance(samples, repeats);
 
             Assert.AreEqual(expected, actual);
         }
@@ -237,11 +243,11 @@ namespace Accord.Tests.Statistics
                 { 7,  0.5, 9 },
             };
 
-            double[] sums = Matrix.Sum(matrix);
-            Assert.IsTrue(sums.IsEqual(9.0, -0.5, 14.0));
+            double[] sums = Matrix.Sum(matrix, 0);
+            Assert.IsTrue(sums.IsEqual(new [] { 9.0, -0.5, 14.0 }));
 
             double[] expected = { 4.5000, -0.2500, 7.0000 };
-            double[] actual = Tools.Mean(matrix, sums);
+            double[] actual = Measures.Mean(matrix, sums);
 
             Assert.IsTrue(expected.IsEqual(actual));
         }
@@ -251,7 +257,7 @@ namespace Accord.Tests.Statistics
         {
             double[] values = { -5, 0.2, 2 };
             double expected = -0.93333333333333324;
-            double actual = Tools.Mean(values);
+            double actual = Measures.Mean(values);
             Assert.AreEqual(expected, actual);
         }
 
@@ -264,10 +270,10 @@ namespace Accord.Tests.Statistics
                 { 7,  0.5, 9 },
             };
 
-            double[] rowMean = Tools.Mean(matrix, 0);
-            Assert.IsTrue(rowMean.IsEqual(4.5000, -0.2500, 7.0000));
+            double[] rowMean = Measures.Mean(matrix, 0);
+            Assert.IsTrue(rowMean.IsEqual(new []{ 4.5000, -0.2500, 7.0000 }));
 
-            double[] colMean = Tools.Mean(matrix, 1);
+            double[] colMean = Measures.Mean(matrix, 1);
             Assert.IsTrue(colMean.IsEqual(2, 5.5));
         }
 
@@ -281,12 +287,12 @@ namespace Accord.Tests.Statistics
 
             values = new double[] { -5, 0.2, 2, 5, -0.7 };
             expected = 0.2;
-            actual = Tools.Median(values, false);
+            actual = Measures.Median(values, false);
             Assert.AreEqual(expected, actual);
 
             values = new double[] { -5, 0.2, 2, 5 };
             expected = 1.1;
-            actual = Tools.Median(values, false);
+            actual = Measures.Median(values, false);
             Assert.AreEqual(expected, actual);
         }
 
@@ -301,19 +307,19 @@ namespace Accord.Tests.Statistics
                 new double[] { 0.2,  0.5, -2 },
             };
 
-            double[] mean = Tools.Mean(matrix);
+            double[] mean = Measures.Mean(matrix, dimension: 0);
             Assert.IsTrue(mean.IsEqual(1.3000, 0.9250, 4.5000));
 
-            double[] median = Tools.Median(matrix);
+            double[] median = Measures.Median(matrix);
             Assert.IsTrue(median.IsEqual(1.1000, 1.1000, 5.5000));
 
 
             matrix = matrix.Transpose();
-            mean = Tools.Mean(matrix);
-            Assert.IsTrue(mean.IsEqual(2.0000, 5.8999999999999995, 1.5000, -0.43333333333333335));
+            mean = Measures.Mean(matrix, dimension: 0);
+            Assert.IsTrue(mean.IsEqual(new[] { 2.0000, 5.8999999999999995, 1.5000, -0.43333333333333335 }));
 
-            median = Tools.Median(matrix);
-            Assert.IsTrue(median.IsEqual(2.0000, 7.0000, 2.5000, 0.2000));
+            median = Measures.Median(matrix);
+            Assert.IsTrue(median.IsEqual(new[] { 2.0000, 7.0000, 2.5000, 0.2000 }));
         }
 
         [Test]
@@ -327,19 +333,19 @@ namespace Accord.Tests.Statistics
                 { 0.2,  0.5, -2 },
             };
 
-            double[] mean = Tools.Mean(matrix);
+            double[] mean = Measures.Mean(matrix, dimension: 0);
             Assert.IsTrue(mean.IsEqual(1.3000, 0.9250, 4.5000));
 
-            double[] median = Tools.Median(matrix);
+            double[] median = Measures.Median(matrix);
             Assert.IsTrue(median.IsEqual(1.1000, 1.1000, 5.5000));
 
 
             matrix = matrix.Transpose();
-            mean = Tools.Mean(matrix);
-            Assert.IsTrue(mean.IsEqual(2.0000, 5.8999999999999995, 1.5000, -0.43333333333333335));
+            mean = Measures.Mean(matrix, dimension: 0);
+            Assert.IsTrue(mean.IsEqual(new[] { 2.0000, 5.8999999999999995, 1.5000, -0.43333333333333335 }));
 
-            median = Tools.Median(matrix);
-            Assert.IsTrue(median.IsEqual(2.0000, 7.0000, 2.5000, 0.2000));
+            median = Measures.Median(matrix);
+            Assert.IsTrue(median.IsEqual(new[] { 2.0000, 7.0000, 2.5000, 0.2000 }));
         }
 
         [Test]
@@ -348,7 +354,7 @@ namespace Accord.Tests.Statistics
             double[] values = new double[] { 3, 4, 8 };
             double q1, q3, actual;
 
-            actual = Tools.Quartiles(values, out q1, out q3, false);
+            actual = Measures.Quartiles(values, out q1, out q3, false);
             Assert.AreEqual(3, q1);
             Assert.AreEqual(4, actual);
             Assert.AreEqual(8, q3);
@@ -360,7 +366,7 @@ namespace Accord.Tests.Statistics
             double[] values = new double[] { 1, 3, 3, 4, 5, 6, 6, 7, 8, 8 };
             double q1, q3, actual;
 
-            actual = Tools.Quartiles(values, out q1, out q3, false);
+            actual = Measures.Quartiles(values, out q1, out q3, false);
             Assert.AreEqual(3, q1);
             Assert.AreEqual(5.5, actual);
             Assert.AreEqual(7, q3);
@@ -372,7 +378,7 @@ namespace Accord.Tests.Statistics
             double[] values = new double[] { 102, 104, 105, 107, 108, 109, 110, 112, 115, 116, 118 };
             double q1, q3, actual;
 
-            actual = Tools.Quartiles(values, out q1, out q3, false);
+            actual = Measures.Quartiles(values, out q1, out q3, false);
             Assert.AreEqual(105, q1);
             Assert.AreEqual(109, actual);
             Assert.AreEqual(115, q3);
@@ -395,7 +401,7 @@ namespace Accord.Tests.Statistics
 
             double q1, q3, actual;
 
-            actual = Tools.Quartiles(values, out q1, out q3, false);
+            actual = Measures.Quartiles(values, out q1, out q3, false);
 
             Assert.AreEqual(-0.31413817217958601, q1);
             Assert.AreEqual(0, actual);
@@ -407,7 +413,7 @@ namespace Accord.Tests.Statistics
         {
             double[] values = { 3, 3, 1, 4 };
             double expected = 3;
-            double actual = Tools.Mode(values);
+            double actual = Measures.Mode(values);
             Assert.AreEqual(expected, actual);
         }
 
@@ -423,7 +429,7 @@ namespace Accord.Tests.Statistics
 
 
             double[] expected = { 0, 1, 1, 4 };
-            double[] actual = Tools.Mode(matrix);
+            double[] actual = Measures.Mode(matrix);
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
@@ -433,7 +439,7 @@ namespace Accord.Tests.Statistics
             double[] values = { 0, 1, 1, 2 };
 
             double expected = 1;
-            double actual = Tools.Mode(values);
+            double actual = Measures.Mode(values);
             Assert.AreEqual(expected, actual);
         }
 
@@ -443,7 +449,7 @@ namespace Accord.Tests.Statistics
             double[] values = { 0, 1, 2, 2 };
 
             double expected = 2;
-            double actual = Tools.Mode(values);
+            double actual = Measures.Mode(values);
             Assert.AreEqual(expected, actual);
         }
 
@@ -458,30 +464,30 @@ namespace Accord.Tests.Statistics
             object actual;
 
             values = new[] { a, a, b, c };
-            actual = Tools.Mode(values);
+            actual = Measures.Mode(values);
             Assert.AreEqual(a, actual);
 
             values = new[] { a, b, b, c };
-            actual = Tools.Mode(values);
+            actual = Measures.Mode(values);
             Assert.AreEqual(b, actual);
 
             values = new[] { a, b, c, c };
-            actual = Tools.Mode(values);
+            actual = Measures.Mode(values);
             Assert.AreEqual(c, actual);
 
             int count;
             values = new[] { a, b, c, a };
-            actual = Tools.Mode(values, out count);
+            actual = Measures.Mode(values, out count);
             Assert.AreEqual(a, actual);
             Assert.AreEqual(2, count);
 
             values = new[] { b, a, b, b, c };
-            actual = Tools.Mode(values, out count);
+            actual = Measures.Mode(values, out count);
             Assert.AreEqual(b, actual);
             Assert.AreEqual(3, count);
 
             values = new[] { c, c, a, b, c, c };
-            actual = Tools.Mode(values, out count);
+            actual = Measures.Mode(values, out count);
             Assert.AreEqual(c, actual);
             Assert.AreEqual(4, count);
         }
@@ -499,42 +505,42 @@ namespace Accord.Tests.Statistics
 
             values = new[] { a, a, b, c };
             weight = new[] { 1, 1, 5, 1 };
-            actual = Tools.WeightedMode(values, weight);
+            actual = Measures.WeightedMode(values, weight);
             Assert.AreEqual(b, actual);
 
             values = new[] { a, b, b, c };
             weight = new[] { 5, 1, 1, 1 };
-            actual = Tools.WeightedMode(values, weight);
+            actual = Measures.WeightedMode(values, weight);
             Assert.AreEqual(a, actual);
 
             values = new[] { a, b, b, c };
             weight = new[] { 2, 1, 1, 5 };
-            actual = Tools.WeightedMode(values, weight);
+            actual = Measures.WeightedMode(values, weight);
             Assert.AreEqual(c, actual);
 
             values = new[] { a, b, c, c };
             weight = new[] { 1, 1, 5, 5 };
-            actual = Tools.WeightedMode(values, weight);
+            actual = Measures.WeightedMode(values, weight);
             Assert.AreEqual(c, actual);
 
             values = new[] { a, a, b, c };
             weight = new[] { 1, 1, 1, 1 };
-            actual = Tools.WeightedMode(values, weight);
+            actual = Measures.WeightedMode(values, weight);
             Assert.AreEqual(a, actual);
 
             values = new[] { a, b, b, c };
             weight = new[] { 1, 1, 1, 1 };
-            actual = Tools.WeightedMode(values, weight);
+            actual = Measures.WeightedMode(values, weight);
             Assert.AreEqual(b, actual);
 
             values = new[] { a, b, b, c };
             weight = new[] { 1, 1, 1, 1 };
-            actual = Tools.WeightedMode(values, weight);
+            actual = Measures.WeightedMode(values, weight);
             Assert.AreEqual(b, actual);
 
             values = new[] { a, b, c, c };
             weight = new[] { 1, 1, 1, 1 };
-            actual = Tools.WeightedMode(values, weight);
+            actual = Measures.WeightedMode(values, weight);
             Assert.AreEqual(c, actual);
         }
 
@@ -549,30 +555,30 @@ namespace Accord.Tests.Statistics
             int actual;
 
             values = new[] { a, a, b, c };
-            actual = Tools.Mode(values);
+            actual = Measures.Mode(values);
             Assert.AreEqual(a, actual);
 
             values = new[] { a, b, b, c };
-            actual = Tools.Mode(values);
+            actual = Measures.Mode(values);
             Assert.AreEqual(b, actual);
 
             values = new[] { a, b, c, c };
-            actual = Tools.Mode(values);
+            actual = Measures.Mode(values);
             Assert.AreEqual(c, actual);
 
             int count;
             values = new[] { a, b, c, a };
-            actual = Tools.Mode(values, out count);
+            actual = Measures.Mode(values, out count);
             Assert.AreEqual(a, actual);
             Assert.AreEqual(2, count);
 
             values = new[] { b, a, b, b, c };
-            actual = Tools.Mode(values, out count);
+            actual = Measures.Mode(values, out count);
             Assert.AreEqual(b, actual);
             Assert.AreEqual(3, count);
 
             values = new[] { c, c, a, b, c, c };
-            actual = Tools.Mode(values, out count);
+            actual = Measures.Mode(values, out count);
             Assert.AreEqual(c, actual);
             Assert.AreEqual(4, count);
         }
@@ -584,7 +590,7 @@ namespace Accord.Tests.Statistics
             double[] weights = { 50, 1, 1, 2 };
 
             double expected = 0;
-            double actual = Tools.WeightedMode(values, weights);
+            double actual = Measures.WeightedMode(values, weights);
             Assert.AreEqual(expected, actual);
         }
 
@@ -595,7 +601,7 @@ namespace Accord.Tests.Statistics
             double[] weights = { 0, 1, 1, 50 };
 
             double expected = 2;
-            double actual = Tools.WeightedMode(values, weights);
+            double actual = Measures.WeightedMode(values, weights);
             Assert.AreEqual(expected, actual);
         }
 
@@ -606,7 +612,7 @@ namespace Accord.Tests.Statistics
             int[] weights = { 50, 1, 1, 2 };
 
             double expected = 0;
-            double actual = Tools.WeightedMode(values, weights);
+            double actual = Measures.WeightedMode(values, weights);
             Assert.AreEqual(expected, actual);
         }
 
@@ -617,7 +623,7 @@ namespace Accord.Tests.Statistics
             int[] weights = { 0, 1, 1, 50 };
 
             double expected = 2;
-            double actual = Tools.WeightedMode(values, weights);
+            double actual = Measures.WeightedMode(values, weights);
             Assert.AreEqual(expected, actual);
         }
 
@@ -643,16 +649,16 @@ namespace Accord.Tests.Statistics
             };
 
 
-            double[,] actual = Tools.Covariance(matrix);
+            double[,] actual = Measures.Covariance(matrix);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
 
-            actual = Tools.Covariance(matrix, 0);
+            actual = Measures.Covariance(matrix, 0);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
 
 
             matrix = matrix.Transpose();
 
-            actual = Tools.Covariance(matrix, 1);
+            actual = Measures.Covariance(matrix, 1);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
         }
 
@@ -666,7 +672,7 @@ namespace Accord.Tests.Statistics
                 { 3.9, 2.0, 0.58 },
                 { 4.3, 2.1, 0.62 },
                 { 4.1, 2.2, 0.63 }
-            }.ToArray();
+            }.ToJagged();
 
 
             double[,] expected = new double[,]
@@ -677,16 +683,16 @@ namespace Accord.Tests.Statistics
             };
 
 
-            double[,] actual = Tools.Covariance(matrix);
+            double[][] actual = Measures.Covariance(matrix);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
 
-            actual = Tools.Covariance(matrix, 0);
+            actual = Measures.Covariance(matrix, 0);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
 
 
             matrix = matrix.Transpose();
 
-            actual = Tools.Covariance(matrix, 1);
+            actual = Measures.Covariance(matrix, 1);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
         }
 
@@ -700,7 +706,7 @@ namespace Accord.Tests.Statistics
                 { 3.9, 2.0, 0.58 },
                 { 4.3, 2.1, 0.62 },
                 { 4.1, 2.2, 0.63 }
-            }.ToArray();
+            }.ToJagged();
 
 
             double[,] expected = new double[,]
@@ -712,12 +718,12 @@ namespace Accord.Tests.Statistics
 
             double[] weights = { 0.2, 0.2, 0.2, 0.2, 0.2 };
 
-            double[,] actual = Tools.WeightedCovariance(matrix, weights, 0);
+            double[,] actual = Measures.WeightedCovariance(matrix, weights, 0);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
 
             matrix = matrix.Transpose();
 
-            actual = Tools.WeightedCovariance(matrix, weights, 1);
+            actual = Measures.WeightedCovariance(matrix, weights, 1);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
         }
 
@@ -731,7 +737,7 @@ namespace Accord.Tests.Statistics
                 { 3.9, 2.0, 0.58 },
                 { 4.3, 2.1, 0.62 },
                 { 4.1, 2.2, 0.63 }
-            }.ToArray();
+            }.ToJagged();
 
 
             double[,] expected = new double[,]
@@ -743,14 +749,14 @@ namespace Accord.Tests.Statistics
 
             double[] weights = { 1, 1, 1, 1, 1 };
 
-            double[] mean = Tools.WeightedMean(matrix, weights, 0);
-            double[,] actual = Tools.WeightedCovariance(matrix, weights, mean);
+            double[] mean = Measures.WeightedMean(matrix, weights, 0);
+            double[,] actual = Measures.WeightedCovariance(matrix, weights, mean);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
 
             matrix = matrix.Transpose();
 
-            mean = Tools.WeightedMean(matrix, weights, 1);
-            actual = Tools.WeightedCovariance(matrix, weights, mean, 1);
+            mean = Measures.WeightedMean(matrix, weights, 1);
+            actual = Measures.WeightedCovariance(matrix, weights, mean, 1);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
         }
 
@@ -764,7 +770,7 @@ namespace Accord.Tests.Statistics
                 { 3.9, 2.0, 0.58 },
                 { 4.3, 2.1, 0.62 },
                 { 4.1, 2.2, 0.63 }
-            }.ToArray();
+            }.ToJagged();
 
 
             double[,] expected = new double[,]
@@ -776,12 +782,12 @@ namespace Accord.Tests.Statistics
 
             double[] weights = { 1, 1, 1, 1, 1 };
 
-            double[,] actual = Tools.WeightedCovariance(matrix, weights, 0);
+            double[,] actual = Measures.WeightedCovariance(matrix, weights, 0);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
 
             matrix = matrix.Transpose();
 
-            actual = Tools.WeightedCovariance(matrix, weights, 1);
+            actual = Measures.WeightedCovariance(matrix, weights, 1);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
         }
 
@@ -794,7 +800,7 @@ namespace Accord.Tests.Statistics
 
             double expected = -0.8333;
 
-            double actual = Tools.Covariance(u, v);
+            double actual = Measures.Covariance(u, v);
 
             Assert.AreEqual(expected, actual, 0.0001);
         }
@@ -809,19 +815,19 @@ namespace Accord.Tests.Statistics
                 { 3.9, 2.0, 0.58 },
                 { 4.3, 2.1, 0.62 },
                 { 4.1, 2.2, 0.63 }
-            }.ToArray();
+            }.ToJagged();
 
             double[] weights = { 0.9, 0.9, 0.9, 0.9, 0.9 };
 
             double[] expected = 
             { 
-                Tools.WeightedVariance(matrix.GetColumn(0), weights),
-                Tools.WeightedVariance(matrix.GetColumn(1), weights),
-                Tools.WeightedVariance(matrix.GetColumn(2), weights),
+                Measures.WeightedVariance(matrix.GetColumn(0), weights),
+                Measures.WeightedVariance(matrix.GetColumn(1), weights),
+                Measures.WeightedVariance(matrix.GetColumn(2), weights),
             };
 
 
-            double[] actual = Tools.WeightedVariance(matrix, weights);
+            double[] actual = Measures.WeightedVariance(matrix, weights);
 
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
         }
@@ -842,13 +848,13 @@ namespace Accord.Tests.Statistics
 
             double[] expected = 
             { 
-                Tools.WeightedVariance(matrix.GetColumn(0), weights, WeightType.Automatic),
-                Tools.WeightedVariance(matrix.GetColumn(1), weights, WeightType.Automatic),
-                Tools.WeightedVariance(matrix.GetColumn(2), weights, WeightType.Automatic),
+                Measures.WeightedVariance(matrix.GetColumn(0), weights, WeightType.Automatic),
+                Measures.WeightedVariance(matrix.GetColumn(1), weights, WeightType.Automatic),
+                Measures.WeightedVariance(matrix.GetColumn(2), weights, WeightType.Automatic),
             };
 
 
-            double[] actual = Tools.WeightedVariance(matrix, weights, WeightType.Automatic);
+            double[] actual = Measures.WeightedVariance(matrix, weights, WeightType.Automatic);
 
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
         }
@@ -876,7 +882,7 @@ namespace Accord.Tests.Statistics
             };
 
 
-            double[,] actual = Tools.Correlation(matrix);
+            double[,] actual = Measures.Correlation(matrix);
 
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
 
@@ -972,7 +978,7 @@ namespace Accord.Tests.Statistics
             };
 
             int[][] actual;
-            actual = Tools.Expand(group, positives, negatives);
+            actual = Accord.Statistics.Tools.Expand(group, positives, negatives);
             Assert.IsTrue(Matrix.IsEqual(expected, actual));
         }
 
@@ -981,7 +987,7 @@ namespace Accord.Tests.Statistics
         {
             int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
 
-            Tools.Shuffle(array);
+            Vector.Shuffle(array);
 
             for (int i = 0; i < 10; i++)
                 Assert.IsTrue(array.Contains(i));
@@ -1019,7 +1025,7 @@ namespace Accord.Tests.Statistics
                 new int[] { 1, 0 },
             };
 
-            int[][] actual = Tools.Expand(data, labelColumn, positiveColumn, negativeColumn);
+            int[][] actual = Accord.Statistics.Tools.Expand(data, labelColumn, positiveColumn, negativeColumn);
 
             Assert.IsTrue(expected.IsEqual(actual));
         }
@@ -1029,7 +1035,7 @@ namespace Accord.Tests.Statistics
         {
             double[] values = { 3.4, 7.1, 1.5, 8.6, 4.9 };
             double expected = 1.6572340828415202; // definition used by STATA
-            double actual = Tools.Kurtosis(values, false) + 3;
+            double actual = Measures.Kurtosis(values, false) + 3;
             Assert.AreEqual(expected, actual);
         }
 
@@ -1038,7 +1044,7 @@ namespace Accord.Tests.Statistics
         {
             double[] values = { 3.4, 7.1, 1.5, 8.6, 4.9 };
             double expected = -0.00861496080010664;
-            double actual = Tools.Skewness(values, false);
+            double actual = Measures.Skewness(values, false);
             Assert.AreEqual(expected, actual);
         }
 
@@ -1047,7 +1053,7 @@ namespace Accord.Tests.Statistics
         {
             Accord.Math.Random.Generator.Seed = 0;
             double[] values = Accord.Math.Vector.Random(10000000);
-            double actual = Tools.Kurtosis(values, true);
+            double actual = Measures.Kurtosis(values, true);
             Assert.AreEqual(-1.1997826610738631, actual);
         }
 
@@ -1056,7 +1062,7 @@ namespace Accord.Tests.Statistics
         {
             Accord.Math.Random.Generator.Seed = 0;
             double[] values = Accord.Math.Vector.Random(10000000);
-            double actual = Tools.Skewness(values, true);
+            double actual = Measures.Skewness(values, true);
             Assert.AreEqual(0.00046129386638486271, actual);
         }
 
@@ -1079,7 +1085,7 @@ namespace Accord.Tests.Statistics
             double[,] actual = Tools.Whitening(value, out T);
 
             // Check if covariance matrix has the identity form
-            double[,] cov = Tools.Covariance(actual).Submatrix(0, 2, 0, 2);
+            double[,] cov = Measures.Covariance(actual).Submatrix(0, 2, 0, 2);
             Assert.IsTrue(cov.IsEqual(I, 1e-10));
 
             // Check if we can transform the data
@@ -1101,7 +1107,7 @@ namespace Accord.Tests.Statistics
             };
 
             double expected = 2.7642857142857147;
-            double actual = Tools.PooledVariance(samples);
+            double actual = Measures.PooledVariance(samples);
             Assert.AreEqual(expected, actual);
         }
 
@@ -1118,7 +1124,7 @@ namespace Accord.Tests.Statistics
             };
 
             double expected = System.Math.Sqrt(2.7642857142857147);
-            double actual = Tools.PooledStandardDeviation(samples);
+            double actual = Measures.PooledStandardDeviation(samples);
             Assert.AreEqual(expected, actual);
         }
 
@@ -1130,7 +1136,7 @@ namespace Accord.Tests.Statistics
                 int classes = 2;
 
                 double expected = 1;
-                double actual = Tools.Entropy(values, classes);
+                double actual = Measures.Entropy(values, classes);
 
                 Assert.AreEqual(expected, actual);
             }
@@ -1139,7 +1145,7 @@ namespace Accord.Tests.Statistics
                 int classes = 2;
 
                 double expected = 0;
-                double actual = Tools.Entropy(values, classes);
+                double actual = Measures.Entropy(values, classes);
 
                 Assert.AreEqual(expected, actual);
             }
@@ -1148,7 +1154,7 @@ namespace Accord.Tests.Statistics
                 int classes = 2;
 
                 double expected = 0;
-                double actual = Tools.Entropy(values, classes);
+                double actual = Measures.Entropy(values, classes);
 
                 Assert.AreEqual(expected, actual);
             }
@@ -1160,7 +1166,7 @@ namespace Accord.Tests.Statistics
             double[] values = { 2, 3, 4, 4, 5, 6, 8, 10, 10, 14, 16, 20, 32, 40 };
 
             double[] expected = { 1, 2, 3.5, 3.5, 5, 6, 7, 8.5, 8.5, 10, 11, 12, 13, 14 };
-            double[] actual = Tools.Rank(values);
+            double[] actual = values.Rank();
 
             Assert.IsTrue(expected.IsEqual(actual));
         }
@@ -1172,7 +1178,7 @@ namespace Accord.Tests.Statistics
             double[] copy = (double[])values.Clone();
 
             double[] expected = { 7.5, 2.5, 5.5, 2.5, 7.5, 9, 2.5, 2.5, 5.5, 0, 10, 11 };
-            double[] actual = Tools.Rank(values);
+            double[] actual = values.Rank();
 
             Assert.IsTrue(expected.IsEqual(actual));
             Assert.IsTrue(copy.IsEqual(values));
@@ -1192,7 +1198,7 @@ namespace Accord.Tests.Statistics
             };
 
             int[] expected = { 1, 4, 3 };
-            int[] actual = Tools.Mode(matrix);
+            int[] actual = Measures.Mode(matrix);
 
             Assert.AreEqual(expected[0], actual[0]);
             Assert.AreEqual(expected[1], actual[1]);
@@ -1213,7 +1219,7 @@ namespace Accord.Tests.Statistics
             };
 
             double[] expected = { 1, 4, 3 };
-            double[] actual = Tools.Mode(matrix);
+            double[] actual = Measures.Mode(matrix);
 
             Assert.AreEqual(expected[0], actual[0]);
             Assert.AreEqual(expected[1], actual[1]);
@@ -1225,7 +1231,7 @@ namespace Accord.Tests.Statistics
         {
             int[] values = { 2, 5, 1, 6, 4, 1, 2, 6, 2, 6, 8, 2, 6, 2, 2 };
             int expected = 2;
-            int actual = Tools.Mode(values);
+            int actual = Measures.Mode(values);
             Assert.AreEqual(expected, actual);
         }
 
@@ -1249,11 +1255,11 @@ namespace Accord.Tests.Statistics
 
             double expected = 0.4466489;
             {
-                double[] actual = Tools.Kurtosis(matrix);
+                double[] actual = Measures.Kurtosis(matrix);
                 Assert.AreEqual(expected, actual[0], 1e-7);
             }
             {
-                double actual = Tools.Kurtosis(matrix.GetColumn(0));
+                double actual = Measures.Kurtosis(matrix.GetColumn(0));
                 Assert.AreEqual(expected, actual, 1e-7);
             }
         }
@@ -1278,11 +1284,11 @@ namespace Accord.Tests.Statistics
 
             double expected = 0.4466489;
             {
-                double[] actual = Tools.Kurtosis(matrix);
+                double[] actual = Measures.Kurtosis(matrix);
                 Assert.AreEqual(expected, actual[0], 1e-7);
             }
             {
-                double actual = Tools.Kurtosis(matrix.GetColumn(0));
+                double actual = Measures.Kurtosis(matrix.GetColumn(0));
                 Assert.AreEqual(expected, actual, 1e-7);
             }
         }
@@ -1306,11 +1312,11 @@ namespace Accord.Tests.Statistics
 
             double expected = 0.77771377;
             {
-                double[] actual = Tools.Skewness(matrix);
+                double[] actual = Measures.Skewness(matrix);
                 Assert.AreEqual(expected, actual[0], 1e-7);
             }
             {
-                double actual = Tools.Skewness(matrix.GetColumn(0));
+                double actual = Measures.Skewness(matrix.GetColumn(0));
                 Assert.AreEqual(expected, actual, 1e-7);
             }
         }
@@ -1334,11 +1340,11 @@ namespace Accord.Tests.Statistics
 
             double expected = 0.77771377;
             {
-                double[] actual = Tools.Skewness(matrix);
+                double[] actual = Measures.Skewness(matrix);
                 Assert.AreEqual(expected, actual[0], 1e-7);
             }
             {
-                double actual = Tools.Skewness(matrix.GetColumn(0));
+                double actual = Measures.Skewness(matrix.GetColumn(0));
                 Assert.AreEqual(expected, actual, 1e-7);
             }
         }

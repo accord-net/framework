@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -165,7 +165,9 @@ namespace Accord.Math
         {
             get
             {
-                // Update and verify stop criteria
+                if (maxIterations > 0 && CurrentIteration >= maxIterations)
+                    return true;
+
                 if (tolerance > 0)
                 {
                     // Stopping criteria is likelihood convergence
@@ -173,26 +175,11 @@ namespace Accord.Math
 
                     if (delta <= tolerance)
                         return true;
-
-                    if (maxIterations > 0)
-                    {
-                        // Maximum iterations should also be respected
-                        if (CurrentIteration >= maxIterations)
-                            return true;
-                    }
-                }
-                else
-                {
-                    // Stopping criteria is number of iterations
-                    if (CurrentIteration >= maxIterations)
-                        return true;
                 }
 
                 // Check if we have reached an invalid or perfectly separable answer
                 if (Double.IsNaN(NewValue) || Double.IsInfinity(NewValue))
-                {
                     return true;
-                }
 
                 return false;
             }

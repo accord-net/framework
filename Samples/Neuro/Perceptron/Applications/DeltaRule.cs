@@ -16,9 +16,10 @@ using System.IO;
 using System.Threading;
 
 using AForge;
-using AForge.Neuro;
-using AForge.Neuro.Learning;
-using AForge.Controls;
+using Accord.Neuro;
+using Accord.Neuro.Learning;
+using Accord.Controls;
+using Accord;
 
 namespace SampleApp
 {
@@ -61,7 +62,7 @@ namespace SampleApp
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.CheckBox saveFilesCheck;
-        private AForge.Controls.Chart errorChart;
+        private Accord.Controls.Chart errorChart;
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -157,7 +158,7 @@ namespace SampleApp
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.errorChart = new AForge.Controls.Chart();
+            this.errorChart = new Accord.Controls.Chart();
             this.label12 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -482,8 +483,6 @@ namespace SampleApp
             // 
             this.errorChart.Location = new System.Drawing.Point(16, 270);
             this.errorChart.Name = "errorChart";
-            this.errorChart.RangeX = ((AForge.Range)(resources.GetObject("errorChart.RangeX")));
-            this.errorChart.RangeY = ((AForge.Range)(resources.GetObject("errorChart.RangeY")));
             this.errorChart.Size = new System.Drawing.Size(320, 161);
             this.errorChart.TabIndex = 1;
             this.errorChart.Text = "chart1";
@@ -505,6 +504,7 @@ namespace SampleApp
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "DeltaRuleForm";
             this.Text = "Classifier using Delta Rule Learning";

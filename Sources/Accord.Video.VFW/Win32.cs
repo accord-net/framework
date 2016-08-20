@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 
 //
-namespace AForge.Video.VFW
+namespace Accord.Video.VFW
 {
     using System;
     using System.Runtime.InteropServices;

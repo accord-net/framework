@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -263,7 +263,7 @@ namespace Accord.MachineLearning
             trainingSet = Subsamples[index];
 
             // The validation set is the complement of the training set
-            validationSet = Matrix.Indices(0, Samples).Except(trainingSet).ToArray();
+            validationSet = Vector.Range(0, Samples).Except(trainingSet).ToArray();
         }
 
         /// <summary>
@@ -351,7 +351,7 @@ namespace Accord.MachineLearning
 
                 // Generate a random sample (with replacement)
                 for (int j = 0; j < idx[i].Length; j++)
-                    idx[i][j] = Accord.Math.Tools.Random.Next(0, size);
+                    idx[i][j] = Accord.Math.Random.Generator.Random.Next(0, size);
             }
 
             return idx;

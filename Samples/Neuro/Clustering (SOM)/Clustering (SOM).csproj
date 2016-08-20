@@ -18,7 +18,7 @@
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Color</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <StartupObject>SampleApp.Program</StartupObject>
     <FileUpgradeFlags>
@@ -76,6 +76,9 @@
     </Reference>
     <Reference Include="Accord.Neuro">
       <HintPath>..\..\..\Release\net40\Accord.Neuro.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Statistics">
+      <HintPath>..\..\..\Release\net40\Accord.Statistics.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>

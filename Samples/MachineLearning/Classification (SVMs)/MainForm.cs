@@ -36,10 +36,10 @@ using Accord.IO;
 using Accord.MachineLearning.VectorMachines;
 using Accord.MachineLearning.VectorMachines.Learning;
 using Accord.Math;
+using Accord.Statistics;
 using Accord.Statistics.Analysis;
 using Accord.Statistics.Kernels;
 using AForge;
-using Components;
 using System;
 using System.Data;
 using System.Drawing;
@@ -47,7 +47,7 @@ using System.IO;
 using System.Windows.Forms;
 using ZedGraph;
 
-namespace Classification.SVMs
+namespace SampleApp
 {
     /// <summary>
     ///   Classification sample application using Kernel Support Vector Machines.
@@ -56,7 +56,7 @@ namespace Classification.SVMs
     public partial class MainForm : Form
     {
 
-        KernelSupportVectorMachine svm;
+        SupportVectorMachine<IKernel> svm;
 
         string[] columnNames; // stores the column names for the loaded data
 
@@ -96,34 +96,28 @@ namespace Classification.SVMs
             double[,] table = (dgvLearningSource.DataSource as DataTable).ToMatrix(out columnNames);
 
             // Get only the input vector values (first two columns)
-            double[][] inputs = table.GetColumns(0, 1).ToArray();
+            double[][] inputs = table.GetColumns(0, 1).ToJagged();
 
             // Get only the output labels (last column)
             int[] outputs = table.GetColumn(2).ToInt32();
 
 
-            // Create the specified Kernel
-            IKernel kernel = createKernel();
-
-
-            // Creates the Support Vector Machine for 2 input variables
-            svm = new KernelSupportVectorMachine(kernel, inputs: 2);
-
             // Creates a new instance of the SMO learning algorithm
-            var smo = new SequentialMinimalOptimization(svm, inputs, outputs)
+            var smo = new SequentialMinimalOptimization<IKernel>()
             {
                 // Set learning parameters
                 Complexity = (double)numC.Value,
                 Tolerance = (double)numT.Value,
                 PositiveWeight = (double)numPositiveWeight.Value,
                 NegativeWeight = (double)numNegativeWeight.Value,
+                Kernel = createKernel()
             };
 
 
             try
             {
                 // Run
-                double error = smo.Run();
+                svm = smo.Learn(inputs, outputs);
 
                 lbStatus.Text = "Training complete!";
             }
@@ -172,15 +166,15 @@ namespace Classification.SVMs
         private void createSurface(double[,] table)
         {
             // Get the ranges for each variable (X and Y)
-            DoubleRange[] ranges = Matrix.Range(table, 0);
+            DoubleRange[] ranges = table.GetRange(0);
 
             // Generate a Cartesian coordinate system
-            double[][] map = Matrix.CartesianProduct(
-                Matrix.Interval(ranges[0], 0.05),
-                Matrix.Interval(ranges[1], 0.05));
+            double[][] map = Matrix.Cartesian(
+                Vector.Interval(ranges[0], 0.05),
+                Vector.Interval(ranges[1], 0.05));
 
             // Classify each point in the Cartesian coordinate system
-            double[] result = map.Apply(svm.Compute).Apply(Math.Sign).ToDouble();
+            double[] result = svm.Decide(map).ToMinusOnePlusOne().ToDouble();
             double[,] surface = map.ToMatrix().InsertColumn(result);
 
             CreateScatterplot(zedGraphControl2, surface);
@@ -205,27 +199,22 @@ namespace Classification.SVMs
 
 
             // Extract the first and second columns (X and Y)
-            double[][] inputs = table.GetColumns(0, 1).ToArray();
+            double[][] inputs = table.GetColumns(0, 1).ToJagged();
 
             // Extract the expected output labels
-            int[] expected = table.GetColumn(2).ToInt32();
-
-
-            int[] output = new int[expected.Length];
+            bool[] expected = Classes.Decide(table.GetColumn(2));
 
             // Compute the actual machine outputs
-            for (int i = 0; i < expected.Length; i++)
-                output[i] = System.Math.Sign(svm.Compute(inputs[i]));
-
-
+            bool[] output = svm.Decide(inputs);
 
             // Use confusion matrix to compute some performance metrics
-            ConfusionMatrix confusionMatrix = new ConfusionMatrix(output, expected, 1, -1);
-            dgvPerformance.DataSource = new [] { confusionMatrix };
+            dgvPerformance.DataSource = new [] { new ConfusionMatrix(output, expected) };
 
 
             // Create performance scatter plot
-            CreateResultScatterplot(zedGraphControl1, inputs, expected.ToDouble(), output.ToDouble());
+            CreateResultScatterplot(zedGraphControl1, inputs, 
+                expected.ToMinusOnePlusOne().ToDouble(), 
+                output.ToMinusOnePlusOne().ToDouble());
         }
 
 
@@ -295,7 +284,7 @@ namespace Classification.SVMs
             IKernel kernel = createKernel();
 
             // Estimate a suitable value for SVM's complexity parameter C
-            double c = SequentialMinimalOptimization.EstimateComplexity(kernel, inputs);
+            double c = kernel.EstimateComplexity(inputs);
 
             numC.Value = (decimal)c;
         }

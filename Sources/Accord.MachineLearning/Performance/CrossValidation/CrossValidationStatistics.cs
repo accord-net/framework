@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,6 +22,7 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.Statistics;
     using System;
 
     /// <summary>
@@ -115,14 +116,14 @@ namespace Accord.MachineLearning
             this.Values = statistics;
             this.Variances = variances;
 
-            this.Mean = Statistics.Tools.Mean(statistics);
-            this.Variance = Statistics.Tools.Variance(statistics, Mean);
+            this.Mean = Measures.Mean(statistics);
+            this.Variance = Measures.Variance(statistics, Mean);
 
             // Compute the pooled variance if the individual variances
             //  for each cross-validation run are available
 
             if (variances != null)
-                this.PooledVariance = Statistics.Tools.PooledVariance(sizes, variances);
+                this.PooledVariance = Measures.PooledVariance(sizes, variances);
         }
 
     }

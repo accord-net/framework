@@ -5,7 +5,7 @@
 // andrew.kirillov@gmail.com
 //
 
-namespace AForge.Video
+namespace Accord.Video
 {
     using System;
 

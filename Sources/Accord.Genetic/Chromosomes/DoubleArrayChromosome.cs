@@ -6,12 +6,12 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Genetic
+namespace Accord.Genetic
 {
     using System;
     using System.Text;
-    using AForge;
-    using AForge.Math.Random;
+    using Accord;
+    using Accord.Math.Random;
 
     /// <summary>
     /// Double array chromosome.
@@ -34,7 +34,7 @@ namespace AForge.Genetic
         /// <remarks><para>This random number generator is used to initialize chromosome's genes,
         /// which is done by calling <see cref="Generate"/> method.</para></remarks>
         /// 
-        protected IRandomNumberGenerator chromosomeGenerator;
+        protected IRandomNumberGenerator<double> chromosomeGenerator;
 
         /// <summary>
         /// Mutation multiplier generator.
@@ -43,7 +43,7 @@ namespace AForge.Genetic
         /// <remarks><para>This random number generator is used to generate random multiplier values,
         /// which are used to multiply chromosome's genes during mutation.</para></remarks>
         /// 
-        protected IRandomNumberGenerator mutationMultiplierGenerator;
+        protected IRandomNumberGenerator<double> mutationMultiplierGenerator;
 
         /// <summary>
         /// Mutation addition generator.
@@ -52,16 +52,7 @@ namespace AForge.Genetic
         /// <remarks><para>This random number generator is used to generate random addition values,
         /// which are used to add to chromosome's genes during mutation.</para></remarks>
         /// 
-        protected IRandomNumberGenerator mutationAdditionGenerator;
-
-        /// <summary>
-        /// Random number generator for crossover and mutation points selection.
-        /// </summary>
-        /// 
-        /// <remarks><para>This random number generator is used to select crossover
-        /// and mutation points.</para></remarks>
-        /// 
-        protected static ThreadSafeRandom rand = new ThreadSafeRandom( );
+        protected IRandomNumberGenerator<double> mutationAdditionGenerator;
 
         /// <summary>
         /// Chromosome's maximum length.
@@ -70,7 +61,7 @@ namespace AForge.Genetic
         /// <remarks><para>Maxim chromosome's length in array elements.</para></remarks>
         /// 
         public const int MaxLength = 65536;
-        
+
         /// <summary>
         /// Chromosome's length in number of elements.
         /// </summary>
@@ -112,7 +103,7 @@ namespace AForge.Genetic
         /// </summary>
         /// 
         /// <remarks><para>The property controls type of mutation, which is used more
-        /// frequently. A radnom number is generated each time before doing mutation -
+        /// frequently. A random number is generated each time before doing mutation -
         /// if the random number is smaller than the specified balance value, then one
         /// mutation type is used, otherwse another. See <see cref="Mutate"/> method
         /// for more information.</para>
@@ -123,7 +114,7 @@ namespace AForge.Genetic
         public double MutationBalancer
         {
             get { return mutationBalancer; }
-            set { mutationBalancer = Math.Max( 0.0, Math.Min( 1.0, value ) ); }
+            set { mutationBalancer = Math.Max(0.0, Math.Min(1.0, value)); }
         }
 
         /// <summary>
@@ -131,7 +122,7 @@ namespace AForge.Genetic
         /// </summary>
         /// 
         /// <remarks><para>The property controls type of crossover, which is used more
-        /// frequently. A radnom number is generated each time before doing crossover -
+        /// frequently. A random number is generated each time before doing crossover -
         /// if the random number is smaller than the specified balance value, then one
         /// crossover type is used, otherwse another. See <see cref="Crossover"/> method
         /// for more information.</para>
@@ -142,7 +133,7 @@ namespace AForge.Genetic
         public double CrossoverBalancer
         {
             get { return crossoverBalancer; }
-            set { crossoverBalancer = Math.Max( 0.0, Math.Min( 1.0, value ) ); }
+            set { crossoverBalancer = Math.Max(0.0, Math.Min(1.0, value)); }
         }
 
         /// <summary>
@@ -164,23 +155,23 @@ namespace AForge.Genetic
         /// <see cref="Generate"/> method.</para></remarks>
         /// 
         public DoubleArrayChromosome(
-            IRandomNumberGenerator chromosomeGenerator,
-            IRandomNumberGenerator mutationMultiplierGenerator,
-            IRandomNumberGenerator mutationAdditionGenerator,
-            int length )
+            IRandomNumberGenerator<double> chromosomeGenerator,
+            IRandomNumberGenerator<double> mutationMultiplierGenerator,
+            IRandomNumberGenerator<double> mutationAdditionGenerator,
+            int length)
         {
 
             // save parameters
             this.chromosomeGenerator = chromosomeGenerator;
             this.mutationMultiplierGenerator = mutationMultiplierGenerator;
             this.mutationAdditionGenerator = mutationAdditionGenerator;
-            this.length = Math.Max( 2, Math.Min( MaxLength, length ) ); ;
+            this.length = Math.Max(2, Math.Min(MaxLength, length)); ;
 
             // allocate array
             val = new double[length];
 
             // generate random chromosome
-            Generate( );
+            Generate();
         }
 
         /// <summary>
@@ -204,22 +195,22 @@ namespace AForge.Genetic
         /// <exception cref="ArgumentOutOfRangeException">Invalid length of values array.</exception>
         /// 
         public DoubleArrayChromosome(
-            IRandomNumberGenerator chromosomeGenerator,
-            IRandomNumberGenerator mutationMultiplierGenerator,
-            IRandomNumberGenerator mutationAdditionGenerator,
-            double[] values )
+            IRandomNumberGenerator<double> chromosomeGenerator,
+            IRandomNumberGenerator<double> mutationMultiplierGenerator,
+            IRandomNumberGenerator<double> mutationAdditionGenerator,
+            double[] values)
         {
-            if ( ( values.Length < 2 ) || ( values.Length > MaxLength ) )
-                throw new ArgumentOutOfRangeException( "Invalid length of values array." );
+            if ((values.Length < 2) || (values.Length > MaxLength))
+                throw new ArgumentOutOfRangeException("Invalid length of values array.");
 
-          // save parameters
+            // save parameters
             this.chromosomeGenerator = chromosomeGenerator;
             this.mutationMultiplierGenerator = mutationMultiplierGenerator;
             this.mutationAdditionGenerator = mutationAdditionGenerator;
             this.length = values.Length;
 
             // copy specified values
-            val = (double[]) values.Clone( );
+            val = (double[])values.Clone();
         }
 
         /// <summary>
@@ -231,18 +222,18 @@ namespace AForge.Genetic
         /// <remarks><para>This is a copy constructor, which creates the exact copy
         /// of specified chromosome.</para></remarks>
         /// 
-        public DoubleArrayChromosome( DoubleArrayChromosome source )
+        public DoubleArrayChromosome(DoubleArrayChromosome source)
         {
             this.chromosomeGenerator = source.chromosomeGenerator;
             this.mutationMultiplierGenerator = source.mutationMultiplierGenerator;
             this.mutationAdditionGenerator = source.mutationAdditionGenerator;
-            this.length  = source.length;
+            this.length = source.length;
             this.fitness = source.fitness;
             this.mutationBalancer = source.mutationBalancer;
             this.crossoverBalancer = source.crossoverBalancer;
 
             // copy genes
-            val = (double[]) source.val.Clone( );
+            val = (double[])source.val.Clone();
         }
 
         /// <summary>
@@ -251,20 +242,20 @@ namespace AForge.Genetic
         /// 
         /// <returns>Returns string representation of the chromosome.</returns>
         /// 
-        public override string ToString( )
+        public override string ToString()
         {
-            StringBuilder sb = new StringBuilder( );
+            StringBuilder sb = new StringBuilder();
 
             // append first gene
-            sb.Append( val[0] );
+            sb.Append(val[0]);
             // append all other genes
-            for ( int i = 1; i < length; i++ )
+            for (int i = 1; i < length; i++)
             {
-                sb.Append( ' ' );
-                sb.Append( val[i] );
+                sb.Append(' ');
+                sb.Append(val[i]);
             }
 
-            return sb.ToString( );
+            return sb.ToString();
         }
 
         /// <summary>
@@ -274,12 +265,12 @@ namespace AForge.Genetic
         /// <remarks><para>Regenerates chromosome's value using random number generator.</para>
         /// </remarks>
         ///
-        public override void Generate( )
+        public override void Generate()
         {
-            for ( int i = 0; i < length; i++ )
+            for (int i = 0; i < length; i++)
             {
                 // generate next value
-                val[i] = chromosomeGenerator.Next( );
+                val[i] = chromosomeGenerator.Generate();
             }
         }
 
@@ -291,9 +282,9 @@ namespace AForge.Genetic
         /// initialized. The method is useful as factory method for those classes, which work
         /// with chromosome's interface, but not with particular chromosome type.</para></remarks>
         ///
-        public override IChromosome CreateNew( )
+        public override IChromosome CreateNew()
         {
-            return new DoubleArrayChromosome( chromosomeGenerator, mutationMultiplierGenerator, mutationAdditionGenerator, length );
+            return new DoubleArrayChromosome(chromosomeGenerator, mutationMultiplierGenerator, mutationAdditionGenerator, length);
         }
 
         /// <summary>
@@ -305,9 +296,9 @@ namespace AForge.Genetic
         /// <remarks><para>The method clones the chromosome returning the exact copy of it.</para>
         /// </remarks>
         ///
-        public override IChromosome Clone( )
+        public override IChromosome Clone()
         {
-            return new DoubleArrayChromosome( this );
+            return new DoubleArrayChromosome(this);
         }
 
         /// <summary>
@@ -327,17 +318,17 @@ namespace AForge.Genetic
         /// mutation is done, otherwise addition mutation.
         /// </para></remarks>
         /// 
-        public override void Mutate( )
+        public override void Mutate()
         {
-            int mutationGene = rand.Next( length );
+            int mutationGene = Generator.Random.Next(length);
 
-            if ( rand.NextDouble( ) < mutationBalancer )
+            if (Generator.Random.NextDouble() < mutationBalancer)
             {
-                val[mutationGene] *= mutationMultiplierGenerator.Next( );
+                val[mutationGene] *= mutationMultiplierGenerator.Generate();
             }
             else
             {
-                val[mutationGene] += mutationAdditionGenerator.Next( );
+                val[mutationGene] += mutationAdditionGenerator.Generate();
             }
         }
 
@@ -372,40 +363,41 @@ namespace AForge.Genetic
         /// of the chromosomes participating in crossover.</para>
         /// </remarks>
         ///
-        public override void Crossover( IChromosome pair )
+        public override void Crossover(IChromosome pair)
         {
-            DoubleArrayChromosome p = (DoubleArrayChromosome) pair;
+            DoubleArrayChromosome p = (DoubleArrayChromosome)pair;
+            var rand = Generator.Random;
 
             // check for correct pair
-            if ( ( p != null ) && ( p.length == length ) )
+            if ((p != null) && (p.length == length))
             {
-                if ( rand.NextDouble( ) < crossoverBalancer )
+                if (rand.NextDouble() < crossoverBalancer)
                 {
                     // crossover point
-                    int crossOverPoint = rand.Next( length - 1 ) + 1;
+                    int crossOverPoint = rand.Next(length - 1) + 1;
                     // length of chromosome to be crossed
                     int crossOverLength = length - crossOverPoint;
                     // temporary array
                     double[] temp = new double[crossOverLength];
 
                     // copy part of first (this) chromosome to temp
-                    Array.Copy( val, crossOverPoint, temp, 0, crossOverLength );
+                    Array.Copy(val, crossOverPoint, temp, 0, crossOverLength);
                     // copy part of second (pair) chromosome to the first
-                    Array.Copy( p.val, crossOverPoint, val, crossOverPoint, crossOverLength );
+                    Array.Copy(p.val, crossOverPoint, val, crossOverPoint, crossOverLength);
                     // copy temp to the second
-                    Array.Copy( temp, 0, p.val, crossOverPoint, crossOverLength );
+                    Array.Copy(temp, 0, p.val, crossOverPoint, crossOverLength);
                 }
                 else
                 {
                     double[] pairVal = p.val;
 
-                    double factor = rand.NextDouble( );
-                    if ( rand.Next( 2 ) == 0 )
+                    double factor = rand.NextDouble();
+                    if (rand.Next(2) == 0)
                         factor = -factor;
 
-                    for ( int i = 0; i < length; i++ )
+                    for (int i = 0; i < length; i++)
                     {
-                        double portion = ( val[i] - pairVal[i] ) * factor;
+                        double portion = (val[i] - pairVal[i]) * factor;
 
                         val[i] -= portion;
                         pairVal[i] += portion;

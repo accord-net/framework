@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -86,12 +86,12 @@ namespace Accord.Tests.Statistics
             var range2 = invchisq.GetRange(0.99);
             var range3 = invchisq.GetRange(0.01);
 
-            Assert.AreEqual(2.1673499092513264, range1.Min);
-            Assert.AreEqual(14.067140449765922, range1.Max);
-            Assert.AreEqual(1.2390421125300894, range2.Min);
-            Assert.AreEqual(18.475307115523769, range2.Max);
-            Assert.AreEqual(1.2390421125300894, range3.Min);
-            Assert.AreEqual(18.475307115523773, range3.Max);
+            Assert.AreEqual(2.1673499092513264, range1.Min, 1e-10);
+            Assert.AreEqual(14.067140449765922, range1.Max, 1e-10);
+            Assert.AreEqual(1.2390421125300894, range2.Min, 1e-10);
+            Assert.AreEqual(18.475307115523769, range2.Max, 1e-10);
+            Assert.AreEqual(1.2390421125300894, range3.Min, 1e-10);
+            Assert.AreEqual(18.475307115523773, range3.Max, 1e-10);
         }
 
         [Test]
@@ -254,7 +254,7 @@ namespace Accord.Tests.Statistics
             for (int i = 0; i < actual.Length; i++)
                 actual[i] = ChiSquareDistribution.Inverse(p[i], 1);
 
-            Assert.IsTrue(expected.IsEqual(actual, 1e-14));
+            Assert.IsTrue(expected.IsEqual(actual, atol: 1e-14));
         }
 
 

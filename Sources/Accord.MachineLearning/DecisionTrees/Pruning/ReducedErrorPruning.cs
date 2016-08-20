@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,7 +28,8 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
     using System.Text;
     using Accord.Math;
     using Accord.Statistics;
-    using Accord.MachineLearning.Structures;
+    using Accord.Collections;
+    using Accord.Math.Optimization.Losses;
 
     /// <summary>
     ///   Reduced error pruning.
@@ -112,10 +113,10 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
 
             if (maxGain >= 0 && maxNode != null)
             {
-                int[] o = outputs.Submatrix(info[maxNode].subset.ToArray());
+                int[] o = outputs.Get(info[maxNode].subset.ToArray());
 
                 // prune the maximum gain node
-                int common = Accord.Statistics.Tools.Mode(o);
+                int common = Measures.Mode(o);
 
                 maxNode.Branches = null;
                 maxNode.Output = common;
@@ -157,7 +158,7 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
             int error = 0;
             for (int i = 0; i < inputs.Length; i++)
             {
-                int actual = tree.Compute(inputs[i]);
+                int actual = tree.Decide(inputs[i]);
                 int expected = outputs[i];
                 if (actual != expected) error++;
             }

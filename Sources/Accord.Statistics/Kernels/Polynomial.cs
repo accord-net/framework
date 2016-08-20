@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,14 +24,15 @@ namespace Accord.Statistics.Kernels
 {
     using System;
     using Accord.Math;
+    using Accord.Math.Distances;
 
     /// <summary>
     ///   Polynomial Kernel.
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Polynomial : KernelBase, IKernel,
-        IDistance, IReverseDistance, ICloneable, ITransform
+    public struct Polynomial : IKernel, IDistance,
+        IReverseDistance, ICloneable, ITransform
     {
         private int degree;
         private double constant;
@@ -93,7 +94,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public override double Function(double[] x, double[] y)
+        public double Function(double[] x, double[] y)
         {
             double sum = constant;
             for (int i = 0; i < x.Length; i++)
@@ -125,7 +126,7 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <returns>Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.</returns>
         /// 
-        public override double Distance(double[] x, double[] y)
+        public double Distance(double[] x, double[] y)
         {
             if (x == y)
                 return 0.0;
@@ -249,5 +250,5 @@ namespace Accord.Statistics.Kernels
 
             return features;
         }
-    }
+    } 
 }

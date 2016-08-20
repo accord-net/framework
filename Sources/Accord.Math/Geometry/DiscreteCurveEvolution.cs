@@ -5,7 +5,7 @@
 // Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -37,9 +37,6 @@ namespace Accord.Math.Geometry
     using System;
     using System.Collections.Generic;
     using Accord.Math;
-    using AForge;
-    using AForge.Math;
-    using AForge.Math.Geometry;
     using System.Numerics;
 
     /// <summary>

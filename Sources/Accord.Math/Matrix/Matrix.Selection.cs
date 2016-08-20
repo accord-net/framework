@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ namespace Accord.Math
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     public static partial class Matrix
     {
@@ -83,92 +84,154 @@ namespace Accord.Math
         /// <summary>
         ///   Gets a column vector from a matrix.
         /// </summary>
-        public static T[] GetColumn<T>(this T[,] m, int index)
+        /// 
+        public static T[] GetColumn<T>(this T[,] m, int index, T[] result = null)
         {
-            int rows = m.GetLength(0);
-            int cols = m.GetLength(1);
+            if (result == null)
+                result = new T[m.Rows()];
 
-            if (index >= cols)
-                throw new ArgumentOutOfRangeException("index");
+            index = Matrix.index(index, m.Columns());
+            for (int i = 0; i < result.Length; i++)
+                result[i] = m[i, index];
 
-            T[] column = new T[rows];
-
-            for (int i = 0; i < column.Length; i++)
-                column[i] = m[i, index];
-
-            return column;
+            return result;
         }
 
         /// <summary>
         ///   Gets a column vector from a matrix.
         /// </summary>
-        public static T[] GetColumn<T>(this T[][] m, int index)
+        /// 
+        public static T[] GetColumn<T>(this T[][] m, int index, T[] result = null)
         {
-            T[] column = new T[m.Length];
+            if (result == null)
+                result = new T[m.Length];
 
-            for (int i = 0; i < column.Length; i++)
-                column[i] = m[i][index];
+            index = Matrix.index(index, m.Columns());
+            for (int i = 0; i < result.Length; i++)
+                result[i] = m[i][index];
 
-            return column;
+            return result;
         }
 
         /// <summary>
         ///   Gets a column vector from a matrix.
         /// </summary>
+        /// 
         public static T[][] GetColumns<T>(this T[][] m, params int[] index)
         {
-            T[][] columns = new T[m.Length][];
-
-            for (int i = 0; i < columns.Length; i++)
-            {
-                columns[i] = new T[index.Length];
-                for (int j = 0; j < index.Length; j++)
-                    columns[i][j] = m[i][index[j]];
-            }
-
-            return columns;
+            return GetColumns(m, index, null);
         }
-
-        /// <summary>
-        ///   Gets a row vector from a matrix.
-        /// </summary>
-        /// 
-        public static T[] GetRow<T>(this T[][] m, int index)
-        {
-            return (T[])m[index].Clone();
-        }
-
-        /// <summary>
-        ///   Gets a row vector from a matrix.
-        /// </summary>
-        /// 
-        public static T[][] GetRows<T>(this T[][] m, params int[] index)
-        {
-            T[][] rows = new T[index.Length][];
-
-            for (int i = 0; i < index.Length; i++)
-                rows[i] = (T[])m[index[i]].Clone();
-
-            return rows;
-        }
-
 
         /// <summary>
         ///   Gets a column vector from a matrix.
         /// </summary>
+        /// 
+        public static T[][] GetColumns<T>(this T[][] m, int[] index, T[][] result = null)
+        {
+            if (result == null)
+                result = new T[m.Length][];
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                if (result[i] == null)
+                    result[i] = new T[index.Length];
+                for (int j = 0; j < index.Length; j++)
+                    result[i][j] = m[i][index[j]];
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets a row vector from a matrix.
+        /// </summary>
+        /// 
+        public static T[] GetRow<T>(this T[][] m, int index, T[] result = null)
+        {
+            index = Matrix.index(index, m.Rows());
+
+            if (result == null)
+            {
+                return (T[])m[index].Clone();
+            }
+            else
+            {
+                m[index].CopyTo(result, 0);
+                return result;
+            }
+        }
+
+        /// <summary>
+        ///   Gets a row vector from a matrix.
+        /// </summary>
+        ///
+        public static T[] GetRow<T>(this T[,] m, int index, T[] result = null)
+        {
+            if (result == null)
+                result = new T[m.GetLength(1)];
+
+            index = Matrix.index(index, m.Rows());
+            for (int i = 0; i < result.Length; i++)
+                result[i] = m[index, i];
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets a row vector from a matrix.
+        /// </summary>
+        /// 
+        public static T[][] GetRows<T>(this T[][] m, params  int[] index)
+        {
+            return GetRows(m, index, null);
+        }
+
+        /// <summary>
+        ///   Gets a row vector from a matrix.
+        /// </summary>
+        /// 
+        public static T[][] GetRows<T>(this T[][] m, int[] index, T[][] result)
+        {
+            if (result == null)
+            {
+                result = new T[index.Length][];
+                for (int i = 0; i < index.Length; i++)
+                    result[i] = (T[])m[index[i]].Clone();
+            }
+            else
+            {
+                for (int i = 0; i < index.Length; i++)
+                    m[index[i]].CopyTo(result[i], 0);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets a column vector from a matrix.
+        /// </summary>
+        /// 
         public static T[,] GetColumns<T>(this T[,] m, params int[] index)
+        {
+            return GetColumns(m, index, null);
+        }
+
+        /// <summary>
+        ///   Gets a column vector from a matrix.
+        /// </summary>
+        /// 
+        public static T[,] GetColumns<T>(this T[,] m, int[] index, T[,] result = null)
         {
             int rows = m.GetLength(0);
 
-            T[,] columns = new T[rows, index.Length];
+            if (result == null)
+                result = new T[rows, index.Length];
 
             for (int i = 0; i < rows; i++)
-            {
                 for (int j = 0; j < index.Length; j++)
-                    columns[i, j] = m[i, index[j]];
-            }
+                    result[i, j] = m[i, index[j]];
 
-            return columns;
+            return result;
         }
 
         /// <summary>
@@ -176,9 +239,9 @@ namespace Accord.Math
         /// </summary>
         public static T[,] SetColumn<T>(this T[,] m, int index, T[] column)
         {
+            index = Matrix.index(index, m.Columns());
             for (int i = 0; i < column.Length; i++)
                 m[i, index] = column[i];
-
             return m;
         }
 
@@ -187,6 +250,7 @@ namespace Accord.Math
         /// </summary>
         public static T[][] SetColumn<T>(this T[][] m, int index, T[] column)
         {
+            index = Matrix.index(index, m.Columns());
             for (int i = 0; i < column.Length; i++)
                 m[i][index] = column[i];
 
@@ -194,26 +258,13 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Gets a row vector from a matrix.
-        /// </summary>
-        public static T[] GetRow<T>(this T[,] m, int index)
-        {
-            T[] row = new T[m.GetLength(1)];
-
-            for (int i = 0; i < row.Length; i++)
-                row[i] = m[index, i];
-
-            return row;
-        }
-
-        /// <summary>
         ///   Stores a row vector into the given row position of the matrix.
         /// </summary>
         public static T[,] SetRow<T>(this T[,] m, int index, T[] row)
         {
+            index = Matrix.index(index, m.Rows());
             for (int i = 0; i < row.Length; i++)
                 m[index, i] = row[i];
-
             return m;
         }
 
@@ -222,9 +273,9 @@ namespace Accord.Math
         /// </summary>
         public static T[][] SetRow<T>(this T[][] m, int index, T[] row)
         {
+            index = Matrix.index(index, m.Rows());
             for (int i = 0; i < row.Length; i++)
                 m[index][i] = row[i];
-
             return m;
         }
         #endregion
@@ -312,9 +363,36 @@ namespace Accord.Math
         ///   Returns a new matrix with a given column vector inserted at the end of the original matrix.
         /// </summary>
         /// 
+        public static T[,] InsertColumn<T, TSource>(this T[,] matrix, TSource value)
+        {
+            return InsertColumn(matrix, value, matrix.GetLength(1));
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a given column vector inserted at the end of the original matrix.
+        /// </summary>
+        /// 
         public static T[][] InsertColumn<T, TSource>(this T[][] matrix, TSource[] column)
         {
             return InsertColumn(matrix, column, matrix[0].Length);
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a given column vector inserted at the end of the original matrix.
+        /// </summary>
+        /// 
+        public static T[][] InsertColumn<T, TSource>(this T[][] matrix, TSource value)
+        {
+            return InsertColumn(matrix, value, matrix[0].Length);
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a given column vector inserted at the end of the original matrix.
+        /// </summary>
+        /// 
+        public static T[][] InsertRow<T, TSource>(this T[][] matrix, TSource value)
+        {
+            return InsertRow(matrix, value, matrix.Length);
         }
 
         /// <summary>
@@ -394,6 +472,36 @@ namespace Accord.Math
         ///   Returns a new matrix with a given column vector inserted at a given index.
         /// </summary>
         /// 
+        public static T[,] InsertColumn<T, TSource>(this T[,] matrix, TSource value, int index)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            T[,] X = new T[rows, cols + 1];
+
+            // Copy original matrix
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < index; j++)
+                    X[i, j] = matrix[i, j];
+                for (int j = index; j < cols; j++)
+                    X[i, j + 1] = matrix[i, j];
+            }
+
+            // Copy additional column
+            for (int i = 0; i < rows; i++)
+                X[i, index] = cast<T>(value);
+
+            return X;
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a given column vector inserted at a given index.
+        /// </summary>
+        /// 
         public static T[][] InsertColumn<T, TSource>(this T[][] matrix, TSource[] column, int index)
         {
             if (matrix == null)
@@ -423,6 +531,72 @@ namespace Accord.Math
             // Copy additional column
             for (int i = 0; i < column.Length; i++)
                 X[i][index] = cast<T>(column[i]);
+
+            return X;
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a given column vector inserted at a given index.
+        /// </summary>
+        /// 
+        public static T[][] InsertColumn<T, TSource>(this T[][] matrix, TSource value, int index)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            T[][] X = new T[rows][];
+            for (int i = 0; i < X.Length; i++)
+                X[i] = new T[cols + 1];
+
+            // Copy original matrix
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < index; j++)
+                    X[i][j] = matrix[i][j];
+
+                for (int j = index; j < cols; j++)
+                    X[i][j + 1] = matrix[i][j];
+            }
+
+            // Copy additional column
+            for (int i = 0; i < rows; i++)
+                X[i][index] = cast<T>(value);
+
+            return X;
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a given column vector inserted at a given index.
+        /// </summary>
+        /// 
+        public static T[][] InsertRow<T, TSource>(this T[][] matrix, TSource value, int index)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            var X = new T[rows + 1][];
+            for (int i = 0; i < X.Length; i++)
+                X[i] = new T[cols];
+
+            // Copy original matrix
+            for (int i = 0; i < cols; i++)
+            {
+                for (int j = 0; j < rows; j++)
+                    X[j][i] = matrix[j][i];
+
+                for (int j = index; j < rows; j++)
+                    X[j + 1][i] = matrix[j][i];
+            }
+
+            // Copy additional column
+            for (int i = 0; i < cols; i++)
+                X[index][i] = cast<T>(value);
 
             return X;
         }
@@ -458,6 +632,37 @@ namespace Accord.Math
             // Copy additional column
             for (int i = 0; i < row.Length; i++)
                 X[index, i] = cast<T>(row[i]);
+
+            return X;
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a given row vector inserted at a given index.
+        /// </summary>
+        /// 
+        public static T[,] InsertRow<T, TSource>(this T[,] matrix, TSource value, int index)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            var X = new T[rows + 1, cols];
+
+            // Copy original matrix
+            for (int i = 0; i < cols; i++)
+            {
+                for (int j = 0; j < rows; j++)
+                    X[j, i] = matrix[j, i];
+
+                for (int j = index; j < rows; j++)
+                    X[j + 1, i] = matrix[j, i];
+            }
+
+            // Copy additional column
+            for (int i = 0; i < cols; i++)
+                X[index, i] = cast<T>(value);
 
             return X;
         }
@@ -678,771 +883,6 @@ namespace Accord.Math
         #endregion
 
 
-        #region Element ranges (maximum and minimum)
-
-
-
-        /// <summary>
-        ///   Gets the maximum non-null element in a vector.
-        /// </summary>
-        /// 
-        public static Nullable<T> Max<T>(this Nullable<T>[] values, out int imax)
-            where T : struct, IComparable
-        {
-            imax = -1;
-            Nullable<T> max = null;
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                if (values[i].HasValue)
-                {
-                    if (max == null || values[i].Value.CompareTo(max.Value) > 0)
-                    {
-                        max = values[i];
-                        imax = i;
-                    }
-                }
-            }
-
-            return max;
-        }
-
-
-
-        /// <summary>
-        ///   Gets the maximum element in a vector.
-        /// </summary>
-        /// 
-        public static T Max<T>(this T[] values, out int imax) where T : IComparable
-        {
-            imax = 0;
-            T max = values[0];
-            for (int i = 1; i < values.Length; i++)
-            {
-                if (values[i].CompareTo(max) > 0)
-                {
-                    max = values[i];
-                    imax = i;
-                }
-            }
-            return max;
-        }
-
-        /// <summary>
-        ///   Gets the maximum element in a vector.
-        /// </summary>
-        /// 
-        public static T Max<T>(this T[] values, out int imax, bool alreadySorted) where T : IComparable
-        {
-            if (alreadySorted)
-            {
-                imax = values.Length - 1;
-                return values[values.Length - 1];
-            }
-
-            return Max(values, out imax);
-        }
-
-        /// <summary>
-        ///   Gets the maximum element in a vector.
-        /// </summary>
-        /// 
-        public static T Max<T>(this T[] values) where T : IComparable
-        {
-            int imax;
-            return Max(values, out imax);
-        }
-
-
-        /// <summary>
-        ///   Gets the minimum element in a vector.
-        /// </summary>
-        /// 
-        public static T Min<T>(this T[] values, out int imax) where T : IComparable
-        {
-            imax = 0;
-            T max = values[0];
-            for (int i = 1; i < values.Length; i++)
-            {
-                if (values[i].CompareTo(max) < 0)
-                {
-                    max = values[i];
-                    imax = i;
-                }
-            }
-            return max;
-        }
-
-        /// <summary>
-        ///   Gets the minimum element in a vector.
-        /// </summary>
-        /// 
-        public static T Min<T>(this T[] values) where T : IComparable
-        {
-            int imin;
-            return Min(values, out imin);
-        }
-
-
-        /// <summary>
-        ///   Gets the maximum element in a vector up to a fixed length.
-        /// </summary>
-        /// 
-        public static T Max<T>(this T[] values, int length, out int imax) where T : IComparable
-        {
-            imax = 0;
-            T max = values[0];
-            for (int i = 1; i < length; i++)
-            {
-                if (values[i].CompareTo(max) > 0)
-                {
-                    max = values[i];
-                    imax = i;
-                }
-            }
-            return max;
-        }
-
-        /// <summary>
-        ///   Gets the maximum element in a vector up to a fixed length.
-        /// </summary>
-        /// 
-        public static T Max<T>(this T[] values, int length) where T : IComparable
-        {
-            int imax;
-            return Max(values, length, out imax);
-        }
-
-
-        /// <summary>
-        ///   Gets the minimum element in a vector up to a fixed length.
-        /// </summary>
-        /// 
-        public static T Min<T>(this T[] values, int length, out int imax) where T : IComparable
-        {
-            imax = 0;
-            T max = values[0];
-            for (int i = 1; i < length; i++)
-            {
-                if (values[i].CompareTo(max) < 0)
-                {
-                    max = values[i];
-                    imax = i;
-                }
-            }
-            return max;
-        }
-
-        /// <summary>
-        ///   Gets the minimum element in a vector up to a fixed length.
-        /// </summary>
-        /// 
-        public static T Min<T>(this T[] values, int length) where T : IComparable
-        {
-            int imin;
-            return Min(values, length, out imin);
-        }
-
-
-
-        /// <summary>
-        ///   Gets the maximum value of a matrix.
-        /// </summary>
-        /// 
-        public static T Max<T>(this T[,] matrix) where T : IComparable
-        {
-            Tuple<int, int> imax;
-            return Max(matrix, out imax);
-        }
-
-        /// <summary>
-        ///   Gets the maximum value of a matrix.
-        /// </summary>
-        /// 
-        public static T Max<T>(this T[,] matrix, out Tuple<int, int> imax) where T : IComparable
-        {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            T max = matrix[0, 0];
-            imax = Tuple.Create(0, 0);
-
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    if (matrix[i, j].CompareTo(max) > 0)
-                    {
-                        max = matrix[i, j];
-                        imax = Tuple.Create(i, j);
-                    }
-                }
-            }
-
-            return max;
-        }
-
-        /// <summary>
-        ///   Gets the minimum value of a matrix.
-        /// </summary>
-        /// 
-        public static T Min<T>(this T[,] matrix) where T : IComparable
-        {
-            Tuple<int, int> imin;
-            return Min(matrix, out imin);
-        }
-
-        /// <summary>
-        ///   Gets the minimum value of a matrix.
-        /// </summary>
-        /// 
-        public static T Min<T>(this T[,] matrix, out Tuple<int, int> imin) where T : IComparable
-        {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            T min = matrix[0, 0];
-            imin = Tuple.Create(0, 0);
-
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    if (matrix[i, j].CompareTo(min) < 0)
-                    {
-                        min = matrix[i, j];
-                        imin = Tuple.Create(i, j);
-                    }
-                }
-            }
-
-            return min;
-        }
-
-
-        /// <summary>
-        ///   Gets the maximum value of a matrix.
-        /// </summary>
-        /// 
-        public static T Max<T>(this T[][] matrix) where T : IComparable
-        {
-            Tuple<int, int> imax;
-            return Max(matrix, out imax);
-        }
-
-        /// <summary>
-        ///   Gets the maximum value of a matrix.
-        /// </summary>
-        /// 
-        public static T Max<T>(this T[][] matrix, out Tuple<int, int> imax) where T : IComparable
-        {
-            T max = matrix[0][0];
-            imax = Tuple.Create(0, 0);
-
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                for (int j = 0; j < matrix[i].Length; j++)
-                {
-                    if (matrix[i][j].CompareTo(max) > 0)
-                    {
-                        max = matrix[i][j];
-                        imax = Tuple.Create(i, j);
-                    }
-                }
-            }
-
-            return max;
-        }
-
-        /// <summary>
-        ///   Gets the minimum value of a matrix.
-        /// </summary>
-        /// 
-        public static T Min<T>(this T[][] matrix) where T : IComparable
-        {
-            Tuple<int, int> imin;
-            return Min(matrix, out imin);
-        }
-
-        /// <summary>
-        ///   Gets the minimum value of a matrix.
-        /// </summary>
-        /// 
-        public static T Min<T>(this T[][] matrix, out Tuple<int, int> imin) where T : IComparable
-        {
-            T min = matrix[0][0];
-            imin = Tuple.Create(0, 0);
-
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                for (int j = 0; j < matrix[i].Length; j++)
-                {
-                    if (matrix[i][j].CompareTo(min) < 0)
-                    {
-                        min = matrix[i][j];
-                        imin = Tuple.Create(i, j);
-                    }
-                }
-            }
-
-            return min;
-        }
-
-
-
-        /// <summary>
-        ///   Gets the maximum values across one dimension of a matrix.
-        /// </summary>
-        public static T[] Max<T>(this T[,] matrix, int dimension) where T : IComparable
-        {
-            int[] imax;
-            return Max(matrix, dimension, out imax);
-        }
-
-        /// <summary>
-        ///   Gets the maximum values across one dimension of a matrix.
-        /// </summary>
-        public static T[] Max<T>(this T[,] matrix, int dimension, out int[] imax) where T : IComparable
-        {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            T[] max;
-
-            if (dimension == 1) // Search down columns
-            {
-                imax = new int[rows];
-                max = matrix.GetColumn(0);
-
-                for (int j = 0; j < rows; j++)
-                {
-                    for (int i = 1; i < cols; i++)
-                    {
-                        if (matrix[j, i].CompareTo(max[j]) > 0)
-                        {
-                            max[j] = matrix[j, i];
-                            imax[j] = i;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                imax = new int[cols];
-                max = matrix.GetRow(0);
-
-                for (int j = 0; j < cols; j++)
-                {
-                    for (int i = 1; i < rows; i++)
-                    {
-                        if (matrix[i, j].CompareTo(max[j]) > 0)
-                        {
-                            max[j] = matrix[i, j];
-                            imax[j] = i;
-                        }
-                    }
-                }
-            }
-
-            return max;
-        }
-
-        /// <summary>
-        ///   Gets the minimum values across one dimension of a matrix.
-        /// </summary>
-        public static T[] Min<T>(this T[,] matrix, int dimension) where T : IComparable
-        {
-            int[] imin;
-            return Min(matrix, dimension, out imin);
-        }
-
-        /// <summary>
-        ///   Gets the minimum values across one dimension of a matrix.
-        /// </summary>
-        public static T[] Min<T>(this T[,] matrix, int dimension, out int[] imin) where T : IComparable
-        {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
-
-            T[] min;
-
-            if (dimension == 1) // Search down columns
-            {
-                imin = new int[rows];
-                min = matrix.GetColumn(0);
-
-                for (int j = 0; j < rows; j++)
-                {
-                    for (int i = 1; i < cols; i++)
-                    {
-                        if (matrix[j, i].CompareTo(min[j]) < 0)
-                        {
-                            min[j] = matrix[j, i];
-                            imin[j] = i;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                imin = new int[cols];
-                min = matrix.GetRow(0);
-
-                for (int j = 0; j < cols; j++)
-                {
-                    for (int i = 1; i < rows; i++)
-                    {
-                        if (matrix[i, j].CompareTo(min[j]) < 0)
-                        {
-                            min[j] = matrix[i, j];
-                            imin[j] = i;
-                        }
-                    }
-                }
-            }
-
-            return min;
-        }
-
-
-
-        /// <summary>
-        ///   Gets the maximum values across one dimension of a matrix.
-        /// </summary>
-        public static T[] Max<T>(this T[][] matrix, int dimension) where T : IComparable
-        {
-            int[] imax;
-            return Max(matrix, dimension, out imax);
-        }
-
-        /// <summary>
-        ///   Gets the maximum values across one dimension of a matrix.
-        /// </summary>
-        public static T[] Max<T>(this T[][] matrix, int dimension, out int[] imax) where T : IComparable
-        {
-            int rows = matrix.Length;
-            int cols = matrix[0].Length;
-
-            T[] max;
-
-            if (dimension == 1) // Search down columns
-            {
-                imax = new int[rows];
-                max = matrix.GetColumn(0);
-
-                for (int j = 0; j < rows; j++)
-                {
-                    for (int i = 1; i < cols; i++)
-                    {
-                        if (matrix[j][i].CompareTo(max[j]) > 0)
-                        {
-                            max[j] = matrix[j][i];
-                            imax[j] = i;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                imax = new int[cols];
-                max = (T[])matrix[0].Clone();
-
-                for (int j = 0; j < cols; j++)
-                {
-                    for (int i = 1; i < rows; i++)
-                    {
-                        if (matrix[i][j].CompareTo(max[j]) > 0)
-                        {
-                            max[j] = matrix[i][j];
-                            imax[j] = i;
-                        }
-                    }
-                }
-            }
-
-            return max;
-        }
-
-        /// <summary>
-        ///   Gets the minimum values across one dimension of a matrix.
-        /// </summary>
-        public static T[] Min<T>(this T[][] matrix, int dimension) where T : IComparable
-        {
-            int[] imin;
-            return Min(matrix, dimension, out imin);
-        }
-
-        /// <summary>
-        ///   Gets the minimum values across one dimension of a matrix.
-        /// </summary>
-        public static T[] Min<T>(this T[][] matrix, int dimension, out int[] imin) where T : IComparable
-        {
-            int rows = matrix.Length;
-            int cols = matrix[0].Length;
-
-            T[] min;
-
-            if (dimension == 1) // Search down columns
-            {
-                imin = new int[rows];
-                min = matrix.GetColumn(0);
-
-                for (int j = 0; j < rows; j++)
-                {
-                    for (int i = 1; i < cols; i++)
-                    {
-                        if (matrix[j][i].CompareTo(min[j]) < 0)
-                        {
-                            min[j] = matrix[j][i];
-                            imin[j] = i;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                imin = new int[cols];
-                min = (T[])matrix[0].Clone();
-
-                for (int j = 0; j < cols; j++)
-                {
-                    for (int i = 1; i < rows; i++)
-                    {
-                        if (matrix[i][j].CompareTo(min[j]) < 0)
-                        {
-                            min[j] = matrix[i][j];
-                            imin[j] = i;
-                        }
-                    }
-                }
-            }
-
-            return min;
-        }
-
-
-
-        /// <summary>
-        ///   Gets the range of the values in a vector.
-        /// </summary>
-        /// 
-        /// <param name="values">The matrix whose ranges should be computed.</param>
-        /// 
-        public static DoubleRange Range(this double[] values)
-        {
-            if (values.Length == 0)
-                return new DoubleRange(0, 0);
-
-            double min = values[0];
-            double max = values[0];
-
-            for (int i = 1; i < values.Length; i++)
-            {
-                if (min > values[i])
-                    min = values[i];
-                if (max < values[i])
-                    max = values[i];
-            }
-
-            return new DoubleRange(min, max);
-        }
-
-        /// <summary>
-        ///   Gets the range of the values in a vector.
-        /// </summary>
-        /// 
-        /// <param name="values">The matrix whose ranges should be computed.</param>
-        /// 
-        public static IntRange Range(this int[] values)
-        {
-            if (values.Length == 0)
-                return new IntRange(0, 0);
-
-            int min = values[0];
-            int max = values[0];
-
-            for (int i = 1; i < values.Length; i++)
-            {
-                if (min > values[i])
-                    min = values[i];
-                if (max < values[i])
-                    max = values[i];
-            }
-
-            return new IntRange(min, max);
-        }
-
-        /// <summary>
-        ///   Gets the range of the values across a matrix.
-        /// </summary>
-        /// 
-        /// <param name="value">The matrix whose ranges should be computed.</param>
-        /// 
-        public static IntRange Range(this int[,] value)
-        {
-            if (value.Length == 0)
-                return new IntRange(0, 0);
-
-            int min = value[0, 0];
-            int max = value[0, 0];
-
-            foreach (int v in value)
-            {
-                if (v < min) min = v;
-                if (v > max) max = v;
-            }
-
-            return new IntRange(min, max);
-        }
-
-        /// <summary>
-        ///   Gets the range of the values across a matrix.
-        /// </summary>
-        /// 
-        /// <param name="value">The matrix whose ranges should be computed.</param>
-        /// 
-        public static DoubleRange Range(this double[,] value)
-        {
-            if (value.Length == 0)
-                return new DoubleRange(0, 0);
-
-            double min = value[0, 0];
-            double max = value[0, 0];
-
-            foreach (double v in value)
-            {
-                if (v < min) min = v;
-                if (v > max) max = v;
-            }
-
-            return new DoubleRange(min, max);
-        }
-
-        /// <summary>
-        ///   Gets the range of the values across the columns of a matrix.
-        /// </summary>
-        /// 
-        /// <param name="value">The matrix whose ranges should be computed.</param>
-        /// <param name="dimension">
-        ///   Pass 0 if the range should be computed for each of the columns. Pass 1
-        ///   if the range should be computed for each row. Default is 0.
-        /// </param>
-        /// 
-        public static DoubleRange[] Range(this double[,] value, int dimension)
-        {
-            int rows = value.GetLength(0);
-            int cols = value.GetLength(1);
-            DoubleRange[] ranges;
-
-            if (dimension == 0)
-            {
-                ranges = new DoubleRange[cols];
-
-                for (int j = 0; j < ranges.Length; j++)
-                {
-                    double max = value[0, j];
-                    double min = value[0, j];
-
-                    for (int i = 0; i < rows; i++)
-                    {
-                        if (value[i, j] > max)
-                            max = value[i, j];
-
-                        if (value[i, j] < min)
-                            min = value[i, j];
-                    }
-
-                    ranges[j] = new DoubleRange(min, max);
-                }
-            }
-            else
-            {
-                ranges = new DoubleRange[rows];
-
-                for (int j = 0; j < ranges.Length; j++)
-                {
-                    double max = value[j, 0];
-                    double min = value[j, 0];
-
-                    for (int i = 0; i < cols; i++)
-                    {
-                        if (value[j, i] > max)
-                            max = value[j, i];
-
-                        if (value[j, i] < min)
-                            min = value[j, i];
-                    }
-
-                    ranges[j] = new DoubleRange(min, max);
-                }
-            }
-
-            return ranges;
-        }
-
-        /// <summary>
-        ///   Gets the range of the values across the columns of a matrix.
-        /// </summary>
-        /// 
-        /// <param name="value">The matrix whose ranges should be computed.</param>
-        /// <param name="dimension">
-        ///   Pass 0 if the range should be computed for each of the columns. Pass 1
-        ///   if the range should be computed for each row. Default is 0.
-        /// </param>
-        /// 
-        public static DoubleRange[] Range(this double[][] value, int dimension)
-        {
-            int rows = value.Length;
-            int cols = value[0].Length;
-            DoubleRange[] ranges;
-
-            if (dimension == 0)
-            {
-                ranges = new DoubleRange[cols];
-
-                for (int j = 0; j < ranges.Length; j++)
-                {
-                    double max = value[0][j];
-                    double min = value[0][j];
-
-                    for (int i = 0; i < rows; i++)
-                    {
-                        if (value[i][j] > max)
-                            max = value[i][j];
-
-                        if (value[i][j] < min)
-                            min = value[i][j];
-                    }
-
-                    ranges[j] = new DoubleRange(min, max);
-                }
-            }
-            else
-            {
-                ranges = new DoubleRange[rows];
-
-                for (int j = 0; j < ranges.Length; j++)
-                {
-                    double max = value[j][0];
-                    double min = value[j][0];
-
-                    for (int i = 0; i < cols; i++)
-                    {
-                        if (value[j][i] > max)
-                            max = value[j][i];
-
-                        if (value[j][i] < min)
-                            min = value[j][i];
-                    }
-
-                    ranges[j] = new DoubleRange(min, max);
-                }
-            }
-
-            return ranges;
-        }
-
-        #endregion
 
 
         /// <summary>
@@ -1453,12 +893,46 @@ namespace Accord.Math
         /// <param name="values">The values to be ordered.</param>
         /// <param name="indices">The new index positions.</param>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static void Swap<T>(this T[] values, int[] indices)
         {
-            T[] newValues = values.Submatrix(indices);
-
+            T[] newValues = values.Get(indices);
             for (int i = 0; i < values.Length; i++)
                 values[i] = newValues[i];
+        }
+
+        /// <summary>
+        ///   Swaps the contents of two object references.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static void Swap<T>(ref T a, ref T b)
+        {
+            var t = a;
+            a = b;
+            b = t;
+        }
+
+        /// <summary>
+        ///   Swaps two elements in an array, given their indices.
+        /// </summary>
+        /// 
+        /// <param name="array">The array whose elements will be swapped.</param>
+        /// <param name="a">The index of the first element to be swapped.</param>
+        /// <param name="b">The index of the second element to be swapped.</param>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static void Swap<T>(this T[] array, int a, int b)
+        {
+            T aux = array[a];
+            array[a] = array[b];
+            array[b] = aux;
         }
 
         /// <summary>
@@ -1476,7 +950,6 @@ namespace Accord.Math
             int cols = values.GetLength(1);
 
             var sets = new HashSet<T>[cols];
-
             for (int i = 0; i < sets.Length; i++)
                 sets[i] = new HashSet<T>();
 
@@ -1577,6 +1050,47 @@ namespace Accord.Math
             return set.ToArray();
         }
 
+
+
+        /// <summary>
+        ///   Gets the number of distinct values 
+        ///   present in each column of a matrix.
+        /// </summary>
+        /// 
+        public static int[] DistinctCount<T>(this T[,] matrix)
+        {
+            var distinct = matrix.Distinct();
+            int[] counts = new int[distinct.Length];
+            for (int i = 0; i < counts.Length; i++)
+                counts[i] = distinct[i].Length;
+            return counts;
+        }
+
+        /// <summary>
+        ///   Gets the number of distinct values 
+        ///   present in each column of a matrix.
+        /// </summary>
+        /// 
+        public static int[] DistinctCount<T>(this T[][] matrix)
+        {
+            var distinct = matrix.Distinct();
+            int[] counts = new int[distinct.Length];
+            for (int i = 0; i < counts.Length; i++)
+                counts[i] = distinct[i].Length;
+            return counts;
+        }
+
+        /// <summary>
+        ///   Gets the number of distinct values 
+        ///   present in each column of a matrix.
+        /// </summary>
+        /// 
+        public static int DistinctCount<T>(this T[] values)
+        {
+            return values.Distinct().Length;
+        }
+
+
         /// <summary>
         ///   Sorts the columns of a matrix by sorting keys.
         /// </summary>
@@ -1587,13 +1101,9 @@ namespace Accord.Math
         /// 
         public static TValue[,] Sort<TKey, TValue>(TKey[] keys, TValue[,] values, IComparer<TKey> comparer)
         {
-            int[] indices = new int[keys.Length];
-            for (int i = 0; i < keys.Length; i++) 
-                indices[i] = i;
-
+            int[] indices = Accord.Math.Vector.Range(keys.Length);
             Array.Sort<TKey, int>(keys, indices, comparer);
-
-            return values.Submatrix(0, values.GetLength(0) - 1, indices);
+            return values.Get(0, values.Rows(), indices);
         }
 
         /// <summary>
@@ -1606,13 +1116,54 @@ namespace Accord.Math
         /// 
         public static TValue[][] Sort<TKey, TValue>(TKey[] keys, TValue[][] values, IComparer<TKey> comparer)
         {
-            int[] indices = new int[keys.Length];
-            for (int i = 0; i < keys.Length; i++)
-                indices[i] = i;
-
+            int[] indices = Accord.Math.Vector.Range(keys.Length);
             Array.Sort<TKey, int>(keys, indices, comparer);
+            return values.Submatrix(null, indices);
+        }
 
-            return values.Submatrix(0, values.Length - 1, indices);
+        /// <summary>
+        ///   Returns a copy of an array in reversed order.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[] Reversed<T>(this T[] values)
+        {
+            var r = new T[values.Length];
+            for (int i = 0; i < r.Length; i++)
+                r[i] = values[values.Length - i - 1];
+            return r;
+        }
+
+        /// <summary>
+        ///   Returns a copy of an array in reversed order.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[] First<T>(this T[] values, int count)
+        {
+            var r = new T[count];
+            for (int i = 0; i < r.Length; i++)
+                r[i] = values[i];
+            return r;
+        }
+
+        /// <summary>
+        ///   Returns the last <paramref name="count"/> elements of an array.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[] Last<T>(this T[] values, int count)
+        {
+            var r = new T[count];
+            for (int i = 0; i < r.Length; i++)
+                r[i] = values[values.Length - count + i];
+            return r;
         }
 
         /// <summary>
@@ -1620,7 +1171,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static int[] Top<T>(this T[] values, int count, bool inPlace = false)
-            where T : IComparable
+            where T : IComparable<T>
         {
             if (count < 0)
             {
@@ -1632,21 +1183,13 @@ namespace Accord.Math
                 return new int[0];
 
             if (count > values.Length)
-                return Matrix.Indices(0, values.Length);
+                return Accord.Math.Vector.Range(values.Length);
 
             T[] work = (inPlace) ? values : (T[])values.Clone();
-
-            int[] idx = new int[values.Length];
-            for (int i = 0; i < idx.Length; i++)
-                idx[i] = i;
-
-            select(work, idx, 0, values.Length - 1, count, true);
-
-            int[] result = new int[count];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = idx[i];
-
-            return result;
+            int[] idx = Accord.Math.Vector.Range(values.Length);
+            work.NthElement(idx, 0, work.Length, count, asc: false);
+            Accord.Sort.Insertion(work, idx, 0, count, asc: false);
+            return idx.First(count);
         }
 
         /// <summary>
@@ -1654,7 +1197,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static int[] Bottom<T>(this T[] values, int count, bool inPlace = false)
-            where T : IComparable
+            where T : IComparable<T>
         {
             if (count < 0)
             {
@@ -1666,97 +1209,56 @@ namespace Accord.Math
                 return new int[0];
 
             if (count > values.Length)
-                return Matrix.Indices(0, values.Length);
+                return Accord.Math.Vector.Range(0, values.Length);
 
             T[] work = (inPlace) ? values : (T[])values.Clone();
-
-            int[] idx = new int[values.Length];
-            for (int i = 0; i < idx.Length; i++)
-                idx[i] = i;
-
-            select(work, idx, 0, values.Length - 1, count, false);
-
-            int[] result = new int[count];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = idx[i];
-
-            return result;
+            int[] idx = Accord.Math.Vector.Range(values.Length);
+            work.NthElement(idx, 0, work.Length, count, asc: true);
+            Accord.Sort.Insertion(work, idx, 0, count, asc: true);
+            return idx.First(count);
         }
 
-        private static int select<T>(T[] list, int[] idx, int left, int right, int k, bool asc)
-            where T : IComparable
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please use Accord.Sort.Partition instead.")]
+        public static int Partition<T, TValue>(this T[] list, TValue[] keys, int left, int right, bool asc = true)
+            where T : IComparable<T>
         {
-            while (left != right)
-            {
-                // select pivotIndex between left and right
-                int pivotIndex = (left + right) / 2;
-
-                int pivotNewIndex = partition(list, idx, left, right, pivotIndex, asc);
-                int pivotDist = pivotNewIndex - left + 1;
-
-                if (pivotDist == k)
-                    return pivotNewIndex;
-
-                else if (k < pivotDist)
-                    right = pivotNewIndex - 1;
-                else
-                {
-                    k = k - pivotDist;
-                    left = pivotNewIndex + 1;
-                }
-            }
-
-            return -1;
+            return Accord.Sort.Partition(list, left, right, asc);
         }
 
-        private static int partition<T>(T[] list, int[] idx, int left, int right, int pivotIndex, bool asc)
-            where T : IComparable
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please use Accord.Sort.Partition instead.")]
+        public static int Partition<T>(this T[] list, int left, int right, bool asc = true)
+            where T : IComparable<T>
         {
-            T pivotValue = list[pivotIndex];
-
-            // Move pivot to end
-            swap(ref list[pivotIndex], ref list[right]);
-            swap(ref idx[pivotIndex], ref idx[right]);
-
-            int storeIndex = left;
-
-            if (asc)
-            {
-                for (int i = left; i < right; i++)
-                {
-                    if (list[i].CompareTo(pivotValue) > 0)
-                    {
-                        swap(ref list[storeIndex], ref list[i]);
-                        swap(ref idx[storeIndex], ref idx[i]);
-                        storeIndex++;
-                    }
-                }
-            }
-            else
-            {
-                for (int i = left; i < right; i++)
-                {
-                    if (list[i].CompareTo(pivotValue) < 0)
-                    {
-                        swap(ref list[storeIndex], ref list[i]);
-                        swap(ref idx[storeIndex], ref idx[i]);
-                        storeIndex++;
-                    }
-                }
-            }
-
-            // Move pivot to its final place
-            swap(ref list[right], ref list[storeIndex]);
-            swap(ref idx[right], ref idx[storeIndex]);
-            return storeIndex;
+            return Accord.Sort.Partition(list, left, right, asc);
         }
 
-        private static void swap<T>(ref T a, ref T b)
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please use Accord.Sort.Partition instead.")]
+        public static int Partition<TKey, TValue>(this TKey[] list, TValue[] keys, int left, int right, Func<TKey, TKey, int> compare, bool asc = true)
         {
-            T aux = a;
-            a = b;
-            b = aux;
+            return Accord.Sort.Partition(list, keys, left, right, compare, asc: asc);
         }
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        [Obsolete("Please use Accord.Sort.Partition instead.")]
+        public static int Partition<T>(this T[] list, int left, int right, Func<T, T, int> compare, bool asc = true)
+        {
+            return Accord.Sort.Partition(list, left, right, compare, asc: asc);
+        }
+
+
+
 
         static T cast<T>(this object value)
         {

@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace AForge.Tests
+namespace Accord.Tests
 {
     [TestFixture]
     public class IntPointTest

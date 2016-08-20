@@ -2,18 +2,19 @@
 using AForge;
 using AForge.Math;
 using NUnit.Framework;
+using Accord.Math;
 
-namespace AForge.Math.Tests
+namespace Accord.Tests.Math
 {
     [TestFixture]
     public class Matrix3x3Test
     {
         private const float Epsilon = 0.000001f;
 
-        private Matrix3x3 a1 = new Matrix3x3( );
-        private Matrix3x3 a2 = new Matrix3x3( );
+        private Matrix3x3 a1 = new Matrix3x3();
+        private Matrix3x3 a2 = new Matrix3x3();
 
-        public Matrix3x3Test( )
+        public Matrix3x3Test()
         {
             // prepare 1st argument
             a1.V00 = 1;
@@ -43,9 +44,9 @@ namespace AForge.Math.Tests
         }
 
         [Test]
-        public void ToArrayTest( )
+        public void ToArrayTest()
         {
-            Matrix3x3 matrix = new Matrix3x3( );
+            Matrix3x3 matrix = new Matrix3x3();
 
             matrix.V00 = 1;
             matrix.V01 = 2;
@@ -59,228 +60,228 @@ namespace AForge.Math.Tests
             matrix.V21 = 8;
             matrix.V22 = 9;
 
-            float[] array = matrix.ToArray( );
+            float[] array = matrix.ToArray();
 
-            for ( int i = 0; i < 9; i++ )
+            for (int i = 0; i < 9; i++)
             {
-                Assert.AreEqual( array[i], (float) ( i + 1 ) );
+                Assert.AreEqual(array[i], (float)(i + 1));
             }
         }
 
         [Test]
-        public void CreateFromRowsTest( )
+        public void CreateFromRowsTest()
         {
-            Vector3 row0 = new Vector3( 1, 2, 3 );
-            Vector3 row1 = new Vector3( 4, 5, 6 );
-            Vector3 row2 = new Vector3( 7, 8, 9 );
-            Matrix3x3 matrix = Matrix3x3.CreateFromRows( row0, row1, row2 );
+            Vector3 row0 = new Vector3(1, 2, 3);
+            Vector3 row1 = new Vector3(4, 5, 6);
+            Vector3 row2 = new Vector3(7, 8, 9);
+            Matrix3x3 matrix = Matrix3x3.CreateFromRows(row0, row1, row2);
 
-            float[] array = matrix.ToArray( );
+            float[] array = matrix.ToArray();
 
-            for ( int i = 0; i < 9; i++ )
+            for (int i = 0; i < 9; i++)
             {
-                Assert.AreEqual( array[i], (float) ( i + 1 ) );
+                Assert.AreEqual(array[i], (float)(i + 1));
             }
 
-            Assert.AreEqual( row0, matrix.GetRow( 0 ) );
-            Assert.AreEqual( row1, matrix.GetRow( 1 ) );
-            Assert.AreEqual( row2, matrix.GetRow( 2 ) );
+            Assert.AreEqual(row0, matrix.GetRow(0));
+            Assert.AreEqual(row1, matrix.GetRow(1));
+            Assert.AreEqual(row2, matrix.GetRow(2));
 
-            Assert.Throws<ArgumentException>( ( ) =>
+            Assert.Throws<ArgumentException>(() =>
             {
-                matrix.GetRow( -1 );
+                matrix.GetRow(-1);
             }
             );
 
-            Assert.Throws<ArgumentException>( ( ) =>
+            Assert.Throws<ArgumentException>(() =>
             {
-                matrix.GetRow( 3 );
+                matrix.GetRow(3);
             }
             );
         }
 
         [Test]
-        public void CreateFromColumnsTest( )
+        public void CreateFromColumnsTest()
         {
-            Vector3 column0 = new Vector3( 1, 4, 7 );
-            Vector3 column1 = new Vector3( 2, 5, 8 );
-            Vector3 column2 = new Vector3( 3, 6, 9 );
-            Matrix3x3 matrix = Matrix3x3.CreateFromColumns( column0, column1, column2 );
+            Vector3 column0 = new Vector3(1, 4, 7);
+            Vector3 column1 = new Vector3(2, 5, 8);
+            Vector3 column2 = new Vector3(3, 6, 9);
+            Matrix3x3 matrix = Matrix3x3.CreateFromColumns(column0, column1, column2);
 
-            float[] array = matrix.ToArray( );
+            float[] array = matrix.ToArray();
 
-            for ( int i = 0; i < 9; i++ )
+            for (int i = 0; i < 9; i++)
             {
-                Assert.AreEqual( array[i], (float) ( i + 1 ) );
+                Assert.AreEqual(array[i], (float)(i + 1));
             }
 
-            Assert.AreEqual( column0, matrix.GetColumn( 0 ) );
-            Assert.AreEqual( column1, matrix.GetColumn( 1 ) );
-            Assert.AreEqual( column2, matrix.GetColumn( 2 ) );
+            Assert.AreEqual(column0, matrix.GetColumn(0));
+            Assert.AreEqual(column1, matrix.GetColumn(1));
+            Assert.AreEqual(column2, matrix.GetColumn(2));
 
-            Assert.Throws<ArgumentException>( ( ) =>
+            Assert.Throws<ArgumentException>(() =>
             {
-                matrix.GetColumn( -1 );
+                matrix.GetColumn(-1);
             }
             );
 
-            Assert.Throws<ArgumentException>( ( ) =>
+            Assert.Throws<ArgumentException>(() =>
             {
-                matrix.GetColumn( 3 );
+                matrix.GetColumn(3);
             }
             );
         }
 
-        
-        [TestCase( 0 )]
-        [TestCase( 30 )]
-        [TestCase( 45 )]
-        [TestCase( 60 )]
-        [TestCase( 90 )]
-        [TestCase( -30 )]
-        [TestCase( -90 )]
-        [TestCase( -180 )]
-        public void CreateRotationYTest( float angle )
-        {
-            float radians = (float) ( angle * System.Math.PI / 180 );
-            Matrix3x3 matrix = Matrix3x3.CreateRotationY( radians );
 
-            float sin = (float) System.Math.Sin( radians );
-            float cos = (float) System.Math.Cos( radians );
+        [TestCase(0)]
+        [TestCase(30)]
+        [TestCase(45)]
+        [TestCase(60)]
+        [TestCase(90)]
+        [TestCase(-30)]
+        [TestCase(-90)]
+        [TestCase(-180)]
+        public void CreateRotationYTest(float angle)
+        {
+            float radians = (float)(angle * System.Math.PI / 180);
+            Matrix3x3 matrix = Matrix3x3.CreateRotationY(radians);
+
+            float sin = (float)System.Math.Sin(radians);
+            float cos = (float)System.Math.Cos(radians);
 
             float[] expectedArray = new float[9]
             {
                 cos, 0, sin, 0, 1, 0, -sin, 0, cos
             };
 
-            CompareMatrixWithArray( matrix, expectedArray );
+            CompareMatrixWithArray(matrix, expectedArray);
         }
 
-        
-        [TestCase( 0 )]
-        [TestCase( 30 )]
-        [TestCase( 45 )]
-        [TestCase( 60 )]
-        [TestCase( 90 )]
-        [TestCase( -30 )]
-        [TestCase( -90 )]
-        [TestCase( -180 )]
-        public void CreateRotationXTest( float angle )
-        {
-            float radians = (float) ( angle * System.Math.PI / 180 );
-            Matrix3x3 matrix = Matrix3x3.CreateRotationX( radians );
 
-            float sin = (float) System.Math.Sin( radians );
-            float cos = (float) System.Math.Cos( radians );
+        [TestCase(0)]
+        [TestCase(30)]
+        [TestCase(45)]
+        [TestCase(60)]
+        [TestCase(90)]
+        [TestCase(-30)]
+        [TestCase(-90)]
+        [TestCase(-180)]
+        public void CreateRotationXTest(float angle)
+        {
+            float radians = (float)(angle * System.Math.PI / 180);
+            Matrix3x3 matrix = Matrix3x3.CreateRotationX(radians);
+
+            float sin = (float)System.Math.Sin(radians);
+            float cos = (float)System.Math.Cos(radians);
 
             float[] expectedArray = new float[9]
             {
                 1, 0, 0, 0, cos, -sin, 0, sin, cos
             };
 
-            CompareMatrixWithArray( matrix, expectedArray );
+            CompareMatrixWithArray(matrix, expectedArray);
         }
 
-        
-        [TestCase( 0 )]
-        [TestCase( 30 )]
-        [TestCase( 45 )]
-        [TestCase( 60 )]
-        [TestCase( 90 )]
-        [TestCase( -30 )]
-        [TestCase( -90 )]
-        [TestCase( -180 )]
-        public void CreateRotationZTest( float angle )
-        {
-            float radians = (float) ( angle * System.Math.PI / 180 );
-            Matrix3x3 matrix = Matrix3x3.CreateRotationZ( radians );
 
-            float sin = (float) System.Math.Sin( radians );
-            float cos = (float) System.Math.Cos( radians );
+        [TestCase(0)]
+        [TestCase(30)]
+        [TestCase(45)]
+        [TestCase(60)]
+        [TestCase(90)]
+        [TestCase(-30)]
+        [TestCase(-90)]
+        [TestCase(-180)]
+        public void CreateRotationZTest(float angle)
+        {
+            float radians = (float)(angle * System.Math.PI / 180);
+            Matrix3x3 matrix = Matrix3x3.CreateRotationZ(radians);
+
+            float sin = (float)System.Math.Sin(radians);
+            float cos = (float)System.Math.Cos(radians);
 
             float[] expectedArray = new float[9]
             {
                 cos, -sin, 0, sin, cos, 0, 0, 0, 1
             };
 
-            CompareMatrixWithArray( matrix, expectedArray );
+            CompareMatrixWithArray(matrix, expectedArray);
         }
 
-        
-        [TestCase( 0, 0, 0 )]
-        [TestCase( 30, 45, 60 )]
-        [TestCase( 45, 60, 30 )]
-        [TestCase( 60, 30, 45 )]
-        [TestCase( 90, 90, 90 )]
-        [TestCase( -30, -60, -90 )]
-        [TestCase( -90, -135, -180 )]
-        [TestCase( -180, -30, -60 )]
-        public void CreateFromYawPitchRollTest( float yaw, float pitch, float roll )
+
+        [TestCase(0, 0, 0)]
+        [TestCase(30, 45, 60)]
+        [TestCase(45, 60, 30)]
+        [TestCase(60, 30, 45)]
+        [TestCase(90, 90, 90)]
+        [TestCase(-30, -60, -90)]
+        [TestCase(-90, -135, -180)]
+        [TestCase(-180, -30, -60)]
+        public void CreateFromYawPitchRollTest(float yaw, float pitch, float roll)
         {
-            float radiansYaw   = (float) ( yaw   * System.Math.PI / 180 );
-            float radiansPitch = (float) ( pitch * System.Math.PI / 180 );
-            float radiansRoll  = (float) ( roll  * System.Math.PI / 180 );
+            float radiansYaw = (float)(yaw * System.Math.PI / 180);
+            float radiansPitch = (float)(pitch * System.Math.PI / 180);
+            float radiansRoll = (float)(roll * System.Math.PI / 180);
 
-            Matrix3x3 matrix = Matrix3x3.CreateFromYawPitchRoll( radiansYaw, radiansPitch, radiansRoll );
+            Matrix3x3 matrix = Matrix3x3.CreateFromYawPitchRoll(radiansYaw, radiansPitch, radiansRoll);
 
-            Matrix3x3 xMatrix = Matrix3x3.CreateRotationX( radiansPitch );
-            Matrix3x3 yMatrix = Matrix3x3.CreateRotationY( radiansYaw );
-            Matrix3x3 zMatrix = Matrix3x3.CreateRotationZ( radiansRoll );
+            Matrix3x3 xMatrix = Matrix3x3.CreateRotationX(radiansPitch);
+            Matrix3x3 yMatrix = Matrix3x3.CreateRotationY(radiansYaw);
+            Matrix3x3 zMatrix = Matrix3x3.CreateRotationZ(radiansRoll);
 
-            Matrix3x3 rotationMatrix = ( yMatrix * xMatrix ) * zMatrix;
+            Matrix3x3 rotationMatrix = (yMatrix * xMatrix) * zMatrix;
 
-            CompareMatrixWithArray( matrix, rotationMatrix.ToArray( ) );
+            CompareMatrixWithArray(matrix, rotationMatrix.ToArray());
         }
 
-        
-        [TestCase( 0, 0, 0 )]
-        [TestCase( 30, 45, 60 )]
-        [TestCase( 45, 60, 30 )]
-        [TestCase( 60, 30, 45 )]
-        [TestCase( -30, -60, -90 )]
-        public void ExtractYawPitchRollTest( float yaw, float pitch, float roll )
-        {
-            float radiansYaw   = (float) ( yaw   * System.Math.PI / 180 );
-            float radiansPitch = (float) ( pitch * System.Math.PI / 180 );
-            float radiansRoll  = (float) ( roll  * System.Math.PI / 180 );
 
-            Matrix3x3 matrix = Matrix3x3.CreateFromYawPitchRoll( radiansYaw, radiansPitch, radiansRoll );
+        [TestCase(0, 0, 0)]
+        [TestCase(30, 45, 60)]
+        [TestCase(45, 60, 30)]
+        [TestCase(60, 30, 45)]
+        [TestCase(-30, -60, -90)]
+        public void ExtractYawPitchRollTest(float yaw, float pitch, float roll)
+        {
+            float radiansYaw = (float)(yaw * System.Math.PI / 180);
+            float radiansPitch = (float)(pitch * System.Math.PI / 180);
+            float radiansRoll = (float)(roll * System.Math.PI / 180);
+
+            Matrix3x3 matrix = Matrix3x3.CreateFromYawPitchRoll(radiansYaw, radiansPitch, radiansRoll);
 
             float extractedYaw;
             float extractedPitch;
             float extractedRoll;
 
-            matrix.ExtractYawPitchRoll( out extractedYaw, out extractedPitch, out extractedRoll );
+            matrix.ExtractYawPitchRoll(out extractedYaw, out extractedPitch, out extractedRoll);
 
-            Assert.AreEqual( radiansYaw,   extractedYaw,   Epsilon );
-            Assert.AreEqual( radiansPitch, extractedPitch, Epsilon );
-            Assert.AreEqual( radiansRoll,  extractedRoll,  Epsilon );
+            Assert.AreEqual(radiansYaw, extractedYaw, Epsilon);
+            Assert.AreEqual(radiansPitch, extractedPitch, Epsilon);
+            Assert.AreEqual(radiansRoll, extractedRoll, Epsilon);
         }
 
-        
-        [TestCase( 1, 2, 3 )]
-        [TestCase( -1, -2, -3 )]
-        public void CreateDiagonalTest( float v00, float v11, float v22 )
+
+        [TestCase(1, 2, 3)]
+        [TestCase(-1, -2, -3)]
+        public void CreateDiagonalTest(float v00, float v11, float v22)
         {
-            Vector3 diagonal = new Vector3( v00, v11, v22 );
-            Matrix3x3 matrix = Matrix3x3.CreateDiagonal( diagonal );
+            Vector3 diagonal = new Vector3(v00, v11, v22);
+            Matrix3x3 matrix = Matrix3x3.CreateDiagonal(diagonal);
 
             float[] expectedArray = new float[9] { v00, 0, 0, 0, v11, 0, 0, 0, v22 };
 
-            CompareMatrixWithArray( matrix, expectedArray );
+            CompareMatrixWithArray(matrix, expectedArray);
         }
 
-        
-        [TestCase( 1, 1, 0, 0, 0, 1, 0, 0, 0, 1 )]
-        [TestCase( 0, 1, 0, 0, 0, 1, 0, 1, 0, 0 )]
-        [TestCase( 0, 1, 1, 1, 1, 1, 1, 1, 1, 1 )]
-        [TestCase( -3, 1, 3, 2, 2, 2, 1, 2, 1, 1 )]
-        public void DeterminantTest( float expectedDeterminant,
+
+        [TestCase(1, 1, 0, 0, 0, 1, 0, 0, 0, 1)]
+        [TestCase(0, 1, 0, 0, 0, 1, 0, 1, 0, 0)]
+        [TestCase(0, 1, 1, 1, 1, 1, 1, 1, 1, 1)]
+        [TestCase(-3, 1, 3, 2, 2, 2, 1, 2, 1, 1)]
+        public void DeterminantTest(float expectedDeterminant,
             float v00, float v01, float v02,
             float v10, float v11, float v12,
-            float v20, float v21, float v22 )
+            float v20, float v21, float v22)
         {
-            Matrix3x3 matrix = new Matrix3x3( );
+            Matrix3x3 matrix = new Matrix3x3();
 
             matrix.V00 = v00;
             matrix.V01 = v01;
@@ -294,17 +295,17 @@ namespace AForge.Math.Tests
             matrix.V21 = v21;
             matrix.V22 = v22;
 
-            Assert.AreEqual( expectedDeterminant, matrix.Determinant );
+            Assert.AreEqual(expectedDeterminant, matrix.Determinant);
         }
 
-        
-        [TestCase( 1, 0, 0, 0, 1, 0, 0, 0, 1)]
-        [TestCase( 1, 0, 0, 0, 1, 0, 1, 0, 0, ExpectedException = typeof( ArgumentException ) )]
-        [TestCase( 2, 0, 0, 0, 4, 0, 0, 0, 3 )]
-        [TestCase( 1, 4, 2, 2, 2, 1, 2, 1, 1 )]
-        public void InverseTest( float v00, float v01, float v02, float v10, float v11, float v12, float v20, float v21, float v22 )
+
+        [TestCase(1, 0, 0, 0, 1, 0, 0, 0, 1)]
+        [TestCase(1, 0, 0, 0, 1, 0, 1, 0, 0, ExpectedException = typeof(ArgumentException))]
+        [TestCase(2, 0, 0, 0, 4, 0, 0, 0, 3)]
+        [TestCase(1, 4, 2, 2, 2, 1, 2, 1, 1)]
+        public void InverseTest(float v00, float v01, float v02, float v10, float v11, float v12, float v20, float v21, float v22)
         {
-            Matrix3x3 matrix = new Matrix3x3( );
+            Matrix3x3 matrix = new Matrix3x3();
 
             matrix.V00 = v00;
             matrix.V01 = v01;
@@ -318,16 +319,16 @@ namespace AForge.Math.Tests
             matrix.V21 = v21;
             matrix.V22 = v22;
 
-            Matrix3x3 inverse = matrix.Inverse( );
+            Matrix3x3 inverse = matrix.Inverse();
             Matrix3x3 identity = matrix * inverse;
 
-            Assert.AreEqual( true, ApproximateEquals( identity, Matrix3x3.Identity ) );
+            Assert.AreEqual(true, ApproximateEquals(identity, Matrix3x3.Identity));
         }
 
         [Test]
-        public void AddMatricesTest( )
+        public void AddMatricesTest()
         {
-            Matrix3x3 expectedResult = new Matrix3x3( );
+            Matrix3x3 expectedResult = new Matrix3x3();
 
             expectedResult.V00 = 3;
             expectedResult.V01 = 3;
@@ -343,13 +344,13 @@ namespace AForge.Math.Tests
 
             Matrix3x3 result = a1 + a2;
 
-            Assert.AreEqual( true, ApproximateEquals( result, expectedResult ) );
+            Assert.AreEqual(true, ApproximateEquals(result, expectedResult));
         }
 
         [Test]
-        public void SubtractMatricesTest( )
+        public void SubtractMatricesTest()
         {
-            Matrix3x3 expectedResult = new Matrix3x3( );
+            Matrix3x3 expectedResult = new Matrix3x3();
 
             expectedResult.V00 = -1;
             expectedResult.V01 = 1;
@@ -365,13 +366,13 @@ namespace AForge.Math.Tests
 
             Matrix3x3 result = a1 - a2;
 
-            Assert.AreEqual( true, ApproximateEquals( result, expectedResult ) );
+            Assert.AreEqual(true, ApproximateEquals(result, expectedResult));
         }
 
         [Test]
-        public void MultiplyMatricesTest( )
+        public void MultiplyMatricesTest()
         {
-            Matrix3x3 expectedResult = new Matrix3x3( );
+            Matrix3x3 expectedResult = new Matrix3x3();
 
             expectedResult.V00 = 13;
             expectedResult.V01 = 13;
@@ -387,34 +388,34 @@ namespace AForge.Math.Tests
 
             Matrix3x3 result = a1 * a2;
 
-            Assert.AreEqual( true, ApproximateEquals( result, expectedResult ) );
+            Assert.AreEqual(true, ApproximateEquals(result, expectedResult));
         }
 
-        private void CompareMatrixWithArray( Matrix3x3 matrix, float[] array )
+        private void CompareMatrixWithArray(Matrix3x3 matrix, float[] array)
         {
-            float[] matrixArray = matrix.ToArray( );
+            float[] matrixArray = matrix.ToArray();
 
-            for ( int i = 0; i < 9; i++ )
+            for (int i = 0; i < 9; i++)
             {
-                Assert.AreEqual( matrixArray[i], array[i] );
+                Assert.AreEqual(matrixArray[i], array[i]);
             }
         }
 
-        private bool ApproximateEquals( Matrix3x3 matrix1, Matrix3x3 matrix2 )
+        private bool ApproximateEquals(Matrix3x3 matrix1, Matrix3x3 matrix2)
         {
             // TODO: better algorithm should be put into the framework actually
             return (
-                ( System.Math.Abs( matrix1.V00 - matrix2.V00 ) <= Epsilon ) &&
-                ( System.Math.Abs( matrix1.V01 - matrix2.V01 ) <= Epsilon ) &&
-                ( System.Math.Abs( matrix1.V02 - matrix2.V02 ) <= Epsilon ) &&
+                (System.Math.Abs(matrix1.V00 - matrix2.V00) <= Epsilon) &&
+                (System.Math.Abs(matrix1.V01 - matrix2.V01) <= Epsilon) &&
+                (System.Math.Abs(matrix1.V02 - matrix2.V02) <= Epsilon) &&
 
-                ( System.Math.Abs( matrix1.V10 - matrix2.V10 ) <= Epsilon ) &&
-                ( System.Math.Abs( matrix1.V11 - matrix2.V11 ) <= Epsilon ) &&
-                ( System.Math.Abs( matrix1.V12 - matrix2.V12 ) <= Epsilon ) &&
+                (System.Math.Abs(matrix1.V10 - matrix2.V10) <= Epsilon) &&
+                (System.Math.Abs(matrix1.V11 - matrix2.V11) <= Epsilon) &&
+                (System.Math.Abs(matrix1.V12 - matrix2.V12) <= Epsilon) &&
 
-                ( System.Math.Abs( matrix1.V20 - matrix2.V20 ) <= Epsilon ) &&
-                ( System.Math.Abs( matrix1.V21 - matrix2.V21 ) <= Epsilon ) &&
-                ( System.Math.Abs( matrix1.V22 - matrix2.V22 ) <= Epsilon )
+                (System.Math.Abs(matrix1.V20 - matrix2.V20) <= Epsilon) &&
+                (System.Math.Abs(matrix1.V21 - matrix2.V21) <= Epsilon) &&
+                (System.Math.Abs(matrix1.V22 - matrix2.V22) <= Epsilon)
             );
         }
     }

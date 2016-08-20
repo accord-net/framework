@@ -45,7 +45,7 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Scope = "member", Target = "AForge.Imaging.Filters.Grayscale+CommonAlgorithms.#Y")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Scope = "member", Target = "AForge.Imaging.Filters.Grayscale+CommonAlgorithms.#RMY")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Scope = "member", Target = "AForge.Imaging.Filters.Grayscale+CommonAlgorithms.#BT709")]
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Cr", Scope = "member", Target = "AForge.Imaging.ImageStatisticsYCbCr.#CrWithoutBlack")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Cr", Scope = "member", Target = "Accord.Imaging.ImageStatisticsYCbCr.#CrWithoutBlack")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Cr", Scope = "member", Target = "AForge.Imaging.Filters.YCbCrLinear.#InCr")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Cb", Scope = "member", Target = "AForge.Imaging.Filters.YCbCrLinear.#OutCb")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Cr", Scope = "member", Target = "AForge.Imaging.Filters.YCbCrLinear.#OutCr")]

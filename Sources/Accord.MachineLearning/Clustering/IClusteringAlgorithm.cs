@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,6 +22,7 @@
 
 namespace Accord.MachineLearning
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
 
@@ -37,20 +38,20 @@ namespace Accord.MachineLearning
     /// <seealso cref="GaussianMixtureModel"/>
     /// 
     public interface IClusteringAlgorithm<TData>
+        : IUnsupervisedLearning<IClusterCollection<TData>, TData, int>
     {
         /// <summary>
         ///   Divides the input data into a number of clusters. 
         /// </summary>  
         /// 
         /// <param name="points">The data where to compute the algorithm.</param>
-        /// <param name="threshold">The relative convergence threshold
-        /// for the algorithm. Default is 1e-5.</param>
         /// 
         /// <returns>
-        ///   The labelings for the input data.
+        ///   The labellings for the input data.
         /// </returns>
         /// 
-        int[] Compute(TData[] points, double threshold);
+        [Obsolete("Please use Learn(inputs) instead.")]
+        int[] Compute(TData[] points);
 
         /// <summary>
         ///   Gets the collection of clusters currently modeled by the clustering algorithm.
@@ -60,13 +61,44 @@ namespace Accord.MachineLearning
     }
 
     /// <summary>
+    ///   Common interface for clustering algorithms.
+    /// </summary>
+    /// 
+    /// <typeparam name="TData">The type of the data being clustered, such as <see cref="T:double[]"/>.</typeparam>
+    /// <typeparam name="TWeights">The type of the weights associated with each point, such as <see cref="T:double[]"/> or <see cref="T:double[]"/>.</typeparam>
+    /// 
+    /// <seealso cref="KMeans"/>
+    /// <seealso cref="KModes{T}"/>
+    /// <seealso cref="BinarySplit"/>
+    /// <seealso cref="GaussianMixtureModel"/>
+    /// 
+    public interface IClusteringAlgorithm<TData, TWeights>
+        : IClusteringAlgorithm<TData>
+    {
+        /// <summary>
+        ///   Divides the input data into a number of clusters. 
+        /// </summary>  
+        /// 
+        /// <param name="points">The data where to compute the algorithm.</param>
+        /// <param name="weights">The weight associated with each data point.</param>
+        /// 
+        /// <returns>
+        ///   The labellings for the input data.
+        /// </returns>
+        /// 
+        [Obsolete("Please use Learn(inputs) instead.")]
+        int[] Compute(TData[] points, TWeights[] weights);
+
+    }
+
+    /// <summary>
     ///   Common interface for cluster collections.
     /// </summary>
     /// 
     /// <typeparam name="TData">The type of the data being clustered, such as <see cref="T:double[]"/>.</typeparam>
     /// 
-    public interface IClusterCollection<in TData>
-        : IEnumerable
+    public interface IClusterCollection<TData> : IEnumerable, 
+        IMulticlassScoreClassifier<TData, int>
     {
         /// <summary>
         ///   Gets the number of clusters in the collection.
@@ -83,6 +115,7 @@ namespace Accord.MachineLearning
         ///   The index of the nearest cluster
         ///   to the given data point. </returns>
         ///   
+        [Obsolete("Please use Decide() instead.")]
         int Nearest(TData point);
     }
 
@@ -95,7 +128,7 @@ namespace Accord.MachineLearning
     /// 
     public interface IClusterCollection<TData,
 #if !NET35
-        out
+ out
 #endif
  TCluster>
         : IEnumerable<TCluster>, IClusterCollection<TData>

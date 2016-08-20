@@ -43,7 +43,7 @@ using System.IO;
 using System.Windows.Forms;
 using ZedGraph;
 
-namespace Analysis.KDA
+namespace SampleApp
 {
     public partial class MainForm : Form
     {

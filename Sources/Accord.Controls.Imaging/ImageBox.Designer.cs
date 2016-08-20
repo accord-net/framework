@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -55,7 +55,7 @@ namespace Accord.Controls
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImageBox));
-            this.pictureBox = new AForge.Controls.PictureBox();
+            this.pictureBox = new Accord.Controls.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.centeredToolStripMenuItem = new System.Windows.Forms.ToolStripComboBox();
             this.zoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -128,7 +128,7 @@ namespace Accord.Controls
 
         #endregion
 
-        private AForge.Controls.PictureBox pictureBox;
+        private Accord.Controls.PictureBox pictureBox;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem zoomToolStripMenuItem;
         private System.Windows.Forms.ToolStripComboBox centeredToolStripMenuItem;

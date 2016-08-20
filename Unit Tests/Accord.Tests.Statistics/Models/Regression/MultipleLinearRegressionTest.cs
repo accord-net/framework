@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -64,6 +64,8 @@ namespace Accord.Tests.Statistics
 
 
             double error = target.Regress(inputs, outputs);
+            Assert.AreEqual(1, target.NumberOfInputs);
+            Assert.AreEqual(1, target.NumberOfOutputs);
 
             double slope = target.Coefficients[0];
             double intercept = target.Coefficients[1];
@@ -84,7 +86,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void RegressTest2()
         {
-            MultipleLinearRegression target = new MultipleLinearRegression(2, false);
+            var target = new MultipleLinearRegression(2, false);
 
             Assert.IsFalse(target.HasIntercept);
 
@@ -101,7 +103,8 @@ namespace Accord.Tests.Statistics
 
 
             double error = target.Regress(inputs, outputs);
-
+            Assert.AreEqual(2, target.NumberOfInputs);
+            Assert.AreEqual(1, target.NumberOfOutputs);
             double slope = target.Coefficients[0];
             double intercept = target.Coefficients[1];
 
@@ -127,7 +130,7 @@ namespace Accord.Tests.Statistics
             // an intercept term c.
 
             // Create a multiple linear regression for two input and an intercept
-            MultipleLinearRegression target = new MultipleLinearRegression(2, true);
+            var target = new MultipleLinearRegression(2, true);
 
             // Now suppose you have some points
             double[][] inputs = 
@@ -145,6 +148,9 @@ namespace Accord.Tests.Statistics
             // Now we will try to fit a regression model
             double error = target.Regress(inputs, outputs);
 
+            Assert.AreEqual(2, target.NumberOfInputs);
+            Assert.AreEqual(1, target.NumberOfOutputs);
+
             // As result, we will be given the following:
             double a = target.Coefficients[0]; // a = 0
             double b = target.Coefficients[1]; // b = 0
@@ -159,10 +165,11 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.0, c, 1e-6);
             Assert.AreEqual(0.0, error, 1e-6);
 
+            double[] expected = target.Compute(inputs);
+            double[] actual = target.Transform(inputs);
 
             double r = target.CoefficientOfDetermination(inputs, outputs);
             Assert.AreEqual(1.0, r);
-
         }
 
         [Test]
@@ -185,6 +192,9 @@ namespace Accord.Tests.Statistics
 
                 double error = target.Regress(inputs, output);
 
+                Assert.AreEqual(2, target.NumberOfInputs);
+                Assert.AreEqual(1, target.NumberOfOutputs);
+
                 Assert.AreEqual(3, target.Coefficients.Length);
                 Assert.IsTrue(target.HasIntercept);
                 Assert.AreEqual(0, error, 1e-10);
@@ -194,6 +204,9 @@ namespace Accord.Tests.Statistics
                 MultipleLinearRegression target = new MultipleLinearRegression(2, false);
 
                 double error = target.Regress(inputs, output);
+
+                Assert.AreEqual(2, target.NumberOfInputs);
+                Assert.AreEqual(1, target.NumberOfOutputs);
 
                 Assert.AreEqual(2, target.Coefficients.Length);
                 Assert.IsFalse(target.HasIntercept);

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 // Copyright © Diego Catalano, 2013
@@ -28,8 +28,8 @@ namespace Accord.Imaging.Filters
     using System;
     using System.Collections.Generic;
     using System.Drawing.Imaging;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
 
     /// <summary>
     ///   Exponential filter.

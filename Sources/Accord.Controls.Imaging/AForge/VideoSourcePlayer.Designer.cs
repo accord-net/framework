@@ -5,7 +5,7 @@
 // andrew.kirillov@gmail.com
 //
 
-namespace AForge.Controls
+namespace Accord.Controls
 {
     partial class VideoSourcePlayer
     {

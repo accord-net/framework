@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,9 @@ namespace Accord.Statistics.Analysis
     using Accord.Math.Comparers;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Kernels;
+    using Accord.MachineLearning;
+    using Accord.Statistics.Analysis.Base;
+    using Accord.Statistics.Models.Regression;
 
     /// <summary>
     ///   Kernel Principal Component Analysis.
@@ -42,7 +45,7 @@ namespace Accord.Statistics.Analysis
     /// <para>
     ///   This class can also be bound to standard controls such as the 
     ///   <a href="http://msdn.microsoft.com/en-us/library/system.windows.forms.datagridview.aspx">DataGridView</a>
-    ///   by setting their DataSource property to the analysis' <see cref="PrincipalComponentAnalysis.Components"/>
+    ///   by setting their DataSource property to the analysis' <see cref="BasePrincipalComponentAnalysis.Components"/>
     ///   property.</para>
     ///   
     /// <para>
@@ -98,20 +101,47 @@ namespace Accord.Statistics.Analysis
     /// </example>
     /// 
     [Serializable]
-    public class KernelPrincipalComponentAnalysis : PrincipalComponentAnalysis
+#pragma warning disable 612, 618
+    public class KernelPrincipalComponentAnalysis : BasePrincipalComponentAnalysis, ITransform<double[], double[]>,
+        IUnsupervisedLearning<MultivariateKernelRegression, double[], double[]>,
+        IMultivariateAnalysis, IProjectionAnalysis
+#pragma warning restore 612, 618
     {
 
         private IKernel kernel;
-        private double[,] sourceCentered;
-        private double[,] kernelMatrix;
+        private double[][] sourceCentered;
+        private double[] featureMean;
+        private double featureGrandMean;
         private bool centerFeatureSpace;
-        private double threshold = 0.001; // 0.001
+        private double threshold = 0.001;
+        private bool allowReversion = true;
 
 
-        //---------------------------------------------
+        /// <summary>
+        ///   Constructs the Kernel Principal Component Analysis.
+        /// </summary>
+        /// 
+        /// <param name="kernel">The kernel to be used in the analysis.</param>
+        /// <param name="method">The analysis method to perform.</param>
+        /// <param name="centerInFeatureSpace">True to center the data in feature space,
+        ///   false otherwise. Default is true.</param>
+        /// <param name="numberOfOutputs">The maximum number of components that the analysis will be able to project data into.</param>
+        /// <param name="whiten">Whether to whiten the results or not. If set to <c>true</c> the generatred output
+        ///    will be normalized to have unit standard deviation.</param>
+        /// 
+        public KernelPrincipalComponentAnalysis(IKernel kernel, PrincipalComponentMethod method = PrincipalComponentMethod.Center,
+            bool centerInFeatureSpace = true, int numberOfOutputs = 0, bool whiten = false)
+        {
+            if (kernel == null)
+                throw new ArgumentNullException("kernel");
 
+            this.Method = method;
+            this.kernel = kernel;
+            this.centerFeatureSpace = centerInFeatureSpace;
+            this.NumberOfOutputs = numberOfOutputs;
+            this.Whiten = whiten;
+        }
 
-        #region Constructor
         /// <summary>
         ///   Constructs the Kernel Principal Component Analysis.
         /// </summary>
@@ -123,13 +153,16 @@ namespace Accord.Statistics.Analysis
         /// <param name="centerInFeatureSpace">True to center the data in feature space,
         ///   false otherwise. Default is true.</param>
         /// 
+        [Obsolete("Please pass the 'data' matrix to the Learn method instead.")]
         public KernelPrincipalComponentAnalysis(double[,] data, IKernel kernel,
             AnalysisMethod method, bool centerInFeatureSpace)
-            : base(data, method)
         {
             if (kernel == null)
                 throw new ArgumentNullException("kernel");
 
+            this.source = data;
+            this.array = data.ToJagged();
+            this.Method = (PrincipalComponentMethod)method;
             this.kernel = kernel;
             this.centerFeatureSpace = centerInFeatureSpace;
         }
@@ -145,15 +178,16 @@ namespace Accord.Statistics.Analysis
         /// <param name="centerInFeatureSpace">True to center the data in feature space,
         ///   false otherwise. Default is true.</param>
         /// 
+        [Obsolete("Please pass the 'data' matrix to the Learn method instead.")]
         public KernelPrincipalComponentAnalysis(double[][] data, IKernel kernel,
             AnalysisMethod method, bool centerInFeatureSpace)
-            : base(data, method)
         {
             if (kernel == null)
                 throw new ArgumentNullException("kernel");
 
             this.kernel = kernel;
             this.centerFeatureSpace = centerInFeatureSpace;
+            this.array = data;
         }
 
         /// <summary>
@@ -165,6 +199,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="kernel">The kernel to be used in the analysis.</param>
         /// <param name="method">The analysis method to perform.</param>
         /// 
+        [Obsolete("Please pass the 'data' matrix to the Learn method instead.")]
         public KernelPrincipalComponentAnalysis(double[,] data, IKernel kernel, AnalysisMethod method)
             : this(data, kernel, method, true) { }
 
@@ -177,6 +212,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="kernel">The kernel to be used in the analysis.</param>
         /// <param name="method">The analysis method to perform.</param>
         /// 
+        [Obsolete("Please pass the 'data' matrix to the Learn method instead.")]
         public KernelPrincipalComponentAnalysis(double[][] data, IKernel kernel, AnalysisMethod method)
             : this(data, kernel, method, true) { }
 
@@ -185,6 +221,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="data">The source data to perform analysis.</param>
         /// <param name="kernel">The kernel to be used in the analysis.</param>
         /// 
+        [Obsolete("Please pass the 'data' matrix to the Learn method instead.")]
         public KernelPrincipalComponentAnalysis(double[,] data, IKernel kernel)
             : this(data, kernel, AnalysisMethod.Center, true) { }
 
@@ -193,15 +230,11 @@ namespace Accord.Statistics.Analysis
         /// <param name="data">The source data to perform analysis.</param>
         /// <param name="kernel">The kernel to be used in the analysis.</param>
         /// 
+        [Obsolete("Please pass the 'data' matrix to the Learn method instead.")]
         public KernelPrincipalComponentAnalysis(double[][] data, IKernel kernel)
             : this(data, kernel, AnalysisMethod.Center, true) { }
-        #endregion
 
 
-        //---------------------------------------------
-
-
-        #region Public Properties
         /// <summary>
         ///   Gets the Kernel used in the analysis.
         /// </summary>
@@ -228,273 +261,198 @@ namespace Accord.Statistics.Analysis
         ///   than 0.001 to the variance in the data will be discarded).
         /// </summary>
         /// 
+        [Obsolete("Please set ExplainedVariance instead.")]
         public double Threshold
         {
             get { return threshold; }
             set { threshold = value; }
         }
-        #endregion
 
-
-        //---------------------------------------------
-
-
-        #region Public Methods
         /// <summary>
-        ///   Computes the Kernel Principal Component Analysis algorithm.
+        ///   Gets or sets a boolean value indicating whether this analysis
+        ///   should store enough information to allow the reversion of the
+        ///   transformation to be computed. Set this to no in case you would
+        ///   like to store the analysis object to disk and you do not need to
+        ///   reverse a transformation after it has been computed.
         /// </summary>
         /// 
-        public override void Compute()
+        public bool AllowReversion
         {
-            Compute(Source.GetLength(0));
+            get { return allowReversion; }
+            set { allowReversion = value; }
         }
 
         /// <summary>
         ///   Computes the Kernel Principal Component Analysis algorithm.
         /// </summary>
         /// 
-        public void Compute(int components)
+        [Obsolete("Please use the Learn method instead.")]
+        public void Compute()
         {
-            if (components < 0 || components > Source.GetLength(0))
+            Compute(NumberOfOutputs);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <returns>
+        /// A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.
+        /// </returns>
+        [Obsolete("Please use jagged matrices instead.")]
+        public MultivariateKernelRegression Learn(double[,] x)
+        {
+            return Learn(x.ToJagged());
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
+        /// <returns>
+        /// A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.
+        /// </returns>
+        public MultivariateKernelRegression Learn(double[][] x, double[] weights = null)
+        {
+            this.sourceCentered = null;
+            double[][] K;
+
+            if (Method == PrincipalComponentMethod.KernelMatrix)
             {
-                throw new ArgumentException(
-                    "The number of components must be between 0 and " +
-                    "the number of rows in your source data matrix.");
+                K = x;
+                if (centerFeatureSpace) // Center the Gram (Kernel) Matrix if requested
+                    K = Accord.Statistics.Kernels.Kernel.Center(K, out featureMean, out featureGrandMean); // do not overwrite
             }
-
-            int dimension = Source.GetLength(0);
-
-            // If needed, center the source matrix
-            sourceCentered = Adjust(Source, Overwrite);
-
-
-            // Create the Gram (Kernel) Matrix
-            this.kernelMatrix = new double[dimension, dimension];
-            for (int i = 0; i < dimension; i++)
+            else
             {
-                double[] row = sourceCentered.GetRow(i);
-                for (int j = i; j < dimension; j++)
+                this.NumberOfInputs = x.Columns();
+                this.Means = x.Mean(dimension: 0);
+                this.sourceCentered = Overwrite ? x : Jagged.CreateAs(x);
+                x.Subtract(Means, dimension: 0, result: sourceCentered);
+
+                if (Method == PrincipalComponentMethod.Standardize)
                 {
-                    double k = kernel.Function(row, sourceCentered.GetRow(j));
-                    kernelMatrix[i, j] = k; // Kernel matrix is symmetric
-                    kernelMatrix[j, i] = k;
+                    this.StandardDeviations = x.StandardDeviation(Means);
+                    sourceCentered.Divide(StandardDeviations, dimension: 0, result: sourceCentered);
                 }
+
+                // Create the Gram (Kernel) Matrix
+                K = kernel.ToJagged(x: sourceCentered);
+                if (centerFeatureSpace) // Center the Gram (Kernel) Matrix if requested
+                    K = Accord.Statistics.Kernels.Kernel.Center(K, out featureMean, out featureGrandMean, result: K); // overwrite
             }
-
-
-            // Center the Gram (Kernel) Matrix if requested
-            double[,] Kc = centerFeatureSpace ? centerKernel(kernelMatrix) : kernelMatrix;
-
 
             // Perform the Eigenvalue Decomposition (EVD) of the Kernel matrix
-            EigenvalueDecomposition evd = new EigenvalueDecomposition(Kc, assumeSymmetric: true);
+            var evd = new JaggedEigenvalueDecomposition(K,
+                assumeSymmetric: true, sort: true);
 
             // Gets the Eigenvalues and corresponding Eigenvectors
+            int numberOfSamples = x.Length;
             double[] evals = evd.RealEigenvalues;
-            double[,] eigs = evd.Eigenvectors;
+            double[][] eigs = evd.Eigenvectors;
 
-
-            // Sort eigenvalues and vectors in descending order
-            eigs = Matrix.Sort(evals, eigs, new GeneralComparer(ComparerDirection.Descending, true));
-
+            int nonzero = evd.Rank;
+            if (NumberOfInputs != 0)
+                nonzero = Math.Min(nonzero, NumberOfInputs);
+            if (NumberOfOutputs != 0)
+                nonzero = Math.Min(nonzero, NumberOfOutputs);
 
             // Eliminate unwanted components
-            if (components != Source.GetLength(0))
-            {
-                eigs = eigs.Submatrix(null, 0, components - 1);
-                evals = evals.Submatrix(0, components - 1);
-            }
-
-            if (threshold > 0)
-            {
-                // We will be discarding less important
-                // eigenvectors to conserve memory.
-
-                // Calculate component proportions
-                double sum = 0.0; // total variance
-                for (int i = 0; i < evals.Length; i++)
-                    sum += Math.Abs(evals[i]);
-
-                if (sum > 0)
-                {
-                    int keep = 0;
-
-                    // Now we will detect how many components we have
-                    //  have to keep in order to achieve the level of
-                    //  explained variance specified by the threshold.
-
-                    while (keep < components)
-                    {
-                        // Get the variance explained by the component
-                        double explainedVariance = Math.Abs(evals[keep]);
-
-                        // Check its proportion
-                        double proportion = explainedVariance / sum;
-
-                        // Now, if the component explains an
-                        // enough proportion of the variance,
-                        if (proportion > threshold)
-                            keep++; // We can keep it.
-                        else
-                            break;  // Otherwise we can stop, since the
-                        // components are ordered by variance.
-                    }
-
-                    if (keep != components)
-                    {
-                        if (keep > 0)
-                        {
-                            // Resize the vectors keeping only needed components
-                            eigs = eigs.Submatrix(0, components - 1, 0, keep - 1);
-                            evals = evals.Submatrix(0, keep - 1);
-                        }
-                        else
-                        {
-                            // No component will be kept.
-                            eigs = new double[dimension, 0];
-                            evals = new double[0];
-                        }
-                    }
-                }
-            }
-
+            eigs = eigs.Get(null, 0, nonzero);
+            evals = evals.Get(0, nonzero);
 
             // Normalize eigenvectors
             if (centerFeatureSpace)
-            {
-                for (int j = 0; j < evals.Length; j++)
-                {
-                    double val = Math.Sqrt(Math.Abs(evals[j]));
-                    for (int i = 0; i < eigs.GetLength(0); i++)
-                        eigs[i, j] = eigs[i, j] / val;
-                }
-            }
+                eigs.Divide(evals.Sqrt(), dimension: 0, result: eigs);
 
+            if (Whiten)
+                eigs.Divide(evals.Sqrt(), dimension: 0, result: eigs);
 
-
-            // Set analysis properties
-            this.SingularValues = new double[evals.Length];
+            //this.Eigenvalues = evals.Divide(numberOfSamples - 1);
             this.Eigenvalues = evals;
-            this.ComponentMatrix = eigs;
+            this.SingularValues = evals.Divide(numberOfSamples - 1).Sqrt();
+            this.ComponentVectors = eigs.Transpose();
 
-
-            // Project the original data into principal component space
-            this.Result = Kc.Multiply(eigs);
-
+            if (allowReversion)
+            {
+                // Project the original data into principal component space
+                this.result = Matrix.Dot(K, eigs).ToMatrix();
+            }
 
             // Computes additional information about the analysis and creates the
             //  object-oriented structure to hold the principal components found.
             CreateComponents();
-        }
 
+            Accord.Diagnostics.Debug.Assert(NumberOfOutputs > 0);
+
+            return new MultivariateKernelRegression()
+            {
+                NumberOfInputs = NumberOfInputs,
+                NumberOfOutputs = NumberOfOutputs,
+                Kernel = kernel,
+                Weights = ComponentVectors
+            };
+        }
 
         /// <summary>
-        ///   Projects a given matrix into the principal component space.
+        ///    Obsolete.
         /// </summary>
         /// 
-        /// <param name="data">The matrix to be projected. The matrix should contain
-        /// variables as columns and observations of each variable as rows.</param>
-        /// <param name="dimensions">The number of components to use in the transformation.</param>
-        /// 
-        public override double[,] Transform(double[,] data, int dimensions)
+        [Obsolete("Please set the desired number of components in the NumberOfOutputs property and call Learn.")]
+        public void Compute(int components)
         {
-            if (data == null)
-                throw new ArgumentNullException("data");
-
-            if (sourceCentered == null)
-                throw new InvalidOperationException("The analysis must have been computed first.");
-
-            if (data.GetLength(1) != Source.GetLength(1))
-                throw new DimensionMismatchException("data",
-                    "The input data should have the same number of columns as the original data.");
-
-            if (dimensions < 0 || dimensions > Components.Count)
-            {
-                throw new ArgumentOutOfRangeException("dimensions",
-                    "The specified number of dimensions must be equal or less than the " +
-                    "number of components available in the Components collection property.");
-            }
-
-            int samples = data.GetLength(0);
-            int rows = sourceCentered.GetLength(0);
-
-            // Center the data
-            data = Adjust(data, false);
-
-            // Create the Kernel matrix
-            double[,] newK = new double[samples, rows];
-            for (int i = 0; i < samples; i++)
-            {
-                double[] row = data.GetRow(i);
-                for (int j = 0; j < rows; j++)
-                    newK[i, j] = kernel.Function(row, sourceCentered.GetRow(j));
-            }
-
-            if (centerFeatureSpace)
-                centerKernel(newK, kernelMatrix);
-
-            // Project into the kernel principal components
-            double[,] result = new double[samples, dimensions];
-            newK.Multiply(ComponentMatrix, result: result);
-
-            return result;
+            NumberOfOutputs = components;
+            if (array != null)
+                Learn(array);
+            else
+#pragma warning disable 612, 618
+                Learn(source);
+#pragma warning restore 612, 618
         }
-
 
         /// <summary>
-        ///   Projects a given matrix into the principal component space.
+        ///   Projects a given matrix into principal component space.
         /// </summary>
         /// 
-        /// <param name="data">The matrix to be projected. The matrix should contain
-        /// variables as columns and observations of each variable as rows.</param>
-        /// <param name="dimensions">The number of components to use in the transformation.</param>
+        /// <param name="data">The matrix to be projected.</param>
+        /// <param name="result">The matrix where to store the results.</param>
         /// 
-        public override double[][] Transform(double[][] data, int dimensions)
+        public override double[][] Transform(double[][] data, double[][] result)
         {
-            if (data == null)
-                throw new ArgumentNullException("data");
+            double[][] newK;
 
-            if (sourceCentered == null)
-                throw new InvalidOperationException("The analysis must have been computed first.");
-
-            if (data[0].Length != Source.GetLength(1))
-                throw new DimensionMismatchException("data",
-                    "The input data should have the same number of columns as the original data.");
-
-            if (dimensions < 0 || dimensions > Components.Count)
+            if (Method == PrincipalComponentMethod.KernelMatrix)
             {
-                throw new ArgumentOutOfRangeException("dimensions",
-                    "The specified number of dimensions must be equal or less than the " +
-                    "number of components available in the Components collection property.");
+                newK = data;
+
+                if (centerFeatureSpace)
+                    newK = Accord.Statistics.Kernels.Kernel.Center(newK, featureMean, featureGrandMean); // do not overwrite
             }
-
-            int samples = data.Length;
-            int rows = sourceCentered.GetLength(0);
-
-            // Center the data
-            data = Adjust(data, false);
-
-            // Create the Kernel matrix
-            double[,] newK = new double[samples, rows];
-            for (int i = 0; i < samples; i++)
+            else
             {
-                double[] row = data[i];
-                for (int j = 0; j < rows; j++)
-                    newK[i, j] = kernel.Function(row, sourceCentered.GetRow(j));
-            }
+                if (data.Columns() != NumberOfInputs)
+                    throw new DimensionMismatchException("data",
+                        "The input data should have the same number of columns as the original data.");
 
-            if (centerFeatureSpace)
-                centerKernel(newK, kernelMatrix);
+                data = data.Subtract(Means, dimension: 0);
+                if (Method == PrincipalComponentMethod.Standardize)
+                    data.Divide(StandardDeviations, dimension: 0, result: data);
+
+                // Create the Kernel matrix
+                newK = kernel.ToJagged2(x: data, y: sourceCentered);
+
+                if (centerFeatureSpace)
+                    newK = Accord.Statistics.Kernels.Kernel.Center(newK, featureMean, featureGrandMean, result: newK); // overwrite
+            }
 
             // Project into the kernel principal components
-            double[][] result = new double[samples][];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = new double[dimensions];
-
-            newK.Multiply(ComponentMatrix, result: result);
-
-            return result;
+            return Matrix.DotWithTransposed(newK, ComponentVectors, result: result);
         }
+
+        
         /// <summary>
         ///   Reverts a set of projected data into it's original form. Complete reverse
         ///   transformation is not always possible and is not even guaranteed to exist.
@@ -511,7 +469,7 @@ namespace Accord.Statistics.Analysis
         /// 
         /// <param name="data">The kpca-transformed data.</param>
         /// 
-        public override double[,] Revert(double[,] data)
+        public double[,] Revert(double[,] data)
         {
             return Revert(data, 10);
         }
@@ -559,9 +517,9 @@ namespace Accord.Statistics.Analysis
             int rows = data.GetLength(0);
 
 
-            var result = Result;
+            var result = this.result;
 
-            double[,] reversion = new double[rows, sourceCentered.GetLength(1)];
+            double[,] reversion = new double[rows, sourceCentered.Columns()];
 
             // number of neighbors cannot exceed the number of training vectors.
             int nn = System.Math.Min(neighbors, sourceCentered.GetLength(0));
@@ -574,15 +532,15 @@ namespace Accord.Statistics.Analysis
                 double[] y = data.GetRow(p);
 
                 // 2. Select nn nearest neighbors of the feature space
-                double[,] X = sourceCentered;
-                double[] d2 = new double[Result.GetLength(0)];
-                int[] inx = new int[Result.GetLength(0)];
+                double[][] X = sourceCentered;
+                double[] d2 = new double[result.GetLength(0)];
+                int[] inx = new int[result.GetLength(0)];
 
                 // 2.1 Calculate distances
                 for (int i = 0; i < X.GetLength(0); i++)
                 {
                     inx[i] = i;
-                    d2[i] = distance.ReverseDistance(y, result.GetRow(i).Submatrix(y.Length));
+                    d2[i] = distance.ReverseDistance(y, result.GetRow(i).First(y.Length));
 
                     if (Double.IsNaN(d2[i]))
                         d2[i] = Double.PositiveInfinity;
@@ -598,9 +556,9 @@ namespace Accord.Statistics.Analysis
                     if (Double.IsInfinity(d2[i]))
                         break;
 
-                inx = inx.Submatrix(def);
-                X = X.Submatrix(inx).Transpose(); // X is in input space
-                d2 = d2.Submatrix(def);       // distances in input space
+                inx = inx.First(def);
+                X = X.Get(inx).Transpose(); // X is in input space
+                d2 = d2.First(def);       // distances in input space
 
 
                 // 3. Perform SVD
@@ -609,39 +567,40 @@ namespace Accord.Statistics.Analysis
                 // TODO: If X has more columns than rows, the SV decomposition should be
                 //  computed on the transpose of X and the left and right vectors should
                 //  be swapped. This should be fixed after more unit tests are elaborated.
-                SingularValueDecomposition svd = new SingularValueDecomposition(X,
-                    computeLeftSingularVectors: true, computeRightSingularVectors: true, 
+                var svd = new JaggedSingularValueDecomposition(X,
+                    computeLeftSingularVectors: true,
+                    computeRightSingularVectors: true,
                     autoTranspose: false);
 
-                double[,] U = svd.LeftSingularVectors;
-                double[,] L = Matrix.Diagonal(def, svd.Diagonal);
-                double[,] V = svd.RightSingularVectors;
+                double[][] U = svd.LeftSingularVectors;
+                double[][] L = Jagged.Diagonal(def, svd.Diagonal);
+                double[][] V = svd.RightSingularVectors;
 
 
                 // 4. Compute projections
                 //    Z = L*V';
-                double[,] Z = L.Multiply(V.Transpose());
+                double[][] Z = Matrix.DotWithTransposed(L, V);
 
 
                 // 5. Calculate distances
                 //    d02 = sum(Z.^2)';
-                double[] d02 = Matrix.Sum(Matrix.ElementwisePower(Z, 2));
+                double[] d02 = Matrix.Sum(Elementwise.Pow(Z, 2), 0);
 
 
                 // 6. Get the pre-image using z = -0.5*inv(Z')*(d2-d02)
-                double[,] inv = Matrix.PseudoInverse(Z.Transpose());
+                double[][] inv = Matrix.PseudoInverse(Z.Transpose());
 
-                double[] w = (-0.5).Multiply(inv).Multiply(d2.Subtract(d02));
-                double[] z = w.Submatrix(U.GetLength(1));
+                double[] w = (-0.5).Multiply(inv).Dot(d2.Subtract(d02));
+                double[] z = w.First(U.Columns());
 
 
                 // 8. Project the pre-image on the original basis
                 //    using x = U*z + sum(X,2)/nn;
-                double[] x = (U.Multiply(z)).Add(Matrix.Sum(X.Transpose()).Multiply(1.0 / nn));
+                double[] x = (U.Dot(z)).Add(Matrix.Sum(X.Transpose(), 0).Multiply(1.0 / nn));
 
 
                 // 9. Store the computed pre-image.
-                for (int i = 0; i < reversion.GetLength(1); i++)
+                for (int i = 0; i < reversion.Columns(); i++)
                     reversion[p, i] = x[i];
             }
 
@@ -649,14 +608,14 @@ namespace Accord.Statistics.Analysis
 
             // if the data has been standardized or centered,
             //  we need to revert those operations as well
-            if (this.Method == AnalysisMethod.Standardize)
+            if (this.Method == PrincipalComponentMethod.Standardize)
             {
                 // multiply by standard deviation and add the mean
                 for (int i = 0; i < reversion.GetLength(0); i++)
                     for (int j = 0; j < reversion.GetLength(1); j++)
                         reversion[i, j] = (reversion[i, j] * StandardDeviations[j]) + Means[j];
             }
-            else if (this.Method == AnalysisMethod.Center)
+            else if (this.Method == PrincipalComponentMethod.Center)
             {
                 // only add the mean
                 for (int i = 0; i < reversion.GetLength(0); i++)
@@ -667,50 +626,6 @@ namespace Accord.Statistics.Analysis
 
             return reversion;
         }
-
-        #endregion
-
-
-        //---------------------------------------------
-
-
-        #region Private Methods
-        private static double[,] centerKernel(double[,] K)
-        {
-            int rows = K.GetLength(0);
-            double[,] Kc = new double[rows, rows];
-
-            double[] rowMean = Accord.Statistics.Tools.Mean(K, 1);
-#if DEBUG
-            // row mean and column means should be equal on a symmetric matrix
-            double[] colMean = Accord.Statistics.Tools.Mean(K, 0);
-            for (int i = 0; i < colMean.Length; i++)
-                System.Diagnostics.Debug.Assert(colMean[i] == rowMean[i]);
-#endif
-            double mean = Accord.Statistics.Tools.Mean(K, -1)[0];
-
-            for (int i = 0; i < rows; i++)
-                for (int j = i; j < rows; j++)
-                    Kc[i, j] = Kc[j, i] = K[i, j] - rowMean[i] - rowMean[j] + mean;
-
-            return Kc;
-        }
-
-        private static void centerKernel(double[,] newK, double[,] K)
-        {
-            int samples = newK.GetLength(0);
-            int dimension = K.GetLength(0);
-
-            double[] rowMean1 = Statistics.Tools.Mean(newK, 1);
-            double[] rowMean2 = Statistics.Tools.Mean(K, 1);
-            double mean = Matrix.Sum(K, -1)[0] / (samples * dimension);
-
-            for (int i = 0; i < samples; i++)
-                for (int j = 0; j < dimension; j++)
-                    newK[i, j] = newK[i, j] - rowMean1[i] - rowMean2[j] + mean;
-        }
-
-        #endregion
 
 
     }

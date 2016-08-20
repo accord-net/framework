@@ -6,13 +6,13 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Vision.Motion
+namespace Accord.Vision.Motion
 {
     using System;
     using System.Drawing.Imaging;
 
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
 
     /// <summary>
     /// Motion detector based on simple background modeling.
@@ -374,7 +374,7 @@ namespace AForge.Vision.Motion
                     }
 
                     // convert source frame to grayscale
-                    Tools.ConvertToGrayscale( videoFrame, backgroundFrame );
+                    Accord.Vision.Tools.ConvertToGrayscale(videoFrame, backgroundFrame);
 
                     return;
                 }
@@ -384,7 +384,7 @@ namespace AForge.Vision.Motion
                     return;
 
                 // convert current image to grayscale
-                Tools.ConvertToGrayscale( videoFrame, motionFrame );
+                Accord.Vision.Tools.ConvertToGrayscale(videoFrame, motionFrame);
 
                 unsafe
                 {
@@ -468,12 +468,12 @@ namespace AForge.Vision.Motion
                     if ( suppressNoise )
                     {
                         // suppress noise and calculate motion amount
-                        AForge.SystemTools.CopyUnmanagedMemory( tempFrame.ImageData, motionFrame.ImageData, frameSize );
+                        Accord.SystemTools.CopyUnmanagedMemory( tempFrame.ImageData, motionFrame.ImageData, frameSize );
                         erosionFilter.Apply( tempFrame, motionFrame );
 
                         if ( keepObjectEdges )
                         {
-                            AForge.SystemTools.CopyUnmanagedMemory( tempFrame.ImageData, motionFrame.ImageData, frameSize );
+                            Accord.SystemTools.CopyUnmanagedMemory( tempFrame.ImageData, motionFrame.ImageData, frameSize );
                             dilatationFilter.Apply( tempFrame, motionFrame );
                         }
                     }

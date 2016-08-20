@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,6 +30,8 @@ namespace Accord.IO
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Statistics.Links;
+    using Accord.MachineLearning;
+    using Accord.Statistics.Kernels;
 
     /// <summary>
     ///   Solver types allowed in LibSVM/Liblinear model files.
@@ -199,7 +201,7 @@ namespace Accord.IO
         ///   is not a compact model, this will be set to <c>null</c>.
         /// </summary>
         /// 
-        /// <seealso cref="SupportVectorMachine.IsCompact"/>
+        /// <seealso cref="SupportVectorMachine{TKernel, TInput}.IsCompact"/>
         /// 
         public double[] Weights { get; set; }
 
@@ -209,7 +211,7 @@ namespace Accord.IO
         ///   will be set to <c>null</c>.
         /// </summary>
         /// 
-        /// <seealso cref="SupportVectorMachine.IsCompact"/>
+        /// <seealso cref="SupportVectorMachine{TKernel, TInput}.IsCompact"/>
         /// 
         public double[][] Vectors { get; set; }
 
@@ -242,11 +244,6 @@ namespace Accord.IO
                 case LibSvmSolverType.L2RegularizedLogisticRegression:
                 case LibSvmSolverType.L1RegularizedLogisticRegression:
                 case LibSvmSolverType.L2RegularizedLogisticRegressionDual:
-                    {
-                        var svm = SupportVectorMachine.FromWeights(Weights);
-                        svm.Link = new LogLinkFunction();
-                        return svm;
-                    }
                 case LibSvmSolverType.L2RegularizedL2LossSvc:
                 case LibSvmSolverType.L2RegularizedL1LossSvcDual:
                 case LibSvmSolverType.L2RegularizedL2LossSvcDual:
@@ -255,7 +252,7 @@ namespace Accord.IO
                 case LibSvmSolverType.L2RegularizedL2LossSvrDual:
                 case LibSvmSolverType.L2RegularizedL1LossSvrDual:
                     {
-                        return SupportVectorMachine.FromWeights(Weights);
+                        return SupportVectorMachine.FromWeights(Weights, 0);
                     }
             }
 
@@ -263,51 +260,48 @@ namespace Accord.IO
         }
 
         /// <summary>
-        ///   Creates a <see cref="ISupportVectorMachineLearning"> support
+        ///   Creates a <see cref="ILinearSupportVectorMachineLearning"> support
         ///   vector machine learning algorithm</see> that attends the 
         ///   requisites specified in this model.
         /// </summary>
         /// 
         /// <returns>
-        ///   A <see cref="ISupportVectorMachineLearning"/> that represents this model.
+        ///   A <see cref="ILinearSupportVectorMachineLearning"/> that represents this model.
         /// </returns>
         /// 
-        public ISupportVectorMachineLearning CreateAlgorithm(double[][] inputs, int[] outputs)
+        public ISupervisedLearning<SupportVectorMachine, double[], double> CreateAlgorithm()
         {
-            var machine = CreateMachine();
-
             switch (type)
             {
                 case LibSvmSolverType.L2RegularizedLogisticRegression: // -s 0
-                    return new ProbabilisticNewtonMethod(machine, inputs, outputs);
+                    return new ProbabilisticNewtonMethod();
 
                 case LibSvmSolverType.L2RegularizedL2LossSvcDual: // -s 1
-                    return new LinearDualCoordinateDescent(machine, inputs, outputs) { Loss = Loss.L2 };
+                    return new LinearDualCoordinateDescent() { Loss = Loss.L2 };
 
                 case LibSvmSolverType.L2RegularizedL2LossSvc: // -s 2
-                    return new LinearNewtonMethod(machine, inputs, outputs);
+                    return new LinearNewtonMethod();
 
                 case LibSvmSolverType.L2RegularizedL1LossSvcDual: // -s 3
-                    return new LinearDualCoordinateDescent(machine, inputs, outputs) { Loss = Loss.L1 };
+                    return new LinearDualCoordinateDescent() { Loss = Loss.L1 };
 
                 case LibSvmSolverType.L1RegularizedL2LossSvc: // -s 5
-                    return new LinearCoordinateDescent(machine, inputs, outputs);
+                    return new LinearCoordinateDescent();
 
                 case LibSvmSolverType.L1RegularizedLogisticRegression: // -s 6
-                    return new ProbabilisticCoordinateDescent(machine, inputs, outputs);
+                    return new ProbabilisticCoordinateDescent();
 
                 case LibSvmSolverType.L2RegularizedLogisticRegressionDual: // -s 7
-                    return new ProbabilisticDualCoordinateDescent(machine, inputs, outputs);
+                    return new ProbabilisticDualCoordinateDescent();
 
                 case LibSvmSolverType.L2RegularizedL2LossSvr: // -11
-                // return new LinearRegressionNewtonMethod(machine, inputs, outputs);
+                    return new LinearRegressionNewtonMethod();
 
                 case LibSvmSolverType.L2RegularizedL2LossSvrDual: // -12
-                // return new LinearRegressionCoordinateDescent(machine, inputs, outputs);  { Loss = Loss.L2 };
+                    return new LinearRegressionCoordinateDescent() { Loss = Loss.L2 };
 
                 case LibSvmSolverType.L2RegularizedL1LossSvrDual: // -13
-                // return new LinearRegressionCoordinateDescent(machine, inputs, outputs) { Loss = Loss.L1 };
-                    break;
+                    return new LinearRegressionCoordinateDescent() { Loss = Loss.L1 };
             }
 
             throw new NotSupportedException("This solver type is unknown or not supported.");

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,8 +26,8 @@ namespace Accord.Tests.Imaging
     using System.Drawing.Imaging;
     using Accord.Imaging.Converters;
     using Accord.Math;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
     using NUnit.Framework;
 
     [TestFixture]
@@ -117,7 +117,7 @@ namespace Accord.Tests.Imaging
         public void ConvertTest4()
         {
             ImageToArray target = new ImageToArray(min: 0, max: 255);
-            Bitmap image = Properties.Resources.image3;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.image3);
             Assert.AreEqual(PixelFormat.Format32bppArgb, image.PixelFormat);
 
             {

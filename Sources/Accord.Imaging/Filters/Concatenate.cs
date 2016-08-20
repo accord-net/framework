@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,8 +25,6 @@ namespace Accord.Imaging.Filters
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
 
     /// <summary>
     ///   Concatenation filter.
@@ -115,9 +113,9 @@ namespace Accord.Imaging.Filters
                 for (int y = 0; y < dstHeight; y++)
                 {
                     if (y < src1Height)
-                        AForge.SystemTools.CopyUnmanagedMemory(dst, src1, copySize1);
+                        Accord.SystemTools.CopyUnmanagedMemory(dst, src1, copySize1);
                     if (y < src2Height)
-                        AForge.SystemTools.CopyUnmanagedMemory(dst + copySize1, src2, copySize2);
+                        Accord.SystemTools.CopyUnmanagedMemory(dst + copySize1, src2, copySize2);
                     
                     src1 += src1Stride;
                     src2 += src2Stride;

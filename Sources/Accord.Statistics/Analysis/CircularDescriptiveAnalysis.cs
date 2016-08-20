@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,11 +23,13 @@
 namespace Accord.Statistics.Analysis
 {
     using Accord.Collections;
+    using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using AForge;
     using System;
     using System.ComponentModel;
+    using System.Reflection;
 
     /// <summary>
     ///   Descriptive statistics analysis for circular data.
@@ -39,7 +41,10 @@ namespace Accord.Statistics.Analysis
     /// <seealso cref="DescriptiveMeasures"/>
     ///
     [Serializable]
-    public class CircularDescriptiveAnalysis : IMultivariateAnalysis
+#pragma warning disable 612, 618
+    public class CircularDescriptiveAnalysis : IMultivariateAnalysis,
+        IDescriptiveLearning<CircularDescriptiveAnalysis, double[]>
+#pragma warning restore 612, 618
     {
 
         private int samples;
@@ -85,7 +90,7 @@ namespace Accord.Statistics.Analysis
         private CircularDescriptiveMeasureCollection measuresCollection;
 
         private bool useStrictRanges = true;
-
+        private bool lazy = true;
 
         /// <summary>
         ///   Constructs the Circular Descriptive Analysis.
@@ -99,12 +104,13 @@ namespace Accord.Statistics.Analysis
         ///   operations over the original <paramref name="data"/> array.
         /// </param>
         /// 
+        [Obsolete("Please pass only the lengths and columnNames parameters and call the Learn() method passing the data to be analyzed.")]
         public CircularDescriptiveAnalysis(double[] data, double length, String columnName, bool inPlace = false)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
 
-            init(data, null, null, new[] { length }, new[] { columnName }, inPlace);
+            compute(data, null, null, new[] { length }, new[] { columnName }, inPlace);
         }
 
         /// <summary>
@@ -118,12 +124,13 @@ namespace Accord.Statistics.Analysis
         ///   operations over the original <paramref name="data"/> array.
         /// </param>
         /// 
+        [Obsolete("Please pass only the lengths and columnNames parameters and call the Learn() method passing the data to be analyzed.")]
         public CircularDescriptiveAnalysis(double[] data, double length, bool inPlace = false)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
 
-            init(data, null, null, new[] { length }, null, inPlace);
+            compute(data, null, null, new[] { length }, null, inPlace);
         }
 
         /// <summary>
@@ -133,6 +140,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="data">The source data to perform analysis.</param>
         /// <param name="length">The length of each circular variable (i.e. 24 for hours).</param>
         /// 
+        [Obsolete("Please pass only the lengths and columnNames parameters and call the Learn() method passing the data to be analyzed.")]
         public CircularDescriptiveAnalysis(double[,] data, double[] length)
         {
             if (data == null)
@@ -141,7 +149,7 @@ namespace Accord.Statistics.Analysis
             if (length == null)
                 throw new ArgumentNullException("length");
 
-            init(null, data, null, length, null);
+            compute(null, data, null, length, null);
         }
 
         /// <summary>
@@ -152,6 +160,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="length">The length of each circular variable (i.e. 24 for hours).</param>
         /// <param name="columnNames">Names for the analyzed variables.</param>
         /// 
+        [Obsolete("Please pass only the lengths and columnNames parameters and call the Learn() method passing the data to be analyzed.")]
         public CircularDescriptiveAnalysis(double[,] data, double[] length, string[] columnNames)
         {
             if (data == null)
@@ -163,7 +172,7 @@ namespace Accord.Statistics.Analysis
             if (columnNames == null)
                 throw new ArgumentNullException("columnNames");
 
-            init(null, data, null, length, columnNames);
+            compute(null, data, null, length, columnNames);
         }
 
         /// <summary>
@@ -173,6 +182,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="data">The source data to perform analysis.</param>
         /// <param name="length">The length of each circular variable (i.e. 24 for hours).</param>
         /// 
+        [Obsolete("Please pass only the lengths and columnNames parameters and call the Learn() method passing the data to be analyzed.")]
         public CircularDescriptiveAnalysis(double[][] data, double[] length)
         {
             // Initial argument checking
@@ -182,7 +192,7 @@ namespace Accord.Statistics.Analysis
             if (length == null)
                 throw new ArgumentNullException("length");
 
-            init(null, null, data, length, null);
+            compute(null, null, data, length, null);
         }
 
         /// <summary>
@@ -193,6 +203,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="length">The length of each circular variable (i.e. 24 for hours).</param>
         /// <param name="columnNames">Names for the analyzed variables.</param>
         /// 
+        [Obsolete("Please pass only the lengths and columnNames parameters and call the Learn() method passing the data to be analyzed.")]
         public CircularDescriptiveAnalysis(double[][] data, double[] length, string[] columnNames)
         {
             // Initial argument checking
@@ -205,33 +216,56 @@ namespace Accord.Statistics.Analysis
             if (columnNames == null)
                 throw new ArgumentNullException("columnNames");
 
-            init(null, null, data, length, columnNames);
+            compute(null, null, data, length, columnNames);
+        }
+
+        /// <summary>
+        ///   Constructs the Circular Descriptive Analysis.
+        /// </summary>
+        /// 
+        /// <param name="length">The length of each circular variable (i.e. 24 for hours).</param>
+        /// <param name="columnNames">Names for the analyzed variables.</param>
+        /// 
+        public CircularDescriptiveAnalysis(double[] length, string[] columnNames)
+        {
+            compute(null, null, null, length, columnNames);
+        }
+
+        /// <summary>
+        ///   Constructs the Circular Descriptive Analysis.
+        /// </summary>
+        /// 
+        /// <param name="length">The length of each circular variable (i.e. 24 for hours).</param>
+        /// 
+        public CircularDescriptiveAnalysis(double[] length)
+        {
+            compute(null, null, null, length, null);
         }
 
 
-        private void init(double[] row, double[,] matrix, double[][] array,
+        private void compute(double[] row, double[,] matrix, double[][] array,
             double[] length, string[] columnNames, bool inPlace = false)
         {
             this.columnNames = columnNames;
             this.sourceArray = array;
             this.sourceMatrix = matrix;
             this.sourceRow = row;
-            this.lengths = length;
 
             if (matrix != null)
             {
-                this.samples = matrix.GetLength(0);
-                this.variables = matrix.GetLength(1);
-
+                this.samples = matrix.Rows();
+                this.variables = matrix.Columns();
+                if (lengths == null)
+                    lengths = matrix.Max(dimension: 0);
                 if (lengths.Length != variables)
                     throw new DimensionMismatchException("length");
-
+                this.lengths = length;
                 this.angles = new double[variables][];
                 for (int i = 0; i < angles.Length; i++)
                 {
                     angles[i] = new double[samples];
                     for (int j = 0; j < angles[i].Length; j++)
-                        angles[i][j] = Circular.ToRadians(matrix[j, i], length[i]);
+                        angles[i][j] = Circular.ToRadians(matrix[j, i], lengths[i]);
                 }
             }
             else if (array != null)
@@ -239,10 +273,11 @@ namespace Accord.Statistics.Analysis
                 this.samples = array.Length;
                 this.variables = array[0].Length;
                 this.angles = new double[variables][];
-
+                if (lengths == null)
+                    lengths = array.Max(dimension: 1);
                 if (lengths.Length != variables)
                     throw new DimensionMismatchException("length");
-
+                this.lengths = length;
                 for (int i = 0; i < angles.Length; i++)
                 {
                     angles[i] = new double[samples];
@@ -255,10 +290,11 @@ namespace Accord.Statistics.Analysis
                 this.samples = sourceRow.Length;
                 this.variables = 1;
                 this.angles = new double[variables][];
-
+                if (lengths == null)
+                    lengths = new[] { sourceRow.Max() };
                 if (lengths.Length != variables)
                     throw new DimensionMismatchException("length");
-
+                this.lengths = length;
                 angles[0] = inPlace ? sourceRow : new double[samples];
                 for (int j = 0; j < angles[0].Length; j++)
                     angles[0][j] = Circular.ToRadians(sourceRow[j], length[0]);
@@ -277,9 +313,9 @@ namespace Accord.Statistics.Analysis
         ///   Computes the analysis using given source data and parameters.
         /// </summary>
         /// 
+        [Obsolete("Please use Learn() instead.")]
         public void Compute()
         {
-            // Clear analysis
             reset();
 
             this.sums = Sums;
@@ -326,6 +362,47 @@ namespace Accord.Statistics.Analysis
             this.standardErrors = null;
         }
 
+        /// <summary>
+        /// Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <returns>
+        /// A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.
+        /// </returns>
+        public CircularDescriptiveAnalysis Learn(double[][] x)
+        {
+            reset();
+
+            this.compute(null, null, x, this.lengths, this.columnNames);
+
+            if (!lazy)
+            {
+                this.sums = Sums;
+                this.means = Means;
+                this.standardDeviations = StandardDeviations;
+                this.ranges = Ranges;
+                this.medians = Medians;
+                this.variances = Variances;
+                this.distinct = Distinct;
+                this.quartiles = Quartiles;
+                this.innerFences = InnerFences;
+                this.outerFences = OuterFences;
+                this.modes = Modes;
+                this.cos = CosineSum;
+                this.sin = SineSum;
+                this.skewness = Skewness;
+                this.kurtosis = Kurtosis;
+                this.concentration = Concentration;
+                this.deviances = Deviance;
+                this.confidences = Confidence;
+                this.sourceArray = null;
+                this.sourceMatrix = null;
+                this.sourceRow = null;
+            }
+
+            return this;
+        }
 
         /// <summary>
         ///   Gets or sets whether all reported statistics should respect the circular 
@@ -356,6 +433,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the source matrix from which the analysis was run.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[,] Source
         {
             get
@@ -380,6 +458,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the source matrix from which the analysis was run.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[][] Array
         {
             get
@@ -388,11 +467,11 @@ namespace Accord.Statistics.Analysis
                 {
                     if (this.sourceRow == null)
                     {
-                        sourceArray = sourceMatrix.ToArray();
+                        sourceArray = sourceMatrix.ToJagged();
                     }
                     else
                     {
-                        sourceArray = sourceRow.ToArray(asColumnVector: true);
+                        sourceArray = sourceRow.ToJagged(asColumnVector: true);
                     }
                 }
 
@@ -401,9 +480,23 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        ///   Gets or sets whether the properties of this class should
+        ///   be computed only when necessary. If set to true, a copy
+        ///   of the input data will be maintained inside an instance
+        ///   of this class, using more memory.
+        /// </summary>
+        /// 
+        public bool Lazy
+        {
+            get { return lazy; }
+            set { lazy = value; }
+        }
+
+        /// <summary>
         ///   Gets the source matrix from which the analysis was run.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[][] Angles
         {
             get { return this.angles; }
@@ -461,6 +554,7 @@ namespace Accord.Statistics.Analysis
 
                 return means;
             }
+            private set { means = value; }
         }
 
         /// <summary>
@@ -474,10 +568,10 @@ namespace Accord.Statistics.Analysis
                 if (modes == null)
                 {
                     if (sourceMatrix != null)
-                        modes = Statistics.Tools.Mode(sourceMatrix);
+                        modes = sourceMatrix.Mode();
                     else if (sourceArray != null)
-                        modes = Statistics.Tools.Mode(sourceArray);
-                    else modes = new[] { Statistics.Tools.Mode(sourceRow) };
+                        modes = sourceArray.Mode();
+                    else modes = new[] { sourceRow.Mode() };
                 }
 
                 return modes;
@@ -626,11 +720,11 @@ namespace Accord.Statistics.Analysis
                 if (distinct == null)
                 {
                     if (sourceMatrix != null)
-                        distinct = Statistics.Tools.DistinctCount(sourceMatrix);
+                        distinct = sourceMatrix.DistinctCount();
                     else if (sourceArray != null)
-                        distinct = Statistics.Tools.DistinctCount(sourceArray);
+                        distinct = sourceArray.DistinctCount();
                     else
-                        distinct = new[] { Statistics.Tools.DistinctCount(sourceRow) };
+                        distinct = new[] { sourceRow.DistinctCount() };
                 }
 
                 return distinct;
@@ -754,9 +848,9 @@ namespace Accord.Statistics.Analysis
                 if (sums == null)
                 {
                     if (sourceMatrix != null)
-                        this.sums = Accord.Math.Matrix.Sum(sourceMatrix);
+                        this.sums = Accord.Math.Matrix.Sum(sourceMatrix, 0);
                     else if (sourceArray != null)
-                        this.sums = Accord.Math.Matrix.Sum(sourceArray);
+                        this.sums = Accord.Math.Matrix.Sum(sourceArray, 0);
                     else this.sums = new[] { Accord.Math.Matrix.Sum(sourceRow) };
                 }
 
@@ -1170,6 +1264,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the transformed variable's observations.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[] Angles
         {
             get { return analysis.Angles[index]; }
@@ -1206,6 +1301,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the variable's observations.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[] Samples
         {
             get { return analysis.Source.GetColumn(index); }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -31,7 +31,19 @@ namespace Accord.Statistics.Kernels
     /// 
     /// <seealso cref="IKernel"/>
     ///
-    public interface IEstimable : IKernel
+    public interface IEstimable : IEstimable<double[]>
+    {
+    }
+
+    /// <summary>
+    ///   Interface for <see cref="IKernel">kernel functions</see> 
+    ///   with support for automatic parameter estimation.
+    /// </summary>
+    /// 
+    /// 
+    /// <seealso cref="IKernel"/>
+    ///
+    public interface IEstimable<TInput> : IKernel<TInput>
     {
         /// <summary>
         ///   Estimates kernel parameters from the data.
@@ -39,6 +51,18 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="inputs">The input data.</param>
         /// 
-        void Estimate(double[][] inputs);
+        void Estimate(TInput[] inputs);
     }
+
+    //public interface IEstimable<TKernel, TInput> 
+    //    where TKernel : IKernel<TInput>
+    //{
+    //    /// <summary>
+    //    ///   Estimates kernel parameters from the data.
+    //    /// </summary>
+    //    /// 
+    //    /// <param name="inputs">The input data.</param>
+    //    /// 
+    //    TKernel Estimate(TInput[] inputs);
+    //}
 }

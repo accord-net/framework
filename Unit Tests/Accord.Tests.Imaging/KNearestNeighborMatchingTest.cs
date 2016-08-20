@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ using AForge;
 using Accord.Math;
 using System.Collections.Generic;
 using System;
+using Accord.Math.Distances;
 
 namespace Accord.Tests.Imaging
 {
@@ -39,16 +40,18 @@ namespace Accord.Tests.Imaging
         [Test]
         public void MatchTest()
         {
+            var image1 = Accord.Imaging.Image.Clone(Properties.Resources.image1);
+            var image2 = Accord.Imaging.Image.Clone(Properties.Resources.image2);
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector();
 
-            var keyPoints1 = freak.ProcessImage(Properties.Resources.image1).ToArray();
-            var keyPoints2 = freak.ProcessImage(Properties.Resources.image2).ToArray();
+            var keyPoints1 = freak.ProcessImage(image1).ToArray();
+            var keyPoints2 = freak.ProcessImage(image2).ToArray();
 
             bool thrown = false;
 
             try
             {
-                var matcher = new KNearestNeighborMatching<byte[]>(5, Distance.BitwiseHamming);
+                var matcher = new KNearestNeighborMatching<byte[]>(5, new Hamming());
                 IntPoint[][] matches = matcher.Match(keyPoints1, keyPoints2);
             }
             catch (ArgumentException)
@@ -62,12 +65,14 @@ namespace Accord.Tests.Imaging
         [Test]
         public void MatchTest2()
         {
+            var imgOld = Accord.Imaging.Image.Clone(Properties.Resources.old);
+            var imgNew = Accord.Imaging.Image.Clone(Properties.Resources._new); 
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector();
 
-            var keyPoints1 = freak.ProcessImage(Properties.Resources.old).ToArray();
-            var keyPoints2 = freak.ProcessImage(Properties.Resources._new).ToArray();
+            var keyPoints1 = freak.ProcessImage(imgOld).ToArray();
+            var keyPoints2 = freak.ProcessImage(imgNew).ToArray();
 
-            var matcher = new KNearestNeighborMatching<byte[]>(5, Distance.BitwiseHamming);
+            var matcher = new KNearestNeighborMatching<byte[]>(5, new Hamming());
 
             { // direct
                 IntPoint[][] matches = matcher.Match(keyPoints1, keyPoints2);
@@ -88,12 +93,52 @@ namespace Accord.Tests.Imaging
         [Test]
         public void MatchTest3()
         {
+            var old = Accord.Imaging.Image.Clone(Properties.Resources.old);
+            var flower01 = Accord.Imaging.Image.Clone(Properties.Resources.flower01);
+
             FastCornersDetector fast = new FastCornersDetector(threshold: 10);
 
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector(fast);
 
-            var keyPoints1 = freak.ProcessImage(Properties.Resources.old).ToArray();
-            var keyPoints2 = freak.ProcessImage(Properties.Resources.flower01).ToArray();
+            var keyPoints1 = freak.ProcessImage(old).ToArray();
+            var keyPoints2 = freak.ProcessImage(flower01).ToArray();
+
+            var matcher = new KNearestNeighborMatching<byte[]>(5, new Hamming());
+
+            { // direct
+                IntPoint[][] matches = matcher.Match(keyPoints1, keyPoints2);
+                Assert.AreEqual(2, matches.Length);
+                Assert.AreEqual(143, matches[0].Length);
+                Assert.AreEqual(143, matches[1].Length);
+                Assert.AreEqual(532, matches[0][0].X);
+                Assert.AreEqual(159, matches[0][0].Y);
+                Assert.AreEqual(keyPoints2[0].ToIntPoint(), matches[1][0]);
+            }
+
+            { // reverse
+                IntPoint[][] matches = matcher.Match(keyPoints2, keyPoints1);
+                Assert.AreEqual(2, matches.Length);
+                Assert.AreEqual(143, matches[0].Length);
+                Assert.AreEqual(143, matches[1].Length);
+                Assert.AreEqual(keyPoints2[0].ToIntPoint(), matches[0][0]);
+                Assert.AreEqual(532, matches[1][0].X);
+                Assert.AreEqual(159, matches[1][0].Y);
+            }
+
+        }
+
+        [Test]
+        public void MatchTest3_Compatibility()
+        {
+            var old = Accord.Imaging.Image.Clone(Properties.Resources.old);
+            var flower01 = Accord.Imaging.Image.Clone(Properties.Resources.flower01);
+
+            FastCornersDetector fast = new FastCornersDetector(threshold: 10);
+
+            FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector(fast);
+
+            var keyPoints1 = freak.ProcessImage(old).ToArray();
+            var keyPoints2 = freak.ProcessImage(flower01).ToArray();
 
             var matcher = new KNearestNeighborMatching<byte[]>(5, Distance.BitwiseHamming);
 

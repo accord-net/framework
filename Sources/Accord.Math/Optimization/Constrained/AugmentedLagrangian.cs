@@ -5,7 +5,7 @@
 // Copyright © Steven G. Johnson, 2008
 // stevenj@alum.mit.edu
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //
@@ -558,7 +558,7 @@ namespace Accord.Math.Optimization
                         rho = rhoMax;
                 }
 
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(rho));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(rho));
             }
 
 

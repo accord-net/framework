@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,8 +25,12 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Regression;
+    using System.Linq;
     using NUnit.Framework;
     using System;
+#if NET35
+    using Tuple = Accord.Tuple;
+#endif
 
     [TestFixture]
     public class CoxProportionalHazardsTest
@@ -57,7 +61,7 @@ namespace Accord.Tests.Statistics
             regression.Coefficients[0] = 0.37704239281494084;
             regression.StandardErrors[0] = 0.25415755113043753;
 
-            double[][] inputs = data.GetColumn(0).ToArray();
+            double[][] inputs = data.GetColumn(0).ToJagged();
             double[] time = data.GetColumn(1);
             SurvivalOutcome[] output = data.GetColumn(2).To<SurvivalOutcome[]>();
 
@@ -128,14 +132,13 @@ namespace Accord.Tests.Statistics
                 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1
             };
 
-            ProportionalHazards regression = new ProportionalHazards(1,
-                new EmpiricalHazardDistribution(distTimes, distHazards));
+            var regression = new ProportionalHazards(1, new EmpiricalHazardDistribution(distTimes, distHazards));
 
             regression.Coefficients[0] = 0.37704239281494084;
             regression.StandardErrors[0] = 0.25415755113043753;
             regression.Offsets[0] = 51.181818;
 
-            double[][] inputs = data.GetColumn(0).ToArray();
+            double[][] inputs = data.GetColumn(0).ToJagged();
             double[] time = data.GetColumn(1);
 
 
@@ -151,11 +154,79 @@ namespace Accord.Tests.Statistics
                 actual[i] = regression.Compute(inputs[i], time[i]);
 
             for (int i = 0; i < actual.Length; i++)
-            {
                 Assert.AreEqual(expected[i], actual[i], 1e-6);
-                Assert.IsFalse(Double.IsNaN(actual[i]));
-            }
+
+
+            regression.Intercept = -regression.Coefficients.Dot(regression.Offsets);
+            actual = regression.Probability(inputs.Zip(time, Tuple.Create).ToArray());
+
+            Assert.IsTrue(actual.IsEqual(expected, 1e-6));
         }
 
+
+
+        [Test]
+        public void RunTest_Compat()
+        {
+            // Data from: http://www.sph.emory.edu/~cdckms/CoxPH/prophaz2.html
+
+            double[,] data =
+            {
+                { 50,  1, 0 },
+                { 70,  2, 1 },
+                { 45,  3, 0 },
+                { 35,  5, 0 },
+                { 62,  7, 1 },
+                { 50, 11, 0 },
+                { 45,  4, 0 },
+                { 57,  6, 0 },
+                { 32,  8, 0 },
+                { 57,  9, 1 },
+                { 60, 10, 1 },
+            };
+
+            ProportionalHazards regression = new ProportionalHazards(1);
+
+            regression.Coefficients[0] = 0.37704239281494084;
+            regression.StandardErrors[0] = 0.25415755113043753;
+
+            double[][] inputs = data.GetColumn(0).ToJagged();
+            double[] time = data.GetColumn(1);
+            int[] output = data.GetColumn(2).ToInt32();
+
+
+            {
+                double actual = -2 * regression.GetPartialLogLikelihood(inputs, time, output);
+                double expected = 4.0505;
+                Assert.AreEqual(expected, actual, 1e-4);
+                Assert.IsFalse(Double.IsNaN(actual));
+            }
+
+            {
+                var test = regression.GetWaldTest(0);
+                Assert.AreEqual(0.1379, test.PValue, 1e-4);
+            }
+
+            {
+                var ci = regression.GetConfidenceInterval(0);
+                Assert.AreEqual(0.8859, ci.Min, 1e-4);
+                Assert.AreEqual(2.3993, ci.Max, 1e-4);
+            }
+
+
+            {
+                double actual = regression.GetHazardRatio(0);
+                double expected = 1.4580;
+                Assert.AreEqual(expected, actual, 1e-4);
+            }
+
+            {
+                var chi = regression.ChiSquare(inputs, time, output);
+                Assert.AreEqual(7.3570, chi.Statistic, 1e-4);
+                Assert.AreEqual(1, chi.DegreesOfFreedom);
+                Assert.AreEqual(0.0067, chi.PValue, 1e-3);
+            }
+
+        }
     }
 }

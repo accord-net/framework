@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -31,23 +31,6 @@ namespace Accord.Tests.Statistics.Models.Markov
     [TestFixture]
     public class ForwardBackwardAlgorithmTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         public static HiddenMarkovModel CreateModel1()
         {
@@ -193,11 +176,9 @@ namespace Accord.Tests.Statistics.Models.Markov
                 p += actual[0, i] * P[i] * B[i, observations[0]];
 
             Assert.AreEqual(0.054814695, p, 1e-8);
-            Assert.IsFalse(double.IsNaN(p));
 
             p = System.Math.Exp(logLikelihood);
             Assert.AreEqual(0.054814695, p, 1e-8);
-            Assert.IsFalse(double.IsNaN(p));
         }
 
         [Test]

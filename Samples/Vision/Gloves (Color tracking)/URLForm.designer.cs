@@ -1,4 +1,4 @@
-namespace GloveTracking
+namespace SampleApp
 {
     partial class URLForm
     {

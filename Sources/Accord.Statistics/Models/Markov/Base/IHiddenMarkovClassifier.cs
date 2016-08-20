@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,6 +28,8 @@ namespace Accord.Statistics.Models.Markov
     ///   Common interface for sequence classifiers using <see cref="IHiddenMarkovModel">
     ///   hidden Markov models</see>.
     /// </summary>
+    ///
+    [Obsolete("Please use IMulticlassClassifier from Accord.MachineLearning namespace.")]
     public interface IHiddenMarkovClassifier
     {
 

@@ -75,10 +75,14 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalOptions>/ignore:4248 %(AdditionalOptions)</AdditionalOptions>
+      <DelayLoadDLLs>avcodec-53.dll;avformat-53.dll;avutil-51.dll;swscale-2.dll;</DelayLoadDLLs>
     </Link>
     <Xdcmake>
       <DocumentLibraryDependencies>false</DocumentLibraryDependencies>
     </Xdcmake>
+    <PostBuildEvent>
+      <Command>sn -Ra "$(TargetPath)" "$(ProjectDir)Accord.snk"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -97,27 +101,18 @@
       <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
-    <PostBuildEvent>
-      <Command>sn -Ra "$(TargetPath)" "$(ProjectDir)Accord.snk"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='NET40|Win32'">
     <ClCompile>
       <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
-    <PostBuildEvent>
-      <Command>sn -Ra "$(TargetPath)" "$(ProjectDir)Accord.snk"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='NET45|Win32'">
     <ClCompile>
       <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
-    <PostBuildEvent>
-      <Command>sn -Ra "$(TargetPath)" "$(ProjectDir)Accord.snk"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Reference Include="System">
@@ -135,10 +130,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-	  <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET35|Win32'">Create</PrecompiledHeader>
-	  <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET40|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET35|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET40|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET45|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="VideoCodec.cpp" />

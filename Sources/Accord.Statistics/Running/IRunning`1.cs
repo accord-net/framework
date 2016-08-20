@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,7 +29,7 @@ namespace Accord.Statistics.Running
     /// <remarks>
     ///   Running statistics are measures computed as data becomes available.
     ///   When using running statistics, there is no need to know the number of
-    ///   samples a priori, such as in the case of the direct <see cref="Tools.Mean(double[])"/>.
+    ///   samples a priori, such as in the case of the direct <see cref="Measures.Mean(double[])"/>.
     /// </remarks>
     /// 
     public interface IRunning<in TValue>

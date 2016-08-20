@@ -19,7 +19,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace DeepLearning.Databases
+namespace SampleApp.Databases
 {
     using System;
     using System.Collections.ObjectModel;
@@ -29,6 +29,7 @@ namespace DeepLearning.Databases
     using System.IO;
     using System.Windows.Media.Imaging;
     using Accord.Statistics;
+    using Accord.Math;
 
     /// <summary>
     ///   Optdigits dataset from UCI Machine Learning Repository.
@@ -90,7 +91,7 @@ namespace DeepLearning.Databases
                 double[][] training;
                 Training.GetInstances(out training);
 
-                mean = training.Mean();
+                mean = training.Mean(dimension: 0);
                 dev = training.StandardDeviation();
 
                 double[][] testing;
@@ -187,7 +188,7 @@ namespace DeepLearning.Databases
                 {
                     int c = i * 32 + j;
                     double v = (features[c] * dev[c]) + mean[c];
-                    v = Accord.Math.Tools.Scale(0, 1, 255, 0, v);
+                    v = v.Scale(0, 1, 255.0, 0.0);
                     bitmap.SetPixel(j, i, Color.FromArgb((int)v, (int)v, (int)v));
                 }
             }

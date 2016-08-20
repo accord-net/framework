@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -20,10 +20,14 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+#pragma warning disable 612, 618
+
 namespace Accord.Statistics.Models.Fields.Learning
 {
     using System;
     using Accord.Math.Optimization;
+    using Accord.MachineLearning;
+    using System.Threading;
 
     /// <summary>
     ///   Quasi-Newton (L-BFGS) learning algorithm for <see cref="HiddenConditionalRandomField{T}">
@@ -41,7 +45,9 @@ namespace Accord.Statistics.Models.Fields.Learning
     /// 
     /// <seealso cref="HiddenResilientGradientLearning{T}"/>
     /// 
-    public class HiddenQuasiNewtonLearning<T> : IHiddenConditionalRandomFieldLearning<T>,
+    public class HiddenQuasiNewtonLearning<T> :
+        ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>,
+        IHiddenConditionalRandomFieldLearning<T>,
         IDisposable
     {
 
@@ -53,6 +59,13 @@ namespace Accord.Statistics.Models.Fields.Learning
         /// </summary>
         /// 
         public HiddenConditionalRandomField<T> Model { get; set; }
+
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        public CancellationToken Token { get; set; }
+
 
         /// <summary>
         ///   Gets or sets the amount of the parameter weights
@@ -128,6 +141,20 @@ namespace Accord.Statistics.Models.Fields.Learning
             throw new NotSupportedException();
         }
 
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public HiddenConditionalRandomField<T> Learn(T[][] x, int[] y, double[] weights = null)
+        {
+            Run(x, y);
+            return Model;
+        }
 
         #region IDisposable Members
 

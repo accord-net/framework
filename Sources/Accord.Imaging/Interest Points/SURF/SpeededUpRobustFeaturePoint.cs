@@ -5,7 +5,7 @@
 // Copyright © Christopher Evans, 2009-2011
 // http://www.chrisevansdev.com/
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -151,16 +151,16 @@ namespace Accord.Imaging
 
 
         /// <summary>
-        ///   Converts the feature point to a <see cref="AForge.IntPoint"/>.
+        ///   Converts the feature point to a <see cref="Accord.IntPoint"/>.
         /// </summary>
         /// 
-        public AForge.IntPoint ToIntPoint()
+        public Accord.IntPoint ToIntPoint()
         {
-            return new AForge.IntPoint((int)X, (int)Y);
+            return new Accord.IntPoint((int)X, (int)Y);
         }
 
         /// <summary>
-        ///   Converts this object into a <see cref="AForge.IntPoint"/>.
+        ///   Converts this object into a <see cref="Accord.IntPoint"/>.
         /// </summary>
         /// 
         /// <returns>
@@ -219,7 +219,7 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Performs an implicit conversion from <see cref="Accord.Imaging.SpeededUpRobustFeaturePoint"/>
-        ///   to <see cref="AForge.IntPoint"/>.
+        ///   to <see cref="Accord.IntPoint"/>.
         /// </summary>
         /// 
         /// <param name="point">The point to be converted.</param>
@@ -228,7 +228,7 @@ namespace Accord.Imaging
         ///   The result of the conversion.
         /// </returns>
         /// 
-        public static implicit operator AForge.IntPoint(SpeededUpRobustFeaturePoint point)
+        public static implicit operator Accord.IntPoint(SpeededUpRobustFeaturePoint point)
         {
             return point.ToIntPoint();
         }

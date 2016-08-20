@@ -1,9 +1,8 @@
-﻿
-// Accord Math Library
+﻿// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 // Original work copyright © Lutz Roeder, 2000
@@ -36,24 +35,23 @@ namespace Accord.Math.Decompositions
     /// </summary>
     ///
     /// <remarks>
-    /// <para>
-    ///   For a symmetric, positive definite matrix <c>A</c>, the Cholesky decomposition is a
-    ///   lower triangular matrix <c>L</c> so that <c>A = L * L'</c>. The presented algorithm
-    ///   only checks the upper triangular part of the matrix given as parameter and assumes
-    ///   it is symmetric. If the matrix is not positive definite, the constructor returns a 
-    ///   partial decomposition and sets two internal variables that can be queried using the
-    ///   <see cref="PositiveDefinite"/> properties.</para>
-    /// <para>
-    ///   Any square matrix A with non-zero pivots can be written as the product of a
-    ///   lower triangular matrix L and an upper triangular matrix U; this is called
-    ///   the LU decomposition. However, if A is symmetric and positive definite, we
-    ///   can choose the factors such that U is the transpose of L, and this is called
-    ///   the Cholesky decomposition. Both the LU and the Cholesky decomposition are
-    ///   used to solve systems of linear equations.</para>
-    /// <para>
-    ///   When it is applicable, the Cholesky decomposition is twice as efficient
-    ///   as the LU decomposition.</para>
-    /// </remarks>
+    ///   <para>
+    ///     For a symmetric, positive definite matrix <c>A</c>, the Cholesky decomposition is a
+    ///     lower triangular matrix <c>L</c> so that <c>A = L * L'</c>.
+    ///     If the matrix is not positive definite, the constructor returns a partial 
+    ///     decomposition and sets two internal variables that can be queried using the
+    ///     <see cref="IsUndefined"/> and <see cref="IsPositiveDefinite"/> properties.</para>
+    ///   <para>
+    ///     Any square matrix A with non-zero pivots can be written as the product of a
+    ///     lower triangular matrix L and an upper triangular matrix U; this is called
+    ///     the LU decomposition. However, if A is symmetric and positive definite, we
+    ///     can choose the factors such that U is the transpose of L, and this is called
+    ///     the Cholesky decomposition. Both the LU and the Cholesky decomposition are
+    ///     used to solve systems of linear equations.</para>
+    ///   <para>
+    ///     When it is applicable, the Cholesky decomposition is twice as efficient
+    ///     as the LU decomposition.</para>
+    ///    </remarks>
     ///    
     [Serializable]
     public sealed class JaggedCholeskyDecomposition : ICloneable, ISolverArrayDecomposition<Double>
@@ -61,7 +59,7 @@ namespace Accord.Math.Decompositions
 
         private Double[][] L;
         private Double[] D;
-        private int dimension;
+        private int n;
 
         private bool positiveDefinite;
         private bool undefined;
@@ -87,32 +85,44 @@ namespace Accord.Math.Decompositions
         /// <param name="inPlace">
         ///   True to perform the decomposition in place, storing the factorization in the
         ///   lower triangular part of the given matrix.</param>
+        /// <param name="valueType">
+        ///   How to interpret the matrix given to be decomposed. Using this parameter, a lower or
+        ///   upper-triangular matrix can be interpreted as a symmetric matrix by assuming both lower
+        ///   and upper parts contain the same elements. Use this parameter in conjunction with inPlace
+        ///   to save memory by storing the original matrix and its decomposition at the same memory
+        ///   location (lower part will contain the decomposition's L matrix, upper part will contains 
+        ///   the original matrix).</param>
         /// 
-        public JaggedCholeskyDecomposition(Double[][] value, bool robust = false, bool inPlace = false)
+        public JaggedCholeskyDecomposition(Double[][] value, bool robust = false, 
+            bool inPlace = false, MatrixType valueType = MatrixType.UpperTriangular)
         {
-            if (value == null)
-                throw new ArgumentNullException("value", "Matrix cannot be null.");
-
-            if (value.Length != value[0].Length)
+            if (value.Rows() != value.Columns())
                 throw new DimensionMismatchException("value", "Matrix is not square.");
 
+            if (!inPlace)
+                value = value.Copy();
+
+            this.n = value.Rows();
+            this.L = value.ToUpperTriangular(valueType, result: value);
+            this.robust = robust;
 
             if (robust)
             {
-                LDLt(value, inPlace); // Compute square-root free decomposition
+                LDLt(); // Compute square-root free decomposition
             }
             else
             {
-                LLt(value, inPlace); // Compute standard Cholesky decomposition
+                LLt(); // Compute standard Cholesky decomposition
             }
         }
 
         /// <summary>
-        ///   Returns <see langword="true"/> if the matrix is positive definite.
+        ///   Gets whether the decomposed matrix was positive definite.
         /// </summary>
-        public bool PositiveDefinite
+        ///
+        public bool IsPositiveDefinite
         {
-            get { return this.positiveDefinite; }
+            get { return this.positiveDefinite && !this.undefined; }
         }
 
         /// <summary>
@@ -124,13 +134,13 @@ namespace Accord.Math.Decompositions
         ///     <c>true</c> if the factorization is not defined; otherwise, <c>false</c>.
         /// </value>
         /// 
-        public bool IsNotDefined
+        public bool IsUndefined
         {
             get { return this.undefined; }
         }
 
         /// <summary>
-        ///   Returns the left (lower) triangular factor
+        ///   Gets the left (lower) triangular factor
         ///   <c>L</c> so that <c>A = L * D * L'</c>.
         /// </summary>
         /// 
@@ -143,15 +153,10 @@ namespace Accord.Math.Decompositions
                     if (destroyed)
                         throw new InvalidOperationException("The decomposition has been destroyed.");
                         
-                    var left = new Double[L.Length][];
-                    for (int i = 0; i < left.Length; i++)
-                    {
-                        left[i] = new Double[L.Length];
-                        for (int j = 0; j <= i; j++)
-                            left[i][j] = L[i][j];
-                    }
+                    if (undefined)
+                        throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
 
-                    leftTriangularFactor = left;
+                    leftTriangularFactor = L.GetLowerTriangle();
                 }
 
                 return leftTriangularFactor;
@@ -159,8 +164,7 @@ namespace Accord.Math.Decompositions
         }
 
         /// <summary>
-        ///   Returns the block diagonal matrix of diagonal
-        ///   elements in a LDLt decomposition.
+        ///   Gets the block diagonal matrix of diagonal elements in a LDLt decomposition.
         /// </summary>        
         ///   
         public Double[][] DiagonalMatrix
@@ -172,12 +176,7 @@ namespace Accord.Math.Decompositions
                     if (destroyed)
                         throw new InvalidOperationException("The decomposition has been destroyed.");
                         
-                    diagonalMatrix = new Double[D.Length][];
-                    for (int i = 0; i < diagonalMatrix.Length; i++)
-                    {
-                        diagonalMatrix[i] = new Double[D.Length];
-                        diagonalMatrix[i][i] = D[i];
-                    }
+                    diagonalMatrix = Jagged.Diagonal(D);
                 }
 
                 return diagonalMatrix;
@@ -185,8 +184,7 @@ namespace Accord.Math.Decompositions
         }
 
         /// <summary>
-        ///   Returns the one-dimensional array of diagonal 
-        ///   elements in a LDLt decomposition.
+        ///   Gets the one-dimensional array of diagonal elements in a LDLt decomposition.
         /// </summary>        
         /// 
         public Double[] Diagonal
@@ -195,8 +193,7 @@ namespace Accord.Math.Decompositions
         }
 
         /// <summary>
-        ///   Returns the determinant of
-        ///   the decomposed matrix.
+        ///   Gets the determinant of the decomposed matrix.
         /// </summary>
         /// 
         public Double Determinant
@@ -207,14 +204,17 @@ namespace Accord.Math.Decompositions
                 {
                     if (destroyed)
                         throw new InvalidOperationException("The decomposition has been destroyed.");
-                        
+
+                    if (undefined)
+                        throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
+
                     Double detL = 1, detD = 1;
-                    for (int i = 0; i < L.Length; i++)
+                    for (int i = 0; i < n; i++)
                         detL *= L[i][i];
 
                     if (D != null)
                     {
-                        for (int i = 0; i < L.Length; i++)
+                        for (int i = 0; i < n; i++)
                             detD *= D[i];
                     }
 
@@ -226,7 +226,7 @@ namespace Accord.Math.Decompositions
         }
 
         /// <summary>
-        ///   If the matrix is positive-definite, returns the
+        ///   If the matrix is positive-definite, gets the
         ///   log-determinant of the decomposed matrix.
         /// </summary>
         /// 
@@ -238,9 +238,12 @@ namespace Accord.Math.Decompositions
                 {
                     if (destroyed)
                         throw new InvalidOperationException("The decomposition has been destroyed.");
-                        
+                    
+                    if (undefined)
+                        throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
+
                     double detL = 0, detD = 0;
-                    for (int i = 0; i < L.Length; i++)
+                    for (int i = 0; i < n; i++)
                         detL += Math.Log((double)L[i][i]);
 
                     if (D != null)
@@ -271,7 +274,7 @@ namespace Accord.Math.Decompositions
                         throw new InvalidOperationException("The decomposition has been destroyed.");
                         
                     bool nonSingular = true;
-                    for (int i = 0; i < dimension && nonSingular; i++)
+                    for (int i = 0; i < n && nonSingular; i++)
                         if (L[i][i] == 0 || D[i] == 0) nonSingular = false;
 
                     nonsingular = nonSingular;
@@ -282,20 +285,18 @@ namespace Accord.Math.Decompositions
         }
 
 
-        private unsafe void LLt(Double[][] value, bool inPlace = false)
+        private unsafe void LLt()
         {
-            dimension = value.Length;
-            L = inPlace ? value : value.MemberwiseClone();
-            robust = false;
+            D = Vector.Ones<Double>(n);
 
             this.positiveDefinite = true;
 
-            for (int j = 0; j < L.Length; j++)
+            for (int j = 0; j < n; j++)
             {
                 Double s = 0;
                 for (int k = 0; k < j; k++)
                 {
-                    Double t = L[j][k];
+                    Double t = L[k][j];
                     for (int i = 0; i < k; i++)
                         t -= L[j][i] * L[k][i];
                     t = t / L[k][k];
@@ -314,41 +315,38 @@ namespace Accord.Math.Decompositions
         }
 
 
-        private unsafe void LDLt(Double[][] value, bool inPlace)
+        private unsafe void LDLt()
         {
-            dimension = value.Length;
-            L = inPlace ? value : value.MemberwiseClone();
-            D = new Double[dimension];
-            robust = true;
+            D = new Double[n];
 
-            Double[] v = new Double[dimension];
             this.positiveDefinite = true;
 
+            Double[] v = new Double[n];
             for (int i = 0; i < L.Length; i++)
             {
                 for (int j = 0; j < i; j++)
                     v[j] = L[i][j] * D[j];
 
-                Double sum1 = 0;
+                Double d = 0;
                 for (int k = 0; k < i; k++)
-                    sum1 += L[i][k] * v[k];
+                    d += L[i][k] * v[k];
 
-                D[i] = v[i] = L[i][i] - sum1;
+                d = D[i] = v[i] = L[i][i] - d;
+
+                // Use a tolerance for positive-definiteness
+                this.positiveDefinite &= (v[i] > (Double)1e-14 * Math.Abs(L[i][i]));
 
                 // If one of the diagonal elements is zero, the 
                 // decomposition (without pivoting) is undefined.
                 if (v[i] == 0) { undefined = true; return; }
-
-                // Use a tolerance for positive-definiteness
-                this.positiveDefinite &= (v[i] > (Double)1e-14 * Math.Abs(L[i][i]));
-				
+                
                 Parallel.For(i + 1, L.Length, k =>
                 {
-                     Double sum2 = 0;
+                     Double s = 0;
                      for (int j = 0; j < i; j++)
-                         sum2 += L[k][j] * v[j];
+                         s += L[k][j] * v[j];
 
-                     L[k][i] = (L[i][k] - sum2) / v[i];
+                     L[k][i] = (L[i][k] - s) / d;
                 });
             }
 
@@ -387,7 +385,7 @@ namespace Accord.Math.Decompositions
             if (value == null)
                 throw new ArgumentNullException("value");
 
-            if (value.Length != dimension)
+            if (value.Length != n)
                 throw new ArgumentException("Argument matrix should have the same number of rows as the decomposed matrix.", "value");
 
             if (!robust && !positiveDefinite)
@@ -396,11 +394,14 @@ namespace Accord.Math.Decompositions
             if (destroyed)
                 throw new InvalidOperationException("The decomposition has been destroyed.");
 
+            if (undefined)
+                throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
+
             int count = value[0].Length;
             var B = inPlace ? value : value.MemberwiseClone();
 
             // Solve L*Y = B;
-            for (int k = 0; k < L.Length; k++)
+            for (int k = 0; k < n; k++)
             {
                 for (int j = 0; j < B[k].Length; j++)
                 {
@@ -418,11 +419,11 @@ namespace Accord.Math.Decompositions
             }
 
             // Solve L'*X = Y;
-            for (int k = L.Length - 1; k >= 0; k--)
+            for (int k = n - 1; k >= 0; k--)
             {
                 for (int j = 0; j < B[k].Length; j++)
                 {
-                    for (int i = k + 1; i < L.Length; i++)
+                    for (int i = k + 1; i < n; i++)
                         B[k][j] -= B[i][j] * L[i][k];
 
                     B[k][j] /= L[k][k];
@@ -463,7 +464,7 @@ namespace Accord.Math.Decompositions
             if (value == null)
                 throw new ArgumentNullException("value");
 
-            if (value.Length != dimension)
+            if (value.Length != n)
                 throw new ArgumentException("Argument vector should have the same length as rows in the decomposed matrix.", "value");
 
             if (!robust && !positiveDefinite)
@@ -472,10 +473,13 @@ namespace Accord.Math.Decompositions
             if (destroyed)
                 throw new InvalidOperationException("The decomposition has been destroyed.");
 
-            var B = inPlace ? value : (Double[])value.Clone();
+            if (undefined)
+                throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
+
+            var B = inPlace ? value : value.Copy();
 
             // Solve L*Y = B;
-            for (int k = 0; k < L.Length; k++)
+            for (int k = 0; k < n; k++)
             {
                 for (int i = 0; i < k; i++)
                     B[k] -= B[i] * L[k][i];
@@ -489,9 +493,9 @@ namespace Accord.Math.Decompositions
             }
 
             // Solve L'*X = Y;
-            for (int k = L.Length - 1; k >= 0; k--)
+            for (int k = n - 1; k >= 0; k--)
             {
-                for (int i = k + 1; i < L.Length; i++)
+                for (int i = k + 1; i < n; i++)
                     B[k] -= B[i] * L[i][k];
                 B[k] /= L[k][k];
             }
@@ -505,63 +509,7 @@ namespace Accord.Math.Decompositions
         /// 
         public Double[][] Inverse()
         {
-            if (!robust && !positiveDefinite)
-                throw new NonPositiveDefiniteMatrixException("Matrix is not positive definite.");
-
-            if (destroyed)
-                throw new InvalidOperationException("The decomposition has been destroyed.");
-                
-            // References:
-            // http://books.google.com/books?id=myzIPBwyBbcC&pg=PA119
-
-            var C = new Double[dimension][];
-            for (int i = 0; i < C.Length; i++)
-                C[i] = new Double[dimension];
-
-
-            int n = C.Length - 1;
-
-            // Compute last element C[n][n]
-            C[n][n] = 1 / (L[n][n] * L[n][n]);
-
-            // Compute last column (eq 2.8.12)
-            for (int i = n - 1; i >= 0; i--)
-            {
-                Double sum = 0;
-                for (int j = i + 1; j < L.Length; j++)
-                    sum += L[j][i] * C[n][j];
-                C[n][i] = C[i][n] = -(1 / L[i][i]) * sum;
-            }
-
-            // Compute the diagonal (eq 2.8.13)
-            for (int k = C.Length - 2; k >= 0; k--)
-            {
-                Double sum = 0;
-                for (int j = k + 1; j < L.Length; j++)
-                    sum += L[j][k] * C[j][k];
-
-                if (robust)
-                    C[k][k] = (1 / D[k]) - ((1 / L[k][k]) * sum);
-                else
-                    C[k][k] = (1 / L[k][k]) * ((1 / L[k][k]) - sum);
-
-                // Compute restant (eq 2.8.14)
-                for (int i = k - 1; i >= 0; i--)
-                {
-                    Double sum1 = 0;
-                    for (int j = i + 1; j <= k; j++)
-                        sum1 += L[j][i] * C[k][j];
-
-                    Double sum2 = 0;
-                    for (int j = k + 1; j <= n; j++)
-                        sum2 += L[j][i] * C[j][k];
-
-                    C[i][k] = C[k][i] = -(1 / L[i][i]) * (sum1 + sum2);
-                }
-            }
-
-
-            return C;
+            return Solve(Jagged.Identity<Double>(n));
         }
 
         /// <summary>
@@ -570,9 +518,7 @@ namespace Accord.Math.Decompositions
         /// 
         public Double[] InverseDiagonal(bool destroy = false)
         {
-            Double[] diagonal = new Double[L.Length];
-            InverseDiagonal(diagonal, destroy);
-            return diagonal;
+            return InverseDiagonal(new Double[n], destroy);
         }
         
         /// <summary>
@@ -586,13 +532,16 @@ namespace Accord.Math.Decompositions
         ///    computation. Should be of same length as the the diagonal
         ///    of the original matrix.</param>
         /// 
-        public void InverseDiagonal(Double[] result, bool destroy = false)
+        public Double[] InverseDiagonal(Double[] result, bool destroy = false)
         {
             if (!robust && !positiveDefinite)
                 throw new NonPositiveDefiniteMatrixException("Matrix is not positive definite.");
 
             if (destroyed)
                 throw new InvalidOperationException("The decomposition has been destroyed.");
+
+            if (undefined)
+                throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
 
             Double[][] S;
 
@@ -602,9 +551,7 @@ namespace Accord.Math.Decompositions
             }
             else
             {
-                S = new Double[L.Length][];
-                for (int i = 0; i < S.Length; i++)
-                    S[i] = new Double[L.Length];
+                S = Jagged.Zeros<Double>(n, n);
             }
 
             // References:
@@ -613,7 +560,7 @@ namespace Accord.Math.Decompositions
             // Compute the inverse S of the lower triangular matrix L
             // and store in place of the upper triangular part of S.
 
-            for (int j = L.Length - 1; j >= 0; j--)
+            for (int j = n - 1; j >= 0; j--)
             {
                 S[j][j] = 1 / L[j][j];
                 for (int i = j - 1; i >= 0; i--)
@@ -647,6 +594,8 @@ namespace Accord.Math.Decompositions
                     result[i] = sum;
                 }
             }
+
+            return result;
         }
 
         /// <summary>
@@ -665,6 +614,9 @@ namespace Accord.Math.Decompositions
             if (destroyed)
                 throw new InvalidOperationException("The decomposition has been destroyed.");
                 
+            if (undefined)
+                throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
+
             Double[][] S;
 
             if (destroy)
@@ -673,9 +625,7 @@ namespace Accord.Math.Decompositions
             }
             else
             {
-                S = new Double[L.Length][];
-                for (int i = 0; i < S.Length; i++)
-                    S[i] = new Double[L.Length];
+                S = Jagged.Zeros<Double>(n, n);
             }
 
             // References:
@@ -684,7 +634,7 @@ namespace Accord.Math.Decompositions
             // Compute the inverse S of the lower triangular matrix L
             // and store in place of the upper triangular part of S.
 
-            for (int j = L.Length - 1; j >= 0; j--)
+            for (int j = n - 1; j >= 0; j--)
             {
                 S[j][j] = 1 / L[j][j];
                 for (int i = j - 1; i >= 0; i--)
@@ -717,6 +667,36 @@ namespace Accord.Math.Decompositions
         }
 
         /// <summary>
+        ///   Reverses the decomposition, reconstructing the original matrix <c>X</c>.
+        /// </summary>
+        /// 
+        public Double[][] Reverse()
+        {
+            if (destroyed)
+                throw new InvalidOperationException("The decomposition has been destroyed.");
+                
+            if (undefined)
+                throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
+
+            if (robust)
+                return LeftTriangularFactor.Dot(DiagonalMatrix).DotWithTransposed(LeftTriangularFactor);
+            return LeftTriangularFactor.DotWithTransposed(LeftTriangularFactor);
+        }
+
+        /// <summary>
+        ///   Computes <c>(Xt * X)^1</c> (the inverse of the covariance matrix). This
+        ///   matrix can be used to determine standard errors for the coefficients when
+        ///   solving a linear set of equations through any of the <see cref="Solve(Double[][])"/>
+        ///   methods.
+        /// </summary>
+        /// 
+        public Double[][] GetInformationMatrix()
+        {
+            var X = Reverse();
+            return X.TransposeAndDot(X).Inverse();
+        }
+
+        /// <summary>
         ///   Creates a new Cholesky decomposition directly from
         ///   an already computed left triangular matrix <c>L</c>.
         /// </summary>
@@ -725,14 +705,11 @@ namespace Accord.Math.Decompositions
         public static JaggedCholeskyDecomposition FromLeftTriangularMatrix(Double[][] leftTriangular)
         {
             var chol = new JaggedCholeskyDecomposition();
-            chol.dimension = leftTriangular.Length;
+            chol.n = leftTriangular.Length;
             chol.L = leftTriangular;
             chol.positiveDefinite = true;
             chol.robust = false;
-            chol.D = new Double[chol.dimension];
-            for (int i = 0; i < chol.D.Length; i++)
-                chol.D[i] = 1;
-
+            chol.D = Vector.Ones<Double>(chol.n);
             return chol;
         }
 
@@ -756,7 +733,7 @@ namespace Accord.Math.Decompositions
             clone.L = L.MemberwiseClone();
             clone.D = (Double[])D.Clone();
             clone.destroyed = destroyed;
-            clone.dimension = dimension;
+            clone.n = n;
             clone.undefined = undefined;
             clone.robust = robust;
             clone.positiveDefinite = positiveDefinite;

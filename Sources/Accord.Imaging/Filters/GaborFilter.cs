@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 // Copyright © Diego Catalano, 2013
@@ -34,8 +34,8 @@ namespace Accord.Imaging.Filters
     using System.Collections.Generic;
     using System.Drawing.Imaging;
     using Accord.Math;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
 
     /// <summary>
     ///   Gabor filter.
@@ -88,7 +88,7 @@ namespace Accord.Imaging.Filters
     /// <img src="..\images\lines-gabor.png" /> 
     /// </example>
     /// 
-    public class GaborFilter : AForge.Imaging.Filters.BaseFilter
+    public class GaborFilter : BaseFilter
     {
         private Dictionary<PixelFormat, PixelFormat> formatTranslations
             = new Dictionary<PixelFormat, PixelFormat>();

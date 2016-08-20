@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,23 +23,40 @@
 namespace Accord.MachineLearning.VectorMachines.Learning
 {
     using Accord.Math;
+    using Accord.Statistics;
     using Accord.Statistics.Kernels;
+    using System;
+    using System.Threading;
 
     /// <summary>
-    ///   Exact support vector reduction through 
-    ///   linear dependency elimination.
+    ///   Exact support vector reduction through linear dependency elimination.
     /// </summary>
     /// 
-    public class SupportVectorReduction : ISupportVectorMachineLearning
+    public class SupportVectorReduction
+        : SupportVectorReductionBase<SupportVectorMachine<IKernel<double[]>, double[]>,
+            IKernel<double[]>, double[]>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SupportVectorReduction"/> class.
+        /// </summary>
+        /// <param name="machine">The machine to be reduced.</param>
+        ///
+        public SupportVectorReduction(ISupportVectorMachine<double[]> machine)
+            : base(machine)
+        {
+        }
+    }
 
-        KernelSupportVectorMachine machine;
-        private IKernel kernel;
-        double[] alpha;
-
-        double[][] supportVectors;
-        int[] outputs;
-
+    /// <summary>
+    ///   Exact support vector reduction through linear dependency elimination.
+    /// </summary>
+    /// 
+    public class SupportVectorReductionBase<TModel, TKernel, TInput>
+        : BaseSupportVectorCalibration<TModel, TKernel, TInput>
+        where TModel : SupportVectorMachine<TKernel, TInput>
+        where TKernel : IKernel<TInput>
+        where TInput : ICloneable
+    {
 
         /// <summary>
         ///   Creates a new <see cref="SupportVectorReduction"/> algorithm.
@@ -47,35 +64,30 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// 
         /// <param name="machine">The machine to be reduced.</param>
         /// 
-        public SupportVectorReduction(KernelSupportVectorMachine machine)
+        public SupportVectorReductionBase(TModel machine)
+            : base(machine)
         {
-            this.machine = machine;
-            this.supportVectors = machine.SupportVectors;
-            this.outputs = machine.Weights.Sign().ToInt32();
-            this.alpha = (double[])machine.Weights.Clone();
-            this.kernel = machine.Kernel;
         }
 
         /// <summary>
-        ///   Runs the learning algorithm.
+        /// Runs the learning algorithm.
         /// </summary>
-        /// 
-        /// <param name="computeError">True to compute error after the training
-        /// process completes, false otherwise.</param>
-        /// 
-        public double Run(bool computeError)
+        protected override void InnerRun()
         {
+            var supportVectors = Model.SupportVectors;
+            var alpha = (double[])Model.Weights.Clone();
+            var kernel = Model.Kernel;
+
+            this.Input = supportVectors;
+            this.Output = Classes.Decide(alpha);
+
             int n = supportVectors.Length;
 
-            
             // Create Gram matrix
-            double[,] K = new double[n, n];
-            for (int i = 0; i < supportVectors.Length; i++)
-                for (int j = 0; j < supportVectors.Length; j++)
-                    K[i, j] = machine.Kernel.Function(supportVectors[i], supportVectors[j]);
+            var K = kernel.ToJagged(supportVectors);
 
             // Reduce to Echelon form to detect linear dependence
-            ReducedRowEchelonForm ech = new ReducedRowEchelonForm(K);
+            var ech = new JaggedReducedRowEchelonForm(K);
 
             var rref = ech.Result;
             var pivot = ech.Pivot;
@@ -93,8 +105,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 if (row > supportVectors.Length - ech.FreeVariables - 1)
                 {
                     double c = alpha[row];
-                    for (int j = 0; j < supportVectors.Length; j++)
-                        alpha[j] = alpha[j] + c * rref[j, row];
+                    for (int j = 0; j < rref.Length; j++)
+                        alpha[j] = alpha[j] + c * rref[j][row];
 
                     alpha[row] = 0;
                 }
@@ -103,52 +115,22 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             // Retain only multipliers which are not zero
             int[] idx = alpha.Find(a => a != 0);
-            machine.Weights = alpha.Submatrix(idx);
-            machine.SupportVectors = supportVectors.Submatrix(idx);
-
-            if (computeError)
-                return ComputeError(supportVectors, outputs);
-
-            return 0;
+            Model.Weights = alpha.Get(idx);
+            Model.SupportVectors = supportVectors.Get(idx);
         }
+
 
         /// <summary>
-        ///   Runs the learning algorithm.
+        ///   Creates a new <see cref="SupportVectorReduction"/> algorithm.
         /// </summary>
         /// 
-        public double Run()
-        {
-            return Run(true);
-        }
-
-        /// <summary>
-        ///   Computes the error rate for a given set of input and outputs.
-        /// </summary>
+        /// <param name="machine">The machine to be reduced.</param>
         /// 
-        public double ComputeError(double[][] inputs, int[] expectedOutputs)
+        public SupportVectorReductionBase(ISupportVectorMachine<TInput> machine)
+            : base(machine)
         {
-            // Compute errors
-            int count = 0;
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                bool actual = compute(inputs[i]) >= 0;
-                bool expected = expectedOutputs[i] >= 0;
-
-                if (actual != expected) count++;
-            }
-
-            // Return misclassification error ratio
-            return count / (double)inputs.Length;
         }
 
-        private double compute(double[] point)
-        {
-            double sum = machine.Threshold;
-            for (int i = 0; i < alpha.Length; i++)
-                sum += alpha[i] * kernel.Function(supportVectors[i], point);
-
-            return sum;
-        }
 
     }
 }

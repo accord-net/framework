@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,8 @@ namespace Accord.Statistics.Models.Regression
     using System.Linq;
     using Accord.Statistics.Links;
     using Accord.Statistics.Testing;
+    using Accord.MachineLearning;
+    using Accord.Math;
 
     /// <summary>
     ///   Generalized Linear Model Regression.
@@ -104,7 +106,7 @@ namespace Accord.Statistics.Models.Regression
     /// </example>
     /// 
     [Serializable]
-    public class GeneralizedLinearRegression : ICloneable
+    public class GeneralizedLinearRegression : BinaryLikelihoodClassifierBase<double[]>, ICloneable
     {
 
         private ILinkFunction linkFunction;
@@ -112,10 +114,6 @@ namespace Accord.Statistics.Models.Regression
         private double[] standardErrors;
 
 
-        //---------------------------------------------
-
-
-        #region Constructor
         /// <summary>
         ///   Creates a new Generalized Linear Regression Model.
         /// </summary>
@@ -128,6 +126,8 @@ namespace Accord.Statistics.Models.Regression
             this.linkFunction = function;
             this.coefficients = new double[inputs + 1];
             this.standardErrors = new double[inputs + 1];
+            this.NumberOfInputs = inputs;
+            this.NumberOfOutputs = 1;
         }
 
         /// <summary>
@@ -148,24 +148,31 @@ namespace Accord.Statistics.Models.Regression
         ///   Creates a new Generalized Linear Regression Model.
         /// </summary>
         /// 
+        public GeneralizedLinearRegression()
+        {
+            this.NumberOfOutputs = 1;
+        }
+
+        /// <summary>
+        ///   Creates a new Generalized Linear Regression Model.
+        /// </summary>
+        /// 
         /// <param name="function">The link function to use.</param>
         /// <param name="coefficients">The coefficient vector.</param>
         /// <param name="standardErrors">The standard error vector.</param>
         /// 
         public GeneralizedLinearRegression(ILinkFunction function,
             double[] coefficients, double[] standardErrors)
+            : this()
         {
             this.linkFunction = function;
             this.coefficients = coefficients;
             this.standardErrors = standardErrors;
         }
-        #endregion
 
 
-        //---------------------------------------------
 
 
-        #region Properties
         /// <summary>
         ///   Gets the coefficient vector, in which the
         ///   first value is always the intercept value.
@@ -216,13 +223,9 @@ namespace Accord.Statistics.Models.Regression
             set { coefficients[0] = value; }
         }
 
-        #endregion
 
 
-        //---------------------------------------------
 
-
-        #region Public Methods
         /// <summary>
         ///   Computes the model output for the given input vector.
         /// </summary>
@@ -231,13 +234,12 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <returns>The output value.</returns>
         /// 
+        [Obsolete("Please use the Score method instead.")]
         public double Compute(double[] input)
         {
             double sum = coefficients[0];
-
             for (int i = 1; i < coefficients.Length; i++)
                 sum += input[i - 1] * coefficients[i];
-
             return linkFunction.Inverse(sum);
         }
 
@@ -249,13 +251,14 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <returns>The array of output values.</returns>
         /// 
+        [Obsolete("Please use the Score method instead.")]
         public double[] Compute(double[][] input)
         {
             double[] output = new double[input.Length];
-
+#pragma warning disable 612, 618
             for (int i = 0; i < input.Length; i++)
                 output[i] = Compute(input[i]);
-
+#pragma warning restore 612, 618
             return output;
         }
 
@@ -302,7 +305,7 @@ namespace Accord.Statistics.Models.Regression
 
             for (int i = 0; i < input.Length; i++)
             {
-                double actualOutput = Compute(input[i]);
+                double actualOutput = Score(input[i]);
                 double expectedOutput = output[i];
 
                 if (actualOutput != 0)
@@ -311,7 +314,7 @@ namespace Accord.Statistics.Models.Regression
                 if (actualOutput != 1)
                     sum += (1 - expectedOutput) * Math.Log(1 - actualOutput);
 
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
             }
 
             return sum;
@@ -337,7 +340,7 @@ namespace Accord.Statistics.Models.Regression
             for (int i = 0; i < input.Length; i++)
             {
                 double w = weights[i];
-                double actualOutput = Compute(input[i]);
+                double actualOutput = Score(input[i]);
                 double expectedOutput = output[i];
 
                 if (actualOutput != 0)
@@ -346,7 +349,7 @@ namespace Accord.Statistics.Models.Regression
                 if (actualOutput != 1)
                     sum += (1 - expectedOutput) * Math.Log(1 - actualOutput) * w;
 
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
             }
 
             return sum;
@@ -557,8 +560,70 @@ namespace Accord.Statistics.Models.Regression
                     regression.Coefficients, regression.StandardErrors);
             }
         }
-        #endregion
 
 
+
+
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihood that the input vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        /// <returns></returns>
+        public override double LogLikelihood(double[] input, out bool decision)
+        {
+            double sum = coefficients[0];
+            for (int i = 1; i < coefficients.Length; i++)
+                sum += input[i - 1] * coefficients[i];
+            decision = Classes.Decide(linkFunction.Log(sum) + 0.5);
+            return linkFunction.Log(sum);
+        }
+
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihood that the input vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <returns></returns>
+        public override double LogLikelihood(double[] input)
+        {
+            double sum = coefficients[0];
+            for (int i = 1; i < coefficients.Length; i++)
+                sum += input[i - 1] * coefficients[i];
+            return linkFunction.Log(sum);
+        }
+
+        /// <summary>
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and its most strongly
+        /// associated class (as predicted by the classifier).
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <returns></returns>
+        public override double Score(double[] input)
+        {
+            double sum = coefficients[0];
+            for (int i = 1; i < coefficients.Length; i++)
+                sum += input[i - 1] * coefficients[i];
+            return linkFunction.Inverse(sum);
+        }
+
+        /// <summary>
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <returns>
+        /// A class-label that best described <paramref name="input" /> according
+        /// to this classifier.
+        /// </returns>
+        public override bool Decide(double[] input)
+        {
+            double sum = coefficients[0];
+            for (int i = 1; i < coefficients.Length; i++)
+                sum += input[i - 1] * coefficients[i];
+            return Classes.Decide(linkFunction.Inverse(sum) + 0.5);
+        }
     }
 }

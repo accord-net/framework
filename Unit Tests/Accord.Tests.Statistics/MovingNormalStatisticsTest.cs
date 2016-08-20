@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -59,11 +59,11 @@ namespace Accord.Tests.Statistics
                 target.Push(values[i]);
 
             double actualMean = target.Mean;
-            double expectedMean = Tools.Mean(values);
+            double expectedMean = values.Mean();
             Assert.AreEqual(expectedMean, actualMean);
 
             double actualVariance = target.Variance;
-            double expectedVariance = Tools.Variance(values);
+            double expectedVariance = values.Variance();
             Assert.AreEqual(expectedVariance, actualVariance);
         }
 
@@ -83,11 +83,11 @@ namespace Accord.Tests.Statistics
                 target.Push(values[i]);
 
             double actualMean = target.Mean;
-            double expectedMean = Tools.Mean(values);
+            double expectedMean = values.Mean();
             Assert.AreEqual(expectedMean, actualMean);
 
             double actualVariance = target.Variance;
-            double expectedVariance = Tools.Variance(values);
+            double expectedVariance = values.Variance();
             Assert.AreEqual(expectedVariance, actualVariance);
         }
 

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,7 @@ namespace Accord.Tests.Math
     using NUnit.Framework;
     using System;
     using Accord.Math.Decompositions;
+    using Accord.Math.Distances;
 
 
     [TestFixture]
@@ -227,7 +228,6 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
         }
 
-
         [Test]
         public void EuclideanTest()
         {
@@ -238,6 +238,15 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
         }
 
+        [Test]
+        public void EuclideanTest2()
+        {
+            Assert.AreEqual(Distance.Euclidean(2, 4, 0, 1),
+                Distance.Euclidean(new double[] { 2, 4 }, new double[] { 0, 1 }));
+
+            Assert.AreEqual(Distance.SquareEuclidean(2, 4, 0, 1),
+                Distance.SquareEuclidean(new double[] { 2, 4 }, new double[] { 0, 1 }));
+        }
 
         [Test]
         public void ModularTest()
@@ -247,112 +256,8 @@ namespace Accord.Tests.Math
             int modulo = 360;
             int expected = 2;
 
-            int actual = Distance.Modular(a, b, modulo);
+            int actual = (int)Distance.Modular(a, b, modulo);
             Assert.AreEqual(expected, actual);
-        }
-
-
-        [Test]
-        public void BhattacharyyaTest()
-        {
-            double[,] X = 
-            {
-                { 0.20, 0.52 },
-                { 1.52, 2.53 },
-                { 7.21, 0.92 },
-            };
-
-            double[,] Y = 
-            {
-                { 9.42, 5.21 },
-                { 1.12, 3.14 },
-                { 5.21, 2.12 },
-            };
-
-
-            double expected = 0.45095821066601938;
-            double actual = Distance.Bhattacharyya(X, Y);
-            Assert.AreEqual(expected, actual, 1e-10);
-            Assert.IsFalse(Double.IsNaN(actual));
-        }
-
-        [Test]
-        public void BhattacharyyaTest1()
-        {
-            double[] histogram1 = { 0.1, 0.5, 0.4 };
-            double[] histogram2 = { 0.7, 0.2, 0.1 };
-
-            double expected = 0.468184902444219;
-            double actual = Distance.Bhattacharyya(histogram1, histogram2);
-
-            Assert.AreEqual(expected, actual, 1e-10);
-            Assert.IsFalse(Double.IsNaN(actual));
-        }
-
-        [Test]
-        public void BhattacharyyaTest2()
-        {
-            double[] x = { 2, 0, 0 };
-            double[] y = { 1, 0, 0 };
-
-            double[,] covX = 
-            {
-                { 2, 3, 0 },
-                { 3, 0, 0 },
-                { 0, 0, 0 }
-            };
-
-            double[,] covY = 
-            {
-                { 2, 1, 0 },
-                { 1, 0, 0 },
-                { 0, 0, 0 }
-            };
-
-            // Run actual test
-            double expected = 0.1438410362258904;
-            double actual = Distance.Bhattacharyya(x, covX, y, covY);
-
-            Assert.AreEqual(expected, actual, 1e-6);
-            Assert.IsFalse(Double.IsNaN(actual));
-        }
-
-        [Test]
-        public void BhattacharyyaTest3()
-        {
-            double[] x = { 2, 1, 0 };
-            double[] y = { 1, 1, 0 };
-
-            double[,] covX = 
-            {
-                { 2, 1, 0 },
-                { 3, 1, 0 },
-                { 0, 0, 0 } 
-            };
-
-            // Run actual test
-            double expected = 0.125;
-            double actual = Distance.Bhattacharyya(x, covX, y, covX);
-
-            Assert.AreEqual(expected, actual, 1e-6);
-            Assert.IsFalse(Double.IsNaN(actual));
-        }
-
-        [Test]
-        public void BhattacharyyaTest4()
-        {
-            double[,] X = 
-            {
-                { 0.20, 0.52 },
-                { 1.52, 2.53 },
-                { 7.21, 0.92 },
-            };
-
-
-            double expected = 0.0;
-            double actual = Distance.Bhattacharyya(X, X);
-            Assert.AreEqual(expected, actual, 1e-10);
-            Assert.IsFalse(Double.IsNaN(actual));
         }
 
         [Test]
@@ -364,11 +269,35 @@ namespace Accord.Tests.Math
             double x2 = 4;
             double y2 = 1;
 
-            double expected = 4.6861498055439927;
             double actual = Distance.Euclidean(x1, y1, x2, y2);
 
-            Assert.AreEqual(expected, actual, 1e-10);
+            Assert.AreEqual(3.9824615503479754, actual, 1e-10);
             Assert.IsFalse(double.IsNaN(actual));
+        }
+
+        [Test]
+        public void LevenshteinTest1()
+        {
+            Assert.AreEqual(0, Distance.Levenshtein("", ""));
+            Assert.AreEqual(1, Distance.Levenshtein("", "a"));
+            Assert.AreEqual(1, Distance.Levenshtein("a", ""));
+            Assert.AreEqual(0, Distance.Levenshtein("a", "a"));
+            Assert.AreEqual(0, Distance.Levenshtein(null, null));
+            Assert.AreEqual(1, Distance.Levenshtein(null, "a"));
+            Assert.AreEqual(1, Distance.Levenshtein("a", null));
+            Assert.AreEqual(0, Distance.Levenshtein(null, ""));
+            Assert.AreEqual(5, Distance.Levenshtein("apple", "banana"));
+
+            Assert.AreEqual(0, Distance.Levenshtein(new int [] { }, new int[] { }));
+            Assert.AreEqual(1, Distance.Levenshtein(new int[] { }, new int[] { 1 }));
+            Assert.AreEqual(1, Distance.Levenshtein(new int[] { 1 }, new int[] { }));
+            Assert.AreEqual(0, Distance.Levenshtein(new int[] { 1 }, new int[] { 1 }));
+            Assert.AreEqual(0, Distance.Levenshtein(null, null));
+            Assert.AreEqual(1, Distance.Levenshtein(null, new int[] { 1 }));
+            Assert.AreEqual(1, Distance.Levenshtein(new int[] { 1 }, null));
+            Assert.AreEqual(0, Distance.Levenshtein(new int[] { }, null));
+            Assert.AreEqual(0, Distance.Levenshtein(null, new int[] { }));
+            Assert.AreEqual(5, Distance.Levenshtein(new int[] { 1, 2, 2, 3, 4 }, new int[] { 5, 1, 6, 1, 6, 1 }));
         }
 
         [Test]
@@ -377,27 +306,49 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Distance.IsMetric(Distance.Euclidean));
             Assert.IsTrue(Distance.IsMetric((double[] a, double[] b) => Distance.Manhattan(a, b)));
             Assert.IsTrue(Distance.IsMetric((int[] a, int[] b) => Distance.Manhattan(a, b)));
-            Assert.IsTrue(Distance.IsMetric(Distance.Hamming));
-            Assert.IsTrue(Distance.IsMetric((a, b) => Distance.Minkowski(a, b, 1)));
-            Assert.IsTrue(Distance.IsMetric((double[] a, double[] b) => Distance.Levenshtein(a, b)));
+            Assert.IsFalse(Distance.IsMetric(Distance.Hamming));
+            Assert.IsTrue(Distance.IsMetric((double[] a, double[] b) => new Minkowski(1).Distance(a, b)));
+            Assert.IsTrue(Distance.IsMetric((double[] a, double[] b) => new Levenshtein<double>().Distance(a, b)));
             Assert.IsTrue(Distance.IsMetric(Distance.Chebyshev));
-            Assert.IsTrue(Distance.IsMetric(Distance.Chessboard));
-            Assert.IsTrue(Distance.IsMetric(Distance.Cosine));
             Assert.IsTrue(Distance.IsMetric(Distance.Hellinger));
-            Assert.IsTrue(Distance.IsMetric(Dissimilarity.Kulczynski));
 
-            Assert.IsFalse(Distance.IsMetric(Distance.Bhattacharyya));
+            Assert.IsFalse(Distance.IsMetric(Distance.Cosine));
             Assert.IsFalse(Distance.IsMetric(Distance.SquareEuclidean));
             Assert.IsFalse(Distance.IsMetric((double[] a, double[] b) => Math.Pow(Distance.Manhattan(a, b), 2)));
             Assert.IsFalse(Distance.IsMetric(Distance.BrayCurtis));
-            Assert.IsFalse(Distance.IsMetric((a, b) => Distance.Minkowski(a, b, 2)));
-            Assert.IsFalse(Distance.IsMetric((a, b) => Distance.Minkowski(a, b, 3)));
-            Assert.IsFalse(Distance.IsMetric(Dissimilarity.Jaccard));
-            Assert.IsFalse(Distance.IsMetric(Dissimilarity.RogersTanimoto));
-            Assert.IsFalse(Distance.IsMetric(Dissimilarity.SokalMichener));
-            Assert.IsFalse(Distance.IsMetric(Dissimilarity.SokalSneath));
-            Assert.IsFalse(Distance.IsMetric(Dissimilarity.Yule));
-            Assert.IsFalse(Distance.IsMetric(Dissimilarity.Dice));
+            // Assert.IsFalse(Distance.IsMetric((double[] a, double[] b) => new Minkowski(2).Distance(a, b)));
+            // Assert.IsFalse(Distance.IsMetric((double[] a, double[] b) => new Minkowski(3).Distance(a, b)));
+
+            Assert.IsFalse(Distance.IsMetric((double[] a, double[] b) => Distance.Kulczynski(a, b)));
+            Assert.IsTrue(Distance.IsMetric((double[] a, double[] b) => Distance.Jaccard(a, b)));
+            // Assert.IsFalse(Distance.IsMetric((double[] a, double[] b) => Distance.RogersTanimoto(a, b)));
+            // Assert.IsFalse(Distance.IsMetric((double[] a, double[] b) => Distance.SokalMichener(a, b)));
+            // Assert.IsFalse(Distance.IsMetric((double[] a, double[] b) => Distance.SokalSneath(a, b)));
+            // Assert.IsFalse(Distance.IsMetric((double[] a, double[] b) => Distance.Yule(a, b)));
+            // Assert.IsFalse(Distance.IsMetric((double[] a, double[] b) => Distance.Dice(a, b)));
+
+
+
+            Assert.IsTrue(Distance.IsMetric<double[]>(new Euclidean()));
+            Assert.IsTrue(Distance.IsMetric<double[]>(new Manhattan()));
+            Assert.IsFalse(Distance.IsMetric<double[]>(new Hamming()));
+            Assert.IsTrue(Distance.IsMetric<double[]>(new Minkowski(1)));
+            Assert.IsTrue(Distance.IsMetric(new Levenshtein()));
+            Assert.IsTrue(Distance.IsMetric(new Chebyshev()));
+            Assert.IsFalse(Distance.IsMetric(new Cosine()));
+            Assert.IsTrue(Distance.IsMetric(new Hellinger()));
+            Assert.IsFalse(Distance.IsMetric(new SquareEuclidean()));
+            Assert.IsFalse(Distance.IsMetric(new BrayCurtis()));
+            // Assert.IsFalse(Distance.IsMetric<double[]>(new Minkowski(2)));
+            // Assert.IsFalse(Distance.IsMetric<double[]>(new Minkowski(3)));
+
+            Assert.IsFalse(Distance.IsMetric<double[]>(new Kulczynski()));
+            Assert.IsTrue(Distance.IsMetric<double[]>(new Jaccard<double>()));
+            Assert.IsFalse(Distance.IsMetric<double[]>(new RogersTanimoto()));
+            Assert.IsFalse(Distance.IsMetric<double[]>(new SokalMichener()));
+            Assert.IsFalse(Distance.IsMetric<double[]>(new SokalSneath()));
+            Assert.IsFalse(Distance.IsMetric<double[]>(new Yule()));
+            Assert.IsFalse(Distance.IsMetric<double[]>(new Dice()));
 
             // Assert.IsFalse(Distance.IsMetric(Dissimilarity.RusselRao));
         }

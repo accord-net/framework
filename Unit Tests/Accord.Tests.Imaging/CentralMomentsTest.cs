@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -31,31 +31,14 @@ namespace Accord.Tests.Imaging
     public class CentralMomentsTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ComputeTest()
         {
-            Bitmap image = Resources.hu;
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.hu);
 
             CentralMoments target = new CentralMoments(image, order: 3);
 
-            Assert.AreEqual(86424.0 / target.Mu00, 1);
+            Assert.AreEqual(86424.0 / target.Mu00, 1, 1e-4);
             Assert.AreEqual(0, target.Mu01);
             Assert.AreEqual(0, target.Mu10);
             Assert.AreEqual(5.868206472635379E8 / target.Mu02, 1, 1e-2);
@@ -63,26 +46,26 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(6348920.945848465 / target.Mu11, 1, 1e-2);
             Assert.AreEqual(9.084235762166061E8 / target.Mu20, 1, 1e-3);
 
-            Assert.AreEqual(-2.155191E9 / target.Mu12, 1, 1e-5);
+            Assert.AreEqual(-2.155191E9 / target.Mu12, 1, 1e-4);
             Assert.AreEqual(7.125893E8 / target.Mu21, 1, 1e-3);
 
-            Assert.AreEqual(-1.26244547E10 / target.Mu30, 1, 1e-8);
-            Assert.AreEqual(1.71818829E9 / target.Mu03, 1, 1e-8);
+            Assert.AreEqual(-1.26244547E10 / target.Mu30, 1, 1e-4);
+            Assert.AreEqual(1.71818829E9 / target.Mu03, 1, 1e-4);
 
             SizeF size = target.GetSize();
             float angle = target.GetOrientation();
 
             Assert.AreEqual(410.207916f, size.Height);
             Assert.AreEqual(329.534637f, size.Width);
-            Assert.AreEqual(0.0196384024f, angle);
+            Assert.AreEqual(0.0196384024f, angle, 1e-4);
         }
 
         [Test]
         public void ComputeTest2()
         {
             // 0 and 1 are only translated
-            var cm0 = new CentralMoments(Resources.hu0, 3);
-            var cm1 = new CentralMoments(Resources.hu1, 3);
+            var cm0 = new CentralMoments(Accord.Imaging.Image.Clone(Resources.hu0), 3);
+            var cm1 = new CentralMoments(Accord.Imaging.Image.Clone(Resources.hu1), 3);
 
             Assert.AreEqual(cm0.Mu00, cm1.Mu00);
             Assert.AreEqual(cm0.Mu01, cm1.Mu01);

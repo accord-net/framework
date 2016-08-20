@@ -1,4 +1,4 @@
-﻿namespace AForge.Controls
+﻿namespace Accord.Controls
 {
     partial class SliderControl
     {

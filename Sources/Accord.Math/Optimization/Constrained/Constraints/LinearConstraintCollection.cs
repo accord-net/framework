@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -86,12 +86,12 @@ namespace Accord.Math.Optimization
         /// <param name="equalities">The number of equalities in the matrix.</param>
         /// <returns>The matrix <c>A</c> of linear constraints.</returns>
         /// 
-        public double[,] CreateMatrix(int numberOfVariables, out double[] b, 
+        public double[,] CreateMatrix(int numberOfVariables, out double[] b,
             out double[] tolerances, out int equalities)
         {
             // First of all, separate the equality constraints from the inequalities.
             LinearConstraint[] constraintArray = this.ToArray();
-            constraintArray.StableSort((c1, c2) => c1.ShouldBe.CompareTo(c2.ShouldBe));
+            constraintArray.Sort((c1, c2) => c1.ShouldBe.CompareTo(c2.ShouldBe), stable: true);
 
             int numberOfConstraints = constraintArray.Length;
             double[,] A = new double[numberOfConstraints, numberOfVariables];
@@ -137,6 +137,37 @@ namespace Accord.Math.Optimization
             }
 
             return A;
+        }
+
+        /// <summary>
+        ///   Creates a <see cref="LinearConstraintCollection"/> from a matrix
+        ///   specifying the constraint variables and a vector specifying their
+        ///   expected value.
+        /// </summary>
+        /// 
+        /// <param name="a">The constraint matrix.</param>
+        /// <param name="b">The constraint values.</param>
+        /// <param name="meq">The number of inequalities 
+        ///   at the start of the matrix <paramref name="a"/>.</param>
+        /// 
+        public static LinearConstraintCollection FromMatrix(double[,] a, double[] b, int meq)
+        {
+            int numberOfVariables = a.GetLength(1);
+            int numberOfConstraints = a.GetLength(0);
+
+            var constraints = new LinearConstraint[numberOfConstraints];
+            for (int i = 0; i < constraints.Length; i++)
+            {
+                constraints[i] = new LinearConstraint(numberOfVariables);
+                a.GetRow(i, result: constraints[i].CombinedAs);
+                if (i < meq)
+                    constraints[i].ShouldBe = ConstraintType.EqualTo;
+                else
+                    constraints[i].ShouldBe = ConstraintType.LesserThanOrEqualTo;
+                constraints[i].Value = b[i];
+            }
+
+            return new LinearConstraintCollection(constraints);
         }
 
     }

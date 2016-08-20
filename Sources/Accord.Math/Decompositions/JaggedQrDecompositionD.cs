@@ -1,9 +1,8 @@
-﻿
-// Accord Math Library
+﻿// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 // Original work copyright © Lutz Roeder, 2000
@@ -171,8 +170,8 @@ namespace Accord.Math.Decompositions
                         X[i][j] -= X[k][j] * qr[i][k];
             }
 
-            var r = new Decimal[n][];
-            for (int i = 0; i < n; i++)
+            var r = new Decimal[m][];
+            for (int i = 0; i < r.Length; i++)
             {
                 r[i] = new Decimal[count];
                 for (int j = 0; j < r[i].Length; j++)
@@ -199,21 +198,22 @@ namespace Accord.Math.Decompositions
                 throw new InvalidOperationException("Matrix is rank deficient.");
 
             // Copy right hand side
+            int count = value.Length;
             var X = value.Transpose();
 
             // Compute Y = transpose(Q)*B
             for (int k = 0; k < m; k++)
             {
-                for (int j = 0; j < X[k].Length; j++)
+                for (int j = 0; j < count; j++)
                 {
                     Decimal s = 0;
 
-                    for (int i = k; i < qr.Length; i++)
+                    for (int i = k; i < n; i++)
                         s += qr[i][k] * X[i][j];
 
                     s = -s / qr[k][k];
 
-                    for (int i = k; i < qr.Length; i++)
+                    for (int i = k; i < n; i++)
                         X[i][j] += s * qr[i][k];
                 }
             }
@@ -221,20 +221,17 @@ namespace Accord.Math.Decompositions
             // Solve R*X = Y;
             for (int k = m - 1; k >= 0; k--)
             {
-                for (int j = 0; j < X[k].Length; j++)
+                for (int j = 0; j < count; j++)
                     X[k][j] /= Rdiag[k];
 
                 for (int i = 0; i < k; i++)
-                    for (int j = 0; j < X[i].Length; j++)
+                    for (int j = 0; j < count; j++)
                         X[i][j] -= X[k][j] * qr[i][k];
             }
 
-            var r = new Decimal[X.Length][]; // count
-            for (int i = 0; i < r.Length; i++)
-                r[i] = new Decimal[n];
-
-            for (int i = 0; i < X.Length; i++)    
-                for (int j = 0; j < X[i].Length; j++)
+            var r = Jagged.Zeros<Decimal>(count, m);
+            for (int i = 0; i < m; i++)
+                for (int j = 0; j < count; j++)
                     r[j][i] = X[i][j];
 
             return r;
@@ -282,7 +279,7 @@ namespace Accord.Math.Decompositions
                     X[i] -= X[k] * qr[i][k];
             }
 
-            return X.Submatrix(n);
+            return X.First(m);
         }
 
         /// <summary>Shows if the matrix <c>A</c> is of full rank.</summary>
@@ -306,13 +303,11 @@ namespace Accord.Math.Decompositions
         {
             get
             {
-                var x = new Decimal[n][];
-                for (int i = 0; i < n; i++)
-                    x[i] = new Decimal[n];
+                var x = Jagged.Zeros<Decimal>(n, m);
 
-                for (int i = 0; i < x.Length; i++)
+                for (int i = 0; i < qr.Length; i++)
                 {
-                    for (int j = 0; j < x[i].Length; j++)
+                    for (int j = 0; j < qr[i].Length; j++)
                     {
                         if (i < j)
                         {
@@ -338,13 +333,11 @@ namespace Accord.Math.Decompositions
         {
             get
             {
-                var x = new Decimal[n][];
-                for (int i = 0; i < n; i++)
-                    x[i] = new Decimal[m];
+                var x = Jagged.Zeros<Decimal>(n, n);
 
                 for (int k = m - 1; k >= 0; k--)
                 {
-                    for (int i = 0; i < x.Length; i++)
+                    for (int i = 0; i < n; i++)
                         x[i][k] = 0;
 
                     x[k][k] = 1;
@@ -381,49 +374,30 @@ namespace Accord.Math.Decompositions
             if (!this.FullRank)
                 throw new InvalidOperationException("Matrix is rank deficient.");
 
-            // Copy right hand side
-            var X = new Decimal[m][];
-            for (int i = 0; i < m; i++)
-                X[i] = new Decimal[m];
-
-            // Compute Y = transpose(Q)
-            for (int k = n - 1; k >= 0; k--)
-            {
-                for (int i = 0; i < m; i++)
-                    X[k][i] = 0;
-
-                X[k][k] = 1;
-                for (int j = k; j < n; j++)
-                {
-                    if (qr[k][k] != 0)
-                    {
-                        Decimal s = 0;
-
-                        for (int i = k; i < m; i++)
-                            s += qr[i][k] * X[j][i];
-
-                        s = -s / qr[k][k];
-
-                        for (int i = k; i < m; i++)
-                            X[j][i] += s * qr[i][k];
-                    }
-                }
-            }
-
-            // Solve R*X = Y;
-            for (int k = n - 1; k >= 0; k--)
-            {
-                for (int j = 0; j < m; j++)
-                    X[k][j] /= Rdiag[k];
-
-                for (int i = 0; i < k; i++)
-                    for (int j = 0; j < m; j++)
-                        X[i][j] -= X[k][j] * qr[i][k];
-            }
-
-            return X;
+            return Solve(Jagged.Diagonal(n, n, (Decimal)1));
         }
 
+        /// <summary>
+        ///   Reverses the decomposition, reconstructing the original matrix <c>X</c>.
+        /// </summary>
+        /// 
+        public Decimal[][] Reverse()
+        {
+            return OrthogonalFactor.Dot(UpperTriangularFactor);
+        }
+
+        /// <summary>
+        ///   Computes <c>(Xt * X)^1</c> (the inverse of the covariance matrix). This
+        ///   matrix can be used to determine standard errors for the coefficients when
+        ///   solving a linear set of equations through any of the <see cref="Solve(Decimal[][])"/>
+        ///   methods.
+        /// </summary>
+        /// 
+        public Decimal[][] GetInformationMatrix()
+        {
+            var X = Reverse();
+            return X.TransposeAndDot(X).Inverse();
+        }
 
 
         #region ICloneable Members

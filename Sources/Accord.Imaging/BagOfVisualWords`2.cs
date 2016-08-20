@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@ namespace Accord.Imaging
 {
     using Accord.MachineLearning;
     using Accord.Math;
-    using AForge.Imaging;
+    using Accord.Imaging;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
@@ -94,6 +94,9 @@ namespace Accord.Imaging
         where TPoint : IFeatureDescriptor<TFeature>
     {
 
+        [NonSerialized]
+        private ParallelOptions parallelOptions;
+
         /// <summary>
         ///   Gets the number of words in this codebook.
         /// </summary>
@@ -113,6 +116,20 @@ namespace Accord.Imaging
         /// 
         public IFeatureDetector<TPoint, TFeature> Detector { get; private set; }
 
+        /// <summary>
+        ///   Gets or sets parallelization options.
+        /// </summary>
+        /// 
+        public ParallelOptions ParallelOptions
+        {
+            get
+            {
+                if (parallelOptions == null)
+                    parallelOptions = new ParallelOptions();
+                return parallelOptions;
+            }
+            set { parallelOptions = value; }
+        }
 
         /// <summary>
         ///   Constructs a new <see cref="BagOfVisualWords"/>.
@@ -123,9 +140,91 @@ namespace Accord.Imaging
         /// 
         public BagOfVisualWords(IFeatureDetector<TPoint, TFeature> detector, IClusteringAlgorithm<TFeature> algorithm)
         {
+            Init(detector, algorithm);
+        }
+
+        /// <summary>
+        ///   Constructs a new <see cref="BagOfVisualWords"/>.
+        /// </summary>
+        /// 
+        protected BagOfVisualWords()
+        {
+
+        }
+
+        /// <summary>
+        ///   Initializes this instance.
+        /// </summary>
+        /// 
+        protected void Init(IFeatureDetector<TPoint, TFeature> detector, IClusteringAlgorithm<TFeature> algorithm)
+        {
             this.NumberOfWords = algorithm.Clusters.Count;
             this.Clustering = algorithm;
             this.Detector = detector;
+            this.ParallelOptions = new ParallelOptions();
+        }
+
+        /// <summary>
+        ///   Computes the Bag of Words model.
+        /// </summary>
+        /// 
+        /// <param name="images">The set of images to initialize the model.</param>
+        /// 
+        /// <returns>The list of feature points detected in all images.</returns>
+        /// 
+        public List<TPoint>[] Compute(Bitmap[] images)
+        {
+            var descriptors = new List<TFeature>();
+            var imagePoints = new List<TPoint>[images.Length];
+
+            // For all images
+            Parallel.For(0, images.Length, ParallelOptions,
+
+                () => (IFeatureDetector<TPoint, TFeature>)Detector.Clone(),
+
+                (i, state, detector) =>
+                {
+                    Bitmap image = images[i];
+
+                    // Compute the feature points
+                    var points = detector.ProcessImage(image);
+
+                    foreach (IFeatureDescriptor<TFeature> point in points)
+                        descriptors.Add(point.Descriptor);
+
+                    imagePoints[i] = points;
+
+                    return detector;
+                },
+
+                (detector) =>
+                {
+                    detector.Dispose();
+                });
+
+            Compute(descriptors.ToArray());
+
+            return imagePoints;
+        }
+
+        /// <summary>
+        ///   Computes the Bag of Words model.
+        /// </summary>
+        /// 
+        /// <param name="features">The extracted image features to initialize the model.</param>
+        /// 
+        /// <returns>The list of feature points detected in all images.</returns>
+        /// 
+        public void Compute(TFeature[] features)
+        {
+            if (features.Length <= NumberOfWords)
+            {
+                throw new InvalidOperationException("Not enough data points to cluster. Please try "
+                    + "to adjust the feature extraction algorithm to generate more points.");
+            }
+
+            // Compute the descriptors clusters
+            Clustering.Learn(features);
         }
 
         /// <summary>
@@ -137,38 +236,16 @@ namespace Accord.Imaging
         /// 
         /// <returns>The list of feature points detected in all images.</returns>
         /// 
-        public List<TPoint>[] Compute(Bitmap[] images, double threshold = 1e-5)
+        [Obsolete("Please configure the tolerance of the clustering algorithm directly in the "
+            + "algorithm itself by accessing it through the Clustering property of this class.")]
+        public List<TPoint>[] Compute(Bitmap[] images, double threshold)
         {
+            // Hack to maintain backwards compatibility
+            var prop = Clustering.GetType().GetProperty("Tolerance");
+            if (prop != null && prop.CanWrite)
+                prop.SetValue(Clustering, threshold, null);
 
-            List<TFeature> descriptors = new List<TFeature>();
-            List<TPoint>[] imagePoints = new List<TPoint>[images.Length];
-
-            // For all images
-            for (int i = 0; i < images.Length; i++)
-            {
-                Bitmap image = images[i];
-
-                // Compute the feature points
-                var points = Detector.ProcessImage(image);
-
-                foreach (IFeatureDescriptor<TFeature> point in points)
-                    descriptors.Add(point.Descriptor);
-
-                imagePoints[i] = points;
-            }
-
-            TFeature[] data = descriptors.ToArray();
-
-            if (data.Length <= NumberOfWords)
-            {
-                throw new InvalidOperationException("Not enough data points to cluster. Please try "
-                    + "to adjust the feature extraction algorithm to generate more points");
-            }
-
-            // Compute the descriptors clusters
-            Clustering.Compute(data, threshold);
-
-            return imagePoints;
+            return Compute(images);
         }
 
         /// <summary>
@@ -234,9 +311,9 @@ namespace Accord.Imaging
             int[] features = new int[NumberOfWords];
 
             // Detect all activation centroids
-            Parallel.For(0, points.Count, i =>
+            Parallel.For(0, points.Count, ParallelOptions, i =>
             {
-                int j = Clustering.Clusters.Nearest(points[i].Descriptor);
+                int j = Clustering.Clusters.Decide(points[i].Descriptor);
 
                 // Form feature vector
                 Interlocked.Increment(ref features[j]);
@@ -253,6 +330,8 @@ namespace Accord.Imaging
         /// 
         /// <param name="stream">The stream to which the bow is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+
         public virtual void Save(Stream stream)
         {
             BinaryFormatter b = new BinaryFormatter();
@@ -265,12 +344,11 @@ namespace Accord.Imaging
         /// 
         /// <param name="path">The path to the file to which the bow is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+
         public void Save(string path)
         {
-            using (FileStream fs = new FileStream(path, FileMode.Create))
-            {
-                Save(fs);
-            }
+            Accord.IO.Serializer.Save(this, path);
         }
 
     }

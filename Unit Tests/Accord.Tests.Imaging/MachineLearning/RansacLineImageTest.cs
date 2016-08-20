@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,11 +27,11 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.Geometry;
     using AForge;
     using Accord.Tests.Imaging.Properties;
-    using AForge.Math.Geometry;
     using NUnit.Framework;
-    using Point = AForge.Point;
-    using AForge.Imaging;
+    using Point = Accord.Point;
+    using Accord.Imaging;
     using Accord.Imaging.Filters;
+    using Accord.Math.Geometry;
 
     [TestFixture]
     public class RansacLineImageTest
@@ -40,9 +40,9 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void RansacLineConstructorTest2()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
-            Bitmap image = Resources.noise_line;
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.noise_line);
 
             //Accord.Controls.ImageBox.Show(image); 
 
@@ -57,8 +57,8 @@ namespace Accord.Tests.MachineLearning
             RansacLine ransac = new RansacLine(5, 1e-10);
             Line line = ransac.Estimate(cloud);
 
-            Assert.AreEqual(0.501134932f, line.Intercept);
-            Assert.AreEqual(-0.865369201f, line.Slope);
+            Assert.AreEqual(0.501134932f, line.Intercept, 1e-5);
+            Assert.AreEqual(-0.865369201f, line.Slope, 1e-5);
 
             //var result = new LineMarker(line).Apply(image);
             //Accord.Controls.ImageBox.Show(result);

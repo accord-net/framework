@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -224,7 +224,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -400,7 +400,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
             double mu, var;
 
-            observations = Matrix.Log(observations);
+            observations = Elementwise.Log(observations);
 
             if (weights != null)
             {
@@ -411,18 +411,18 @@ namespace Accord.Statistics.Distributions.Univariate
 #endif
 
                 // Compute weighted mean
-                mu = Statistics.Tools.WeightedMean(observations, weights);
+                mu = Measures.WeightedMean(observations, weights);
 
                 // Compute weighted variance
-                var = Statistics.Tools.WeightedVariance(observations, weights, mu);
+                var = Measures.WeightedVariance(observations, weights, mu);
             }
             else
             {
                 // Compute weighted mean
-                mu = Statistics.Tools.Mean(observations);
+                mu = Measures.Mean(observations);
 
                 // Compute weighted variance
-                var = Statistics.Tools.Variance(observations, mu);
+                var = Measures.Variance(observations, mu);
             }
 
             if (options != null)
@@ -498,12 +498,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
-        /// 
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples)
+        public override double[] Generate(int samples, double[] result)
         {
-            return Random(location, shape, samples);
+            return Random(location, shape, samples, result);
         }
 
         /// <summary>
@@ -529,8 +530,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double location, double shape)
         {
-            double x = NormalDistribution.Standard.Generate();
-            return Math.Exp(location + shape * x);
+            return Math.Exp(location + shape * NormalDistribution.Random());
         }
 
         /// <summary>
@@ -546,10 +546,28 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double location, double shape, int samples)
         {
-            double[] x = NormalDistribution.Standard.Generate(samples);
-            for (int i = 0; i < x.Length; i++)
-                x[i] = Math.Exp(location + shape * x[i]);
-            return x;
+            return Random(location, shape, samples, new double[samples]);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Lognormal distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="location">The distribution's location value.</param>
+        /// <param name="shape">The distribution's shape deviation.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Lognormal distribution.</returns>
+        /// 
+        public static double[] Random(double location, double shape, int samples, double[] result)
+        {
+            NormalDistribution.Random(samples, result);
+
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Math.Exp(location + shape * result[i]);
+            return result;
         }
 
         #endregion

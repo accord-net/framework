@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Analysis
 {
     using Accord.Collections;
+    using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using AForge;
@@ -83,7 +84,10 @@ namespace Accord.Statistics.Analysis
     /// <seealso cref="DescriptiveMeasures"/>
     ///
     [Serializable]
-    public class DescriptiveAnalysis : IMultivariateAnalysis
+#pragma warning disable 612, 618
+    public class DescriptiveAnalysis : IMultivariateAnalysis,
+        IDescriptiveLearning<DescriptiveAnalysis, double[]>
+#pragma warning restore 612, 618
     {
 
         private int samples;
@@ -122,6 +126,29 @@ namespace Accord.Statistics.Analysis
 
         private DescriptiveMeasureCollection measuresCollection;
 
+        private bool lazy = true;
+
+        /// <summary>
+        ///   Constructs the Descriptive Analysis.
+        /// </summary>
+        /// 
+        public DescriptiveAnalysis()
+        {
+        }
+
+        /// <summary>
+        ///   Constructs the Descriptive Analysis.
+        /// </summary>
+        /// 
+        /// <param name="columnNames">Names for the analyzed variables.</param>
+        /// 
+        public DescriptiveAnalysis(string[] columnNames)
+        {
+            if (columnNames == null)
+                throw new ArgumentNullException("columnNames");
+
+            init(null, null, columnNames);
+        }
 
         /// <summary>
         ///   Constructs the Descriptive Analysis.
@@ -129,6 +156,7 @@ namespace Accord.Statistics.Analysis
         /// 
         /// <param name="data">The source data to perform analysis.</param>
         /// 
+        [Obsolete("Please call the Learn() method passing the data to be analyzed.")]
         public DescriptiveAnalysis(double[] data)
         {
             if (data == null)
@@ -147,6 +175,7 @@ namespace Accord.Statistics.Analysis
         /// 
         /// <param name="data">The source data to perform analysis.</param>
         /// 
+        [Obsolete("Please call the Learn() method passing the data to be analyzed.")]
         public DescriptiveAnalysis(double[,] data)
         {
             if (data == null)
@@ -162,6 +191,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="data">The source data to perform analysis.</param>
         /// <param name="columnNames">Names for the analyzed variables.</param>
         /// 
+        [Obsolete("Please pass only columnNames and call the Learn() method passing the data to be analyzed.")]
         public DescriptiveAnalysis(double[,] data, string[] columnNames)
         {
             if (data == null)
@@ -179,6 +209,7 @@ namespace Accord.Statistics.Analysis
         /// 
         /// <param name="data">The source data to perform analysis.</param>
         /// 
+        [Obsolete("Please call the Learn() method passing the data to be analyzed.")]
         public DescriptiveAnalysis(double[][] data)
         {
             // Initial argument checking
@@ -195,6 +226,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="data">The source data to perform analysis.</param>
         /// <param name="columnNames">Names for the analyzed variables.</param>
         /// 
+        [Obsolete("Please pass only columnNames and call the Learn() method passing the data to be analyzed.")]
         public DescriptiveAnalysis(double[][] data, string[] columnNames)
         {
             // Initial argument checking
@@ -224,8 +256,6 @@ namespace Accord.Statistics.Analysis
                 this.variables = array[0].Length;
             }
 
-
-
             // Create object-oriented structure to access data
             DescriptiveMeasures[] measures = new DescriptiveMeasures[variables];
             for (int i = 0; i < measures.Length; i++)
@@ -238,6 +268,7 @@ namespace Accord.Statistics.Analysis
         ///   Computes the analysis using given source data and parameters.
         /// </summary>
         /// 
+        [Obsolete("Please use Learn() instead.")]
         public void Compute()
         {
             // Clear analysis
@@ -293,11 +324,73 @@ namespace Accord.Statistics.Analysis
             this.outerFences = null;
         }
 
+        /// <summary>
+        /// Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <returns>
+        /// A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.
+        /// </returns>
+        public DescriptiveAnalysis Learn(double[][] x)
+        {
+            reset();
+
+            init(null, x, columnNames);
+
+            if (!lazy)
+            {
+                this.sums = Sums;
+                this.means = Means;
+                this.standardDeviations = StandardDeviations;
+                this.ranges = Ranges;
+                this.kurtosis = Kurtosis;
+                this.skewness = Skewness;
+                this.medians = Medians;
+                this.modes = Modes;
+                this.variances = Variances;
+                this.standardErrors = StandardErrors;
+                this.distinct = Distinct;
+                this.quartiles = Quartiles;
+                this.innerFences = InnerFences;
+                this.outerFences = OuterFences;
+
+                // Mean centered and standardized data
+                this.dScores = DeviationScores;
+                this.zScores = StandardScores;
+
+                // Covariance and correlation
+                this.covarianceMatrix = CovarianceMatrix;
+                this.correlationMatrix = CorrelationMatrix;
+
+                this.confidence = Confidence;
+                this.deviance = Deviance;
+
+                this.sourceArray = null;
+                this.sourceMatrix = null;
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        ///   Gets or sets whether the properties of this class should
+        ///   be computed only when necessary. If set to true, a copy
+        ///   of the input data will be maintained inside an instance
+        ///   of this class, using more memory.
+        /// </summary>
+        /// 
+        public bool Lazy
+        {
+            get { return lazy; }
+            set { lazy = value; }
+        }
 
         /// <summary>
         ///   Gets the source matrix from which the analysis was run.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[,] Source
         {
             get
@@ -312,12 +405,13 @@ namespace Accord.Statistics.Analysis
         ///   Gets the source matrix from which the analysis was run.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[][] Array
         {
             get
             {
                 if (this.sourceArray == null)
-                    sourceArray = sourceMatrix.ToArray();
+                    sourceArray = sourceMatrix.ToJagged();
                 return sourceArray;
             }
         }
@@ -350,7 +444,12 @@ namespace Accord.Statistics.Analysis
             get
             {
                 if (this.dScores == null)
-                    this.dScores = Statistics.Tools.Center(Source, Means, inPlace: false);
+                {
+                    if (sourceMatrix != null)
+                        this.dScores = sourceMatrix.Center(Means, inPlace: false);
+                    else this.dScores = sourceArray.Center(Means, inPlace: false).ToMatrix();
+                }
+                    
                 return this.dScores;
             }
         }
@@ -380,8 +479,8 @@ namespace Accord.Statistics.Analysis
                 if (covarianceMatrix == null)
                 {
                     if (sourceMatrix != null)
-                        covarianceMatrix = Statistics.Tools.Covariance(sourceMatrix, Means);
-                    else covarianceMatrix = Statistics.Tools.Covariance(sourceArray, Means);
+                        covarianceMatrix = sourceMatrix.Covariance(Means);
+                    else covarianceMatrix = sourceArray.Covariance(Means).ToMatrix();
                 }
 
                 return covarianceMatrix;
@@ -399,8 +498,8 @@ namespace Accord.Statistics.Analysis
                 if (correlationMatrix == null)
                 {
                     if (sourceMatrix != null)
-                        correlationMatrix = Statistics.Tools.Correlation(sourceMatrix, Means, StandardDeviations);
-                    else correlationMatrix = Statistics.Tools.Correlation(sourceArray, Means, StandardDeviations);
+                        correlationMatrix = sourceMatrix.Correlation(Means, StandardDeviations);
+                    else correlationMatrix = sourceArray.Correlation(Means, StandardDeviations).ToMatrix();
                 }
 
                 return correlationMatrix;
@@ -418,8 +517,8 @@ namespace Accord.Statistics.Analysis
                 if (means == null)
                 {
                     if (sourceMatrix != null)
-                        means = Statistics.Tools.Mean(sourceMatrix, Sums);
-                    else means = Statistics.Tools.Mean(sourceArray, Sums);
+                        means = sourceMatrix.Mean(Sums);
+                    else means = sourceArray.Mean(Sums);
                 }
                 return means;
             }
@@ -436,8 +535,8 @@ namespace Accord.Statistics.Analysis
                 if (standardDeviations == null)
                 {
                     if (sourceMatrix != null)
-                        standardDeviations = Statistics.Tools.StandardDeviation(sourceMatrix, Means);
-                    else standardDeviations = Statistics.Tools.StandardDeviation(sourceArray, Means);
+                        standardDeviations = sourceMatrix.StandardDeviation(Means);
+                    else standardDeviations = sourceArray.StandardDeviation(Means);
                 }
 
                 return standardDeviations;
@@ -453,7 +552,7 @@ namespace Accord.Statistics.Analysis
             get
             {
                 if (standardErrors == null)
-                    standardErrors = Statistics.Tools.StandardError(samples, StandardDeviations);
+                    standardErrors = Statistics.Measures.StandardError(samples, StandardDeviations);
 
                 return standardErrors;
             }
@@ -514,8 +613,8 @@ namespace Accord.Statistics.Analysis
                 if (modes == null)
                 {
                     if (sourceMatrix != null)
-                        modes = Statistics.Tools.Mode(sourceMatrix);
-                    else modes = Statistics.Tools.Mode(sourceArray);
+                        modes = sourceMatrix.Mode();
+                    else modes = sourceArray.Mode();
                 }
 
                 return modes;
@@ -533,8 +632,8 @@ namespace Accord.Statistics.Analysis
                 if (medians == null)
                 {
                     if (sourceMatrix != null)
-                        medians = Statistics.Tools.Median(sourceMatrix);
-                    else medians = Statistics.Tools.Median(sourceArray);
+                        medians = sourceMatrix.Median();
+                    else medians = sourceArray.Median();
                 }
 
                 return medians;
@@ -552,8 +651,8 @@ namespace Accord.Statistics.Analysis
                 if (variances == null)
                 {
                     if (sourceMatrix != null)
-                        variances = Statistics.Tools.Variance(sourceMatrix, Means);
-                    else variances = Statistics.Tools.Variance(sourceArray, Means);
+                        variances = sourceMatrix.Variance(Means);
+                    else variances = sourceArray.Variance(Means);
                 }
 
                 return variances;
@@ -571,8 +670,8 @@ namespace Accord.Statistics.Analysis
                 if (distinct == null)
                 {
                     if (sourceMatrix != null)
-                        distinct = Statistics.Tools.DistinctCount(sourceMatrix);
-                    else distinct = Statistics.Tools.DistinctCount(sourceArray);
+                        distinct = sourceMatrix.DistinctCount();
+                    else distinct = sourceArray.DistinctCount();
                 }
 
                 return distinct;
@@ -590,8 +689,8 @@ namespace Accord.Statistics.Analysis
                 if (ranges == null)
                 {
                     if (sourceMatrix != null)
-                        this.ranges = Matrix.Range(sourceMatrix, 0);
-                    else this.ranges = Matrix.Range(sourceArray, 0);
+                        this.ranges = Matrix.GetRange(sourceMatrix, 0);
+                    else this.ranges = Matrix.GetRange(sourceArray, 0);
                 }
 
                 return ranges;
@@ -609,8 +708,8 @@ namespace Accord.Statistics.Analysis
                 if (quartiles == null)
                 {
                     if (sourceMatrix != null)
-                        this.medians = Statistics.Tools.Quartiles(sourceMatrix, out this.quartiles);
-                    else this.medians = Statistics.Tools.Quartiles(sourceArray, out this.quartiles);
+                        this.medians = sourceMatrix.Quartiles(out this.quartiles);
+                    else this.medians = sourceArray.Quartiles(out this.quartiles);
                 }
 
                 return quartiles;
@@ -670,8 +769,8 @@ namespace Accord.Statistics.Analysis
                 if (sums == null)
                 {
                     if (sourceMatrix != null)
-                        this.sums = Accord.Math.Matrix.Sum(sourceMatrix);
-                    else this.sums = Accord.Math.Matrix.Sum(sourceArray);
+                        this.sums = Accord.Math.Matrix.Sum(sourceMatrix, 0);
+                    else this.sums = Accord.Math.Matrix.Sum(sourceArray, 0);
                 }
 
                 return sums;
@@ -689,8 +788,8 @@ namespace Accord.Statistics.Analysis
                 if (skewness == null)
                 {
                     if (sourceMatrix != null)
-                        this.skewness = Statistics.Tools.Skewness(sourceMatrix);
-                    else this.skewness = Statistics.Tools.Skewness(sourceArray);
+                        this.skewness = sourceMatrix.Skewness();
+                    else this.skewness = sourceArray.Skewness();
                 }
 
                 return skewness;
@@ -708,8 +807,8 @@ namespace Accord.Statistics.Analysis
                 if (kurtosis == null)
                 {
                     if (sourceMatrix != null)
-                        this.kurtosis = Statistics.Tools.Kurtosis(sourceMatrix);
-                    else this.kurtosis = Statistics.Tools.Kurtosis(sourceArray);
+                        this.kurtosis = sourceMatrix.Kurtosis();
+                    else this.kurtosis = sourceArray.Kurtosis();
                 }
 
                 return kurtosis;
@@ -1013,6 +1112,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the variable's observations.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[] Samples
         {
             get { return analysis.Source.GetColumn(index); }

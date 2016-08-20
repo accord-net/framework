@@ -13,8 +13,8 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
-using AForge.Video;
-using AForge.Video.Kinect;
+using Accord.Video;
+using Accord.Video.Kinect;
 
 namespace SampleApp
 {

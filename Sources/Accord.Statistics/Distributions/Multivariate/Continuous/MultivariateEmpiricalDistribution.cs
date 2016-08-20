@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,6 +28,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions.DensityKernels;
     using Accord.Statistics.Distributions.Fitting;
     using Tools = Accord.Statistics.Tools;
+using Accord.Math.Random;
 
     /// <summary>
     ///   Multivariate empirical distribution.
@@ -404,13 +405,13 @@ namespace Accord.Statistics.Distributions.Multivariate
                 if (mean == null)
                 {
                     if (type == WeightType.None)
-                        mean = Tools.Mean(samples);
+                        mean = Measures.Mean(samples, dimension: 0);
 
                     else if (type == WeightType.Repetition)
-                        mean = Tools.WeightedMean(samples, repeats);
+                        mean = Measures.WeightedMean(samples, repeats);
 
                     else if (type == WeightType.Fraction)
-                        mean = Tools.WeightedMean(samples, weights);
+                        mean = Measures.WeightedMean(samples, weights);
                 }
 
                 return mean;
@@ -432,13 +433,13 @@ namespace Accord.Statistics.Distributions.Multivariate
                 if (variance == null)
                 {
                     if (type == WeightType.None)
-                        variance = Tools.Variance(samples);
+                        variance = Measures.Variance(samples);
 
                     else if (type == WeightType.Repetition)
-                        variance = Tools.WeightedVariance(samples, repeats);
+                        variance = Measures.WeightedVariance(samples, repeats);
 
                     else if (type == WeightType.Fraction)
-                        variance = Tools.WeightedVariance(samples, weights);
+                        variance = Measures.WeightedVariance(samples, weights);
                 }
 
                 return variance;
@@ -460,13 +461,13 @@ namespace Accord.Statistics.Distributions.Multivariate
                 if (covariance == null)
                 {
                     if (type == WeightType.None)
-                        covariance = Tools.Covariance(samples, Mean);
+                        covariance = Measures.Covariance(samples, Mean).ToMatrix(); // TODO: Switch to double[][]
 
                     else if (type == WeightType.Repetition)
-                        covariance = Tools.WeightedCovariance(samples, repeats);
+                        covariance = Measures.WeightedCovariance(samples, repeats);
 
                     else if (type == WeightType.Fraction)
-                        covariance = Tools.WeightedCovariance(samples, weights);
+                        covariance = Measures.WeightedCovariance(samples, weights);
                 }
 
                 return covariance;
@@ -806,7 +807,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             // Silverman's rule
             //  - http://en.wikipedia.org/wiki/Multivariate_kernel_density_estimation
 
-            double[] sigma = Tools.StandardDeviation(observations);
+            double[] sigma = observations.StandardDeviation();
 
             double d = sigma.Length;
             double n = observations.Length;
@@ -835,7 +836,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             // Silverman's rule
             //  - http://en.wikipedia.org/wiki/Multivariate_kernel_density_estimation
 
-            double[] sigma = Tools.WeightedStandardDeviation(observations, weights);
+            double[] sigma = observations.WeightedStandardDeviation(weights);
 
             double d = sigma.Length;
             double n = weights.Sum();
@@ -864,7 +865,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             // Silverman's rule
             //  - http://en.wikipedia.org/wiki/Multivariate_kernel_density_estimation
 
-            double[] sigma = Tools.WeightedStandardDeviation(observations, weights);
+            double[] sigma = observations.WeightedStandardDeviation(weights);
 
             double d = sigma.Length;
             double n = weights.Sum();
@@ -919,32 +920,17 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// </summary>
         /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
-        /// 
-        public double[][] Generate(int samples)
+        ///
+        public override double[][] Generate(int samples, double[][] result)
         {
-            var generator = Accord.Math.Tools.Random;
-
-            var s = new double[samples][];
-            for (int i = 0; i < s.Length; i++)
-                s[i] = this.samples[generator.Next(this.samples.Length)];
-
-            return s;
+            var random = Accord.Math.Random.Generator.Random;
+            for (int i = 0; i < samples; i++)
+                Array.Copy(this.samples[random.Next(this.samples.Length)], result[i], Dimension);
+            return result;
         }
-
-        /// <summary>
-        ///   Generates a random observation from the current distribution.
-        /// </summary>
-        /// 
-        /// <returns>A random observations drawn from this distribution.</returns>
-        /// 
-        public double[] Generate()
-        {
-            var generator = Accord.Math.Tools.Random;
-
-            return this.samples[generator.Next(this.samples.Length)];
-        }
-
 
         /// <summary>
         ///   Returns a <see cref="System.String" /> that represents this instance.

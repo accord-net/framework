@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -86,7 +86,7 @@ namespace Accord.Statistics.Kernels
 
             double q1 = Math.Sqrt(distances[(int)Math.Ceiling(0.15 * distances.Length)] / 2.0);
             double q9 = Math.Sqrt(distances[(int)Math.Ceiling(0.85 * distances.Length)] / 2.0);
-            double qm = Math.Sqrt(Accord.Statistics.Tools.Median(distances, alreadySorted: true) / 2.0);
+            double qm = Math.Sqrt(distances.Median(alreadySorted: true) / 2.0);
 
             range = new DoubleRange(q1, q9);
 
@@ -108,8 +108,8 @@ namespace Accord.Statistics.Kernels
         /// 
         public static double[] Products(double[][] inputs, int samples)
         {
-            int[] idx = Accord.Statistics.Tools.RandomSample(inputs.Length, samples);
-            int[] idy = Accord.Statistics.Tools.RandomSample(inputs.Length, samples);
+            int[] idx = Vector.Sample(inputs.Length, samples);
+            int[] idy = Vector.Sample(inputs.Length, samples);
 
             double[] products = new double[samples * samples];
 
@@ -229,7 +229,7 @@ namespace Accord.Statistics.Kernels
             return MemberwiseClone();
         }
 
-        void IEstimable.Estimate(double[][] inputs)
+        void IEstimable<double[]>.Estimate(double[][] inputs)
         {
             var s = Estimate(inputs);
             this.Alpha = s.Alpha;

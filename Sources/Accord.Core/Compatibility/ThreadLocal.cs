@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -36,7 +36,7 @@ namespace Accord
     internal class ThreadLocal<T> : IDisposable
     {
         [ThreadStatic]
-        private static Dictionary<object, T> lookupTable;
+        private static readonly Dictionary<object, T> lookupTable = new Dictionary<object, T>();
 
         private Func<T> init;
 
@@ -44,7 +44,10 @@ namespace Accord
         ///   Initializes a new instance of the <see cref="ThreadLocal&lt;T&gt;"/> class.
         /// </summary>
         /// 
-        public ThreadLocal() : this(() => default(T)) { }
+        public ThreadLocal()
+            : this(() => default(T))
+        {
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="ThreadLocal&lt;T&gt;"/> class.
@@ -73,26 +76,20 @@ namespace Accord
         {
             get
             {
-                T returnValue;
-
-                if (lookupTable == null)
+                lock (lookupTable)
                 {
-                    lookupTable = new Dictionary<object, T>();
-                    returnValue = lookupTable[this] = init();
-                }
-                else
-                {
+                    T returnValue;
                     if (!lookupTable.TryGetValue(this, out returnValue))
                         returnValue = lookupTable[this] = init();
+                    return returnValue;
                 }
-
-                return returnValue;
             }
             set
             {
-                if (lookupTable == null)
-                    lookupTable = new Dictionary<object, T>();
-                lookupTable[this] = value;
+                lock (lookupTable)
+                {
+                    lookupTable[this] = value;
+                }
             }
         }
 
@@ -103,8 +100,8 @@ namespace Accord
         /// 
         public void Dispose()
         {
-           Dispose(true);
-           GC.SuppressFinalize(this);
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -118,10 +115,10 @@ namespace Accord
         {
             if (disposing)
             {
-                if (lookupTable != null)
+                lock (lookupTable)
                 {
-                    if (lookupTable.ContainsKey(this)) 
-                       lookupTable.Remove(this);
+                    if (lookupTable.ContainsKey(this))
+                        lookupTable.Remove(this);
                 }
             }
         }

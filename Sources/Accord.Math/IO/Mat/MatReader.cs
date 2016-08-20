@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -161,9 +161,13 @@ namespace Accord.IO
         /// </summary>
         /// 
         /// <param name="input">The input stream containing the MAT file.</param>
+        /// <param name="autoTranspose">Pass <c>true</c> to automatically transpose matrices if they 
+        ///   have been stored differently from .NET's default row-major order. Default is <c>true</c>.</param>
+        /// <param name="lazy">Whether matrices should be read lazily (if set to true, only
+        ///   matrices that have explicitly been asked for will be loaded).</param>
         /// 
-        public MatReader(Stream input)
-            : this(input, true)
+        public MatReader(Stream input, bool autoTranspose = true, bool lazy = true)
+            : this(new BinaryReader(input), autoTranspose: autoTranspose, lazy: lazy)
         {
         }
 
@@ -174,9 +178,11 @@ namespace Accord.IO
         /// <param name="input">The input stream containing the MAT file.</param>
         /// <param name="autoTranspose">Pass <c>true</c> to automatically transpose matrices if they 
         ///   have been stored differently from .NET's default row-major order. Default is <c>true</c>.</param>
+        /// <param name="lazy">Whether matrices should be read lazily (if set to true, only
+        ///   matrices that have explicitly been asked for will be loaded).</param>
         /// 
-        public MatReader(Stream input, bool autoTranspose)
-            : this(new BinaryReader(input), autoTranspose)
+        public MatReader(byte[] input, bool autoTranspose = true, bool lazy = true)
+            : this(new MemoryStream(input), autoTranspose: autoTranspose, lazy: lazy)
         {
         }
 
@@ -187,8 +193,10 @@ namespace Accord.IO
         /// <param name="reader">A reader for input stream containing the MAT file.</param>
         /// <param name="autoTranspose">Pass <c>true</c> to automatically transpose matrices if they 
         ///   have been stored differently from .NET's default row-major order. Default is <c>true</c>.</param>
+        /// <param name="lazy">Whether matrices should be read lazily (if set to true, only
+        ///   matrices that have explicitly been asked for will be loaded).</param>
         /// 
-        public MatReader(BinaryReader reader, bool autoTranspose)
+        public MatReader(BinaryReader reader, bool autoTranspose = true, bool lazy = true)
         {
             this.autoTranspose = autoTranspose;
 
@@ -223,13 +231,36 @@ namespace Accord.IO
                     return;
 
                 // Create a new node from the current position
-                MatNode node = new MatNode(this, reader, offset, elementTag, true);
+                MatNode node = new MatNode(this, reader, offset, elementTag, lazy: lazy);
 
                 // Advance the stream to the next element (might be removed in the future)
                 reader.BaseStream.Seek(offset + elementTag.NumberOfBytes + 8, SeekOrigin.Begin);
 
                 contents.Add(node.Name, node);
             }
+        }
+
+        /// <summary>
+        ///   Reads an object from a given key.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the object to be read.</typeparam>
+        /// <param name="key">The name of the object.</param>
+        /// 
+        public T Read<T>(string key)
+        {
+            return (T)Fields[key].Value;
+        }
+
+        /// <summary>
+        ///   Reads an object from a given key.
+        /// </summary>
+        /// 
+        /// <param name="key">The name of the object.</param>
+        /// 
+        public object Read(string key)
+        {
+            return Fields[key].Value;
         }
 
 

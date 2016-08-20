@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -32,27 +32,10 @@ namespace Accord.Tests.Imaging
     public class LogExpTest
     {
 
-        private TestContext testContextInstance;
-
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ApplyTest()
         {
-            Bitmap input = Properties.Resources.lena_color;
+            Bitmap input = Accord.Imaging.Image.Clone(Properties.Resources.lena_color);
 
             Logarithm log = new Logarithm();
             Bitmap output = log.Apply(input);

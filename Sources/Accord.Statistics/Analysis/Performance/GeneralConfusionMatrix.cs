@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -129,7 +129,7 @@ namespace Accord.Statistics.Analysis
         {
             this.matrix = matrix;
             this.classes = matrix.GetLength(0);
-            this.samples = matrix.Sum().Sum();
+            this.samples = matrix.Sum();
         }
 
         /// <summary>
@@ -613,7 +613,7 @@ namespace Accord.Statistics.Analysis
         [DisplayName("Geometric Agreement")]
         public double GeometricAgreement
         {
-            get { return Math.Exp(Accord.Statistics.Tools.LogGeometricMean(Diagonal)); }
+            get { return Math.Exp(Measures.LogGeometricMean(Diagonal)); }
         }
 
         /// <summary>

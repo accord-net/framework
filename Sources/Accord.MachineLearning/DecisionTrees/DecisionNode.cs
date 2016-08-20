@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -152,6 +152,43 @@ namespace Accord.MachineLearning.DecisionTrees
         /// condition; otherwise, <c>false</c>.</returns>
         /// 
         public bool Compute(double x)
+        {
+            switch (Comparison)
+            {
+                case ComparisonKind.Equal:
+                    return (x == Value);
+
+                case ComparisonKind.GreaterThan:
+                    return (x > Value);
+
+                case ComparisonKind.GreaterThanOrEqual:
+                    return (x >= Value);
+
+                case ComparisonKind.LessThan:
+                    return (x < Value);
+
+                case ComparisonKind.LessThanOrEqual:
+                    return (x <= Value);
+
+                case ComparisonKind.NotEqual:
+                    return (x != Value);
+
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+
+        /// <summary>
+        ///   Computes whether a value satisfies
+        ///   the condition imposed by this node.
+        /// </summary>
+        /// 
+        /// <param name="x">The value x.</param>
+        /// 
+        /// <returns><c>true</c> if the value satisfies this node's
+        /// condition; otherwise, <c>false</c>.</returns>
+        /// 
+        public bool Compute(int x)
         {
             switch (Comparison)
             {

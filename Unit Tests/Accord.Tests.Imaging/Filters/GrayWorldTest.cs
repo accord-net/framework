@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -36,7 +36,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ApplyTest1()
         {
-            Bitmap image = Properties.Resources.lena_color;
+            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena_color);
 
             // Create the Gray World filter
             var grayWorld = new GrayWorld();

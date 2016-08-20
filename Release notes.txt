@@ -1,3 +1,183 @@
+Accord.NET Framework 3.2.0 release notes
+-----------------------------------------
+20.08.2016.
+
+ Accord.NET 3.2 "auto-generated" release
+
+Version updates and fixes:
+  - GH-76/GC-24: Add easier creating and handling of factors for categorical variables
+  - GH-123: Bug in the Euclidean on Accord.Math.Distance
+  - GH-124: Fixing the Envelop filter as missing loop variables were not being incremented
+  - GH-135: When the from and to ranges are equal, scaled values should remain unchanged
+  - GH-159: Gamma Distribution Fit stalls for some arrays
+  - GH-162: ntdll on OS X
+  - GH-167: Posterior method has wrong signature in continuous hidden Markov Models
+  - GH-171: Quadratic Programming (Goldfarb-Idnani) NoPossibleSolution on possible problems
+  - GH-188: ProbabilisticOutputCalibration Class Example Incorrect Object Name
+  - GH-206: Chessboard distance is incorrect
+  - GH-214: Bug found in ReplaceChannel filter
+  - GH-215: Bug Found in DecisionTrees.Learning.ID3Learning.
+  - GH-225: Independent Component Analysis not converging
+  - GH-232: Bug in Levenshtein distance.
+  - GH-234: The subset of observations corresponding to a decision node may contains duplicates
+  - GH-235: The getMaxChild method returns the max grandchild
+  - GH-236: Possibly-biased comparison between errors
+  - GH-237: The subset of observations corresponding to a decision node may contains duplicates
+  - GH-240: Re() and Im() function of ComplexMatrix generates a OutOfRangeException
+
+* General
+  - In this release, the Matrix library from Accord.Math has been almost completely
+    redesigned to make heavy use of automatic code generation. This results in more
+    code reuse, more consistent interfaces and the availability of many methods which
+    before were available only for Double to almost all native numerical types in the
+    .NET Framework;
+  - The framework now contains core classes and interfaces for defining classification
+    and regression models and their respective learning algorithms, offering a more 
+    standard interface when using different parts of the framework;
+  - The framework now offers a Accord.Serializer class that should be responsible for
+    serializing and deserializing any object from the framework, and will take care of
+    versioning in case of breaking changes between releases;
+  - All AForge.NET namespaces have been finally moved to inside Accord.NET, although
+    some functionality is still duplicate.
+  
+* Core
+  - Adding Interlocked operations (Increment, Add) for double values;
+  - To<> universal converter can now convert jagged arrays;
+  - Adding a common framework to unify all classification models, and all learning algorithms;
+  - Integrating the AForge.NET Range classes in the framework, adding ByteRange;
+  - Adding a common serialization mechanism to the framework to manage backwards compatibility;
+  - All classes from Accord.MachineLearning.Structures have been moved into Accord.Collections;
+  - Updating RedBlackTrees to implement the new base classes for tree structures;
+  - Updating KD-Trees to implement the base classes for tree structures (introduces breaking changes).
+
+* Sample applications
+  - Fixing wrong arguments in sample applications.
+
+* Math
+  - Revamped matrix library making heavy use of code generation with T4 templates;
+  - Matrix dot products, and elementwise operations are now auto-generated;
+  - Renaming InnerProduct to Dot, and marking previous products as obsolete;
+  - Vector Range, Scale and Interval are now auto-generated;
+  - Standardizing the way Vectors, Matrices and Jagged matrices are created and handled
+    in the framework;
+  - Adding OneHot and KHot methods overloads for creating vectors using boolean masks;
+  - Adding ArgMin and ArgMax methods to Vector, Jagged and Multidimensional matrices;
+  - Re-implementing Matrix.Sum and Matrix.Product using T4 templates;
+  - Breaking change: Sum() now computes the Sum over the entire matrix (before it needed
+    to be done with Sum().Sum(). In order to compute the sum vector over rows, use matrix.Sum(0)
+    and for columns, matrix.Sum(1);
+  - Chessboard distance has been removed as it is the same as Chebyshev;
+  - Moving AForge.NET's old Random classes into the framework, and marking them as deprecated;
+  - Adding a log1pexp method for computing (1.0 + Math.Exp(-sum)) without loss of precision;
+  - Adding new random generators based on Marsaglia's Ziggurat method;
+  - Introducing a new, generic IRandomNumberGenerator interface so existing statistical
+    distributions can be used as Random Number Generators;
+  - Updating Matrix.IsEqual method to use the auto-generated overloads if possible;
+  - Replacing the previous framework-wide generator with a better API;
+  - Improving the framework-wide random number generator so generators created in short
+    timespans do not get initialized with the same seed: Now, updating a seed will not
+    affect existent random generators in other threads. It will affect only newly created
+    generators and the one in the current thread;
+  - Fixing the DiagonalMatrix property in SingularValueDecomposition and 
+    JaggedSingularValueDecomposition so the returned diagonal matrices has the necessary 
+    dimensions to reconstruct the original matrix using the decomposition main formulation;
+  - Fixing a bug in Combinatorics.Sequences method where the current vector would be returned
+    instead of a copy when inPlace = false;
+  - Distance functions can now be auto-generated from classes from the framework;
+  - Adding Dice, Jaccard, Kulczynski, Matching, Rogers-Tanimoto, Russel-Rao, Sokal Michener,
+    Sokal Sneath, Yule, Bhattacharyya and LogLikelihood distances as proper classes;
+  - Updating IsEqual to support absoluete and relative tolarance thresholds;
+  - Adding a Histogram method for creating a histogram from an array of integer values;
+  - Updating the Interval, Range and Scale method overloads to be automatically generated;
+  - Adding loss functions to be used in the unified framework;
+  - Moving the Elementwise class to a separate Accord.Math.Core project in order to avoid
+    excessive build times due the number of auto-generated methods in this class;
+  - Adding overloads to Eigenvalue decomposition to automatically sorter eigenvectors and 
+    eigenvalues in descending order of absolute eigenvalue;
+  - Adding a dedicated Sort static class with ordering-related methods such as Partition,
+    Introsort and NthElement.
+  - Expanding decompositions with two additional methods: GetInformationMatrix and Reverse
+    GetInformationMatrix can be used to retrieve the standard errors for each coefficient 
+	when solving a linear system; Reverse reconstructs the original matrix using the definition
+	of the decomposition;
+  - Deprecating Submatrix in favor of Get (methods with non-inclusive last indices);
+  - Adding ArgSort function for retrieving the indices that can be used to sort a vector;
+  - Adding LogSumExp to the set of special functions.
+
+* MachineLearning
+  - Adding a base foundation to encompass all classification and regression models in the
+    framework as well as their learning algorithms: common interfaces and base classes for
+    classifiers, distance-based classifiers and generative classifiers; common interfaces
+    and base classes for supervised and unsupervised learning algorithms;
+  - Updating Support Vector Machines, Decision Trees, Naive Bayes, Regressions and Analyses
+    to use the new classes;
+  - Unifying Linear and Kernel SupportVectorMachines, updating their classes to accept the
+    Kernel function as a generic parameter: when the kernel function is a ValueType, this
+    forces generic classes to be compiled specifically for each kernel type, allowing for
+    the inlining of the kernel function calls;
+  - Updating the way compact SVMs are represented: instead of having only a weight vector 
+    and no support vectors, compact machines have a single support vector and a single weight
+    of value one, eliminating what before was a special case;
+  - Adding classes for OneVsOne and OneVsRest classifiers, separating the functionality that
+    was previously inside MulticlassSupportVectorMachine and MultilabelSupportVectorMachine;
+  - Fixing multiple issues with ErrorBasedPruning (YaronK);
+  - Updating GridSearch to implement ToString methods for easier debugging;
+  - Updating Linear machines and learning algorithms to accept sparse kernels;
+  - Deprecating the previous sparse vector implementations and moving the current implementation
+    to the existing Linear class, since they represent the same operation;
+  - Adding a true implementation for LibSVM-style Sparse vectors;
+  - Updating SparseReader to read sparse vectors using the new Sparse representation;
+  - Refactoring the clustering namespace to increase code reuse between the different algorithms;
+  - Updating K-Means, GMM and BagOfWords to expose a ParallelOptions object that can
+    be used to configure and stop the parallelization of those algorithms;
+  - Updating K-Means to support sample weights;
+  - Correcting multiple random initializations of Gaussian mixture model;
+  - Adding a PriorityQueue class based on the MIT-licensed code by Daniel "BlueRaja" Pflughoeft.
+  - Adding Vantage-Point and Space-Partitioning trees and Barnes Hutt t-SNE based on the original
+    code from Laurens van der Maaten BH t-SNE implementation;
+  - Adding a basic implementation for the Apriori algorithm.
+
+* Imaging
+  - Updating static methods in AForge.NET's Image class to become extension methods;
+  - Implementing ICloneable in all corner and feature detectors.
+
+* Neuro
+  - Updating ResilientBackpropagation with the improvements from iRProp+.
+
+* Statistics
+  - Adding Non negative Least Squares regression;
+  - Adding Procrustes Analysis;
+  - Deprecating IAnalysis in favor of the new framelet for classification, 
+    regression and transformation methods;
+  - Merging AForge.NET and Accord.NET Histogram classes;
+  - Updating IFittingOptions to implement ICloneable;
+  - Adding constructors to Independent distributions accepting a lambda function
+    to initialize inner components instead of relying on cloning;
+  - Adding a Classes class to provide methods that operate with categorical/label data,
+    such as converting boolean, double or integer values to [0;1] or [-1; +1] indicators;
+  - Adding Decide methods to unambiguously transform a distance/score value into a boolean;
+  - Updating statistic distributions to implement the IRandomNumberGenerator interface, meaning 
+    any distribution can now be used as random number generator;
+  - Adding the Metropolis-Hasting sampler to generate samples from multivariate distributions 
+    that do not have specialized samplers;
+  - Adding named constructors for building regressions directly from coefficient vectors;
+  - Updating kernels to rely in Accord.Math.IDistance instead of the previous IDistance from 
+    the Statistics namespace;
+  - Adding Pearson's Universal Kernel, Thin Spline Plate and Hellinger kernels
+    contributed by Diego Catalano;
+  - Moving standard statistical measures (i.e. mean, standard deviation, variance, ...) to a
+    separate Measures class;
+  - Updating Mean methods to operate in the same way as Sum: if a dimension is not specified,
+    the Mean will be computed across all dimensions of the matrix;
+  - Updating Hidden Markov Models to use the new Tagger interfaces and base classes.
+
+* Genetics
+  - Updating the Genetics project to use the new sample generators based on statistical 
+    distributions;
+    
+
+    
+
 Accord.NET Framework 3.0.0 release notes
 -----------------------------------------
 16.08.2015.
@@ -1217,7 +1397,7 @@ Version updates and fixes:
   - Adding support for inclusive upper bounds in the Histogram class;
   - Adding more selection rules for the number and widths of Histogram bins;
   - Fixing Histogram computing when data is constant (Origo Issue #23);
-  - Renaming weighted sample methods from Statistics.Tools.
+  - Renaming weighted sample methods from Measures.
   
 * Accord.Imaging
   - Adding Speeded-Up Robust Features (SURF) detector and descriptor;

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -78,7 +78,7 @@ namespace Accord.Tests.MachineLearning
         public void ComputeTest5()
         {
             var dataset = SequentialMinimalOptimizationTest.yinyang;
-            var inputs = dataset.Submatrix(null, 0, 1).ToArray();
+            var inputs = dataset.Submatrix(null, 0, 1).ToJagged();
             var labels = dataset.GetColumn(2).ToInt32();
 
             var kernel = new Polynomial(2, 0);

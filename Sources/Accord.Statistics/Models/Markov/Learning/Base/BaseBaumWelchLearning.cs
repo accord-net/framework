@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@
 //    License along with this library; if not, write to the Free Software
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
+#pragma warning disable 612, 618
 
 namespace Accord.Statistics.Models.Markov.Learning
 {
@@ -50,6 +51,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <seealso cref="BaumWelchLearning"/>
     /// <seealso cref="BaumWelchLearning{T}"/>
     /// 
+    [Obsolete("This class will be removed")]
     public abstract class BaseBaumWelchLearning : IConvergenceLearning
     {
 
@@ -225,8 +227,8 @@ namespace Accord.Statistics.Models.Markov.Learning
 
             // Grab model information
             int states = model.States;
-            var logA = model.Transitions;
-            var logP = model.Probabilities;
+            var logA = model.LogTransitions;
+            var logP = model.LogInitial;
 
 
             // Initialize the algorithm
@@ -287,7 +289,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                             lnsum = Special.LogSum(lnsum, logGamma[t, k]);
                         }
 
-                        System.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
+                        Accord.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
 
                         // Normalize if different from zero
                         if (lnsum != Double.NegativeInfinity)
@@ -344,9 +346,9 @@ namespace Accord.Statistics.Models.Markov.Learning
                                 }
                             }
 
-                            logA[i, j] = (lnnum == lnden) ? 0 : lnnum - lnden;
+                            logA[i][j] = (lnnum == lnden) ? 0 : lnnum - lnden;
 
-                            System.Diagnostics.Debug.Assert(!Double.IsNaN(logA[i, j]));
+                            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logA[i][j]));
                         }
                     }
 

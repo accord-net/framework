@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -34,22 +34,6 @@ namespace Accord.Tests.Statistics
     public class LogisticRegressionTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ComputeTest()
         {
@@ -78,6 +62,7 @@ namespace Accord.Tests.Statistics
             {
                 0, 0, 0, 1, 1, 1, 0, 0, 0, 1
             };
+
 
 
             // To verify this hypothesis, we are going to create a logistic
@@ -187,14 +172,14 @@ namespace Accord.Tests.Statistics
 
 
             // Fit using extended data
-            double[][] inputs = Matrix.ColumnVector(inputExtended.GetColumn(0)).ToArray();
+            double[][] inputs = Matrix.ColumnVector(inputExtended.GetColumn(0)).ToJagged();
             double[] outputs = inputExtended.GetColumn(1);
             LogisticRegression target = new LogisticRegression(1);
             IterativeReweightedLeastSquares irls = new IterativeReweightedLeastSquares(target);
             irls.Run(inputs, outputs);
 
             // Fit using grouped data
-            double[][] inputs2 = Matrix.ColumnVector(inputGroupProb.GetColumn(0)).ToArray();
+            double[][] inputs2 = Matrix.ColumnVector(inputGroupProb.GetColumn(0)).ToJagged();
             double[] outputs2 = inputGroupProb.GetColumn(1);
             LogisticRegression target2 = new LogisticRegression(1);
             IterativeReweightedLeastSquares irls2 = new IterativeReweightedLeastSquares(target2);
@@ -220,7 +205,7 @@ namespace Accord.Tests.Statistics
             };
 
 
-            double[][] inputs3 = Matrix.ColumnVector(data.GetColumn(0)).ToArray();
+            double[][] inputs3 = Matrix.ColumnVector(data.GetColumn(0)).ToJagged();
             double[] outputs3 = data.GetColumn(1);
             LogisticRegressionAnalysis analysis = new LogisticRegressionAnalysis(inputs3, outputs3);
 
@@ -409,7 +394,7 @@ namespace Accord.Tests.Statistics
                 { 68, 0, 8.38, 1 },
             };
 
-            double[][] input = data.Submatrix(null, 0, 2).ToArray();
+            double[][] input = data.Submatrix(null, 0, 2).ToJagged();
             double[] output = data.GetColumn(3);
 
             LogisticRegression regression = new LogisticRegression(3);
@@ -435,10 +420,10 @@ namespace Accord.Tests.Statistics
             error /= output.Length;
 
             Assert.AreEqual(error, 0);
-            Assert.AreEqual(-355.59378247276379, regression.Coefficients[0]);
-            Assert.AreEqual(1.2646432605797491, regression.Coefficients[1]);
-            Assert.AreEqual(-10.710529810144157, regression.Coefficients[2]);
-            Assert.AreEqual(44.089493151268726, regression.Coefficients[3]);
+            Assert.AreEqual(-355.59378247276379, regression.Coefficients[0], 1e-7);
+            Assert.AreEqual(1.2646432605797491, regression.Coefficients[1], 1e-7);
+            Assert.AreEqual(-10.710529810144157, regression.Coefficients[2], 1e-7);
+            Assert.AreEqual(44.089493151268726, regression.Coefficients[3], 1e-7);
         }
 
         [Test]
@@ -448,7 +433,7 @@ namespace Accord.Tests.Statistics
 
             double[][] data = reader.ToTable().ToArray(System.Globalization.CultureInfo.InvariantCulture);
 
-            double[][] inputs = data.GetColumns(0, 1);
+            double[][] inputs = data.GetColumns(new[] { 0, 1 });
 
             double[] output = data.GetColumn(2);
 
@@ -465,9 +450,9 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(30.507262964894068, actual, 1e-8);
 
             Assert.AreEqual(3, regression.Coefficients.Length);
-            Assert.AreEqual(-0.38409721299838279, regression.Coefficients[0]);
-            Assert.AreEqual(0.1065137931017601, regression.Coefficients[1]);
-            Assert.AreEqual(17.275849279015059, regression.Coefficients[2]);
+            Assert.AreEqual(-0.38409721299838279, regression.Coefficients[0], 1e-10);
+            Assert.AreEqual(0.1065137931017601, regression.Coefficients[1], 1e-10);
+            Assert.AreEqual(17.275849279015059, regression.Coefficients[2], 1e-7);
 
             for (int i = 0; i < 50; i++)
                 newError = irls.Run(inputs, output);

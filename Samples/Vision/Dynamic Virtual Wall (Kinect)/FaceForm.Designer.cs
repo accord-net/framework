@@ -1,4 +1,4 @@
-﻿namespace KinectController
+﻿namespace SampleApp
 {
     partial class FaceForm
     {
@@ -107,15 +107,15 @@
             // 
             // faceController
             // 
-            this.faceController.DataBindings.Add(new System.Windows.Forms.Binding("XAxisMax", global::KinectController.Properties.Settings.Default, "face_xmax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.faceController.DataBindings.Add(new System.Windows.Forms.Binding("XAxisMin", global::KinectController.Properties.Settings.Default, "face_xmin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.faceController.DataBindings.Add(new System.Windows.Forms.Binding("YAxisMax", global::KinectController.Properties.Settings.Default, "face_ymax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.faceController.DataBindings.Add(new System.Windows.Forms.Binding("YAxisMin", global::KinectController.Properties.Settings.Default, "face_ymin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.faceController.DataBindings.Add(new System.Windows.Forms.Binding("XAxisMax", global::SampleApp.Properties.Settings.Default, "face_xmax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.faceController.DataBindings.Add(new System.Windows.Forms.Binding("XAxisMin", global::SampleApp.Properties.Settings.Default, "face_xmin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.faceController.DataBindings.Add(new System.Windows.Forms.Binding("YAxisMax", global::SampleApp.Properties.Settings.Default, "face_ymax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.faceController.DataBindings.Add(new System.Windows.Forms.Binding("YAxisMin", global::SampleApp.Properties.Settings.Default, "face_ymin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.faceController.SynchronizingObject = this;
-            this.faceController.XAxisMax = global::KinectController.Properties.Settings.Default.face_xmax;
-            this.faceController.XAxisMin = global::KinectController.Properties.Settings.Default.face_xmin;
-            this.faceController.YAxisMax = global::KinectController.Properties.Settings.Default.face_ymax;
-            this.faceController.YAxisMin = global::KinectController.Properties.Settings.Default.face_ymin;
+            this.faceController.XAxisMax = global::SampleApp.Properties.Settings.Default.face_xmax;
+            this.faceController.XAxisMin = global::SampleApp.Properties.Settings.Default.face_xmin;
+            this.faceController.YAxisMax = global::SampleApp.Properties.Settings.Default.face_ymax;
+            this.faceController.YAxisMin = global::SampleApp.Properties.Settings.Default.face_ymin;
             this.faceController.FaceMove += new System.EventHandler<Accord.Controls.Vision.FaceEventArgs>(this.controller_FaceMove);
             // 
             // pointBox1

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 // Copyright © Benjamin Jung, 2009
@@ -37,8 +37,8 @@ namespace Accord.Vision.Tracking
     using Accord.Imaging.Moments;
     using Accord.Statistics.Moving;
     using AForge;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
 
     /// <summary>
     ///   Modes for the Camshift Tracker.
@@ -372,7 +372,7 @@ namespace Accord.Vision.Tracking
             Bitmap bitmap;
 
             if (format == PixelFormat.Format8bppIndexed)
-                bitmap = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
+                bitmap = Accord.Imaging.Image.CreateGrayscaleImage(width, height);
             else
                 bitmap = new Bitmap(width, height, format);
 
@@ -655,7 +655,7 @@ namespace Accord.Vision.Tracking
                             rgb.Blue = (*(src + RGB.B));
 
                             // Transform into HSL
-                            AForge.Imaging.HSL.FromRGB(rgb, hsl);
+                            Accord.Imaging.HSL.FromRGB(rgb, hsl);
 
                             if ((hsl.Saturation >= hslSaturation.Min) && (hsl.Saturation <= hslSaturation.Max) &&
                                 (hsl.Luminance >= hslLuminance.Min) && (hsl.Luminance <= hslLuminance.Max))
@@ -681,7 +681,7 @@ namespace Accord.Vision.Tracking
                             rgb.Blue = (*(src + RGB.B));
 
                             // Transform into HSL
-                            AForge.Imaging.HSL.FromRGB(rgb, hsl);
+                            Accord.Imaging.HSL.FromRGB(rgb, hsl);
 
                             if ((hsl.Saturation >= hslSaturation.Min) && (hsl.Saturation <= hslSaturation.Max) &&
                                 (hsl.Luminance >= hslLuminance.Min) && (hsl.Luminance <= hslLuminance.Max))
@@ -745,7 +745,7 @@ namespace Accord.Vision.Tracking
                         rgb.Green = (*(src + RGB.G));
                         rgb.Blue = (*(src + RGB.B));
 
-                        AForge.Imaging.HSL.FromRGB(rgb, hsl);
+                        Accord.Imaging.HSL.FromRGB(rgb, hsl);
 
                         if ((hsl.Saturation >= hslSaturation.Min) && (hsl.Saturation <= hslSaturation.Max) &&
                             (hsl.Luminance >= hslLuminance.Min) && (hsl.Luminance <= hslLuminance.Max))
@@ -769,7 +769,7 @@ namespace Accord.Vision.Tracking
                         rgb.Green = (*(src + RGB.G));
                         rgb.Blue = (*(src + RGB.B));
 
-                        AForge.Imaging.HSL.FromRGB(rgb, hsl);
+                        Accord.Imaging.HSL.FromRGB(rgb, hsl);
 
                         if ((hsl.Saturation >= hslSaturation.Min) && (hsl.Saturation <= hslSaturation.Max) &&
                             (hsl.Luminance >= hslLuminance.Min) && (hsl.Luminance <= hslLuminance.Max))

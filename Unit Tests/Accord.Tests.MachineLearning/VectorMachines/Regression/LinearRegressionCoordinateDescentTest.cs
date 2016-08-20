@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -54,7 +54,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void RunTest()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             // Example regression problem. Suppose we are trying
             // to model the following equation: f(x, y) = 2x + y

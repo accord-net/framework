@@ -19,7 +19,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace DeepLearning.ViewModel
+namespace SampleApp.ViewModel
 {
     using System;
     using System.Collections.ObjectModel;
@@ -31,9 +31,8 @@ namespace DeepLearning.ViewModel
     using Accord.Neuro;
     using Accord.Neuro.Learning;
     using Accord.Statistics.Analysis;
-    using AForge.Neuro;
-    using AForge.Neuro.Learning;
-    using DeepLearning.Databases;
+    using SampleApp.Databases;
+    using Accord.Statistics;
 
     /// <summary>
     ///   View-Model for the Learning tab.
@@ -256,8 +255,7 @@ namespace DeepLearning.ViewModel
                 int batchCount = Math.Max(1, inputs.Length / BatchSize);
 
                 // Create mini-batches to speed learning
-                int[] groups = Accord.Statistics.Tools
-                    .RandomGroups(inputs.Length, batchCount);
+                int[] groups = Classes.Random(inputs.Length, batchCount);
                 double[][][] batches = inputs.Subgroups(groups);
 
                 // Gather learning data for the layer

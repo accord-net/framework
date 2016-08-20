@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Video.DirectShow
+namespace Accord.Video.DirectShow
 {
     using System;
     using System.Drawing;
@@ -14,8 +14,8 @@ namespace AForge.Video.DirectShow
     using System.Threading;
     using System.Runtime.InteropServices;
 
-    using AForge.Video;
-    using AForge.Video.DirectShow.Internals;
+    using Accord.Video;
+    using Accord.Video.DirectShow.Internals;
 
     /// <summary>
     /// Video source for video files.

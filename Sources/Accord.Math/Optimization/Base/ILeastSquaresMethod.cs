@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -118,5 +118,11 @@ namespace Accord.Math.Optimization
         /// 
         double[] StandardErrors { get; }
 
+        /// <summary>
+        ///   Gets the value at the solution found. This should be
+        ///   the minimum value found for the objective function.
+        /// </summary>
+        /// 
+        double Value { get; set; }
     }
 }

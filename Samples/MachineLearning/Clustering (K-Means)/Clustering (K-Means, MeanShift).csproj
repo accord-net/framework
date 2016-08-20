@@ -8,7 +8,7 @@
     <ProjectGuid>{8433F722-C197-4BCD-9E5D-08A6B2FAF23A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Clustering.K_Means</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Clustering %28K-Means%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

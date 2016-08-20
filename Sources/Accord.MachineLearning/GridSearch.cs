@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ namespace Accord.MachineLearning
     using System.Collections.ObjectModel;
     using System.Threading.Tasks;
     using Accord.Math;
+    using System.Threading;
 
     /// <summary>
     ///   Delegate for grid search fitting functions.
@@ -115,10 +116,32 @@ namespace Accord.MachineLearning
     /// </example>
     /// 
     [Serializable]
-    public class GridSearch<TModel> where TModel : class
+    public class GridSearch<TModel> : IParallel
+        // TODO: Inherit from ISupervisedLearning<TModel>
+        where TModel : class
     {
         private GridSearchRangeCollection ranges;
         private GridSearchFittingFunction<TModel> fitting;
+        private ParallelOptions parallelOptions = new ParallelOptions();
+
+        /// <summary>
+        /// Gets or sets the parallelization options for this algorithm.
+        /// </summary>
+        public ParallelOptions ParallelOptions
+        {
+            get { return parallelOptions; }
+            set { parallelOptions = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used
+        /// to cancel the algorithm while it is running.
+        /// </summary>
+        public CancellationToken Token
+        {
+            get { return parallelOptions.CancellationToken; }
+            set { parallelOptions.CancellationToken = value; }
+        }
 
         /// <summary>
         ///   Constructs a new Grid search algorithm.
@@ -182,7 +205,7 @@ namespace Accord.MachineLearning
 
 
             // Generate the Cartesian product between all parameters
-            GridSearchParameter[][] grid = Matrix.CartesianProduct(values);
+            GridSearchParameter[][] grid = Matrix.Cartesian(values);
 
 
             // Initialize the search
@@ -192,7 +215,7 @@ namespace Accord.MachineLearning
             var msgs = new string[grid.Length];
 
             // Search the grid for the optimal parameters
-            Parallel.For(0, grid.Length, i =>
+            Parallel.For(0, grid.Length, parallelOptions, i =>
             {
                 // Get the current parameters for the current point
                 parameters[i] = new GridSearchParameterCollection(grid[i]);

@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Video.DirectShow
+namespace Accord.Video.DirectShow
 {
     using System;
 

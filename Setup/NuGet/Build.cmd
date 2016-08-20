@@ -26,6 +26,6 @@ forfiles /p %output% /m *.nupkg /c "cmd /c del @file"
 echo.
 echo Creating packages...
 
-forfiles /m *.nuspec /c "cmd /c nuget.exe pack @File -Symbols -Version %version% -OutputDirectory %output%"
+forfiles /m *.nuspec /c "cmd /c nuget.exe pack @File -Version %version% -OutputDirectory %output%"
 
 :eof

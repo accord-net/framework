@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,50 +26,43 @@ namespace Accord.Math.Random
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
 
-    // TODO: Make this class public, search solution for
-    //
-    //    SetupGenerator
-    //
-    // and replace by 
-    //
-    //    Accord.Math.Random.Generator.Seed = value
-    //
-    internal static class Generator
+    /// <summary>
+    ///   Framework-wide random number generator. If you would like
+    ///   to always generate the same results when using the framework,
+    ///   set the <see cref="Seed"/> property of this class to a fixed
+    ///   value.
+    /// </summary>
+    /// 
+    public static class Generator
     {
 
+        // Random generator used to seed other generators. It is used
+        // to prevent generators that have been created in short spans
+        // to be initialized with the same seed.
+        private static Random source = new Random();
+        private static readonly object sourceLock = new Object();
+
         private static int? seed;
+        private static readonly object seedLock = new Object();
 
 
-#if !NET35 && !NET40
-        private static readonly ThreadLocal<Random> random;
-
-        // This static constructor is being used to address an issue with the Mono runtime. 
-        // The problem is that the runtime currently does not implement the "trackAllValues"
-        // overload for ThreadLocal, even if the API offers such constructor. The following
-        // CA suppression rule could be removed once Mono adds support for it.
-        //
-        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline")]
-        static Generator()
-        {
-            try
-            {
-                random = new ThreadLocal<Random>(create, true);
-            }
-            catch (NotImplementedException)
-            {
-                // Deal with a temporary shortcoming when targeting Mono runtime.
-                random = new ThreadLocal<Random>(create);
-            }
-        }
-#else
         private static readonly ThreadLocal<Random> random = new ThreadLocal<Random>(create);
-#endif
+
 
         private static Random create()
         {
-            if (seed.HasValue)
-                return new Random(seed.Value);
-            return new Random();
+            // We initialize new Random objects using the next value from a global 
+            // static shared random generator in order to avoid creating many random 
+            // objects with the random seed. This guarantees reproducibility but does
+            // not compromise the effectiveness of parallel methods that depends on 
+            // the generation of true random sequences with different values.
+
+            lock (sourceLock)
+            {
+                if (source == null)
+                    return new Random(0);
+                return new Random(source.Next());
+            }
         }
 
         /// <summary>
@@ -82,24 +75,41 @@ namespace Accord.Math.Random
         /// <summary>
         ///   Sets a random seed for the framework's main <see cref="Random">internal 
         ///   number generator</see>. Preferably, this method should be called <b>before</b>
-        ///   other computations.
+        ///   other computations. If set to zero, all generators will start with the same
+        ///   fixed seed, <b>even among multiple threads</b>. If set to any other value,
+        ///   the generators in other threads will start with fixed, but different, seeds.
         /// </summary>
         /// 
         public static int? Seed
         {
-            get { return seed; }
+            get { return Generator.seed; }
             set
             {
-                Accord.Math.Random.Generator.seed = value;
-
-#if !NET35 && !NET40
-                lock (random)
+                lock (seedLock)
                 {
-                    for (int i = 0; i < random.Values.Count; i++)
-                        random.Values[i] = create();
+                    Generator.seed = value;
+
+                    lock (sourceLock)
+                    {
+                        if (Generator.seed.HasValue)
+                        {
+                            if (Generator.seed.Value == 0)
+                            {
+                                Generator.source = null;
+                            }
+                            else
+                            {
+                                Generator.source = new Random(Generator.seed.Value);
+                            }
+                        }
+                        else
+                        {
+                            Generator.source = new Random();
+                        }
+                    }
+
+                    Generator.random.Value = create();
                 }
-#endif
-                Accord.Math.Random.Generator.random.Value = create();
             }
         }
 

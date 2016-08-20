@@ -34,18 +34,28 @@
     <Optimize>false</Optimize>
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <NoWarn>0612, 0618</NoWarn>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net35\</OutputPath>
     <DefineConstants>TRACE;NET35</DefineConstants>
+    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net40\</OutputPath>
     <DefineConstants>TRACE;NET40</DefineConstants>
+    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET45|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net45\</OutputPath>
     <DefineConstants>TRACE;NET45</DefineConstants>
+    <NoWarn>0612, 0618</NoWarn>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
@@ -83,11 +93,11 @@
     <Compile Include="AForge\Matrix3x3Test.cs" />
     <Compile Include="AForge\Matrix4x4Test.cs" />
     <Compile Include="AForge\Metrics\MetricsTest.cs" />
-    <Compile Include="AForge\StatisticsTest.cs" />
     <Compile Include="AForge\ToolsTest.cs" />
     <Compile Include="AForge\Vector3Test.cs" />
     <Compile Include="Collections\RedBlackTreeDictionaryTest.cs" />
     <Compile Include="Collections\RedBlackTreeTest.cs" />
+    <Compile Include="Decompositions\JaggedCholeskyDecompositionTest.cs" />
     <Compile Include="Decompositions\JaggedEigenvalueDecompositionTest.cs" />
     <Compile Include="Decompositions\JaggedQrDecompositionTest.cs" />
     <Compile Include="Functions\OwensTTest.cs" />
@@ -102,6 +112,7 @@
     <Compile Include="CombinatoricsTest.cs" />
     <Compile Include="Decompositions\JaggedSingularValueDecompositionTest.cs" />
     <Compile Include="IO\MatReaderTest.cs" />
+    <Compile Include="Matrix\Matrix.Selection.cs" />
     <Compile Include="Matrix\Matrix.Construction.cs" />
     <Compile Include="Matrix\Matrix.Common.cs" />
     <Compile Include="Matrix\VectorTest.cs" />
@@ -166,9 +177,21 @@
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.IO\Accord.IO.csproj">
+      <Project>{63184ebd-6b28-4066-aaee-5b99431e31f4}</Project>
+      <Name>Accord.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
       <Name>Accord.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Statistics\Accord.Statistics.csproj">
+      <Project>{fd8101dd-c95d-42d6-ad44-ae01c25f2811}</Project>
+      <Name>Accord.Statistics</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +246,7 @@
     <None Include="Resources\mat\uint32.mat" />
     <None Include="Resources\mat\uint64.mat" />
     <None Include="Resources\mat\uint8.mat" />
+    <None Include="Resources\pseudoInverse1.csv" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

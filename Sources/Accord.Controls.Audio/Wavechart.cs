@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -264,14 +264,14 @@ namespace Accord.Controls
                     else
                     {
                         int xPrev = 0;
-                        int yPrev = (int)rangeY.Scale(rangeClientY, data[0]);
+                        int yPrev = (int)Vector.Scale(data[0], rangeY, rangeClientY);
 
                         for (int x = 0; x < clientWidth; x++)
                         {
-                            int index = (int)rangeClientX.Scale(rangeX, x);
+                            int index = (int)Vector.Scale(x, rangeClientX, rangeX);
                             if (index < 0 || index >= data.Length)
                                 index = data.Length - 1;
-                            int y = (int)rangeY.Scale(rangeClientY, data[index]);
+                            int y = (int)Vector.Scale(data[index], rangeY, rangeClientY);
 
                             g.DrawLine(pen, xPrev, yPrev, x, y);
 

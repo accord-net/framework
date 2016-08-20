@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,6 +22,8 @@
 
 namespace Accord.Statistics.Models.Fields
 {
+    using Accord.Math;
+    using Accord.MachineLearning;
     using Accord.Statistics.Models.Fields.Functions;
     using System;
     using System.IO;
@@ -40,9 +42,9 @@ namespace Accord.Statistics.Models.Fields
     /// </remarks>
     /// 
     [Serializable]
-    public class ConditionalRandomField<T> : ICloneable
+    public class ConditionalRandomField<T> : TaggerBase<T>
     {
-        
+
         /// <summary>
         ///   Gets the number of states in this
         ///   linear-chain Conditional Random Field.
@@ -95,7 +97,7 @@ namespace Accord.Statistics.Models.Fields
 
         /// <summary>
         ///   Computes the log-likelihood of the model for the given observations.
-        ///   This method is equivalent to the <see cref="Accord.Statistics.Models.Markov.HiddenMarkovModel.Evaluate(int[], int[])"/>
+        ///   This method is equivalent to the <see cref="Accord.Statistics.Models.Markov.HiddenMarkovModel{TDistribution, TObservation}.LogLikelihood(TObservation[], int[])"/>
         ///   method.
         /// </summary>
         /// 
@@ -116,11 +118,11 @@ namespace Accord.Statistics.Models.Fields
             if (double.IsInfinity(z))
                 return 0;
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(p));
-            System.Diagnostics.Debug.Assert(!Double.IsInfinity(p));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(p));
+            Accord.Diagnostics.Debug.Assert(!Double.IsInfinity(p));
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(z));
-            System.Diagnostics.Debug.Assert(!Double.IsInfinity(z));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(z));
+            Accord.Diagnostics.Debug.Assert(!Double.IsInfinity(z));
 
             return p - z;
         }
@@ -217,13 +219,15 @@ namespace Accord.Statistics.Models.Fields
             for (int i = 0; i < observations.Length; i++)
                 logLikelihood += LogLikelihood(observations[i], labels[i]);
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
-            System.Diagnostics.Debug.Assert(!Double.IsInfinity(logLikelihood));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
+            Accord.Diagnostics.Debug.Assert(!Double.IsInfinity(logLikelihood));
 
             return logLikelihood;
         }
 
 
+
+#pragma warning disable 612, 618
 
         /// <summary>
         ///   Saves the random field to a stream.
@@ -231,6 +235,7 @@ namespace Accord.Statistics.Models.Fields
         /// 
         /// <param name="stream">The stream to which the random field is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.Serializer instead.")]
         public void Save(Stream stream)
         {
             BinaryFormatter b = new BinaryFormatter();
@@ -243,6 +248,7 @@ namespace Accord.Statistics.Models.Fields
         /// 
         /// <param name="path">The stream to which the random field is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.Serializer instead.")]
         public void Save(string path)
         {
             Save(new FileStream(path, FileMode.Create));
@@ -256,6 +262,7 @@ namespace Accord.Statistics.Models.Fields
         /// 
         /// <returns>The deserialized random field.</returns>
         /// 
+        [Obsolete("Please use Accord.Serializer instead.")]
         public static ConditionalRandomField<T> Load(Stream stream)
         {
             BinaryFormatter b = new BinaryFormatter();
@@ -270,10 +277,13 @@ namespace Accord.Statistics.Models.Fields
         /// 
         /// <returns>The deserialized random field.</returns>
         /// 
+        [Obsolete("Please use Accord.Serializer instead.")]
         public static ConditionalRandomField<T> Load(string path)
         {
             return Load(new FileStream(path, FileMode.Open));
         }
+#pragma warning restore 612, 618
+
 
         #region ICloneable Members
 
@@ -291,6 +301,25 @@ namespace Accord.Statistics.Models.Fields
         }
 
         #endregion
+
+
+        /// <summary>
+        /// Computes class-label decisions for the given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vectors that should be classified as
+        /// any of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <param name="result">The location where to store the class-labels.</param>
+        /// <returns>
+        /// A set of class-labels that best describe the <paramref name="input" />
+        /// vectors according to this classifier.
+        /// </returns>
+        public override int[][] Decide(T[][] input, int[][] result)
+        {
+            double logLikelihood;
+            for (int i = 0; i < input.Length; i++)
+                Compute(input[i], out logLikelihood).CopyTo(result[i]);
+            return result;
+        }
     }
 
 }

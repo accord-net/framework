@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,30 +23,19 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Math;
+    using Accord.Statistics;
     using Accord.Statistics.Analysis;
+    using Accord.Statistics.Analysis.ContrastFunctions;
+    using Accord.Tests.Statistics.Properties;
     using NUnit.Framework;
+    using System.Globalization;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
+    using System.Text.RegularExpressions;
 
     [TestFixture]
     public class IndependentComponentAnalysisTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ComputeTest()
@@ -74,7 +63,7 @@ namespace Accord.Tests.Statistics
             // Now, we can use ICA to identify any linear mixing between the variables, such
             // as the matrix multiplication we did above. After it has identified it, we will
             // be able to revert the process, retrieving our original samples again
-            
+
             // Create a new Independent Component Analysis
             var ica = new IndependentComponentAnalysis(input);
 
@@ -87,15 +76,14 @@ namespace Accord.Tests.Statistics
             // used to alter the data. Note that the analysis was able to detect
             // this information automatically:
 
-            double[,] mixingMatrix = ica.MixingMatrix; // same as the 'mix' matrix
-            double[,] revertMatrix = ica.DemixingMatrix; // inverse of the 'mix' matrix
+            double[][] mixingMatrix = ica.MixingMatrix; // same as the 'mix' matrix
+            double[][] revertMatrix = ica.DemixingMatrix; // inverse of the 'mix' matrix
 
             double[,] result = ica.Result;
 
             // Verify mixing matrix
-            mixingMatrix = mixingMatrix.Divide(mixingMatrix.Sum().Sum());
-            Assert.IsTrue(mix.IsEqual(mixingMatrix, 0.008));
-
+            mixingMatrix = mixingMatrix.Divide(mixingMatrix.Sum());
+            Assert.IsTrue(mix.IsEqual(mixingMatrix, atol: 0.008));
 
             // Verify demixing matrix
             double[,] expected =
@@ -104,8 +92,8 @@ namespace Accord.Tests.Statistics
                 { 0.25,  0.25 },
             };
 
-            revertMatrix = revertMatrix.Divide(revertMatrix.Sum().Sum());
-            Assert.IsTrue(expected.IsEqual(revertMatrix, 0.008));
+            revertMatrix = revertMatrix.Divide(revertMatrix.Sum());
+            Assert.IsTrue(expected.IsEqual(revertMatrix, atol: 0.008));
         }
 
         [Test]
@@ -137,7 +125,7 @@ namespace Accord.Tests.Statistics
 
             // Verify mixing matrix
             mixingMatrix = mixingMatrix.Divide(Norm.Norm1(mixingMatrix));
-            Assert.IsTrue(A.IsEqual(mixingMatrix, 0.05));
+            Assert.IsTrue(A.IsEqual(mixingMatrix, atol: 0.05));
 
 
             // Verify demixing matrix
@@ -150,14 +138,14 @@ namespace Accord.Tests.Statistics
             expected = expected.Divide(Norm.Norm1(expected));
 
             revertMatrix = revertMatrix.Divide(Norm.Norm1(revertMatrix));
-            Assert.IsTrue(expected.IsEqual(revertMatrix, 0.05));
+            Assert.IsTrue(expected.IsEqual(revertMatrix, atol: 0.05));
 
 
 
             var reverted = Accord.Statistics.Tools.ZScores(result).Abs();
             var original = Accord.Statistics.Tools.ZScores(S).Abs();
 
-            Assert.IsTrue(reverted.IsEqual(original, 0.1));
+            Assert.IsTrue(reverted.IsEqual(original, atol: 0.1));
         }
 
         [Test]
@@ -173,9 +161,9 @@ namespace Accord.Tests.Statistics
                 { -0.25, 0.75 },    
             };
 
-            double[,] X = S.Multiply(A);
+            double[,] X = Matrix.Multiply(S, A);
 
-            IndependentComponentAnalysis ica = new IndependentComponentAnalysis(X);
+            var ica = new IndependentComponentAnalysis(X);
 
 
             ica.Compute(2);
@@ -201,7 +189,7 @@ namespace Accord.Tests.Statistics
 
             double[,] X = S.Multiply(A);
 
-            IndependentComponentAnalysis ica = new IndependentComponentAnalysis(X);
+            var ica = new IndependentComponentAnalysis(X);
 
 
             ica.Compute(2);
@@ -210,14 +198,17 @@ namespace Accord.Tests.Statistics
 
             var expected = Accord.Statistics.Tools.ZScores(X);
             var actual = Accord.Statistics.Tools.ZScores(ica.Combine(result));
+            Assert.IsTrue(expected.IsEqual(actual, 1e-4));
 
+            expected = X;
+            actual = ica.Combine(result);
             Assert.IsTrue(expected.IsEqual(actual, 1e-4));
         }
 
         [Test]
         public void CombineTest2()
         {
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             double[,] S = Matrix.Random(5000, 2);
 
@@ -227,19 +218,19 @@ namespace Accord.Tests.Statistics
                 { -0.25, 0.75 },    
             };
 
-            double[,] X = S.Multiply(A);
+            double[,] X = Matrix.Multiply(S, A);
 
-            IndependentComponentAnalysis ica = new IndependentComponentAnalysis(X);
+            var ica = new IndependentComponentAnalysis(X);
 
             ica.Compute(2);
 
             double[,] result = ica.Result;
 
 
-            float[][] expected = ica.Combine(result).ToSingle().ToArray(true);
-            float[][] actual = ica.Combine(result.ToSingle().ToArray(true));
+            float[][] expected = ica.Combine(result).ToSingle().ToJagged(true);
+            float[][] actual = ica.Combine(result.ToSingle().ToJagged(true));
 
-            Assert.IsTrue(expected.IsEqual(actual, 1e-4f));
+            Assert.IsTrue(expected.IsEqual(actual, atol: 1e-4f));
         }
 
         [Test]
@@ -257,13 +248,13 @@ namespace Accord.Tests.Statistics
 
             double[,] X = S.Multiply(A);
 
-            IndependentComponentAnalysis ica = new IndependentComponentAnalysis(X);
+            var ica = new IndependentComponentAnalysis(X);
 
 
             ica.Compute(2);
 
-            var expected = ica.Result.ToSingle().ToArray(true);
-            var actual = ica.Separate(X.ToSingle().ToArray(true));
+            var expected = ica.Result.ToSingle().ToJagged(true);
+            var actual = ica.Separate(X.ToSingle().ToJagged(true));
 
             Assert.IsTrue(expected.IsEqual(actual, 1e-4f));
         }
@@ -304,13 +295,13 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(IndependentComponentAlgorithm.Parallel, ica.Algorithm);
 
-            double[,] mixingMatrix = ica.MixingMatrix; // same as the 'mix' matrix
-            double[,] revertMatrix = ica.DemixingMatrix; // inverse of the 'mix' matrix
+            double[][] mixingMatrix = ica.MixingMatrix; // same as the 'mix' matrix
+            double[][] revertMatrix = ica.DemixingMatrix; // inverse of the 'mix' matrix
 
             double[,] result = ica.Result;
 
-            mixingMatrix = mixingMatrix.Divide(mixingMatrix.Sum().Sum());
-            Assert.IsTrue(mix.IsEqual(mixingMatrix, 0.008));
+            mixingMatrix = mixingMatrix.Divide(mixingMatrix.Sum());
+            Assert.IsTrue(mix.IsEqual(mixingMatrix, atol: 0.008));
 
             double[,] expected =
             {
@@ -318,10 +309,52 @@ namespace Accord.Tests.Statistics
                 { 0.25,  0.25 },
             };
 
-            revertMatrix = revertMatrix.Divide(revertMatrix.Sum().Sum());
-            Assert.IsTrue(expected.IsEqual(revertMatrix, 0.008));
+            revertMatrix = revertMatrix.Divide(revertMatrix.Sum());
+            Assert.IsTrue(expected.IsEqual(revertMatrix, atol: 0.008));
+        }
 
+        [Test]
+        public void ConvergenceTest()
+        {
+            IndependentComponentAnalysis ica;
 
+            // https://github.com/accord-net/framework/issues/225
+            var mixedData = LoadData();
+
+            ica = new IndependentComponentAnalysis(mixedData, AnalysisMethod.Standardize);
+            ica.Overwrite = false;
+            ica.Iterations = 1000;
+            ica.Algorithm = IndependentComponentAlgorithm.Parallel;
+            ica.Contrast = new Kurtosis();
+
+            ica.Compute();
+
+            Assert.AreEqual(3.2178976535060348, ica.WhiteningMatrix.Sum());
+            Assert.AreEqual(1, ica.MixingMatrix.Sum(), 1e-7);
+        }
+
+        private static double[,] LoadData()
+        {
+            int counter = 0;
+            int nchans = 24;
+            int nsamps = 20001;
+            double[,] data = new double[nsamps, nchans];
+            using (StreamReader reader = new StreamReader(new MemoryStream(Resources.ica_data)))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    Regex r = new Regex("\\s+");
+                    var nums = r.Split(line);
+                    for (int i = 1; i < nums.Length; i++)
+                    {
+                        data[i - 1, counter] = double.Parse(nums[i], NumberStyles.Float | NumberStyles.AllowTrailingSign | NumberStyles.AllowThousands);
+                    }
+                    ++counter;
+                }
+            }
+
+            return data;
         }
 
     }

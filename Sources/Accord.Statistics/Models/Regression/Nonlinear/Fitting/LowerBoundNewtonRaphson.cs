@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
     using System;
     using Accord.Math;
     using Accord.Math.Decompositions;
+    using Accord.MachineLearning;
+    using System.Threading;
 
     /// <summary>
     ///   Lower-Bound Newton-Raphson for Multinomial logistic regression fitting.
@@ -82,7 +84,13 @@ namespace Accord.Statistics.Models.Regression.Fitting
     ///   </code>
     /// </example>
     ///
-    public class LowerBoundNewtonRaphson : IMultipleRegressionFitting
+#pragma warning disable 612, 618
+    public class LowerBoundNewtonRaphson :
+        ISupervisedLearning<MultinomialLogisticRegression, double[], int>,
+        ISupervisedLearning<MultinomialLogisticRegression, double[], int[]>,
+        ISupervisedLearning<MultinomialLogisticRegression, double[], double[]>,
+        IMultipleRegressionFitting, IConvergenceLearning
+#pragma warning restore 612, 618
     {
 
         private MultinomialLogisticRegression regression;
@@ -108,6 +116,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         private bool updateLowerBound = true;
         private ISolverMatrixDecomposition<double> decomposition = null;
 
+        private RelativeParameterConvergence convergence;
 
         /// <summary>
         ///   Gets the previous values for the coefficients which were
@@ -184,8 +193,35 @@ namespace Accord.Statistics.Models.Regression.Fitting
             set { computeStandardErrors = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the maximum number of iterations
+        /// performed by the learning algorithm.
+        /// </summary>
+        public int Iterations
+        {
+            get { return convergence.Iterations; }
+            set { convergence.Iterations = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the tolerance value used to determine
+        /// whether the algorithm has converged.
+        /// </summary>
+        public double Tolerance
+        {
+            get { return convergence.Tolerance; }
+            set { convergence.Tolerance = value; }
+        }
 
 
+        /// <summary>
+        ///   Creates a new <see cref="LowerBoundNewtonRaphson"/>.
+        /// </summary>
+        /// 
+        public LowerBoundNewtonRaphson()
+        {
+            convergence = new RelativeParameterConvergence();
+        }
 
         /// <summary>
         ///   Creates a new <see cref="LowerBoundNewtonRaphson"/>.
@@ -193,14 +229,20 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// <param name="regression">The regression to estimate.</param>
         /// 
         public LowerBoundNewtonRaphson(MultinomialLogisticRegression regression)
+            : this()
+        {
+            init(regression);
+        }
+
+        private void init(MultinomialLogisticRegression regression)
         {
             this.regression = regression;
 
-            K = regression.Categories - 1;
-            M = regression.Inputs + 1;
+            K = regression.NumberOfOutputs - 1;
+            M = regression.NumberOfInputs + 1;
             parameterCount = K * M;
 
-            solution = regression.Coefficients.Reshape(1);
+            solution = regression.Coefficients.Reshape();
 
             xxt = new double[M, M];
             errors = new double[K];
@@ -224,9 +266,14 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// <param name="classes">The outputs associated with each input vector.</param>
         /// <returns>The maximum relative change in the parameters after the iteration.</returns>
         /// 
+        [Obsolete("Please use the Learn() method instead.")]
         public double Run(double[][] inputs, int[] classes)
         {
-            return run(inputs, Statistics.Tools.Expand(classes));
+            int old = Iterations;
+            Iterations = 1;
+            Learn(inputs, classes);
+            Iterations = old;
+            return deltas.Max();
         }
 
         /// <summary>
@@ -236,177 +283,16 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// <param name="outputs">The outputs associated with each input vector.</param>
         /// <returns>The maximum relative change in the parameters after the iteration.</returns>
         /// 
+        [Obsolete("Please use the Learn() method instead.")]
         public double Run(double[][] inputs, double[][] outputs)
         {
-            return run(inputs, outputs);
+            int old = Iterations;
+            Iterations = 1;
+            Learn(inputs, outputs);
+            Iterations = old;
+            return deltas.Max();
         }
 
-
-        private double run(double[][] inputs, double[][] outputs)
-        {
-            // Regress using Lower-Bound Newton-Raphson estimation
-            //
-            // The main idea is to replace the Hessian matrix with a 
-            //   suitable lower bound. Indeed, the Hessian is lower
-            //   bounded by a negative definite matrix that does not
-            //   even depend on w [Krishnapuram et al].
-            //
-            //   - http://www.lx.it.pt/~mtf/Krishnapuram_Carin_Figueiredo_Hartemink_2005.pdf
-            //
-
-
-            // Initial definitions and memory allocations
-            int N = inputs.Length;
-
-            double[][] design = new double[N][];
-            double[][] coefficients = this.regression.Coefficients;
-
-            // Compute the regression matrix
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                double[] row = design[i] = new double[M];
-
-                row[0] = 1; // for intercept
-                for (int j = 0; j < inputs[i].Length; j++)
-                    row[j + 1] = inputs[i][j];
-            }
-
-
-            // Reset Hessian matrix and gradient
-            for (int i = 0; i < gradient.Length; i++)
-                gradient[i] = 0;
-
-            if (UpdateLowerBound)
-            {
-                for (int i = 0; i < gradient.Length; i++)
-                    for (int j = 0; j < gradient.Length; j++)
-                        lowerBound[i, j] = 0;
-            }
-
-            // In the multinomial logistic regression, the objective
-            // function is the log-likelihood function l(w). As given
-            // by Krishnapuram et al and Böhning, this is a concave 
-            // function with Hessian given by:
-            //
-            //       H(w) = -sum(P(w) - p(w)p(w)')  (x)  xx'
-            //      (see referenced paper for proper indices)
-            //       
-            // In which (x) denotes the Kronecker product. By using
-            // the lower bound principle, Krishnapuram has shown that
-            // we can replace H(w) with a lower bound approximation B
-            // which does not depend on w (eq. 8 on aforementioned paper):
-            // 
-            //      B = -(1/2) [I - 11/M]  (x)  sum(xx')
-            //
-            // Thus we can compute and invert this matrix only once.
-            //
-
-
-            // For each input sample in the dataset
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                // Grab variables related to the sample
-                double[] x = design[i];
-                double[] y = outputs[i];
-
-                // Compute and estimate outputs
-                this.compute(inputs[i], output);
-
-                // Compute errors for the sample
-                for (int j = 0; j < errors.Length; j++)
-                    errors[j] = y[j + 1] - output[j];
-
-
-                // Compute current gradient and Hessian
-                //   We can take advantage of the block structure of the 
-                //   Hessian matrix and gradient vector by employing the
-                //   Kronecker product. See [Böhning, 1992]
-
-                // (Re-) Compute error gradient
-                double[] g = Matrix.KroneckerProduct(errors, x);
-                for (int j = 0; j < g.Length; j++)
-                    gradient[j] += g[j];
-
-                if (UpdateLowerBound)
-                {
-                    // Compute xxt matrix
-                    for (int k = 0; k < x.Length; k++)
-                        for (int j = 0; j < x.Length; j++)
-                            xxt[k, j] = x[k] * x[j];
-
-                    // (Re-) Compute weighted "Hessian" matrix 
-                    double[,] h = Matrix.KroneckerProduct(weights, xxt);
-                    for (int j = 0; j < parameterCount; j++)
-                        for (int k = 0; k < parameterCount; k++)
-                            lowerBound[j, k] += h[j, k];
-                }
-            }
-
-
-            if (UpdateLowerBound)
-            {
-                UpdateLowerBound = false;
-
-                // Decompose to solve the linear system. Usually the Hessian will
-                // be invertible and LU will succeed. However, sometimes the Hessian
-                // may be singular and a Singular Value Decomposition may be needed.
-
-                // The SVD is very stable, but is quite expensive, being on average
-                // about 10-15 times more expensive than LU decomposition. There are
-                // other ways to avoid a singular Hessian. For a very interesting 
-                // reading on the subject, please see:
-                //
-                //  - Jeff Gill & Gary King, "What to Do When Your Hessian Is Not Invertible",
-                //    Sociological Methods & Research, Vol 33, No. 1, August 2004, 54-87.
-                //    Available in: http://gking.harvard.edu/files/help.pdf
-                //
-
-                // Moreover, the computation of the inverse is optional, as it will
-                // be used only to compute the standard errors of the regression.
-
-
-                // Hessian Matrix is singular, try pseudo-inverse solution
-                decomposition = new SingularValueDecomposition(lowerBound);
-                deltas = decomposition.Solve(gradient);
-            }
-            else
-            {
-                deltas = decomposition.Solve(gradient);
-            }
-
-
-            previous = coefficients.Reshape(1);
-
-            // Update coefficients using the calculated deltas
-            for (int i = 0, k = 0; i < coefficients.Length; i++)
-                for (int j = 0; j < coefficients[i].Length; j++)
-                    coefficients[i][j] -= deltas[k++];
-
-            solution = coefficients.Reshape(1);
-
-
-            if (computeStandardErrors)
-            {
-                // Grab the regression information matrix
-                double[,] inverse = decomposition.Inverse();
-
-                // Calculate coefficients' standard errors
-                double[][] standardErrors = regression.StandardErrors;
-                for (int i = 0, k = 0; i < standardErrors.Length; i++)
-                    for (int j = 0; j < standardErrors[i].Length; j++, k++)
-                        standardErrors[i][j] = Math.Sqrt(Math.Abs(inverse[k, k]));
-            }
-
-
-
-            // Return the relative maximum parameter change
-            for (int i = 0; i < deltas.Length; i++)
-                deltas[i] = Math.Abs(deltas[i]) / Math.Abs(previous[i]);
-
-            double max = Matrix.Max(deltas);
-
-            return max;
-        }
 
 
         private void compute(double[] x, double[] responses)
@@ -435,5 +321,200 @@ namespace Accord.Statistics.Models.Regression.Fitting
         }
 
 
+
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        public CancellationToken Token { get; set; }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public MultinomialLogisticRegression Learn(double[][] x, int[] y, double[] weights = null)
+        {
+            return Learn(x, Jagged.OneHot(y), weights);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public MultinomialLogisticRegression Learn(double[][] x, int[][] y, double[] weights = null)
+        {
+            return Learn(x, y.ToDouble(), weights);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public MultinomialLogisticRegression Learn(double[][] x, double[][] y, double[] weights = null)
+        {
+            // Regress using Lower-Bound Newton-Raphson estimation
+            //
+            // The main idea is to replace the Hessian matrix with a 
+            //   suitable lower bound. Indeed, the Hessian is lower
+            //   bounded by a negative definite matrix that does not
+            //   even depend on w [Krishnapuram et al].
+            //
+            //   - http://www.lx.it.pt/~mtf/Krishnapuram_Carin_Figueiredo_Hartemink_2005.pdf
+            //
+
+
+            // Initial definitions and memory allocations
+            int N = x.Length;
+
+            double[][] design = x.InsertColumn(value: 1, index: 0);
+            double[][] coefficients = this.regression.Coefficients;
+
+            // Reset Hessian matrix and gradient
+            Array.Clear(gradient, 0, gradient.Length);
+
+            if (UpdateLowerBound)
+                Array.Clear(lowerBound, 0, lowerBound.Length);
+
+            // In the multinomial logistic regression, the objective
+            // function is the log-likelihood function l(w). As given
+            // by Krishnapuram et al and Böhning, this is a concave 
+            // function with Hessian given by:
+            //
+            //       H(w) = -sum(P(w) - p(w)p(w)')  (x)  xx'
+            //      (see referenced paper for proper indices)
+            //       
+            // In which (x) denotes the Kronecker product. By using
+            // the lower bound principle, Krishnapuram has shown that
+            // we can replace H(w) with a lower bound approximation B
+            // which does not depend on w (eq. 8 on aforementioned paper):
+            // 
+            //      B = -(1/2) [I - 11/M]  (x)  sum(xx')
+            //
+            // Thus we can compute and invert this matrix only once.
+            //
+
+            do
+            {
+                // For each input sample in the dataset
+                for (int i = 0; i < x.Length; i++)
+                {
+                    // Grab variables related to the sample
+                    double[] rx = design[i];
+                    double[] ry = y[i];
+
+                    // Compute and estimate outputs
+                    this.compute(x[i], output);
+
+                    // Compute errors for the sample
+                    for (int j = 0; j < errors.Length; j++)
+                        errors[j] = ry[j + 1] - output[j];
+
+
+                    // Compute current gradient and Hessian
+                    //   We can take advantage of the block structure of the 
+                    //   Hessian matrix and gradient vector by employing the
+                    //   Kronecker product. See [Böhning, 1992]
+
+                    // (Re-) Compute error gradient
+                    double[] g = Matrix.Kronecker(errors, rx);
+                    for (int j = 0; j < g.Length; j++)
+                        gradient[j] += g[j];
+
+                    if (UpdateLowerBound)
+                    {
+                        // Compute xxt matrix
+                        for (int k = 0; k < rx.Length; k++)
+                            for (int j = 0; j < rx.Length; j++)
+                                xxt[k, j] = rx[k] * rx[j];
+
+                        // (Re-) Compute weighted "Hessian" matrix 
+                        double[,] h = Matrix.Kronecker(this.weights, xxt);
+                        for (int j = 0; j < parameterCount; j++)
+                            for (int k = 0; k < parameterCount; k++)
+                                lowerBound[j, k] += h[j, k];
+                    }
+                }
+
+
+                if (UpdateLowerBound)
+                {
+                    UpdateLowerBound = false;
+
+                    // Decompose to solve the linear system. Usually the Hessian will
+                    // be invertible and LU will succeed. However, sometimes the Hessian
+                    // may be singular and a Singular Value Decomposition may be needed.
+
+                    // The SVD is very stable, but is quite expensive, being on average
+                    // about 10-15 times more expensive than LU decomposition. There are
+                    // other ways to avoid a singular Hessian. For a very interesting 
+                    // reading on the subject, please see:
+                    //
+                    //  - Jeff Gill & Gary King, "What to Do When Your Hessian Is Not Invertible",
+                    //    Sociological Methods & Research, Vol 33, No. 1, August 2004, 54-87.
+                    //    Available in: http://gking.harvard.edu/files/help.pdf
+                    //
+
+                    // Moreover, the computation of the inverse is optional, as it will
+                    // be used only to compute the standard errors of the regression.
+
+
+                    decomposition = new SingularValueDecomposition(lowerBound);
+                    deltas = decomposition.Solve(gradient);
+                }
+                else
+                {
+                    deltas = decomposition.Solve(gradient);
+                }
+
+
+                previous = coefficients.Reshape();
+
+                // Update coefficients using the calculated deltas
+                for (int i = 0, k = 0; i < coefficients.Length; i++)
+                    for (int j = 0; j < coefficients[i].Length; j++)
+                        coefficients[i][j] -= deltas[k++];
+
+                solution = coefficients.Reshape();
+
+                // Return the relative maximum parameter change
+                for (int i = 0; i < deltas.Length; i++)
+                    deltas[i] = Math.Abs(deltas[i]) / Math.Abs(previous[i]);
+
+                convergence.NewValues = deltas;
+
+                if (Token.IsCancellationRequested)
+                    break;
+
+            } while (!convergence.HasConverged);
+
+            if (computeStandardErrors)
+            {
+                // Grab the regression information matrix
+                double[,] inverse = decomposition.Inverse();
+
+                // Calculate coefficients' standard errors
+                double[][] standardErrors = regression.StandardErrors;
+                for (int i = 0, k = 0; i < standardErrors.Length; i++)
+                    for (int j = 0; j < standardErrors[i].Length; j++, k++)
+                        standardErrors[i][j] = Math.Sqrt(Math.Abs(inverse[k, k]));
+            }
+
+            return regression;
+        }
     }
 }

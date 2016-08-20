@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -216,9 +216,10 @@ namespace Accord.Tests.Statistics
             };
 
             var target = new Polynomial(1);
-            var linear = new Linear();
+            var linear = new Linear(constant: 1);
+            Assert.AreEqual(target.Constant, linear.Constant);
 
-            double[][] expected = data.Apply(linear.Transform);
+            double[][] expected = data.Apply(x => linear.Transform(x));
             double[][] actual = data.Apply(target.Transform);
 
             Assert.IsTrue(expected.IsEqual(actual, 1e-10));
@@ -239,7 +240,7 @@ namespace Accord.Tests.Statistics
             var target = new Polynomial(2);
             var quadratic = new Quadratic();
 
-            double[][] expected = data.Apply(quadratic.Transform);
+            double[][] expected = data.Apply(x => quadratic.Transform(x));
             double[][] actual = data.Apply(target.Transform);
 
             Assert.IsTrue(expected.IsEqual(actual, 1e-10));

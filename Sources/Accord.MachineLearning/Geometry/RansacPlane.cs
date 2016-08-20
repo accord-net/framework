@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -130,7 +130,7 @@ namespace Accord.MachineLearning.Geometry
                 return null;
 
             // Compute the final plane
-            Plane plane = fitting(points.Submatrix(inliers));
+            Plane plane = fitting(points.Get(inliers));
 
             return plane;
         }

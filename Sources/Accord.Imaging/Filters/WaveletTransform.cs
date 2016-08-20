@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,8 +25,7 @@ namespace Accord.Imaging.Filters
     using System.Collections.Generic;
     using System.Drawing.Imaging;
     using Accord.Math.Wavelets;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
+    using Accord.Math;
 
     /// <summary>
     ///   Wavelet transform filter.
@@ -159,7 +158,7 @@ namespace Accord.Imaging.Filters
             int dstOffset = destinationData.Stride - width * dstPixelSize;
 
             // check image size
-            if ((!AForge.Math.Tools.IsPowerOf2(width)) || (!AForge.Math.Tools.IsPowerOf2(height)))
+            if ((!Accord.Math.Tools.IsPowerOf2(width)) || (!Accord.Math.Tools.IsPowerOf2(height)))
             {
                 throw new InvalidImagePropertiesException("Image width and height should be power of 2.");
             }
@@ -180,7 +179,7 @@ namespace Accord.Imaging.Filters
                         // for each pixel
                         for (int x = 0; x < width; x++, src++)
                         {
-                            data[y, x] = (double)Math.Tools.Scale(0, 255, -1, 1, *src);
+                            data[y, x] = Vector.Scale(*src, (byte)0, (byte)255, -1.0, 1.0);
                         }
                         src += srcOffset;
                     }
@@ -199,7 +198,7 @@ namespace Accord.Imaging.Filters
                         // for each pixel
                         for (int x = 0; x < width; x++, src++)
                         {
-                            data[y, x] = (double)Math.Tools.Scale(0, 65535, -1, 1, *src);
+                            data[y, x] = Vector.Scale(*src, 0, 65535, -1.0, 1.0);
                         }
                         src += srcOffset;
                     }
@@ -228,7 +227,7 @@ namespace Accord.Imaging.Filters
                     {
                         for (int x = 0; x < width; x++, dst++)
                         {
-                            *dst = (byte)Math.Tools.Scale(-1, 1, 0, 255, data[y, x]);
+                            *dst = (byte)Vector.Scale(data[y, x], -1, 1, 0, 255);
                         }
                         dst += dstOffset;
                     }
@@ -244,7 +243,7 @@ namespace Accord.Imaging.Filters
                     {
                         for (int x = 0; x < width; x++, dst++)
                         {
-                            *dst = (ushort)Math.Tools.Scale(-1, 1, 0, 65535, data[y, x]);
+                            *dst = (ushort)Vector.Scale(data[y, x], -1, 1, 0, 65535);
                         }
                         dst += dstOffset;
                     }

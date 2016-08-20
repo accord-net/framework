@@ -1,6 +1,7 @@
-﻿using NUnit.Framework;
+﻿using Accord;
+using NUnit.Framework;
 
-namespace AForge.Tests
+namespace Accord.Tests
 {
     [TestFixture]
     public class IntRangeTest

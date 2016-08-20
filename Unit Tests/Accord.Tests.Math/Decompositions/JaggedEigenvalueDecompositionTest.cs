@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -83,11 +83,11 @@ namespace Accord.Tests.Math
 
 
             // Decomposition identity
-            var actualA = Q.Multiply(D).Multiply(Q.Inverse());
+            var actualA = Matrix.Multiply(Matrix.Multiply(Q, D), Q.Inverse());
 
             Assert.IsTrue(Matrix.IsEqual(expectedD, D, 0.00001));
             Assert.IsTrue(Matrix.IsEqual(A, actualA, 0.0001));
-
+            Assert.IsTrue(Matrix.IsEqual(A, target.Reverse(), 0.0001));
         }
 
 
@@ -115,11 +115,11 @@ namespace Accord.Tests.Math
             };
 
             // Decomposition identity
-            var actualA = Q.Multiply(D).Multiply(Q.Inverse());
+            var actualA = Matrix.Multiply(Matrix.Multiply(Q, D), Q.Inverse());
 
-            Assert.IsTrue(Matrix.IsEqual(expectedD, D, 0.00001));
-            Assert.IsTrue(Matrix.IsEqual(A, actualA, 0.0001));
-
+            Assert.IsTrue(Matrix.IsEqual(expectedD, D, 1e-5));
+            Assert.IsTrue(Matrix.IsEqual(A, actualA, 1e-5));
+            Assert.IsTrue(Matrix.IsEqual(A, target.Reverse(), 1e-5));
         }
     }
 }

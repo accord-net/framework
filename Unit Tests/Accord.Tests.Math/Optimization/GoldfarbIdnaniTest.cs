@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -35,20 +35,6 @@ namespace Accord.Tests.Math
     [TestFixture]
     public class GoldfarbIdnaniTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
 
         [Test]
         public void RunTest()
@@ -1301,7 +1287,7 @@ namespace Accord.Tests.Math
             GoldfarbIdnani gfI = new GoldfarbIdnani(Q, dvec, AMat, b, 2);
 
             for (int i = 0; i < gfI.ConstraintTolerances.Length; i++)
-                Assert.AreEqual(0, gfI.ConstraintTolerances[i]);
+                Assert.AreEqual(LinearConstraint.DefaultTolerance, gfI.ConstraintTolerances[i]);
 
             bool success = gfI.Minimize();
 
@@ -1410,10 +1396,10 @@ namespace Accord.Tests.Math
 
 
             double[,] AMat = new double[9, 4];
-            AMat[0, 0] = 1; AMat[1, 0] = 1; AMat[2, 0] = -1; AMat[3, 0] = 0; AMat[4, 0] =  0; AMat[5, 0] = 0; AMat[6, 0] =  0; AMat[7, 0] = 0; AMat[8, 0] =  0;
-            AMat[0, 1] = 1; AMat[1, 1] = 0; AMat[2, 1] =  0; AMat[3, 1] = 1; AMat[4, 1] = -1; AMat[5, 1] = 0; AMat[6, 1] =  0; AMat[7, 1] = 0; AMat[8, 1] =  0;
-            AMat[0, 2] = 1; AMat[1, 2] = 0; AMat[2, 2] =  0; AMat[3, 2] = 0; AMat[4, 2] =  0; AMat[5, 2] = 1; AMat[6, 2] = -1; AMat[7, 2] = 0; AMat[8, 2] =  0;
-            AMat[0, 3] = 1; AMat[1, 3] = 0; AMat[2, 3] =  0; AMat[3, 3] = 0; AMat[4, 3] =  0; AMat[5, 3] = 0; AMat[6, 3] =  0; AMat[7, 3] = 1; AMat[8, 3] = -1;
+            AMat[0, 0] = 1; AMat[1, 0] = 1; AMat[2, 0] = -1; AMat[3, 0] = 0; AMat[4, 0] = 0; AMat[5, 0] = 0; AMat[6, 0] = 0; AMat[7, 0] = 0; AMat[8, 0] = 0;
+            AMat[0, 1] = 1; AMat[1, 1] = 0; AMat[2, 1] = 0; AMat[3, 1] = 1; AMat[4, 1] = -1; AMat[5, 1] = 0; AMat[6, 1] = 0; AMat[7, 1] = 0; AMat[8, 1] = 0;
+            AMat[0, 2] = 1; AMat[1, 2] = 0; AMat[2, 2] = 0; AMat[3, 2] = 0; AMat[4, 2] = 0; AMat[5, 2] = 1; AMat[6, 2] = -1; AMat[7, 2] = 0; AMat[8, 2] = 0;
+            AMat[0, 3] = 1; AMat[1, 3] = 0; AMat[2, 3] = 0; AMat[3, 3] = 0; AMat[4, 3] = 0; AMat[5, 3] = 0; AMat[6, 3] = 0; AMat[7, 3] = 1; AMat[8, 3] = -1;
 
             var oldA = (double[,])AMat.Clone();
             var oldD = (double[,])DMat.Clone();
@@ -1492,6 +1478,153 @@ namespace Accord.Tests.Math
             }
             reader.Close();
             return v;
+        }
+
+
+
+
+        [Test]
+        public void GoldfarbIdnani4()
+        {
+            // https://github.com/accord-net/framework/issues/171
+
+            int n = 21;
+            var Q = Matrix.Diagonal(n, 2.0);
+            var d = Vector.Create(3132.0, 6264, 15660, 18792, 21924, 6264, 18792, 21924, 9396, 3132, 12528, 6264, 9396, 18792, 21924, 9396, 3132, 3132, 6264, 15660, 18792);
+
+            int m = 44;
+
+            var b = Vector.Create(
+                703.999, -704.001,
+                1267.999, -1268.001,
+                1565.999, -1566.001,
+                471.999, -472.001,
+                1425.999, -1426.001, 
+                -107.001,
+                -1164.001, 
+                -57.001,
+                -311.001,
+                -1433.001, 
+                -0.001,
+                -0.001, 
+                -788.001, 
+                -472.001, 
+                -850.001, 
+                -273.001, 
+                -0.001, -0.001, -0.001, -0.001,
+                -0.001, -0.001, -0.001, -0.001, -0.001, 
+                -0.001, -0.001, -0.001, -0.001, -0.001, 
+                -0.001, -0.001, -0.001, -0.001, -0.001, 
+                -0.001, -0.001, -0.001, -0.001);
+
+            var A = Matrix.Create(m, n, 
+                 1.0, 1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,   0,  0,  0,  0,  0,  0, 
+                -1,  -1, -1, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,   0,  0,  0,  0,  0,  0, 
+                 0,   0,  0,  0,  1,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,   0,  0,  0,  0,  0,  0, 
+                 0,   0,  0,  0, -1, -1, -1, -1,  0,  0,  0,  0,  0,  0,  0,   0,  0,  0,  0,  0,  0,
+                 0,   0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  1,  0,  0,   0,  0,  0,  0,  0,  0,
+                 0,   0,  0,  0,  0,  0,  0,  0, -1, -1, -1, -1, -1,  0,  0,   0,  0,  0,  0,  0,  0,
+                 0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,   0,  0,  0,  0,  0,  0,
+                 0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1, -1,   0,  0,  0,  0,  0,  0,
+                 0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,   1,  1,  1,  1,  1,  1,
+                 0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  -1, -1, -1, -1, -1, -1,
+                 0,   0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,   0,  0,  0,  0,  0,  0,  
+                 0,   0,  0,  0,  0,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  -1,  0,  0,  0,  0,  0,
+                 0,   0,  0,  0,  0,  0,  0,  0,  0, -1,  0,  0,  0,  0,  0,   0, -1,  0,  0,  0,  0,
+                 0,   0,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,   0,  0,  0,  0,  0,  0,
+                 0,   0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  0,  0,  0,  0,   0,  0,  0,  0,  0,  0,
+                 0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  0,  0,  0,   0,  0,  0,  0,  0,  0,
+                 0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  0,  0,   0,  0,  0,  0,  0,  0,
+                -1,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,   0,  0, -1,  0,  0,  0,
+                 0,   0,  0,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  -1, 0,   0,  0,  0,  0,  0,  0,
+                 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+
+
+            var solver = new GoldfarbIdnani(Q, d, A, b, 0);
+
+            //for (int i = 0; i < solver.ConstraintTolerances.Length; i++)
+            //    solver.ConstraintTolerances[i] = 1e-1;
+
+            Assert.IsTrue(solver.Minimize());
+
+            QuadraticObjectiveFunction f = new QuadraticObjectiveFunction(Q, d);
+            f.Function(solver.Solution);
+
+            var constraints = LinearConstraintCollection.FromMatrix(A, b, 0);
+
+            double[] violation = constraints.Apply(x => x.GetViolation(solver.Solution));
+        }
+
+        [Test]
+        public void GoldfarbIdnaniMinimizeWithEqualityTest2()
+        {
+            // This test reproduces Issue #171 at GitHub
+            // Solve the following optimization problem:
+            //
+            //  min f(x) = a² + b² + c² + d² + e² + f² + 10a + 10b + 30c + 20d + 30e + 20f
+            // 
+            //  s.t.                  a == 4
+            //                b + c + d == 5
+            //                    e + f == 1
+            //                    a + b <= 7
+            //                    c + e <= 1
+            //                    d + f <= 2
+            //                        a >= 0
+            //                        b >= 0
+            //                        c >= 0
+            //                        d >= 0
+            //                        e >= 0
+            //                        f >= 0
+
+            double[,] A =
+            {
+                    { 1,0,0,0,0,0,},
+                    { 0,1,1,1,0,0,},
+                    { 0,0,0,0,1,1,},
+                    { -1,-1,0,0,0,0,},
+                    { 0,0,-1,0,-1,0,},
+                    { 0,0,0,-1,0,-1,},
+                    { 1,0,0,0,0,0,},
+                    { 0,1,0,0,0,0,},
+                    { 0,0,1,0,0,0,},
+                    { 0,0,0,1,0,0,},
+                    { 0,0,0,0,1,0,},
+                    { 0,0,0,0,0,1 },
+            };
+
+            double[] b =
+            {
+                4,5,1,-7,-1,-2,0,0,0,0,0,0
+            };
+
+            double[,] Q =
+            {
+                {  2,  0,  0,  0,  0,  0},
+                {  0,  2,  0,  0,  0,  0},
+                {  0,  0,  2,  0,  0,  0},
+                {  0,  0,  0,  2,  0,  0},
+                {  0,  0,  0,  0,  2,  0},
+                {  0,  0,  0,  0,  0,  2 },
+            };
+
+            double[] d =
+            {
+                10,10,30,20,30,20
+            };
+
+            GoldfarbIdnani target = new GoldfarbIdnani(Q, d, A, b, 3);
+            var tolerance = 0.001;
+            target.ConstraintTolerances.ApplyInPlace(a => tolerance);
+
+            Assert.IsTrue(target.Minimize());
+            double[] solution = target.Solution;
+
+            Assert.AreEqual(4, solution[0], tolerance);
+            Assert.AreEqual(3, solution[1], tolerance);
+            Assert.AreEqual(0.75, solution[2], tolerance);
+            Assert.AreEqual(1.25, solution[3], tolerance);
+            Assert.AreEqual(0.25, solution[4], tolerance);
+            Assert.AreEqual(0.75, solution[5], tolerance);
         }
     }
 }

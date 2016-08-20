@@ -1,29 +1,32 @@
 The Accord.NET Framework
 
-Copyright (c) 2009-2015, Accord.NET Authors <authors @ accord-framework.net>
+Copyright (c) 2009-2016, Accord.NET Authors <authors@accord-framework.net>
 
-    This library is free software; you can redistribute it and/or modify it under the terms of
-    the GNU Lesser General Public License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
+    This library is free software; you can redistribute it and/or modify it
+	under the terms of the GNU Lesser General Public License as published by
+	the Free Software Foundation; either version 2.1 of the License, or (at 
+	your option) any later version.
 
-    The copyright holders provide no reassurances that the source code provided does
-    not infringe any patent, copyright, or any other intellectual property rights of
-    third parties. The copyright holders disclaim any liability to any recipient for
-    claims brought against recipient by any third party for infringement of that parties
-    intellectual property rights.
+    The copyright holders provide no reassurances that the source code provided
+	does not infringe any patent, copyright, or any other intellectual property
+	rights of third parties. The copyright holders disclaim any liability to 
+	any recipient for claims brought against recipient by any third party for 
+	infringement of that parties intellectual property rights.
 
-    This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-    without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-    See the GNU Lesser General Public License for more details.
+    This library is distributed in the hope that it will be useful, but WITHOUT
+	ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+	FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+	for more details.
 
- Warning: Depending on your installation options, some modules of the library may be available 
- under different licenses. Those modules have been identified as GPL or noncommercial only. In
- this case, check the copyright headers of each extra module for more details before installing
- or using them.
+ Warning: Depending on your installation options, some modules of the library 
+ may be available under different licenses. Those modules have been identified 
+ as GPL or noncommercial only. In this case, check the copyright headers of each
+ extra module for more details before installing or using them.
  
- The integral text of the GNU Lesser General Public License is reproduced below. Installing
- or using this software means you have understand and agreed by the terms of the license. A
- official version of the license is also available at <http://www.gnu.org/licenses/>.
+ The integral text of the GNU Lesser General Public License is reproduced 
+ below. Installing or using this software means you have understand and agreed 
+ by the terms of the license. A official version of the license is also 
+ available at <http://www.gnu.org/licenses/>.
  
     
     

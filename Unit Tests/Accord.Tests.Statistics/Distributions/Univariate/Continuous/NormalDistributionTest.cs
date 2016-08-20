@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -183,9 +183,10 @@ namespace Accord.Tests.Statistics
             // Finally, let's generate 1000 samples from this distribution
             // and check if they have the specified mean and standard dev.
 
-            double[] samples = normal.Generate(1000);
+            double[] samples = normal.Generate(10000);
 
-            double sampleMean = samples.Mean();             // 1.92
+
+            double sampleMean = samples.Mean();             // 2.00
             double sampleDev = samples.StandardDeviation(); // 3.00
 
             Assert.AreEqual(2, mean);
@@ -193,9 +194,9 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2, median);
 
             Assert.AreEqual(9, variance);
-            Assert.AreEqual(1000, samples.Length);
-            Assert.AreEqual(1.9245, sampleMean, 1e-4);
-            Assert.AreEqual(3.0008, sampleDev, 1e-4);
+            Assert.AreEqual(10000, samples.Length);
+            Assert.AreEqual(2.000, sampleMean, 5e-3);
+            Assert.AreEqual(3.000, sampleDev, 5e-3);
         }
 
         [Test]

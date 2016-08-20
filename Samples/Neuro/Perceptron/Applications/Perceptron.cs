@@ -15,10 +15,10 @@ using System.Data;
 using System.IO;
 using System.Threading;
 
-using AForge;
-using AForge.Neuro;
-using AForge.Neuro.Learning;
-using AForge.Controls;
+using Accord;
+using Accord.Neuro;
+using Accord.Neuro.Learning;
+using Accord.Controls;
 
 namespace SampleApp
 {
@@ -29,7 +29,7 @@ namespace SampleApp
         private System.Windows.Forms.ListView dataList;
         private System.Windows.Forms.Button loadButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private AForge.Controls.Chart chart;
+        private Accord.Controls.Chart chart;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox learningRateBox;
@@ -44,7 +44,7 @@ namespace SampleApp
         private System.Windows.Forms.TextBox iterationsBox;
         private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.Label label5;
-        private AForge.Controls.Chart errorChart;
+        private Accord.Controls.Chart errorChart;
         private System.Windows.Forms.CheckBox saveFilesCheck;
         /// <summary>
         /// Required designer variable.
@@ -104,14 +104,14 @@ namespace SampleApp
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PerceptronForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.chart = new AForge.Controls.Chart();
+            this.chart = new Accord.Controls.Chart();
             this.loadButton = new System.Windows.Forms.Button();
             this.dataList = new System.Windows.Forms.ListView();
             this.noVisualizationLabel = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.saveFilesCheck = new System.Windows.Forms.CheckBox();
-            this.errorChart = new AForge.Controls.Chart();
+            this.errorChart = new Accord.Controls.Chart();
             this.label5 = new System.Windows.Forms.Label();
             this.stopButton = new System.Windows.Forms.Button();
             this.iterationsBox = new System.Windows.Forms.TextBox();
@@ -145,8 +145,6 @@ namespace SampleApp
             // 
             this.chart.Location = new System.Drawing.Point(16, 314);
             this.chart.Name = "chart";
-            this.chart.RangeX = ((AForge.Range)(resources.GetObject("chart.RangeX")));
-            this.chart.RangeY = ((AForge.Range)(resources.GetObject("chart.RangeY")));
             this.chart.Size = new System.Drawing.Size(272, 249);
             this.chart.TabIndex = 2;
             this.chart.Text = "chart1";
@@ -220,8 +218,6 @@ namespace SampleApp
             // 
             this.errorChart.Location = new System.Drawing.Point(16, 395);
             this.errorChart.Name = "errorChart";
-            this.errorChart.RangeX = ((AForge.Range)(resources.GetObject("errorChart.RangeX")));
-            this.errorChart.RangeY = ((AForge.Range)(resources.GetObject("errorChart.RangeY")));
             this.errorChart.Size = new System.Drawing.Size(352, 204);
             this.errorChart.TabIndex = 10;
             // 
@@ -333,6 +329,7 @@ namespace SampleApp
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "PerceptronForm";
             this.Text = "Perceptron Classifier";

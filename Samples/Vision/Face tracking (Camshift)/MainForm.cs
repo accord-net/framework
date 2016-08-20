@@ -28,13 +28,11 @@ using Accord.Imaging.Filters;
 using Accord.Vision.Detection;
 using Accord.Vision.Detection.Cascades;
 using Accord.Vision.Tracking;
-using AForge.Imaging;
-using AForge.Imaging.Filters;
-using AForge.Math.Geometry;
-using AForge.Video;
-using AForge.Video.DirectShow;
-using AForge.Video.VFW;
-using MotionDetectorSample;
+using Accord.Imaging;
+using Accord.Math.Geometry;
+using Accord.Video;
+using Accord.Video.DirectShow;
+using Accord.Video.VFW;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -42,7 +40,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace FaceTracking
+namespace SampleApp
 {
     public partial class MainForm : Form
     {

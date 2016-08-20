@@ -13,8 +13,8 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
-using AForge.Math;
-using AForge.Math.Geometry;
+using Accord.Math;
+using Accord.Math.Geometry;
 
 namespace SampleApp
 {
@@ -338,7 +338,7 @@ namespace SampleApp
         // Show current coordinates of object's projected points
         private void UpdateProjectedPoints( )
         {
-            AForge.Point[] projectedPoints = worldRendererControl.ProjectedPoints;
+            Accord.Point[] projectedPoints = worldRendererControl.ProjectedPoints;
 
             screenPoint1Box.Text = projectedPoints[0].ToString( );
             screenPoint2Box.Text = projectedPoints[1].ToString( );
@@ -374,7 +374,7 @@ namespace SampleApp
         // Estimate pose of the object from its screen (projected) points
         private void EstimatePose( )
         {
-            AForge.Point[] projectedPoints = worldRendererControl.ProjectedPoints;
+            Accord.Point[] projectedPoints = worldRendererControl.ProjectedPoints;
             Matrix3x3 rotationMatrix = Matrix3x3.Identity;
             Vector3 translationVector = new Vector3( 0 );
 

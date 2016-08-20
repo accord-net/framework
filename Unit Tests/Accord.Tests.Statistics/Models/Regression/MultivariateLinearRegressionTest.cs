@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -34,27 +34,6 @@ namespace Accord.Tests.Statistics
     public class MultivariateLinearRegressionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void RegressTest()
         {
@@ -78,7 +57,7 @@ namespace Accord.Tests.Statistics
             double eB = 0.5303528166;
             double eA = -3.290915095;
 
-            MultivariateLinearRegression target = new MultivariateLinearRegression(1, 1, true);
+            var target = new MultivariateLinearRegression(1, 1, true);
 
             target.Regress(X, Y);
 
@@ -98,7 +77,7 @@ namespace Accord.Tests.Statistics
                 new double[] { 3400.00, 1 },
             };
 
-            MultivariateLinearRegression target2 = new MultivariateLinearRegression(2, 1, false);
+            var target2 = new MultivariateLinearRegression(2, 1, false);
 
             target2.Regress(X1, Y);
 
@@ -176,6 +155,9 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, regression.Coefficients[1, 1], 1e-10);
             Assert.AreEqual(0, regression.Coefficients[2, 0], 1e-10);
             Assert.AreEqual(0, regression.Coefficients[2, 1], 1e-10);
+
+            Assert.AreEqual(3, regression.NumberOfInputs);
+            Assert.AreEqual(2, regression.NumberOfOutputs);
 
             // We can also check the r-squared coefficients of determination:
             double[] r2 = regression.CoefficientOfDetermination(inputs, outputs);

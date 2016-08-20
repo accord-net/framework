@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,6 +28,9 @@ namespace Accord.Statistics.Analysis
     using Accord.Math;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Analysis.ContrastFunctions;
+    using Accord.MachineLearning;
+    using System.Threading;
+    using Accord.Statistics.Models.Regression.Linear;
 
     /// <summary>
     ///   FastICA's algorithms to be used in Independent Component Analysis.
@@ -144,18 +147,19 @@ namespace Accord.Statistics.Analysis
     /// </example>
     /// 
     [Serializable]
-    public class IndependentComponentAnalysis : IMultivariateAnalysis
+#pragma warning disable 612, 618
+    public class IndependentComponentAnalysis : MultipleTransformBase<double[], double>,
+        IMultivariateAnalysis, IParallel,
+        IUnsupervisedLearning<MultivariateLinearRegression, double[], double[]>
+#pragma warning restore 612, 618
     {
         private double[,] sourceMatrix;
 
 
-        private double[,] whiteningMatrix; // pre-whitening matrix
-        private double[,] mixingMatrix; // estimated mixing matrix
-        private double[,] revertMatrix; // estimated de-mixing matrix
+        private double[][] whiteningMatrix; // pre-whitening matrix
+        private double[][] mixingMatrix; // estimated mixing matrix
+        private double[][] revertMatrix; // estimated de-mixing matrix
         private double[,] resultMatrix;
-
-        private Single[][] revertArray; // for caching conversions
-        private Single[][] mixingArray;
 
         private AnalysisMethod analysisMethod = AnalysisMethod.Center;
         private bool overwriteSourceMatrix;
@@ -171,11 +175,14 @@ namespace Accord.Statistics.Analysis
 
         private IndependentComponentCollection componentCollection;
 
+        [NonSerialized]
+        private ParallelOptions parallelOptions = new ParallelOptions();
 
-        //---------------------------------------------
+        private MultivariateLinearRegression mix;
+        private MultivariateLinearRegression demix;
 
 
-        #region Constructors
+
         /// <summary>
         ///   Constructs a new Independent Component Analysis.
         /// </summary>
@@ -183,6 +190,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="data">The source data to perform analysis. The matrix should contain
         ///   variables as columns and observations of each variable as rows.</param>
         /// 
+        [Obsolete("Please do not pass data to this constructor, and use the Learn method instead.")]
         public IndependentComponentAnalysis(double[,] data)
             : this(data, AnalysisMethod.Center, IndependentComponentAlgorithm.Parallel)
         {
@@ -197,6 +205,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="algorithm">The FastICA algorithm to be used in the analysis. Default
         ///   is <see cref="IndependentComponentAlgorithm.Parallel"/>.</param>
         ///   
+        [Obsolete("Please do not pass data to this constructor, and use the Learn method instead.")]
         public IndependentComponentAnalysis(double[,] data, IndependentComponentAlgorithm algorithm)
             : this(data, AnalysisMethod.Center, algorithm)
         {
@@ -211,6 +220,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="method">The analysis method to perform. Default is
         ///   <see cref="AnalysisMethod.Center"/>.</param>
         /// 
+        [Obsolete("Please do not pass data to this constructor, and use the Learn method instead.")]
         public IndependentComponentAnalysis(double[,] data, AnalysisMethod method)
             : this(data, method, IndependentComponentAlgorithm.Parallel)
         {
@@ -227,6 +237,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="algorithm">The FastICA algorithm to be used in the analysis. Default
         ///   is <see cref="IndependentComponentAlgorithm.Parallel"/>.</param>
         ///   
+        [Obsolete("Please do not pass data to this constructor, and use the Learn method instead.")]
         public IndependentComponentAnalysis(double[,] data, AnalysisMethod method,
             IndependentComponentAlgorithm algorithm)
         {
@@ -238,8 +249,11 @@ namespace Accord.Statistics.Analysis
             this.analysisMethod = method;
 
             // Calculate common measures to speedup other calculations
-            this.columnMeans = Accord.Statistics.Tools.Mean(sourceMatrix);
-            this.columnStdDev = Accord.Statistics.Tools.StandardDeviation(sourceMatrix, columnMeans);
+            this.columnMeans = Measures.Mean(sourceMatrix, dimension: 0);
+            this.columnStdDev = Measures.StandardDeviation(sourceMatrix, columnMeans);
+
+            this.NumberOfInputs = data.Columns();
+            this.NumberOfOutputs = data.Columns();
         }
 
         /// <summary>
@@ -253,6 +267,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="algorithm">The FastICA algorithm to be used in the analysis. Default
         ///   is <see cref="IndependentComponentAlgorithm.Parallel"/>.</param>
         ///   
+        [Obsolete("Please do not pass data to this constructor, and use the Learn method instead.")]
         public IndependentComponentAnalysis(double[][] data, AnalysisMethod method = AnalysisMethod.Center,
           IndependentComponentAlgorithm algorithm = IndependentComponentAlgorithm.Parallel)
         {
@@ -264,17 +279,38 @@ namespace Accord.Statistics.Analysis
             this.analysisMethod = method;
 
             // Calculate common measures to speedup other calculations
-            this.columnMeans = Accord.Statistics.Tools.Mean(sourceMatrix);
-            this.columnStdDev = Accord.Statistics.Tools.StandardDeviation(sourceMatrix, columnMeans);
+            this.columnMeans = Measures.Mean(sourceMatrix, dimension: 0);
+            this.columnStdDev = Measures.StandardDeviation(sourceMatrix, columnMeans);
+
+            this.NumberOfInputs = data.Columns();
+            this.NumberOfOutputs = data.Columns();
         }
 
-        #endregion
 
 
-        //---------------------------------------------
+
+        /// <summary>
+        ///   Gets or sets the parallelization options for this algorithm.
+        /// </summary>
+        /// 
+        public ParallelOptions ParallelOptions
+        {
+            get { return parallelOptions; }
+            set { ParallelOptions = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used
+        /// to cancel the algorithm while it is running.
+        /// </summary>
+        /// 
+        public CancellationToken Token
+        {
+            get { return parallelOptions.CancellationToken; }
+            set { parallelOptions.CancellationToken = value; }
+        }
 
 
-        #region Properties
         /// <summary>
         ///   Source data used in the analysis.
         /// </summary>
@@ -318,6 +354,7 @@ namespace Accord.Statistics.Analysis
         /// 
         /// <value>The resulting projection in independent component space.</value>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[,] Result
         {
             get { return resultMatrix; }
@@ -329,7 +366,7 @@ namespace Accord.Statistics.Analysis
         ///   corresponds to an independent component.
         /// </summary>
         /// 
-        public double[,] MixingMatrix
+        public double[][] MixingMatrix
         {
             get { return mixingMatrix; }
         }
@@ -340,7 +377,7 @@ namespace Accord.Statistics.Analysis
         ///   corresponds to an independent component.
         /// </summary>
         /// 
-        public double[,] DemixingMatrix
+        public double[][] DemixingMatrix
         {
             get { return revertMatrix; }
         }
@@ -350,7 +387,7 @@ namespace Accord.Statistics.Analysis
         ///   the original data to have unit variance.
         /// </summary>
         /// 
-        public double[,] WhiteningMatrix
+        public double[][] WhiteningMatrix
         {
             get { return whiteningMatrix; }
         }
@@ -416,39 +453,40 @@ namespace Accord.Statistics.Analysis
         {
             get { return columnStdDev; }
         }
-        #endregion
 
 
 
-        //---------------------------------------------
 
 
-        #region Public methods
 
         /// <summary>
         ///   Computes the Independent Component Analysis algorithm.
         /// </summary>
         /// 
+        [Obsolete("Please use Learn instead.")]
         public void Compute()
         {
-            Compute(sourceMatrix.GetLength(1));
+            Compute(NumberOfOutputs);
         }
 
         /// <summary>
         ///   Computes the Independent Component Analysis algorithm.
         /// </summary>
         /// 
+        [Obsolete("Please set NumberOfOutputs to the desired number of components and use Learn instead.")]
         public void Compute(int components)
         {
+            NumberOfOutputs = components;
+
             // First, the data should be centered by subtracting
             //  the mean of each column in the source data matrix.
-            double[,] matrix = Adjust(sourceMatrix, overwriteSourceMatrix);
+            double[][] matrix = Adjust(sourceMatrix.ToJagged(), overwriteSourceMatrix);
 
             // Pre-process the centered data matrix to have unit variance
-            double[,] whiten = Statistics.Tools.Whitening(matrix, out whiteningMatrix);
+            double[][] whiten = Statistics.Tools.Whitening(matrix, out whiteningMatrix);
 
             // Generate a new unitary initial guess for the de-mixing matrix
-            double[,] initial = Matrix.Random(components, matrix.GetLength(1), 0, 1);
+            double[][] initial = Jagged.Random(components, matrix.Columns());
 
 
             // Compute the demixing matrix using the selected algorithm
@@ -461,20 +499,20 @@ namespace Accord.Statistics.Analysis
                 revertMatrix = parallel(whiten, components, initial);
             }
 
-            
-
             // Combine the rotation and demixing matrices
-            revertMatrix = whiteningMatrix.MultiplyByTranspose(revertMatrix);
-            normalize(revertMatrix);
+            revertMatrix = whiteningMatrix.DotWithTransposed(revertMatrix);
+            revertMatrix.Divide(revertMatrix.Sum(), result: revertMatrix);
 
             // Compute the original source mixing matrix
             mixingMatrix = Matrix.PseudoInverse(revertMatrix);
-            normalize(mixingMatrix);
+            mixingMatrix.Divide(mixingMatrix.Sum(), result: mixingMatrix);
 
             // Demix the data into independent components
-            resultMatrix = matrix.Multiply(revertMatrix);
+            resultMatrix = Matrix.Dot(matrix, revertMatrix).ToMatrix();
 
-            
+            this.demix = createRegression(revertMatrix, columnMeans, columnStdDev, analysisMethod);
+            this.mix = demix.Inverse();
+
             // Creates the object-oriented structure to hold the principal components
             var array = new IndependentComponent[components];
             for (int i = 0; i < array.Length; i++)
@@ -482,70 +520,37 @@ namespace Accord.Statistics.Analysis
             this.componentCollection = new IndependentComponentCollection(array);
         }
 
-        private static void normalize(double[,] matrix)
-        {
-            double sum = 0;
-            foreach (double v in matrix)
-                sum += v;
-            matrix.Divide(sum, inPlace: true);
-        }
 
         /// <summary>
         ///   Separates a mixture into its components (demixing).
         /// </summary>
         /// 
+        [Obsolete("Please use jagged matrices instead.")]
         public double[,] Separate(double[,] data)
         {
-            // Data-adjust and separate the samples
-            double[,] matrix = Adjust(data, false);
-
-            return matrix.Multiply(revertMatrix);
+            return demix.Transform(data.ToJagged()).ToMatrix();
         }
 
         /// <summary>
         ///   Separates a mixture into its components (demixing).
         /// </summary>
         /// 
+        [Obsolete("Please use Demix.Transform() instead.")]
         public float[][] Separate(float[][] data)
         {
-            if (revertArray == null)
-            {
-                // Convert reverting matrix to single
-                revertArray = convertToSingle(revertMatrix);
-            }
-
-            // Data-adjust and separate the sources
-            float[][] matrix = Adjust(data, false);
-
-            return revertArray.Multiply(matrix);
+            return demix.Transform(data.ToDouble().Transpose()).ToSingle().Transpose(); // TODO: Implement float support in linear regression
         }
 
-        /// <summary>
-        ///   Separates a mixture into its components (demixing).
-        /// </summary>
-        /// 
-        public double[][] Separate(double[][] data)
-        {
-            if (revertArray == null)
-            {
-                // Convert reverting matrix to single
-                revertArray = convertToSingle(revertMatrix);
-            }
-
-            // Data-adjust and separate the sources
-            double[][] matrix = Adjust(data, false);
-
-            return revertArray.Multiply(matrix);
-        }
 
 
         /// <summary>
         ///   Combines components into a single mixture (mixing).
         /// </summary>
         /// 
+        [Obsolete("Please use Mix.Transform instead.")]
         public double[,] Combine(double[,] data)
         {
-            return data.Multiply(mixingMatrix);
+            return mix.Transform(data.ToJagged()).ToMatrix();
         }
 
         /// <summary>
@@ -554,18 +559,9 @@ namespace Accord.Statistics.Analysis
         /// 
         public float[][] Combine(float[][] data)
         {
-            if (mixingArray == null)
-            {
-                // Convert mixing matrix to single
-                mixingArray = convertToSingle(mixingMatrix);
-            }
-
-            return mixingArray.Multiply(data);
+            return mix.Transform(data.ToDouble().Transpose()).ToSingle().Transpose(); // TODO: Implement float support in linear regression;
         }
-        #endregion
 
-
-        //---------------------------------------------
 
 
         #region FastICA Algorithms
@@ -579,7 +575,7 @@ namespace Accord.Statistics.Analysis
         ///   the mixing coefficients for each component.
         /// </returns>
         /// 
-        private double[,] deflation(double[,] X, int components, double[,] init)
+        private double[][] deflation(double[][] X, int components, double[][] init)
         {
             // References:
             // - Hyvärinen, A (1999). Fast and Robust Fixed-Point
@@ -590,14 +586,14 @@ namespace Accord.Statistics.Analysis
             // Schmidt orthogonalization process [Hyvärinen]. In this scheme, independent
             // components are estimated one-by-one. See referenced paper for details.
 
-            int n = X.GetLength(0);
-            int m = X.GetLength(1);
+            int n = X.Rows();
+            int m = X.Columns();
 
             // Algorithm initialization
-            double[,] W = new double[components, m];
-            double[] wx = new double[n];
-            double[] gwx = new double[n];
-            double[] dgwx = new double[n];
+            var W = Jagged.Zeros(components, m);
+            var wx = new double[n];
+            var gwx = new double[n];
+            var dgwx = new double[n];
 
 
             // For each component to be computed,
@@ -624,10 +620,10 @@ namespace Accord.Statistics.Analysis
                     {
                         double proj = 0;
                         for (int j = 0; j < w0.Length; j++)
-                            proj += w0[j] * W[u, j];
+                            proj += w0[j] * W[u][j];
 
                         for (int j = 0; j < w0.Length; j++)
-                            w[j] = w0[j] - proj * W[u, j];
+                            w[j] = w0[j] - proj * W[u][j];
                     }
 
                     // Normalize
@@ -638,7 +634,7 @@ namespace Accord.Statistics.Analysis
                     double delta = getMaximumAbsoluteChange(w, w0);
 
                     // Check for convergence
-                    if (!(delta > tolerance * lastChange && iterations < maxIterations))
+                    if (!(delta > tolerance && iterations < maxIterations) || Token.IsCancellationRequested)
                     {
                         stop = true;
                     }
@@ -654,7 +650,7 @@ namespace Accord.Statistics.Analysis
                         {
                             double s = 0;
                             for (int k = 0; k < w0.Length; k++)
-                                s += w0[k] * X[j, k];
+                                s += w0[k] * X[j][k];
                             wx[j] = s;
                         }
 
@@ -666,12 +662,12 @@ namespace Accord.Statistics.Analysis
                         for (int j = 0; j < means.Length; j++)
                         {
                             for (int k = 0; k < gwx.Length; k++)
-                                means[j] += X[k, j] * gwx[k];
+                                means[j] += X[k][j] * gwx[k];
                             means[j] /= n;
                         }
 
                         // Compute E{ g'(w*x) }
-                        double mean = Statistics.Tools.Mean(dgwx);
+                        double mean = Measures.Mean(dgwx);
 
 
                         // Compute next update for w according
@@ -706,7 +702,7 @@ namespace Accord.Statistics.Analysis
         ///   the mixing coefficients for each component.
         /// </returns>
         /// 
-        private double[,] parallel(double[,] X, int components, double[,] winit)
+        private double[][] parallel(double[][] X, int components, double[][] winit)
         {
             // References:
             // - Hyvärinen, A (1999). Fast and Robust Fixed-Point
@@ -718,13 +714,13 @@ namespace Accord.Statistics.Analysis
             // be converted to a more stable singular value decomposition and be used to 
             // create a projection basis in the same way as in Principal Component Analysis.
 
-            int n = X.GetLength(0);
-            int m = X.GetLength(1);
+            int n = X.Rows();
+            int m = X.Columns();
 
             // Algorithm initialization
-            double[,] W0 = winit;
-            double[,] W = winit;
-            double[,] K = new double[components, components];
+            double[][] W0 = winit;
+            double[][] W = winit;
+            double[][] K = Jagged.Zeros(components, components);
 
             bool stop = false;
             int iterations = 0;
@@ -742,13 +738,13 @@ namespace Accord.Statistics.Analysis
                 //   to U*S^(-1)*U'. 
 
                 // Perform simultaneous decorrelation of all components at once
-                var svd = new SingularValueDecomposition(W,
+                var svd = new JaggedSingularValueDecomposition(W,
                     computeLeftSingularVectors: true,
                     computeRightSingularVectors: false,
                     autoTranspose: true);
 
                 double[] S = svd.Diagonal;
-                double[,] U = svd.LeftSingularVectors;
+                double[][] U = svd.LeftSingularVectors;
 
                 // Form orthogonal projection basis K
                 for (int i = 0; i < components; i++)
@@ -758,33 +754,33 @@ namespace Accord.Statistics.Analysis
                         double s = 0;
                         for (int k = 0; k < S.Length; k++)
                             if (S[k] != 0.0)
-                                s += U[i, k] * U[j, k] / S[k];
-                        K[i, j] = s;
+                                s += U[i][k] * U[j][k] / S[k];
+                        K[i][j] = s;
                     }
                 }
 
                 // Orthogonalize
-                W = K.Multiply(W);
-
+                W = Matrix.Dot(K, W);
 
                 // Gets the maximum parameter absolute change
                 double delta = getMaximumAbsoluteChange(W0, W);
 
                 // Check for convergence
-                if (delta < tolerance * lastChange || iterations >= maxIterations)
+                if (delta < tolerance || iterations >= maxIterations || Token.IsCancellationRequested)
                 {
                     stop = true;
                 }
                 else
                 {
                     // Advance to the next iteration
-                    W0 = W; W = new double[components, m];
+                    W0 = W;
+                    W = Jagged.Zeros(components, m);
                     lastChange = delta;
                     iterations++;
 
 
                     // For each component (in parallel)
-                    Parallel.For(0, components, i =>
+                    Parallel.For(0, components, parallelOptions, i =>
                     {
                         double[] wx = new double[n];
                         double[] dgwx = new double[n];
@@ -796,7 +792,7 @@ namespace Accord.Statistics.Analysis
                         {
                             double s = 0;
                             for (int k = 0; k < m; k++)
-                                s += W0[i, k] * X[j, k];
+                                s += W0[i][k] * X[j][k];
                             wx[j] = s;
                         }
 
@@ -807,12 +803,12 @@ namespace Accord.Statistics.Analysis
                         for (int j = 0; j < means.Length; j++)
                         {
                             for (int k = 0; k < gwx.Length; k++)
-                                means[j] += X[k, j] * gwx[k];
+                                means[j] += X[k][j] * gwx[k];
                             means[j] /= n;
                         }
 
                         // Compute E{ g'(w*x) }
-                        double mean = Statistics.Tools.Mean(dgwx);
+                        double mean = Measures.Mean(dgwx);
 
 
                         // Compute next update for w according
@@ -820,7 +816,7 @@ namespace Accord.Statistics.Analysis
 
                         // w+ = E{ xg(w*x)} - E{ g'(w*x)}*w
                         for (int j = 0; j < means.Length; j++)
-                            W[i, j] = means[j] - mean * W0[i, j];
+                            W[i][j] = means[j] - mean * W0[i][j];
 
                         // The normalization to w* will be performed
                         //  in the beginning of the next iteration.
@@ -837,51 +833,109 @@ namespace Accord.Statistics.Analysis
         #endregion
 
 
-        //---------------------------------------------
-
-
-        #region Auxiliary methods
 
         /// <summary>
-        ///   Adjusts a data matrix, centering and standardizing its values
-        ///   using the already computed column's means and standard deviations.
+        ///   Computes the maximum absolute change between two members of a matrix.
         /// </summary>
         /// 
-        protected double[,] Adjust(double[,] matrix, bool inPlace)
+        private static double getMaximumAbsoluteChange(double[][] W, double[][] W0)
         {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
+            // Used in the parallel method
+            double[] diag = W.DotWithTransposed(W0).Diagonal();
 
-            // Prepare the data, storing it in a new matrix if needed.
-            double[,] result = inPlace ? matrix : new double[rows, cols];
-
-
-            // Center the data around the mean. Will have no effect if
-            //  the data is already centered (the mean will be zero).
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < cols; j++)
-                    result[i, j] = (matrix[i, j] - columnMeans[j]);
-
-            // Check if we also have to standardize our data (convert to Z Scores).
-            if (this.analysisMethod == AnalysisMethod.Standardize)
-            {
-                // Yes. Divide by standard deviation
-                for (int j = 0; j < cols; j++)
-                {
-                    if (columnStdDev[j] == 0)
-                        throw new ArithmeticException("Standard deviation cannot be zero (cannot standardize the constant variable at column index " + j + ").");
-
-                    for (int i = 0; i < rows; i++)
-                        result[i, j] /= columnStdDev[j];
-                }
-            }
-
-            return result;
+            return diag.Abs(result: diag)
+                .Subtract(1, result: diag)
+                .Abs(result: diag)
+                .Max();
         }
 
         /// <summary>
-        ///   Adjusts a data matrix, centering and standardizing its values
-        ///   using the already computed column's means and standard deviations.
+        ///   Computes the maximum absolute change between two members of a vector.
+        /// </summary>
+        /// 
+        private static double getMaximumAbsoluteChange(double[] w, double[] w0)
+        {
+            // Used in deflation method
+            double[] diag = Elementwise.Multiply(w, w0);
+
+            return Math.Abs(Math.Abs(diag.Sum()) - 1);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
+        /// <returns>
+        /// A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.
+        /// </returns>
+        public MultivariateLinearRegression Learn(double[][] x, double[] weights = null)
+        {
+            // Calculate common measures to speedup other calculations
+            this.columnMeans = Measures.Mean(x, dimension: 0);
+            this.columnStdDev = Measures.StandardDeviation(x, columnMeans);
+
+            // First, the data should be centered by subtracting
+            //  the mean of each column in the source data matrix.
+            var matrix = Adjust(x, overwriteSourceMatrix);
+
+            // Pre-process the centered data matrix to have unit variance
+            var whiten = Statistics.Tools.Whitening(matrix, out whiteningMatrix);
+
+            // Generate a new unitary initial guess for the de-mixing matrix
+            var initial = Jagged.Random(NumberOfOutputs, matrix.Columns());
+
+
+            // Compute the demixing matrix using the selected algorithm
+            if (algorithm == IndependentComponentAlgorithm.Deflation)
+            {
+                revertMatrix = deflation(whiten, NumberOfOutputs, initial);
+            }
+            else // if (algorithm == IndependentComponentAlgorithm.Parallel)
+            {
+                revertMatrix = parallel(whiten, NumberOfOutputs, initial);
+            }
+
+            // Combine the rotation and demixing matrices
+            revertMatrix = whiteningMatrix.DotWithTransposed(revertMatrix);
+            revertMatrix.Divide(revertMatrix.Sum(), result: revertMatrix);
+
+            // Compute the original source mixing matrix
+            mixingMatrix = Matrix.PseudoInverse(revertMatrix);
+            mixingMatrix.Divide(mixingMatrix.Sum(), result: mixingMatrix);
+
+            this.demix = createRegression(revertMatrix, columnMeans, columnStdDev, analysisMethod);
+            this.mix = mix.Inverse();
+
+            // Creates the object-oriented structure to hold the principal components
+            var array = new IndependentComponent[NumberOfOutputs];
+            for (int i = 0; i < array.Length; i++)
+                array[i] = new IndependentComponent(this, i);
+            this.componentCollection = new IndependentComponentCollection(array);
+
+            return demix;
+        }
+
+        private static MultivariateLinearRegression createRegression(double[][] coef, double[] means, double[] stdDev, AnalysisMethod method)
+        {
+            double[][] B = coef.Copy();
+
+            if (method == AnalysisMethod.Standardize)
+                B.Divide(stdDev, dimension: 0, result: B);
+
+            double[] a = means.Dot(B);
+            a.Multiply(-1, result: a);
+
+            return new MultivariateLinearRegression()
+            {
+                Weights = B,
+                Intercepts = a
+            };
+        }
+
+        /// <summary>
+        ///   Obsolete
         /// </summary>
         /// 
         protected float[][] Adjust(float[][] matrix, bool inPlace)
@@ -893,38 +947,17 @@ namespace Accord.Statistics.Analysis
             float[][] result = matrix;
 
             if (!inPlace)
-            {
-                result = new float[rows][];
-                for (int i = 0; i < rows; i++)
-                    result[i] = new float[cols];
-            }
+                result = Jagged.CreateAs(matrix);
 
-            // Center the data around the mean. Will have no effect if
-            //  the data is already centered (the mean will be zero).
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < cols; j++)
-                    result[i][j] = (matrix[i][j] - (float)columnMeans[i]);
-
-            // Check if we also have to standardize our data (convert to Z Scores).
+            matrix.Subtract(columnMeans, dimension: 0, result: result);
             if (this.analysisMethod == AnalysisMethod.Standardize)
-            {
-                // Yes. Divide by standard deviation
-                for (int i = 0; i < rows; i++)
-                {
-                    if (columnStdDev[i] == 0)
-                        throw new ArithmeticException("Standard deviation cannot be zero (cannot standardize the constant variable at column index " + i + ").");
-
-                    for (int j = 0; j < rows; j++)
-                        result[i][j] /= (float)columnStdDev[i];
-                }
-            }
+                result.Divide(columnStdDev, dimension: 0, result: result);
 
             return result;
         }
 
         /// <summary>
-        ///   Adjusts a data matrix, centering and standardizing its values
-        ///   using the already computed column's means and standard deviations.
+        ///   Obsolete
         /// </summary>
         /// 
         protected double[][] Adjust(double[][] matrix, bool inPlace)
@@ -936,88 +969,29 @@ namespace Accord.Statistics.Analysis
             double[][] result = matrix;
 
             if (!inPlace)
-            {
-                result = new double[rows][];
-                for (int i = 0; i < rows; i++)
-                    result[i] = new double[cols];
-            }
+                result = Jagged.CreateAs(matrix);
 
-
-            // Center the data around the mean. Will have no effect if
-            //  the data is already centered (the mean will be zero).
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < cols; j++)
-                    result[i][j] = (matrix[i][j] - columnMeans[i]);
-
-            // Check if we also have to standardize our data (convert to Z Scores).
+            matrix.Subtract(columnMeans, dimension: 0, result: result);
             if (this.analysisMethod == AnalysisMethod.Standardize)
-            {
-                // Yes. Divide by standard deviation
-                for (int i = 0; i < rows; i++)
-                {
-                    if (columnStdDev[i] == 0)
-                        throw new ArithmeticException("Standard deviation cannot be zero (cannot standardize the constant variable at column index " + i + ").");
-
-                    for (int j = 0; j < rows; j++)
-                        result[i][j] /= columnStdDev[i];
-                }
-            }
+                result.Divide(columnStdDev, dimension: 0, result: result);
 
             return result;
         }
 
-        private static Single[][] convertToSingle(double[,] matrix)
-        {
-            int components = matrix.GetLength(0);
-            float[][] array = new float[components][];
-            for (int i = 0; i < components; i++)
-            {
-                array[i] = new float[components];
-                for (int j = 0; j < components; j++)
-                    array[i][j] = (float)matrix[j, i];
-            }
-
-            return array;
-        }
-
-        #endregion
 
         /// <summary>
-        ///   Computes the maximum absolute change between two members of a matrix.
+        /// Applies the transformation to an input, producing an associated output.
         /// </summary>
-        /// 
-        private static double getMaximumAbsoluteChange(double[,] W, double[,] W0)
+        /// <param name="input">The input data to which the transformation should be applied.</param>
+        /// <param name="result"></param>
+        /// <returns>
+        /// The output generated by applying this transformation to the given input.
+        /// </returns>
+        public override double[] Transform(double[] input, double[] result)
         {
-            int rows = W0.GetLength(0);
-            int cols = W0.GetLength(1);
-
-            double max = Math.Abs(W0[0, 0] - W[0, 0]);
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    double d = Math.Abs(W0[i, j] - W[i, j]);
-                    if (d > max) max = d;
-                }
-            }
-
-            return max;
-        }
-
-        /// <summary>
-        ///   Computes the maximum absolute change between two members of a vector.
-        /// </summary>
-        /// 
-        private static double getMaximumAbsoluteChange(double[] w, double[] w0)
-        {
-            double max = Math.Abs(w[0] - w0[0]);
-            for (int i = 1; i < w.Length; i++)
-            {
-                double d = Math.Abs(w[i] - w0[i]);
-                if (d > max) max = d;
-            }
-
-            return max;
+            // Data-adjust and separate the samples
+            double[] matrix = Adjust(new[] { input }, false)[0];
+            return Matrix.Dot(matrix, revertMatrix, result: result);
         }
     }
 

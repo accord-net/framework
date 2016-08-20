@@ -15,7 +15,7 @@ using System.Windows.Forms;
 using System.Data;
 using System.Threading;
 using System.Diagnostics;
-using AForge.Fuzzy;
+using Accord.Fuzzy;
 
 namespace SampleApp
 {
@@ -669,7 +669,7 @@ namespace SampleApp
             pbRobot.Left = pbRobot.Left + IncX;
         }
 
-        // Starting and stopping the AGV's moviment a
+        // Starting and stopping the AGV's movement a
         private void btnRun_Click(object sender, System.EventArgs e)
         {
             Button b = (sender as Button);
@@ -737,7 +737,8 @@ namespace SampleApp
         // One step of the AGV
         private void AGVStep()
         {
-            if (FirstInference) GetMeasures();
+            if (FirstInference) 
+                GetMeasures();
 
             try
             {

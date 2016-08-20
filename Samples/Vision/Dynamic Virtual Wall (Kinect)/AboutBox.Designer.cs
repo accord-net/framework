@@ -1,4 +1,4 @@
-﻿namespace KinectController
+﻿namespace SampleApp
 {
     partial class AboutBox
     {

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -57,7 +57,7 @@ namespace Accord.Tests.Statistics
 
             var regression = new ProportionalHazards(1);
 
-            double[][] inputs = data.GetColumn(0).ToArray();
+            double[][] inputs = data.GetColumn(0).ToJagged();
             double[] time = data.GetColumn(1);
             SurvivalOutcome[] output = data.GetColumn(2).To<SurvivalOutcome[]>();
 
@@ -117,7 +117,7 @@ namespace Accord.Tests.Statistics
 
             var regression = new ProportionalHazards(2);
 
-            double[][] inputs = data.Submatrix(null, 0, 1).ToArray();
+            double[][] inputs = data.Submatrix(null, 0, 1).ToJagged();
             double[] time = data.GetColumn(2);
             SurvivalOutcome[] output = data.GetColumn(3).To<SurvivalOutcome[]>();
 
@@ -173,7 +173,7 @@ namespace Accord.Tests.Statistics
 
             var regression = new ProportionalHazards(1);
 
-            double[][] inputs = data.GetColumn(0).ToArray();
+            double[][] inputs = data.GetColumn(0).ToJagged();
             double[] time = data.GetColumn(1);
             SurvivalOutcome[] output = data.GetColumn(2).To<SurvivalOutcome[]>();
 
@@ -217,7 +217,7 @@ namespace Accord.Tests.Statistics
 
             var regression = new ProportionalHazards(1);
 
-            double[][] inputs = data.GetColumn(0).ToArray();
+            double[][] inputs = data.GetColumn(0).ToJagged();
             double[] time = data.GetColumn(1);
             int[] output = data.GetColumn(2).ToInt32();
 
@@ -251,7 +251,7 @@ namespace Accord.Tests.Statistics
             };
 
 
-            double[][] covariates = inputs.Transpose().ToArray();
+            double[][] covariates = inputs.Transpose().ToJagged();
             double[] time = outputs.GetRow(0);
             int[] censor = outputs.GetRow(1).ToInt32();
 
@@ -300,7 +300,7 @@ namespace Accord.Tests.Statistics
 
             var regression = new ProportionalHazards(1);
 
-            double[][] inputs = data.GetColumn(0).ToArray();
+            double[][] inputs = data.GetColumn(0).ToJagged();
             double[] time = data.GetColumn(1);
             int[] censor = data.GetColumn(2).ToInt32();
 
@@ -378,7 +378,7 @@ namespace Accord.Tests.Statistics
 
             double[] time = data.GetColumn(0);
             SurvivalOutcome[] censor = data.GetColumn(1).To<SurvivalOutcome[]>();
-            double[][] inputs = data.GetColumn(2).ToArray();
+            double[][] inputs = data.GetColumn(2).ToJagged();
 
             var regression = new ProportionalHazards(1);
 
@@ -414,7 +414,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-10.2879332934202168, regression.GetPartialLogLikelihood(time, censor));
             Assert.AreEqual(-9.8190189050165948, regression.GetPartialLogLikelihood(inputs, time, censor));
 
-            double[] actual = inputs.Apply(regression.Compute);
+            double[] actual = inputs.Apply(x => regression.Compute(x));
 
             /*
              predict(r,type="risk")
@@ -464,7 +464,7 @@ namespace Accord.Tests.Statistics
 
             double[] time = data.GetColumn(0);
             SurvivalOutcome[] censor = data.GetColumn(1).To<SurvivalOutcome[]>();
-            double[][] inputs = data.GetColumn(2).ToArray();
+            double[][] inputs = data.GetColumn(2).ToJagged();
 
             var regression = new ProportionalHazards(1);
 
@@ -515,7 +515,7 @@ namespace Accord.Tests.Statistics
 
             // The value of the baseline must be exact the same if it was computed
             // after the Newton-Raphson or in a standalone EmpiricalHazard computation
-            double[] outputs = inputs.Apply(regression.Compute);
+            double[] outputs = inputs.Apply(x => regression.Compute(x));
             var empirical = EmpiricalHazardDistribution.Estimate(time, censor, outputs);
 
             baseline = new[]
@@ -540,7 +540,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void KaplanMeierTest2()
         {
-            int[][] data = Groups.Expand(
+            int[][] data = Classes.Expand(
                 new[] { 1, 2, 3, 4, 5, 6 },     // years
                 new[] { 3, 3, 3, 3, 3, 0 },     // died
                 new[] { 5, 10, 15, 20, 25, 10 } // censored

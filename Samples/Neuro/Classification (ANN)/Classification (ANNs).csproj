@@ -8,7 +8,7 @@
     <ProjectGuid>{6EC8C18C-65ED-4C93-A8E2-7FB5324EF3C5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Classification.ANNs</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Classification %28ANNs%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{D059B679-8B38-44FE-BEC6-8DFF9271CE59}"
 EndProject
@@ -14,7 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\Contributors.txt = ..\Contributors.txt
 		..\Copyright.txt = ..\Copyright.txt
 		..\License.txt = ..\License.txt
-		..\README.txt = ..\README.txt
 		..\Release notes.txt = ..\Release notes.txt
 	EndProjectSection
 EndProject
@@ -111,6 +110,8 @@ EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Accord.Tests.Math.FSharp", "..\Unit Tests\Accord.Tests.Math.FSharp\Accord.Tests.Math.FSharp.fsproj", "{79173770-18B0-4703-9E74-15F945B9EFDC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Tests.Math.Interop", "..\Unit Tests\Accord.Tests.Math.Interop\Accord.Tests.Math.Interop.csproj", "{F5820249-C973-4EF3-91B3-4B46F2961816}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Math.Core", "Accord.Math.Core\Accord.Math.Core.csproj", "{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -463,6 +464,14 @@ Global
 		{F5820249-C973-4EF3-91B3-4B46F2961816}.NET40|Any CPU.Build.0 = NET40|Any CPU
 		{F5820249-C973-4EF3-91B3-4B46F2961816}.NET45|Any CPU.ActiveCfg = NET45|Any CPU
 		{F5820249-C973-4EF3-91B3-4B46F2961816}.NET45|Any CPU.Build.0 = NET45|Any CPU
+		{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}.NET35|Any CPU.ActiveCfg = NET35|Any CPU
+		{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}.NET35|Any CPU.Build.0 = NET35|Any CPU
+		{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}.NET40|Any CPU.ActiveCfg = NET40|Any CPU
+		{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}.NET40|Any CPU.Build.0 = NET40|Any CPU
+		{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}.NET45|Any CPU.ActiveCfg = NET45|Any CPU
+		{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}.NET45|Any CPU.Build.0 = NET45|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

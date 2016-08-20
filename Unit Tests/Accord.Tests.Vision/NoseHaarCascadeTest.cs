@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -72,7 +72,7 @@ namespace Accord.Tests.Vision
 
                         Assert.AreNotEqual(eNode, aNode);
                         Assert.AreEqual(eNode.LeftNodeIndex, aNode.LeftNodeIndex);
-                        Assert.AreEqual(eNode.LeftValue, aNode.LeftValue);
+                        Assert.AreEqual(eNode.LeftValue, aNode.LeftValue, 1e-10);
                         Assert.AreEqual(eNode.RightNodeIndex, aNode.RightNodeIndex, 1e-16);
                         Assert.AreEqual(eNode.RightValue, aNode.RightValue, 1e-16);
                         Assert.AreEqual(eNode.Threshold, aNode.Threshold, 1e-16);

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -33,7 +33,9 @@ namespace Accord.Statistics.Analysis
     ///   variables as a combinations of other features or measurements.</para>
     /// </remarks>
     /// 
+#pragma warning disable 612, 618
     public interface IMultivariateRegressionAnalysis : IMultivariateAnalysis
+#pragma warning restore 612, 618
     {
 
         /// <summary>

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -34,23 +34,6 @@ namespace Accord.Tests.MachineLearning
     public class ProbabilisticCoordinateDescentTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void RunTest()
         {
@@ -81,7 +64,9 @@ namespace Accord.Tests.MachineLearning
             teacher.Tolerance = 1e-10;
             teacher.Complexity = 1e+10;
 
+            Assert.IsFalse(svm.IsProbabilistic);
             double error = teacher.Run();
+            Assert.IsTrue(svm.IsProbabilistic);
 
             var regression = LogisticRegression.FromWeights(svm.ToWeights());
 
@@ -92,7 +77,7 @@ namespace Accord.Tests.MachineLearning
             double ageOdds = regression.GetOddsRatio(1); // 1.0208597028836701
             double smokeOdds = regression.GetOddsRatio(2); // 5.8584748789881331
 
-            Assert.AreEqual(0.3, error);
+            Assert.AreEqual(0.2, error);
             Assert.AreEqual(1.0208597028836701, ageOdds, 1e-4);
             Assert.AreEqual(5.8584748789881331, smokeOdds, 1e-4);
 
@@ -110,7 +95,7 @@ namespace Accord.Tests.MachineLearning
         {
             var dataset = SequentialMinimalOptimizationTest.yinyang;
 
-            double[][] inputs = dataset.Submatrix(null, 0, 1).ToArray();
+            double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
             int[] labels = dataset.GetColumn(2).ToInt32();
 
             var svm = new SupportVectorMachine(inputs: 2);
@@ -123,7 +108,7 @@ namespace Accord.Tests.MachineLearning
 
             double[] weights = svm.ToWeights();
 
-            Assert.AreEqual(0.12, error);
+            Assert.AreEqual(0.11, error);
             Assert.AreEqual(3, weights.Length);
             Assert.AreEqual(-1.3231203367770932, weights[0], 1e-8);
             Assert.AreEqual(-3.0227742288788493, weights[1], 1e-8);
@@ -136,14 +121,15 @@ namespace Accord.Tests.MachineLearning
         public void KernelTest1()
         {
             var dataset = SequentialMinimalOptimizationTest.yinyang;
-            double[][] inputs = dataset.Submatrix(null, 0, 1).ToArray();
+            double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
             int[] labels = dataset.GetColumn(2).ToInt32();
 
             double e1, e2;
             double[] w1, w2;
 
             {
-                Accord.Math.Tools.SetupGenerator(0);
+                Accord.Math.Random.Generator.Seed = 0;
+
                 var svm = new SupportVectorMachine(inputs: 2);
                 var teacher = new ProbabilisticCoordinateDescent(svm, inputs, labels);
 
@@ -155,7 +141,8 @@ namespace Accord.Tests.MachineLearning
             }
 
             {
-                Accord.Math.Tools.SetupGenerator(0);
+                Accord.Math.Random.Generator.Seed = 0;
+
                 var svm = new KernelSupportVectorMachine(new Linear(0), inputs: 2);
                 var teacher = new ProbabilisticCoordinateDescent(svm, inputs, labels);
 
@@ -177,20 +164,14 @@ namespace Accord.Tests.MachineLearning
         public void KernelTest2()
         {
             var dataset = SequentialMinimalOptimizationTest.yinyang;
-            var inputs = dataset.Submatrix(null, 0, 1).ToArray();
+            var inputs = dataset.Submatrix(null, 0, 1).ToJagged();
             var labels = dataset.GetColumn(2).ToInt32();
 
             var svm = new KernelSupportVectorMachine(new Linear(1), inputs: 2);
 
-            bool thrown = false;
+            var p = new ProbabilisticCoordinateDescent(svm, inputs, labels);
 
-            try
-            {
-                new ProbabilisticCoordinateDescent(svm, inputs, labels);
-            }
-            catch (ArgumentException) { thrown = true; }
-
-            Assert.IsTrue(thrown);
+            Assert.NotNull(p);
         }
     }
 }

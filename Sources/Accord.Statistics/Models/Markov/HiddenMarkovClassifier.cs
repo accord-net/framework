@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Models.Markov
 {
     using System;
+    using Accord.Math;
     using System.Collections.Generic;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
@@ -56,9 +57,14 @@ namespace Accord.Statistics.Models.Markov
     /// <seealso cref="HiddenMarkovClassifier{TDistribution}"/>
     /// <seealso cref="HiddenMarkovClassifierLearning"/>
     /// 
+#pragma warning disable 612, 618
     [Serializable]
-    public class HiddenMarkovClassifier : BaseHiddenMarkovClassifier<HiddenMarkovModel>,
-        IEnumerable<HiddenMarkovModel>, IHiddenMarkovClassifier
+    public class HiddenMarkovClassifier : BaseHiddenMarkovClassifier<
+            HiddenMarkovModel, GeneralDiscreteDistribution, int>,
+        IEnumerable<HiddenMarkovModel>,
+        IHiddenMarkovClassifier
+#pragma warning restore 612, 618
+
     {
 
         /// <summary>
@@ -197,9 +203,10 @@ namespace Accord.Statistics.Models.Markov
         /// been rejected by the <see cref="BaseHiddenMarkovClassifier{T}.Threshold">
         /// threshold model</see>.</returns>
         /// 
+        [Obsolete("Please use Decide(input) instead.")]
         public int Compute(int[] sequence)
         {
-            return base.Compute(sequence as Array);
+            return base.Decide(sequence);
         }
 
         /// <summary>
@@ -218,9 +225,12 @@ namespace Accord.Statistics.Models.Markov
         /// been rejected by the <see cref="BaseHiddenMarkovClassifier{T}.Threshold">
         /// threshold model</see>.</returns>
         /// 
+        [Obsolete("Please use Decide(input) or Probability(input) instead.")]
         public int Compute(int[] sequence, out double response)
         {
-            return base.Compute(sequence as Array, out response);
+            int decision;
+            response = base.Probability(sequence, out decision);
+            return decision;
         }
 
         /// <summary>
@@ -239,25 +249,15 @@ namespace Accord.Statistics.Models.Markov
         /// been rejected by the <see cref="BaseHiddenMarkovClassifier{T}.Threshold">
         /// threshold model</see>.</returns>
         /// 
+        [Obsolete("Please use Decide(input) instead.")]
         public int Compute(int[] sequence, out double[] responsibilities)
         {
-            return base.Compute(sequence as Array, out responsibilities);
+            int decision;
+            responsibilities = base.Probabilities(sequence, out decision);
+            return decision;
         }
 
-        /// <summary>
-        ///   Computes the log-likelihood of a sequence
-        ///   belong to a given class according to this
-        ///   classifier.
-        /// </summary>
-        /// <param name="sequence">The sequence of observations.</param>
-        /// <param name="output">The output class label.</param>
-        /// 
-        /// <returns>The log-likelihood of the sequence belonging to the given class.</returns>
-        /// 
-        public double LogLikelihood(int[] sequence, int output)
-        {
-            return base.LogLikelihood(sequence, output);
-        }
+
 
         /// <summary>
         ///   Computes the log-likelihood of a set of sequences
@@ -269,23 +269,14 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <returns>The log-likelihood of the sequences belonging to the given classes.</returns>
         /// 
-        public double LogLikelihood(int[][] sequences, int[] outputs)
+        public new double LogLikelihood(int[][] sequences, int[] outputs)
         {
-            return base.LogLikelihood(sequences, outputs);
+            // for backwards compatibility
+            return base.LogLikelihood(sequences, outputs).Sum();
         }
 
-        /// <summary>
-        ///   Computes the log-likelihood that a sequence
-        ///   belongs any of the classes in the classifier.
-        /// </summary>
-        /// <param name="sequence">The sequence of observations.</param>
-        /// 
-        /// <returns>The log-likelihood of the sequence belonging to the classifier.</returns>
-        /// 
-        public double LogLikelihood(int[] sequence)
-        {
-            return base.LogLikelihood(sequence);
-        }
+
+#pragma warning disable 612, 618
 
         /// <summary>
         ///   Creates a new Sequence Classifier with the given number of classes.
@@ -305,6 +296,27 @@ namespace Accord.Statistics.Models.Markov
             return classifier;
         }
 
+#pragma warning restore 612, 618
+
+
+        /// <summary>
+        ///   Creates a new Sequence Classifier with the given number of classes.
+        /// </summary>
+        /// 
+        /// <param name="classes">The number of classes in the classifier.</param>
+        /// <param name="states">An array specifying the number of hidden states for each
+        /// of the classifiers. By default, and Ergodic topology will be used.</param>
+        /// <param name="symbols">The number of symbols in the models' discrete alphabet.</param>
+        /// 
+        public static HiddenMarkovClassifier<GeneralDiscreteDistribution, int> CreateGeneric2(
+            int classes, int[] states, int symbols)
+        {
+            var classifier = new HiddenMarkovClassifier<GeneralDiscreteDistribution, int>(
+                classes, states, new GeneralDiscreteDistribution(symbols));
+
+            return classifier;
+        }
+
         #region ISequenceClassifier implementation
 
         /// <summary>
@@ -313,12 +325,15 @@ namespace Accord.Statistics.Models.Markov
         /// 
         int IHiddenMarkovClassifier.Compute(Array sequence, out double[] likelihoods)
         {
-            return base.Compute(sequence, out likelihoods);
+            int decision;
+            likelihoods = base.LogLikelihoods(sequence as int[], out decision);
+            return decision;
         }
         #endregion
 
 
         #region Save & Load methods
+#pragma warning disable 612, 618
 
         /// <summary>
         ///   Saves the classifier to a stream.
@@ -326,6 +341,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <param name="stream">The stream to which the classifier is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.Serializer.Save instead.")]
         public void Save(Stream stream)
         {
             BinaryFormatter b = new BinaryFormatter();
@@ -338,6 +354,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <param name="path">The stream to which the classifier is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.Serializer.Save instead.")]
         public void Save(string path)
         {
             using (FileStream fs = new FileStream(path, FileMode.Create))
@@ -354,6 +371,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <returns>The deserialized classifier.</returns>
         /// 
+        [Obsolete("Please use Accord.Serializer.Load instead.")]
         public static HiddenMarkovClassifier Load(Stream stream)
         {
             BinaryFormatter b = new BinaryFormatter();
@@ -368,6 +386,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <returns>The deserialized classifier.</returns>
         /// 
+        [Obsolete("Please use Accord.Serializer.Load instead.")]
         public static HiddenMarkovClassifier Load(string path)
         {
             using (FileStream fs = new FileStream(path, FileMode.Open))
@@ -384,6 +403,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <returns>The deserialized classifier.</returns>
         /// 
+        [Obsolete("Please use Accord.Serializer.Load instead.")]
         public static HiddenMarkovClassifier<TDistribution> Load<TDistribution>(Stream stream)
             where TDistribution : IDistribution
         {
@@ -398,11 +418,13 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <returns>The deserialized classifier.</returns>
         /// 
+        [Obsolete("Please use Accord.Serializer.Load instead.")]
         public static HiddenMarkovClassifier<TDistribution> Load<TDistribution>(string path)
             where TDistribution : IDistribution
         {
             return HiddenMarkovClassifier<TDistribution>.Load(path);
         }
+#pragma warning restore 612, 618
 
         #endregion
 

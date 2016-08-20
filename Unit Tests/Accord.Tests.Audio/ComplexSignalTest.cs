@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -141,8 +141,8 @@ namespace Accord.Tests.Audio
             {
                 int min = System.Math.Min(i + length, samples.Length / 2);
 
-                Complex[] segment = windows[i].ToArray().Reshape(1);
-                Complex[] sub = samples.Submatrix(i, min - 1, null).Reshape(1);
+                Complex[] segment = windows[i].ToArray().Reshape();
+                Complex[] sub = samples.Submatrix(i, min - 1, null).Reshape();
 
                 var expected = new Complex[length * 2];
                 for (int j = 0; j < sub.Length; j++)

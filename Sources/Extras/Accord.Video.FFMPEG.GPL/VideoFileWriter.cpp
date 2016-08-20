@@ -25,7 +25,7 @@ namespace libffmpeg
 	}
 }
 
-namespace AForge { namespace Video { namespace FFMPEG
+namespace Accord { namespace Video { namespace FFMPEG
 {
 #pragma region Some private FFmpeg related stuff hidden out of header file
 

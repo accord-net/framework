@@ -13,7 +13,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using AForge.Math;
+using Accord.Math;
 
 namespace SampleApp
 {

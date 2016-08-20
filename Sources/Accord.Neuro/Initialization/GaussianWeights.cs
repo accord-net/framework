@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,8 +22,8 @@
 
 namespace Accord.Neuro
 {
-    using AForge.Math.Random;
-    using AForge.Neuro;
+    using Accord.Math.Random;
+    using Accord.Statistics.Distributions.Univariate;
 
     /// <summary>
     ///   Gaussian weight initialization.
@@ -32,7 +32,7 @@ namespace Accord.Neuro
     public class GaussianWeights
     {
         private ActivationNetwork network;
-        private GaussianGenerator random;
+        private IRandomNumberGenerator<double> random;
 
         /// <summary>
         ///   Gets ors sets whether the initialization
@@ -53,7 +53,7 @@ namespace Accord.Neuro
         {
             this.network = network;
 
-            this.random = new GaussianGenerator(0f, (float)stdDev, Accord.Math.Tools.Random.Next());
+            this.random = new NormalDistribution(0, stdDev);
 
             this.UpdateThresholds = false;
         }
@@ -70,9 +70,9 @@ namespace Accord.Neuro
                 foreach (ActivationNeuron neuron in layer.Neurons)
                 {
                     for (int i = 0; i < neuron.Weights.Length; i++)
-                        neuron.Weights[i] = random.Next();
+                        neuron.Weights[i] = random.Generate();
                     if (UpdateThresholds)
-                        neuron.Threshold = random.Next();
+                        neuron.Threshold = random.Generate();
                 }
             }
         }
@@ -89,9 +89,9 @@ namespace Accord.Neuro
             foreach (ActivationNeuron neuron in layer.Neurons)
             {
                 for (int i = 0; i < neuron.Weights.Length; i++)
-                    neuron.Weights[i] = random.Next();
+                    neuron.Weights[i] = random.Generate();
                 if (UpdateThresholds)
-                    neuron.Threshold = random.Next();
+                    neuron.Threshold = random.Generate();
             }
         }
 

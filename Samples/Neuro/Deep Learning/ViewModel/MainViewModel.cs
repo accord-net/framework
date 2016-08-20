@@ -19,14 +19,13 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace DeepLearning.ViewModel
+namespace SampleApp.ViewModel
 {
     using System.ComponentModel;
     using Accord.Neuro;
     using Accord.Neuro.ActivationFunctions;
     using Accord.Neuro.Networks;
-    using AForge.Neuro;
-    using DeepLearning.Databases;
+    using SampleApp.Databases;
 
     /// <summary>
     ///   Main View-Model for the application.

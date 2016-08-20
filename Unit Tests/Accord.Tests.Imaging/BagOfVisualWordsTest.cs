@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging;
     using Accord.MachineLearning;
     using Accord.Math;
-    using AForge.Imaging;
+    using Accord.Math.Distances;
     using NUnit.Framework;
     using System.Collections.Generic;
     using System.Drawing;
@@ -40,23 +40,31 @@ namespace Accord.Tests.Imaging
     {
 
         // Load some test images
-        static Bitmap[] images =
+        public static Bitmap[] GetImages()
         {
-            Properties.Resources.flower01,
-            Properties.Resources.flower02,
-            Properties.Resources.flower03,
-            Properties.Resources.flower04,
-            Properties.Resources.flower05,
-            Properties.Resources.flower06,
-        };
+            Bitmap[] images = 
+            { 
+                Accord.Imaging.Image.Clone(Properties.Resources.flower01),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower02),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower03),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower04),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower05),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower06),
+            };
+
+            return images;
+        }
 
         [Test]
         public void BagOfVisualWordsConstructorTest()
         {
+            var images = GetImages();
+
             BagOfVisualWords bow = new BagOfVisualWords(10);
-
+            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
+#pragma warning disable 612, 618
             var points = bow.Compute(images, 1e-3);
-
+#pragma warning restore 612, 618
             Assert.AreEqual(10, bow.NumberOfWords);
             Assert.AreEqual(6, points.Length);
 
@@ -67,7 +75,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(719, points[4].Count);
             Assert.AreEqual(1265, points[5].Count);
 
-            double tol = 1e-7;
+            double tol = 1e-5;
             Assert.AreEqual(388.04225639880224, points[0][0].X, tol);
             Assert.AreEqual(105.9954439039073, points[0][0].Y, tol);
 
@@ -93,13 +101,17 @@ namespace Accord.Tests.Imaging
         [Test]
         public void BagOfVisualWordsConstructorTest3()
         {
+            var images = GetImages();
+
             MoravecCornersDetector moravec = new MoravecCornersDetector();
             CornerFeaturesDetector detector = new CornerFeaturesDetector(moravec);
 
             var bow = new BagOfVisualWords<CornerFeaturePoint>(detector, numberOfWords: 10);
+            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
 
+#pragma warning disable 612, 618
             var points = bow.Compute(images, 1e-3);
-
+#pragma warning restore 612, 618
             double[] vector = bow.GetFeatureVector(images[0]);
 
             Assert.AreEqual(10, bow.NumberOfWords);
@@ -128,12 +140,13 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(135, points[4][125].Descriptor[1]);
         }
 
-
         [Test]
         public void GetFeatureVectorTest()
         {
-            Accord.Math.Tools.SetupGenerator(0);
-            Bitmap image = (Bitmap)images[0].Clone();
+            var images = GetImages();
+
+            Accord.Math.Random.Generator.Seed = 0;
+            Bitmap image = new Bitmap(images[0]);
 
             // The Bag-of-Visual-Words model converts arbitrary-size images 
             // into fixed-length feature vectors. In this example, we will
@@ -142,6 +155,8 @@ namespace Accord.Tests.Imaging
 
             // Create a new Bag-of-Visual-Words (BoW) model
             BagOfVisualWords bow = new BagOfVisualWords(10);
+
+            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
 
             // Compute the model using
             // a set of training images
@@ -154,34 +169,31 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(10, feature.Length);
 
 
-            double[][] expected = 
+            double[][] expected =
             {
-                new double[] { 43, 39, 27, 21, 34, 30, 98, 51, 61, 5 },
-                new double[] { 69, 100, 61, 41, 114, 125, 85, 27, 34, 71 },
-                new double[] { 52, 46, 44, 19, 20, 51, 143, 73, 69, 35 } 
+                new double[] { 47, 44, 42, 4, 23, 22, 28, 53, 50, 96 },
+                new double[] { 26, 91, 71, 49, 99, 70, 59, 28, 155, 79 },
+                new double[] { 71, 34, 51, 33, 53, 25, 44, 64, 32, 145 } 
             };
 
             double[][] actual = new double[expected.Length][];
             for (int i = 0; i < actual.Length; i++)
                 actual[i] = bow.GetFeatureVector(images[i]);
 
-            // string str = actual.ToString(CSharpJaggedMatrixFormatProvider.InvariantCulture);
+            //string str = actual.ToString(CSharpJaggedMatrixFormatProvider.InvariantCulture);
+            //Assert.IsNullOrEmpty(str);
 
             for (int i = 0; i < actual.Length; i++)
-            {
                 for (int j = 0; j < actual[i].Length; j++)
-                {
                     Assert.IsTrue(expected[i].Contains(actual[i][j]));
-                }
-            }
         }
 
-        [Test]
+        [Test, Timeout(600 * 1000)]
         public void SerializeTest()
         {
-            var images = BagOfVisualWordsTest.images.DeepClone();
+            var images = GetImages();
 
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             BagOfVisualWords bow = new BagOfVisualWords(10);
 
@@ -208,15 +220,15 @@ namespace Accord.Tests.Imaging
         [Test]
         public void SerializeTest2()
         {
-            var images = BagOfVisualWordsTest.images.DeepClone();
+            var images = GetImages();
 
-            Accord.Math.Tools.SetupGenerator(0);
+            Accord.Math.Random.Generator.Seed = 0;
 
             FastCornersDetector fast = new FastCornersDetector();
 
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector(fast);
 
-            var kmodes = new KModes<byte>(5, Distance.BitwiseHamming);
+            var kmodes = new KModes<byte>(5, new Hamming());
 
             var bow = new BagOfVisualWords<FastRetinaKeypoint, byte[]>(freak, kmodes);
 

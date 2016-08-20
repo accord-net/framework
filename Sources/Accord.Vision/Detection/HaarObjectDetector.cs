@@ -2,7 +2,7 @@
 // The Accord.NET Framework (LGPL) 
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 // Copyright © Masakazu Ohtsuka, 2008
@@ -39,7 +39,6 @@ namespace Accord.Vision.Detection
     using System.Drawing;
     using System.Threading.Tasks;
     using Accord.Imaging;
-    using AForge.Imaging;
     using System.Drawing.Imaging;
 
     /// <summary>

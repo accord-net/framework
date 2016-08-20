@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,8 +29,8 @@ namespace Accord.Controls
     using System.Collections;
 
     /// <summary>
-    ///   Type converter for <see cref="AForge.DoubleRange"/>
-    ///   and <see cref="AForge.IntRange"/> objects.
+    ///   Type converter for <see cref="DoubleRange"/>
+    ///   and <see cref="IntRange"/> objects.
     /// </summary>
     /// 
     public class RangeTypeConverter : TypeConverter

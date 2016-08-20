@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -262,7 +262,7 @@ namespace Accord.Statistics.Filters
             int rows = data.Length;
             int cols = data[0].Length;
 
-            double[] means = data.Mean();
+            double[] means = data.Mean(dimension: 0);
             double[] stdDev = data.StandardDeviation(means);
 
             for (int i = 0; i < cols; i++)

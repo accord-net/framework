@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,6 +22,7 @@
 
 namespace Accord.Statistics.Models.Fields.Functions
 {
+#pragma warning disable 612, 618
     using System;
     using System.Collections.Generic;
     using Accord.Statistics.Distributions.Univariate;
@@ -140,8 +141,8 @@ namespace Accord.Statistics.Models.Fields.Functions
                 factorIndex += classParams.Count + stateParams.Count + edgeParams.Count;
             }
 
-            System.Diagnostics.Debug.Assert(factorIndex == factorParams.Count);
-            System.Diagnostics.Debug.Assert(factorIndex == factorFeatures.Count);
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorParams.Count);
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorFeatures.Count);
 
             this.Weights = factorParams.ToArray();
             this.Features = factorFeatures.ToArray();

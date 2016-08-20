@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,6 +22,8 @@
 
 namespace Accord.Statistics.Models.Markov.Learning
 {
+#pragma warning disable 612, 618
+
     using System;
     using Accord.Math;
     using Accord.Statistics.Models.Markov;
@@ -436,6 +438,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <seealso cref="BaumWelchLearning"/>
     /// <seealso cref="BaumWelchLearning{TDistribution}"/>
     /// 
+    [Obsolete("Please use BaumWelchLearning<TDistribution, TObservation> instead.")]
     public class BaumWelchLearning<TDistribution> : BaseBaumWelchLearning, IUnsupervisedLearning, IConvergenceLearning
         where TDistribution : IDistribution
     {
@@ -561,7 +564,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                     }
                 }
 
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
 
                 // Normalize if different from zero
                 if (lnsum != Double.NegativeInfinity)
@@ -602,7 +605,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                     }
                 }
 
-                System.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
 
                 if (lnsum != Double.NegativeInfinity)
                     for (int w = 0; w < weights.Length; w++)
@@ -635,10 +638,10 @@ namespace Accord.Statistics.Models.Markov.Learning
             int states = model.States;
             int T = vectorObservations[index].Length;
 
-            System.Diagnostics.Debug.Assert(lnBwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(lnBwd.GetLength(1) == states);
-            System.Diagnostics.Debug.Assert(lnFwd.GetLength(0) >= T);
-            System.Diagnostics.Debug.Assert(lnFwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(lnBwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(lnBwd.GetLength(1) == states);
+            Accord.Diagnostics.Debug.Assert(lnFwd.GetLength(0) >= T);
+            Accord.Diagnostics.Debug.Assert(lnFwd.GetLength(1) == states);
 
             ForwardBackwardAlgorithm.LogForward(model, vectorObservations[index], lnFwd);
             ForwardBackwardAlgorithm.LogBackward(model, vectorObservations[index], lnBwd);

@@ -16,9 +16,9 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-using AForge.Video;
+using Accord.Video;
 
-namespace AForge.Controls
+namespace Accord.Controls
 {
     using Point = System.Drawing.Point;
 
@@ -27,7 +27,7 @@ namespace AForge.Controls
     /// </summary>
     /// 
     /// <remarks><para>The control is aimed to play video sources, which implement
-    /// <see cref="AForge.Video.IVideoSource"/> interface. To start playing a video
+    /// <see cref="Accord.Video.IVideoSource"/> interface. To start playing a video
     /// the <see cref="VideoSource"/> property should be initialized first and then
     /// <see cref="Start"/> method should be called. In the case if user needs to
     /// perform some sort of image processing with video frames before they are displayed,
@@ -306,7 +306,7 @@ namespace AForge.Controls
         /// Stop video source.
         /// </summary>
         /// 
-        /// <remarks><para>The method stops video source by calling its <see cref="AForge.Video.IVideoSource.Stop"/>
+        /// <remarks><para>The method stops video source by calling its <see cref="Accord.Video.IVideoSource.Stop"/>
         /// method, which abourts internal video source's thread. Use <see cref="SignalToStop"/> and
         /// <see cref="WaitForStop"/> for more polite video source stopping, which gives a chance for
         /// video source to perform proper shut down and clean up.
@@ -395,7 +395,7 @@ namespace AForge.Controls
         {
             lock (sync)
             {
-                return (currentFrame == null) ? null : AForge.Imaging.Image.Clone(currentFrame);
+                return (currentFrame == null) ? null : Accord.Imaging.Image.Clone(currentFrame);
             }
         }
 
@@ -531,7 +531,7 @@ namespace AForge.Controls
                          (currentFrame.PixelFormat == PixelFormat.Format48bppRgb) ||
                          (currentFrame.PixelFormat == PixelFormat.Format64bppArgb))
                     {
-                        convertedFrame = AForge.Imaging.Image.Convert16bppTo8bpp(currentFrame);
+                        convertedFrame = Accord.Imaging.Image.Convert16bppTo8bpp(currentFrame);
                     }
                 }
 

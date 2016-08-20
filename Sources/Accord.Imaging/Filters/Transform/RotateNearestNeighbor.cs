@@ -5,7 +5,7 @@
 // Copyright © AForge.NET, 2005-2015
 // contacts@aforgenet.com
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,8 +25,8 @@
 
 namespace Accord.Imaging.Filters
 {
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
@@ -61,7 +61,7 @@ namespace Accord.Imaging.Filters
     /// <seealso cref="RotateBilinear"/>
     /// <seealso cref="RotateBicubic"/>
     /// 
-    internal class RotateNearestNeighbor : BaseRotateFilter
+    public class RotateNearestNeighbor : BaseRotateFilter
     {
         // format translation dictionary
         private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();

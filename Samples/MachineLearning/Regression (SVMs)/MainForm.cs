@@ -43,11 +43,10 @@ using Accord.MachineLearning.VectorMachines;
 using Accord.MachineLearning.VectorMachines.Learning;
 using Accord.Math;
 using Accord.Statistics.Kernels;
-using AForge;
 using Components;
 using ZedGraph;
 
-namespace Regression.SVMs
+namespace SampleApp
 {
     public partial class MainForm : Form
     {
@@ -162,9 +161,9 @@ namespace Regression.SVMs
 
 
             // Get the ranges for each variable (X and Y)
-            DoubleRange range = Matrix.Range(table.GetColumn(0));
+            DoubleRange range = table.GetColumn(0).GetRange();
 
-            double[][] map = Matrix.Interval(range, 0.05).ToArray();
+            double[][] map = Vector.Interval(range, 0.05).ToArray();
 
             // Classify each point in the Cartesian coordinate system
             double[] result = map.Apply(svm.Compute);
@@ -201,7 +200,7 @@ namespace Regression.SVMs
 
             // Compute R² and Sum-of-squares error
             double rSquared = Accord.Statistics.Tools.Determination(output, expected);
-            double error = expected.Subtract(output).ElementwisePower(2).Sum() / output.Length;
+            double error = Elementwise.Pow(expected.Subtract(output), 2).Sum() / output.Length;
 
 
             // Anonymous magic! :D
@@ -222,7 +221,7 @@ namespace Regression.SVMs
         private IKernel createKernel()
         {
             if (rbGaussian.Checked)
-                return new Gaussian((double)numSigma.Value);
+                return new Accord.Statistics.Kernels.Gaussian((double)numSigma.Value);
 
             if (rbPolynomial.Checked)
             {
@@ -305,7 +304,7 @@ namespace Regression.SVMs
             IKernel kernel = createKernel();
 
             // Estimate a suitable value for SVM's complexity parameter C
-            double c = SequentialMinimalOptimization.EstimateComplexity(kernel, inputs);
+            double c = kernel.EstimateComplexity(inputs);
 
             numC.Value = (decimal)c;
         }

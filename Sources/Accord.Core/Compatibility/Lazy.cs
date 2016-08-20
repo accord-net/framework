@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -50,7 +50,9 @@ namespace Accord
         /// <param name="valueFactory">A function which creates the instance value on first access.</param>
         /// 
         public Lazy(Func<T> valueFactory)
-            : this(valueFactory, true) { }
+            : this(valueFactory, true)
+        {
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="Lazy&lt;T&gt;"/> class.

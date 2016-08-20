@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -166,7 +166,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                System.Diagnostics.Debug.Assert(mu == base.Median);
+                Accord.Diagnostics.Debug.Assert(mu == base.Median);
                 return mu;
             }
         }
@@ -207,7 +207,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 

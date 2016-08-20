@@ -1,4 +1,4 @@
-﻿namespace Clustering.GMMs
+﻿namespace SampleApp
 {
     partial class MainForm
     {

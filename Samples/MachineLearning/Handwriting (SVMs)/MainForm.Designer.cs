@@ -1,4 +1,4 @@
-﻿namespace Handwriting.SVMs
+﻿namespace SampleApp
 {
     partial class MainForm
     {
@@ -115,7 +115,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lbStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.canvas = new Handwriting.Canvas();
+            this.canvas = new SampleApp.Canvas();
             this.menuStrip1.SuspendLayout();
             this.tabSamples.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
@@ -1166,7 +1166,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colTrainingLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTrainingFeatures;
         private System.Windows.Forms.ToolStripProgressBar progressBar;
-        private Canvas canvas;
+        private SampleApp.Canvas canvas;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TrackBar tbPenWidth;

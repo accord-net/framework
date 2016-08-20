@@ -77,29 +77,29 @@
     <Compile Include="Activation Functions\Base\IStochasticFunction.cs" />
     <Compile Include="Activation Functions\LinearFunction.cs" />
     <Compile Include="Activation Functions\BernoulliFunction.cs" />
-    <Compile Include="AForge\Activation Functions\BipolarSigmoidFunction.cs" />
-    <Compile Include="AForge\Activation Functions\IActivationFunction.cs" />
-    <Compile Include="AForge\Activation Functions\SigmoidFunction.cs" />
-    <Compile Include="AForge\Activation Functions\ThresholdFunction.cs" />
-    <Compile Include="AForge\Layers\ActivationLayer.cs" />
-    <Compile Include="AForge\Layers\DistanceLayer.cs" />
-    <Compile Include="AForge\Layers\Layer.cs" />
-    <Compile Include="AForge\Learning\BackPropagationLearning.cs" />
-    <Compile Include="AForge\Learning\DeltaRuleLearning.cs" />
-    <Compile Include="AForge\Learning\ElasticNetworkLearning.cs" />
-    <Compile Include="AForge\Learning\EvolutionaryFitness.cs" />
-    <Compile Include="AForge\Learning\EvolutionaryLearning.cs" />
-    <Compile Include="AForge\Learning\ISupervisedLearning.cs" />
-    <Compile Include="AForge\Learning\IUnsupervisedLearning.cs" />
-    <Compile Include="AForge\Learning\PerceptronLearning.cs" />
-    <Compile Include="AForge\Learning\ResilientBackPropagationLearning.cs" />
-    <Compile Include="AForge\Learning\SOMLearning.cs" />
-    <Compile Include="AForge\Networks\ActivationNetwork.cs" />
-    <Compile Include="AForge\Networks\DistanceNetwork.cs" />
-    <Compile Include="AForge\Networks\Network.cs" />
-    <Compile Include="AForge\Neurons\ActivationNeuron.cs" />
-    <Compile Include="AForge\Neurons\DistanceNeuron.cs" />
-    <Compile Include="AForge\Neurons\Neuron.cs" />
+    <Compile Include="AForge.Neuro\Activation Functions\BipolarSigmoidFunction.cs" />
+    <Compile Include="AForge.Neuro\Activation Functions\IActivationFunction.cs" />
+    <Compile Include="AForge.Neuro\Activation Functions\SigmoidFunction.cs" />
+    <Compile Include="AForge.Neuro\Activation Functions\ThresholdFunction.cs" />
+    <Compile Include="AForge.Neuro\Layers\ActivationLayer.cs" />
+    <Compile Include="AForge.Neuro\Layers\DistanceLayer.cs" />
+    <Compile Include="AForge.Neuro\Layers\Layer.cs" />
+    <Compile Include="AForge.Neuro\Learning\BackPropagationLearning.cs" />
+    <Compile Include="AForge.Neuro\Learning\DeltaRuleLearning.cs" />
+    <Compile Include="AForge.Neuro\Learning\ElasticNetworkLearning.cs" />
+    <Compile Include="AForge.Neuro\Learning\EvolutionaryFitness.cs" />
+    <Compile Include="AForge.Neuro\Learning\EvolutionaryLearning.cs" />
+    <Compile Include="AForge.Neuro\Learning\ISupervisedLearning.cs" />
+    <Compile Include="AForge.Neuro\Learning\IUnsupervisedLearning.cs" />
+    <Compile Include="AForge.Neuro\Learning\PerceptronLearning.cs" />
+    <Compile Include="AForge.Neuro\Learning\ResilientBackPropagationLearning.cs" />
+    <Compile Include="AForge.Neuro\Learning\SOMLearning.cs" />
+    <Compile Include="AForge.Neuro\Networks\ActivationNetwork.cs" />
+    <Compile Include="AForge.Neuro\Networks\DistanceNetwork.cs" />
+    <Compile Include="AForge.Neuro\Networks\Network.cs" />
+    <Compile Include="AForge.Neuro\Neurons\ActivationNeuron.cs" />
+    <Compile Include="AForge.Neuro\Neurons\DistanceNeuron.cs" />
+    <Compile Include="AForge.Neuro\Neurons\Neuron.cs" />
     <Compile Include="Initialization\GaussianWeights.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Layers\StochasticLayer.cs">
@@ -127,6 +127,10 @@
     <ProjectReference Include="..\Accord.Genetic\Accord.Genetic.csproj">
       <Project>{2efaa327-1789-4438-b9f5-e83acae12db2}</Project>
       <Name>Accord.Genetic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
@@ -163,9 +167,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AForge\Images\sigmoid.bmp" />
-    <Content Include="AForge\Images\sigmoid_bipolar.bmp" />
-    <Content Include="AForge\Images\threshold.bmp" />
+    <Content Include="AForge.Neuro\Images\sigmoid.bmp" />
+    <Content Include="AForge.Neuro\Images\sigmoid_bipolar.bmp" />
+    <Content Include="AForge.Neuro\Images\threshold.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

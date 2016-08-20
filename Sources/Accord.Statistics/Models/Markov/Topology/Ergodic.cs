@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -92,6 +92,11 @@ namespace Accord.Statistics.Models.Markov.Topology
         public int States
         {
             get { return states; }
+            set
+            {
+                states = value;
+                pi = Vector.Create(states, pi);
+            }
         }
 
         /// <summary>
@@ -159,7 +164,7 @@ namespace Accord.Statistics.Models.Markov.Topology
                 // Create pi
                 double sum = 0;
                 for (int i = 0; i < states; i++)
-                    sum += pi[i] = Accord.Math.Tools.Random.NextDouble();
+                    sum += pi[i] = Accord.Math.Random.Generator.Random.NextDouble();
 
                 for (int i = 0; i < states; i++)
                     pi[i] /= sum;
@@ -169,7 +174,7 @@ namespace Accord.Statistics.Models.Markov.Topology
                 {
                     sum = 0.0;
                     for (int j = 0; j < states; j++)
-                        sum += A[i, j] = Accord.Math.Tools.Random.NextDouble();
+                        sum += A[i, j] = Accord.Math.Random.Generator.Random.NextDouble();
 
                     for (int j = 0; j < states; j++)
                         A[i, j] /= sum;
@@ -186,8 +191,8 @@ namespace Accord.Statistics.Models.Markov.Topology
 
             if (logarithm)
             {
-                transitionMatrix = Matrix.Log(A);
-                initialState = Matrix.Log(pi);
+                transitionMatrix = A.Log();
+                initialState = pi.Log();
             }
             else
             {

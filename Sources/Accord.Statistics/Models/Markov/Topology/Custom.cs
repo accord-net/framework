@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@ namespace Accord.Statistics.Models.Markov.Topology
 {
     using System;
     using Accord.Math;
+    using System.Data;
 
     /// <summary>
     ///   Custom Topology for Hidden Markov Model.
@@ -120,8 +121,8 @@ namespace Accord.Statistics.Models.Markov.Topology
 
             if (logarithm)
             {
-                transitions = Matrix.Exp(transitions);
-                initial = Matrix.Exp(initial);
+                transitions = transitions.Exp();
+                initial = initial.Exp();
             }
 
             this.A = transitions;
@@ -159,6 +160,7 @@ namespace Accord.Statistics.Models.Markov.Topology
         public int States
         {
             get { return states; }
+            set { throw new ReadOnlyException("Property is read-only."); }
         }
 
         /// <summary>
@@ -190,8 +192,8 @@ namespace Accord.Statistics.Models.Markov.Topology
         {
             if (logarithm)
             {
-                transitionMatrix = Matrix.Log(A);
-                initialState = Matrix.Log(pi);
+                transitionMatrix = Elementwise.Log(A);
+                initialState = Elementwise.Log(pi);
             }
             else
             {

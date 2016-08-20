@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -157,7 +157,7 @@ namespace Accord.Imaging
         /// 
         /// <returns>The homography matrix matching x1 and x2.</returns>
         /// 
-        public float[,] Estimate(AForge.Point[] points1, AForge.Point[] points2)
+        public float[,] Estimate(Accord.Point[] points1, Accord.Point[] points2)
         {
             // Initial argument checks
             if (points1.Length != points2.Length)
@@ -211,7 +211,7 @@ namespace Accord.Imaging
             F = fundamental(inliers);
 
             // Denormalize
-            F = T2.Transpose().Multiply(F.Multiply(T1));
+            F = T2.TransposeAndDot(F.Dot(T1));
 
             return F;
         }
@@ -223,8 +223,8 @@ namespace Accord.Imaging
         private float[,] fundamental(int[] points)
         {
             // Retrieve the original points
-            PointF[] x1 = this.pointSet1.Submatrix(points);
-            PointF[] x2 = this.pointSet2.Submatrix(points);
+            PointF[] x1 = this.pointSet1.Get(points);
+            PointF[] x2 = this.pointSet2.Get(points);
 
             // Compute the homography
             return Tools.Fundamental(x1, x2);
@@ -246,7 +246,7 @@ namespace Accord.Imaging
             {
                 float[] a = x2[i].Multiply(F);
                 float[] b = new float[] { x1[i].X, x1[i].Y, 1 };
-                x2tFx1[i] = a.InnerProduct(b);
+                x2tFx1[i] = a.Dot(b);
             }
 
 

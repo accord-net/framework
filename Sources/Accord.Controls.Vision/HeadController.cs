@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,9 +27,9 @@ namespace Accord.Controls.Vision
     using Accord.Vision.Detection.Cascades;
     using Accord.Vision.Tracking;
     using AForge;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
-    using AForge.Video;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
+    using Accord.Video;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.Design;
@@ -660,10 +660,10 @@ namespace Accord.Controls.Vision
             DoubleRange unit = new DoubleRange(-1, 1);
             DoubleRange circle = new DoubleRange(Math.PI, 0);
 
-            currentX = (float)Tools.Scale(xaxisRange, unit, obj.Center.X);
-            currentY = (float)Tools.Scale(yaxisRange, unit, obj.Center.Y);
-            currentAngle = (float)Tools.Scale(angleRange, circle, obj.Angle);
-            currentScale = (float)Tools.Scale(scaleRange, unit, Math.Sqrt(obj.Area));
+            currentX = (float)Vector.Scale(obj.Center.X, xaxisRange, unit);
+            currentY = (float)Vector.Scale(obj.Center.Y, yaxisRange, unit);
+            currentAngle = (float)Vector.Scale(obj.Angle, angleRange, circle);
+            currentScale = (float)Vector.Scale(Math.Sqrt(obj.Area), scaleRange, unit);
         }
 
 

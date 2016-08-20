@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@
 #if NET35
 namespace Accord
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -30,6 +31,7 @@ namespace Accord
     ///   make Accord.NET work. This is not a complete implementation.
     /// </summary>
     /// 
+    [Serializable]
     public class Tuple<T1, T2>
     {
 
@@ -68,7 +70,8 @@ namespace Accord
         public override bool Equals(object obj)
         {
             var other = obj as Tuple<T1, T2>;
-            if (other == null) return false;
+            if (other == null)
+                return false;
 
             return EqualityComparer<T1>.Default.Equals(Item1, other.Item1)
                 && EqualityComparer<T2>.Default.Equals(Item2, other.Item2);
@@ -95,6 +98,7 @@ namespace Accord
     /// </summary>
     /// 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes")]
+    [Serializable]
     public class Tuple<T1, T2, T3>
     {
         /// <summary>
@@ -139,7 +143,8 @@ namespace Accord
         public override bool Equals(object obj)
         {
             var other = obj as Tuple<T1, T2, T3>;
-            if (other == null) return false;
+            if (other == null) 
+                return false;
 
             return EqualityComparer<T1>.Default.Equals(Item1, other.Item1)
                 && EqualityComparer<T2>.Default.Equals(Item2, other.Item2)

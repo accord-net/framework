@@ -425,7 +425,7 @@ namespace Accord.Math.Optimization
             if (numberOfEqualities < 0 || numberOfEqualities > constraintValues.Length)
                 throw new ArgumentOutOfRangeException("numberOfEqualities");
 
-            constraintTolerances = new double[constraintValues.Length];
+            constraintTolerances = Vector.Create(constraintValues.Length, LinearConstraint.DefaultTolerance);
 
             initialize(function.NumberOfVariables, function.QuadraticTerms,
                 function.LinearTerms, constraintMatrix, constraintValues, numberOfEqualities);
@@ -569,7 +569,7 @@ namespace Accord.Math.Optimization
             }
 
             // Extract Lagrange multipliers from the work vector
-            ActiveConstraints = activeConstraints.Submatrix(numberOfActiveConstraints);
+            ActiveConstraints = activeConstraints.First(numberOfActiveConstraints);
 
             for (int i = 0; i < ActiveConstraints.Length; i++)
                 Lagrangian[ActiveConstraints[i]] = iwuv[i];
@@ -721,7 +721,6 @@ namespace Accord.Math.Optimization
             //   calculate value of the criterion at unconstrained minima
 
             f = 0.0;
-
 
             // calculate some constants, i.e., from which index on 
             // the different quantities are stored in the work matrix 
@@ -997,7 +996,6 @@ namespace Accord.Math.Optimization
 
                 if (t2min)
                 {
-
                     // we took a full step. Thus add constraint nvl to the list of active 
                     // constraints and update J and R 
 
@@ -1173,9 +1171,9 @@ namespace Accord.Math.Optimization
 
                 for (int i = 0; i < n; i++)
                 {
-                    temp = dmat[i, it1 - 1];
-                    dmat[i, it1 - 1] = dmat[i, it1];
-                    dmat[i, it1] = temp;
+                    temp = dmat[it1 - 1, i];
+                    dmat[it1 - 1, i] = dmat[it1, i];
+                    dmat[it1, i] = temp;
                 }
             }
             else

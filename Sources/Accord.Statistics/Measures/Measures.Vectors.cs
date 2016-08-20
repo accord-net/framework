@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,8 +29,12 @@ namespace Accord.Statistics
     using Accord.Statistics.Kernels;
     using AForge;
 
-    // TODO: Rename to Measures
-    public static partial class Tools
+    /// <summary>
+    ///   Set of statistics measures, such as <see cref="Mean(double[])"/>,
+    ///   <see cref="Variance(double[])"/> and <see cref="StandardDeviation(double[], bool)"/>.
+    /// </summary>
+    /// 
+    public static partial class Measures
     {
 
 
@@ -419,12 +423,35 @@ namespace Accord.Statistics
         /// <summary>
         ///   Computes the Median of the given values.
         /// </summary>
+        /// <param name="values">A double array containing the vector members.</param>
+        /// <returns>The median of the given data.</returns>
+        public static double Median(this int[] values)
+        {
+            return Median(values, false);
+        }
+
+        /// <summary>
+        ///   Computes the Median of the given values.
+        /// </summary>
         /// 
         /// <param name="values">An integer array containing the vector members.</param>
         /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
         /// <returns>The median of the given data.</returns>
         /// 
         public static double Median(this double[] values, bool alreadySorted)
+        {
+            return Median(values, 0, values.Length, alreadySorted);
+        }
+
+        /// <summary>
+        ///   Computes the Median of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An integer array containing the vector members.</param>
+        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
+        /// <returns>The median of the given data.</returns>
+        /// 
+        public static double Median(this int[] values, bool alreadySorted)
         {
             return Median(values, 0, values.Length, alreadySorted);
         }
@@ -448,6 +475,36 @@ namespace Accord.Statistics
             if (!alreadySorted)
             {
                 values = (double[])values.Clone();
+                Array.Sort(values);
+            }
+
+            int half = startIndex + length / 2;
+
+            if (length % 2 == 0)
+                return (values[half - 1] + values[half]) * 0.5; // N is even 
+            else return values[half];                           // N is odd
+        }
+
+        /// <summary>
+        ///   Computes the Median of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An integer array containing the vector members.</param>
+        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
+        /// <param name="length">The length of the subarray, starting at <paramref name="startIndex"/>.</param>
+        /// <param name="startIndex">The starting index of the array.</param>
+        /// 
+        /// <returns>The median of the given data.</returns>
+        /// 
+        public static double Median(this int[] values, int startIndex, int length, bool alreadySorted)
+        {
+            // TODO: Re-implement using nth_element
+            if (values.Length == 1)
+                return values[0];
+
+            if (!alreadySorted)
+            {
+                values = (int[])values.Clone();
                 Array.Sort(values);
             }
 
@@ -485,8 +542,9 @@ namespace Accord.Statistics
         /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
         /// <returns>The second quartile, the median of the given data.</returns>
         /// 
-        public static double Quartiles(double[] values, out double q1, out double q3, bool alreadySorted)
+        public static double Quartiles(this double[] values, out double q1, out double q3, bool alreadySorted)
         {
+            // TODO: Re-implement using nth_element
             double median;
 
             if (values.Length == 1)

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,7 +22,6 @@
 
 namespace Accord.Imaging.Filters
 {
-    using AForge.Imaging;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
@@ -31,7 +30,7 @@ namespace Accord.Imaging.Filters
     ///   Rectification filter for projective transformation.
     /// </summary>
     /// 
-    public class Rectification : AForge.Imaging.Filters.BaseTransformationFilter
+    public class Rectification : BaseTransformationFilter
     {
 
         private MatrixH homography;

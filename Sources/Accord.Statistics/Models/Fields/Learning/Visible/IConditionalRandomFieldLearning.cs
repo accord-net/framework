@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,11 +22,13 @@
 
 namespace Accord.Statistics.Models.Fields.Learning
 {
+    using System;
 
     /// <summary>
     ///   Common interface for Conditional Random Fields learning algorithms.
     /// </summary>
     /// 
+    [Obsolete("Please use ISupervisedLearning<ConditionalRandomField<T>, T[], int[]> instead.")]
     public interface IConditionalRandomFieldLearning<T>
     {
         /// <summary>

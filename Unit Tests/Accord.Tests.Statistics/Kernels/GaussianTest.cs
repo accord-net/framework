@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,25 +26,12 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using NUnit.Framework;
     using System.Diagnostics;
+    using Accord.Statistics;
+    using System;
 
     [TestFixture]
     public class GaussianTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
 
 
         [Test]
@@ -169,6 +156,31 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        public void estimate_gaussian_distances()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+
+            double[][] data = 
+            {
+                new double[] { 5.1, 3.5, 1.4, 0.2 },
+                new double[] { 5.0, 3.6, 1.4, 0.2 },
+                new double[] { 4.9, 3.0, 1.4, 0.2 },
+                new double[] { 5.8, 4.0, 1.2, 0.2 },
+                new double[] { 4.7, 3.2, 1.3, 0.2 },
+            };
+
+            var actual = Gaussian.Distances(data, 2);
+            Assert.IsTrue(actual.IsSorted());
+            Assert.AreEqual(0.95, actual.Mean(), 1e-5);
+
+            actual = Gaussian.Distances(data, data.Length);
+            Assert.IsTrue(actual.IsSorted());
+            Assert.AreEqual(0.5296, actual.Mean(), 1e-5);
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => Gaussian.Distances(data, 10));
+        }
+
+        [Test]
         public void FunctionTest2()
         {
             // Tested against R's kernlab
@@ -264,7 +276,7 @@ namespace Accord.Tests.Statistics
 
                 double d1 = Distance.SquareEuclidean(phi_x, phi_y);
                 double d2 = kernel.Distance(x, y);
-                double d3 = Accord.Statistics.Tools.Distance(kernel, x, y);
+                double d3 = Accord.Statistics.Tools.Distance(kernel.Gaussian, x, y);
 
                 Assert.AreEqual(d1, d2, 1e-4);
                 Assert.AreEqual(d1, d3, 1e-4);

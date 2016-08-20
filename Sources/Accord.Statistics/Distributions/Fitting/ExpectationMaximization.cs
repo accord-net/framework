@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -281,7 +281,7 @@ namespace Accord.Statistics.Distributions.Fitting
                 for (int k = 0; k < pi.Length; k++)
                     sum += pi[k] * pdf[k].ProbabilityFunction(x);
 
-                if (sum > 0) 
+                if (sum > 0)
                     logLikelihood += Math.Log(sum) * w;
             }
 #else
@@ -294,7 +294,6 @@ namespace Accord.Statistics.Distributions.Fitting
                 (i, status, partial) =>
                 {
                     var x = observations[i];
-
                     double w = 1.0;
 
                     if (weights != null)
@@ -325,11 +324,11 @@ namespace Accord.Statistics.Distributions.Fitting
             );
 #endif
 
-            System.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
+            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
 
             if (weights != null)
             {
-                System.Diagnostics.Debug.Assert(weightSum != 0);
+                Accord.Diagnostics.Debug.Assert(weightSum != 0);
 
                 return logLikelihood / weightSum;
             }

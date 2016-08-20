@@ -29,8 +29,8 @@
         private void InitializeComponent( )
         {
             this.components = new System.ComponentModel.Container();
-            this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
-            this.videoSourcePlayer2 = new AForge.Controls.VideoSourcePlayer();
+            this.videoSourcePlayer1 = new Accord.Controls.VideoSourcePlayer();
+            this.videoSourcePlayer2 = new Accord.Controls.VideoSourcePlayer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.camera1FpsLabel = new System.Windows.Forms.Label();
             this.camera1Combo = new System.Windows.Forms.ComboBox();
@@ -183,8 +183,8 @@
 
         #endregion
 
-        private AForge.Controls.VideoSourcePlayer videoSourcePlayer1;
-        private AForge.Controls.VideoSourcePlayer videoSourcePlayer2;
+        private Accord.Controls.VideoSourcePlayer videoSourcePlayer1;
+        private Accord.Controls.VideoSourcePlayer videoSourcePlayer2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox camera1Combo;
         private System.Windows.Forms.GroupBox groupBox2;

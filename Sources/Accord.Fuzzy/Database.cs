@@ -9,7 +9,7 @@
 // fabio.caversan@gmail.com
 //
 
-namespace AForge.Fuzzy
+namespace Accord.Fuzzy
 {
     using System;
     using System.Collections.Generic;

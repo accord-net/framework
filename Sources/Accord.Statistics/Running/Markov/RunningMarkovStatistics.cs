@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@
 //    License along with this library; if not, write to the Free Software
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
+#pragma warning disable 612, 618
 
 namespace Accord.Statistics.Running
 {
@@ -75,7 +76,7 @@ namespace Accord.Statistics.Running
             if (!Started)
             {
                 for (int i = 0; i < Current.Length; i++)
-                    Current[i] = Model.Probabilities[i] + Model.Emissions[i, value];
+                    Current[i] = Model.LogInitial[i] + Model.LogEmissions[i][value];
                 Started = true;
             }
             else
@@ -87,8 +88,8 @@ namespace Accord.Statistics.Running
                 {
                     double sum = Double.NegativeInfinity;
                     for (int j = 0; j < previous.Length; j++)
-                        sum = Special.LogSum(sum, previous[j] + Model.Transitions[j, i]);
-                    Current[i] = sum + Model.Emissions[i, value];
+                        sum = Special.LogSum(sum, previous[j] + Model.LogTransitions[j][i]);
+                    Current[i] = sum + Model.LogEmissions[i][value];
                 }
             }
 
@@ -107,7 +108,7 @@ namespace Accord.Statistics.Running
             if (!Started)
             {
                 for (int i = 0; i < Current.Length; i++)
-                    next[i] = Model.Probabilities[i] + Model.Emissions[i, value];
+                    next[i] = Model.LogInitial[i] + Model.Emissions[i, value];
             }
             else
             {

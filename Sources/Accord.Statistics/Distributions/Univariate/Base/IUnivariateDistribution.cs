@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -93,7 +93,7 @@ namespace Accord.Statistics.Distributions
         ///   Gets the support interval for this distribution.
         /// </summary>
         /// 
-        /// <value>A <see cref="AForge.DoubleRange"/> containing
+        /// <value>A <see cref="DoubleRange"/> containing
         ///  the support interval for this distribution.</value>
         ///  
         DoubleRange Support { get; }
@@ -261,6 +261,20 @@ namespace Accord.Statistics.Distributions
         double CumulativeHazardFunction(double x);
 
         /// <summary>
+        ///   Gets the cumulative hazard function for this
+        ///   distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">
+        ///   A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The cumulative hazard function <c>H(x)</c>  
+        ///   evaluated at <c>x</c> in the current distribution.</returns>
+        /// 
+        double LogCumulativeHazardFunction(double x);
+
+        /// <summary>
         ///   Gets the first derivative of the <see cref="InverseDistributionFunction">
         ///   inverse distribution function</see> (icdf) for this distribution evaluated
         ///   at probability <c>p</c>. 
@@ -340,7 +354,7 @@ namespace Accord.Statistics.Distributions
         ///   Gets the support interval for this distribution.
         /// </summary>
         /// 
-        /// <value>A <see cref="AForge.DoubleRange"/> containing
+        /// <value>A <see cref="DoubleRange"/> containing
         ///  the support interval for this distribution.</value>
         ///  
         DoubleRange Support { get; }

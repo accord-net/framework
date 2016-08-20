@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Accord.Tests.Statistics</name>
+  </assembly>
+  <members>
+    <member name="" />
+    <member name="N:Accord.Tests.Statistics" />
+    <member name="M:Accord.Tests.Statistics.KernelDiscriminantAnalysisTest.ComputeTest3" />
+  </members>
+</doc>
