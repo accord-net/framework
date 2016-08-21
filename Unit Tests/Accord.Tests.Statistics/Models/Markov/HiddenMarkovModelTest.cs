@@ -65,6 +65,9 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.Log(B).IsEqual(hmm.Emissions));
             Assert.IsTrue(Matrix.Log(pi).IsEqual(hmm.Probabilities));
 
+            Assert.IsTrue(A.IsEqual(hmm.LogTransitions.Exp()));
+            Assert.IsTrue(B.IsEqual(hmm.LogEmissions.Exp()));
+            Assert.IsTrue(pi.IsEqual(hmm.LogInitial.Exp()));
 
 
             hmm = new HiddenMarkovModel(new Forward(2), 4);

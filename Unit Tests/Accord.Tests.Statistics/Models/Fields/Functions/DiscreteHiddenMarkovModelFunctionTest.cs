@@ -34,22 +34,6 @@ namespace Accord.Tests.Statistics.Models.Fields
     public class DiscreteHiddenMarkovModelFunctionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
         public static HiddenMarkovModel CreateModel1()
         {
             double[] initial = { 1.0, 0.0 };
