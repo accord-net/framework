@@ -86,6 +86,7 @@
     <Compile Include="Distributions\Univariate\Continuous\AndersonDarlingDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GeneralizedBetaDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\GeneralizedParetoDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\ShapiroWilkDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\ShiftedLogLogisticDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\LogLogisticDistributionTest.cs" />

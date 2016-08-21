@@ -237,6 +237,7 @@
     <Compile Include="Distributions\Univariate\Continuous\FDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\EmpiricalHazardDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GompertzDistribution.cs" />
+    <Compile Include="Distributions\Univariate\GeneralizedParetoDistribution.cs" />
     <Compile Include="Distributions\Univariate\Mixture`1.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\MultivariateNormalDistribution.cs" />
     <Compile Include="Distributions\Univariate\Discrete\GeneralDiscreteDistribution.cs" />

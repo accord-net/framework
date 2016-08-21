@@ -208,10 +208,6 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <value>The distribution's mode value.</value>
         /// 
-        /// <remarks>
-        ///   The Pareto distribution's Entropy is defined as <c>x<sub>m</sub></c>.
-        /// </remarks>
-        /// 
         public override double Mode
         {
             get { return xm; }
