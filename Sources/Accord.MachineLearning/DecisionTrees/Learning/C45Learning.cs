@@ -338,7 +338,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             if (tree == null)
             {
                 var variables = DecisionVariable.FromData(x);
-                int classes = y.DistinctCount();
+                int classes = y.Max() + 1;
                 init(new DecisionTree(variables, classes));
             }
 
@@ -713,17 +713,13 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         /// <returns>The percentage error of the prediction.</returns>
         /// 
-        [Obsolete("Please use the HammingLoss class instead.")]
+        [Obsolete("Please use the ZeroOneLoss class instead.")]
         public double ComputeError(double[][] inputs, int[] outputs)
         {
-            int miss = 0;
-            for (int i = 0; i < inputs.Length; i++)
+            return new ZeroOneLoss(outputs)
             {
-                if (tree.Decide(inputs[i]) != outputs[i])
-                    miss++;
-            }
-
-            return (double)miss / inputs.Length;
+                Mean = true
+            }.Loss(tree.Decide(inputs));
         }
 
         private void checkArgs(double[][] inputs, int[] outputs)

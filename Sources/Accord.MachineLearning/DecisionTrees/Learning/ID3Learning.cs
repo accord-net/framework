@@ -292,11 +292,11 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             if (tree == null)
             {
                 var variables = DecisionVariable.FromData(x);
-                int classes = y.DistinctCount();
+                int classes = y.Max() + 1;
                 init(new DecisionTree(variables, classes));
             }
 
-            Run(x, y);
+            run(x, y);
 
             return tree;
         }
@@ -311,7 +311,19 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         /// <returns>The error of the generated tree.</returns>
         /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(int[][] inputs, int[] outputs)
+        {
+            run(inputs, outputs);
+
+            // Return the classification error
+            return new ZeroOneLoss(outputs)
+            {
+                Mean = true
+            }.Loss(tree.Decide(inputs));
+        }
+
+        private void run(int[][] inputs, int[] outputs)
         {
             // Initial argument check
             checkArgs(inputs, outputs);
@@ -326,10 +338,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             // 1. Create a root node for the tree
             this.tree.Root = new DecisionNode(tree);
 
+            // Recursively split the tree nodes
             split(tree.Root, inputs, outputs, 0);
-
-            // Return the classification error
-            return ComputeError(inputs, outputs);
         }
 
 
@@ -344,14 +354,17 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         /// <returns>The percentage error of the prediction.</returns>
         /// 
+        [Obsolete("Please use the ZeroOneLoss class instead.")]
         public double ComputeError(int[][] inputs, int[] outputs)
         {
-            return new ZeroOneLoss(outputs) { Mean = true }.Loss(tree.Decide(inputs));
+            return new ZeroOneLoss(outputs)
+            {
+                Mean = true
+            }.Loss(tree.Decide(inputs));
         }
 
         private void split(DecisionNode root, int[][] input, int[] output, int height)
         {
-
             // 2. If all examples are for the same class, return the single-node
             //    tree with the output label corresponding to this common class.
             double entropy = Measures.Entropy(output, outputClasses);

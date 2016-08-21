@@ -91,6 +91,15 @@ namespace Accord.Tests.MachineLearning.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to instance,nvarsOrig,nclausesOrig,nvars,nclauses,reducedVars,reducedClauses,vars.clauses.ratio,POSNEG.RATIO.CLAUSE.mean,POSNEG.RATIO.CLAUSE.coeff.variation,POSNEG.RATIO.CLAUSE.min,POSNEG.RATIO.CLAUSE.max,POSNEG.RATIO.CLAUSE.entropy,VCG.CLAUSE.mean,VCG.CLAUSE.coeff.variation,VCG.CLAUSE.min,VCG.CLAUSE.max,VCG.CLAUSE.entropy,UNARY,BINARY.,TRINARY.,VCG.VAR.mean,VCG.VAR.coeff.variation,VCG.VAR.min,VCG.VAR.max,VCG.VAR.entropy,POSNEG.RATIO.VAR.mean,POSNEG.RATIO.VAR.stdev,POSNEG.RATIO.VAR.min,POSNEG.RATIO.VAR.max,POS [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string features {
+            get {
+                return ResourceManager.GetString("features", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 5.1,3.5,1.4,0.2,Iris-setosa
         ///4.9,3.0,1.4,0.2,Iris-setosa
         ///4.7,3.2,1.3,0.2,Iris-setosa
@@ -365,6 +374,16 @@ namespace Accord.Tests.MachineLearning.Properties {
             get {
                 object obj = ResourceManager.GetObject("t10k_labels_idx1_ubyte", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to instance,clasp.2.1.1_jumpy,clasp.2.1.1_trendy,ebminisat,glueminisat,lingeling,lrglshr,picosat,restartsat,circminisat,clasp1,cryptominisat_2011,eagleup,gnoveltyp2,march_rw,mphaseSAT,mphaseSATm,precosat,qutersat,sapperlot,sat4j.2.3.2,sattimep,sparrow,tnm,cryptominisat295,minisatPSM,sattime2011,ccasat,glucose_21,glucose_21_modified
+        ////home/ymalitsky/data/SAT/Competitions/2006-SATRace/Competition/een-pico-prop01-75.cnf,3.46,1.45,1.27,1.07,5.59,1.11,1.53,1.54,0.99,2.03,4.07,5100,5100,5100.01,7.1,8.05,4.25,4.45,2.0 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string times {
+            get {
+                return ResourceManager.GetString("times", resourceCulture);
             }
         }
         
