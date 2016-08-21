@@ -597,5 +597,67 @@ namespace Accord.Tests.MachineLearning
 
             return (double)miss / inputs.Length;
         }
+
+        [Test]
+        public void same_input_different_output_minimal()
+        {
+            double[][] inputs = new double[][] {
+                new double[] { 0 },
+                new double[] { 0 }
+            };
+
+            int[] outputs = new int[] {
+                1,
+                0
+            };
+
+
+            DecisionVariable[] variables = { new DecisionVariable("x", DecisionVariableKind.Continuous) };
+
+            DecisionTree decisionTree = new DecisionTree(variables, 2);
+            C45Learning c45Learning = new C45Learning(decisionTree);
+            c45Learning.Run(inputs, outputs); // System.AggregateException thrown here
+
+            Assert.AreEqual(decisionTree.Decide(new[] { 0 }), 0);
+        }
+
+        [Test]
+        public void same_input_different_output()
+        {
+            double[][] inputs = new double[][] {
+                new double[] { 1 },
+                new double[] { 0 },
+                new double[] { 2 },
+                new double[] { 3 },
+                new double[] { 0 },
+            };
+
+            int[] outputs = new int[] {
+                11,
+                00,
+                22,
+                33,
+                01
+            };
+
+
+            DecisionVariable[] variables = { new DecisionVariable("x", DecisionVariableKind.Continuous) };
+
+            DecisionTree decisionTree = new DecisionTree(variables, 34);
+            C45Learning c45Learning = new C45Learning(decisionTree)
+            {
+                Join = 10,
+                MaxHeight = 10
+            };
+            c45Learning.Run(inputs, outputs); // System.AggregateException thrown here
+
+            int[] actual = decisionTree.Decide(inputs);
+
+            Assert.AreEqual(11, actual[0]);
+            Assert.AreEqual(00, actual[1]);
+            Assert.AreEqual(22, actual[2]);
+            Assert.AreEqual(33, actual[3]);
+            Assert.AreEqual(00, actual[4]);
+        }
     }
 }

@@ -31,7 +31,8 @@ namespace Accord.Math.Optimization.Losses
     /// </summary>
     /// 
     [Serializable]
-    public class HammingLoss : LossBase<int[][]>, ILoss<bool[][]>, ILoss<double[][]>
+    public class HammingLoss : LossBase<int[][]>,
+        ILoss<bool[][]>, ILoss<double[][]>, ILoss<int[]>
     {
         private bool mean;
         private int total;
@@ -71,6 +72,15 @@ namespace Accord.Math.Optimization.Losses
         {
             for (int i = 0; i < expected.Length; i++)
                 total += expected[i].Length;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HammingLoss"/> class.
+        /// </summary>
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        public HammingLoss(int[] expected)
+            : this(Jagged.ColumnVector(expected))
+        {
         }
 
         /// <summary>
@@ -122,6 +132,27 @@ namespace Accord.Math.Optimization.Losses
                 for (int j = 0; j < Expected[i].Length; j++)
                     if (Classes.Decide(Expected[i][j]) != Classes.Decide(actual[i][j]))
                         error++;
+
+            if (mean)
+                return error / (double)total;
+            return error;
+        }
+
+        /// <summary>
+        /// Computes the loss between the expected values (ground truth)
+        /// and the given actual values that have been predicted.
+        /// </summary>
+        /// <param name="actual">The actual values that have been predicted.</param>
+        /// <returns>
+        /// The loss value between the expected values and
+        /// the actual predicted values.
+        /// </returns>
+        public double Loss(int[] actual)
+        {
+            int error = 0;
+            for (int i = 0; i < Expected.Length; i++)
+                if (Expected[i][0] != actual[i])
+                    error++;
 
             if (mean)
                 return error / (double)total;
