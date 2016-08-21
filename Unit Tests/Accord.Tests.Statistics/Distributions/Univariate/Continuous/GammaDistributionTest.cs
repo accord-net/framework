@@ -179,7 +179,6 @@ namespace Accord.Tests.Statistics
             double[] samples = target.Generate(10000000);
 
             var actual = GammaDistribution.Estimate(samples);
-            actual.Fit(samples);
 
             Assert.AreEqual(5, actual.Scale, 1e-3);
             Assert.AreEqual(2, actual.Shape, 1e-3);
@@ -197,7 +196,6 @@ namespace Accord.Tests.Statistics
                 samples[i] = target.Generate();
 
             var actual = GammaDistribution.Estimate(samples);
-            actual.Fit(samples);
 
             Assert.AreEqual(4, actual.Scale, 5e-3);
             Assert.AreEqual(2, actual.Shape, 5e-3);
@@ -215,10 +213,22 @@ namespace Accord.Tests.Statistics
                 samples[i] = target.Generate();
 
             var actual = GammaDistribution.Estimate(samples);
-            actual.Fit(samples);
 
             Assert.AreEqual(0.4, actual.Scale, 1e-3);
             Assert.AreEqual(0.2, actual.Shape, 1e-3);
+        }
+
+        [Test]
+        public void GenerateTest5()
+        {
+            Accord.Math.Tools.SetupGenerator(1);
+
+            var target = new GammaDistribution(42, 0.1337);
+            var samples = target.Generate(10000000);
+
+            var actual = GammaDistribution.Estimate(samples);
+            Assert.AreEqual(42, actual.Scale, 5e-2);
+            Assert.AreEqual(0.1337, actual.Shape, 5e-4);
         }
 
 

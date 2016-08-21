@@ -360,7 +360,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         public double Run(double[][] inputs, int[] outputs)
         {
             run(inputs, outputs);
-            return new HammingLoss(outputs)
+            return new ZeroOneLoss(outputs)
             {
                 Mean = true
             }.Loss(tree.Decide(inputs));
