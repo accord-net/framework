@@ -73,9 +73,9 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="AForge.Imaging\Blob.cs" />
-    <Compile Include="AForge.Imaging\BlobCounter.cs" />
-    <Compile Include="AForge.Imaging\BlobCounterBase.cs" />
+    <Compile Include="Blob Processing\Blob.cs" />
+    <Compile Include="Blob Processing\BlobCounter.cs" />
+    <Compile Include="Blob Processing\BlobCounterBase.cs" />
     <Compile Include="AForge.Imaging\BlockMatch.cs" />
     <Compile Include="AForge.Imaging\Color Reduction\BurkesColorDithering.cs" />
     <Compile Include="AForge.Imaging\Color Reduction\ColorErrorDiffusionToAdjacentNeighbors.cs" />
@@ -195,11 +195,11 @@
     <Compile Include="AForge.Imaging\Filters\Noise generation\SaltAndPepperNoise.cs" />
     <Compile Include="AForge.Imaging\Filters\Normalized RGB\ExtractNormalizedRGBChannel.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\ApplyMask.cs" />
-    <Compile Include="AForge.Imaging\Filters\Other\BlobsFiltering.cs" />
+    <Compile Include="Filters\Other\BlobsFiltering.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\CanvasCrop.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\CanvasFill.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\CanvasMove.cs" />
-    <Compile Include="AForge.Imaging\Filters\Other\ConnectedComponentsLabeling.cs" />
+    <Compile Include="Filters\Other\ConnectedComponentsLabeling.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\CornersMarker.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\ExtractBiggestBlob.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\FillHoles.cs" />
@@ -260,7 +260,7 @@
     <Compile Include="AForge.Imaging\MemoryManager.cs" />
     <Compile Include="AForge.Imaging\MoravecCornersDetector.cs" />
     <Compile Include="AForge.Imaging\QuadrilateralFinder.cs" />
-    <Compile Include="AForge.Imaging\RecursiveBlobCounter.cs" />
+    <Compile Include="Blob Processing\RecursiveBlobCounter.cs" />
     <Compile Include="AForge.Imaging\SusanCornersDetector.cs" />
     <Compile Include="AForge.Imaging\TemplateMatch.cs" />
     <Compile Include="AForge.Imaging\Textures\CloudsTexture.cs" />

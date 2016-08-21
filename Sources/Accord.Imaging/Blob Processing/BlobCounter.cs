@@ -2,8 +2,29 @@
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
-// Copyright © AForge.NET, 2005-2012
-// contacts@aforgenet.com
+// Copyright © Andrew Kirillov, 2005-2009
+// andrew.kirillov@aforgenet.com
+//
+// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2016
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
 namespace Accord.Imaging
@@ -30,14 +51,16 @@ namespace Accord.Imaging
     /// pixel formats are supported for extraction of blobs.</para>
     /// 
     /// <para>Sample usage:</para>
+    /// 
     /// <code>
     /// // create an instance of blob counter algorithm
-    /// BlobCounter bc = new BlobCounter( );
+    /// BlobCounter bc = new BlobCounter();
+    /// 
     /// // process binary image
-    /// bc.ProcessImage( image );
-    /// Rectangle[] rects = bc.GetObjectsRectangles( );
+    /// bc.ProcessImage(image);
+    /// 
     /// // process blobs
-    /// foreach ( Rectangle rect in rects )
+    /// foreach (Rectangle rect in bc.GetObjectsRectangles())
     /// {
     ///     // ...
     /// }
@@ -94,7 +117,10 @@ namespace Accord.Imaging
         /// 
         /// <param name="image">Image to look for objects in.</param>
         /// 
-        public BlobCounter(Bitmap image) : base(image) { }
+        public BlobCounter(Bitmap image)
+            : base(image)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BlobCounter"/> class.
@@ -102,7 +128,10 @@ namespace Accord.Imaging
         /// 
         /// <param name="imageData">Image data to look for objects in.</param>
         /// 
-        public BlobCounter(BitmapData imageData) : base(imageData) { }
+        public BlobCounter(BitmapData imageData)
+            : base(imageData)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BlobCounter"/> class.
@@ -110,7 +139,10 @@ namespace Accord.Imaging
         /// 
         /// <param name="image">Unmanaged image to look for objects in.</param>
         /// 
-        public BlobCounter(UnmanagedImage image) : base(image) { }
+        public BlobCounter(UnmanagedImage image)
+            : base(image)
+        {
+        }
 
         /// <summary>
         /// Actual objects map building.
@@ -139,27 +171,24 @@ namespace Accord.Imaging
             }
 
             // we don't want one pixel width images
-            if (imageWidth == 1)
-            {
+            if (ImageWidth == 1)
                 throw new InvalidImagePropertiesException("BlobCounter cannot process images that are one pixel wide. Rotate the image or use RecursiveBlobCounter.");
-            }
 
-            int imageWidthM1 = imageWidth - 1;
+            int imageWidthM1 = ImageWidth - 1;
 
             // allocate labels array
-            objectLabels = new int[imageWidth * imageHeight];
+            ObjectLabels = new int[ImageWidth * ImageHeight];
+
             // initial labels count
             int labelsCount = 0;
 
             // create map
-            int maxObjects = ((imageWidth / 2) + 1) * ((imageHeight / 2) + 1) + 1;
+            int maxObjects = ((ImageWidth / 2) + 1) * ((ImageHeight / 2) + 1) + 1;
             int[] map = new int[maxObjects];
 
             // initially map all labels to themself
             for (int i = 0; i < maxObjects; i++)
-            {
                 map[i] = i;
-            }
 
             // do the job
             unsafe
@@ -169,18 +198,16 @@ namespace Accord.Imaging
 
                 if (image.PixelFormat == PixelFormat.Format8bppIndexed)
                 {
-                    int offset = stride - imageWidth;
+                    int offset = stride - ImageWidth;
 
                     // 1 - for pixels of the first row
                     if (*src > backgroundThresholdG)
-                    {
-                        objectLabels[p] = ++labelsCount;
-                    }
+                        ObjectLabels[p] = ++labelsCount;
                     ++src;
                     ++p;
 
                     // process the rest of the first row
-                    for (int x = 1; x < imageWidth; x++, src++, p++)
+                    for (int x = 1; x < ImageWidth; x++, src++, p++)
                     {
                         // check if we need to label current pixel
                         if (*src > backgroundThresholdG)
@@ -189,12 +216,12 @@ namespace Accord.Imaging
                             if (src[-1] > backgroundThresholdG)
                             {
                                 // label current pixel, as the previous
-                                objectLabels[p] = objectLabels[p - 1];
+                                ObjectLabels[p] = ObjectLabels[p - 1];
                             }
                             else
                             {
                                 // create new label
-                                objectLabels[p] = ++labelsCount;
+                                ObjectLabels[p] = ++labelsCount;
                             }
                         }
                     }
@@ -202,7 +229,7 @@ namespace Accord.Imaging
 
                     // 2 - for other rows
                     // for each row
-                    for (int y = 1; y < imageHeight; y++)
+                    for (int y = 1; y < ImageHeight; y++)
                     {
                         // for the first pixel of the row, we need to check
                         // only upper and upper-right pixels
@@ -212,17 +239,17 @@ namespace Accord.Imaging
                             if (src[-stride] > backgroundThresholdG)
                             {
                                 // label current pixel, as the above
-                                objectLabels[p] = objectLabels[p - imageWidth];
+                                ObjectLabels[p] = ObjectLabels[p - ImageWidth];
                             }
                             else if (src[1 - stride] > backgroundThresholdG)
                             {
                                 // label current pixel, as the above right
-                                objectLabels[p] = objectLabels[p + 1 - imageWidth];
+                                ObjectLabels[p] = ObjectLabels[p + 1 - ImageWidth];
                             }
                             else
                             {
                                 // create new label
-                                objectLabels[p] = ++labelsCount;
+                                ObjectLabels[p] = ++labelsCount;
                             }
                         }
                         ++src;
@@ -237,30 +264,30 @@ namespace Accord.Imaging
                                 if (src[-1] > backgroundThresholdG)
                                 {
                                     // label current pixel, as the left
-                                    objectLabels[p] = objectLabels[p - 1];
+                                    ObjectLabels[p] = ObjectLabels[p - 1];
                                 }
                                 else if (src[-1 - stride] > backgroundThresholdG)
                                 {
                                     // label current pixel, as the above left
-                                    objectLabels[p] = objectLabels[p - 1 - imageWidth];
+                                    ObjectLabels[p] = ObjectLabels[p - 1 - ImageWidth];
                                 }
                                 else if (src[-stride] > backgroundThresholdG)
                                 {
                                     // label current pixel, as the above
-                                    objectLabels[p] = objectLabels[p - imageWidth];
+                                    ObjectLabels[p] = ObjectLabels[p - ImageWidth];
                                 }
 
                                 if (src[1 - stride] > backgroundThresholdG)
                                 {
-                                    if (objectLabels[p] == 0)
+                                    if (ObjectLabels[p] == 0)
                                     {
                                         // label current pixel, as the above right
-                                        objectLabels[p] = objectLabels[p + 1 - imageWidth];
+                                        ObjectLabels[p] = ObjectLabels[p + 1 - ImageWidth];
                                     }
                                     else
                                     {
-                                        int l1 = objectLabels[p];
-                                        int l2 = objectLabels[p + 1 - imageWidth];
+                                        int l1 = ObjectLabels[p];
+                                        int l2 = ObjectLabels[p + 1 - ImageWidth];
 
                                         if ((l1 != l2) && (map[l1] != map[l2]))
                                         {
@@ -301,10 +328,10 @@ namespace Accord.Imaging
                                 }
 
                                 // label the object if it is not yet
-                                if (objectLabels[p] == 0)
+                                if (ObjectLabels[p] == 0)
                                 {
                                     // create new label
-                                    objectLabels[p] = ++labelsCount;
+                                    ObjectLabels[p] = ++labelsCount;
                                 }
                             }
                         }
@@ -317,22 +344,22 @@ namespace Accord.Imaging
                             if (src[-1] > backgroundThresholdG)
                             {
                                 // label current pixel, as the left
-                                objectLabels[p] = objectLabels[p - 1];
+                                ObjectLabels[p] = ObjectLabels[p - 1];
                             }
                             else if (src[-1 - stride] > backgroundThresholdG)
                             {
                                 // label current pixel, as the above left
-                                objectLabels[p] = objectLabels[p - 1 - imageWidth];
+                                ObjectLabels[p] = ObjectLabels[p - 1 - ImageWidth];
                             }
                             else if (src[-stride] > backgroundThresholdG)
                             {
                                 // label current pixel, as the above
-                                objectLabels[p] = objectLabels[p - imageWidth];
+                                ObjectLabels[p] = ObjectLabels[p - ImageWidth];
                             }
                             else
                             {
                                 // create new label
-                                objectLabels[p] = ++labelsCount;
+                                ObjectLabels[p] = ++labelsCount;
                             }
                         }
                         ++src;
@@ -345,21 +372,19 @@ namespace Accord.Imaging
                 {
                     // color images
                     int pixelSize = Bitmap.GetPixelFormatSize(image.PixelFormat) / 8;
-                    int offset = stride - imageWidth * pixelSize;
+                    int offset = stride - ImageWidth * pixelSize;
 
                     int strideM1 = stride - pixelSize;
                     int strideP1 = stride + pixelSize;
 
                     // 1 - for pixels of the first row
                     if ((src[RGB.R] | src[RGB.G] | src[RGB.B]) != 0)
-                    {
-                        objectLabels[p] = ++labelsCount;
-                    }
+                        ObjectLabels[p] = ++labelsCount;
                     src += pixelSize;
                     ++p;
 
                     // process the rest of the first row
-                    for (int x = 1; x < imageWidth; x++, src += pixelSize, p++)
+                    for (int x = 1; x < ImageWidth; x++, src += pixelSize, p++)
                     {
                         // check if we need to label current pixel
                         if ((src[RGB.R] > backgroundThresholdR) ||
@@ -372,12 +397,12 @@ namespace Accord.Imaging
                                  (src[RGB.B - pixelSize] > backgroundThresholdB))
                             {
                                 // label current pixel, as the previous
-                                objectLabels[p] = objectLabels[p - 1];
+                                ObjectLabels[p] = ObjectLabels[p - 1];
                             }
                             else
                             {
                                 // create new label
-                                objectLabels[p] = ++labelsCount;
+                                ObjectLabels[p] = ++labelsCount;
                             }
                         }
                     }
@@ -385,7 +410,7 @@ namespace Accord.Imaging
 
                     // 2 - for other rows
                     // for each row
-                    for (int y = 1; y < imageHeight; y++)
+                    for (int y = 1; y < ImageHeight; y++)
                     {
                         // for the first pixel of the row, we need to check
                         // only upper and upper-right pixels
@@ -399,26 +424,26 @@ namespace Accord.Imaging
                                  (src[RGB.B - stride] > backgroundThresholdB))
                             {
                                 // label current pixel, as the above
-                                objectLabels[p] = objectLabels[p - imageWidth];
+                                ObjectLabels[p] = ObjectLabels[p - ImageWidth];
                             }
                             else if ((src[RGB.R - strideM1] > backgroundThresholdR) ||
                                       (src[RGB.G - strideM1] > backgroundThresholdG) ||
                                       (src[RGB.B - strideM1] > backgroundThresholdB))
                             {
                                 // label current pixel, as the above right
-                                objectLabels[p] = objectLabels[p + 1 - imageWidth];
+                                ObjectLabels[p] = ObjectLabels[p + 1 - ImageWidth];
                             }
                             else
                             {
                                 // create new label
-                                objectLabels[p] = ++labelsCount;
+                                ObjectLabels[p] = ++labelsCount;
                             }
                         }
                         src += pixelSize;
                         ++p;
 
                         // check left pixel and three upper pixels for the rest of pixels
-                        for (int x = 1; x < imageWidth - 1; x++, src += pixelSize, p++)
+                        for (int x = 1; x < ImageWidth - 1; x++, src += pixelSize, p++)
                         {
                             if ((src[RGB.R] > backgroundThresholdR) ||
                                  (src[RGB.G] > backgroundThresholdG) ||
@@ -430,36 +455,36 @@ namespace Accord.Imaging
                                      (src[RGB.B - pixelSize] > backgroundThresholdB))
                                 {
                                     // label current pixel, as the left
-                                    objectLabels[p] = objectLabels[p - 1];
+                                    ObjectLabels[p] = ObjectLabels[p - 1];
                                 }
                                 else if ((src[RGB.R - strideP1] > backgroundThresholdR) ||
                                           (src[RGB.G - strideP1] > backgroundThresholdG) ||
                                           (src[RGB.B - strideP1] > backgroundThresholdB))
                                 {
                                     // label current pixel, as the above left
-                                    objectLabels[p] = objectLabels[p - 1 - imageWidth];
+                                    ObjectLabels[p] = ObjectLabels[p - 1 - ImageWidth];
                                 }
                                 else if ((src[RGB.R - stride] > backgroundThresholdR) ||
                                           (src[RGB.G - stride] > backgroundThresholdG) ||
                                           (src[RGB.B - stride] > backgroundThresholdB))
                                 {
                                     // label current pixel, as the above
-                                    objectLabels[p] = objectLabels[p - imageWidth];
+                                    ObjectLabels[p] = ObjectLabels[p - ImageWidth];
                                 }
 
                                 if ((src[RGB.R - strideM1] > backgroundThresholdR) ||
                                      (src[RGB.G - strideM1] > backgroundThresholdG) ||
                                      (src[RGB.B - strideM1] > backgroundThresholdB))
                                 {
-                                    if (objectLabels[p] == 0)
+                                    if (ObjectLabels[p] == 0)
                                     {
                                         // label current pixel, as the above right
-                                        objectLabels[p] = objectLabels[p + 1 - imageWidth];
+                                        ObjectLabels[p] = ObjectLabels[p + 1 - ImageWidth];
                                     }
                                     else
                                     {
-                                        int l1 = objectLabels[p];
-                                        int l2 = objectLabels[p + 1 - imageWidth];
+                                        int l1 = ObjectLabels[p];
+                                        int l2 = ObjectLabels[p + 1 - ImageWidth];
 
                                         if ((l1 != l2) && (map[l1] != map[l2]))
                                         {
@@ -500,10 +525,10 @@ namespace Accord.Imaging
                                 }
 
                                 // label the object if it is not yet
-                                if (objectLabels[p] == 0)
+                                if (ObjectLabels[p] == 0)
                                 {
                                     // create new label
-                                    objectLabels[p] = ++labelsCount;
+                                    ObjectLabels[p] = ++labelsCount;
                                 }
                             }
                         }
@@ -520,26 +545,26 @@ namespace Accord.Imaging
                                  (src[RGB.B - pixelSize] > backgroundThresholdB))
                             {
                                 // label current pixel, as the left
-                                objectLabels[p] = objectLabels[p - 1];
+                                ObjectLabels[p] = ObjectLabels[p - 1];
                             }
                             else if ((src[RGB.R - strideP1] > backgroundThresholdR) ||
                                       (src[RGB.G - strideP1] > backgroundThresholdG) ||
                                       (src[RGB.B - strideP1] > backgroundThresholdB))
                             {
                                 // label current pixel, as the above left
-                                objectLabels[p] = objectLabels[p - 1 - imageWidth];
+                                ObjectLabels[p] = ObjectLabels[p - 1 - ImageWidth];
                             }
                             else if ((src[RGB.R - stride] > backgroundThresholdR) ||
                                       (src[RGB.G - stride] > backgroundThresholdG) ||
                                       (src[RGB.B - stride] > backgroundThresholdB))
                             {
                                 // label current pixel, as the above
-                                objectLabels[p] = objectLabels[p - imageWidth];
+                                ObjectLabels[p] = ObjectLabels[p - ImageWidth];
                             }
                             else
                             {
                                 // create new label
-                                objectLabels[p] = ++labelsCount;
+                                ObjectLabels[p] = ++labelsCount;
                             }
                         }
                         src += pixelSize;
@@ -554,28 +579,26 @@ namespace Accord.Imaging
             int[] reMap = new int[map.Length];
 
             // count objects and prepare remapping array
-            objectsCount = 0;
+            ObjectsCount = 0;
             for (int i = 1; i <= labelsCount; i++)
             {
                 if (map[i] == i)
                 {
                     // increase objects count
-                    reMap[i] = ++objectsCount;
+                    reMap[i] = ++ObjectsCount;
                 }
             }
             // second pass to complete remapping
             for (int i = 1; i <= labelsCount; i++)
             {
                 if (map[i] != i)
-                {
                     reMap[i] = reMap[map[i]];
-                }
             }
 
             // repair object labels
-            for (int i = 0, n = objectLabels.Length; i < n; i++)
+            for (int i = 0, n = ObjectLabels.Length; i < n; i++)
             {
-                objectLabels[i] = reMap[objectLabels[i]];
+                ObjectLabels[i] = reMap[ObjectLabels[i]];
             }
         }
     }
