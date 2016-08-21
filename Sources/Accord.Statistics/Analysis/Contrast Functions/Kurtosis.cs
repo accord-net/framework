@@ -27,8 +27,9 @@ namespace Accord.Statistics.Analysis.ContrastFunctions
     /// <summary>
     ///   Kurtosis contrast function.
     /// </summary>
+    /// 
     /// <remarks>
-    ///   According to using to Hyvärinen, the kurtosis contrast function is
+    ///   According to Hyvärinen, the kurtosis contrast function is
     ///   justified on statistical grounds only for estimating sub-Gaussian
     ///   independent components when there are no outliers.
     /// </remarks>
@@ -43,7 +44,9 @@ namespace Accord.Statistics.Analysis.ContrastFunctions
         ///   Initializes a new instance of the <see cref="Kurtosis"/> class.
         /// </summary>
         /// 
-        public Kurtosis() { }
+        public Kurtosis()
+        {
+        }
 
         /// <summary>
         ///   Contrast function.
@@ -71,7 +74,7 @@ namespace Accord.Statistics.Analysis.ContrastFunctions
                 output[j] = v * v * v;
 
                 // g'(w*x)
-                derivative[j] = (1.0 / 3.0) * v * v;
+                derivative[j] = 3.0 * v * v;
             }
         }
     }

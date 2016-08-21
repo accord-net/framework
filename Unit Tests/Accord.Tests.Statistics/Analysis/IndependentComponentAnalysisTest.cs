@@ -68,6 +68,70 @@ namespace Accord.Tests.Statistics
             var ica = new IndependentComponentAnalysis(input);
 
             Assert.AreEqual(IndependentComponentAlgorithm.Parallel, ica.Algorithm);
+            Assert.AreEqual(ica.Contrast.GetType(), typeof(Logcosh));
+
+            // Compute it 
+            ica.Compute();
+
+            // Now, we can retrieve the mixing and demixing matrices that were 
+            // used to alter the data. Note that the analysis was able to detect
+            // this information automatically:
+
+            double[][] mixingMatrix = ica.MixingMatrix; // same as the 'mix' matrix
+            double[][] revertMatrix = ica.DemixingMatrix; // inverse of the 'mix' matrix
+
+            double[,] result = ica.Result;
+
+            // Verify mixing matrix
+            mixingMatrix = mixingMatrix.Divide(mixingMatrix.Sum());
+            Assert.IsTrue(mix.IsEqual(mixingMatrix, atol: 0.008));
+
+            // Verify demixing matrix
+            double[,] expected =
+            {
+                { 0.75, -0.25 },        
+                { 0.25,  0.25 },
+            };
+
+            revertMatrix = revertMatrix.Divide(revertMatrix.Sum());
+            Assert.IsTrue(expected.IsEqual(revertMatrix, atol: 0.008));
+        }
+
+        [Test]
+        public void ComputeTest_kurtosis_function()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            // Let's create a random dataset containing
+            // 5000 samples of two dimensional samples.
+            //
+            double[,] source = Matrix.Random(5000, 2);
+
+            // Now, we will mix the samples the dimensions of the samples.
+            // A small amount of the second column will be applied to the
+            // first, and vice-versa. 
+            //
+            double[,] mix =
+            {
+                {  0.25, 0.25 },
+                { -0.25, 0.75 },    
+            };
+
+            // mix the source data
+            double[,] input = source.Multiply(mix);
+
+            // Now, we can use ICA to identify any linear mixing between the variables, such
+            // as the matrix multiplication we did above. After it has identified it, we will
+            // be able to revert the process, retrieving our original samples again
+
+            // Create a new Independent Component Analysis
+            var ica = new IndependentComponentAnalysis(input)
+            {
+                Contrast = new Kurtosis()
+            };
+
+            Assert.AreEqual(ica.Contrast.GetType(), typeof(Kurtosis));
+            Assert.AreEqual(IndependentComponentAlgorithm.Parallel, ica.Algorithm);
 
             // Compute it 
             ica.Compute();
