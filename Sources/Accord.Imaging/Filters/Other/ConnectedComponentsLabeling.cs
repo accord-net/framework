@@ -48,9 +48,11 @@ namespace Accord.Imaging.Filters
     /// <para>Sample usage:</para>
     /// <code>
     /// // create filter
-    /// ConnectedComponentsLabeling filter = new ConnectedComponentsLabeling( );
+    /// var filter = new ConnectedComponentsLabeling();
+    /// 
     /// // apply the filter
-    /// Bitmap newImage = filter.Apply( image );
+    /// Bitmap newImage = filter.Apply(image);
+    /// 
     /// // check objects count
     /// int objectCount = filter.ObjectCount;
     /// </code>
@@ -80,7 +82,7 @@ namespace Accord.Imaging.Filters
 		};
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -91,7 +93,7 @@ namespace Accord.Imaging.Filters
         }
 
         // blob counter
-        private BlobCounterBase blobCounter = new BlobCounter( );
+        private BlobCounterBase blobCounter = new BlobCounter();
 
         /// <summary>
         /// Blob counter used to locate separate blobs.
@@ -198,13 +200,13 @@ namespace Accord.Imaging.Filters
         /// Initializes a new instance of the <see cref="ConnectedComponentsLabeling"/> class.
         /// </summary>
         /// 
-        public ConnectedComponentsLabeling( )
+        public ConnectedComponentsLabeling()
         {
             // initialize format translation dictionary
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format24bppRgb]    = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppArgb]   = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppPArgb]  = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppPArgb] = PixelFormat.Format24bppRgb;
         }
 
         /// <summary>
@@ -214,33 +216,33 @@ namespace Accord.Imaging.Filters
         /// <param name="sourceData">Source image data.</param>
         /// <param name="destinationData">Destination image data.</param>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage sourceData, UnmanagedImage destinationData )
+        protected override unsafe void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData)
         {
             // process the image
-            blobCounter.ProcessImage( sourceData );
+            blobCounter.ProcessImage(sourceData);
 
             // get object labels
             int[] labels = blobCounter.ObjectLabels;
 
             // get width and height
-            int width  = sourceData.Width;
+            int width = sourceData.Width;
             int height = sourceData.Height;
 
             int dstOffset = destinationData.Stride - width * 3;
 
             // do the job
-            byte* dst = (byte*) destinationData.ImageData.ToPointer( );
+            byte* dst = (byte*)destinationData.ImageData.ToPointer();
             int p = 0;
 
             // for each row
-            for ( int y = 0; y < height; y++ )
+            for (int y = 0; y < height; y++)
             {
                 // for each pixel
-                for ( int x = 0; x < width; x++, dst += 3, p++ )
+                for (int x = 0; x < width; x++, dst += 3, p++)
                 {
-                    if ( labels[p] != 0 )
+                    if (labels[p] != 0)
                     {
-                        Color c = colorTable[( labels[p] - 1 ) % colorTable.Length];
+                        Color c = colorTable[(labels[p] - 1) % colorTable.Length];
 
                         dst[RGB.R] = c.R;
                         dst[RGB.G] = c.G;

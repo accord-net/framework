@@ -132,7 +132,17 @@ namespace Accord.Imaging
 
         private int objectsCount;
         private int[] objectLabels;
+
+        /// <summary>
+        /// Gets the width of the image.
+        /// </summary>
+        /// 
         protected int ImageWidth { get; private set; }
+
+        /// <summary>
+        /// Gets the height of the image.
+        /// </summary>
+        /// 
         protected int ImageHeight { get; private set; }
 
         /// <summary>
@@ -1351,9 +1361,25 @@ namespace Accord.Imaging
         /// </summary>
         public void Dispose()
         {
-            this.blobs.Clear();
-            this.blobs = null;
-            this.objectLabels = null;
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources
+                this.blobs.Clear();
+                this.blobs = null;
+                this.objectLabels = null;
+            }
+
+            // free native resources if there are any.
         }
     }
 }

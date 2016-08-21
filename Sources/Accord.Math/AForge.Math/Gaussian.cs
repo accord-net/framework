@@ -8,6 +8,7 @@
 
 namespace AForge.Math
 {
+    using Accord.Math;
     using System;
 
     /// <summary>
@@ -25,6 +26,7 @@ namespace AForge.Math
     /// 
     /// </remarks>
     /// 
+    [Obsolete("Please use Accord.Math.Normal instead.")]
     public class Gaussian
     {
         // sigma value
@@ -83,9 +85,10 @@ namespace AForge.Math
         /// </code>
         /// </remarks>
         /// 
+        [Obsolete("Please use Normal.Gaussian instead.")]
         public double Function(double x)
         {
-            return Math.Exp(x * x / (-2 * sqrSigma)) / (Math.Sqrt(2 * Math.PI) * sigma);
+            return Normal.Gaussian(sqrSigma, x);
         }
 
         /// <summary>
@@ -104,9 +107,10 @@ namespace AForge.Math
         /// </code>
         /// </remarks>
         /// 
+        [Obsolete("Please use Normal.Gaussian2D instead.")]
         public double Function2D(double x, double y)
         {
-            return Math.Exp((x * x + y * y) / (-2 * sqrSigma)) / (2 * Math.PI * sqrSigma);
+            return Normal.Gaussian2D(sqrSigma, x, y);
         }
 
         /// <summary>
@@ -124,26 +128,10 @@ namespace AForge.Math
         /// 
         /// <exception cref="ArgumentException">Wrong kernel size.</exception>
         /// 
+        [Obsolete("Please use Normal.Kernel instead.")]
         public double[] Kernel(int size)
         {
-            // check for evem size and for out of range
-            if (((size % 2) == 0) || (size < 3) || (size > 101))
-            {
-                throw new ArgumentException("Wrong kernal size.");
-            }
-
-            // raduis
-            int r = size / 2;
-            // kernel
-            double[] kernel = new double[size];
-
-            // compute kernel
-            for (int x = -r, i = 0; i < size; x++, i++)
-            {
-                kernel[i] = Function(x);
-            }
-
-            return kernel;
+            return Normal.Kernel(sqrSigma, size);
         }
 
         /// <summary>
@@ -161,29 +149,10 @@ namespace AForge.Math
         /// 
         /// <exception cref="ArgumentException">Wrong kernel size.</exception>
         /// 
+        [Obsolete("Please use Normal.Kernel2D instead.")]
         public double[,] Kernel2D(int size)
         {
-            // check for evem size and for out of range
-            if (((size % 2) == 0) || (size < 3) || (size > 101))
-            {
-                throw new ArgumentException("Wrong kernal size.");
-            }
-
-            // raduis
-            int r = size / 2;
-            // kernel
-            double[,] kernel = new double[size, size];
-
-            // compute kernel
-            for (int y = -r, i = 0; i < size; y++, i++)
-            {
-                for (int x = -r, j = 0; j < size; x++, j++)
-                {
-                    kernel[i, j] = Function2D(x, y);
-                }
-            }
-
-            return kernel;
+            return Normal.Kernel2D(sqrSigma, size);
         }
     }
 }

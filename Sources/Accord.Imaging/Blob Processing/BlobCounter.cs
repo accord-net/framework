@@ -109,7 +109,9 @@ namespace Accord.Imaging
         /// <see cref="BlobCounterBase.ProcessImage(BitmapData)"/> or <see cref="BlobCounterBase.ProcessImage(UnmanagedImage)"/>
         /// method should be called to collect objects map.</remarks>
         /// 
-        public BlobCounter() { }
+        public BlobCounter()
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BlobCounter"/> class.

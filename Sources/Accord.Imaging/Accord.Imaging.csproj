@@ -195,13 +195,13 @@
     <Compile Include="AForge.Imaging\Filters\Noise generation\SaltAndPepperNoise.cs" />
     <Compile Include="AForge.Imaging\Filters\Normalized RGB\ExtractNormalizedRGBChannel.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\ApplyMask.cs" />
+    <Compile Include="Blob Processing\IBlobsFilter.cs" />
     <Compile Include="Filters\Other\BlobsFiltering.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\CanvasCrop.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\CanvasFill.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\CanvasMove.cs" />
     <Compile Include="Filters\Other\ConnectedComponentsLabeling.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\CornersMarker.cs" />
-    <Compile Include="AForge.Imaging\Filters\Other\ExtractBiggestBlob.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\FillHoles.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\HorizontalRunLengthSmoothing.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\ImageWarp.cs" />
@@ -247,7 +247,6 @@
     <Compile Include="AForge.Imaging\HorizontalIntensityStatistics.cs" />
     <Compile Include="AForge.Imaging\HoughCircleTransformation.cs" />
     <Compile Include="AForge.Imaging\HoughLineTransformation.cs" />
-    <Compile Include="AForge.Imaging\IBlobsFilter.cs" />
     <Compile Include="AForge.Imaging\IBlockMatching.cs" />
     <Compile Include="AForge.Imaging\ICornersDetector.cs" />
     <Compile Include="AForge.Imaging\Image.cs" />
@@ -286,6 +285,7 @@
     <Compile Include="Filters\DifferenceOfGaussians.cs" />
     <Compile Include="Filters\FastVariance.cs" />
     <Compile Include="Filters\HighBoost.cs" />
+    <Compile Include="Filters\Other\ExtractBiggestBlob.cs" />
     <Compile Include="Filters\RGChromacity.cs" />
     <Compile Include="Filters\SauvolaThreshold.cs" />
     <Compile Include="Filters\LineMarker.cs" />

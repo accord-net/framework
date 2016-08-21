@@ -129,7 +129,10 @@ namespace Accord.Imaging
         /// 
         /// <param name="image">Image to look for objects in.</param>
         /// 
-        public RecursiveBlobCounter(Bitmap image) : base(image) { }
+        public RecursiveBlobCounter(Bitmap image)
+            : base(image)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursiveBlobCounter"/> class.
@@ -137,7 +140,10 @@ namespace Accord.Imaging
         /// 
         /// <param name="imageData">Image data to look for objects in.</param>
         /// 
-        public RecursiveBlobCounter(BitmapData imageData) : base(imageData) { }
+        public RecursiveBlobCounter(BitmapData imageData)
+            : base(imageData)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursiveBlobCounter"/> class.
@@ -145,7 +151,10 @@ namespace Accord.Imaging
         /// 
         /// <param name="image">Unmanaged image to look for objects in.</param>
         /// 
-        public RecursiveBlobCounter(UnmanagedImage image) : base(image) { }
+        public RecursiveBlobCounter(UnmanagedImage image)
+            : base(image)
+        {
+        }
 
         /// <summary>
         /// Actual objects map building.
@@ -186,7 +195,7 @@ namespace Accord.Imaging
             }
 
             // initial objects count
-            objectsCount = 0;
+            ObjectsCount = 0;
 
             // do the job
             unsafe
@@ -207,7 +216,7 @@ namespace Accord.Imaging
                             // check for non-labeled pixel
                             if ((*src > backgroundThresholdG) && (tempLabels[p] == 0))
                             {
-                                objectsCount++;
+                                ObjectsCount++;
                                 LabelPixel(src, p);
                             }
                         }
@@ -234,7 +243,7 @@ namespace Accord.Imaging
                                   ) &&
                                 (tempLabels[p] == 0))
                             {
-                                objectsCount++;
+                                ObjectsCount++;
                                 LabelColorPixel(src, p);
                             }
                         }
@@ -245,17 +254,17 @@ namespace Accord.Imaging
             }
 
             // allocate labels array
-            objectLabels = new int[ImageWidth * ImageHeight];
+            ObjectLabels = new int[ImageWidth * ImageHeight];
 
             for (int y = 0; y < ImageHeight; y++)
-                Array.Copy(tempLabels, (y + 1) * (ImageWidth + 2) + 1, objectLabels, y * ImageWidth, ImageWidth);
+                Array.Copy(tempLabels, (y + 1) * (ImageWidth + 2) + 1, ObjectLabels, y * ImageWidth, ImageWidth);
         }
 
         private unsafe void LabelPixel(byte* pixel, int labelPointer)
         {
             if ((tempLabels[labelPointer] == 0) && (*pixel > backgroundThresholdG))
             {
-                tempLabels[labelPointer] = objectsCount;
+                tempLabels[labelPointer] = ObjectsCount;
 
                 LabelPixel(pixel + 1, labelPointer + 1);                              // x + 1, y
                 LabelPixel(pixel + 1 + stride, labelPointer + 1 + 2 + ImageWidth);    // x + 1, y + 1
@@ -275,7 +284,7 @@ namespace Accord.Imaging
                 (pixel[RGB.G] > backgroundThresholdG) ||
                 (pixel[RGB.B] > backgroundThresholdB)))
             {
-                tempLabels[labelPointer] = objectsCount;
+                tempLabels[labelPointer] = ObjectsCount;
 
                 LabelColorPixel(pixel + pixelSize, labelPointer + 1);                              // x + 1, y
                 LabelColorPixel(pixel + pixelSize + stride, labelPointer + 1 + 2 + ImageWidth);    // x + 1, y + 1
