@@ -54,55 +54,7 @@ namespace Accord.Statistics.Models.Regression
     /// </remarks>
     /// 
     /// <example>
-    ///   <code>
-    ///    // Suppose we have the following data about some patients.
-    ///    // The first variable is continuous and represent patient
-    ///    // age. The second variable is dichotomic and give whether
-    ///    // they smoke or not (This is completely fictional data).
-    ///    double[][] input =
-    ///    {
-    ///        new double[] { 55, 0 }, // 0 - no cancer
-    ///        new double[] { 28, 0 }, // 0
-    ///        new double[] { 65, 1 }, // 0
-    ///        new double[] { 46, 0 }, // 1 - have cancer
-    ///        new double[] { 86, 1 }, // 1
-    ///        new double[] { 56, 1 }, // 1
-    ///        new double[] { 85, 0 }, // 0
-    ///        new double[] { 33, 0 }, // 0
-    ///        new double[] { 21, 1 }, // 0
-    ///        new double[] { 42, 1 }, // 1
-    ///    };
-    ///
-    ///    // We also know if they have had lung cancer or not, and 
-    ///    // we would like to know whether smoking has any connection
-    ///    // with lung cancer (This is completely fictional data).
-    ///    double[] output =
-    ///    {
-    ///        0, 0, 0, 1, 1, 1, 0, 0, 0, 1
-    ///    };
-    ///
-    ///
-    ///    // To verify this hypothesis, we are going to create a GLM
-    ///    // regression model for those two inputs (age and smoking).
-    ///    var regression = new GeneralizedLinearRegression(new ProbitLinkFunction(), inputs: 2);
-    ///
-    ///    // Next, we are going to estimate this model. For this, we
-    ///    // will use the Iteratively Reweighted Least Squares method.
-    ///    var teacher = new IterativeReweightedLeastSquares(regression);
-    ///
-    ///    // Now, we will iteratively estimate our model. The Run method returns
-    ///    // the maximum relative change in the model parameters and we will use
-    ///    // it as the convergence criteria.
-    ///
-    ///    double delta = 0;
-    ///    do
-    ///    {
-    ///        // Perform an iteration
-    ///        delta = teacher.Run(input, output);
-    ///
-    ///    } while (delta > 0.001);
-    ///
-    ///   </code>
+    ///     <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\LogisticRegressionTest.cs" region="doc_log_reg_1" />
     /// </example>
     /// 
     [Serializable]
@@ -113,6 +65,19 @@ namespace Accord.Statistics.Models.Regression
         private double[] coefficients;
         private double[] standardErrors;
 
+
+        /// <summary>
+        ///   Creates a new Generalized Linear Regression Model.
+        /// </summary>
+        /// 
+        /// <param name="function">The link function to use.</param>
+        /// 
+        public GeneralizedLinearRegression(ILinkFunction function)
+        {
+            this.linkFunction = function;
+            this.NumberOfOutputs = 1;
+            this.NumberOfInputs = 1;
+        }
 
         /// <summary>
         ///   Creates a new Generalized Linear Regression Model.
@@ -170,8 +135,20 @@ namespace Accord.Statistics.Models.Regression
             this.standardErrors = standardErrors;
         }
 
-
-
+        /// <summary>
+        /// Gets the number of inputs accepted by the model.
+        /// </summary>
+        /// 
+        public override int NumberOfInputs
+        {
+            get { return base.NumberOfInputs; }
+            set
+            {
+                base.NumberOfInputs = value;
+                this.coefficients = Vector.Create(value + 1, this.coefficients);
+                this.standardErrors = Vector.Create(value + 1, this.standardErrors);
+            }
+        }
 
         /// <summary>
         ///   Gets the coefficient vector, in which the
@@ -197,6 +174,7 @@ namespace Accord.Statistics.Models.Regression
         ///   Gets the number of inputs handled by this model.
         /// </summary>
         /// 
+        [Obsolete("Please use NumberOfInputs instead.")]
         public int Inputs
         {
             get { return coefficients.Length - 1; }
@@ -469,7 +447,7 @@ namespace Accord.Statistics.Models.Regression
             }
 
             var intercept = Math.Log(y1 / y0);
-            var regression = new GeneralizedLinearRegression(linkFunction, Inputs, intercept);
+            var regression = new GeneralizedLinearRegression(linkFunction, NumberOfInputs, intercept);
 
             double ratio = GetLogLikelihoodRatio(input, output, regression);
 
@@ -508,7 +486,7 @@ namespace Accord.Statistics.Models.Regression
 
             var intercept = Math.Log(y1 / y0);
 
-            var regression = new GeneralizedLinearRegression(linkFunction, Inputs, intercept);
+            var regression = new GeneralizedLinearRegression(linkFunction, NumberOfInputs, intercept);
 
             double ratio = GetLogLikelihoodRatio(input, output, weights, regression);
 
@@ -576,7 +554,8 @@ namespace Accord.Statistics.Models.Regression
             double sum = coefficients[0];
             for (int i = 1; i < coefficients.Length; i++)
                 sum += input[i - 1] * coefficients[i];
-            decision = Classes.Decide(linkFunction.Log(sum) + 0.5);
+            double z = linkFunction.Log(sum);
+            decision = Classes.Decide(z - 0.5);
             return linkFunction.Log(sum);
         }
 
@@ -623,7 +602,8 @@ namespace Accord.Statistics.Models.Regression
             double sum = coefficients[0];
             for (int i = 1; i < coefficients.Length; i++)
                 sum += input[i - 1] * coefficients[i];
-            return Classes.Decide(linkFunction.Inverse(sum) + 0.5);
+            double z = linkFunction.Inverse(sum);
+            return Classes.Decide(z - 0.5);
         }
     }
 }

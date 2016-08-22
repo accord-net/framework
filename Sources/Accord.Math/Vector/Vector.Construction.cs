@@ -164,8 +164,11 @@ namespace Accord.Math
         public static T[] Create<T>(int size, T[] values)
         {
             var v = new T[size];
-            for (int i = 0; i < values.Length; i++)
-                v[i] = values[i];
+            if (values != null)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    v[i] = values[i];
+            }
             return v;
         }
 

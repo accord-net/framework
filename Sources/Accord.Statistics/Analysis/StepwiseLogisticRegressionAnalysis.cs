@@ -461,17 +461,17 @@ namespace Accord.Statistics.Analysis
 
 
             // Verify first if a variable reduction is possible
-            if (currentModel.Regression.Inputs == 1)
+            if (currentModel.Regression.NumberOfInputs == 1)
                 return -1; // cannot reduce further
 
 
             // Now go and create the diminished nested models
-            var nestedModels = new StepwiseLogisticRegressionModel[currentModel.Regression.Inputs];
+            var nestedModels = new StepwiseLogisticRegressionModel[currentModel.Regression.NumberOfInputs];
 
             for (int i = 0; i < nestedModels.Length; i++)
             {
                 // Create a diminished nested model without the current variable
-                LogisticRegression regression = new LogisticRegression(currentModel.Regression.Inputs - 1);
+                LogisticRegression regression = new LogisticRegression(currentModel.Regression.NumberOfInputs - 1);
                 int[] variables = currentModel.Variables.RemoveAt(i);
                 double[][] subset = inputData.Get(null, variables);
 
