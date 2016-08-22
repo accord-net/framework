@@ -156,8 +156,6 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-21.693553825772664, wald10.Statistic, 1e-4);
             Assert.AreEqual(3.0423802097069097, wald11.Statistic, 1e-4);
             Assert.AreEqual(21.678124991086548, wald12.Statistic, 1e-4);
-
-
         }
 
 
