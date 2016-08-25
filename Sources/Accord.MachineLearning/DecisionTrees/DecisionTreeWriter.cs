@@ -23,6 +23,7 @@
 namespace Accord.MachineLearning.DecisionTrees
 {
     using System;
+    using System.Globalization;
     using System.IO;
 
     /// <summary>
@@ -65,7 +66,7 @@ namespace Accord.MachineLearning.DecisionTrees
             writer.WriteLine("    ///   Automatically generated decision tree.");
             writer.WriteLine("    /// </summary>");
             writer.WriteLine("    /// ");
-            writer.WriteLine("    [GeneratedCode(\"Accord.NET DecisionTree\", \"2.8\")]");
+            writer.WriteLine("    [GeneratedCode(\"Accord.NET DecisionTree\", \"3.2\")]");
             writer.WriteLine("    public static class {0}", className);
             writer.WriteLine("    {");
             writer.WriteLine();
@@ -104,7 +105,9 @@ namespace Accord.MachineLearning.DecisionTrees
                     else
                         writer.Write(indent + "else if ");
 
-                    writer.Write("(input[{0}] {1} {2}) {{", attributeIndex, cmp, child.Value);
+                    string value = child.Value.Value.ToString(CultureInfo.InvariantCulture);
+
+                    writer.Write("(input[{0}] {1} {2}) {{", attributeIndex, cmp, value);
                     writer.WriteLine();
                     create(child, depth + 1);
                     writer.WriteLine(indent + "}");
@@ -116,8 +119,14 @@ namespace Accord.MachineLearning.DecisionTrees
             else // node is a leaf
             {
                 if (node.Output.HasValue)
-                    writer.WriteLine(indent + "return " + node.Output.Value + ";");
-                else writer.WriteLine(indent + "return -1;");
+                {
+                    string value = node.Output.Value.ToString(CultureInfo.InvariantCulture);
+                    writer.WriteLine(indent + "return " + value + ";");
+                }
+                else
+                {
+                    writer.WriteLine(indent + "return -1;");
+                }
             }
         }
 
