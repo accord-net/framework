@@ -402,7 +402,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         // Error cache to speed up computations
         private double[] errors;
 
-        private int cacheSize;
+        private int cacheSize = -1;
         private KernelFunctionCache<TKernel, TInput> kernelCache;
 
         private SelectionStrategy strategy = SelectionStrategy.WorstPair;
@@ -478,7 +478,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             get { return cacheSize; }
             set
             {
-                if (cacheSize < 0)
+                if (value < 0)
                     throw new ArgumentOutOfRangeException("value");
                 this.cacheSize = value;
             }
@@ -575,7 +575,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             this.errors = new double[samples];
 
             // Kernel cache
-            this.cacheSize = samples;
+            if (this.cacheSize == -1)
+            {
+                this.cacheSize = samples;
+            }
 
 
             // Lagrange multipliers

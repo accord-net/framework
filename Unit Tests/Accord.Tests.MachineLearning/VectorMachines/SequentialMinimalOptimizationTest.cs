@@ -422,6 +422,63 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        public void Learn_UnspecifiedCacheSize_CacheSizeEqualsInputLength()
+        {
+            double[][] inputs =
+            {
+                new double[] { -1, -1 },
+                new double[] { -1,  1 },
+                new double[] {  1, -1 },
+                new double[] {  1,  1 }
+            };
+
+            int[] xor =
+            {
+                -1,
+                 1,
+                 1,
+                -1
+            };
+
+            KernelSupportVectorMachine svm = new KernelSupportVectorMachine(new Polynomial(2), inputs[0].Length);
+            SequentialMinimalOptimization smo = new SequentialMinimalOptimization(svm, inputs, xor);
+
+            smo.Run();
+
+            Assert.AreEqual(smo.CacheSize, inputs.Length);
+        }
+
+        [Test]
+        public void Learn_CacheSizeZero_CacheSizeShouldBeZero()
+        {
+            double[][] inputs =
+            {
+                new double[] { -1, -1 },
+                new double[] { -1,  1 },
+                new double[] {  1, -1 },
+                new double[] {  1,  1 }
+            };
+
+            int[] xor =
+            {
+                -1,
+                 1,
+                 1,
+                -1
+            };
+
+            KernelSupportVectorMachine svm = new KernelSupportVectorMachine(new Polynomial(2), inputs[0].Length);
+            SequentialMinimalOptimization smo = new SequentialMinimalOptimization(svm, inputs, xor)
+            {
+                CacheSize = 0
+            };
+
+            smo.Run();
+
+            Assert.AreEqual(smo.CacheSize, 0);
+        }
+
+        [Test]
         public void LargeLearningTest1()
         {
             // Create large input vectors
