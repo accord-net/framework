@@ -198,7 +198,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             var s = new FanChenLinQuadraticOptimization(alpha.Length, Q, zeros, ones)
             {
                 Tolerance = eps,
-                Shrinking = true,
+                Shrinking = this.shrinking,
                 Solution = alpha
             };
 
