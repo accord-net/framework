@@ -234,7 +234,7 @@ namespace Accord.Statistics.Models.Regression.Linear
                 throw new ArgumentException("Number of input and output samples does not match", "outputs");
 
             double[,] design;
-            return regress(inputs, outputs, out design, true);
+            return regress(inputs, outputs, out design, robust);
         }
 
         /// <summary>
