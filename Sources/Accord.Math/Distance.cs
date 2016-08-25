@@ -177,6 +177,11 @@ namespace Accord.Math
         ///   particular method of the <see cref="Distance"/> static class.
         /// </summary>
         /// 
+        /// <remarks>
+        ///   This method relies on reflection and might not work on all scenarios,
+        ///   environments, and/or platforms.
+        /// </remarks>
+        /// 
         /// <typeparam name="T">The type of the elements being compared in the distance function.</typeparam>
         /// 
         /// <param name="func">The method of <see cref="Distance"/>.</param>
@@ -187,9 +192,8 @@ namespace Accord.Math
         /// 
         public static IDistance<T> GetDistance<T>(Func<T, T, double> func)
         {
+            var methods = typeof(Distance).GetMethods(BindingFlags.Public | BindingFlags.Static);
 
-
-            var methods = typeof(Distance).GetMembers(BindingFlags.Public | BindingFlags.Static);
             foreach (var method in methods)
             {
                 if (func.Method == method)
