@@ -36,6 +36,57 @@ namespace Accord.Math
     public static partial class Distance
     {
 
+        /// <summary>
+        ///   Computes the squared Euclidean distance of two vectors given in sparse representation.
+        /// </summary>
+        /// 
+        /// <param name="x">The first vector <c>x</c>.</param>
+        /// <param name="y">The second vector <c>y</c>.</param>
+        /// 
+        /// <returns>
+        ///   The squared Euclidean distance <c>d² = |x - y|²</c> between the given vectors.
+        /// </returns>
+        /// 
+        public static double SquareEuclidean(Sparse<double> x, Sparse<double> y)
+        {
+            double sum = 0;
+
+            int i = 0, j = 0;
+
+            while (i < x.Length && j < y.Length)
+            {
+                int posx = x.Indices[i];
+                int posy = y.Indices[j];
+
+                if (posx == posy)
+                {
+                    double d = x.Values[i] - y.Values[j];
+                    sum += d * d;
+                    i++;
+                    j++;
+                }
+                else if (posx < posy)
+                {
+                    double d = x.Values[j];
+                    sum += d * d;
+                    i++;
+                }
+                else if (posx > posy)
+                {
+                    double d = y.Values[j];
+                    sum += d * d;
+                    j++;
+                }
+            }
+
+            for (; i < x.Length; i++)
+                sum += x.Values[i] * x.Values[i];
+
+            for (; j < y.Length; j++)
+                sum += y.Values[j] * y.Values[j];
+
+            return sum;
+        }
 
         /// <summary>
         ///   Checks whether a function is a real metric distance, i.e. respects
@@ -136,7 +187,7 @@ namespace Accord.Math
         /// 
         public static IDistance<T> GetDistance<T>(Func<T, T, double> func)
         {
-            
+
 
             var methods = typeof(Distance).GetMembers(BindingFlags.Public | BindingFlags.Static);
             foreach (var method in methods)

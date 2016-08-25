@@ -290,6 +290,40 @@ namespace Accord.Statistics.Kernels
         }
 
         /// <summary>
+        ///   Computes the set of all distances between 
+        ///   all points in a random subset of the data.
+        /// </summary>
+        /// 
+        /// <param name="kernel">The inner kernel.</param>
+        /// <param name="inputs">The inputs points.</param>
+        /// <param name="samples">The number of samples.</param>
+        /// 
+        public static double[] Distances<TKernel, TData>(this TKernel kernel, TData[] inputs, int samples)
+            where TKernel : IDistance<TData>, ICloneable
+        {
+            int[] idx = Vector.Sample(samples, inputs.Length);
+            int[] idy = Vector.Sample(samples, inputs.Length);
+
+            double[] distances = new double[samples * samples];
+
+            for (int i = 0; i < idx.Length; i++)
+            {
+                TData x = inputs[idx[i]];
+
+                for (int j = 0; j < idy.Length; j++)
+                {
+                    TData y = inputs[idy[j]];
+
+                    distances[i * samples + j] = kernel.Distance(x, y);
+                }
+            }
+
+            Array.Sort(distances);
+
+            return distances;
+        }
+
+        /// <summary>
         ///   Centers the given kernel matrix K.
         /// </summary>
         /// 

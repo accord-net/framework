@@ -183,14 +183,8 @@ namespace Accord.Statistics.Kernels
         /// 
         public void Product(double a, double[] b, double[] result)
         {
-            //double s2 = 0;
             for (int j = 0; j < b.Length; j++)
-            {
-                //s2 += val * val; // TODO: Remove the s2 calculation
                 result[j] += a * b[j];
-            }
-
-            //return s2;
         }
 
         /// <summary>

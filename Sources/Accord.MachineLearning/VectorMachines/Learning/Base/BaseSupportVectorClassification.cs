@@ -70,6 +70,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseSupportVectorClassification{TModel, TKernel, TInput}"/> class.
         /// </summary>
+        /// 
         public BaseSupportVectorClassification()
         {
 
@@ -89,13 +90,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
         /// <summary>
-        ///   Gets or sets the input vectors for calibration.
+        ///   Gets or sets the input vectors for training.
         /// </summary>
+        /// 
         public TInput[] Inputs { get; set; }
 
         /// <summary>
-        ///   Gets or sets the output labels for each calibration vector.
+        ///   Gets or sets the output labels for each training vector.
         /// </summary>
+        /// 
         public int[] Outputs { get; set; }
 
 

@@ -146,7 +146,14 @@ namespace Accord.Math
             return obj.Values;
         }
 
-
+        /// <summary>
+        ///   Gets the number of non-zero elements in the sparse vector.
+        /// </summary>
+        /// 
+        public int Length
+        {
+            get { return Indices.Length; }
+        }
 
 
 

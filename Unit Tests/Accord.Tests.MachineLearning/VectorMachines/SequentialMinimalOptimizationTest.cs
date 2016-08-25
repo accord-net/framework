@@ -30,26 +30,12 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Kernels;
     using NUnit.Framework;
     using Accord;
+    using Accord.Statistics.Kernels.Sparse;
+    using Accord.Statistics;
 
     [TestFixture]
     public class SequentialMinimalOptimizationTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         [Test]
         public void LearnTest()
@@ -85,6 +71,156 @@ namespace Accord.Tests.MachineLearning
 
             for (int i = 0; i < output.Length; i++)
                 Assert.AreEqual(System.Math.Sign(xor[i]), System.Math.Sign(output[i]));
+        }
+
+        [Test]
+        public void learn_linear()
+        {
+            #region doc_xor_linear
+            // As an example, we will try to learn a linear machine  that can 
+            // replicate the "exclusive-or" logical function. However, since we
+            // will be using a linear SVM, we will not be able to solve this 
+            // problem perfectly as the XOR is a non-linear classification problem:
+            double[][] inputs =
+            {
+                new double[] { 0, 0 }, // the XOR function takes two booleans
+                new double[] { 0, 1 }, // and computes their exclusive or: the
+                new double[] { 1, 0 }, // output is true only if the two booleans
+                new double[] { 1, 1 }  // are different
+            };
+
+            int[] xor = // this is the output of the xor function
+            {
+                0, // 0 xor 0 = 0 (inputs are equal)
+                1, // 0 xor 1 = 1 (inputs are different)
+                1, // 1 xor 0 = 1 (inputs are different)
+                0, // 1 xor 1 = 0 (inputs are equal)
+            };
+
+            // Now, we can create the sequential minimal optimization teacher
+            var learn = new SequentialMinimalOptimization()
+            {
+                UseComplexityHeuristic = true,
+                UseKernelEstimation = false
+            };
+
+            // And then we can obtain a trained SVM by calling its Learn method
+            SupportVectorMachine svm = learn.Learn(inputs, xor);
+
+            // Finally, we can obtain the decisions predicted by the machine:
+            bool[] prediction = svm.Decide(inputs);
+            #endregion
+
+            Assert.AreEqual(prediction[0], false);
+            Assert.AreEqual(prediction[1], false);
+            Assert.AreEqual(prediction[2], false);
+            Assert.AreEqual(prediction[3], false);
+
+
+            int[] or = // this is the output of the xor function
+            {
+                0, // 0 or 0 = 0 (inputs are equal)
+                1, // 0 or 1 = 1 (inputs are different)
+                1, // 1 or 0 = 1 (inputs are different)
+                1, // 1 or 1 = 1 (inputs are equal)
+            };
+
+
+            learn = new SequentialMinimalOptimization()
+            {
+                Complexity = 1e+8,
+                UseKernelEstimation = false
+            };
+
+            svm = learn.Learn(inputs, or);
+
+            prediction = svm.Decide(inputs);
+
+            Assert.AreEqual(prediction[0], false);
+            Assert.AreEqual(prediction[1], true);
+            Assert.AreEqual(prediction[2], true);
+            Assert.AreEqual(prediction[3], true);
+        }
+
+        [Test]
+        public void learn_new_method()
+        {
+            #region doc_xor_normal
+            // As an example, we will try to learn a decision machine 
+            // that can replicate the "exclusive-or" logical function:
+
+            double[][] inputs =
+            {
+                new double[] { 0, 0 }, // the XOR function takes two booleans
+                new double[] { 0, 1 }, // and computes their exclusive or: the
+                new double[] { 1, 0 }, // output is true only if the two booleans
+                new double[] { 1, 1 }  // are different
+            };
+
+            int[] xor = // this is the output of the xor function
+            {
+                0, // 0 xor 0 = 0 (inputs are equal)
+                1, // 0 xor 1 = 1 (inputs are different)
+                1, // 1 xor 0 = 1 (inputs are different)
+                0, // 1 xor 1 = 0 (inputs are equal)
+            };
+
+            // Now, we can create the sequential minimal optimization teacher
+            var learn = new SequentialMinimalOptimization<Gaussian>()
+            {
+                UseComplexityHeuristic = true,
+                UseKernelEstimation = true
+            };
+
+            // And then we can obtain a trained SVM by calling its Learn method
+            SupportVectorMachine<Gaussian> svm = learn.Learn(inputs, xor);
+
+            // Finally, we can obtain the decisions predicted by the machine:
+            bool[] prediction = svm.Decide(inputs);
+            #endregion
+
+            Assert.AreEqual(prediction, Classes.Decide(xor));
+        }
+
+
+        [Test]
+        public void learn_sparse_kernel()
+        {
+            #region doc_xor_sparse
+            // As an example, we will try to learn a decision machine 
+            // that can replicate the "exclusive-or" logical function:
+
+            Sparse<double>[] inputs =
+            {
+                Sparse.FromDense(new double[] { 0, 0 }), // the XOR function takes two booleans
+                Sparse.FromDense(new double[] { 0, 1 }), // and computes their exclusive or: the
+                Sparse.FromDense(new double[] { 1, 0 }), // output is true only if the two booleans
+                Sparse.FromDense(new double[] { 1, 1 })  // are different
+            };
+
+            int[] xor = // this is the output of the xor function
+            {
+                0, // 0 xor 0 = 0 (inputs are equal)
+                1, // 0 xor 1 = 1 (inputs are different)
+                1, // 1 xor 0 = 1 (inputs are different)
+                0, // 1 xor 1 = 0 (inputs are equal)
+            };
+
+            // Now, we can create the sequential minimal optimization teacher
+            var learn = new SequentialMinimalOptimization<Gaussian, Sparse<double>>()
+            {
+                UseComplexityHeuristic = true,
+                UseKernelEstimation = true
+            };
+
+            // And then we can obtain a trained SVM by calling its Learn method
+            var svm = learn.Learn(inputs, xor);
+
+            // Finally, we can obtain the decisions predicted by the machine:
+            bool[] prediction = svm.Decide(inputs);
+            #endregion
+
+            Assert.AreEqual(prediction, Classes.Decide(xor));
         }
 
         [Test]
@@ -775,7 +911,7 @@ namespace Accord.Tests.MachineLearning
         {
             var dataset = KernelSupportVectorMachineTest.training;
             var inputs = dataset.Submatrix(null, 0, 3);
-            var labels = Tools.Scale(0, 1, -1, 1, dataset.GetColumn(4)).ToInt32();
+            var labels = Accord.Math.Tools.Scale(0, 1, -1, 1, dataset.GetColumn(4)).ToInt32();
 
             Gaussian kernel = Gaussian.Estimate(inputs);
             var machine = new KernelSupportVectorMachine(kernel, inputs[0].Length);
@@ -811,7 +947,7 @@ namespace Accord.Tests.MachineLearning
         {
             var dataset = KernelSupportVectorMachineTest.training;
             var inputs = dataset.Submatrix(null, 0, 3);
-            var labels = Tools.Scale(0, 1, -1, 1, dataset.GetColumn(4)).ToInt32();
+            var labels = Accord.Math.Tools.Scale(0, 1, -1, 1, dataset.GetColumn(4)).ToInt32();
 
             Gaussian kernel = Gaussian.Estimate(inputs);
 
@@ -889,7 +1025,7 @@ namespace Accord.Tests.MachineLearning
         {
             var dataset = KernelSupportVectorMachineTest.training;
             var inputs = dataset.Submatrix(null, 0, 3);
-            var labels = Tools.Scale(0, 1, -1, 1, dataset.GetColumn(4)).ToInt32();
+            var labels = Accord.Math.Tools.Scale(0, 1, -1, 1, dataset.GetColumn(4)).ToInt32();
 
             var machine = new KernelSupportVectorMachine(
                 Gaussian.Estimate(inputs), inputs[0].Length);
