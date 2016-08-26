@@ -43,6 +43,15 @@ namespace Accord.MachineLearning.Bayes
     /// 
     /// <seealso cref="NaiveBayes"/>
     /// 
+    /// <example>
+    /// <para>
+    ///   For basic examples on how to learn a Naive Bayes algorithm, please see
+    ///   <see cref="NaiveBayes"/> page. The following examples show how to set
+    ///   more specialized learning settings for discrete models.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_laplace" />
+    /// </example>
+    /// 
     [Serializable]
     public class NaiveBayesLearning :
         NaiveBayesLearningBase<NaiveBayes, GeneralDiscreteDistribution, int,

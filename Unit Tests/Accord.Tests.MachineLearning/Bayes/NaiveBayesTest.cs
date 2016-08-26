@@ -377,6 +377,71 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        public void laplace_smoothing_missing_sample()
+        {
+            #region doc_laplace
+            // To test the effectiveness of the Laplace rule for when
+            // an example of a symbol is not present in the training set,
+            // lets create dataset where the second column could contain
+            // values 0, 1 or 2 but only actually contains examples with
+            // containing 1 and 2:
+
+            int[][] inputs =
+            {
+                //      input     output
+                new [] { 0, 1 }, //  0 
+                new [] { 0, 2 }, //  0
+                new [] { 0, 1 }, //  0
+                new [] { 1, 2 }, //  1
+                new [] { 0, 2 }, //  1
+                new [] { 0, 2 }, //  1
+                new [] { 1, 1 }, //  2
+                new [] { 0, 1 }, //  2
+                new [] { 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 1, 1, 1, 2, 2, 2, 
+            };
+
+            // Since the data is not enough to determine which symbols we are
+            // expecting in our model, we will have to specify the model by
+            // hand. The first column can assume 2 different values, whereas
+            // the third column can assume 3:
+            var bayes = new NaiveBayes(classes: 3, symbols: new[] { 2, 3 });
+
+            // Now we can create a learning algorithm
+            var learning = new NaiveBayesLearning()
+            {
+                Model = bayes
+            };
+
+            // Enable the use of the Laplace rule
+            learning.Options.InnerOption.UseLaplaceRule = true;
+
+            // Learn the Naive Bayes model
+            learning.Learn(inputs, outputs);
+
+            // Estimate a sample with 0 in the second col
+            int answer = bayes.Decide(new int[] { 0, 1 });
+            #endregion
+
+            Assert.AreEqual(0, answer);
+
+            double prob = bayes.Probability(new int[] { 0, 1 }, out answer);
+            Assert.AreEqual(0, answer);
+            Assert.AreEqual(2 / 3.0, prob);
+
+            double error = new ZeroOneLoss(outputs)
+            {
+                Mean = true
+            }.Loss(bayes.Decide(inputs));
+
+            Assert.AreEqual(2 / 9.0, error);
+        }
+
+        [Test]
         public void ComputeTest3()
         {
             #region doc_multiclass

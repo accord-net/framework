@@ -26,6 +26,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.IO;
     using Accord.MachineLearning.Bayes;
     using Accord.Math;
+    using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
