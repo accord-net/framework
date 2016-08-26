@@ -234,7 +234,9 @@ namespace Accord.Statistics.Models.Regression.Linear
                 throw new ArgumentException("Number of input and output samples does not match", "outputs");
 
             double[,] design;
+#pragma warning disable 612, 618
             return regress(inputs, outputs, out design, robust);
+#pragma warning restore 612, 618
         }
 
         /// <summary>
