@@ -157,7 +157,16 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     /// //
     /// int z = func(inputs[25]);
     /// </code>
+    /// 
+    /// <para>
+    ///   The next example shows how to induce a decision tree with continuous variables
+    ///   without using a <see cref="Accord.Statistics.Filters.Codification">codebook</see>
+    ///   for encoding input variables.</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_iris" />
     /// </example>
+    /// 
+    /// <seealso cref="DecisionTree"/>
+    /// <seealso cref="ID3Learning"/>
     ///
     [Serializable]
     public class C45Learning : ParallelLearningBase,

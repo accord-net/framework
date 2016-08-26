@@ -26,6 +26,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.DecisionTrees.Learning;
     using Accord.MachineLearning.DecisionTrees.Rules;
     using Accord.Math;
+    using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Filters;
     using Accord.Tests.MachineLearning.Properties;
     using NUnit.Framework;
@@ -142,6 +143,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void LargeRunTest()
         {
+            #region doc_nursery
             // This example uses the Nursery Database available from the University of
             // California Irvine repository of machine learning databases, available at
             //
@@ -226,6 +228,7 @@ namespace Accord.Tests.MachineLearning
             //   such as the 25-th example in the set, we can use
             //
             int y = tree.Compute(inputs[25]);
+            #endregion
 
             Assert.AreEqual(0, error);
 
@@ -482,21 +485,33 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void IrisDatasetTest()
         {
-            string[][] text = Resources.iris_data.Split(
-                new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                .Apply(x => x.Split(','));
+            #region doc_iris
+            // In this example, we will process the famous Fisher's Iris dataset in 
+            // which the task is to classify weather the features of an Iris flower 
+            // belongs to an Iris setosa, an Iris versicolor, or an Iris virginica:
+            //
+            //  - https://en.wikipedia.org/wiki/Iris_flower_data_set
+            //
 
-            double[][] inputs = new double[text.Length][];
-            for (int i = 0; i < inputs.Length; i++)
-                inputs[i] = text[i].First(4).Convert(s => Double.Parse(s, System.Globalization.CultureInfo.InvariantCulture));
+            // First, let's load the dataset into an array of text that we can process
+            string[][] text = Resources.iris_data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Apply(x => x.Split(','));
 
+            // The first four columns contain the flower features
+            double[][] inputs = text.GetColumns(0, 1, 2, 3).To<double[][]>();
+
+            // The last column contains the expected flower type
             string[] labels = text.GetColumn(4);
 
-            Codification codebook = new Codification("Label", labels);
+            // Since the labels are represented as text, the first step is to convert
+            // those text labels into integer class labels, so we can process them
+            // more easily. For this, we will create a codebook to encode class labels:
+            //
+            var codebook = new Codification("Output", labels);
 
-            int[] outputs = codebook.Translate("Label", labels);
+            // With the codebook, we can convert the labels:
+            int[] outputs = codebook.Translate("Output", labels);
 
-
+            // Let's declare the names of our input variables:
             DecisionVariable[] features =
             {
                 new DecisionVariable("sepal length", DecisionVariableKind.Continuous), 
@@ -505,35 +520,46 @@ namespace Accord.Tests.MachineLearning
                 new DecisionVariable("petal width", DecisionVariableKind.Continuous), 
             };
 
+            // Now, we can finally create our tree for the 3 classes:
+            var tree = new DecisionTree(inputs: features, classes: 3);
 
-            DecisionTree tree = new DecisionTree(features, codebook.Columns[0].Symbols);
+            // And we can use the C4.5 for learning:
+            var teacher = new C45Learning(tree);
 
-            C45Learning teacher = new C45Learning(tree);
+            // And finally induce the tree:
+            teacher.Learn(inputs, outputs);
 
-            double error = teacher.Run(inputs, outputs);
-            Assert.AreEqual(0.026666666666666668, error, 1e-10);
+            // To get the estimated class labels, we can use
+            int[] predicted = tree.Decide(inputs);
+            
+            // And the classification error can be computed as 
+            double error = new ZeroOneLoss(outputs) // 0.0266
+            {
+                Mean = true
+            }.Loss(tree.Decide(inputs));
 
+            // Moreover, we may decide to convert our tree to a set of rules:
             DecisionSet rules = tree.ToRules();
+
+            // And using the codebook, we can inspect the tree reasoning:
+            string ruleText = rules.ToString(codebook, "Output",
+                System.Globalization.CultureInfo.InvariantCulture);
+
+            // The output is:
+            string expected = @"Iris-setosa =: (petal length <= 2.45)
+Iris-versicolor =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length <= 7.05) && (sepal width <= 2.85)
+Iris-versicolor =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length <= 7.05) && (sepal width > 2.85)
+Iris-versicolor =: (petal length > 2.45) && (petal width > 1.75) && (sepal length <= 5.95) && (sepal width > 3.05)
+Iris-virginica =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length > 7.05)
+Iris-virginica =: (petal length > 2.45) && (petal width > 1.75) && (sepal length > 5.95)
+Iris-virginica =: (petal length > 2.45) && (petal width > 1.75) && (sepal length <= 5.95) && (sepal width <= 3.05)
+";
+            #endregion
+
+            Assert.AreEqual(0.026666666666666668, error, 1e-10);
 
             double newError = ComputeError(rules, inputs, outputs);
             Assert.AreEqual(0.026666666666666668, newError, 1e-10);
-
-            string ruleText = rules.ToString(codebook,
-                System.Globalization.CultureInfo.InvariantCulture);
-
-            // TODO: implement this assertion properly, actually checking
-            // the text contents once the feature is completely finished.
-            Assert.AreEqual(596, ruleText.Length);
-
-            string expected = @"0 =: (petal length <= 2.45)
-1 =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length <= 7.05) && (sepal width <= 2.85)
-1 =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length <= 7.05) && (sepal width > 2.85)
-1 =: (petal length > 2.45) && (petal width > 1.75) && (sepal length <= 5.95) && (sepal width > 3.05)
-2 =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length > 7.05)
-2 =: (petal length > 2.45) && (petal width > 1.75) && (sepal length > 5.95)
-2 =: (petal length > 2.45) && (petal width > 1.75) && (sepal length <= 5.95) && (sepal width <= 3.05)
-";
-
             Assert.AreEqual(expected, ruleText);
         }
 
