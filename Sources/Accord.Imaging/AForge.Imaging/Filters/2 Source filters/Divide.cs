@@ -1,30 +1,47 @@
-// AForge Image Processing Library
-// AForge.NET framework
-// http://www.aforgenet.com/framework/
+// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
 //
-// Copyright © AForge.NET, 2005-2011
-// contacts@aforgenet.com
-//
-// Implemented Divide filter by HZ, March-2016
+// Copyright © Hashem Zawary, 2016
 // hashemzawary@gmail.com
 // https://www.linkedin.com/in/hashem-zavvari-53b01457
 //
+// Copyright © César Souza, 2009-2016
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
 
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+
     /// <summary>
-    /// Divide filter - divide pixel values of two images.
+    ///   Divide filter - divide pixel values of two images.
     /// </summary>
     /// 
     /// <remarks><para>The divide filter takes two images (source and overlay images)
     /// of the same size and pixel format and produces an image, where each pixel equals
-    /// to the divide value of corresponding pixels from provided images (
-    /// for 8bpp: (srcPix * 255f + 1f) / (ovrPix + 1f), 
-    /// for 16bpp: (srcPix * 65535f + 1f) / (ovrPix + 1f).</para>
+    /// to the division value of corresponding pixels from provided images:</para>
+    /// 
+    /// <code>
+    ///  - For 8bpp:  (srcPix * 255f + 1f) / (ovrPix + 1f), 
+    ///  - For 16bpp: (srcPix * 65535f + 1f) / (ovrPix + 1f).
+    /// </code>
     /// 
     /// <para>The filter accepts 8 and 16 bpp grayscale images and 24, 32, 48 and 64 bpp
     /// color images for processing.</para>
@@ -32,9 +49,10 @@ namespace AForge.Imaging.Filters
     /// <para>Sample usage:</para>
     /// <code>
     /// // create filter
-    /// Divide filter = new Divide( overlayImage );
+    /// Divide filter = new Divide(overlayImage);
+    /// 
     /// // apply the filter
-    /// Bitmap resultImage = filter.Apply( sourceImage );
+    /// Bitmap resultImage = filter.Apply(sourceImage);
     /// </code>
     /// </remarks>
     /// 
@@ -52,7 +70,10 @@ namespace AForge.Imaging.Filters
         /// <summary>
         /// Format translations dictionary.
         /// </summary>
-        public override Dictionary<PixelFormat, PixelFormat> FormatTranslations => _formatTranslations;
+        public override Dictionary<PixelFormat, PixelFormat> FormatTranslations
+        {
+            get { return _formatTranslations; }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Divide"/> class.
@@ -107,13 +128,11 @@ namespace AForge.Imaging.Filters
         ///
         protected override unsafe void ProcessFilter(UnmanagedImage image, UnmanagedImage overlay)
         {
-            var pixelFormat = image.PixelFormat;
-            // get image dimension
-            var width = image.Width;
-            var height = image.Height;
+            PixelFormat pixelFormat = image.PixelFormat;
+            int width = image.Width;
+            int height = image.Height;
 
-            if (
-                (pixelFormat == PixelFormat.Format8bppIndexed) ||
+            if ((pixelFormat == PixelFormat.Format8bppIndexed) ||
                 (pixelFormat == PixelFormat.Format24bppRgb) ||
                 (pixelFormat == PixelFormat.Format32bppRgb) ||
                 (pixelFormat == PixelFormat.Format32bppArgb))

@@ -1,36 +1,58 @@
-﻿// AForge Image Processing Library
-// AForge.NET framework
-// http://www.aforgenet.com/framework/
+﻿// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
 //
-// Copyright © AForge.NET, 2005-2011
-// contacts@aforgenet.com
-//
-// Implemented FastBoxBlur filter by HZ, March-2016
-// Reference link: http://www.vcskicks.com/box-blur.php (The filter is simple and fast to BoxBlur).
+// Copyright © Hashem Zawary, 2016
 // hashemzawary@gmail.com
 // https://www.linkedin.com/in/hashem-zavvari-53b01457
 //
+// Copyright © César Souza, 2009-2016
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
 
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+
     /// <summary>
-    /// FastBoxBlur filter.
+    ///   Fast Box Blur filter.
     /// </summary>
+    /// 
+    /// <remarks>
+    ///   Reference: http://www.vcskicks.com/box-blur.php
+    /// </remarks>
+    /// 
     public class FastBoxBlur : BaseInPlacePartialFilter
     {
-        // private format translation dictionary
+        private byte _horizontalKernelSize = 3;
+        private byte _verticalKernelSize = 3;
         private readonly Dictionary<PixelFormat, PixelFormat> _formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
         /// </summary>
-        public override Dictionary<PixelFormat, PixelFormat> FormatTranslations => _formatTranslations;
+        /// 
+        public override Dictionary<PixelFormat, PixelFormat> FormatTranslations
+        {
+            get { return _formatTranslations; }
+        }
 
-        private byte _horizontalKernelSize = 3;
 
         /// <summary>
         /// Horizontal kernel size between 3 and 99.
@@ -46,11 +68,11 @@ namespace AForge.Imaging.Filters
             }
         }
 
-        private byte _verticalKernelSize = 3;
         /// <summary>
         /// Vertical kernel size between 3 and 99.
         /// Default value is 3.
         /// </summary>
+        /// 
         public byte VerticalKernelSize
         {
             get { return _verticalKernelSize; }
@@ -79,7 +101,9 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="horizontalKernelSize">Horizontal kernel size.</param>
         /// <param name="verticalKernelSize">Vertical kernel size.</param>
-        public FastBoxBlur(byte horizontalKernelSize, byte verticalKernelSize) : this()
+        /// 
+        public FastBoxBlur(byte horizontalKernelSize, byte verticalKernelSize)
+            : this()
         {
             HorizontalKernelSize = horizontalKernelSize;
             VerticalKernelSize = verticalKernelSize;
@@ -122,13 +146,12 @@ namespace AForge.Imaging.Filters
 
             var basePtr = (byte*)image.ImageData.ToPointer();
 
-            if (
-                (image.PixelFormat == PixelFormat.Format8bppIndexed) ||
+            if ((image.PixelFormat == PixelFormat.Format8bppIndexed) ||
                 (image.PixelFormat == PixelFormat.Format24bppRgb))
             {
                 var offset = image.Stride - (stopX - startX);
 
-                // allign pointer to the first pixel to process
+                // align pointer to the first pixel to process
                 var ptr = basePtr + (startY * image.Stride + rect.Left * pixelSize);
 
                 for (var y = startY; y < stopY; y++)
@@ -156,7 +179,7 @@ namespace AForge.Imaging.Filters
             {
                 var stride = image.Stride;
 
-                // allign pointer to the first pixel to process
+                // align pointer to the first pixel to process
                 basePtr += (startY * image.Stride + rect.Left * pixelSize * 2);
 
                 for (var y = startY; y < stopY; y++)
@@ -197,13 +220,12 @@ namespace AForge.Imaging.Filters
 
             var basePtr = (byte*)image.ImageData.ToPointer();
 
-            if (
-                (image.PixelFormat == PixelFormat.Format8bppIndexed) ||
+            if ((image.PixelFormat == PixelFormat.Format8bppIndexed) ||
                 (image.PixelFormat == PixelFormat.Format24bppRgb))
             {
                 var offset = image.Stride - (stopX - startX);
 
-                // allign pointer to the first pixel to process
+                // align pointer to the first pixel to process
                 var ptr = basePtr + (startY * image.Stride + rect.Left * pixelSize);
 
                 for (var y = startY; y < stopY; y++)
@@ -217,10 +239,12 @@ namespace AForge.Imaging.Filters
                             var yBound = y + yFilter;
 
                             //Only if in bounds
-                            if (yBound < 0 || yBound >= image.Height) continue;
+                            if (yBound < 0 || yBound >= image.Height)
+                                continue;
 
                             sum += ptr[yFilter * image.Stride];
                         }
+
                         *ptr = (byte)(sum / kernelSizeRange.Length);
                     }
                     ptr += offset;
@@ -229,7 +253,7 @@ namespace AForge.Imaging.Filters
             }
             else
             {
-                // allign pointer to the first pixel to process
+                // align pointer to the first pixel to process
                 basePtr += (startY * image.Stride + rect.Left * pixelSize * 2);
 
                 for (var y = startY; y < stopY; y++)
@@ -245,7 +269,8 @@ namespace AForge.Imaging.Filters
                             var yBound = y + yFilter;
 
                             //Only if in bounds
-                            if (yBound < 0 || yBound >= image.Height) continue;
+                            if (yBound < 0 || yBound >= image.Height)
+                                continue;
 
                             sum += ptr[yFilter * image.Stride / 2];
                         }

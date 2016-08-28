@@ -73,6 +73,9 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="AForge.Imaging\Filters\2 Source filters\Divide.cs" />
+    <Compile Include="AForge.Imaging\Filters\2 Source filters\Multiply.cs" />
+    <Compile Include="AForge.Imaging\Filters\Convolution\FastBoxBlur.cs" />
     <Compile Include="Blob Processing\Blob.cs" />
     <Compile Include="Blob Processing\BlobCounter.cs" />
     <Compile Include="Blob Processing\BlobCounterBase.cs" />
