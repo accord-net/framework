@@ -86,6 +86,55 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        public void binary_split_new_method()
+        {
+            #region doc_sample1
+            // Use a fixed seed for reproducibility
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Declare some data to be clustered
+            double[][] input = 
+            {
+                new double[] { -5, -2, -1 },
+                new double[] { -5, -5, -6 },
+                new double[] {  2,  1,  1 },
+                new double[] {  1,  1,  2 },
+                new double[] {  1,  2,  2 },
+                new double[] {  3,  1,  2 },
+                new double[] { 11,  5,  4 },
+                new double[] { 15,  5,  6 },
+                new double[] { 10,  5,  6 },
+            };
+
+            // Create a new binary split with 3 clusters 
+            BinarySplit binarySplit = new BinarySplit(3);
+
+            // Learn a data partitioning using the Binary Split algorithm
+            KMeansClusterCollection clustering = binarySplit.Learn(input);
+
+            // Predict group labels for each point
+            int[] output = clustering.Decide(input);
+            #endregion
+
+            Assert.AreEqual(output[0], output[1]);
+
+            Assert.AreEqual(output[2], output[3]);
+            Assert.AreEqual(output[2], output[4]);
+            Assert.AreEqual(output[2], output[5]);
+
+            Assert.AreEqual(output[6], output[7]);
+            Assert.AreEqual(output[6], output[8]);
+
+            Assert.AreNotEqual(output[0], output[2]);
+            Assert.AreNotEqual(output[2], output[6]);
+            Assert.AreNotEqual(output[0], output[6]);
+
+            int[] labels2 = binarySplit.Clusters.Nearest(input);
+
+            Assert.IsTrue(output.IsEqual(labels2));
+        }
+
+        [Test]
         public void BinarySplitConstructorTest3()
         {
             // Create a new algorithm
