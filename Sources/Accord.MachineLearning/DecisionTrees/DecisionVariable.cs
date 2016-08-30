@@ -178,7 +178,14 @@ namespace Accord.MachineLearning.DecisionTrees
         }
 
 
-
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public override string ToString()
+        {
+            return String.Format("{0} : {1} ({2})", Name, Nature, Range);
+        }
 
         /// <summary>
         ///   Creates a set of decision variables from a <see cref="Codification"/> codebook.
@@ -223,7 +230,7 @@ namespace Accord.MachineLearning.DecisionTrees
             int cols = inputs.Columns();
             var variables = new DecisionVariable[cols];
             for (int i = 0; i < variables.Length; i++)
-                variables[i] = new DecisionVariable(i.ToString(), DecisionVariableKind.Continuous);
+                variables[i] = new DecisionVariable(i.ToString(), inputs.GetColumn(i).GetRange());
             return variables;
         }
 
@@ -241,7 +248,7 @@ namespace Accord.MachineLearning.DecisionTrees
             int cols = inputs.Columns();
             var variables = new DecisionVariable[cols];
             for (int i = 0; i < variables.Length; i++)
-                variables[i] = new DecisionVariable(i.ToString(), DecisionVariableKind.Discrete);
+                variables[i] = new DecisionVariable(i.ToString(), inputs.GetColumn(i).GetRange());
             return variables;
         }
     }

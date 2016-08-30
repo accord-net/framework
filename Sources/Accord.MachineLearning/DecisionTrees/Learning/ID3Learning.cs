@@ -28,6 +28,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     using Accord.Statistics;
     using Accord.Math.Optimization.Losses;
     using Accord.MachineLearning;
+    using System.Linq;
+    using System.Collections.Generic;
 
     /// <summary>
     ///   ID3 (Iterative Dichotomizer 3) learning algorithm
@@ -172,6 +174,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         private int join = 1;
 
         private int[] attributeUsageCount;
+        private IList<DecisionVariable> attributes;
 
 
         /// <summary>
@@ -193,6 +196,17 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
                 maxHeight = value;
             }
+        }
+
+        /// <summary>
+        ///   Gets or sets the collection of attributes to 
+        ///   be processed by the induced decision tree.
+        /// </summary>
+        /// 
+        public IList<DecisionVariable> Attributes
+        {
+            get { return attributes; }
+            set { attributes = value; }
         }
 
         /// <summary>
@@ -257,6 +271,18 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             init(tree);
         }
 
+        /// <summary>
+        ///   Creates a new ID3 learning algorithm.
+        /// </summary>
+        /// 
+        /// <param name="attributes">The attributes to be processed by the induced tree.</param>
+        /// 
+        public ID3Learning(DecisionVariable[] attributes)
+            : this()
+        {
+            this.attributes = new List<DecisionVariable>(attributes);
+        }
+
         private void init(DecisionTree tree)
         {
             if (tree == null)
@@ -266,6 +292,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             this.inputRanges = new IntRange[tree.NumberOfInputs];
             this.outputClasses = tree.NumberOfOutputs;
             this.attributeUsageCount = new int[tree.NumberOfInputs];
+            this.attributes = tree.Attributes;
 
             for (int i = 0; i < tree.Attributes.Count; i++)
             {
@@ -291,9 +318,10 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         {
             if (tree == null)
             {
-                var variables = DecisionVariable.FromData(x);
+                if (this.attributes == null)
+                    this.attributes = DecisionVariable.FromData(x);
                 int classes = y.Max() + 1;
-                init(new DecisionTree(variables, classes));
+                init(new DecisionTree(this.attributes, classes));
             }
 
             run(x, y);

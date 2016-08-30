@@ -186,6 +186,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
         private int join = 1;
         private int[] attributeUsageCount;
+        private IList<DecisionVariable> attributes;
 
         /// <summary>
         ///   Gets or sets the maximum allowed 
@@ -207,6 +208,16 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             }
         }
 
+        /// <summary>
+        ///   Gets or sets the collection of attributes to 
+        ///   be processed by the induced decision tree.
+        /// </summary>
+        /// 
+        public IList<DecisionVariable> Attributes
+        {
+            get { return attributes; }
+            set { attributes = value; }
+        }
 
         /// <summary>
         ///   Gets or sets the maximum number of variables that
@@ -292,6 +303,18 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             init(tree);
         }
 
+        /// <summary>
+        ///   Creates a new C4.5 learning algorithm.
+        /// </summary>
+        /// 
+        /// <param name="attributes">The attributes to be processed by the induced tree.</param>
+        //
+        public C45Learning(DecisionVariable[] attributes)
+            : this()
+        {
+            this.attributes = new List<DecisionVariable>(attributes);
+        }
+
         private void init(DecisionTree tree)
         {
             // Initial argument checking
@@ -304,6 +327,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             this.attributeUsageCount = new int[inputVariables];
             this.inputRanges = new IntRange[inputVariables];
             this.maxHeight = inputVariables;
+            this.attributes = tree.Attributes;
 
             for (int i = 0; i < inputRanges.Length; i++)
                 inputRanges[i] = tree.Attributes[i].Range.ToIntRange(false);
@@ -323,9 +347,10 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         {
             if (tree == null)
             {
-                var variables = DecisionVariable.FromData(x);
-                int classes = y.DistinctCount();
-                init(new DecisionTree(variables, classes));
+                if (this.attributes == null)
+                    this.attributes = DecisionVariable.FromData(x);
+                int classes = y.Max() + 1;
+                init(new DecisionTree(this.attributes, classes));
             }
 
             this.run(x, y);
