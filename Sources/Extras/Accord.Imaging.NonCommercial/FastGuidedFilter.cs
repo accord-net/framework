@@ -12,6 +12,12 @@
 // Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
+// This code has been contributed by Hashem Zawary based on the original from 
+//   Kaiming He, Jian Sun, and Xiaoou Tang's Fast Guided Filter. Please note 
+//   that this code is only available under a special license that specifically
+//   *denies* the use for commercial applications and is thus *not compatible 
+//   with the LGPL and the GPL*. Use at your own risk.
+//
 
 namespace Accord.Imaging.Filters
 {
@@ -20,7 +26,7 @@ namespace Accord.Imaging.Filters
     using System.Drawing.Imaging;
 
     /// <summary>
-    ///   Fast Guided Filter filter [non-commercial].
+    ///   Fast Guided Filter (non-commercial).
     /// </summary>
     /// 
     /// <remarks>
@@ -32,7 +38,7 @@ namespace Accord.Imaging.Filters
     ///   
     ///   <para>This code is intended for academic purposes only, and <b>cannot be used for 
     ///   commercial or industrial activities</b>. For this reason, this code is not under 
-    ///   the LGPL license and is only available in the framework's Accord.Imaging.NonCommercial 
+    ///   the LGPL license and is only available in the framework's Accord.Imaging.Noncommercial 
     ///   assembly.</para>
     ///   
     ///   <para>The original work can be found in http://kaiminghe.com/eccv10/index.html </para>
