@@ -114,6 +114,10 @@ namespace Accord.Tests.MachineLearning
 
             // Predict group labels for each point
             int[] output = clustering.Decide(input);
+
+            // As a result, the first two observations should belong to the
+            //  same cluster (thus having the same label). The same should
+            //  happen to the next four observations and to the last three.
             #endregion
 
             Assert.AreEqual(output[0], output[1]);

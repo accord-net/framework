@@ -365,6 +365,82 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(scores, expected, 1e-6));
         }
 
+        [Test]
+        public void scholkopf_new_method()
+        {
+            // Schölkopf KPCA toy example
+            double[][] inputs = scholkopf().ToJagged();
+
+            int[] output = Matrix.Expand(new int[,] { { 0 }, { 1 }, { 2 } }, new int[] { 30, 30, 30 }).GetColumn(0);
+
+            IKernel kernel = new Gaussian(0.2);
+            var target = new KernelDiscriminantAnalysis(kernel);
+
+            var cls = target.Learn(inputs, output);
+
+
+            double[][] actual = target.Transform(inputs, 2);
+
+            double[][] expected1 =
+            {
+                new double[] { 1.2785801485080475, 0.20539157505913622},
+                new double[] { 1.2906613255489541, 0.20704272225753775},
+                new double[] { 1.2978134597266808, 0.20802649628632208},
+            };
+
+            double[][] actual1 = actual.Submatrix(0, 2, 0, 1);
+
+            Assert.IsTrue(Matrix.IsEqual(actual1, expected1, 0.0000001));
+            Assert.IsNull(target.Result);
+
+            int[] actual2 = target.Classify(inputs);
+            Assert.IsTrue(Matrix.IsEqual(actual2, output));
+
+            int[] actual4 = cls.Decide(inputs);
+            Assert.IsTrue(Matrix.IsEqual(actual4, output));
+
+            int[] actual3 = new int[inputs.Length];
+            double[][] scores = new double[inputs.Length][];
+            for (int i = 0; i < inputs.Length; i++)
+                actual3[i] = target.Classify(inputs[i], out scores[i]);
+            Assert.IsTrue(Matrix.IsEqual(actual3, output));
+
+            scores = scores.Get(0, 5, null);
+
+            double[][] expected = new double[][] {
+                new double[] { -6.23928931356786E-06, -5.86731829543872, -4.76988430445096 },
+                new double[] { -9.44593697210785E-05, -5.92312597750504, -4.82189359956088 },
+                new double[] { -0.000286839977573986, -5.95629842504978, -4.85283341267476 },
+                new double[] { -4.38986003009456E-05, -5.84990179343448, -4.75189423787298 },
+                new double[] { -0.000523817959022851, -5.77534144986199, -4.683120454667 } 
+            };
+
+            Assert.IsTrue(Matrix.IsEqual(scores, expected, 1e-6));
+        }
+
+        [Test]
+        public void large_transform_few_components()
+        {
+            int n = 100;
+            double[][] data = Jagged.Random(n, n);
+            int[] labels = Vector.Random(n, 0, 10);
+
+            var kda = new KernelDiscriminantAnalysis();
+            var target = kda.Learn(data, labels);
+
+            var expected = kda.Transform(data, 2);
+            Assert.AreEqual(n, expected.Rows());
+            Assert.AreEqual(2, expected.Columns());
+
+            kda.NumberOfOutputs = 2;
+            target = kda.Learn(data, labels);
+
+            var actual = target.First.Transform(data);
+            Assert.AreEqual(n, actual.Rows());
+            Assert.AreEqual(2, actual.Columns());
+
+            Assert.IsTrue(actual.IsEqual(expected));
+        }
 
         [Test]
         public void ThresholdTest()

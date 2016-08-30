@@ -157,6 +157,69 @@ namespace Accord.Tests.Statistics
 
         }
 
+        [Test]
+        public void new_method()
+        {
+            // Create some sample input data instances. This is the same
+            // data used in the Gutierrez-Osuna's example available on:
+            // http://research.cs.tamu.edu/prism/lectures/pr/pr_l10.pdf
+
+            double[][] inputs = 
+            {
+                // Class 0
+                new double[] {  4,  1 }, 
+                new double[] {  2,  4 },
+                new double[] {  2,  3 },
+                new double[] {  3,  6 },
+                new double[] {  4,  4 },
+
+                // Class 1
+                new double[] {  9, 10 },
+                new double[] {  6,  8 },
+                new double[] {  9,  5 },
+                new double[] {  8,  7 },
+                new double[] { 10,  8 }
+            };
+
+            int[] output = 
+            {
+                0, 0, 0, 0, 0, // The first five are from class 0
+                1, 1, 1, 1, 1  // The last five are from class 1
+            };
+
+            // Then, we will create a LDA for the given instances.
+            var lda = new LinearDiscriminantAnalysis();
+
+            // Compute the analysis
+            var classifier = lda.Learn(inputs, output);
+
+
+            // Now we can project the data into KDA space:
+            double[][] projection = lda.Transform(inputs);
+
+            double[][] classifierProjection = classifier.First.Transform(inputs);
+            Assert.IsTrue(projection.IsEqual(classifierProjection));
+
+            // Or perform classification using:
+            int[] results = lda.Classify(inputs);
+
+
+            // Test the classify method
+            for (int i = 0; i < 5; i++)
+            {
+                int expected = 0;
+                int actual = results[i];
+                Assert.AreEqual(expected, actual);
+            }
+
+            for (int i = 5; i < 10; i++)
+            {
+                int expected = 1;
+                int actual = results[i];
+                Assert.AreEqual(expected, actual);
+            }
+
+        }
 
         [Test]
         public void ComputeTest2()
@@ -189,6 +252,30 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(5.7, lda.Means[0]);
             Assert.AreEqual(5.6, lda.Means[1]);
+        }
+
+        [Test]
+        public void large_transform_few_components()
+        {
+            int n = 100;
+            double[][] data = Jagged.Random(n, n);
+            int[] labels = Vector.Random(n, 0, 10);
+
+            var kda = new LinearDiscriminantAnalysis();
+            var target = kda.Learn(data, labels);
+
+            var expected = kda.Transform(data, 2);
+            Assert.AreEqual(n, expected.Rows());
+            Assert.AreEqual(2, expected.Columns());
+
+            kda.NumberOfOutputs = 2;
+            target = kda.Learn(data, labels);
+
+            var actual = target.First.Transform(data);
+            Assert.AreEqual(n, actual.Rows());
+            Assert.AreEqual(2, actual.Columns());
+
+            Assert.IsTrue(actual.IsEqual(expected));
         }
 
         [Test]

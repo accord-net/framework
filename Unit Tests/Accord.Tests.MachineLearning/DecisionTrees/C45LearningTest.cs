@@ -557,11 +557,126 @@ Iris-virginica =: (petal length > 2.45) && (petal width > 1.75) && (sepal length
             #endregion
 
             Assert.AreEqual(0.026666666666666668, error, 1e-10);
+            Assert.AreEqual(4, tree.NumberOfInputs);
+            Assert.AreEqual(3, tree.NumberOfOutputs);
 
             double newError = ComputeError(rules, inputs, outputs);
             Assert.AreEqual(0.026666666666666668, newError, 1e-10);
             Assert.AreEqual(expected, ruleText);
         }
+
+        [Test, Timeout(30 * 1000)]
+        public void iris_new_method_create_tree()
+        {
+            string[][] text = Resources.iris_data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Apply(x => x.Split(','));
+
+            double[][] inputs = text.GetColumns(0, 1, 2, 3).To<double[][]>();
+
+            string[] labels = text.GetColumn(4);
+
+            var codebook = new Codification("Output", labels);
+
+            int[] outputs = codebook.Translate("Output", labels);
+
+            DecisionVariable[] features =
+            {
+                new DecisionVariable("sepal length", DecisionVariableKind.Continuous), 
+                new DecisionVariable("sepal width", DecisionVariableKind.Continuous), 
+                new DecisionVariable("petal length", DecisionVariableKind.Continuous), 
+                new DecisionVariable("petal width", DecisionVariableKind.Continuous), 
+            };
+
+            var teacher = new C45Learning(features);
+
+            var tree = teacher.Learn(inputs, outputs);
+            Assert.AreEqual(4, tree.NumberOfInputs);
+            Assert.AreEqual(3, tree.NumberOfOutputs);
+
+
+            // To get the estimated class labels, we can use
+            int[] predicted = tree.Decide(inputs);
+
+            // And the classification error can be computed as 
+            double error = new ZeroOneLoss(outputs) // 0.0266
+            {
+                Mean = true
+            }.Loss(tree.Decide(inputs));
+
+            // Moreover, we may decide to convert our tree to a set of rules:
+            DecisionSet rules = tree.ToRules();
+
+            // And using the codebook, we can inspect the tree reasoning:
+            string ruleText = rules.ToString(codebook, "Output",
+                System.Globalization.CultureInfo.InvariantCulture);
+
+            // The output is:
+            string expected = @"Iris-setosa =: (petal length <= 2.45)
+Iris-versicolor =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length <= 7.05) && (sepal width <= 2.85)
+Iris-versicolor =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length <= 7.05) && (sepal width > 2.85)
+Iris-versicolor =: (petal length > 2.45) && (petal width > 1.75) && (sepal length <= 5.95) && (sepal width > 3.05)
+Iris-virginica =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length > 7.05)
+Iris-virginica =: (petal length > 2.45) && (petal width > 1.75) && (sepal length > 5.95)
+Iris-virginica =: (petal length > 2.45) && (petal width > 1.75) && (sepal length <= 5.95) && (sepal width <= 3.05)
+";
+
+            Assert.AreEqual(0.026666666666666668, error, 1e-10);
+
+            double newError = ComputeError(rules, inputs, outputs);
+            Assert.AreEqual(0.026666666666666668, newError, 1e-10);
+            Assert.AreEqual(expected, ruleText);
+        }
+
+        [Test]
+        public void new_method_create_tree()
+        {
+            string[][] text = Resources.iris_data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Apply(x => x.Split(','));
+
+            double[][] inputs = text.GetColumns(0, 1, 2, 3).To<double[][]>();
+
+            string[] labels = text.GetColumn(4);
+
+            var codebook = new Codification("Output", labels);
+            int[] outputs = codebook.Translate("Output", labels);
+
+            // And we can use the C4.5 for learning:
+            var teacher = new C45Learning();
+
+            // And finally induce the tree:
+            var tree = teacher.Learn(inputs, outputs);
+
+            // To get the estimated class labels, we can use
+            int[] predicted = tree.Decide(inputs);
+
+            // And the classification error can be computed as 
+            double error = new ZeroOneLoss(outputs) // 0.0266
+            {
+                Mean = true
+            }.Loss(tree.Decide(inputs));
+
+            // Moreover, we may decide to convert our tree to a set of rules:
+            DecisionSet rules = tree.ToRules();
+
+            // And using the codebook, we can inspect the tree reasoning:
+            string ruleText = rules.ToString(codebook, "Output",
+                System.Globalization.CultureInfo.InvariantCulture);
+
+            // The output is:
+            string expected = @"Iris-setosa =: (2 <= 2.45)
+Iris-versicolor =: (2 > 2.45) && (3 <= 1.75) && (0 <= 7.05) && (1 <= 2.85)
+Iris-versicolor =: (2 > 2.45) && (3 <= 1.75) && (0 <= 7.05) && (1 > 2.85)
+Iris-versicolor =: (2 > 2.45) && (3 > 1.75) && (0 <= 5.95) && (1 > 3.05)
+Iris-virginica =: (2 > 2.45) && (3 <= 1.75) && (0 > 7.05)
+Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 > 5.95)
+Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 <= 5.95) && (1 <= 3.05)
+";
+
+            Assert.AreEqual(0.026666666666666668, error, 1e-10);
+
+            double newError = ComputeError(rules, inputs, outputs);
+            Assert.AreEqual(0.026666666666666668, newError, 1e-10);
+            Assert.AreEqual(expected, ruleText);
+        }
+
 
         [Test]
         public void AttributeReuseTest1()
