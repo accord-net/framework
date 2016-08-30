@@ -12,9 +12,11 @@
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Real-time face detection and tracking, as well as general methods for detecting, tracking and transforming objects in image streams. Contains Haar cascade definitions, Camshift and Dynamic Template Matching trackers. This package is part of the Accord.NET Framework.
+      Real-time face detection and tracking, as well as general methods for detecting, tracking and transforming 
+	  objects in image streams. Contains Haar cascade definitions, Camshift and Dynamic Template Matching trackers. 
+	  This package is part of the Accord.NET Framework.
     </description>
-    <summary>Accord.NET Vision Library from the Accord.NET Framework</summary>
+    <summary>Real-time face recognition, object tracking and computer vision library.</summary>
     <tags>accord.net aforge.net framework computer vision object detection tracking haar viola-jones camshift</tags>
     <dependencies>
       <dependency id="Accord"                 version="$version$" />

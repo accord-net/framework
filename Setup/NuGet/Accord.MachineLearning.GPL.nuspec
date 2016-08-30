@@ -12,9 +12,12 @@
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      This package contains libraries of the Accord.NET Framework that are NOT available under the LGPL. It currently includes Accord.MachineLearning.GPL, which contains GPL code and thus can only be used inside GPL-compliant applications. Please take extra care before including this library in your projects.
+      This package contains libraries of the Accord.NET Framework that are NOT available under the LGPL. 
+	  It currently includes Accord.MachineLearning.GPL, which contains GPL code and thus can only be used 
+	  inside GPL-compliant applications. Please take extra care before including this library in your projects.
     </description>
-    <summary>Accord.NET Non-LGPL machine learning libraries from the Accord.NET framework.</summary>
+    <summary>Extra non-LGPL machine learning libraries from the Accord.NET framework, containing Sequential Minimal 
+		Optimization for Regression (SMOreg).</summary>
     <tags>accord.net aforge.net aforge.net machine learning artificial intelligence smo svm gpl kernel</tags>
     <dependencies>
       <dependency id="Accord"            version="$version$" />

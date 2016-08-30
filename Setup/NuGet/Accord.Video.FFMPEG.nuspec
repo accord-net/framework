@@ -4,7 +4,7 @@
   <metadata>
     <id>Accord.Video.FFMPEG</id>
     <version>$version$</version>
-    <title>Accord.Video.FFMPEG</title>
+    <title>Accord.Video.FFMPEG (GPL)</title>
     <authors>Accord.NET</authors>
     <owners>Accord.NET</owners>
     <licenseUrl>http://accord-framework.net/gpl.txt</licenseUrl>
@@ -12,9 +12,11 @@
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Contains classes and methods to handle video sources using FFMPEG. For this reason, this package is available under the GPL license only. This package originated from the AForge.NET Framework and is part of the Accord.NET Framework.
+      Contains classes and methods to handle video sources using FFMPEG. For this reason, this package is 
+	  available under the GPL license only. This package originated from the AForge.NET Framework and is
+	  part of the Accord.NET Framework.
     </description>
-    <summary>Accord.NET Video FFMPEG Library from the Accord.NET Framework</summary>
+    <summary>Read and write videos using FFMPEG, including WebM, H.264 and Xvid/DivX files.</summary>
     <tags>accord.net aforge.net framework ffmpeg video capture decode codec</tags>
     <dependencies>
       <dependency id="Accord"                 version="$version$" />

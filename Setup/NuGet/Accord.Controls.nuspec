@@ -14,7 +14,7 @@
     <description>
       Histograms, scatterplots and tabular data viewers for scientific applications. This package is part of the Accord.NET Framework.
     </description>
-    <summary>Accord.NET Control Library from the Accord.NET Framework</summary>
+    <summary>Plot histograms, scatterplots, tabular data, matrices and other objects in Windows Forms applications.</summary>
     <tags>accord.net aforge.net framework statistics data visualization histogram scatterplot boxplot chart</tags>
     <dependencies>
       <dependency id="Accord"                 version="$version$" />

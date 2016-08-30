@@ -14,7 +14,7 @@
     <description>
       Contains classes and methods to handle video sources using DirectShow interface (USB web cameras, capture devices, video files). This package originated from the AForge.NET Framework and is part of the Accord.NET Framework.
     </description>
-    <summary>Accord.NET Video DirectShow Library from the Accord.NET Framework</summary>
+    <summary>Capture, read and write videos using DirectShow, supporting USB web cameras, capture devices, video files and others.</summary>
     <tags>accord.net aforge.net framework video capture cameras</tags>
     <dependencies>
       <dependency id="Accord"                 version="$version$" />
