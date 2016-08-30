@@ -44,6 +44,7 @@ namespace Accord.Statistics.Analysis
         private int numClasses;
         private double[] totalMeans;
         private double[] totalStdDevs;
+        private double threshold;
 
         internal int[] classCount;
         internal double[][] classMeans;
@@ -103,6 +104,38 @@ namespace Accord.Statistics.Analysis
             this.Classes = new DiscriminantAnalysisClassCollection(collection);
         }
 
+        /// <summary>
+        ///   Initializes common properties.
+        /// </summary>
+        /// 
+        protected void Init(double[][] inputs, int[] outputs)
+        {
+#pragma warning disable 612, 618
+            if (this.Classifications != null)
+                return; // TODO: remove this
+#pragma warning restore 612, 618
+
+            // Gets the number of classes
+            this.NumberOfClasses = outputs.Max() + 1;
+            this.NumberOfSamples = inputs.Rows();
+            this.NumberOfInputs = inputs.Columns();
+            //if (this.NumberOfOutputs == 0)
+            //    this.NumberOfOutputs = inputs.Columns();
+
+            // Creates simple structures to hold information later
+            this.classCount = new int[NumberOfClasses];
+            this.classMeans = new double[NumberOfClasses][];
+            this.classStdDevs = new double[NumberOfClasses][];
+            this.classScatter = new double[NumberOfClasses][][];
+            this.projectedMeans = new double[NumberOfClasses][];
+
+            // Creates the object-oriented structure to hold information about the classes
+            var collection = new DiscriminantAnalysisClass[NumberOfClasses];
+            for (int i = 0; i < collection.Length; i++)
+                collection[i] = new DiscriminantAnalysisClass(this, i, i);
+            this.Classes = new DiscriminantAnalysisClassCollection(collection);
+        }
+
 
         /// <summary>
         /// Gets or sets a cancellation token that can be used to
@@ -120,6 +153,25 @@ namespace Accord.Statistics.Analysis
         {
             get { return this.source; }
             protected set { this.source = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the minimum variance proportion needed to keep a
+        ///   discriminant component. If set to zero, all components will be
+        ///   kept. Default is 0.001 (all components which contribute less
+        ///   than 0.001 to the variance in the data will be discarded).
+        /// </summary>
+        /// 
+        public double Threshold
+        {
+            get { return threshold; }
+            set
+            {
+                if (value < 0 || value > 1)
+                    throw new ArgumentOutOfRangeException("value", "Value must be between 0 and 1.");
+
+                threshold = value;
+            }
         }
 
         /// <summary>
@@ -401,7 +453,7 @@ namespace Accord.Statistics.Analysis
         /// </returns>
         public override double[] Transform(double[] input)
         {
-            return Transform(new[] {  input }, new[] { new double[NumberOfOutputs] })[0];
+            return Transform(new[] { input }, new[] { new double[NumberOfOutputs] })[0];
         }
 
         /// <summary>
@@ -424,7 +476,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="threshold">The percentile of the data requiring representation.</param>
         /// <returns>The minimal number of dimensions required.</returns>
         /// 
-        public int GetNumberOfDimensions(float threshold)
+        public int GetNumberOfDimensions(double threshold)
         {
             if (threshold < 0 || threshold > 1.0)
                 throw new ArgumentException("Threshold should be a value between 0 and 1", "threshold");
@@ -436,6 +488,32 @@ namespace Accord.Statistics.Analysis
             }
 
             return discriminantCumulative.Length;
+        }
+
+        /// <summary>
+        ///   Returns the number of discriminant space dimensions (discriminant
+        ///   factors) whose variance is greater than a given threshold.
+        /// </summary>
+        /// 
+        protected static int GetNonzeroEigenvalues(double[] evals, double threshold)
+        {
+            // Calculate proportions
+            double sum = 0.0;
+            for (int i = 0; i < evals.Length; i++)
+                sum += System.Math.Abs(evals[i]);
+            sum = (sum == 0) ? 0 : (1.0 / sum);
+
+            double[] proportions = new double[evals.Length];
+            for (int i = 0; i < evals.Length; i++)
+                proportions[i] = System.Math.Abs(evals[i]) * sum;
+
+            for (int i = 0; i < proportions.Length; i++)
+            {
+                if (proportions[i] < threshold)
+                    return i;
+            }
+
+            return 0;
         }
 
         /// <summary>

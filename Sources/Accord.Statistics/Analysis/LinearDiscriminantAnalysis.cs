@@ -160,6 +160,7 @@ namespace Accord.Statistics.Analysis
         public LinearDiscriminantAnalysis(double[,] inputs, int[] outputs)
         {
             init(inputs, outputs);
+            Threshold = 0;
         }
 
         /// <summary>
@@ -174,9 +175,18 @@ namespace Accord.Statistics.Analysis
         public LinearDiscriminantAnalysis(double[][] inputs, int[] outputs)
         {
             init(inputs.ToMatrix(), outputs);
+            Threshold = 0;
         }
 #pragma warning disable 612, 618
 
+        /// <summary>
+        ///   Constructs a new Linear Discriminant Analysis object.
+        /// </summary>
+        /// 
+        public LinearDiscriminantAnalysis()
+        {
+            Threshold = 1e-3;
+        }
 
         /// <summary>
         ///   Computes the Multi-Class Linear Discriminant Analysis algorithm.
@@ -201,7 +211,7 @@ namespace Accord.Statistics.Analysis
         public override double[][] Transform(double[][] input, double[][] result)
         {
             for (int i = 0; i < input.Length; i++)
-                for (int j = 0; j < DiscriminantVectors.Length; j++)
+                for (int j = 0; j < result[i].Length; j++)
                     for (int k = 0; k < input[i].Length; k++)
                         result[i][j] += input[i][k] * DiscriminantVectors[j][k];
             return result;
@@ -222,6 +232,8 @@ namespace Accord.Statistics.Analysis
         /// </returns>
         public Pipeline Learn(double[][] x, int[] y, double[] weights = null)
         {
+            Init(x, y);
+
             // Compute entire data set measures
             Means = Measures.Mean(x, dimension: 0);
             StandardDeviations = Measures.StandardDeviation(x, Means);
@@ -250,7 +262,7 @@ namespace Accord.Statistics.Analysis
                 // Continue constructing the Between-Class Scatter Matrix
                 double[] d = mean.Subtract(Means);
                 double[][] Sbi = Jagged.Outer(d, d);
-                Sbi.Multiply(NumberOfInputs, result: Sbi);
+                Sbi.Multiply((double)NumberOfInputs, result: Sbi);
 
                 Sb.Add(Sbi, result: Sb); // Sb = Sb + Sbi
 
@@ -269,13 +281,28 @@ namespace Accord.Statistics.Analysis
             double[] evals = gevd.RealEigenvalues;
             double[][] eigs = gevd.Eigenvectors;
 
+            if (Threshold > 0)
+            {
+                int nonzero = gevd.Rank;
+                int keep = GetNonzeroEigenvalues(evals, Threshold);
+                nonzero = Math.Min(nonzero, keep);
+                if (NumberOfInputs != 0)
+                    nonzero = Math.Min(nonzero, NumberOfInputs);
+                if (NumberOfOutputs != 0)
+                    nonzero = Math.Min(nonzero, NumberOfOutputs);
+
+                // Eliminate unwanted components
+                eigs = eigs.Get(null, 0, nonzero);
+                evals = evals.Get(0, nonzero);
+            }
+
             // Store information
             this.Eigenvalues = evals;
             this.DiscriminantVectors = eigs.Transpose();
             base.ScatterBetweenClass = Sb;
             base.ScatterWithinClass = Sw;
-            this.NumberOfInputs = x.Columns();
-            this.NumberOfOutputs = eigs.Columns();
+            base.NumberOfInputs = x.Columns();
+            base.NumberOfOutputs = evals.Length;
 
             // Compute feature space means for later classification
             for (int c = 0; c < projectedMeans.Length; c++)
@@ -292,26 +319,28 @@ namespace Accord.Statistics.Analysis
 
         private Pipeline CreateClassifier()
         {
+            double[][] eig = DiscriminantVectors.Transpose().Get(null, 0, NumberOfOutputs);
+
             return new Pipeline()
             {
                 NumberOfInputs = NumberOfInputs,
                 NumberOfOutputs = NumberOfClasses,
                 First = new MultivariateLinearRegression()
                 {
-                    Weights = DiscriminantVectors.Transpose(),
+                    Weights = eig,
                     NumberOfInputs = NumberOfInputs,
                     NumberOfOutputs = NumberOfOutputs,
                 },
                 Second = new MinimumMeanDistanceClassifier()
                 {
-                    Means = projectedMeans,
+                    Means = projectedMeans.Get(null, 0, NumberOfOutputs),
                     NumberOfInputs = NumberOfOutputs,
                     NumberOfOutputs = NumberOfClasses,
                 },
             };
         }
 
-        /// <summary>
+        /// <summary>Transform
         ///   Classifies a new instance into one of the available classes.
         /// </summary>
         /// 
