@@ -31,6 +31,7 @@
 // 
 
 using System;
+using System.Linq;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -127,10 +128,9 @@ namespace Handwriting.KDA
             Application.DoEvents();
 
 
-
             // Extract inputs and outputs
             int rows = dgvAnalysisSource.Rows.Count;
-            double[,] input = new double[rows, 32 * 32];
+            double[][] input = Jagged.Zeros(rows, 32 * 32);
             int[] output = new int[rows];
             for (int i = 0; i < rows; i++)
             {
@@ -146,22 +146,23 @@ namespace Handwriting.KDA
                 kernel = new Polynomial((int)numDegree.Value, (double)numConstant.Value);
 
             // Create the Kernel Discriminant Analysis using the selected Kernel
-            kda = new KernelDiscriminantAnalysis(input, output, kernel);
-
-            kda.Threshold = (double)numThreshold.Value;
-            kda.Regularization = (double)numRegularization.Value;
+            kda = new KernelDiscriminantAnalysis(kernel)
+            {
+                Threshold = (double)numThreshold.Value,
+                Regularization = (double)numRegularization.Value
+            };
 
 
             lbStatus.Text = "Computing the analysis. This may take a significant amount of time...";
             Application.DoEvents();
 
-            // Compute the analysis. It should take a while.
-            kda.Compute();
+            // Compute the analysis. 
+            kda.Learn(input, output);
 
 
             // Show information about the analysis in the form
             dgvPrincipalComponents.DataSource = kda.Discriminants;
-            dgvFeatureVectors.DataSource = new ArrayDataView(kda.DiscriminantMatrix);
+            dgvFeatureVectors.DataSource = new ArrayDataView(kda.DiscriminantVectors);
             dgvClasses.DataSource = kda.Classes;
 
             // Create the component graphs
@@ -201,7 +202,7 @@ namespace Handwriting.KDA
                 double[] input = (double[])row.Cells["colTestingFeatures"].Value;
                 int expected = (int)row.Cells["colTestingExpected"].Value;
 
-                int output = kda.Classify(input);
+                int output = kda.Classifier.Decide(input);
                 row.Cells["colTestingOutput"].Value = output;
 
                 if (expected == output)
@@ -231,7 +232,6 @@ namespace Handwriting.KDA
         {
             lbStatus.Text = "Loading data. This may take a while...";
             Application.DoEvents();
-
 
             // Load optdigits dataset into the DataGridView
             StringReader reader = new StringReader(Resources.optdigits_tra);
@@ -286,10 +286,11 @@ namespace Handwriting.KDA
             {
                 // Get the input vector drawn
                 double[] input = canvas.GetDigit();
-                
+
                 // Classify the input vector
-                double[] responses;
-                int num = kda.Classify(input, out responses);
+                //int num = kda.Classifier.Decide(input, out responses);
+                int num;
+                double[] responses = kda.Classifier.Scores(input, out num);
 
                 // Set the actual classification answer 
                 lbCanvasClassification.Text = num.ToString();
@@ -332,14 +333,16 @@ namespace Handwriting.KDA
 
                 lvClass.Items.Clear();
                 lvClass.LargeImageList = list;
-                int[] idx = dclass.Indices;
-                for (int i = 0; i < idx.Length; i++)
+
+                int i = 0;
+                foreach (DataGridViewRow row in dgvAnalysisTesting.Rows)
                 {
-                    Bitmap bitmap = (Bitmap)dgvAnalysisSource.Rows[idx[i]].Cells["colTrainingImage"].Value;
+                    int idx = (int)row.Cells["colTestingExpected"].Value;
+
+                    Bitmap bitmap = (Bitmap)dgvAnalysisSource.Rows[idx].Cells["colTrainingImage"].Value;
                     list.Images.Add(bitmap);
 
-                    var item = new ListViewItem(String.Empty, i);
-                    lvClass.Items.Add(item);
+                    lvClass.Items.Add(new ListViewItem(String.Empty, i++));
                 }
             }
         }
@@ -423,7 +426,7 @@ namespace Handwriting.KDA
         {
             Close();
         }
-       
+
 
     }
 }

@@ -91,12 +91,10 @@ namespace Analysis.PCA
 
 
             // Create a matrix from the source data table
-            double[,] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToMatrix(out columnNames);
+            double[][] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToArray(out columnNames);
 
             // Create and compute a new Simple Descriptive Analysis
-            sda = new DescriptiveAnalysis(sourceMatrix, columnNames);
-
-            sda.Compute();
+            sda = new DescriptiveAnalysis(columnNames).Learn(sourceMatrix);
 
             // Show the descriptive analysis on the screen
             dgvDistributionMeasures.DataSource = sda.Measures;
@@ -109,17 +107,17 @@ namespace Analysis.PCA
             dgvStatisticCorrelation.DataSource = new ArrayDataView(sda.CorrelationMatrix, columnNames);
 
 
-            AnalysisMethod method = (AnalysisMethod)cbMethod.SelectedValue;
+            var method = (PrincipalComponentMethod)cbMethod.SelectedValue;
 
             // Create the Principal Component Analysis of the data 
-            pca = new PrincipalComponentAnalysis(sda.Source, method);
+            pca = new PrincipalComponentAnalysis(method);
 
 
-            pca.Compute();  // Finally, compute the analysis!
+            pca.Learn(sourceMatrix);  // Finally, compute the analysis!
 
 
             // Populate components overview with analysis data
-            dgvFeatureVectors.DataSource = new ArrayDataView(pca.ComponentMatrix);
+            dgvFeatureVectors.DataSource = new ArrayDataView(pca.ComponentVectors);
             dgvPrincipalComponents.DataSource = pca.Components;
             dgvProjectionComponents.DataSource = pca.Components;
             distributionView.DataSource = pca.Components;
@@ -175,7 +173,7 @@ namespace Analysis.PCA
 
             dgvReversionResult.DataSource = new ArrayDataView(reversion, columnNames);
         }
-        
+
 
 
         /// <summary>
@@ -264,9 +262,7 @@ namespace Analysis.PCA
         {
             string[] names = new string[number];
             for (int i = 0; i < names.Length; i++)
-            {
                 names[i] = "Component " + (i + 1);
-            }
             return names;
         }
 

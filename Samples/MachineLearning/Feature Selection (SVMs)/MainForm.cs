@@ -46,6 +46,7 @@ using Accord.Statistics.Kernels;
 using AForge;
 using Components;
 using ZedGraph;
+using System.Diagnostics;
 
 namespace SampleApp
 {
@@ -115,7 +116,6 @@ namespace SampleApp
                 NegativeWeight = (double)numNegativeWeight.Value,
             };
 
-
             try
             {
                 // Run
@@ -129,12 +129,14 @@ namespace SampleApp
                     "The learned machine might still be usable.";
             }
 
+            svm.Compress(); // reduce support vectors to a single weight vector
+            Trace.Assert(svm.SupportVectors.Length == 1);
+            Trace.Assert(svm.Weights.Length == 1);
 
             createSurface(table);
 
-
             // Show feature weight importance
-            double[] weights = svm.Weights.Abs();
+            double[] weights = svm.SupportVectors[0].Abs();
 
             string[] featureNames = columnNames.RemoveAt(columnNames.Length - 1);
             dgvSupportVectors.DataSource = new ArrayDataView(weights, featureNames);

@@ -157,7 +157,7 @@ namespace Eigenfaces.PCA
             {
                 double[] feature = (double[])row.Tag;
 
-                int output = classifier.Compute(feature);
+                int output = classifier.Decide(feature);
 
                 row.Cells["colClassification"].Value = ((char)(output + 'A')).ToString();
 

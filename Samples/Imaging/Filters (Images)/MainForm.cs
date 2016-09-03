@@ -14,10 +14,10 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Data;
 
-using AForge;
-using AForge.Imaging;
-using AForge.Imaging.Filters;
-using AForge.Imaging.Textures;
+using Accord;
+using Accord.Imaging;
+using Accord.Imaging.Filters;
+using Accord.Imaging.Textures;
 
 namespace SampleApp
 {
@@ -109,6 +109,7 @@ namespace SampleApp
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainMenu = new System.Windows.Forms.MainMenu(this.components);
             this.fileItem = new System.Windows.Forms.MenuItem();
             this.openFileItem = new System.Windows.Forms.MenuItem();
@@ -467,26 +468,25 @@ namespace SampleApp
             // 
             // pictureBox
             // 
-            this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox.Location = new System.Drawing.Point(7, 5);
-            this.pictureBox.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox.Location = new System.Drawing.Point(10, 8);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(524, 353);
+            this.pictureBox.Size = new System.Drawing.Size(785, 528);
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(536, 362);
+            this.ClientSize = new System.Drawing.Size(804, 543);
             this.Controls.Add(this.pictureBox);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Menu = this.mainMenu;
-            this.MinimumSize = new System.Drawing.Size(347, 247);
+            this.MinimumSize = new System.Drawing.Size(510, 342);
             this.Name = "MainForm";
             this.Text = "Image Processing filters demo";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
@@ -535,7 +535,7 @@ namespace SampleApp
                         // make sure the image has 24 bpp format
                         if (sourceImage.PixelFormat != PixelFormat.Format24bppRgb)
                         {
-                            Bitmap temp = AForge.Imaging.Image.Clone(sourceImage, PixelFormat.Format24bppRgb);
+                            Bitmap temp = Accord.Imaging.Image.Clone(sourceImage, PixelFormat.Format24bppRgb);
                             sourceImage.Dispose();
                             sourceImage = temp;
                         }
@@ -869,7 +869,7 @@ namespace SampleApp
 
             // Spreading pixels values from 0 to 65535 instead of byte values for less loosing data when applying the filter.
             // Of course, we could use the source image in 8-bit (easiest and fastest way but slightly losing data).
-            using (var bmp = AForge.Imaging.Image.Convert8bppTo16bpp(sourceImage))
+            using (var bmp = Accord.Imaging.Image.Convert8bppTo16bpp(sourceImage))
             {
                 var fastGuidedFilter = new FastGuidedFilter
                 {
@@ -883,10 +883,11 @@ namespace SampleApp
                 fastGuidedFilter.ApplyInPlace(bmp);
                 fastGuidedFilter.OverlayImage.Dispose();
 
-                pictureBox.Image?.Dispose();
+                if (pictureBox.Image != null)
+                    pictureBox.Image.Dispose();
 
                 // display filtered image
-                pictureBox.Image = AForge.Imaging.Image.Convert16bppTo8bpp(bmp);
+                pictureBox.Image = Accord.Imaging.Image.Convert16bppTo8bpp(bmp);
             }
         }
     }

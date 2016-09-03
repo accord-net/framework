@@ -109,14 +109,11 @@ namespace SampleApp
                 new DecisionVariable("y", DecisionVariableKind.Continuous),
             };
 
-            // Create the discrete Decision tree
-            tree = new DecisionTree(variables, 2);
-
             // Create the C4.5 learning algorithm
-            C45Learning c45 = new C45Learning(tree);
+            var c45 = new C45Learning(variables);
 
             // Learn the decision tree using C4.5
-            double error = c45.Run(inputs, outputs);
+            tree = c45.Learn(inputs, outputs);
 
             // Show the learned tree in the view
             decisionTreeView1.TreeSource = tree;
