@@ -231,6 +231,20 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.1337, actual.Shape, 5e-4);
         }
 
+        [Test]
+        public void GenerateTest6()
+        {
+            // https://github.com/accord-net/framework/issues/281
+            Accord.Math.Random.Generator.Seed = 1;
+
+            var target = new GammaDistribution(1.5, 0.9);
+            var samples = target.Generate(10000000);
+
+            var actual = GammaDistribution.Estimate(samples);
+            Assert.AreEqual(1.5, actual.Scale, 5e-2);
+            Assert.AreEqual(0.9, actual.Shape, 5e-4);
+        }
+
 
         [Test]
         public void NegativeValueTest()
