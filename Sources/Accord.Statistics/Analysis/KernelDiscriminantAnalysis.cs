@@ -61,56 +61,7 @@ namespace Accord.Statistics.Analysis
     /// </remarks>
     /// 
     /// <example>
-    /// <para>
-    ///   The following example creates an analysis for a set of 
-    ///   data specified as a jagged (double[][]) array. However,
-    ///   the same can also be accomplished using multidimensional
-    ///   double[,] arrays.</para>
-    ///   
-    /// <code>
-    /// // Create some sample input data instances. This is the same
-    /// // data used in the Gutierrez-Osuna's example available on:
-    /// // http://research.cs.tamu.edu/prism/lectures/pr/pr_l10.pdf
-    /// 
-    /// double[][] inputs = 
-    /// {
-    ///     // Class 0
-    ///     new double[] {  4,  1 }, 
-    ///     new double[] {  2,  4 },
-    ///     new double[] {  2,  3 },
-    ///     new double[] {  3,  6 },
-    ///     new double[] {  4,  4 },
-    /// 
-    ///     // Class 1
-    ///     new double[] {  9, 10 },
-    ///     new double[] {  6,  8 },
-    ///     new double[] {  9,  5 },
-    ///     new double[] {  8,  7 },
-    ///     new double[] { 10,  8 }
-    /// };
-    /// 
-    /// int[] output = 
-    /// {
-    ///     0, 0, 0, 0, 0, // The first five are from class 0
-    ///     1, 1, 1, 1, 1  // The last five are from class 1
-    /// };
-    /// 
-    /// // Now we can chose a kernel function to 
-    /// // use, such as a linear kernel function.
-    /// IKernel kernel = new Linear();
-    /// 
-    /// // Then, we will create a KDA using this linear kernel.
-    /// var kda = new KernelDiscriminantAnalysis(inputs, output, kernel);
-    /// 
-    /// kda.Compute(); // Compute the analysis
-    /// 
-    /// 
-    /// // Now we can project the data into KDA space:
-    /// double[][] projection = kda.Transform(inputs);
-    /// 
-    /// // Or perform classification using:
-    /// int[] results = kda.Classify(inputs);
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\KernelDiscriminantAnalysisTest.cs" region="doc_learn" />
     /// </example>
     /// 
     [Serializable]
@@ -195,12 +146,13 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets the Kernel used in the analysis.
+        ///   Gets or sets the Kernel used in the analysis.
         /// </summary>
         /// 
         public IKernel Kernel
         {
             get { return kernel; }
+            set { kernel = value; }
         }
 
         /// <summary>

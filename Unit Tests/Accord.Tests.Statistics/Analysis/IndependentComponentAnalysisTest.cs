@@ -26,6 +26,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics;
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Analysis.ContrastFunctions;
+    using Accord.Statistics.Models.Regression.Linear;
     using Accord.Tests.Statistics.Properties;
     using NUnit.Framework;
     using System.Globalization;
@@ -92,6 +93,79 @@ namespace Accord.Tests.Statistics
                 { 0.75, -0.25 },        
                 { 0.25,  0.25 },
             };
+
+            revertMatrix = revertMatrix.Divide(revertMatrix.Sum());
+            Assert.IsTrue(expected.IsEqual(revertMatrix, atol: 0.008));
+        }
+
+        [Test]
+        public void learn_test()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+            #region doc_learn
+            // Let's create a random dataset containing
+            // 5000 samples of two dimensional samples.
+            //
+            double[][] source = Jagged.Random(5000, 2);
+
+            // Now, we will mix the samples the dimensions of the samples.
+            // A small amount of the second column will be applied to the
+            // first, and vice-versa. 
+            //
+            double[][] mix =
+            {
+                new double[] {  0.25, 0.25 },
+                new double[] { -0.25, 0.75 },    
+            };
+
+            // mix the source data
+            double[][] input = source.Multiply(mix);
+
+            // Now, we can use ICA to identify any linear mixing between the variables, such
+            // as the matrix multiplication we did above. After it has identified it, we will
+            // be able to revert the process, retrieving our original samples again
+
+            // Create a new Independent Component Analysis
+            var ica = new IndependentComponentAnalysis()
+            {
+                Algorithm = IndependentComponentAlgorithm.Parallel,
+                Contrast = new Logcosh()
+            };
+
+            // Learn the demixing transformation from the data
+            MultivariateLinearRegression demix = ica.Learn(input);
+
+            // Now, we can retrieve the mixing and demixing matrices that were 
+            // used to alter the data. Note that the analysis was able to detect
+            // this information automatically:
+
+            double[][] mixingMatrix = ica.MixingMatrix; // same as the 'mix' matrix
+            double[][] revertMatrix = ica.DemixingMatrix; // inverse of the 'mix' matrix
+
+            // We can use the regression to recover the separate sources
+            double[][] result = demix.Transform(input);
+            #endregion
+
+
+            // Verify mixing matrix
+            mixingMatrix = mixingMatrix.Divide(mixingMatrix.Sum());
+            Assert.IsTrue(mix.IsEqual(mixingMatrix, atol: 0.008));
+
+            Assert.IsTrue(revertMatrix.IsEqual(demix.Weights, atol: 0.008));
+            var dm = demix.Inverse().Weights;
+            dm = dm.Divide(dm.Sum());
+            Assert.IsTrue(mixingMatrix.IsEqual(dm, atol: 0.008));
+
+
+            // Verify demixing matrix
+            double[,] expected =
+            {
+                { 0.75, -0.25 },        
+                { 0.25,  0.25 },
+            };
+
+            Assert.AreEqual(IndependentComponentAlgorithm.Parallel, ica.Algorithm);
+            Assert.AreEqual(ica.Contrast.GetType(), typeof(Logcosh));
 
             revertMatrix = revertMatrix.Divide(revertMatrix.Sum());
             Assert.IsTrue(expected.IsEqual(revertMatrix, atol: 0.008));

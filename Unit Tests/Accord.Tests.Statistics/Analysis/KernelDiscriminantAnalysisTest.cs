@@ -96,7 +96,73 @@ namespace Accord.Tests.Statistics
                 int actual = results[i];
                 Assert.AreEqual(expected, actual);
             }
+        }
 
+        [Test]
+        public void learn_test()
+        {
+            #region doc_learn
+            // Create some sample input data instances. This is the same
+            // data used in the Gutierrez-Osuna's example available on:
+            // http://research.cs.tamu.edu/prism/lectures/pr/pr_l10.pdf
+
+            double[][] inputs = 
+            {
+                // Class 0
+                new double[] {  4,  1 }, 
+                new double[] {  2,  4 },
+                new double[] {  2,  3 },
+                new double[] {  3,  6 },
+                new double[] {  4,  4 },
+
+                // Class 1
+                new double[] {  9, 10 },
+                new double[] {  6,  8 },
+                new double[] {  9,  5 },
+                new double[] {  8,  7 },
+                new double[] { 10,  8 }
+            };
+
+            int[] output = 
+            {
+                0, 0, 0, 0, 0, // The first five are from class 0
+                1, 1, 1, 1, 1  // The last five are from class 1
+            };
+
+            
+            // We'll create a KDA using a Linear kernel
+            var kda = new KernelDiscriminantAnalysis()
+            {
+                Kernel = new Linear() // We can choose any kernel function
+            };
+
+            // Compute the analysis and create a classifier
+            var classifier = kda.Learn(inputs, output); 
+
+            // Now we can project the data into KDA space:
+            double[][] projection = kda.Transform(inputs);
+
+            // Or perform classification using:
+            int[] results = kda.Classify(inputs);
+            #endregion
+
+            double[][] classifierProjection = kda.Classifier.First.Transform(inputs);
+            Assert.IsTrue(projection.IsEqual(classifierProjection));
+
+            // Test the classify method
+            for (int i = 0; i < 5; i++)
+            {
+                int expected = 0;
+                int actual = results[i];
+                Assert.AreEqual(expected, actual);
+            }
+
+            for (int i = 5; i < 10; i++)
+            {
+                int expected = 1;
+                int actual = results[i];
+                Assert.AreEqual(expected, actual);
+            }
         }
 
 

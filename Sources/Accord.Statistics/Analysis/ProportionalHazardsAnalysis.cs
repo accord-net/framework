@@ -66,97 +66,13 @@ namespace Accord.Statistics.Analysis
     /// </remarks>
     /// 
     /// <example>
-    /// <code>
-    /// // Consider the following example data, adapted from John C. Pezzullo's
-    /// // example for his great Cox's proportional hazards model example in
-    /// // JavaScript (http://www.sph.emory.edu/~cdckms/CoxPH/prophaz2.html). 
-    /// 
-    /// // In this data, we have three columns. The first column denotes the
-    /// // input variables for the problem. The second column, the survival
-    /// // times. And the last one is the output of the experiment (if the
-    /// // subject has died [1] or has survived [0]).
-    /// 
-    /// double[,] example =
-    /// {
-    ///     // input  time censor
-    ///     {   50,    1,    0   },
-    ///     {   70,    2,    1   },
-    ///     {   45,    3,    0   },
-    ///     {   35,    5,    0   },
-    ///     {   62,    7,    1   },
-    ///     {   50,   11,    0   },
-    ///     {   45,    4,    0   },
-    ///     {   57,    6,    0   },
-    ///     {   32,    8,    0   },
-    ///     {   57,    9,    1   },
-    ///     {   60,   10,    1   },
-    /// };
-    /// 
-    /// // First we will extract the input, times and outputs
-    /// double[,] inputs = example.GetColumns(0);
-    /// double[] times = example.GetColumn(1);
-    /// int[] output = example.GetColumn(2).ToInt32();
-    /// 
-    /// // Now we can proceed and create the analysis
-    /// var cox = new ProportionalHazardsAnalysis(inputs, times, output);
-    /// 
-    /// cox.Compute(); // compute the analysis
-    /// 
-    /// // Now we can show an analysis summary
-    /// DataGridBox.Show(cox.Coefficients);
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\ProportionalHazardsAnalysisTest.cs" region="doc_learn_part1" />
     /// 
     /// <para>
     ///   The resulting table is shown below.</para>
     ///   <img src="..\images\cox-hazards.png" />
     /// 
-    /// <code>
-    /// // We can also investigate all parameters individually. For
-    /// // example the coefficients values will be available at
-    /// 
-    /// double[] coef = cox.CoefficientValues;
-    /// double[] stde = cox.StandardErrors;
-    /// 
-    /// // We can also obtain the hazards ratios
-    /// double[] ratios = cox.HazardRatios;
-    /// 
-    /// // And other information such as the partial
-    /// // likelihood, the deviance and also make 
-    /// // hypothesis tests on the parameters
-    /// 
-    /// double partial = cox.LogLikelihood;
-    /// double deviance = cox.Deviance;
-    /// 
-    /// // Chi-Square for whole model
-    /// ChiSquareTest chi = cox.ChiSquare;
-    /// 
-    /// // Wald tests for individual parameters
-    /// WaldTest wald = cox.Coefficients[0].Wald;
-    /// 
-    ///             
-    /// // Finally, we can also use the model to predict
-    /// // scores for new observations (without considering time)
-    /// 
-    /// double y1 = cox.Regression.Compute(new double[] { 63 });
-    /// double y2 = cox.Regression.Compute(new double[] { 32 });
-    /// 
-    /// // Those scores can be interpreted by comparing then
-    /// // to 1. If they are greater than one, the odds are
-    /// // the patient will not survive. If the value is less
-    /// // than one, the patient is likely to survive.
-    /// 
-    /// // The first value, y1, gives approximately 86.138,
-    /// // while the second value, y2, gives about 0.00072.
-    /// 
-    /// 
-    /// // We can also consider instant estimates for a given time:
-    /// double p1 = cox.Regression.Compute(new double[] { 63 }, 2);
-    /// double p2 = cox.Regression.Compute(new double[] { 63 }, 10);
-    /// 
-    /// // Here, p1 is the score after 2 time instants, with a 
-    /// // value of 0.0656. The second value, p2, is the time
-    /// // after 10 time instants, with a value of 6.2907.
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\ProportionalHazardsAnalysisTest.cs" region="doc_learn_part2" />
     /// </example>
     /// 
     [Serializable]
@@ -212,6 +128,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="times">The output data for the analysis.</param>
         /// <param name="censor">The right-censoring indicative values.</param>
         /// 
+        [Obsolete("Please do not pass data to this constructor, and use the Learn method instead.")]
         public ProportionalHazardsAnalysis(double[,] inputs, double[] times, int[] censor)
             : this(inputs, times, censor.To<SurvivalOutcome[]>())
         {
@@ -225,6 +142,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="times">The output data for the analysis.</param>
         /// <param name="censor">The right-censoring indicative values.</param>
         /// 
+        [Obsolete("Please do not pass data to this constructor, and use the Learn method instead.")]
         public ProportionalHazardsAnalysis(double[][] inputs, double[] times, int[] censor)
             : this(inputs, times, censor.To<SurvivalOutcome[]>())
         {
@@ -241,6 +159,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="timeName">The name of the time variable.</param>
         /// <param name="censorName">The name of the event indication variable.</param>
         /// 
+        [Obsolete("Please do not pass data to this constructor, and use the Learn method instead.")]
         public ProportionalHazardsAnalysis(double[][] inputs, double[] times, int[] censor,
             String[] inputNames, String timeName, String censorName)
             : this(inputs, times, censor.To<SurvivalOutcome[]>(), inputNames, timeName, censorName)
@@ -255,6 +174,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="times">The output data for the analysis.</param>
         /// <param name="censor">The right-censoring indicative values.</param>
         /// 
+        [Obsolete("Please do not pass data to this constructor, and use the Learn method instead.")]
         public ProportionalHazardsAnalysis(double[,] inputs, double[] times, SurvivalOutcome[] censor)
         {
             // Initial argument checking
@@ -281,6 +201,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="times">The output data for the analysis.</param>
         /// <param name="censor">The right-censoring indicative values.</param>
         /// 
+        [Obsolete("Please do not pass data to this constructor, and use the Learn method instead.")]
         public ProportionalHazardsAnalysis(double[][] inputs, double[] times, SurvivalOutcome[] censor)
         {
             // Initial argument checking
@@ -310,6 +231,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="timeName">The name of the time variable.</param>
         /// <param name="censorName">The name of the event indication variable.</param>
         /// 
+        [Obsolete("Please do not pass data to this constructor, and use the Learn method instead.")]
         public ProportionalHazardsAnalysis(double[][] inputs, double[] times, SurvivalOutcome[] censor,
             String[] inputNames, String timeName, String censorName)
             : this(inputs, times, censor)
@@ -317,6 +239,30 @@ namespace Accord.Statistics.Analysis
             this.inputNames = inputNames;
             this.timeName = timeName;
             this.censorName = censorName;
+        }
+
+        /// <summary>
+        ///   Constructs a new Cox's Proportional Hazards Analysis.
+        /// </summary>
+        /// 
+        /// <param name="inputNames">The names of the input variables.</param>
+        /// <param name="timeName">The name of the time variable.</param>
+        /// <param name="censorName">The name of the event indication variable.</param>
+        /// 
+        public ProportionalHazardsAnalysis(String[] inputNames, String timeName, String censorName)
+            : this()
+        {
+            this.inputNames = inputNames;
+            this.timeName = timeName;
+            this.censorName = censorName;
+        }
+
+        /// <summary>
+        ///   Constructs a new Cox's Proportional Hazards Analysis.
+        /// </summary>
+        /// 
+        public ProportionalHazardsAnalysis()
+        {
         }
 
         private void initialize(double[][] inputs, double[] outputs, SurvivalOutcome[] censor)
@@ -329,7 +275,6 @@ namespace Accord.Statistics.Analysis
             this.timeData = outputs;
             this.censorData = censor;
 
-
             // Create additional structures
             this.coefficients = new double[coefficientCount];
             this.waldTests = new WaldTest[coefficientCount];
@@ -338,11 +283,16 @@ namespace Accord.Statistics.Analysis
             this.confidences = new DoubleRange[coefficientCount];
             this.ratioTests = new ChiSquareTest[coefficientCount];
 
-            this.timeName = "Time";
-            this.censorName = "Outcome";
-            this.inputNames = new string[inputCount];
-            for (int i = 0; i < inputNames.Length; i++)
-                inputNames[i] = "Input " + i;
+            if (this.timeName == null)
+                this.timeName = "Time";
+            if (this.censorName == null)
+                this.censorName = "Outcome";
+            if (this.inputNames == null)
+            {
+                this.inputNames = new string[inputCount];
+                for (int i = 0; i < inputNames.Length; i++)
+                    inputNames[i] = "Input " + i;
+            }
 
             // Create object-oriented structure to represent the analysis
             var logCoefs = new List<HazardCoefficient>(coefficientCount);
@@ -383,6 +333,7 @@ namespace Accord.Statistics.Analysis
         ///   Source data used in the analysis.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[,] Source
         {
             get { return source; }
@@ -424,6 +375,7 @@ namespace Accord.Statistics.Analysis
         ///   by the logistic regression model.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[] Result
         {
             get { return result; }
@@ -586,6 +538,7 @@ namespace Accord.Statistics.Analysis
         ///   Computes the Proportional Hazards Analysis for an already computed regression.
         /// </summary>
         /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
         public void Compute(ProportionalHazards regression)
         {
             this.regression = regression;
@@ -603,6 +556,7 @@ namespace Accord.Statistics.Analysis
         ///   True if the model converged, false otherwise.
         /// </returns>
         /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
         public bool Compute()
         {
             return compute();
@@ -628,7 +582,7 @@ namespace Accord.Statistics.Analysis
         ///   True if the model converged, false otherwise.
         /// </returns>
         /// 
-        [Obsolete("Please set up the Iterations and Tolerance properties and call Compute() instead.")]
+        [Obsolete("Please use Learn(x, y) instead.")]
         public bool Compute(double limit = 1e-4, int maxIterations = 50)
         {
             this.iterations = maxIterations;
@@ -726,10 +680,49 @@ namespace Accord.Statistics.Analysis
         /// 
         void IAnalysis.Compute()
         {
+#pragma warning disable 612, 618
             Compute();
+#pragma warning restore 612, 618
         }
 
 
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="inputs">The model inputs.</param>
+        /// <param name="censor">The output (event) associated with each input vector.</param>
+        /// <param name="time">The time-to-event for the non-censored training samples.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="censor" /> given <paramref name="inputs" /> and <paramref name="time" />.
+        /// </returns>
+        public ProportionalHazards Learn(double[][] inputs, double[] time, SurvivalOutcome[] censor, double[] weights = null)
+        {
+            var learning = createLearner();
+            this.regression = learning.Learn(inputs, time, censor, weights);
+            initialize(inputs, time, censor);
+            return store();
+        }
+
+
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="inputs">The model inputs.</param>
+        /// <param name="censor">The output (event) associated with each input vector.</param>
+        /// <param name="time">The time-to-event for the non-censored training samples.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="censor" /> given <paramref name="inputs" /> and <paramref name="time" />.
+        /// </returns>
+        public ProportionalHazards Learn(double[][] inputs, double[] time, int[] censor, double[] weights = null)
+        {
+            var learning = createLearner();
+            this.regression = learning.Learn(inputs, time, censor, weights);
+            initialize(inputs, time, censor.To<SurvivalOutcome[]>());
+            return store();
+        }
 
         /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.
@@ -742,20 +735,44 @@ namespace Accord.Statistics.Analysis
         /// </returns>
         public ProportionalHazards Learn(Tuple<double[], double>[] x, int[] y, double[] weights = null)
         {
-            var learning = new ProportionalHazardsNewtonRaphson(regression);
+            var learning = createLearner();
+            this.regression = learning.Learn(x, y, weights);
+            initialize(x.Apply(a => a.Item1), x.Apply(a => a.Item2), y.To<SurvivalOutcome[]>());
+            return store();
+        }
 
-            Array.Clear(regression.Coefficients, 0, regression.Coefficients.Length);
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public ProportionalHazards Learn(Tuple<double[], double>[] x, SurvivalOutcome[] y, double[] weights = null)
+        {
+            var learning = createLearner();
+            this.regression = learning.Learn(x, y, weights);
+            initialize(x.Apply(a => a.Item1), x.Apply(a => a.Item2), y);
+            return store();
+        }
 
 
-            learning.Iterations = Iterations;
-            learning.Tolerance = Tolerance;
+        private ProportionalHazardsNewtonRaphson createLearner()
+        {
+            return new ProportionalHazardsNewtonRaphson()
+            {
+                Model = regression,
+                Iterations = Iterations,
+                Tolerance = Tolerance,
+            };
+        }
 
-            learning.Learn(x, y, weights);
-
-            // Check if the full model has converged
+        private ProportionalHazards store()
+        {
             computeInformation();
             innerComputed = false;
-
             return regression;
         }
     }

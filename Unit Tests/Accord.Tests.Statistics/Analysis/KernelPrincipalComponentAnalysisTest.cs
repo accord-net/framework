@@ -788,6 +788,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void learn_success()
         {
+            #region doc_learn_1
             // Reproducing Lindsay Smith's "Tutorial on Principal Component Analysis"
             // using the framework's default method. The tutorial can be found online
             // at http://www.sccg.sk/~haladova/principal_components.pdf
@@ -795,18 +796,18 @@ namespace Accord.Tests.Statistics
             // Step 1. Get some data
             // ---------------------
 
-            double[,] data = 
+            double[][] data = 
             {
-                { 2.5,  2.4 },
-                { 0.5,  0.7 },
-                { 2.2,  2.9 },
-                { 1.9,  2.2 },
-                { 3.1,  3.0 },
-                { 2.3,  2.7 },
-                { 2.0,  1.6 },
-                { 1.0,  1.1 },
-                { 1.5,  1.6 },
-                { 1.1,  0.9 }
+                new double[] { 2.5,  2.4 },
+                new double[] { 0.5,  0.7 },
+                new double[] { 2.2,  2.9 },
+                new double[] { 1.9,  2.2 },
+                new double[] { 3.1,  3.0 },
+                new double[] { 2.3,  2.7 },
+                new double[] { 2.0,  1.6 },
+                new double[] { 1.0,  1.1 },
+                new double[] { 1.5,  1.6 },
+                new double[] { 1.1,  0.9 }
             };
 
 
@@ -855,7 +856,7 @@ namespace Accord.Tests.Statistics
             // Step 5. Deriving the new data set
             // ---------------------------------
 
-            double[,] actual = pca.Transform(data);
+            double[][] actual = pca.Transform(data);
 
             // transformedData shown in pg. 18
             double[,] expected = new double[,]
@@ -875,7 +876,22 @@ namespace Accord.Tests.Statistics
             // Everything is correct (up to 8 decimal places)
             Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
 
+            // Finally, we can project all the data
+            double[][] output1 = pca.Transform(data);
+
+            // Or just its first components by setting 
+            // NumberOfOutputs to the desired components:
             pca.NumberOfOutputs = 1;
+
+            // And then calling transform again:
+            double[][] output2 = pca.Transform(data);
+
+            // We can also limit to 80% of explained variance:
+            pca.ExplainedVariance = 0.8;
+
+            // And then call transform again:
+            double[][] output3 = pca.Transform(data);
+            #endregion
 
             actual = pca.Transform(data);
 
@@ -899,7 +915,12 @@ namespace Accord.Tests.Statistics
 
 
             // Create the analysis using the selected method
-            pca = new KernelPrincipalComponentAnalysis(new Linear(), method, numberOfOutputs: 1);
+            pca = new KernelPrincipalComponentAnalysis()
+            {
+                Kernel = new Linear(),
+                Method = method,
+                NumberOfOutputs = 1
+            };
 
             // Compute it
             pca.Learn(data);

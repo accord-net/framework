@@ -160,6 +160,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void new_method()
         {
+            #region doc_learn
             // Create some sample input data instances. This is the same
             // data used in the Gutierrez-Osuna's example available on:
             // http://research.cs.tamu.edu/prism/lectures/pr/pr_l10.pdf
@@ -187,21 +188,21 @@ namespace Accord.Tests.Statistics
                 1, 1, 1, 1, 1  // The last five are from class 1
             };
 
-            // Then, we will create a LDA for the given instances.
+            // We will create a LDA object for the data
             var lda = new LinearDiscriminantAnalysis();
 
-            // Compute the analysis
+            // Compute the analysis and create a classifier
             var classifier = lda.Learn(inputs, output);
 
-
-            // Now we can project the data into KDA space:
+            // Now we can project the data into LDA space:
             double[][] projection = lda.Transform(inputs);
+
+            // Or perform classification using:
+            int[] results = classifier.Decide(inputs);
+            #endregion
 
             double[][] classifierProjection = classifier.First.Transform(inputs);
             Assert.IsTrue(projection.IsEqual(classifierProjection));
-
-            // Or perform classification using:
-            int[] results = lda.Classify(inputs);
 
 
             // Test the classify method

@@ -144,6 +144,20 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// 
         public int Parameters { get { return parameterCount; } }
 
+        /// <summary>
+        ///   Gets or sets the regression model being learned.
+        /// </summary>
+        /// 
+        public ProportionalHazards Model
+        {
+            get { return regression; }
+            set
+            {
+                regression = value;
+                if (regression != null)
+                    init(regression);
+            }
+        }
 
         /// <summary>
         ///   Gets or sets a value indicating whether standard
@@ -432,6 +446,21 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// <returns>
         /// A model that has learned how to produce <paramref name="censor" /> given <paramref name="inputs" /> and <paramref name="time" />.
         /// </returns>
+        public ProportionalHazards Learn(double[][] inputs, double[] time, int[] censor, double[] weights = null)
+        {
+            return Learn(inputs, time, censor.To<SurvivalOutcome[]>(), weights);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="inputs">The model inputs.</param>
+        /// <param name="censor">The output (event) associated with each input vector.</param>
+        /// <param name="time">The time-to-event for the non-censored training samples.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="censor" /> given <paramref name="inputs" /> and <paramref name="time" />.
+        /// </returns>
         public ProportionalHazards Learn(double[][] inputs, double[] time, SurvivalOutcome[] censor, double[] weights = null)
         {
             if (inputs.Length != time.Length || time.Length != censor.Length)
@@ -440,6 +469,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
                     "The inputs, time and output vector must have the same length.");
             }
 
+            if (regression == null)
+                init(new ProportionalHazards(inputs.Columns()));
 
             // Sort data by time to accelerate performance
             EmpiricalHazardDistribution.Sort(ref time, ref censor, ref inputs);

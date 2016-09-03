@@ -68,36 +68,7 @@ namespace Accord.Statistics.Analysis
     ///    documentation page. However, while we will be using a <see cref="Linear"/> kernel,
     ///    any other kernel function could have been used.</para>
     ///    
-    ///  <code>
-    ///  // Below is the same data used on the excellent paper "Tutorial
-    ///  //   On Principal Component Analysis", by Lindsay Smith (2002).
-    ///  
-    ///  double[,] sourceMatrix = 
-    ///  {
-    ///      { 2.5,  2.4 },
-    ///      { 0.5,  0.7 },
-    ///      { 2.2,  2.9 },
-    ///      { 1.9,  2.2 },
-    ///      { 3.1,  3.0 },
-    ///      { 2.3,  2.7 },
-    ///      { 2.0,  1.6 },
-    ///      { 1.0,  1.1 },
-    ///      { 1.5,  1.6 },
-    ///      { 1.1,  0.9 }
-    ///  }; 
-    /// 
-    ///  // Create a new linear kernel
-    ///  IKernel kernel = new Linear();
-    ///  
-    ///  // Creates the Kernel Principal Component Analysis of the given data
-    ///  var kpca = new KernelPrincipalComponentAnalysis(sourceMatrix, kernel);
-    ///    
-    ///  // Compute the Kernel Principal Component Analysis
-    ///  kpca.Compute();
-    ///    
-    ///  // Creates a projection considering 80% of the information
-    ///  double[,] components = kpca.Transform(sourceMatrix, 0.8f);
-    ///  </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\KernelPrincipalComponentAnalysisTest.cs" region="doc_learn_1" />
     /// </example>
     /// 
     [Serializable]
@@ -116,6 +87,19 @@ namespace Accord.Statistics.Analysis
         private double threshold = 0.001;
         private bool allowReversion = true;
 
+
+        /// <summary>
+        ///   Constructs the Kernel Principal Component Analysis.
+        /// </summary>
+        /// 
+        public KernelPrincipalComponentAnalysis()
+        {
+            this.Method = PrincipalComponentMethod.Center;
+            this.kernel = new Linear();
+            this.centerFeatureSpace = true;
+            this.NumberOfOutputs = 0;
+            this.Whiten = false;
+        }
 
         /// <summary>
         ///   Constructs the Kernel Principal Component Analysis.
@@ -236,12 +220,13 @@ namespace Accord.Statistics.Analysis
 
 
         /// <summary>
-        ///   Gets the Kernel used in the analysis.
+        ///   Gets or sets the Kernel used in the analysis.
         /// </summary>
         /// 
         public IKernel Kernel
         {
             get { return kernel; }
+            set { kernel = value; }
         }
 
         /// <summary>
