@@ -279,6 +279,19 @@ namespace Accord.Tests.Statistics
                     Assert.IsTrue(delta <= tol);
                 }
             }
+
+            // Test output transform
+            double[][] bY = pls.TransformOutput(outputs);
+            //string str = bY.ToCSharp();
+            double[][] expected = new double[][] {
+                new double[] { 55.1168117173553, 19.9814652854436, 23.1058025430891, 8.50770527860088E-15 },
+                new double[] { 22.6848893220127, 7.39445606402423, 6.83504323067901, 3.73246403168482E-15 },
+                new double[] { -0.877117473967739, -2.79934089543989, 0.379941427036153, -1.88457062440663E-16 },
+                new double[] { -48.8124364962975, -9.63329642474673, -25.0857657504786, -7.17568385594517E-15 },
+                new double[] { -28.1121470691027, -14.9432840292812, -5.23502145032562, -4.87602839189987E-15 } 
+            };
+
+            Assert.IsTrue(expected.IsEqual(bY, 1e-6));
         }
 
 

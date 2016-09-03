@@ -552,7 +552,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[][] TransformOutput(double[][] outputs)
         {
-            return TransformOutput(outputs, loadingsY.GetLength(1));
+            return TransformOutput(outputs, loadingsY.Columns());
         }
 
         /// <summary>
@@ -562,7 +562,7 @@ namespace Accord.Statistics.Analysis
         [Obsolete("Please use jagged matrices instead.")]
         public double[,] TransformOutput(double[,] outputs)
         {
-            return TransformOutput(outputs.ToJagged(), loadingsY.GetLength(1)).ToMatrix();
+            return TransformOutput(outputs.ToJagged(), loadingsY.Columns()).ToMatrix();
         }
 
         /// <summary>
@@ -581,10 +581,10 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[][] TransformOutput(double[][] outputs, int dimensions)
         {
-            int rows = outputs.GetLength(0);
-            int cols = outputs.GetLength(1);
+            int rows = outputs.Rows();
+            int cols = outputs.Columns();
 
-            if (cols > loadingsY.GetLength(0))
+            if (cols > loadingsY.Rows())
             {
                 throw new DimensionMismatchException("outputs",
                     "The data matrix should have a number of columns less than or equal to"
