@@ -400,6 +400,16 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        ///   Gets or sets the normalization method used for this analysis.
+        /// </summary>
+        /// 
+        public AnalysisMethod Method
+        {
+            get { return analysisMethod; }
+            set { analysisMethod = value; }
+        }
+
+        /// <summary>
         ///   Gets or sets the <see cref="IContrastFunction">
         ///   Contrast function</see> to be used by the analysis.
         /// </summary>
