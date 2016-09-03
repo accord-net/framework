@@ -263,7 +263,7 @@ namespace Accord.Statistics.Models.Markov.Learning
 
             if (Model == null)
                 throw new InvalidOperationException("The model must have been created first.");
-                //Model = CreateModel(observations);
+            //Model = CreateModel(observations);
 
             // Grab model information
             int states = Model.States;
@@ -493,19 +493,20 @@ namespace Accord.Statistics.Models.Markov.Learning
                 Accord.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
 
                 if (lnsum != Double.NegativeInfinity)
+                {
                     for (int w = 0; w < sampleWeights.Length; w++)
                         sampleWeights[w] = sampleWeights[w] - lnsum;
 
+                    // Convert to probabilities
+                    for (int w = 0; w < sampleWeights.Length; w++)
+                    {
+                        double p = Math.Exp(sampleWeights[w]);
+                        sampleWeights[w] = (Double.IsNaN(p) || Double.IsInfinity(p)) ? 0.0 : p;
+                    }
 
-                // Convert to probabilities
-                for (int w = 0; w < sampleWeights.Length; w++)
-                {
-                    double p = Math.Exp(sampleWeights[w]);
-                    sampleWeights[w] = (Double.IsNaN(p) || Double.IsInfinity(p)) ? 0.0 : p;
+                    // Estimate the distribution for state i
+                    Fit(i, samples, sampleWeights);
                 }
-
-                // Estimate the distribution for state i
-                Fit(i, samples, sampleWeights);
             }
         }
 

@@ -318,7 +318,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                     // 3. Continue with parameter re-estimation
                     newLogLikelihood = Double.NegativeInfinity;
 
-                    // 3.1 Re-estimation of initial state probabilities 
+                    // 3.1 Re-estimation of initial state probabilities
                     for (int i = 0; i < logP.Length; i++)
                     {
                         double lnsum = Double.NegativeInfinity;
