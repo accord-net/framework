@@ -12,12 +12,9 @@
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Contains chromosome and selection classes to create Genetic Algorithms (GA), Genetic Programming (GP) and 
-	  Gene Expression Programming (GEP). This package originated from the AForge.NET Framework and is now part of 
-	  the Accord.NET Framework.
+      Contains chromosome and selection classes to create Genetic Algorithms (GA), Genetic Programming (GP) and Gene Expression Programming (GEP). This package originated from the AForge.NET Framework and is now part of the Accord.NET Framework.
     </description>
-    <summary>Genetic Algorithms (GA), Genetic Programming (GP) and Gene Expression Programming (GEP)
-		for non-linear optimization.</summary>
+    <summary>Genetic Algorithms (GA), Genetic Programming (GP) and Gene Expression Programming (GEP) for non-linear optimization.</summary>
     <tags>accord.net aforge.net framework genetic algorithms programming GA GP GEP</tags>
     <dependencies>
       <dependency id="Accord"       version="$version$" />

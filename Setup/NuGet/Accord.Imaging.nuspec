@@ -15,9 +15,7 @@
       Contains interest point detectors (SURF and FAST), image matching and image stitching methods.
 	  This package is part of the Accord.NET Framework.
     </description>
-    <summary>Point detectors (i.e. SURF, Fast, Harris, SUSAN, HOG), large collection of image filters,
-		texture generation, bag-of-visual-words for feature representation, homography estimation, and others
-		image processing related algorithms.</summary>
+    <summary>Point detectors (i.e. SURF, Fast, Harris, SUSAN, HOG), large collection of image filters, texture generation, bag-of-visual-words for feature representation, homography estimation, and others image processing related algorithms.</summary>
     <tags>accord.net aforge.net framework image processing computer vision blur Gaussian integral</tags>
     <dependencies>
       <dependency id="Accord"                 version="$version$" />

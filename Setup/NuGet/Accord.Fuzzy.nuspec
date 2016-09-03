@@ -12,11 +12,9 @@
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Contains Fuzzy logic tools, such as fuzzy sets, linguistic variables and inference systems. This package
-	  originated from the AForge.NET Framework and is part of the Accord.NET Framework.
+      Contains Fuzzy logic tools, such as fuzzy sets, linguistic variables and inference systems. This package originated from the AForge.NET Framework and is part of the Accord.NET Framework.
     </description>
-    <summary>Create fuzzy decision systems using fuzzy logic. Contains Fuzzy sets, linguistic variables and
-		fuzzy inference systems.</summary>
+    <summary>Create fuzzy decision systems using fuzzy logic. Contains Fuzzy sets, linguistic variables and fuzzy inference systems.</summary>
     <tags>accord.net aforge.net fuzzy logic math</tags>
     <dependencies>
       <dependency id="Accord"            version="$version$" />

@@ -12,12 +12,9 @@
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Contains image processing algorithms which can only be used for educational applications, and cannot
-	  be used in commercial products without express permission of its authors. Currently contains the
-	  Fast Guided Filter. This package is part of the Accord.NET Framework.
+      Contains image processing algorithms which can only be used for educational applications, and cannot be used in commercial products without express permission of its authors. Currently contains the Fast Guided Filter. This package is part of the Accord.NET Framework.
     </description>
-    <summary>Extra image processing algorithms that are not available under the GPL or LGPL. Contains the
-		Fast Guided Filter.</summary>
+    <summary>Extra image processing algorithms that are not available under the GPL or LGPL. Contains the Fast Guided Filter.</summary>
     <tags>accord.net aforge.net framework image processing computer vision blur Gaussian integral</tags>
     <dependencies>
       <dependency id="Accord"                 version="$version$" />
