@@ -3399,5 +3399,13 @@ namespace Accord.Tests.Math
             int[][] idx = v.GetIndices().ToArray();
             Assert.AreEqual(idx.Length, 0);
         }
+
+        [Test]
+        public void GetIndicesTest4()
+        {
+            double[][] v = Jagged.Ones(0, 3);
+            int[][] idx = v.GetIndices().ToArray();
+            Assert.AreEqual(idx.Length, 1);
+        }
     }
 }

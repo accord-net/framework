@@ -42,19 +42,22 @@ namespace Accord.Math.Geometry
     ///     new Vector3(  56.5f, 0, -56.5f ),
     ///     new Vector3( -56.5f, 0, -56.5f ),
     /// };
+    /// 
     /// // focal length of camera used to capture the object
     /// float focalLength = 640; // depends on your camera or projection system
+    /// 
     /// // initialize CoPOSIT object
     /// CoplanarPosit coposit = new CoplanarPosit( copositObject, focalLength );
     /// 
     /// // 2D points of te object - projection
-    /// AForge.Point[] projectedPoints = new AForge.Point[4]
+    /// Accord.Point[] projectedPoints = new Accord.Point[4]
     /// {
-    ///     new AForge.Point( -77,  48 ),
-    ///     new AForge.Point(  44,  66 ),
-    ///     new AForge.Point(  75, -36 ),
-    ///     new AForge.Point( -61, -58 ),
+    ///     new Accord.Point( -77,  48 ),
+    ///     new Accord.Point(  44,  66 ),
+    ///     new Accord.Point(  75, -36 ),
+    ///     new Accord.Point( -61, -58 ),
     /// };
+    /// 
     /// // estimate pose
     /// Matrix3x3 rotationMatrix;
     /// Vector3 translationVector;

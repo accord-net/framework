@@ -869,24 +869,6 @@ namespace Accord.Math
             return result;
         }
 
-        /// <summary>
-        ///   Creates a vector containing every index that can be used to
-        ///   address a given jagged <paramref name="array"/>, in order. 
-        /// </summary>
-        /// 
-        /// <param name="array">The array whose indices will be returned.</param>
-        /// 
-        /// <seealso cref="Matrix.GetIndices"/>
-        /// 
-        public static Tuple<int, int>[] GetIndices<T>(this T[][] array)
-        {
-            var list = new List<Tuple<int, int>>();
-            for (int i = 0; i < array.Length; i++)
-                for (int j = 0; j < array[i].Length; j++)
-                    list.Add(Tuple.Create(i, j));
-            return list.ToArray();
-        }
-
 
 
         #region Random matrices
