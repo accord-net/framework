@@ -139,22 +139,34 @@ namespace Accord.Tests.Statistics
             // Or perform classification using:
             int[] results = lda.Classify(inputs);
 
+            double[][] expected = new double[][] 
+            {
+                new double[] { 4.42732558139535, 1.96296296296296 },
+                new double[] { 3.7093023255814, -2.51851851851852 },
+                new double[] { 3.28197674418605, -1.51851851851852 },
+                new double[] { 5.56395348837209, -3.77777777777778 },
+                new double[] { 5.7093023255814, -1.03703703703704 },
+                new double[] { 13.2732558139535, -3.33333333333333 },
+                new double[] { 9.41860465116279, -3.55555555555556 },
+                new double[] { 11.1366279069767, 1.66666666666667 },
+                new double[] { 10.9912790697674, -1.07407407407407 },
+                new double[] { 13.4186046511628, -0.592592592592593 } 
+            };
+
+            Assert.IsTrue(expected.IsEqual(projection, 1e-6));
 
             // Test the classify method
             for (int i = 0; i < 5; i++)
             {
-                int expected = 0;
                 int actual = results[i];
-                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(0, actual);
             }
 
             for (int i = 5; i < 10; i++)
             {
-                int expected = 1;
                 int actual = results[i];
-                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(1, actual);
             }
-
         }
 
         [Test]
@@ -204,22 +216,34 @@ namespace Accord.Tests.Statistics
             double[][] classifierProjection = classifier.First.Transform(inputs);
             Assert.IsTrue(projection.IsEqual(classifierProjection));
 
+            double[][] expected = new double[][] 
+            {
+                new double[] { 4.42732558139535, 1.96296296296296 },
+                new double[] { 3.7093023255814, -2.51851851851852 },
+                new double[] { 3.28197674418605, -1.51851851851852 },
+                new double[] { 5.56395348837209, -3.77777777777778 },
+                new double[] { 5.7093023255814, -1.03703703703704 },
+                new double[] { 13.2732558139535, -3.33333333333333 },
+                new double[] { 9.41860465116279, -3.55555555555556 },
+                new double[] { 11.1366279069767, 1.66666666666667 },
+                new double[] { 10.9912790697674, -1.07407407407407 },
+                new double[] { 13.4186046511628, -0.592592592592593 } 
+            };
+
+            Assert.IsTrue(expected.IsEqual(projection, 1e-6));
 
             // Test the classify method
             for (int i = 0; i < 5; i++)
             {
-                int expected = 0;
                 int actual = results[i];
-                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(0, actual);
             }
 
             for (int i = 5; i < 10; i++)
             {
-                int expected = 1;
                 int actual = results[i];
-                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(1, actual);
             }
-
         }
 
         [Test]

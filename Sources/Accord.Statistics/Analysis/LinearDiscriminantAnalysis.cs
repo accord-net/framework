@@ -140,7 +140,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public LinearDiscriminantAnalysis()
         {
-            Threshold = 1e-3;
+            Threshold = 0;
         }
 
         /// <summary>
@@ -236,20 +236,17 @@ namespace Accord.Statistics.Analysis
             double[] evals = gevd.RealEigenvalues;
             double[][] eigs = gevd.Eigenvectors;
 
+            // Eliminate unwanted components
+            int nonzero = x.Columns();
             if (Threshold > 0)
-            {
-                int nonzero = gevd.Rank;
-                int keep = GetNonzeroEigenvalues(evals, Threshold);
-                nonzero = Math.Min(nonzero, keep);
-                if (NumberOfInputs != 0)
-                    nonzero = Math.Min(nonzero, NumberOfInputs);
-                if (NumberOfOutputs != 0)
-                    nonzero = Math.Min(nonzero, NumberOfOutputs);
+                nonzero = Math.Min(gevd.Rank, GetNonzeroEigenvalues(evals, Threshold));
+            if (NumberOfInputs != 0)
+                nonzero = Math.Min(nonzero, NumberOfInputs);
+            if (NumberOfOutputs != 0)
+                nonzero = Math.Min(nonzero, NumberOfOutputs);
 
-                // Eliminate unwanted components
-                eigs = eigs.Get(null, 0, nonzero);
-                evals = evals.Get(0, nonzero);
-            }
+            eigs = eigs.Get(null, 0, nonzero);
+            evals = evals.Get(0, nonzero);
 
             // Store information
             this.Eigenvalues = evals;

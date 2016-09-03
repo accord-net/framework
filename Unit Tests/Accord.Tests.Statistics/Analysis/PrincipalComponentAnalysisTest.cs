@@ -746,6 +746,17 @@ namespace Accord.Tests.Statistics
             // Verify both are equal with 0.01 tolerance value
             Assert.IsTrue(Matrix.IsEqual(reverse, data, 1e-6));
 
+            // Transform
+            double[][] image2 = transform.Transform(data.ToJagged());
+            double[][] reverse2 = transform.Inverse().Transform(image2);
+            Assert.IsTrue(Matrix.IsEqual(reverse, reverse2, 1e-6));
+            Assert.IsTrue(Matrix.IsEqual(reverse2, data, 1e-6));
+
+            // Transform
+            double[][] reverse3 = actual.Revert(image2);
+            Assert.IsTrue(Matrix.IsEqual(reverse, reverse3, 1e-6));
+            Assert.IsTrue(Matrix.IsEqual(reverse3, data, 1e-6));
+
             var a = transform.Transform(data.ToJagged()).ToMatrix();
             Assert.IsTrue(Matrix.IsEqual(a, expectedTransform, 0.01));
         }
@@ -796,10 +807,10 @@ namespace Accord.Tests.Statistics
             double[,] reverse = pca.Revert(image);
 
             // Verify both are equal with 0.01 tolerance value
-            Assert.IsTrue(Matrix.IsEqual(reverse, data, 0.01));
+            Assert.IsTrue(Matrix.IsEqual(reverse, data, 1e-5));
 
             actual = transform.Transform(data.ToJagged()).ToMatrix();
-            Assert.IsTrue(Matrix.IsEqual(actual, expected, 0.01));
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-5));
         }
 
         [Test]
@@ -818,6 +829,31 @@ namespace Accord.Tests.Statistics
 
             // Verify both are equal with 0.01 tolerance value
             Assert.IsTrue(Matrix.IsEqual(actual, data, 0.01));
+        }
+
+        [Test]
+        public void Revert_new_method()
+        {
+            var target = new PrincipalComponentAnalysis();
+
+            // Compute
+            var transform = target.Learn(data.ToJagged());
+
+            // Transform
+            double[][] image = target.Transform(data.ToJagged());
+
+            // Reverse
+            double[][] actual = target.Revert(image);
+
+            // Verify both are equal with 0.01 tolerance value
+            Assert.IsTrue(Matrix.IsEqual(actual, data, 0.01));
+
+            // Reverse
+            double[][] actual2 = transform.Inverse().Transform(image);
+
+            // Verify both are equal with 0.01 tolerance value
+            Assert.IsTrue(Matrix.IsEqual(actual2, data, 0.01));
+            Assert.IsTrue(Matrix.IsEqual(actual2, actual, 1e-5));
         }
 
         [Test]

@@ -132,7 +132,7 @@ namespace Accord.Statistics.Analysis
         public KernelDiscriminantAnalysis(IKernel kernel)
         {
             this.kernel = kernel;
-            this.Threshold = 1e-3;
+            this.Threshold = 0;
         }
 
         /// <summary>
@@ -347,7 +347,6 @@ namespace Accord.Statistics.Analysis
             if (NumberOfOutputs == 0)
                 return null;
 
-            //double[][] eig = DiscriminantVectors.Get(null, 0, NumberOfOutputs);
             double[][] eig = DiscriminantVectors;
 
             return new Pipeline()
@@ -357,7 +356,6 @@ namespace Accord.Statistics.Analysis
                 First = new MultivariateKernelRegression()
                 {
                     Weights = eig,
-                    Intercept = Means.DotWithTransposed(eig).Multiply(-1),
                     BasisVectors = input,
                     Kernel = Kernel,
                     NumberOfInputs = NumberOfInputs,
@@ -466,20 +464,17 @@ namespace Accord.Statistics.Analysis
             double[] evals = gevd.RealEigenvalues;
             double[][] eigs = gevd.Eigenvectors;
 
+            // Eliminate unwanted components
+            int nonzero = x.Columns();
             if (Threshold > 0)
-            {
-                int nonzero = gevd.Rank;
-                int keep = GetNonzeroEigenvalues(evals, Threshold);
-                nonzero = Math.Min(nonzero, keep);
-                if (NumberOfInputs != 0)
-                    nonzero = Math.Min(nonzero, NumberOfInputs);
-                if (NumberOfOutputs != 0)
-                    nonzero = Math.Min(nonzero, NumberOfOutputs);
+                nonzero = Math.Min(gevd.Rank, GetNonzeroEigenvalues(evals, Threshold));
+            if (NumberOfInputs != 0)
+                nonzero = Math.Min(nonzero, NumberOfInputs);
+            if (NumberOfOutputs != 0)
+                nonzero = Math.Min(nonzero, NumberOfOutputs);
 
-                // Eliminate unwanted components
-                eigs = eigs.Get(null, 0, nonzero);
-                evals = evals.Get(0, nonzero);
-            }
+            eigs = eigs.Get(null, 0, nonzero);
+            evals = evals.Get(0, nonzero);
 
             // Store information
             this.input = x;
