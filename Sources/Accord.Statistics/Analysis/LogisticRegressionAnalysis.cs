@@ -32,7 +32,7 @@ namespace Accord.Statistics.Analysis
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
-using System.Threading;
+    using System.Threading;
 
     /// <summary>
     ///   Logistic Regression Analysis.
@@ -70,69 +70,13 @@ using System.Threading;
     ///   has an associated label (1 or 0) in the output vector, where 1 represents a positive
     ///   label (yes, or true) and 0 represents a negative label (no, or false).</para>
     ///   
-    /// <code>
-    /// // Suppose we have the following data about some patients.
-    /// // The first variable is continuous and represent patient
-    /// // age. The second variable is dichotomic and give whether
-    /// // they smoke or not (this is completely fictional data).
-    /// 
-    /// double[][] inputs =
-    /// {
-    ///     //            Age  Smoking
-    ///     new double[] { 55,    0   }, 
-    ///     new double[] { 28,    0   }, 
-    ///     new double[] { 65,    1   }, 
-    ///     new double[] { 46,    0   }, 
-    ///     new double[] { 86,    1   }, 
-    ///     new double[] { 56,    1   }, 
-    ///     new double[] { 85,    0   }, 
-    ///     new double[] { 33,    0   }, 
-    ///     new double[] { 21,    1   }, 
-    ///     new double[] { 42,    1   }, 
-    /// };
-    /// 
-    /// // Additionally, we also have information about whether
-    /// // or not they those patients had lung cancer. The array
-    /// // below gives 0 for those who did not, and 1 for those
-    /// // who did.
-    /// 
-    /// double[] output =
-    /// {
-    ///     0, 0, 0, 1, 1, 1, 0, 0, 0, 1
-    /// };
-    /// 
-    /// // Create a Logistic Regression analysis
-    /// var regression = new LogisticRegressionAnalysis(inputs, output);
-    /// 
-    /// regression.Compute(); // compute the analysis.
-    /// 
-    /// // Now we can show a summary of analysis
-    /// DataGridBox.Show(regression.Coefficients);
-    /// </code>
-    /// 
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\LogisticRegressionAnalysisTest.cs" region="doc_learn_part2" />
+    ///
     /// <para>
     ///   The resulting table is shown below.</para>
     ///   <img src="..\images\logistic-regression.png" />
     /// 
-    /// <code>
-    /// // We can also investigate all parameters individually. For
-    /// // example the coefficients values will be available at the
-    /// // vector
-    ///             
-    /// double[] coef = regression.CoefficientValues;
-    /// 
-    /// // The first value refers to the model's intercept term. We
-    /// // can also retrieve the odds ratios and standard errors:
-    /// 
-    /// double[] odds = regression.OddsRatios;
-    /// double[] stde = regression.StandardErrors;
-    /// 
-    ///             
-    /// // Finally, we can also use the analysis to classify a new patient
-    /// double y = regression.Regression.Compute(new double[] { 87, 1 });
-    ///             
-    /// // For those inputs, the answer probability is approximately 75%.
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\LogisticRegressionAnalysisTest.cs" region="doc_learn_part1" />
     /// 
     /// <para>
     ///   The analysis can also be created from data given in a summary form. Instead of having
@@ -140,55 +84,7 @@ using System.Threading;
     ///   associated with the proportion of positive to negative labels in the original dataset.
     /// </para>
     /// 
-    /// <code>
-    /// // Suppose we have a (fictitious) data set about patients who 
-    /// // underwent cardiac surgery. The first column gives the number
-    /// // of arterial bypasses performed during the surgery. The second
-    /// // column gives the number of patients whose surgery went well,
-    /// // while the third column gives the number of patients who had
-    /// // at least one complication during the surgery.
-    /// // 
-    /// int[,] data =
-    /// {
-    ///     // # of stents       success     complications
-    ///     {       1,             140,           45       },
-    ///     {       2,             130,           60       },
-    ///     {       3,             150,           31       },
-    ///     {       4,              96,           65       }
-    /// };
-    /// 
-    /// 
-    /// double[][] inputs = data.GetColumn(0).ToDouble().ToArray();
-    /// 
-    /// int[] positive = data.GetColumn(1);
-    /// int[] negative = data.GetColumn(2);
-    /// 
-    /// // Create a new Logistic Regression Analysis from the summary data
-    /// var regression = LogisticRegressionAnalysis.FromSummary(inputs, positive, negative);
-    /// 
-    /// regression.Compute(); // compute the analysis.
-    /// 
-    /// // Now we can show a summary of the analysis
-    /// DataGridBox.Show(regression.Coefficients);
-    /// 
-    /// 
-    /// // We can also investigate all parameters individually. For
-    /// // example the coefficients values will be available at the
-    /// // vector
-    /// 
-    /// double[] coef = regression.CoefficientValues;
-    /// 
-    /// // The first value refers to the model's intercept term. We
-    /// // can also retrieve the odds ratios and standard errors:
-    /// 
-    /// double[] odds = regression.OddsRatios;
-    /// double[] stde = regression.StandardErrors;
-    /// 
-    /// 
-    /// // Finally, we can use it to estimate risk for a new patient
-    /// double y = regression.Regression.Compute(new double[] { 4 });
-    /// </code>
-    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\LogisticRegressionAnalysisTest.cs" region="doc_learn_summary" />
     /// </example>
     /// 
     [Serializable]
@@ -345,15 +241,16 @@ using System.Threading;
             this.NumberOfOutputs = 1;
         }
 
-        [Obsolete]
         private void initialize(double[][] inputs, double[] outputs)
         {
             this.NumberOfInputs = inputs[0].Length;
             int coefficientCount = NumberOfInputs + 1;
 
+#pragma warning disable 612, 618
             // Store data sets
             this.inputData = inputs;
             this.outputData = outputs;
+#pragma warning restore 612, 618
 
             // Create additional structures
             this.coefficients = new double[coefficientCount];
@@ -363,10 +260,17 @@ using System.Threading;
             this.confidences = new DoubleRange[coefficientCount];
             this.ratioTests = new ChiSquareTest[coefficientCount];
 
-            this.outputName = "Output";
-            this.inputNames = new string[NumberOfInputs];
-            for (int i = 0; i < inputNames.Length; i++)
-                inputNames[i] = "Input " + i;
+            if (outputName == null)
+            {
+                this.outputName = "Output";
+            }
+
+            if (inputNames == null)
+            {
+                this.inputNames = new string[NumberOfInputs];
+                for (int i = 0; i < inputNames.Length; i++)
+                    inputNames[i] = "Input " + i;
+            }
 
             // Create object-oriented structure to represent the analysis
             var logCoefs = new List<LogisticCoefficient>(coefficientCount);
@@ -664,6 +568,15 @@ using System.Threading;
 
         private LogisticRegression compute(double[][] input, double[] output, double[] weights)
         {
+            if (regression == null)
+            {
+                initialize(input, output);
+                this.regression = new LogisticRegression()
+                {
+                    NumberOfInputs = input.Columns()
+                };
+            }
+
             var learning = new IterativeReweightedLeastSquares(regression)
             {
                 Regularization = regularization,
@@ -768,7 +681,7 @@ using System.Threading;
         ///   A <see cref="LogisticRegressionAnalysis"/> created from the given summary data.
         /// </returns>
         /// 
-        [Obsolete("Please use the Learn method instead.")]
+        [Obsolete("Please use the Learn(x, positives, negatives) method instead.")]
         public static LogisticRegressionAnalysis FromSummary(double[][] data, int[] positives, int[] negatives)
         {
             double[] rate = new double[data.Length];
@@ -781,6 +694,32 @@ using System.Threading;
             }
 
             return new LogisticRegressionAnalysis(data, rate, weights);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// 
+        /// <param name="x">The model inputs.</param>
+        /// <param name="positives">The number of positives labels for each input vector.</param>
+        /// <param name="negatives">The number of negative labels for each input vector.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="LogisticRegressionAnalysis"/> created from the given summary data.
+        /// </returns>
+        /// 
+        public LogisticRegression Learn(double[][] x, int[] positives, int[] negatives)
+        {
+            double[] rate = new double[x.Length];
+            double[] weights = new double[x.Length];
+
+            for (int i = 0; i < rate.Length; i++)
+            {
+                rate[i] = positives[i] / (double)(positives[i] + negatives[i]);
+                weights[i] = positives[i] + negatives[i];
+            }
+
+            return Learn(x, rate, weights);
         }
 
 #pragma warning disable 612, 618
@@ -798,7 +737,6 @@ using System.Threading;
             {
                 delta = learning.Run(inputData, outputData, weights);
                 iteration++;
-
             } while (delta > tolerance && iteration < iterations);
 
             // Check if the full model has converged
@@ -819,13 +757,13 @@ using System.Threading;
                 double[][] data = inputData.RemoveColumn(i);
 
                 // Perform likelihood-ratio tests against diminished nested models
-                var innerModel = new LogisticRegression(NumberOfInputs);
+                var innerModel = new LogisticRegression(NumberOfInputs - 1);
                 var learning = new IterativeReweightedLeastSquares(innerModel)
                 {
                     Iterations = iterations,
                     Tolerance = tolerance,
                     Regularization = regularization
-                }; 
+                };
 
                 learning.Learn(data, outputData, weights);
 
@@ -890,6 +828,8 @@ using System.Threading;
         {
             return (regression as ITransform<double[], double>).Transform(input);
         }
+
+        
     }
 
 

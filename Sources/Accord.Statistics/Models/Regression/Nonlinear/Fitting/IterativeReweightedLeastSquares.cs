@@ -221,7 +221,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
             Iterations = 1;
             Learn(inputs, outputs, sampleWeights);
             Iterations = old;
-            return Updates.Max();
+            return Updates.Abs().Max();
         }
 
         /// <summary>
@@ -268,16 +268,17 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
         private int parameterCount;
 
-        private double[,] hessian;
+        private double[][] hessian;
         private double[] gradient;
         private double[] previous;
+        private double[] deltas;
 
         private double lambda = 1e-10;
 
 
         private bool computeStandardErrors = true;
-        private ISolverMatrixDecomposition<double> decomposition;
-        private RelativeParameterConvergence convergence;
+        private ISolverArrayDecomposition<double> decomposition;
+        private RelativeConvergence convergence;
 
         /// <summary>
         ///   Initializes
@@ -290,8 +291,9 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
             this.regression = regression;
             this.parameterCount = regression.Coefficients.Length;
-            this.hessian = new double[parameterCount, parameterCount];
+            this.hessian = Jagged.Zeros(parameterCount, parameterCount);
             this.gradient = new double[parameterCount];
+            this.previous = new double[parameterCount];
         }
 
         /// <summary>
@@ -315,7 +317,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         ///   Gets the last parameter updates in the last iteration.
         /// </summary>
         /// 
-        public double[] Updates { get { return convergence.NewValues; }} 
+        public double[] Updates { get { return deltas; } }
 
         /// <summary>
         ///   Gets the current values for the coefficients.
@@ -328,7 +330,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         ///   the last Newton-Raphson iteration.
         /// </summary>
         /// 
-        public double[,] Hessian { get { return hessian; } }
+        public double[][] Hessian { get { return hessian; } }
 
         /// <summary>
         ///   Gets the Gradient vector computed in
@@ -401,7 +403,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// </summary>
         public IterativeReweightedLeastSquares()
         {
-            this.convergence = new RelativeParameterConvergence()
+            this.convergence = new RelativeConvergence()
             {
                 Iterations = 0,
                 Tolerance = 1e-5
@@ -504,13 +506,13 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 }
 
                 // Reset Hessian matrix and gradient
-                Array.Clear(gradient, 0, gradient.Length);
-                Array.Clear(hessian, 0, hessian.Length);
+                gradient.Clear();
+                hessian.Clear();
 
                 // (Re-) Compute error gradient
                 for (int j = 0; j < design.Length; j++)
                     for (int i = 0; i < gradient.Length; i++)
-                        gradient[i] += design[j][i] * errors[j] + lambda * coefficients[i];
+                        gradient[i] += design[j][i] * errors[j];
 
                 // (Re-) Compute weighted "Hessian" matrix 
                 for (int k = 0; k < w.Length; k++)
@@ -518,13 +520,22 @@ namespace Accord.Statistics.Models.Regression.Fitting
                     double[] row = design[k];
                     for (int j = 0; j < row.Length; j++)
                         for (int i = 0; i < row.Length; i++)
-                            hessian[j, i] += row[i] * row[j] * w[k];
+                            hessian[j][i] += row[i] * row[j] * w[k];
                 }
 
+                // Apply L2 regularization
+                if (lambda > 0)
+                {
+                    // https://www.cs.ubc.ca/~murphyk/Teaching/CS540-Fall08/L6.pdf
+                    for (int i = 0; i < gradient.Length; i++)
+                    {
+                        gradient[i] += lambda * coefficients[i];
+                        hessian[i][i] += lambda;
+                    }
+                }
 
-                decomposition = new SingularValueDecomposition(hessian);
-
-                double[] deltas = decomposition.Solve(gradient);
+                decomposition = new JaggedSingularValueDecomposition(hessian);
+                deltas = decomposition.Solve(gradient);
 
                 previous = (double[])coefficients.Clone();
 
@@ -532,7 +543,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 for (int i = 0; i < coefficients.Length; i++)
                     coefficients[i] -= deltas[i];
 
-                convergence.NewValues = deltas;
+                // Return the relative maximum parameter change
+                convergence.NewValue = deltas.Abs().Max();
 
                 if (Token.IsCancellationRequested)
                     break;
@@ -542,12 +554,12 @@ namespace Accord.Statistics.Models.Regression.Fitting
             if (computeStandardErrors)
             {
                 // Grab the regression information matrix
-                double[,] inverse = decomposition.Inverse();
+                double[][] inverse = decomposition.Inverse();
 
                 // Calculate coefficients' standard errors
                 double[] standardErrors = regression.StandardErrors;
                 for (int i = 0; i < standardErrors.Length; i++)
-                    standardErrors[i] = Math.Sqrt(inverse[i, i]);
+                    standardErrors[i] = Math.Sqrt(inverse[i][i]);
             }
 
             return regression;
