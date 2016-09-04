@@ -1,6 +1,6 @@
-Accord.NET Framework 3.2.1 release notes
+Accord.NET Framework 3.2.2 release notes
 -----------------------------------------
-03.09.2016.
+04.09.2016.
 
 Version updates and fixes:
   - GH-113: System.AggregateException thrown in C45Learning.Run;
@@ -21,7 +21,12 @@ Version updates and fixes:
   - GH-278: Merge pull request #278 from kulov/development;
   - GH-272: Merge pull request #272 from kdbanman/GH-271;
   - GH-269: Merge pull request #269 from mikhail-barg/minor-fix;
-  - GH-274: Merge pull request #274 from hzawary:development;
+  - GH-274: Merge pull request #274 from hzawary:development.
+
+* General
+  - This will be last release that includes an executable installer. If you
+    are still using the installer, please move to NuGet or use the framework
+    compressed archive files.
 
 * Imaging
   - Creating a new Accord.Imaging.Noncommercial assembly to hold non-commercial imaging methods;
@@ -30,11 +35,12 @@ Version updates and fixes:
 * MachineLearning
   - Fixing Binary Split's learn method to accept null weights;
   - Updating Binary Split example to reflect the new API;
-  - Adding constructors to allow tree inducing algorithms to create a tree from scratch.
+  - Adding constructors to allow tree inducing algorithms to create a tree from scratch;
   
 * Statistics  
   - Fixing multiple issues with statistical analyses classes when they are used using the
-    new classification/regression APIs.
+    new classification/regression APIs;
+  - Correcting L2-regularization in Logistic Regression.
 
 
 
