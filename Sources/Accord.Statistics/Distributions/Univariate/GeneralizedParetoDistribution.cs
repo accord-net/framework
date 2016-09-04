@@ -57,7 +57,7 @@ namespace Accord.Statistics.Distributions.Univariate
     /// </remarks>
     /// 
     /// <example>
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Univariate\Continuous\GeneralizedParetoDistribution.cs" region="doc_example1" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\GeneralizedParetoDistributionTest.cs" region="doc_example1" />
     /// </example>
     /// 
     /// <seealso cref="Accord.Statistics.Distributions.Univariate.ParetoDistribution" />

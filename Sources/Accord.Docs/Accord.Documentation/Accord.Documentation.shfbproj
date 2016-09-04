@@ -19,60 +19,61 @@
     <HtmlHelpName>Accord.NET</HtmlHelpName>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\Namespaces\bin\Release\Namespaces.dll" />
-      <DocumentationSource sourceFile="..\Namespaces\bin\Release\Namespaces.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Audio.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Audio.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Audition.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Audition.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Controls.Audio.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Controls.Audio.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Controls.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Controls.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Controls.Imaging.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Controls.Imaging.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Controls.Vision.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Controls.Vision.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Fuzzy.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Fuzzy.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Genetic.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Genetic.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Imaging.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Imaging.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.IO.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.IO.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.MachineLearning.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.MachineLearning.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Neuro.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Neuro.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Statistics.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Statistics.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.DirectShow.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.DirectShow.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.Kinect.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.Kinect.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.VFW.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.VFW.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.Ximea.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.Ximea.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Vision.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Vision.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\ZedGraph.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\ZedGraph.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\GPL\Accord.MachineLearning.GPL.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\GPL\Accord.MachineLearning.GPL.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\GPL\Accord.Video.FFMPEG.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\GPL\Accord.Video.FFMPEG.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Noncommercial\Accord.Math.Noncommercial.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Noncommercial\Accord.Math.Noncommercial.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Audio.DirectSound.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Audio.DirectSound.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Math.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Math.xml" />
-    </DocumentationSources>
+<DocumentationSource sourceFile="..\Namespaces\bin\Release\Namespaces.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Audio.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Audio.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Audition.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Audition.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Controls.Audio.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Controls.Audio.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Controls.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Controls.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Controls.Imaging.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Controls.Imaging.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Controls.Vision.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Controls.Vision.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Fuzzy.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Fuzzy.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Genetic.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Genetic.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Imaging.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Imaging.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.IO.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.IO.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.MachineLearning.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.MachineLearning.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Neuro.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Neuro.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Statistics.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Statistics.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.DirectShow.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.DirectShow.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.Kinect.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.Kinect.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.VFW.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.VFW.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.Ximea.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Video.Ximea.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Vision.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Vision.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\ZedGraph.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\ZedGraph.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\GPL\Accord.MachineLearning.GPL.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\GPL\Accord.MachineLearning.GPL.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\GPL\Accord.Video.FFMPEG.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\GPL\Accord.Video.FFMPEG.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Noncommercial\Accord.Math.Noncommercial.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Noncommercial\Accord.Math.Noncommercial.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Audio.DirectSound.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Audio.DirectSound.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Math.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Accord.Math.xml" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Noncommercial\Accord.Imaging.Noncommercial.dll" />
+<DocumentationSource sourceFile="..\..\..\Release\net45\Noncommercial\Accord.Imaging.Noncommercial.xml" /></DocumentationSources>
     <CopyrightText>Accord.NET Framework &amp;#169%3b 2009-2016. All documentation is licensed under the Creative Commons Attribution/Share-Alike License.</CopyrightText>
     <FeedbackEMailAddress>feedback%40accord-framework.net</FeedbackEMailAddress>
     <NamespaceSummaries>
@@ -253,19 +254,20 @@
     <RootNamespaceTitle>Framework modules</RootNamespaceTitle>
     <ApiFilter>
       <Filter entryType="Namespace" fullName="Accord.Math" isExposed="True">
-  <Filter entryType="Class" fullName="Accord.Math.Matrix" filterName="Matrix" isExposed="True">
-    <Filter entryType="Method" fullName="Accord.Math.Matrix.Dot" filterName="Dot" isExposed="False" />
-    <Filter entryType="Method" fullName="Accord.Math.Matrix.DotAndDot" filterName="DotAndDot" isExposed="False" />
-    <Filter entryType="Method" fullName="Accord.Math.Matrix.DotWithDiagonal" filterName="DotWithDiagonal" isExposed="False" />
-    <Filter entryType="Method" fullName="Accord.Math.Matrix.DotWithTransposed" filterName="DotWithTransposed" isExposed="False" />
-    <Filter entryType="Method" fullName="Accord.Math.Matrix.TransposeAndDot" filterName="TransposeAndDot" isExposed="False" />
-    <Filter entryType="Method" fullName="Accord.Math.Matrix.TransposeAndDotWithDiagonal" filterName="TransposeAndDotWithDiagonal" isExposed="False" />
-    <Filter entryType="Method" fullName="Accord.Math.Matrix.TransposeAndMultiply" filterName="TransposeAndMultiply" isExposed="False" />
-    <Filter entryType="Method" fullName="Accord.Math.Matrix.TransposeAndMultiplyByDiagonal" filterName="TransposeAndMultiplyByDiagonal" isExposed="False" />
-  </Filter>
-</Filter>
-<Filter entryType="Namespace" fullName="AForge.Math" isExposed="False" />
-<Filter entryType="Namespace" fullName="System.Collections.Generic" isExposed="False" /></ApiFilter>
+        <Filter entryType="Class" fullName="Accord.Math.Matrix" filterName="Matrix" isExposed="True">
+          <Filter entryType="Method" fullName="Accord.Math.Matrix.Dot" filterName="Dot" isExposed="False" />
+          <Filter entryType="Method" fullName="Accord.Math.Matrix.DotAndDot" filterName="DotAndDot" isExposed="False" />
+          <Filter entryType="Method" fullName="Accord.Math.Matrix.DotWithDiagonal" filterName="DotWithDiagonal" isExposed="False" />
+          <Filter entryType="Method" fullName="Accord.Math.Matrix.DotWithTransposed" filterName="DotWithTransposed" isExposed="False" />
+          <Filter entryType="Method" fullName="Accord.Math.Matrix.TransposeAndDot" filterName="TransposeAndDot" isExposed="False" />
+          <Filter entryType="Method" fullName="Accord.Math.Matrix.TransposeAndDotWithDiagonal" filterName="TransposeAndDotWithDiagonal" isExposed="False" />
+          <Filter entryType="Method" fullName="Accord.Math.Matrix.TransposeAndMultiply" filterName="TransposeAndMultiply" isExposed="False" />
+          <Filter entryType="Method" fullName="Accord.Math.Matrix.TransposeAndMultiplyByDiagonal" filterName="TransposeAndMultiplyByDiagonal" isExposed="False" />
+        </Filter>
+      </Filter>
+      <Filter entryType="Namespace" fullName="AForge.Math" isExposed="False" />
+      <Filter entryType="Namespace" fullName="System.Collections.Generic" isExposed="False" />
+    </ApiFilter>
     <HelpFileFormat>HtmlHelp1, Website</HelpFileFormat>
     <ComponentConfigurations>
       <ComponentConfig id="Code Block Component" enabled="True">
