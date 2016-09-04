@@ -30,23 +30,6 @@ namespace Accord.Tests.Statistics
     public class SimpleLinearRegressionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void RegressTest()
         {
@@ -58,7 +41,7 @@ namespace Accord.Tests.Statistics
             // is minimum.
 
             // Declare some sample test data.
-            double[] inputs =  { 80, 60, 10, 20, 30 };
+            double[] inputs = { 80, 60, 10, 20, 30 };
             double[] outputs = { 20, 40, 30, 50, 60 };
 
             // Create a new simple linear regression
@@ -74,6 +57,47 @@ namespace Accord.Tests.Statistics
             // for the line. Those will be -0.26 and 50.5, respectively.
             double s = regression.Slope;
             double c = regression.Intercept;
+
+            // Expected slope and intercept
+            double eSlope = -0.264706;
+            double eIntercept = 50.588235;
+
+            Assert.AreEqual(28.088235294117649, y, 1e-10);
+            Assert.AreEqual(eSlope, s, 1e-5);
+            Assert.AreEqual(eIntercept, c, 1e-5);
+
+            Assert.IsFalse(double.IsNaN(y));
+        }
+
+        [Test]
+        public void learn_test()
+        {
+            #region doc_learn
+            // Let's say we have some univariate, continuous sets of input data,
+            // and a corresponding univariate, continuous set of output data, such
+            // as a set of points in R². A simple linear regression is able to fit
+            // a line relating the input variables to the output variables in which
+            // the minimum-squared-error of the line and the actual output points
+            // is minimum.
+
+            // Declare some sample test data.
+            double[] inputs = { 80, 60, 10, 20, 30 };
+            double[] outputs = { 20, 40, 30, 50, 60 };
+
+            // Use Ordinary Least Squares to learn the regression
+            OrdinaryLeastSquares ols = new OrdinaryLeastSquares();
+
+            // Use OLS to learn the simple linear regression
+            SimpleLinearRegression regression = ols.Learn(inputs, outputs);
+
+            // Compute the output for a given input:
+            double y = regression.Transform(85); // The answer will be 28.088
+
+            // We can also extract the slope and the intercept term
+            // for the line. Those will be -0.26 and 50.5, respectively.
+            double s = regression.Slope;     // -0.264706
+            double c = regression.Intercept; // 50.588235
+            #endregion
 
             // Expected slope and intercept
             double eSlope = -0.264706;

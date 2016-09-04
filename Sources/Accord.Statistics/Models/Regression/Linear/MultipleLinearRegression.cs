@@ -29,6 +29,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     using Accord.MachineLearning;
     using Fitting;
     using Accord.Math.Optimization.Losses;
+    using Accord.Statistics.Analysis;
 
     /// <summary>
     ///   Multiple Linear Regression.
@@ -48,49 +49,13 @@ namespace Accord.Statistics.Models.Regression.Linear
     ///   The following example shows how to fit a multiple linear regression model
     ///   to model a plane as an equation in the form ax + by + c = z. </para>
     ///   
-    ///   <code>
-    ///   // We will try to model a plane as an equation in the form
-    ///   // "ax + by + c = z". We have two input variables (x and y)
-    ///   // and we will be trying to find two parameters a and b and 
-    ///   // an intercept term c.
-    ///   
-    ///   // Create a multiple linear regression for two input and an intercept
-    ///   MultipleLinearRegression target = new MultipleLinearRegression(2, true);
-    ///   
-    ///   // Now suppose we have some points
-    ///   double[][] inputs = 
-    ///   {
-    ///       new double[] { 1, 1 },
-    ///       new double[] { 0, 1 },
-    ///       new double[] { 1, 0 },
-    ///       new double[] { 0, 0 },
-    ///   };
-    ///   
-    ///   // located in the same Z (z = 1)
-    ///   double[] outputs = { 1, 1, 1, 1 };
-    ///   
-    ///   
-    ///   // Now we will try to fit a regression model
-    ///   double error = target.Regress(inputs, outputs);
-    ///   
-    ///   // As result, we will be given the following:
-    ///   double a = target.Coefficients[0]; // a = 0
-    ///   double b = target.Coefficients[1]; // b = 0
-    ///   double c = target.Coefficients[2]; // c = 1
-    ///   
-    ///   // Now, considering we were trying to find a plane, which could be
-    ///   // described by the equation ax + by + c = z, and we have found the
-    ///   // aforementioned coefficients, we can conclude the plane we were
-    ///   // trying to find is giving by the equation:
-    ///   //
-    ///   //   ax + by + c = z
-    ///   //     -> 0x + 0y + 1 = z
-    ///   //     -> 1 = z.
-    ///   //
-    ///   // The plane containing the aforementioned points is, in fact,
-    ///   // the plane given by z = 1.
-    ///   </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultipleLinearRegressionTest.cs" region="doc_learn" />
     /// </example>
+    /// 
+    /// <seealso cref="OrdinaryLeastSquares"/>
+    /// <seealso cref="SimpleLinearRegression"/>
+    /// <seealso cref="MultivariateLinearRegression"/>
+    /// <seealso cref="MultipleLinearRegressionAnalysis"/>
     /// 
     [Serializable]
 #pragma warning disable 612, 618
@@ -125,6 +90,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         [Obsolete("Please do not pass a boolean value as the intercept value.")]
         public MultipleLinearRegression(int inputs, bool intercept)
+            : this()
         {
             if (intercept)
                 inputs++;
@@ -132,7 +98,6 @@ namespace Accord.Statistics.Models.Regression.Linear
 #pragma warning disable 612, 618
             this.addIntercept = intercept;
 #pragma warning restore 612, 618
-            NumberOfOutputs = 1;
         }
 
         /// <summary>
@@ -143,10 +108,10 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// <param name="intercept">True to use an intercept term, false otherwise. Default is false.</param>
         /// 
         public MultipleLinearRegression(int inputs, double intercept = 0)
+            : this()
         {
             this.coefficients = new double[inputs];
             this.intercept = intercept;
-            NumberOfOutputs = 1;
         }
 
         /// <summary>
@@ -154,6 +119,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// </summary>
         public MultipleLinearRegression()
         {
+            NumberOfOutputs = 1;
         }
 
 
@@ -177,7 +143,11 @@ namespace Accord.Statistics.Models.Regression.Linear
         public double[] Weights
         {
             get { return coefficients; }
-            set { coefficients = value; }
+            set
+            {
+                coefficients = value;
+                NumberOfInputs = value.Length;
+            }
         }
 
         /// <summary>
