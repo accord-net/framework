@@ -102,12 +102,8 @@ namespace SampleApp
             // Get only the output labels (last column)
             int[] outputs = table.GetColumn(2).ToInt32();
 
-
-            // Creates the SVM for 2 input variables
-            svm = new SupportVectorMachine(inputs: 2);
-
-            // Creates a new instance of the sparse logistic learning algorithm
-            var smo = new ProbabilisticCoordinateDescent(svm, inputs, outputs)
+            // Create a sparse logistic learning algorithm
+            var pcd = new ProbabilisticCoordinateDescent()
             {
                 // Set learning parameters
                 Complexity = (double)numC.Value,
@@ -119,7 +115,7 @@ namespace SampleApp
             try
             {
                 // Run
-                double error = smo.Run();
+                svm = pcd.Learn(inputs, outputs);
 
                 lbStatus.Text = "Training complete!";
             }

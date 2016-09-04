@@ -85,10 +85,10 @@ namespace Classification.MLR
             dgvLearningSource.EndEdit();
 
             // Creates a matrix from the entire source data table
-            double[,] table = (dgvLearningSource.DataSource as DataTable).ToMatrix(out columnNames);
+            double[][] table = (dgvLearningSource.DataSource as DataTable).ToArray(out columnNames);
 
             // Get only the input vector values (first two columns)
-            double[][] inputs = table.GetColumns(new int[]{0,1}).ToArray();
+            double[][] inputs = table.GetColumns(0, 1);
 
             // Get only the output labels (last column)
             int[] outputs = table.GetColumn(2).Subtract(1).ToInt32();
@@ -97,9 +97,7 @@ namespace Classification.MLR
 
 
             // Create and compute a new Simple Descriptive Analysis
-            var sda = new DescriptiveAnalysis(table, columnNames);
-
-            sda.Compute();
+            var sda = new DescriptiveAnalysis(columnNames).Learn(table);
 
             // Show the descriptive analysis on the screen
             dgvDistributionMeasures.DataSource = sda.Measures;
@@ -108,12 +106,12 @@ namespace Classification.MLR
 
 
             // Creates the Support Vector Machine for 2 input variables
-            mlr = new MultinomialLogisticRegressionAnalysis(inputs, outputs);
+            mlr = new MultinomialLogisticRegressionAnalysis();
 
             try
             {
                 // Run
-                mlr.Compute();
+                mlr.Learn(inputs, outputs);
 
                 lbStatus.Text = "Analysis complete!";
             }
@@ -136,7 +134,7 @@ namespace Classification.MLR
             dgvCoefficients.DataSource = mlr.Coefficients;
         }
 
-        private void createSurface(double[,] table)
+        private void createSurface(double[][] table)
         {
             // Get the ranges for each variable (X and Y)
             DoubleRange[] ranges = table.GetRange(0);
@@ -149,11 +147,7 @@ namespace Classification.MLR
             var lr = mlr.Regression;
 
             // Classify each point in the Cartesian coordinate system
-            double[] result = map.Apply(x =>
-            {
-                int imax; lr.Compute(x).Max(out imax); 
-                return imax; 
-            }).ToDouble();
+            double[] result = lr.Decide(map).ToDouble();
 
             double[,] surface = map.ToMatrix().InsertColumn(result);
 
@@ -175,22 +169,16 @@ namespace Classification.MLR
 
 
             // Creates a matrix from the source data table
-            double[,] table = (dgvTestingSource.DataSource as DataTable).ToMatrix();
+            double[][] table = (dgvTestingSource.DataSource as DataTable).ToArray();
 
 
             // Extract the first and second columns (X and Y)
-            double[][] inputs = table.GetColumns(new int[]{0,1}).ToArray();
+            double[][] inputs = table.GetColumns(0, 1);
 
             // Extract the expected output labels
             int[] expected = table.GetColumn(2).Subtract(1).ToInt32();
 
-
-            int[] output = new int[expected.Length];
-
-            // Compute the actual machine outputs
-            for (int i = 0; i < expected.Length; i++)
-                mlr.Regression.Compute(inputs[i]).Max(out output[i]);
-
+            int[] output = mlr.Regression.Decide(inputs);
 
 
             // Use confusion matrix to compute some performance metrics
@@ -234,7 +222,7 @@ namespace Classification.MLR
                             double[,] graph = tableSource.ToMatrix(out columnNames);
                             graphInput.DataSource = graph;
 
-                            inputNames = columnNames.Submatrix(2);
+                            inputNames = columnNames.First(2);
 
                             lbStatus.Text = "Now, click 'Run analysis' to start processing the data!";
                         }
