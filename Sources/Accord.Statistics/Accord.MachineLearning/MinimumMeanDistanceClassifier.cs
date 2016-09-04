@@ -25,6 +25,7 @@ namespace Accord.MachineLearning
     using System;
     using Accord.Math;
     using Accord.Math.Distances;
+    using System.Threading;
 
     /// <summary>
     ///   Minimum (Mean) Distance Classifier.
@@ -38,11 +39,22 @@ namespace Accord.MachineLearning
     ///   having the same label as this class.
     /// </remarks>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\MinimumMeanDistanceClassifierTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
     [Serializable]
-    public class MinimumMeanDistanceClassifier : MulticlassScoreClassifierBase<double[]>
+    public class MinimumMeanDistanceClassifier : MulticlassScoreClassifierBase<double[]>,
+        ISupervisedLearning<MinimumMeanDistanceClassifier, double[], int>
     {
         private double[][] means;
         private IDistance<double[]> distance = new SquareEuclidean();
+
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        public CancellationToken Token { get; set; }
 
         /// <summary>
         ///   Gets or sets the class means to which samples will be compared against.
@@ -70,6 +82,7 @@ namespace Accord.MachineLearning
         /// 
         public MinimumMeanDistanceClassifier()
         {
+            this.distance = new SquareEuclidean();
         }
 
         /// <summary>
@@ -81,8 +94,9 @@ namespace Accord.MachineLearning
         ///   <paramref name="inputs">input points</paramref>.</param>
         /// 
         public MinimumMeanDistanceClassifier(double[][] inputs, int[] outputs)
+            : this()
         {
-            this.init(inputs, outputs, new SquareEuclidean());
+            Learn(inputs, outputs);
         }
 
         /// <summary>
@@ -101,31 +115,11 @@ namespace Accord.MachineLearning
             if (distance == null)
                 throw new ArgumentNullException("distance");
 
-            this.init(inputs, outputs, distance);
-        }
-
-        private void init(double[][] inputs, int[] outputs, IDistance<double[]> distance)
-        {
             this.distance = distance;
 
-            means = Jagged.Zeros(NumberOfOutputs, NumberOfInputs);
-
-            int[] counts = new int[NumberOfOutputs];
-
-            // Compute the average of the input vectors for each of
-            // the output classes. Afterwards, a decision can be cast
-            // by checking to which average a new sample is closer.
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                int k = outputs[i];
-                double[] mean = means[k];
-                for (int j = 0; j < mean.Length; j++)
-                    mean[j] += inputs[i][j];
-                counts[k]++;
-            }
-
-            means.Divide(counts, dimension: 0, result: means);
+            Learn(inputs, outputs);
         }
+
 
         /// <summary>
         ///   Computes the label for the given input.
@@ -191,6 +185,40 @@ namespace Accord.MachineLearning
         {
             return -distance.Distance(input, means[classIndex]);
         }
-        
+
+
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.</returns>
+        public MinimumMeanDistanceClassifier Learn(double[][] x, int[] y, double[] weights = null)
+        {
+            NumberOfInputs = x.Columns();
+            NumberOfOutputs = y.Max() + 1;
+            means = Jagged.Zeros(NumberOfOutputs, NumberOfInputs);
+
+            int[] counts = new int[NumberOfOutputs];
+
+            // Compute the average of the input vectors for each of
+            // the output classes. Afterwards, a decision can be cast
+            // by checking to which average a new sample is closer.
+            for (int i = 0; i < x.Length; i++)
+            {
+                int k = y[i];
+                double[] mean = means[k];
+                for (int j = 0; j < mean.Length; j++)
+                    mean[j] += x[i][j];
+                counts[k]++;
+            }
+
+            means.Divide(counts, dimension: 1, result: means);
+
+            return this;
+        }
+
     }
 }
