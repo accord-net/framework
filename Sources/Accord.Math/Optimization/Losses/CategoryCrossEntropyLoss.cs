@@ -33,8 +33,10 @@ namespace Accord.Math.Optimization.Losses
     ///   also known as the logistic loss for softmax (categorical) outputs.
     /// </summary>
     /// 
+    /// <seealso cref="BinaryCrossEntropyLoss"/>
+    /// 
     [Serializable]
-    public class CategoryCrossEntropyLoss : LossBase<double[][]>
+    public class CategoryCrossEntropyLoss : LossBase<double[][]>, ILoss<int[]>
     {
 
         /// <summary>
@@ -43,6 +45,15 @@ namespace Accord.Math.Optimization.Losses
         /// <param name="expected">The expected outputs (ground truth).</param>
         public CategoryCrossEntropyLoss(double[][] expected)
             : base(expected)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CategoryCrossEntropyLoss"/> class.
+        /// </summary>
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        public CategoryCrossEntropyLoss(int[] expected)
+            : base(Jagged.OneHot(expected))
         {
         }
 
@@ -62,6 +73,20 @@ namespace Accord.Math.Optimization.Losses
                 for (int j = 0; j < actual[i].Length; j++)
                     sum -= Expected[i][j] * Math.Log(actual[i][j]);
             return sum;
+        }
+
+        /// <summary>
+        /// Computes the loss between the expected values (ground truth)
+        /// and the given actual values that have been predicted.
+        /// </summary>
+        /// <param name="actual">The actual values that have been predicted.</param>
+        /// <returns>
+        /// The loss value between the expected values and
+        /// the actual predicted values.
+        /// </returns>
+        public double Loss(int[] actual)
+        {
+            return Loss(Jagged.OneHot(actual));
         }
     }
 }

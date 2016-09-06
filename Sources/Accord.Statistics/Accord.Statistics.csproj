@@ -91,7 +91,6 @@
     <Compile Include="Accord.MachineLearning\Classifiers\TransformBase.cs" />
     <Compile Include="Accord.MachineLearning\Learning\IDescriptiveLearning.cs" />
     <Compile Include="Accord.MachineLearning\MinimumMeanDistanceClassifier.cs" />
-    <Compile Include="Accord.Math\Loss\RSquaredLoss.cs" />
     <Compile Include="Analysis\Accord.Statistics.Analysis.cs" />
     <Compile Include="Analysis\BasePrincipalComponentAnalysis.cs" />
     <Compile Include="Analysis\Base\IAnalysisComponent.cs" />
@@ -269,7 +268,6 @@
     <Compile Include="Filters\Selection.cs" />
     <Compile Include="Analysis\Base\IMultivariateAnalysis.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Classes.cs" />
     <Compile Include="Kernels\Additive.cs" />
     <Compile Include="Kernels\Anova.cs" />
     <Compile Include="Kernels\Base\ILinear`1.cs" />
@@ -345,11 +343,6 @@
     <Compile Include="Accord.MachineLearning\Learning\ParallelMulticlassLearningBase.cs" />
     <Compile Include="Accord.MachineLearning\Learning\ParallelLearningBase.cs" />
     <Compile Include="Accord.MachineLearning\Learning\IParallel.cs" />
-    <Compile Include="Measures\Measures.Histogram.cs" />
-    <Compile Include="Measures\Measures.Vectors.cs" />
-    <Compile Include="Measures\Measures.Matrix.cs" />
-    <Compile Include="Measures\Measures.Matrix.Weighted.cs" />
-    <Compile Include="Measures\Measures.Vectors.Weighted.cs" />
     <Compile Include="Measures\Tools.Misc.cs" />
     <Compile Include="Models\Accord.Statistics.Models.cs" />
     <Compile Include="Models\Fields\Accord.Statistics.Models.Fields.cs" />
@@ -481,8 +474,6 @@
     <Compile Include="Running\RunningNormalStatistics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Moving\MovingNormalStatistics.cs" />
-    <Compile Include="Accord.Math\Loss\HammingLoss.cs" />
-    <Compile Include="Accord.Math\Loss\ZeroOneLoss.cs" />
     <Compile Include="Testing\Accord.Statistics.Testing.cs" />
     <Compile Include="Testing\Contingency\ReceiverOperatingCurveTest.cs" />
     <Compile Include="Testing\Contingency\TwoAverageKappaTest.cs" />
