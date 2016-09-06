@@ -183,7 +183,7 @@ namespace Accord.Collections
         /// 
         public int CompareTo(object obj)
         {
-            return distance.CompareTo((NodeDistance<TNode>)obj);
+            return CompareTo((NodeDistance<TNode>)obj);
         }
 
         /// <summary>
