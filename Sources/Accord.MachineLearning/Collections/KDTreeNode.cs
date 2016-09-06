@@ -123,7 +123,6 @@ namespace Accord.Collections
         {
             return this == other;
         }
+
     }
-
-
 }
