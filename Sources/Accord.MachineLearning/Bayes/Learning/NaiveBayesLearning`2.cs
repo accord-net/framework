@@ -24,6 +24,7 @@ namespace Accord.MachineLearning.Bayes
 {
     using System;
     using System.Linq;
+    using Accord.Math;
     using System.Collections.Generic;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
@@ -31,32 +32,99 @@ namespace Accord.MachineLearning.Bayes
     /// <summary>
     ///   Naïve Bayes learning algorithm.
     /// </summary>
+    /// 
+    /// <example>
+    /// <para>
+    ///   For basic examples on how to learn a Naive Bayes algorithm, please see
+    ///   <see cref="NaiveBayes"/> page. The following examples show how to set
+    ///   more specialized learning settings for Normal (Gaussian) models.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayes`1Test.cs" region="doc_learn" />
+    /// </example>
     ///
     [Serializable]
     public class NaiveBayesLearning<TDistribution> :
-        NaiveBayesLearningBase<NaiveBayes<TDistribution, double>,
+        NaiveBayesLearningBase<NaiveBayes<TDistribution>,
             TDistribution, double, IndependentOptions>
         where TDistribution : IFittableDistribution<double>,
                               IUnivariateDistribution<double>,
                               IUnivariateDistribution
     {
 
+        /// <summary>
+        /// Creates an instance of the model to be learned.
+        /// </summary>
+        protected override NaiveBayes<TDistribution> Create(double[][] x, int[] y)
+        {
+            return new NaiveBayes<TDistribution>(
+                inputs: x[0].Length, classes: y.DistinctCount(),
+                initial: Activator.CreateInstance<TDistribution>());
+        }
     }
-
 
     /// <summary>
     ///   Naïve Bayes learning algorithm.
     /// </summary>
     ///
+    /// <example>
+    /// <para>
+    ///   For basic examples on how to learn a Naive Bayes algorithm, please see
+    ///   <see cref="NaiveBayes"/> page. The following examples show how to set
+    ///   more specialized learning settings for Normal (Gaussian) models.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayes`1Test.cs" region="doc_learn_options" />
+    /// </example>
+    ///
     [Serializable]
     public class NaiveBayesLearning<TDistribution, TOptions> :
-        NaiveBayesLearningBase<NaiveBayes<TDistribution, double>,
-                               TDistribution, double, TOptions>
+        NaiveBayesLearningBase<NaiveBayes<TDistribution>,
+            TDistribution, double, IndependentOptions<TOptions>>
         where TDistribution : IFittableDistribution<double>,
                               IUnivariateDistribution<double>,
                               IUnivariateDistribution
-        where TOptions : IndependentOptions, new()
+        where TOptions : class, IFittingOptions, new()
     {
+        /// <summary>
+        /// Creates an instance of the model to be learned.
+        /// </summary>
+        protected override NaiveBayes<TDistribution> Create(double[][] x, int[] y)
+        {
+            return new NaiveBayes<TDistribution>(
+                inputs: x[0].Length, classes: y.DistinctCount(),
+                initial: Activator.CreateInstance<TDistribution>());
+        }
+    }
 
+    /// <summary>
+    ///   Naïve Bayes learning algorithm.
+    /// </summary>
+    ///
+    /// <example>
+    /// <para>
+    ///   For basic examples on how to learn a Naive Bayes algorithm, please see
+    ///   <see cref="NaiveBayes"/> page. The following examples show how to set
+    ///   more specialized learning settings for Normal (Gaussian) models.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayes`1Test.cs" region="doc_learn_options" />
+    /// </example>
+    ///
+    [Serializable]
+    public class NaiveBayesLearning<TDistribution, TOptions, TInput> :
+        NaiveBayesLearningBase<NaiveBayes<TDistribution, TInput>,
+                               TDistribution, TInput, IndependentOptions<TOptions>>
+        where TDistribution : IFittableDistribution<TInput>,
+                              IUnivariateDistribution<TInput>,
+                              IUnivariateDistribution
+        where TOptions : class, IFittingOptions, new()
+    {
+        /// <summary>
+        /// Creates an instance of the model to be learned.
+        /// </summary>
+        protected override NaiveBayes<TDistribution, TInput> Create(TInput[][] x, int[] y)
+        {
+            return new NaiveBayes<TDistribution, TInput>(
+                inputs: x[0].Length, classes: y.DistinctCount(),
+                initial: Activator.CreateInstance<TDistribution>());
+        }
     }
 }

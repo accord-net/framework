@@ -362,9 +362,9 @@ namespace Accord.MachineLearning.Bayes
         [Obsolete("Please use NaiveBayesLearning<TDistribution> instead.")]
         public double Estimate<TOptions>(double[][] inputs, int[] outputs,
             bool empirical = true, TOptions options = null)
-            where TOptions : class, IFittingOptions
+            where TOptions : class, IFittingOptions, new()
         {
-            var teacher = new NaiveBayesLearning<TDistribution>()
+            var teacher = new NaiveBayesLearning<TDistribution, TOptions>()
             {
                 Model = this
             };
@@ -373,7 +373,7 @@ namespace Accord.MachineLearning.Bayes
 #endif
             teacher.Empirical = empirical;
             teacher.Options.InnerOption = options;
-            var result = teacher.Learn(inputs, outputs);
+            NaiveBayes<TDistribution, double> result = teacher.Learn(inputs, outputs);
             base.Distributions = result.Distributions;
             this.Priors = result.Priors;
             return new ZeroOneLoss(outputs) { Mean = true }.Loss(Decide(inputs));
@@ -384,8 +384,7 @@ namespace Accord.MachineLearning.Bayes
         /// </summary>
         /// 
         [Obsolete("Please use NaiveBayesLearning<TDistribution> instead.")]
-        public double Estimate(double[][] inputs, int[] outputs,
-            bool empirical = true)
+        public double Estimate(double[][] inputs, int[] outputs, bool empirical = true)
         {
             var teacher = new NaiveBayesLearning<TDistribution>()
             {
@@ -395,7 +394,7 @@ namespace Accord.MachineLearning.Bayes
             teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
 #endif
             teacher.Empirical = empirical;
-            var result = teacher.Learn(inputs, outputs);
+            NaiveBayes<TDistribution, double> result = teacher.Learn(inputs, outputs);
             base.Distributions = result.Distributions;
             this.Priors = result.Priors;
             return new ZeroOneLoss(outputs) { Mean = true }.Loss(Decide(inputs));

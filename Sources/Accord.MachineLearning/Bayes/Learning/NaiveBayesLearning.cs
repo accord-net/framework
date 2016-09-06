@@ -36,9 +36,8 @@ namespace Accord.MachineLearning.Bayes
     using System.Threading.Tasks;
 
 
-
     /// <summary>
-    ///   Naïve Bayes learning algorithm.
+    ///   Naïve Bayes learning algorithm for discrete distribution models.
     /// </summary>
     /// 
     /// <seealso cref="NaiveBayes"/>
@@ -60,6 +59,15 @@ namespace Accord.MachineLearning.Bayes
         ISupervisedLearning<NaiveBayes, int[], double[]>,
         ISupervisedLearning<NaiveBayes, int[], int>
     {
+
+        /// <summary>
+        /// Creates an instance of the model to be learned.
+        /// </summary>
+        protected override NaiveBayes Create(int[][] x, int[] y)
+        {
+            return new NaiveBayes(classes: y.DistinctCount(),
+                symbols: x.DistinctCount());
+        }
 
         /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.

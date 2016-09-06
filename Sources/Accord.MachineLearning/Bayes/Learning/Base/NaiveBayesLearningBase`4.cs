@@ -41,7 +41,7 @@ namespace Accord.MachineLearning.Bayes
     /// <typeparam name="TInput">The type for the samples modeled by the distribution.</typeparam>
     /// <typeparam name="TOptions">The fitting options for the independent distribution.</typeparam>
     /// 
-    public class NaiveBayesLearningBase<TModel, TDistribution, TInput, TOptions> :
+    public abstract class NaiveBayesLearningBase<TModel, TDistribution, TInput, TOptions> :
         ISupervisedLearning<TModel, TInput[], double[]>,
         ISupervisedLearning<TModel, TInput[], int>,
         IParallel
@@ -105,12 +105,12 @@ namespace Accord.MachineLearning.Bayes
         ///   can be created from the training data.
         /// </summary>
         /// 
-        protected virtual TModel Create(TInput[][] x, int[] y)
-        {
-            return (TModel)new NaiveBayes<TDistribution, TInput>(
-            inputs: x[0].Length, classes: y.DistinctCount(),
-            initial: Activator.CreateInstance<TDistribution>());
-        }
+        protected abstract TModel Create(TInput[][] x, int[] y);
+        //{
+        //    return (TModel)new NaiveBayes<TDistribution, TInput>(
+        //    inputs: x[0].Length, classes: y.DistinctCount(),
+        //    initial: Activator.CreateInstance<TDistribution>());
+        //}
 
         /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.

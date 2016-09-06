@@ -316,6 +316,126 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        public void learn_test()
+        {
+            #region doc_learn
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            double[][] inputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 1, 1, 1, 1 }, //  2
+                new double[] { 1, 0, 1, 1 }, //  2
+                new double[] { 1, 1, 0, 1 }, //  2
+                new double[] { 0, 1, 1, 1 }, //  2
+                new double[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+            };
+
+            // Create a new Gaussian distribution naive Bayes learner
+            var teacher = new NaiveBayesLearning<NormalDistribution>();
+
+            // Set options for the component distributions
+            teacher.Options.InnerOption = new NormalOptions
+            {
+                Regularization = 1e-5 // to avoid zero variances
+            };
+
+            // Learn the naive Bayes model
+            NaiveBayes<NormalDistribution> bayes = teacher.Learn(inputs, outputs);
+
+            // Use the model to predict class labels
+            int[] predicted = bayes.Decide(inputs);
+
+            // Estimate the model error. The error should be zero:
+            double error = new ZeroOneLoss(outputs).Loss(predicted);
+
+            // Now, let's test  the model output for the first input sample:
+            int answer = bayes.Decide(new double[] { 1, 0, 0, 1 }); // should be 1
+            #endregion
+
+            Assert.AreEqual(0, error);
+            Assert.AreEqual(1, answer);
+            Assert.IsTrue(predicted.IsEqual(outputs));
+        }
+
+        [Test]
+        public void learn_test_with_options()
+        {
+            #region doc_learn_options
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            double[][] inputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 1, 1, 1, 1 }, //  2
+                new double[] { 1, 0, 1, 1 }, //  2
+                new double[] { 1, 1, 0, 1 }, //  2
+                new double[] { 0, 1, 1, 1 }, //  2
+                new double[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+            };
+
+            // Create a new Gaussian distribution naive Bayes learner
+            var teacher = new NaiveBayesLearning<NormalDistribution, NormalOptions>();
+
+            // Set options for the component distributions
+            teacher.Options.InnerOption.Regularization = 1e-5; // to avoid zero variances
+
+            // Learn the naive Bayes model
+            NaiveBayes<NormalDistribution> bayes = teacher.Learn(inputs, outputs);
+
+            // Use the model to predict class labels
+            int[] predicted = bayes.Decide(inputs);
+
+            // Estimate the model error. The error should be zero:
+            double error = new ZeroOneLoss(outputs).Loss(predicted);
+
+            // Now, let's test  the model output for the first input sample:
+            int answer = bayes.Decide(new double[] { 1, 0, 0, 1  }); // should be 1
+            #endregion
+
+            Assert.AreEqual(0, error);
+            Assert.AreEqual(1, answer);
+            Assert.IsTrue(predicted.IsEqual(outputs));
+        }
+
+
+        [Test]
         public void DistributionsTest()
         {
             int classes = 3;
