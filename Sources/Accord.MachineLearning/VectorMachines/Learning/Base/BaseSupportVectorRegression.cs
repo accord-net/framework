@@ -61,10 +61,14 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         private double rho = 1e-3;
 
         // Support Vector Machine parameters
-        private ISupportVectorMachine<TInput> machine;
         private TKernel kernel;
-
         private bool isLinear;
+
+        // TODO: Remove this field after a few releases. It exists
+        // only to provide compatibility with previous releases of
+        // the framework.
+        private ISupportVectorMachine<TInput> machine;
+
 
         /// <summary>
         ///   Gets or sets the cost values associated with each input vector.
@@ -198,11 +202,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Gets the machine to be taught.
         /// </summary>
         /// 
-        public TModel Model
-        {
-            get { return (TModel)machine; }
-            set { machine = value; }
-        }
+        public TModel Model { get; set; }
 
         /// <summary>
         ///   Creates an instance of the model to be learned. Inheritors
@@ -226,16 +226,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
-        public TModel Learn(TInput[] x, double[] y, double[] weights)
+        public TModel Learn(TInput[] x, double[] y, double[] weights = null)
         {
-            // Initial argument checking
-            SupportVectorLearningHelper.CheckArgs(machine, inputs, outputs);
+            if (Model == null)
+                Model = Create(SupportVectorLearningHelper.GetNumberOfInputs(x), kernel);
 
-            if (machine == null)
-            {
-                int numberOfInputs = SupportVectorLearningHelper.GetNumberOfInputs(x);
-                this.machine = Create(numberOfInputs, Kernel);
-            }
+            Model.Kernel = kernel;
+
+            // Initial argument checking
+            SupportVectorLearningHelper.CheckArgs(Model, x, y);
 
             // Learning data
             this.inputs = x;
@@ -255,10 +254,26 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                     C[i] *= sampleWeights[i];
             }
 
-            InnerRun();
+            try
+            {
+                InnerRun();
+            }
+            finally
+            {
+                if (machine != null)
+                {
+                    // TODO: This block is only necessary to offer compatibility
+                    // to code written using previous versions of the framework,
+                    // and should be removed after a few releases.
+                    machine.SupportVectors = Model.SupportVectors;
+                    machine.Weights = Model.Weights;
+                    machine.Threshold = Model.Threshold;
+                    machine.Kernel = Model.Kernel;
+                    machine.IsProbabilistic = Model.IsProbabilistic;
+                }
+            }
 
-            // Compute error if required.
-            return (TModel)machine;
+            return Model;
         }
 
 
@@ -277,7 +292,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         [Obsolete("Please use Accord.Math.Optimization.SquareLoss or any other losses of your choice from the Accord.Math.Optimization namespace.")]
         public double ComputeError(TInput[] inputs, double[] expectedOutputs)
         {
-            return new SquareLoss(expectedOutputs).Loss(Model.Score(inputs));
+            return new SquareLoss(expectedOutputs).Loss(machine.Score(inputs));
         }
 
         /// <summary>
@@ -287,8 +302,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         [Obsolete("Please use Learn() instead.")]
         public double Run()
         {
-            Learn(Inputs, Outputs, null);
-            return new SquareLoss(Outputs).Loss(Model.Score(Inputs));
+            Learn(Inputs, Outputs);
+            return new SquareLoss(Outputs).Loss(machine.Score(Inputs));
         }
     }
 }

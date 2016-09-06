@@ -43,6 +43,8 @@ namespace Accord.MachineLearning
     /// <typeparam name="TBinary">The type for the inner binary classifiers used in the one-vs-rest approach.</typeparam>
     /// <typeparam name="TModel">The type of the model being learned.</typeparam>
     /// 
+    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.MultilabelSupportVectorLearning"/>
+    /// 
     public abstract class OneVsRestLearning<TBinary, TModel> :
         OneVsRestLearning<double[], TBinary, TModel>,
         ISupervisedLearning<TModel, double[], int>
@@ -59,6 +61,8 @@ namespace Accord.MachineLearning
     /// <typeparam name="TBinary">The type for the inner binary classifiers used in the one-vs-rest approach.</typeparam>
     /// <typeparam name="TModel">The type of the model being learned.</typeparam>
     /// 
+    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.MultilabelSupportVectorLearning"/>
+    ///
     public abstract class OneVsRestLearning<TInput, TBinary, TModel> :
         ParallelLearningBase,
         ISupervisedLearning<TModel, TInput, int>,

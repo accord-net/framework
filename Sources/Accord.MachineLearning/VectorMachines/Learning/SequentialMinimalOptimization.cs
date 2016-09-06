@@ -95,7 +95,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </remarks>
     /// 
     /// <example>
+    ///   <para>The following example shows how to use a SVM to learn a simple XOR function.</para>
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_xor_normal" />
+    ///   
+    ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using SMO.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn" />
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
@@ -276,7 +281,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </remarks>
     /// 
     /// <example>
+    ///   <para>The following example shows how to use a SVM to learn a simple XOR function.</para>
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_xor_normal" />
+    ///   
+    ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using SMO.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn" />
+    ///   
+    ///   <para>The same as before, but using a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
@@ -342,8 +355,14 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///     </list></para>  
     /// </remarks>
     /// 
+    /// 
     /// <example>
-    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_xor_sparse" />
+    ///   <para>The following example shows how to use a SVM to learn a simple XOR function.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_xor_normal" />
+    ///   
+    ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using SMO.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn" />
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
@@ -372,6 +391,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <summary>
     ///   Base class for Sequential Minimal Optimization.
     /// </summary>
+    /// 
     public abstract class BaseSequentialMinimalOptimization<TModel, TKernel, TInput> :
         BaseSupportVectorClassification<TModel, TKernel, TInput>,
         ISupportVectorMachineLearning<TInput>

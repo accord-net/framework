@@ -124,7 +124,7 @@
     <Compile Include="VectorMachines\Regression\LinearRegressionNewtonMethodTest.cs" />
     <Compile Include="VectorMachines\SupportVectorReductionTest.cs" />
     <Compile Include="VectorMachines\MultilabelSupportVectorLearningTest.cs" />
-    <Compile Include="VectorMachines\ProbabilisticOutputLearningTest.cs" />
+    <Compile Include="VectorMachines\ProbabilisticOutputCalibrationTest.cs" />
     <Compile Include="VectorMachines\MulticlassSupportVectorLearningTest.cs" />
     <Compile Include="VectorMachines\MulticlassSupportVectorMachineTest.cs" />
     <Compile Include="Bayes\NaiveBayesTest.cs" />
