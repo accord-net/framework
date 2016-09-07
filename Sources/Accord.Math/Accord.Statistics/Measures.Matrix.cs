@@ -1466,7 +1466,7 @@ namespace Accord.Statistics
         public static double[][] Scatter(double[][] matrix, double[] means, double divisor, int dimension)
         {
             int rows = matrix.Length;
-            if (rows == 0) 
+            if (rows == 0)
                 return new double[0][];
             int cols = matrix[0].Length;
 
@@ -1578,8 +1578,8 @@ namespace Accord.Statistics
                     double c = 0.0;
                     for (int k = 0; k < rows; k++)
                     {
-                        double a = (matrix[k, j] - means[j]) / standardDeviations[j];
-                        double b = (matrix[k, i] - means[i]) / standardDeviations[i];
+                        double a = z(matrix[k, j], means[j], standardDeviations[j]);
+                        double b = z(matrix[k, i], means[i], standardDeviations[i]);
                         c += a * b;
                     }
                     c /= N - 1.0;
@@ -1620,8 +1620,8 @@ namespace Accord.Statistics
                     double c = 0.0;
                     for (int k = 0; k < matrix.Length; k++)
                     {
-                        double a = (matrix[k][j] - means[j]) / standardDeviations[j];
-                        double b = (matrix[k][i] - means[i]) / standardDeviations[i];
+                        double a = z(matrix[k][j], means[j], standardDeviations[j]);
+                        double b = z(matrix[k][i], means[i], standardDeviations[i]);
                         c += a * b;
                     }
                     c /= N - 1.0;
@@ -1633,6 +1633,13 @@ namespace Accord.Statistics
             return cor;
         }
 
+        private static double z(double v, double mean, double sdev)
+        {
+            if (sdev == 0)
+                sdev = 1e-12;
+
+            return (v - mean) / sdev;
+        }
 
     }
 }
