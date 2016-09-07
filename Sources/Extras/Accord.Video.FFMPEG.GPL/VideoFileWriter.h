@@ -318,6 +318,10 @@ namespace Accord {
                 /// 
                 void WriteVideoFrame(Bitmap^ frame, TimeSpan timestamp);
 
+                /// <summary>
+                /// Write new audio frame into currently opened video file.
+                /// </summary>
+                ///
                 void WriteAudioFrame(array<System::Byte> ^buffer);
 
                 //void WriteAudioFrame( array<System::Byte> ^buffer, TimeSpan timestamp );

@@ -40,6 +40,10 @@ namespace Accord {
             ///
             public enum class AudioCodec
             {
+                /// <summary>
+                /// No audio
+                /// </summary>
+                ///
                 None = -1,
 
                 /// <summary>
