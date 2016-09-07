@@ -1077,7 +1077,7 @@ namespace Accord.Math
         /// 
         public static int[] GetLength(this Array array, bool deep = true)
         {
-            if (array.Rank == 0)
+            if (array.Rank == 0 || array.Length == 0)
                 return new int[0];
 
             if (deep && IsJagged(array))

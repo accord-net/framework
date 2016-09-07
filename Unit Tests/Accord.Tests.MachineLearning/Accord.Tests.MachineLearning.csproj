@@ -88,6 +88,7 @@
     <Compile Include="DecisionTrees\SimplificationTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="RansacTest.cs" />
     <Compile Include="TSNETest.cs" />
     <Compile Include="IO\LibSvmModelTest.cs" />
     <Compile Include="KNearestNeighbors\KnnPerformanceTest.cs" />
