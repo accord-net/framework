@@ -101,13 +101,11 @@ namespace SampleApp
             int[] outputs = table.GetColumn(2).ToInt32();
             string[] colNames = columnNames.Submatrix(first: 2);
 
-
             // Create the Bayes classifier and perform classification
-            bayes = new NaiveBayes<NormalDistribution>(2, 2, new NormalDistribution());
+            var teacher = new NaiveBayesLearning<NormalDistribution>();
 
-            // Estimate the model parameters from the data
-            double error = bayes.Estimate(inputs, outputs);
-
+            // Estimate the model using the data
+            bayes = teacher.Learn(inputs, outputs);
 
             // Show the estimated distributions and class probabilities
             dataGridView1.DataSource = new ArrayDataView(bayes.Distributions, colNames);

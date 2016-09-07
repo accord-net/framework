@@ -33,6 +33,7 @@
 using Accord.MachineLearning.VectorMachines;
 using Accord.MachineLearning.VectorMachines.Learning;
 using Accord.Math;
+using Accord.Math.Optimization.Losses;
 using Accord.Statistics.Kernels;
 using SampleApp.Properties;
 using System;
@@ -71,7 +72,7 @@ namespace SampleApp
          *  Accuracy: 94% (35mb)
          */
 
-        MulticlassSupportVectorMachine ksvm;
+        MulticlassSupportVectorMachine<IKernel> ksvm;
 
 
 
@@ -114,25 +115,18 @@ namespace SampleApp
             int cacheSize = (int)numCache.Value;
             SelectionStrategy strategy = (SelectionStrategy)cbStrategy.SelectedItem;
 
-
-            // Create the Multi-class Support Vector Machine using the selected Kernel
-            ksvm = new MulticlassSupportVectorMachine(1024, kernel, 10);
-
             // Create the learning algorithm using the machine and the training data
-            MulticlassSupportVectorLearning ml = new MulticlassSupportVectorLearning(ksvm, input, output)
+            var ml = new MulticlassSupportVectorLearning<IKernel>()
             {
                 // Configure the learning algorithm
-                Algorithm = (svm, classInputs, classOutputs, i, j) =>
-
-                    // Use Platt's Sequential Minimal Optimization algorithm
-                    new SequentialMinimalOptimization(svm, classInputs, classOutputs)
-                    {
-                        Complexity = complexity,
-                        Tolerance = tolerance,
-                        CacheSize = cacheSize,
-                        Strategy = strategy,
-                        Compact = (kernel is Linear)
-                    }
+                Learner = (param) => new SequentialMinimalOptimization<IKernel>()
+                {
+                    Complexity = complexity,
+                    Tolerance = tolerance,
+                    CacheSize = cacheSize,
+                    Strategy = strategy,
+                    Compact = (kernel is Linear)
+                }
             };
 
 
@@ -142,9 +136,14 @@ namespace SampleApp
             Stopwatch sw = Stopwatch.StartNew();
 
             // Train the machines. It should take a while.
-            double error = ml.Run();
+            ksvm = ml.Learn(input, output);
 
             sw.Stop();
+
+            double error = new ZeroOneLoss(output)
+            {
+                Mean = true
+            }.Loss(ksvm.Decide(input));
 
 
             lbStatus.Text = String.Format(
@@ -207,11 +206,10 @@ namespace SampleApp
 
 
             // Create the calibration algorithm using the training data
-            var ml = new MulticlassSupportVectorLearning(ksvm, input, output)
+            var ml = new MulticlassSupportVectorLearning<IKernel>(ksvm)
             {
                 // Configure the calibration algorithm
-                Algorithm = (svm, classInputs, classOutputs, i, j) =>
-                    new ProbabilisticOutputCalibration(svm, classInputs, classOutputs)
+                Learner = (p) => new ProbabilisticOutputCalibration(p.Model)
             };
 
 

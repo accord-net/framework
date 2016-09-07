@@ -201,14 +201,14 @@ namespace SampleApp
             {
                 // Singular value decomposition
                 {
-                    SingularValueDecomposition svd = new SingularValueDecomposition(A);
+                    var svd = new SingularValueDecomposition(A);
                     var U = svd.LeftSingularVectors;
                     var S = svd.Diagonal;
                     var V = svd.RightSingularVectors;
                 }
                 // or (please see documentation for details)
                 {
-                    SingularValueDecomposition svd = new SingularValueDecomposition(A.Transpose());
+                    var svd = new SingularValueDecomposition(A.Transpose());
                     var U = svd.RightSingularVectors;
                     var S = svd.Diagonal;
                     var V = svd.LeftSingularVectors;
@@ -216,27 +216,27 @@ namespace SampleApp
 
                 // Eigenvalue decomposition
                 {
-                    EigenvalueDecomposition eig = new EigenvalueDecomposition(A);
+                    var eig = new EigenvalueDecomposition(A);
                     var V = eig.Eigenvectors;
                     var D = eig.DiagonalMatrix;
                 }
 
                 // QR decomposition
                 {
-                    QrDecomposition qr = new QrDecomposition(A);
+                    var qr = new QrDecomposition(A);
                     var Q = qr.OrthogonalFactor;
                     var R = qr.UpperTriangularFactor;
                 }
 
                 // Cholesky decomposition
                 {
-                    CholeskyDecomposition chol = new CholeskyDecomposition(A);
+                    var chol = new CholeskyDecomposition(A);
                     var R = chol.LeftTriangularFactor;
                 }
 
                 // LU decomposition
                 {
-                    LuDecomposition lu = new LuDecomposition(A);
+                    var lu = new LuDecomposition(A);
                     var L = lu.LowerTriangularFactor;
                     var U = lu.UpperTriangularFactor;
                 }

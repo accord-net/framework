@@ -105,14 +105,14 @@ namespace SampleApp
         private void btnCompute_Click(object sender, EventArgs e)
         {
             // Create a new Gaussian Mixture Model
-            GaussianMixtureModel gmm = new GaussianMixtureModel(k);
+            var gmm = new GaussianMixtureModel(k);
 
             // If available, initialize with k-means
             if (kmeans != null) 
                 gmm.Initialize(kmeans);
 
             // Compute the model
-            var clustering = gmm.Learn(observations);
+            GaussianClusterCollection clustering = gmm.Learn(observations);
 
             // Classify all instances in mixture data
             int[] classifications = clustering.Decide(observations);
@@ -132,7 +132,8 @@ namespace SampleApp
             // K-Means clustering algorithm:
 
             kmeans = new KMeans(k);
-            var clustering = kmeans.Learn(observations);
+
+            KMeansClusterCollection clustering = kmeans.Learn(observations);
 
             // Classify all instances in mixture data
             int[] classifications = clustering.Decide(observations);
