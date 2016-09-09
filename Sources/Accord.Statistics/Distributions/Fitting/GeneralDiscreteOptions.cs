@@ -41,8 +41,8 @@ namespace Accord.Statistics.Distributions.Fitting
         public double Minimum { get; set; }
 
         /// <summary>
-        ///   Gets ors sets whether to use Laplace's rule
-        ///   of succession to avoid zero probabilities.
+        ///   Gets ors sets whether to use Laplace's rule of succession 
+        ///   to avoid zero probabilities. Default is false.
         /// </summary>
         /// 
         public bool UseLaplaceRule { get; set; }
@@ -52,7 +52,15 @@ namespace Accord.Statistics.Distributions.Fitting
         ///   the distribution should be kept in its updated value. Default is 0.
         /// </summary>
         /// 
-        public double Regularization {get; set; }
+        public double Regularization { get; set; }
+
+        /// <summary>
+        ///   Gets or sets whether current frequency values in the distribution
+        ///   should be considered as priors during the next time the distribution
+        ///   is estimated. Default is false.
+        /// </summary>
+        /// 
+        public bool UsePreviousValuesAsPriors { get; set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="GeneralDiscreteOptions"/> class.

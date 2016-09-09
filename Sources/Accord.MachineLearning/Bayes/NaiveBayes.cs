@@ -121,7 +121,8 @@ namespace Accord.MachineLearning.Bayes
     /// </example>
     /// 
     /// <seealso cref="NaiveBayesLearning"/>
-    /// <seealso cref="NaiveBayes{T}"/>
+    /// <seealso cref="NaiveBayes{TDistribution}"/>
+    /// <seealso cref="NaiveBayes{TDistribution, TInput}"/>
     /// 
     [Serializable]
     [SerializationBinder(typeof(NaiveBayes.NaiveBayesBinder))]

@@ -54,11 +54,10 @@ namespace Accord.MachineLearning.Bayes
         /// <summary>
         /// Creates an instance of the model to be learned.
         /// </summary>
-        protected override NaiveBayes<TDistribution> Create(double[][] x, int[] y)
+        protected override NaiveBayes<TDistribution> Create(double[][] x, int y)
         {
-            return new NaiveBayes<TDistribution>(
-                inputs: x[0].Length, classes: y.DistinctCount(),
-                initial: Activator.CreateInstance<TDistribution>());
+            int inputs = x[0].Length;
+            return new NaiveBayes<TDistribution>(inputs: inputs, classes: y, initial: Distribution);
         }
     }
 
@@ -87,11 +86,10 @@ namespace Accord.MachineLearning.Bayes
         /// <summary>
         /// Creates an instance of the model to be learned.
         /// </summary>
-        protected override NaiveBayes<TDistribution> Create(double[][] x, int[] y)
+        protected override NaiveBayes<TDistribution> Create(double[][] x, int y)
         {
-            return new NaiveBayes<TDistribution>(
-                inputs: x[0].Length, classes: y.DistinctCount(),
-                initial: Activator.CreateInstance<TDistribution>());
+            int inputs = x[0].Length;
+            return new NaiveBayes<TDistribution>(inputs: inputs, classes: y, initial: Distribution);
         }
     }
 
@@ -120,11 +118,10 @@ namespace Accord.MachineLearning.Bayes
         /// <summary>
         /// Creates an instance of the model to be learned.
         /// </summary>
-        protected override NaiveBayes<TDistribution, TInput> Create(TInput[][] x, int[] y)
+        protected override NaiveBayes<TDistribution, TInput> Create(TInput[][] x, int y)
         {
-            return new NaiveBayes<TDistribution, TInput>(
-                inputs: x[0].Length, classes: y.DistinctCount(),
-                initial: Activator.CreateInstance<TDistribution>());
+            int inputs = x[0].Length;
+            return new NaiveBayes<TDistribution, TInput>(inputs: inputs, classes: y, initial: Distribution);
         }
     }
 }
