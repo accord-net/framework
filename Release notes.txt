@@ -1,6 +1,6 @@
-Accord.NET Framework 3.2.2 release notes
+Accord.NET Framework 3.2.3 release notes
 -----------------------------------------
-04.09.2016.
+10.09.2016.
 
 Version updates and fixes:
   - GH-113: System.AggregateException thrown in C45Learning.Run;
@@ -21,7 +21,11 @@ Version updates and fixes:
   - GH-278: Merge pull request #278 from kulov/development;
   - GH-272: Merge pull request #272 from kdbanman/GH-271;
   - GH-269: Merge pull request #269 from mikhail-barg/minor-fix;
-  - GH-274: Merge pull request #274 from hzawary:development.
+  - GH-273: VideoFileWriter not working;
+  - GH-274: Merge pull request #274 from hzawary:development;
+  - GH-285: Deserialize of Codification error in 3.2.0;
+  - GH-286: Ransac - possible bug in calculation of 'N' if pInlier = 0;
+  - GH-288: NaiveBayes issue when probability is 0.
 
 * General
   - This will be last release that includes an executable installer. If you
@@ -40,6 +44,8 @@ Version updates and fixes:
 * Statistics  
   - Fixing multiple issues with statistical analyses classes when they are used using the
     new classification/regression APIs;
+  - Statistical measures (Measures.cs) have been moved to the Accord.Math assembly,
+    but have been kept under the Accord.Statistics namespace;
   - Correcting L2-regularization in Logistic Regression.
 
 

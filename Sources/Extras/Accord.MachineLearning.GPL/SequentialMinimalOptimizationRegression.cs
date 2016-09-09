@@ -83,7 +83,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </remarks>
     /// 
     /// <example>
-    /// <code source="..\Sources\Extras\Accord.Tests.MachineLearning.GPL\SequentialMinimalOptimizationRegression.cs" region="doc_learn" />
+    /// <code source="Sources\Extras\Accord.Tests.MachineLearning.GPL\SequentialMinimalOptimizationRegressionTest.cs" region="doc_learn" />
     /// </example>
     /// 
     public class SequentialMinimalOptimizationRegression :
