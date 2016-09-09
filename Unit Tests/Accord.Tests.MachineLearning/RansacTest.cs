@@ -261,7 +261,7 @@ namespace Accord.Tests.MachineLearning
             #endregion
 
             Assert.AreEqual(ransac.TrialsNeeded, 0);
-            Assert.AreEqual(ransac.TrialsPerformed, 3);
+            Assert.AreEqual(ransac.TrialsPerformed, 1);
 
             string a = inlierIndices.ToCSharp();
             string b = ransacOutput.ToCSharp();

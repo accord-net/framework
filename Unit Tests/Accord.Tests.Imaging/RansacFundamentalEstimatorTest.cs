@@ -101,11 +101,11 @@ namespace Accord.Tests.Imaging
             };
 
 
-            double[,] expected = 
+            float[,] expected =
             {
-		        {  7.07032436087535e-07,  4.33250001914367e-05,  0.000202442793261960 },
-                { -4.24949673892611e-05,  7.57829117692283e-07, -0.0167251164924736   },
-                {  6.04519481294552e-05,  0.0112588312334709,   -0.00408283512108965  },
+                { 3.254832E-07f, 1.12779E-05f, 1.551695E-05f },
+                { -9.57038E-06f, -3.555409E-07f, 0.009430919f },
+                { -0.0003096815f, -0.008560383f, 0.0500053f } 
             };
 
 
@@ -116,10 +116,9 @@ namespace Accord.Tests.Imaging
             float[,] actual = ransac.Estimate(points1, points2);
 
 
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 3; j++)
-                    Assert.AreEqual(expected[i, j], actual[i, j], 1e-3);
+            string str = actual.ToCSharp();
 
+            Assert.IsTrue(actual.IsEqual(expected, 1e-3f));
         }
     }
 }

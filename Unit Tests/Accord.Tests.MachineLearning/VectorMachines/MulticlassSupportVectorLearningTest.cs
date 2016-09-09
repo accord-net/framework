@@ -500,7 +500,7 @@ namespace Accord.Tests.MachineLearning
             };
 
             Assert.AreEqual(0, error);
-            Assert.AreEqual(4.5289447815997672, loss);
+            Assert.AreEqual(4.5289447815997672, loss, 1e-10);
             Assert.IsTrue(predicted.IsEqual(outputs));
             Assert.IsTrue(expectedScores.IsEqual(scores, 1e-10));
             Assert.IsTrue(expectedLogL.IsEqual(logl, 1e-10));
