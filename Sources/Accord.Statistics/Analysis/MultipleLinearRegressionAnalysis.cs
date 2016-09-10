@@ -61,7 +61,7 @@ namespace Accord.Statistics.Analysis
     /// </remarks>
     /// 
     /// <example>
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultipleLinearRegressionAnalysisTest.cs" region="doc_learn_part1" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\MultipleLinearRegressionAnalysisTest.cs" region="doc_learn_part2" />
     /// 
     /// <code>
     /// // Now we can show a summary of analysis
@@ -77,7 +77,7 @@ namespace Accord.Statistics.Analysis
     /// 
     ///   <img src="..\images\linear-anova.png" />
     ///   
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultipleLinearRegressionAnalysisTest.cs" region="doc_learn_part2" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\MultipleLinearRegressionAnalysisTest.cs" region="doc_learn_part2" />
     /// </example>
     /// 
     /// <seealso cref="LogisticRegressionAnalysis"/>

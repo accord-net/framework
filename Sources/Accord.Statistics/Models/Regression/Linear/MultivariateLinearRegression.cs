@@ -39,7 +39,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     /// </remarks>
     /// 
     /// <example>
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultivariateLinearRegressionAnalysisTest.cs" region="doc_learn" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultivariateLinearRegressionTest.cs" region="doc_learn" />
     /// </example>
     /// 
     [Serializable]

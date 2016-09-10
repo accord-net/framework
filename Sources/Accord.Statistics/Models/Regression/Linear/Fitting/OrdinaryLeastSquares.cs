@@ -57,7 +57,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     ///   The following example shows how to fit a multivariate linear regression model,
     ///   producing multidimensional outputs for each input.</para>
     ///   
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultivariateLinearRegressionAnalysisTest.cs" region="doc_learn" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultivariateLinearRegressionTest.cs" region="doc_learn" />
     /// </example>
     /// 
     /// <seealso cref="SimpleLinearRegression"/>
