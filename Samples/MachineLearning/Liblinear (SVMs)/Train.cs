@@ -348,7 +348,7 @@ namespace Liblinear
             SupportVectorMachine svm = teacher.Learn(inputs, labels);
             sw.Stop();
 
-            double error = new HingeLoss(labels).Loss(svm.Decide(inputs));
+            double error = new HingeLoss(labels).Loss(svm.Score(inputs));
 
             // Save the solution
             w = svm.ToWeights();

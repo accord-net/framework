@@ -125,7 +125,7 @@ namespace SampleApp
                     Tolerance = tolerance,
                     CacheSize = cacheSize,
                     Strategy = strategy,
-                    Compact = (kernel is Linear)
+                    Kernel = kernel
                 }
             };
 
@@ -137,6 +137,13 @@ namespace SampleApp
 
             // Train the machines. It should take a while.
             ksvm = ml.Learn(input, output);
+
+            // If we created a linear machine, compress the support vectors 
+            // into one single parameter vector for increased performance:
+            if (ksvm.Kernel is Linear)
+            {
+                ksvm.Compress();
+            }
 
             sw.Stop();
 
@@ -206,10 +213,15 @@ namespace SampleApp
 
 
             // Create the calibration algorithm using the training data
-            var ml = new MulticlassSupportVectorLearning<IKernel>(ksvm)
+            var ml = new MulticlassSupportVectorLearning<IKernel>()
             {
+                Model = ksvm,
+
                 // Configure the calibration algorithm
-                Learner = (p) => new ProbabilisticOutputCalibration(p.Model)
+                Learner = (p) => new ProbabilisticOutputCalibration<IKernel>()
+                {
+                    Model = p.Model
+                }
             };
 
 
@@ -219,9 +231,11 @@ namespace SampleApp
             Stopwatch sw = Stopwatch.StartNew();
 
             // Train the machines. It should take a while.
-            double error = ml.Run();
+            ml.Learn(input, output);
 
             sw.Stop();
+
+            double error = new ZeroOneLoss(output).Loss(ksvm.Decide(input));
 
             lbStatus.Text = String.Format(
                 "Calibration complete ({0}ms, {1}er). Click Classify to test the classifiers.",
@@ -315,9 +329,15 @@ namespace SampleApp
 
                 int output;
                 if (sender == btnClassifyElimination)
-                    output = ksvm.Compute(input, MulticlassComputeMethod.Elimination);
+                {
+                    ksvm.Method = MulticlassComputeMethod.Elimination;
+                    output = ksvm.Decide(input);
+                }
                 else
-                    output = ksvm.Compute(input, MulticlassComputeMethod.Voting);
+                {
+                    ksvm.Method = MulticlassComputeMethod.Voting;
+                    output = ksvm.Decide(input);
+                }
 
                 row.Cells["colTestingOutput"].Value = output;
 
@@ -412,17 +432,9 @@ namespace SampleApp
                 double[] input = canvas.GetDigit();
 
                 // Classify the input vector
-                double[] responses;
-                int num = ksvm.Compute(input, MulticlassComputeMethod.Elimination, out responses);
-
-                if (!ksvm.IsProbabilistic)
-                {
-                    // Normalize responses
-                    double max = responses.Max();
-                    double min = responses.Min();
-
-                    responses = responses.Scale(min, max, 0.0, 1.0);
-                }
+                int num;
+                ksvm.Method = MulticlassComputeMethod.Elimination;
+                double[] responses = ksvm.Probabilities(input, out num);
 
                 // Set the actual classification answer 
                 lbCanvasClassification.Text = num.ToString();
