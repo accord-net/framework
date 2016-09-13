@@ -26,6 +26,8 @@ namespace Accord.Statistics.Models.Regression.Linear
     using Fitting;
     using System;
     using MachineLearning;
+    using Accord.Statistics.Testing;
+    using Accord.Statistics.Distributions.Univariate;
 
     /// <summary>
     ///   Simple Linear Regression of the form y = Ax + B.
@@ -295,6 +297,132 @@ namespace Accord.Statistics.Models.Regression.Linear
         public override double Transform(double input)
         {
             return Slope * input + Intercept;
+        }
+
+        /// <summary>
+        /// Gets the degrees of freedom when fitting the regression.
+        /// </summary>
+        /// 
+        public double GetDegreesOfFreedom(double[] x)
+        {
+            return x.Length - 2;
+        }
+
+        /// <summary>
+        /// Gets the overall regression standard error.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The inputs used to train the model.</param>
+        /// <param name="outputs">The outputs used to train the model.</param>
+        /// 
+        public double GetStandardError(double[] inputs, double[] outputs)
+        {
+            double meanX = inputs.Mean();
+            double meanY = outputs.Mean();
+
+            double xx = 0;
+            double yy = 0;
+            double xy = 0;
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double x = inputs[i] - meanX;
+                double y = outputs[i] - meanY;
+                xx += x * x;
+                xy += x * y;
+                yy += y * y;
+            }
+
+            double ss = yy - (xy * xy) / xx;
+
+            double DFe = GetDegreesOfFreedom(inputs);
+            return Math.Sqrt(ss / DFe);
+        }
+
+        /// <summary>
+        /// Gets the standard error of the fit for a particular input point.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector where the standard error of the fit should be computed.</param>
+        /// <param name="inputs">The inputs used to train the model.</param>
+        /// <param name="outputs">The outputs used to train the model.</param>
+        /// 
+        /// <returns>The standard error of the fit at the given input point.</returns>
+        /// 
+        public double GetStandardError(double input, double[] inputs, double[] outputs)
+        {
+            double se = GetStandardError(inputs, outputs);
+            double a = predictionVariance(input, inputs, outputs);
+            return se * Math.Sqrt(a);
+        }
+
+        /// <summary>
+        /// Gets the standard error of the prediction for a particular input point.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector where the standard error of the prediction should be computed.</param>
+        /// <param name="inputs">The inputs used to train the model.</param>
+        /// <param name="outputs">The outputs used to train the model.</param>
+        /// 
+        /// <returns>The standard error of the prediction given for the input point.</returns>
+        /// 
+        public double GetPredictionStandardError(double input, double[] inputs, double[] outputs)
+        {
+            // http://www2.stat.duke.edu/~tjl13/s101/slides/unit6lec3H.pdf
+            double se = GetStandardError(inputs, outputs);
+            double a = predictionVariance(input, inputs, outputs);
+            return se * Math.Sqrt(1 + a);
+        }
+
+        /// <summary>
+        /// Gets the confidence interval for an input point.
+        /// </summary>
+        /// 
+        /// <param name="input">The input point.</param>
+        /// <param name="inputs">The inputs used to train the model.</param>
+        /// <param name="outputs">The outputs used to train the model.</param>
+        /// <param name="percent">The prediction interval confidence (default is 95%).</param>
+        /// 
+        public DoubleRange GetConfidenceInterval(double input, double[] inputs, double[] outputs, double percent = 0.95)
+        {
+            double se = GetStandardError(input, inputs, outputs);
+            double y = Transform(input);
+            double df = GetDegreesOfFreedom(inputs);
+            var t = new TTest(estimatedValue: y, standardError: se, degreesOfFreedom: df);
+            return t.GetConfidenceInterval(percent);
+        }
+
+        /// <summary>
+        /// Gets the prediction interval for an input point.
+        /// </summary>
+        /// 
+        /// <param name="input">The input point.</param>
+        /// <param name="inputs">The inputs used to train the model.</param>
+        /// <param name="outputs">The outputs used to train the model.</param>
+        /// <param name="percent">The prediction interval confidence (default is 95%).</param>
+        /// 
+        public DoubleRange GetPredictionInterval(double input, double[] inputs, double[] outputs, double percent = 0.95)
+        {
+            double se = GetPredictionStandardError(input, inputs, outputs);
+            double y = Transform(input);
+            double df = GetDegreesOfFreedom(inputs);
+            var t = new TTest(estimatedValue: y, standardError: se, degreesOfFreedom: df);
+            return t.GetConfidenceInterval(percent);
+        }
+
+        private static double predictionVariance(double input, double[] inputs, double[] outputs)
+        {
+            double n = outputs.Length;
+            double meanX = inputs.Mean();
+
+            double sx = 0;
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double d = inputs[i] - meanX;
+                sx += d * d;
+            }
+
+            double z = (input - meanX);
+            return 1 / n + (z * z) / sx;
         }
     }
 }

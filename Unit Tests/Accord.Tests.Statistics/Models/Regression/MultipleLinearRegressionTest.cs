@@ -26,6 +26,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Models.Regression.Linear;
     using NUnit.Framework;
     using Accord.Math;
+    using Accord.Tests.Statistics.Properties;
 
     [TestFixture]
     public class MultipleLinearRegressionTest
@@ -329,6 +330,61 @@ namespace Accord.Tests.Statistics
             string str = target.ToString(null, System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
 
             Assert.AreEqual("y(x0, x1) = 0*x0 + 0*x1", str);
+        }
+
+        [Test]
+        public void prediction_test()
+        {
+            // Example from http://www.real-statistics.com/multiple-regression/confidence-and-prediction-intervals/
+            var dt = Accord.IO.CsvReader.FromText(Resources.linreg, true).ToTable();
+
+            double[] y = dt.Columns["Poverty"].ToArray();
+            double[][] x = dt.ToArray("Infant Mort", "White", "Crime");
+
+            // Use Ordinary Least Squares to learn the regression
+            OrdinaryLeastSquares ols = new OrdinaryLeastSquares();
+
+            // Use OLS to learn the multiple linear regression
+            MultipleLinearRegression regression = ols.Learn(x, y);
+
+            Assert.AreEqual(3, regression.NumberOfInputs);
+            Assert.AreEqual(1, regression.NumberOfOutputs);
+
+            Assert.AreEqual(0.443650703716698, regression.Intercept, 1e-5);
+            Assert.AreEqual(1.2791842411083394, regression.Weights[0], 1e-5);
+            Assert.AreEqual(0.036259242392669415, regression.Weights[1], 1e-5);
+            Assert.AreEqual(0.0014225014835705938, regression.Weights[2], 1e-5);
+
+            double rse = regression.GetStandardError(x, y);
+            Assert.AreEqual(rse, 2.4703520840798507, 1e-5);
+
+
+            double[][] im = ols.GetInformationMatrix();
+            double[] se = regression.GetStandardError(x, y, im);
+
+            Assert.AreEqual(0.30063086032754965, se[0], 1e-10);
+            Assert.AreEqual(0.033603448179240082, se[1], 1e-10);
+            Assert.AreEqual(0.0022414548866296342, se[2], 1e-10);
+            Assert.AreEqual(3.9879881671805824, se[3], 1e-10);
+
+            double[] x0 = new double[] { 7, 80, 400 };
+            double y0 = regression.Transform(x0);
+            Assert.AreEqual(y0, 12.867680376316864, 1e-5);
+
+            double actual = regression.GetStandardError(x0, x, y, im);
+
+            Assert.AreEqual(0.35902764658470271, actual, 1e-10);
+
+            DoubleRange ci = regression.GetConfidenceInterval(x0, x, y, im);
+            Assert.AreEqual(ci.Min, 12.144995206616116, 1e-5);
+            Assert.AreEqual(ci.Max, 13.590365546017612, 1e-5);
+
+            actual = regression.GetPredictionStandardError(x0, x, y, im);
+            Assert.AreEqual(2.4963053239397244, actual, 1e-10);
+
+            DoubleRange pi = regression.GetPredictionInterval(x0, x, y, im);
+            Assert.AreEqual(pi.Min, 7.8428783761994554, 1e-5);
+            Assert.AreEqual(pi.Max, 17.892482376434273, 1e-5);
         }
     }
 }

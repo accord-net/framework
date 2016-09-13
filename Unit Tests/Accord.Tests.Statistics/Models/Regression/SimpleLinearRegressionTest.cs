@@ -24,6 +24,9 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Models.Regression.Linear;
     using NUnit.Framework;
+    using Accord.Math;
+    using System;
+    using Accord.Statistics;
 
 
     [TestFixture]
@@ -108,6 +111,73 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(eIntercept, c, 1e-5);
 
             Assert.IsFalse(double.IsNaN(y));
+        }
+
+        [Test]
+        public void prediction_test()
+        {
+            // example data from http://www.real-statistics.com/regression/confidence-and-prediction-intervals/
+            double[][] input = 
+            {
+                new double[] { 5, 80 },
+                new double[] { 23, 78 },
+                new double[] { 25, 60 },
+                new double[] { 48, 53 },
+                new double[] { 17, 85 },
+                new double[] { 8, 84 },
+                new double[] { 4, 73 },
+                new double[] { 26, 79 },
+                new double[] { 11, 81 },
+                new double[] { 19, 75 },
+                new double[] { 14, 68 },
+                new double[] { 35, 72 },
+                new double[] { 29, 58 },
+                new double[] { 4, 92 },
+                new double[] { 23, 65 },
+            };
+
+            double[] cig = input.GetColumn(0);
+            double[] exp = input.GetColumn(1);
+
+            // Use Ordinary Least Squares to learn the regression
+            OrdinaryLeastSquares ols = new OrdinaryLeastSquares();
+
+            // Use OLS to learn the simple linear regression
+            SimpleLinearRegression regression = ols.Learn(cig, exp);
+
+            Assert.AreEqual(1, regression.NumberOfInputs);
+            Assert.AreEqual(1, regression.NumberOfOutputs);
+
+            double x0 = 20;
+            double y0 = regression.Transform(x0);
+            Assert.AreEqual(y0, 73.1564, 1e-4);
+
+            double syx = regression.GetStandardError(cig, exp);
+            Assert.AreEqual(7.974682, syx, 1e-5);
+
+            double ssx = cig.Subtract(cig.Mean()).Pow(2).Sum();
+            Assert.AreEqual(2171.6, ssx, 1e-5);
+
+            double n = exp.Length;
+            double x0c = x0 - cig.Mean();
+            double var = 1 / n + (x0c * x0c) / ssx;
+            Assert.AreEqual(0.066832443052741455, var, 1e-10);
+            double expected = syx * Math.Sqrt(var);
+            double actual = regression.GetStandardError(x0, cig, exp);
+
+            Assert.AreEqual(2.061612, expected, 1e-5);
+            Assert.AreEqual(expected, actual, 1e-10);
+
+            DoubleRange ci = regression.GetConfidenceInterval(x0, cig, exp);
+            Assert.AreEqual(ci.Min, 68.702569616457751, 1e-5);
+            Assert.AreEqual(ci.Max, 77.610256563931543, 1e-5);
+
+            actual = regression.GetPredictionStandardError(x0, cig, exp);
+            Assert.AreEqual(8.2368569010499666, actual, 1e-10);
+
+            DoubleRange pi = regression.GetPredictionInterval(x0, cig, exp);
+            Assert.AreEqual(pi.Min, 55.361765613397054, 1e-5);
+            Assert.AreEqual(pi.Max, 90.95106056699224, 1e-5);
         }
 
         [Test]

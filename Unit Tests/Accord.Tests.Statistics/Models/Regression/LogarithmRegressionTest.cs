@@ -93,12 +93,11 @@ namespace Accord.Tests.Statistics
 
             // Result will be "y(x) = 6.1082x + 6.0993"
 
-            // The squared error between the actual data and the prediction is
-            double error = new SquareLoss(outputs).Loss(predicted); // 2.8760
-
+            // The mean squared error between the expected and the predicted is
+            double error = new SquareLoss(outputs).Loss(predicted); // 0.261454
             #endregion
 
-            Assert.AreEqual(2.8760006026675797, error, 1e-8);
+            Assert.AreEqual(0.26145460024250794, error, 1e-8);
             Assert.AreEqual(6.1081800414945704, lr.Slope, 1e-8);
             Assert.AreEqual(6.0993411396126653, lr.Intercept, 1e-8);
             Assert.AreEqual("y(x) = 6.1082x + 6.0993", result);

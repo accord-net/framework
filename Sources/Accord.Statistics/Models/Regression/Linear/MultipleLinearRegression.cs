@@ -30,6 +30,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     using Fitting;
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Analysis;
+    using Accord.Statistics.Testing;
 
     /// <summary>
     ///   Multiple Linear Regression.
@@ -365,6 +366,138 @@ namespace Accord.Statistics.Models.Regression.Linear
             {
                 Adjust = adjust
             }.Loss(Transform(inputs));
+        }
+
+        /// <summary>
+        /// Gets the overall regression standard error.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The inputs used to train the model.</param>
+        /// <param name="outputs">The outputs used to train the model.</param>
+        /// 
+        public double GetStandardError(double[][] inputs, double[] outputs)
+        {
+            // Calculate actual outputs (results)
+            double[] results = Transform(inputs);
+
+            double SSe = 0;
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double d = outputs[i] - results[i];
+                SSe += d * d;
+            }
+
+            double DFe = GetDegreesOfFreedom(inputs);
+            return Math.Sqrt(SSe / DFe);
+        }
+
+        /// <summary>
+        /// Gets the degrees of freedom when fitting the regression.
+        /// </summary>
+        /// 
+        public double GetDegreesOfFreedom(double[][] inputs)
+        {
+            double n = inputs.Length;
+            double p = Weights.Length;
+            return n - (p + 1);
+        }
+
+        /// <summary>
+        /// Gets the standard error for each coefficient.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The inputs used to train the model.</param>
+        /// <param name="outputs">The outputs used to train the model.</param>
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// 
+        public double[] GetStandardError(double[][] inputs, double[] outputs, double[][] informationMatrix)
+        {
+            double MSe = GetStandardError(inputs, outputs);
+            double[] se = new double[informationMatrix.Length];
+            for (int i = 0; i < se.Length; i++)
+                se[i] = MSe * Math.Sqrt(informationMatrix[i][i]);
+            return se;
+        }
+
+        /// <summary>
+        /// Gets the standard error of the fit for a particular input vector.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector where the standard error of the fit should be computed.</param>
+        /// <param name="inputs">The inputs used to train the model.</param>
+        /// <param name="outputs">The outputs used to train the model.</param>
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// 
+        /// <returns>The standard error of the fit at the given input point.</returns>
+        /// 
+        public double GetStandardError(double[] input, double[][] inputs, double[] outputs, double[][] informationMatrix)
+        {
+            double MSe = GetStandardError(inputs, outputs);
+            double rim = predictionVariance(input, informationMatrix);
+            return MSe * Math.Sqrt(rim);
+        }
+
+        /// <summary>
+        /// Gets the standard error of the prediction for a particular input vector.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector where the standard error of the prediction should be computed.</param>
+        /// <param name="inputs">The inputs used to train the model.</param>
+        /// <param name="outputs">The outputs used to train the model.</param>
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// 
+        /// <returns>The standard error of the prediction given for the input point.</returns>
+        /// 
+        public double GetPredictionStandardError(double[] input, double[][] inputs, double[] outputs, double[][] informationMatrix)
+        {
+            double MSe = GetStandardError(inputs, outputs);
+            double rim = predictionVariance(input, informationMatrix);
+            return MSe * Math.Sqrt(1 + rim);
+        }
+
+        /// <summary>
+        /// Gets the confidence interval for an input point.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="inputs">The inputs used to train the model.</param>
+        /// <param name="outputs">The outputs used to train the model.</param>
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// <param name="percent">The prediction interval confidence (default is 95%).</param>
+        /// 
+        public DoubleRange GetConfidenceInterval(double[] input, double[][] inputs, double[] outputs, double[][] informationMatrix, double percent = 0.95)
+        {
+            double se = GetStandardError(input, inputs, outputs, informationMatrix);
+            double y = Transform(input);
+            double df = GetDegreesOfFreedom(inputs);
+            var t = new TTest(estimatedValue: y, standardError: se, degreesOfFreedom: df);
+            return t.GetConfidenceInterval(percent);
+        }
+
+        /// <summary>
+        /// Gets the prediction interval for an input point.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="inputs">The inputs used to train the model.</param>
+        /// <param name="outputs">The outputs used to train the model.</param>
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// <param name="percent">The prediction interval confidence (default is 95%).</param>
+        /// 
+        public DoubleRange GetPredictionInterval(double[] input, double[][] inputs, double[] outputs, double[][] informationMatrix, double percent = 0.95)
+        {
+            double se = GetPredictionStandardError(input, inputs, outputs, informationMatrix);
+            double y = Transform(input);
+            double df = GetDegreesOfFreedom(inputs);
+            var t = new TTest(estimatedValue: y, standardError: se, degreesOfFreedom: df);
+            return t.GetConfidenceInterval(percent);
+        }
+
+        private static double predictionVariance(double[] input, double[][] im)
+        {
+            if (input.Length < im.Length)
+                input = input.Concatenate(1);
+            return input.Dot(im).Dot(input);
         }
 
         /// <summary>

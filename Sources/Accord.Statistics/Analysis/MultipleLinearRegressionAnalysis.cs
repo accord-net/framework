@@ -108,6 +108,7 @@ namespace Accord.Statistics.Analysis
         private double[] results;
 
 
+        private double[][] informationMatrix;
 
         private double SSe; // Error sum of squares
         private double SSr; // Regression sum of squares
@@ -191,6 +192,15 @@ namespace Accord.Statistics.Analysis
         public double StandardError
         {
             get { return stdError; }
+        }
+
+        /// <summary>
+        /// Gets the information matrix obtained during learning.
+        /// </summary>
+        /// 
+        public double[][] InformationMatrix
+        {
+            get { return informationMatrix; }
         }
 
         /// <summary>
@@ -447,7 +457,7 @@ namespace Accord.Statistics.Analysis
 
             // Compute the regression
             regression = OrdinaryLeastSquares.Learn(x, y);
-            double[][] informationMatrix = OrdinaryLeastSquares.GetInformationMatrix();
+            informationMatrix = OrdinaryLeastSquares.GetInformationMatrix();
 
             // Calculate mean of the expected outputs
             outputMean = y.Mean();
@@ -555,6 +565,32 @@ namespace Accord.Statistics.Analysis
         public override double Transform(double[] input)
         {
             return regression.Transform(input);
+        }
+
+        /// <summary>
+        /// Gets the prediction interval for a given input.
+        /// </summary>
+        /// 
+        public DoubleRange GetPredictionInterval(double[] input)
+        {
+            double rim = input.Dot(informationMatrix).Dot(input);
+            double se = MSe * Math.Sqrt(1 + rim);
+            double y = Transform(input);
+            var t = new TTest(estimatedValue: y, standardError: se, degreesOfFreedom: DFe);
+            return t.GetConfidenceInterval(confidencePercent);
+        }
+
+        /// <summary>
+        /// Gets the confidence interval for a given input.
+        /// </summary>
+        /// 
+        public DoubleRange GetConfidenceInterval(double[] input)
+        {
+            double rim = input.Dot(informationMatrix).Dot(input);
+            double se = MSe * Math.Sqrt(rim);
+            double y = Transform(input);
+            var t = new TTest(estimatedValue: y, standardError: se, degreesOfFreedom: DFe);
+            return t.GetConfidenceInterval(confidencePercent);
         }
     }
 
