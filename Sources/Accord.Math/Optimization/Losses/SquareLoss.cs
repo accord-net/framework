@@ -35,13 +35,13 @@ namespace Accord.Math.Optimization.Losses
     [Serializable]
     public class SquareLoss : LossBase<double[][]>
     {
-        private bool mean;
+        private bool mean = true;
         private bool root;
 
         /// <summary>
         ///   Gets or sets a value indicating whether the
         ///   root square loss should be computed. If <see cref="Mean"/>
-        ///   is also set, computes the root mean square loss.
+        ///   is also set, computes the root mean square loss. Default is false.
         /// </summary>
         /// 
         /// <value>
@@ -57,7 +57,7 @@ namespace Accord.Math.Optimization.Losses
         /// <summary>
         ///   Gets or sets a value indicating whether the
         ///   mean square loss should be computed. If <see cref="Root"/>
-        ///   is also set, computes the root mean square loss.
+        ///   is also set, computes the root mean square loss. Default is true.
         /// </summary>
         /// 
         /// <value>

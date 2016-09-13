@@ -60,7 +60,6 @@ namespace Accord.MachineLearning.VectorMachines
     ///       <a href="http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html">
     ///        http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html </a></description></item>
     ///     </list></para>
-    ///     
     /// </remarks>
     /// 
     [Serializable]
@@ -69,7 +68,6 @@ namespace Accord.MachineLearning.VectorMachines
             SupportVectorMachine<TKernel, TInput>,
             TKernel, TInput>, ICloneable
         where TKernel : IKernel<TInput>
-        where TInput : ICloneable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MulticlassSupportVectorMachine{TKernel, TInput}"/> class.
@@ -117,7 +115,6 @@ namespace Accord.MachineLearning.VectorMachines
         IDisposable, ICloneable
         where TKernel : IKernel<TInput>
         where TModel : SupportVectorMachine<TKernel, TInput>
-        where TInput : ICloneable
     {
 
         // Multi-class statistics

@@ -182,6 +182,68 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(prediction, Classes.Decide(xor));
         }
 
+        [Test]
+        public void learn_precomputed()
+        {
+            #region doc_precomputed
+            // As an example, we will try to learn a decision machine 
+            // that can replicate the "exclusive-or" logical function:
+
+            double[][] inputs =
+            {
+                new double[] { 0, 0 }, // the XOR function takes two booleans
+                new double[] { 0, 1 }, // and computes their exclusive or: the
+                new double[] { 1, 0 }, // output is true only if the two booleans
+                new double[] { 1, 1 }  // are different
+            };
+
+            int[] xor = // this is the output of the xor function
+            {
+                0, // 0 xor 0 = 0 (inputs are equal)
+                1, // 0 xor 1 = 1 (inputs are different)
+                1, // 1 xor 0 = 1 (inputs are different)
+                0, // 1 xor 1 = 0 (inputs are equal)
+            };
+
+            // Let's use a Gaussian kernel
+            var kernel = new Gaussian(0.1);
+
+            // Create a pre-computed Gaussian kernel matrix
+            var precomputed = new Precomputed(kernel.ToJagged(inputs));
+
+            // Now, we can create the sequential minimal optimization teacher
+            var learn = new SequentialMinimalOptimization<Precomputed, int>()
+            {
+                Kernel = precomputed // set the precomputed kernel we created
+            };
+
+            // And then we can obtain the SVM by using Learn
+            var svm = learn.Learn(precomputed.Indices, xor);
+
+            // Finally, we can obtain the decisions predicted by the machine:
+            bool[] prediction = svm.Decide(precomputed.Indices);
+
+            // We can also compute the machine prediction to new samples
+            double[][] sample =
+            {
+                new double[] { 0, 1 } 
+            };
+
+            // Update the precomputed kernel with the new samples
+            precomputed = new Precomputed(kernel.ToJagged2(inputs, sample));
+
+            // Update the SVM kernel
+            svm.Kernel = precomputed;
+
+            // Compute the predictions to the new samples
+            bool[] newPrediction = svm.Decide(precomputed.Indices);
+            #endregion
+
+            Assert.AreEqual(prediction, Classes.Decide(xor));
+            Assert.AreEqual(newPrediction.Length, 1);
+            Assert.AreEqual(newPrediction[0], true);
+        }
+
 
         [Test]
         public void learn_sparse_kernel()

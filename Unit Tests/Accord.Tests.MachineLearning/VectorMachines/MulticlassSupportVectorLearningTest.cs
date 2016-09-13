@@ -22,12 +22,17 @@
 
 namespace Accord.Tests.MachineLearning
 {
+    using Accord.MachineLearning;
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Kernels;
     using NUnit.Framework;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [TestFixture]
     public class MulticlassSupportVectorLearningTest
@@ -635,6 +640,10 @@ namespace Accord.Tests.MachineLearning
             };
 
             Assert.AreEqual(0, error);
+            Assert.AreEqual(3, machine.Count);
+            Assert.AreEqual(0.5, machine[0].Value.Kernel.Gamma);
+            Assert.AreEqual(0.5, machine[1].Value.Kernel.Gamma);
+            Assert.AreEqual(0.5, machine[2].Value.Kernel.Gamma);
             Assert.AreEqual(1.0231652126930515, loss);
             Assert.IsTrue(predicted.IsEqual(outputs));
             Assert.IsTrue(expectedScores.IsEqual(scores, 1e-10));
@@ -642,6 +651,137 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(expectedProbs.IsEqual(prob, 1e-10));
         }
 
+        [Test]
+        public void multiclass_calibration_generic_kernel()
+        {
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            double[][] inputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 1, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 1, 0, 1, 1 }, //  2
+                new double[] { 1, 1, 0, 1 }, //  2
+                new double[] { 0, 1, 1, 1 }, //  2
+                new double[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 
+                2, 2, 2, 2, 
+            };
+
+            // Create the multi-class learning algorithm for the machine
+            var teacher = new MulticlassSupportVectorLearning<IKernel>()
+            {
+                // Configure the learning algorithm to use SMO to train the
+                //  underlying SVMs in each of the binary class subproblems.
+                Learner = (param) => new SequentialMinimalOptimization<IKernel>()
+                {
+                    UseKernelEstimation = false,
+                    Kernel = Gaussian.FromGamma(0.5)
+                }
+            };
+
+            // Learn a machine
+            var machine = teacher.Learn(inputs, outputs);
+
+
+            // Create the multi-class learning algorithm for the machine
+            var calibration = new MulticlassSupportVectorLearning<IKernel>(machine)
+            {
+                // Configure the learning algorithm to use SMO to train the
+                //  underlying SVMs in each of the binary class subproblems.
+                Learner = (param) => new ProbabilisticOutputCalibration<IKernel>(param.Model)
+            };
+
+
+            // Configure parallel execution options
+            calibration.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // Learn a machine
+            calibration.Learn(inputs, outputs);
+
+            // Obtain class predictions for each sample
+            int[] predicted = machine.Decide(inputs);
+
+            // Get class scores for each sample
+            double[] scores = machine.Score(inputs);
+
+            // Get log-likelihoods (should be same as scores)
+            double[][] logl = machine.LogLikelihoods(inputs);
+
+            // Get probability for each sample
+            double[][] prob = machine.Probabilities(inputs);
+
+            // Compute classification error
+            double error = new ZeroOneLoss(outputs).Loss(predicted);
+            double loss = new CategoryCrossEntropyLoss(outputs).Loss(prob);
+            
+
+            //string str = logl.ToCSharp();
+
+            double[] expectedScores =
+            {
+                1.87436400885238, 1.81168086449304, 1.74038320983522, 
+                1.87436400885238, 1.81168086449304, 1.55446926953952, 
+                1.67016543853596, 1.67016543853596, 1.83135194001403, 
+                1.83135194001403, 1.59836868669125, 2.0618816310294 
+            };
+
+            double[][] expectedLogL =
+            {
+                new double[] { 1.87436400885238, -1.87436400885238, -1.7463646841257 },
+                new double[] { 1.81168086449304, -1.81168086449304, -1.73142460658826 },
+                new double[] { 1.74038320983522, -1.58848669816072, -1.74038320983522 },
+                new double[] { 1.87436400885238, -1.87436400885238, -1.7463646841257 },
+                new double[] { 1.81168086449304, -1.81168086449304, -1.73142460658826 },
+                new double[] { -1.55446926953952, 1.55446926953952, -0.573599079216229 },
+                new double[] { -0.368823000428743, 1.67016543853596, -1.67016543853596 },
+                new double[] { -0.368823000428743, 1.67016543853596, -1.67016543853596 },
+                new double[] { -1.83135194001403, -1.20039293330558, 1.83135194001403 },
+                new double[] { -1.83135194001403, -1.20039293330558, 1.83135194001403 },
+                new double[] { -0.894598978116595, -1.59836868669125, 1.59836868669125 },
+                new double[] { -1.87336852014759, -2.0618816310294, 2.0618816310294 } 
+            };
+
+            double[][] expectedProbs =
+            {
+                new double[] { 0.95209908906855, 0.0224197237689656, 0.0254811871624848 },
+                new double[] { 0.947314032745205, 0.0252864560196241, 0.0273995112351714 },
+                new double[] { 0.937543314993345, 0.0335955309754816, 0.028861154031173 },
+                new double[] { 0.95209908906855, 0.0224197237689656, 0.0254811871624848 },
+                new double[] { 0.947314032745205, 0.0252864560196241, 0.0273995112351714 },
+                new double[] { 0.0383670466237636, 0.859316640577158, 0.102316312799079 },
+                new double[] { 0.111669460983068, 0.857937888238824, 0.0303926507781076 },
+                new double[] { 0.111669460983068, 0.857937888238824, 0.0303926507781076 },
+                new double[] { 0.0238971617859334, 0.0449126146360623, 0.931190223578004 },
+                new double[] { 0.0238971617859334, 0.0449126146360623, 0.931190223578004 },
+                new double[] { 0.0735735561383806, 0.0363980776342206, 0.890028366227399 },
+                new double[] { 0.0188668069460003, 0.0156252941482294, 0.96550789890577 } 
+            };
+
+            // Must be exactly the same as test above
+            Assert.AreEqual(0, error);
+            Assert.AreEqual(0.5, ((Gaussian)machine[0].Value.Kernel).Gamma);
+            Assert.AreEqual(0.5, ((Gaussian)machine[1].Value.Kernel).Gamma);
+            Assert.AreEqual(0.5, ((Gaussian)machine[2].Value.Kernel).Gamma);
+            Assert.AreEqual(1.0231652126930515, loss);
+            Assert.IsTrue(predicted.IsEqual(outputs));
+            Assert.IsTrue(expectedScores.IsEqual(scores, 1e-10));
+            Assert.IsTrue(expectedLogL.IsEqual(logl, 1e-10));
+            Assert.IsTrue(expectedProbs.IsEqual(prob, 1e-10));
+        }
 
         [Test]
         public void multiclass_linear_smo_new_usage()
@@ -698,5 +838,141 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(expected, actual);
             }
         }
+
+        [Test]
+        public void multiclass_precomputed_matrix_smo()
+        {
+            #region doc_precomputed
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            double[][] trainInputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 1, 1, 1, 1 }, //  2
+                new double[] { 1, 0, 1, 1 }, //  2
+                new double[] { 1, 1, 0, 1 }, //  2
+                new double[] { 0, 1, 1, 1 }, //  2
+                new double[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] trainOutputs = // those are the training set class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+            };
+
+            // Let's chose a kernel function
+            Polynomial kernel = new Polynomial(2);
+
+            // Get the kernel matrix for the training set
+            double[][] K = kernel.ToJagged(trainInputs);
+
+            // Create a pre-computed kernel
+            var pre  = new Precomputed(K);
+
+            // Create a one-vs-one learning algorithm using SMO
+            var teacher = new MulticlassSupportVectorLearning<Precomputed, int>()
+            {
+                Learner = (p) => new SequentialMinimalOptimization<Precomputed, int>()
+                {
+                    Kernel = pre
+                }
+            };
+
+#if DEBUG
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
+
+            // Learn a machine
+            var machine = teacher.Learn(pre.Indices, trainOutputs);
+
+            // Compute the machine's prediction for the training set
+            int[] trainPrediction = machine.Decide(pre.Indices);
+
+            // Evaluate prediction error for the training set using mean accuracy (mAcc)
+            double trainingError = new ZeroOneLoss(trainOutputs).Loss(trainPrediction);
+
+            // Now let's compute the machine's prediction for a test set
+            double[][] testInputs = // test-set inputs
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] testOutputs = // those are the test set class labels
+            {
+                0, 0,  1,  2, 
+            };
+
+            // Compute precomputed matrix between train and testing
+            pre.Values = kernel.ToJagged2(trainInputs, testInputs);
+
+            // Update the kernel
+            machine.Kernel = pre;
+
+            // Compute the machine's prediction for the test set
+            int[] testPrediction = machine.Decide(pre.Indices);
+
+            // Evaluate prediction error for the training set using mean accuracy (mAcc)
+            double testError = new ZeroOneLoss(testOutputs).Loss(testPrediction);
+            #endregion
+
+
+            Assert.AreEqual(0, trainingError);
+            Assert.AreEqual(0, testError);
+
+            // Create a one-vs-one learning algorithm using SMO
+            var teacher2 = new MulticlassSupportVectorLearning<Polynomial>()
+            {
+                Learner = (p) => new SequentialMinimalOptimization<Polynomial>()
+                {
+                    Kernel = kernel
+                }
+            };
+
+#if DEBUG
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
+
+            // Learn a machine
+            var expected = teacher2.Learn(trainInputs, trainOutputs);
+
+            Assert.AreEqual(4, expected.NumberOfInputs);
+            Assert.AreEqual(3, expected.NumberOfOutputs);
+            Assert.AreEqual(0, machine.NumberOfInputs);
+            Assert.AreEqual(3, machine.NumberOfOutputs);
+
+            var machines = Enumerable.Zip(machine, expected, (a,b) => Tuple.Create(a.Value, b.Value));
+
+            foreach (var pair in machines)
+            {
+                var a = pair.Item1;
+                var e = pair.Item2;
+
+                Assert.AreEqual(0, a.NumberOfInputs);
+                Assert.AreEqual(2, a.NumberOfOutputs);
+
+                Assert.AreEqual(4, e.NumberOfInputs);
+                Assert.AreEqual(2, e.NumberOfOutputs);
+
+                Assert.IsTrue(a.Weights.IsEqual(e.Weights));
+            }
+        }
+
     }
 }

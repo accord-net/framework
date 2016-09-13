@@ -24,6 +24,7 @@ namespace Accord.MachineLearning.VectorMachines
 {
     using System;
     using System.IO;
+    using Accord.MachineLearning.VectorMachines.Learning;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading.Tasks;
     using Accord.Math;
@@ -60,8 +61,31 @@ namespace Accord.MachineLearning.VectorMachines
     ///       <a href="http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html">
     ///        http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html </a></description></item>
     ///     </list></para>
-    ///
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   The following example shows how to learn a linear, multi-label (one-vs-rest) support 
+    ///   vector machine using the <see cref="LinearDualCoordinateDescent"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    /// 
+    /// <para>
+    ///   The following example shows how to learn a non-linear, multi-label (one-vs-rest) 
+    ///   support vector machine using the <see cref="Gaussian"/> kernel and the 
+    ///   <see cref="SequentialMinimalOptimization"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
+    ///   
+    /// <para>
+    ///   Support vector machines can have their weights calibrated in order to produce probability 
+    ///   estimates (instead of simple class separation distances). The following example shows how 
+    ///   to use <see cref="ProbabilisticOutputCalibration"/> within <see cref="MulticlassSupportVectorLearning"/> 
+    ///   to generate a probabilistic SVM:</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_calibration" />
+    /// </example>
+    /// 
+    /// <seealso cref="MultilabelSupportVectorLearning"/>
+    /// <seealso cref="MulticlassSupportVectorMachine"/>
+    /// 
     [Serializable]
     [Obsolete("Please use MultilabelSupportVectorMachine<TKernel> instead.")]
     [SerializationBinder(typeof(MultilabelSupportVectorMachine.MultilabelSupportVectorMachineBinder))]
@@ -264,10 +288,6 @@ namespace Accord.MachineLearning.VectorMachines
         #endregion
 
 
-
-
-
-
         #region Serialization backwards compatibility
 
         internal class MultilabelSupportVectorMachineBinder : SerializationBinder
@@ -348,8 +368,31 @@ namespace Accord.MachineLearning.VectorMachines
     ///       <a href="http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html">
     ///        http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html </a></description></item>
     ///     </list></para>
-    ///
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   The following example shows how to learn a linear, multi-label (one-vs-rest) support 
+    ///   vector machine using the <see cref="LinearDualCoordinateDescent"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    /// 
+    /// <para>
+    ///   The following example shows how to learn a non-linear, multi-label (one-vs-rest) 
+    ///   support vector machine using the <see cref="Gaussian"/> kernel and the 
+    ///   <see cref="SequentialMinimalOptimization"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
+    ///   
+    /// <para>
+    ///   Support vector machines can have their weights calibrated in order to produce probability 
+    ///   estimates (instead of simple class separation distances). The following example shows how 
+    ///   to use <see cref="ProbabilisticOutputCalibration"/> within <see cref="MulticlassSupportVectorLearning"/> 
+    ///   to generate a probabilistic SVM:</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_calibration" />
+    /// </example>
+    /// 
+    /// <seealso cref="MultilabelSupportVectorLearning"/>
+    /// <seealso cref="MulticlassSupportVectorMachine"/>
+    /// 
     [Serializable]
     public class MultilabelSupportVectorMachine<TKernel> :
         MultilabelSupportVectorMachine<

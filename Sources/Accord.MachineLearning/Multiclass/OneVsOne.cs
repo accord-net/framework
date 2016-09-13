@@ -66,6 +66,8 @@ namespace Accord.MachineLearning
     /// <typeparam name="TBinary">The type for the binary classifier to be used.</typeparam>
     /// <typeparam name="TInput">The type for the classifier inputs. Default is double[].</typeparam>
     /// 
+    /// <seealso cref="MulticlassSupportVectorMachine{TKernel}"/>
+    /// 
     [Serializable]
     public class OneVsOne<TBinary, TInput> :
         MulticlassLikelihoodClassifierBase<TInput>,
@@ -129,7 +131,7 @@ namespace Accord.MachineLearning
         /// <summary>
         ///   Gets or sets whether to track the decision path associated
         ///   with each decision. The track will be available through the
-        ///   <see cref="GetLastDecisionPath()"/> method.
+        ///   <see cref="GetLastDecisionPath()"/> method. Default is true.
         /// </summary>
         ///
         public bool Track { get; set; }
@@ -505,6 +507,8 @@ namespace Accord.MachineLearning
     /// </summary>
     /// 
     /// <typeparam name="TBinary">The type for the binary classifier to be used.</typeparam>
+    /// 
+    /// <seealso cref="MulticlassSupportVectorMachine{TKernel}"/>
     /// 
     [Serializable]
     public class OneVsOne<TBinary> : OneVsOne<TBinary, double[]>

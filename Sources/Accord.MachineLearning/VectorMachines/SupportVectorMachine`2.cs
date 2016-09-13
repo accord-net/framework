@@ -88,7 +88,6 @@ namespace Accord.MachineLearning.VectorMachines
         BinaryLikelihoodClassifierBase<TInput>,
         ISupportVectorMachine<TInput>, ICloneable
         where TKernel : IKernel<TInput>
-        where TInput : ICloneable
     {
 
         private TKernel kernel;

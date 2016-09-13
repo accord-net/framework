@@ -59,7 +59,9 @@ namespace Accord.Statistics.Kernels
 
 
         /// <summary>
-        ///   Constructs a new Gaussian Kernel
+        ///   Constructs a new Gaussian Kernel with a given sigma value. To 
+        ///   construct from a gamma value, use the <see cref="FromGamma(double)"/> 
+        ///   named constructor instead.
         /// </summary>
         /// 
         /// <param name="sigma">The kernel's sigma parameter.</param>
@@ -130,7 +132,7 @@ namespace Accord.Statistics.Kernels
 
             // Optimization in case x and y are
             // exactly the same object reference.
-            
+
             if (x == y)
                 return 1.0;
 
@@ -165,7 +167,7 @@ namespace Accord.Statistics.Kernels
             return Math.Exp(-gamma * norm);
         }
 
-        
+
         /// <summary>
         ///   Gaussian Kernel function.
         /// </summary>
@@ -281,8 +283,18 @@ namespace Accord.Statistics.Kernels
 
 
 
-
-
+        /// <summary>
+        ///   Constructs a new Gaussian Kernel with a given gamma value. To 
+        ///   construct from a sigma value, use the <see cref="Gaussian(double)"/> 
+        ///   constructor instead.
+        /// </summary>
+        /// 
+        /// <param name="gamma">The kernel's gamma parameter.</param>
+        /// 
+        public static Gaussian FromGamma(double gamma)
+        {
+            return new Gaussian() { Gamma = gamma };
+        }
 
 
         /// <summary>
@@ -663,6 +675,8 @@ namespace Accord.Statistics.Kernels
 
         #endregion
 
-       
+
+
+
     }
 }

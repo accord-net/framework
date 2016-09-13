@@ -27,19 +27,21 @@ namespace Accord.Math.Optimization.Losses
     using System;
 
     /// <summary>
-    ///   Accuracy loss, also known as zero-one-loss.
+    ///   Mean Accuracy loss, also known as zero-one-loss per 
+    ///   class. Equivalent to <see cref="ZeroOneLoss"/> but
+    ///   for multi-label classifiers.
     /// </summary>
     /// 
     [Serializable]
     public class HammingLoss : LossBase<int[][]>,
         ILoss<bool[][]>, ILoss<double[][]>, ILoss<int[]>
     {
-        private bool mean;
+        private bool mean = true;
         private int total;
 
         /// <summary>
-        ///   Gets or sets a value indicating whether the
-        ///   mean accuracy loss should be computed.
+        ///   Gets or sets a value indicating whether the mean 
+        ///   accuracy loss should be computed. Default is true.
         /// </summary>
         /// 
         /// <value>
@@ -79,7 +81,7 @@ namespace Accord.Math.Optimization.Losses
         /// </summary>
         /// <param name="expected">The expected outputs (ground truth).</param>
         public HammingLoss(int[] expected)
-            : this(Jagged.ColumnVector(expected))
+            : this(Jagged.OneHot(expected))
         {
         }
 

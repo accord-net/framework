@@ -71,9 +71,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// Initializes a new instance of the <see cref="BaseSupportVectorClassification{TModel, TKernel, TInput}"/> class.
         /// </summary>
         /// 
-        public BaseSupportVectorClassification()
+        protected BaseSupportVectorClassification()
         {
-
         }
 
         /// <summary>

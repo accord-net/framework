@@ -1089,7 +1089,6 @@ namespace Accord.Statistics
             double[] standardErrors = new double[standardDeviations.Length];
 
             double sqrtN = System.Math.Sqrt(samples);
-
             for (int i = 0; i < standardDeviations.Length; i++)
                 standardErrors[i] = standardDeviations[i] / sqrtN;
 

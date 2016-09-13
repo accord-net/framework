@@ -101,6 +101,14 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
     ///   where the binary machines are learned using SMO.</para>
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn" />
+    ///   
+    ///   <para>The same as before, but using a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
+    ///   
+    ///   <para>
+    ///   The following example shows how to learn a simple binary SVM using
+    ///    a precomputed kernel matrix obtained from a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_precomputed" />
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
@@ -290,6 +298,11 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   
     ///   <para>The same as before, but using a Gaussian kernel.</para>
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
+    ///   
+    ///   <para>
+    ///   The following example shows how to learn a simple binary SVM using
+    ///    a precomputed kernel matrix obtained from a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_precomputed" />
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
@@ -363,6 +376,14 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
     ///   where the binary machines are learned using SMO.</para>
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn" />
+    ///   
+    ///   <para>The same as before, but using a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
+    ///   
+    ///   <para>
+    ///   The following example shows how to learn a simple binary SVM using
+    ///    a precomputed kernel matrix obtained from a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_precomputed" />
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
@@ -375,7 +396,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         BaseSequentialMinimalOptimization<
             SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
         where TKernel : IKernel<TInput>
-        where TInput : ICloneable
     {
         /// <summary>
         /// Creates an instance of the model to be learned. Inheritors
@@ -396,7 +416,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         BaseSupportVectorClassification<TModel, TKernel, TInput>,
         ISupportVectorMachineLearning<TInput>
         where TKernel : IKernel<TInput>
-        where TInput : ICloneable
         where TModel : ISupportVectorMachine<TInput>
     // TODO: after a few releases, the TModel constraint should be changed to:
     // where TModel : SupportVectorMachine<TKernel, TInput>, ISupportVectorMachine<TInput>

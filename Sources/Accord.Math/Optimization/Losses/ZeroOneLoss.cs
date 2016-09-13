@@ -31,18 +31,18 @@ namespace Accord.Math.Optimization.Losses
     /// </summary>
     /// 
     [Serializable]
-    public class ZeroOneLoss : LossBase<int[]>, ILoss<bool[]>, 
+    public class ZeroOneLoss : LossBase<int[]>, ILoss<bool[]>,
         ILoss<double[][]>, ILoss<double[]>
     {
-        private bool mean;
+        private bool mean = true;
 
         /// <summary>
-        ///   Gets or sets a value indicating whether the
-        ///   mean accuracy loss should be computed.
+        ///   Gets or sets a value indicating whether the average 
+        ///   accuracy loss should be computed. Default is true.
         /// </summary>
         /// 
         /// <value>
-        ///   <c>true</c> if the mean accuracy loss should be computed; otherwise, <c>false</c>.
+        ///   <c>true</c> if the average accuracy loss should be computed; otherwise, <c>false</c>.
         /// </value>
         /// 
         public bool Mean
