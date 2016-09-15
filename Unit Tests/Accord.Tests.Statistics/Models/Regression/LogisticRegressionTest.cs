@@ -27,8 +27,10 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
+    using Accord.Tests.Statistics.Properties;
     using NUnit.Framework;
     using System.Collections.Generic;
+    using System.Data;
 
     [TestFixture]
     public class LogisticRegressionTest
@@ -127,8 +129,6 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(1.0208597028836701, ageOdds, 1e-10);
             Assert.AreEqual(5.8584748789881331, smokeOdds, 1e-8);
-            Assert.IsFalse(double.IsNaN(ageOdds));
-            Assert.IsFalse(double.IsNaN(smokeOdds));
 
             Assert.AreEqual(-2.4577464307294092, regression.Intercept, 1e-8);
             Assert.AreEqual(-2.4577464307294092, regression.Coefficients[0], 1e-8);
@@ -248,8 +248,6 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(1.0208597028836701, ageOdds, 1e-10);
             Assert.AreEqual(5.8584748789881331, smokeOdds, 1e-6);
-            Assert.IsFalse(double.IsNaN(ageOdds));
-            Assert.IsFalse(double.IsNaN(smokeOdds));
 
             Assert.AreEqual(-2.4577464307294092, regression.Intercept, 1e-8);
             Assert.AreEqual(-2.4577464307294092, regression.Coefficients[0], 1e-8);
@@ -594,5 +592,72 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(22.010378588337979, regression.Coefficients[2], 1e-8);
         }
 
+        [Test]
+        public void serialization_test()
+        {
+            //CsvReader reader = CsvReader.FromText(Properties.Resources.regression, true);
+            //double[][] data = reader.ToTable().ToArray(System.Globalization.CultureInfo.InvariantCulture);
+            //double[][] inputs = data.GetColumns(new[] { 0, 1 });
+            //double[] output = data.GetColumn(2);
+
+            //var regression = new LogisticRegression(2);
+            //var irls = new IterativeReweightedLeastSquares(regression);
+
+            //double error = irls.Run(inputs, output);
+            //double newError = 0;
+            //for (int i = 0; i < 50; i++)
+            //    newError = irls.Run(inputs, output);
+
+            //double actual = irls.ComputeError(inputs, output);
+            //Assert.AreEqual(30.507262964894068, actual, 1e-8);
+            var regression = Serializer.Load<LogisticRegression>(Resources.lr_3_2_3);
+
+            Assert.AreEqual(3, regression.Coefficients.Length);
+            Assert.AreEqual(-0.38409721299838279, regression.Coefficients[0], 1e-7);
+            Assert.AreEqual(0.1065137931017601, regression.Coefficients[1], 1e-7);
+            Assert.AreEqual(22.010378526331344, regression.Coefficients[2], 1e-7);
+
+            Assert.AreEqual(3, regression.StandardErrors.Length);
+            Assert.AreEqual(0.44978816773158686, regression.StandardErrors[0], 1e-7);
+            Assert.AreEqual(0.051033708973742355, regression.StandardErrors[1], 1e-7);
+            Assert.AreEqual(20846.736738575739, regression.StandardErrors[2], 1e-7);
+
+            // regression.Save(@"C:\Users\CésarRoberto\Desktop\lr_3.2.3.bin");
+        }
+
+        [Test]
+        public void prediction_interval()
+        {
+            CsvReader reader = CsvReader.FromText(Properties.Resources.logreg, true);
+            DataTable data = reader.ToTable();
+            double[][] inputs = data.ToArray("AGE");
+            double[] output = data.Columns["CHD"].ToArray();
+
+            var learner = new IterativeReweightedLeastSquares<LogisticRegression>();
+
+            var lr = learner.Learn(inputs, output);
+
+            Assert.AreEqual(0.111, lr.Weights[0], 5e-4);
+            Assert.AreEqual(-5.309, lr.Intercept, 5e-4);
+
+            Assert.AreEqual(1.1337, lr.StandardErrors[0], 5e-5);
+            Assert.AreEqual(0.0241, lr.StandardErrors[1], 5e-5);
+
+            double ll = lr.GetLogLikelihood(inputs, output);
+            Assert.AreEqual(-53.6765, ll, 1e-4);
+
+            double[] point = new double[] { 50 };
+            double y = lr.Score(point);
+
+            double[][] im = learner.GetInformationMatrix();
+            //double se = lr.GetStandardError(inputs, im);
+            var ci = lr.GetConfidenceInterval(point, inputs.Length, im);
+            Assert.AreEqual(0.435, ci.Min, 5e-3);
+            Assert.AreEqual(0.677, ci.Max, 5e-3);
+
+            var pi = lr.GetPredictionInterval(point, inputs.Length, im);
+            Assert.AreEqual(0.1405, pi.Min, 5e-3);
+            Assert.AreEqual(0.9075, pi.Max, 5e-3);
+        }
     }
 }

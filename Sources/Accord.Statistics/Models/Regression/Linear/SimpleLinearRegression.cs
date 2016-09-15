@@ -108,6 +108,15 @@ namespace Accord.Statistics.Models.Regression.Linear
         }
 
         /// <summary>
+        ///   Gets the number of parameters in the model (returns 2).
+        /// </summary>
+        /// 
+        public int NumberOfParameters
+        {
+            get { return 2; }
+        }
+
+        /// <summary>
         ///   Performs the regression using the input and output
         ///   data, returning the sum of squared errors of the fit.
         /// </summary>
@@ -303,9 +312,9 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// Gets the degrees of freedom when fitting the regression.
         /// </summary>
         /// 
-        public double GetDegreesOfFreedom(double[] x)
+        public double GetDegreesOfFreedom(int numberOfSamples)
         {
-            return x.Length - 2;
+            return numberOfSamples - NumberOfParameters;
         }
 
         /// <summary>
@@ -334,8 +343,7 @@ namespace Accord.Statistics.Models.Regression.Linear
 
             double ss = yy - (xy * xy) / xx;
 
-            double DFe = GetDegreesOfFreedom(inputs);
-            return Math.Sqrt(ss / DFe);
+            return Math.Sqrt(ss / GetDegreesOfFreedom(inputs.Length));
         }
 
         /// <summary>
@@ -385,10 +393,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         public DoubleRange GetConfidenceInterval(double input, double[] inputs, double[] outputs, double percent = 0.95)
         {
             double se = GetStandardError(input, inputs, outputs);
-            double y = Transform(input);
-            double df = GetDegreesOfFreedom(inputs);
-            var t = new TTest(estimatedValue: y, standardError: se, degreesOfFreedom: df);
-            return t.GetConfidenceInterval(percent);
+            return createInterval(input, inputs, percent, se);
         }
 
         /// <summary>
@@ -403,8 +408,13 @@ namespace Accord.Statistics.Models.Regression.Linear
         public DoubleRange GetPredictionInterval(double input, double[] inputs, double[] outputs, double percent = 0.95)
         {
             double se = GetPredictionStandardError(input, inputs, outputs);
+            return createInterval(input, inputs, percent, se);
+        }
+
+        private DoubleRange createInterval(double input, double[] inputs, double percent, double se)
+        {
             double y = Transform(input);
-            double df = GetDegreesOfFreedom(inputs);
+            double df = GetDegreesOfFreedom(inputs.Length);
             var t = new TTest(estimatedValue: y, standardError: se, degreesOfFreedom: df);
             return t.GetConfidenceInterval(percent);
         }

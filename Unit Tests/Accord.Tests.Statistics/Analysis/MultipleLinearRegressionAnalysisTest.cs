@@ -301,6 +301,15 @@ namespace Accord.Tests.Statistics
 
             // and also extract confidence intervals
             DoubleRange ci = mlra.Coefficients[0].Confidence; // [3.2616, 14.2193]
+
+            // We can use the analysis to predict an output for a sample
+            double y = mlra.Regression.Transform(new double[] { 10, 15 }); 
+
+            // We can also obtain confidence intervals for the prediction:
+            DoubleRange pci = mlra.GetConfidenceInterval(new double[] { 10, 15 });
+
+            // and also prediction intervals for the same prediction:
+            DoubleRange ppi = mlra.GetPredictionInterval(new double[] { 10, 15 });
             #endregion
 
 
@@ -326,6 +335,22 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(3.2616314640800566, ci.Min, 1e-10);
             Assert.AreEqual(14.219378746271506, ci.Max, 1e-10);
+
+
+
+
+            double[][] im = mlra.InformationMatrix;
+            double mse = regression.GetStandardError(inputs, output);
+            DoubleRange epci = regression.GetConfidenceInterval(new double[] { 10, 15 }, mse, inputs.Length, im);
+
+            Assert.AreEqual(epci.Min, pci.Min, 1e-10);
+            Assert.AreEqual(epci.Max, pci.Max, 1e-10);
+
+            Assert.AreEqual(55.27840511658215, pci.Min, 1e-10);
+            Assert.AreEqual(113.91698568006086, pci.Max, 1e-10);
+
+            Assert.AreEqual(28.783074454641557, ppi.Min, 1e-10);
+            Assert.AreEqual(140.41231634200145, ppi.Max, 1e-10);
         }
 
         [Test]

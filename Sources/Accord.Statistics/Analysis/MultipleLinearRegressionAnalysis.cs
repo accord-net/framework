@@ -213,6 +213,12 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        /// Gets the number of samples used to compute the analysis.
+        /// </summary>
+        /// 
+        public int NumberOfSamples { get; private set; }
+
+        /// <summary>
         ///   Gets the adjusted coefficient of determination, as known as R² adjusted
         /// </summary>
         /// 
@@ -368,7 +374,10 @@ namespace Accord.Statistics.Analysis
                     throw new ArgumentException("All input vectors must have the same length.");
 
             // Create the linear regression
-            regression = new MultipleLinearRegression(NumberOfInputs);
+            regression = new MultipleLinearRegression()
+            {
+                NumberOfInputs = NumberOfInputs
+            };
 
             // Create additional structures
             int coefficientCount = NumberOfInputs + 1;
@@ -454,8 +463,10 @@ namespace Accord.Statistics.Analysis
             SSt = 0;
             SSe = 0;
             outputMean = 0.0;
+            NumberOfSamples = x.Length;
 
             // Compute the regression
+            OrdinaryLeastSquares.Token = Token;
             regression = OrdinaryLeastSquares.Learn(x, y);
             informationMatrix = OrdinaryLeastSquares.GetInformationMatrix();
 
@@ -573,11 +584,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public DoubleRange GetPredictionInterval(double[] input)
         {
-            double rim = input.Dot(informationMatrix).Dot(input);
-            double se = MSe * Math.Sqrt(1 + rim);
-            double y = Transform(input);
-            var t = new TTest(estimatedValue: y, standardError: se, degreesOfFreedom: DFe);
-            return t.GetConfidenceInterval(confidencePercent);
+            return regression.GetPredictionInterval(input, Math.Sqrt(MSe), NumberOfSamples, InformationMatrix, confidencePercent);
         }
 
         /// <summary>
@@ -586,11 +593,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public DoubleRange GetConfidenceInterval(double[] input)
         {
-            double rim = input.Dot(informationMatrix).Dot(input);
-            double se = MSe * Math.Sqrt(rim);
-            double y = Transform(input);
-            var t = new TTest(estimatedValue: y, standardError: se, degreesOfFreedom: DFe);
-            return t.GetConfidenceInterval(confidencePercent);
+            return regression.GetConfidenceInterval(input, Math.Sqrt(MSe), NumberOfSamples, InformationMatrix, confidencePercent);
         }
     }
 

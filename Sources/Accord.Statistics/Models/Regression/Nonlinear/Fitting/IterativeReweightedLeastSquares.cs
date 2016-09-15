@@ -84,7 +84,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// 
         public IterativeReweightedLeastSquares(LogisticRegression regression)
         {
-            Initialize(GeneralizedLinearRegression.FromLogisticRegression(regression, makeCopy: false));
+            // TODO: Remove this method
+            Initialize(regression);
         }
 
         /// <summary>
@@ -290,7 +291,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 throw new ArgumentNullException("regression");
 
             this.regression = regression;
-            this.parameterCount = regression.Coefficients.Length;
+            this.parameterCount = regression.NumberOfParameters;
             this.hessian = Jagged.Zeros(parameterCount, parameterCount);
             this.gradient = new double[parameterCount];
             this.previous = new double[parameterCount];
@@ -323,7 +324,10 @@ namespace Accord.Statistics.Models.Regression.Fitting
         ///   Gets the current values for the coefficients.
         /// </summary>
         /// 
-        public double[] Solution { get { return regression.Coefficients; } }
+        public double[] Solution
+        {
+            get { return regression.Intercept.Concatenate(regression.Weights); }
+        }
 
         /// <summary>
         ///   Gets the Hessian matrix computed in 
@@ -477,13 +481,15 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
             double[] errors = new double[N];
             double[] w = new double[N];
-            double[] coefficients = regression.Coefficients;
             convergence.Clear();
 
             double[][] design = x.InsertColumn(value: 1, index: 0);
 
             do
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 // Compute errors and weighting matrix
                 for (int i = 0; i < x.Length; i++)
                 {
@@ -529,7 +535,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
                     // https://www.cs.ubc.ca/~murphyk/Teaching/CS540-Fall08/L6.pdf
                     for (int i = 0; i < gradient.Length; i++)
                     {
-                        gradient[i] += lambda * coefficients[i];
+                        gradient[i] += lambda * regression.GetCoefficient(i);
                         hessian[i][i] += lambda;
                     }
                 }
@@ -537,11 +543,12 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 decomposition = new JaggedSingularValueDecomposition(hessian);
                 deltas = decomposition.Solve(gradient);
 
-                previous = (double[])coefficients.Clone();
+                previous = (double[])this.Solution.Clone();
 
                 // Update coefficients using the calculated deltas
-                for (int i = 0; i < coefficients.Length; i++)
-                    coefficients[i] -= deltas[i];
+                for (int i = 0; i < regression.Weights.Length; i++)
+                    regression.Weights[i] -= deltas[i + 1];
+                regression.Intercept -= deltas[0];
 
                 // Return the relative maximum parameter change
                 convergence.NewValue = deltas.Abs().Max();
@@ -563,6 +570,16 @@ namespace Accord.Statistics.Models.Regression.Fitting
             }
 
             return regression;
+        }
+
+        /// <summary>
+        ///   Gets the information matrix used to update the regression
+        ///   weights in the last call to <see cref="Learn(double[][], double[], double[])"/>
+        /// </summary>
+        /// 
+        public double[][] GetInformationMatrix()
+        {
+            return decomposition.Inverse();
         }
     }
 }

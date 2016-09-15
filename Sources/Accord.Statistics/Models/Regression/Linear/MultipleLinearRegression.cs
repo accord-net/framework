@@ -61,7 +61,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     [Serializable]
 #pragma warning disable 612, 618
     public class MultipleLinearRegression : TransformBase<double[], double>,
-        ILinearRegression, IFormattable
+        ILinearRegression, IFormattable, ICloneable
 #pragma warning restore 612, 618
     {
         private double[] coefficients;
@@ -77,6 +77,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         /// <param name="inputs">The number of inputs for the regression.</param>
         /// 
+        [Obsolete("Please use the default constructor and set NumberOfInputs instead.")]
         public MultipleLinearRegression(int inputs)
             : this(inputs, 0)
         {
@@ -108,6 +109,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// <param name="inputs">The number of inputs for the regression.</param>
         /// <param name="intercept">True to use an intercept term, false otherwise. Default is false.</param>
         /// 
+        [Obsolete("Please use the default constructor and set NumberOfInputs instead.")]
         public MultipleLinearRegression(int inputs, double intercept = 0)
             : this()
         {
@@ -136,6 +138,20 @@ namespace Accord.Statistics.Models.Regression.Linear
         }
 
         /// <summary>
+        ///   Gets the number of inputs accepted by the model.
+        /// </summary>
+        /// 
+        public override int NumberOfInputs
+        {
+            get { return base.NumberOfInputs; }
+            set
+            {
+                base.NumberOfInputs = value;
+                this.coefficients = Vector.Create(value, coefficients);
+            }
+        }
+
+        /// <summary>
         ///   Gets or sets the linear weights of the regression model. The
         ///   intercept term is not stored in this vector, but is instead
         ///   available through the <see cref="Intercept"/> property.
@@ -150,6 +166,12 @@ namespace Accord.Statistics.Models.Regression.Linear
                 NumberOfInputs = value.Length;
             }
         }
+
+        /// <summary>
+        ///   Gets the number of parameters in this model (equals the NumberOfInputs + 1).
+        /// </summary>
+        /// 
+        public int NumberOfParameters { get { return NumberOfInputs + 1; } }
 
         /// <summary>
         ///   Gets the number of inputs for the regression model.
@@ -377,45 +399,37 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         public double GetStandardError(double[][] inputs, double[] outputs)
         {
-            // Calculate actual outputs (results)
-            double[] results = Transform(inputs);
-
             double SSe = 0;
             for (int i = 0; i < inputs.Length; i++)
             {
-                double d = outputs[i] - results[i];
+                double d = outputs[i] - Transform(inputs[i]);
                 SSe += d * d;
             }
 
-            double DFe = GetDegreesOfFreedom(inputs);
-            return Math.Sqrt(SSe / DFe);
+            return Math.Sqrt(SSe / GetDegreesOfFreedom(inputs.Length));
         }
 
         /// <summary>
         /// Gets the degrees of freedom when fitting the regression.
         /// </summary>
         /// 
-        public double GetDegreesOfFreedom(double[][] inputs)
+        public double GetDegreesOfFreedom(int numberOfSamples)
         {
-            double n = inputs.Length;
-            double p = Weights.Length;
-            return n - (p + 1);
+            return numberOfSamples - NumberOfParameters;
         }
 
         /// <summary>
         /// Gets the standard error for each coefficient.
         /// </summary>
         /// 
-        /// <param name="inputs">The inputs used to train the model.</param>
-        /// <param name="outputs">The outputs used to train the model.</param>
+        /// <param name="mse">The overall regression standard error (can be computed from <see cref="GetStandardError(double[][], double[])"/>.</param>
         /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
         /// 
-        public double[] GetStandardError(double[][] inputs, double[] outputs, double[][] informationMatrix)
+        public double[] GetStandardErrors(double mse, double[][] informationMatrix)
         {
-            double MSe = GetStandardError(inputs, outputs);
             double[] se = new double[informationMatrix.Length];
             for (int i = 0; i < se.Length; i++)
-                se[i] = MSe * Math.Sqrt(informationMatrix[i][i]);
+                se[i] = mse * Math.Sqrt(informationMatrix[i][i]);
             return se;
         }
 
@@ -424,17 +438,15 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// </summary>
         /// 
         /// <param name="input">The input vector where the standard error of the fit should be computed.</param>
-        /// <param name="inputs">The inputs used to train the model.</param>
-        /// <param name="outputs">The outputs used to train the model.</param>
+        /// <param name="mse">The overall regression standard error (can be computed from <see cref="GetStandardError(double[][], double[])"/>.</param>        
         /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
         /// 
         /// <returns>The standard error of the fit at the given input point.</returns>
         /// 
-        public double GetStandardError(double[] input, double[][] inputs, double[] outputs, double[][] informationMatrix)
+        public double GetStandardError(double[] input, double mse, double[][] informationMatrix)
         {
-            double MSe = GetStandardError(inputs, outputs);
             double rim = predictionVariance(input, informationMatrix);
-            return MSe * Math.Sqrt(rim);
+            return mse * Math.Sqrt(rim);
         }
 
         /// <summary>
@@ -442,17 +454,15 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// </summary>
         /// 
         /// <param name="input">The input vector where the standard error of the prediction should be computed.</param>
-        /// <param name="inputs">The inputs used to train the model.</param>
-        /// <param name="outputs">The outputs used to train the model.</param>
+        /// <param name="mse">The overall regression standard error (can be computed from <see cref="GetStandardError(double[][], double[])"/>.</param>
         /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
         /// 
         /// <returns>The standard error of the prediction given for the input point.</returns>
         /// 
-        public double GetPredictionStandardError(double[] input, double[][] inputs, double[] outputs, double[][] informationMatrix)
+        public double GetPredictionStandardError(double[] input, double mse, double[][] informationMatrix)
         {
-            double MSe = GetStandardError(inputs, outputs);
             double rim = predictionVariance(input, informationMatrix);
-            return MSe * Math.Sqrt(1 + rim);
+            return mse * Math.Sqrt(1 + rim);
         }
 
         /// <summary>
@@ -460,18 +470,15 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// </summary>
         /// 
         /// <param name="input">The input vector.</param>
-        /// <param name="inputs">The inputs used to train the model.</param>
-        /// <param name="outputs">The outputs used to train the model.</param>
+        /// <param name="mse">The overall regression standard error (can be computed from <see cref="GetStandardError(double[][], double[])"/>.</param>
+        /// <param name="numberOfSamples">The number of training samples used to fit the model.</param>
         /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
         /// <param name="percent">The prediction interval confidence (default is 95%).</param>
         /// 
-        public DoubleRange GetConfidenceInterval(double[] input, double[][] inputs, double[] outputs, double[][] informationMatrix, double percent = 0.95)
+        public DoubleRange GetConfidenceInterval(double[] input, double mse, int numberOfSamples, double[][] informationMatrix, double percent = 0.95)
         {
-            double se = GetStandardError(input, inputs, outputs, informationMatrix);
-            double y = Transform(input);
-            double df = GetDegreesOfFreedom(inputs);
-            var t = new TTest(estimatedValue: y, standardError: se, degreesOfFreedom: df);
-            return t.GetConfidenceInterval(percent);
+            double se = GetStandardError(input, mse, informationMatrix);
+            return computeInterval(input, numberOfSamples, percent, se);
         }
 
         /// <summary>
@@ -479,18 +486,15 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// </summary>
         /// 
         /// <param name="input">The input vector.</param>
-        /// <param name="inputs">The inputs used to train the model.</param>
-        /// <param name="outputs">The outputs used to train the model.</param>
+        /// <param name="mse">The overall regression standard error (can be computed from <see cref="GetStandardError(double[][], double[])"/>.</param>
+        /// <param name="numberOfSamples">The number of training samples used to fit the model.</param>
         /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
         /// <param name="percent">The prediction interval confidence (default is 95%).</param>
         /// 
-        public DoubleRange GetPredictionInterval(double[] input, double[][] inputs, double[] outputs, double[][] informationMatrix, double percent = 0.95)
+        public DoubleRange GetPredictionInterval(double[] input, double mse, int numberOfSamples, double[][] informationMatrix, double percent = 0.95)
         {
-            double se = GetPredictionStandardError(input, inputs, outputs, informationMatrix);
-            double y = Transform(input);
-            double df = GetDegreesOfFreedom(inputs);
-            var t = new TTest(estimatedValue: y, standardError: se, degreesOfFreedom: df);
-            return t.GetConfidenceInterval(percent);
+            double se = GetPredictionStandardError(input, mse, informationMatrix);
+            return computeInterval(input, numberOfSamples, percent, se);
         }
 
         private static double predictionVariance(double[] input, double[][] im)
@@ -498,6 +502,14 @@ namespace Accord.Statistics.Models.Regression.Linear
             if (input.Length < im.Length)
                 input = input.Concatenate(1);
             return input.Dot(im).Dot(input);
+        }
+
+        private DoubleRange computeInterval(double[] input, int numberOfSamples, double percent, double se)
+        {
+            double y = Transform(input);
+            double df = GetDegreesOfFreedom(numberOfSamples);
+            var t = new TTest(estimatedValue: y, standardError: se, degreesOfFreedom: df);
+            return t.GetConfidenceInterval(percent);
         }
 
         /// <summary>
@@ -634,6 +646,20 @@ namespace Accord.Statistics.Models.Regression.Linear
             for (int i = 0; i < input.Length; i++)
                 output += coefficients[i] * input[i];
             return output;
+        }
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return new MultipleLinearRegression()
+            {
+                Weights = Weights.Copy(),
+                Intercept = Intercept
+            };
         }
 
     }

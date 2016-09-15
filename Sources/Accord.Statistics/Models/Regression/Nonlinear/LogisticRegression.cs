@@ -25,6 +25,7 @@ namespace Accord.Statistics.Models.Regression
     using System;
     using Accord.Statistics.Links;
     using AForge;
+    using Accord.Math;
     using Accord.MachineLearning;
 
     /// <summary>
@@ -88,6 +89,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <param name="inputs">The number of input variables for the model.</param>
         /// 
+        [Obsolete("Please use the default constructor and set NumberOfInputs instead.")]
         public LogisticRegression(int inputs)
             : base(new LogitLinkFunction(), inputs) { }
 
@@ -98,6 +100,7 @@ namespace Accord.Statistics.Models.Regression
         /// <param name="inputs">The number of input variables for the model.</param>
         /// <param name="intercept">The starting intercept value. Default is 0.</param>
         /// 
+        [Obsolete("Please use the default constructor and set NumberOfInputs instead.")]
         public LogisticRegression(int inputs, double intercept)
             : base(new LogitLinkFunction(), inputs, intercept) { }
 
@@ -113,15 +116,13 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public DoubleRange GetConfidenceInterval(int index)
         {
-            double coeff = Coefficients[index];
+            double coeff = GetCoefficient(index);
             double error = StandardErrors[index];
 
             double upper = coeff + 1.9599 * error;
             double lower = coeff - 1.9599 * error;
 
-            DoubleRange ci = new DoubleRange(Math.Exp(lower), Math.Exp(upper));
-
-            return ci;
+            return new DoubleRange(Math.Exp(lower), Math.Exp(upper));
         }
 
         /// <summary>
@@ -144,7 +145,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public double GetOddsRatio(int index)
         {
-            return Math.Exp(Coefficients[index]);
+            return Math.Exp(GetCoefficient(index));
         }
 
         /// <summary>
@@ -161,13 +162,39 @@ namespace Accord.Statistics.Models.Regression
         ///   the same as in the given <paramref name="weights"/> array.
         /// </returns>
         /// 
+        [Obsolete("Please also pass the intercept as the last argument of this function.")]
         public static LogisticRegression FromWeights(double[] weights)
         {
-            var lr = new LogisticRegression(weights.Length - 1);
-            for (int i = 0; i < weights.Length; i++)
-                lr.Coefficients[i] = weights[i];
+            return new LogisticRegression()
+            {
+                Weights = weights.Get(1, 0),
+                Intercept = weights[0]
+            };
+        }
 
-            return lr;
+        /// <summary>
+        ///   Constructs a new <see cref="LogisticRegression"/> from
+        ///   an array of weights (linear coefficients). The first
+        ///   weight is interpreted as the intercept value.
+        /// </summary>
+        /// 
+        /// <param name="weights">An array of linear coefficients.</param>
+        /// <param name="intercept">The intercept term.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="LogisticRegression"/> whose 
+        ///   <see cref="GeneralizedLinearRegression.Coefficients"/> are
+        ///   the same as in the given <paramref name="weights"/> array.
+        /// </returns>
+        /// 
+        [Obsolete("Please also pass the intercept as the last argument of this function.")]
+        public static LogisticRegression FromWeights(double[] weights, double intercept)
+        {
+            return new LogisticRegression()
+            {
+                Weights = weights.Copy(),
+                Intercept = intercept
+            };
         }
 
     }

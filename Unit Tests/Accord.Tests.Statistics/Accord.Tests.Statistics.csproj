@@ -364,6 +364,7 @@
     <None Include="Resources\intrusion.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\lr_3.2.3.bin" />
     <None Include="Resources\sample.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -373,6 +374,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\iris.scale.txt" />
+    <None Include="Resources\logreg.txt" />
     <None Include="Resources\linreg.txt" />
     <None Include="Resources\regression.csv" />
   </ItemGroup>

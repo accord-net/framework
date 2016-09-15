@@ -461,6 +461,9 @@ namespace Accord.Tests.Statistics
             double y = lra.Regression.Score(new double[] { 87, 1 }); // 0.75
 
             // For those inputs, the answer probability is approximately 75%.
+
+            // We can also obtain confidence intervals for the probability:
+            DoubleRange ci = lra.GetConfidenceInterval(new double[] { 87, 1 });
             #endregion
 
             Assert.AreEqual(0.085627701183146374, odds[0], 1e-8);
@@ -472,6 +475,8 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.4729903935788211, stde[2], 1e-8);
 
             Assert.AreEqual(0.75143272858389798, y, 1e-8);
+            Assert.AreEqual(0.079591541770048527, ci.Min, 1e-8);
+            Assert.AreEqual(0.99062645401700389, ci.Max, 1e-8);
         }
 
         [Test]

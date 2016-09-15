@@ -519,8 +519,17 @@ namespace Accord.Statistics.Analysis
             get { return this.confidences; }
         }
 
+        /// <summary>
+        /// Gets the number of samples used to compute the analysis.
+        /// </summary>
+        /// 
+        public int NumberOfSamples { get; private set; }
 
-
+        /// <summary>
+        /// Gets the information matrix obtained during learning.
+        /// </summary>
+        /// 
+        public double[][] InformationMatrix { get; private set; }
 
         /// <summary>
         ///   Gets the Log-Likelihood Ratio between this model and another model.
@@ -581,10 +590,13 @@ namespace Accord.Statistics.Analysis
             {
                 Regularization = regularization,
                 Iterations = iterations,
-                Tolerance = tolerance
+                Tolerance = tolerance,
+                Token = Token
             };
 
             learning.Learn(input, output, weights);
+
+            this.InformationMatrix = learning.GetInformationMatrix();
 
             computeInformation(input, output, weights);
 
@@ -757,7 +769,11 @@ namespace Accord.Statistics.Analysis
                 double[][] data = inputData.RemoveColumn(i);
 
                 // Perform likelihood-ratio tests against diminished nested models
-                var innerModel = new LogisticRegression(NumberOfInputs - 1);
+                var innerModel = new LogisticRegression()
+                {
+                    NumberOfInputs = NumberOfInputs - 1
+                };
+
                 var learning = new IterativeReweightedLeastSquares(innerModel)
                 {
                     Iterations = iterations,
@@ -778,8 +794,10 @@ namespace Accord.Statistics.Analysis
         {
             // Store model information
 #pragma warning disable 612, 618
-            result = regression.Compute(inputData);
+            this.result = regression.Compute(inputData);
 #pragma warning restore 612, 618
+
+            this.NumberOfSamples = inputData.Length;
 
             if (weights == null)
             {
@@ -795,12 +813,12 @@ namespace Accord.Statistics.Analysis
             }
 
             // Store coefficient information
-            for (int i = 0; i < regression.Coefficients.Length; i++)
+            for (int i = 0; i < regression.NumberOfParameters; i++)
             {
                 this.standardErrors[i] = regression.StandardErrors[i];
 
                 this.waldTests[i] = regression.GetWaldTest(i);
-                this.coefficients[i] = regression.Coefficients[i];
+                this.coefficients[i] = regression.GetCoefficient(i);
                 this.confidences[i] = regression.GetConfidenceInterval(i);
                 this.oddsRatios[i] = regression.GetOddsRatio(i);
             }
@@ -829,7 +847,23 @@ namespace Accord.Statistics.Analysis
             return (regression as ITransform<double[], double>).Transform(input);
         }
 
-        
+        /// <summary>
+        /// Gets the confidence interval for a given input.
+        /// </summary>
+        /// 
+        public DoubleRange GetConfidenceInterval(double[] input)
+        {
+            return regression.GetConfidenceInterval(input, NumberOfSamples, InformationMatrix);
+        }
+
+        /// <summary>
+        /// Gets the prediction interval for a given input.
+        /// </summary>
+        /// 
+        public DoubleRange GetPredictionInterval(double[] input)
+        {
+            return regression.GetPredictionInterval(input, NumberOfSamples, InformationMatrix);
+        }
     }
 
 

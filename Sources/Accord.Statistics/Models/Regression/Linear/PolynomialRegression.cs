@@ -57,7 +57,10 @@ namespace Accord.Statistics.Models.Regression.Linear
             : this()
         {
             // degree plus the independent constant
-            regression = new MultipleLinearRegression(degree + 1);
+            regression = new MultipleLinearRegression()
+            {
+                NumberOfInputs = degree + 1
+            };
         }
 
         /// <summary>

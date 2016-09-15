@@ -166,7 +166,7 @@ namespace Accord.Math
             var v = new T[size];
             if (values != null)
             {
-                for (int i = 0; i < values.Length; i++)
+                for (int i = 0; i < Math.Min(values.Length, size); i++)
                     v[i] = values[i];
             }
             return v;

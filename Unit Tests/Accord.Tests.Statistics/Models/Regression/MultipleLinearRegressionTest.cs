@@ -360,7 +360,8 @@ namespace Accord.Tests.Statistics
 
 
             double[][] im = ols.GetInformationMatrix();
-            double[] se = regression.GetStandardError(x, y, im);
+            double mse = regression.GetStandardError(x, y);
+            double[] se = regression.GetStandardErrors(mse, im);
 
             Assert.AreEqual(0.30063086032754965, se[0], 1e-10);
             Assert.AreEqual(0.033603448179240082, se[1], 1e-10);
@@ -371,18 +372,18 @@ namespace Accord.Tests.Statistics
             double y0 = regression.Transform(x0);
             Assert.AreEqual(y0, 12.867680376316864, 1e-5);
 
-            double actual = regression.GetStandardError(x0, x, y, im);
+            double actual = regression.GetStandardError(x0, mse, im);
 
             Assert.AreEqual(0.35902764658470271, actual, 1e-10);
 
-            DoubleRange ci = regression.GetConfidenceInterval(x0, x, y, im);
+            DoubleRange ci = regression.GetConfidenceInterval(x0, mse, x.Length, im);
             Assert.AreEqual(ci.Min, 12.144995206616116, 1e-5);
             Assert.AreEqual(ci.Max, 13.590365546017612, 1e-5);
 
-            actual = regression.GetPredictionStandardError(x0, x, y, im);
+            actual = regression.GetPredictionStandardError(x0, mse, im);
             Assert.AreEqual(2.4963053239397244, actual, 1e-10);
 
-            DoubleRange pi = regression.GetPredictionInterval(x0, x, y, im);
+            DoubleRange pi = regression.GetPredictionInterval(x0, mse, x.Length, im);
             Assert.AreEqual(pi.Min, 7.8428783761994554, 1e-5);
             Assert.AreEqual(pi.Max, 17.892482376434273, 1e-5);
         }

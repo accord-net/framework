@@ -114,6 +114,71 @@ namespace Accord.Tests.Statistics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ID	AGE	AGRP	CHD
+        ///1	20	1	0
+        ///2	23	1	0
+        ///3	24	1	0
+        ///4	25	1	0
+        ///5	25	1	1
+        ///6	26	1	0
+        ///7	26	1	0
+        ///8	28	1	0
+        ///9	28	1	0
+        ///10	29	1	0
+        ///1 1	30	2	0
+        ///12	30	2	0
+        ///13	30	2	0
+        ///14	30	2	0
+        ///15	30	2	0
+        ///16	30	2	1
+        ///17	32	2	0
+        ///18	32	2	0
+        ///19	33	2	0
+        ///20	33	2	0
+        ///21	34	2	0
+        ///22	34	2	0
+        ///23	34	2	1
+        ///24	34	2	0
+        ///25	34	2	0
+        ///26	35	3	0
+        ///27	35	3	0
+        ///28	36	3	0
+        ///29	36	3	1
+        ///30	36	3	0
+        ///31	37	3	0
+        ///32	37	3	1
+        ///33	37	3	0
+        ///34	38	3	0
+        ///35	38	3	0
+        ///36	39	3	0
+        ///37	39	3	1
+        ///38	40	4	0
+        ///39	40	4	1
+        ///40	41	4	0
+        ///41	41	4	0
+        ///42	42	4	0
+        ///43	42	4	0
+        ///44	42	4	0
+        ///45	42	4	1
+        ///46	43	4	 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string logreg {
+            get {
+                return ResourceManager.GetString("logreg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] lr_3_2_3 {
+            get {
+                object obj = ResourceManager.GetObject("lr_3_2_3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In1,In2,Out
         ///15.3,0,1
         ///15,0,1
