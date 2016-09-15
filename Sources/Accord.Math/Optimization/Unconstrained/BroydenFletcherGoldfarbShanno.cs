@@ -918,7 +918,6 @@ namespace Accord.Math.Optimization
             if (!Enum.IsDefined(typeof(BroydenFletcherGoldfarbShannoStatus), Status))
                 throw new InvalidOperationException("Unhandled return code: " + ret);
 
-            
 
             return Status == BroydenFletcherGoldfarbShannoStatus.Success ||
                    Status == BroydenFletcherGoldfarbShannoStatus.AlreadyMinimized;

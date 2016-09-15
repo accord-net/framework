@@ -276,7 +276,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 Gradient = gradient,
                 Hessian = hessian,
                 Tolerance = tolerance,
-                MaxIterations = maxIterations
+                MaxIterations = maxIterations,
+                Token = Token
             };
 
             for (int i = 0; i < tron.Solution.Length; i++)

@@ -658,6 +658,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             while ((numChanged > 0 || examineAll) && !shouldStop)
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 numChanged = 0;
                 if (examineAll)
                 {

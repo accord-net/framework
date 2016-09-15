@@ -282,6 +282,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             while (newton_iter < max_newton_iter)
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 Gmax_new = 0;
                 Gnorm1_new = 0;
                 active_size = w.Length;
@@ -354,6 +357,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 // optimize QP over wpd
                 while (iter < max_iter)
                 {
+                    if (Token.IsCancellationRequested)
+                        break;
+
                     QP_Gmax_new = 0;
                     QP_Gnorm1_new = 0;
 

@@ -496,8 +496,6 @@ namespace Accord.Statistics.Models.Regression.Fitting
                     regression.Coefficients[i] *= sdev[i];
             }
 
-
-
             // Compute actual outputs
             double[] output = new double[inputs.Length];
             for (int i = 0; i < output.Length; i++)
@@ -525,6 +523,9 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
             do
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 // learning iterations until convergence
                 // or maximum number of iterations reached
 

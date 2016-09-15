@@ -404,6 +404,9 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
             do
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 // Reset Hessian matrix and gradient
                 Array.Clear(gradient, 0, gradient.Length);
 

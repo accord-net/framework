@@ -193,7 +193,7 @@ namespace Accord.Statistics.Analysis
             // Initial argument checking
             if (inputs == null)
                 throw new ArgumentNullException("inputs");
-            if (outputs == null) 
+            if (outputs == null)
                 throw new ArgumentNullException("outputs");
 
             if (inputs.GetLength(0) != outputs.GetLength(0))
@@ -544,7 +544,7 @@ namespace Accord.Statistics.Analysis
             return result;
         }
 
-       
+
 
         /// <summary>
         ///   Projects a given set of outputs into latent space.
@@ -722,9 +722,7 @@ namespace Accord.Statistics.Analysis
                 double[] w = new double[xcols];
                 double[] c = new double[ycols];
 
-
                 double norm_t = Norm.Euclidean(t);
-
 
                 while (norm_t > 1e-14)
                 {
@@ -795,7 +793,6 @@ namespace Accord.Statistics.Analysis
                     #endregion
                 }
 
-
                 // Compute the value of b which is used to
                 // predict Y from t as b = t'u [Abdi, 2010]
                 double b = t.Dot(u);
@@ -818,11 +815,9 @@ namespace Accord.Statistics.Analysis
                         F[i][j] -= b * t[i] * c[j];
                 }
 
-
                 // Calculate explained variances
                 varY[factor] = b * b;
                 varX[factor] = p.Dot(p);
-
 
                 // Save iteration cols
                 T.SetColumn(factor, t);
@@ -832,17 +827,19 @@ namespace Accord.Statistics.Analysis
                 W.SetColumn(factor, w);
                 B[factor] = b;
 
-
                 // Check for residuals as stop criteria
                 double[] norm_x = Norm.Euclidean(E, dimension: 0);
                 double[] norm_y = Norm.Euclidean(F, dimension: 0);
 
                 stop = true;
-                for (int i = 0; i < norm_x.Length && stop == true; i++)
+                if (!Token.IsCancellationRequested)
                 {
-                    // If any of the residuals is higher than the tolerance
-                    if (norm_x[i] > tolerance || norm_y[i] > tolerance)
-                        stop = false;
+                    for (int i = 0; i < norm_x.Length && stop == true; i++)
+                    {
+                        // If any of the residuals is higher than the tolerance
+                        if (norm_x[i] > tolerance || norm_y[i] > tolerance)
+                            stop = false;
+                    }
                 }
             }
             #endregion
@@ -945,7 +942,6 @@ namespace Accord.Statistics.Analysis
             #region SIMPLS
             for (int factor = 0; factor < factors; factor++)
             {
-
                 // Step 1. Obtain the dominant eigenvector w of C'C. However, we
                 //   can avoid computing the matrix multiplication by using the
                 //   singular value decomposition instead, which is also more
@@ -988,17 +984,14 @@ namespace Accord.Statistics.Analysis
                 w = w.Divide(norm_t);
                 c = c.Divide(norm_t);
 
-
                 // Step 5. Estimate u (Y factor scores): u = Y*c [Abdi, 2010]
                 double[] u = new double[rows];
                 for (int i = 0; i < u.Length; i++)
                     for (int j = 0; j < c.Length; j++)
                         u[i] += outputsY[i][j] * c[j];
 
-
                 // Step 6. Create orthogonal loading
                 double[] v = (double[])p.Clone();
-
 
                 // Step 7. Make v orthogonal to the previous loadings
                 // http://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process
@@ -1031,7 +1024,6 @@ namespace Accord.Statistics.Analysis
                 // 7.2. Normalize orthogonal loadings
                 v = v.Divide(Norm.Euclidean(v));
 
-
                 // Step 8. Deflate covariance matrix as s = s - v * (v' * s)
                 //   as shown in simpls1 in [Martin Anderson, 2009] appendix.
                 var cov = covariance.Copy();
@@ -1048,7 +1040,6 @@ namespace Accord.Statistics.Analysis
 
                 covariance = cov;
 
-
                 // Save iteration cols
                 W.SetColumn(factor, w);
                 U.SetColumn(factor, u);
@@ -1060,9 +1051,11 @@ namespace Accord.Statistics.Analysis
                 // Compute explained variance
                 varX[factor] = p.Dot(p);
                 varY[factor] = c.Dot(c);
+
+                if (Token.IsCancellationRequested)
+                    break;
             }
             #endregion
-
 
             // Set class variables
             this.scoresX = T;      // factor score matrix T
@@ -1239,10 +1232,6 @@ namespace Accord.Statistics.Analysis
 
             return importance;
         }
-
-
-
-
     }
 
 

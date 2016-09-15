@@ -201,6 +201,8 @@ namespace Accord.Math.Optimization
             do
             {
                 runEpoch();
+                if (Token.IsCancellationRequested)
+                    break;
             }
             while (!convergence.HasConverged);
 

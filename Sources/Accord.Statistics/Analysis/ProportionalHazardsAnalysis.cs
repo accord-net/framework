@@ -624,8 +624,8 @@ namespace Accord.Statistics.Analysis
                 return;
 
             // Perform likelihood-ratio tests against diminished nested models
-            ProportionalHazards innerModel = new ProportionalHazards(inputCount - 1);
-            ProportionalHazardsNewtonRaphson learning = new ProportionalHazardsNewtonRaphson(innerModel);
+            var innerModel = new ProportionalHazards(inputCount - 1);
+            var learning = createLearner(innerModel);
 
             for (int i = 0; i < inputCount; i++)
             {
@@ -698,7 +698,7 @@ namespace Accord.Statistics.Analysis
         /// </returns>
         public ProportionalHazards Learn(double[][] inputs, double[] time, SurvivalOutcome[] censor, double[] weights = null)
         {
-            var learning = createLearner();
+            var learning = createLearner(regression);
             this.regression = learning.Learn(inputs, time, censor, weights);
             initialize(inputs, time, censor);
             return store();
@@ -718,7 +718,7 @@ namespace Accord.Statistics.Analysis
         /// </returns>
         public ProportionalHazards Learn(double[][] inputs, double[] time, int[] censor, double[] weights = null)
         {
-            var learning = createLearner();
+            var learning = createLearner(regression);
             this.regression = learning.Learn(inputs, time, censor, weights);
             initialize(inputs, time, censor.To<SurvivalOutcome[]>());
             return store();
@@ -735,7 +735,7 @@ namespace Accord.Statistics.Analysis
         /// </returns>
         public ProportionalHazards Learn(Tuple<double[], double>[] x, int[] y, double[] weights = null)
         {
-            var learning = createLearner();
+            var learning = createLearner(regression);
             this.regression = learning.Learn(x, y, weights);
             initialize(x.Apply(a => a.Item1), x.Apply(a => a.Item2), y.To<SurvivalOutcome[]>());
             return store();
@@ -752,20 +752,21 @@ namespace Accord.Statistics.Analysis
         /// </returns>
         public ProportionalHazards Learn(Tuple<double[], double>[] x, SurvivalOutcome[] y, double[] weights = null)
         {
-            var learning = createLearner();
+            var learning = createLearner(regression);
             this.regression = learning.Learn(x, y, weights);
             initialize(x.Apply(a => a.Item1), x.Apply(a => a.Item2), y);
             return store();
         }
 
 
-        private ProportionalHazardsNewtonRaphson createLearner()
+        private ProportionalHazardsNewtonRaphson createLearner(ProportionalHazards model)
         {
             return new ProportionalHazardsNewtonRaphson()
             {
-                Model = regression,
+                Model = model,
                 Iterations = Iterations,
                 Tolerance = Tolerance,
+                Token = Token
             };
         }
 

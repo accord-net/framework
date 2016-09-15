@@ -187,7 +187,13 @@ namespace Accord.Statistics.Models.Fields.Learning
         /// <param name="observations">The training observations.</param>
         /// <param name="outputs">The observation's labels.</param>
         /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(T[][] observations, int[] outputs)
+        {
+            return run(observations, outputs);
+        }
+
+        private double run(T[][] observations, int[] outputs)
         {
             calculator.Inputs = observations;
             calculator.Outputs = outputs;
@@ -195,6 +201,7 @@ namespace Accord.Statistics.Models.Fields.Learning
             Converged = true;
             optimizer.Tolerance = Tolerance;
             optimizer.MaxIterations = Iterations;
+            optimizer.Token = Token;
 
             try
             {
@@ -243,7 +250,7 @@ namespace Accord.Statistics.Models.Fields.Learning
         /// </returns>
         public HiddenConditionalRandomField<T> Learn(T[][] x, int[] y, double[] weights = null)
         {
-            Run(x, y);
+            run(x, y);
             return Model;
         }
 

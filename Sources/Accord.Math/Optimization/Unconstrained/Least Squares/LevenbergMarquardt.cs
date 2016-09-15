@@ -26,6 +26,7 @@ namespace Accord.Math.Optimization
     using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Math.Decompositions;
+    using System.Threading;
 
     /// <summary>
     ///   Levenberg-Marquardt algorithm for solving Least-Squares problems.
@@ -85,6 +86,23 @@ namespace Accord.Math.Optimization
         /// </value>
         /// 
         public LeastSquaresGradientFunction Gradient { get; set; }
+
+        /// <summary>
+        ///   Gets or sets parallelization options.
+        /// </summary>
+        /// 
+        public ParallelOptions ParallelOptions { get; set; }
+
+        /// <summary>
+        ///   Gets or sets a cancellation token that can be used to
+        ///   stop the learning algorithm while it is running.
+        /// </summary>
+        /// 
+        public CancellationToken Token
+        {
+            get { return ParallelOptions.CancellationToken; }
+            set { ParallelOptions.CancellationToken = value; }
+        }
 
         /// <summary>
         ///   Gets the solution found, the values of the parameters which
@@ -226,6 +244,8 @@ namespace Accord.Math.Optimization
             this.hessian = new double[numberOfParameters][];
             for (int i = 0; i < hessian.Length; i++)
                 hessian[i] = new double[numberOfParameters];
+
+            this.ParallelOptions = new ParallelOptions();
         }
 
 
@@ -309,7 +329,7 @@ namespace Accord.Math.Optimization
                 // Compute Quasi-Hessian Matrix approximation
                 //  using the outer product Jacobian (H ~ J'J)
                 //
-                Parallel.For(0, jacobian.Length, i =>
+                Parallel.For(0, jacobian.Length, ParallelOptions, i =>
                 {
                     double[] ji = jacobian[i];
                     double[] hi = hessian[i];
@@ -357,6 +377,9 @@ namespace Accord.Math.Optimization
             //  (or where the objective function is smaller)
             while (current >= objective && lambda < lambdaMax)
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 lambda *= v;
 
                 // Update diagonal (Levenberg-Marquardt)

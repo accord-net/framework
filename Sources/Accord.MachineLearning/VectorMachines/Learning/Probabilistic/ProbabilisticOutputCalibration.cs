@@ -409,6 +409,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             // Start main algorithm loop.
             while (iterations < maxIterations)
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 iterations++;
 
                 // Update the Gradient and Hessian

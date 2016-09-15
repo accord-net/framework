@@ -195,6 +195,7 @@ using Accord.MachineLearning;
         /// </returns>
         public NonlinearRegression Learn(double[][] x, double[] y, double[] weights = null)
         {
+            solver.Token = Token;
             double error = solver.Minimize(x, y);
 
             if (computeStandardErrors)

@@ -312,7 +312,11 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         public static SupportVectorMachine FromLogisticRegression(LogisticRegression regression)
         {
-            return FromWeights(regression.Coefficients, interceptIndex: 0);
+            return new SupportVectorMachine(regression.NumberOfInputs)
+            {
+                Weights = regression.Weights.Copy(),
+                Threshold = regression.Intercept
+            };
         }
 
         /// <summary>

@@ -60,6 +60,7 @@ namespace Accord.Math.Optimization
 {
     using System;
     using System.Diagnostics;
+    using System.Threading;
 
     /// <summary>
     ///   Simplified Trust Region Newton Method (TRON) for non-linear optimization.
@@ -228,6 +229,9 @@ namespace Accord.Math.Optimization
 
             while (iter <= max_iter && search == 1)
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 cg_iter = trcg(delta, g, s, r);
 
                 for (int j = 0; j < w_new.Length; j++)
@@ -319,7 +323,7 @@ namespace Accord.Math.Optimization
         {
             int n = NumberOfVariables;
             double[] d = new double[n];
-            
+
             for (int i = 0; i < g.Length; i++)
             {
                 s[i] = 0;
@@ -438,7 +442,7 @@ namespace Accord.Math.Optimization
 
             return cg_iter;
         }
-      
+
     }
 }
 

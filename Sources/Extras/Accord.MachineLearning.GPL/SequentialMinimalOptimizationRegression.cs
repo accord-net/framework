@@ -366,6 +366,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             bool examineAll = true;
             while (numChanged > 0 || examineAll)
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 numChanged = 0;
                 if (examineAll)
                 {

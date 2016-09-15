@@ -213,6 +213,9 @@ namespace Accord.MachineLearning
                 for (int j = 0; j < mean.Length; j++)
                     mean[j] += x[i][j];
                 counts[k]++;
+
+                if (Token.IsCancellationRequested)
+                    break;
             }
 
             means.Divide(counts, dimension: 1, result: means);

@@ -75,7 +75,13 @@ using System.Threading;
         /// <param name="observations">The training observations.</param>
         /// <param name="labels">The observation's labels.</param>
         /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(T[][] observations, int[][] labels)
+        {
+            return run(observations, labels);
+        }
+
+        private double run(T[][] observations, int[][] labels)
         {
             double f;
             double[] g;
@@ -94,6 +100,7 @@ using System.Threading;
                 return g;
             };
 
+            lbfgs.Token = Token;
 
             if (lbfgs.Minimize(model.Function.Weights))
                 model.Function.Weights = lbfgs.Solution;
@@ -224,7 +231,7 @@ using System.Threading;
         /// </returns>
         public ConditionalRandomField<T> Learn(T[][] x, int[][] y, double[] weights = null)
         {
-            Run(x, y);
+            run(x, y);
             return model;
         }
     }
