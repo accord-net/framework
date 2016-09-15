@@ -24,8 +24,8 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyCultureAttribute("")];
 
 
-[assembly:AssemblyVersionAttribute("3.2.3")];
-[assembly:AssemblyInformationalVersionAttribute("3.2.3")];
-[assembly:AssemblyFileVersionAttribute("3.2.3.5727")];
+[assembly:AssemblyVersionAttribute("3.3.0")];
+[assembly:AssemblyInformationalVersionAttribute("3.3.0")];
+[assembly:AssemblyFileVersionAttribute("3.3.0.5736")];
 
 

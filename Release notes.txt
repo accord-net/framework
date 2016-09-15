@@ -1,11 +1,13 @@
-Accord.NET Framework 3.2.3 release notes
+Accord.NET Framework 3.3.0 release notes
 -----------------------------------------
-10.09.2016.
+17.09.2016.
 
 Version updates and fixes:
+  - GC-62:  Add support for computing prediction intervals in linear and generalized linear models
   - GH-113: System.AggregateException thrown in C45Learning.Run;
   - GH-115: Add documentation about how to work with sparse data;
   - GH-130: Multi class support vector machine doesn't work with SparseGaussian kernel;
+    GH-139: Examples using explicit kernel matrices;
   - GH-178: DecisionTreeWriter uses local CultureInfo when writing values;
   - GH-249: Potential bug in RandomForest or C45Learning;
   - GH-201: Adding Generalized Pareto Distribution;
@@ -25,7 +27,8 @@ Version updates and fixes:
   - GH-274: Merge pull request #274 from hzawary:development;
   - GH-285: Deserialize of Codification error in 3.2.0;
   - GH-286: Ransac - possible bug in calculation of 'N' if pInlier = 0;
-  - GH-288: NaiveBayes issue when probability is 0.
+  - GH-288: NaiveBayes issue when probability is 0;
+  - GH-289: Incorrect use of GetLength(0) for jagged arrays in Matrix class.
 
 * General
   - This will be last release that includes an executable installer. If you
