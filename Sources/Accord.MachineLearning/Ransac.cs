@@ -84,6 +84,7 @@ namespace Accord.MachineLearning
     /// </example>
     /// 
     public class RANSAC<TModel> where TModel : class
+        // TODO: Implement ISupervisedLearning interface
     {
         // RANSAC parameters
         private int s;    // number of samples
