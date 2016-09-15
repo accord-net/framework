@@ -141,7 +141,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[] Dot(this <#=a#>[,] a, <#=b#>[] columnVector)
         {
-            return Dot(a, columnVector, new <#=r#>[a.GetLength(0)]);
+            return Dot(a, columnVector, new <#=r#>[a.Rows()]);
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[] Dot(this <#=a#>[] rowVector, <#=b#>[,] b)
         {
-            return Dot(rowVector, b, new <#=r#>[b.GetLength(1)]);
+            return Dot(rowVector, b, new <#=r#>[b.Columns()]);
         }
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] Dot(this <#=a#>[,] a, <#=b#>[,] b)
         {
-            return Dot(a, b, new <#=r#>[a.GetLength(0), b.GetLength(1)]);
+            return Dot(a, b, new <#=r#>[a.Rows(), b.Columns()]);
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] Dot(this <#=a#>[][] a, <#=b#>[,] b)
         {
-            return Dot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.Length, b.GetLength(1)));
+            return Dot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.Length, b.Columns()));
         }
 
         /// <summary>
@@ -243,7 +243,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] Dot(this <#=a#>[,] a, <#=b#>[][] b)
         {
-            return Dot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.GetLength(0), b.Columns()));
+            return Dot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.Rows(), b.Columns()));
         }
 
 
@@ -283,7 +283,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] DotWithTransposed(this <#=a#>[,] a, <#=b#>[] columnVector)
         {
-            return DotWithTransposed(a, columnVector, new <#=r#>[a.GetLength(0), columnVector.Length]);
+            return DotWithTransposed(a, columnVector, new <#=r#>[a.Rows(), columnVector.Length]);
         }
 
         /// <summary>
@@ -317,7 +317,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[] DotWithTransposed(this <#=a#>[] rowVector, <#=b#>[,] b)
         {
-            return DotWithTransposed(rowVector, b, new <#=r#>[b.GetLength(0)]);
+            return DotWithTransposed(rowVector, b, new <#=r#>[b.Rows()]);
         }
 
         /// <summary>
@@ -351,7 +351,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] DotWithTransposed(this <#=a#>[,] a, <#=b#>[,] b)
         {
-            return DotWithTransposed(a, b, new <#=r#>[a.GetLength(0), b.GetLength(0)]);
+            return DotWithTransposed(a, b, new <#=r#>[a.Rows(), b.Rows()]);
         }
 
         /// <summary>
@@ -368,7 +368,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] DotWithTransposed(this <#=a#>[][] a, <#=b#>[,] b)
         {
-            return DotWithTransposed(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.Length, b.GetLength(0)));
+            return DotWithTransposed(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.Length, b.Rows()));
         }
 
         /// <summary>
@@ -385,7 +385,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] DotWithTransposed(this <#=a#>[,] a, <#=b#>[][] b)
         {
-            return DotWithTransposed(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.GetLength(0), b.Length));
+            return DotWithTransposed(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.Rows(), b.Length));
         }
 
 
@@ -420,7 +420,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[] TransposeAndDot(this <#=a#>[,] a, <#=b#>[] columnVector)
         {
-            return TransposeAndDot(a, columnVector, new <#=r#>[a.GetLength(1)]);
+            return TransposeAndDot(a, columnVector, new <#=r#>[a.Columns()]);
         }
 
         /// <summary>
@@ -454,7 +454,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] TransposeAndDot(this <#=a#>[] columnVector, <#=b#>[,] b)
         {
-            return TransposeAndDot(columnVector, b, new <#=r#>[columnVector.Length, b.GetLength(1)]);
+            return TransposeAndDot(columnVector, b, new <#=r#>[columnVector.Length, b.Columns()]);
         }
 
         /// <summary>
@@ -488,7 +488,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] TransposeAndDot(this <#=a#>[,] a, <#=b#>[,] b)
         {
-            return TransposeAndDot(a, b, Matrix.Create<<#=r#>>(a.GetLength(1), b.GetLength(1)));
+            return TransposeAndDot(a, b, Matrix.Create<<#=r#>>(a.Columns(), b.Columns()));
         }
 
         /// <summary>
@@ -505,7 +505,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] TransposeAndDot(this <#=a#>[][] a, <#=b#>[,] b)
         {
-            return TransposeAndDot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a[0].Length, b.GetLength(1)));
+            return TransposeAndDot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a[0].Length, b.Columns()));
         }
 
         /// <summary>
@@ -522,7 +522,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] TransposeAndDot(this <#=a#>[,] a, <#=b#>[][] b)
         {
-            return TransposeAndDot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.GetLength(0), b.Columns()));
+            return TransposeAndDot(a, b, Accord.Math.Jagged.Create<<#=r#>>(a.Rows(), b.Columns()));
         }
 
 #endregion
@@ -565,7 +565,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] DotWithDiagonal(this <#=a#>[,] a, <#=b#>[] b)
         {
-            return DotWithDiagonal(a, b, Matrix.Create<<#=r#>>(a.GetLength(0), b.Length));
+            return DotWithDiagonal(a, b, Matrix.Create<<#=r#>>(a.Rows(), b.Length));
         }
 
 
@@ -581,7 +581,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] TransposeAndDotWithDiagonal(this <#=a#>[,] a, <#=b#>[] b)
         {
-            return TransposeAndDotWithDiagonal(a, b, Matrix.Create<<#=r#>>(a.GetLength(1), b.Length));
+            return TransposeAndDotWithDiagonal(a, b, Matrix.Create<<#=r#>>(a.Columns(), b.Length));
         }
 
         /// <summary>
@@ -596,7 +596,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] TransposeAndDotWithDiagonal(this <#=a#>[][] a, <#=b#>[] b)
         {
-            return TransposeAndDotWithDiagonal(a, b, Jagged.Create<<#=r#>>(a.GetLength(1), b.Length));
+            return TransposeAndDotWithDiagonal(a, b, Jagged.Create<<#=r#>>(a.Columns(), b.Length));
         }
 
 
@@ -738,8 +738,8 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] Kronecker(this <#=a#>[,] a, <#=b#>[,] b)
         {
-            int crows = a.GetLength(0) * b.GetLength(0);
-            int ccols = a.GetLength(1) * b.GetLength(1);
+            int crows = a.Rows() * b.Rows();
+            int ccols = a.Columns() * b.Columns();
             return Kronecker(a, b, new <#=r#>[crows, ccols]);
         }
 
@@ -757,8 +757,8 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] Kronecker(this <#=a#>[][] a, <#=b#>[,] b)
         {
-            int crows = a.GetLength(0) * b.GetLength(0);
-            int ccols = a.GetLength(1) * b.GetLength(1);
+            int crows = a.Rows() * b.Rows();
+            int ccols = a.Columns() * b.Columns();
             return Kronecker(a, b, Accord.Math.Jagged.Create<<#=r#>>(crows, ccols));
         }
 
@@ -776,8 +776,8 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] Kronecker(this <#=a#>[,] a, <#=b#>[][] b)
         {
-            int crows = a.GetLength(0) * b.GetLength(0);
-            int ccols = a.GetLength(1) * b.GetLength(1);
+            int crows = a.Rows() * b.Rows();
+            int ccols = a.Columns() * b.Columns();
             return Kronecker(a, b, Accord.Math.Jagged.Create<<#=r#>>(crows, ccols));
         }
 <#
@@ -822,7 +822,7 @@ namespace Accord.Math
         public static <#=c#> DotAndDot(this <#=a#>[] rowVector, <#=b#>[][] b, <#=c#>[] columnVector)
         {
 #if DEBUG
-            if (rowVector.Length != b.GetLength(0) || b.Columns() != columnVector.Length)
+            if (rowVector.Length != b.Rows() || b.Columns() != columnVector.Length)
                 throw new DimensionMismatchException();
 #endif
             var ab = rowVector.Dot(b);
@@ -850,7 +850,7 @@ namespace Accord.Math
         public static <#=c#> DotAndDot(this <#=a#>[] rowVector, <#=b#>[,] b, <#=c#>[] columnVector)
         {
 #if DEBUG
-            if (rowVector.Length != b.GetLength(0) || b.GetLength(1) != columnVector.Length)
+            if (rowVector.Length != b.Rows() || b.Columns() != columnVector.Length)
                 throw new DimensionMismatchException();
 #endif
             var ab = rowVector.Dot(b);
@@ -894,12 +894,12 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] Dot(this <#=a#>[,] a, <#=b#>[,] b, <#=r#>[,] result)
         {
-            int N = result.GetLength(0);
-            int K = a.GetLength(1);
-            int M = result.GetLength(1);
-            int stride = b.GetLength(1);
+            int N = result.Rows();
+            int K = a.Columns();
+            int M = result.Columns();
+            int stride = b.Columns();
 #if DEBUG
-            if (a.GetLength(1) != b.GetLength(0) || result.GetLength(0) > a.GetLength(0) || result.GetLength(1) > b.GetLength(1))
+            if (a.Columns() != b.Rows() || result.Rows() > a.Rows() || result.Columns() > b.Columns())
                 throw new DimensionMismatchException();
 
             var C = Matrix.CreateAs(result).To<double[,]>();
@@ -1008,7 +1008,7 @@ namespace Accord.Math
         public static <#=r#>[][] Dot(this <#=a#>[][] a, <#=b#>[,] b, <#=r#>[][] result)
         {
 #if DEBUG
-            if (a[0].Length != b.GetLength(0) || result.Length > a.Length || result[0].Length > b.GetLength(1))
+            if (a[0].Length != b.Rows() || result.Length > a.Length || result[0].Length > b.Columns())
                 throw new DimensionMismatchException();
             var C = Matrix.CreateAs(result).To<double[,]>();
             C = Dot(a.ToMatrix().To<double[,]>(), b.To<double[,]>(), C);
@@ -1016,7 +1016,7 @@ namespace Accord.Math
             int N = result.Length;
             int K = a[0].Length;
             int M = result[0].Length;
-            int stride = b.GetLength(1);
+            int stride = b.Columns();
             var t = new <#=b#>[K];
 
             unsafe
@@ -1065,14 +1065,14 @@ namespace Accord.Math
         public static <#=r#>[][] Dot(this <#=a#>[,] a, <#=b#>[][] b, <#=r#>[][] result)
         {
 #if DEBUG
-            if (a.GetLength(1) != b.Length || result.Length > a.Length || result[0].Length > b.Columns())
+            if (a.Columns() != b.Length || result.Length > a.Length || result[0].Length > b.Columns())
                 throw new DimensionMismatchException();
             var C = Matrix.CreateAs(result).To<double[,]>();
             C = Dot(a.To<double[,]>(), b.ToMatrix().To<double[,]>(), C);
 #endif
             <#// TODO: Optimize#>
             int N = result.Length;
-            int K = a.GetLength(1);
+            int K = a.Columns();
             int M = result[0].Length;
 
             var t = new <#=b#>[K];
@@ -1112,11 +1112,11 @@ namespace Accord.Math
         public static <#=r#>[] Dot(this <#=a#>[] rowVector, <#=b#>[,] matrix, <#=r#>[] result)
         {
 #if DEBUG
-            if (rowVector.Length != matrix.GetLength(0) || result.Length > matrix.GetLength(1))
+            if (rowVector.Length != matrix.Rows() || result.Length > matrix.Columns())
                 throw new DimensionMismatchException();
 #endif
             <#// TODO: Optimize#>
-            int cols = matrix.GetLength(1);
+            int cols = matrix.Columns();
             for (int j = 0; j < cols; j++)
             {
                 <#=t#> s = (<#=t#>)0;
@@ -1171,7 +1171,7 @@ namespace Accord.Math
         public static <#=r#>[] Dot(this <#=a#>[,] matrix, <#=b#>[] columnVector, <#=r#>[] result)
         {
 #if DEBUG
-            if (matrix.GetLength(1) != columnVector.Length || result.Length > matrix.GetLength(0))
+            if (matrix.Columns() != columnVector.Length || result.Length > matrix.Rows())
                 throw new DimensionMismatchException();
 #endif
             <#// TODO: Optimize#>
@@ -1244,14 +1244,14 @@ namespace Accord.Math
         public static <#=r#>[,] DotWithTransposed(this <#=a#>[,] a, <#=b#>[,] b, <#=r#>[,] result)
         {
 #if DEBUG
-            if (a.GetLength(1) != b.GetLength(1) || result.GetLength(0) > a.GetLength(0) || result.GetLength(1) > b.GetLength(0))
+            if (a.Columns() != b.Columns() || result.Rows() > a.Rows() || result.Columns() > b.Rows())
                 throw new DimensionMismatchException();
             var C = Matrix.CreateAs(result).To<double[,]>();
             C = Dot(a.To<double[,]>(), b.Transpose().To<double[,]>(), C);
 #endif
-            int n = a.GetLength(1);
-            int m = a.GetLength(0);
-            int p = b.GetLength(0);
+            int n = a.Columns();
+            int m = a.Rows();
+            int p = b.Rows();
 
             unsafe
             {
@@ -1443,13 +1443,13 @@ namespace Accord.Math
         public static <#=r#>[,] TransposeAndDot(this <#=a#>[,] a, <#=b#>[,] b, <#=r#>[,] result)
         {
 #if DEBUG
-            if (a.GetLength(0) != b.GetLength(0) || result.GetLength(0) > a.GetLength(1) || result.GetLength(1) > b.GetLength(1))
+            if (a.Rows() != b.Rows() || result.Rows() > a.Columns() || result.Columns() > b.Columns())
                 throw new DimensionMismatchException();
             var C = Dot(a.Transpose().To<double[,]>(), b.To<double[,]>());
 #endif
-            int n = a.GetLength(0);
-            int m = a.GetLength(1);
-            int p = b.GetLength(1);
+            int n = a.Rows();
+            int m = a.Columns();
+            int p = b.Columns();
 
             var Bcolj = new <#=b#>[n];
             for (int i = 0; i < p; i++)
@@ -1534,12 +1534,12 @@ namespace Accord.Math
         public static <#=r#>[] TransposeAndDot(this <#=a#>[,] matrix, <#=b#>[] columnVector, <#=r#>[] result)
         {
 #if DEBUG
-            if (matrix.GetLength(0) != columnVector.Length || result.Length > matrix.GetLength(1))
+            if (matrix.Rows() != columnVector.Length || result.Length > matrix.Columns())
                 throw new DimensionMismatchException();
             var C = Dot(matrix.Transpose().To<double[,]>(), columnVector.To<double[]>());
 #endif
             <#// TODO: Optimize this call#>
-            int cols = matrix.GetLength(1);
+            int cols = matrix.Columns();
             for (int j = 0; j < cols; j++)
             {
                 <#=t#> s = (<#=t#>)0;
@@ -1688,7 +1688,7 @@ namespace Accord.Math
 #if DEBUG
             var C = Dot(a.Transpose().To<double[,]>(), Matrix.Diagonal(diagonal.To<double[]>()));
 #endif
-            int m = a.GetLength(1);
+            int m = a.Columns();
             for (int i = 0; i < diagonal.Length; i++)
                 for (int j = 0; j < m; j++)
                     result[j, i] = (<#=r#>)((<#=t#>)a[i, j] * (<#=t#>)diagonal[i]);
@@ -1716,7 +1716,7 @@ namespace Accord.Math
 #if DEBUG
             var C = Dot(a.Transpose().To<double[,]>(), Matrix.Diagonal(diagonal.To<double[]>()));
 #endif
-            int m = a.GetLength(1); 
+            int m = a.Columns(); 
             for (int i = 0; i < diagonal.Length; i++)
                 for (int j = 0; j < m; j++)
                     result[j][i] = (<#=r#>)((<#=t#>)a[i][j] * (<#=t#>)diagonal[i]);
@@ -1744,7 +1744,7 @@ namespace Accord.Math
 #if DEBUG
             var C = Dot(a.To<double[,]>(), Matrix.Diagonal(diagonal.To<double[]>()));
 #endif
-            int rows = a.GetLength(0);
+            int rows = a.Rows();
 
             unsafe
             {
@@ -1807,7 +1807,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] DivideByDiagonal(this <#=a#>[,] a, <#=b#>[] diagonal, <#=r#>[,] result)
         {
-            int rows = a.GetLength(0);
+            int rows = a.Rows();
 
             unsafe
             {
@@ -1950,11 +1950,11 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] Kronecker(this <#=a#>[,] a, <#=b#>[,] b, <#=r#>[,] result)
         {
-            int arows = a.GetLength(0);
-            int acols = a.GetLength(1);
+            int arows = a.Rows();
+            int acols = a.Columns();
 
-            int brows = b.GetLength(0);
-            int bcols = b.GetLength(1);
+            int brows = b.Rows();
+            int bcols = b.Columns();
 
             int crows = arows * brows;
             int ccols = acols * bcols;
