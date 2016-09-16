@@ -23,6 +23,7 @@
 namespace Accord.Math.Optimization
 {
     using System;
+    using System.Threading;
 
     /// <summary>
     ///   Least Squares function delegate.
@@ -66,6 +67,13 @@ namespace Accord.Math.Optimization
     /// 
     public interface ILeastSquaresMethod
     {
+
+        /// <summary>
+        ///   Gets or sets a cancellation token that can be used to
+        ///   stop the learning algorithm while it is running.
+        /// </summary>
+        /// 
+        CancellationToken Token { get; set; }
 
         /// <summary>
         ///   Gets or sets a parameterized model function mapping input vectors

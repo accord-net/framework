@@ -178,7 +178,7 @@ namespace Accord.Math
                 }
 
                 // Check if we have reached an invalid or perfectly separable answer
-                if (Double.IsNaN(NewValue) || Double.IsInfinity(NewValue))
+                if (Double.IsNaN(NewValue) || (Double.IsInfinity(OldValue) && Double.IsInfinity(NewValue)))
                     return true;
 
                 return false;

@@ -141,6 +141,66 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(4 / 9.0, meanShift.Clusters.Proportions[labels[2]], 1e-6);
         }
 
+        [Test]
+        public void meanshift_new_method()
+        {
+            #region doc_sample1
+            // Use a fixed seed for reproducibility
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Declare some data to be clustered
+            double[][] input = 
+            {
+                new double[] { -5, -2, -4 },
+                new double[] { -5, -5, -6 },
+                new double[] {  2,  1,  1 },
+                new double[] {  1,  1,  2 },
+                new double[] {  1,  2,  2 },
+                new double[] {  3,  1,  2 },
+                new double[] { 11,  5,  4 },
+                new double[] { 15,  5,  6 },
+                new double[] { 10,  5,  6 },
+            };
+
+            // Create a uniform kernel density function
+            UniformKernel kernel = new UniformKernel();
+
+            // Create a new Mean-Shift algorithm for 3 dimensional samples
+            MeanShift meanShift = new MeanShift(dimension: 3, kernel: kernel, bandwidth: 2);
+
+            // Learn a data partitioning using the Mean Shift algorithm
+            MeanShiftClusterCollection clustering = meanShift.Learn(input);
+
+            // Predict group labels for each point
+            int[] labels = clustering.Decide(input);
+
+            // As a result, the first two observations should belong to the
+            //  same cluster (thus having the same label). The same should
+            //  happen to the next four observations and to the last three.
+            #endregion
+
+            Assert.AreEqual(labels[0], labels[1]);
+
+            Assert.AreEqual(labels[2], labels[3]);
+            Assert.AreEqual(labels[2], labels[4]);
+            Assert.AreEqual(labels[2], labels[5]);
+
+            Assert.AreEqual(labels[6], labels[7]);
+            Assert.AreEqual(labels[6], labels[8]);
+
+            Assert.AreNotEqual(labels[0], labels[2]);
+            Assert.AreNotEqual(labels[2], labels[6]);
+            Assert.AreNotEqual(labels[0], labels[6]);
+
+
+            int[] labels2 = meanShift.Clusters.Nearest(input);
+            Assert.IsTrue(labels.IsEqual(labels2));
+
+            Assert.AreEqual(3 / 9.0, meanShift.Clusters.Proportions[labels[6]], 1e-6);
+            Assert.AreEqual(2 / 9.0, meanShift.Clusters.Proportions[labels[0]], 1e-6);
+            Assert.AreEqual(4 / 9.0, meanShift.Clusters.Proportions[labels[2]], 1e-6);
+        }
+
 
         [Test]
         public void WeightedMeanShiftConstructorTest()

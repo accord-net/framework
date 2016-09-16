@@ -27,6 +27,7 @@ namespace Accord.Tests.Statistics
     using NUnit.Framework;
     using Accord.Math;
     using System;
+    using Accord.Statistics.Models.Regression.Linear;
 
     [TestFixture]
     public class PrincipalComponentAnalysisTest
@@ -167,6 +168,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void learn_success()
         {
+            #region doc_learn_2
             // Reproducing Lindsay Smith's "Tutorial on Principal Component Analysis"
             // using the framework's default method. The tutorial can be found online
             // at http://www.sccg.sk/~haladova/principal_components.pdf
@@ -197,7 +199,8 @@ namespace Accord.Tests.Statistics
             //   (thus performing the correlation method) by specifying "Standardize"
             //   instead of "Center" as the AnalysisMethod.
 
-            var method = PrincipalComponentMethod.Center; // PrincipalComponentMethod.Standardize
+            var method = PrincipalComponentMethod.Center;
+            // var method = PrincipalComponentMethod.Standardize
 
 
             // Step 3. Compute the covariance matrix
@@ -280,8 +283,11 @@ namespace Accord.Tests.Statistics
             // Everything is correct (up to 8 decimal places)
             Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
 
+            // Let's say we would like to project down to one 
+            // principal component. It suffices to set:
             pca.NumberOfOutputs = 1;
 
+            // And then do the transform
             actual = pca.Transform(data);
 
             // transformedData shown in pg. 18
@@ -301,7 +307,7 @@ namespace Accord.Tests.Statistics
 
             // Everything is correct (up to 8 decimal places)
             Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
-
+            #endregion
 
             // Create the analysis using the selected method
             pca = new PrincipalComponentAnalysis(method, numberOfOutputs: 1);
@@ -333,6 +339,9 @@ namespace Accord.Tests.Statistics
         [Test]
         public void learn_whiten_success()
         {
+            #region doc_learn_1
+            // Below is the same data used on the excellent paper "Tutorial
+            //   On Principal Component Analysis", by Lindsay Smith (2002).
             double[][] data = 
             {
                 new double[] { 2.5,  2.4 },
@@ -347,10 +356,33 @@ namespace Accord.Tests.Statistics
                 new double[] { 1.1,  0.9 }
             };
 
-            var method = PrincipalComponentMethod.Center; // PrincipalComponentMethod.Standardize
-            var pca = new PrincipalComponentAnalysis(method, whiten: true);
+            // Let's create an analysis with centering (covariance method)
+            // but no standardization (correlation method) and whitening:
+            var pca = new PrincipalComponentAnalysis()
+            {
+                Method = PrincipalComponentMethod.Center,
+                Whiten = true
+            };
 
-            pca.Learn(data);
+            // Now we can learn the linear projection from the data
+            MultivariateLinearRegression transform = pca.Learn(data);
+
+            // Finally, we can project all the data
+            double[][] output1 = pca.Transform(data);
+
+            // Or just its first components by setting 
+            // NumberOfOutputs to the desired components:
+            pca.NumberOfOutputs = 1;
+
+            // And then calling transform again:
+            double[][] output2 = pca.Transform(data);
+
+            // We can also limit to 80% of explained variance:
+            pca.ExplainedVariance = 0.8;
+
+            // And then call transform again:
+            double[][] output3 = pca.Transform(data);
+            #endregion
 
             double[] eigenvalues = { 1.28402771, 0.0490833989 };
             double[] proportion = eigenvalues.Divide(eigenvalues.Sum());
@@ -365,6 +397,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(proportion.IsEqual(pca.ComponentProportions, rtol: 1e-9));
             Assert.IsTrue(eigenvalues.IsEqual(pca.Eigenvalues, rtol: 1e-5));
 
+            pca.ExplainedVariance = 1.0;
             double[][] actual = pca.Transform(data);
 
             double[][] expected = 
@@ -384,6 +417,12 @@ namespace Accord.Tests.Statistics
             // var str = actual.ToString(CSharpJaggedMatrixFormatProvider.InvariantCulture);
 
             // Everything is correct (up to 8 decimal places)
+            Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
+            Assert.IsTrue(expected.IsEqual(output1, atol: 1e-8));
+            Assert.IsTrue(expected.Get(null, 0, 1).IsEqual(output2, atol: 1e-8));
+            Assert.IsTrue(expected.Get(null, 0, 1).IsEqual(output3, atol: 1e-8));
+
+            actual = transform.Transform(data);
             Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
         }
 
@@ -691,12 +730,11 @@ namespace Accord.Tests.Statistics
 
             // Compute
             actual.Compute();
-            expected.Learn(cov);
+            var transform = expected.Learn(cov);
 
             // Transform
             double[,] actualTransform = actual.Transform(data);
             double[,] expectedTransform = expected.Transform(data);
-
 
             // Verify both are equal with 0.01 tolerance value
             Assert.IsTrue(Matrix.IsEqual(actualTransform, expectedTransform, 0.01));
@@ -706,7 +744,21 @@ namespace Accord.Tests.Statistics
             double[,] reverse = actual.Revert(image);
 
             // Verify both are equal with 0.01 tolerance value
-            Assert.IsTrue(Matrix.IsEqual(reverse, data, 0.01));
+            Assert.IsTrue(Matrix.IsEqual(reverse, data, 1e-6));
+
+            // Transform
+            double[][] image2 = transform.Transform(data.ToJagged());
+            double[][] reverse2 = transform.Inverse().Transform(image2);
+            Assert.IsTrue(Matrix.IsEqual(reverse, reverse2, 1e-6));
+            Assert.IsTrue(Matrix.IsEqual(reverse2, data, 1e-6));
+
+            // Transform
+            double[][] reverse3 = actual.Revert(image2);
+            Assert.IsTrue(Matrix.IsEqual(reverse, reverse3, 1e-6));
+            Assert.IsTrue(Matrix.IsEqual(reverse3, data, 1e-6));
+
+            var a = transform.Transform(data.ToJagged()).ToMatrix();
+            Assert.IsTrue(Matrix.IsEqual(a, expectedTransform, 0.01));
         }
 
         [Test]
@@ -715,16 +767,21 @@ namespace Accord.Tests.Statistics
             double[] mean = Measures.Mean(data, dimension: 0);
             double[][] cov = Measures.Covariance(data.ToJagged());
 
-            var target = new PrincipalComponentAnalysis(PrincipalComponentMethod.CovarianceMatrix)
+            #region doc_learn_3
+            // Create the Principal Component Analysis 
+            // specifying the CovarianceMatrix method:
+            var pca = new PrincipalComponentAnalysis()
             {
-                Means = mean
+                Method = PrincipalComponentMethod.CovarianceMatrix,
+                Means = mean // pass the original data mean vectors
             };
 
-            // Compute
-            target.Learn(cov);
+            // Learn the PCA projection using passing the cov matrix
+            MultivariateLinearRegression transform = pca.Learn(cov);
 
-            // Transform
-            double[,] actual = target.Transform(data);
+            // Now, we can transform data as usual
+            double[,] actual = pca.Transform(data);
+            #endregion
 
             double[,] expected = new double[,]
             {
@@ -744,13 +801,16 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(actual, expected, 0.01));
 
             // Transform
-            double[,] image = target.Transform(data);
+            double[,] image = pca.Transform(data);
 
             // Reverse
-            double[,] reverse = target.Revert(image);
+            double[,] reverse = pca.Revert(image);
 
             // Verify both are equal with 0.01 tolerance value
-            Assert.IsTrue(Matrix.IsEqual(reverse, data, 0.01));
+            Assert.IsTrue(Matrix.IsEqual(reverse, data, 1e-5));
+
+            actual = transform.Transform(data.ToJagged()).ToMatrix();
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-5));
         }
 
         [Test]
@@ -769,6 +829,31 @@ namespace Accord.Tests.Statistics
 
             // Verify both are equal with 0.01 tolerance value
             Assert.IsTrue(Matrix.IsEqual(actual, data, 0.01));
+        }
+
+        [Test]
+        public void Revert_new_method()
+        {
+            var target = new PrincipalComponentAnalysis();
+
+            // Compute
+            var transform = target.Learn(data.ToJagged());
+
+            // Transform
+            double[][] image = target.Transform(data.ToJagged());
+
+            // Reverse
+            double[][] actual = target.Revert(image);
+
+            // Verify both are equal with 0.01 tolerance value
+            Assert.IsTrue(Matrix.IsEqual(actual, data, 0.01));
+
+            // Reverse
+            double[][] actual2 = transform.Inverse().Transform(image);
+
+            // Verify both are equal with 0.01 tolerance value
+            Assert.IsTrue(Matrix.IsEqual(actual2, data, 0.01));
+            Assert.IsTrue(Matrix.IsEqual(actual2, actual, 1e-5));
         }
 
         [Test]

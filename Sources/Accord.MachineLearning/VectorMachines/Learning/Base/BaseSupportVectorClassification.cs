@@ -70,9 +70,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseSupportVectorClassification{TModel, TKernel, TInput}"/> class.
         /// </summary>
-        public BaseSupportVectorClassification()
+        /// 
+        protected BaseSupportVectorClassification()
         {
-
         }
 
         /// <summary>
@@ -89,13 +89,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
         /// <summary>
-        ///   Gets or sets the input vectors for calibration.
+        ///   Gets or sets the input vectors for training.
         /// </summary>
+        /// 
         public TInput[] Inputs { get; set; }
 
         /// <summary>
-        ///   Gets or sets the output labels for each calibration vector.
+        ///   Gets or sets the output labels for each training vector.
         /// </summary>
+        /// 
         public int[] Outputs { get; set; }
 
 
@@ -323,7 +325,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 kernel = SupportVectorLearningHelper.EstimateKernel(kernel, x);
 
             if (Model == null)
-                this.Model = Create(SupportVectorLearningHelper.GetNumberOfInputs(x), kernel);
+                Model = Create(SupportVectorLearningHelper.GetNumberOfInputs(x), kernel);
 
             Model.Kernel = kernel;
 
@@ -416,7 +418,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         public double ComputeError(TInput[] inputs, int[] expectedOutputs)
         {
             var classifier = (IClassifier<TInput, bool>)Model;
-            var loss = new ZeroOneLoss(expectedOutputs)
+            var loss = new ZeroOneLoss(Classes.Decide(expectedOutputs))
             {
                 Mean = true
             };
@@ -436,7 +438,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             Learn(Inputs, Outputs, null);
 
             var classifier = (IClassifier<TInput, bool>)Model;
-            return new ZeroOneLoss(Outputs)
+            return new ZeroOneLoss(Classes.Decide(Outputs))
             {
                 Mean = true,
             }.Loss(classifier.Decide(Inputs));
@@ -453,7 +455,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             if (computeError)
             {
                 var classifier = (IClassifier<TInput, bool>)Model;
-                return new ZeroOneLoss(Outputs)
+                return new ZeroOneLoss(Classes.Decide(Outputs))
                 {
                     Mean = true,
                 }.Loss(classifier.Decide(Inputs));
@@ -483,7 +485,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         ISupportVectorMachine<TInput> ISupervisedLearning<ISupportVectorMachine<TInput>, TInput, double>.Learn(TInput[] x, double[] y, double[] weights)
         {
-            throw new NotImplementedException();
+            return Learn(x, y, weights);
         }
     }
 }

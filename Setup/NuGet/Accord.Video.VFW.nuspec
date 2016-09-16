@@ -14,7 +14,7 @@
     <description>
       Contains classes to read and write AVI video files using Video For Windows. This package originated from the AForge.NET Framework and is part of the Accord.NET Framework.
     </description>
-    <summary>Accord.NET Video Video For Windows (VFW) Library from the Accord.NET Framework</summary>
+    <summary>Read and write AVI video files using Video For Windows (VFW).</summary>
     <tags>accord.net aforge.net framework video capture cameras</tags>
     <dependencies>
       <dependency id="Accord"                 version="$version$" />

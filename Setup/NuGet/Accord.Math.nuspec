@@ -14,7 +14,7 @@
     <description>
       Contains a matrix extension library, along with a suite of numerical matrix decomposition methods, numerical optimization algorithms for constrained and unconstrained problems, special functions and other tools for scientific applications. This package is part of the Accord.NET Framework.
     </description>
-    <summary>Accord.Math library from the Accord.NET framework</summary>
+    <summary>Matrix library, matrix decompositions (QR, SVD, LU, Cholesky, NMF), linear and non-linear optimization, constrained problem solvers, readers for MATLAB/Octave .MAT files, random number generation and others.</summary>
     <tags>accord.net aforge.net framework math decompositions lu qr constrained optimization differentiation numerical matrix algebra svd kernel quadratic programming linear regression</tags>
     <dependencies>
       <dependency id="Accord"      version="$version$" />

@@ -65,38 +65,15 @@ namespace Accord.MachineLearning.VectorMachines
     /// </remarks>
     /// 
     /// <example>
-    ///   <code>
-    ///   // Example XOR problem
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { 0, 0 }, // 0 xor 0: 1 (label +1)
-    ///       new double[] { 0, 1 }, // 0 xor 1: 0 (label -1)
-    ///       new double[] { 1, 0 }, // 1 xor 0: 0 (label -1)
-    ///       new double[] { 1, 1 }  // 1 xor 1: 1 (label +1)
-    ///   };
+    ///   <para>
+    ///   The first example shows how to learn an SVM using a 
+    ///   standard kernel that operates on vectors of doubles.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_xor_normal" />
     ///   
-    ///   // Dichotomy SVM outputs should be given as [-1;+1]
-    ///   int[] labels =
-    ///   {
-    ///       // 1,  0,  0, 1
-    ///          1, -1, -1, 1
-    ///   };
-    ///   
-    ///   // Create a Kernel Support Vector Machine for the given inputs
-    ///   KernelSupportVectorMachine machine = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
-    ///   
-    ///   // Instantiate a new learning algorithm for SVMs
-    ///   SequentialMinimalOptimization smo = new SequentialMinimalOptimization(machine, inputs, labels);
-    ///   
-    ///   // Set up the learning algorithm
-    ///   smo.Complexity = 1.0;
-    ///   
-    ///   // Run the learning algorithm
-    ///   double error = smo.Run();
-    ///   
-    ///   // Compute the decision output for one of the input vectors
-    ///   int decision = System.Math.Sign(machine.Compute(inputs[0]));
-    ///   </code>
+    ///   <para>
+    ///   The second example shows how to learn an SVM using a 
+    ///   Sparse kernel that operates on sparse vectors.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_xor_sparse" />
     /// </example>
     /// 
     /// <seealso cref="Accord.Statistics.Kernels"/>
@@ -111,7 +88,6 @@ namespace Accord.MachineLearning.VectorMachines
         BinaryLikelihoodClassifierBase<TInput>,
         ISupportVectorMachine<TInput>, ICloneable
         where TKernel : IKernel<TInput>
-        where TInput : ICloneable
     {
 
         private TKernel kernel;
@@ -336,7 +312,11 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         public static SupportVectorMachine FromLogisticRegression(LogisticRegression regression)
         {
-            return FromWeights(regression.Coefficients, interceptIndex: 0);
+            return new SupportVectorMachine(regression.NumberOfInputs)
+            {
+                Weights = regression.Weights.Copy(),
+                Threshold = regression.Intercept
+            };
         }
 
         /// <summary>

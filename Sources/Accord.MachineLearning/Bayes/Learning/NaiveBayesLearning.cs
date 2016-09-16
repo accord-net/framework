@@ -36,10 +36,18 @@ namespace Accord.MachineLearning.Bayes
     using System.Threading.Tasks;
 
 
-
     /// <summary>
-    ///   Naïve Bayes learning algorithm.
+    ///   Naïve Bayes learning algorithm for discrete distribution models.
     /// </summary>
+    /// 
+    /// <example>
+    /// <para>
+    ///   For basic examples on how to learn a Naive Bayes algorithm, please see
+    ///   <see cref="NaiveBayes"/> page. The following examples show how to set
+    ///   more specialized learning settings for discrete models.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_laplace" />
+    /// </example>
     /// 
     /// <seealso cref="NaiveBayes"/>
     /// 
@@ -51,6 +59,15 @@ namespace Accord.MachineLearning.Bayes
         ISupervisedLearning<NaiveBayes, int[], double[]>,
         ISupervisedLearning<NaiveBayes, int[], int>
     {
+
+        /// <summary>
+        /// Creates an instance of the model to be learned.
+        /// </summary>
+        protected override NaiveBayes Create(int[][] x, int y)
+        {
+            int[] inputs = x.DistinctCount();
+            return new NaiveBayes(classes: y, symbols: inputs);
+        }
 
         /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.
@@ -69,11 +86,7 @@ namespace Accord.MachineLearning.Bayes
             CheckArgs(x, y);
 
             if (Model == null)
-            {
-                int[] inputs = x.DistinctCount();
-                int outputs = y.DistinctCount();
-                Model = new NaiveBayes(outputs, inputs);
-            }
+                Model = Create(x, y.DistinctCount());
 
             // For each class
             Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, i =>
@@ -92,36 +105,35 @@ namespace Accord.MachineLearning.Bayes
                 if (Options.InnerOptions != null)
                     regularization = Options.InnerOptions[i].Regularization;
 
+                // TODO: Remove Laplace rule. It does the same as regularization
+                bool laplace = Options.InnerOption.UseLaplaceRule;
+                if (Options.InnerOptions != null)
+                    laplace = Options.InnerOptions[i].UseLaplaceRule;
+
+                if (laplace)
+                    regularization += 1;
+
+                bool priors = Options.InnerOption.UsePreviousValuesAsPriors;
+                if (Options.InnerOptions != null)
+                    priors = Options.InnerOptions[i].UsePreviousValuesAsPriors;
+
                 // For each variable (col)
                 Parallel.For(0, Model.NumberOfInputs, ParallelOptions, j =>
                 {
-                    // Count value occurrences and store
-                    // frequencies to form probabilities
-                    int numberOfSymbols = Model.NumberOfSymbols[j];
-                    double[] frequencies = new double[numberOfSymbols];
-                    double[] probabilities = Model.Distributions[i, j];
-
-                    // For each input row (instance)
-                    // belonging to the current class
+                    // Count value occurrences and store symbol frequencies 
+                    var frequencies = new double[Model.NumberOfSymbols[j]];
                     for (int k = 0; k < values.Length; k++)
                         frequencies[values[k][j]]++;
 
                     // Transform into probabilities
-                    for (int k = 0; k < frequencies.Length; k++)
-                    {
-                        // Use a M-estimator using the previously
-                        // available probabilities as priors.
-                        double prior = probabilities[k];
-                        double num = frequencies[k] + regularization;
-                        double den = values.Length + regularization;
-
-                        probabilities[k] = (num / den) * prior;
-                    }
+                    probabilities(regularization, priors, frequencies, Model.Distributions[i, j]);
                 });
             });
 
             return Model;
         }
+
+        
 
         /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.
@@ -140,11 +152,7 @@ namespace Accord.MachineLearning.Bayes
             CheckArgs(x, y);
 
             if (Model == null)
-            {
-                int[] inputs = x.DistinctCount();
-                int outputs = y[0].Length;
-                Model = new NaiveBayes(outputs, inputs);
-            }
+                Model = Create(x, y[0].Length);
 
             if (Options.InnerOptions != null)
                 for (int i = 0; i < Options.InnerOptions.Length; i++)
@@ -163,36 +171,43 @@ namespace Accord.MachineLearning.Bayes
                     Model.Priors[i] = sumOfWeights / x.Length;
 
                 double regularization = Options.InnerOptions[i].Regularization;
+                bool priors = Options.InnerOptions[i].UsePreviousValuesAsPriors;
+
+                // TODO: Remove Laplace rule. It does the same as regularization
+                if (Options.InnerOptions[i].UseLaplaceRule)
+                    regularization += 1;
 
                 // For each variable (col)
                 Parallel.For(0, Model.NumberOfInputs, ParallelOptions, j =>
                 {
-                    // Count value occurrences and store
-                    // frequencies to form probabilities
-                    int numberOfSymbols = Model.NumberOfSymbols[j];
-                    double[] frequencies = new double[numberOfSymbols];
-                    double[] probabilities = Model.Distributions[i, j];
-
-                    // For each input row (instance)
-                    // belonging to the current class
+                    // Count value occurrences and store symbol frequencies 
+                    var frequencies = new double[Model.NumberOfSymbols[j]];
                     for (int k = 0; k < x.Length; k++)
                         frequencies[x[k][j]] += y[i][j];
 
                     // Transform into probabilities
-                    for (int k = 0; k < frequencies.Length; k++)
-                    {
-                        // Use a M-estimator using the previously
-                        // available probabilities as priors.
-                        double prior = probabilities[k];
-                        double num = frequencies[k] + regularization;
-                        double den = sumOfWeights + regularization;
-
-                        probabilities[k] = (num / den) * prior;
-                    }
+                    probabilities(regularization, priors, frequencies, Model.Distributions[i, j]);
                 });
             });
 
             return Model;
+        }
+
+        private static void probabilities(double regularization, bool priors, double[] frequencies, double[] probabilities)
+        {
+            double sum = 0;
+            if (priors)
+            {
+                for (int k = 0; k < frequencies.Length; k++)
+                    sum += probabilities[k] *= frequencies[k] + regularization;
+            }
+            else
+            {
+                for (int k = 0; k < frequencies.Length; k++)
+                    sum += probabilities[k] = frequencies[k] + regularization;
+            }
+
+            probabilities.Divide(sum, result: probabilities);
         }
     }
 }

@@ -60,6 +60,7 @@ namespace Accord.Math.Optimization
 {
     using System;
     using System.Diagnostics;
+    using System.Threading;
 
     /// <summary>
     ///   General Sequential Minimal Optimization algorithm for Quadratic Programming problems.
@@ -139,6 +140,13 @@ namespace Accord.Math.Optimization
             get { return alpha; }
             set { alpha = value; }
         }
+
+        /// <summary>
+        ///   Gets or sets a cancellation token that can be used to
+        ///   stop the learning algorithm while it is running.
+        /// </summary>
+        /// 
+        public CancellationToken Token { get; set; }
 
         /// <summary>
         ///   Gets the output of the function at the current <see cref="Solution" />.
@@ -316,6 +324,9 @@ namespace Accord.Math.Optimization
 
             while (iter < max_iter)
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 // show progress and do shrinking
 
                 if (--counter == 0)

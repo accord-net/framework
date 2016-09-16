@@ -517,7 +517,13 @@ namespace Accord.Math
 
             var destination = new T[indexes.Length];
             for (int i = 0; i < indexes.Length; i++)
-                destination[i] = source[indexes[i]];
+            {
+                int j = indexes[i];
+                if (j >= 0)
+                    destination[i] = source[j];
+                else
+                    destination[i] = source[source.Length + j];
+            }
 
             if (inPlace)
             {

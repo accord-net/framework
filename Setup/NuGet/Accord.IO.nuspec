@@ -14,7 +14,7 @@
     <description>
       Contains File and data parsers to load and save data from different file formats. This package is part of the Accord.NET Framework.
     </description>
-    <summary>Accord.NET IO (data formats) Library from the Accord.NET Framework</summary>
+    <summary>Read and write CSV files with automatic delimiter detection, Excel XLS and XLSX files, IDX datasets (MNIST), Sparse samples (LibSVM), MATLAB/Octave .MAT files and others.</summary>
     <tags>accord.net aforge.net framework statistics mnist libsvm excel mat-file matlab octave matrix</tags>
     <dependencies>
       <dependency id="Accord"      version="$version$" />

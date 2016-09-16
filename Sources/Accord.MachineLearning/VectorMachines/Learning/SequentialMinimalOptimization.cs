@@ -95,37 +95,20 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </remarks>
     /// 
     /// <example>
-    ///   <code>
-    ///   // Example XOR problem
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { 0, 0 }, // 0 xor 0: 1 (label +1)
-    ///       new double[] { 0, 1 }, // 0 xor 1: 0 (label -1)
-    ///       new double[] { 1, 0 }, // 1 xor 0: 0 (label -1)
-    ///       new double[] { 1, 1 }  // 1 xor 1: 1 (label +1)
-    ///   };
-    ///    
-    ///   // Dichotomy SVM outputs should be given as [-1;+1]
-    ///   int[] labels =
-    ///   {
-    ///          1, -1, -1, 1
-    ///   };
-    ///  
-    ///   // Create a Kernel Support Vector Machine for the given inputs
-    ///   KernelSupportVectorMachine svm = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
-    /// 
-    ///   // Instantiate a new learning algorithm for SVMs
-    ///   SequentialMinimalOptimization smo = new SequentialMinimalOptimization(svm, inputs, labels);
-    /// 
-    ///   // Set up the learning algorithm
-    ///   smo.Complexity = 1.0;
-    /// 
-    ///   // Run the learning algorithm
-    ///   double error = smo.Run();
+    ///   <para>The following example shows how to use a SVM to learn a simple XOR function.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_xor_normal" />
     ///   
-    ///   // Compute the decision output for one of the input vectors
-    ///   int decision = System.Math.Sign(svm.Compute(inputs[0])); // +1
-    ///  </code>
+    ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using SMO.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn" />
+    ///   
+    ///   <para>The same as before, but using a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
+    ///   
+    ///   <para>
+    ///   The following example shows how to learn a simple binary SVM using
+    ///    a precomputed kernel matrix obtained from a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_precomputed" />
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
@@ -134,7 +117,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <seealso cref="ProbabilisticOutputCalibration"/>
     /// <seealso cref="MulticlassSupportVectorLearning"/>
     /// 
-    [Obsolete]
     public class SequentialMinimalOptimization :
         BaseSequentialMinimalOptimization<
             ISupportVectorMachine<double[]>, IKernel<double[]>, double[]>,
@@ -266,7 +248,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     }
 
     /// <summary>
-    ///   Sequential Minimal Optimization (SMO) Algorithm
+    ///   Sequential Minimal Optimization (SMO) Algorithm.
     /// </summary>
     /// 
     /// <remarks>
@@ -307,37 +289,20 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </remarks>
     /// 
     /// <example>
-    ///   <code>
-    ///   // Example XOR problem
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { 0, 0 }, // 0 xor 0: 1 (label +1)
-    ///       new double[] { 0, 1 }, // 0 xor 1: 0 (label -1)
-    ///       new double[] { 1, 0 }, // 1 xor 0: 0 (label -1)
-    ///       new double[] { 1, 1 }  // 1 xor 1: 1 (label +1)
-    ///   };
-    ///    
-    ///   // Dichotomy SVM outputs should be given as [-1;+1]
-    ///   int[] labels =
-    ///   {
-    ///          1, -1, -1, 1
-    ///   };
-    ///  
-    ///   // Create a Kernel Support Vector Machine for the given inputs
-    ///   KernelSupportVectorMachine svm = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
-    /// 
-    ///   // Instantiate a new learning algorithm for SVMs
-    ///   SequentialMinimalOptimization smo = new SequentialMinimalOptimization(svm, inputs, labels);
-    /// 
-    ///   // Set up the learning algorithm
-    ///   smo.Complexity = 1.0;
-    /// 
-    ///   // Run the learning algorithm
-    ///   double error = smo.Run();
+    ///   <para>The following example shows how to use a SVM to learn a simple XOR function.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_xor_normal" />
     ///   
-    ///   // Compute the decision output for one of the input vectors
-    ///   int decision = System.Math.Sign(svm.Compute(inputs[0])); // +1
-    ///  </code>
+    ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using SMO.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn" />
+    ///   
+    ///   <para>The same as before, but using a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
+    ///   
+    ///   <para>
+    ///   The following example shows how to learn a simple binary SVM using
+    ///    a precomputed kernel matrix obtained from a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_precomputed" />
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
@@ -363,7 +328,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     }
 
     /// <summary>
-    ///   Sequential Minimal Optimization (SMO) Algorithm
+    ///   Sequential Minimal Optimization (SMO) Algorithm (for arbitrary data types).
     /// </summary>
     /// 
     /// <remarks>
@@ -403,38 +368,22 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///     </list></para>  
     /// </remarks>
     /// 
+    /// 
     /// <example>
-    ///   <code>
-    ///   // Example XOR problem
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { 0, 0 }, // 0 xor 0: 1 (label +1)
-    ///       new double[] { 0, 1 }, // 0 xor 1: 0 (label -1)
-    ///       new double[] { 1, 0 }, // 1 xor 0: 0 (label -1)
-    ///       new double[] { 1, 1 }  // 1 xor 1: 1 (label +1)
-    ///   };
-    ///    
-    ///   // Dichotomy SVM outputs should be given as [-1;+1]
-    ///   int[] labels =
-    ///   {
-    ///          1, -1, -1, 1
-    ///   };
-    ///  
-    ///   // Create a Kernel Support Vector Machine for the given inputs
-    ///   KernelSupportVectorMachine svm = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
-    /// 
-    ///   // Instantiate a new learning algorithm for SVMs
-    ///   SequentialMinimalOptimization smo = new SequentialMinimalOptimization(svm, inputs, labels);
-    /// 
-    ///   // Set up the learning algorithm
-    ///   smo.Complexity = 1.0;
-    /// 
-    ///   // Run the learning algorithm
-    ///   double error = smo.Run();
+    ///   <para>The following example shows how to use a SVM to learn a simple XOR function.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_xor_normal" />
     ///   
-    ///   // Compute the decision output for one of the input vectors
-    ///   int decision = System.Math.Sign(svm.Compute(inputs[0])); // +1
-    ///  </code>
+    ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using SMO.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn" />
+    ///   
+    ///   <para>The same as before, but using a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
+    ///   
+    ///   <para>
+    ///   The following example shows how to learn a simple binary SVM using
+    ///    a precomputed kernel matrix obtained from a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_precomputed" />
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
@@ -447,7 +396,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         BaseSequentialMinimalOptimization<
             SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
         where TKernel : IKernel<TInput>
-        where TInput : ICloneable
     {
         /// <summary>
         /// Creates an instance of the model to be learned. Inheritors
@@ -463,11 +411,11 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <summary>
     ///   Base class for Sequential Minimal Optimization.
     /// </summary>
+    /// 
     public abstract class BaseSequentialMinimalOptimization<TModel, TKernel, TInput> :
         BaseSupportVectorClassification<TModel, TKernel, TInput>,
         ISupportVectorMachineLearning<TInput>
         where TKernel : IKernel<TInput>
-        where TInput : ICloneable
         where TModel : ISupportVectorMachine<TInput>
     // TODO: after a few releases, the TModel constraint should be changed to:
     // where TModel : SupportVectorMachine<TKernel, TInput>, ISupportVectorMachine<TInput>
@@ -493,7 +441,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         // Error cache to speed up computations
         private double[] errors;
 
-        private int cacheSize;
+        private int cacheSize = -1;
         private KernelFunctionCache<TKernel, TInput> kernelCache;
 
         private SelectionStrategy strategy = SelectionStrategy.WorstPair;
@@ -569,7 +517,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             get { return cacheSize; }
             set
             {
-                if (cacheSize < 0)
+                if (value < 0)
                     throw new ArgumentOutOfRangeException("value");
                 this.cacheSize = value;
             }
@@ -666,7 +614,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             this.errors = new double[samples];
 
             // Kernel cache
-            this.cacheSize = samples;
+            if (this.cacheSize == -1)
+            {
+                this.cacheSize = samples;
+            }
 
 
             // Lagrange multipliers
@@ -707,6 +658,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             while ((numChanged > 0 || examineAll) && !shouldStop)
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 numChanged = 0;
                 if (examineAll)
                 {

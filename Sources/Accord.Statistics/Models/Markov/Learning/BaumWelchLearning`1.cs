@@ -608,19 +608,20 @@ namespace Accord.Statistics.Models.Markov.Learning
                 Accord.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
 
                 if (lnsum != Double.NegativeInfinity)
+                {
                     for (int w = 0; w < weights.Length; w++)
                         weights[w] = weights[w] - lnsum;
 
+                    // Convert to probabilities
+                    for (int w = 0; w < weights.Length; w++)
+                    {
+                        double p = Math.Exp(weights[w]);
+                        weights[w] = (Double.IsNaN(p) || Double.IsInfinity(p)) ? 0.0 : p;
+                    }
 
-                // Convert to probabilities
-                for (int w = 0; w < weights.Length; w++)
-                {
-                    double p = Math.Exp(weights[w]);
-                    weights[w] = (Double.IsNaN(p) || Double.IsInfinity(p)) ? 0.0 : p;
+                    // Estimate the distribution for state i
+                    B[i].Fit(samples, weights, fittingOptions);
                 }
-
-                // Estimate the distribution for state i
-                B[i].Fit(samples, weights, fittingOptions);
             }
         }
 

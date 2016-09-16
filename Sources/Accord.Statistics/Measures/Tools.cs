@@ -30,39 +30,6 @@ namespace Accord.Statistics
     using AForge;
 
     /// <summary>
-    ///   Sample weight types.
-    /// </summary>
-    /// 
-    public enum WeightType
-    {
-        /// <summary>
-        ///   Weights should be ignored.
-        /// </summary>
-        /// 
-        None,
-
-        /// <summary>
-        ///   Weights are integers representing how many times a sample should repeat itself.
-        /// </summary>
-        /// 
-        Repetition,
-
-        /// <summary>
-        ///   Weights are fractional numbers that sum up to one.
-        /// </summary>
-        /// 
-        Fraction,
-
-        /// <summary>
-        ///   If weights sum up to one, they are handled as <see cref="Fraction">fractional
-        ///   weights</see>. If they sum to a whole number, they are handled as <see cref="Repetition">
-        ///   integer repetition counts</see>.
-        /// </summary>
-        /// 
-        Automatic,
-    }
-
-    /// <summary>
     ///   Set of statistics functions.
     /// </summary>
     /// 

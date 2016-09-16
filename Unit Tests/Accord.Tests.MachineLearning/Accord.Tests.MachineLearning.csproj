@@ -80,6 +80,7 @@
     <Compile Include="AprioriTest.cs" />
     <Compile Include="BootstrapTest.cs" />
     <Compile Include="Clustering\BinarySplitTest.cs" />
+    <Compile Include="DecisionTrees\RandomForestTest.cs" />
     <Compile Include="DecisionTrees\DecisionRuleTest.cs" />
     <Compile Include="DecisionTrees\ReducedErrorPruningTest.cs" />
     <Compile Include="DecisionTrees\ErrorBasedPruningTest.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="DecisionTrees\SimplificationTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="RansacTest.cs" />
     <Compile Include="TSNETest.cs" />
     <Compile Include="IO\LibSvmModelTest.cs" />
     <Compile Include="KNearestNeighbors\KnnPerformanceTest.cs" />
@@ -123,7 +125,7 @@
     <Compile Include="VectorMachines\Regression\LinearRegressionNewtonMethodTest.cs" />
     <Compile Include="VectorMachines\SupportVectorReductionTest.cs" />
     <Compile Include="VectorMachines\MultilabelSupportVectorLearningTest.cs" />
-    <Compile Include="VectorMachines\ProbabilisticOutputLearningTest.cs" />
+    <Compile Include="VectorMachines\ProbabilisticOutputCalibrationTest.cs" />
     <Compile Include="VectorMachines\MulticlassSupportVectorLearningTest.cs" />
     <Compile Include="VectorMachines\MulticlassSupportVectorMachineTest.cs" />
     <Compile Include="Bayes\NaiveBayesTest.cs" />
@@ -203,6 +205,7 @@
     <Content Include="Resources\liblinear\L1R_LR_DUAL_a9a.txt" />
     <Content Include="Resources\liblinear\L2R_LR_a9a.txt" />
     <None Include="Accord.snk" />
+    <None Include="Resources\rforest\features.csv" />
     <None Include="Resources\kmeans.bin" />
     <None Include="Resources\liblinear\a9a.test" />
     <None Include="Resources\liblinear\a9a.train" />
@@ -220,6 +223,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\svm2.svm" />
+    <None Include="Resources\rforest\times.csv" />
     <None Include="Resources\trainingsample.csv" />
     <None Include="Resources\tree.bin" />
     <None Include="Resources\validationsample.csv" />

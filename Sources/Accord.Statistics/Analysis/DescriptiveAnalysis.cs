@@ -56,28 +56,7 @@ namespace Accord.Statistics.Analysis
     /// </remarks>
     ///
     /// <example>
-    ///   <code>
-    ///   // Suppose we would like to compute descriptive
-    ///   // statistics from the following data samples:
-    ///   double[,] data =
-    ///   {
-    ///       { 1, 52, 5 },
-    ///       { 2, 12, 5 },
-    ///       { 1, 65, 5 },
-    ///       { 1, 25, 5 },
-    ///       { 2, 62, 5 },
-    ///   };
-    ///
-    ///   // Create the analysis
-    ///   DescriptiveAnalysis analysis = new DescriptiveAnalysis(data);
-    ///
-    ///   // Compute
-    ///   analysis.Compute();
-    ///
-    ///   // Retrieve interest measures
-    ///   double[] means = analysis.Means; // { 1.4, 43.2, 5.0 }
-    ///   double[] modes = analysis.Modes; // { 1.0, 52.0, 5.0 }
-    ///   </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\DescriptiveAnalysisTest.cs" region="doc_learn" />
     /// </example>
     /// 
     /// <seealso cref="Statistics.Tools"/>
@@ -250,10 +229,14 @@ namespace Accord.Statistics.Analysis
                 this.samples = matrix.GetLength(0);
                 this.variables = matrix.GetLength(1);
             }
-            else
+            else if (array != null)
             {
                 this.samples = array.Length;
                 this.variables = array[0].Length;
+            }
+            else
+            {
+                return;
             }
 
             // Create object-oriented structure to access data
@@ -433,6 +416,10 @@ namespace Accord.Statistics.Analysis
 
                 return this.columnNames;
             }
+            set
+            {
+                this.columnNames = value;
+            }
         }
 
         /// <summary>
@@ -449,7 +436,7 @@ namespace Accord.Statistics.Analysis
                         this.dScores = sourceMatrix.Center(Means, inPlace: false);
                     else this.dScores = sourceArray.Center(Means, inPlace: false).ToMatrix();
                 }
-                    
+
                 return this.dScores;
             }
         }

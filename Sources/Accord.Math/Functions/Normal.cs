@@ -638,5 +638,113 @@ namespace Accord.Math
         {
             return -Constants.LogSqrt2PI - value * value * 0.5;
         }
+
+
+
+        /// <summary>
+        /// 1-D Gaussian function.
+        /// </summary>
+        /// 
+        /// <param name="sigmaSquared">The variance parameter σ² (sigma squared).</param>
+        /// <param name="x">x value.</param>
+        /// 
+        /// <returns>Returns function's value at point <paramref name="x"/>.</returns>
+        /// 
+        /// <remarks><para>The function calculates 1-D Gaussian function:</para>
+        /// 
+        /// <code lang="none">
+        /// f(x) = exp( x * x / ( -2 * s * s ) ) / ( s * sqrt( 2 * PI ) )
+        /// </code>
+        /// </remarks>
+        /// 
+        public static double Gaussian(double sigmaSquared, double x)
+        {
+            return Math.Exp(x * x / (-2 * sigmaSquared)) / (Math.Sqrt(2 * Math.PI * sigmaSquared));
+        }
+
+        /// <summary>
+        /// 2-D Gaussian function.
+        /// </summary>
+        /// 
+        /// <param name="sigmaSquared">The variance parameter σ² (sigma squared).</param>
+        /// <param name="x">x value.</param>
+        /// <param name="y">y value.</param>
+        /// 
+        /// <returns>Returns function's value at point (<paramref name="x"/>, <paramref name="y"/>).</returns>
+        /// 
+        /// <remarks><para>The function calculates 2-D Gaussian function:</para>
+        /// 
+        /// <code lang="none">
+        /// f(x, y) = exp( x * x + y * y / ( -2 * s * s ) ) / ( s * s * 2 * PI )
+        /// </code>
+        /// </remarks>
+        /// 
+        public static double Gaussian2D(double sigmaSquared, double x, double y)
+        {
+            return Math.Exp((x * x + y * y) / (-2 * sigmaSquared)) / (2 * Math.PI * sigmaSquared);
+        }
+
+        /// <summary>
+        /// 1-D Gaussian kernel.
+        /// </summary>
+        /// 
+        /// <param name="sigmaSquared">The variance parameter σ² (sigma squared).</param>
+        /// <param name="size">Kernel size (should be odd), [3, 101].</param>
+        /// 
+        /// <returns>Returns 1-D Gaussian kernel of the specified size.</returns>
+        /// 
+        /// <remarks><para>The function calculates 1-D Gaussian kernel, which is array
+        /// of Gaussian function's values in the [-r, r] range of x value, where
+        /// r=floor(<paramref name="size"/>/2).
+        /// </para></remarks>
+        /// 
+        /// <exception cref="ArgumentException">Wrong kernel size.</exception>
+        /// 
+        public static double[] Kernel(double sigmaSquared, int size)
+        {
+            // check for evem size and for out of range
+            if (((size % 2) == 0) || (size < 3))
+                throw new ArgumentOutOfRangeException("size", "Kernel size must be odd and higher than 2.");
+
+            int r = size / 2;
+
+            double[] kernel = new double[size];
+            for (int x = -r, i = 0; i < size; x++, i++)
+                kernel[i] = Gaussian(sigmaSquared, x);
+
+            return kernel;
+        }
+
+        /// <summary>
+        /// 2-D Gaussian kernel.
+        /// </summary>
+        /// 
+        /// <param name="sigmaSquared">The variance parameter σ² (sigma squared).</param>
+        /// <param name="size">Kernel size (should be odd), [3, 101].</param>
+        /// 
+        /// <returns>Returns 2-D Gaussian kernel of specified size.</returns>
+        /// 
+        /// <remarks><para>The function calculates 2-D Gaussian kernel, which is array
+        /// of Gaussian function's values in the [-r, r] range of x,y values, where
+        /// r=floor(<paramref name="size"/>/2).
+        /// </para></remarks>
+        /// 
+        /// <exception cref="ArgumentException">Wrong kernel size.</exception>
+        /// 
+        public static double[,] Kernel2D(double sigmaSquared, int size)
+        {
+            // check for evem size and for out of range
+            if (((size % 2) == 0) || (size < 3))
+                throw new ArgumentOutOfRangeException("size", "Kernel size must be odd and higher than 2.");
+
+            int r = size / 2;
+
+            double[,] kernel = new double[size, size];
+            for (int y = -r, i = 0; i < size; y++, i++)
+                for (int x = -r, j = 0; j < size; x++, j++)
+                    kernel[i, j] = Gaussian2D(sigmaSquared, x, y);
+
+            return kernel;
+        }
     }
 }

@@ -46,6 +46,7 @@ using Accord.Statistics.Kernels;
 using AForge;
 using Components;
 using ZedGraph;
+using System.Diagnostics;
 
 namespace SampleApp
 {
@@ -101,12 +102,8 @@ namespace SampleApp
             // Get only the output labels (last column)
             int[] outputs = table.GetColumn(2).ToInt32();
 
-
-            // Creates the SVM for 2 input variables
-            svm = new SupportVectorMachine(inputs: 2);
-
-            // Creates a new instance of the sparse logistic learning algorithm
-            var smo = new ProbabilisticCoordinateDescent(svm, inputs, outputs)
+            // Create a sparse logistic learning algorithm
+            var pcd = new ProbabilisticCoordinateDescent()
             {
                 // Set learning parameters
                 Complexity = (double)numC.Value,
@@ -115,11 +112,10 @@ namespace SampleApp
                 NegativeWeight = (double)numNegativeWeight.Value,
             };
 
-
             try
             {
                 // Run
-                double error = smo.Run();
+                svm = pcd.Learn(inputs, outputs);
 
                 lbStatus.Text = "Training complete!";
             }
@@ -129,12 +125,14 @@ namespace SampleApp
                     "The learned machine might still be usable.";
             }
 
+            svm.Compress(); // reduce support vectors to a single weight vector
+            Trace.Assert(svm.SupportVectors.Length == 1);
+            Trace.Assert(svm.Weights.Length == 1);
 
             createSurface(table);
 
-
             // Show feature weight importance
-            double[] weights = svm.Weights.Abs();
+            double[] weights = svm.SupportVectors[0].Abs();
 
             string[] featureNames = columnNames.RemoveAt(columnNames.Length - 1);
             dgvSupportVectors.DataSource = new ArrayDataView(weights, featureNames);

@@ -31,7 +31,7 @@ namespace Accord.MachineLearning
     /// </summary>
     /// 
     [Serializable]
-    public struct ClassPair
+    public struct ClassPair : IEquatable<ClassPair>
     {
         private int class1;
         private int class2;
@@ -79,6 +79,35 @@ namespace Accord.MachineLearning
         public override string ToString()
         {
             return "{0},{1}".Format(Class1, Class2);
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
+        public bool Equals(ClassPair other)
+        {
+            return class1 == other.class1 && class2 == other.class2;
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current instance.</param>
+        /// <returns><c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
+        public override bool Equals(object obj)
+        {
+            return Equals((ClassPair)obj);
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
+        public override int GetHashCode()
+        {
+            return class1 * 47 + class2;
         }
     }
 

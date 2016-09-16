@@ -43,6 +43,8 @@ namespace Accord.MachineLearning
     /// <typeparam name="TBinary">The type for the inner binary classifiers used in the one-vs-one approach.</typeparam>
     /// <typeparam name="TModel">The type of the model being learned.</typeparam>
     /// 
+    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.MulticlassSupportVectorLearning"/>
+    /// 
     public abstract class OneVsOneLearning<TBinary, TModel> :
         OneVsOneLearning<double[], TBinary, TModel>
         where TModel : OneVsOne<TBinary>
@@ -57,6 +59,8 @@ namespace Accord.MachineLearning
     /// <typeparam name="TInput">The type for the samples handled by the classifier. Default is double[].</typeparam>
     /// <typeparam name="TBinary">The type for the inner binary classifiers used in the one-vs-one approach.</typeparam>
     /// <typeparam name="TModel">The type of the model being learned.</typeparam>
+    /// 
+    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.MulticlassSupportVectorLearning"/>
     /// 
     public abstract class OneVsOneLearning<TInput, TBinary, TModel> : ParallelLearningBase,
         ISupervisedLearning<TModel, TInput, int>

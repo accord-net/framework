@@ -38,6 +38,9 @@ using Accord.Math;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
+using Accord.MachineLearning;
+using Accord.Math.Optimization.Losses;
+using Accord;
 
 namespace Liblinear
 {
@@ -335,100 +338,99 @@ namespace Liblinear
             double[][] inputs = prob.Inputs;
             int[] labels = prob.Outputs.Apply(x => x >= 0 ? 1 : -1);
 
-            double eps = param.Tolerance;
-
-            int pos = 0;
-            for (int i = 0; i < labels.Length; i++)
-                if (labels[i] >= 0) pos++;
-            int neg = prob.Outputs.Length - pos;
-
-            double primal_solver_tol = eps * Math.Max(Math.Min(pos, neg), 1.0) / prob.Inputs.Length;
-
-            SupportVectorMachine svm = new SupportVectorMachine(prob.Dimensions);
-            ISupportVectorMachineLearning teacher = null;
-
-
-            switch (param.Solver)
-            {
-                case LibSvmSolverType.L2RegularizedLogisticRegression:
-
-                    // l2r_lr_fun
-                    teacher = new ProbabilisticNewtonMethod(svm, inputs, labels)
-                    {
-                        PositiveWeight = Cp,
-                        NegativeWeight = Cn,
-                        Tolerance = primal_solver_tol
-                    }; break;
-
-
-                case LibSvmSolverType.L2RegularizedL2LossSvc:
-
-                    // fun_obj=new l2r_l2_svc_fun(prob, C);
-                    teacher = new LinearNewtonMethod(svm, inputs, labels)
-                    {
-                        PositiveWeight = Cp,
-                        NegativeWeight = Cn,
-                        Tolerance = primal_solver_tol
-                    }; break;
-
-
-                case LibSvmSolverType.L2RegularizedL2LossSvcDual:
-
-                    // solve_l2r_l1l2_svc(prob, w, eps, Cp, Cn, L2R_L2LOSS_SVC_DUAL);
-                    teacher = new LinearDualCoordinateDescent(svm, inputs, labels)
-                    {
-                        Loss = Loss.L2,
-                        PositiveWeight = Cp,
-                        NegativeWeight = Cn,
-                    }; break;
-
-
-                case LibSvmSolverType.L2RegularizedL1LossSvcDual:
-
-                    // solve_l2r_l1l2_svc(prob, w, eps, Cp, Cn, L2R_L1LOSS_SVC_DUAL);
-                    teacher = new LinearDualCoordinateDescent(svm, inputs, labels)
-                    {
-                        Loss = Loss.L1,
-                        PositiveWeight = Cp,
-                        NegativeWeight = Cn,
-                    }; break;
-
-
-                case LibSvmSolverType.L1RegularizedLogisticRegression:
-
-                    // solve_l1r_lr(&prob_col, w, primal_solver_tol, Cp, Cn);
-                    teacher = new ProbabilisticCoordinateDescent(svm, inputs, labels)
-                    {
-                        PositiveWeight = Cp,
-                        NegativeWeight = Cn,
-                        Tolerance = primal_solver_tol
-                    }; break;
-
-
-                case LibSvmSolverType.L2RegularizedLogisticRegressionDual:
-
-                    // solve_l2r_lr_dual(prob, w, eps, Cp, Cn);
-                    teacher = new ProbabilisticDualCoordinateDescent(svm, inputs, labels)
-                    {
-                        PositiveWeight = Cp,
-                        NegativeWeight = Cn,
-                        Tolerance = primal_solver_tol,
-                    }; break;
-            }
-
+            // Create the learning algorithm from the parameters
+            var teacher = create(param, Cp, Cn, inputs, labels);
 
             Trace.WriteLine("Training " + param.Solver);
             
-            // run the learning algorithm
+            // Run the learning algorithm
             var sw = Stopwatch.StartNew();
-            double error = teacher.Run();
+            SupportVectorMachine svm = teacher.Learn(inputs, labels);
             sw.Stop();
 
-            // save the solution
+            double error = new HingeLoss(labels).Loss(svm.Score(inputs));
+
+            // Save the solution
             w = svm.ToWeights();
 
             Trace.WriteLine(String.Format("Finished {0}: {1} in {2}", 
                 param.Solver, error, sw.Elapsed));
+        }
+
+        private static ISupervisedLearning<SupportVectorMachine, double[], int> create(
+            Parameters param, double Cp, double Cn, double[][] inputs, int[] outputs)
+        {
+            double eps = param.Tolerance;
+            int n = outputs.Length;
+
+            int pos = 0;
+            for (int i = 0; i < outputs.Length; i++)
+            {
+                if (outputs[i] >= 0) 
+                    pos++;
+            }
+            int neg = n - pos;
+
+            double primal_solver_tol = eps * Math.Max(Math.Min(pos, neg), 1.0) / n;
+
+            switch (param.Solver)
+            {
+                case LibSvmSolverType.L2RegularizedLogisticRegression:
+                    // l2r_lr_fun
+                    return new ProbabilisticNewtonMethod()
+                    {
+                        PositiveWeight = Cp,
+                        NegativeWeight = Cn,
+                        Tolerance = primal_solver_tol
+                    }; 
+
+                case LibSvmSolverType.L2RegularizedL2LossSvc:
+                    // fun_obj=new l2r_l2_svc_fun(prob, C);
+                    return new LinearNewtonMethod()
+                    {
+                        PositiveWeight = Cp,
+                        NegativeWeight = Cn,
+                        Tolerance = primal_solver_tol
+                    }; 
+
+                case LibSvmSolverType.L2RegularizedL2LossSvcDual:
+                    // solve_l2r_l1l2_svc(prob, w, eps, Cp, Cn, L2R_L2LOSS_SVC_DUAL);
+                    return new LinearDualCoordinateDescent()
+                    {
+                        Loss = Loss.L2,
+                        PositiveWeight = Cp,
+                        NegativeWeight = Cn,
+                    }; 
+
+                case LibSvmSolverType.L2RegularizedL1LossSvcDual:
+                    // solve_l2r_l1l2_svc(prob, w, eps, Cp, Cn, L2R_L1LOSS_SVC_DUAL);
+                    return new LinearDualCoordinateDescent()
+                    {
+                        Loss = Loss.L1,
+                        PositiveWeight = Cp,
+                        NegativeWeight = Cn,
+                    }; 
+
+                case LibSvmSolverType.L1RegularizedLogisticRegression:
+                    // solve_l1r_lr(&prob_col, w, primal_solver_tol, Cp, Cn);
+                    return new ProbabilisticCoordinateDescent()
+                    {
+                        PositiveWeight = Cp,
+                        NegativeWeight = Cn,
+                        Tolerance = primal_solver_tol
+                    }; 
+
+                case LibSvmSolverType.L2RegularizedLogisticRegressionDual:
+                    // solve_l2r_lr_dual(prob, w, eps, Cp, Cn);
+                    return new ProbabilisticDualCoordinateDescent()
+                    {
+                        PositiveWeight = Cp,
+                        NegativeWeight = Cn,
+                        Tolerance = primal_solver_tol,
+                    }; 
+            }
+
+            throw new InvalidOperationException("Unknown solver type: {0}".Format(param.Solver));
         }
 
 

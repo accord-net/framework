@@ -199,17 +199,14 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             for (int i = 0; i < diagonal.Length; i++)
                 diagonal[i] = Kernel.Function(inputs[i], inputs[i]) + 1.0 / C[i];
 
-
             // 1. Solve to find nu and eta
             double[] eta = conjugateGradient(outputs);
             double[] nu = conjugateGradient(ones);
-
 
             // 2. Compute  s = Y' eta
             double s = 0;
             for (int i = 0; i < outputs.Length; i++)
                 s += outputs[i] * eta[i];
-
 
             // 3. Find solution
             double b = 0;

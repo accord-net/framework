@@ -70,10 +70,14 @@ namespace Eigenfaces.PCA
             double[][] hands = extract();
 
             // Create a new Principal Component Analysis object
-            pca = new PrincipalComponentAnalysis(hands, AnalysisMethod.Center);
+            pca = new PrincipalComponentAnalysis()
+            {
+                Method = PrincipalComponentMethod.Center,
+                ExplainedVariance = 0.95
+            };
 
             // Compute it
-            pca.Compute();
+            pca.Learn(hands);
 
             // Now we will plot the Eigenvectors as images
             ArrayToImage reverse = new ArrayToImage(32, 32);
@@ -157,7 +161,7 @@ namespace Eigenfaces.PCA
             {
                 double[] feature = (double[])row.Tag;
 
-                int output = classifier.Compute(feature);
+                int output = classifier.Decide(feature);
 
                 row.Cells["colClassification"].Value = ((char)(output + 'A')).ToString();
 

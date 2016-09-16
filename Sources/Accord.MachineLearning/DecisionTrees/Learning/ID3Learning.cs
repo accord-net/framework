@@ -28,6 +28,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     using Accord.Statistics;
     using Accord.Math.Optimization.Losses;
     using Accord.MachineLearning;
+    using System.Linq;
+    using System.Collections.Generic;
 
     /// <summary>
     ///   ID3 (Iterative Dichotomizer 3) learning algorithm
@@ -172,6 +174,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         private int join = 1;
 
         private int[] attributeUsageCount;
+        private IList<DecisionVariable> attributes;
 
 
         /// <summary>
@@ -193,6 +196,17 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
                 maxHeight = value;
             }
+        }
+
+        /// <summary>
+        ///   Gets or sets the collection of attributes to 
+        ///   be processed by the induced decision tree.
+        /// </summary>
+        /// 
+        public IList<DecisionVariable> Attributes
+        {
+            get { return attributes; }
+            set { attributes = value; }
         }
 
         /// <summary>
@@ -257,6 +271,18 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             init(tree);
         }
 
+        /// <summary>
+        ///   Creates a new ID3 learning algorithm.
+        /// </summary>
+        /// 
+        /// <param name="attributes">The attributes to be processed by the induced tree.</param>
+        /// 
+        public ID3Learning(DecisionVariable[] attributes)
+            : this()
+        {
+            this.attributes = new List<DecisionVariable>(attributes);
+        }
+
         private void init(DecisionTree tree)
         {
             if (tree == null)
@@ -266,6 +292,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             this.inputRanges = new IntRange[tree.NumberOfInputs];
             this.outputClasses = tree.NumberOfOutputs;
             this.attributeUsageCount = new int[tree.NumberOfInputs];
+            this.attributes = tree.Attributes;
 
             for (int i = 0; i < tree.Attributes.Count; i++)
             {
@@ -291,12 +318,13 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         {
             if (tree == null)
             {
-                var variables = DecisionVariable.FromData(x);
-                int classes = y.DistinctCount();
-                init(new DecisionTree(variables, classes));
+                if (this.attributes == null)
+                    this.attributes = DecisionVariable.FromData(x);
+                int classes = y.Max() + 1;
+                init(new DecisionTree(this.attributes, classes));
             }
 
-            Run(x, y);
+            run(x, y);
 
             return tree;
         }
@@ -311,7 +339,19 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         /// <returns>The error of the generated tree.</returns>
         /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(int[][] inputs, int[] outputs)
+        {
+            run(inputs, outputs);
+
+            // Return the classification error
+            return new ZeroOneLoss(outputs)
+            {
+                Mean = true
+            }.Loss(tree.Decide(inputs));
+        }
+
+        private void run(int[][] inputs, int[] outputs)
         {
             // Initial argument check
             checkArgs(inputs, outputs);
@@ -326,10 +366,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             // 1. Create a root node for the tree
             this.tree.Root = new DecisionNode(tree);
 
+            // Recursively split the tree nodes
             split(tree.Root, inputs, outputs, 0);
-
-            // Return the classification error
-            return ComputeError(inputs, outputs);
         }
 
 
@@ -344,14 +382,17 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         /// <returns>The percentage error of the prediction.</returns>
         /// 
+        [Obsolete("Please use the ZeroOneLoss class instead.")]
         public double ComputeError(int[][] inputs, int[] outputs)
         {
-            return new ZeroOneLoss(outputs) { Mean = true }.Loss(tree.Decide(inputs));
+            return new ZeroOneLoss(outputs)
+            {
+                Mean = true
+            }.Loss(tree.Decide(inputs));
         }
 
         private void split(DecisionNode root, int[][] input, int[] output, int height)
         {
-
             // 2. If all examples are for the same class, return the single-node
             //    tree with the output label corresponding to this common class.
             double entropy = Measures.Entropy(output, outputClasses);

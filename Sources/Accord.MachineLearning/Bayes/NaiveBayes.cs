@@ -118,10 +118,11 @@ namespace Accord.MachineLearning.Bayes
     ///   Naive Bayes on those vectors.</para>
     /// 
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_multiclass" />
-    /// 
     /// </example>
     /// 
-    /// <seealso cref="NaiveBayes{T}"/>
+    /// <seealso cref="NaiveBayesLearning"/>
+    /// <seealso cref="NaiveBayes{TDistribution}"/>
+    /// <seealso cref="NaiveBayes{TDistribution, TInput}"/>
     /// 
     [Serializable]
     [SerializationBinder(typeof(NaiveBayes.NaiveBayesBinder))]

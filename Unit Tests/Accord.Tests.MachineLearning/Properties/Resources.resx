@@ -193,4 +193,10 @@
   <data name="pca_mnist_v3_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\mnist\pca_mnist_v3_1.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="features" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\rforest\features.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="times" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\rforest\times.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
 </root>

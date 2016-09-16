@@ -320,6 +320,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             while (iter < max_iter)
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 Gmax_new = 0;
                 Gnorm1_new = 0;
                 int j;

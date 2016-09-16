@@ -29,7 +29,7 @@ namespace Accord.Math.Optimization.Losses
     /// </summary>
     /// 
     [Serializable]
-    public class HingeLoss : LossBase<double[][]>, ILoss<double[]>
+    public class HingeLoss : LossBase<double[][]>, ILoss<double[]>, ILoss<int[]>
     {
 
         /// <summary>
@@ -52,6 +52,30 @@ namespace Accord.Math.Optimization.Losses
 
         public HingeLoss(double[] expected)
             : base(Jagged.ColumnVector(expected))
+        {
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="HingeLoss"/> class.
+        /// </summary>
+        /// 
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
+
+        public HingeLoss(int[] expected)
+            : base(Jagged.OneHot(expected))
+        {
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="HingeLoss"/> class.
+        /// </summary>
+        /// 
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
+
+        public HingeLoss(bool[] expected)
+            : base(Jagged.OneHot<double>(expected))
         {
         }
 
@@ -106,6 +130,28 @@ namespace Accord.Math.Optimization.Losses
             return error;
         }
 
+        /// <summary>
+        ///   Computes the loss between the expected values (ground truth)
+        ///   and the given actual values that have been predicted.
+        /// </summary>
+        /// 
+        /// <param name="actual">The actual values that have been predicted.</param>
+        /// 
+        /// <returns>
+        ///   The loss value between the expected values and
+        ///   the actual predicted values.
+        /// </returns>
+        /// 
+        public double Loss(int[] actual)
+        {
+            int error = 0;
+            for (int i = 0; i < Expected.Length; i++)
+            {
+                if (actual[i] < 0 ^ Expected[i][0] < 0)
+                    error++;
+            }
 
+            return error;
+        }
     }
 }

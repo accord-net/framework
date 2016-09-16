@@ -23,6 +23,7 @@
 namespace Accord.MachineLearning.VectorMachines
 {
     using Accord.MachineLearning;
+    using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
     using Accord.Statistics;
     using Accord.Statistics.Kernels;
@@ -58,60 +59,34 @@ namespace Accord.MachineLearning.VectorMachines
     ///       <a href="http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html">
     ///        http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html </a></description></item>
     ///     </list></para>
-    ///
     /// </remarks>
     ///
     /// <example>
-    ///   <code>
-    ///   // Sample data
-    ///   //   The following is simple auto association function
-    ///   //   where each input correspond to its own class. This
-    ///   //   problem should be easily solved by a Linear kernel.
-    ///
-    ///   // Sample input data
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { 0 },
-    ///       new double[] { 3 },
-    ///       new double[] { 1 },
-    ///       new double[] { 2 },
-    ///   };
-    ///
-    ///   // Outputs for each of the inputs
-    ///   int[][] outputs =
-    ///   {
-    ///       new[] { -1,  1, -1 },
-    ///       new[] { -1, -1,  1 },
-    ///       new[] {  1,  1, -1 },
-    ///       new[] { -1, -1, -1 },
-    ///   };
-    ///
-    ///
-    ///   // Create a new Linear kernel
-    ///   IKernel kernel = new Linear();
-    ///
-    ///   // Create a new Multi-class Support Vector Machine with one input,
-    ///   //  using the linear kernel and for four disjoint classes.
-    ///   var machine = new MultilabelSupportVectorMachine(1, kernel, 3);
-    ///
-    ///   // Create the Multi-label learning algorithm for the machine
-    ///   var teacher = new MultilabelSupportVectorLearning(machine, inputs, outputs);
-    ///
-    ///   // Configure the learning algorithm to use SMO to train the
-    ///   //  underlying SVMs in each of the binary class subproblems.
-    ///   teacher.Algorithm = (svm, classInputs, classOutputs, i, j) =>
-    ///       new SequentialMinimalOptimization(svm, classInputs, classOutputs);
-    ///
-    ///   // Run the learning algorithm
-    ///   double error = teacher.Run();
-    ///   </code>
+    /// <para>
+    ///   The following example shows how to learn a linear, multi-label (one-vs-rest) support 
+    ///   vector machine using the <see cref="LinearDualCoordinateDescent"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    /// 
+    /// <para>
+    ///   The following example shows how to learn a non-linear, multi-label (one-vs-rest) 
+    ///   support vector machine using the <see cref="Gaussian"/> kernel and the 
+    ///   <see cref="SequentialMinimalOptimization"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
+    ///   
+    /// <para>
+    ///   Support vector machines can have their weights calibrated in order to produce probability 
+    ///   estimates (instead of simple class separation distances). The following example shows how 
+    ///   to use <see cref="ProbabilisticOutputCalibration"/> within <see cref="MulticlassSupportVectorLearning"/> 
+    ///   to generate a probabilistic SVM:</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_calibration" />
     /// </example>
-    ///
-    /// <seealso cref="Learning.MultilabelSupportVectorLearning"/>
-    ///
+    /// 
+    /// <seealso cref="MulticlassSupportVectorMachine"/>
     /// <seealso cref="SupportVectorMachine"/>
     /// <seealso cref="KernelSupportVectorMachine"/>
-    /// <seealso cref="Learning.SequentialMinimalOptimization"/>
+    /// 
+    /// <seealso cref="MultilabelSupportVectorLearning"/>
+    /// <seealso cref="SequentialMinimalOptimization"/>
     ///
     [Serializable]
     public class MultilabelSupportVectorMachine<TKernel, TInput> :
@@ -161,56 +136,31 @@ namespace Accord.MachineLearning.VectorMachines
     /// </remarks>
     ///
     /// <example>
-    ///   <code>
-    ///   // Sample data
-    ///   //   The following is simple auto association function
-    ///   //   where each input correspond to its own class. This
-    ///   //   problem should be easily solved by a Linear kernel.
-    ///
-    ///   // Sample input data
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { 0 },
-    ///       new double[] { 3 },
-    ///       new double[] { 1 },
-    ///       new double[] { 2 },
-    ///   };
-    ///
-    ///   // Outputs for each of the inputs
-    ///   int[][] outputs =
-    ///   {
-    ///       new[] { -1,  1, -1 },
-    ///       new[] { -1, -1,  1 },
-    ///       new[] {  1,  1, -1 },
-    ///       new[] { -1, -1, -1 },
-    ///   };
-    ///
-    ///
-    ///   // Create a new Linear kernel
-    ///   IKernel kernel = new Linear();
-    ///
-    ///   // Create a new Multi-class Support Vector Machine with one input,
-    ///   //  using the linear kernel and for four disjoint classes.
-    ///   var machine = new MultilabelSupportVectorMachine(1, kernel, 3);
-    ///
-    ///   // Create the Multi-label learning algorithm for the machine
-    ///   var teacher = new MultilabelSupportVectorLearning(machine, inputs, outputs);
-    ///
-    ///   // Configure the learning algorithm to use SMO to train the
-    ///   //  underlying SVMs in each of the binary class subproblems.
-    ///   teacher.Algorithm = (svm, classInputs, classOutputs, i, j) =>
-    ///       new SequentialMinimalOptimization(svm, classInputs, classOutputs);
-    ///
-    ///   // Run the learning algorithm
-    ///   double error = teacher.Run();
-    ///   </code>
+    /// <para>
+    ///   The following example shows how to learn a linear, multi-label (one-vs-rest) support 
+    ///   vector machine using the <see cref="LinearDualCoordinateDescent"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    /// 
+    /// <para>
+    ///   The following example shows how to learn a non-linear, multi-label (one-vs-rest) 
+    ///   support vector machine using the <see cref="Gaussian"/> kernel and the 
+    ///   <see cref="SequentialMinimalOptimization"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
+    ///   
+    /// <para>
+    ///   Support vector machines can have their weights calibrated in order to produce probability 
+    ///   estimates (instead of simple class separation distances). The following example shows how 
+    ///   to use <see cref="ProbabilisticOutputCalibration"/> within <see cref="MulticlassSupportVectorLearning"/> 
+    ///   to generate a probabilistic SVM:</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_calibration" />
     /// </example>
-    ///
-    /// <seealso cref="Learning.MultilabelSupportVectorLearning"/>
-    ///
+    /// 
+    /// <seealso cref="MulticlassSupportVectorMachine"/>
     /// <seealso cref="SupportVectorMachine"/>
     /// <seealso cref="KernelSupportVectorMachine"/>
-    /// <seealso cref="Learning.SequentialMinimalOptimization"/>
+    /// 
+    /// <seealso cref="MultilabelSupportVectorLearning"/>
+    /// <seealso cref="SequentialMinimalOptimization"/>
     ///
     [Serializable]
     public class MultilabelSupportVectorMachine<TModel, TKernel, TInput> :
@@ -245,9 +195,6 @@ namespace Accord.MachineLearning.VectorMachines
             this.vectorCache = new ThreadLocal<Cache>(() => new Cache());
             this.sharedVectors = new Lazy<int[][]>(computeSharedVectors, true);
         }
-
-
-
 
 
         #region Properties
@@ -505,10 +452,6 @@ namespace Accord.MachineLearning.VectorMachines
 
 
 
-
-
-
-
         /// <summary>
         ///   Performs application-defined tasks associated with
         ///   freeing, releasing, or resetting unmanaged resources.
@@ -706,7 +649,6 @@ namespace Accord.MachineLearning.VectorMachines
             this.ParallelOptions = new ParallelOptions();
             initialize();
         }
-
         
     }
 }

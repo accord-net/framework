@@ -31,7 +31,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Math.Optimization.Losses;
 
     /// <summary>
-    ///   Probabilistic Output Calibration.
+    ///   Probabilistic Output Calibration for Linear machines.
     /// </summary>
     /// 
     /// <remarks>
@@ -66,49 +66,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </remarks>
     /// 
     /// <example>
-    /// <code>
-    /// // Example XOR problem
-    /// double[][] inputs =
-    /// {
-    ///     new double[] { 0, 0 }, // 0 xor 0: 1 (label +1)
-    ///     new double[] { 0, 1 }, // 0 xor 1: 0 (label -1)
-    ///     new double[] { 1, 0 }, // 1 xor 0: 0 (label -1)
-    ///     new double[] { 1, 1 }  // 1 xor 1: 1 (label +1)
-    /// };
-    /// 
-    /// // Dichotomy SVM outputs should be given as [-1;+1]
-    /// int[] labels =
-    /// {
-    ///     1, -1, -1, 1
-    /// };
-    /// 
-    /// // Create a Kernel Support Vector Machine for the given inputs
-    /// KernelSupportVectorMachine svm = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
-    /// 
-    /// // Instantiate a new learning algorithm for SVMs
-    /// SequentialMinimalOptimization smo = new SequentialMinimalOptimization(svm, inputs, labels);
-    /// 
-    /// // Set up the learning algorithm
-    /// smo.Complexity = 1.0;
-    /// 
-    /// // Run the learning algorithm
-    /// double error = smo.Run();
-    /// 
-    /// // Instantiate the probabilistic learning calibration
-    /// var calibration = new ProbabilisticOutputCalibration(svm, inputs, labels);
-    /// 
-    /// // Run the calibration algorithm
-    /// double loglikelihood = calibration.Run();
-    /// 
-    /// 
-    /// // Compute the decision output for one of the input vectors,
-    /// // while also retrieving the probability of the answer
-    /// 
-    /// double probability;
-    /// int decision = svm.Compute(inputs[0], out probability);
-    /// 
-    /// // At this point, decision is +1 with a probability of 75%
-    /// </code>
+    ///   <para>
+    ///   The following example shows how to calibrate a SVM that has
+    ///   been trained to perform a simple XOR function.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\ProbabilisticOutputCalibrationTest.cs" region="doc_learn" />
+    ///   
+    ///   <para>
+    ///   The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using SMO and calibrated using Platt's scaling.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_calibration" />
     /// </example>
     ///   
     /// <seealso cref="SupportVectorMachine"/>
@@ -118,7 +84,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <seealso cref="MulticlassSupportVectorLearning"/>
     /// 
     public class ProbabilisticOutputCalibration
-        : ProbabilisticOutputCalibration<SupportVectorMachine<IKernel<double[]>, double[]>, IKernel<double[]>, double[]>,
+        : ProbabilisticOutputCalibrationBase<SupportVectorMachine<IKernel<double[]>, double[]>, IKernel<double[]>, double[]>,
         ISupportVectorMachineLearning
     {
         /// <summary>
@@ -141,11 +107,18 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         {
         }
 
+        /// <summary>
+        ///   Initializes a new instance of Platt's Probabilistic Output Calibration algorithm.
+        /// </summary>
+        /// 
+        public ProbabilisticOutputCalibration()
+        {
 
+        }
     }
 
     /// <summary>
-    ///   Probabilistic Output Calibration.
+    ///   Probabilistic Output Calibration for Kernel machines.
     /// </summary>
     /// 
     /// <remarks>
@@ -180,50 +153,96 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </remarks>
     /// 
     /// <example>
-    /// <code>
-    /// // Example XOR problem
-    /// double[][] inputs =
-    /// {
-    ///     new double[] { 0, 0 }, // 0 xor 0: 1 (label +1)
-    ///     new double[] { 0, 1 }, // 0 xor 1: 0 (label -1)
-    ///     new double[] { 1, 0 }, // 1 xor 0: 0 (label -1)
-    ///     new double[] { 1, 1 }  // 1 xor 1: 1 (label +1)
-    /// };
-    /// 
-    /// // Dichotomy SVM outputs should be given as [-1;+1]
-    /// int[] labels =
-    /// {
-    ///     1, -1, -1, 1
-    /// };
-    /// 
-    /// // Create a Kernel Support Vector Machine for the given inputs
-    /// KernelSupportVectorMachine svm = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
-    /// 
-    /// // Instantiate a new learning algorithm for SVMs
-    /// SequentialMinimalOptimization smo = new SequentialMinimalOptimization(svm, inputs, labels);
-    /// 
-    /// // Set up the learning algorithm
-    /// smo.Complexity = 1.0;
-    /// 
-    /// // Run the learning algorithm
-    /// double error = smo.Run();
-    /// 
-    /// // Instantiate the probabilistic learning calibration
-    /// var calibration = new ProbabilisticOutputCalibration(svm, inputs, labels);
-    /// 
-    /// // Run the calibration algorithm
-    /// double loglikelihood = calibration.Run();
-    /// 
-    /// 
-    /// // Compute the decision output for one of the input vectors,
-    /// // while also retrieving the probability of the answer
-    /// 
-    /// double probability;
-    /// int decision = svm.Compute(inputs[0], out probability);
-    /// 
-    /// // At this point, decision is +1 with a probability of 75%
-    /// </code>
+    ///   <para>
+    ///   The following example shows how to calibrate a SVM that has
+    ///   been trained to perform a simple XOR function.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\ProbabilisticOutputCalibrationTest.cs" region="doc_learn" />
+    ///   
+    ///   <para>
+    ///   The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using SMO and calibrated using Platt's scaling.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_calibration" />
     /// </example>
+    ///   
+    ///   
+    /// <seealso cref="SupportVectorMachine"/>
+    /// <seealso cref="KernelSupportVectorMachine"/>
+    /// 
+    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// 
+    public class ProbabilisticOutputCalibration<TKernel>
+        : ProbabilisticOutputCalibrationBase<SupportVectorMachine<TKernel>, TKernel, double[]>
+        where TKernel : IKernel<double[]>
+    {
+        /// <summary>
+        ///   Initializes a new instance of Platt's Probabilistic Output Calibration algorithm.
+        /// </summary>
+        /// 
+        /// <param name="machine">The support vector machine to be calibrated.</param>
+        /// 
+        public ProbabilisticOutputCalibration(SupportVectorMachine<TKernel> machine)
+            : base(machine)
+        {
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of Platt's Probabilistic Output Calibration algorithm.
+        /// </summary>
+        /// 
+        public ProbabilisticOutputCalibration()
+        {
+
+        }
+    }
+
+    /// <summary>
+    ///   Probabilistic Output Calibration for structured Kernel machines.
+    /// </summary>
+    /// 
+    /// <remarks>
+    ///   <para>Instead of producing probabilistic outputs, Support Vector Machines
+    ///   express their decisions in the form of a distance from support vectors in
+    ///   feature space. In order to convert the SVM outputs into probabilities,
+    ///   Platt (1999) proposed the calibration of the SVM outputs using a sigmoid
+    ///   (Logit) link function. Later, Lin et al (2007) provided a corrected and
+    ///   improved version of Platt's probabilistic outputs. This class implements
+    ///   the later.</para>
+    ///   
+    ///   <para>This class is not an actual learning algorithm, but a calibrator.
+    ///   Machines passed as input to this algorithm should already have been trained
+    ///   by a proper learning algorithm such as <see cref="SequentialMinimalOptimization">
+    ///   Sequential Minimal Optimization (SMO)</see>.</para>
+    ///   
+    /// <para>
+    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning"/>
+    ///   or <see cref="MultilabelSupportVectorLearning"/> to learn <see cref="MulticlassSupportVectorMachine"/>s
+    ///   using the <c>one-vs-one</c> or <c>one-vs-all</c> multi-class decision strategies, respectively.</para>
+    ///   
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///        John C. Platt. 1999. Probabilistic Outputs for Support Vector Machines and Comparisons to
+    ///        Regularized Likelihood Methods. In ADVANCES IN LARGE MARGIN CLASSIFIERS (1999), pp. 61-74.</description></item>
+    ///     <item><description>
+    ///       Hsuan-Tien Lin, Chih-Jen Lin, and Ruby C. Weng. 2007. A note on Platt's probabilistic outputs
+    ///       for support vector machines. Mach. Learn. 68, 3 (October 2007), 267-276. </description></item>
+    ///   </list></para>   
+    /// </remarks>
+    /// 
+    /// <example>
+    ///   <para>
+    ///   The following example shows how to calibrate a SVM that has
+    ///   been trained to perform a simple XOR function.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\ProbabilisticOutputCalibrationTest.cs" region="doc_learn" />
+    ///   
+    ///   <para>
+    ///   The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using SMO and calibrated using Platt's scaling.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_calibration" />
+    /// </example>
+    ///   
     ///   
     /// <seealso cref="SupportVectorMachine"/>
     /// <seealso cref="KernelSupportVectorMachine"/>
@@ -232,7 +251,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <seealso cref="MulticlassSupportVectorLearning"/>
     /// 
     public class ProbabilisticOutputCalibration<TKernel, TInput>
-        : ProbabilisticOutputCalibration<SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
+        : ProbabilisticOutputCalibrationBase<SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
         where TKernel : IKernel<TInput>
         where TInput : ICloneable
     {
@@ -246,96 +265,22 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             : base(machine)
         {
         }
+
+        /// <summary>
+        ///   Initializes a new instance of Platt's Probabilistic Output Calibration algorithm.
+        /// </summary>
+        /// 
+        public ProbabilisticOutputCalibration()
+        {
+
+        }
     }
 
     /// <summary>
     ///   Probabilistic Output Calibration.
     /// </summary>
     /// 
-    /// <remarks>
-    ///   <para>Instead of producing probabilistic outputs, Support Vector Machines
-    ///   express their decisions in the form of a distance from support vectors in
-    ///   feature space. In order to convert the SVM outputs into probabilities,
-    ///   Platt (1999) proposed the calibration of the SVM outputs using a sigmoid
-    ///   (Logit) link function. Later, Lin et al (2007) provided a corrected and
-    ///   improved version of Platt's probabilistic outputs. This class implements
-    ///   the later.</para>
-    ///   
-    ///   <para>This class is not an actual learning algorithm, but a calibrator.
-    ///   Machines passed as input to this algorithm should already have been trained
-    ///   by a proper learning algorithm such as <see cref="SequentialMinimalOptimization">
-    ///   Sequential Minimal Optimization (SMO)</see>.</para>
-    ///   
-    /// <para>
-    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning"/>
-    ///   or <see cref="MultilabelSupportVectorLearning"/> to learn <see cref="MulticlassSupportVectorMachine"/>s
-    ///   using the <c>one-vs-one</c> or <c>one-vs-all</c> multi-class decision strategies, respectively.</para>
-    ///   
-    /// <para>
-    ///   References:
-    ///   <list type="bullet">
-    ///     <item><description>
-    ///        John C. Platt. 1999. Probabilistic Outputs for Support Vector Machines and Comparisons to
-    ///        Regularized Likelihood Methods. In ADVANCES IN LARGE MARGIN CLASSIFIERS (1999), pp. 61-74.</description></item>
-    ///     <item><description>
-    ///       Hsuan-Tien Lin, Chih-Jen Lin, and Ruby C. Weng. 2007. A note on Platt's probabilistic outputs
-    ///       for support vector machines. Mach. Learn. 68, 3 (October 2007), 267-276. </description></item>
-    ///   </list></para>   
-    /// </remarks>
-    /// 
-    /// <example>
-    /// <code>
-    /// // Example XOR problem
-    /// double[][] inputs =
-    /// {
-    ///     new double[] { 0, 0 }, // 0 xor 0: 1 (label +1)
-    ///     new double[] { 0, 1 }, // 0 xor 1: 0 (label -1)
-    ///     new double[] { 1, 0 }, // 1 xor 0: 0 (label -1)
-    ///     new double[] { 1, 1 }  // 1 xor 1: 1 (label +1)
-    /// };
-    /// 
-    /// // Dichotomy SVM outputs should be given as [-1;+1]
-    /// int[] labels =
-    /// {
-    ///     1, -1, -1, 1
-    /// };
-    /// 
-    /// // Create a Kernel Support Vector Machine for the given inputs
-    /// KernelSupportVectorMachine svm = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
-    /// 
-    /// // Instantiate a new learning algorithm for SVMs
-    /// SequentialMinimalOptimization smo = new SequentialMinimalOptimization(svm, inputs, labels);
-    /// 
-    /// // Set up the learning algorithm
-    /// smo.Complexity = 1.0;
-    /// 
-    /// // Run the learning algorithm
-    /// double error = smo.Run();
-    /// 
-    /// // Instantiate the probabilistic learning calibration
-    /// var calibration = new ProbabilisticOutputCalibration(svm, inputs, labels);
-    /// 
-    /// // Run the calibration algorithm
-    /// double loglikelihood = calibration.Run();
-    /// 
-    /// 
-    /// // Compute the decision output for one of the input vectors,
-    /// // while also retrieving the probability of the answer
-    /// 
-    /// double probability;
-    /// int decision = svm.Compute(inputs[0], out probability);
-    /// 
-    /// // At this point, decision is +1 with a probability of 75%
-    /// </code>
-    /// </example>
-    ///   
-    /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
-    /// 
-    /// <seealso cref="SequentialMinimalOptimization"/>
-    /// <seealso cref="MulticlassSupportVectorLearning"/>
-    /// 
-    public class ProbabilisticOutputCalibration<TModel, TKernel, TInput>
+    public abstract class ProbabilisticOutputCalibrationBase<TModel, TKernel, TInput>
         : BinaryLearningBase<TModel, TInput>,
         ISupportVectorMachineLearning<TInput>
         where TKernel : IKernel<TInput>
@@ -359,7 +304,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// 
         /// <param name="machine">The support vector machine to be calibrated.</param>
         /// 
-        public ProbabilisticOutputCalibration(TModel machine)
+        public ProbabilisticOutputCalibrationBase(TModel machine)
         {
             this.Model = machine;
         }
@@ -464,6 +409,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             // Start main algorithm loop.
             while (iterations < maxIterations)
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 iterations++;
 
                 // Update the Gradient and Hessian
@@ -573,9 +521,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProbabilisticOutputCalibration{TModel, TKernel, TInput}"/> class.
+        /// Initializes a new instance of the <see cref="ProbabilisticOutputCalibrationBase{TModel, TKernel, TInput}"/> class.
         /// </summary>
-        public ProbabilisticOutputCalibration()
+        public ProbabilisticOutputCalibrationBase()
         {
         }
 
@@ -585,7 +533,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <summary>
         ///   Obsolete.
         /// </summary>
-        protected ProbabilisticOutputCalibration(ISupportVectorMachine<double[]> model, TInput[] input, int[] output)
+        protected ProbabilisticOutputCalibrationBase(ISupportVectorMachine<double[]> model, TInput[] input, int[] output)
         {
             this.Model = (TModel)model;
             this.input = input;

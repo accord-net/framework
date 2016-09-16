@@ -152,13 +152,13 @@ namespace Accord.Math.Distances
         {
             BitArray bytes = x.Xor(y);
 
-            int numBytes = bytes.Count / 8;
-            if (x.Count % 8 != 0)
+            int numBytes = bytes.Length / 8;
+            if (x.Length % 8 != 0)
                 numBytes++;
 
             byte b = 0;
             double sum = 0;
-            for (int i = 0, j = 0; i < bytes.Count; i++, j++)
+            for (int i = 0, j = 0; i < bytes.Length; i++, j++)
             {
                 if (bytes[i])
                     b |= (byte)(1 << (8 - j));

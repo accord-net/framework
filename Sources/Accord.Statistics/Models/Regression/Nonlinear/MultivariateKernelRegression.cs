@@ -65,8 +65,32 @@ namespace Accord.Statistics.Models.Regression
         ///   Gets or sets the intercept value for the regression.
         /// </summary>
         /// 
+        [Obsolete()]
         public double[] Intercept { get; set; }
 
+        /// <summary>
+        ///   Gets or sets the mean values (to be subtracted from samples).
+        /// </summary>
+        /// 
+        public double[] Means { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the standard deviations (to be divided from samples).
+        /// </summary>
+        /// 
+        public double[] StandardDeviations { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the means of the data in feature space (to center samples).
+        /// </summary>
+        /// 
+        public double[] FeatureMeans { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the grand mean of the data in feature space (to center samples).
+        /// </summary>
+        /// 
+        public double FeatureGrandMean { get; set; }
 
         /// <summary>
         /// Applies the transformation to an input, producing an associated output.
@@ -78,7 +102,16 @@ namespace Accord.Statistics.Models.Regression
         /// </returns>
         public override double[][] Transform(double[][] input, double[][] result)
         {
+            if (Means != null)
+                input = input.Subtract(Means, dimension: 0);
+            if (StandardDeviations != null)
+                input = input.Divide(StandardDeviations, dimension: 0);
+
+            // Create the Kernel matrix
             var newK = Kernel.ToJagged2(x: input, y: BasisVectors);
+
+            if (FeatureMeans != null)
+                Accord.Statistics.Kernels.Kernel.Center(newK, FeatureMeans, FeatureGrandMean, result: newK);
 
             // Project into the kernel principal components
             return Matrix.DotWithTransposed(newK, Weights, result: result);

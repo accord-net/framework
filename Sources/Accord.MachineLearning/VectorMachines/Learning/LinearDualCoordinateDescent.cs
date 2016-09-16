@@ -138,6 +138,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// See Algorithm 3 of Hsieh et al., ICML 2008.</para>
     /// </remarks>
     /// 
+    /// <example>
+    ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using the Linear Dual Coordinate Descent algorithm.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    /// </example>
+    /// 
     /// <see cref="SequentialMinimalOptimization"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearCoordinateDescent"/>
@@ -225,6 +231,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// See Algorithm 3 of Hsieh et al., ICML 2008.</para>
     /// </remarks>
     /// 
+    /// <example>
+    ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using the Linear Dual Coordinate Descent algorithm.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    /// </example>
+    /// 
     /// <see cref="SequentialMinimalOptimization"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearCoordinateDescent"/>
@@ -294,6 +306,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <para>
     /// See Algorithm 3 of Hsieh et al., ICML 2008.</para>
     /// </remarks>
+    /// 
+    /// <example>
+    ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using the Linear Dual Coordinate Descent algorithm.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    /// </example>
     /// 
     /// <see cref="SequentialMinimalOptimization"/>
     /// <see cref="LinearNewtonMethod"/>

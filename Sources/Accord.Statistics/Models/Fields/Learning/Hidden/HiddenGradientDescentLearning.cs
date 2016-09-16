@@ -269,13 +269,21 @@ namespace Accord.Statistics.Models.Fields.Learning
         /// 
         /// <returns>The error in the last iteration.</returns>
         /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(T[][] observations, int[] outputs)
+        {
+            return run(observations, outputs);
+        }
+
+        private double run(T[][] observations, int[] outputs)
         {
             convergence.Clear();
 
             do
             {
                 RunEpoch(observations, outputs);
+                if (Token.IsCancellationRequested)
+                    break;
             }
             while (!convergence.HasConverged);
 
@@ -337,7 +345,7 @@ namespace Accord.Statistics.Models.Fields.Learning
         /// </returns>
         public HiddenConditionalRandomField<T> Learn(T[][] x, int[] y, double[] weights = null)
         {
-            Run(x, y);
+            run(x, y);
             return Model;
         }
 

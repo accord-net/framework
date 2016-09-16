@@ -24,9 +24,9 @@ namespace Accord.Math.Optimization.Losses
 {
 
     /// <summary>
-    ///   Common interface for loss functions, such as 
-    ///   <see cref="SquareLoss"/>, <see cref="HingeLoss"/> and
-    ///   <see cref="CategoryCrossEntropyLoss"/>.
+    ///   Common interface for loss functions, such as <see cref="SquareLoss"/>, 
+    ///   <see cref="HingeLoss"/>, <see cref="CategoryCrossEntropyLoss"/> and
+    ///   <see cref="BinaryCrossEntropyLoss"/>.
     /// </summary>
     /// 
     /// <remarks>

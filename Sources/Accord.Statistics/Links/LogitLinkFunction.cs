@@ -71,7 +71,9 @@ namespace Accord.Statistics.Links
         /// </summary>
         /// 
         public LogitLinkFunction()
-            : this(1, 0) { }
+            : this(1, 0)
+        {
+        }
 
 
         /// <summary>

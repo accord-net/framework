@@ -385,6 +385,8 @@ namespace Accord.Statistics.Analysis
             do
             {
                 changed = DoStep();
+                if (Token.IsCancellationRequested)
+                    break;
             } while (changed != -1);
 
 
@@ -403,13 +405,13 @@ namespace Accord.Statistics.Analysis
         ///   Computes the Stepwise Logistic Regression.
         /// </summary>
         /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
         public void Compute()
         {
             int changed;
             do
             {
                 changed = DoStep();
-
             } while (changed != -1);
 
 
@@ -440,8 +442,12 @@ namespace Accord.Statistics.Analysis
             {
                 // This is the first step. We should create the full model.
                 int inputCount = inputData[0].Length;
-                LogisticRegression regression = new LogisticRegression(inputCount);
                 int[] variables = Vector.Range(0, inputCount);
+
+                var regression = new LogisticRegression()
+                {
+                    NumberOfInputs = inputCount
+                };
 
                 fit(regression, inputData, outputData);
 
@@ -454,24 +460,28 @@ namespace Accord.Statistics.Analysis
                         "Perfect separation detected. Please rethink the use of logistic regression.");
                 }
 
-                tests = new ChiSquareTest[regression.Coefficients.Length];
+                tests = new ChiSquareTest[regression.NumberOfInputs + 1];
                 currentModel = new StepwiseLogisticRegressionModel(this, regression, variables, test, tests);
                 completeModel = currentModel;
             }
 
 
             // Verify first if a variable reduction is possible
-            if (currentModel.Regression.Inputs == 1)
+            if (currentModel.Regression.NumberOfInputs == 1)
                 return -1; // cannot reduce further
 
 
             // Now go and create the diminished nested models
-            var nestedModels = new StepwiseLogisticRegressionModel[currentModel.Regression.Inputs];
+            var nestedModels = new StepwiseLogisticRegressionModel[currentModel.Regression.NumberOfInputs];
 
             for (int i = 0; i < nestedModels.Length; i++)
             {
                 // Create a diminished nested model without the current variable
-                LogisticRegression regression = new LogisticRegression(currentModel.Regression.Inputs - 1);
+                LogisticRegression regression = new LogisticRegression()
+                {
+                    NumberOfInputs = currentModel.Regression.NumberOfInputs - 1
+                };
+
                 int[] variables = currentModel.Variables.RemoveAt(i);
                 double[][] subset = inputData.Get(null, variables);
 
@@ -536,6 +546,7 @@ namespace Accord.Statistics.Analysis
             {
                 Tolerance = tolerance,
                 Iterations = iterations,
+                Token = Token
             };
 
             irls.Learn(input, output);
@@ -701,7 +712,7 @@ namespace Accord.Statistics.Analysis
             this.Analysis = analysis;
             this.Regression = regression;
 
-            int coefficientCount = regression.Coefficients.Length;
+            int coefficientCount = regression.NumberOfInputs + 1;
 
             this.Inputs = analysis.Inputs.Get(variables);
             this.ChiSquare = chiSquare;
@@ -714,11 +725,11 @@ namespace Accord.Statistics.Analysis
             this.OddsRatios = new double[coefficientCount];
 
             // Store coefficient information
-            for (int i = 0; i < regression.Coefficients.Length; i++)
+            for (int i = 0; i < regression.NumberOfInputs + 1; i++)
             {
                 this.StandardErrors[i] = regression.StandardErrors[i];
                 this.WaldTests[i] = regression.GetWaldTest(i);
-                this.CoefficientValues[i] = regression.Coefficients[i];
+                this.CoefficientValues[i] = regression.GetCoefficient(i);
                 this.Confidences[i] = regression.GetConfidenceInterval(i);
                 this.OddsRatios[i] = regression.GetOddsRatio(i);
             }

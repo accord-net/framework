@@ -34,23 +34,6 @@ namespace Accord.Tests.Imaging
     public class CorrelationMatchingTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void MatchTest()
         {

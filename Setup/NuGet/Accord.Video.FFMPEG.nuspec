@@ -4,7 +4,7 @@
   <metadata>
     <id>Accord.Video.FFMPEG</id>
     <version>$version$</version>
-    <title>Accord.Video.FFMPEG</title>
+    <title>Accord.Video.FFMPEG (GPL)</title>
     <authors>Accord.NET</authors>
     <owners>Accord.NET</owners>
     <licenseUrl>http://accord-framework.net/gpl.txt</licenseUrl>
@@ -14,7 +14,7 @@
     <description>
       Contains classes and methods to handle video sources using FFMPEG. For this reason, this package is available under the GPL license only. This package originated from the AForge.NET Framework and is part of the Accord.NET Framework.
     </description>
-    <summary>Accord.NET Video FFMPEG Library from the Accord.NET Framework</summary>
+    <summary>Read and write videos using FFMPEG, including WebM, H.264 and Xvid/DivX files.</summary>
     <tags>accord.net aforge.net framework ffmpeg video capture decode codec</tags>
     <dependencies>
       <dependency id="Accord"                 version="$version$" />
@@ -31,14 +31,14 @@
     <file src="..\..\Release\net45\GPL\Accord.Video.FFMPEG.dll" target="lib\net45\Accord.Video.FFMPEG.dll" />
     <file src="..\..\Release\net45\GPL\Accord.Video.FFMPEG.xml" target="lib\net45\Accord.Video.FFMPEG.xml" />
 
-    <file src="..\..\Externals\ffmpeg\bin\avcodec-53.dll"       target="build\ffmpeg\x86\avcodec-53.dll" />
-    <file src="..\..\Externals\ffmpeg\bin\avdevice-53.dll"      target="build\ffmpeg\x86\avdevice-53.dll" />
-    <file src="..\..\Externals\ffmpeg\bin\avformat-53.dll"      target="build\ffmpeg\x86\avformat-53.dll" />
-    <file src="..\..\Externals\ffmpeg\bin\avutil-51.dll"        target="build\ffmpeg\x86\avutil-51.dll" />
-    <file src="..\..\Externals\ffmpeg\bin\postproc-52.dll"      target="build\ffmpeg\x86\postproc-52.dll" />
-    <file src="..\..\Externals\ffmpeg\bin\swresample-0.dll"     target="build\ffmpeg\x86\swresample-0.dll" />
-    <file src="..\..\Externals\ffmpeg\bin\swscale-2.dll"        target="build\ffmpeg\x86\swscale-2.dll" />
-    <file src="..\..\Externals\ffmpeg\README.txt"               target="build\ffmpeg\FFMPEG-README.txt" />
+    <file src="..\..\Externals\ffmpeg\bin\avcodec-53.dll"       target="build\avcodec-53.dll" />
+    <file src="..\..\Externals\ffmpeg\bin\avdevice-53.dll"      target="build\avdevice-53.dll" />
+    <file src="..\..\Externals\ffmpeg\bin\avformat-53.dll"      target="build\avformat-53.dll" />
+    <file src="..\..\Externals\ffmpeg\bin\avutil-51.dll"        target="build\avutil-51.dll" />
+    <file src="..\..\Externals\ffmpeg\bin\postproc-52.dll"      target="build\postproc-52.dll" />
+    <file src="..\..\Externals\ffmpeg\bin\swresample-0.dll"     target="build\swresample-0.dll" />
+    <file src="..\..\Externals\ffmpeg\bin\swscale-2.dll"        target="build\swscale-2.dll" />
+    <file src="..\..\Externals\ffmpeg\README.txt"               target="build\FFMPEG-README.txt" />
 
     <file src="..\..\Setup\Scripts\Accord.Video.FFMPEG.targets" target="build\Accord.Video.FFMPEG.targets" />
 

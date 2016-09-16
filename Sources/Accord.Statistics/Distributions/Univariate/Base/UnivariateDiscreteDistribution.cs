@@ -441,6 +441,21 @@ namespace Accord.Statistics.Distributions.Univariate
                 return;
             }
 
+            int[] iunivariate = observations as int[];
+            if (iunivariate != null)
+            {
+                Fit(iunivariate, weights, options);
+                return;
+            }
+
+            int[][] imultivariate = observations as int[][];
+            if (imultivariate != null)
+            {
+                var concat = Matrix.Concatenate(imultivariate);
+                Fit(concat, weights, options);
+                return;
+            }
+
             throw new ArgumentException("Invalid input type.", "observations");
         }
 
@@ -457,6 +472,20 @@ namespace Accord.Statistics.Distributions.Univariate
             if (multivariate != null)
             {
                 Fit(Matrix.Concatenate(multivariate), weights, options);
+                return;
+            }
+
+            int[] iunivariate = observations as int[];
+            if (iunivariate != null)
+            {
+                Fit(iunivariate, weights, options);
+                return;
+            }
+
+            int[][] imultivariate = observations as int[][];
+            if (imultivariate != null)
+            {
+                Fit(Matrix.Concatenate(imultivariate), weights, options);
                 return;
             }
 

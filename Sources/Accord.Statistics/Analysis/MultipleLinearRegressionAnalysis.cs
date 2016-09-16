@@ -61,41 +61,11 @@ namespace Accord.Statistics.Analysis
     /// </remarks>
     /// 
     /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\MultipleLinearRegressionAnalysisTest.cs" region="doc_learn_part2" />
+    /// 
     /// <code>
-    /// // Consider the following data. An experimenter would
-    /// // like to infer a relationship between two variables
-    /// // A and B and a corresponding outcome variable R.
-    /// 
-    /// double[][] example = 
-    /// {
-    ///     //                A    B      R
-    ///     new double[] {  6.41, 10.11, 26.1 },
-    ///     new double[] {  6.61, 22.61, 33.8 },
-    ///     new double[] {  8.45, 11.11, 52.7 },
-    ///     new double[] {  1.22, 18.11, 16.2 },
-    ///     new double[] {  7.42, 12.81, 87.3 },
-    ///     new double[] {  4.42, 10.21, 12.5 },
-    ///     new double[] {  8.61, 11.94, 77.5 },
-    ///     new double[] {  1.73, 13.13, 12.1 },
-    ///     new double[] {  7.47, 17.11, 86.5 },
-    ///     new double[] {  6.11, 15.13, 62.8 },
-    ///     new double[] {  1.42, 16.11, 17.5 },
-    /// };
-    /// 
-    /// // For this, we first extract the input and output
-    /// // pairs. The first two columns have values for the
-    /// // input variables, and the last for the output:
-    /// 
-    /// double[][] inputs = example.GetColumns(0, 1);
-    /// double[] output = example.GetColumn(2);
-    /// 
-    /// // Next, we can create a new multiple linear regression for the variables
-    /// var regression = new MultipleLinearRegressionAnalysis(inputs, output, intercept: true);
-    /// 
-    /// regression.Compute(); // compute the analysis
-    /// 
     /// // Now we can show a summary of analysis
-    /// DataGridBox.Show(regression.Coefficients);
+    /// // Accord.Controls.DataGridBox.Show(regression.Coefficients);
     /// </code>
     /// 
     ///   <img src="..\images\linear-regression.png" />
@@ -107,27 +77,10 @@ namespace Accord.Statistics.Analysis
     /// 
     ///   <img src="..\images\linear-anova.png" />
     ///   
-    /// <code>
-    /// // And also extract other useful information, such
-    /// // as the linear coefficients' values and std errors:
-    /// double[] coef = regression.CoefficientValues;
-    /// double[] stde = regression.StandardErrors;
-    /// 
-    /// // Coefficients of performance, such as r²
-    /// double rsquared = regression.RSquared;
-    /// 
-    /// // Hypothesis tests for the whole model
-    /// ZTest ztest = regression.ZTest;
-    /// FTest ftest = regression.FTest;
-    /// 
-    /// // and for individual coefficients
-    /// TTest ttest0 = regression.Coefficients[0].TTest;
-    /// TTest ttest1 = regression.Coefficients[1].TTest;
-    /// 
-    /// // and also extract confidence intervals
-    /// DoubleRange ci = regression.Coefficients[0].Confidence;
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\MultipleLinearRegressionAnalysisTest.cs" region="doc_learn_part2" />
     /// </example>
+    /// 
+    /// <seealso cref="LogisticRegressionAnalysis"/>
     /// 
     [Serializable]
     public class MultipleLinearRegressionAnalysis : TransformBase<double[], double>,
@@ -155,6 +108,7 @@ namespace Accord.Statistics.Analysis
         private double[] results;
 
 
+        private double[][] informationMatrix;
 
         private double SSe; // Error sum of squares
         private double SSr; // Regression sum of squares
@@ -241,6 +195,15 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        /// Gets the information matrix obtained during learning.
+        /// </summary>
+        /// 
+        public double[][] InformationMatrix
+        {
+            get { return informationMatrix; }
+        }
+
+        /// <summary>
         ///   Gets the coefficient of determination, as known as R²
         /// </summary>
         /// 
@@ -248,6 +211,12 @@ namespace Accord.Statistics.Analysis
         {
             get { return rSquared; }
         }
+
+        /// <summary>
+        /// Gets the number of samples used to compute the analysis.
+        /// </summary>
+        /// 
+        public int NumberOfSamples { get; private set; }
 
         /// <summary>
         ///   Gets the adjusted coefficient of determination, as known as R² adjusted
@@ -358,14 +327,36 @@ namespace Accord.Statistics.Analysis
         ///   Constructs a Multiple Linear Regression Analysis.
         /// </summary>
         /// 
+        /// <param name="intercept">True to use an intercept term, false otherwise. Default is false.</param>
+        /// 
+        public MultipleLinearRegressionAnalysis(bool intercept = false)
+        {
+            OrdinaryLeastSquares = new OrdinaryLeastSquares() { UseIntercept = intercept };
+        }
+
+        /// <summary>
+        ///   Constructs a Multiple Linear Regression Analysis.
+        /// </summary>
+        /// 
         /// <param name="inputs">The input data for the analysis.</param>
         /// <param name="outputs">The output data for the analysis.</param>
         /// <param name="intercept">True to use an intercept term, false otherwise. Default is false.</param>
         /// 
         [Obsolete("Please pass the 'inputs' and 'outputs' parameters to the Learn method instead.")]
         public MultipleLinearRegressionAnalysis(double[][] inputs, double[] outputs, bool intercept = false)
+            : this(intercept)
         {
             // Initial argument checking
+            init(inputs, outputs);
+
+            // Store data sets
+            this.Source = inputs.ToMatrix();
+            this.inputData = inputs;
+            this.outputData = outputs;
+        }
+
+        private void init(double[][] inputs, double[] outputs)
+        {
             if (inputs == null)
                 throw new ArgumentNullException("inputs");
 
@@ -382,13 +373,11 @@ namespace Accord.Statistics.Analysis
                 if (inputs[i].Length != NumberOfInputs)
                     throw new ArgumentException("All input vectors must have the same length.");
 
-            // Store data sets
-            this.inputData = inputs;
-            this.outputData = outputs;
-
             // Create the linear regression
-            regression = new MultipleLinearRegression(NumberOfInputs, intercept);
-            OrdinaryLeastSquares = new OrdinaryLeastSquares() { UseIntercept = intercept };
+            regression = new MultipleLinearRegression()
+            {
+                NumberOfInputs = NumberOfInputs
+            };
 
             // Create additional structures
             int coefficientCount = NumberOfInputs + 1;
@@ -397,19 +386,21 @@ namespace Accord.Statistics.Analysis
             this.ftests = new FTest[coefficientCount];
             this.ttests = new TTest[coefficientCount];
 
-            this.outputName = "Output";
-            this.inputNames = new string[NumberOfInputs];
-            for (int i = 0; i < inputNames.Length; i++)
-                inputNames[i] = "Input " + i;
+            if (outputName == null)
+                this.outputName = "Output";
 
+            if (inputNames == null)
+            {
+                this.inputNames = new string[NumberOfInputs];
+                for (int i = 0; i < inputNames.Length; i++)
+                    inputNames[i] = "Input " + i;
+            }
 
             // Create object-oriented structure to represent the analysis
             var coefs = new LinearRegressionCoefficient[coefficientCount];
             for (int i = 0; i < coefs.Length; i++)
                 coefs[i] = new LinearRegressionCoefficient(this, i);
             this.coefficientCollection = new LinearRegressionCoefficientCollection(this, coefs);
-
-            this.Source = inputs.ToMatrix();
         }
 
         /// <summary>
@@ -449,6 +440,7 @@ namespace Accord.Statistics.Analysis
         /// </returns>
         public MultipleLinearRegression Learn(double[][] x, double[] y, double[] weights = null)
         {
+            init(x, y);
             compute(x, y);
             return regression;
         }
@@ -471,10 +463,12 @@ namespace Accord.Statistics.Analysis
             SSt = 0;
             SSe = 0;
             outputMean = 0.0;
+            NumberOfSamples = x.Length;
 
             // Compute the regression
+            OrdinaryLeastSquares.Token = Token;
             regression = OrdinaryLeastSquares.Learn(x, y);
-            double[][] informationMatrix = OrdinaryLeastSquares.GetInformationMatrix();
+            informationMatrix = OrdinaryLeastSquares.GetInformationMatrix();
 
             // Calculate mean of the expected outputs
             outputMean = y.Mean();
@@ -582,6 +576,24 @@ namespace Accord.Statistics.Analysis
         public override double Transform(double[] input)
         {
             return regression.Transform(input);
+        }
+
+        /// <summary>
+        /// Gets the prediction interval for a given input.
+        /// </summary>
+        /// 
+        public DoubleRange GetPredictionInterval(double[] input)
+        {
+            return regression.GetPredictionInterval(input, Math.Sqrt(MSe), NumberOfSamples, InformationMatrix, confidencePercent);
+        }
+
+        /// <summary>
+        /// Gets the confidence interval for a given input.
+        /// </summary>
+        /// 
+        public DoubleRange GetConfidenceInterval(double[] input)
+        {
+            return regression.GetConfidenceInterval(input, Math.Sqrt(MSe), NumberOfSamples, InformationMatrix, confidencePercent);
         }
     }
 

@@ -27,6 +27,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Math;
     using System;
     using Accord.Math.Optimization.Losses;
+    using System.Threading;
 
     /// <summary>
     ///   One-class Support Vector Machine Learning Algorithm.
@@ -117,6 +118,13 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         public double[] Lagrange { get { return alpha; } }
 
         /// <summary>
+        ///   Gets or sets a cancellation token that can be used to
+        ///   stop the learning algorithm while it is running.
+        /// </summary>
+        /// 
+        public CancellationToken Token { get; set; }
+
+        /// <summary>
         ///   Convergence tolerance. Default value is 1e-2.
         /// </summary>
         /// 
@@ -198,8 +206,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             var s = new FanChenLinQuadraticOptimization(alpha.Length, Q, zeros, ones)
             {
                 Tolerance = eps,
-                Shrinking = true,
-                Solution = alpha
+                Shrinking = this.shrinking,
+                Solution = alpha,
+                Token = Token
             };
 
             bool success = s.Minimize();

@@ -55,10 +55,8 @@ namespace Accord.Tests.Statistics
             };
 
 
-
             double[] expected = finiteDifferences(input, output, false);
             double[] actual = gradient(input, output, false);
-
 
             Assert.AreEqual(expected.Length, actual.Length);
 
@@ -113,7 +111,7 @@ namespace Accord.Tests.Statistics
             diff.Function = (x) =>
             {
                 for (int i = 0; i < x.Length; i++)
-                    regression.Coefficients[i] = x[i];
+                    regression.SetCoefficient(i, x[i]);
 
                 return regression.GetLogLikelihood(input, output);
             };

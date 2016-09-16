@@ -38,17 +38,27 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// </summary>
     /// 
     public abstract class BaseHiddenMarkovClassifierLearning<TClassifier, TModel, TDistribution, TObservation>
-        : Accord.MachineLearning.ISupervisedLearning<TClassifier, TObservation[], int>
+        : Accord.MachineLearning.ISupervisedLearning<TClassifier, TObservation[], int>, IParallel
         where TClassifier : BaseHiddenMarkovClassifier<TModel, TDistribution, TObservation>
         where TModel : HiddenMarkovModel<TDistribution, TObservation>
         where TDistribution : IDistribution<TObservation>
     {
         /// <summary>
+        ///   Gets or sets the parallelization options for this algorithm.
+        /// </summary>
+        /// 
+        public ParallelOptions ParallelOptions { get; set; }
+
+        /// <summary>
         /// Gets or sets a cancellation token that can be used to
         /// stop the learning algorithm while it is running.
         /// </summary>
         /// 
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return ParallelOptions.CancellationToken; }
+            set { ParallelOptions.CancellationToken = value; }
+        }
 
         /// <summary>
         ///   Gets the classifier being trained by this instance.
@@ -115,8 +125,8 @@ namespace Accord.Statistics.Models.Markov.Learning
         [Obsolete("Please set the learning algorithm using the Learner property.")]
         protected BaseHiddenMarkovClassifierLearning(TClassifier classifier,
             ClassifierLearningAlgorithmConfiguration algorithm)
+            : this(classifier)
         {
-            this.Classifier = classifier;
             this.Algorithm = algorithm;
         }
 
@@ -128,8 +138,8 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         protected BaseHiddenMarkovClassifierLearning(TClassifier classifier,
             Func<int, IUnsupervisedLearning<TModel, TObservation[], int[]>> learner)
+            : this(classifier)
         {
-            this.Classifier = classifier;
             this.Learner = learner;
         }
 
@@ -142,6 +152,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         protected BaseHiddenMarkovClassifierLearning(TClassifier classifier)
         {
             this.Classifier = classifier;
+            this.ParallelOptions = new ParallelOptions();
         }
 
         /// <summary>
@@ -351,7 +362,7 @@ namespace Accord.Statistics.Models.Markov.Learning
 
 
             // For each model,
-            Parallel.For(0, classes, i =>
+            Parallel.For(0, classes, ParallelOptions, i =>
             {
                 // We will start the class model learning problem
                 var args = new GenerativeLearningEventArgs(i, classes);

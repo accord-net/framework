@@ -259,6 +259,7 @@ namespace Accord.Statistics.Analysis
         public String[] Inputs
         {
             get { return inputNames; }
+            set { inputNames = value; }
         }
 
         /// <summary>
@@ -268,6 +269,7 @@ namespace Accord.Statistics.Analysis
         public String[] OutputNames
         {
             get { return outputNames; }
+            set { outputNames = value; }
         }
 
         /// <summary>
@@ -284,7 +286,10 @@ namespace Accord.Statistics.Analysis
         ///   Gets the collection of coefficients of the model.
         /// </summary>
         /// 
-        public MultinomialCoefficientCollection Coefficients { get { return coefficientCollection; } }
+        public MultinomialCoefficientCollection Coefficients
+        {
+            get { return coefficientCollection; }
+        }
 
         /// <summary>
         ///   Constructs a Multinomial Logistic Regression Analysis.
@@ -369,6 +374,27 @@ namespace Accord.Statistics.Analysis
             names(inputNames, outputNames);
         }
 
+        /// <summary>
+        ///   Constructs a Multiple Linear Regression Analysis.
+        /// </summary>
+        /// 
+        /// <param name="inputNames">The names of the input variables.</param>
+        /// <param name="outputNames">The names of the output variables.</param>
+        /// 
+        public MultinomialLogisticRegressionAnalysis(String[] inputNames, String[] outputNames)
+        {
+            this.inputNames = inputNames;
+            this.outputNames = outputNames;
+        }
+
+        /// <summary>
+        ///   Constructs a Multiple Linear Regression Analysis.
+        /// </summary>
+        /// 
+        public MultinomialLogisticRegressionAnalysis()
+        {
+        }
+
         private void names(String[] inputNames, String[] outputNames)
         {
             if (inputNames.Length != this.inputNames.Length)
@@ -426,15 +452,19 @@ namespace Accord.Statistics.Analysis
                 this.waldTests[i] = new WaldTest[coefficientCount];
             }
 
+            if (this.inputNames == null)
+            {
+                this.inputNames = new string[inputCount];
+                for (int i = 0; i < inputNames.Length; i++)
+                    inputNames[i] = "Input " + i;
+            }
 
-            this.inputNames = new string[inputCount];
-            for (int i = 0; i < inputNames.Length; i++)
-                inputNames[i] = "Input " + i;
-
-            this.outputNames = new string[outputCount];
-            for (int i = 0; i < outputNames.Length; i++)
-                outputNames[i] = "Class " + i;
-
+            if (this.outputNames == null)
+            {
+                this.outputNames = new string[outputCount];
+                for (int i = 0; i < outputNames.Length; i++)
+                    outputNames[i] = "Class " + i;
+            }
 
             // Create object-oriented structure to represent the analysis
             var coefs = new MultinomialCoefficient[(outputCount - 1) * coefficientCount + 1];
@@ -458,10 +488,13 @@ namespace Accord.Statistics.Analysis
         /// </returns>
         public MultinomialLogisticRegression Learn(double[][] x, double[][] y, double[] weights = null)
         {
+            init(x, y);
+
             var learning = new LowerBoundNewtonRaphson(regression)
             {
                 Tolerance = tolerance,
-                Iterations = iterations
+                Iterations = iterations,
+                Token = Token
             };
 
             learning.Learn(x, y, weights);

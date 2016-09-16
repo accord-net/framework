@@ -26,6 +26,7 @@
 namespace Accord.Math.Optimization
 {
     using System;
+    using System.Threading;
 
     /// <summary>
     ///   Conjugate gradient direction update formula.
@@ -345,12 +346,13 @@ namespace Accord.Math.Optimization
                 (iterations, evaluations, g, gnorm, Solution, xnorm, f, stp1, finish));
 
 
-
             // Main iteration
             while (!finish)
             {
-                iterations++;
+                if (Token.IsCancellationRequested)
+                    break;
 
+                iterations++;
                 nrst++;
 
                 // Call the line search routine of Mor'e and Thuente

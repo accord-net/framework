@@ -130,7 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="AudioCodec.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET35|Win32'">Create</PrecompiledHeader>
@@ -143,6 +143,7 @@
     <ClCompile Include="VideoFileWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioCodec.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="VideoCodec.h" />
     <ClInclude Include="VideoFileReader.h" />

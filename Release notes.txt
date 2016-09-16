@@ -1,3 +1,59 @@
+Accord.NET Framework 3.3.0 release notes
+-----------------------------------------
+17.09.2016.
+
+Version updates and fixes:
+  - GC-62:  Add support for computing prediction intervals in linear and generalized linear models
+  - GH-113: System.AggregateException thrown in C45Learning.Run;
+  - GH-115: Add documentation about how to work with sparse data;
+  - GH-130: Multi class support vector machine doesn't work with SparseGaussian kernel;
+  - GH-139: Examples using explicit kernel matrices;
+  - GH-178: DecisionTreeWriter uses local CultureInfo when writing values;
+  - GH-249: Potential bug in RandomForest or C45Learning;
+  - GH-201: Adding Generalized Pareto Distribution;
+  - GH-245: Incorrect method usage in Distance.GetDistance;
+  - GH-255: Adding examples on how to use Laplace rule in Naive Bayes learning;
+  - GH-253: BlobCounter needs a IDisposable implementation;
+  - GH-252: Bug in Kurtosis Contrast Function;
+  - GH-270: Adding example to show to use continuous variables in C4.5;
+  - GH-271: OneclassSupportVectorLearning does not use shrinking heuristics property;
+  - GH-281: Possible bug in GammaDistribution generation function when k < 1;
+  - GH-282: Issue in LogisticRegression.Transform() returns true for all inputs;
+  - GH-280: Merge pull request #280 from fch-aa/Fix-SMO-CacheSize;
+  - GH-278: Merge pull request #278 from kulov/development;
+  - GH-272: Merge pull request #272 from kdbanman/GH-271;
+  - GH-269: Merge pull request #269 from mikhail-barg/minor-fix;
+  - GH-273: VideoFileWriter not working;
+  - GH-274: Merge pull request #274 from hzawary:development;
+  - GH-285: Deserialize of Codification error in 3.2.0;
+  - GH-286: Ransac - possible bug in calculation of 'N' if pInlier = 0;
+  - GH-288: NaiveBayes issue when probability is 0;
+  - GH-289: Incorrect use of GetLength(0) for jagged arrays in Matrix class.
+
+* General
+  - This will be last release that includes an executable installer. If you
+    are still using the installer, please move to NuGet or use the framework
+    compressed archive files.
+
+* Imaging
+  - Creating a new Accord.Imaging.Noncommercial assembly to hold non-commercial imaging methods;
+  - Adding Fast Guided Filter to Accord.Imaging.Noncommercial.
+
+* MachineLearning
+  - Fixing Binary Split's learn method to accept null weights;
+  - Updating Binary Split example to reflect the new API;
+  - Adding constructors to allow tree inducing algorithms to create a tree from scratch;
+  
+* Statistics  
+  - Fixing multiple issues with statistical analyses classes when they are used using the
+    new classification/regression APIs;
+  - Statistical measures (Measures.cs) have been moved to the Accord.Math assembly,
+    but have been kept under the Accord.Statistics namespace;
+  - Correcting L2-regularization in Logistic Regression.
+
+
+
+
 Accord.NET Framework 3.2.0 release notes
 -----------------------------------------
 20.08.2016.

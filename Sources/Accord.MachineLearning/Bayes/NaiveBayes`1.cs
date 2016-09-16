@@ -33,7 +33,6 @@ namespace Accord.MachineLearning.Bayes
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading.Tasks;
 
-    // TODO: Replace the example here
     /// <summary>
     ///   Naïve Bayes Classifier for arbitrary distributions.
     /// </summary>
@@ -80,34 +79,8 @@ namespace Accord.MachineLearning.Bayes
     ///   has been registered and annotated, pretty much building our set of observation instances for
     ///   learning:</para>
     /// 
-    /// <code>
-    ///   DataTable data = new DataTable("Mitchell's Tennis Example");
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayes`1Test.cs" region="doc_mitchell_1" />
     /// 
-    ///   data.Columns.Add("Day", "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
-    ///
-    ///   // We will set Temperature and Humidity to be continuous
-    ///   data.Columns["Temperature"].DataType = typeof(double); // (degrees Celsius)
-    ///   data.Columns["Humidity"].DataType    = typeof(double); // (water percentage)
-    /// 
-    ///   data.Rows.Add(   "D1",   "Sunny",      38.0,         96.0,    "Weak",     "No"  );
-    ///   data.Rows.Add(   "D2",   "Sunny",      39.0,         90.0,   "Strong",    "No"  );
-    ///   data.Rows.Add(   "D3",  "Overcast",    38.0,         75.0,    "Weak",     "Yes" );
-    ///   data.Rows.Add(   "D4",   "Rain",       25.0,         87.0,    "Weak",     "Yes" );
-    ///   data.Rows.Add(   "D5",   "Rain",       12.0,         30.0,    "Weak",     "Yes" );
-    ///   data.Rows.Add(   "D6",   "Rain",       11.0,         35.0,   "Strong",    "No"  );
-    ///   data.Rows.Add(   "D7",  "Overcast",    10.0,         40.0,   "Strong",    "Yes" );
-    ///   data.Rows.Add(   "D8",   "Sunny",      24.0,         90.0,    "Weak",     "No"  );
-    ///   data.Rows.Add(   "D9",   "Sunny",      12.0,         26.0,    "Weak",     "Yes" );
-    ///   data.Rows.Add(   "D10",  "Rain",       25.0,         30.0,    "Weak",     "Yes" );
-    ///   data.Rows.Add(   "D11",  "Sunny",      26.0,         40.0,   "Strong",    "Yes" );
-    ///   data.Rows.Add(   "D12", "Overcast",    27.0,         97.0,   "Strong",    "Yes" );
-    ///   data.Rows.Add(   "D13", "Overcast",    39.0,         41.0,    "Weak",     "Yes" );
-    ///   data.Rows.Add(   "D14",  "Rain",       23.0,         98.0,   "Strong",    "No"  );
-    /// </code>
-    /// <para>
-    ///   <i>Obs: The DataTable representation is not required, and instead the NaiveBayes could
-    ///   also be trained directly on double[] arrays containing the data.</i></para>
-    ///   
     /// <para>
     ///   In order to estimate a discrete Naive Bayes, we will first convert this problem to a more simpler
     ///   representation. Since some variables are categories, it does not matter if they are represented
@@ -120,121 +93,33 @@ namespace Accord.MachineLearning.Bayes
     ///   symbol. For example, “Sunny” could as well be represented by the integer label 0, “Overcast” 
     ///   by “1”, Rain by “2”, and the same goes by for the other variables. So:</para>
     /// 
-    /// <code>
-    ///   // Create a new codification codebook to 
-    ///   // convert strings into integer symbols
-    ///   Codification codebook = new Codification(data,
-    ///     "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
-    ///   
-    ///   // Translate our training data into integer symbols using our codebook:
-    ///   DataTable symbols = codebook.Apply(data); 
-    ///   double[][] inputs  = symbols.ToArray("Outlook", "Temperature", "Humidity", "Wind"); 
-    ///   int[]      outputs = symbols.ToIntArray("PlayTennis").GetColumn(0);
-    /// </code>
-    /// 
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayes`1Test.cs" region="doc_mitchell_2" />
+    ///
     /// <para>
-    ///   Now that we already have our learning input/ouput pairs, we should specify our
+    ///   Now that we already have our learning input/output pairs, we should specify our
     ///   Bayes model. We will be trying to build a model to predict the last column, entitled
     ///   “PlayTennis”. For this, we will be using the “Outlook”, “Temperature”, “Humidity” and
     ///   “Wind” as predictors (variables which will we will use for our decision).
     /// </para>
     /// 
-    /// <code>
-    ///   // Gather information about decision variables
-    ///   IUnivariateDistribution[] priors =
-    ///   {
-    ///       new GeneralDiscreteDistribution(codebook["Outlook"].Symbols),   // 3 possible values (Sunny, overcast, rain)
-    ///       new NormalDistribution(),                                       // Continuous value (Celsius)
-    ///       new NormalDistribution(),                                       // Continuous value (percentage)
-    ///       new GeneralDiscreteDistribution(codebook["Wind"].Symbols)       // 2 possible values (Weak, strong)
-    ///   };
-    ///   
-    ///   int inputCount = 4;       // 4 variables (Outlook, Temperature, Humidity, Wind)
-    ///   int classCount = codebook["PlayTennis"].Symbols; // 2 possible values (yes, no)
-    ///
-    ///   // Create a new Naive Bayes classifiers for the two classes
-    ///   var model = new NaiveBayes&lt;IUnivariateDistribution>(classCount, inputCount, priors);
-    ///
-    ///   // Compute the Naive Bayes model
-    ///   model.Estimate(inputs, outputs);
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayes`1Test.cs" region="doc_mitchell_3" />
     /// 
     /// <para>Now that we have created and estimated our classifier, we 
-    /// can query the classifier for new input samples through the <see
-    /// cref="NaiveBayes{T}.Compute(double[])"/> method.</para>
+    /// can query the classifier for new input samples through the 
+    /// <c>NaiveBayes{TDistribution}.Decide(double[])</c> method.</para>
     /// 
-    /// <code>
-    /// // We will be computing the output label for a sunny, cool, humid and windy day:
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayes`1Test.cs" region="doc_mitchell_4" />
     /// 
-    /// double[] instance = new double[] 
-    /// {
-    ///     codebook.Translate(columnName:"Outlook", value:"Sunny"), 
-    ///     12.0, 
-    ///     90.0,
-    ///     codebook.Translate(columnName:"Wind", value:"Strong")
-    /// };
-    /// 
-    /// // Now, we can feed this instance to our model
-    /// int output = model.Compute(instance, out logLikelihood);
-    /// 
-    /// // Finally, the result can be translated back to one of the codewords using
-    /// string result = codebook.Translate("PlayTennis", output); // result is "No"
-    /// </code>
-    /// 
-    /// <para> 
-    ///   </para>
-    ///   
     /// <para>
     ///   In this second example, we will be creating a simple multi-class
     ///   classification problem using integer vectors and learning a discrete
     ///   Naive Bayes on those vectors.</para>
     /// 
-    /// <code>
-    /// // Let's say we have the following data to be classified
-    /// // into three possible classes. Those are the samples:
-    /// //
-    /// double[][] inputs =
-    /// {
-    ///     //               input         output
-    ///     new double[] { 0, 1, 1, 0 }, //  0 
-    ///     new double[] { 0, 1, 0, 0 }, //  0
-    ///     new double[] { 0, 0, 1, 0 }, //  0
-    ///     new double[] { 0, 1, 1, 0 }, //  0
-    ///     new double[] { 0, 1, 0, 0 }, //  0
-    ///     new double[] { 1, 0, 0, 0 }, //  1
-    ///     new double[] { 1, 0, 0, 0 }, //  1
-    ///     new double[] { 1, 0, 0, 1 }, //  1
-    ///     new double[] { 0, 0, 0, 1 }, //  1
-    ///     new double[] { 0, 0, 0, 1 }, //  1
-    ///     new double[] { 1, 1, 1, 1 }, //  2
-    ///     new double[] { 1, 0, 1, 1 }, //  2
-    ///     new double[] { 1, 1, 0, 1 }, //  2
-    ///     new double[] { 0, 1, 1, 1 }, //  2
-    ///     new double[] { 1, 1, 1, 1 }, //  2
-    /// };
-    /// 
-    /// int[] outputs = // those are the class labels
-    /// {
-    ///     0, 0, 0, 0, 0,
-    ///     1, 1, 1, 1, 1,
-    ///     2, 2, 2, 2, 2,
-    /// };
-    /// 
-    /// // Create a new continuous naive Bayes model for 3 classes using 4-dimensional Gaussian distributions
-    /// var bayes = new NaiveBayes&lt;NormalDistribution>(inputs: 4, classes: 3, initial: NormalDistribution.Standard);
-    /// 
-    /// // Teach the Naive Bayes model. The error should be zero:
-    /// double error = bayes.Estimate(inputs, outputs, options: new NormalOptions
-    /// {
-    ///     Regularization = 1e-5 // to avoid zero variances
-    /// });
-    /// 
-    /// // Now, let's test  the model output for the first input sample:
-    /// int answer = bayes.Compute(new double[] { 0, 1, 1, 0 }); // should be 1
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayes`1Test.cs" region="doc_learn" />
     /// </example>
     /// 
     /// <seealso cref="NaiveBayes"/>
+    /// <seealso cref="NaiveBayesLearning{TDistribution}"/>
     /// 
     [Serializable]
     public class NaiveBayes<TDistribution> : NaiveBayes<TDistribution, double>
@@ -312,6 +197,24 @@ namespace Accord.MachineLearning.Bayes
         }
 
         /// <summary>
+        ///   Constructs a new Naïve Bayes Classifier.
+        /// </summary>
+        /// 
+        /// <param name="classes">The number of output classes.</param>
+        /// <param name="inputs">The number of input variables.</param>
+        /// <param name="initial">
+        ///   A function that can initialized the distribution components of all classes
+        ///   modeled by this Naive Bayes. This distribution will be cloned and made 
+        ///   available in the <see cref="Distributions"/> property. The first argument
+        ///   in the function should be the classIndex, and the second the variableIndex.
+        /// </param>
+        /// 
+        public NaiveBayes(int classes, int inputs, Func<int, int, TDistribution> initial)
+            : base(classes, inputs, initial)
+        {
+        }
+
+        /// <summary>
         /// Gets the probability distributions for each class and input.
         /// </summary>
         /// <value>
@@ -362,9 +265,9 @@ namespace Accord.MachineLearning.Bayes
         [Obsolete("Please use NaiveBayesLearning<TDistribution> instead.")]
         public double Estimate<TOptions>(double[][] inputs, int[] outputs,
             bool empirical = true, TOptions options = null)
-            where TOptions : class, IFittingOptions
+            where TOptions : class, IFittingOptions, new()
         {
-            var teacher = new NaiveBayesLearning<TDistribution>()
+            var teacher = new NaiveBayesLearning<TDistribution, TOptions>()
             {
                 Model = this
             };
@@ -373,7 +276,7 @@ namespace Accord.MachineLearning.Bayes
 #endif
             teacher.Empirical = empirical;
             teacher.Options.InnerOption = options;
-            var result = teacher.Learn(inputs, outputs);
+            NaiveBayes<TDistribution, double> result = teacher.Learn(inputs, outputs);
             base.Distributions = result.Distributions;
             this.Priors = result.Priors;
             return new ZeroOneLoss(outputs) { Mean = true }.Loss(Decide(inputs));
@@ -384,8 +287,7 @@ namespace Accord.MachineLearning.Bayes
         /// </summary>
         /// 
         [Obsolete("Please use NaiveBayesLearning<TDistribution> instead.")]
-        public double Estimate(double[][] inputs, int[] outputs,
-            bool empirical = true)
+        public double Estimate(double[][] inputs, int[] outputs, bool empirical = true)
         {
             var teacher = new NaiveBayesLearning<TDistribution>()
             {
@@ -395,7 +297,7 @@ namespace Accord.MachineLearning.Bayes
             teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
 #endif
             teacher.Empirical = empirical;
-            var result = teacher.Learn(inputs, outputs);
+            NaiveBayes<TDistribution, double> result = teacher.Learn(inputs, outputs);
             base.Distributions = result.Distributions;
             this.Priors = result.Priors;
             return new ZeroOneLoss(outputs) { Mean = true }.Loss(Decide(inputs));

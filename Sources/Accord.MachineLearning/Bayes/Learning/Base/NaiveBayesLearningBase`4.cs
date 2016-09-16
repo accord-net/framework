@@ -41,7 +41,7 @@ namespace Accord.MachineLearning.Bayes
     /// <typeparam name="TInput">The type for the samples modeled by the distribution.</typeparam>
     /// <typeparam name="TOptions">The fitting options for the independent distribution.</typeparam>
     /// 
-    public class NaiveBayesLearningBase<TModel, TDistribution, TInput, TOptions> :
+    public abstract class NaiveBayesLearningBase<TModel, TDistribution, TInput, TOptions> :
         ISupervisedLearning<TModel, TInput[], double[]>,
         ISupervisedLearning<TModel, TInput[], int>,
         IParallel
@@ -74,9 +74,10 @@ namespace Accord.MachineLearning.Bayes
         }
 
         /// <summary>
-        ///   The corresponding output labels for the input data.
+        /// Gets or sets whether the class priors should be estimated
+        /// from the data.
         /// </summary>
-        ///
+        /// 
         public bool Empirical { get; set; }
 
         /// <summary>
@@ -86,6 +87,14 @@ namespace Accord.MachineLearning.Bayes
         ///
         public TOptions Options { get; set; }
 
+        /// <summary>
+        ///   Gets or sets the distribution creation function. This function can
+        ///   be used to specify how the initial distributions of the model should
+        ///   be created. By default, this function attempts to call the empty
+        ///   constructor of the distribution using <c>Activator.CreateInstance()</c>.
+        /// </summary>
+        /// 
+        public Func<int, int, TDistribution> Distribution { get; set; }
 
         /// <summary>
         ///   Constructs a new Naïve Bayes learning algorithm.
@@ -97,6 +106,17 @@ namespace Accord.MachineLearning.Bayes
             this.ParallelOptions = new ParallelOptions();
             this.Options = new TOptions();
             this.Options.Transposed = true;
+            this.Distribution = (classIndex, variableIndex) =>
+            {
+                try
+                {
+                    return Activator.CreateInstance<TDistribution>();
+                }
+                catch
+                {
+                    throw new InvalidOperationException("Please set the Distribution property to specify how the initial distributions should be created.");
+                }
+            };
         }
 
         /// <summary>
@@ -105,12 +125,7 @@ namespace Accord.MachineLearning.Bayes
         ///   can be created from the training data.
         /// </summary>
         /// 
-        protected virtual TModel Create(TInput[][] x, int[] y)
-        {
-            return (TModel)new NaiveBayes<TDistribution, TInput>(
-            inputs: x[0].Length, classes: y.DistinctCount(),
-            initial: Activator.CreateInstance<TDistribution>());
-        }
+        protected abstract TModel Create(TInput[][] x, int y);
 
         /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.
@@ -129,7 +144,7 @@ namespace Accord.MachineLearning.Bayes
             CheckArgs(x, y);
 
             if (Model == null)
-                Model = Create(x, y);
+                Model = Create(x, y.DistinctCount());
 
             // For each class
             Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, i =>

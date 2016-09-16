@@ -68,71 +68,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
     /// </remarks>
     /// 
     /// <example>
-    ///   <code>
-    ///    // Suppose we have the following data about some patients.
-    ///    // The first variable is continuous and represent patient
-    ///    // age. The second variable is dichotomic and give whether
-    ///    // they smoke or not (This is completely fictional data).
-    ///    double[][] input =
-    ///    {
-    ///        new double[] { 55, 0 }, // 0 - no cancer
-    ///        new double[] { 28, 0 }, // 0
-    ///        new double[] { 65, 1 }, // 0
-    ///        new double[] { 46, 0 }, // 1 - have cancer
-    ///        new double[] { 86, 1 }, // 1
-    ///        new double[] { 56, 1 }, // 1
-    ///        new double[] { 85, 0 }, // 0
-    ///        new double[] { 33, 0 }, // 0
-    ///        new double[] { 21, 1 }, // 0
-    ///        new double[] { 42, 1 }, // 1
-    ///    };
-    ///
-    ///    // We also know if they have had lung cancer or not, and 
-    ///    // we would like to know whether smoking has any connection
-    ///    // with lung cancer (This is completely fictional data).
-    ///    double[] output =
-    ///    {
-    ///        0, 0, 0, 1, 1, 1, 0, 0, 0, 1
-    ///    };
-    ///
-    ///
-    ///    // To verify this hypothesis, we are going to create a logistic
-    ///    // regression model for those two inputs (age and smoking).
-    ///    LogisticRegression regression = new LogisticRegression(inputs: 2);
-    ///
-    ///    // Next, we are going to estimate this model. For this, we
-    ///    // will use the Iteratively Reweighted Least Squares method.
-    ///    var teacher = new IterativeReweightedLeastSquares(regression);
-    ///
-    ///    // Now, we will iteratively estimate our model. The Run method returns
-    ///    // the maximum relative change in the model parameters and we will use
-    ///    // it as the convergence criteria.
-    ///
-    ///    double delta = 0;
-    ///    do
-    ///    {
-    ///        // Perform an iteration
-    ///        delta = teacher.Run(input, output);
-    ///
-    ///    } while (delta > 0.001);
-    ///
-    ///    // At this point, we can compute the odds ratio of our variables.
-    ///    // In the model, the variable at 0 is always the intercept term, 
-    ///    // with the other following in the sequence. Index 1 is the age
-    ///    // and index 2 is whether the patient smokes or not.
-    ///
-    ///    // For the age variable, we have that individuals with
-    ///    //   higher age have 1.021 greater odds of getting lung
-    ///    //   cancer controlling for cigarette smoking.
-    ///    double ageOdds = regression.GetOddsRatio(1); // 1.0208597028836701
-    ///
-    ///    // For the smoking/non smoking category variable, however, we
-    ///    //   have that individuals who smoke have 5.858 greater odds
-    ///    //   of developing lung cancer compared to those who do not 
-    ///    //   smoke, controlling for age (remember, this is completely
-    ///    //   fictional and for demonstration purposes only).
-    ///    double smokeOdds = regression.GetOddsRatio(2); // 5.8584748789881331
-    ///   </code>
+    ///     <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\LogisticRegressionTest.cs" region="doc_log_reg_1" />
     /// </example>
     /// 
 #pragma warning disable 612, 618
@@ -148,7 +84,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// 
         public IterativeReweightedLeastSquares(LogisticRegression regression)
         {
-            Initialize(GeneralizedLinearRegression.FromLogisticRegression(regression, makeCopy: false));
+            // TODO: Remove this method
+            Initialize(regression);
         }
 
         /// <summary>
@@ -285,7 +222,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
             Iterations = 1;
             Learn(inputs, outputs, sampleWeights);
             Iterations = old;
-            return Updates.Max();
+            return Updates.Abs().Max();
         }
 
         /// <summary>
@@ -332,16 +269,17 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
         private int parameterCount;
 
-        private double[,] hessian;
+        private double[][] hessian;
         private double[] gradient;
         private double[] previous;
+        private double[] deltas;
 
         private double lambda = 1e-10;
 
 
         private bool computeStandardErrors = true;
-        private ISolverMatrixDecomposition<double> decomposition;
-        private RelativeParameterConvergence convergence;
+        private ISolverArrayDecomposition<double> decomposition;
+        private RelativeConvergence convergence;
 
         /// <summary>
         ///   Initializes
@@ -353,9 +291,10 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 throw new ArgumentNullException("regression");
 
             this.regression = regression;
-            this.parameterCount = regression.Coefficients.Length;
-            this.hessian = new double[parameterCount, parameterCount];
+            this.parameterCount = regression.NumberOfParameters;
+            this.hessian = Jagged.Zeros(parameterCount, parameterCount);
             this.gradient = new double[parameterCount];
+            this.previous = new double[parameterCount];
         }
 
         /// <summary>
@@ -379,20 +318,23 @@ namespace Accord.Statistics.Models.Regression.Fitting
         ///   Gets the last parameter updates in the last iteration.
         /// </summary>
         /// 
-        public double[] Updates { get { return convergence.NewValues; }} 
+        public double[] Updates { get { return deltas; } }
 
         /// <summary>
         ///   Gets the current values for the coefficients.
         /// </summary>
         /// 
-        public double[] Solution { get { return regression.Coefficients; } }
+        public double[] Solution
+        {
+            get { return regression.Intercept.Concatenate(regression.Weights); }
+        }
 
         /// <summary>
         ///   Gets the Hessian matrix computed in 
         ///   the last Newton-Raphson iteration.
         /// </summary>
         /// 
-        public double[,] Hessian { get { return hessian; } }
+        public double[][] Hessian { get { return hessian; } }
 
         /// <summary>
         ///   Gets the Gradient vector computed in
@@ -465,7 +407,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// </summary>
         public IterativeReweightedLeastSquares()
         {
-            this.convergence = new RelativeParameterConvergence()
+            this.convergence = new RelativeConvergence()
             {
                 Iterations = 0,
                 Tolerance = 1e-5
@@ -539,13 +481,15 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
             double[] errors = new double[N];
             double[] w = new double[N];
-            double[] coefficients = regression.Coefficients;
             convergence.Clear();
 
             double[][] design = x.InsertColumn(value: 1, index: 0);
 
             do
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 // Compute errors and weighting matrix
                 for (int i = 0; i < x.Length; i++)
                 {
@@ -568,13 +512,13 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 }
 
                 // Reset Hessian matrix and gradient
-                Array.Clear(gradient, 0, gradient.Length);
-                Array.Clear(hessian, 0, hessian.Length);
+                gradient.Clear();
+                hessian.Clear();
 
                 // (Re-) Compute error gradient
                 for (int j = 0; j < design.Length; j++)
                     for (int i = 0; i < gradient.Length; i++)
-                        gradient[i] += design[j][i] * errors[j] + lambda * coefficients[i];
+                        gradient[i] += design[j][i] * errors[j];
 
                 // (Re-) Compute weighted "Hessian" matrix 
                 for (int k = 0; k < w.Length; k++)
@@ -582,21 +526,32 @@ namespace Accord.Statistics.Models.Regression.Fitting
                     double[] row = design[k];
                     for (int j = 0; j < row.Length; j++)
                         for (int i = 0; i < row.Length; i++)
-                            hessian[j, i] += row[i] * row[j] * w[k];
+                            hessian[j][i] += row[i] * row[j] * w[k];
                 }
 
+                // Apply L2 regularization
+                if (lambda > 0)
+                {
+                    // https://www.cs.ubc.ca/~murphyk/Teaching/CS540-Fall08/L6.pdf
+                    for (int i = 0; i < gradient.Length; i++)
+                    {
+                        gradient[i] += lambda * regression.GetCoefficient(i);
+                        hessian[i][i] += lambda;
+                    }
+                }
 
-                decomposition = new SingularValueDecomposition(hessian);
+                decomposition = new JaggedSingularValueDecomposition(hessian);
+                deltas = decomposition.Solve(gradient);
 
-                double[] deltas = decomposition.Solve(gradient);
-
-                previous = (double[])coefficients.Clone();
+                previous = (double[])this.Solution.Clone();
 
                 // Update coefficients using the calculated deltas
-                for (int i = 0; i < coefficients.Length; i++)
-                    coefficients[i] -= deltas[i];
+                for (int i = 0; i < regression.Weights.Length; i++)
+                    regression.Weights[i] -= deltas[i + 1];
+                regression.Intercept -= deltas[0];
 
-                convergence.NewValues = deltas;
+                // Return the relative maximum parameter change
+                convergence.NewValue = deltas.Abs().Max();
 
                 if (Token.IsCancellationRequested)
                     break;
@@ -606,15 +561,25 @@ namespace Accord.Statistics.Models.Regression.Fitting
             if (computeStandardErrors)
             {
                 // Grab the regression information matrix
-                double[,] inverse = decomposition.Inverse();
+                double[][] inverse = decomposition.Inverse();
 
                 // Calculate coefficients' standard errors
                 double[] standardErrors = regression.StandardErrors;
                 for (int i = 0; i < standardErrors.Length; i++)
-                    standardErrors[i] = Math.Sqrt(inverse[i, i]);
+                    standardErrors[i] = Math.Sqrt(inverse[i][i]);
             }
 
             return regression;
+        }
+
+        /// <summary>
+        ///   Gets the information matrix used to update the regression
+        ///   weights in the last call to <see cref="Learn(double[][], double[], double[])"/>
+        /// </summary>
+        /// 
+        public double[][] GetInformationMatrix()
+        {
+            return decomposition.Inverse();
         }
     }
 }

@@ -218,6 +218,133 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        public void learn_test()
+        {
+            int[][] inputs =
+            {
+                new int[] { 0, 0 },
+                new int[] { 0, 1 },
+                new int[] { 1, 0 },
+                new int[] { 1, 1 },
+            };
+
+            int[] outputs = // xor
+            {
+                0,
+                1,
+                1,
+                0
+            };
+
+            DecisionVariable[] attributes = 
+            {
+                new DecisionVariable("x", DecisionVariableKind.Discrete),
+                new DecisionVariable("y", DecisionVariableKind.Discrete),
+            };
+
+
+            ID3Learning teacher = new ID3Learning(attributes);
+
+            var tree = teacher.Learn(inputs, outputs);
+
+            double error = teacher.ComputeError(inputs, outputs);
+
+            Assert.AreEqual(0, error);
+
+            Assert.AreEqual(0, tree.Root.Branches.AttributeIndex); // x
+            Assert.AreEqual(2, tree.Root.Branches.Count);
+            Assert.IsNull(tree.Root.Value);
+            Assert.IsNull(tree.Root.Value);
+
+            Assert.AreEqual(0.0, tree.Root.Branches[0].Value); // x = [0]
+            Assert.AreEqual(1.0, tree.Root.Branches[1].Value); // x = [1]
+
+            Assert.AreEqual(tree.Root, tree.Root.Branches[0].Parent);
+            Assert.AreEqual(tree.Root, tree.Root.Branches[1].Parent);
+
+            Assert.AreEqual(2, tree.Root.Branches[0].Branches.Count);
+            Assert.AreEqual(2, tree.Root.Branches[1].Branches.Count);
+
+            Assert.IsTrue(tree.Root.Branches[0].Branches[0].IsLeaf);
+            Assert.IsTrue(tree.Root.Branches[0].Branches[1].IsLeaf);
+
+            Assert.IsTrue(tree.Root.Branches[1].Branches[0].IsLeaf);
+            Assert.IsTrue(tree.Root.Branches[1].Branches[1].IsLeaf);
+
+            Assert.AreEqual(0.0, tree.Root.Branches[0].Branches[0].Value); // y = [0]
+            Assert.AreEqual(1.0, tree.Root.Branches[0].Branches[1].Value); // y = [1]
+
+            Assert.AreEqual(0.0, tree.Root.Branches[1].Branches[0].Value); // y = [0]
+            Assert.AreEqual(1.0, tree.Root.Branches[1].Branches[1].Value); // y = [1]
+
+            Assert.AreEqual(0, tree.Root.Branches[0].Branches[0].Output); // 0 ^ 0 = 0
+            Assert.AreEqual(1, tree.Root.Branches[0].Branches[1].Output); // 0 ^ 1 = 1
+            Assert.AreEqual(1, tree.Root.Branches[1].Branches[0].Output); // 1 ^ 0 = 1
+            Assert.AreEqual(0, tree.Root.Branches[1].Branches[1].Output); // 1 ^ 1 = 0
+        }
+
+        [Test]
+        public void learn_test_automatic()
+        {
+            int[][] inputs =
+            {
+                new int[] { 0, 0 },
+                new int[] { 0, 1 },
+                new int[] { 1, 0 },
+                new int[] { 1, 1 },
+            };
+
+            int[] outputs = // xor
+            {
+                0,
+                1,
+                1,
+                0
+            };
+
+            ID3Learning teacher = new ID3Learning();
+
+            var tree = teacher.Learn(inputs, outputs);
+
+            double error = teacher.ComputeError(inputs, outputs);
+
+            Assert.AreEqual(0, error);
+
+            Assert.AreEqual(0, tree.Root.Branches.AttributeIndex); // x
+            Assert.AreEqual(2, tree.Root.Branches.Count);
+            Assert.IsNull(tree.Root.Value);
+            Assert.IsNull(tree.Root.Value);
+
+            Assert.AreEqual(0.0, tree.Root.Branches[0].Value); // x = [0]
+            Assert.AreEqual(1.0, tree.Root.Branches[1].Value); // x = [1]
+
+            Assert.AreEqual(tree.Root, tree.Root.Branches[0].Parent);
+            Assert.AreEqual(tree.Root, tree.Root.Branches[1].Parent);
+
+            Assert.AreEqual(2, tree.Root.Branches[0].Branches.Count);
+            Assert.AreEqual(2, tree.Root.Branches[1].Branches.Count);
+
+            Assert.IsTrue(tree.Root.Branches[0].Branches[0].IsLeaf);
+            Assert.IsTrue(tree.Root.Branches[0].Branches[1].IsLeaf);
+
+            Assert.IsTrue(tree.Root.Branches[1].Branches[0].IsLeaf);
+            Assert.IsTrue(tree.Root.Branches[1].Branches[1].IsLeaf);
+
+            Assert.AreEqual(0.0, tree.Root.Branches[0].Branches[0].Value); // y = [0]
+            Assert.AreEqual(1.0, tree.Root.Branches[0].Branches[1].Value); // y = [1]
+
+            Assert.AreEqual(0.0, tree.Root.Branches[1].Branches[0].Value); // y = [0]
+            Assert.AreEqual(1.0, tree.Root.Branches[1].Branches[1].Value); // y = [1]
+
+            Assert.AreEqual(0, tree.Root.Branches[0].Branches[0].Output); // 0 ^ 0 = 0
+            Assert.AreEqual(1, tree.Root.Branches[0].Branches[1].Output); // 0 ^ 1 = 1
+            Assert.AreEqual(1, tree.Root.Branches[1].Branches[0].Output); // 1 ^ 0 = 1
+            Assert.AreEqual(0, tree.Root.Branches[1].Branches[1].Output); // 1 ^ 1 = 0
+        }
+
+
+
+        [Test]
         public void RunTest2()
         {
             DecisionTree tree;
@@ -496,6 +623,33 @@ namespace Accord.Tests.MachineLearning
                 Assert.IsTrue(tree.Root.Branches[i].IsLeaf);
         }
 
+        [Test]
+        public void ConsistencyTest1_automatic()
+        {
+            int n = 10000;
+            int[,] random = Matrix.Random(n, 10, 0.0, 11.0).ToInt32();
+
+            int[][] samples = random.ToJagged();
+            int[] outputs = new int[n];
+
+            for (int i = 0; i < samples.Length; i++)
+            {
+                if (samples[i][0] > 8)
+                    outputs[i] = 1;
+            }
+
+            ID3Learning teacher = new ID3Learning();
+
+            var tree = teacher.Learn(samples, outputs);
+
+            double error = teacher.ComputeError(samples, outputs);
+
+            Assert.AreEqual(0, error);
+
+            Assert.AreEqual(11, tree.Root.Branches.Count);
+            for (int i = 0; i < tree.Root.Branches.Count; i++)
+                Assert.IsTrue(tree.Root.Branches[i].IsLeaf);
+        }
 
 
         [Test]

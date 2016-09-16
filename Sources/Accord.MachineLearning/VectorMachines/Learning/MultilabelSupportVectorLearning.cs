@@ -179,49 +179,27 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </remarks>
     /// 
     /// <example>
-    ///   <code>
-    ///   // Sample data
-    ///   //   The following is simple auto association function
-    ///   //   where each input correspond to its own class. This
-    ///   //   problem should be easily solved by a Linear kernel.
-    ///
-    ///   // Sample input data
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { 0 },
-    ///       new double[] { 3 },
-    ///       new double[] { 1 },
-    ///       new double[] { 2 },
-    ///   };
+    /// <para>
+    ///   The following example shows how to learn a linear, multi-label (one-vs-rest) support 
+    ///   vector machine using the <see cref="LinearDualCoordinateDescent"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    /// 
+    /// <para>
+    ///   The following example shows how to learn a non-linear, multi-label (one-vs-rest) 
+    ///   support vector machine using the <see cref="Gaussian"/> kernel and the 
+    ///   <see cref="SequentialMinimalOptimization"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
     ///   
-    ///   // Outputs for each of the inputs
-    ///   int[][] outputs =
-    ///   {
-    ///       new[] { 0, 1, 0 }
-    ///       new[] { 0, 0, 1 }
-    ///       new[] { 1, 1, 0 }
-    ///   }
-    ///   
-    ///   
-    ///   // Create a new Linear kernel
-    ///   IKernel kernel = new Linear();
-    ///   
-    ///   // Create a new Multi-class Support Vector Machine with one input,
-    ///   //  using the linear kernel and for four disjoint classes.
-    ///   var machine = new MultilabelSupportVectorMachine(1, kernel, 4);
-    ///   
-    ///   // Create the Multi-label learning algorithm for the machine
-    ///   var teacher = new MultilabelSupportVectorLearning(machine, inputs, outputs);
-    ///   
-    ///   // Configure the learning algorithm to use SMO to train the
-    ///   //  underlying SVMs in each of the binary class subproblems.
-    ///   teacher.Algorithm = (svm, classInputs, classOutputs, i, j) =>
-    ///       new SequentialMinimalOptimization(svm, classInputs, classOutputs);
-    ///   
-    ///   // Run the learning algorithm
-    ///   double error = teacher.Run();
-    ///   </code>
+    /// <para>
+    ///   Support vector machines can have their weights calibrated in order to produce probability 
+    ///   estimates (instead of simple class separation distances). The following example shows how 
+    ///   to use <see cref="ProbabilisticOutputCalibration"/> within <see cref="MulticlassSupportVectorLearning"/> 
+    ///   to generate a probabilistic SVM:</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_calibration" />
     /// </example>
+    /// 
+    /// <seealso cref="MultilabelSupportVectorLearning"/>
+    /// <seealso cref="MulticlassSupportVectorMachine"/>
     /// 
     public class MultilabelSupportVectorLearning<TKernel> :
         BaseMultilabelSupportVectorLearning<double[],
@@ -244,7 +222,19 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </summary>
         public MultilabelSupportVectorLearning()
         {
-            Learner = (_) => new SequentialMinimalOptimization<TKernel>();
+            Learner = (p) => new SequentialMinimalOptimization<TKernel>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultilabelSupportVectorLearning{TKernel}"/> class.
+        /// </summary>
+        public MultilabelSupportVectorLearning(MultilabelSupportVectorMachine<TKernel> machine)
+        {
+            Model = machine;
+            Learner = (p) => new SequentialMinimalOptimization<TKernel>()
+            {
+                Model = p.Model
+            };
         }
     }
 
@@ -266,49 +256,27 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </remarks>
     /// 
     /// <example>
-    ///   <code>
-    ///   // Sample data
-    ///   //   The following is simple auto association function
-    ///   //   where each input correspond to its own class. This
-    ///   //   problem should be easily solved by a Linear kernel.
-    ///
-    ///   // Sample input data
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { 0 },
-    ///       new double[] { 3 },
-    ///       new double[] { 1 },
-    ///       new double[] { 2 },
-    ///   };
+    /// <para>
+    ///   The following example shows how to learn a linear, multi-label (one-vs-rest) support 
+    ///   vector machine using the <see cref="LinearDualCoordinateDescent"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    /// 
+    /// <para>
+    ///   The following example shows how to learn a non-linear, multi-label (one-vs-rest) 
+    ///   support vector machine using the <see cref="Gaussian"/> kernel and the 
+    ///   <see cref="SequentialMinimalOptimization"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
     ///   
-    ///   // Outputs for each of the inputs
-    ///   int[][] outputs =
-    ///   {
-    ///       new[] { 0, 1, 0 }
-    ///       new[] { 0, 0, 1 }
-    ///       new[] { 1, 1, 0 }
-    ///   }
-    ///   
-    ///   
-    ///   // Create a new Linear kernel
-    ///   IKernel kernel = new Linear();
-    ///   
-    ///   // Create a new Multi-class Support Vector Machine with one input,
-    ///   //  using the linear kernel and for four disjoint classes.
-    ///   var machine = new MultilabelSupportVectorMachine(1, kernel, 4);
-    ///   
-    ///   // Create the Multi-label learning algorithm for the machine
-    ///   var teacher = new MultilabelSupportVectorLearning(machine, inputs, outputs);
-    ///   
-    ///   // Configure the learning algorithm to use SMO to train the
-    ///   //  underlying SVMs in each of the binary class subproblems.
-    ///   teacher.Algorithm = (svm, classInputs, classOutputs, i, j) =>
-    ///       new SequentialMinimalOptimization(svm, classInputs, classOutputs);
-    ///   
-    ///   // Run the learning algorithm
-    ///   double error = teacher.Run();
-    ///   </code>
+    /// <para>
+    ///   Support vector machines can have their weights calibrated in order to produce probability 
+    ///   estimates (instead of simple class separation distances). The following example shows how 
+    ///   to use <see cref="ProbabilisticOutputCalibration"/> within <see cref="MulticlassSupportVectorLearning"/> 
+    ///   to generate a probabilistic SVM:</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_calibration" />
     /// </example>
+    /// 
+    /// <seealso cref="MultilabelSupportVectorLearning"/>
+    /// <seealso cref="MulticlassSupportVectorMachine"/>
     /// 
     public class MultilabelSupportVectorLearning<TKernel, TInput> :
         BaseMultilabelSupportVectorLearning<TInput,
@@ -332,7 +300,19 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </summary>
         public MultilabelSupportVectorLearning()
         {
-            Learner = (_) => new SequentialMinimalOptimization<TKernel, TInput>();
+            Learner = (p) => new SequentialMinimalOptimization<TKernel, TInput>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultilabelSupportVectorLearning{TKernel, TInput}"/> class.
+        /// </summary>
+        public MultilabelSupportVectorLearning(MultilabelSupportVectorMachine<TKernel, TInput> machine)
+        {
+            Model = machine;
+            Learner = (p) => new SequentialMinimalOptimization<TKernel, TInput>()
+            {
+                Model = p.Model
+            };
         }
     }
 
@@ -341,6 +321,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <summary>
     ///   Base class for multi-label support vector learning algorithms.
     /// </summary>
+    /// 
     public abstract class BaseMultilabelSupportVectorLearning<TInput, TBinary, TKernel, TModel> :
         OneVsRestLearning<TInput, TBinary, TModel>
         where TBinary : SupportVectorMachine<TKernel, TInput>

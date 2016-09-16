@@ -20,16 +20,14 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Statistics.Models.Regression.Linear;
-using NUnit.Framework;
 namespace Accord.Tests.Statistics
 {
+    using Accord.Math.Optimization.Losses;
+    using Accord.Statistics.Models.Regression.Linear;
+    using NUnit.Framework;
+    using Accord.Math;
+    using Accord.Tests.Statistics.Properties;
 
-
-    /// <summary>
-    ///This is a test class for MultivariateLinearRegressionTest and is intended
-    ///to contain all MultivariateLinearRegressionTest Unit Tests
-    ///</summary>
     [TestFixture]
     public class MultivariateLinearRegressionTest
     {
@@ -171,6 +169,154 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(0, error, 1e-10);
             Assert.IsFalse(double.IsNaN(error));
+        }
+
+        [Test]
+        public void learn_test1()
+        {
+            #region doc_learn
+            // The multivariate linear regression is a generalization of
+            // the multiple linear regression. In the multivariate linear
+            // regression, not only the input variables are multivariate,
+            // but also are the output dependent variables.
+
+            // In the following example, we will perform a regression of
+            // a 2-dimensional output variable over a 3-dimensional input
+            // variable.
+
+            double[][] inputs = 
+            {
+                // variables:  x1  x2  x3
+                new double[] {  1,  1,  1 }, // input sample 1
+                new double[] {  2,  1,  1 }, // input sample 2
+                new double[] {  3,  1,  1 }, // input sample 3
+            };
+
+            double[][] outputs = 
+            {
+                // variables:  y1  y2
+                new double[] {  2,  3 }, // corresponding output to sample 1
+                new double[] {  4,  6 }, // corresponding output to sample 2
+                new double[] {  6,  9 }, // corresponding output to sample 3
+            };
+
+            // With a quick eye inspection, it is possible to see that
+            // the first output variable y1 is always the double of the
+            // first input variable. The second output variable y2 is
+            // always the triple of the first input variable. The other
+            // input variables are unused. Nevertheless, we will fit a
+            // multivariate regression model and confirm the validity
+            // of our impressions:
+
+            // Use Ordinary Least Squares to create the regression
+            OrdinaryLeastSquares ols = new OrdinaryLeastSquares();
+            
+            // Now, compute the multivariate linear regression:
+            MultivariateLinearRegression regression = ols.Learn(inputs, outputs);
+
+            // We can obtain predictions using
+            double[][] predictions = regression.Transform(inputs);
+
+            // The prediction error is
+            double error = new SquareLoss(outputs).Loss(predictions); // 0
+
+            // At this point, the regression error will be 0 (the fit was
+            // perfect). The regression coefficients for the first input
+            // and first output variables will be 2. The coefficient for
+            // the first input and second output variables will be 3. All
+            // others will be 0.
+            //
+            // regression.Coefficients should be the matrix given by
+            //
+            // double[,] coefficients = {
+            //                              { 2, 3 },
+            //                              { 0, 0 },
+            //                              { 0, 0 },
+            //                          };
+            //
+
+            // We can also check the r-squared coefficients of determination:
+            double[] r2 = regression.CoefficientOfDetermination(inputs, outputs);
+            #endregion
+
+            // The first input variable coefficients will be 2 and 3:
+            Assert.AreEqual(2, regression.Coefficients[0, 0], 1e-10);
+            Assert.AreEqual(3, regression.Coefficients[0, 1], 1e-10);
+
+            // And all other coefficients will be 0:
+            Assert.AreEqual(0, regression.Coefficients[1, 0], 1e-10);
+            Assert.AreEqual(0, regression.Coefficients[1, 1], 1e-10);
+            Assert.AreEqual(0, regression.Coefficients[2, 0], 1e-10);
+            Assert.AreEqual(0, regression.Coefficients[2, 1], 1e-10);
+
+            Assert.AreEqual(3, regression.NumberOfInputs);
+            Assert.AreEqual(2, regression.NumberOfOutputs);
+
+            // Which should be one for both output variables:
+            Assert.AreEqual(1, r2[0]);
+            Assert.AreEqual(1, r2[1]);
+
+            foreach (var e in regression.Coefficients)
+                Assert.IsFalse(double.IsNaN(e));
+
+            Assert.AreEqual(0, error, 1e-10);
+            Assert.IsFalse(double.IsNaN(error));
+        }
+
+        [Test]
+        public void prediction_test()
+        {
+            // Example from http://www.real-statistics.com/multiple-regression/confidence-and-prediction-intervals/
+            var dt = Accord.IO.CsvReader.FromText(Resources.linreg, true).ToTable();
+
+            double[][] y = dt.ToArray("Poverty");
+            double[][] x = dt.ToArray("Infant Mort", "White", "Crime");
+
+            // Use Ordinary Least Squares to learn the regression
+            OrdinaryLeastSquares ols = new OrdinaryLeastSquares();
+
+            // Use OLS to learn the multiple linear regression
+            MultivariateLinearRegression regression = ols.Learn(x, y);
+
+            Assert.AreEqual(3, regression.NumberOfInputs);
+            Assert.AreEqual(1, regression.NumberOfOutputs);
+
+            Assert.AreEqual(0.443650703716698, regression.Intercepts[0], 1e-5);
+            Assert.AreEqual(1.2791842411083394, regression.Weights[0][0], 1e-5);
+            Assert.AreEqual(0.036259242392669415, regression.Weights[1][0], 1e-5);
+            Assert.AreEqual(0.0014225014835705938, regression.Weights[2][0], 1e-5);
+
+            double rse = regression.GetStandardError(x, y)[0];
+            Assert.AreEqual(rse, 2.4703520840798507, 1e-5);
+
+
+            double[][] im = ols.GetInformationMatrix();
+            double[] mse = regression.GetStandardError(x, y);
+            double[][] se = regression.GetStandardErrors(mse, im);
+
+            Assert.AreEqual(0.30063086032754965, se[0][0], 1e-10);
+            Assert.AreEqual(0.033603448179240082, se[0][1], 1e-10);
+            Assert.AreEqual(0.0022414548866296342, se[0][2], 1e-10);
+            Assert.AreEqual(3.9879881671805824, se[0][3], 1e-10);
+
+            double[] x0 = new double[] { 7, 80, 400 };
+            double y0 = regression.Transform(x0)[0];
+            Assert.AreEqual(y0, 12.867680376316864, 1e-5);
+
+            double actual = regression.GetStandardError(x0, mse, im)[0];
+
+            Assert.AreEqual(0.35902764658470271, actual, 1e-10);
+
+            DoubleRange ci = regression.GetConfidenceInterval(x0, mse, x.Length, im)[0];
+            Assert.AreEqual(ci.Min, 12.144995206616116, 1e-5);
+            Assert.AreEqual(ci.Max, 13.590365546017612, 1e-5);
+
+            actual = regression.GetPredictionStandardError(x0, mse, im)[0];
+            Assert.AreEqual(2.4963053239397244, actual, 1e-10);
+
+            DoubleRange pi = regression.GetPredictionInterval(x0, mse, x.Length, im)[0];
+            Assert.AreEqual(pi.Min, 7.8428783761994554, 1e-5);
+            Assert.AreEqual(pi.Max, 17.892482376434273, 1e-5);
         }
 
     }

@@ -95,11 +95,10 @@ namespace Analysis.PLS
             DataTable table = dgvAnalysisSource.DataSource as DataTable;
 
             // Creates a matrix from the source data table
-            double[,] sourceMatrix = table.ToMatrix(out inputColumnNames);
+            double[][] sourceMatrix = table.ToArray(out inputColumnNames);
 
             // Creates the Simple Descriptive Analysis of the given source
-            sda = new DescriptiveAnalysis(sourceMatrix, inputColumnNames);
-            sda.Compute();
+            sda = new DescriptiveAnalysis(inputColumnNames).Learn(sourceMatrix);
 
             // Populates statistics overview tab with analysis data
             dgvDistributionMeasures.DataSource = sda.Measures;
@@ -119,19 +118,21 @@ namespace Analysis.PLS
             DataTable inputTable = table.DefaultView.ToTable(false, inputColumnNames);
             DataTable outputTable = table.DefaultView.ToTable(false, outputColumnNames);
 
-            double[,] inputs = inputTable.ToMatrix();
-            double[,] outputs = outputTable.ToMatrix();
+            double[][] inputs = inputTable.ToArray();
+            double[][] outputs = outputTable.ToArray();
 
 
 
             // Creates the Partial Least Squares of the given source
-            pls = new PartialLeastSquaresAnalysis(inputs, outputs,
-                (AnalysisMethod)cbMethod.SelectedValue,
-                (PartialLeastSquaresAlgorithm)cbAlgorithm.SelectedValue);
+            pls = new PartialLeastSquaresAnalysis()
+            {
+                Method = (AnalysisMethod)cbMethod.SelectedValue,
+                Algorithm = (PartialLeastSquaresAlgorithm)cbAlgorithm.SelectedValue
+            };
 
 
             // Computes the Partial Least Squares
-            pls.Compute();
+            pls.Learn(inputs, outputs);
 
 
             // Populates components overview with analysis data

@@ -61,56 +61,7 @@ namespace Accord.Statistics.Analysis
     /// </remarks>
     /// 
     /// <example>
-    /// <para>
-    ///   The following example creates an analysis for a set of 
-    ///   data specified as a jagged (double[][]) array. However,
-    ///   the same can also be accomplished using multidimensional
-    ///   double[,] arrays.</para>
-    ///   
-    /// <code>
-    /// // Create some sample input data instances. This is the same
-    /// // data used in the Gutierrez-Osuna's example available on:
-    /// // http://research.cs.tamu.edu/prism/lectures/pr/pr_l10.pdf
-    /// 
-    /// double[][] inputs = 
-    /// {
-    ///     // Class 0
-    ///     new double[] {  4,  1 }, 
-    ///     new double[] {  2,  4 },
-    ///     new double[] {  2,  3 },
-    ///     new double[] {  3,  6 },
-    ///     new double[] {  4,  4 },
-    /// 
-    ///     // Class 1
-    ///     new double[] {  9, 10 },
-    ///     new double[] {  6,  8 },
-    ///     new double[] {  9,  5 },
-    ///     new double[] {  8,  7 },
-    ///     new double[] { 10,  8 }
-    /// };
-    /// 
-    /// int[] output = 
-    /// {
-    ///     0, 0, 0, 0, 0, // The first five are from class 0
-    ///     1, 1, 1, 1, 1  // The last five are from class 1
-    /// };
-    /// 
-    /// // Now we can chose a kernel function to 
-    /// // use, such as a linear kernel function.
-    /// IKernel kernel = new Linear();
-    /// 
-    /// // Then, we will create a KDA using this linear kernel.
-    /// var kda = new KernelDiscriminantAnalysis(inputs, output, kernel);
-    /// 
-    /// kda.Compute(); // Compute the analysis
-    /// 
-    /// 
-    /// // Now we can project the data into KDA space:
-    /// double[][] projection = kda.Transform(inputs);
-    /// 
-    /// // Or perform classification using:
-    /// int[] results = kda.Classify(inputs);
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\KernelDiscriminantAnalysisTest.cs" region="doc_learn" />
     /// </example>
     /// 
     [Serializable]
@@ -119,7 +70,6 @@ namespace Accord.Statistics.Analysis
     {
         private IKernel kernel;
         private double regularization = 1e-4;
-        private double threshold = 1e-3;
         private double[][] input;
 
         /// <summary>
@@ -154,8 +104,8 @@ namespace Accord.Statistics.Analysis
         /// 
         [Obsolete("Please pass the 'inputs' and 'outputs' parameters to the Learn method instead.")]
         public KernelDiscriminantAnalysis(double[,] inputs, int[] output, IKernel kernel)
+            : this(kernel)
         {
-            this.kernel = kernel;
             init(inputs, output);
         }
 
@@ -170,19 +120,39 @@ namespace Accord.Statistics.Analysis
         /// 
         [Obsolete("Please pass the 'inputs' and 'outputs' parameters to the Learn method instead.")]
         public KernelDiscriminantAnalysis(double[][] inputs, int[] output, IKernel kernel)
+            : this(kernel)
         {
-            this.kernel = kernel;
             init(inputs.ToMatrix(), output);
         }
 
+        /// <summary>
+        ///   Constructs a new Kernel Discriminant Analysis object.
+        /// </summary>
+        /// 
+        public KernelDiscriminantAnalysis(IKernel kernel)
+        {
+            this.kernel = kernel;
+            this.Threshold = 0;
+        }
 
         /// <summary>
-        ///   Gets the Kernel used in the analysis.
+        ///   Constructs a new Kernel Discriminant Analysis object.
+        /// </summary>
+        /// 
+        public KernelDiscriminantAnalysis()
+            : this(new Linear())
+        {
+
+        }
+
+        /// <summary>
+        ///   Gets or sets the Kernel used in the analysis.
         /// </summary>
         /// 
         public IKernel Kernel
         {
             get { return kernel; }
+            set { kernel = value; }
         }
 
         /// <summary>
@@ -201,24 +171,7 @@ namespace Accord.Statistics.Analysis
             }
         }
 
-        /// <summary>
-        ///   Gets or sets the minimum variance proportion needed to keep a
-        ///   discriminant component. If set to zero, all components will be
-        ///   kept. Default is 0.001 (all components which contribute less
-        ///   than 0.001 to the variance in the data will be discarded).
-        /// </summary>
-        /// 
-        public double Threshold
-        {
-            get { return threshold; }
-            set
-            {
-                if (value < 0 || value > 1)
-                    throw new ArgumentOutOfRangeException("value", "Value must be between 0 and 1.");
 
-                threshold = value;
-            }
-        }
 
 
 
@@ -270,7 +223,6 @@ namespace Accord.Statistics.Analysis
                 // Get the Kernel matrix class mean
                 double[] mean = Measures.Mean(Kc, dimension: 0);
 
-
                 // Construct the Kernel equivalent of the Within-Class Scatter matrix
                 double[,] Swi = Measures.Scatter(Kc, mean, (double)count);
 
@@ -278,7 +230,6 @@ namespace Accord.Statistics.Analysis
                 for (int i = 0; i < dimension; i++)
                     for (int j = 0; j < dimension; j++)
                         Sw[i, j] += Swi[i, j];
-
 
                 // Construct the Kernel equivalent of the Between-Class Scatter matrix
                 double[] d = mean.Subtract(base.Means);
@@ -288,7 +239,6 @@ namespace Accord.Statistics.Analysis
                 for (int i = 0; i < dimension; i++)
                     for (int j = 0; j < dimension; j++)
                         Sb[i, j] += Sbi[i, j];
-
 
                 // Store additional information
                 base.ClassScatter[c] = Swi.ToJagged();
@@ -321,7 +271,7 @@ namespace Accord.Statistics.Analysis
             eigs = Matrix.Sort(evals, eigs, new GeneralComparer(ComparerDirection.Descending, true));
 
 
-            if (threshold > 0)
+            if (Threshold > 0)
             {
                 // We will be discarding less important
                 // eigenvectors to conserve memory.
@@ -349,7 +299,7 @@ namespace Accord.Statistics.Analysis
 
                         // Now, if the component explains an
                         // enough proportion of the variance,
-                        if (proportion > threshold)
+                        if (proportion > Threshold)
                             keep++; // We can keep it.
                         else
                             break;  // Otherwise we can stop, since the
@@ -397,14 +347,15 @@ namespace Accord.Statistics.Analysis
             if (NumberOfOutputs == 0)
                 return null;
 
+            double[][] eig = DiscriminantVectors;
+
             return new Pipeline()
             {
                 NumberOfInputs = NumberOfInputs,
                 NumberOfOutputs = NumberOfClasses,
                 First = new MultivariateKernelRegression()
                 {
-                    Weights = DiscriminantVectors,
-                    Intercept = Means.DotWithTransposed(DiscriminantVectors).Multiply(-1),
+                    Weights = eig,
                     BasisVectors = input,
                     Kernel = Kernel,
                     NumberOfInputs = NumberOfInputs,
@@ -431,9 +382,14 @@ namespace Accord.Statistics.Analysis
         {
             // TODO: Do without forming the kernel matrix
             double[][] K = kernel.ToJagged2(x: input, y: this.input);
-            return K.DotWithTransposed(DiscriminantVectors);
-        }
+            // return K.DotWithTransposed(DiscriminantVectors);
 
+            for (int i = 0; i < input.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    for (int k = 0; k < K[i].Length; k++)
+                        result[i][j] += K[i][k] * DiscriminantVectors[j][k];
+            return result;
+        }
 
         /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.
@@ -447,9 +403,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public Pipeline Learn(double[][] x, int[] y, double[] weights = null)
         {
-            this.NumberOfInputs = x.Columns();
-            this.NumberOfOutputs = x.Columns();
-            this.NumberOfClasses = y.Max();
+            Init(x, y);
 
             // Create the Gram (Kernel) Matrix
             var K = kernel.ToJagged(x);
@@ -460,8 +414,8 @@ namespace Accord.Statistics.Analysis
 
             // Initialize the kernel analogous scatter matrices
             int dimension = x.Columns();
-            double[][] Sb = Jagged.Zeros(dimension, dimension);
-            double[][] Sw = Jagged.Zeros(dimension, dimension);
+            double[][] Sb = Jagged.Zeros(NumberOfSamples, NumberOfSamples);
+            double[][] Sw = Jagged.Zeros(NumberOfSamples, NumberOfSamples);
 
             // For each class
             for (int c = 0; c < Classes.Count; c++)
@@ -470,7 +424,7 @@ namespace Accord.Statistics.Analysis
 
                 // Get the Kernel matrix class subset
                 double[][] Kc = K.Get(idx);
-                int count = Kc.GetLength(0);
+                int count = Kc.Rows();
 
                 // Get the Kernel matrix class mean
                 double[] mean = Measures.Mean(Kc, dimension: 0);
@@ -483,7 +437,7 @@ namespace Accord.Statistics.Analysis
                 // Construct the Kernel equivalent of the Between-Class Scatter matrix
                 double[] d = mean.Subtract(base.Means);
                 double[][] Sbi = Jagged.Outer(d, d);
-                Sbi.Multiply(NumberOfOutputs, result: Sbi);
+                Sbi.Multiply((double)NumberOfSamples, result: Sbi);
 
                 Sb.Add(Sbi, result: Sb); // Sb = Sb + Sbi
 
@@ -510,15 +464,17 @@ namespace Accord.Statistics.Analysis
             double[] evals = gevd.RealEigenvalues;
             double[][] eigs = gevd.Eigenvectors;
 
-            int nonzero = gevd.Rank;
+            // Eliminate unwanted components
+            int nonzero = x.Columns();
+            if (Threshold > 0)
+                nonzero = Math.Min(gevd.Rank, GetNonzeroEigenvalues(evals, Threshold));
             if (NumberOfInputs != 0)
                 nonzero = Math.Min(nonzero, NumberOfInputs);
             if (NumberOfOutputs != 0)
                 nonzero = Math.Min(nonzero, NumberOfOutputs);
 
-            // Eliminate unwanted components
-            eigs = eigs.Get(null, 0, nonzero - 1);
-            evals = evals.Get(0, nonzero - 1);
+            eigs = eigs.Get(null, 0, nonzero);
+            evals = evals.Get(0, nonzero);
 
             // Store information
             this.input = x;
@@ -526,6 +482,7 @@ namespace Accord.Statistics.Analysis
             base.DiscriminantVectors = eigs.Transpose();
             base.ScatterBetweenClass = Sb;
             base.ScatterWithinClass = Sw;
+            base.NumberOfOutputs = evals.Length;
 
             // Compute feature space means for later classification
             for (int c = 0; c < Classes.Count; c++)
@@ -568,7 +525,7 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         [Obsolete("Please use Classifier.Decide() instead.")]
-        public override  int[] Classify(double[][] inputs)
+        public override int[] Classify(double[][] inputs)
         {
             int[] result = Classifier.Decide(inputs);
             for (int i = 0; i < result.Length; i++)

@@ -39,6 +39,7 @@ using System.Windows.Forms;
 using Accord.IO;
 using Accord.Math;
 using Accord.Statistics.Analysis;
+using Accord.Statistics.Models.Regression;
 
 namespace Survival.Cox
 {
@@ -142,23 +143,21 @@ namespace Survival.Cox
 
 
             String[] sourceColumns;
-            double[,] sourceMatrix = sourceTable.ToMatrix(out sourceColumns);
+            double[][] sourceMatrix = sourceTable.ToArray(out sourceColumns);
 
             // Creates the Simple Descriptive Analysis of the given source
-            DescriptiveAnalysis sda = new DescriptiveAnalysis(sourceMatrix, sourceColumns);
-            sda.Compute();
+            var sda = new DescriptiveAnalysis(sourceColumns).Learn(sourceMatrix);
 
             // Populates statistics overview tab with analysis data
             dgvDistributionMeasures.DataSource = sda.Measures;
 
 
             // Creates the Logistic Regression Analysis of the given source
-            pha = new ProportionalHazardsAnalysis(input, time, censor,
-                independentNames, dependentName, censorName);
+            pha = new ProportionalHazardsAnalysis(independentNames, dependentName, censorName);
 
 
             // Compute the Logistic Regression Analysis
-            pha.Compute();
+            ProportionalHazards model = pha.Learn(input, time, censor);
 
             // Populates coefficient overview with analysis data
             dgvLogisticCoefficients.DataSource = pha.Coefficients;

@@ -14,7 +14,7 @@
     <description>
       Contains an interface to control and capture images from Microsoft Kinect devices. This package originated from the AForge.NET Framework and is part of the Accord.NET Framework.
     </description>
-    <summary>Accord.NET Video Kinect Library from the Accord.NET Framework</summary>
+    <summary>Capture depth and color images, and control Microsoft Kinect v1 devices.</summary>
     <tags>accord.net aforge.net framework video capture kinect cameras</tags>
     <dependencies>
       <dependency id="Accord"                 version="$version$" />

@@ -451,6 +451,8 @@ namespace Accord.Math.Optimization
         // c        ------- the beginning of the loop ----------
         // 
         L111:
+            if (Token.IsCancellationRequested)
+                return false;
 
             iterations++;
 

@@ -95,7 +95,7 @@ namespace Accord.Statistics.Models.Regression
         /// </summary>
         /// 
         /// <param name="inputs">The number of input variables for the model.</param>
-        /// <param name="baseline">The initial baseline hazard distribution.</param>
+        /// <param name="baseline">The initial baseline hazard distribution. Default is the <see cref="EmpiricalHazardDistribution"/>.</param>
         /// 
         public ProportionalHazards(int inputs, IUnivariateDistribution baseline)
         {

@@ -106,70 +106,7 @@ namespace Accord.Statistics.Analysis
     /// </remarks>
     ///
     /// <example>
-    ///   <code>
-    ///   // Following the small example by Hervé Abdi (Hervé Abdi, Partial Least Square Regression),
-    ///   // we will create a simple example where the goal is to predict the subjective evaluation of
-    ///   // a set of 5 wines. The dependent variables that we want to predict for each wine are its 
-    ///   // likeability, and how well it goes with meat, or dessert (as rated by a panel of experts).
-    ///   // The predictors are the price, the sugar, alcohol, and acidity content of each wine.
-    /// 
-    /// 
-    ///   // Here we will list the inputs, or characteristics we would like to use in order to infer
-    ///   // information from our wines. Each row denotes a different wine and lists its corresponding
-    ///   // observable characteristics. The inputs are usually denoted by X in the PLS literature.
-    /// 
-    ///   double[,] inputs = 
-    ///   {
-    ///       // Wine | Price | Sugar | Alcohol | Acidity
-    ///       {           7,     7,      13,        7     },
-    ///       {           4,     3,      14,        7     },
-    ///       {          10,     5,      12,        5     },
-    ///       {          16,     7,      11,        3     },
-    ///       {          13,     3,      10,        3     },
-    ///    };
-    /// 
-    /// 
-    ///    // Here we will list our dependent variables. Dependent variables are the outputs, or what we
-    ///    // would like to infer or predict from our available data, given a new observation. The outputs
-    ///    // are usually denoted as Y in the PLS literature.
-    /// 
-    ///    double[,] outputs = 
-    ///    {
-    ///        // Wine | Hedonic | Goes with meat | Goes with dessert
-    ///        {           14,          7,                 8         },
-    ///        {           10,          7,                 6         },
-    ///        {            8,          5,                 5         },
-    ///        {            2,          4,                 7         },
-    ///        {            6,          2,                 4         },
-    ///    };
-    /// 
-    /// 
-    ///    // Next, we will create our Partial Least Squares Analysis passing the inputs (values for 
-    ///    // predictor variables) and the associated outputs (values for dependent variables).
-    ///             
-    ///    // We will also be using the using the Covariance Matrix/Center method (data will only
-    ///    // be mean centered but not normalized) and the SIMPLS algorithm. 
-    ///    PartialLeastSquaresAnalysis pls = new PartialLeastSquaresAnalysis(inputs, outputs,
-    ///        AnalysisMethod.Center, PartialLeastSquaresAlgorithm.SIMPLS);
-    /// 
-    ///    // Compute the analysis with all factors. The number of factors
-    ///    // could also have been specified in a overload of this method.
-    /// 
-    ///    pls.Compute();
-    /// 
-    ///    // After computing the analysis, we can create a linear regression model in order
-    ///    // to predict new variables. To do that, we may call the CreateRegression() method.
-    /// 
-    ///    MultivariateLinearRegression regression = pls.CreateRegression();
-    /// 
-    ///    // After the regression has been created, we will be able to classify new instances. 
-    ///    // For example, we will compute the outputs for the first input sample:
-    /// 
-    ///    double[] y = regression.Compute(new double[] { 7, 7, 13, 7 });
-    /// 
-    ///    // The y output will be very close to the corresponding output used as reference.
-    ///    // In this case, y is a vector of length 3 with values { 13.98, 7.00, 7.75 }.
-    ///    </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\PartialLeastSquaresAnalysisTest.cs" region="doc_learn" />
     /// </example>
     ///
     [Serializable]
@@ -184,7 +121,9 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         public CancellationToken Token { get; set; }
 
+        [Obsolete]
         internal double[,] sourceX;
+        [Obsolete]
         internal double[,] sourceY;
 
         internal double[] meanX;
@@ -252,8 +191,10 @@ namespace Accord.Statistics.Analysis
         public PartialLeastSquaresAnalysis(double[,] inputs, double[,] outputs, AnalysisMethod method, PartialLeastSquaresAlgorithm algorithm)
         {
             // Initial argument checking
-            if (inputs == null) throw new ArgumentNullException("inputs");
-            if (outputs == null) throw new ArgumentNullException("outputs");
+            if (inputs == null)
+                throw new ArgumentNullException("inputs");
+            if (outputs == null)
+                throw new ArgumentNullException("outputs");
 
             if (inputs.GetLength(0) != outputs.GetLength(0))
                 throw new ArgumentException("The number of rows in the inputs array must match the number of rows in the outputs array.");
@@ -262,14 +203,19 @@ namespace Accord.Statistics.Analysis
             this.analysisMethod = method;
             this.algorithm = algorithm;
 
+#pragma warning disable 612, 618
             this.sourceX = inputs;
             this.sourceY = outputs;
+#pragma warning restore 612, 618
 
             // Calculate common measures to speedup other calculations
             this.meanX = Measures.Mean(inputs, dimension: 0);
             this.meanY = Measures.Mean(outputs, dimension: 0);
             this.stdDevX = Measures.StandardDeviation(inputs, meanX);
             this.stdDevY = Measures.StandardDeviation(outputs, meanY);
+
+            this.NumberOfInputs = sourceX.Columns();
+            this.NumberOfOutputs = NumberOfInputs;
 
             this.inputVariables = new PartialLeastSquaresVariables(this, true);
             this.outputVariables = new PartialLeastSquaresVariables(this, false);
@@ -282,8 +228,8 @@ namespace Accord.Statistics.Analysis
         /// <param name="method">The analysis method to perform. Default is <see cref="AnalysisMethod.Center"/>.</param>
         /// <param name="algorithm">The PLS algorithm to use in the analysis. Default is <see cref="PartialLeastSquaresAlgorithm.NIPALS"/>.</param>
         /// 
-        [Obsolete("Please pass the 'inputs' and 'outputs' matrices to the Learn method instead.")]
-        public PartialLeastSquaresAnalysis(AnalysisMethod method, PartialLeastSquaresAlgorithm algorithm)
+        public PartialLeastSquaresAnalysis(AnalysisMethod method = AnalysisMethod.Center,
+            PartialLeastSquaresAlgorithm algorithm = PartialLeastSquaresAlgorithm.NIPALS)
         {
             this.analysisMethod = method;
             this.algorithm = algorithm;
@@ -291,6 +237,7 @@ namespace Accord.Statistics.Analysis
 
 
 
+#pragma warning disable 612, 618
         /// <summary>
         ///   Source data used in the analysis.
         /// </summary>
@@ -311,6 +258,7 @@ namespace Accord.Statistics.Analysis
         {
             get { return sourceY; }
         }
+#pragma warning restore 612, 618
 
         /// <summary>
         ///   Gets information about independent (input) variables.
@@ -351,21 +299,23 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets the PLS algorithm used by the analysis.
+        ///   Gets or sets the PLS algorithm used by the analysis.
         /// </summary>
         /// 
         public PartialLeastSquaresAlgorithm Algorithm
         {
             get { return algorithm; }
+            set { algorithm = value; }
         }
 
         /// <summary>
-        ///   Gets the method used by this analysis.
+        ///   Gets or sets the method used by this analysis.
         /// </summary>
         /// 
         public AnalysisMethod Method
         {
             get { return this.analysisMethod; }
+            set { this.analysisMethod = value; }
         }
 
         /// <summary>
@@ -404,11 +354,14 @@ namespace Accord.Statistics.Analysis
         /// </returns>
         public MultivariateLinearRegression Learn(double[][] x, double[][] y, double[] weights = null)
         {
-            // maxFactors = min(rows-1,cols)
-            int factors = System.Math.Min(
-                x.GetLength(0) - 1,
-                x.GetLength(1)
-            );
+            // maxFactors = min(rows-1, cols)
+            int factors = System.Math.Min(x.Rows() - 1, x.Columns());
+
+            this.inputVariables = new PartialLeastSquaresVariables(this, true);
+            this.outputVariables = new PartialLeastSquaresVariables(this, false);
+
+            this.NumberOfInputs = x.Columns();
+            this.NumberOfOutputs = factors;
 
             meanX = x.Mean(dimension: 0);
             meanY = y.Mean(dimension: 0);
@@ -448,7 +401,7 @@ namespace Accord.Statistics.Analysis
 
 
             // Create the object-oriented structure to hold the partial least squares factors
-            PartialLeastSquaresFactor[] array = new PartialLeastSquaresFactor[factors];
+            var array = new PartialLeastSquaresFactor[factors];
             for (int i = 0; i < array.Length; i++)
                 array[i] = new PartialLeastSquaresFactor(this, i);
             this.factorCollection = new PartialLeastSquaresFactorCollection(array);
@@ -464,10 +417,7 @@ namespace Accord.Statistics.Analysis
         public void Compute()
         {
             // maxFactors = min(rows-1,cols)
-            int maxFactors = System.Math.Min(
-                sourceX.GetLength(0) - 1,
-                sourceX.GetLength(1)
-            );
+            int maxFactors = System.Math.Min(sourceX.GetLength(0) - 1, sourceX.GetLength(1));
 
             Compute(maxFactors);
         }
@@ -484,11 +434,9 @@ namespace Accord.Statistics.Analysis
         [Obsolete("Please set the NumberOfOutputs property and use the Learn method instead.")]
         public void Compute(int factors)
         {
+#pragma warning disable 612, 618
             // maxFactors = min(rows-1,cols)
-            int maxFactors = System.Math.Min(
-                sourceX.GetLength(0) - 1,
-                sourceX.GetLength(1)
-            );
+            int maxFactors = System.Math.Min(sourceX.GetLength(0) - 1, sourceX.GetLength(1));
 
             if (factors > maxFactors)
                 throw new ArgumentOutOfRangeException("factors");
@@ -497,6 +445,8 @@ namespace Accord.Statistics.Analysis
             double[,] inputs = Adjust(sourceX, meanX, stdDevX, Overwrite);
             double[,] outputs = Adjust(sourceY, meanY, null, Overwrite);
 
+            this.NumberOfInputs = sourceX.Columns();
+            this.NumberOfOutputs = factors;
 
             // Run selected algorithm
             if (algorithm == PartialLeastSquaresAlgorithm.SIMPLS)
@@ -524,12 +474,12 @@ namespace Accord.Statistics.Analysis
             // Compute Variable Importance in Projection (VIP)
             this.vip = ComputeVariableImportanceInProjection(factors);
 
-
             // Create the object-oriented structure to hold the partial least squares factors
-            PartialLeastSquaresFactor[] array = new PartialLeastSquaresFactor[factors];
+            var array = new PartialLeastSquaresFactor[factors];
             for (int i = 0; i < array.Length; i++)
                 array[i] = new PartialLeastSquaresFactor(this, i);
             this.factorCollection = new PartialLeastSquaresFactorCollection(array);
+#pragma warning restore 612, 618
         }
 
         /// <summary>
@@ -594,7 +544,7 @@ namespace Accord.Statistics.Analysis
             return result;
         }
 
-       
+
 
         /// <summary>
         ///   Projects a given set of outputs into latent space.
@@ -602,7 +552,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[][] TransformOutput(double[][] outputs)
         {
-            return TransformOutput(outputs, loadingsY.GetLength(1));
+            return TransformOutput(outputs, loadingsY.Columns());
         }
 
         /// <summary>
@@ -612,7 +562,7 @@ namespace Accord.Statistics.Analysis
         [Obsolete("Please use jagged matrices instead.")]
         public double[,] TransformOutput(double[,] outputs)
         {
-            return TransformOutput(outputs.ToJagged(), loadingsY.GetLength(1)).ToMatrix();
+            return TransformOutput(outputs.ToJagged(), loadingsY.Columns()).ToMatrix();
         }
 
         /// <summary>
@@ -631,14 +581,14 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[][] TransformOutput(double[][] outputs, int dimensions)
         {
-            int rows = outputs.GetLength(0);
-            int cols = outputs.GetLength(1);
+            int rows = outputs.Rows();
+            int cols = outputs.Columns();
 
-            if (cols > loadingsY.GetLength(0))
+            if (cols > loadingsY.Rows())
             {
                 throw new DimensionMismatchException("outputs",
                     "The data matrix should have a number of columns less than or equal to"
-                    + " the number of rows in the loadings matrix for the input varaibles.");
+                    + " the number of rows in the loadings matrix for the input variables.");
             }
 
             double[][] result = Jagged.Zeros(rows, dimensions);
@@ -674,28 +624,25 @@ namespace Accord.Statistics.Analysis
                 throw new ArgumentOutOfRangeException("factors",
                     "The number of factors should be equal to or less than the number of factors computed in the analysis.");
 
-            int xcols = sourceX.GetLength(1);
-            int ycols = sourceY.GetLength(1);
-
             //  Compute regression coefficients B of Y on X as B = RQ'
-            double[][] B = Jagged.Zeros(xcols, ycols);
-            for (int i = 0; i < xcols; i++)
-                for (int j = 0; j < ycols; j++)
+            double[][] B = Jagged.Zeros(coeffbase.Length, loadingsY.Length);
+            for (int i = 0; i < coeffbase.Length; i++)
+                for (int j = 0; j < loadingsY.Length; j++)
                     for (int k = 0; k < factors; k++)
                         B[i][j] += coeffbase[i][k] * loadingsY[j][k];
 
             // Divide by standard deviation if X has been normalized
             if (analysisMethod == AnalysisMethod.Standardize)
-                for (int i = 0; i < xcols; i++)
-                    for (int j = 0; j < ycols; j++)
+                for (int i = 0; i < B.Length; i++)
+                    for (int j = 0; j < B[i].Length; j++)
                         B[i][j] = B[i][j] / stdDevX[i];
 
             // Compute regression intercepts A as A = meanY - meanX'*B
-            double[] A = new double[ycols];
-            for (int i = 0; i < ycols; i++)
+            double[] A = new double[loadingsY.Length];
+            for (int i = 0; i < meanY.Length; i++)
             {
                 double sum = 0.0;
-                for (int j = 0; j < xcols; j++)
+                for (int j = 0; j < B.Length; j++)
                     sum += meanX[j] * B[j][i];
                 A[i] = meanY[i] - sum;
             }
@@ -740,9 +687,9 @@ namespace Accord.Statistics.Analysis
         private void nipals(double[][] inputsX, double[][] outputsY, int factors, double tolerance)
         {
             // Initialize and prepare the data
-            int rows = sourceX.Rows();
-            int xcols = sourceX.Columns();
-            int ycols = sourceY.Columns();
+            int rows = inputsX.Rows();
+            int xcols = inputsX.Columns();
+            int ycols = outputsY.Columns();
 
             // Initialize storage variables
             var E = inputsX.Copy();
@@ -775,9 +722,7 @@ namespace Accord.Statistics.Analysis
                 double[] w = new double[xcols];
                 double[] c = new double[ycols];
 
-
                 double norm_t = Norm.Euclidean(t);
-
 
                 while (norm_t > 1e-14)
                 {
@@ -848,7 +793,6 @@ namespace Accord.Statistics.Analysis
                     #endregion
                 }
 
-
                 // Compute the value of b which is used to
                 // predict Y from t as b = t'u [Abdi, 2010]
                 double b = t.Dot(u);
@@ -871,11 +815,9 @@ namespace Accord.Statistics.Analysis
                         F[i][j] -= b * t[i] * c[j];
                 }
 
-
                 // Calculate explained variances
                 varY[factor] = b * b;
                 varX[factor] = p.Dot(p);
-
 
                 // Save iteration cols
                 T.SetColumn(factor, t);
@@ -885,17 +827,19 @@ namespace Accord.Statistics.Analysis
                 W.SetColumn(factor, w);
                 B[factor] = b;
 
-
                 // Check for residuals as stop criteria
                 double[] norm_x = Norm.Euclidean(E, dimension: 0);
                 double[] norm_y = Norm.Euclidean(F, dimension: 0);
 
                 stop = true;
-                for (int i = 0; i < norm_x.Length && stop == true; i++)
+                if (!Token.IsCancellationRequested)
                 {
-                    // If any of the residuals is higher than the tolerance
-                    if (norm_x[i] > tolerance || norm_y[i] > tolerance)
-                        stop = false;
+                    for (int i = 0; i < norm_x.Length && stop == true; i++)
+                    {
+                        // If any of the residuals is higher than the tolerance
+                        if (norm_x[i] > tolerance || norm_y[i] > tolerance)
+                            stop = false;
+                    }
                 }
             }
             #endregion
@@ -975,9 +919,9 @@ namespace Accord.Statistics.Analysis
         private void simpls(double[][] inputsX, double[][] outputsY, int factors)
         {
             // Initialize and prepare the data
-            int rows = sourceX.Rows();
-            int xcols = sourceX.Columns();
-            int ycols = sourceY.Columns();
+            int rows = inputsX.Rows();
+            int xcols = inputsX.Columns();
+            int ycols = outputsY.Columns();
 
             // Initialize storage variables
             var T = Jagged.Zeros(rows, factors);  // factor score matrix T
@@ -998,7 +942,6 @@ namespace Accord.Statistics.Analysis
             #region SIMPLS
             for (int factor = 0; factor < factors; factor++)
             {
-
                 // Step 1. Obtain the dominant eigenvector w of C'C. However, we
                 //   can avoid computing the matrix multiplication by using the
                 //   singular value decomposition instead, which is also more
@@ -1041,17 +984,14 @@ namespace Accord.Statistics.Analysis
                 w = w.Divide(norm_t);
                 c = c.Divide(norm_t);
 
-
                 // Step 5. Estimate u (Y factor scores): u = Y*c [Abdi, 2010]
                 double[] u = new double[rows];
                 for (int i = 0; i < u.Length; i++)
                     for (int j = 0; j < c.Length; j++)
                         u[i] += outputsY[i][j] * c[j];
 
-
                 // Step 6. Create orthogonal loading
                 double[] v = (double[])p.Clone();
-
 
                 // Step 7. Make v orthogonal to the previous loadings
                 // http://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process
@@ -1084,7 +1024,6 @@ namespace Accord.Statistics.Analysis
                 // 7.2. Normalize orthogonal loadings
                 v = v.Divide(Norm.Euclidean(v));
 
-
                 // Step 8. Deflate covariance matrix as s = s - v * (v' * s)
                 //   as shown in simpls1 in [Martin Anderson, 2009] appendix.
                 var cov = covariance.Copy();
@@ -1101,7 +1040,6 @@ namespace Accord.Statistics.Analysis
 
                 covariance = cov;
 
-
                 // Save iteration cols
                 W.SetColumn(factor, w);
                 U.SetColumn(factor, u);
@@ -1113,9 +1051,11 @@ namespace Accord.Statistics.Analysis
                 // Compute explained variance
                 varX[factor] = p.Dot(p);
                 varY[factor] = c.Dot(c);
+
+                if (Token.IsCancellationRequested)
+                    break;
             }
             #endregion
-
 
             // Set class variables
             this.scoresX = T;      // factor score matrix T
@@ -1258,7 +1198,7 @@ namespace Accord.Statistics.Analysis
             // Tested against VIP.R code from Bjørn-Helge Mevik.
             // Available on http://mevik.net/work/software/VIP.R
 
-            int xcols = sourceX.GetLength(1);
+            int xcols = NumberOfInputs;
 
             double[][] importance = Jagged.Zeros(xcols, factors);
 
@@ -1292,10 +1232,6 @@ namespace Accord.Statistics.Analysis
 
             return importance;
         }
-
-
-
-
     }
 
 
@@ -1473,7 +1409,9 @@ namespace Accord.Statistics.Analysis
         [Obsolete("This property will be removed.")]
         public double[,] Source
         {
+#pragma warning disable 612, 618
             get { return inputs ? analysis.sourceX : analysis.sourceY; }
+#pragma warning restore 612, 618
         }
 
         /// <summary>

@@ -25,6 +25,7 @@ namespace Accord.MachineLearning
     using Accord.Math;
     using System;
     using System.Collections.Generic;
+    using Accord.MachineLearning.VectorMachines;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
@@ -36,6 +37,8 @@ namespace Accord.MachineLearning
     /// 
     /// <typeparam name="TModel">The type for the inner binary classifiers.</typeparam>
     /// <typeparam name="TInput">The input type handled by the classifiers. Default is double.</typeparam>
+    /// 
+    /// <seealso cref="MultilabelSupportVectorMachine{TKernel}"/>
     /// 
     [Serializable]
     public class OneVsRest<TModel, TInput> :
@@ -114,7 +117,16 @@ namespace Accord.MachineLearning
             set { models = value; }
         }
 
-
+        /// <summary>
+        ///   Gets the total number of binary models in this one-vs-rest 
+        ///   multi-label configuration. Should be equal to the 
+        ///   <see cref="ITransform.NumberOfOutputs"/> (number of classes).
+        /// </summary>
+        /// 
+        public int Count
+        {
+            get { return models.Length; }
+        }
 
         /// <summary>
         /// Computes a numerical score measuring the association between
@@ -195,6 +207,8 @@ namespace Accord.MachineLearning
     /// </summary>
     /// 
     /// <typeparam name="TModel">The type for the inner binary classifiers.</typeparam>
+    /// 
+    /// <seealso cref="MultilabelSupportVectorMachine{TKernel}"/>
     /// 
     [Serializable]
     public class OneVsRest<TModel> : OneVsRest<TModel, double[]>

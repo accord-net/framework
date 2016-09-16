@@ -64,7 +64,8 @@ namespace SampleApp
         {
             if (radioClusters.Checked)
                 runKMeans();
-            else runMeanShift();
+            else 
+                runMeanShift();
         }
 
         /// <summary>
@@ -96,11 +97,11 @@ namespace SampleApp
 
             // Compute the K-Means algorithm until the difference in
             //  cluster centroids between two iterations is below 0.05
-            int[] idx = kmeans.Compute(pixels);
+            int[] idx = kmeans.Learn(pixels).Decide(pixels);
 
 
             // Replace every pixel with its corresponding centroid
-            pixels.ApplyInPlace((x, i) => kmeans.Clusters.Centroids[idx[i]]);
+            pixels.Apply((x, i) => kmeans.Clusters.Centroids[idx[i]], result: pixels);
 
             // Show resulting image in the picture box
             Bitmap result; arrayToImage.Convert(pixels, out result);
@@ -145,11 +146,11 @@ namespace SampleApp
             // Compute the mean-shift algorithm until the difference 
             // in shift vectors between two iterations is below 0.05
             
-            int[] idx = meanShift.Compute(pixels);
+            int[] idx = meanShift.Learn(pixels).Decide(pixels);
 
 
             // Replace every pixel with its corresponding centroid
-            pixels.ApplyInPlace((x, i) => meanShift.Clusters.Modes[idx[i]]);
+            pixels.Apply((x, i) => meanShift.Clusters.Modes[idx[i]], result: pixels);
 
             // Show resulting image in the picture box
             Bitmap result; arrayToImage.Convert(pixels, out result);

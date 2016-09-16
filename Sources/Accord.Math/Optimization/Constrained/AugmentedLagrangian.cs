@@ -564,6 +564,9 @@ namespace Accord.Math.Optimization
 
             while (true)
             {
+                if (Token.IsCancellationRequested)
+                    return false;
+
                 double prevICM = ICM;
 
                 // Minimize the dual problem using current solution

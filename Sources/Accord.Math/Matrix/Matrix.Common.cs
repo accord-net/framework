@@ -1947,6 +1947,16 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Sets all elements in an array to zero.
+        /// </summary>
+        /// 
+        public static void Clear<T>(this T[][] array)
+        {
+            for (int i = 0; i < array.Length; i++)
+                Array.Clear(array[i], 0, array.Length);
+        }
+
+        /// <summary>
         ///   Replaces one value by another in a matrix of any dimensions.
         ///   This is not an optimized operation.
         /// </summary>

@@ -30,23 +30,6 @@ namespace Accord.Tests.Math
     public class AbsoluteConvergenceTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void AbsoluteConvergenceConstructorTest()
         {

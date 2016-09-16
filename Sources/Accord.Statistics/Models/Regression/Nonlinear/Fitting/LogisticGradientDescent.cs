@@ -64,7 +64,10 @@ namespace Accord.Statistics.Models.Regression.Fitting
         ///   Gets the current values for the coefficients.
         /// </summary>
         /// 
-        public double[] Solution { get { return regression.Coefficients; } }
+        public double[] Solution
+        {
+            get { return regression.Intercept.Concatenate(regression.Weights); }
+        }
 
         /// <summary>
         ///   Gets the Gradient vector computed in
@@ -150,7 +153,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         {
             this.regression = regression;
 
-            this.parameterCount = regression.Coefficients.Length;
+            this.parameterCount = regression.NumberOfParameters;
 
             this.gradient = new double[parameterCount];
             this.deltas = new double[parameterCount];
@@ -289,16 +292,21 @@ namespace Accord.Statistics.Models.Regression.Fitting
         {
             if (regression == null)
             {
-                init(new LogisticRegression(x.Columns()));
+                init(new LogisticRegression()
+                {
+                    NumberOfInputs = x.Columns()
+                });
             }
 
             // Initial definitions and memory allocations
-            double[] coefficients = this.regression.Coefficients;
-            double[] previous = (double[])coefficients.Clone();
+            double[] previous = (double[])Solution.Clone();
             convergence.Clear();
 
             do
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 if (stochastic)
                 {
                     for (int j = 0; j < x.Length; j++)
@@ -312,8 +320,9 @@ namespace Accord.Statistics.Models.Regression.Fitting
                             gradient[i + 1] = x[j][i] * error;
 
                         // 2. Update using the local estimate
-                        for (int i = 0; i < coefficients.Length; i++)
-                            coefficients[i] += rate * gradient[i];
+                        for (int i = 0; i < regression.Weights.Length; i++)
+                            regression.Weights[i] += rate * gradient[i + 1];
+                        regression.Intercept += rate * gradient[0];
                     }
                 }
                 else
@@ -332,16 +341,17 @@ namespace Accord.Statistics.Models.Regression.Fitting
                     }
 
                     // Update coefficients using the gradient
-                    for (int i = 0; i < coefficients.Length; i++)
-                        coefficients[i] += rate * gradient[i] / x.Length;
+                    for (int i = 0; i < regression.Weights.Length; i++)
+                        regression.Weights[i] += rate * gradient[i + 1] / x.Length;
+                    regression.Intercept += rate * gradient[0] / x.Length;
                 }
 
                 // Return the maximum parameter change
                 this.previous = previous;
                 for (int i = 0; i < previous.Length; i++)
-                    deltas[i] = Math.Abs(coefficients[i] - previous[i]) / Math.Abs(previous[i]);
+                    deltas[i] = Math.Abs(regression.GetCoefficient(i) - previous[i]) / Math.Abs(previous[i]);
 
-                convergence.NewValues = coefficients;
+                convergence.NewValues = this.Solution;
 
                 if (Token.IsCancellationRequested)
                     return regression;

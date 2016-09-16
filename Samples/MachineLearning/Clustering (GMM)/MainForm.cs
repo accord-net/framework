@@ -54,7 +54,7 @@ namespace SampleApp
 
         int k; // the number of clusters assumed present in the data
 
-        double[][] mixture; // the data points containing the mixture
+        double[][] observations; // the data points containing the mixture
 
         KMeans kmeans;
 
@@ -89,10 +89,10 @@ namespace SampleApp
             }
 
             // Join the generated data
-            mixture = Matrix.Stack(data);
+            observations = Matrix.Stack(data);
 
             // Update the scatter plot
-            CreateScatterplot(graph, mixture, k);
+            CreateScatterplot(graph, observations, k);
 
             // Forget previous initialization
             kmeans = null;
@@ -105,16 +105,17 @@ namespace SampleApp
         private void btnCompute_Click(object sender, EventArgs e)
         {
             // Create a new Gaussian Mixture Model
-            GaussianMixtureModel gmm = new GaussianMixtureModel(k);
+            var gmm = new GaussianMixtureModel(k);
 
             // If available, initialize with k-means
-            if (kmeans != null) gmm.Initialize(kmeans);
+            if (kmeans != null) 
+                gmm.Initialize(kmeans);
 
             // Compute the model
-            gmm.Compute(mixture);
+            GaussianClusterCollection clustering = gmm.Learn(observations);
 
             // Classify all instances in mixture data
-            int[] classifications = gmm.Gaussians.Nearest(mixture);
+            int[] classifications = clustering.Decide(observations);
 
             // Draw the classifications
             updateGraph(classifications);
@@ -131,10 +132,11 @@ namespace SampleApp
             // K-Means clustering algorithm:
 
             kmeans = new KMeans(k);
-            kmeans.Compute(mixture);
+
+            KMeansClusterCollection clustering = kmeans.Learn(observations);
 
             // Classify all instances in mixture data
-            int[] classifications = kmeans.Clusters.Nearest(mixture);
+            int[] classifications = clustering.Decide(observations);
 
             // Draw the classifications
             updateGraph(classifications);
@@ -149,12 +151,12 @@ namespace SampleApp
             for (int i = 0; i < k + 1; i++)
                 graph.GraphPane.CurveList[i].Clear();
 
-            for (int j = 0; j < mixture.Length; j++)
+            for (int j = 0; j < observations.Length; j++)
             {
                 int c = classifications[j];
 
                 var curveList = graph.GraphPane.CurveList[c + 1];
-                double[] point = mixture[j];
+                double[] point = observations[j];
                 curveList.AddPoint(point[0], point[1]);
             }
 

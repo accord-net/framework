@@ -38,7 +38,7 @@ namespace Accord.MachineLearning.Bayes
     /// <typeparam name="TOptions">The fitting options for the independent distribution.</typeparam>
     /// <typeparam name="TInnerOptions">The individual fitting options for the component distributions.</typeparam>
     /// 
-    public class NaiveBayesLearningBase<TModel, TDistribution, TInput, TOptions, TInnerOptions> :
+    public abstract class NaiveBayesLearningBase<TModel, TDistribution, TInput, TOptions, TInnerOptions> :
         NaiveBayesLearningBase<TModel, TDistribution, TInput, TOptions>
         where TDistribution : IFittableDistribution<TInput, TInnerOptions>,
                               IUnivariateDistribution<TInput>,

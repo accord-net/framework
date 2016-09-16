@@ -116,7 +116,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         private bool updateLowerBound = true;
         private ISolverMatrixDecomposition<double> decomposition = null;
 
-        private RelativeParameterConvergence convergence;
+        private AbsoluteConvergence convergence;
 
         /// <summary>
         ///   Gets the previous values for the coefficients which were
@@ -138,8 +138,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
         }
 
         /// <summary>
-        ///   Gets or sets a value indicating whether the
-        ///   lower bound should be updated using new data.
+        ///   Gets or sets a value indicating whether the lower bound 
+        ///   should be updated using new data. Default is <c>true</c>.
         /// </summary>
         /// 
         /// <value>
@@ -220,7 +220,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// 
         public LowerBoundNewtonRaphson()
         {
-            convergence = new RelativeParameterConvergence();
+            convergence = new AbsoluteConvergence();
         }
 
         /// <summary>
@@ -384,12 +384,6 @@ namespace Accord.Statistics.Models.Regression.Fitting
             double[][] design = x.InsertColumn(value: 1, index: 0);
             double[][] coefficients = this.regression.Coefficients;
 
-            // Reset Hessian matrix and gradient
-            Array.Clear(gradient, 0, gradient.Length);
-
-            if (UpdateLowerBound)
-                Array.Clear(lowerBound, 0, lowerBound.Length);
-
             // In the multinomial logistic regression, the objective
             // function is the log-likelihood function l(w). As given
             // by Krishnapuram et al and Böhning, this is a concave 
@@ -410,6 +404,15 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
             do
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
+                // Reset Hessian matrix and gradient
+                Array.Clear(gradient, 0, gradient.Length);
+
+                if (UpdateLowerBound)
+                    Array.Clear(lowerBound, 0, lowerBound.Length);
+
                 // For each input sample in the dataset
                 for (int i = 0; i < x.Length; i++)
                 {
@@ -495,7 +498,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 for (int i = 0; i < deltas.Length; i++)
                     deltas[i] = Math.Abs(deltas[i]) / Math.Abs(previous[i]);
 
-                convergence.NewValues = deltas;
+                convergence.NewValue = deltas.Max();
 
                 if (Token.IsCancellationRequested)
                     break;

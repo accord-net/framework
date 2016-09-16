@@ -23,6 +23,7 @@
 namespace Accord.Math.Optimization
 {
     using System;
+    using System.Threading;
 
     /// <summary>
     ///   Base class for gradient-based optimization methods.
@@ -30,6 +31,12 @@ namespace Accord.Math.Optimization
     /// 
     public abstract class BaseGradientOptimizationMethod : BaseOptimizationMethod
     {
+        /// <summary>
+        ///   Gets or sets a cancellation token that can be used to
+        ///   stop the learning algorithm while it is running.
+        /// </summary>
+        /// 
+        public CancellationToken Token { get; set; }
 
         /// <summary>
         ///   Gets or sets a function returning the gradient

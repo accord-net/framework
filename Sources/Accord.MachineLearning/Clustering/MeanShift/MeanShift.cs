@@ -74,35 +74,10 @@ namespace Accord.MachineLearning
     /// </remarks>
     /// 
     /// <example>
-    /// <code>
-    /// // Declare some observations
-    /// double[][] observations = 
-    /// {
-    ///     new double[] { -5, -2, -1 },
-    ///     new double[] { -5, -5, -6 },
-    ///     new double[] {  2,  1,  1 },
-    ///     new double[] {  1,  1,  2 },
-    ///     new double[] {  1,  2,  2 },
-    ///     new double[] {  3,  1,  2 },
-    ///     new double[] { 11,  5,  4 },
-    ///     new double[] { 15,  5,  6 },
-    ///     new double[] { 10,  5,  6 },
-    /// };
-    /// 
-    /// // Create a uniform kernel density function
-    /// UniformKernel kernel = new UniformKernel();
-    /// 
-    /// // Create a new Mean-Shift algorithm for 3 dimensional samples
-    /// MeanShift meanShift = new MeanShift(dimension: 3, kernel: kernel, bandwidth: 1.5 );
-    /// 
-    /// // Compute the algorithm, retrieving an integer array
-    /// //  containing the labels for each of the observations
-    /// int[] labels = meanShift.Compute(observations);
-    /// 
-    /// // As a result, the first two observations should belong to the
-    /// //  same cluster (thus having the same label). The same should
-    /// //  happen to the next four observations and to the last three.
-    /// </code>
+    /// <para>
+    ///   The following example demonstrates how to use the Mean Shift algorithm for
+    ///   a simple clustering data task.</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\MeanShiftTest.cs" region="doc_sample1" />
     /// 
     /// <para>
     ///   The following example demonstrates how to use the Mean Shift algorithm
@@ -155,9 +130,11 @@ namespace Accord.MachineLearning
     ///     
     /// <see cref="KMeans"/>
     /// <see cref="KModes{T}"/>
+    /// <see cref="BinarySplit"/>
+    /// <see cref="GaussianMixtureModel"/>
     /// 
     [Serializable]
-    public class MeanShift : IClusteringAlgorithm<double[]>, 
+    public class MeanShift : IClusteringAlgorithm<double[]>,
         IUnsupervisedLearning<MeanShiftClusterCollection, double[], int>
     {
 
@@ -358,6 +335,9 @@ namespace Accord.MachineLearning
         /// given the input data <paramref name="x" />.</returns>
         public MeanShiftClusterCollection Learn(double[][] x, int[] weights = null)
         {
+            if (weights == null)
+                weights = Vector.Ones<int>(x.Length);
+
             if (x.Length != weights.Length)
             {
                 throw new DimensionMismatchException("weights",

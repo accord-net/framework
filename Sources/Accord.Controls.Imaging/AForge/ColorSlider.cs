@@ -276,7 +276,7 @@ namespace Accord.Controls
 
             // load arrow bitmap
             Assembly assembly = this.GetType().Assembly;
-            arrow = new Bitmap(assembly.GetManifestResourceStream("AForge.Controls.Resources.arrow.bmp"));
+            arrow = new Bitmap(assembly.GetManifestResourceStream("Accord.Controls.Resources.arrow.bmp"));
             arrow.MakeTransparent(Color.FromArgb(255, 255, 255));
         }
 

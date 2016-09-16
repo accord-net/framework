@@ -161,6 +161,9 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
             while (r.Count > 0 && W[maxWeightIndex] > tolerance && iter < maxIter)
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 // Include the index j in P and remove it from R
                 if (!p.Contains(maxWeightIndex))
                     p.Add(maxWeightIndex);

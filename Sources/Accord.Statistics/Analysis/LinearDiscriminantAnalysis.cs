@@ -82,52 +82,7 @@ namespace Accord.Statistics.Analysis
     /// </remarks>
     /// 
     /// <example>
-    /// <para>
-    ///   The following example creates an analysis for a set of 
-    ///   data specified as a jagged (double[][]) array. However,
-    ///   the same can also be accomplished using multidimensional
-    ///   double[,] arrays.</para>
-    /// 
-    /// <code>
-    /// // Create some sample input data instances. This is the same
-    /// // data used in the Gutierrez-Osuna's example available on:
-    /// // http://research.cs.tamu.edu/prism/lectures/pr/pr_l10.pdf
-    /// 
-    /// double[][] inputs = 
-    /// {
-    ///     // Class 0
-    ///     new double[] {  4,  1 }, 
-    ///     new double[] {  2,  4 },
-    ///     new double[] {  2,  3 },
-    ///     new double[] {  3,  6 },
-    ///     new double[] {  4,  4 },
-    /// 
-    ///     // Class 1
-    ///     new double[] {  9, 10 },
-    ///     new double[] {  6,  8 },
-    ///     new double[] {  9,  5 },
-    ///     new double[] {  8,  7 },
-    ///     new double[] { 10,  8 }
-    /// };
-    /// 
-    /// int[] output = 
-    /// {
-    ///     0, 0, 0, 0, 0, // The first five are from class 0
-    ///     1, 1, 1, 1, 1  // The last five are from class 1
-    /// };
-    /// 
-    /// // Then, we will create a LDA for the given instances.
-    /// var lda = new LinearDiscriminantAnalysis(inputs, output);
-    /// 
-    /// lda.Compute(); // Compute the analysis
-    /// 
-    /// 
-    /// // Now we can project the data into KDA space:
-    /// double[][] projection = lda.Transform(inputs);
-    /// 
-    /// // Or perform classification using:
-    /// int[] results = lda.Classify(inputs);
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\LinearDiscriminantAnalysisTest.cs" region="doc_learn" />
     /// </example>
     /// 
     [Serializable]
@@ -160,6 +115,7 @@ namespace Accord.Statistics.Analysis
         public LinearDiscriminantAnalysis(double[,] inputs, int[] outputs)
         {
             init(inputs, outputs);
+            Threshold = 0;
         }
 
         /// <summary>
@@ -174,9 +130,18 @@ namespace Accord.Statistics.Analysis
         public LinearDiscriminantAnalysis(double[][] inputs, int[] outputs)
         {
             init(inputs.ToMatrix(), outputs);
+            Threshold = 0;
         }
 #pragma warning disable 612, 618
 
+        /// <summary>
+        ///   Constructs a new Linear Discriminant Analysis object.
+        /// </summary>
+        /// 
+        public LinearDiscriminantAnalysis()
+        {
+            Threshold = 0;
+        }
 
         /// <summary>
         ///   Computes the Multi-Class Linear Discriminant Analysis algorithm.
@@ -201,7 +166,7 @@ namespace Accord.Statistics.Analysis
         public override double[][] Transform(double[][] input, double[][] result)
         {
             for (int i = 0; i < input.Length; i++)
-                for (int j = 0; j < DiscriminantVectors.Length; j++)
+                for (int j = 0; j < result[i].Length; j++)
                     for (int k = 0; k < input[i].Length; k++)
                         result[i][j] += input[i][k] * DiscriminantVectors[j][k];
             return result;
@@ -222,6 +187,8 @@ namespace Accord.Statistics.Analysis
         /// </returns>
         public Pipeline Learn(double[][] x, int[] y, double[] weights = null)
         {
+            Init(x, y);
+
             // Compute entire data set measures
             Means = Measures.Mean(x, dimension: 0);
             StandardDeviations = Measures.StandardDeviation(x, Means);
@@ -250,7 +217,7 @@ namespace Accord.Statistics.Analysis
                 // Continue constructing the Between-Class Scatter Matrix
                 double[] d = mean.Subtract(Means);
                 double[][] Sbi = Jagged.Outer(d, d);
-                Sbi.Multiply(NumberOfInputs, result: Sbi);
+                Sbi.Multiply((double)NumberOfInputs, result: Sbi);
 
                 Sb.Add(Sbi, result: Sb); // Sb = Sb + Sbi
 
@@ -269,13 +236,25 @@ namespace Accord.Statistics.Analysis
             double[] evals = gevd.RealEigenvalues;
             double[][] eigs = gevd.Eigenvectors;
 
+            // Eliminate unwanted components
+            int nonzero = x.Columns();
+            if (Threshold > 0)
+                nonzero = Math.Min(gevd.Rank, GetNonzeroEigenvalues(evals, Threshold));
+            if (NumberOfInputs != 0)
+                nonzero = Math.Min(nonzero, NumberOfInputs);
+            if (NumberOfOutputs != 0)
+                nonzero = Math.Min(nonzero, NumberOfOutputs);
+
+            eigs = eigs.Get(null, 0, nonzero);
+            evals = evals.Get(0, nonzero);
+
             // Store information
             this.Eigenvalues = evals;
             this.DiscriminantVectors = eigs.Transpose();
             base.ScatterBetweenClass = Sb;
             base.ScatterWithinClass = Sw;
-            this.NumberOfInputs = x.Columns();
-            this.NumberOfOutputs = eigs.Columns();
+            base.NumberOfInputs = x.Columns();
+            base.NumberOfOutputs = evals.Length;
 
             // Compute feature space means for later classification
             for (int c = 0; c < projectedMeans.Length; c++)
@@ -292,26 +271,28 @@ namespace Accord.Statistics.Analysis
 
         private Pipeline CreateClassifier()
         {
+            double[][] eig = DiscriminantVectors.Transpose().Get(null, 0, NumberOfOutputs);
+
             return new Pipeline()
             {
                 NumberOfInputs = NumberOfInputs,
                 NumberOfOutputs = NumberOfClasses,
                 First = new MultivariateLinearRegression()
                 {
-                    Weights = DiscriminantVectors.Transpose(),
+                    Weights = eig,
                     NumberOfInputs = NumberOfInputs,
                     NumberOfOutputs = NumberOfOutputs,
                 },
                 Second = new MinimumMeanDistanceClassifier()
                 {
-                    Means = projectedMeans,
+                    Means = projectedMeans.Get(null, 0, NumberOfOutputs),
                     NumberOfInputs = NumberOfOutputs,
                     NumberOfOutputs = NumberOfClasses,
                 },
             };
         }
 
-        /// <summary>
+        /// <summary>Transform
         ///   Classifies a new instance into one of the available classes.
         /// </summary>
         /// 

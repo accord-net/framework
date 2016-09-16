@@ -24,6 +24,7 @@ namespace Accord.Tests.MachineLearning.GPL
 {
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
+    using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Kernels;
     using NUnit.Framework;
 
@@ -78,6 +79,57 @@ namespace Accord.Tests.MachineLearning.GPL
             Assert.AreEqual(1.0, fxy, 1e-2);
             for (int i = 0; i < outputs.Length; i++)
                 Assert.AreEqual(outputs[i], answers[i], 1e-2);
+        }
+
+        [Test]
+        public void learn_test()
+        {
+            #region doc_learn
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Example regression problem. Suppose we are trying
+            // to model the following equation: f(x, y) = 2x + y
+
+            double[][] inputs = // (x, y)
+            {
+                new double[] { 0,  1 }, // 2*0 + 1 =  1
+                new double[] { 4,  3 }, // 2*4 + 3 = 11
+                new double[] { 8, -8 }, // 2*8 - 8 =  8
+                new double[] { 2,  2 }, // 2*2 + 2 =  6
+                new double[] { 6,  1 }, // 2*6 + 1 = 13
+                new double[] { 5,  4 }, // 2*5 + 4 = 14
+                new double[] { 9,  1 }, // 2*9 + 1 = 19
+                new double[] { 1,  6 }, // 2*1 + 6 =  8
+            };
+
+            double[] outputs = // f(x, y)
+            {
+                1, 11, 8, 6, 13, 14, 19, 8
+            };
+
+            // Create the sequential minimal optimization teacher
+            var learn = new SequentialMinimalOptimizationRegression<Polynomial>()
+            {
+                Kernel = new Polynomial(2), // Polynomial Kernel of 2nd degree
+                Complexity = 100
+            };
+
+            // Run the learning algorithm
+            SupportVectorMachine<Polynomial> svm = learn.Learn(inputs, outputs);
+
+            // Compute the predicted scores
+            double[] predicted = svm.Score(inputs);
+
+            // Compute the error between the expected and predicted
+            double error = new SquareLoss(outputs).Loss(predicted);
+
+            // Compute the answer for one particular example
+            double fxy = svm.Score(inputs[0]); // 1.0003849827673186
+            #endregion
+
+            Assert.AreEqual(1.0, fxy, 1e-2);
+            for (int i = 0; i < outputs.Length; i++)
+                Assert.AreEqual(outputs[i], predicted[i], 1e-2);
         }
     }
 }

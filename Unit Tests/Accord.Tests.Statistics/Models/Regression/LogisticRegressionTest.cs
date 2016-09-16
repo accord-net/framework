@@ -27,8 +27,10 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
+    using Accord.Tests.Statistics.Properties;
     using NUnit.Framework;
     using System.Collections.Generic;
+    using System.Data;
 
     [TestFixture]
     public class LogisticRegressionTest
@@ -127,13 +129,141 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(1.0208597028836701, ageOdds, 1e-10);
             Assert.AreEqual(5.8584748789881331, smokeOdds, 1e-8);
-            Assert.IsFalse(double.IsNaN(ageOdds));
-            Assert.IsFalse(double.IsNaN(smokeOdds));
 
             Assert.AreEqual(-2.4577464307294092, regression.Intercept, 1e-8);
             Assert.AreEqual(-2.4577464307294092, regression.Coefficients[0], 1e-8);
             Assert.AreEqual(0.020645118265359252, regression.Coefficients[1], 1e-10);
             Assert.AreEqual(1.7678893101571855, regression.Coefficients[2], 1e-8);
+
+            bool[] actualOutput = regression.Decide(input);
+            Assert.IsFalse(actualOutput[0]);
+            Assert.IsFalse(actualOutput[1]);
+            Assert.IsTrue(actualOutput[2]);
+            Assert.IsFalse(actualOutput[3]);
+            Assert.IsTrue(actualOutput[4]);
+            Assert.IsTrue(actualOutput[5]);
+            Assert.IsFalse(actualOutput[6]);
+            Assert.IsFalse(actualOutput[7]);
+            Assert.IsFalse(actualOutput[8]);
+            Assert.IsTrue(actualOutput[9]);
+        }
+
+        [Test]
+        public void learn_new_mechanism()
+        {
+            #region doc_log_reg_1
+            // Suppose we have the following data about some patients.
+            // The first variable is continuous and represent patient
+            // age. The second variable is dichotomic and give whether
+            // they smoke or not (This is completely fictional data).
+
+            // We also know if they have had lung cancer or not, and 
+            // we would like to know whether smoking has any connection
+            // with lung cancer (This is completely fictional data).
+
+            double[][] input =
+            {              // age, smokes?, had cancer?
+                new double[] { 55,    0  }, // false - no cancer
+                new double[] { 28,    0  }, // false
+                new double[] { 65,    1  }, // false
+                new double[] { 46,    0  }, // true  - had cancer
+                new double[] { 86,    1  }, // true
+                new double[] { 56,    1  }, // true
+                new double[] { 85,    0  }, // false
+                new double[] { 33,    0  }, // false
+                new double[] { 21,    1  }, // false
+                new double[] { 42,    1  }, // true
+            };
+
+            bool[] output = // Whether each patient had lung cancer or not
+            {
+                false, false, false, true, true, true, false, false, false, true
+            };
+
+
+            // To verify this hypothesis, we are going to create a logistic
+            // regression model for those two inputs (age and smoking), learned
+            // using a method called "Iteratively Reweighted Least Squares":
+
+            var learner = new IterativeReweightedLeastSquares<LogisticRegression>()
+            {
+                Tolerance = 1e-4,  // Let's set some convergence parameters
+                Iterations = 100,  // maximum number of iterations to perform
+                Regularization = 0
+            };
+
+            // Now, we can use the learner to finally estimate our model:
+            LogisticRegression regression = learner.Learn(input, output);
+
+            // At this point, we can compute the odds ratio of our variables.
+            // In the model, the variable at 0 is always the intercept term, 
+            // with the other following in the sequence. Index 1 is the age
+            // and index 2 is whether the patient smokes or not.
+
+            // For the age variable, we have that individuals with
+            //   higher age have 1.021 greater odds of getting lung
+            //   cancer controlling for cigarette smoking.
+            double ageOdds = regression.GetOddsRatio(1); // 1.0208597028836701
+
+            // For the smoking/non smoking category variable, however, we
+            //   have that individuals who smoke have 5.858 greater odds
+            //   of developing lung cancer compared to those who do not 
+            //   smoke, controlling for age (remember, this is completely
+            //   fictional and for demonstration purposes only).
+            double smokeOdds = regression.GetOddsRatio(2); // 5.8584748789881331
+
+            // If we would like to use the model to predict a probability for
+            // each patient regarding whether they are at risk of cancer or not,
+            // we can use the Probability function:
+
+            double[] scores = regression.Probability(input);
+
+            // Finally, if we would like to arrive at a conclusion regarding
+            // each patient, we can use the Decide method, which will transform
+            // the probabilities (from 0 to 1) into actual true/false values:
+
+            bool[] actual = regression.Decide(input);
+            #endregion
+
+            double[] expected = 
+            {
+                0.21044171560168326,
+                0.13242527535212373,
+                0.65747803433771812,
+                0.18122484822324372,
+                0.74755661773156912,
+                0.61450041841477232,
+                0.33116705418194975,
+                0.14474110902457912,
+                0.43627109657399382,
+                0.54419383282533118
+            };
+
+            for (int i = 0; i < scores.Length; i++)
+                Assert.AreEqual(expected[i], scores[i], 1e-8);
+
+            double[] transform = regression.Transform(input, scores);
+            for (int i = 0; i < scores.Length; i++)
+                Assert.AreEqual(expected[i], transform[i], 1e-8);
+
+            Assert.AreEqual(1.0208597028836701, ageOdds, 1e-10);
+            Assert.AreEqual(5.8584748789881331, smokeOdds, 1e-6);
+
+            Assert.AreEqual(-2.4577464307294092, regression.Intercept, 1e-8);
+            Assert.AreEqual(-2.4577464307294092, regression.Coefficients[0], 1e-8);
+            Assert.AreEqual(0.020645118265359252, regression.Coefficients[1], 1e-10);
+            Assert.AreEqual(1.7678893101571855, regression.Coefficients[2], 1e-8);
+
+            Assert.IsFalse(actual[0]);
+            Assert.IsFalse(actual[1]);
+            Assert.IsTrue(actual[2]);
+            Assert.IsFalse(actual[3]);
+            Assert.IsTrue(actual[4]);
+            Assert.IsTrue(actual[5]);
+            Assert.IsFalse(actual[6]);
+            Assert.IsFalse(actual[7]);
+            Assert.IsFalse(actual[8]);
+            Assert.IsTrue(actual[9]);
         }
 
         [Test]
@@ -397,7 +527,7 @@ namespace Accord.Tests.Statistics
             double[][] input = data.Submatrix(null, 0, 2).ToJagged();
             double[] output = data.GetColumn(3);
 
-            LogisticRegression regression = new LogisticRegression(3);
+            var regression = new LogisticRegression(3);
 
             var teacher = new IterativeReweightedLeastSquares(regression);
 
@@ -420,10 +550,10 @@ namespace Accord.Tests.Statistics
             error /= output.Length;
 
             Assert.AreEqual(error, 0);
-            Assert.AreEqual(-355.59378247276379, regression.Coefficients[0], 1e-7);
-            Assert.AreEqual(1.2646432605797491, regression.Coefficients[1], 1e-7);
-            Assert.AreEqual(-10.710529810144157, regression.Coefficients[2], 1e-7);
-            Assert.AreEqual(44.089493151268726, regression.Coefficients[3], 1e-7);
+            Assert.AreEqual(-490.30977151704076, regression.Coefficients[0], 1e-7);
+            Assert.AreEqual(1.7763049293456503, regression.Coefficients[1], 1e-7);
+            Assert.AreEqual(-14.882619671822592, regression.Coefficients[2], 1e-7);
+            Assert.AreEqual(60.5066623676452, regression.Coefficients[3], 1e-7);
         }
 
         [Test]
@@ -450,17 +580,84 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(30.507262964894068, actual, 1e-8);
 
             Assert.AreEqual(3, regression.Coefficients.Length);
-            Assert.AreEqual(-0.38409721299838279, regression.Coefficients[0], 1e-10);
-            Assert.AreEqual(0.1065137931017601, regression.Coefficients[1], 1e-10);
-            Assert.AreEqual(17.275849279015059, regression.Coefficients[2], 1e-7);
+            Assert.AreEqual(-0.38409721299838279, regression.Coefficients[0], 1e-7);
+            Assert.AreEqual(0.1065137931017601, regression.Coefficients[1], 1e-7);
+            Assert.AreEqual(22.010378526331344, regression.Coefficients[2], 1e-7);
 
             for (int i = 0; i < 50; i++)
                 newError = irls.Run(inputs, output);
 
-            Assert.AreEqual(-0.38409721299838279, regression.Coefficients[0], 1e-8);
+            Assert.AreEqual(-0.38409721299838279, regression.Coefficients[0], 1e-7);
             Assert.AreEqual(0.1065137931017601, regression.Coefficients[1], 1e-8);
-            Assert.AreEqual(17.275849279015059, regression.Coefficients[2], 1e-8);
+            Assert.AreEqual(22.010378588337979, regression.Coefficients[2], 1e-8);
         }
 
+        [Test]
+        public void serialization_test()
+        {
+            //CsvReader reader = CsvReader.FromText(Properties.Resources.regression, true);
+            //double[][] data = reader.ToTable().ToArray(System.Globalization.CultureInfo.InvariantCulture);
+            //double[][] inputs = data.GetColumns(new[] { 0, 1 });
+            //double[] output = data.GetColumn(2);
+
+            //var regression = new LogisticRegression(2);
+            //var irls = new IterativeReweightedLeastSquares(regression);
+
+            //double error = irls.Run(inputs, output);
+            //double newError = 0;
+            //for (int i = 0; i < 50; i++)
+            //    newError = irls.Run(inputs, output);
+
+            //double actual = irls.ComputeError(inputs, output);
+            //Assert.AreEqual(30.507262964894068, actual, 1e-8);
+            var regression = Serializer.Load<LogisticRegression>(Resources.lr_3_2_3);
+
+            Assert.AreEqual(3, regression.Coefficients.Length);
+            Assert.AreEqual(-0.38409721299838279, regression.Coefficients[0], 1e-7);
+            Assert.AreEqual(0.1065137931017601, regression.Coefficients[1], 1e-7);
+            Assert.AreEqual(22.010378526331344, regression.Coefficients[2], 1e-7);
+
+            Assert.AreEqual(3, regression.StandardErrors.Length);
+            Assert.AreEqual(0.44978816773158686, regression.StandardErrors[0], 1e-7);
+            Assert.AreEqual(0.051033708973742355, regression.StandardErrors[1], 1e-7);
+            Assert.AreEqual(20846.736738575739, regression.StandardErrors[2], 1e-7);
+
+            // regression.Save(@"C:\Users\CésarRoberto\Desktop\lr_3.2.3.bin");
+        }
+
+        [Test]
+        public void prediction_interval()
+        {
+            CsvReader reader = CsvReader.FromText(Properties.Resources.logreg, true);
+            DataTable data = reader.ToTable();
+            double[][] inputs = data.ToArray("AGE");
+            double[] output = data.Columns["CHD"].ToArray();
+
+            var learner = new IterativeReweightedLeastSquares<LogisticRegression>();
+
+            var lr = learner.Learn(inputs, output);
+
+            Assert.AreEqual(0.111, lr.Weights[0], 5e-4);
+            Assert.AreEqual(-5.309, lr.Intercept, 5e-4);
+
+            Assert.AreEqual(1.1337, lr.StandardErrors[0], 5e-5);
+            Assert.AreEqual(0.0241, lr.StandardErrors[1], 5e-5);
+
+            double ll = lr.GetLogLikelihood(inputs, output);
+            Assert.AreEqual(-53.6765, ll, 1e-4);
+
+            double[] point = new double[] { 50 };
+            double y = lr.Score(point);
+
+            double[][] im = learner.GetInformationMatrix();
+            //double se = lr.GetStandardError(inputs, im);
+            var ci = lr.GetConfidenceInterval(point, inputs.Length, im);
+            Assert.AreEqual(0.435, ci.Min, 5e-3);
+            Assert.AreEqual(0.677, ci.Max, 5e-3);
+
+            var pi = lr.GetPredictionInterval(point, inputs.Length, im);
+            Assert.AreEqual(0.1405, pi.Min, 5e-3);
+            Assert.AreEqual(0.9075, pi.Max, 5e-3);
+        }
     }
 }

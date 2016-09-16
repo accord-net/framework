@@ -12,7 +12,7 @@
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Play and record audio using DirectSound. This package is part of the Accord.NET Framework.</description>
-    <summary>Accord.NET Audio Library from the Accord.NET Framework</summary>
+    <summary>Play and record audio using DirectSound.</summary>
     <tags>accord.net aforge.net framework computer audition audio processing wave capture</tags>
     <dependencies>
       <dependency id="SharpDX.DirectSound"  version="2.6.0" />

@@ -25,6 +25,7 @@ namespace Accord.Math.Optimization
     using System;
     using Accord.Math;
     using Accord.Math.Decompositions;
+    using System.Threading;
 
     /// <summary>
     ///   Gauss-Newton algorithm for solving Least-Squares problems.
@@ -75,6 +76,13 @@ namespace Accord.Math.Optimization
         /// </value>
         /// 
         public LeastSquaresGradientFunction Gradient { get; set; }
+
+        /// <summary>
+        ///   Gets or sets a cancellation token that can be used to
+        ///   stop the learning algorithm while it is running.
+        /// </summary>
+        /// 
+        public CancellationToken Token { get; set; }
 
         /// <summary>
         ///   Gets the number of variables (free parameters) in the optimization problem.
@@ -209,13 +217,16 @@ namespace Accord.Math.Optimization
             for (int i = 0; i < inputs.Length; i++)
                 errors[i] = outputs[i] - Function(weights, inputs[i]);
 
-            double[] g = new double[numberOfParameters];
+            var g = new double[numberOfParameters];
             for (int i = 0; i < inputs.Length; i++)
             {
                 Gradient(weights, inputs[i], result: g);
 
                 for (int j = 0; j < gradient.Length; j++)
                     jacobian[i, j] = -g[j];
+
+                if (Token.IsCancellationRequested)
+                    break;
             }
 
 

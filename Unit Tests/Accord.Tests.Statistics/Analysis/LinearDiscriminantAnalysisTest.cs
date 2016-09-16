@@ -139,24 +139,112 @@ namespace Accord.Tests.Statistics
             // Or perform classification using:
             int[] results = lda.Classify(inputs);
 
+            double[][] expected = new double[][] 
+            {
+                new double[] { 4.42732558139535, 1.96296296296296 },
+                new double[] { 3.7093023255814, -2.51851851851852 },
+                new double[] { 3.28197674418605, -1.51851851851852 },
+                new double[] { 5.56395348837209, -3.77777777777778 },
+                new double[] { 5.7093023255814, -1.03703703703704 },
+                new double[] { 13.2732558139535, -3.33333333333333 },
+                new double[] { 9.41860465116279, -3.55555555555556 },
+                new double[] { 11.1366279069767, 1.66666666666667 },
+                new double[] { 10.9912790697674, -1.07407407407407 },
+                new double[] { 13.4186046511628, -0.592592592592593 } 
+            };
+
+            Assert.IsTrue(expected.IsEqual(projection, 1e-6));
 
             // Test the classify method
             for (int i = 0; i < 5; i++)
             {
-                int expected = 0;
                 int actual = results[i];
-                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(0, actual);
             }
 
             for (int i = 5; i < 10; i++)
             {
-                int expected = 1;
                 int actual = results[i];
-                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(1, actual);
             }
-
         }
 
+        [Test]
+        public void new_method()
+        {
+            #region doc_learn
+            // Create some sample input data instances. This is the same
+            // data used in the Gutierrez-Osuna's example available on:
+            // http://research.cs.tamu.edu/prism/lectures/pr/pr_l10.pdf
+
+            double[][] inputs = 
+            {
+                // Class 0
+                new double[] {  4,  1 }, 
+                new double[] {  2,  4 },
+                new double[] {  2,  3 },
+                new double[] {  3,  6 },
+                new double[] {  4,  4 },
+
+                // Class 1
+                new double[] {  9, 10 },
+                new double[] {  6,  8 },
+                new double[] {  9,  5 },
+                new double[] {  8,  7 },
+                new double[] { 10,  8 }
+            };
+
+            int[] output = 
+            {
+                0, 0, 0, 0, 0, // The first five are from class 0
+                1, 1, 1, 1, 1  // The last five are from class 1
+            };
+
+            // We will create a LDA object for the data
+            var lda = new LinearDiscriminantAnalysis();
+
+            // Compute the analysis and create a classifier
+            var classifier = lda.Learn(inputs, output);
+
+            // Now we can project the data into LDA space:
+            double[][] projection = lda.Transform(inputs);
+
+            // Or perform classification using:
+            int[] results = classifier.Decide(inputs);
+            #endregion
+
+            double[][] classifierProjection = classifier.First.Transform(inputs);
+            Assert.IsTrue(projection.IsEqual(classifierProjection));
+
+            double[][] expected = new double[][] 
+            {
+                new double[] { 4.42732558139535, 1.96296296296296 },
+                new double[] { 3.7093023255814, -2.51851851851852 },
+                new double[] { 3.28197674418605, -1.51851851851852 },
+                new double[] { 5.56395348837209, -3.77777777777778 },
+                new double[] { 5.7093023255814, -1.03703703703704 },
+                new double[] { 13.2732558139535, -3.33333333333333 },
+                new double[] { 9.41860465116279, -3.55555555555556 },
+                new double[] { 11.1366279069767, 1.66666666666667 },
+                new double[] { 10.9912790697674, -1.07407407407407 },
+                new double[] { 13.4186046511628, -0.592592592592593 } 
+            };
+
+            Assert.IsTrue(expected.IsEqual(projection, 1e-6));
+
+            // Test the classify method
+            for (int i = 0; i < 5; i++)
+            {
+                int actual = results[i];
+                Assert.AreEqual(0, actual);
+            }
+
+            for (int i = 5; i < 10; i++)
+            {
+                int actual = results[i];
+                Assert.AreEqual(1, actual);
+            }
+        }
 
         [Test]
         public void ComputeTest2()
@@ -189,6 +277,30 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(5.7, lda.Means[0]);
             Assert.AreEqual(5.6, lda.Means[1]);
+        }
+
+        [Test]
+        public void large_transform_few_components()
+        {
+            int n = 100;
+            double[][] data = Jagged.Random(n, n);
+            int[] labels = Vector.Random(n, 0, 10);
+
+            var kda = new LinearDiscriminantAnalysis();
+            var target = kda.Learn(data, labels);
+
+            var expected = kda.Transform(data, 2);
+            Assert.AreEqual(n, expected.Rows());
+            Assert.AreEqual(2, expected.Columns());
+
+            kda.NumberOfOutputs = 2;
+            target = kda.Learn(data, labels);
+
+            var actual = target.First.Transform(data);
+            Assert.AreEqual(n, actual.Rows());
+            Assert.AreEqual(2, actual.Columns());
+
+            Assert.IsTrue(actual.IsEqual(expected));
         }
 
         [Test]

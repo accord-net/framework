@@ -31,6 +31,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     using Accord.Statistics;
     using System.Threading.Tasks;
     using Accord.MachineLearning;
+    using Accord.Math.Optimization.Losses;
 
     /// <summary>
     ///   C4.5 Learning algorithm for <see cref="DecisionTree">Decision Trees</see>.
@@ -156,7 +157,16 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     /// //
     /// int z = func(inputs[25]);
     /// </code>
+    /// 
+    /// <para>
+    ///   The next example shows how to induce a decision tree with continuous variables
+    ///   without using a <see cref="Accord.Statistics.Filters.Codification">codebook</see>
+    ///   for encoding input variables.</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_iris" />
     /// </example>
+    /// 
+    /// <seealso cref="DecisionTree"/>
+    /// <seealso cref="ID3Learning"/>
     ///
     [Serializable]
     public class C45Learning : ParallelLearningBase,
@@ -176,6 +186,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
         private int join = 1;
         private int[] attributeUsageCount;
+        private IList<DecisionVariable> attributes;
 
         /// <summary>
         ///   Gets or sets the maximum allowed 
@@ -197,6 +208,16 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             }
         }
 
+        /// <summary>
+        ///   Gets or sets the collection of attributes to 
+        ///   be processed by the induced decision tree.
+        /// </summary>
+        /// 
+        public IList<DecisionVariable> Attributes
+        {
+            get { return attributes; }
+            set { attributes = value; }
+        }
 
         /// <summary>
         ///   Gets or sets the maximum number of variables that
@@ -282,6 +303,18 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             init(tree);
         }
 
+        /// <summary>
+        ///   Creates a new C4.5 learning algorithm.
+        /// </summary>
+        /// 
+        /// <param name="attributes">The attributes to be processed by the induced tree.</param>
+        //
+        public C45Learning(DecisionVariable[] attributes)
+            : this()
+        {
+            this.attributes = new List<DecisionVariable>(attributes);
+        }
+
         private void init(DecisionTree tree)
         {
             // Initial argument checking
@@ -294,6 +327,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             this.attributeUsageCount = new int[inputVariables];
             this.inputRanges = new IntRange[inputVariables];
             this.maxHeight = inputVariables;
+            this.attributes = tree.Attributes;
 
             for (int i = 0; i < inputRanges.Length; i++)
                 inputRanges[i] = tree.Attributes[i].Range.ToIntRange(false);
@@ -313,12 +347,13 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         {
             if (tree == null)
             {
-                var variables = DecisionVariable.FromData(x);
-                int classes = y.DistinctCount();
-                init(new DecisionTree(variables, classes));
+                if (this.attributes == null)
+                    this.attributes = DecisionVariable.FromData(x);
+                int classes = y.Max() + 1;
+                init(new DecisionTree(this.attributes, classes));
             }
 
-            this.Run(x, y);
+            this.run(x, y);
             return tree;
         }
 
@@ -337,11 +372,11 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             if (tree == null)
             {
                 var variables = DecisionVariable.FromData(x);
-                int classes = y.DistinctCount();
+                int classes = y.Max() + 1;
                 init(new DecisionTree(variables, classes));
             }
 
-            this.Run(x.ToDouble(), y);
+            this.run(x.ToDouble(), y);
             return tree;
         }
 
@@ -355,7 +390,17 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         /// <returns>The error of the generated tree.</returns>
         /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(double[][] inputs, int[] outputs)
+        {
+            run(inputs, outputs);
+            return new ZeroOneLoss(outputs)
+            {
+                Mean = true
+            }.Loss(tree.Decide(inputs));
+        }
+
+        private void run(double[][] inputs, int[] outputs)
         {
             // Initial argument check
             checkArgs(inputs, outputs);
@@ -395,11 +440,11 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
                         IGrouping<double, int> currentValueToClasses = sortedValueToClassesMapping[j];
                         IGrouping<double, int> nextValueToClasses = sortedValueToClassesMapping[j + 1];
-                        if (nextValueToClasses.Key - currentValueToClasses.Key > Constants.DoubleEpsilon &&
-                            currentValueToClasses.Union(nextValueToClasses).Count() > 1)
+                        double a = nextValueToClasses.Key;
+                        double b = currentValueToClasses.Key;
+                        if (a - b > Constants.DoubleEpsilon && currentValueToClasses.Union(nextValueToClasses).Count() > 1)
                             candidates.Add((currentValueToClasses.Key + nextValueToClasses.Key) / 2.0);
                     }
-
 
                     thresholds[i] = candidates.ToArray();
                     candidates.Clear();
@@ -410,36 +455,12 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             // 1. Create a root node for the tree
             tree.Root = new DecisionNode(tree);
 
+            // Recursively split the tree nodes
             split(tree.Root, inputs, outputs, 0);
-
-            return ComputeError(inputs, outputs);
-        }
-
-        /// <summary>
-        ///   Computes the prediction error for the tree
-        ///   over a given set of input and outputs.
-        /// </summary>
-        /// 
-        /// <param name="inputs">The input points.</param>
-        /// <param name="outputs">The corresponding output labels.</param>
-        /// 
-        /// <returns>The percentage error of the prediction.</returns>
-        /// 
-        public double ComputeError(double[][] inputs, int[] outputs)
-        {
-            int miss = 0;
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                if (tree.Decide(inputs[i]) != outputs[i])
-                    miss++;
-            }
-
-            return (double)miss / inputs.Length;
         }
 
         private void split(DecisionNode root, double[][] input, int[] output, int height)
         {
-
             // 2. If all examples are for the same class, return the single-node
             //    tree with the output label corresponding to this common class.
             double entropy = Measures.Entropy(output, outputClasses);
@@ -635,8 +656,18 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             // Compute the information gain obtained by using
             // this current attribute as the next decision node.
             double[] t = thresholds[attributeIndex];
-
             double bestGain = Double.NegativeInfinity;
+
+            // If there are no possible thresholds that we can use
+            // to split the data (i.e. if all values are the same)
+            if (t.Length == 0)
+            {
+                // Then they all belong to the same partition
+                partitions = new int[][] { Vector.Range(input.Length) };
+                threshold = Double.NegativeInfinity;
+                return bestGain;
+            }
+
             double bestThreshold = t[0];
             partitions = null;
 
@@ -706,6 +737,24 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             return bestGain;
         }
 
+        /// <summary>
+        ///   Computes the prediction error for the tree
+        ///   over a given set of input and outputs.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input points.</param>
+        /// <param name="outputs">The corresponding output labels.</param>
+        /// 
+        /// <returns>The percentage error of the prediction.</returns>
+        /// 
+        [Obsolete("Please use the ZeroOneLoss class instead.")]
+        public double ComputeError(double[][] inputs, int[] outputs)
+        {
+            return new ZeroOneLoss(outputs)
+            {
+                Mean = true
+            }.Loss(tree.Decide(inputs));
+        }
 
         private void checkArgs(double[][] inputs, int[] outputs)
         {

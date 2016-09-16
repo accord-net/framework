@@ -34,35 +34,11 @@ namespace Accord.MachineLearning
     /// <example>
     ///   How to perform clustering with Binary Split.
     ///   
-    ///   <code>
-    ///   // Declare some observations
-    ///   double[][] observations = 
-    ///   {
-    ///       new double[] { -5, -2, -1 },
-    ///       new double[] { -5, -5, -6 },
-    ///       new double[] {  2,  1,  1 },
-    ///       new double[] {  1,  1,  2 },
-    ///       new double[] {  1,  2,  2 },
-    ///       new double[] {  3,  1,  2 },
-    ///       new double[] { 11,  5,  4 },
-    ///       new double[] { 15,  5,  6 },
-    ///       new double[] { 10,  5,  6 },
-    ///   };
-    ///  
-    ///   // Create a new binary split with 3 clusters 
-    ///   BinarySplit binarySplit = new BinarySplit(3);
-    ///  
-    ///   // Compute the algorithm, retrieving an integer array
-    ///   //  containing the labels for each of the observations
-    ///   int[] labels = binarySplit.Compute(observations);
-    ///   
-    ///   // In order to classify new, unobserved instances, you can
-    ///   // use the binarySplit.Clusters.Nearest method, as shown below:
-    ///   int c = binarySplit.Clusters.Nearest(new double[] { 4, 1, 9) });
-    ///   </code>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\BinarySplitTest.cs" region="doc_sample1" />
     /// </example>
     /// 
     /// <seealso cref="KMeans"/>
+    /// <seealso cref="GaussianMixtureModel"/>
     /// 
     [Serializable]
     public class BinarySplit : KMeans
@@ -90,35 +66,36 @@ namespace Accord.MachineLearning
         public BinarySplit(int k)
             : base(k) { }
 
+
         /// <summary>
-        ///   Divides the input data into K clusters.
+        /// Learns a model that can map the given inputs to the desired outputs.
         /// </summary>
-        /// 
-        /// <param name="data">The data where to compute the algorithm.</param>
-        /// <param name="weights">The weight associated with each data point.</param>
-        /// 
-        public override KMeansClusterCollection Learn(double[][] data, double[] weights)
+        /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
+        /// <returns>A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.</returns>
+        public override KMeansClusterCollection Learn(double[][] x, double[] weights = null)
         {
             // Initial argument checking
-            if (data == null)
-                throw new ArgumentNullException("data");
+            if (x == null)
+                throw new ArgumentNullException("x");
 
-            if (data.Length < K)
+            if (x.Length < K)
                 throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.");
 
             if (weights == null)
-                throw new ArgumentNullException("weights");
+                weights = Vector.Ones(x.Length);
 
-            if (data.Length != weights.Length)
+            if (x.Length != weights.Length)
                 throw new ArgumentException("Data weights vector must be the same length as data samples.");
 
             double weightSum = weights.Sum();
             if (weightSum <= 0)
                 throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.");
 
-            int cols = data[0].Length;
-            for (int i = 0; i < data.Length; i++)
-                if (data[0].Length != cols)
+            int cols = x[0].Length;
+            for (int i = 0; i < x.Length; i++)
+                if (x[0].Length != cols)
                     throw new DimensionMismatchException("data", "The points matrix should be rectangular. The vector at position {} has a different length than previous ones.");
             
 
@@ -139,7 +116,7 @@ namespace Accord.MachineLearning
             double[] distortions = new double[k];
 
             // 1. Start with all data points in one cluster
-            clusters[0] = data;
+            clusters[0] = x;
 
             // 2. Repeat steps 3 to 6 (k-1) times to obtain K centroids
             for (int current = 1; current < k; current++)

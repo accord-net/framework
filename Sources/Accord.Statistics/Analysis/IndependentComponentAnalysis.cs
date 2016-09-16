@@ -107,43 +107,7 @@ namespace Accord.Statistics.Analysis
     /// </remarks>
     /// 
     /// <example>
-    /// <code>
-    /// // Let's create a random dataset containing
-    /// // 5000 samples of two dimensional samples.
-    /// //
-    /// double[,] source = Matrix.Random(5000, 2);
-    /// 
-    /// // Now, we will mix the samples the dimensions of the samples.
-    /// // A small amount of the second column will be applied to the
-    /// // first, and vice-versa. 
-    /// //
-    /// double[,] mix =
-    /// {
-    ///     {  0.25, 0.25 },
-    ///     { -0.25, 0.75 },    
-    /// };
-    /// 
-    /// // mix the source data
-    /// double[,] input = source.Multiply(mix);
-    /// 
-    /// // Now, we can use ICA to identify any linear mixing between the variables, such
-    /// // as the matrix multiplication we did above. After it has identified it, we will
-    /// // be able to revert the process, retrieving our original samples again
-    ///             
-    /// // Create a new Independent Component Analysis
-    /// var ica = new IndependentComponentAnalysis(input);
-    /// 
-    /// 
-    /// // Compute it 
-    /// ica.Compute();
-    /// 
-    /// // Now, we can retrieve the mixing and demixing matrices that were 
-    /// // used to alter the data. Note that the analysis was able to detect
-    /// // this information automatically:
-    /// 
-    /// double[,] mixingMatrix = ica.MixingMatrix; // same as the 'mix' matrix
-    /// double[,] revertMatrix = ica.DemixingMatrix; // inverse of the 'mix' matrix
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\IndependentComponentAnalysisTest.cs" region="doc_learn" />
     /// </example>
     /// 
     [Serializable]
@@ -286,7 +250,16 @@ namespace Accord.Statistics.Analysis
             this.NumberOfOutputs = data.Columns();
         }
 
-
+        /// <summary>
+        ///   Constructs a new Independent Component Analysis.
+        /// </summary>
+        /// 
+        public IndependentComponentAnalysis(AnalysisMethod method = AnalysisMethod.Center,
+          IndependentComponentAlgorithm algorithm = IndependentComponentAlgorithm.Parallel)
+        {
+            this.algorithm = algorithm;
+            this.analysisMethod = method;
+        }
 
 
         /// <summary>
@@ -315,6 +288,7 @@ namespace Accord.Statistics.Analysis
         ///   Source data used in the analysis.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[,] Source
         {
             get { return sourceMatrix; }
@@ -423,6 +397,16 @@ namespace Accord.Statistics.Analysis
         {
             get { return algorithm; }
             set { algorithm = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the normalization method used for this analysis.
+        /// </summary>
+        /// 
+        public AnalysisMethod Method
+        {
+            get { return analysisMethod; }
+            set { analysisMethod = value; }
         }
 
         /// <summary>
@@ -557,6 +541,7 @@ namespace Accord.Statistics.Analysis
         ///   Combines components into a single mixture (mixing).
         /// </summary>
         /// 
+        [Obsolete("Please use Mix.Transform instead.")]
         public float[][] Combine(float[][] data)
         {
             return mix.Transform(data.ToDouble().Transpose()).ToSingle().Transpose(); // TODO: Implement float support in linear regression;
@@ -876,6 +861,10 @@ namespace Accord.Statistics.Analysis
             this.columnMeans = Measures.Mean(x, dimension: 0);
             this.columnStdDev = Measures.StandardDeviation(x, columnMeans);
 
+            NumberOfInputs = x.Columns();
+            if (NumberOfOutputs == 0)
+                NumberOfOutputs = NumberOfInputs;
+
             // First, the data should be centered by subtracting
             //  the mean of each column in the source data matrix.
             var matrix = Adjust(x, overwriteSourceMatrix);
@@ -906,7 +895,7 @@ namespace Accord.Statistics.Analysis
             mixingMatrix.Divide(mixingMatrix.Sum(), result: mixingMatrix);
 
             this.demix = createRegression(revertMatrix, columnMeans, columnStdDev, analysisMethod);
-            this.mix = mix.Inverse();
+            this.mix = demix.Inverse();
 
             // Creates the object-oriented structure to hold the principal components
             var array = new IndependentComponent[NumberOfOutputs];
@@ -925,7 +914,7 @@ namespace Accord.Statistics.Analysis
                 B.Divide(stdDev, dimension: 0, result: B);
 
             double[] a = means.Dot(B);
-            a.Multiply(-1, result: a);
+            a.Multiply(-1.0, result: a);
 
             return new MultivariateLinearRegression()
             {

@@ -36,6 +36,34 @@ namespace Accord.Statistics.Models.Regression.Linear
     ///   Least Squares learning algorithm for linear regression models.
     /// </summary>
     /// 
+    /// <example>
+    ///  <para>
+    ///   Let's say we have some univariate, continuous sets of input data,
+    ///   and a corresponding univariate, continuous set of output data, such
+    ///   as a set of points in R². A simple linear regression is able to fit
+    ///   a line relating the input variables to the output variables in which
+    ///   the minimum-squared-error of the line and the actual output points
+    ///   is minimum.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\SimpleLinearRegressionTest.cs" region="doc_learn" />
+    /// 
+    ///  <para>
+    ///   The following example shows how to fit a multiple linear regression model
+    ///   to model a plane as an equation in the form ax + by + c = z. </para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultipleLinearRegressionTest.cs" region="doc_learn" />
+    /// 
+    ///  <para>
+    ///   The following example shows how to fit a multivariate linear regression model,
+    ///   producing multidimensional outputs for each input.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultivariateLinearRegressionTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
+    /// <seealso cref="SimpleLinearRegression"/>
+    /// <seealso cref="MultipleLinearRegression"/>
+    /// <seealso cref="MultivariateLinearRegression"/>
+    /// 
     public class OrdinaryLeastSquares :
         ISupervisedLearning<MultivariateLinearRegression, double[], double[]>,
         ISupervisedLearning<MultipleLinearRegression, double[], double>,
@@ -44,7 +72,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         private ISolverArrayDecomposition<double> decomposition;
 
         /// <summary>
-        ///   Gets or sets wether to include an intercept 
+        ///   Gets or sets whether to include an intercept 
         ///   term in the learned models. Default is true.
         /// </summary>
         /// 
@@ -97,8 +125,8 @@ namespace Accord.Statistics.Models.Regression.Linear
             {
                 return new SimpleLinearRegression()
                 {
-                    Slope = coefficients[1],
-                    Intercept = coefficients[0]
+                    Slope = coefficients[0],
+                    Intercept = coefficients[1]
                 };
             }
             else
@@ -166,8 +194,8 @@ namespace Accord.Statistics.Models.Regression.Linear
             {
                 return new MultivariateLinearRegression()
                 {
-                    Weights = coefficients.Get(null, 0, -1),
-                    Intercepts = coefficients.GetColumn(-1)
+                    Weights = coefficients.Get(0, -1, null),
+                    Intercepts = coefficients.GetRow(-1)
                 };
             }
 

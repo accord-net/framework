@@ -51,7 +51,7 @@ namespace SampleApp
     public partial class MainForm : Form
     {
 
-        KernelSupportVectorMachine svm;
+        SupportVectorMachine<IKernel> svm;
 
         string[] columnNames;
 
@@ -66,9 +66,6 @@ namespace SampleApp
 
             openFileDialog.InitialDirectory = Path.Combine(Application.StartupPath, "Resources");
         }
-
-
-
 
 
 
@@ -98,12 +95,8 @@ namespace SampleApp
             // Create the specified Kernel
             IKernel kernel = createKernel();
 
-
-            // Create the Support Vector Machine for 1 input variable
-            svm = new KernelSupportVectorMachine(kernel, inputs: 1);
-
-            // Creates a new instance of the SMO for regression learning algorithm
-            var smo = new SequentialMinimalOptimizationRegression(svm, inputs, outputs)
+            // Creates a new SMO for regression learning algorithm
+            var smo = new SequentialMinimalOptimizationRegression()
             {
                 // Set learning parameters
                 Complexity = (double)numC.Value,
@@ -112,11 +105,10 @@ namespace SampleApp
             };
 
 
-
             try
             {
                 // Run
-                double error = smo.Run();
+                svm = smo.Learn(inputs, outputs);
 
                 lbStatus.Text = "Training complete!";
             }

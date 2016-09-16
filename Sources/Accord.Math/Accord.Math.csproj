@@ -74,6 +74,12 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Accord.Statistics\Classes.cs" />
+    <Compile Include="Accord.Statistics\Measures.Histogram.cs" />
+    <Compile Include="Accord.Statistics\Measures.Matrix.cs" />
+    <Compile Include="Accord.Statistics\Measures.Matrix.Weighted.cs" />
+    <Compile Include="Accord.Statistics\Measures.Vectors.cs" />
+    <Compile Include="Accord.Statistics\Measures.Vectors.Weighted.cs" />
     <Compile Include="AForge.Math\ContinuousHistogram.cs" />
     <Compile Include="AForge.Math\FourierTransform.cs" />
     <Compile Include="AForge.Math\Gaussian.cs" />
@@ -208,15 +214,18 @@
     <Compile Include="Matrix\JaggedReducedRowEchelonForm.cs" />
     <Compile Include="Matrix\Vector.MinMax.cs" />
     <Compile Include="Matrix\Matrix.MinMax.cs" />
-    <Compile Include="Optimization\Losses\LogLikelihoodLoss.cs" />
+    <Compile Include="Optimization\Losses\BinaryCrossEntropyLoss.cs" />
     <Compile Include="Optimization\Losses\CategoryCrossEntropyLoss.cs" />
+    <Compile Include="Optimization\Losses\HammingLoss.cs" />
+    <Compile Include="Optimization\Losses\LogLikelihoodLoss.cs" />
     <Compile Include="Optimization\Losses\LossBase.cs" />
     <Compile Include="Optimization\Losses\AbsoluteLoss.cs" />
-    <Compile Include="Optimization\Losses\BinaryCrossEntropyLoss.cs" />
     <Compile Include="Optimization\Losses\HingeLoss.cs" />
     <Compile Include="Optimization\Losses\ILoss.cs" />
     <Compile Include="Optimization\Losses\LogisticLoss.cs" />
+    <Compile Include="Optimization\Losses\RSquaredLoss.cs" />
     <Compile Include="Optimization\Losses\SquareLoss.cs" />
+    <Compile Include="Optimization\Losses\ZeroOneLoss.cs" />
     <Compile Include="Optimization\Unconstrained\TrustRegionNewtonMethod.cs" />
     <Compile Include="Random\IRandomNumberGenerator.cs" />
     <Compile Include="Random\ZigguratExponentialGenerator.cs" />

@@ -26,90 +26,21 @@ namespace Accord.Statistics.Models.Regression.Linear
     using Accord.Math;
     using Accord.Math.Decompositions;
     using Accord.MachineLearning;
-    using Fitting;
-    using Math.Optimization.Losses;
+    using Accord.Statistics.Models.Regression.Fitting;
+    using Accord.Math.Optimization.Losses;
+    using Accord.Statistics.Testing;
 
     /// <summary>
     ///   Multivariate Linear Regression.
     /// </summary>
+    /// 
     /// <remarks>
     ///   Multivariate Linear Regression is a generalization of
     ///   Multiple Linear Regression to allow for multiple outputs.
     /// </remarks>
     /// 
     /// <example>
-    ///   <code>
-    ///   // The multivariate linear regression is a generalization of
-    ///   // the multiple linear regression. In the multivariate linear
-    ///   // regression, not only the input variables are multivariate,
-    ///   // but also are the output dependent variables.
-    ///   
-    ///   // In the following example, we will perform a regression of
-    ///   // a 2-dimensional output variable over a 3-dimensional input
-    ///   // variable.
-    ///   
-    ///   double[][] inputs = 
-    ///   {
-    ///       // variables:  x1  x2  x3
-    ///       new double[] {  1,  1,  1 }, // input sample 1
-    ///       new double[] {  2,  1,  1 }, // input sample 2
-    ///       new double[] {  3,  1,  1 }, // input sample 3
-    ///   };
-    ///   
-    ///   double[][] outputs = 
-    ///   {
-    ///       // variables:  y1  y2
-    ///       new double[] {  2,  3 }, // corresponding output to sample 1
-    ///       new double[] {  4,  6 }, // corresponding output to sample 2
-    ///       new double[] {  6,  9 }, // corresponding output to sample 3
-    ///   };
-    /// 
-    ///   // With a quick eye inspection, it is possible to see that
-    ///   // the first output variable y1 is always the double of the
-    ///   // first input variable. The second output variable y2 is
-    ///   // always the triple of the first input variable. The other
-    ///   // input variables are unused. Nevertheless, we will fit a
-    ///   // multivariate regression model and confirm the validity
-    ///   // of our impressions:
-    ///   
-    ///   // Create a new multivariate linear regression with 3 inputs and 2 outputs
-    ///   var regression = new MultivariateLinearRegression(3, 2);
-    ///   
-    ///   // Now, compute the multivariate linear regression:
-    ///   double error = regression.Regress(inputs, outputs);
-    ///   
-    ///   // At this point, the regression error will be 0 (the fit was
-    ///   // perfect). The regression coefficients for the first input
-    ///   // and first output variables will be 2. The coefficient for
-    ///   // the first input and second output variables will be 3. All
-    ///   // others will be 0.
-    ///   //
-    ///   // regression.Coefficients should be the matrix given by
-    ///   //
-    ///   // double[,] coefficients = {
-    ///   //                              { 2, 3 },
-    ///   //                              { 0, 0 },
-    ///   //                              { 0, 0 },
-    ///   //                          };
-    ///   //
-    /// 
-    ///   // The first input variable coefficients will be 2 and 3:
-    ///   Assert.AreEqual(2, regression.Coefficients[0, 0], 1e-10);
-    ///   Assert.AreEqual(3, regression.Coefficients[0, 1], 1e-10);
-    /// 
-    ///   // And all other coefficients will be 0:
-    ///   Assert.AreEqual(0, regression.Coefficients[1, 0], 1e-10);
-    ///   Assert.AreEqual(0, regression.Coefficients[1, 1], 1e-10);
-    ///   Assert.AreEqual(0, regression.Coefficients[2, 0], 1e-10);
-    ///   Assert.AreEqual(0, regression.Coefficients[2, 1], 1e-10);
-    /// 
-    ///   // We can also check the r-squared coefficients of determination:
-    ///   double[] r2 = regression.CoefficientOfDetermination(inputs, outputs);
-    /// 
-    ///   // Which should be one for both output variables:
-    ///   Assert.AreEqual(1, r2[0]);
-    ///   Assert.AreEqual(1, r2[1]);
-    ///   </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultivariateLinearRegressionTest.cs" region="doc_learn" />
     /// </example>
     /// 
     [Serializable]
@@ -220,6 +151,16 @@ namespace Accord.Statistics.Models.Regression.Linear
         {
             get { return intercepts; }
             set { intercepts = value; }
+        }
+
+        /// <summary>
+        ///   Gets the number of parameters in the model (returns 
+        ///   NumberOfInputs * NumberOfOutputs + NumberOfInputs).
+        /// </summary>
+        /// 
+        public int NumberOfParameters
+        {
+            get { return NumberOfInputs * NumberOfOutputs + NumberOfOutputs; }
         }
 
         /// <summary>
@@ -404,7 +345,6 @@ namespace Accord.Statistics.Models.Regression.Linear
             for (int i = 0; i < M; i++)
             {
                 result[i] = intercepts[i];
-
                 for (int j = 0; j < N; j++)
                     result[i] += input[j] * coefficients[j, i];
             }
@@ -501,5 +441,135 @@ namespace Accord.Statistics.Models.Regression.Linear
             return result;
         }
 
+        /// <summary>
+        /// Gets the overall regression standard error.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The inputs used to train the model.</param>
+        /// <param name="outputs">The outputs used to train the model.</param>
+        /// 
+        public double[] GetStandardError(double[][] inputs, double[][] outputs)
+        {
+            // Calculate actual outputs (results)
+            double[][] results = Transform(inputs);
+
+            double[] SSe = new double[NumberOfOutputs];
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                for (int j = 0; j < SSe.Length; j++)
+                {
+                    double d = outputs[i][j] - results[i][j];
+                    SSe[j] += d * d;
+                }
+            }
+
+            double DFe = GetDegreesOfFreedom(inputs.Length);
+            return Elementwise.Sqrt(SSe.Divide(DFe));
+        }
+
+        /// <summary>
+        /// Gets the degrees of freedom when fitting the regression.
+        /// </summary>
+        /// 
+        public double GetDegreesOfFreedom(int numberOfSamples)
+        {
+            return numberOfSamples - NumberOfParameters;
+        }
+
+        /// <summary>
+        /// Gets the standard error for each coefficient.
+        /// </summary>
+        /// 
+        /// <param name="mse">The overall regression standard error (can be computed from <see cref="GetStandardError(double[][], double[][])"/>.</param>
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// 
+        public double[][] GetStandardErrors(double[] mse, double[][] informationMatrix)
+        {
+            double[][] se = Jagged.Zeros(NumberOfOutputs, informationMatrix.Length);
+            for (int j = 0; j < se.Length; j++)
+                for (int i = 0; i < informationMatrix.Length; i++)
+                    se[j][i] = mse[j] * Math.Sqrt(informationMatrix[i][i]);
+            return se;
+        }
+
+        /// <summary>
+        /// Gets the standard error of the fit for a particular input vector.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector where the standard error of the fit should be computed.</param>
+        /// <param name="mse">The overall regression standard error (can be computed from <see cref="GetStandardError(double[][], double[][])"/>.</param>        
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// 
+        /// <returns>The standard error of the fit at the given input point.</returns>
+        /// 
+        public double[] GetStandardError(double[] input, double[] mse, double[][] informationMatrix)
+        {
+            double rim = predictionVariance(input, informationMatrix);
+            return mse.Multiply(Math.Sqrt(rim));
+        }
+
+        /// <summary>
+        /// Gets the standard error of the prediction for a particular input vector.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector where the standard error of the prediction should be computed.</param>
+        /// <param name="mse">The overall regression standard error (can be computed from <see cref="GetStandardError(double[][], double[][])"/>.</param>
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// 
+        /// <returns>The standard error of the prediction given for the input point.</returns>
+        /// 
+        public double[] GetPredictionStandardError(double[] input, double[] mse, double[][] informationMatrix)
+        {
+            double rim = predictionVariance(input, informationMatrix);
+            return mse.Multiply(Math.Sqrt(1 + rim));
+        }
+
+        /// <summary>
+        /// Gets the confidence interval for an input point.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="mse">The overall regression standard error (can be computed from <see cref="GetStandardError(double[][], double[][])"/>.</param>
+        /// <param name="numberOfSamples">The number of training samples used to fit the model.</param>
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// <param name="percent">The prediction interval confidence (default is 95%).</param>
+        /// 
+        public DoubleRange[] GetConfidenceInterval(double[] input, double[] mse, int numberOfSamples, double[][] informationMatrix, double percent = 0.95)
+        {
+            double[] se = GetStandardError(input, mse, informationMatrix);
+            return createInterval(input, numberOfSamples, percent, se);
+        }
+
+        /// <summary>
+        /// Gets the prediction interval for an input point.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="mse">The overall regression standard error (can be computed from <see cref="GetStandardError(double[][], double[][])"/>.</param>
+        /// <param name="numberOfSamples">The number of training samples used to fit the model.</param>
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// <param name="percent">The prediction interval confidence (default is 95%).</param>
+        /// 
+        public DoubleRange[] GetPredictionInterval(double[] input, double[] mse, int numberOfSamples, double[][] informationMatrix, double percent = 0.95)
+        {
+            double[] se = GetPredictionStandardError(input, mse, informationMatrix);
+            return createInterval(input, numberOfSamples, percent, se);
+        }
+
+        private static double predictionVariance(double[] input, double[][] im)
+        {
+            if (input.Length < im.Length)
+                input = input.Concatenate(1);
+            return input.Dot(im).Dot(input);
+        }
+
+        private DoubleRange[] createInterval(double[] input, int numberOfSamples, double percent, double[] se)
+        {
+            double[] y = Transform(input);
+            double df = GetDegreesOfFreedom(numberOfSamples);
+            return se.Apply((x, i) =>
+                new TTest(estimatedValue: y[i], standardError: x, degreesOfFreedom: df)
+                    .GetConfidenceInterval(percent));
+        }
     }
 }

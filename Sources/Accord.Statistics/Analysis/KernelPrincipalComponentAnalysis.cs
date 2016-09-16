@@ -68,36 +68,7 @@ namespace Accord.Statistics.Analysis
     ///    documentation page. However, while we will be using a <see cref="Linear"/> kernel,
     ///    any other kernel function could have been used.</para>
     ///    
-    ///  <code>
-    ///  // Below is the same data used on the excellent paper "Tutorial
-    ///  //   On Principal Component Analysis", by Lindsay Smith (2002).
-    ///  
-    ///  double[,] sourceMatrix = 
-    ///  {
-    ///      { 2.5,  2.4 },
-    ///      { 0.5,  0.7 },
-    ///      { 2.2,  2.9 },
-    ///      { 1.9,  2.2 },
-    ///      { 3.1,  3.0 },
-    ///      { 2.3,  2.7 },
-    ///      { 2.0,  1.6 },
-    ///      { 1.0,  1.1 },
-    ///      { 1.5,  1.6 },
-    ///      { 1.1,  0.9 }
-    ///  }; 
-    /// 
-    ///  // Create a new linear kernel
-    ///  IKernel kernel = new Linear();
-    ///  
-    ///  // Creates the Kernel Principal Component Analysis of the given data
-    ///  var kpca = new KernelPrincipalComponentAnalysis(sourceMatrix, kernel);
-    ///    
-    ///  // Compute the Kernel Principal Component Analysis
-    ///  kpca.Compute();
-    ///    
-    ///  // Creates a projection considering 80% of the information
-    ///  double[,] components = kpca.Transform(sourceMatrix, 0.8f);
-    ///  </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\KernelPrincipalComponentAnalysisTest.cs" region="doc_learn_1" />
     /// </example>
     /// 
     [Serializable]
@@ -116,6 +87,19 @@ namespace Accord.Statistics.Analysis
         private double threshold = 0.001;
         private bool allowReversion = true;
 
+
+        /// <summary>
+        ///   Constructs the Kernel Principal Component Analysis.
+        /// </summary>
+        /// 
+        public KernelPrincipalComponentAnalysis()
+        {
+            this.Method = PrincipalComponentMethod.Center;
+            this.kernel = new Linear();
+            this.centerFeatureSpace = true;
+            this.NumberOfOutputs = 0;
+            this.Whiten = false;
+        }
 
         /// <summary>
         ///   Constructs the Kernel Principal Component Analysis.
@@ -236,12 +220,13 @@ namespace Accord.Statistics.Analysis
 
 
         /// <summary>
-        ///   Gets the Kernel used in the analysis.
+        ///   Gets or sets the Kernel used in the analysis.
         /// </summary>
         /// 
         public IKernel Kernel
         {
             get { return kernel; }
+            set { kernel = value; }
         }
 
         /// <summary>
@@ -318,6 +303,9 @@ namespace Accord.Statistics.Analysis
         public MultivariateKernelRegression Learn(double[][] x, double[] weights = null)
         {
             this.sourceCentered = null;
+            this.StandardDeviations = null;
+            this.featureMean = null;
+            this.featureGrandMean = 0;
             double[][] K;
 
             if (Method == PrincipalComponentMethod.KernelMatrix)
@@ -388,12 +376,22 @@ namespace Accord.Statistics.Analysis
 
             Accord.Diagnostics.Debug.Assert(NumberOfOutputs > 0);
 
+            return CreateRegression();
+        }
+
+        private MultivariateKernelRegression CreateRegression()
+        {
             return new MultivariateKernelRegression()
             {
                 NumberOfInputs = NumberOfInputs,
                 NumberOfOutputs = NumberOfOutputs,
                 Kernel = kernel,
-                Weights = ComponentVectors
+                Weights = ComponentVectors,
+                BasisVectors = sourceCentered,
+                Means = Means,
+                StandardDeviations = StandardDeviations,
+                FeatureGrandMean = featureGrandMean,
+                FeatureMeans = featureMean
             };
         }
 
@@ -469,9 +467,10 @@ namespace Accord.Statistics.Analysis
         /// 
         /// <param name="data">The kpca-transformed data.</param>
         /// 
+        [Obsolete("Please use Jagged matrices instead.")]
         public double[,] Revert(double[,] data)
         {
-            return Revert(data, 10);
+            return Revert(data.ToJagged()).ToMatrix();
         }
 
         /// <summary>
@@ -494,7 +493,33 @@ namespace Accord.Statistics.Analysis
         /// <param name="data">The kpca-transformed data.</param>
         /// <param name="neighbors">The number of nearest neighbors to use while constructing the pre-image.</param>
         /// 
+        [Obsolete("Please use Jagged matrices instead.")]
         public double[,] Revert(double[,] data, int neighbors)
+        {
+            return Revert(data.ToJagged(), neighbors).ToMatrix();
+        }
+
+        /// <summary>
+        ///   Reverts a set of projected data into it's original form. Complete reverse
+        ///   transformation is not always possible and is not even guaranteed to exist.
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// <para>
+        ///   This method works using a closed-form MDS approach as suggested by
+        ///   Kwok and Tsang. It is currently a direct implementation of the algorithm
+        ///   without any kind of optimization.
+        /// </para>
+        /// <para>
+        ///   Reference:
+        ///   - http://cmp.felk.cvut.cz/cmp/software/stprtool/manual/kernels/preimage/list/rbfpreimg3.html
+        /// </para>
+        /// </remarks>
+        /// 
+        /// <param name="data">The kpca-transformed data.</param>
+        /// <param name="neighbors">The number of nearest neighbors to use while constructing the pre-image.</param>
+        /// 
+        public double[][] Revert(double[][] data, int neighbors = 10)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
@@ -513,16 +538,14 @@ namespace Accord.Statistics.Analysis
                 throw new NotSupportedException(
                     "Current kernel does not support distance calculation in feature space.");
 
-
-            int rows = data.GetLength(0);
-
+            int rows = data.Rows();
 
             var result = this.result;
 
-            double[,] reversion = new double[rows, sourceCentered.Columns()];
+            double[][] reversion = Jagged.Zeros(rows, sourceCentered.Columns());
 
             // number of neighbors cannot exceed the number of training vectors.
-            int nn = System.Math.Min(neighbors, sourceCentered.GetLength(0));
+            int nn = System.Math.Min(neighbors, sourceCentered.Rows());
 
 
             // For each point to be reversed
@@ -550,7 +573,6 @@ namespace Accord.Statistics.Analysis
                 Array.Sort(d2, inx);
 
                 // 2.3 Select nn neighbors
-
                 int def = 0;
                 for (int i = 0; i < d2.Length && i < nn; i++, def++)
                     if (Double.IsInfinity(d2[i]))
@@ -559,7 +581,6 @@ namespace Accord.Statistics.Analysis
                 inx = inx.First(def);
                 X = X.Get(inx).Transpose(); // X is in input space
                 d2 = d2.First(def);       // distances in input space
-
 
                 // 3. Perform SVD
                 //    [U,L,V] = svd(X*H);
@@ -581,46 +602,38 @@ namespace Accord.Statistics.Analysis
                 //    Z = L*V';
                 double[][] Z = Matrix.DotWithTransposed(L, V);
 
-
                 // 5. Calculate distances
                 //    d02 = sum(Z.^2)';
                 double[] d02 = Matrix.Sum(Elementwise.Pow(Z, 2), 0);
 
-
-                // 6. Get the pre-image using z = -0.5*inv(Z')*(d2-d02)
+                // 6. Get the pre-image using
+                //    z = -0.5*inv(Z')*(d2-d02)
                 double[][] inv = Matrix.PseudoInverse(Z.Transpose());
 
                 double[] w = (-0.5).Multiply(inv).Dot(d2.Subtract(d02));
                 double[] z = w.First(U.Columns());
 
-
-                // 8. Project the pre-image on the original basis
-                //    using x = U*z + sum(X,2)/nn;
+                // 8. Project the pre-image on the original basis using 
+                //    x = U*z + sum(X,2)/nn;
                 double[] x = (U.Dot(z)).Add(Matrix.Sum(X.Transpose(), 0).Multiply(1.0 / nn));
-
 
                 // 9. Store the computed pre-image.
                 for (int i = 0; i < reversion.Columns(); i++)
-                    reversion[p, i] = x[i];
+                    reversion[p][i] = x[i];
             }
-
-
 
             // if the data has been standardized or centered,
             //  we need to revert those operations as well
             if (this.Method == PrincipalComponentMethod.Standardize)
             {
                 // multiply by standard deviation and add the mean
-                for (int i = 0; i < reversion.GetLength(0); i++)
-                    for (int j = 0; j < reversion.GetLength(1); j++)
-                        reversion[i, j] = (reversion[i, j] * StandardDeviations[j]) + Means[j];
+                reversion.Multiply(StandardDeviations, dimension: 0, result: reversion)
+                    .Add(Means, dimension: 0, result: reversion);
             }
             else if (this.Method == PrincipalComponentMethod.Center)
             {
                 // only add the mean
-                for (int i = 0; i < reversion.GetLength(0); i++)
-                    for (int j = 0; j < reversion.GetLength(1); j++)
-                        reversion[i, j] = reversion[i, j] + Means[j];
+                reversion.Add(Means, dimension: 0, result: reversion);
             }
 
 
