@@ -7,7 +7,7 @@ Version updates and fixes:
   - GH-113: System.AggregateException thrown in C45Learning.Run;
   - GH-115: Add documentation about how to work with sparse data;
   - GH-130: Multi class support vector machine doesn't work with SparseGaussian kernel;
-    GH-139: Examples using explicit kernel matrices;
+  - GH-139: Examples using explicit kernel matrices;
   - GH-178: DecisionTreeWriter uses local CultureInfo when writing values;
   - GH-249: Potential bug in RandomForest or C45Learning;
   - GH-201: Adding Generalized Pareto Distribution;
