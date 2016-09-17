@@ -134,7 +134,7 @@ namespace Accord {
             // Creates a video file with the specified name and properties
             void VideoFileWriter::Open(String^ fileName, int width, int height, int frameRate, VideoCodec codec, int bitRate)
             {
-                Open(fileName, width, height, frameRate, codec, 400000, AudioCodec::None, 0, 0, 0);
+                Open(fileName, width, height, frameRate, codec, bitRate, AudioCodec::None, 0, 0, 0);
             }
 
             // Creates a video file with the specified name and properties

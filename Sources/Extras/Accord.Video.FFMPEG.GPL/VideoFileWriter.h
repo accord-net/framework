@@ -55,18 +55,22 @@ namespace Accord {
             /// int height = 240;
             /// 
             /// // create instance of video writer
-            /// VideoFileWriter writer = new VideoFileWriter( );
+            /// VideoFileWriter writer = new VideoFileWriter();
+            ///
             /// // create new video file
-            /// writer.Open( "test.avi", width, height, 25, VideoCodec.MPEG4 );
+            /// writer.Open("test.avi", width, height, 25, VideoCodec.MPEG4);
+            ///
             /// // create a bitmap to save into the video file
-            /// Bitmap image = new Bitmap( width, height, PixelFormat.Format24bppRgb );
+            /// Bitmap image = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+            ///
             /// // write 1000 video frames
-            /// for ( int i = 0; i &lt; 1000; i++ )
+            /// for (int i = 0; i &lt; 1000; i++)
             /// {
-            ///     image.SetPixel( i % width, i % height, Color.Red );
-            ///     writer.WriteVideoFrame( image );
+            ///     image.SetPixel(i % width, i % height, Color.Red);
+            ///     writer.WriteVideoFrame(image);
             /// }
-            /// writer.Close( );
+            ///
+            /// writer.Close();
             /// </code>
             /// </remarks>
             ///
