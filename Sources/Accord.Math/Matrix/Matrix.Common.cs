@@ -29,6 +29,7 @@ namespace Accord.Math
     using System.Collections;
     using System.Runtime.CompilerServices;
     using System.Reflection;
+    using System.Runtime.InteropServices;
 
     /// <summary>
     ///   Special matrix types.
@@ -624,6 +625,63 @@ namespace Accord.Math
 
 
         #region Matrix Characteristics
+
+        /// <summary>
+        /// Gets the total number of elements in the vector.
+        /// </summary>
+        /// 
+        public static int GetNumberOfElements<T>(this T[] value)
+        {
+            return value.Length;
+        }
+
+        /// <summary>
+        /// Gets the total number of elements in the matrix.
+        /// </summary>
+        /// 
+        public static int GetNumberOfElements<T>(this T[][] value)
+        {
+            int sum = 0;
+            for (int i = 0; i < value.Length; i++)
+                sum += value[i].Length;
+            return sum;
+        }
+
+        /// <summary>
+        /// Gets the total number of elements in the matrix.
+        /// </summary>
+        /// 
+        public static int GetNumberOfElements<T>(this T[,] elements)
+        {
+            return elements.GetLength().Product();
+        }
+
+        /// <summary>
+        /// Gets the size of a vector, in bytes.
+        /// </summary>
+        /// 
+        public static int GetSizeInBytes<T>(this T[] elements)
+        {
+            return elements.GetNumberOfElements() * Marshal.SizeOf(typeof(T));
+        }
+
+        /// <summary>
+        /// Gets the size of a matrix, in bytes.
+        /// </summary>
+        /// 
+        public static int GetSizeInBytes<T>(this T[][] elements)
+        {
+            return elements.GetNumberOfElements() * Marshal.SizeOf(typeof(T));
+        }
+
+        /// <summary>
+        /// Gets the size of a matrix, in bytes.
+        /// </summary>
+        /// 
+        public static int GetSizeInBytes<T>(this T[,] elements)
+        {
+            return elements.GetNumberOfElements() * Marshal.SizeOf(typeof(T));
+        }
 
         /// <summary>
         ///   Gets the number of rows in a vector.

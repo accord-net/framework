@@ -313,6 +313,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         {
             bool initialized = false;
 
+            if (x.Length != y.Length)
+                throw new DimensionMismatchException("x", "The number of output labels should match the number of training samples.");
+
             if (kernel == null)
             {
                 if (!typeof(TKernel).HasDefaultConstructor())

@@ -25,6 +25,7 @@ namespace Accord.Statistics.Kernels
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Accord.Math;
     using Accord.Collections;
 
     /// <summary>
@@ -44,7 +45,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     public class KernelFunctionCache : KernelFunctionCache<IKernel, double[]>
-    {       
+    {
         /// <summary>
         ///   Constructs a new <see cref="KernelFunctionCache"/>.
         /// </summary>
@@ -85,10 +86,9 @@ namespace Accord.Statistics.Kernels
         private int size;
         private int capacity;
 
-        private Dictionary<int, double> data;
-
-        private LinkedList<int> lruIndices;
-        private Dictionary<int, LinkedListNode<int>> lruIndicesLookupTable;
+        private Dictionary<ulong, double> data;
+        private LinkedList<ulong> lruIndices;
+        private Dictionary<ulong, LinkedListNode<ulong>> lruIndicesLookupTable;
 
         private double[] diagonal;
 
@@ -138,6 +138,12 @@ namespace Accord.Statistics.Kernels
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the cache is enabled. If the value
+        /// is false, it means the kernel function is being evaluated on-the-fly.
+        /// </summary>
+        /// 
+        public bool Enabled { get; private set; }
 
 
         /// <summary>
@@ -148,7 +154,9 @@ namespace Accord.Statistics.Kernels
         /// <param name="inputs">The inputs values.</param>
         /// 
         public KernelFunctionCache(TKernel kernel, TInput[] inputs)
-            : this(kernel, inputs, inputs.Length) { }
+            : this(kernel, inputs, inputs.Length)
+        {
+        }
 
         /// <summary>
         ///   Constructs a new <see cref="KernelFunctionCache"/>.
@@ -180,16 +188,23 @@ namespace Accord.Statistics.Kernels
                 this.size = inputs.Length;
 
 
-            if (cacheSize > inputs.Length)
+            if (cacheSize >= inputs.Length)
             {
                 // Create whole cache.
                 matrix = new double[inputs.Length][];
                 for (int i = 0; i < inputs.Length; i++)
                 {
-                    double[] row = matrix[i] = new double[inputs.Length - 1];
-                    for (int j = 0; j < row.Length - 1; j++)
+                    matrix[i] = new double[i];
+                    for (int j = 0; j < matrix[i].Length; j++)
                         matrix[i][j] = kernel.Function(inputs[i], inputs[j]);
                 }
+
+#if DEBUG
+                int total = matrix.GetNumberOfElements();
+                int expected = (inputs.Length * (inputs.Length - 1)) / 2;
+                Accord.Diagnostics.Debug.Assert(total == expected);
+#endif
+                Enabled = true;
             }
 
             else if (cacheSize > 0)
@@ -198,12 +213,18 @@ namespace Accord.Statistics.Kernels
                 int collectionCapacity = (int)(1.1f * capacity);
 
                 // Create lookup tables
-                this.lruIndices = new LinkedList<int>();
+                this.lruIndices = new LinkedList<ulong>();
                 this.lruIndicesLookupTable =
-                    new Dictionary<int, LinkedListNode<int>>(collectionCapacity);
+                    new Dictionary<ulong, LinkedListNode<ulong>>(collectionCapacity);
 
                 // Create cache for off-diagonal elements
-                this.data = new Dictionary<int, double>(collectionCapacity);
+                this.data = new Dictionary<ulong, double>(collectionCapacity);
+
+                Enabled = true;
+            }
+            else
+            {
+                Enabled = false; // Values will be computed on-the-fly
             }
 
             // Create cache for diagonal elements
@@ -241,11 +262,15 @@ namespace Accord.Statistics.Kernels
         /// 
         public double GetOrCompute(int i, int j)
         {
+            if (i == j)
+                return diagonal[i];
+
+            if (matrix != null)
+                return (j > i) ? matrix[j][i] : matrix[i][j];
+
             if (data == null)
                 return kernel.Function(inputs[i], inputs[j]);
 
-            if (i == j)
-                return diagonal[i];
 
             // Keys should always be given as in
             // the order (i, j) with i > j, so we
@@ -258,10 +283,8 @@ namespace Accord.Statistics.Kernels
                 j = t;
             }
 
-            if (matrix != null)
-                return matrix[i][j];
 
-            int key = (i * (i - 1)) / 2 + j;
+            ulong key = (ulong)((i * (i - 1L)) / 2L) + (ulong)j;
 
             double value;
 
@@ -280,8 +303,8 @@ namespace Accord.Statistics.Kernels
                     // The first entry must be removed to leave
                     // room for the previously computed value
 
-                    var first = lruIndices.First;
-                    int discardedKey = first.Value;
+                    LinkedListNode<ulong> first = lruIndices.First;
+                    ulong discardedKey = first.Value;
 
                     // Remove the cached value for
                     // the least recently used key
@@ -310,10 +333,8 @@ namespace Accord.Statistics.Kernels
             }
             else
             {
-                // It is. Update the LRU list to 
-                // indicate the item has been used.
-
-                var node = lruIndicesLookupTable[key];
+                // It is. Update the LRU list to indicate that the item has been used.
+                LinkedListNode<ulong> node = lruIndicesLookupTable[key];
 
                 // Remove from middle and add to the end
                 lruIndices.Remove(node);
@@ -371,6 +392,11 @@ namespace Accord.Statistics.Kernels
                 lruIndices.Clear();
                 lruIndicesLookupTable.Clear();
             }
+
+            if (matrix != null)
+            {
+                matrix = null;
+            }
         }
 
         /// <summary>
@@ -389,17 +415,23 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="key">The key.</param>
         /// 
+        /// <remarks>
+        ///   This method has a very inefficient implementation and 
+        ///   is intended to be used only for debugging purposes.
+        /// </remarks>
+        /// 
         /// <returns>A pair of indices of indicating which
         /// element from the Kernel matrix is associated
         /// with the given key.</returns>
         /// 
-        public Tuple<int, int> GetIndexFromKey(int key)
+        public Tuple<int, int> GetIndexFromKey(ulong key)
         {
             for (int i = 0; i < inputs.Length; i++)
             {
                 for (int j = 0; j < i; j++)
                 {
-                    if (key == ((i * (i - 1)) / 2 + j))
+                    ulong exp = (ulong)((i * (i - 1L)) / 2L) + (ulong)j;
+                    if (key == exp)
                         return Tuple.Create(i, j);
                 }
             }
@@ -416,7 +448,7 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <returns>The key associated with the given indices.</returns>
         /// 
-        public int GetKeyFromIndex(int i, int j)
+        public ulong GetKeyFromIndex(int i, int j)
         {
             if (i < 0 || i >= inputs.Length)
                 throw new ArgumentOutOfRangeException("i");
@@ -431,7 +463,7 @@ namespace Accord.Statistics.Kernels
                 j = t;
             }
 
-            return (i * (i - 1)) / 2 + j;
+            return (ulong)((i * (i - 1L)) / 2L) + (ulong)j;
         }
 
 
@@ -445,11 +477,16 @@ namespace Accord.Statistics.Kernels
         {
             var dict = new Dictionary<Tuple<int, int>, double>();
 
-            foreach (var entry in data)
+            if (data == null)
             {
-                dict.Add(GetIndexFromKey(entry.Key), entry.Value);
+                foreach (int[] idx in matrix.GetIndices(deep: true))
+                    dict.Add(Tuple.Create(idx[0], idx[1]), matrix[idx[0]][idx[1]]);
             }
-
+            else
+            {
+                foreach (var entry in data)
+                    dict.Add(GetIndexFromKey(entry.Key), entry.Value);
+            }
             return dict;
         }
 
@@ -464,12 +501,12 @@ namespace Accord.Statistics.Kernels
         /// 
         public IList<Tuple<int, int>> GetLeastRecentlyUsedList()
         {
-            var list = new List<Tuple<int, int>>();
+            if (lruIndices == null)
+                throw new InvalidOperationException("The cache is not using a LRU list.");
 
-            foreach (int key in lruIndices)
-            {
+            var list = new List<Tuple<int, int>>();
+            foreach (ulong key in lruIndices)
                 list.Add(GetIndexFromKey(key));
-            }
 
             return list;
         }

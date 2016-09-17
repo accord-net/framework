@@ -1236,7 +1236,6 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(expected.FalsePositives, actual.FalsePositives);
         }
 
-
         public static double[,] yinyang =
         {
             #region Yin Yang
