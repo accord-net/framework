@@ -280,6 +280,24 @@ namespace Accord.Math
         ///   Returns a sub matrix extracted from the current matrix.
         /// </summary>
         /// 
+        /// <param name="destination">The matrix where the values should be stored.</param>
+        /// <param name="values">The values to be stored.</param>
+        /// <param name="startRow">Start row index in the destination matrix.</param>
+        /// <param name="endRow">End row index in the destination matrix.</param>
+        /// <param name="startColumn">Start column index in the destination matrix.</param>
+        /// <param name="endColumn">End column index in the destination matrix.</param>
+        /// 
+        public static T[][] Set<T>(this T[][] destination,
+            int startRow, int endRow, int startColumn, int endColumn,
+            T[][] values)
+        {
+            return set(destination, values, startRow, endRow, startColumn, endColumn);
+        }
+
+        /// <summary>
+        ///   Returns a sub matrix extracted from the current matrix.
+        /// </summary>
+        /// 
         /// <param name="source">The matrix to return the submatrix from.</param>
         /// <param name="rowIndexes">Array of row indices. Pass null to select all indices.</param>
         /// <param name="columnIndexes">Array of column indices. Pass null to select all indices.</param>
@@ -874,6 +892,38 @@ namespace Accord.Math
                     for (int j = startColumn; j < endColumn; j++)
                         destination[i - startRow][j - startColumn] = source[i][j];
             }
+
+            return destination;
+        }
+
+        /// <summary>
+        ///   Extracts a selected area from a matrix.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   Routine adapted from Lutz Roeder's Mapack for .NET, September 2000.
+        /// </remarks>
+        /// 
+        private static T[][] set<T>(this T[][] destination, T[][] source,
+            int startRow, int endRow, int startColumn, int endColumn)
+        {
+            int rows = destination.Length;
+            int cols = destination[0].Length;
+
+            endRow = end(endRow, rows);
+            endColumn = end(endColumn, cols);
+
+            if ((startRow > endRow) || (startColumn > endColumn) || (startRow < 0) ||
+                (startRow > rows) || (endRow < 0) || (endRow > rows) ||
+                (startColumn < 0) || (startColumn > cols) || (endColumn < 0) ||
+                (endColumn > cols))
+            {
+                throw new ArgumentException("Argument out of range.");
+            }
+
+            for (int i = startRow; i < endRow; i++)
+                for (int j = startColumn; j < endColumn; j++)
+                    destination[i - startRow][j - startColumn] = source[i][j];
 
             return destination;
         }

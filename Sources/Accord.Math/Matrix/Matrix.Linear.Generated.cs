@@ -59,7 +59,7 @@ namespace Accord.Math
         /// // is singular (i.e. not invertible), so only a 
         /// // least squares solution would be feasible here.
         /// 
-        /// double[,] matrix = 
+        /// Double[,] matrix = 
         /// {
         ///     { 1, 2, 3 },
         ///     { 4, 5, 6 },
@@ -67,16 +67,16 @@ namespace Accord.Math
         /// };
         /// 
         /// // Define a right side matrix b:
-        /// double[,] rightSide = { {1}, {2}, {3} };
+        /// Double[,] rightSide = { {1}, {2}, {3} };
         /// 
         /// // Solve the linear system Ax = b by finding x:
-        /// double[,] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
+        /// Double[,] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
         /// 
         /// // The answer should be { {-1/18}, {2/18}, {5/18} }.
         /// </code>
         /// </example>
         /// 
-        public static double[,] Solve(this double[,] matrix, double[,] rightSide, bool leastSquares = false)
+        public static Double[,] Solve(this Double[,] matrix, Double[,] rightSide, bool leastSquares = false)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -139,7 +139,7 @@ namespace Accord.Math
         /// // is singular (i.e. not invertible), so only a 
         /// // least squares solution would be feasible here.
         /// 
-        /// double[,] matrix = 
+        /// Double[,] matrix = 
         /// {
         ///     { 1, 2, 3 },
         ///     { 4, 5, 6 },
@@ -147,16 +147,16 @@ namespace Accord.Math
         /// };
         /// 
         /// // Define a right side vector b:
-        /// double[] rightSide = { 1, 2, 3 };
+        /// Double[] rightSide = { 1, 2, 3 };
         /// 
         /// // Solve the linear system Ax = b by finding x:
-        /// double[] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
+        /// Double[] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
         /// 
         /// // The answer should be { -1/18, 2/18, 5/18 }.
         /// </code>
         /// </example>
         /// 
-        public static double[] Solve(this double[,] matrix, double[] rightSide, bool leastSquares = false)
+        public static Double[] Solve(this Double[,] matrix, Double[] rightSide, bool leastSquares = false)
         {
             if (matrix == null)
                 throw new ArgumentNullException("matrix");
@@ -207,7 +207,7 @@ namespace Accord.Math
         ///   Computes the inverse of a matrix.
         /// </summary>
         /// 
-        public static double[,] Inverse(this double[,] matrix)
+        public static Double[,] Inverse(this Double[,] matrix)
         {
             return Inverse(matrix, false);
         }
@@ -216,7 +216,7 @@ namespace Accord.Math
         ///   Computes the inverse of a matrix.
         /// </summary>
         /// 
-        public static double[,] Inverse(this double[,] matrix, bool inPlace)
+        public static Double[,] Inverse(this Double[,] matrix, bool inPlace)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -227,20 +227,20 @@ namespace Accord.Math
             if (rows == 3)
             {
                 // Special case for 3x3 matrices
-                double a = matrix[0, 0], b = matrix[0, 1], c = matrix[0, 2];
-                double d = matrix[1, 0], e = matrix[1, 1], f = matrix[1, 2];
-                double g = matrix[2, 0], h = matrix[2, 1], i = matrix[2, 2];
+                Double a = matrix[0, 0], b = matrix[0, 1], c = matrix[0, 2];
+                Double d = matrix[1, 0], e = matrix[1, 1], f = matrix[1, 2];
+                Double g = matrix[2, 0], h = matrix[2, 1], i = matrix[2, 2];
 
-                double den = a * (e * i - f * h) -
+                Double den = a * (e * i - f * h) -
                              b * (d * i - f * g) +
                              c * (d * h - e * g);
 
                 if (den == 0)
                     throw new SingularMatrixException();
 
-                double m = 1 / den;
+                Double m = 1 / den;
 
-                var inv = (inPlace) ? matrix : new double[3, 3];
+                var inv = (inPlace) ? matrix : new Double[3, 3];
                 inv[0, 0] = m * (e * i - f * h);
                 inv[0, 1] = m * (c * h - b * i);
                 inv[0, 2] = m * (b * f - c * e);
@@ -257,17 +257,17 @@ namespace Accord.Math
             if (rows == 2)
             {
                 // Special case for 2x2 matrices
-                double a = matrix[0, 0], b = matrix[0, 1];
-                double c = matrix[1, 0], d = matrix[1, 1];
+                Double a = matrix[0, 0], b = matrix[0, 1];
+                Double c = matrix[1, 0], d = matrix[1, 1];
 
-                double den = a * d - b * c;
+                Double den = a * d - b * c;
 
                 if (den == 0)
                     throw new SingularMatrixException();
 
-                double m = 1 / den;
+                Double m = 1 / den;
 
-                var inv = (inPlace) ? matrix : new double[2, 2];
+                var inv = (inPlace) ? matrix : new Double[2, 2];
                 inv[0, 0] = +m * d;
                 inv[0, 1] = -m * b;
                 inv[1, 0] = -m * c;
@@ -283,7 +283,7 @@ namespace Accord.Math
         ///   Computes the pseudo-inverse of a matrix.
         /// </summary>
         /// 
-        public static double[,] PseudoInverse(this double[,] matrix)
+        public static Double[,] PseudoInverse(this Double[,] matrix)
         {
             return new SingularValueDecomposition(matrix,
                 computeLeftSingularVectors: true,
@@ -314,7 +314,7 @@ namespace Accord.Math
         /// // is singular (i.e. not invertible), so only a 
         /// // least squares solution would be feasible here.
         /// 
-        /// double[,] matrix = 
+        /// Double[,] matrix = 
         /// {
         ///     { 1, 2, 3 },
         ///     { 4, 5, 6 },
@@ -322,16 +322,16 @@ namespace Accord.Math
         /// };
         /// 
         /// // Define a right side matrix b:
-        /// double[,] rightSide = { {1}, {2}, {3} };
+        /// Double[,] rightSide = { {1}, {2}, {3} };
         /// 
         /// // Solve the linear system Ax = b by finding x:
-        /// double[,] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
+        /// Double[,] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
         /// 
         /// // The answer should be { {-1/18}, {2/18}, {5/18} }.
         /// </code>
         /// </example>
         /// 
-        public static double[][] Solve(this double[][] matrix, double[][] rightSide, bool leastSquares = false)
+        public static Double[][] Solve(this Double[][] matrix, Double[][] rightSide, bool leastSquares = false)
         {
             if (matrix.Length != rightSide[0].Length)
             {
@@ -365,7 +365,7 @@ namespace Accord.Math
         /// // is singular (i.e. not invertible), so only a 
         /// // least squares solution would be feasible here.
         /// 
-        /// double[,] matrix = 
+        /// Double[,] matrix = 
         /// {
         ///     { 1, 2, 3 },
         ///     { 4, 5, 6 },
@@ -373,16 +373,16 @@ namespace Accord.Math
         /// };
         /// 
         /// // Define a right side vector b:
-        /// double[] rightSide = { 1, 2, 3 };
+        /// Double[] rightSide = { 1, 2, 3 };
         /// 
         /// // Solve the linear system Ax = b by finding x:
-        /// double[] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
+        /// Double[] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
         /// 
         /// // The answer should be { -1/18, 2/18, 5/18 }.
         /// </code>
         /// </example>
         /// 
-        public static double[] Solve(this double[][] matrix, double[] rightSide, bool leastSquares = false)
+        public static Double[] Solve(this Double[][] matrix, Double[] rightSide, bool leastSquares = false)
         {
             if (matrix.Length != rightSide.Length)
             {
@@ -400,7 +400,7 @@ namespace Accord.Math
         ///   matrix is square or the least squares solution otherwise.
         /// </summary>
         /// 
-        public static ISolverMatrixDecomposition<double> Decompose(this double[,] matrix, bool leastSquares = false)
+        public static ISolverMatrixDecomposition<Double> Decompose(this Double[,] matrix, bool leastSquares = false)
         {
             int rows = matrix.Rows();
             int cols = matrix.Columns();
@@ -440,7 +440,7 @@ namespace Accord.Math
         ///   matrix is square or the least squares solution otherwise.
         /// </summary>
         /// 
-        public static ISolverArrayDecomposition<double> Decompose(this double[][] matrix, bool leastSquares = false)
+        public static ISolverArrayDecomposition<Double> Decompose(this Double[][] matrix, bool leastSquares = false)
         {
             int rows = matrix.Rows();
             int cols = matrix.Columns();
@@ -479,7 +479,7 @@ namespace Accord.Math
         ///   Computes the inverse of a matrix.
         /// </summary>
         /// 
-        public static double[][] Inverse(this double[][] matrix)
+        public static Double[][] Inverse(this Double[][] matrix)
         {
             return Inverse(matrix, false);
         }
@@ -488,7 +488,7 @@ namespace Accord.Math
         ///   Computes the inverse of a matrix.
         /// </summary>
         /// 
-        public static double[][] Inverse(this double[][] matrix, bool inPlace)
+        public static Double[][] Inverse(this Double[][] matrix, bool inPlace)
         {
             int rows = matrix.Length;
             int cols = matrix[0].Length;
@@ -499,25 +499,25 @@ namespace Accord.Math
             if (rows == 3)
             {
                 // Special case for 3x3 matrices
-                double a = matrix[0][0], b = matrix[0][1], c = matrix[0][2];
-                double d = matrix[1][0], e = matrix[1][1], f = matrix[1][2];
-                double g = matrix[2][0], h = matrix[2][1], i = matrix[2][2];
+                Double a = matrix[0][0], b = matrix[0][1], c = matrix[0][2];
+                Double d = matrix[1][0], e = matrix[1][1], f = matrix[1][2];
+                Double g = matrix[2][0], h = matrix[2][1], i = matrix[2][2];
 
-                double den = a * (e * i - f * h) -
+                Double den = a * (e * i - f * h) -
                              b * (d * i - f * g) +
                              c * (d * h - e * g);
 
                 if (den == 0)
                     throw new SingularMatrixException();
 
-                double m = 1 / den;
+                Double m = 1 / den;
 
                 var inv = matrix;
                 if (!inPlace)
                 {
-                    inv = new double[3][];
+                    inv = new Double[3][];
                     for (int j = 0; j < inv.Length; j++)
-                        inv[j] = new double[3];
+                        inv[j] = new Double[3];
                 }
 
                 inv[0][0] = m * (e * i - f * h);
@@ -536,22 +536,22 @@ namespace Accord.Math
             if (rows == 2)
             {
                 // Special case for 2x2 matrices
-                double a = matrix[0][0], b = matrix[0][1];
-                double c = matrix[1][0], d = matrix[1][1];
+                Double a = matrix[0][0], b = matrix[0][1];
+                Double c = matrix[1][0], d = matrix[1][1];
 
-                double den = a * d - b * c;
+                Double den = a * d - b * c;
 
                 if (den == 0)
                     throw new SingularMatrixException();
 
-                double m = 1 / den;
+                Double m = 1 / den;
 
                 var inv = matrix;
                 if (!inPlace)
                 {
-                    inv = new double[2][];
+                    inv = new Double[2][];
                     for (int j = 0; j < inv.Length; j++)
-                        inv[j] = new double[2];
+                        inv[j] = new Double[2];
                 }
 
                 inv[0][0] = +m * d;
@@ -569,7 +569,7 @@ namespace Accord.Math
         ///   Computes the pseudo-inverse of a matrix.
         /// </summary>
         /// 
-        public static double[][] PseudoInverse(this double[][] matrix)
+        public static Double[][] PseudoInverse(this Double[][] matrix)
         {
             return new JaggedSingularValueDecomposition(matrix,
                 computeLeftSingularVectors: true,
@@ -588,7 +588,7 @@ namespace Accord.Math
         /// 
         /// <returns>The result from the division <c>AB^-1</c> of the given matrices.</returns>
         /// 
-        public static double[,] Divide(this double[,] a, double[,] b, bool leastSquares = false)
+        public static Double[,] Divide(this Double[,] a, Double[,] b, bool leastSquares = false)
         {
             int rows = b.Rows();
             int cols = b.Columns();
@@ -635,7 +635,7 @@ namespace Accord.Math
         /// 
         /// <returns>The result from the division <c>AB^-1</c> of the given matrices.</returns>
         /// 
-        public static double[][] Divide(this double[][] a, double[][] b, bool leastSquares = false)
+        public static Double[][] Divide(this Double[][] a, Double[][] b, bool leastSquares = false)
         {
             int rows = b.Rows();
             int cols = b.Columns();
@@ -672,6 +672,41 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Gets the null-space of a column vector.
+        /// </summary>
+        ///
+        public static Double[][] Null(this Double[] vector)
+        {
+            return Null(Jagged.ColumnVector(vector));
+        }
+
+        /// <summary>
+        ///   Gets the null-space of a matrix.
+        /// </summary>
+        ///
+        public static Double[][] Null(this Double[][] matrix)
+        {
+            var qr = new JaggedQrDecomposition(matrix, economy: false);
+            var Q = qr.OrthogonalFactor;
+            var threshold = matrix.GetLength().Max() * Constants.DoubleEpsilon;
+            int[] idx = qr.Diagonal.Find(x => (Double)Math.Abs(x) < threshold);
+            return Q.GetColumns(idx);
+        }
+
+        /// <summary>
+        ///   Gets the null-space of a matrix.
+        /// </summary>
+        ///
+        public static Double[,] Null(this Double[,] matrix)
+        {
+            var qr = new QrDecomposition(matrix, economy: false);
+            var Q = qr.OrthogonalFactor;
+            var threshold = matrix.GetLength().Max() * Constants.DoubleEpsilon;
+            int[] idx = qr.Diagonal.Find(x => (Double)Math.Abs(x) < threshold);
+            return Q.GetColumns(idx);
+        }
+
+        /// <summary>
         ///   Returns the solution matrix if the matrix is square or the least squares solution otherwise.
         /// </summary>
         /// 
@@ -693,7 +728,7 @@ namespace Accord.Math
         /// // is singular (i.e. not invertible), so only a 
         /// // least squares solution would be feasible here.
         /// 
-        /// float[,] matrix = 
+        /// Single[,] matrix = 
         /// {
         ///     { 1, 2, 3 },
         ///     { 4, 5, 6 },
@@ -701,16 +736,16 @@ namespace Accord.Math
         /// };
         /// 
         /// // Define a right side matrix b:
-        /// float[,] rightSide = { {1}, {2}, {3} };
+        /// Single[,] rightSide = { {1}, {2}, {3} };
         /// 
         /// // Solve the linear system Ax = b by finding x:
-        /// float[,] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
+        /// Single[,] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
         /// 
         /// // The answer should be { {-1/18}, {2/18}, {5/18} }.
         /// </code>
         /// </example>
         /// 
-        public static float[,] Solve(this float[,] matrix, float[,] rightSide, bool leastSquares = false)
+        public static Single[,] Solve(this Single[,] matrix, Single[,] rightSide, bool leastSquares = false)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -773,7 +808,7 @@ namespace Accord.Math
         /// // is singular (i.e. not invertible), so only a 
         /// // least squares solution would be feasible here.
         /// 
-        /// float[,] matrix = 
+        /// Single[,] matrix = 
         /// {
         ///     { 1, 2, 3 },
         ///     { 4, 5, 6 },
@@ -781,16 +816,16 @@ namespace Accord.Math
         /// };
         /// 
         /// // Define a right side vector b:
-        /// float[] rightSide = { 1, 2, 3 };
+        /// Single[] rightSide = { 1, 2, 3 };
         /// 
         /// // Solve the linear system Ax = b by finding x:
-        /// float[] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
+        /// Single[] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
         /// 
         /// // The answer should be { -1/18, 2/18, 5/18 }.
         /// </code>
         /// </example>
         /// 
-        public static float[] Solve(this float[,] matrix, float[] rightSide, bool leastSquares = false)
+        public static Single[] Solve(this Single[,] matrix, Single[] rightSide, bool leastSquares = false)
         {
             if (matrix == null)
                 throw new ArgumentNullException("matrix");
@@ -841,7 +876,7 @@ namespace Accord.Math
         ///   Computes the inverse of a matrix.
         /// </summary>
         /// 
-        public static float[,] Inverse(this float[,] matrix)
+        public static Single[,] Inverse(this Single[,] matrix)
         {
             return Inverse(matrix, false);
         }
@@ -850,7 +885,7 @@ namespace Accord.Math
         ///   Computes the inverse of a matrix.
         /// </summary>
         /// 
-        public static float[,] Inverse(this float[,] matrix, bool inPlace)
+        public static Single[,] Inverse(this Single[,] matrix, bool inPlace)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -861,20 +896,20 @@ namespace Accord.Math
             if (rows == 3)
             {
                 // Special case for 3x3 matrices
-                float a = matrix[0, 0], b = matrix[0, 1], c = matrix[0, 2];
-                float d = matrix[1, 0], e = matrix[1, 1], f = matrix[1, 2];
-                float g = matrix[2, 0], h = matrix[2, 1], i = matrix[2, 2];
+                Single a = matrix[0, 0], b = matrix[0, 1], c = matrix[0, 2];
+                Single d = matrix[1, 0], e = matrix[1, 1], f = matrix[1, 2];
+                Single g = matrix[2, 0], h = matrix[2, 1], i = matrix[2, 2];
 
-                float den = a * (e * i - f * h) -
+                Single den = a * (e * i - f * h) -
                              b * (d * i - f * g) +
                              c * (d * h - e * g);
 
                 if (den == 0)
                     throw new SingularMatrixException();
 
-                float m = 1 / den;
+                Single m = 1 / den;
 
-                var inv = (inPlace) ? matrix : new float[3, 3];
+                var inv = (inPlace) ? matrix : new Single[3, 3];
                 inv[0, 0] = m * (e * i - f * h);
                 inv[0, 1] = m * (c * h - b * i);
                 inv[0, 2] = m * (b * f - c * e);
@@ -891,17 +926,17 @@ namespace Accord.Math
             if (rows == 2)
             {
                 // Special case for 2x2 matrices
-                float a = matrix[0, 0], b = matrix[0, 1];
-                float c = matrix[1, 0], d = matrix[1, 1];
+                Single a = matrix[0, 0], b = matrix[0, 1];
+                Single c = matrix[1, 0], d = matrix[1, 1];
 
-                float den = a * d - b * c;
+                Single den = a * d - b * c;
 
                 if (den == 0)
                     throw new SingularMatrixException();
 
-                float m = 1 / den;
+                Single m = 1 / den;
 
-                var inv = (inPlace) ? matrix : new float[2, 2];
+                var inv = (inPlace) ? matrix : new Single[2, 2];
                 inv[0, 0] = +m * d;
                 inv[0, 1] = -m * b;
                 inv[1, 0] = -m * c;
@@ -917,7 +952,7 @@ namespace Accord.Math
         ///   Computes the pseudo-inverse of a matrix.
         /// </summary>
         /// 
-        public static float[,] PseudoInverse(this float[,] matrix)
+        public static Single[,] PseudoInverse(this Single[,] matrix)
         {
             return new SingularValueDecompositionF(matrix,
                 computeLeftSingularVectors: true,
@@ -948,7 +983,7 @@ namespace Accord.Math
         /// // is singular (i.e. not invertible), so only a 
         /// // least squares solution would be feasible here.
         /// 
-        /// float[,] matrix = 
+        /// Single[,] matrix = 
         /// {
         ///     { 1, 2, 3 },
         ///     { 4, 5, 6 },
@@ -956,16 +991,16 @@ namespace Accord.Math
         /// };
         /// 
         /// // Define a right side matrix b:
-        /// float[,] rightSide = { {1}, {2}, {3} };
+        /// Single[,] rightSide = { {1}, {2}, {3} };
         /// 
         /// // Solve the linear system Ax = b by finding x:
-        /// float[,] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
+        /// Single[,] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
         /// 
         /// // The answer should be { {-1/18}, {2/18}, {5/18} }.
         /// </code>
         /// </example>
         /// 
-        public static float[][] Solve(this float[][] matrix, float[][] rightSide, bool leastSquares = false)
+        public static Single[][] Solve(this Single[][] matrix, Single[][] rightSide, bool leastSquares = false)
         {
             if (matrix.Length != rightSide[0].Length)
             {
@@ -999,7 +1034,7 @@ namespace Accord.Math
         /// // is singular (i.e. not invertible), so only a 
         /// // least squares solution would be feasible here.
         /// 
-        /// float[,] matrix = 
+        /// Single[,] matrix = 
         /// {
         ///     { 1, 2, 3 },
         ///     { 4, 5, 6 },
@@ -1007,16 +1042,16 @@ namespace Accord.Math
         /// };
         /// 
         /// // Define a right side vector b:
-        /// float[] rightSide = { 1, 2, 3 };
+        /// Single[] rightSide = { 1, 2, 3 };
         /// 
         /// // Solve the linear system Ax = b by finding x:
-        /// float[] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
+        /// Single[] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
         /// 
         /// // The answer should be { -1/18, 2/18, 5/18 }.
         /// </code>
         /// </example>
         /// 
-        public static float[] Solve(this float[][] matrix, float[] rightSide, bool leastSquares = false)
+        public static Single[] Solve(this Single[][] matrix, Single[] rightSide, bool leastSquares = false)
         {
             if (matrix.Length != rightSide.Length)
             {
@@ -1034,7 +1069,7 @@ namespace Accord.Math
         ///   matrix is square or the least squares solution otherwise.
         /// </summary>
         /// 
-        public static ISolverMatrixDecomposition<float> Decompose(this float[,] matrix, bool leastSquares = false)
+        public static ISolverMatrixDecomposition<Single> Decompose(this Single[,] matrix, bool leastSquares = false)
         {
             int rows = matrix.Rows();
             int cols = matrix.Columns();
@@ -1074,7 +1109,7 @@ namespace Accord.Math
         ///   matrix is square or the least squares solution otherwise.
         /// </summary>
         /// 
-        public static ISolverArrayDecomposition<float> Decompose(this float[][] matrix, bool leastSquares = false)
+        public static ISolverArrayDecomposition<Single> Decompose(this Single[][] matrix, bool leastSquares = false)
         {
             int rows = matrix.Rows();
             int cols = matrix.Columns();
@@ -1113,7 +1148,7 @@ namespace Accord.Math
         ///   Computes the inverse of a matrix.
         /// </summary>
         /// 
-        public static float[][] Inverse(this float[][] matrix)
+        public static Single[][] Inverse(this Single[][] matrix)
         {
             return Inverse(matrix, false);
         }
@@ -1122,7 +1157,7 @@ namespace Accord.Math
         ///   Computes the inverse of a matrix.
         /// </summary>
         /// 
-        public static float[][] Inverse(this float[][] matrix, bool inPlace)
+        public static Single[][] Inverse(this Single[][] matrix, bool inPlace)
         {
             int rows = matrix.Length;
             int cols = matrix[0].Length;
@@ -1133,25 +1168,25 @@ namespace Accord.Math
             if (rows == 3)
             {
                 // Special case for 3x3 matrices
-                float a = matrix[0][0], b = matrix[0][1], c = matrix[0][2];
-                float d = matrix[1][0], e = matrix[1][1], f = matrix[1][2];
-                float g = matrix[2][0], h = matrix[2][1], i = matrix[2][2];
+                Single a = matrix[0][0], b = matrix[0][1], c = matrix[0][2];
+                Single d = matrix[1][0], e = matrix[1][1], f = matrix[1][2];
+                Single g = matrix[2][0], h = matrix[2][1], i = matrix[2][2];
 
-                float den = a * (e * i - f * h) -
+                Single den = a * (e * i - f * h) -
                              b * (d * i - f * g) +
                              c * (d * h - e * g);
 
                 if (den == 0)
                     throw new SingularMatrixException();
 
-                float m = 1 / den;
+                Single m = 1 / den;
 
                 var inv = matrix;
                 if (!inPlace)
                 {
-                    inv = new float[3][];
+                    inv = new Single[3][];
                     for (int j = 0; j < inv.Length; j++)
-                        inv[j] = new float[3];
+                        inv[j] = new Single[3];
                 }
 
                 inv[0][0] = m * (e * i - f * h);
@@ -1170,22 +1205,22 @@ namespace Accord.Math
             if (rows == 2)
             {
                 // Special case for 2x2 matrices
-                float a = matrix[0][0], b = matrix[0][1];
-                float c = matrix[1][0], d = matrix[1][1];
+                Single a = matrix[0][0], b = matrix[0][1];
+                Single c = matrix[1][0], d = matrix[1][1];
 
-                float den = a * d - b * c;
+                Single den = a * d - b * c;
 
                 if (den == 0)
                     throw new SingularMatrixException();
 
-                float m = 1 / den;
+                Single m = 1 / den;
 
                 var inv = matrix;
                 if (!inPlace)
                 {
-                    inv = new float[2][];
+                    inv = new Single[2][];
                     for (int j = 0; j < inv.Length; j++)
-                        inv[j] = new float[2];
+                        inv[j] = new Single[2];
                 }
 
                 inv[0][0] = +m * d;
@@ -1203,7 +1238,7 @@ namespace Accord.Math
         ///   Computes the pseudo-inverse of a matrix.
         /// </summary>
         /// 
-        public static float[][] PseudoInverse(this float[][] matrix)
+        public static Single[][] PseudoInverse(this Single[][] matrix)
         {
             return new JaggedSingularValueDecompositionF(matrix,
                 computeLeftSingularVectors: true,
@@ -1222,7 +1257,7 @@ namespace Accord.Math
         /// 
         /// <returns>The result from the division <c>AB^-1</c> of the given matrices.</returns>
         /// 
-        public static float[,] Divide(this float[,] a, float[,] b, bool leastSquares = false)
+        public static Single[,] Divide(this Single[,] a, Single[,] b, bool leastSquares = false)
         {
             int rows = b.Rows();
             int cols = b.Columns();
@@ -1269,7 +1304,7 @@ namespace Accord.Math
         /// 
         /// <returns>The result from the division <c>AB^-1</c> of the given matrices.</returns>
         /// 
-        public static float[][] Divide(this float[][] a, float[][] b, bool leastSquares = false)
+        public static Single[][] Divide(this Single[][] a, Single[][] b, bool leastSquares = false)
         {
             int rows = b.Rows();
             int cols = b.Columns();
@@ -1306,6 +1341,41 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Gets the null-space of a column vector.
+        /// </summary>
+        ///
+        public static Single[][] Null(this Single[] vector)
+        {
+            return Null(Jagged.ColumnVector(vector));
+        }
+
+        /// <summary>
+        ///   Gets the null-space of a matrix.
+        /// </summary>
+        ///
+        public static Single[][] Null(this Single[][] matrix)
+        {
+            var qr = new JaggedQrDecompositionF(matrix, economy: false);
+            var Q = qr.OrthogonalFactor;
+            var threshold = matrix.GetLength().Max() * Constants.SingleEpsilon;
+            int[] idx = qr.Diagonal.Find(x => (Single)Math.Abs(x) < threshold);
+            return Q.GetColumns(idx);
+        }
+
+        /// <summary>
+        ///   Gets the null-space of a matrix.
+        /// </summary>
+        ///
+        public static Single[,] Null(this Single[,] matrix)
+        {
+            var qr = new QrDecompositionF(matrix, economy: false);
+            var Q = qr.OrthogonalFactor;
+            var threshold = matrix.GetLength().Max() * Constants.SingleEpsilon;
+            int[] idx = qr.Diagonal.Find(x => (Single)Math.Abs(x) < threshold);
+            return Q.GetColumns(idx);
+        }
+
+        /// <summary>
         ///   Returns the solution matrix if the matrix is square or the least squares solution otherwise.
         /// </summary>
         /// 
@@ -1327,7 +1397,7 @@ namespace Accord.Math
         /// // is singular (i.e. not invertible), so only a 
         /// // least squares solution would be feasible here.
         /// 
-        /// decimal[,] matrix = 
+        /// Decimal[,] matrix = 
         /// {
         ///     { 1, 2, 3 },
         ///     { 4, 5, 6 },
@@ -1335,16 +1405,16 @@ namespace Accord.Math
         /// };
         /// 
         /// // Define a right side matrix b:
-        /// decimal[,] rightSide = { {1}, {2}, {3} };
+        /// Decimal[,] rightSide = { {1}, {2}, {3} };
         /// 
         /// // Solve the linear system Ax = b by finding x:
-        /// decimal[,] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
+        /// Decimal[,] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
         /// 
         /// // The answer should be { {-1/18}, {2/18}, {5/18} }.
         /// </code>
         /// </example>
         /// 
-        public static decimal[,] Solve(this decimal[,] matrix, decimal[,] rightSide, bool leastSquares = false)
+        public static Decimal[,] Solve(this Decimal[,] matrix, Decimal[,] rightSide, bool leastSquares = false)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -1407,7 +1477,7 @@ namespace Accord.Math
         /// // is singular (i.e. not invertible), so only a 
         /// // least squares solution would be feasible here.
         /// 
-        /// decimal[,] matrix = 
+        /// Decimal[,] matrix = 
         /// {
         ///     { 1, 2, 3 },
         ///     { 4, 5, 6 },
@@ -1415,16 +1485,16 @@ namespace Accord.Math
         /// };
         /// 
         /// // Define a right side vector b:
-        /// decimal[] rightSide = { 1, 2, 3 };
+        /// Decimal[] rightSide = { 1, 2, 3 };
         /// 
         /// // Solve the linear system Ax = b by finding x:
-        /// decimal[] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
+        /// Decimal[] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
         /// 
         /// // The answer should be { -1/18, 2/18, 5/18 }.
         /// </code>
         /// </example>
         /// 
-        public static decimal[] Solve(this decimal[,] matrix, decimal[] rightSide, bool leastSquares = false)
+        public static Decimal[] Solve(this Decimal[,] matrix, Decimal[] rightSide, bool leastSquares = false)
         {
             if (matrix == null)
                 throw new ArgumentNullException("matrix");
@@ -1475,7 +1545,7 @@ namespace Accord.Math
         ///   Computes the inverse of a matrix.
         /// </summary>
         /// 
-        public static decimal[,] Inverse(this decimal[,] matrix)
+        public static Decimal[,] Inverse(this Decimal[,] matrix)
         {
             return Inverse(matrix, false);
         }
@@ -1484,7 +1554,7 @@ namespace Accord.Math
         ///   Computes the inverse of a matrix.
         /// </summary>
         /// 
-        public static decimal[,] Inverse(this decimal[,] matrix, bool inPlace)
+        public static Decimal[,] Inverse(this Decimal[,] matrix, bool inPlace)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -1495,20 +1565,20 @@ namespace Accord.Math
             if (rows == 3)
             {
                 // Special case for 3x3 matrices
-                decimal a = matrix[0, 0], b = matrix[0, 1], c = matrix[0, 2];
-                decimal d = matrix[1, 0], e = matrix[1, 1], f = matrix[1, 2];
-                decimal g = matrix[2, 0], h = matrix[2, 1], i = matrix[2, 2];
+                Decimal a = matrix[0, 0], b = matrix[0, 1], c = matrix[0, 2];
+                Decimal d = matrix[1, 0], e = matrix[1, 1], f = matrix[1, 2];
+                Decimal g = matrix[2, 0], h = matrix[2, 1], i = matrix[2, 2];
 
-                decimal den = a * (e * i - f * h) -
+                Decimal den = a * (e * i - f * h) -
                              b * (d * i - f * g) +
                              c * (d * h - e * g);
 
                 if (den == 0)
                     throw new SingularMatrixException();
 
-                decimal m = 1 / den;
+                Decimal m = 1 / den;
 
-                var inv = (inPlace) ? matrix : new decimal[3, 3];
+                var inv = (inPlace) ? matrix : new Decimal[3, 3];
                 inv[0, 0] = m * (e * i - f * h);
                 inv[0, 1] = m * (c * h - b * i);
                 inv[0, 2] = m * (b * f - c * e);
@@ -1525,17 +1595,17 @@ namespace Accord.Math
             if (rows == 2)
             {
                 // Special case for 2x2 matrices
-                decimal a = matrix[0, 0], b = matrix[0, 1];
-                decimal c = matrix[1, 0], d = matrix[1, 1];
+                Decimal a = matrix[0, 0], b = matrix[0, 1];
+                Decimal c = matrix[1, 0], d = matrix[1, 1];
 
-                decimal den = a * d - b * c;
+                Decimal den = a * d - b * c;
 
                 if (den == 0)
                     throw new SingularMatrixException();
 
-                decimal m = 1 / den;
+                Decimal m = 1 / den;
 
-                var inv = (inPlace) ? matrix : new decimal[2, 2];
+                var inv = (inPlace) ? matrix : new Decimal[2, 2];
                 inv[0, 0] = +m * d;
                 inv[0, 1] = -m * b;
                 inv[1, 0] = -m * c;
@@ -1551,7 +1621,7 @@ namespace Accord.Math
         ///   Computes the pseudo-inverse of a matrix.
         /// </summary>
         /// 
-        public static decimal[,] PseudoInverse(this decimal[,] matrix)
+        public static Decimal[,] PseudoInverse(this Decimal[,] matrix)
         {
             return new SingularValueDecompositionD(matrix,
                 computeLeftSingularVectors: true,
@@ -1582,7 +1652,7 @@ namespace Accord.Math
         /// // is singular (i.e. not invertible), so only a 
         /// // least squares solution would be feasible here.
         /// 
-        /// decimal[,] matrix = 
+        /// Decimal[,] matrix = 
         /// {
         ///     { 1, 2, 3 },
         ///     { 4, 5, 6 },
@@ -1590,16 +1660,16 @@ namespace Accord.Math
         /// };
         /// 
         /// // Define a right side matrix b:
-        /// decimal[,] rightSide = { {1}, {2}, {3} };
+        /// Decimal[,] rightSide = { {1}, {2}, {3} };
         /// 
         /// // Solve the linear system Ax = b by finding x:
-        /// decimal[,] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
+        /// Decimal[,] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
         /// 
         /// // The answer should be { {-1/18}, {2/18}, {5/18} }.
         /// </code>
         /// </example>
         /// 
-        public static decimal[][] Solve(this decimal[][] matrix, decimal[][] rightSide, bool leastSquares = false)
+        public static Decimal[][] Solve(this Decimal[][] matrix, Decimal[][] rightSide, bool leastSquares = false)
         {
             if (matrix.Length != rightSide[0].Length)
             {
@@ -1633,7 +1703,7 @@ namespace Accord.Math
         /// // is singular (i.e. not invertible), so only a 
         /// // least squares solution would be feasible here.
         /// 
-        /// decimal[,] matrix = 
+        /// Decimal[,] matrix = 
         /// {
         ///     { 1, 2, 3 },
         ///     { 4, 5, 6 },
@@ -1641,16 +1711,16 @@ namespace Accord.Math
         /// };
         /// 
         /// // Define a right side vector b:
-        /// decimal[] rightSide = { 1, 2, 3 };
+        /// Decimal[] rightSide = { 1, 2, 3 };
         /// 
         /// // Solve the linear system Ax = b by finding x:
-        /// decimal[] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
+        /// Decimal[] x = Matrix.Solve(matrix, rightSide, leastSquares: true);
         /// 
         /// // The answer should be { -1/18, 2/18, 5/18 }.
         /// </code>
         /// </example>
         /// 
-        public static decimal[] Solve(this decimal[][] matrix, decimal[] rightSide, bool leastSquares = false)
+        public static Decimal[] Solve(this Decimal[][] matrix, Decimal[] rightSide, bool leastSquares = false)
         {
             if (matrix.Length != rightSide.Length)
             {
@@ -1668,7 +1738,7 @@ namespace Accord.Math
         ///   matrix is square or the least squares solution otherwise.
         /// </summary>
         /// 
-        public static ISolverMatrixDecomposition<decimal> Decompose(this decimal[,] matrix, bool leastSquares = false)
+        public static ISolverMatrixDecomposition<Decimal> Decompose(this Decimal[,] matrix, bool leastSquares = false)
         {
             int rows = matrix.Rows();
             int cols = matrix.Columns();
@@ -1708,7 +1778,7 @@ namespace Accord.Math
         ///   matrix is square or the least squares solution otherwise.
         /// </summary>
         /// 
-        public static ISolverArrayDecomposition<decimal> Decompose(this decimal[][] matrix, bool leastSquares = false)
+        public static ISolverArrayDecomposition<Decimal> Decompose(this Decimal[][] matrix, bool leastSquares = false)
         {
             int rows = matrix.Rows();
             int cols = matrix.Columns();
@@ -1747,7 +1817,7 @@ namespace Accord.Math
         ///   Computes the inverse of a matrix.
         /// </summary>
         /// 
-        public static decimal[][] Inverse(this decimal[][] matrix)
+        public static Decimal[][] Inverse(this Decimal[][] matrix)
         {
             return Inverse(matrix, false);
         }
@@ -1756,7 +1826,7 @@ namespace Accord.Math
         ///   Computes the inverse of a matrix.
         /// </summary>
         /// 
-        public static decimal[][] Inverse(this decimal[][] matrix, bool inPlace)
+        public static Decimal[][] Inverse(this Decimal[][] matrix, bool inPlace)
         {
             int rows = matrix.Length;
             int cols = matrix[0].Length;
@@ -1767,25 +1837,25 @@ namespace Accord.Math
             if (rows == 3)
             {
                 // Special case for 3x3 matrices
-                decimal a = matrix[0][0], b = matrix[0][1], c = matrix[0][2];
-                decimal d = matrix[1][0], e = matrix[1][1], f = matrix[1][2];
-                decimal g = matrix[2][0], h = matrix[2][1], i = matrix[2][2];
+                Decimal a = matrix[0][0], b = matrix[0][1], c = matrix[0][2];
+                Decimal d = matrix[1][0], e = matrix[1][1], f = matrix[1][2];
+                Decimal g = matrix[2][0], h = matrix[2][1], i = matrix[2][2];
 
-                decimal den = a * (e * i - f * h) -
+                Decimal den = a * (e * i - f * h) -
                              b * (d * i - f * g) +
                              c * (d * h - e * g);
 
                 if (den == 0)
                     throw new SingularMatrixException();
 
-                decimal m = 1 / den;
+                Decimal m = 1 / den;
 
                 var inv = matrix;
                 if (!inPlace)
                 {
-                    inv = new decimal[3][];
+                    inv = new Decimal[3][];
                     for (int j = 0; j < inv.Length; j++)
-                        inv[j] = new decimal[3];
+                        inv[j] = new Decimal[3];
                 }
 
                 inv[0][0] = m * (e * i - f * h);
@@ -1804,22 +1874,22 @@ namespace Accord.Math
             if (rows == 2)
             {
                 // Special case for 2x2 matrices
-                decimal a = matrix[0][0], b = matrix[0][1];
-                decimal c = matrix[1][0], d = matrix[1][1];
+                Decimal a = matrix[0][0], b = matrix[0][1];
+                Decimal c = matrix[1][0], d = matrix[1][1];
 
-                decimal den = a * d - b * c;
+                Decimal den = a * d - b * c;
 
                 if (den == 0)
                     throw new SingularMatrixException();
 
-                decimal m = 1 / den;
+                Decimal m = 1 / den;
 
                 var inv = matrix;
                 if (!inPlace)
                 {
-                    inv = new decimal[2][];
+                    inv = new Decimal[2][];
                     for (int j = 0; j < inv.Length; j++)
-                        inv[j] = new decimal[2];
+                        inv[j] = new Decimal[2];
                 }
 
                 inv[0][0] = +m * d;
@@ -1837,7 +1907,7 @@ namespace Accord.Math
         ///   Computes the pseudo-inverse of a matrix.
         /// </summary>
         /// 
-        public static decimal[][] PseudoInverse(this decimal[][] matrix)
+        public static Decimal[][] PseudoInverse(this Decimal[][] matrix)
         {
             return new JaggedSingularValueDecompositionD(matrix,
                 computeLeftSingularVectors: true,
@@ -1856,7 +1926,7 @@ namespace Accord.Math
         /// 
         /// <returns>The result from the division <c>AB^-1</c> of the given matrices.</returns>
         /// 
-        public static decimal[,] Divide(this decimal[,] a, decimal[,] b, bool leastSquares = false)
+        public static Decimal[,] Divide(this Decimal[,] a, Decimal[,] b, bool leastSquares = false)
         {
             int rows = b.Rows();
             int cols = b.Columns();
@@ -1903,7 +1973,7 @@ namespace Accord.Math
         /// 
         /// <returns>The result from the division <c>AB^-1</c> of the given matrices.</returns>
         /// 
-        public static decimal[][] Divide(this decimal[][] a, decimal[][] b, bool leastSquares = false)
+        public static Decimal[][] Divide(this Decimal[][] a, Decimal[][] b, bool leastSquares = false)
         {
             int rows = b.Rows();
             int cols = b.Columns();
@@ -1937,6 +2007,41 @@ namespace Accord.Math
                         autoTranspose: true).Solve(a.Transpose()).Transpose();
                 }
             }
+        }
+
+        /// <summary>
+        ///   Gets the null-space of a column vector.
+        /// </summary>
+        ///
+        public static Decimal[][] Null(this Decimal[] vector)
+        {
+            return Null(Jagged.ColumnVector(vector));
+        }
+
+        /// <summary>
+        ///   Gets the null-space of a matrix.
+        /// </summary>
+        ///
+        public static Decimal[][] Null(this Decimal[][] matrix)
+        {
+            var qr = new JaggedQrDecompositionD(matrix, economy: false);
+            var Q = qr.OrthogonalFactor;
+            var threshold = matrix.GetLength().Max() * Constants.DecimalEpsilon;
+            int[] idx = qr.Diagonal.Find(x => (Decimal)Math.Abs(x) < threshold);
+            return Q.GetColumns(idx);
+        }
+
+        /// <summary>
+        ///   Gets the null-space of a matrix.
+        /// </summary>
+        ///
+        public static Decimal[,] Null(this Decimal[,] matrix)
+        {
+            var qr = new QrDecompositionD(matrix, economy: false);
+            var Q = qr.OrthogonalFactor;
+            var threshold = matrix.GetLength().Max() * Constants.DecimalEpsilon;
+            int[] idx = qr.Diagonal.Find(x => (Decimal)Math.Abs(x) < threshold);
+            return Q.GetColumns(idx);
         }
     }
 }

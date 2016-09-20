@@ -1205,7 +1205,7 @@ namespace Accord.Tests.Math
                 { 1, 1 }
             };
 
-            double[,] actual = Matrix.Stack<double>(new [] { A, B });
+            double[,] actual = Matrix.Stack<double>(new[] { A, B });
 
             Assert.IsTrue(Matrix.IsEqual(expected, actual));
         }
@@ -1493,6 +1493,57 @@ namespace Accord.Tests.Math
 
             actual = Matrix.Solve(value.ToJagged(), b);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
+        }
+
+        [Test]
+        public void NullTest()
+        {
+            double[,] value = 
+            { 
+                { 3.0, 1.0 },
+                { 2.0, 2.0 }  
+            };
+
+            double[,] actual = Matrix.Null(value);
+
+            Assert.AreEqual(2, actual.Rows());
+            Assert.AreEqual(0, actual.Columns());
+        }
+
+        [Test]
+        public void NullTest2()
+        {
+            double[] value = new double[] { 1, 2, 3 };
+
+            double[,] expected =
+            {
+                { -0.53452248382484879, -0.80178372573727341 },
+                { 0.77454192058843829,  -0.33818711911734273 },
+                { -0.33818711911734267,  0.49271932132398588 },
+            };
+
+            double[][] actual = Matrix.Null(value);
+
+            var a = Jagged.RowVector(value).Dot(expected.GetColumn(0));
+            var b = Jagged.RowVector(value).Dot(expected.GetColumn(1));
+            Assert.IsTrue(Matrix.IsEqual(a, new[] { 0 }, 1e-6));
+            Assert.IsTrue(Matrix.IsEqual(b, new[] { 0 }, 1e-6));
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-6));
+        }
+
+        [Test]
+        public void FindTest2()
+        {
+            double[] value = new double[] { 1, 2, 3 };
+
+            int[] expected =
+            {
+            };
+
+            int[] actual = Matrix.Find(value, x => x < 0);
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual));
         }
 
         [Test]
@@ -3373,7 +3424,7 @@ namespace Accord.Tests.Math
         {
             double[,] v = Matrix.Ones(2, 3);
             int[][] idx = v.GetIndices().ToArray();
-            Assert.IsTrue(idx.IsEqual(Jagged.Create(new [,] 
+            Assert.IsTrue(idx.IsEqual(Jagged.Create(new[,] 
                 {
                     {0, 0}, 
                     {0, 1}, 

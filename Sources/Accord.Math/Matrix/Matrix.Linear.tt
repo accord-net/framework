@@ -43,9 +43,9 @@ namespace Accord.Math
 <# 
     string[][] types =
     { 
-        new[] { "double",  ""  },
-        new[] { "float",   "F" },
-        new[] { "decimal", "D" },
+        new[] { "Double",  ""  },
+        new[] { "Single",  "F" },
+        new[] { "Decimal", "D" },
     };
 
     foreach (string[] a in types)
@@ -686,6 +686,41 @@ namespace Accord.Math
                         autoTranspose: true).Solve(a.Transpose()).Transpose();
                 }
             }
+        }
+
+        /// <summary>
+        ///   Gets the null-space of a column vector.
+        /// </summary>
+        ///
+        public static <#=type#>[][] Null(this <#=type#>[] vector)
+        {
+            return Null(Jagged.ColumnVector(vector));
+        }
+
+        /// <summary>
+        ///   Gets the null-space of a matrix.
+        /// </summary>
+        ///
+        public static <#=type#>[][] Null(this <#=type#>[][] matrix)
+        {
+            var qr = new JaggedQrDecomposition<#=suffix#>(matrix, economy: false);
+            var Q = qr.OrthogonalFactor;
+            var threshold = matrix.GetLength().Max() * Constants.<#=type#>Epsilon;
+            int[] idx = qr.Diagonal.Find(x => (<#=type#>)Math.Abs(x) < threshold);
+            return Q.GetColumns(idx);
+        }
+
+        /// <summary>
+        ///   Gets the null-space of a matrix.
+        /// </summary>
+        ///
+        public static <#=type#>[,] Null(this <#=type#>[,] matrix)
+        {
+            var qr = new QrDecomposition<#=suffix#>(matrix, economy: false);
+            var Q = qr.OrthogonalFactor;
+            var threshold = matrix.GetLength().Max() * Constants.<#=type#>Epsilon;
+            int[] idx = qr.Diagonal.Find(x => (<#=type#>)Math.Abs(x) < threshold);
+            return Q.GetColumns(idx);
         }
 <#
     }

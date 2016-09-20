@@ -179,6 +179,27 @@ namespace Accord.Math
         ///   Creates a matrix with all values set to a given value.
         /// </summary>
         /// 
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
+        /// <param name="values">The initial values for the matrix.</param>
+        /// <param name="transpose">Whether to transpose the matrix when copying or not. Default is false.</param>
+        /// 
+        /// <returns>A matrix of the specified size.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] Create<T>(int rows, int columns, T[,] values, bool transpose = false)
+        {
+            var result = Zeros<T>(rows, columns);
+            Matrix.CopyTo(values, destination: result, transpose: transpose);
+            return result;
+        }
+
+        /// <summary>
+        ///   Creates a matrix with all values set to a given value.
+        /// </summary>
+        /// 
         /// <param name="size">The number of rows and columns in the matrix.</param>
         /// <param name="value">The initial values for the matrix.</param>
         /// 
