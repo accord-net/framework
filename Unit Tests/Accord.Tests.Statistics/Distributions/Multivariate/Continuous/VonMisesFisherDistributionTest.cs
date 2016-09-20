@@ -80,5 +80,22 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(e360, a360, 1e-8);
         }
 
+
+        [Test]
+        public void generate_test()
+        {
+            double kappa = 35;
+            var vm = new VonMisesDistribution(0, kappa);
+            var target = new VonMisesFisherDistribution(new double[] { -1, 0, 0 }, kappa);
+
+            double[][] actual = target.Generate(100);
+
+            var sphere = new UniformSphereDistribution(3);
+            for (int i = 0; i < actual.Length; i++)
+            {
+                double p = sphere.ProbabilityDensityFunction(actual[i]);
+                Assert.AreEqual(0.025330295910584444, p, 1e-8);
+            }
+        }
     }
 }

@@ -153,6 +153,8 @@
     <Compile Include="Distributions\Multivariate\Base\IMultivariateDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\MultivariateEmpiricalDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\InverseWishartDistribution.cs" />
+    <Compile Include="Distributions\Multivariate\Continuous\UniformBallDistribution.cs" />
+    <Compile Include="Distributions\Multivariate\Continuous\UniformSphereDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\VonMisesFisherDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\WishartDistribution.cs" />
     <Compile Include="Distributions\Multivariate\IMixtureComponent.cs" />
