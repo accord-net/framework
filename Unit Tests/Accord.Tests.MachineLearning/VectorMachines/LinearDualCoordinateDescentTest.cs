@@ -225,5 +225,27 @@ namespace Accord.Tests.MachineLearning
                 }
             }
         }
+
+        [Test]
+        public void different_lengths_same_error()
+        {
+            // GH-191: Different accuracy by specifying KernelSupportVectorMachine 
+            //         input length https://github.com/accord-net/framework/issues/191
+
+            var dataset = SequentialMinimalOptimizationTest.yinyang;
+
+            double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
+            int[] outputs = dataset.GetColumn(2).ToInt32();
+
+            var machine1 = new KernelSupportVectorMachine(new Linear(), inputs[0].Length);
+            var teacher1 = new LinearDualCoordinateDescent(machine1, inputs, outputs);
+            var error1 = teacher1.Run(true);
+
+            var machine2 = new KernelSupportVectorMachine(new Linear(), 0);
+            var teacher2 = new LinearDualCoordinateDescent(machine2, inputs, outputs);
+            var error2 = teacher2.Run(true);
+
+            Assert.AreEqual(error1, error2);
+        }
     }
 }
