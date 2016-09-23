@@ -27,6 +27,7 @@ namespace Accord.Statistics.Kernels
     using System.Threading;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
+    using Accord.Math.Distances;
 
     /// <summary>
     ///   Dynamic Time Warping Sequence Kernel.
@@ -64,120 +65,26 @@ namespace Accord.Statistics.Kernels
     /// <example>
     /// <para>
     ///   The following example demonstrates how to create and learn a Support Vector
-    ///   Machine (SVM) to recognize sequences using the Dynamic Time Warping kernel.</para>
+    ///   Machine (SVM) to recognize sequences of univariate observations using the 
+    ///   Dynamic Time Warping kernel.</para>
     ///   
-    /// <code>
-    /// // Suppose you have sequences of multivariate observations, and that
-    /// // those sequences could be of arbitrary length. On the other hand, 
-    /// // each observation have a fixed, delimited number of dimensions.
-    /// 
-    /// // In this example, we have sequences of 3-dimensional observations. 
-    /// // Each sequence can have an arbitrary length, but each observation
-    /// // will always have length 3:
-    /// 
-    /// double[][][] sequences =
-    /// {
-    ///     new double[][] // first sequence
-    ///     {
-    ///         new double[] { 1, 1, 1 }, // first observation of the first sequence
-    ///         new double[] { 1, 2, 1 }, // second observation of the first sequence
-    ///         new double[] { 1, 4, 2 }, // third observation of the first sequence
-    ///         new double[] { 2, 2, 2 }, // fourth observation of the first sequence
-    ///     },
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Kernels\DynamicTimeWarpingTest.cs" region="doc_learn" />
     ///
-    ///     new double[][] // second sequence (note that this sequence has a different length)
-    ///     {
-    ///         new double[] { 1, 1, 1 }, // first observation of the second sequence
-    ///         new double[] { 1, 5, 6 }, // second observation of the second sequence
-    ///         new double[] { 2, 7, 1 }, // third observation of the second sequence
-    ///     },
-    /// 
-    ///     new double[][] // third sequence 
-    ///     {
-    ///         new double[] { 8, 2, 1 }, // first observation of the third sequence
-    ///     },
-    /// 
-    ///     new double[][] // fourth sequence 
-    ///     {
-    ///         new double[] { 8, 2, 5 }, // first observation of the fourth sequence
-    ///         new double[] { 1, 5, 4 }, // second observation of the fourth sequence
-    ///     }
-    /// };
-    /// 
-    /// // Now, we will also have different class labels associated which each 
-    /// // sequence. We will assign -1 to sequences whose observations start 
-    /// // with { 1, 1, 1 } and +1 to those that do not:
-    /// 
-    /// int[] outputs =
-    /// {
-    ///     -1,-1,  // First two sequences are of class -1 (those start with {1,1,1})
-    ///         1, 1,  // Last two sequences are of class +1  (don't start with {1,1,1})
-    /// };
-    /// 
-    /// // At this point, we will have to "flat" out the input sequences from double[][][]
-    /// // to a double[][] so they can be properly understood by the SVMs. The problem is 
-    /// // that, normally, SVMs usually expect the data to be comprised of fixed-length 
-    /// // input vectors and associated class labels. But in this case, we will be feeding
-    /// // them arbitrary-length sequences of input vectors and class labels associated with
-    /// // each sequence, instead of each vector.
-    /// 
-    /// double[][] inputs = new double[sequences.Length][];
-    /// for (int i = 0; i &lt; sequences.Length; i++)
-    ///     inputs[i] = Matrix.Concatenate(sequences[i]);
-    /// 
-    /// 
-    /// // Now we have to setup the Dynamic Time Warping kernel. We will have to
-    /// // inform the length of the fixed-length observations contained in each
-    /// // arbitrary-length sequence:
-    /// // 
-    /// DynamicTimeWarping kernel = new DynamicTimeWarping(length: 3);
-    /// 
-    /// // Now we can create the machine. When using variable-length
-    /// // kernels, we will need to pass zero as the input length:
-    /// var svm = new KernelSupportVectorMachine(kernel, inputs: 0);
-    /// 
-    /// 
-    /// // Create the Sequential Minimal Optimization learning algorithm
-    /// var smo = new SequentialMinimalOptimization(svm, inputs, outputs)
-    /// {
-    ///     Complexity = 1.5
-    /// };
-    /// 
-    /// // And start learning it!
-    /// double error = smo.Run(); // error will be 0.0
-    /// 
-    /// 
-    /// // At this point, we should have obtained an useful machine. Let's
-    /// // see if it can understand a few examples it hasn't seem before:
-    /// 
-    /// double[][] a = 
-    /// { 
-    ///     new double[] { 1, 1, 1 },
-    ///     new double[] { 7, 2, 5 },
-    ///     new double[] { 2, 5, 1 },
-    /// };
-    /// 
-    /// double[][] b =
-    /// {
-    ///     new double[] { 7, 5, 2 },
-    ///     new double[] { 4, 2, 5 },
-    ///     new double[] { 1, 1, 1 },
-    /// };
-    /// 
-    /// // Following the aforementioned logic, sequence (a) should be
-    /// // classified as -1, and sequence (b) should be classified as +1.
-    /// 
-    /// int resultA = System.Math.Sign(svm.Compute(Matrix.Concatenate(a))); // -1
-    /// int resultB = System.Math.Sign(svm.Compute(Matrix.Concatenate(b))); // +1
-    /// </code>
+    /// <para>
+    ///   Now, instead of having univariate observations, the following example 
+    ///   demonstrates how to create and learn a sequences of multivariate (or
+    ///   n-dimensional) observations.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Kernels\DynamicTimeWarpingTest.cs" region="doc_learn_multivariate" />
     /// </example>
     /// 
     [Serializable]
-    public class DynamicTimeWarping : KernelBase, IKernel, ICloneable, IDisposable
+    public struct DynamicTimeWarping : IKernel, IKernel<double[][]>,
+        ICloneable, IDistance, IDistance<double[][]>
     {
-        private double alpha = 1.0; // spherical projection distance
-        private int length = 1;     // length of the feature vectors
-        private int degree = 1;     // polynomial kernel degree
+        private double alpha; // spherical projection distance
+        private int length;   // length of the feature vectors
+        private int degree;   // polynomial kernel degree
 
         [NonSerialized]
         private ThreadLocal<Locals> locals;
@@ -194,7 +101,7 @@ namespace Accord.Statistics.Kernels
         }
 
         /// <summary>
-        ///   Gets or sets the hypersphere ratio.
+        ///   Gets or sets the hypersphere ratio. Default is 1.
         /// </summary>
         /// 
         public double Alpha
@@ -204,7 +111,7 @@ namespace Accord.Statistics.Kernels
         }
 
         /// <summary>
-        ///   Gets or sets the polynomial degree for this kernel.
+        ///   Gets or sets the polynomial degree for this kernel. Default is 1.
         /// </summary>
         /// 
         public int Degree
@@ -225,7 +132,9 @@ namespace Accord.Statistics.Kernels
         public DynamicTimeWarping(int length)
         {
             this.length = length;
-            this.initialize();
+            this.alpha = 1;
+            this.degree = 1;
+            this.locals = new ThreadLocal<Locals>(() => new Locals());
         }
 
         /// <summary>
@@ -245,7 +154,8 @@ namespace Accord.Statistics.Kernels
         {
             this.length = length;
             this.alpha = alpha;
-            this.initialize();
+            this.degree = 1;
+            this.locals = new ThreadLocal<Locals>(() => new Locals());
         }
 
         /// <summary>
@@ -267,15 +177,30 @@ namespace Accord.Statistics.Kernels
         /// 
         public DynamicTimeWarping(int length, double alpha, int degree)
         {
+            this.length = length;
             this.alpha = alpha;
             this.degree = degree;
-            this.length = length;
-            this.initialize();
+            this.locals = new ThreadLocal<Locals>(() => new Locals());
         }
 
-        private void initialize()
+        /// <summary>
+        ///   Constructs a new Dynamic Time Warping kernel.
+        /// </summary>
+        /// 
+        /// <param name="alpha">
+        ///    The hypersphere ratio. Default value is 1.
+        /// </param>
+        /// 
+        /// <param name="degree">
+        ///    The degree of the kernel. Default value is 1 (linear kernel).
+        /// </param>
+        /// 
+        public DynamicTimeWarping(double alpha, int degree)
         {
-            locals = new ThreadLocal<Locals>(() => new Locals());
+            this.length = 1;
+            this.alpha = alpha;
+            this.degree = degree;
+            this.locals = new ThreadLocal<Locals>(() => new Locals());
         }
 
 
@@ -288,7 +213,29 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public override double Function(double[] x, double[] y)
+        public double Function(double[] x, double[] y)
+        {
+            if (x == y)
+                return 1.0;
+
+            double cos = k(x, y);
+
+            if (degree == 1)
+                return cos;
+
+            return System.Math.Pow(cos, degree);
+        }
+
+        /// <summary>
+        ///   Dynamic Time Warping kernel function.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(double[][] x, double[][] y)
         {
             if (x == y)
                 return 1.0;
@@ -313,7 +260,32 @@ namespace Accord.Statistics.Kernels
         ///   Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.
         /// </returns>
         /// 
-        public override double Distance(double[] x, double[] y)
+        public double Distance(double[] x, double[] y)
+        {
+            if (x == y)
+                return 0.0;
+
+            double cos = k(x, y);
+
+            if (degree == 1)
+                return 2 - 2 * cos;
+
+            return 2 - 2 * System.Math.Pow(cos, degree);
+        }
+
+        /// <summary>
+        ///   Computes the squared distance in feature space
+        ///   between two points given in input space.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
+        /// <returns>
+        ///   Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.
+        /// </returns>
+        /// 
+        public double Distance(double[][] x, double[][] y)
         {
             if (x == y)
                 return 0.0;
@@ -328,16 +300,28 @@ namespace Accord.Statistics.Kernels
 
         internal double k(double[] x, double[] y)
         {
+            if (this.locals == null)
+                this.locals = new ThreadLocal<Locals>(() => new Locals());
+
             Locals m = locals.Value;
 
             double[] sx = snorm(x);
             double[] sy = snorm(y);
 
-            // if (!m.vectors.TryGetValue(x, out sx))
-            //     m.vectors[x] = sx = snorm(x);
+            // Compute the cosine of the global distance
+            double distance = D(m, sx, sy);
+            return System.Math.Cos(distance);
+        }
 
-            //if (!m.vectors.TryGetValue(y, out sy))
-            //    m.vectors[y] = sy = snorm(y);
+        internal double k(double[][] x, double[][] y)
+        {
+            if (this.locals == null)
+                this.locals = new ThreadLocal<Locals>(() => new Locals());
+
+            Locals m = locals.Value;
+
+            double[][] sx = snorm(x);
+            double[][] sy = snorm(y);
 
             // Compute the cosine of the global distance
             double distance = D(m, sx, sy);
@@ -405,6 +389,57 @@ namespace Accord.Statistics.Kernels
             return DTW[vectorCount1, vectorCount2]; // return the minimum global distance
         }
 
+        /// <summary>
+        ///   Global distance D(X,Y) between two sequences of vectors.
+        /// </summary>
+        /// 
+        /// <param name="locals">The current thread local storage.</param>
+        /// <param name="sequence1">A sequence of vectors.</param>
+        /// <param name="sequence2">A sequence of vectors.</param>
+        /// 
+        /// <returns>The global distance between X and Y.</returns>
+        /// 
+        private unsafe double D(Locals locals, double[][] sequence1, double[][] sequence2)
+        {
+            // Get the number of vectors in each sequence. The vectors
+            // have been projected, so the length is augmented by one.
+            int vectorSize = length + 1;
+            int vectorCount1 = sequence1.Length;
+            int vectorCount2 = sequence2.Length;
+
+            // Application of the Dynamic Time Warping
+            // algorithm by using dynamic programming.
+            if (locals.m < vectorCount2 || locals.n < vectorCount1)
+                locals.Create(vectorCount1, vectorCount2);
+
+            double[,] DTW = locals.DTW;
+
+            for (int i = 0; i < sequence1.Length; i++)
+            {
+                for (int j = 0; j < sequence2.Length; j++)
+                {
+                    double prod = 0; // inner product 
+                    for (int k = 0; k < vectorSize; k++)
+                        prod += sequence1[i][k] * sequence2[j][k];
+
+                    // Return the arc-cosine of the inner product
+                    double cost = Math.Acos(prod > 1 ? 1 : (prod < -1 ? -1 : prod));
+
+                    double insertion = DTW[i, j + 1];
+                    double deletion = DTW[i + 1, j];
+                    double match = DTW[i, j];
+
+                    double min = (insertion < deletion
+                        ? (insertion < match ? insertion : match)
+                        : (deletion < match ? deletion : match));
+
+                    DTW[i + 1, j + 1] = cost + min;
+                }
+            }
+
+            return DTW[vectorCount1, vectorCount2]; // return the minimum global distance
+        }
+
 
 
         /// <summary>
@@ -450,6 +485,37 @@ namespace Accord.Statistics.Kernels
         }
 
         /// <summary>
+        ///   Projects vectors from a sequence of vectors into
+        ///   a hypersphere, augmenting their size in one unit
+        ///   and normalizing them to be unit vectors.
+        /// </summary>
+        /// 
+        /// <param name="input">A sequence of vectors.</param>
+        /// 
+        /// <returns>A sequence of vector projections.</returns>
+        /// 
+        private double[][] snorm(double[][] input)
+        {
+            // Create the augmented sequence projection
+            double[][] projection = Jagged.Zeros(input.Length, input[0].Length + 1);
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                double norm = alpha * alpha;
+
+                for (int j = 0; j < input[i].Length; j++)
+                    norm += input[i][j] * input[i][j];
+                norm = Math.Sqrt(norm);
+
+                for (int j = 0; j < input[i].Length; j++)
+                    projection[i][j] = input[i][j] / norm;
+                projection[i][input[i].Length] = alpha / norm;
+            }
+
+            return projection; // return the projected sequence
+        }
+
+        /// <summary>
         ///   Creates a new object that is a copy of the current instance.
         /// </summary>
         /// 
@@ -466,7 +532,7 @@ namespace Accord.Statistics.Kernels
         [OnDeserialized]
         private void onDeserialized(StreamingContext context)
         {
-            this.initialize();
+            this.locals = new ThreadLocal<Locals>(() => new Locals());
         }
 
         private class Locals
@@ -494,48 +560,5 @@ namespace Accord.Statistics.Kernels
 
         }
 
-
-        /// <summary>
-        ///   Performs application-defined tasks associated with freeing, 
-        ///   releasing, or resetting unmanaged resources.
-        /// </summary>
-        /// 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        ///   Releases unmanaged resources and performs other cleanup operations 
-        ///   before the <see cref="DynamicTimeWarping"/> is reclaimed by garbage collection.
-        /// </summary>
-        /// 
-        ~DynamicTimeWarping()
-        {
-            Dispose(false);
-        }
-
-        /// <summary>
-        ///   Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// 
-        /// <param name="disposing"><c>true</c> to release both managed
-        /// and unmanaged resources; <c>false</c> to release only unmanaged
-        /// resources.</param>
-        ///
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // free managed resources
-                if (locals != null)
-                {
-                    locals.Dispose();
-                    locals = null;
-                }
-            }
-
-        }
     }
 }

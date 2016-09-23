@@ -76,10 +76,20 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         public static int GetNumberOfInputs<TInput>(TInput[] x)
         {
-            int numberOfInputs = 0;
-            if (x[0] is IList)
-                numberOfInputs = (x[0] as IList).Count;
-            return numberOfInputs;
+            var first = x[0] as IList;
+            if (first == null)
+                return 0;
+
+            int length = first.Count;
+
+            for (int i = 0; i < x.Length; i++)
+            {
+                int c = (x[i] as IList).Count;
+                if (c != length)
+                    return 0;
+            }
+            
+            return length;
         }
 
         public static void CheckArgs<TInput>(ISupportVectorMachine<TInput> machine,

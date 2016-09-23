@@ -273,9 +273,9 @@ namespace Accord.Tests.Statistics
 
             var gamma = GammaDistribution.Estimate(x);
 
-            Assert.AreEqual(1238.8734170854279, gamma.Mean);
-            Assert.AreEqual(41566.439533445438, gamma.Shape);
-            Assert.AreEqual(0.029804655654680219, gamma.Scale);
+            Assert.AreEqual(1238.8734170854279, gamma.Mean, 1e-10);
+            Assert.AreEqual(41566.439533445438, gamma.Shape, 1e-10);
+            Assert.AreEqual(0.029804655654680219, gamma.Scale, 1e-10);
         }
 
         [Test]
@@ -288,9 +288,9 @@ namespace Accord.Tests.Statistics
 
             var gamma = GammaDistribution.Estimate(x);
 
-            Assert.AreEqual(1238.8734170854279, gamma.Mean);
-            Assert.AreEqual(41566.439533445438, gamma.Shape);
-            Assert.AreEqual(0.029804655654680219, gamma.Scale);
+            Assert.AreEqual(1.0329411764705885, gamma.Mean, 1e-10);
+            Assert.AreEqual(4679.4730379075245, gamma.Shape, 1e-10);
+            Assert.AreEqual(0.00022073878150444029, gamma.Scale, 1e-10);
         }
 
         [Test]
@@ -301,11 +301,11 @@ namespace Accord.Tests.Statistics
 
             double[] x = { 1.003, 1.012, 1.011, 1.057, 1.033, 1.051, 1.045, 1.045, 1.037, 1.059, 1.028, 1.032, 1.029, 1.031, 1.029, 1.023, 1.035 };
 
-            var gamma = GammaDistribution.Estimate(x, tol: 1e-8, iterations: 1000);
+            var gamma = GammaDistribution.Estimate(x, tol: 1e-2, iterations: 0);
 
-            Assert.AreEqual(1238.8734170854279, gamma.Mean);
-            Assert.AreEqual(41566.439533445438, gamma.Shape);
-            Assert.AreEqual(0.029804655654680219, gamma.Scale);
+            Assert.AreEqual(1.0329411764705885, gamma.Mean, 1e-10);
+            Assert.AreEqual(4679.4730319532555, gamma.Shape, 1e-10);
+            Assert.AreEqual(0.00022073878178531338, gamma.Scale, 1e-10);
         }
 
     }
