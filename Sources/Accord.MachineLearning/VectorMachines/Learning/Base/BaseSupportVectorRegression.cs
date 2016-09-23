@@ -55,7 +55,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         private double[] sampleWeights;
 
-        private bool useComplexityHeuristic;
+        private bool useKernelEstimation = false;
+        private bool useComplexityHeuristic = true;
 
         private double complexity = 1;
         private double rho = 1e-3;
@@ -93,21 +94,32 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             this.machine = model;
             this.inputs = input;
             this.outputs = output;
-            this.kernel = (TKernel)model.Kernel;
+            this.Kernel = (TKernel)model.Kernel;
         }
-
 
         /// <summary>
         ///   Complexity (cost) parameter C. Increasing the value of C forces the creation
-        ///   of a more accurate model that may not generalize well. Default value is 1.
+        ///   of a more accurate model that may not generalize well. If this value is not
+        ///   set and <see cref="UseComplexityHeuristic"/> is set to <c>true</c>, the framework
+        ///   will automatically guess a value for <c>C</c>. If this value is manually set to 
+        ///   something else, then <see cref="UseComplexityHeuristic"/> will be automatically 
+        ///   disabled and the given value will be used instead.
         /// </summary>
         /// 
         /// <remarks>
+        /// <para>
         ///   The cost parameter C controls the trade off between allowing training
         ///   errors and forcing rigid margins. It creates a soft margin that permits
         ///   some misclassifications. Increasing the value of C increases the cost of
         ///   misclassifying points and forces the creation of a more accurate model
-        ///   that may not generalize well.
+        ///   that may not generalize well.</para>
+        ///   
+        /// <para>
+        ///   If this value is not set and <see cref="UseComplexityHeuristic"/> is set to 
+        ///   <c>true</c>, the framework will automatically guess a suitable value for C by
+        ///   calling <see cref="Accord.Statistics.Kernels.Kernel.EstimateComplexity{TKernel, TInput}(TKernel, TInput[])"/>.  If this value 
+        ///   is manually set to something else, then the class will respect the new value 
+        ///   and automatically disable <see cref="UseComplexityHeuristic"/>. </para>
         /// </remarks>
         /// 
         public double Complexity
@@ -117,7 +129,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             {
                 if (value <= 0)
                     throw new ArgumentOutOfRangeException("value");
+
                 this.complexity = value;
+                this.useComplexityHeuristic = false;
             }
         }
 
@@ -167,6 +181,17 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
         /// <summary>
+        ///   Gets or sets whether initial values for some kernel parameters
+        ///   should be estimated from the data, if possible. Default is true.
+        /// </summary>
+        /// 
+        public bool UseKernelEstimation
+        {
+            get { return useKernelEstimation; }
+            set { useKernelEstimation = value; }
+        }
+
+        /// <summary>
         ///   Gets whether the machine to be learned
         ///   has a <see cref="Linear"/> kernel.
         /// </summary>
@@ -178,13 +203,20 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
         /// <summary>
-        ///   Gets the machine's <see cref="IKernel"/> function.
+        ///   Gets or sets the kernel function use to create a 
+        ///   kernel Support Vector Machine. If this property
+        ///   is set, <see cref="UseKernelEstimation"/> will be
+        ///   set to false.
         /// </summary>
         /// 
         public TKernel Kernel
         {
             get { return kernel; }
-            set { kernel = value; }
+            set
+            {
+                this.kernel = value;
+                this.useKernelEstimation = false;
+            }
         }
 
         /// <summary>
@@ -228,6 +260,22 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </returns>
         public TModel Learn(TInput[] x, double[] y, double[] weights = null)
         {
+            bool initialized = false;
+
+            if (x.Length != y.Length)
+                throw new DimensionMismatchException("x", "The number of output labels should match the number of training samples.");
+
+            if (kernel == null)
+            {
+                if (!typeof(TKernel).HasDefaultConstructor())
+                    throw new InvalidOperationException("Please set the kernel function before learning a model.");
+                kernel = SupportVectorLearningHelper.CreateKernel<TKernel, TInput>(x);
+                initialized = true;
+            }
+
+            if (!initialized && useKernelEstimation)
+                kernel = SupportVectorLearningHelper.EstimateKernel(kernel, x);
+
             if (Model == null)
                 Model = Create(SupportVectorLearningHelper.GetNumberOfInputs(x), kernel);
 
@@ -240,23 +288,28 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             this.inputs = x;
             this.outputs = y;
 
-            // Initialization heuristics
-            if (useComplexityHeuristic)
-                complexity = kernel.EstimateComplexity(inputs);
-
-            C = new double[inputs.Length];
-            for (int i = 0; i < outputs.Length; i++)
-                C[i] = complexity;
-
-            if (sampleWeights != null)
-            {
-                for (int i = 0; i < C.Length; i++)
-                    C[i] *= sampleWeights[i];
-            }
-
             try
             {
+                // Initialization heuristics
+                if (useComplexityHeuristic)
+                    complexity = kernel.EstimateComplexity(inputs);
+
+                C = new double[inputs.Length];
+                for (int i = 0; i < outputs.Length; i++)
+                    C[i] = complexity;
+
+                if (sampleWeights != null)
+                {
+                    for (int i = 0; i < C.Length; i++)
+                        C[i] *= sampleWeights[i];
+                }
+
+
                 InnerRun();
+
+                SupportVectorLearningHelper.CheckOutput(Model);
+
+                return Model;
             }
             finally
             {
@@ -272,8 +325,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                     machine.IsProbabilistic = Model.IsProbabilistic;
                 }
             }
-
-            return Model;
         }
 
 

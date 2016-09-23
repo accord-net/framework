@@ -111,7 +111,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             }
         }
 
-        public static void CheckArgs<TInput>(ISupportVectorMachine<TInput> machine, TInput[] inputs, double[] outputs)
+        public static void CheckArgs<TInput>(ISupportVectorMachine<TInput> machine, TInput[] inputs, Array outputs)
         {
             // Initial argument checking
             if (machine == null)

@@ -332,6 +332,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             Model.Kernel = kernel;
 
+            // Initial argument checking
+            SupportVectorLearningHelper.CheckArgs(Model, x, y);
+
 
             // Count class prevalence
             int positives, negatives;

@@ -86,7 +86,7 @@ namespace SampleApp
             double[,] table = (dgvLearningSource.DataSource as DataTable).ToMatrix(out columnNames);
 
             // Get only the input vector values (first two columns)
-            double[][] inputs = table.GetColumns(0).ToArray();
+            double[][] inputs = table.GetColumns(0).ToJagged();
 
             // Get only the outputs (last column)
             double[] outputs = table.GetColumn(1);
@@ -101,7 +101,8 @@ namespace SampleApp
                 // Set learning parameters
                 Complexity = (double)numC.Value,
                 Tolerance = (double)numT.Value,
-                Epsilon = (double)numEpsilon.Value
+                Epsilon = (double)numEpsilon.Value,
+                Kernel = kernel
             };
 
 

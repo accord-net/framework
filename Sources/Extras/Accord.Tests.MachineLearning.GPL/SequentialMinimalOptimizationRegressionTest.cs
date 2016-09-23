@@ -53,7 +53,7 @@ namespace Accord.Tests.MachineLearning.GPL
 
             double[] outputs = // f(x, y)
             {
-                    1, 11, 8, 6, 13, 14, 19, 8
+                1, 11, 8, 6, 13, 14, 19, 8
             };
 
             // Create Kernel Support Vector Machine with a Polynomial Kernel of 2nd degree
