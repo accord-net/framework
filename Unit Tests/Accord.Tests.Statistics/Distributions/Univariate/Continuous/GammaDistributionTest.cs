@@ -277,5 +277,36 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(41566.439533445438, gamma.Shape);
             Assert.AreEqual(0.029804655654680219, gamma.Scale);
         }
+
+        [Test]
+        public void FitTest2()
+        {
+            // Gamma Distribution Fit stalls for some arrays #301
+            // https://github.com/accord-net/framework/issues/301
+
+            double[] x = { 1.003, 1.012, 1.011, 1.057, 1.033, 1.051, 1.045, 1.045, 1.037, 1.059, 1.028, 1.032, 1.029, 1.031, 1.029, 1.023, 1.035 };
+
+            var gamma = GammaDistribution.Estimate(x);
+
+            Assert.AreEqual(1238.8734170854279, gamma.Mean);
+            Assert.AreEqual(41566.439533445438, gamma.Shape);
+            Assert.AreEqual(0.029804655654680219, gamma.Scale);
+        }
+
+        [Test]
+        public void FitTestOptions()
+        {
+            // Gamma Distribution Fit stalls for some arrays #301
+            // https://github.com/accord-net/framework/issues/301
+
+            double[] x = { 1.003, 1.012, 1.011, 1.057, 1.033, 1.051, 1.045, 1.045, 1.037, 1.059, 1.028, 1.032, 1.029, 1.031, 1.029, 1.023, 1.035 };
+
+            var gamma = GammaDistribution.Estimate(x, tol: 1e-8, iterations: 1000);
+
+            Assert.AreEqual(1238.8734170854279, gamma.Mean);
+            Assert.AreEqual(41566.439533445438, gamma.Shape);
+            Assert.AreEqual(0.029804655654680219, gamma.Scale);
+        }
+
     }
 }

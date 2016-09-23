@@ -119,7 +119,7 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     [Serializable]
     public class GammaDistribution : UnivariateContinuousDistribution,
-        IFittableDistribution<double, IFittingOptions>,
+        IFittableDistribution<double, GammaOptions>,
         ISampleableDistribution<double>
     {
 
@@ -430,11 +430,31 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override void Fit(double[] observations, double[] weights, IFittingOptions options)
         {
+            Fit(observations, weights, (GammaOptions)options);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        /// <remarks>
+        ///   Although both double[] and double[][] arrays are supported,
+        ///   providing a double[] for a multivariate distribution or a
+        ///   double[][] for a univariate distribution may have a negative
+        ///   impact in performance.
+        /// </remarks>
+        /// 
+        public void Fit(double[] observations, double[] weights, GammaOptions options)
+        {
             if (immutable)
                 throw new InvalidOperationException("This object can not be modified.");
-
-            if (options != null)
-                throw new ArgumentException("This method does not accept fitting options.");
 
             if (weights != null)
                 throw new ArgumentException("This distribution does not support weighted samples.");
@@ -457,17 +477,28 @@ namespace Accord.Statistics.Distributions.Univariate
             // initial approximation
             double newK = (3 - s + Math.Sqrt((s - 3) * (s - 3) + 24 * s)) / (12 * s);
 
+            double tol = 1e-8;
+            int maxIter = 1000;
+
+            if (options != null)
+            {
+                tol = options.Tolerance;
+                maxIter = options.Iterations;
+            }
+
             // Use Newton-Raphson update
             double oldK;
 
-            do
+            for (int i = 0; i < maxIter; i++)
             {
                 oldK = newK;
                 double num = Math.Log(newK) - Gamma.Digamma(newK) - s;
                 double den = (1 / newK) - Gamma.Trigamma(newK);
                 newK = oldK - num / den;
+
+                if (oldK.IsEqual(newK, rtol: tol))
+                    break;
             }
-            while (!oldK.IsEqual(newK, 1e-10));
 
             double theta = mean / newK;
 
@@ -478,19 +509,15 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Estimates a new Gamma distribution from a given set of observations.
         /// </summary>
         /// 
-        public static GammaDistribution Estimate(double[] observations)
-        {
-            return Estimate(observations, null);
-        }
-
-        /// <summary>
-        ///   Estimates a new Gamma distribution from a given set of observations.
-        /// </summary>
-        /// 
-        public static GammaDistribution Estimate(double[] observations, double[] weights)
+        public static GammaDistribution Estimate(double[] observations,
+            double[] weights = null, double tol = 1e-8, int iterations = 1000)
         {
             var n = new GammaDistribution();
-            n.Fit(observations, weights, null);
+            n.Fit(observations, weights, new GammaOptions()
+            {
+                Tolerance = tol,
+                Iterations = iterations
+            });
             return n;
         }
 

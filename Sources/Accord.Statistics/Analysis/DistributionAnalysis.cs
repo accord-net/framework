@@ -40,6 +40,20 @@ namespace Accord.Statistics.Analysis
     ///   Distribution fitness analysis.
     /// </summary>
     /// 
+    /// <remarks>
+    ///   The distribution analysis class can be used to perform a battery
+    ///   of distribution fitting tests in order to check from which distribution
+    ///   a sample is more likely to have come from.
+    /// </remarks>
+    /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\DistributionAnalysisTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
+    /// <seealso cref="KolmogorovSmirnovTest"/>
+    /// <seealso cref="ChiSquareTest"/>
+    /// <seealso cref="AndersonDarlingTest"/>
+    /// 
     [Serializable]
     public class DistributionAnalysis
     {
@@ -63,7 +77,15 @@ namespace Accord.Statistics.Analysis
         ///   The estimated distributions.
         /// </value>
         /// 
-        public IFittableDistribution<double>[] Distributions { get; private set; }
+        public List<IFittableDistribution<double>> Distributions { get; set; }
+
+        /// <summary>
+        ///   Gets or sets a mapping of fitting options that should be
+        ///   used when attempting to estimate each of the distributions
+        ///   in <see cref="Distributions"/>.
+        /// </summary>
+        /// 
+        public Dictionary<IFittableDistribution<double>, IFittingOptions> Options { get; set; }
 
         /// <summary>
         ///   Gets the <see cref="KolmogorovSmirnovTest">Kolmogorov-Smirnov tests</see>
@@ -120,11 +142,20 @@ namespace Accord.Statistics.Analysis
         /// 
         /// <param name="observations">The observations to be fitted against candidate distributions.</param>
         /// 
+        [Obsolete("Please use the default parameterless constructor instead.")]
         public DistributionAnalysis(double[] observations)
+            : this()
         {
             this.data = observations;
+        }
 
-            Distributions = new IFittableDistribution<double>[]
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="DistributionAnalysis"/> class.
+        /// </summary>
+        /// 
+        public DistributionAnalysis()
+        {
+            Distributions = new List<IFittableDistribution<double>>()
             {
                 new NormalDistribution(),
                 new UniformContinuousDistribution(),
@@ -132,25 +163,52 @@ namespace Accord.Statistics.Analysis
                 new GumbelDistribution(),
                 new PoissonDistribution(),
             };
+
+            Options = new Dictionary<IFittableDistribution<double>, IFittingOptions>();
         }
 
 
         /// <summary>
-        ///   Computes the analysis.
+        ///   Obsolete. Please use the <see cref="Learn(double[], double[])"/> method instead.
         /// </summary>
         /// 
+        [Obsolete("Please use the Learn(x) method instead.")]
         public void Compute()
         {
-            bool[] fail = new bool[Distributions.Length];
+            compute(data, null);
+        }
+
+        /// <summary>
+        ///   Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// 
+        /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
+        /// 
+        /// <returns>A model that has learned how to produce suitable outputs
+        ///   given the input data <paramref name="x"/>.</returns>
+        /// 
+        public GoodnessOfFitCollection Learn(double[] x, double[] weights = null)
+        {
+            compute(x, weights);
+            return GoodnessOfFit;
+        }
+
+        private void compute(double[] data, double[] weights)
+        {
+            bool[] fail = new bool[Distributions.Count];
 
             // Step 1. Fit all candidate distributions to the data.
-            for (int i = 0; i < Distributions.Length; i++)
+            for (int i = 0; i < Distributions.Count; i++)
             {
                 var distribution = Distributions[i];
 
+                IFittingOptions options = null;
+                Options.TryGetValue(distribution, out options);
+
                 try
                 {
-                    distribution.Fit(data);
+                    distribution.Fit(data, weights, options);
                 }
                 catch
                 {
@@ -162,17 +220,17 @@ namespace Accord.Statistics.Analysis
             // Step 2. Use statistical tests to see how well each
             //         distribution was able to model the data.
 
-            KolmogorovSmirnov = new KolmogorovSmirnovTest[Distributions.Length];
-            ChiSquare = new ChiSquareTest[Distributions.Length];
-            AndersonDarling = new AndersonDarlingTest[Distributions.Length];
-            DistributionNames = new string[Distributions.Length];
+            KolmogorovSmirnov = new KolmogorovSmirnovTest[Distributions.Count];
+            ChiSquare = new ChiSquareTest[Distributions.Count];
+            AndersonDarling = new AndersonDarlingTest[Distributions.Count];
+            DistributionNames = new string[Distributions.Count];
 
-            double[] ks = new double[Distributions.Length];
-            double[] cs = new double[Distributions.Length];
-            double[] ad = new double[Distributions.Length];
+            double[] ks = new double[Distributions.Count];
+            double[] cs = new double[Distributions.Count];
+            double[] ad = new double[Distributions.Count];
 
             var measures = new List<GoodnessOfFit>();
-            for (int i = 0; i < Distributions.Length; i++)
+            for (int i = 0; i < Distributions.Count; i++)
             {
                 ks[i] = Double.NegativeInfinity;
                 cs[i] = Double.NegativeInfinity;
@@ -180,10 +238,13 @@ namespace Accord.Statistics.Analysis
 
                 var d = this.Distributions[i] as IUnivariateDistribution;
 
-                if (d == null || fail[i])
+                if (d == null)
                     continue;
 
                 this.DistributionNames[i] = GetName(d.GetType());
+
+                if (fail[i])
+                    continue;
 
                 int ms = 5000;
 
@@ -255,7 +316,7 @@ namespace Accord.Statistics.Analysis
 
         private int[] getRank(double[] ks)
         {
-            int[] idx = Vector.Range(0, Distributions.Length);
+            int[] idx = Vector.Range(0, Distributions.Count);
             Array.Sort(ks, idx, new GeneralComparer(ComparerDirection.Descending));
 
             int[] rank = new int[idx.Length];
@@ -318,6 +379,15 @@ namespace Accord.Statistics.Analysis
 
             return distributions;
         }
+
+        /// <summary>
+        ///   Gets the index of the first distribution with the given name.
+        /// </summary>
+        /// 
+        public IFittableDistribution<double> GetFirstIndex(string name)
+        {
+            return Distributions.Find(d => d.GetType().Name == name);
+        }
     }
 
     /// <summary>
@@ -325,7 +395,8 @@ namespace Accord.Statistics.Analysis
     /// </summary>
     /// 
     [Serializable]
-    public class GoodnessOfFit : IComparable<GoodnessOfFit>, IComparable
+    public class GoodnessOfFit : IComparable<GoodnessOfFit>, IComparable,
+        IFormattable
     {
 
         private DistributionAnalysis analysis;
@@ -366,7 +437,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets the measured distribution.
+        ///   Gets (a clone of) the measured distribution.
         /// </summary>
         /// 
         /// <value>
@@ -375,7 +446,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public IFittableDistribution<double> Distribution
         {
-            get { return analysis.Distributions[index]; }
+            get { return (IFittableDistribution<double>)analysis.Distributions[index].Clone(); }
         }
 
         /// <summary>
@@ -511,6 +582,32 @@ namespace Accord.Statistics.Analysis
         public int CompareTo(object obj)
         {
             return CompareTo(obj as GoodnessOfFit);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        /// 
+        public override string ToString()
+        {
+            return analysis.Distributions[index].ToString();
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <param name="format">The format to use.-or- A null reference (Nothing in Visual Basic) to use the default format defined for the type of the <see cref="T:System.IFormattable" /> implementation.</param>
+        /// <param name="formatProvider">The provider to use to format the value.-or- A null reference (Nothing in Visual Basic) to obtain the numeric format information from the current locale setting of the operating system.</param>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            var dist = analysis.Distributions[index];
+            var fmt = dist as IFormattable;
+            if (fmt != null)
+                return fmt.ToString(format, formatProvider);
+            return dist.ToString();
         }
     }
 
