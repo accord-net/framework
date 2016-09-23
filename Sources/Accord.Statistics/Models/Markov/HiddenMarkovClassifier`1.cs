@@ -32,30 +32,10 @@ namespace Accord.Statistics.Models.Markov
     using System.Collections.Generic;
 
     /// <summary>
-    ///   Arbitrary-density Hidden Markov Model Set for Sequence Classification.
+    ///   Obsolete. Please use <see cref="HiddenMarkovClassifier{TDistribution, TObservation}"/> instead.
     /// </summary>
     /// 
-    /// <remarks>
-    /// <para>
-    ///   This class uses a set of <see cref="HiddenMarkovModel{TDistribution}">density hidden
-    ///   Markov models</see> to classify sequences of real (double-precision floating point)
-    ///   numbers or arrays of those numbers. Each model will try to learn and recognize each 
-    ///   of the different output classes. For examples and details on how to learn such models,
-    ///   please take a look on the documentation for 
-    ///   <see cref="HiddenMarkovClassifierLearning{TDistribution}"/>.</para>
-    ///   
-    /// <para>
-    ///   For the discrete version of this classifier, please see its non-generic counterpart 
-    ///   <see cref="HiddenMarkovClassifier"/>.</para>
-    /// </remarks>
-    /// 
-    /// <example>
-    /// <para>
-    ///   Examples are available at the respective learning algorithm pages. For 
-    ///   example, see <see cref="HiddenMarkovClassifierLearning{TDistribution}"/>. </para>
-    /// </example>
-    /// 
-    /// <seealso cref="HiddenMarkovClassifierLearning{TDistribution}"/>
+    /// <seealso cref="HiddenMarkovClassifierLearning{TDistribution, TObservation}"/>
     /// <seealso cref="HiddenMarkovClassifier"/>
     ///   
     [Serializable]

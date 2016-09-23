@@ -42,6 +42,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void LearnTest1()
         {
+            #region doc_learn
             // Create a Continuous density Hidden Markov Model Sequence Classifier
             // to detect a univariate sequence and the same sequence backwards.
             double[][] sequences = new double[][] 
@@ -55,7 +56,7 @@ namespace Accord.Tests.Statistics
 
             // Creates a sequence classifier containing 2 hidden Markov Models
             //  with 2 states and an underlying Normal distribution as density.
-            NormalDistribution density = new NormalDistribution();
+            var density = new NormalDistribution();
             var classifier = new HiddenMarkovClassifier<NormalDistribution, double>(2, new Ergodic(2), density);
 
             // Configure the learning algorithms to train the sequence classifier
@@ -71,6 +72,7 @@ namespace Accord.Tests.Statistics
 
             // Train the sequence classifier using the algorithm
             teacher.Learn(sequences, labels);
+
             double logLikelihood = teacher.LogLikelihood;
 
 
@@ -85,6 +87,7 @@ namespace Accord.Tests.Statistics
             // Try to classify the second sequence (output should be 1)
             int c2 = classifier.Decide(sequences[1]);
             likelihood2 = classifier.Probability(sequences[1]);
+            #endregion
 
             Assert.AreEqual(0, c1);
             Assert.AreEqual(1, c2);
@@ -277,6 +280,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void LearnTest5()
         {
+            #region doc_learn2
             // Create a Continuous density Hidden Markov Model Sequence Classifier
             // to detect a multivariate sequence and the same sequence backwards.
             double[][][] sequences = new double[][][]
@@ -328,6 +332,7 @@ namespace Accord.Tests.Statistics
 
             // Train the sequence classifier using the algorithm
             teacher.Learn(sequences, labels);
+
             double logLikelihood = teacher.LogLikelihood;
 
 
@@ -341,7 +346,7 @@ namespace Accord.Tests.Statistics
 
             // Try to classify the 2nd sequence (output should be 1)
             logLikelihood2 = classifier.Probability(sequences[1], out c2);
-
+            #endregion
 
             Assert.AreEqual(0, c1);
             Assert.AreEqual(1, c2);
@@ -447,6 +452,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void LearnTest7()
         {
+            #region doc_learn_regularization
             // Create a Continuous density Hidden Markov Model Sequence Classifier
             // to detect a multivariate sequence and the same sequence backwards.
 
@@ -476,7 +482,7 @@ namespace Accord.Tests.Statistics
             // Labels for the sequences
             int[] labels = { 0, 1 };
 
-
+            // Initial emission density to be copied to each state
             var initialDensity = new MultivariateNormalDistribution(2);
 
             // Creates a sequence classifier containing 2 hidden Markov Models with 2 states
@@ -503,6 +509,7 @@ namespace Accord.Tests.Statistics
 
             // Train the sequence classifier using the algorithm
             teacher.Learn(sequences, labels);
+
             double logLikelihood = teacher.LogLikelihood;
 
 
@@ -516,7 +523,7 @@ namespace Accord.Tests.Statistics
             // Try to classify the second sequence (output should be 1)
             int c2 = classifier.Decide(sequences[1]);
             likelihood2 = classifier.Probability(sequences[1]);
-
+            #endregion
 
             Assert.AreEqual(0, c1);
             Assert.AreEqual(1, c2);

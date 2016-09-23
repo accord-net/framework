@@ -40,7 +40,7 @@ namespace Accord.Statistics.Models.Markov
         public static void Forward<TDistribution, TObservation>(HiddenMarkovModel<TDistribution, TObservation> model, TObservation[] observations, double[] scaling, double[,] fwd)
                        where TDistribution : IDistribution<TObservation>
         {
-            int states = model.States;
+            int states = model.NumberOfStates;
             var A = Elementwise.Exp(model.LogTransitions);
             var B = model.Emissions;
             var pi = Elementwise.Exp(model.LogInitial);
@@ -101,7 +101,7 @@ namespace Accord.Statistics.Models.Markov
         public static double[,] Forward<TDistribution, TObservation>(HiddenMarkovModel<TDistribution, TObservation> model, TObservation[] observations, out double logLikelihood)
             where TDistribution : IDistribution<TObservation>
         {
-            double[,] fwd = new double[observations.Length, model.States];
+            double[,] fwd = new double[observations.Length, model.NumberOfStates];
             double[] scaling = new double[observations.Length];
 
             ForwardBackwardAlgorithm.Forward<TDistribution, TObservation>(model, observations, scaling, fwd);
@@ -119,7 +119,7 @@ namespace Accord.Statistics.Models.Markov
         public static double[,] Forward<TDistribution, TObservation>(HiddenMarkovModel<TDistribution, TObservation> model, TObservation[] observations, out double[] scaling)
             where TDistribution : IDistribution<TObservation>
         {
-            double[,] fwd = new double[observations.Length, model.States];
+            double[,] fwd = new double[observations.Length, model.NumberOfStates];
             scaling = new double[observations.Length];
             Forward<TDistribution, TObservation>(model, observations, scaling, fwd);
             return fwd;
@@ -131,7 +131,7 @@ namespace Accord.Statistics.Models.Markov
         public static double[,] Forward<TDistribution, TObservation>(HiddenMarkovModel<TDistribution, TObservation> model, TObservation[] observations, out double[] scaling, out double logLikelihood)
             where TDistribution : IDistribution<TObservation>
         {
-            double[,] fwd = new double[observations.Length, model.States];
+            double[,] fwd = new double[observations.Length, model.NumberOfStates];
             scaling = new double[observations.Length];
             Forward<TDistribution, TObservation>(model, observations, scaling, fwd);
 
@@ -151,7 +151,7 @@ namespace Accord.Statistics.Models.Markov
         public static void Backward<TDistribution, TObservation>(HiddenMarkovModel<TDistribution, TObservation> model, TObservation[] observations, double[] scaling, double[,] bwd)
             where TDistribution : IDistribution<TObservation>
         {
-            int states = model.States;
+            int states = model.NumberOfStates;
             var A = Elementwise.Exp(model.LogTransitions);
             var B = model.Emissions;
 
@@ -191,7 +191,7 @@ namespace Accord.Statistics.Models.Markov
         public static double[,] Backward<TDistribution, TObservation>(HiddenMarkovModel<TDistribution, TObservation> model, TObservation[] observations, double[] scaling)
              where TDistribution : IDistribution<TObservation>
         {
-            int states = model.States;
+            int states = model.NumberOfStates;
             int T = observations.Length;
             double[,] bwd = new double[T, states];
             Backward<TDistribution, TObservation>(model, observations, scaling, bwd);
@@ -206,7 +206,7 @@ namespace Accord.Statistics.Models.Markov
         public static void LogForward<TDistribution, TObservation>(HiddenMarkovModel<TDistribution, TObservation> model, TObservation[] observations, double[,] lnFwd)
                        where TDistribution : IDistribution<TObservation>
         {
-            int states = model.States;
+            int states = model.NumberOfStates;
             var logA = model.LogTransitions;
             var logB = model.Emissions;
             var logPi = model.LogInitial;
@@ -247,7 +247,7 @@ namespace Accord.Statistics.Models.Markov
             where TDistribution : IDistribution<TObservation>
         {
             int T = observations.Length;
-            int states = model.States;
+            int states = model.NumberOfStates;
 
             double[,] lnFwd = new double[T, states];
 
@@ -267,7 +267,7 @@ namespace Accord.Statistics.Models.Markov
                        where TDistribution : IDistribution<TObservation>
         {
             int T = observations.Length;
-            int states = model.States;
+            int states = model.NumberOfStates;
 
             double[,] lnFwd = new double[T, states];
 
@@ -283,7 +283,7 @@ namespace Accord.Statistics.Models.Markov
         public static void LogBackward<TDistribution, TObservation>(HiddenMarkovModel<TDistribution, TObservation> model, TObservation[] observations, double[,] lnBwd)
             where TDistribution : IDistribution<TObservation>
         {
-            int states = model.States;
+            int states = model.NumberOfStates;
             var logA = model.LogTransitions;
             var logB = model.Emissions;
             var logPi = model.LogInitial;
@@ -322,7 +322,7 @@ namespace Accord.Statistics.Models.Markov
         public static double[,] LogBackward<TDistribution, TObservation>(HiddenMarkovModel<TDistribution, TObservation> model, TObservation[] observations)
             where TDistribution : IDistribution<TObservation>
         {
-            int states = model.States;
+            int states = model.NumberOfStates;
 
             int T = observations.Length;
             double[,] lnBwd = new double[T, states];
@@ -336,14 +336,14 @@ namespace Accord.Statistics.Models.Markov
         public static double[,] LogBackward<TDistribution, TObservation>(HiddenMarkovModel<TDistribution, TObservation> model, TObservation[] observations, out double logLikelihood)
             where TDistribution : IDistribution<TObservation>
         {
-            int states = model.States;
+            int states = model.NumberOfStates;
 
             int T = observations.Length;
             double[,] lnBwd = new double[T, states];
             LogBackward(model, observations, lnBwd);
 
             logLikelihood = Double.NegativeInfinity;
-            for (int i = 0; i < model.States; i++)
+            for (int i = 0; i < model.NumberOfStates; i++)
             {
                 logLikelihood = Special.LogSum(logLikelihood, lnBwd[0, i] + model.LogInitial[i]
                     + model.Emissions[i].LogProbabilityFunction(observations[0]));

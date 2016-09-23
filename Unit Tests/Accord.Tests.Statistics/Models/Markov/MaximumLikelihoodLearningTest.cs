@@ -34,29 +34,11 @@ namespace Accord.Tests.Statistics
     {
 
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void RunTest()
         {
             // Example from
             // http://www.cs.columbia.edu/4761/notes07/chapter4.3-HMM.pdf
-
-            
 
             int[][] observations = 
             {
@@ -109,5 +91,71 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(-1.1472359046136624, logLikelihood);
         }
+
+        [Test]
+        public void learn_test()
+        {
+            #region doc_learn
+            // Example from
+            // http://www.cs.columbia.edu/4761/notes07/chapter4.3-HMM.pdf
+
+            // Inputs
+            int[][] observations = 
+            {
+                new int[] { 0,0,0,1,0,0 }, 
+                new int[] { 1,0,0,1,0,0 },
+                new int[] { 0,0,1,0,0,0 },
+                new int[] { 0,0,0,0,1,0 },
+                new int[] { 1,0,0,0,1,0 },
+                new int[] { 0,0,0,1,1,0 },
+                new int[] { 1,0,0,0,0,0 },
+                new int[] { 1,0,1,0,0,0 },
+            };
+
+            // Outputs
+            int[][] paths =
+            {
+                new int[] { 0,0,1,0,1,0 },
+                new int[] { 1,0,1,0,1,0 },
+                new int[] { 1,0,0,1,1,0 },
+                new int[] { 1,0,1,1,1,0 },
+                new int[] { 1,0,0,1,0,1 },
+                new int[] { 0,0,1,0,0,1 },
+                new int[] { 0,0,1,1,0,1 },
+                new int[] { 0,1,1,1,0,0 },
+            };
+
+            // Create a hidden Markov model with 2 states for 2 symbols
+            var model = new HiddenMarkovModel(states: 2, symbols: 2);
+
+            // Create a Maximum Likelihood learning algorithm
+            var target = new MaximumLikelihoodLearning(model)
+            {
+                UseLaplaceRule = false // don't use Laplace smoothing (to reproduce the example)
+            };
+
+            // Learn the Markov model
+            target.Learn(observations, paths);
+
+            // Recover the learned parameters
+            var pi = model.LogInitial.Exp();
+            var A = model.LogTransitions.Exp();
+            var B = model.LogEmissions.Exp();
+            #endregion
+
+            Assert.AreEqual(0.5, pi[0]);
+            Assert.AreEqual(0.5, pi[1]);
+
+            Assert.AreEqual(7 / 20.0, A[0][0], 1e-5);
+            Assert.AreEqual(13 / 20.0, A[0][1], 1e-5);
+            Assert.AreEqual(14 / 20.0, A[1][0], 1e-5);
+            Assert.AreEqual(6 / 20.0, A[1][1], 1e-5);
+
+            Assert.AreEqual(17 / 25.0, B[0][0]);
+            Assert.AreEqual(8 / 25.0, B[0][1]);
+            Assert.AreEqual(19 / 23.0, B[1][0]);
+            Assert.AreEqual(4 / 23.0, B[1][1]);
+        }
+
     }
 }

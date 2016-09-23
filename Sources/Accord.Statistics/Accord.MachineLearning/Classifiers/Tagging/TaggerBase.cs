@@ -52,7 +52,7 @@ namespace Accord.MachineLearning
         /// A set of class-labels that best describe the <paramref name="input" />
         /// vectors according to this classifier.
         /// </returns>
-        public int[] Decide(TInput[] input, int[] result)
+        public virtual int[] Decide(TInput[] input, int[] result)
         {
             return Decide(new[] { input }, new[] { result })[0];
         }
@@ -68,7 +68,7 @@ namespace Accord.MachineLearning
         /// </returns>
         public int[] Decide(TInput[] input)
         {
-            return Decide(new[] { input })[0];
+            return Decide(input, new int[input.Length]);
         }
 
         /// <summary>

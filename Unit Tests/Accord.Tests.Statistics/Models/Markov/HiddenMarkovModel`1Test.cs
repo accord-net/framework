@@ -1140,7 +1140,6 @@ namespace Accord.Tests.Statistics
         [Test]
         public void LearnTest11()
         {
-
             // Suppose we have a set of six sequences and we would like to
             // fit a hidden Markov model with mixtures of Normal distributions
             // as the emission densities. 
@@ -1215,7 +1214,6 @@ namespace Accord.Tests.Statistics
         [Test]
         public void LearnTest12()
         {
-
             // Suppose we have a set of six sequences and we would like to
             // fit a hidden Markov model with mixtures of Normal distributions
             // as the emission densities. 

@@ -107,7 +107,6 @@
     <Compile Include="Analysis\CircularDescriptiveAnalysis.cs" />
     <Compile Include="Analysis\DistributionAnalysis.cs" />
     <Compile Include="Analysis\BaseDiscriminantAnalysis.cs" />
-    <Compile Include="Analysis\IUnsupervisedLearning.cs" />
     <Compile Include="Analysis\MultinomialLogisticRegressionAnalysis.cs" />
     <Compile Include="Analysis\Performance\WeightedConfusionMatrix.cs" />
     <Compile Include="Analysis\ProcustesAnalysis.cs" />
@@ -365,6 +364,8 @@
     <Compile Include="Models\Markov\Learning\Base\BaseBaumWelchLearning`3.cs" />
     <Compile Include="Models\Markov\Learning\BaumWelchLearning`2.cs" />
     <Compile Include="Models\Markov\Learning\HiddenMarkovClassifierLearning`2.cs" />
+    <Compile Include="Models\Markov\Learning\MaximumLikelihoodLearning`2.cs" />
+    <Compile Include="Models\Markov\Learning\ViterbiLearning`2.cs" />
     <Compile Include="Models\Regression\Linear\Fitting\PolynomialLeastSquares.cs" />
     <Compile Include="Models\Regression\Linear\Fitting\OrdinaryLeastSquares.cs" />
     <Compile Include="Models\Regression\Nonlinear\Fitting\NonNegativeLeastSquares.cs" />

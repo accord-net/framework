@@ -68,13 +68,23 @@ namespace Accord.Statistics.Models.Markov
     {
 
         /// <summary>
+        ///   Obsolete. Please use <see cref="NumberOfSymbols"/> instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use NumberOfSymbols instead.")]
+        public int Symbols
+        {
+            get { return this[0].NumberOfSymbols; }
+        }
+
+        /// <summary>
         ///   Gets the number of symbols
         ///   recognizable by the models.
         /// </summary>
         /// 
-        public int Symbols
+        public int NumberOfSymbols
         {
-            get { return this[0].Symbols; }
+            get { return this[0].NumberOfSymbols; }
         }
 
 

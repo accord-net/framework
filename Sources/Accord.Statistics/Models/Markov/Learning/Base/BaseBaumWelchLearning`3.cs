@@ -266,7 +266,7 @@ namespace Accord.Statistics.Models.Markov.Learning
             //Model = CreateModel(observations);
 
             // Grab model information
-            int states = Model.States;
+            int states = Model.NumberOfStates;
             var logA = Model.LogTransitions;
             var logP = Model.LogInitial;
 
@@ -423,7 +423,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         protected void ComputeKsi(int index, double[,] lnFwd, double[,] lnBwd)
         {
-            int states = Model.States;
+            int states = Model.NumberOfStates;
             double[][] logA = Model.LogTransitions;
             TDistribution[] B = Model.Emissions;
 
@@ -535,7 +535,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         protected void ComputeForwardBackward(int index, double[,] lnFwd, double[,] lnBwd)
         {
-            int states = Model.States;
+            int states = Model.NumberOfStates;
             int T = vectorObservations[index].Length;
 
             Accord.Diagnostics.Debug.Assert(lnBwd.GetLength(0) >= T);

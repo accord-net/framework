@@ -1913,6 +1913,43 @@ namespace Accord.Math
             }
         }
 
+        /// <summary>
+        ///   Copies the content of an array to another array.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
+        /// 
+        /// <param name="matrix">The source matrix to be copied.</param>
+        /// <param name="destination">The matrix where the elements should be copied to.</param>
+        /// <param name="transpose">Whether to transpose the matrix when copying or not. Default is false.</param>
+        /// 
+        public static void CopyTo<T>(this T[,] matrix, T[][] destination, bool transpose = false)
+        {
+            if (transpose)
+            {
+                int rows = Math.Min(matrix.Rows(), destination.Columns());
+                int cols = Math.Min(matrix.Columns(), destination.Rows());
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        destination[j][i] = matrix[i, j];
+            }
+            else
+            {
+                if (matrix.Length == destination.Length)
+                {
+                    Array.Copy(matrix, 0, destination, 0, matrix.Length);
+                }
+                else
+                {
+                    int rows = Math.Min(matrix.Rows(), destination.Rows());
+                    int cols = Math.Min(matrix.Columns(), destination.Columns());
+                    for (int i = 0; i < rows; i++)
+                        for (int j = 0; j < cols; j++)
+                            destination[i][j] = matrix[i, j];
+                }
+            }
+        }
+
 
         /// <summary>
         ///   Copies the content of an array to another array.

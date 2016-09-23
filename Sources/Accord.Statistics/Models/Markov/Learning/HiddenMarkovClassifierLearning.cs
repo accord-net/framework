@@ -80,60 +80,19 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   <see cref="IUnsupervisedLearning">unsupervised learning algorithm</see> could be used.
     /// </para>
     ///   
-    ///   <code>
-    ///   // Declare some testing data
-    ///   int[][] inputs = new int[][]
-    ///   {
-    ///       new int[] { 0,1,1,0 },   // Class 0
-    ///       new int[] { 0,0,1,0 },   // Class 0
-    ///       new int[] { 0,1,1,1,0 }, // Class 0
-    ///       new int[] { 0,1,0 },     // Class 0
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovClassifierTest.cs" region="doc_learn" />
     ///   
-    ///       new int[] { 1,0,0,1 },   // Class 1
-    ///       new int[] { 1,1,0,1 },   // Class 1
-    ///       new int[] { 1,0,0,0,1 }, // Class 1
-    ///       new int[] { 1,0,1 },     // Class 1
-    ///   };
+    /// <para>
+    ///   It is also possible to learn a hidden Markov classifier with support for rejection.
+    ///   When a classifier is configured to use rejection, it will be able to detect when a 
+    ///   sample does not belong to any of the classes that it has previously seen.</para>
     ///   
-    ///   int[] outputs = new int[]
-    ///   {
-    ///       0,0,0,0, // First four sequences are of class 0
-    ///       1,1,1,1, // Last four sequences are of class 1
-    ///   };
-    ///   
-    ///   
-    ///   // We are trying to predict two different classes
-    ///   int classes = 2;
-    ///
-    ///   // Each sequence may have up to two symbols (0 or 1)
-    ///   int symbols = 2;
-    ///
-    ///   // Nested models will have two states each
-    ///   int[] states = new int[] { 2, 2 };
-    ///
-    ///   // Creates a new Hidden Markov Model Sequence Classifier with the given parameters
-    ///   HiddenMarkovClassifier classifier = new HiddenMarkovClassifier(classes, states, symbols);
-    ///   
-    ///   // Create a new learning algorithm to train the sequence classifier
-    ///   var teacher = new HiddenMarkovClassifierLearning(classifier,
-    ///   
-    ///       // Train each model until the log-likelihood changes less than 0.001
-    ///       modelIndex => new BaumWelchLearning(classifier.Models[modelIndex])
-    ///       {
-    ///           Tolerance = 0.001,
-    ///           Iterations = 0
-    ///       }
-    ///   );
-    ///   
-    ///   // Train the sequence classifier using the algorithm
-    ///   double likelihood = teacher.Run(inputs, outputs);
-    ///   
-    ///   </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovClassifierTest.cs" region="doc_rejection" />
     /// </example>
     /// 
     /// <seealso cref="HiddenMarkovClassifier"/>
-    /// <seealso cref="HiddenMarkovClassifier{TDistribution}"/>
-    /// <seealso cref="HiddenMarkovClassifierLearning{TDistribution}"/>
+    /// <seealso cref="HiddenMarkovClassifier{TDistribution, TObservation}"/>
+    /// <seealso cref="HiddenMarkovClassifierLearning{TDistribution, TObservation}"/>
     /// 
     public class HiddenMarkovClassifierLearning :
         BaseHiddenMarkovClassifierLearning<HiddenMarkovClassifier, HiddenMarkovModel, GeneralDiscreteDistribution, int>

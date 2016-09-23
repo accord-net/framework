@@ -175,6 +175,34 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Gets the number of columns in a jagged matrix.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements in the matrix.</typeparam>
+        /// <param name="matrix">The matrix whose number of columns must be computed.</param>
+        /// <param name="max">Whether to compute the maximum length across all rows (because
+        ///   rows can have different lengths in jagged matrices). Default is false.</param>
+        /// 
+        /// <returns>The number of columns in the matrix.</returns>
+        /// 
+        public static int Columns<T>(this T[][] matrix, bool max = false)
+        {
+            if (matrix.Length == 0)
+                return 0;
+
+            if (max)
+            {
+                int maxLength = matrix[0].Length;
+                for (int i = 1; i < matrix.Length; i++)
+                    if (matrix[i].Length > maxLength)
+                        maxLength = matrix[i].Length;
+                return maxLength;
+            }
+
+            return matrix[0].Length;
+        }
+
+        /// <summary>
         ///   Returns true if a matrix is upper triangular.
         /// </summary>
         public static bool IsUpperTriangular<T>(this T[][] matrix) where T : IComparable

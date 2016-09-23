@@ -36,6 +36,66 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   arbitrary-density generative hidden Markov sequence classifiers</see>.
     /// </summary>
     /// 
+    /// <remarks>
+    /// <para>
+    ///   This class acts as a teacher for <see cref="HiddenMarkovClassifier{TDistribution}">
+    ///   classifiers based on arbitrary-density hidden Markov models</see>. The learning
+    ///   algorithm uses a generative approach. It works by training each model in the
+    ///   generative classifier separately.</para>
+    ///   
+    /// <para>
+    ///   This can teach models that use any <see cref="IDistribution">probability
+    ///   distribution</see>. Such <see cref="HiddenMarkovModel{T}">arbitrary-density models
+    ///   </see> can be used for any kind of observation values or vectors. When 
+    ///   
+    /// 
+    ///   be used whenever the sequence of observations is discrete or can be represented
+    ///   by discrete symbols, such as class labels, integers, and so on. If you need
+    ///   to classify sequences of other entities, such as real numbers, vectors (i.e.
+    ///   multivariate observations), then you can use 
+    ///   <see cref="HiddenMarkovClassifierLearning{TDistribution}">generic-density
+    ///   hidden Markov models</see>. Those models can be modeled after any kind of
+    ///   <see cref="IDistribution">probability distribution</see> implementing
+    ///   the <see cref="IDistribution"/> interface.</para>
+    ///   
+    /// <para>
+    ///   For a more thorough explanation on <see cref="HiddenMarkovModel">hidden Markov models</see>
+    ///   with practical examples on gesture recognition, please see 
+    ///   <a href="http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko">
+    ///   Sequence Classifiers in C#, Part I: Hidden Markov Models</a> [1].</para>
+    ///     
+    /// <para>
+    ///   [1]: <a href="http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko"> 
+    ///           http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko </a>
+    /// </para>
+    /// </remarks>
+    /// 
+    /// <example>
+    ///   <para>
+    ///   The following example creates a continuous-density hidden Markov model sequence
+    ///   classifier to recognize two classes of univariate observation sequences.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovClassifier`2Test.cs" region="doc_learn" />
+    /// 
+    ///   <para>
+    ///   The following example creates a continuous-density hidden Markov model sequence
+    ///   classifier to recognize two classes of multivariate sequence of observations.
+    ///   This example uses multivariate Normal distributions as emission densities. </para>
+    ///   
+    ///   <para>
+    ///   When there is insufficient training data, or one of the variables is constant,
+    ///   the Normal distribution estimation may fail with a "Covariance matrix is not
+    ///   positive-definite". In this case, it is possible to sidestep this issue by
+    ///   specifying a small regularization constant to be added to the diagonal elements
+    ///   of the covariance matrix. </para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovClassifier`2Test.cs" region="doc_learn_regularization" />
+    /// </example>
+    /// 
+    /// <seealso cref="HiddenMarkovClassifier{TDistribution, TObservation}"/>
+    /// <seealso cref="HiddenMarkovClassifier"/>
+    /// <seealso cref="HiddenMarkovClassifierLearning"/>
+    /// 
     public class HiddenMarkovClassifierLearning<TDistribution, TObservation> :
         BaseHiddenMarkovClassifierLearning<HiddenMarkovClassifier<TDistribution, TObservation>,
         HiddenMarkovModel<TDistribution, TObservation>, TDistribution, TObservation>

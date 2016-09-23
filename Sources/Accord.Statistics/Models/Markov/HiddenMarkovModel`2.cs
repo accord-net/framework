@@ -33,12 +33,148 @@ namespace Accord.Statistics.Models.Markov
     using Accord.Statistics.Models.Markov.Topology;
     using Accord.MachineLearning;
 
+    //public enum HiddenMarkovModelDecoding
+    //{
+    //    /// <summary>
+    //    ///   Computes the most likely sequence of states using the Viterbi algorithm (default).
+    //    /// </summary>
+    //    /// 
+    //    Viterbi,
+
+    //    /// <summary>
+    //    ///   Computes the most likely sequence of states by maximizing
+    //    ///   the posterior (using the forward and backward matrices).
+    //    /// </summary>
+    //    /// 
+    //    Posterior
+    //}
+
     /// <summary>
-    ///   Arbitrary-density Hidden Markov Model.
+    ///   Algorithms for solving <see cref="HiddenMarkovModel"/>-related
+    ///   problems, such as sequence decoding and likelihood evaluation.
     /// </summary>
     /// 
+    public enum HiddenMarkovModelAlgorithm
+    {
+        /// <summary>
+        ///   Uses the Viterbi algorithm (max-sum) to find the hidden states of a
+        ///   sequence of observations and to evaluate its likelihood. The likelihood
+        ///   will be computed along the Viterbi path.
+        /// </summary>
+        /// 
+        Viterbi,
+
+        /// <summary>
+        ///   Uses the forward algorithm (sum-prod) to compute the likelihood of a sequence.
+        ///   The likelihood will be computed considering every possible path in the model (default).
+        ///   When set, calling <see cref="LikelihoodTaggerBase{T}.LogLikelihoods(T[])"/> will give the
+        ///   model's posterior distribution.
+        /// </summary>
+        /// 
+        Forward
+    }
+
+    /// <summary>
+    ///   Hidden Markov Model for any kind of observations (not only discrete).
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   Hidden Markov Models (HMM) are stochastic methods to model temporal and sequence
+    ///   data. They are especially known for their application in temporal pattern recognition
+    ///   such as speech, handwriting, gesture recognition, part-of-speech tagging, musical
+    ///   score following, partial discharges and bioinformatics.</para>
+    ///   
+    /// <para>
+    ///   This page refers to the arbitrary-density (continuous emission distributions) version
+    ///   of the model. For discrete distributions, please see <see cref="HiddenMarkovModel"/>.
+    /// </para>
+    /// 
+    /// <para>
+    ///   Dynamical systems of discrete nature assumed to be governed by a Markov chain emits
+    ///   a sequence of observable outputs. Under the Markov assumption, it is also assumed that
+    ///   the latest output depends only on the current state of the system. Such states are often
+    ///   not known from the observer when only the output values are observable.</para>
+    ///   
+    /// <para>
+    ///   Hidden Markov Models attempt to model such systems and allow, among other things,
+    ///   <list type="number">
+    ///     <item><description>
+    ///       To infer the most likely sequence of states that produced a given output sequence,</description></item>
+    ///     <item><description>
+    ///       Infer which will be the most likely next state (and thus predicting the next output),</description></item>
+    ///     <item><description>
+    ///       Calculate the probability that a given sequence of outputs originated from the system
+    ///       (allowing the use of hidden Markov models for sequence classification).</description></item>
+    ///     </list></para>
+    ///     
+    ///  <para>     
+    ///   The “hidden” in Hidden Markov Models comes from the fact that the observer does not
+    ///   know in which state the system may be in, but has only a probabilistic insight on where
+    ///   it should be.</para>
+    ///   
+    ///  <para>
+    ///   The arbitrary-density Hidden Markov Model uses any probability density function (such
+    ///   as <see cref="Accord.Statistics.Distributions.Univariate.NormalDistribution">Gaussian</see>
+    ///   <see cref="Accord.Statistics.Distributions.Univariate.Mixture{T}">Mixture Model</see>) for
+    ///   computing the state probability. In other words, in a continuous HMM the matrix of emission
+    ///   probabilities B is replaced by an array of either discrete or continuous probability density
+    ///   functions.</para>
+    ///  
+    ///  <para>
+    ///   If a <see cref="Accord.Statistics.Distributions.Univariate.GeneralDiscreteDistribution">general
+    ///   discrete distribution</see> is used as the underlying probability density function, the
+    ///   model becomes equivalent to the <see cref="HiddenMarkovModel">discrete Hidden Markov Model</see>.
+    ///  </para>
+    ///  
+    /// <para>
+    ///   For a more thorough explanation on some fundamentals on how Hidden Markov Models work,
+    ///   please see the <see cref="HiddenMarkovModel"/> documentation page. To learn a Markov
+    ///   model, you can find a list of both <see cref="ISupervisedLearning">supervised</see> and
+    ///   <see cref="IUnsupervisedLearning">unsupervised</see> learning algorithms in the
+    ///   <see cref="Accord.Statistics.Models.Markov.Learning"/> namespace.</para>
+    ///   
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///       Wikipedia contributors. "Linear regression." Wikipedia, the Free Encyclopedia.
+    ///       Available at: http://en.wikipedia.org/wiki/Hidden_Markov_model </description></item>
+    ///     <item><description>
+    ///       Bishop, Christopher M.; Pattern Recognition and Machine Learning. 
+    ///       Springer; 1st ed. 2006.</description></item>
+    ///   </list></para>
+    /// </remarks>
+    /// 
+    /// <example>
+    ///   <para>The example below reproduces the same example given in the Wikipedia
+    ///   entry for the Viterbi algorithm (http://en.wikipedia.org/wiki/Viterbi_algorithm).
+    ///   As an arbitrary density model, one can use it with any available <see cref="IDistribution">
+    ///   probability distributions</see>, including with a discrete probability. In the 
+    ///   following example, the generic model is used with a <see cref="GeneralDiscreteDistribution"/>
+    ///   to reproduce the same example given in <see cref="HiddenMarkovModel{TDistribution, TObservation}"/>.
+    ///   Below, the model's parameters are initialized manually. However, it is possible to learn
+    ///   those automatically using <see cref="BaumWelchLearning{TDistribution, TObservation}"/>.</para>
+    /// 
+    /// <code source="HidenMarkovModel`2Test" region="doc_decode" />
+    /// 
+    /// <para>
+    ///   Examples on how to learn hidden Markov models can be found on the documentation
+    ///   pages of the respective learning algorithms: <see cref="BaumWelchLearning{TDistribution, TObservation}"/>,
+    ///   <see cref="ViterbiLearning{TDistribution, TObservation}"/>, <see cref="MaximumLikelihoodLearning{TDistribution, TObservation}"/>.
+    ///   The simplest of such examples can be seen below:</para>
+    /// 
+    /// <code source="HidenMarkovModel`2Test" region="doc_learn" />
+    /// 
+    /// </example>
+    /// 
+    /// <seealso cref="BaumWelchLearning{T}">Baum-Welch, one of the most famous 
+    ///   learning algorithms for Hidden Markov Models.</seealso>
+    /// <seealso cref="HiddenMarkovModel">Discrete-density Hidden Markov Model</seealso>
+    /// <seealso cref="Accord.Statistics.Models.Markov.Learning"/>
+    /// 
     [Serializable]
-    public class HiddenMarkovModel<TDistribution, TObservation> : 
+    public class HiddenMarkovModel<TDistribution, TObservation> :
         LikelihoodTaggerBase<TObservation>, ICloneable
         where TDistribution : IDistribution<TObservation>
     {
@@ -52,18 +188,17 @@ namespace Accord.Statistics.Models.Markov
         private int states;  // number of states
         private object tag;
 
-
         /// <summary>
         ///   Constructs a new Hidden Markov Model.
         /// </summary>
         /// 
         protected HiddenMarkovModel(ITopology topology)
+            : this()
         {
             double[,] a;
             this.states = topology.Create(true, out a, out logPi);
-            logA = a.ToJagged();
-
-            NumberOfInputs = 1;
+            this.logA = a.ToJagged();
+            this.NumberOfOutputs = states;
         }
 
         /// <summary>
@@ -72,16 +207,34 @@ namespace Accord.Statistics.Models.Markov
         /// 
         protected HiddenMarkovModel()
         {
-            NumberOfInputs = 1;
+            this.NumberOfInputs = 1;
+            this.Algorithm = HiddenMarkovModelAlgorithm.Forward;
         }
 
-
+        /// <summary>
+        ///   Gets or sets the <see cref="HiddenMarkovModelAlgorithm">algorithm</see>
+        ///   that should be used to compute solutions to this model's <see cref="LikelihoodTaggerBase{T}.LogLikelihood(T[])">
+        ///   evaluation</see>, <see cref="ClassifierBase{I, U}.Decide(I[])">decoding</see> and <see cref="LikelihoodTaggerBase{T}.LogLikelihoods(T[])">
+        ///   posterior</see> problems.
+        /// </summary>
+        /// 
+        public HiddenMarkovModelAlgorithm Algorithm { get; set; }
 
         /// <summary>
         ///   Gets the number of states of this model.
         /// </summary>
         /// 
+        [Obsolete("Please use 'NumberOfStates instead.")]
         public int States
+        {
+            get { return this.states; }
+        }
+
+        /// <summary>
+        ///   Gets the number of states of this model.
+        /// </summary>
+        /// 
+        public int NumberOfStates
         {
             get { return this.states; }
         }
@@ -134,7 +287,7 @@ namespace Accord.Statistics.Models.Markov
                 throw new ArgumentNullException("emissions");
 
             // Initialize B using the initial distribution
-            B = new TDistribution[States];
+            B = new TDistribution[this.states];
 
             for (int i = 0; i < B.Length; i++)
                 B[i] = (TDistribution)emissions.Clone();
@@ -163,7 +316,7 @@ namespace Accord.Statistics.Models.Markov
             if (emissions == null)
                 throw new ArgumentNullException("emissions");
 
-            if (emissions.Length != States)
+            if (emissions.Length != this.states)
             {
                 throw new ArgumentException(
                     "The emission matrix should have the same number of rows as the number of states in the model.",
@@ -230,6 +383,168 @@ namespace Accord.Statistics.Models.Markov
 
 
 
+        // Main HMM algorithms
+        private void emissions(TObservation[] x, double[,] output)
+        {
+            for (int t = 0; t < x.Length; t++)
+                for (int j = 0; j < states; j++)
+                    output[j, t] = B[j].LogProbabilityFunction(x[t]);
+        }
+
+        private void viterbiDecode(TObservation[] x, out double logLikelihood, double[,] lnFwd, int[,] s, ref int[] path)
+        {
+            int T = x.Length;
+            int maxState;
+            logLikelihood = viterbiLikelihood(x, lnFwd, s, out maxState);
+
+            if (path == null)
+                path = new int[T];
+
+            // Trackback
+            path[T - 1] = maxState;
+            for (int t = T - 2; t >= 0; t--)
+                path[t] = s[t + 1, path[t + 1]];
+        }
+
+        private double viterbiLikelihood(TObservation[] x, double[,] lnFwd, int[,] s, out int maxState)
+        {
+            viterbiPosterior(x, lnFwd, s, null);
+
+            // Find maximum value for time T-1
+            int T = x.Length;
+            maxState = 0;
+            double maxWeight = lnFwd[T - 1, 0];
+
+            for (int i = 1; i < states; i++)
+            {
+                if (lnFwd[T - 1, i] > maxWeight)
+                {
+                    maxState = i;
+                    maxWeight = lnFwd[T - 1, i];
+                }
+            }
+
+            return maxWeight;
+        }
+
+        private double viterbiLikelihood(TObservation[] observations, int[] path)
+        {
+            if (observations.Length == 0)
+                return Double.NegativeInfinity;
+
+            try
+            {
+                double logLikelihood = LogInitial[path[0]]
+                    + Emissions[path[0]].LogProbabilityFunction(observations[0]);
+
+                for (int i = 1; i < observations.Length; i++)
+                {
+                    double a = LogTransitions[path[i - 1]][path[i]];
+                    double b = Emissions[path[i]].LogProbabilityFunction(observations[i]);
+                    logLikelihood += a + b;
+                }
+
+                // Return the sequence probability
+                return logLikelihood;
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                checkHiddenStates(ex, path);
+                throw;
+            }
+        }
+
+
+        private void viterbiPosterior(TObservation[] x, double[,] lnFwd, int[,] s, double[][] result)
+        {
+            // Viterbi-forward algorithm.
+            int T = x.Length;
+            double[] logPi = LogInitial;
+            double[][] logA = LogTransitions;
+
+            // Base
+            for (int i = 0; i < states; i++)
+                lnFwd[0, i] = logPi[i] + B[i].LogProbabilityFunction(x[0]);
+
+            // Induction
+            for (int t = 1; t < x.Length; t++)
+            {
+                TObservation observation = x[t];
+
+                for (int j = 0; j < states; j++)
+                {
+                    int maxState = 0;
+                    double maxWeight = lnFwd[t - 1, 0] + logA[0][j];
+
+                    for (int i = 1; i < states; i++)
+                    {
+                        double weight = lnFwd[t - 1, i] + logA[i][j];
+
+                        if (weight > maxWeight)
+                        {
+                            maxState = i;
+                            maxWeight = weight;
+                        }
+                    }
+
+                    lnFwd[t, j] = maxWeight + B[j].LogProbabilityFunction(observation);
+                    s[t, j] = maxState;
+                }
+            }
+
+            if (result != null)
+                lnFwd.CopyTo(result, transpose: true);
+        }
+
+        private void forwardPosterior(TObservation[] observations, double[,] lnFwd, double[,] lnBwd, double[][] result)
+        {
+            // Reference: C. S. Foo, CS262 Winter 2007, Lecture 5, Stanford
+            // http://ai.stanford.edu/~serafim/CS262_2007/notes/lecture5.pdf
+
+            if (observations == null)
+                throw new ArgumentNullException("observations");
+
+            double logLikelihood;
+
+            // Compute forward and backward probabilities
+            ForwardBackwardAlgorithm.LogForward(this, observations, lnFwd);
+            ForwardBackwardAlgorithm.LogBackward(this, observations, lnBwd);
+
+            logLikelihood = Double.NegativeInfinity;
+            for (int i = 0; i < states; i++)
+                logLikelihood = Special.LogSum(logLikelihood, lnFwd[observations.Length - 1, i]);
+
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < states; j++)
+                    result[i][j] = Math.Exp(lnFwd[i, j] + lnBwd[i, j] - logLikelihood);
+        }
+
+        //private double[][] forwardDecode(TObservation[] observations, int[] path, double[,] lnFwd, double[,] lnBwd)
+        //{
+        //    double[][] probabilities = forwardPosterior(observations, lnFwd, lnBwd);
+
+        //    path = new int[observations.Length];
+        //    for (int i = 0; i < path.Length; i++)
+        //        Accord.Math.Matrix.Max(probabilities[i], out path[i]);
+
+        //    return probabilities;
+        //}
+
+        private double forwardLikelihood(TObservation[] observations, double[,] lnFwd)
+        {
+            // Forward algorithm
+            double logLikelihood = Double.NegativeInfinity;
+
+            // Compute forward probabilities
+            ForwardBackwardAlgorithm.LogForward(this, observations, lnFwd);
+
+            logLikelihood = Double.NegativeInfinity;
+            for (int i = 0; i < states; i++)
+                logLikelihood = Special.LogSum(logLikelihood, lnFwd[observations.Length - 1, i]);
+
+            // Return the sequence probability
+            return logLikelihood;
+        }
 
 
         /// <summary>
@@ -248,6 +563,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <returns>The sequence of states that most likely produced the sequence.</returns>
         /// 
+        [Obsolete("Please set Algorithm to Viterbi and call Decide() instead.")]
         public int[] Decode(TObservation[] observations)
         {
             double logLikelihood;
@@ -272,94 +588,18 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <returns>The sequence of states that most likely produced the sequence.</returns>
         /// 
+        [Obsolete("Please set Algorithm to Viterbi and call Decide() instead.")]
         public int[] Decode(TObservation[] observations, out double logLikelihood)
         {
-            if (observations == null)
-                throw new ArgumentNullException("observations");
-
-            if (observations.Length == 0)
-            {
-                logLikelihood = Double.NegativeInfinity;
-                return new int[0];
-            }
-
-            return viterbi(observations, out logLikelihood);
-        }
-
-        private int[] viterbi(TObservation[] x, out double logLikelihood)
-        {
-            // Viterbi-forward algorithm.
-            int T = x.Length;
-            int states = States;
-            int maxState;
-            double maxWeight;
-            double weight;
-
-            double[] logPi = LogInitial;
-            double[][] logA = LogTransitions;
-
-            int[,] s = new int[states, T];
-            double[][] lnFwd = Jagged.Zeros(states, T);
-
-
-            // Base
-            for (int i = 0; i < states; i++)
-                lnFwd[i][0] = logPi[i] + B[i].LogProbabilityFunction(x[0]);
-
-            // Induction
-            for (int t = 1; t < T; t++)
-            {
-                TObservation observation = x[t];
-
-                for (int j = 0; j < states; j++)
-                {
-                    maxState = 0;
-                    maxWeight = lnFwd[0][t - 1] + logA[0][j];
-
-                    for (int i = 1; i < states; i++)
-                    {
-                        weight = lnFwd[i][t - 1] + logA[i][j];
-
-                        if (weight > maxWeight)
-                        {
-                            maxState = i;
-                            maxWeight = weight;
-                        }
-                    }
-
-                    lnFwd[j][t] = maxWeight + B[j].LogProbabilityFunction(observation);
-                    s[j, t] = maxState;
-                }
-            }
-
-            // Find maximum value for time T-1
-            maxState = 0;
-            maxWeight = lnFwd[0][T - 1];
-
-            for (int i = 1; i < states; i++)
-            {
-                if (lnFwd[i][T - 1] > maxWeight)
-                {
-                    maxState = i;
-                    maxWeight = lnFwd[i][T - 1];
-                }
-            }
-
-
-            // Trackback
-            int[] path = new int[T];
-            path[T - 1] = maxState;
-
-            for (int t = T - 2; t >= 0; t--)
-                path[t] = s[path[t + 1], t + 1];
-
-
-            // Returns the sequence probability as an out parameter
-            logLikelihood = maxWeight;
-
-            // Returns the most likely (Viterbi path) for the given sequence
+            var prev = Algorithm;
+            Algorithm = HiddenMarkovModelAlgorithm.Viterbi;
+            int[] path = null;
+            logLikelihood = LogLikelihood(observations, ref path);
+            Algorithm = prev;
             return path;
         }
+
+
 
         /// <summary>
         ///   Calculates the probability of each hidden state for each
@@ -384,32 +624,17 @@ namespace Accord.Statistics.Models.Markov
         ///  size 3 each. Each vector of size 3 will contain probability values that sum
         ///  up to one.</returns>
         /// 
+        [Obsolete("Please set Algorithm to Forward and call LogLikelihoods() instead.")]
         public double[][] Posterior(TObservation[] observations)
         {
-            // Reference: C. S. Foo, CS262 Winter 2007, Lecture 5, Stanford
-            // http://ai.stanford.edu/~serafim/CS262_2007/notes/lecture5.pdf
-
-            if (observations == null)
-                throw new ArgumentNullException("observations");
-
-            double logLikelihood;
-
-            // Compute forward and backward probabilities
-            double[,] lnFwd = ForwardBackwardAlgorithm.LogForward(this, observations, out logLikelihood);
-            double[,] lnBwd = ForwardBackwardAlgorithm.LogBackward(this, observations);
-
-            double[][] probabilities = new double[observations.Length][];
-
-            for (int i = 0; i < probabilities.Length; i++)
-            {
-                double[] states = probabilities[i] = new double[States];
-
-                for (int j = 0; j < states.Length; j++)
-                    states[j] = Math.Exp(lnFwd[i, j] + lnBwd[i, j] - logLikelihood);
-            }
-
-            return probabilities;
+            var prev = Algorithm;
+            Algorithm = HiddenMarkovModelAlgorithm.Forward;
+            double[][] r = LogLikelihoods(observations);
+            Algorithm = prev;
+            return r;
         }
+
+
 
         /// <summary>
         ///   Calculates the probability of each hidden state for each observation 
@@ -438,17 +663,19 @@ namespace Accord.Statistics.Models.Markov
         ///  size 3 each. Each vector of size 3 will contain probability values that sum
         ///  up to one.</returns>
         /// 
-        [Obsolete("Please use LogLikelihoods(observations) instead.")]
+        [Obsolete("Please set Algorithm to Forward and call LogLikelihoods() instead.")]
         public double[][] Posterior(TObservation[] observations, out int[] path)
         {
-            double[][] probabilities = Posterior(observations);
-
-            path = new int[observations.Length];
-            for (int i = 0; i < path.Length; i++)
-                Accord.Math.Matrix.Max(probabilities[i], out path[i]);
-
-            return probabilities;
+            var prev = Algorithm;
+            Algorithm = HiddenMarkovModelAlgorithm.Forward;
+            //DecodingAlgorithm = HiddenMarkovModelDecoding.Posterior;
+            path = null;
+            double[][] r = LogLikelihoods(observations, ref path);
+            Algorithm = prev;
+            return r;
         }
+
+
 
         /// <summary>
         ///   Calculates the likelihood that this model has generated the given sequence.
@@ -468,24 +695,17 @@ namespace Accord.Statistics.Models.Markov
         ///   The log-likelihood that the given sequence has been generated by this model.
         /// </returns>
         /// 
-        [Obsolete("Please use LogLikelihood(observations) instead.")]
+        [Obsolete("Please set Algorithm to Forward and call LogLikelihood() instead.")]
         public double Evaluate(TObservation[] observations)
         {
-            if (observations == null)
-                throw new ArgumentNullException("observations");
-
-            if (observations.Length == 0)
-                return Double.NegativeInfinity;
-
-            // Forward algorithm
-            double logLikelihood;
-
-            // Compute forward probabilities
-            ForwardBackwardAlgorithm.LogForward(this, observations, out logLikelihood);
-
-            // Return the sequence probability
-            return logLikelihood;
+            var prev = Algorithm;
+            Algorithm = HiddenMarkovModelAlgorithm.Forward;
+            double r = LogLikelihood(observations);
+            Algorithm = prev;
+            return r;
         }
+
+
 
         /// <summary>
         ///   Calculates the log-likelihood that this model has generated the
@@ -503,36 +723,9 @@ namespace Accord.Statistics.Models.Markov
         [Obsolete("Please use LogLikelihood(observations, path) instead.")]
         public double Evaluate(TObservation[] observations, int[] path)
         {
-            if (observations == null)
-                throw new ArgumentNullException("observations");
-
-            if (path == null)
-                throw new ArgumentNullException("path");
-
-            if (observations.Length == 0)
-                return Double.NegativeInfinity;
-
-            try
-            {
-                double logLikelihood = LogInitial[path[0]]
-                    + Emissions[path[0]].LogProbabilityFunction(observations[0]);
-
-                for (int i = 1; i < observations.Length; i++)
-                {
-                    double a = LogTransitions[path[i - 1]][path[i]];
-                    double b = Emissions[path[i]].LogProbabilityFunction(observations[i]);
-                    logLikelihood += a + b;
-                }
-
-                // Return the sequence probability
-                return logLikelihood;
-            }
-            catch (IndexOutOfRangeException ex)
-            {
-                checkHiddenStates(ex, path);
-                throw;
-            }
+            return viterbiLikelihood(observations, path);
         }
+
 
 
 
@@ -790,7 +983,6 @@ namespace Accord.Statistics.Models.Markov
         /// 
         private TObservation[] predict(TObservation[] observations, int next, out double logLikelihood, out double[][] lnFuture)
         {
-            int states = States;
             int T = next;
 
             double[][] lnA = LogTransitions;
@@ -810,11 +1002,11 @@ namespace Accord.Statistics.Models.Markov
             // sequence and copy the latest forward probabilities on its first row.
             double[][] lnFwd = new double[T + 1][];
             for (int i = 0; i < lnFwd.Length; i++)
-                lnFwd[i] = new double[States];
+                lnFwd[i] = new double[states];
 
 
             // 1. Initialization
-            for (int i = 0; i < States; i++)
+            for (int i = 0; i < states; i++)
                 lnFwd[0][i] = lnFw0[observations.Length - 1, i];
 
 
@@ -873,10 +1065,10 @@ namespace Accord.Statistics.Models.Markov
         {
             for (int i = 0; i < path.Length; i++)
             {
-                if (path[i] < 0 || path[i] >= States)
+                if (path[i] < 0 || path[i] >= states)
                 {
                     throw new ArgumentException("path", "The hidden states vector must "
-                    + "only contain values higher than or equal to 0 and less than " + States
+                    + "only contain values higher than or equal to 0 and less than " + states
                     + ". The value at the position " + i + " is " + path[i] + ".", ex);
                 }
             }
@@ -904,7 +1096,6 @@ namespace Accord.Statistics.Models.Markov
 
 
 
-#pragma warning disable 612, 618
 
         /// <summary>
         /// Predicts a the probability that the sequence vector
@@ -914,7 +1105,31 @@ namespace Accord.Statistics.Models.Markov
         /// 
         public double LogLikelihood(TObservation[] sequences, int[] path)
         {
-            return Evaluate(sequences, path);
+            return viterbiLikelihood(sequences, path);
+        }
+
+        /// <summary>
+        /// Predicts a the probability that the sequence vector
+        /// has been generated by this log-likelihood tagger along
+        /// the given path of hidden states.
+        /// </summary>
+        /// 
+        public double[] LogLikelihood(TObservation[][] sequences, int[][] path)
+        {
+            return LogLikelihood(sequences, path, new double[sequences.Length]);
+        }
+
+        /// <summary>
+        /// Predicts a the probability that the sequence vector
+        /// has been generated by this log-likelihood tagger along
+        /// the given path of hidden states.
+        /// </summary>
+        /// 
+        public double[] LogLikelihood(TObservation[][] sequences, int[][] path, double[] result)
+        {
+            for (int i = 0; i < sequences.Length; i++)
+                result[i] = viterbiLikelihood(sequences[i], path[i]);
+            return result;
         }
 
         /// <summary>
@@ -924,9 +1139,22 @@ namespace Accord.Statistics.Models.Markov
         /// 
         public override double[] LogLikelihood(TObservation[][] sequences, double[] result)
         {
-            // TODO: Implement efficiently
-            for (int i = 0; i < sequences.Length; i++)
-                result[i] = Evaluate(sequences[i]);
+            int T = sequences.Columns(max: true);
+            var lnFwd = new double[T, states];
+
+            if (Algorithm == HiddenMarkovModelAlgorithm.Forward)
+            {
+                for (int i = 0; i < sequences.Length; i++)
+                    result[i] = forwardLikelihood(sequences[i], lnFwd);
+            }
+            else
+            {
+                var s = new int[T, states];
+                int maxState;
+                for (int i = 0; i < sequences.Length; i++)
+                    result[i] = viterbiLikelihood(sequences[i], lnFwd, s, out maxState);
+            }
+
             return result;
         }
 
@@ -937,11 +1165,17 @@ namespace Accord.Statistics.Models.Markov
         /// 
         public override double[] LogLikelihood(TObservation[][] sequences, ref int[][] decision, double[] result)
         {
-            // TODO: Implement efficiently
+            int T = sequences.Columns(max: true);
+            var lnFwd = new double[T, states];
+            var s = new int[T, states];
+
             for (int i = 0; i < sequences.Length; i++)
+                viterbiDecode(sequences[i], out result[i], lnFwd, s, ref decision[i]);
+
+            if (Algorithm == HiddenMarkovModelAlgorithm.Forward)
             {
-                decision[i] = Decode(sequences[i]);
-                result[i] = Evaluate(sequences[i]);
+                for (int i = 0; i < sequences.Length; i++)
+                    result[i] = forwardLikelihood(sequences[i], lnFwd); // overwrite
             }
 
             return result;
@@ -954,7 +1188,21 @@ namespace Accord.Statistics.Models.Markov
         /// </summary>
         public override double[][] LogLikelihoods(TObservation[] sequence, double[][] result)
         {
-            return Posterior(sequence);
+            int T = sequence.Length;
+            var lnFwd = new double[T, states];
+
+            if (Algorithm == HiddenMarkovModelAlgorithm.Forward)
+            {
+                var lnBwd = new double[T, states];
+                forwardPosterior(sequence, lnFwd, lnBwd, result);
+            }
+            else
+            {
+                var s = new int[T, states];
+                viterbiPosterior(sequence, lnFwd, s, result);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -964,9 +1212,23 @@ namespace Accord.Statistics.Models.Markov
         /// </summary>
         public override double[][] LogLikelihoods(TObservation[] sequence, ref int[] decision, double[][] result)
         {
-            // TODO: Implement efficiently
-            decision = Decide(sequence);
-            return Posterior(sequence);
+            int T = sequence.Length;
+            var lnFwd = new double[T, states];
+            double logLikelihood;
+            var s = new int[T, states];
+            viterbiDecode(sequence, out logLikelihood, lnFwd, s, ref  decision);
+
+            if (Algorithm == HiddenMarkovModelAlgorithm.Forward)
+            {
+                var lnBwd = new double[T, states];
+                forwardPosterior(sequence, lnFwd, lnBwd, result);
+            }
+            else
+            {
+                lnFwd.CopyTo(result, transpose: true);
+            }
+
+            return result;
         }
 
 
@@ -982,13 +1244,36 @@ namespace Accord.Statistics.Models.Markov
         /// </returns>
         public override int[][] Decide(TObservation[][] input, int[][] result)
         {
-            // TODO: Implement efficiently
+            int T = input.Columns(max: true);
+            var lnFwd = new double[T, states];
+            var s = new int[T, states];
+            double logLikelihood;
+
             for (int i = 0; i < input.Length; i++)
-                result[i] = Decode(input[i]);
+                viterbiDecode(input[i], out logLikelihood, lnFwd, s, ref  result[i]);
+
             return result;
         }
-#pragma warning restore 612, 618
 
+        /// <summary>
+        /// Computes class-label decisions for the given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vectors that should be classified as
+        /// any of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <param name="result">The location where to store the class-labels.</param>
+        /// <returns>
+        /// A set of class-labels that best describe the <paramref name="input" />
+        /// vectors according to this classifier.
+        /// </returns>
+        public override int[] Decide(TObservation[] input, int[] result)
+        {
+            int T = input.Length;
+            var lnFwd = new double[T, states];
+            var s = new int[T, states];
+            double logLikelihood;
+            viterbiDecode(input, out logLikelihood, lnFwd, s, ref result);
+            return result;
+        }
 
     }
 }

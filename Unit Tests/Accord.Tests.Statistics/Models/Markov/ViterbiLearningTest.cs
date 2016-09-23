@@ -35,20 +35,6 @@ namespace Accord.Tests.Statistics
     {
 
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
         [Test]
         public void LearnTest2()
         {
@@ -320,6 +306,82 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(l1 > l3 && l1 > l4);
             Assert.IsTrue(l2 > l3 && l2 > l4);
         }
+
+        [Test]
+        public void learn_test()
+        {
+            #region doc_learn
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // We will try to create a Hidden Markov Model which
+            //  can detect if a given sequence starts with a zero
+            //  and has any number of ones after that.
+            //
+            int[][] sequences = new int[][] 
+            {
+                new int[] { 0,1,1,1,1,0,1,1,1,1 },
+                new int[] { 0,1,1,1,0,1,1,1,1,1 },
+                new int[] { 0,1,1,1,1,1,1,1,1,1 },
+                new int[] { 0,1,1,1,1,1         },
+                new int[] { 0,1,1,1,1,1,1       },
+                new int[] { 0,1,1,1,1,1,1,1,1,1 },
+                new int[] { 0,1,1,1,1,1,1,1,1,1 },
+            };
+
+            // Creates a new Hidden Markov Model with 3 states for
+            //  an output alphabet of two characters (zero and one)
+            //
+            HiddenMarkovModel hmm = new HiddenMarkovModel(new Forward(3), 2);
+
+            // Try to fit the model to the data until the difference in
+            //  the average log-likelihood changes only by as little as 0.0001
+            //
+            var teacher = new ViterbiLearning(hmm)
+            {
+                Tolerance = 0.0001,
+                Iterations = 0
+            };
+
+            // Learn the model
+            teacher.Learn(sequences);
+
+            // Calculate the probability that the given
+            //  sequences originated from the model
+            //
+            double l1; hmm.Decode(new int[] { 0, 1 }, out l1);        // 0.5394
+            double l2; hmm.Decode(new int[] { 0, 1, 1, 1 }, out l2);  // 0.4485
+
+            // Sequences which do not start with zero have much lesser probability.
+            double l3; hmm.Decode(new int[] { 1, 1 }, out l3);        // 0.0864
+            double l4; hmm.Decode(new int[] { 1, 0, 0, 0 }, out l4);  // 0.0004
+
+            // Sequences which contains few errors have higher probability
+            //  than the ones which do not start with zero. This shows some
+            //  of the temporal elasticity and error tolerance of the HMMs.
+            //
+            double l5; hmm.Decode(new int[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 }, out l5); // 0.0154
+            double l6; hmm.Decode(new int[] { 0, 1, 1, 1, 1, 1, 1, 0, 1 }, out l6); // 0.0154
+            #endregion
+
+
+            l1 = System.Math.Exp(l1);
+            l2 = System.Math.Exp(l2);
+            l3 = System.Math.Exp(l3);
+            l4 = System.Math.Exp(l4);
+            l5 = System.Math.Exp(l5);
+            l6 = System.Math.Exp(l6);
+
+            Assert.AreEqual(0.53946360153256712, l1, 1e-6);
+            Assert.AreEqual(0.44850249229903377, l2, 1e-6);
+            Assert.AreEqual(0.08646414524833077, l3, 1e-6);
+            Assert.AreEqual(0.00041152263374485, l4, 1e-6);
+            Assert.AreEqual(0.01541807695931400, l5, 1e-6);
+            Assert.AreEqual(0.01541807695931400, l6, 1e-6);
+
+            Assert.IsTrue(l1 > l3 && l1 > l4);
+            Assert.IsTrue(l2 > l3 && l2 > l4);
+        }
+
 
         [Test]
         public void LearnTest6()

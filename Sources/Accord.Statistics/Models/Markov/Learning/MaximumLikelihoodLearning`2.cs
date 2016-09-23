@@ -24,13 +24,14 @@ namespace Accord.Statistics.Models.Markov.Learning
 {
     using System;
     using Accord.Math;
+    using Accord.Statistics.Distributions;
+    using Accord.Statistics.Distributions.Fitting;
+    using System.Collections.Generic;
     using Accord.MachineLearning;
-    using System.Threading;
-#pragma warning disable 612, 618
+using System.Threading;
 
     /// <summary>
-    ///    Maximum Likelihood learning algorithm for <see cref="HiddenMarkovModel">
-    ///    discrete-density Hidden Markov Models</see>.
+    ///    Maximum Likelihood learning algorithm for discrete-density Hidden Markov Models.
     /// </summary>
     /// 
     /// <remarks>
@@ -58,23 +59,27 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   our Markov model.
     /// </para>
     /// 
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\MaximumLikelihoodLearningTest.cs" region="doc_learn"/>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\MaximumLikelihoodLearning`1Test.cs" region="doc_learn"/>
     /// </example>
     /// 
     /// <seealso cref="MaximumLikelihoodLearning"/>
-    /// <seealso cref="ViterbiLearning"/>
-    /// <seealso cref="HiddenMarkovModel"/>
+    /// <seealso cref="ViterbiLearning{TDistribution}"/>
+    /// <seealso cref="HiddenMarkovModel{TDistribution}"/>
     /// 
-    public class MaximumLikelihoodLearning : ISupervisedLearning,
-        ISupervisedLearning<HiddenMarkovModel, int[], int[]>
+    public class MaximumLikelihoodLearning<TDistribution, TObservation> :
+        ISupervisedLearning<HiddenMarkovModel<TDistribution, TObservation>, TObservation[], int[]>
+        where TDistribution : IFittableDistribution<TObservation>
     {
 
-        private HiddenMarkovModel model;
+        private HiddenMarkovModel<TDistribution, TObservation> model;
         private bool useLaplaceRule = true;
+        private bool useWeights = false;
 
         private int[] initial;
         private int[,] transitions;
-        private int[,] emissions;
+
+
+        private IFittingOptions fittingOptions;
 
         /// <summary>
         ///   Gets or sets a cancellation token that can be used to
@@ -87,9 +92,22 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   Gets the model being trained.
         /// </summary>
         /// 
-        public HiddenMarkovModel Model
+        public HiddenMarkovModel<TDistribution, TObservation> Model
         {
             get { return model; }
+        }
+
+        /// <summary>
+        ///   Gets or sets whether the emission fitting algorithm should
+        ///   present weighted samples or simply the clustered samples to
+        ///   the <see cref="IDistribution.Fit(System.Array)">density estimation 
+        ///   methods</see>.
+        /// </summary>
+        /// 
+        public bool UseWeights
+        {
+            get { return useWeights; }
+            set { useWeights = value; }
         }
 
         /// <summary>
@@ -104,52 +122,32 @@ namespace Accord.Statistics.Models.Markov.Learning
         }
 
         /// <summary>
+        ///   Gets or sets the distribution fitting options
+        ///   to use when estimating distribution densities
+        ///   during learning.
+        /// </summary>
+        /// <value>The distribution fitting options.</value>
+        /// 
+        public IFittingOptions FittingOptions
+        {
+            get { return fittingOptions; }
+            set { fittingOptions = value; }
+        }
+
+        /// <summary>
         ///   Creates a new instance of the Maximum Likelihood learning algorithm.
         /// </summary>
         /// 
-        public MaximumLikelihoodLearning(HiddenMarkovModel model)
+        public MaximumLikelihoodLearning(HiddenMarkovModel<TDistribution, TObservation> model)
         {
             this.model = model;
 
-            int states = model.States;
-            int symbols = model.Symbols;
+            int states = model.NumberOfStates;
 
             initial = new int[states];
             transitions = new int[states, states];
-            emissions = new int[states, symbols];
         }
 
-
-        /// <summary>
-        ///   Runs the Maximum Likelihood learning algorithm for hidden Markov models.
-        /// </summary>
-        /// 
-        /// <param name="observations">An array of observation sequences to be used to train the model.</param>
-        /// <param name="paths">An array of state labels associated to each observation sequence.</param>
-        /// 
-        /// <returns>
-        ///   The average log-likelihood for the observations after the model has been trained.
-        /// </returns>
-        /// 
-        /// <remarks>
-        ///   Supervised learning problem. Given some training observation sequences O = {o1, o2, ..., oK},
-        ///   known training state paths H = {h1, h2, ..., hK} and general structure of HMM (numbers of 
-        ///   hidden and visible states), determine HMM parameters M = (A, B, pi) that best fit training data.
-        /// </remarks>
-        /// 
-        [Obsolete("Please use Learn(x, y) instead.")]
-        public double Run(int[][] observations, int[][] paths)
-        {
-            run(observations, paths);
-
-
-            // 5. Compute log-likelihood
-            double logLikelihood = Double.NegativeInfinity;
-            for (int i = 0; i < observations.Length; i++)
-                logLikelihood = Special.LogSum(logLikelihood, model.Evaluate(observations[i]));
-
-            return logLikelihood;
-        }
 
         /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.
@@ -158,36 +156,74 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
         /// <param name="weights">The weight of importance for each input-output pair.</param>
         /// <returns>A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.</returns>
-        public HiddenMarkovModel Learn(int[][] x, int[][] y, double[] weights = null)
-        {
-            run(x, y);
-            return model;
-        }
-
-        private void run(int[][] observations, int[][] paths)
+        public HiddenMarkovModel<TDistribution, TObservation> Learn(TObservation[][] x, int[][] y, double[] weights = null)
         {
             // Grab model information
-            int N = observations.Length;
-            int states = model.States;
-            int symbols = model.Symbols;
+            int N = x.Length;
+            int states = model.NumberOfStates;
 
             Array.Clear(initial, 0, initial.Length);
             Array.Clear(transitions, 0, transitions.Length);
-            Array.Clear(emissions, 0, emissions.Length);
+
 
             // 1. Count first state occurrences
-            for (int i = 0; i < paths.Length; i++)
-                initial[paths[i][0]]++;
+            for (int i = 0; i < y.Length; i++)
+                initial[y[i][0]]++;
 
             // 2. Count all state transitions
-            foreach (int[] path in paths)
+            foreach (int[] path in y)
                 for (int j = 1; j < path.Length; j++)
                     transitions[path[j - 1], path[j]]++;
 
-            // 3. Count emissions for each state
-            for (int i = 0; i < observations.Length; i++)
-                for (int j = 0; j < observations[i].Length; j++)
-                    emissions[paths[i][j], observations[i][j]]++;
+            if (useWeights)
+            {
+                int totalObservations = 0;
+                for (int i = 0; i < x.Length; i++)
+                    totalObservations += x[i].Length;
+
+                double[][] totalWeights = new double[states][];
+                for (int i = 0; i < totalWeights.Length; i++)
+                    totalWeights[i] = new double[totalObservations];
+
+                var all = new TObservation[totalObservations];
+
+                for (int i = 0, c = 0; i < y.Length; i++)
+                {
+                    for (int t = 0; t < y[i].Length; t++, c++)
+                    {
+                        int state = y[i][t];
+                        all[c] = x[i][t];
+                        totalWeights[state][c] = 1;
+                    }
+                }
+
+                for (int i = 0; i < model.NumberOfStates; i++)
+                    model.Emissions[i].Fit(all, totalWeights[i], fittingOptions);
+            }
+            else
+            {
+                // 3. Count emissions for each state
+                var clusters = new List<TObservation>[model.NumberOfStates];
+                for (int i = 0; i < clusters.Length; i++)
+                    clusters[i] = new List<TObservation>();
+
+                // Count symbol frequencies per state
+                for (int i = 0; i < y.Length; i++)
+                {
+                    for (int t = 0; t < y[i].Length; t++)
+                    {
+                        int state = y[i][t];
+                        var symbol = x[i][t];
+
+                        clusters[state].Add(symbol);
+                    }
+                }
+
+                // Estimate probability distributions
+                for (int i = 0; i < model.NumberOfStates; i++)
+                    if (clusters[i].Count > 0)
+                        model.Emissions[i].Fit(clusters[i].ToArray(), fittingOptions);
+            }
 
             // 4. Form log-probabilities, using the Laplace
             //    correction to avoid zero probabilities
@@ -203,31 +239,20 @@ namespace Accord.Statistics.Models.Markov.Learning
 
                     for (int j = 0; j < states; j++)
                         transitions[i, j]++;
-
-                    for (int k = 0; k < symbols; k++)
-                        emissions[i, k]++;
                 }
             }
 
             // Form probabilities
             int initialCount = initial.Sum();
             int[] transitionCount = transitions.Sum(1);
-            int[] emissionCount = emissions.Sum(1);
 
             if (initialCount == 0)
                 initialCount = 1;
 
             for (int i = 0; i < transitionCount.Length; i++)
-            {
                 if (transitionCount[i] == 0)
                     transitionCount[i] = 1;
-            }
 
-            for (int i = 0; i < emissionCount.Length; i++)
-            {
-                if (emissionCount[i] == 0)
-                    emissionCount[i] = 1;
-            }
 
             for (int i = 0; i < initial.Length; i++)
                 model.LogInitial[i] = Math.Log(initial[i] / (double)initialCount);
@@ -236,35 +261,10 @@ namespace Accord.Statistics.Models.Markov.Learning
                 for (int j = 0; j < states; j++)
                     model.LogTransitions[i][j] = Math.Log(transitions[i, j] / (double)transitionCount[i]);
 
-            for (int i = 0; i < emissionCount.Length; i++)
-                for (int j = 0; j < symbols; j++)
-                    model.LogEmissions[i][j] = Math.Log(emissions[i, j] / (double)emissionCount[i]);
-
             Accord.Diagnostics.Debug.Assert(!model.LogInitial.HasNaN());
             Accord.Diagnostics.Debug.Assert(!model.LogTransitions.HasNaN());
-            Accord.Diagnostics.Debug.Assert(!model.Emissions.HasNaN());
-        }
 
-        /// <summary>
-        ///   Runs the Maximum Likelihood learning algorithm for hidden Markov models.
-        /// </summary>
-        /// 
-        /// <param name="observations">An array of observation sequences to be used to train the model.</param>
-        /// <param name="paths">An array of state labels associated to each observation sequence.</param>
-        /// 
-        /// <returns>
-        ///   The average log-likelihood for the observations after the model has been trained.
-        /// </returns>
-        /// 
-        /// <remarks>
-        ///   Supervised learning problem. Given some training observation sequences O = {o1, o2, ..., oK},
-        ///   known training state paths H = {h1, h2, ..., hK} and general structure of HMM (numbers of 
-        ///   hidden and visible states), determine HMM parameters M = (A, B, pi) that best fit training data.
-        /// </remarks>
-        /// 
-        double ISupervisedLearning.Run(Array[] observations, int[][] paths)
-        {
-            return Run(observations as int[][], paths);
+            return model;
         }
 
 

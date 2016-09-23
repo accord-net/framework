@@ -92,7 +92,9 @@ namespace Accord.MachineLearning
         public double Probability(TInput[] sequence, ref int[] decision)
         {
             var d = new[] { decision };
-            return Probability(new[] { sequence }, ref d)[0];
+            double p = Probability(new[] { sequence }, ref d)[0];
+            decision = d[0];
+            return p;
         }
 
         /// <summary>
@@ -155,7 +157,9 @@ namespace Accord.MachineLearning
         public double LogLikelihood(TInput[] sequence, ref int[] decision)
         {
             var d = new[] { decision };
-            return LogLikelihood(new[] { sequence }, ref d)[0];
+            double l = LogLikelihood(new[] { sequence }, ref d)[0];
+            decision = d[0];
+            return l;
         }
 
         /// <summary>

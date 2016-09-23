@@ -39,97 +39,13 @@ namespace Accord.Tests.Statistics
     public class GenericHiddenMarkovModelTest2
     {
 
-        public static HiddenMarkovModel<GeneralDiscreteDistribution, int> CreateDiscrete(double[,] transitions,
-            double[,] emissions, double[] probabilities, bool logarithm = false)
-        {
-            ITopology topology = new Custom(transitions, probabilities, logarithm);
-
-            if (emissions == null)
-            {
-                throw new ArgumentNullException("emissions");
-            }
-
-            if (emissions.GetLength(0) != topology.States)
-            {
-                throw new ArgumentException(
-                    "The emission matrix should have the same number of rows as the number of states in the model.",
-                    "emissions");
-            }
-
-
-            // Initialize B using a discrete distribution
-            var B = new GeneralDiscreteDistribution[topology.States];
-            for (int i = 0; i < B.Length; i++)
-                B[i] = new GeneralDiscreteDistribution(Accord.Math.Matrix.GetRow(emissions, i));
-
-            return new HiddenMarkovModel<GeneralDiscreteDistribution, int>(topology, B);
-        }
-
-        public static HiddenMarkovModel<GeneralDiscreteDistribution, int> CreateDiscrete(ITopology topology, int symbols)
-        {
-            return CreateDiscrete(topology, symbols, false);
-        }
-
-        public static HiddenMarkovModel<GeneralDiscreteDistribution, int> CreateDiscrete(ITopology topology, int symbols, bool random)
-        {
-            if (symbols <= 0)
-            {
-                throw new ArgumentOutOfRangeException("symbols",
-                    "Number of symbols should be higher than zero.");
-            }
-
-            double[,] A;
-            double[] pi;
-            topology.Create(true, out A, out pi);
-
-            // Initialize B with a uniform discrete distribution
-            var B = new GeneralDiscreteDistribution[topology.States];
-
-            if (random)
-            {
-                for (int i = 0; i < B.Length; i++)
-                {
-                    double[] probabilities = new double[symbols];
-
-                    double sum = 0;
-                    for (int j = 0; j < probabilities.Length; j++)
-                        sum += probabilities[j] = Accord.Math.Random.Generator.Random.NextDouble();
-
-                    for (int j = 0; j < probabilities.Length; j++)
-                        probabilities[j] /= sum;
-
-                    B[i] = new GeneralDiscreteDistribution(true, probabilities.Log());
-                }
-            }
-            else
-            {
-                for (int i = 0; i < B.Length; i++)
-                    B[i] = new GeneralDiscreteDistribution(logarithm: true, symbols: symbols);
-            }
-
-
-            return new HiddenMarkovModel<GeneralDiscreteDistribution, int>(A, B, pi, logarithm: true);
-        }
-
-
-        public static HiddenMarkovModel<GeneralDiscreteDistribution, int> CreateDiscrete(int states, int symbols)
-        {
-            return CreateDiscrete(new Ergodic(states), symbols);
-        }
-
-
-        public static HiddenMarkovModel<GeneralDiscreteDistribution, int> CreateDiscrete(int states, int symbols, bool random)
-        {
-            return CreateDiscrete(new Ergodic(states, random), symbols, random);
-        }
-
         [Test]
         public void ConstructorTest()
         {
             double[,] A;
             double[] pi;
 
-            var hmm = CreateDiscrete(2, 4);
+            var hmm = HiddenMarkovModel.CreateDiscrete(2, 4);
 
             A = new double[,]
             {
@@ -148,7 +64,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(logPi.IsEqual(hmm.LogInitial));
 
 
-            hmm = CreateDiscrete(new Forward(2), 4);
+            hmm = HiddenMarkovModel.CreateDiscrete(new Forward(2), 4);
 
             A = new double[,]
             {
@@ -284,7 +200,7 @@ namespace Accord.Tests.Statistics
             var dhmm = new HiddenMarkovModel(10, 50, true);
 
             Accord.Math.Random.Generator.Seed = 0;
-            var chmm = CreateDiscrete(10, 50, true);
+            var chmm = HiddenMarkovModel.CreateDiscrete(10, 50, true);
 
             for (int i = 0; i < dhmm.Probabilities.Length; i++)
                 Assert.AreEqual(dhmm.LogInitial[i], chmm.LogInitial[i]);
@@ -301,7 +217,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void DecodeTest()
         {
-
+            #region doc_decode
             // Create the transition matrix A
             double[,] transitions = 
             {  
@@ -330,18 +246,23 @@ namespace Accord.Tests.Statistics
             double[] sequence = new double[] { 0, 1, 2 };
 
             // And now we will evaluate its likelihood
-            double logLikelihood = hmm.Evaluate(sequence);
+            double logLikelihood = hmm.LogLikelihood(sequence);
 
             // At this point, the log-likelihood of the sequence
             // occurring within the model is -3.3928721329161653.
 
             // We can also get the Viterbi path of the sequence
-            int[] path = hmm.Decode(sequence, out logLikelihood);
+            int[] path = hmm.Decide(sequence);
+
+            // Or also its Viterbi likelihood alongside the path
+            double viterbi = hmm.LogLikelihood(sequence, ref path);
 
             // At this point, the state path will be 1-0-0 and the
             // log-likelihood will be -4.3095199438871337
+            #endregion
 
-            Assert.AreEqual(logLikelihood, Math.Log(0.01344), 1e-10);
+            Assert.AreEqual(logLikelihood, -3.3928721329161653, 1e-10);
+            Assert.AreEqual(viterbi, -3.3928721329161653, 1e-10);
             Assert.AreEqual(path[0], 1);
             Assert.AreEqual(path[1], 0);
             Assert.AreEqual(path[2], 0);
@@ -478,7 +399,7 @@ namespace Accord.Tests.Statistics
             };
 
             // Creates a new Hidden Markov Model with 3 states
-            var hmm = CreateDiscrete(3, 2);
+            var hmm = HiddenMarkovModel.CreateDiscrete(3, 2);
 
             // Try to fit the model to the data until the difference in
             //  the average log-likelihood changes only by as little as 0.0001
@@ -528,6 +449,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void LearnTest6()
         {
+            #region doc_learn
             // Continuous Markov Models can operate using any
             // probability distribution, including discrete ones. 
 
@@ -549,7 +471,7 @@ namespace Accord.Tests.Statistics
 
             // Create a new Hidden Markov Model with 3 states and
             //  a generic discrete distribution with two symbols
-            var hmm = CreateDiscrete(3, 2);
+            var hmm = HiddenMarkovModel.CreateDiscrete(3, 2);
 
             // Try to fit the model to the data until the difference in
             //  the average log-likelihood changes only by as little as 0.0001
@@ -559,25 +481,28 @@ namespace Accord.Tests.Statistics
                 Iterations = 0
             };
 
-            var hmm2 = teacher.Learn(sequences);
-            Assert.AreSame(hmm, hmm2);
+            // Learn the model
+            teacher.Learn(sequences);
+
             double ll = Math.Exp(teacher.LogLikelihood);
 
             // Calculate the probability that the given
             //  sequences originated from the model
-            double l1 = Math.Exp(hmm.Evaluate(new int[] { 0, 1 }));       // 0.999
-            double l2 = Math.Exp(hmm.Evaluate(new int[] { 0, 1, 1, 1 })); // 0.916
+            double l1 = Math.Exp(hmm.LogLikelihood(new int[] { 0, 1 }));       // 0.999
+            double l2 = Math.Exp(hmm.LogLikelihood(new int[] { 0, 1, 1, 1 })); // 0.916
 
             // Sequences which do not start with zero have much lesser probability.
-            double l3 = Math.Exp(hmm.Evaluate(new int[] { 1, 1 }));       // 0.000
-            double l4 = Math.Exp(hmm.Evaluate(new int[] { 1, 0, 0, 0 })); // 0.000
+            double l3 = Math.Exp(hmm.LogLikelihood(new int[] { 1, 1 }));       // 0.000
+            double l4 = Math.Exp(hmm.LogLikelihood(new int[] { 1, 0, 0, 0 })); // 0.000
 
             // Sequences which contains few errors have higher probability
             //  than the ones which do not start with zero. This shows some
             //  of the temporal elasticity and error tolerance of the HMMs.
-            double l5 = Math.Exp(hmm.Evaluate(new int[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 })); // 0.034
-            double l6 = Math.Exp(hmm.Evaluate(new int[] { 0, 1, 1, 1, 1, 1, 1, 0, 1 })); // 0.034
+            double l5 = Math.Exp(hmm.LogLikelihood(new int[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 })); // 0.034
+            double l6 = Math.Exp(hmm.LogLikelihood(new int[] { 0, 1, 1, 1, 1, 1, 1, 0, 1 })); // 0.034
+            #endregion
 
+            //Assert.AreSame(hmm, same);
 
             Assert.AreEqual(1.2114235662225716, ll, 1e-4);
             Assert.AreEqual(0.99996863060890995, l1, 1e-4);
@@ -602,6 +527,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void LearnTest7()
         {
+            #region doc_learn2
             // Create continuous sequences. In the sequences below, there
             //  seems to be two states, one for values between 0 and 1 and
             //  another for values between 5 and 7. The states seems to be
@@ -631,14 +557,15 @@ namespace Accord.Tests.Statistics
 
             // Fit the model
             teacher.Learn(sequences);
+
             double logLikelihood = teacher.LogLikelihood;
 
             // See the log-probability of the sequences learned
-            double a1 = model.Evaluate(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 }); // -0.12799388666109757
-            double a2 = model.Evaluate(new[] { 0.2, 6.2, 0.3, 6.3, 0.1, 5.0 }); // 0.01171157434400194
+            double a1 = model.LogLikelihood(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 }); // -0.12799388666109757
+            double a2 = model.LogLikelihood(new[] { 0.2, 6.2, 0.3, 6.3, 0.1, 5.0 }); // 0.01171157434400194
 
             // See the probability of an unrelated sequence
-            double a3 = model.Evaluate(new[] { 1.1, 2.2, 1.3, 3.2, 4.2, 1.0 }); // -298.7465244473417
+            double a3 = model.LogLikelihood(new[] { 1.1, 2.2, 1.3, 3.2, 4.2, 1.0 }); // -298.7465244473417
 
             double likelihood = Math.Exp(logLikelihood);
             a1 = Math.Exp(a1); // 0.879
@@ -648,7 +575,8 @@ namespace Accord.Tests.Statistics
             // We can also ask the model to decode one of the sequences. After
             // this step the resulting sequence will be: { 0, 1, 0, 1, 0, 1 }
             //
-            int[] states = model.Decode(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 });
+            int[] states = model.Decide(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 });
+            #endregion
 
             Assert.IsTrue(states.IsEqual(new[] { 0, 1, 0, 1, 0, 1 }));
 
@@ -685,6 +613,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void LearnTest8()
         {
+            #region doc_learn3
             // Create continuous sequences. In the sequence below, there
             // seems to be two states, one for values equal to 1 and another
             // for values equal to 2.
@@ -718,14 +647,14 @@ namespace Accord.Tests.Statistics
             double likelihood = teacher.LogLikelihood;
 
 
-            // See the probability of the sequences learned
-            double a1 = model.Evaluate(new double[] { 1, 2, 1, 2, 1, 2, 1, 2, 1 }); // exp(a1) = infinity
-            double a2 = model.Evaluate(new double[] { 1, 2, 1, 2, 1 });             // exp(a2) = infinity
+            // See the likelihood of the sequences learned
+            double a1 = model.LogLikelihood(new double[] { 1, 2, 1, 2, 1, 2, 1, 2, 1 }); // exp(a1) = infinity
+            double a2 = model.LogLikelihood(new double[] { 1, 2, 1, 2, 1 });             // exp(a2) = infinity
 
-            // See the probability of an unrelated sequence
-            double a3 = model.Evaluate(new double[] { 1, 2, 3, 2, 1, 2, 1 });          // exp(a3) = 0
-            double a4 = model.Evaluate(new double[] { 1.1, 2.2, 1.3, 3.2, 4.2, 1.0 }); // exp(a4) = 0
-
+            // See the likelihood of an unrelated sequence
+            double a3 = model.LogLikelihood(new double[] { 1, 2, 3, 2, 1, 2, 1 });          // exp(a3) = 0
+            double a4 = model.LogLikelihood(new double[] { 1.1, 2.2, 1.3, 3.2, 4.2, 1.0 }); // exp(a4) = 0
+            #endregion
 
             Assert.AreEqual(double.PositiveInfinity, System.Math.Exp(likelihood));
             Assert.AreEqual(3341.7098768473734, a1);
@@ -913,6 +842,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void LearnTest10()
         {
+            #region doc_learn_multivariate
             // Create sequences of vector-valued observations. In the
             // sequence below, a single observation is composed of two
             // coordinate values, such as (x, y). There seems to be two
@@ -959,24 +889,26 @@ namespace Accord.Tests.Statistics
 
             // Fit the model
             teacher.Learn(sequences);
+
             double logLikelihood = teacher.LogLikelihood;
 
             // See the likelihood of the sequences learned
-            double a1 = Math.Exp(model.Evaluate(new[] { 
+            double a1 = Math.Exp(model.LogLikelihood(new[] { 
                 new double[] { 1, 2 }, 
                 new double[] { 6, 7 },
                 new double[] { 2, 3 }})); // 0.000208
 
-            double a2 = Math.Exp(model.Evaluate(new[] { 
+            double a2 = Math.Exp(model.LogLikelihood(new[] { 
                 new double[] { 2, 2 }, 
                 new double[] { 9, 8  },
                 new double[] { 1, 0 }})); // 0.0000376
 
             // See the likelihood of an unrelated sequence
-            double a3 = Math.Exp(model.Evaluate(new[] { 
+            double a3 = Math.Exp(model.LogLikelihood(new[] { 
                 new double[] { 8, 7 }, 
                 new double[] { 9, 8  },
                 new double[] { 1, 0 }})); // 2.10 x 10^(-89)
+            #endregion
 
             Assert.AreEqual(0.00020825319093038984, a1);
             Assert.AreEqual(0.000037671116792519834, a2, 1e-15);
@@ -986,6 +918,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void LearnTest10_Independent()
         {
+            #region doc_learn_independent
             // Let's say we have 2 meteorological sensors gathering data
             // from different time periods of the day. Those periods are
             // represented below:
@@ -1036,22 +969,25 @@ namespace Accord.Tests.Statistics
 
             // Fit the model
             teacher.Learn(data);
+
             double error = teacher.LogLikelihood;
 
             // Get the hidden state associated with each observation
             //
-            double logLikelihood; // log-likelihood of the Viterbi path
-            int[] hidden_states = model.Decode(data[0], out logLikelihood);
+            int[] hiddenStates = null; // log-likelihood of the Viterbi path
+            double logLikelihood = model.LogLikelihood(data[0], ref hiddenStates);
+            #endregion
 
-            Assert.AreEqual(-33.978800850637882, error);
-            Assert.AreEqual(-33.9788008509802, logLikelihood);
-            Assert.AreEqual(11, hidden_states.Length);
+            Assert.AreEqual(-33.978800850637882, error, 1e-6);
+            Assert.AreEqual(-33.9788008509802, logLikelihood, 1e-6);
+            Assert.AreEqual(11, hiddenStates.Length);
         }
 
 
         [Test]
         public void LearnTest11()
         {
+            #region doc_learn_mixture
             // Suppose we have a set of six sequences and we would like to
             // fit a hidden Markov model with mixtures of Normal distributions
             // as the emission densities. 
@@ -1106,28 +1042,30 @@ namespace Accord.Tests.Statistics
 
             // Finally, we can fit the model
             teacher.Learn(sequences);
+
             double logLikelihood = teacher.LogLikelihood;
 
             // And now check the likelihood of some approximate sequences.
-            double a1 = Math.Exp(model.Evaluate(new double[] { 1, 1, 2, 2, 3 })); // 2.3413833128741038E+45
-            double a2 = Math.Exp(model.Evaluate(new double[] { 1, 1, 2, 5, 5 })); // 9.94607618459872E+19
+            double a1 = Math.Exp(model.LogLikelihood(new double[] { 1, 1, 2, 2, 3 })); // 2.3413833128741038E+45
+            double a2 = Math.Exp(model.LogLikelihood(new double[] { 1, 1, 2, 5, 5 })); // 9.94607618459872E+19
 
             // We can see that the likelihood of an unrelated sequence is much smaller:
-            double a3 = Math.Exp(model.Evaluate(new double[] { 8, 2, 6, 4, 1 })); // 1.5063654166181737E-44
+            double a3 = Math.Exp(model.LogLikelihood(new double[] { 8, 2, 6, 4, 1 })); // 1.5063654166181737E-44
+            #endregion
 
             Assert.IsTrue(a1 > 1e+6);
             Assert.IsTrue(a2 > 1e+6);
             Assert.IsTrue(a3 < 1e-6);
 
-            Assert.IsFalse(Double.IsNaN(a1));
-            Assert.IsFalse(Double.IsNaN(a2));
-            Assert.IsFalse(Double.IsNaN(a3));
+            Assert.AreEqual(a1, 3.77323640691724E+20);
+            Assert.AreEqual(a2, 23052174.733230453);
+            Assert.AreEqual(a3, 1.808715235176357E-29);
         }
 
         [Test]
         public void LearnTest12()
         {
-
+            #region learn_mixture_regularization
             // Suppose we have a set of six sequences and we would like to
             // fit a hidden Markov model with mixtures of Normal distributions
             // as the emission densities. 
@@ -1159,7 +1097,7 @@ namespace Accord.Tests.Statistics
 
             // Now we should configure the learning algorithms to train the sequence classifier. We will
             // learn until the difference in the average log-likelihood changes only by as little as 0.0001
-            var teacher = new BaumWelchLearning<Mixture<NormalDistribution>, double>(model)
+            var teacher = new BaumWelchLearning<Mixture<NormalDistribution>, double, MixtureOptions>(model)
             {
                 Tolerance = 0.0001,
                 Iterations = 0,
@@ -1182,19 +1120,25 @@ namespace Accord.Tests.Statistics
 
             // Finally, we can fit the model
             teacher.Learn(sequences);
+
             double logLikelihood = teacher.LogLikelihood;
 
             // And now check the likelihood of some approximate sequences.
             double[] newSequence = { -0.223, -1.05, -0.574, 0.965, -0.448, 0.265, 0.087, 0.362, 0.717, -0.032 };
-            double a1 = Math.Exp(model.Evaluate(newSequence)); // 11729312967893.566
+            double a1 = Math.Exp(model.LogLikelihood(newSequence)); // 11729312967893.566
 
-            int[] path = model.Decode(newSequence);
+            int[] path = model.Decide(newSequence);
 
             // We can see that the likelihood of an unrelated sequence is much smaller:
-            double a3 = Math.Exp(model.Evaluate(new double[] { 8, 2, 6, 4, 1 })); // 0.0
+            double a3 = Math.Exp(model.LogLikelihood(new double[] { 8, 2, 6, 4, 1 })); // 0.0
+            #endregion
 
             Assert.IsTrue(a1 > 1e+10);
             Assert.IsTrue(a3 < 1e+10);
+
+            Assert.AreEqual(a1, 1.2055338190055787E+29);
+            Assert.AreEqual(a3, 8.2595329551624884E-248);
+            Assert.IsTrue(path.IsEqual(new int[] { 0, 0, 0, 0, 0, 0, 1, 1, 1, 1 }));
         }
 
         [Test]
@@ -1536,5 +1480,8 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(0, loaded);
         }
+
+
+
     }
 }

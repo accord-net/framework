@@ -435,6 +435,83 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        public void learn_test()
+        {
+            #region doc_learn
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Create continuous sequences. In the sequences below, there
+            //  seems to be two states, one for values between 0 and 1 and
+            //  another for values between 5 and 7. The states seems to be
+            //  switched on every observation.
+            double[][] sequences = new double[][] 
+            {
+                new double[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 },
+                new double[] { 0.2, 6.2, 0.3, 6.3, 0.1, 5.0 },
+                new double[] { 0.1, 7.0, 0.1, 7.0, 0.2, 5.6 },
+            };
+
+
+            // Specify a initial normal distribution
+            var density = new NormalDistribution();
+
+            // Create a continuous hidden Markov Model with two states organized in a forward
+            //  topology and an underlying univariate Normal distribution as probability density.
+            var model = new HiddenMarkovModel<NormalDistribution, double>(new Forward(2), density);
+
+            // Configure the learning algorithms to train the sequence classifier until the
+            // difference in the average log-likelihood changes only by as little as 0.0001
+            var teacher = new ViterbiLearning<NormalDistribution, double>(model)
+            {
+                Tolerance = 0.0001,
+                Iterations = 0,
+            };
+
+            // Fit the model
+            teacher.Learn(sequences);
+
+            // See the probability of the sequences learned
+            double a1 = model.LogLikelihood(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 }); // log(0.40)
+            double a2 = model.LogLikelihood(new[] { 0.2, 6.2, 0.3, 6.3, 0.1, 5.0 }); // log(0.46)
+
+            // See the probability of an unrelated sequence
+            double a3 = model.LogLikelihood(new[] { 1.1, 2.2, 1.3, 3.2, 4.2, 1.0 }); // log(1.42)
+            #endregion
+
+            a1 = Math.Exp(a1);
+            a2 = Math.Exp(a2);
+            a3 = Math.Exp(a3);
+
+            Assert.AreEqual(0.4048936808991913, a1, 1e-10);
+            Assert.AreEqual(0.4656014344844673, a2, 1e-10);
+            Assert.AreEqual(1.4232710878429383E-48, a3, 1e-10);
+
+            Assert.AreEqual(2, model.Emissions.Length);
+            var state1 = (model.Emissions[0] as NormalDistribution);
+            var state2 = (model.Emissions[1] as NormalDistribution);
+            Assert.AreEqual(0.16666666666666, state1.Mean, 1e-10);
+            Assert.AreEqual(6.11111111111111, state2.Mean, 1e-10);
+            Assert.IsFalse(Double.IsNaN(state1.Mean));
+            Assert.IsFalse(Double.IsNaN(state2.Mean));
+
+            Assert.AreEqual(0.007499999999999, state1.Variance, 1e-10);
+            Assert.AreEqual(0.538611111111111, state2.Variance, 1e-10);
+            Assert.IsFalse(Double.IsNaN(state1.Variance));
+            Assert.IsFalse(Double.IsNaN(state2.Variance));
+
+            Assert.AreEqual(2, model.LogTransitions.GetLength(0));
+            Assert.AreEqual(2, model.LogTransitions.Columns());
+
+            var A = model.LogTransitions.Exp();
+            Assert.AreEqual(0.090, A[0][0], 1e-3);
+            Assert.AreEqual(0.909, A[0][1], 1e-3);
+            Assert.AreEqual(0.875, A[1][0], 1e-3);
+            Assert.AreEqual(0.125, A[1][1], 1e-3);
+
+            Assert.IsFalse(A.HasNaN());
+        }
+
+        [Test]
         public void LearnTest8()
         {
             Accord.Math.Tools.SetupGenerator(0);
