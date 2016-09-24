@@ -87,10 +87,8 @@ namespace Accord.Math.Geometry
             get { return vertices; }
             set
             {
-                if (value <= 0 || value > 3)
-                    throw new ArgumentOutOfRangeException("value", 
-                        "Number of vertices should be between 0 and 3.");
-
+                if (value <= 0)
+                    throw new ArgumentOutOfRangeException("value", "Number of vertices should be higher than zero.");
                 vertices = value;
             }
         }
