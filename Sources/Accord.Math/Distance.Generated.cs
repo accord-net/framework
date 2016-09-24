@@ -44,6 +44,156 @@ namespace Accord.Math
     {
 
         /// <summary>
+        ///   Gets the Yule distance between two points.
+        /// </summary>
+        ///  
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// 
+        /// <returns>The Yule distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Yule(int[] x, int[] y)
+        {
+            return cacheYule.Distance(x, y);
+        }
+
+        /// <summary>
+        ///   Gets the Yule distance between two points.
+        /// </summary>
+        ///  
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// 
+        /// <returns>The Yule distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Yule(double[] x, double[] y)
+        {
+            return cacheYule.Distance(x, y);
+        }
+
+        private static readonly Yule cacheYule = new Yule();
+
+
+        /// <summary>
+        ///   Gets the Jaccard distance between two points.
+        /// </summary>
+        ///  
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// 
+        /// <returns>The Jaccard distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Jaccard(double[] x, double[] y)
+        {
+            return cacheJaccard.Distance(x, y);
+        }
+
+        private static readonly Jaccard cacheJaccard = new Jaccard();
+
+
+        /// <summary>
+        ///   Gets the Hellinger distance between two points.
+        /// </summary>
+        ///  
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// 
+        /// <returns>The Hellinger distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Hellinger(double[] x, double[] y)
+        {
+            return cacheHellinger.Distance(x, y);
+        }
+
+        private static readonly Hellinger cacheHellinger = new Hellinger();
+
+
+        /// <summary>
+        ///   Gets the Euclidean distance between two points.
+        /// </summary>
+        ///  
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// 
+        /// <returns>The Euclidean distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Euclidean(double x, double y)
+        {
+            return cacheEuclidean.Distance(x, y);
+        }
+
+        /// <summary>
+        ///   Gets the Euclidean distance between two points.
+        /// </summary>
+        ///  
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// 
+        /// <returns>The Euclidean distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Euclidean(double[] x, double[] y)
+        {
+            return cacheEuclidean.Distance(x, y);
+        }
+
+        /// <summary>
+        ///   Gets the Euclidean distance between two points.
+        /// </summary>
+        ///  
+        /// <param name="vector1x"></param>
+        /// <param name="vector1y"></param>
+        /// <param name="vector2x"></param>
+        /// <param name="vector2y"></param>
+        /// 
+        /// <returns>The Euclidean distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Euclidean(double vector1x, double vector1y, double vector2x, double vector2y)
+        {
+            return cacheEuclidean.Distance(vector1x, vector1y, vector2x, vector2y);
+        }
+
+        /// <summary>
+        ///   Gets the Euclidean distance between two points.
+        /// </summary>
+        ///  
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// 
+        /// <returns>The Euclidean distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Euclidean(Tuple<double, double> x, Tuple<double, double> y)
+        {
+            return cacheEuclidean.Distance(x, y);
+        }
+
+        private static readonly Euclidean cacheEuclidean = new Euclidean();
+
+
+        /// <summary>
         ///   Gets the SquareMahalanobis distance between two points.
         /// </summary>
         ///  
@@ -118,43 +268,97 @@ namespace Accord.Math
 
 
         /// <summary>
-        ///   Gets the ArgMax distance between two points.
+        ///   Gets the RusselRao distance between two points.
         /// </summary>
         ///  
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// 
-        /// <returns>The ArgMax distance between x and y.</returns>
+        /// <returns>The RusselRao distance between x and y.</returns>
         /// 
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double ArgMax(double[] x, double[] y)
+        public static double RusselRao(int[] x, int[] y)
         {
-            return cacheArgMax.Distance(x, y);
+            return cacheRusselRao.Distance(x, y);
         }
 
-        private static readonly ArgMax cacheArgMax = new ArgMax();
+        /// <summary>
+        ///   Gets the RusselRao distance between two points.
+        /// </summary>
+        ///  
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// 
+        /// <returns>The RusselRao distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double RusselRao(double[] x, double[] y)
+        {
+            return cacheRusselRao.Distance(x, y);
+        }
+
+        private static readonly RusselRao cacheRusselRao = new RusselRao();
 
 
         /// <summary>
-        ///   Gets the Canberra distance between two points.
+        ///   Gets the Chebyshev distance between two points.
         /// </summary>
         ///  
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// 
-        /// <returns>The Canberra distance between x and y.</returns>
+        /// <returns>The Chebyshev distance between x and y.</returns>
         /// 
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double Canberra(double[] x, double[] y)
+        public static double Chebyshev(double[] x, double[] y)
         {
-            return cacheCanberra.Distance(x, y);
+            return cacheChebyshev.Distance(x, y);
         }
 
-        private static readonly Canberra cacheCanberra = new Canberra();
+        private static readonly Chebyshev cacheChebyshev = new Chebyshev();
+
+
+        /// <summary>
+        ///   Gets the Dice distance between two points.
+        /// </summary>
+        ///  
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// 
+        /// <returns>The Dice distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Dice(int[] x, int[] y)
+        {
+            return cacheDice.Distance(x, y);
+        }
+
+        /// <summary>
+        ///   Gets the Dice distance between two points.
+        /// </summary>
+        ///  
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// 
+        /// <returns>The Dice distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Dice(double[] x, double[] y)
+        {
+            return cacheDice.Distance(x, y);
+        }
+
+        private static readonly Dice cacheDice = new Dice();
 
 
         /// <summary>
@@ -195,133 +399,42 @@ namespace Accord.Math
 
 
         /// <summary>
-        ///   Gets the Modular distance between two points.
+        ///   Gets the SquareEuclidean distance between two points.
         /// </summary>
         ///  
         /// <param name="x"></param>
         /// <param name="y"></param>
-        /// <param name="modulo"></param>
         /// 
-        /// <returns>The Modular distance between x and y.</returns>
+        /// <returns>The SquareEuclidean distance between x and y.</returns>
         /// 
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double Modular(double x, double y, int modulo)
+        public static double SquareEuclidean(double[] x, double[] y)
         {
-            return new Modular(modulo).Distance(x, y);
+            return cacheSquareEuclidean.Distance(x, y);
         }
 
         /// <summary>
-        ///   Gets the Modular distance between two points.
+        ///   Gets the SquareEuclidean distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="modulo"></param>
+        /// <param name="x1"></param>
+        /// <param name="y1"></param>
+        /// <param name="x2"></param>
+        /// <param name="y2"></param>
         /// 
-        /// <returns>The Modular distance between x and y.</returns>
+        /// <returns>The SquareEuclidean distance between x and y.</returns>
         /// 
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double Modular(int x, int y, int modulo)
+        public static double SquareEuclidean(double x1, double y1, double x2, double y2)
         {
-            return new Modular(modulo).Distance(x, y);
+            return cacheSquareEuclidean.Distance(x1, y1, x2, y2);
         }
 
-        /// <summary>
-        ///   Gets the Jaccard distance between two points.
-        /// </summary>
-        ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// 
-        /// <returns>The Jaccard distance between x and y.</returns>
-        /// 
-#if NET45
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static double Jaccard(double[] x, double[] y)
-        {
-            return cacheJaccard.Distance(x, y);
-        }
-
-        private static readonly Jaccard cacheJaccard = new Jaccard();
-
-
-        /// <summary>
-        ///   Gets the RusselRao distance between two points.
-        /// </summary>
-        ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// 
-        /// <returns>The RusselRao distance between x and y.</returns>
-        /// 
-#if NET45
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static double RusselRao(int[] x, int[] y)
-        {
-            return cacheRusselRao.Distance(x, y);
-        }
-
-        /// <summary>
-        ///   Gets the RusselRao distance between two points.
-        /// </summary>
-        ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// 
-        /// <returns>The RusselRao distance between x and y.</returns>
-        /// 
-#if NET45
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static double RusselRao(double[] x, double[] y)
-        {
-            return cacheRusselRao.Distance(x, y);
-        }
-
-        private static readonly RusselRao cacheRusselRao = new RusselRao();
-
-
-        /// <summary>
-        ///   Gets the Manhattan distance between two points.
-        /// </summary>
-        ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// 
-        /// <returns>The Manhattan distance between x and y.</returns>
-        /// 
-#if NET45
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static double Manhattan(int[] x, int[] y)
-        {
-            return cacheManhattan.Distance(x, y);
-        }
-
-        /// <summary>
-        ///   Gets the Manhattan distance between two points.
-        /// </summary>
-        ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// 
-        /// <returns>The Manhattan distance between x and y.</returns>
-        /// 
-#if NET45
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static double Manhattan(double[] x, double[] y)
-        {
-            return cacheManhattan.Distance(x, y);
-        }
-
-        private static readonly Manhattan cacheManhattan = new Manhattan();
+        private static readonly SquareEuclidean cacheSquareEuclidean = new SquareEuclidean();
 
 
         /// <summary>
@@ -396,60 +509,79 @@ namespace Accord.Math
 
 
         /// <summary>
-        ///   Gets the Hellinger distance between two points.
+        ///   Gets the ArgMax distance between two points.
         /// </summary>
         ///  
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// 
-        /// <returns>The Hellinger distance between x and y.</returns>
+        /// <returns>The ArgMax distance between x and y.</returns>
         /// 
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double Hellinger(double[] x, double[] y)
+        public static double ArgMax(double[] x, double[] y)
         {
-            return cacheHellinger.Distance(x, y);
+            return cacheArgMax.Distance(x, y);
         }
 
-        private static readonly Hellinger cacheHellinger = new Hellinger();
+        private static readonly ArgMax cacheArgMax = new ArgMax();
 
 
         /// <summary>
-        ///   Gets the Yule distance between two points.
+        ///   Gets the Modular distance between two points.
         /// </summary>
         ///  
         /// <param name="x"></param>
         /// <param name="y"></param>
+        /// <param name="modulo"></param>
         /// 
-        /// <returns>The Yule distance between x and y.</returns>
+        /// <returns>The Modular distance between x and y.</returns>
         /// 
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double Yule(int[] x, int[] y)
+        public static double Modular(double x, double y, int modulo)
         {
-            return cacheYule.Distance(x, y);
+            return new Modular(modulo).Distance(x, y);
         }
 
         /// <summary>
-        ///   Gets the Yule distance between two points.
+        ///   Gets the Modular distance between two points.
+        /// </summary>
+        ///  
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="modulo"></param>
+        /// 
+        /// <returns>The Modular distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Modular(int x, int y, int modulo)
+        {
+            return new Modular(modulo).Distance(x, y);
+        }
+
+        /// <summary>
+        ///   Gets the Cosine distance between two points.
         /// </summary>
         ///  
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// 
-        /// <returns>The Yule distance between x and y.</returns>
+        /// <returns>The Cosine distance between x and y.</returns>
         /// 
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double Yule(double[] x, double[] y)
+        public static double Cosine(double[] x, double[] y)
         {
-            return cacheYule.Distance(x, y);
+            return cacheCosine.Distance(x, y);
         }
 
-        private static readonly Yule cacheYule = new Yule();
+        private static readonly Cosine cacheCosine = new Cosine();
 
 
         /// <summary>
@@ -527,23 +659,79 @@ namespace Accord.Math
 
 
         /// <summary>
-        ///   Gets the Cosine distance between two points.
+        ///   Gets the BrayCurtis distance between two points.
         /// </summary>
         ///  
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// 
-        /// <returns>The Cosine distance between x and y.</returns>
+        /// <returns>The BrayCurtis distance between x and y.</returns>
         /// 
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double Cosine(double[] x, double[] y)
+        public static double BrayCurtis(double[] x, double[] y)
         {
-            return cacheCosine.Distance(x, y);
+            return cacheBrayCurtis.Distance(x, y);
         }
 
-        private static readonly Cosine cacheCosine = new Cosine();
+        private static readonly BrayCurtis cacheBrayCurtis = new BrayCurtis();
+
+
+        /// <summary>
+        ///   Gets the Minkowski distance between two points.
+        /// </summary>
+        ///  
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="p"></param>
+        /// 
+        /// <returns>The Minkowski distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Minkowski(int[] x, int[] y, double p)
+        {
+            return new Minkowski(p).Distance(x, y);
+        }
+
+        /// <summary>
+        ///   Gets the Minkowski distance between two points.
+        /// </summary>
+        ///  
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="p"></param>
+        /// 
+        /// <returns>The Minkowski distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Minkowski(double[] x, double[] y, double p)
+        {
+            return new Minkowski(p).Distance(x, y);
+        }
+
+        /// <summary>
+        ///   Gets the Levenshtein distance between two points.
+        /// </summary>
+        ///  
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// 
+        /// <returns>The Levenshtein distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Levenshtein(string x, string y)
+        {
+            return cacheLevenshtein.Distance(x, y);
+        }
+
+        private static readonly Levenshtein cacheLevenshtein = new Levenshtein();
 
 
         /// <summary>
@@ -584,43 +772,6 @@ namespace Accord.Math
 
 
         /// <summary>
-        ///   Gets the Dice distance between two points.
-        /// </summary>
-        ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// 
-        /// <returns>The Dice distance between x and y.</returns>
-        /// 
-#if NET45
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static double Dice(int[] x, int[] y)
-        {
-            return cacheDice.Distance(x, y);
-        }
-
-        /// <summary>
-        ///   Gets the Dice distance between two points.
-        /// </summary>
-        ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// 
-        /// <returns>The Dice distance between x and y.</returns>
-        /// 
-#if NET45
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static double Dice(double[] x, double[] y)
-        {
-            return cacheDice.Distance(x, y);
-        }
-
-        private static readonly Dice cacheDice = new Dice();
-
-
-        /// <summary>
         ///   Gets the Matching distance between two points.
         /// </summary>
         ///  
@@ -658,59 +809,23 @@ namespace Accord.Math
 
 
         /// <summary>
-        ///   Gets the Minkowski distance between two points.
-        /// </summary>
-        ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="p"></param>
-        /// 
-        /// <returns>The Minkowski distance between x and y.</returns>
-        /// 
-#if NET45
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static double Minkowski(int[] x, int[] y, double p)
-        {
-            return new Minkowski(p).Distance(x, y);
-        }
-
-        /// <summary>
-        ///   Gets the Minkowski distance between two points.
-        /// </summary>
-        ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="p"></param>
-        /// 
-        /// <returns>The Minkowski distance between x and y.</returns>
-        /// 
-#if NET45
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static double Minkowski(double[] x, double[] y, double p)
-        {
-            return new Minkowski(p).Distance(x, y);
-        }
-
-        /// <summary>
-        ///   Gets the BrayCurtis distance between two points.
+        ///   Gets the Canberra distance between two points.
         /// </summary>
         ///  
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// 
-        /// <returns>The BrayCurtis distance between x and y.</returns>
+        /// <returns>The Canberra distance between x and y.</returns>
         /// 
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double BrayCurtis(double[] x, double[] y)
+        public static double Canberra(double[] x, double[] y)
         {
-            return cacheBrayCurtis.Distance(x, y);
+            return cacheCanberra.Distance(x, y);
         }
 
-        private static readonly BrayCurtis cacheBrayCurtis = new BrayCurtis();
+        private static readonly Canberra cacheCanberra = new Canberra();
 
 
         /// <summary>
@@ -751,82 +866,40 @@ namespace Accord.Math
 
 
         /// <summary>
-        ///   Gets the Chebyshev distance between two points.
+        ///   Gets the Manhattan distance between two points.
         /// </summary>
         ///  
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// 
-        /// <returns>The Chebyshev distance between x and y.</returns>
+        /// <returns>The Manhattan distance between x and y.</returns>
         /// 
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double Chebyshev(double[] x, double[] y)
+        public static double Manhattan(int[] x, int[] y)
         {
-            return cacheChebyshev.Distance(x, y);
+            return cacheManhattan.Distance(x, y);
         }
 
-        private static readonly Chebyshev cacheChebyshev = new Chebyshev();
-
-
         /// <summary>
-        ///   Gets the SquareEuclidean distance between two points.
+        ///   Gets the Manhattan distance between two points.
         /// </summary>
         ///  
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// 
-        /// <returns>The SquareEuclidean distance between x and y.</returns>
+        /// <returns>The Manhattan distance between x and y.</returns>
         /// 
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double SquareEuclidean(double[] x, double[] y)
+        public static double Manhattan(double[] x, double[] y)
         {
-            return cacheSquareEuclidean.Distance(x, y);
+            return cacheManhattan.Distance(x, y);
         }
 
-        /// <summary>
-        ///   Gets the SquareEuclidean distance between two points.
-        /// </summary>
-        ///  
-        /// <param name="x1"></param>
-        /// <param name="y1"></param>
-        /// <param name="x2"></param>
-        /// <param name="y2"></param>
-        /// 
-        /// <returns>The SquareEuclidean distance between x and y.</returns>
-        /// 
-#if NET45
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static double SquareEuclidean(double x1, double y1, double x2, double y2)
-        {
-            return cacheSquareEuclidean.Distance(x1, y1, x2, y2);
-        }
-
-        private static readonly SquareEuclidean cacheSquareEuclidean = new SquareEuclidean();
-
-
-        /// <summary>
-        ///   Gets the Levenshtein distance between two points.
-        /// </summary>
-        ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// 
-        /// <returns>The Levenshtein distance between x and y.</returns>
-        /// 
-#if NET45
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static double Levenshtein(string x, string y)
-        {
-            return cacheLevenshtein.Distance(x, y);
-        }
-
-        private static readonly Levenshtein cacheLevenshtein = new Levenshtein();
+        private static readonly Manhattan cacheManhattan = new Manhattan();
 
 
         /// <summary>
@@ -864,62 +937,6 @@ namespace Accord.Math
         }
 
         private static readonly Kulczynski cacheKulczynski = new Kulczynski();
-
-
-        /// <summary>
-        ///   Gets the Euclidean distance between two points.
-        /// </summary>
-        ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// 
-        /// <returns>The Euclidean distance between x and y.</returns>
-        /// 
-#if NET45
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static double Euclidean(double[] x, double[] y)
-        {
-            return cacheEuclidean.Distance(x, y);
-        }
-
-        /// <summary>
-        ///   Gets the Euclidean distance between two points.
-        /// </summary>
-        ///  
-        /// <param name="vector1x"></param>
-        /// <param name="vector1y"></param>
-        /// <param name="vector2x"></param>
-        /// <param name="vector2y"></param>
-        /// 
-        /// <returns>The Euclidean distance between x and y.</returns>
-        /// 
-#if NET45
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static double Euclidean(double vector1x, double vector1y, double vector2x, double vector2y)
-        {
-            return cacheEuclidean.Distance(vector1x, vector1y, vector2x, vector2y);
-        }
-
-        /// <summary>
-        ///   Gets the Euclidean distance between two points.
-        /// </summary>
-        ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// 
-        /// <returns>The Euclidean distance between x and y.</returns>
-        /// 
-#if NET45
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static double Euclidean(Tuple<double,double> x, Tuple<double,double> y)
-        {
-            return cacheEuclidean.Distance(x, y);
-        }
-
-        private static readonly Euclidean cacheEuclidean = new Euclidean();
 
     }
 }

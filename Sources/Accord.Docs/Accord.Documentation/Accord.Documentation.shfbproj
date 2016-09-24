@@ -328,6 +328,9 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'NET46' ">
+    <OutputPath>bin\NET46\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Folder Include="diagrams\Modules\" />
     <Folder Include="icons\" />

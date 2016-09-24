@@ -16,7 +16,9 @@ Installing
 
 To install the framework in your application, please use NuGet. If you are on Visual Studio, right-click on the "References" item in your solution folder, and select "Manage NuGet Packages." Search for Accord.MachineLearning ([or equivalently, Accord.Math, Accord.Statistics or Accord.Imaging depending on your initial goal](https://www.nuget.org/packages?q=accord.net)) and select "Install."
 
-If you would like to install the framwork on [Unity3D applications](https://unity3d.com), download the framework binaries for .NET 3.5 from the *framework releases* page.
+If you would like to install the framework on [Unity3D applications](https://unity3d.com), download the framework binaries for .NET 3.5 from the *framework releases* page.
+Add the framework binaries to your Plugins folder, but remove any assemblies that might have external dependencies, such as Accord.Video and Accord.Audio. Finally, find and
+add the System.ComponentModel.DataAnnotations assembly from your system as well.
 
 Sample applications
 -------------
@@ -27,10 +29,39 @@ Building
 -------------
 
 #### With Visual Studio 2013
-Navigate to the Sources directory, and open the *Accord.NET.sln* solution file.
+
+Please download and install the following dependencies:
+
+- T4 Toolbox for Visual Studio 2013
+  https://visualstudiogallery.msdn.microsoft.com/791817a4-eb9a-4000-9c85-972cc60fd5aa
+
+- Sandcastle Help File Builder (with VS2013 extension)
+  https://github.com/EWSoftware/SHFB/releases
+
+- NUnit Test Adapter
+  https://visualstudiogallery.msdn.microsoft.com/6ab922d0-21c0-4f06-ab5f-4ecd1fe7175d
+
+Then navigate to the Sources directory, and open the *Accord.NET.sln* solution file.
+
 
 #### With Visual Studio 2015
-Before you can build with VS2015, you need to have VS2013 installed. Some VC++ projects still need the VS2013 VC++ toolchain. After installing either the full VS2013 or just the VS2013 VC++ tools, navigate to the Sources directory, and open the *Accord.NET.sln* solution file. However, please make sure to **not** let VS2015 auto-convert any VC++ projects to the VS2015 toolchain, otherwise the project will not build.
+
+Please download and install the following dependencies:
+
+- VS2013 C++ platform toolset (for compiling some unit tests only)
+  Any free/pro/trial VS2013 version that includes C++ should work.
+
+- T4 Toolbox for Visual Studio 2015
+  https://visualstudiogallery.msdn.microsoft.com/34b6d489-afbc-4d7b-82c3-dded2b726dbc
+
+- Sandcastle Help File Builder (with VS2015 extension)
+  https://github.com/EWSoftware/SHFB/releases
+
+- NUnit Test Adapter
+  https://visualstudiogallery.msdn.microsoft.com/6ab922d0-21c0-4f06-ab5f-4ecd1fe7175d
+
+Then navigate to the Sources directory, and open the *Accord.NET.sln* solution file.
+
 
 #### With MonoDevelop, for running on Linux
 
@@ -46,7 +77,7 @@ Before you can build with VS2015, you need to have VS2013 installed. Some VC++ p
     # Build the framework solution using Mono
     mdtool build -c:"NET40" Sources/Accord.NET.Mono.sln
     
-  Contributing
+Contributing
 -------------
 
 If you would like to contribute, please do so by helping update the project's Wiki pages. While you can also make a donation, fill bug reports and contribute code in the form of pull requests, priority is being given to the documentation. 

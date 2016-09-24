@@ -24,13 +24,12 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <OutputPath>bin\Debug\</OutputPath>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
     <RunCodeAnalysis>False</RunCodeAnalysis>
@@ -40,28 +39,32 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Release\net35</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
+    <DefineConstants>TRACE;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-    <DocumentationFile>C:\Projects\Accord.NET\framework\Sources\..\Release\net35\Accord.Math.Core.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Accord.Math.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <DocumentationFile>$(SolutionDir)..\Release\net35\Accord.Math.Core.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Accord.Math.Core.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Release\net40</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
+    <DefineConstants>TRACE;NET40</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <DocumentationFile>C:\Projects\Accord.NET\framework\Sources\..\Release\net40\Accord.Math.Core.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Accord.Math.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <DocumentationFile>$(SolutionDir)..\Release\net40\Accord.Math.Core.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Accord.Math.Core.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
     <OutputPath>$(SolutionDir)..\Release\net45</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <DocumentationFile>C:\Projects\Accord.NET\framework\Sources\..\Release\net45\Accord.Math.Core.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Accord.Math.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <DefineConstants>TRACE;NET45</DefineConstants>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <DocumentationFile>$(SolutionDir)..\Release\net45\Accord.Math.Core.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Accord.Math.Core.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET46|AnyCPU'">
+    <OutputPath>$(SolutionDir)..\Release\net46</OutputPath>
+    <DefineConstants>TRACE;NET46</DefineConstants>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <DocumentationFile>$(SolutionDir)..\Release\net46\Accord.Math.Core.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net46\Accord.Math.Core.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>

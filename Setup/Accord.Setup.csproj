@@ -11,6 +11,12 @@
     <FileAlignment>512</FileAlignment>
     <OutputPath>bin</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'NET46'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\NET46\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="Archiver\Build.cmd" />
     <None Include="Archiver\Samples.cmd" />

@@ -31,5 +31,8 @@
 
     <file src="..\..\Release\net45\Accord.Fuzzy.dll" target="lib\net45\Accord.Fuzzy.dll" />
     <file src="..\..\Release\net45\Accord.Fuzzy.xml" target="lib\net45\Accord.Fuzzy.xml" />
+	
+    <file src="..\..\Release\net46\Accord.Fuzzy.dll" target="lib\net46\Accord.Fuzzy.dll" />
+    <file src="..\..\Release\net46\Accord.Fuzzy.xml" target="lib\net46\Accord.Fuzzy.xml" />
   </files>
 </package>

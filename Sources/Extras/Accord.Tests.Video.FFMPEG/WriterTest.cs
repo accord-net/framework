@@ -47,9 +47,10 @@ namespace Accord.Tests.Video
             int framerate = 24;
             string path = Path.GetFullPath("output.avi");
             int videoBitRate = 1200 * 1000;
-            //int audioBitRate = 320 * 1000;
 
             videoWriter.Open(path, width, height, framerate, VideoCodec.H264, videoBitRate);
+
+            Assert.AreEqual(videoBitRate, videoWriter.BitRate);
 
             var m2i = new MatrixToImage();
             Bitmap frame;

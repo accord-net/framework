@@ -34,5 +34,8 @@
 
     <file src="..\..\Release\net45\Accord.Controls.dll" target="lib\net45\Accord.Controls.dll" />
     <file src="..\..\Release\net45\Accord.Controls.xml" target="lib\net45\Accord.Controls.xml" />
+	
+	<file src="..\..\Release\net46\Accord.Controls.dll" target="lib\net46\Accord.Controls.dll" />
+    <file src="..\..\Release\net46\Accord.Controls.xml" target="lib\net46\Accord.Controls.xml" />
   </files>
 </package>

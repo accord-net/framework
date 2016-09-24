@@ -55,7 +55,8 @@ namespace Accord.Math
         /// 
         public static T[] Sample<T>(T[] values, int size)
         {
-            return values.Get(Vector.Sample(size));
+            int[] idx = Vector.Sample(size);
+            return values.Get(idx);
         }
 
 

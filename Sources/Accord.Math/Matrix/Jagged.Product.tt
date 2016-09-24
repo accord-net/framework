@@ -39,7 +39,7 @@ namespace Accord.Math
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
 
-    // [GeneratedCode("Accord.NET T4 Templates", "3.1")]
+    [GeneratedCode("Accord.NET T4 Templates", "3.3")]
     public static partial class Jagged
     {
 

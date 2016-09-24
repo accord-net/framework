@@ -185,10 +185,10 @@ namespace Accord.Statistics
         public static int[][] Expand(this int[] data, int[] positives, int[] negatives)
         {
             if (data.Length != positives.Length)
-                throw new DimensionMismatchException();
+                throw new DimensionMismatchException("positives", "The array of positive labels must have the same length as the data.");
 
             if (positives.Length != negatives.Length)
-                throw new DimensionMismatchException();
+                throw new DimensionMismatchException("negatives", "The array of negative labels must have the same length as the data.");
 
             List<int[]> rows = new List<int[]>();
 
@@ -295,8 +295,6 @@ namespace Accord.Statistics
         /// 
         public static int[] Random(int[] labels, int classes, int categories)
         {
-            int size = labels.Length;
-
             var buckets = new List<Tuple<int, int>>[classes];
             for (int i = 0; i < buckets.Length; i++)
                 buckets[i] = new List<Tuple<int, int>>();

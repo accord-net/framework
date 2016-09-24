@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
             expected = 3.331507407407407e+04;
 
             actual = target.Function(x2, y2);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-3);
         }
 
     }

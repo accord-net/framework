@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{63184EBD-6B28-4066-AAEE-5B99431E31F4}</ProjectGuid>
     <RootNamespace>Accord.IO</RootNamespace>
@@ -27,10 +27,11 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <OutputPath>bin\Debug\</OutputPath>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
     <RunCodeAnalysis>False</RunCodeAnalysis>
@@ -56,9 +57,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
     <OutputPath>$(SolutionDir)..\Release\net45</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\net45\Accord.IO.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Accord.IO.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET46|AnyCPU'">
+    <OutputPath>$(SolutionDir)..\Release\net46</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET46</DefineConstants>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <DocumentationFile>$(SolutionDir)..\Release\net46\Accord.IO.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net46\Accord.IO.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>

@@ -30,5 +30,8 @@
 
     <file src="..\..\Release\net45\Accord.Genetic.dll" target="lib\net45\Accord.Genetic.dll" />
     <file src="..\..\Release\net45\Accord.Genetic.xml" target="lib\net45\Accord.Genetic.xml" />
+	
+	<file src="..\..\Release\net46\Accord.Genetic.dll" target="lib\net46\Accord.Genetic.dll" />
+    <file src="..\..\Release\net46\Accord.Genetic.xml" target="lib\net46\Accord.Genetic.xml" />
   </files>
 </package>

@@ -302,10 +302,13 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public double GetPartialLogLikelihood(double[][] inputs, double[] time, SurvivalOutcome[] output)
         {
+#pragma warning disable 612, 618
+
             double sum1 = 0, sum2 = 0;
             for (int i = 0; i < inputs.Length; i++)
             {
-                if (output[i] == 0) continue;
+                if (output[i] == 0)
+                    continue;
 
                 // Compute the first sum
                 for (int j = 0; j < Coefficients.Length; j++)
@@ -327,6 +330,7 @@ namespace Accord.Statistics.Models.Regression
             }
 
             return sum1 - sum2;
+#pragma warning restore 612, 618
         }
 
         /// <summary>

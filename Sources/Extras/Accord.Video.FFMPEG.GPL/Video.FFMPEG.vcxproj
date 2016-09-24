@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -17,6 +17,10 @@
       <Configuration>NET45</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="NET46|Win32">
+      <Configuration>NET46</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FF31DD24-127D-4EB1-929C-F5738147E886}</ProjectGuid>
@@ -24,13 +28,14 @@
     <ProjectName>Accord.Video.FFMPEG (GPL)</ProjectName>
     <Keyword>ManagedCProj</Keyword>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>true</CLRSupport>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <TargetName>Accord.Video.FFMPEG</TargetName>
     <LinkIncremental>false</LinkIncremental>
     <IntDir>$(ProjectDir)obj\$(Configuration)\</IntDir>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -45,7 +50,11 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NET45|Win32'" Label="Configuration">
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NET46|Win32'" Label="Configuration">
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -58,6 +67,7 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='NET35|Win32'">$(SolutionDir)..\Release\net35\GPL\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='NET40|Win32'">$(SolutionDir)..\Release\net40\GPL\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='NET45|Win32'">$(SolutionDir)..\Release\net45\GPL\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='NET46|Win32'">$(SolutionDir)..\Release\net46\GPL\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -114,6 +124,12 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='NET46|Win32'">
+    <ClCompile>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <Reference Include="System">
       <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
@@ -136,6 +152,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET35|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET40|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET45|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET46|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="VideoCodec.cpp" />
     <ClCompile Include="VideoFileReader.cpp" />

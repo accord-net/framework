@@ -27,6 +27,9 @@
     <file src="..\..\Release\net45\Accord.dll" target="lib\net45\Accord.dll" />
     <file src="..\..\Release\net45\Accord.xml" target="lib\net45\Accord.xml" />
 
+	<file src="..\..\Release\net46\Accord.dll" target="lib\net46\Accord.dll" />
+    <file src="..\..\Release\net46\Accord.xml" target="lib\net46\Accord.xml" />
+
     <file src="..\..\Release\net45\Accord.dll.config" target="build\Accord.dll.config" />
     <file src="..\..\Setup\Scripts\Accord.targets" target="build\Accord.targets" />
   </files>

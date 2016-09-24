@@ -29,5 +29,8 @@
 
     <file src="..\..\Release\net45\Noncommercial\Accord.Math.Noncommercial.dll" target="lib\net45\Accord.Math.Noncommercial.dll" />
     <file src="..\..\Release\net45\Noncommercial\Accord.Math.Noncommercial.xml" target="lib\net45\Accord.Math.Noncommercial.xml" />
+	
+	<file src="..\..\Release\net46\Noncommercial\Accord.Math.Noncommercial.dll" target="lib\net46\Accord.Math.Noncommercial.dll" />
+    <file src="..\..\Release\net46\Noncommercial\Accord.Math.Noncommercial.xml" target="lib\net46\Accord.Math.Noncommercial.xml" />
   </files>
 </package>

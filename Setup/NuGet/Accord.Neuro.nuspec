@@ -31,5 +31,8 @@
 
     <file src="..\..\Release\net45\Accord.Neuro.dll" target="lib\net45\Accord.Neuro.dll" />
     <file src="..\..\Release\net45\Accord.Neuro.xml" target="lib\net45\Accord.Neuro.xml" />
+	
+    <file src="..\..\Release\net46\Accord.Neuro.dll" target="lib\net46\Accord.Neuro.dll" />
+    <file src="..\..\Release\net46\Accord.Neuro.xml" target="lib\net46\Accord.Neuro.xml" />
   </files>
 </package>

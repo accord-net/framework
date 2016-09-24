@@ -30,5 +30,8 @@
 
     <file src="..\..\Release\net45\Accord.Video.VFW.dll" target="lib\net45\Accord.Video.VFW.dll" />
     <file src="..\..\Release\net45\Accord.Video.VFW.xml" target="lib\net45\Accord.Video.VFW.xml" />
+	
+	<file src="..\..\Release\net46\Accord.Video.VFW.dll" target="lib\net46\Accord.Video.VFW.dll" />
+    <file src="..\..\Release\net46\Accord.Video.VFW.xml" target="lib\net46\Accord.Video.VFW.xml" />
   </files>
 </package>

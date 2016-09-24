@@ -30,5 +30,8 @@
 
     <file src="..\..\Release\net45\Accord.Video.DirectShow.dll" target="lib\net45\Accord.Video.DirectShow.dll" />
     <file src="..\..\Release\net45\Accord.Video.DirectShow.xml" target="lib\net45\Accord.Video.DirectShow.xml" />
+	
+    <file src="..\..\Release\net46\Accord.Video.DirectShow.dll" target="lib\net46\Accord.Video.DirectShow.dll" />
+    <file src="..\..\Release\net46\Accord.Video.DirectShow.xml" target="lib\net46\Accord.Video.DirectShow.xml" />
   </files>
 </package>

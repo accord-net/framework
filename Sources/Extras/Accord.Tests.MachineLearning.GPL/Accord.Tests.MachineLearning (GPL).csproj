@@ -6,7 +6,7 @@
     <AssemblyName>Accord.Tests.Extras.MachineLearning.GPL</AssemblyName>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
@@ -37,20 +37,26 @@
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
-    <OutputPath>bin\Release\net35</OutputPath>
+    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net35\</OutputPath>
     <DefineConstants>TRACE;NET35</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
-    <OutputPath>bin\Release\net40</OutputPath>
+    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net40\</OutputPath>
     <DefineConstants>TRACE;NET40</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET45|AnyCPU' ">
-    <OutputPath>bin\Release\net45</OutputPath>
+    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net45\</OutputPath>
     <DefineConstants>TRACE;NET45</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <NoWarn>0612, 0618</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET46|AnyCPU' ">
+    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net46\</OutputPath>
+    <DefineConstants>TRACE;NET46</DefineConstants>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>

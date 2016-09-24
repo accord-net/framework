@@ -60,7 +60,7 @@ namespace Accord.Math
         public static T[] Sample<T>(T[] values, int size)
         {
             int[] idx = Vector.Sample(size);
-            return values.Submatrix(idx);
+            return values.Get(idx);
         }
 
 <# 

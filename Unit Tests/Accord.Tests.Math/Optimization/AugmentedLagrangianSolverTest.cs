@@ -757,28 +757,54 @@ namespace Accord.Tests.Math
             // have a Gradient NullReferenceException issue 
             // https://github.com/accord-net/framework/issues/177
 
-            double x = Double.NaN, y = Double.NaN;
+            // Easy three dimensional minimization in ellipsoid.
+            var function = new NonlinearObjectiveFunction(3,
+                function: x => x[0] * x[1] * x[2],
+                gradient: x => new[] { x[1] * x[2], x[0] * x[2], x[0] * x[1] });
 
-            var function = new NonlinearObjectiveFunction(
-                function: () => x + y,
-                gradient: () => new[] { 1.0, 1.0 });
-
-            NonlinearConstraint[] constraints = 
+            NonlinearConstraint[] constraints =
             {
-                new NonlinearConstraint(function, constraint: (v) => v[0] <= 0, gradient: (v) => new [] { 1.0, 0.0 }),
-                new NonlinearConstraint(function, constraint: (v) => v[1] <= 0, gradient: (v) => new [] { 0.0, 1.0 }),
+                new NonlinearConstraint(function,
+                    constraint: x =>  (1.0 - x[0] * x[0] - 2.0 * x[1] * x[1] - 3.0 * x[2] * x[2]) >= 0,
+                    gradient: x =>  new[] { -2.0 * x[0],  -4.0 * x[1], -6.0 * x[2] }),
+                new NonlinearConstraint(function,
+                    constraint: x =>  x[0] >= 0,
+                    gradient: x =>  new[] { 1.0, 0, 0 }),
+                new NonlinearConstraint(function,
+                    constraint: x =>  x[1] >= 0,
+                    gradient: x =>  new[] { 0, 1.0, 0 }),
+                new NonlinearConstraint(function,
+                    constraint: x =>  -x[2] >= 0,
+                    gradient: x =>  new[] { 0, 0, -1.0 }),
             };
 
-            var solver = new AugmentedLagrangian(function, constraints);
+            for (int i = 0; i < constraints.Length; i++)
+            {
+                Assert.AreEqual(ConstraintType.GreaterThanOrEqualTo, constraints[i].ShouldBe);
+                Assert.AreEqual(0, constraints[i].Value);
+            }
+
+            var inner = new BroydenFletcherGoldfarbShanno(3);
+            inner.LineSearch = LineSearch.BacktrackingArmijo;
+            inner.Corrections = 10;
+
+            var solver = new AugmentedLagrangian(inner, function, constraints);
+
+            Assert.AreEqual(inner, solver.Optimizer);
 
             Assert.IsTrue(solver.Minimize());
             double minimum = solver.Value;
-
             double[] solution = solver.Solution;
 
-            Assert.AreEqual(-0.030518416329528453, minimum, 1e-5);
-            Assert.AreEqual(0.64095702750652883, solution[0], 1e-5);
-            Assert.AreEqual(-0.67147544383605728, solution[1], 1e-5);
+            double[] expected =
+            {
+                1.0 / Math.Sqrt(3.0), 1.0 / Math.Sqrt(6.0), -1.0 / 3.0
+            };
+
+
+            for (int i = 0; i < expected.Length; i++)
+                Assert.AreEqual(expected[i], solver.Solution[i], 1e-3);
+            Assert.AreEqual(-0.078567420132031968, minimum, 1e-4);
 
             double expectedMinimum = function.Function(solver.Solution);
             Assert.AreEqual(expectedMinimum, minimum);

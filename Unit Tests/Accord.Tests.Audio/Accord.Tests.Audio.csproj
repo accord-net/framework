@@ -8,7 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <OldToolsVersion>3.5</OldToolsVersion>
     <MapFileExtensions>true</MapFileExtensions>
@@ -46,6 +46,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET45|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net45\</OutputPath>
     <DefineConstants>TRACE;NET45</DefineConstants>
+    <NoWarn>0612, 0618</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET46|AnyCPU' ">
+    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net46\</OutputPath>
+    <DefineConstants>TRACE;NET46</DefineConstants>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <ItemGroup>

@@ -31,5 +31,8 @@
 
     <file src="..\..\Release\net45\Accord.Audio.DirectSound.dll" target="lib\net45\Accord.Audio.DirectSound.dll" />
     <file src="..\..\Release\net45\Accord.Audio.DirectSound.xml" target="lib\net45\Accord.Audio.DirectSound.xml" />
+	
+	<file src="..\..\Release\net46\Accord.Audio.DirectSound.dll" target="lib\net46\Accord.Audio.DirectSound.dll" />
+    <file src="..\..\Release\net46\Accord.Audio.DirectSound.xml" target="lib\net46\Accord.Audio.DirectSound.xml" />
   </files>
 </package>

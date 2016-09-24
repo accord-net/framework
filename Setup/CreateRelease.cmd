@@ -19,13 +19,13 @@ cd ..
 echo.
 echo.
 
-:: Build executable installer
-cd Installer
-cmd /c Build.cmd
-cd ..
-
-echo.
-echo.
+:: Build executable installer [disabled since v3.3.0]
+:: cd Installer
+:: cmd /c Build.cmd
+:: cd ..
+:: 
+:: echo.
+:: echo.
 
 :: Build NuGet packages
 cd NuGet

@@ -30,7 +30,8 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Fitting;
     using System;
     using System.Globalization;
-
+    using System.Collections.Generic;
+    using Accord.Statistics.Distributions;
 
     [TestFixture]
     public class DistributionAnalysisTest
@@ -134,9 +135,6 @@ namespace Accord.Tests.Statistics
 
 
         [Test]
-#if !DEBUG
-        [Timeout(2000)]
-#endif
         public void options_test()
         {
             // Gamma Distribution Fit stalls for some arrays #301
@@ -164,6 +162,10 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(4530.2415457406223, gamma.Rate, 1e-8);
             Assert.AreEqual(4679.4730319532555, gamma.Shape, 1e-8);
 
+            analysis.Distributions = new List<IFittableDistribution<double>>()
+            {
+                new GammaDistribution()
+            };
 
             analysis.Options[analysis.GetFirstIndex("GammaDistribution")] = new GammaOptions()
             {
@@ -172,7 +174,7 @@ namespace Accord.Tests.Statistics
 
             var fit2 = analysis.Learn(x);
 
-            gamma = analysis.GoodnessOfFit[2].Distribution as GammaDistribution;
+            gamma = analysis.GoodnessOfFit[0].Distribution as GammaDistribution;
             Assert.AreEqual(1.0329411764705885, gamma.Mean, 1e-8);
             Assert.AreEqual(1.03286759780857, gamma.Median, 1e-8);
             Assert.AreEqual(1.0327204376888031, gamma.Mode, 1e-8);
@@ -180,7 +182,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(4679.4730379075245, gamma.Shape, 1e-8);
 
 
-            Assert.AreEqual("UniformContinuous", analysis.GoodnessOfFit[0].Name);
+            Assert.AreEqual("Gamma", analysis.GoodnessOfFit[0].Name);
         }
     }
 }

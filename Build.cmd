@@ -27,6 +27,9 @@ echo.
 echo  - Building NET45 configuration...
 %DEVENV% Sources\Accord.NET.sln /Rebuild NET45 /out "bin\Build.NET45.log"
 echo.
+echo  - Building NET46 configuration...
+%DEVENV% Sources\Accord.NET.sln /Rebuild NET46 /out "bin\Build.NET46.log"
+echo.
 echo  - Building samples...
 %DEVENV% Samples\Samples.sln /Rebuild Release /out "bin\Build.Samples.log"
 echo.

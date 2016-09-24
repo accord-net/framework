@@ -26,7 +26,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
     <RunCodeAnalysis>False</RunCodeAnalysis>
@@ -53,9 +53,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
     <OutputPath>$(SolutionDir)..\Release\net45</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\net45\Accord.Video.Kinect.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Accord.Video.Kinect.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET46|AnyCPU'">
+    <OutputPath>$(SolutionDir)..\Release\net46</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET46</DefineConstants>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <DocumentationFile>$(SolutionDir)..\Release\net46\Accord.Video.Kinect.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net46\Accord.Video.Kinect.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

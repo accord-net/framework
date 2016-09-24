@@ -6,7 +6,7 @@
     <AssemblyName>Accord.Tests.Interop.Math</AssemblyName>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
@@ -49,8 +49,10 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET45|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net45\</OutputPath>
     <DefineConstants>TRACE;NET45</DefineConstants>
-    <PlatformTarget>x86</PlatformTarget>
-    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET46|AnyCPU' ">
+    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net46\</OutputPath>
+    <DefineConstants>TRACE;NET46</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
