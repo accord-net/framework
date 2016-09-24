@@ -29,9 +29,9 @@ namespace Accord.Video.DirectShow.Internals
         /// 
         /// <returns>Returns <b>S_OK</b> on success.</returns>
         /// 
-        [DllImport( "ole32.dll" )]
+        [DllImport("ole32.dll")]
         public static extern
-        int CreateBindCtx( int reserved, out IBindCtx ppbc );
+        int CreateBindCtx(int reserved, out IBindCtx ppbc);
 
         /// <summary>
         /// Converts a string into a moniker that identifies the object named by the string.
@@ -45,10 +45,10 @@ namespace Accord.Video.DirectShow.Internals
         /// 
         /// <returns>Returns <b>S_OK</b> on success.</returns>
         /// 
-        [DllImport( "ole32.dll", CharSet = CharSet.Unicode )]
+        [DllImport("ole32.dll", CharSet = CharSet.Unicode)]
         public static extern
-        int MkParseDisplayName( IBindCtx pbc, string szUserName,
-            ref int pchEaten, out IMoniker ppmk );
+        int MkParseDisplayName(IBindCtx pbc, string szUserName,
+            ref int pchEaten, out IMoniker ppmk);
 
         /// <summary>
         /// Copy a block of memory.
@@ -60,11 +60,11 @@ namespace Accord.Video.DirectShow.Internals
         /// 
         /// <returns>Return's the value of <b>dst</b> - pointer to destination.</returns>
         /// 
-        [DllImport( "ntdll.dll", CallingConvention = CallingConvention.Cdecl )]
+        [DllImport("ntdll.dll", CallingConvention = CallingConvention.Cdecl)]
         public static unsafe extern int memcpy(
             byte* dst,
             byte* src,
-            int count );
+            int count);
 
         /// <summary>
         /// Invokes a new property frame, that is, a property sheet dialog box.
@@ -84,19 +84,26 @@ namespace Accord.Video.DirectShow.Internals
         /// 
         /// <returns>Returns <b>S_OK</b> on success.</returns>
         /// 
-        [DllImport( "oleaut32.dll" )]
+        [DllImport("oleaut32.dll")]
         public static extern int OleCreatePropertyFrame(
             IntPtr hwndOwner,
             int x,
             int y,
-            [MarshalAs( UnmanagedType.LPWStr )] string caption,
+            [MarshalAs(UnmanagedType.LPWStr)] string caption,
             int cObjects,
-            [MarshalAs( UnmanagedType.Interface, ArraySubType = UnmanagedType.IUnknown )] 
+            [MarshalAs(UnmanagedType.Interface, ArraySubType = UnmanagedType.IUnknown)] 
             ref object ppUnk,
             int cPages,
             IntPtr lpPageClsID,
             int lcid,
             int dwReserved,
-            IntPtr lpvReserved );
+            IntPtr lpvReserved);
+
+        /// <summary>
+        /// Gets a string name for a CLSID.
+        /// </summary>
+        /// 
+        [DllImport("ole32.dll", CharSet = CharSet.Unicode, PreserveSig = false)]
+        public static extern string ProgIDFromCLSID([In()]ref Guid clsid);
     }
 }

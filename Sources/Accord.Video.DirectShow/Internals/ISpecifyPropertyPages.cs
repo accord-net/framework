@@ -15,8 +15,8 @@ namespace Accord.Video.DirectShow.Internals
     /// </summary>
     /// 
     [ComImport,
-    Guid( "B196B28B-BAB4-101A-B69C-00AA00341D07" ),
-    InterfaceType( ComInterfaceType.InterfaceIsIUnknown )]
+    Guid("B196B28B-BAB4-101A-B69C-00AA00341D07"),
+    InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     internal interface ISpecifyPropertyPages
     {
         /// <summary>
@@ -31,6 +31,6 @@ namespace Accord.Video.DirectShow.Internals
         /// <returns>Return's <b>HRESULT</b> error code.</returns>
         /// 
         [PreserveSig]
-        int GetPages( out CAUUID pPages );
+        int GetPages(out CAUUID pPages);
     }
 }

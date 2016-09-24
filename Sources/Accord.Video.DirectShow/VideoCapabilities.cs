@@ -55,7 +55,9 @@ namespace Accord.Video.DirectShow
         /// </summary>
         public readonly int BitCount;
 
-        internal VideoCapabilities() { }
+        internal VideoCapabilities()
+        {
+        }
 
         // Retrieve capabilities of a video device
         static internal VideoCapabilities[] FromStreamConfig(IAMStreamConfig videoStreamConfig)
@@ -240,6 +242,14 @@ namespace Accord.Video.DirectShow
         public static bool operator !=(VideoCapabilities a, VideoCapabilities b)
         {
             return !(a == b);
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0}x{1}, {2} fps ({3} max fps), {4} bpp", 
+                FrameSize.Width, FrameSize.Height,
+                AverageFrameRate, MaximumFrameRate,
+                BitCount);
         }
     }
 }
