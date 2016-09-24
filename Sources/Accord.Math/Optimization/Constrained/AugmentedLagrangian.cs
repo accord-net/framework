@@ -62,70 +62,17 @@ namespace Accord.Math.Optimization
     /// <para>
     ///   In this framework, it is possible to state a non-linear programming problem
     ///   using either symbolic processing or vector-valued functions. The following 
-    ///   example demonstrates the former.</para>
+    ///   example demonstrates the symbolic processing case:</para>
     ///   
-    /// <code>
-    /// // Suppose we would like to minimize the following function:
-    /// //
-    /// //    f(x,y) = min 100(y-x²)²+(1-x)²
-    /// //
-    /// // Subject to the constraints
-    /// //
-    /// //    x >= 0  (x must be positive)
-    /// //    y >= 0  (y must be positive)
-    /// //
-    ///
-    /// // In this example we will be using some symbolic processing. 
-    /// // The following variables could be initialized to any value.
-    ///
-    /// double x = 0, y = 0;
-    ///
-    ///
-    /// // First, we create our objective function
-    /// var f = new NonlinearObjectiveFunction(
-    ///
-    ///     // This is the objective function:  f(x,y) = min 100(y-x²)²+(1-x)²
-    ///     function: () => 100 * Math.Pow(y - x * x, 2) + Math.Pow(1 - x, 2),
-    ///
-    ///     // The gradient vector:
-    ///     gradient: () => new[] 
-    ///     {
-    ///         2 * (200 * Math.Pow(x, 3) - 200 * x * y + x - 1), // df/dx = 2(200x³-200xy+x-1)
-    ///         200 * (y - x*x)                                   // df/dy = 200(y-x²)
-    ///     }
-    ///
-    /// );
-    ///
-    ///
-    /// // Now we can start stating the constraints
-    /// var constraints = new List&lt;NonlinearConstraint>();
-    ///
-    /// // Add the non-negativity constraint for x
-    /// constraints.Add(new NonlinearConstraint(f,
-    ///
-    ///     // 1st constraint: x should be greater than or equal to 0
-    ///     function: () => x, shouldBe: ConstraintType.GreaterThanOrEqualTo, value: 0,
-    ///
-    ///     gradient: () => new[] { 1.0, 0.0 }
-    /// ));
-    ///
-    /// // Add the non-negativity constraint for y
-    /// constraints.Add(new NonlinearConstraint(f,
-    ///
-    ///     // 2nd constraint: y should be greater than or equal to 0
-    ///     function: () => y, shouldBe: ConstraintType.GreaterThanOrEqualTo, value: 0,
-    ///
-    ///     gradient: () => new[] { 0.0, 1.0 }
-    /// ));
-    ///
-    ///
-    /// // Finally, we create the non-linear programming solver
-    /// var solver = new AugmentedLagrangianSolver(2, constraints);
-    ///
-    /// // And attempt to solve the problem
-    /// double minValue = solver.Minimize(f);
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Math\Optimization\AugmentedLagrangianTest.cs" region="doc_lambda"/>
+    /// 
+    /// <para>
+    ///   And this is the same example as before, but using standard vectors instead.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Math\Optimization\AugmentedLagrangianTest.cs" region="doc_vector"/>
     /// </example>
+    /// 
+    /// <seealso cref="GoldfarbIdnani"/>
     /// 
     public class AugmentedLagrangian : BaseGradientOptimizationMethod, IGradientOptimizationMethod
     {

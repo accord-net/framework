@@ -108,6 +108,8 @@ namespace Accord.Math.Optimization
     ///   <code source="Unit Tests\Accord.Tests.Math\Optimization\GoldfarbIdnaniTest.cs" region="doc_matrix" />
     /// </example>
     /// 
+    /// <seealso cref="AugmentedLagrangian"/>
+    /// 
     public class GoldfarbIdnani : BaseGradientOptimizationMethod,
         IOptimizationMethod, IOptimizationMethod<GoldfarbIdnaniStatus>
     {

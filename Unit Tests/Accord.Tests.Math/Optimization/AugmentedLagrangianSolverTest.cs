@@ -33,24 +33,6 @@ namespace Accord.Tests.Math
     public class AugmentedLagrangianSolverTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-
         [Test]
         public void AugmentedLagrangianSolverConstructorTest1()
         {
@@ -301,6 +283,7 @@ namespace Accord.Tests.Math
         [Test]
         public void AugmentedLagrangianSolverConstructorTest5()
         {
+            #region doc_lambda
             // Suppose we would like to minimize the following function:
             //
             //    f(x,y) = min 100(y-x²)²+(1-x)²
@@ -311,54 +294,132 @@ namespace Accord.Tests.Math
             //    y >= 0  (y must be positive)
             //
 
-            double x = 0, y = 0;
+            // First, let's declare some symbolic variables
+            double x = 0, y = 0; // (values do not matter)
 
-
-            // First, we create our objective function
+            // Now, we create an objective function
             var f = new NonlinearObjectiveFunction(
 
                 // This is the objective function:  f(x,y) = min 100(y-x²)²+(1-x)²
                 function: () => 100 * Math.Pow(y - x * x, 2) + Math.Pow(1 - x, 2),
 
-                // The gradient vector:
+                // And this is the vector gradient for the same function:
                 gradient: () => new[] 
                 {
                     2 * (200 * Math.Pow(x, 3) - 200 * x * y + x - 1), // df/dx = 2(200x³-200xy+x-1)
                     200 * (y - x*x)                                   // df/dy = 200(y-x²)
                 }
-
             );
 
-
             // Now we can start stating the constraints
-            var constraints = new List<NonlinearConstraint>();
+            var constraints = new List<NonlinearConstraint>()
+            {
+                // Add the non-negativity constraint for x
+                new NonlinearConstraint(f,
+                    // 1st constraint: x should be greater than or equal to 0
+                    function: () => x,
+                    shouldBe: ConstraintType.GreaterThanOrEqualTo, 
+                    value: 0,
+                    gradient: () => new[] { 1.0, 0.0 }
+                ),
 
-            // Add the non-negativity constraint for x
-            constraints.Add(new NonlinearConstraint(f,
-
-                // 1st constraint: x should be greater than or equal to 0
-                function: () => x, shouldBe: ConstraintType.GreaterThanOrEqualTo, value: 0,
-
-                gradient: () => new[] { 1.0, 0.0 }
-            ));
-
-            // Add the non-negativity constraint for y
-            constraints.Add(new NonlinearConstraint(f,
-
-                // 2nd constraint: y should be greater than or equal to 0
-                function: () => y, shouldBe: ConstraintType.GreaterThanOrEqualTo, value: 0,
-
-                gradient: () => new[] { 0.0, 1.0 }
-            ));
-
+                // Add the non-negativity constraint for y
+                new NonlinearConstraint(f,
+                    // 2nd constraint: y should be greater than or equal to 0
+                    function: () => y, 
+                    shouldBe: ConstraintType.GreaterThanOrEqualTo, 
+                    value: 0,
+                    gradient: () => new[] { 0.0, 1.0 }
+                )
+            };
 
             // Finally, we create the non-linear programming solver
             var solver = new AugmentedLagrangian(f, constraints);
 
-            // And attempt to solve the problem
-            Assert.IsTrue(solver.Minimize());
-            double minValue = solver.Value;
+            // And attempt to find a minimum
+            bool success = solver.Minimize();
 
+            // The solution found was { 1, 1 }
+            double[] solution = solver.Solution;
+
+            // with the minimum value zero.
+            double minValue = solver.Value;
+            #endregion
+
+            Assert.IsTrue(success);
+            Assert.AreEqual(0, minValue, 1e-10);
+            Assert.AreEqual(1, solver.Solution[0], 1e-6);
+            Assert.AreEqual(1, solver.Solution[1], 1e-6);
+
+            Assert.IsFalse(Double.IsNaN(minValue));
+            Assert.IsFalse(Double.IsNaN(solver.Solution[0]));
+            Assert.IsFalse(Double.IsNaN(solver.Solution[1]));
+        }
+
+        [Test]
+        public void solve_vectors()
+        {
+            #region doc_vector
+            // Suppose we would like to minimize the following function:
+            //
+            //    f(x,y) = min 100(y-x²)²+(1-x)²
+            //
+            // Subject to the constraints
+            //
+            //    x >= 0  (x must be positive)
+            //    y >= 0  (y must be positive)
+            //
+
+            // Now, we can create an objective function using vectors
+            var f = new NonlinearObjectiveFunction(numberOfVariables: 2,
+
+                // This is the objective function:  f(x,y) = min 100(y-x²)²+(1-x)²
+                function: (x) => 100 * Math.Pow(x[1] - x[0] * x[0], 2) + Math.Pow(1 - x[0], 2),
+
+                // And this is the vector gradient for the same function:
+                gradient: (x) => new[] 
+                {
+                    2 * (200 * Math.Pow(x[0], 3) - 200 * x[0] * x[1] + x[0] - 1), // df/dx = 2(200x³-200xy+x-1)
+                    200 * (x[1] - x[0]*x[0])                                   // df/dy = 200(y-x²)
+                }
+            );
+
+            // Now we can start stating the constraints
+            var constraints = new List<NonlinearConstraint>()
+            {
+                // Add the non-negativity constraint for x
+                new NonlinearConstraint(f,
+                    // 1st constraint: x should be greater than or equal to 0
+                    function: (x) => x[0], // x
+                    shouldBe: ConstraintType.GreaterThanOrEqualTo, 
+                    value: 0,
+                    gradient: (x) => new[] { 1.0, 0.0 }
+                ),
+
+                // Add the non-negativity constraint for y
+                new NonlinearConstraint(f,
+                    // 2nd constraint: y should be greater than or equal to 0
+                    function: (x) => x[1], // y 
+                    shouldBe: ConstraintType.GreaterThanOrEqualTo, 
+                    value: 0,
+                    gradient: (x) => new[] { 0.0, 1.0 }
+                )
+            };
+
+            // Finally, we create the non-linear programming solver
+            var solver = new AugmentedLagrangian(f, constraints);
+
+            // And attempt to find a minimum
+            bool success = solver.Minimize();
+
+            // The solution found was { 1, 1 }
+            double[] solution = solver.Solution;
+
+            // with the minimum value zero.
+            double minValue = solver.Value;
+            #endregion
+
+            Assert.IsTrue(success);
             Assert.AreEqual(0, minValue, 1e-10);
             Assert.AreEqual(1, solver.Solution[0], 1e-6);
             Assert.AreEqual(1, solver.Solution[1], 1e-6);
@@ -687,6 +748,40 @@ namespace Accord.Tests.Math
             {
                 errorConstraintsTest[i] = nonlinearConstraintsTest[i].Function(solverTest.Solution);
             }
+        }
+
+        [Test]
+        public void constructorTest5()
+        {
+            // AugmentedLagrangian with NonlinearConstraints
+            // have a Gradient NullReferenceException issue 
+            // https://github.com/accord-net/framework/issues/177
+
+            double x = Double.NaN, y = Double.NaN;
+
+            var function = new NonlinearObjectiveFunction(
+                function: () => x + y,
+                gradient: () => new[] { 1.0, 1.0 });
+
+            NonlinearConstraint[] constraints = 
+            {
+                new NonlinearConstraint(function, constraint: (v) => v[0] <= 0, gradient: (v) => new [] { 1.0, 0.0 }),
+                new NonlinearConstraint(function, constraint: (v) => v[1] <= 0, gradient: (v) => new [] { 0.0, 1.0 }),
+            };
+
+            var solver = new AugmentedLagrangian(function, constraints);
+
+            Assert.IsTrue(solver.Minimize());
+            double minimum = solver.Value;
+
+            double[] solution = solver.Solution;
+
+            Assert.AreEqual(-0.030518416329528453, minimum, 1e-5);
+            Assert.AreEqual(0.64095702750652883, solution[0], 1e-5);
+            Assert.AreEqual(-0.67147544383605728, solution[1], 1e-5);
+
+            double expectedMinimum = function.Function(solver.Solution);
+            Assert.AreEqual(expectedMinimum, minimum);
         }
     }
 }
