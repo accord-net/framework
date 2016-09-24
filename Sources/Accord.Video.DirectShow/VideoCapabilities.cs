@@ -244,6 +244,10 @@ namespace Accord.Video.DirectShow
             return !(a == b);
         }
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
             return String.Format("{0}x{1}, {2} fps ({3} max fps), {4} bpp", 
