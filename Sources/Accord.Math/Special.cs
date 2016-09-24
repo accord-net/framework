@@ -262,28 +262,24 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the Basic Spline of order <c>n</c>
         /// </summary>
+        /// 
         public static double BSpline(int n, double x)
         {
             // ftp://ftp.esat.kuleuven.ac.be/pub/SISTA/hamers/PhD_bhamers.pdf
             // http://sepwww.stanford.edu/public/docs/sep105/sergey2/paper_html/node5.html
 
-            if (n == Int32.MaxValue)
-                throw new ArgumentOutOfRangeException("n");
-
-
-            double a = 1.0 / Special.Factorial(n);
-            double c;
-
+            double sum = 0.0;
             bool positive = true;
             for (int k = 0; k <= n + 1; k++)
             {
-                c = Binomial(n + 1, k) * Tools.TruncatedPower(x + (n + 1.0) / 2.0 - k, n);
-                a += positive ? c : -c;
+                double c = Binomial(n + 1, k) * Tools.TruncatedPower(x + (n + 1.0) / 2.0 - k, n);
+                sum += positive ? c : -c;  // Sum terms over k
                 positive = !positive;
             }
 
-            return a;
+            return (1.0 / Special.Factorial(n)) * sum;  // Finally apply the 1/n! factor
         }
+
         #endregion
 
         #region Factorial and related functions

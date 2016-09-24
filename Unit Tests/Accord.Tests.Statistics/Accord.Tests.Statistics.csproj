@@ -115,6 +115,7 @@
     <Compile Include="Kernels\GaussianDtwTest.cs" />
     <Compile Include="Kernels\QuadraticTest.cs" />
     <Compile Include="Kernels\LinearTest.cs" />
+    <Compile Include="Kernels\BSplineTest.cs" />
     <Compile Include="MinimumMeanDistanceClassifierTest.cs" />
     <Compile Include="Models\Fields\Learning\ForwardBackwardGradientTest.cs" />
     <Compile Include="Models\Markov\HiddenMarkovClassifier`2Test.cs" />
