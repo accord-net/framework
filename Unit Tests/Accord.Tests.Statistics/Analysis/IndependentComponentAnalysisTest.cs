@@ -398,6 +398,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Category("Serialization")]
         public void SerializeTest()
         {
             Accord.Math.Tools.SetupGenerator(0);

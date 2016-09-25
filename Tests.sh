@@ -1,12 +1,12 @@
 #!/bin/bash
 ###########
 
-TESTS="Unit Tests/bin/Release/net40/"
+TESTS="Unit Tests/bin/Release/mono/"
 NUNIT="Externals/NUnit/nunit-console-x86.exe"
 LIST=()
 
 # Run unit tests in the Mono solution
-LIST+=("${TESTS}Accord.Tests.Audio.dll")
+#LIST+=("${TESTS}Accord.Tests.Audio.dll")
 LIST+=("${TESTS}Accord.Tests.Controls.dll")
 LIST+=("${TESTS}Accord.Tests.Core.dll")
 LIST+=("${TESTS}Accord.Tests.Imaging.dll")
@@ -18,4 +18,4 @@ LIST+=("${TESTS}Accord.Tests.Vision.dll")
 LIST+=("${TESTS}Accord.Tests.Statistics.dll")
 
 
-mono --runtime=v4.0 ${NUNIT} -noxml -nodots -labels -exclude:Intensive,WinForms,Office -process=multiple "${LIST[@]/#/}"
+mono --runtime=v4.0 ${NUNIT} -noxml -nodots -labels -exclude:Serialization,Intensive,WinForms,Office -process=single "${LIST[@]/#/}"

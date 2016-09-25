@@ -189,6 +189,7 @@ namespace Accord.Tests.Imaging
         }
 
         [Test, Timeout(600 * 1000)]
+        [Category("Serialization")]
         public void SerializeTest()
         {
             var images = GetImages();
@@ -218,6 +219,7 @@ namespace Accord.Tests.Imaging
         }
 
         [Test]
+        [Category("Serialization")]
         public void SerializeTest2()
         {
             var images = GetImages();

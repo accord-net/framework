@@ -249,6 +249,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        [Category("Serialization")]
         public void SerializeTest1()
         {
             double[][] inputs =
@@ -338,6 +339,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        [Category("Serialization")]
         public void SerializeTest2()
         {
             double[][] inputs =
@@ -435,9 +437,8 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-
-
         [Test]
+        [Category("Serialization")]
         public void serialize_reload_new_version()
         {
             double[][] inputs =

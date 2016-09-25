@@ -23,9 +23,11 @@
 namespace Accord.Neuro.Learning
 {
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Math.Decompositions;
+    using MachineLearning;
 
     /// <summary>
     ///   The Jacobian computation method used by the Levenberg-Marquardt.
@@ -233,6 +235,7 @@ namespace Accord.Neuro.Learning
         private float[] deltas;
         private double[] errors;
 
+
         private JacobianMethod method;
 
         // Levenberg damping factor
@@ -403,7 +406,11 @@ namespace Accord.Neuro.Learning
             get { return gradient; }
         }
 
-
+        /// <summary>
+        ///   Gets or sets the parallelization options for this algorithm.
+        /// </summary>
+        /// 
+        public ParallelOptions ParallelOptions { get; set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="LevenbergMarquardtLearning"/> class.
@@ -422,7 +429,9 @@ namespace Accord.Neuro.Learning
         /// <param name="useRegularization">True to use Bayesian regularization, false otherwise.</param>
         /// 
         public LevenbergMarquardtLearning(ActivationNetwork network, bool useRegularization) :
-            this(network, useRegularization, JacobianMethod.ByBackpropagation) { }
+            this(network, useRegularization, JacobianMethod.ByBackpropagation)
+        {
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="LevenbergMarquardtLearning"/> class.
@@ -446,6 +455,7 @@ namespace Accord.Neuro.Learning
         /// 
         public LevenbergMarquardtLearning(ActivationNetwork network, bool useRegularization, JacobianMethod method)
         {
+            this.ParallelOptions = new ParallelOptions();
             this.network = network;
             this.numberOfParameters = getNumberOfParameters(network);
             this.outputCount = network.Layers[network.Layers.Length - 1].Neurons.Length;
@@ -601,7 +611,7 @@ namespace Accord.Neuro.Learning
 
                 // Compute Quasi-Hessian Matrix approximation
                 //  using the outer product Jacobian (H ~ J'J)
-                Parallel.For(0, jacobian.Length, i =>
+                Parallel.For(0, jacobian.Length, ParallelOptions, i =>
                 {
                     float[] ji = jacobian[i];
                     float[] hi = hessian[i];

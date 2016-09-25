@@ -32,12 +32,16 @@ namespace Accord.Tests.MachineLearning
     using Accord.Imaging;
     using Accord.Imaging.Filters;
     using Accord.Math.Geometry;
+    using System.Diagnostics;
 
     [TestFixture]
     public class RansacLineImageTest
     {
 
         [Test]
+#if MONO
+        [Ignore("Disabled on Mono")]
+#endif
         public void RansacLineConstructorTest2()
         {
             Accord.Math.Random.Generator.Seed = 0;

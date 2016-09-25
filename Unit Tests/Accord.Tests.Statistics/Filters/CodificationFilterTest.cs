@@ -311,6 +311,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Category("Serialization")]
         public void SerializationTest()
         {
             string[] names = { "child", "adult", "elder" };

@@ -593,6 +593,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Category("Serialization")]
         public void serialization_test()
         {
             //CsvReader reader = CsvReader.FromText(Properties.Resources.regression, true);

@@ -428,6 +428,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        [Category("Serialization")]
         public void SerializeTest1()
         {
             double[][] inputs =
@@ -544,8 +545,10 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-#if RELEASE
         [Test]
+#if DEBUG
+        [Ignore("Disabled on Debug")]
+#endif
         public void kaggle_digits_old_style()
         {
             string root = Environment.CurrentDirectory;
@@ -557,7 +560,9 @@ namespace Accord.Tests.MachineLearning
             var labels = tset.Item2;
 
             var teacher = new MulticlassSupportVectorLearning();
-
+#if MONO
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
             var svm = teacher.Learn(observations, labels);
 
             {
@@ -585,7 +590,10 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [Test, Conditional("RELEASE")]
+        [Test]
+#if DEBUG
+        [Ignore("Disabled on Debug")]
+#endif
         public void kaggle_digits()
         {
             string root = Environment.CurrentDirectory;
@@ -598,6 +606,10 @@ namespace Accord.Tests.MachineLearning
 
             var teacher = new MulticlassSupportVectorLearning<Linear>();
 
+#if MONO
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
+
             var svm = teacher.Learn(observations, labels);
 
             {
@@ -626,6 +638,9 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+#if DEBUG
+        [Ignore("Disabled on Debug")]
+#endif
         public void kaggle_digits_with_compress()
         {
             string root = Environment.CurrentDirectory;
@@ -637,7 +652,9 @@ namespace Accord.Tests.MachineLearning
             var labels = tset.Item2;
 
             var teacher = new MulticlassSupportVectorLearning<Linear>();
-
+#if MONO
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
             var svm = teacher.Learn(observations, labels);
 
             Assert.AreEqual(50, svm.Models[0][0].SupportVectors.Length);
@@ -670,7 +687,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(0.082, val);
             }
         }
-#endif
+
 
         private static Tuple<double[][], int[]> readData(string filePath)
         {

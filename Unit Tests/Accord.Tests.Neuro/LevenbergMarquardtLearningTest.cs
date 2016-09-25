@@ -727,7 +727,9 @@ namespace Accord.Tests.Neuro
 
             // create teacher
             var teacher = new LevenbergMarquardtLearning(network, true);
-
+#if MONO
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
             teacher.LearningRate = 1;
 
             // iterations
