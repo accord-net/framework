@@ -26,6 +26,9 @@ namespace Accord.Tests.Statistics
     using NUnit.Framework;
     using System;
     using System.Globalization;
+    using Accord.Math;
+    using Accord.Statistics.Visualizations;
+    using System.Collections.Generic;
 
     [TestFixture]
     public class GammaDistributionTest
@@ -38,7 +41,7 @@ namespace Accord.Tests.Statistics
             double shape = 0.4;
             double scale = 4.2;
 
-            double[] expected = 
+            double[] expected =
             {
                 double.NegativeInfinity, 0.987114, 0.635929, 0.486871, 0.400046,
                 0.341683, 0.299071, 0.266236, 0.239956, 0.218323, 0.200126
@@ -56,23 +59,32 @@ namespace Accord.Tests.Statistics
         [Test]
         public void GammaDistributionConstructorTest2()
         {
+            #region doc_ctor
+            // Create a Γ-distribution with k = 2 and θ = 4
             var gamma = new GammaDistribution(theta: 4, k: 2);
 
+            // Common measures
             double mean = gamma.Mean;     // 8.0
             double median = gamma.Median; // 6.7133878418421506
             double var = gamma.Variance;  // 32.0
             double mode = gamma.Mode;     // 4.0
 
+            // Cumulative distribution functions
             double cdf = gamma.DistributionFunction(x: 0.27); // 0.002178158242390601
-            double pdf = gamma.ProbabilityDensityFunction(x: 0.27); // 0.015773530285395465
-            double lpdf = gamma.LogProbabilityDensityFunction(x: 0.27); // -4.1494220422235433
             double ccdf = gamma.ComplementaryDistributionFunction(x: 0.27); // 0.99782184175760935
             double icdf = gamma.InverseDistributionFunction(p: cdf); // 0.26999998689819171
 
+            // Probability density functions
+            double pdf = gamma.ProbabilityDensityFunction(x: 0.27); // 0.015773530285395465
+            double lpdf = gamma.LogProbabilityDensityFunction(x: 0.27); // -4.1494220422235433
+
+            // Hazard (failure rate) functions
             double hf = gamma.HazardFunction(x: 0.27); // 0.015807962529274005
             double chf = gamma.CumulativeHazardFunction(x: 0.27); // 0.0021805338793574793
 
+            // String representation
             string str = gamma.ToString(CultureInfo.InvariantCulture); // "Γ(x; k = 2, θ = 4)"
+            #endregion
 
             Assert.AreEqual(8.0, mean);
             Assert.AreEqual(6.7133878418421506, median, 1e-6);
@@ -119,7 +131,7 @@ namespace Accord.Tests.Statistics
             double shape = 0.4;
             double scale = 4.2;
 
-            double[] pdf = 
+            double[] pdf =
             {
                 double.PositiveInfinity, 0.987114, 0.635929, 0.486871, 0.400046,
                 0.341683, 0.299071, 0.266236, 0.239956, 0.218323, 0.200126
@@ -150,7 +162,7 @@ namespace Accord.Tests.Statistics
             double shape = 0.4;
             double scale = 4.2;
 
-            double[] cdf = 
+            double[] cdf =
             {
                 0, 0.251017, 0.328997, 0.38435, 0.428371, 0.465289,
                 0.497226, 0.525426, 0.55069, 0.573571, 0.594469
@@ -308,5 +320,70 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.00022073878178531338, gamma.Scale, 1e-10);
         }
 
+        [Test]
+        public void distribution_hangs()
+        {
+            // https://github.com/accord-net/framework/issues/304
+            double[] dataset1 = { 8.141, 8.516, 7.049, 7.555, 7.999, 9.638, 7.445, 8.322, 8.184, 9.138, 8.489, 7.138, 7.855, 8.354, 10.648, 9.036, 9.371, 7.243, 6.967, 7.570, 8.636, 9.734, 8.713, 8.898, 7.969, 7.223, 7.162, 9.536, 8.919, 8.304, 7.746, 8.911, 7.857, 9.024, 7.383, 8.928, 7.410, 9.033, 7.912, 7.751, 7.359, 7.920, 7.294, 7.583, 8.122, 7.586, 7.011, 8.460, 9.126, 7.247, 9.816, 8.411, 8.833, 9.028, 8.271, 7.698, 7.399, 9.823, 8.202, 8.413, 7.384, 7.721, 7.384, 7.660, 7.698, 8.396, 8.038, 7.295, 8.202, 9.214, 10.263, 7.990, 7.502, 8.502, 8.022, 7.824, 9.193, 9.490, 9.279, 8.961, 8.213, 7.448, 8.385, 9.276, 8.178, 7.102, 7.206, 7.594, 7.718, 7.770, 7.997, 7.866, 8.157, 9.319, 7.449, 8.559, 7.617, 8.074, 7.922, 9.178, 8.738, 7.679, 7.983, 8.307, 8.022, 9.407, 7.667, 8.844, 8.134, 8.383, 8.395, 8.004, 9.252, 8.130, 7.934, 8.140, 7.924, 8.893, 6.850, 8.238, 9.762, 7.544, 8.845, 7.595, 8.453, 7.892, 8.007, 8.352, 8.537, 9.402 };
+            double[] dataset2 = { 0.999, 0.996, 1.066, 1.041, 1.052, 1.043, 1.052, 1.046, 1.032, 1.038, 1.052, 1.038, 1.040, 1.056, 1.043, 1.044, 1.058, 1.044, 1.053, 1.046, 1.045, 1.046, 1.048, 1.051, 1.056, 1.058, 1.065, 1.051, 1.049, 1.049, 1.043, 1.042, 1.049, 1.042, 1.033, 1.042, 1.028, 1.031, 1.036, 1.044, 1.037, 1.054, 1.046, 1.061, 1.048, 1.048, 1.028, 1.030, 1.049, 1.038, 1.042, 1.057, 1.028, 1.047, 1.044, 1.040, 1.038, 1.044, 1.046, 1.035, 1.040, 1.039, 1.046, 1.050, 1.033, 1.032, 1.040, 1.040, 1.032, 1.045, 1.054, 1.040, 1.045, 1.045, 1.043, 1.066, 1.057, 1.052, 1.060, 1.069, 1.046, 1.041, 1.048, 1.057, 1.059, 1.076, 1.051, 1.057, 1.067, 1.062, 1.025, 1.072, 1.061, 1.067, 1.062, 1.055, 1.065, 1.047, 1.046, 1.047, 1.045, 1.038, 1.056, 1.037, 1.042, 1.044, 1.047, 1.037, 1.047, 1.041, 1.042, 1.042, 1.042, 1.040, 1.060, 1.066, 1.067, 1.077, 1.059, 1.067 };
+
+            // with Accord.NET the results of the gamma fit are
+            // Dataset1: k = 119.306665626699, θ = 0.0690958879514208  (rate=1/θ = 14.4726412764688)
+            // Dataset2: k = 6952.29276909337, θ = 0.00015060019786871 (rate=1/θ = 6640.0975174798) 
+
+            // with the same data a gamma distribution fit was performed online via "http://www.wessa.net/rwasp_fitdistrgamma.wasp"
+            // Dataset1: shape= 115.405346712493, rate = 13.9994954351296 (θ= 1/shape= 0.07143114583191708605319342679921)
+            // Dataset2: shape= 6930.15592532156 , rate = 6618.95473828367 (θ= 1/shape= 0.00015108125671506031378872360567992)
+
+            var a = GammaDistribution.Estimate(dataset1);
+            Assert.AreEqual(0.069095887951420826, a.Scale, 1e-8);
+            Assert.AreEqual(119.30666562669866, a.Shape, 1e-8);
+
+            var b = GammaDistribution.Estimate(dataset2);
+            Assert.AreEqual(0.00015060019786871043, b.Scale, 1e-8);
+            Assert.AreEqual(6952.2927690933739, b.Shape, 1e-8);
+
+
+            double[] pdfa = dataset1.Apply(a.ProbabilityDensityFunction);
+            double[] pdfb = dataset2.Apply(a.ProbabilityDensityFunction);
+
+            double[] ay = plot(dataset1, a);
+            string stra = ay.ToCSharp();
+            double[] expecteda = new double[] { 0.0927186751703724, 0.102929217255775, 0.113853912640037, 0.125490882412066, 0.137831384027626, 0.150859382782722, 0.164551205816893, 0.178875290227262, 0.193792035506903, 0.209253768840681, 0.225204829830127, 0.241581779018976, 0.25831373220303, 0.275322819989417, 0.292524769484354, 0.309829602400448, 0.327142441352633, 0.344364413721372, 0.36139364026723, 0.378126293740165, 0.394457711091658, 0.410283541612013, 0.425500912411485, 0.440009592166544, 0.453713133972042, 0.466519978477992, 0.478344499233706, 0.489107973291516, 0.498739461604722, 0.507176585549156, 0.514366187957508, 0.520264869325212, 0.524839392269736, 0.528066949839688, 0.529935295816686, 0.530442737670986, 0.529597995264547, 0.527419930690551, 0.523937156748862, 0.51918753344197, 0.513217563503365, 0.50608169931424, 0.497841574608112, 0.488565175098291, 0.478325962588825, 0.467201967252403, 0.455274862593154, 0.442629037177336, 0.429350676535845, 0.415526867748883, 0.401244738146801, 0.386590638336579, 0.37164937842665, 0.356503524908677, 0.341232764198471, 0.325913337372842, 0.310617549195024, 0.29541335312659, 0.280364012703018, 0.265527838423449, 0.250957998190604, 0.236702398346326, 0.222803631491404, 0.209298986560572, 0.196220516046194, 0.183595154826475, 0.171444884751058, 0.159786938962256, 0.148634039874823, 0.137994664790792, 0.127873333276316, 0.118270910662634, 0.109184922339614, 0.100609873875035, 0.0925375724026959, 0.0849574451652891, 0.0778568515617006, 0.0712213855225515, 0.0650351655120983, 0.0592811099206679, 0.0539411960619302, 0.0489967014173125, 0.0444284261704561, 0.0402168964441056, 0.0363425479871147, 0.0327858903587122, 0.0295276519198202, 0.0265489061670697, 0.0238311801347997, 0.0213565457451675, 0.0191076951082055, 0.0170680008645135, 0.0152215627257103, 0.0135532414045203, 0.012048681140193, 0.0106943220187805, 0.00947740326439647, 0.00838595863975468, 0.00740880504465858, 0.00653552534217913 };
+            Assert.IsTrue(ay.IsEqual(expecteda, 1e-8));
+
+            double[] by = plot(dataset1, b);
+            string strb = by.ToCSharp();
+            double[] expectedb = Vector.Zeros(by.Length);
+            Assert.IsTrue(by.IsEqual(expectedb));
+
+        }
+
+        private static double[] plot(double[] dataset1, GammaDistribution a)
+        {
+            var hist = new Histogram();
+            hist.Compute(dataset1);
+
+            double x = hist.Range.Min;
+            double stepx = (hist.Range.Max - hist.Range.Min) / 100;
+
+            int size = 100;
+            var ax = new double[size];
+            var ay = new double[size];
+            for (int i = 0; i < size; i++)
+            {
+                double y = a.ProbabilityDensityFunction(x);
+                double ly = a.LogProbabilityDensityFunction(x);
+
+                Assert.AreEqual(y, Math.Exp(ly), 1e-10);
+                // Assert.AreEqual(Math.Log(y), ly, 1e-10);
+
+                x = x + stepx;
+                ax[i] = x;
+                ay[i] = y;
+            }
+
+            return ay;
+        }
     }
 }

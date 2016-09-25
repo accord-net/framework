@@ -87,31 +87,7 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   The following example shows how to create, test and compute the main 
     ///   functions of a Gamma distribution given parameters θ = 4 and k = 2: </para>
     ///   
-    /// <code>
-    ///   // Create a Γ-distribution with k = 2 and θ = 4
-    ///   var gamma = new GammaDistribution(theta: 4, k: 2);
-    /// 
-    ///   // Common measures
-    ///   double mean   = gamma.Mean;     // 8.0
-    ///   double median = gamma.Median;   // 6.7133878418421506
-    ///   double var    = gamma.Variance; // 32.0
-    /// 
-    ///   // Cumulative distribution functions
-    ///   double cdf  = gamma.DistributionFunction(x: 0.27);              //  0.002178158242390601
-    ///   double ccdf = gamma.ComplementaryDistributionFunction(x: 0.27); // 0.99782184175760935
-    ///   double icdf = gamma.InverseDistributionFunction(p: cdf);        // 0.26999998689819171
-    ///   
-    ///   // Probability density functions
-    ///   double pdf  = gamma.ProbabilityDensityFunction(x: 0.27);    //  0.015773530285395465
-    ///   double lpdf = gamma.LogProbabilityDensityFunction(x: 0.27); // -4.1494220422235433
-    /// 
-    ///   // Hazard (failure rate) functions
-    ///   double hf  = gamma.HazardFunction(x: 0.27);           // 0.015807962529274005
-    ///   double chf = gamma.CumulativeHazardFunction(x: 0.27); // 0.0021805338793574793
-    ///
-    ///   // String representation
-    ///   string str = gamma.ToString(CultureInfo.InvariantCulture); // "Γ(x; k = 2, θ = 4)"
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\GammaDistributionTest.cs" region="doc_ctor"/>
     /// </example>
     /// 
     /// <seealso cref="Accord.Math.Gamma"/>
@@ -201,8 +177,8 @@ namespace Accord.Statistics.Distributions.Univariate
             this.theta = theta;
             this.k = k;
 
-            this.constant = 1.0 / (Math.Pow(theta, k) * Gamma.Function(k));
             this.lnconstant = -(k * Math.Log(theta) + Gamma.Log(k));
+            this.constant = Math.Exp(lnconstant);
         }
 
         /// <summary>
@@ -358,7 +334,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityDensityFunction(double x)
         {
-            return constant * Math.Pow(x, k - 1) * Math.Exp(-x / theta);
+            double a = Math.Pow(x, k - 1);
+            double b = Math.Exp(-x / theta);
+            if (b == 0)
+                return 0;
+            if (a == 0)
+                return 0;
+            return constant * a * b;
         }
 
         /// <summary>
