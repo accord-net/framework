@@ -12,6 +12,7 @@ namespace Accord.Imaging
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.Collections.Generic;
+    using System.Diagnostics;
 
     /// <summary>
     /// Image in unmanaged memory.
@@ -224,6 +225,15 @@ namespace Accord.Imaging
             Accord.SystemTools.CopyUnmanagedMemory(newImageData, imageData, stride * height);
 
             return newImage;
+        }
+
+        [Conditional("DEBUG")]
+        internal unsafe void CheckBounds(byte* address)
+        {
+            byte* src = (byte*)imageData.ToPointer();
+            byte* end = src + stride * height;
+            if (address < src || address >= end)
+                throw new IndexOutOfRangeException("address");
         }
 
         /// <summary>

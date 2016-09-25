@@ -93,6 +93,8 @@ namespace Accord.Tests.Imaging
         [Test]
         public void MatchTest3()
         {
+            Accord.Math.Random.Generator.Seed = 0;
+
             var old = Accord.Imaging.Image.Clone(Properties.Resources.old);
             var flower01 = Accord.Imaging.Image.Clone(Properties.Resources.flower01);
 
@@ -130,6 +132,8 @@ namespace Accord.Tests.Imaging
         [Test]
         public void MatchTest3_Compatibility()
         {
+            Accord.Math.Random.Generator.Seed = 0;
+
             var old = Accord.Imaging.Image.Clone(Properties.Resources.old);
             var flower01 = Accord.Imaging.Image.Clone(Properties.Resources.flower01);
 

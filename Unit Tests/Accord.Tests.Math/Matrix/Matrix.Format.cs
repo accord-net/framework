@@ -26,6 +26,7 @@ namespace Accord.Tests.Math
     using NUnit.Framework;
     using System.Collections.Generic;
     using System;
+    using Accord;
 
     [TestFixture]
     public class MatrixFormatTest
@@ -155,23 +156,23 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
 
 
-            expected = "1 2 \r\n3 4";
+            expected = String.Format("1 2 {0}3 4", Environment.NewLine);
             actual = Matrix.ToString(matrix, DefaultMatrixFormatProvider.InvariantCulture);
             Assert.AreEqual(expected, actual);
 
 
-            expected = "new double[][] {\r\n" +
-                       "    new double[] { 1, 2 },\r\n" +
-                       "    new double[] { 3, 4 } \r\n" +
-                       "};";
+            expected = String.Format("new double[][] {{0}" +
+                       "    new double[] { 1, 2 },{0}" +
+                       "    new double[] { 3, 4 } {0}" +
+                       "};", Environment.NewLine);
             actual = Matrix.ToString(matrix, CSharpJaggedMatrixFormatProvider.InvariantCulture);
             Assert.AreEqual(expected, actual);
 
 
-            expected = "new double[,] {\r\n" +
+            expected = String.Format("new double[,] {\r\n" +
                        "    { 1, 2 },\r\n" +
                        "    { 3, 4 } \r\n" +
-                       "};";
+                       "};", Environment.NewLine);
             actual = Matrix.ToString(matrix, CSharpMatrixFormatProvider.InvariantCulture);
             Assert.AreEqual(expected, actual);
         }

@@ -169,6 +169,8 @@ namespace Accord.Imaging
                     byte* row = col;
                     for (int y = 0; y < height && !found; y++, row += stride)
                     {
+                        image.CheckBounds(row);
+
                         if (*row > Threshold)
                         {
                             start = row;
@@ -226,8 +228,10 @@ namespace Accord.Imaging
                             continue;
                         }
 
-                        // Find the next candidate neighbor pixel
+                        // It is inside. Then find the next candidate neighbor pixel
                         byte* neighbor = unchecked(current + windowOffset[direction]);
+
+                        image.CheckBounds(neighbor); // Make sure we are in the image
 
                         // Check if it is a colored pixel
                         if (*neighbor <= Threshold)
@@ -286,28 +290,28 @@ namespace Accord.Imaging
 
         // lookup tables
         private static readonly IntPoint[] positionOffset = 
-            {
-                new IntPoint( 1,  0), // 0: Right
-                new IntPoint( 1, -1), // 1: Top-Right
-                new IntPoint( 0, -1), // 2: Top
-                new IntPoint(-1, -1), // 3: Top-Left
-                new IntPoint(-1,  0), // 4: Left
-                new IntPoint(-1,  1), // 5: Bottom-Left
-                new IntPoint( 0,  1), // 6: Bottom
-                new IntPoint( 1,  1), // 7: Bottom-Right
-            };
+        {
+            new IntPoint( 1,  0), // 0: Right
+            new IntPoint( 1, -1), // 1: Top-Right
+            new IntPoint( 0, -1), // 2: Top
+            new IntPoint(-1, -1), // 3: Top-Left
+            new IntPoint(-1,  0), // 4: Left
+            new IntPoint(-1,  1), // 5: Bottom-Left
+            new IntPoint( 0,  1), // 6: Bottom
+            new IntPoint( 1,  1), // 7: Bottom-Right
+        };
 
         private static readonly int[] nextDirection = 
-            {
-                7, // 0: Right
-                7, // 1: Top-Right
-                1, // 2: Top
-                1, // 3: Top-Left
-                3, // 4: Left
-                3, // 5: Bottom-Left
-                5, // 6: Bottom
-                5, // 7: Bottom-Right
-            };
+        {
+            7, // 0: Right
+            7, // 1: Top-Right
+            1, // 2: Top
+            1, // 3: Top-Left
+            3, // 4: Left
+            3, // 5: Bottom-Left
+            5, // 6: Bottom
+            5, // 7: Bottom-Right
+        };
 
     }
 }

@@ -52,30 +52,30 @@ namespace Accord.Math.Geometry
         /// (<a href="http://en.wikipedia.org/wiki/Cartesian_coordinate_system">Cartesian
         /// coordinate system</a>).</returns>
         /// 
-        public List<IntPoint> FindHull( List<IntPoint> points )
+        public List<IntPoint> FindHull(List<IntPoint> points)
         {
             // do nothing if there 3 points or less
-            if ( points.Count <= 3 )
+            if (points.Count <= 3)
             {
-                return new List<IntPoint>( points );
+                return new List<IntPoint>(points);
             }
 
-            List<PointToProcess> pointsToProcess = new List<PointToProcess>( );
+            List<PointToProcess> pointsToProcess = new List<PointToProcess>();
 
             // convert input points to points we can process
-            foreach ( IntPoint point in points )
+            foreach (IntPoint point in points)
             {
-                pointsToProcess.Add( new PointToProcess( point ) );
+                pointsToProcess.Add(new PointToProcess(point));
             }
 
             // find a point, with lowest X and lowest Y
             int firstCornerIndex = 0;
             PointToProcess firstCorner = pointsToProcess[0];
 
-            for ( int i = 1, n = pointsToProcess.Count; i < n; i++ )
+            for (int i = 1, n = pointsToProcess.Count; i < n; i++)
             {
-                if ( ( pointsToProcess[i].X < firstCorner.X ) ||
-                     ( ( pointsToProcess[i].X == firstCorner.X ) && ( pointsToProcess[i].Y < firstCorner.Y ) ) )
+                if ((pointsToProcess[i].X < firstCorner.X) ||
+                     ((pointsToProcess[i].X == firstCorner.X) && (pointsToProcess[i].Y < firstCorner.Y)))
                 {
                     firstCorner = pointsToProcess[i];
                     firstCornerIndex = i;
@@ -83,10 +83,10 @@ namespace Accord.Math.Geometry
             }
 
             // remove the just found point
-            pointsToProcess.RemoveAt( firstCornerIndex );
+            pointsToProcess.RemoveAt(firstCornerIndex);
 
             // find K (tangent of line's angle) and distance to the first corner
-            for ( int i = 0, n = pointsToProcess.Count; i < n; i++ )
+            for (int i = 0, n = pointsToProcess.Count; i < n; i++)
             {
                 int dx = pointsToProcess[i].X - firstCorner.X;
                 int dy = pointsToProcess[i].Y - firstCorner.Y;
@@ -94,42 +94,42 @@ namespace Accord.Math.Geometry
                 // don't need square root, since it is not important in our case
                 pointsToProcess[i].Distance = dx * dx + dy * dy;
                 // tangent of lines angle
-                pointsToProcess[i].K = ( dx == 0 ) ? float.PositiveInfinity : (float) dy / dx;
+                pointsToProcess[i].K = (dx == 0) ? float.PositiveInfinity : (float)dy / dx;
             }
 
             // sort points by angle and distance
-            pointsToProcess.Sort( );
+            pointsToProcess.Sort();
 
-            List<PointToProcess> convexHullTemp = new List<PointToProcess>( );
+            List<PointToProcess> convexHullTemp = new List<PointToProcess>();
 
             // add first corner, which is always on the hull
-            convexHullTemp.Add( firstCorner );
+            convexHullTemp.Add(firstCorner);
             // add another point, which forms a line with lowest slope
-            convexHullTemp.Add( pointsToProcess[0] );
-            pointsToProcess.RemoveAt( 0 );
+            convexHullTemp.Add(pointsToProcess[0]);
+            pointsToProcess.RemoveAt(0);
 
             PointToProcess lastPoint = convexHullTemp[1];
             PointToProcess prevPoint = convexHullTemp[0];
 
-            while ( pointsToProcess.Count != 0 )
+            while (pointsToProcess.Count != 0)
             {
                 PointToProcess newPoint = pointsToProcess[0];
 
                 // skip any point, which has the same slope as the last one or
                 // has 0 distance to the first point
-                if ( ( newPoint.K == lastPoint.K ) || ( newPoint.Distance == 0 ) )
+                if ((newPoint.K == lastPoint.K) || (newPoint.Distance == 0))
                 {
-                    pointsToProcess.RemoveAt( 0 );
+                    pointsToProcess.RemoveAt(0);
                     continue;
                 }
 
                 // check if current point is on the left side from two last points
-                if ( ( newPoint.X - prevPoint.X ) * ( lastPoint.Y - newPoint.Y ) - ( lastPoint.X - newPoint.X ) * ( newPoint.Y - prevPoint.Y ) < 0 )
+                if ((newPoint.X - prevPoint.X) * (lastPoint.Y - newPoint.Y) - (lastPoint.X - newPoint.X) * (newPoint.Y - prevPoint.Y) < 0)
                 {
                     // add the point to the hull
-                    convexHullTemp.Add( newPoint );
+                    convexHullTemp.Add(newPoint);
                     // and remove it from the list of points to process
-                    pointsToProcess.RemoveAt( 0 );
+                    pointsToProcess.RemoveAt(0);
 
                     prevPoint = lastPoint;
                     lastPoint = newPoint;
@@ -137,7 +137,7 @@ namespace Accord.Math.Geometry
                 else
                 {
                     // remove the last point from the hull
-                    convexHullTemp.RemoveAt( convexHullTemp.Count - 1 );
+                    convexHullTemp.RemoveAt(convexHullTemp.Count - 1);
 
                     lastPoint = prevPoint;
                     prevPoint = convexHullTemp[convexHullTemp.Count - 2];
@@ -145,11 +145,11 @@ namespace Accord.Math.Geometry
             }
 
             // convert points back
-            List<IntPoint> convexHull = new List<IntPoint>( );
+            List<IntPoint> convexHull = new List<IntPoint>();
 
-            foreach ( PointToProcess pt in convexHullTemp )
+            foreach (PointToProcess pt in convexHullTemp)
             {
-                convexHull.Add( pt.ToPoint( ) );
+                convexHull.Add(pt.ToPoint());
             }
 
             return convexHull;
@@ -163,7 +163,7 @@ namespace Accord.Math.Geometry
             public float K;
             public float Distance;
 
-            public PointToProcess( IntPoint point )
+            public PointToProcess(IntPoint point)
             {
                 X = point.X;
                 Y = point.Y;
@@ -172,17 +172,17 @@ namespace Accord.Math.Geometry
                 Distance = 0;
             }
 
-            public int CompareTo( object obj )
+            public int CompareTo(object obj)
             {
-                PointToProcess another = (PointToProcess) obj;
+                PointToProcess another = (PointToProcess)obj;
 
-                return ( K < another.K ) ? -1 : ( K > another.K ) ? 1 :
-                    ( ( Distance > another.Distance ) ? -1 : ( Distance < another.Distance ) ? 1 : 0 );
+                return (K < another.K) ? -1 : (K > another.K) ? 1 :
+                    ((Distance > another.Distance) ? -1 : (Distance < another.Distance) ? 1 : 0);
             }
 
-            public IntPoint ToPoint( )
+            public IntPoint ToPoint()
             {
-                return new IntPoint( X, Y );
+                return new IntPoint(X, Y);
             }
         }
 

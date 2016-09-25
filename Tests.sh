@@ -18,4 +18,4 @@ LIST+=("${TESTS}Accord.Tests.Vision.dll")
 LIST+=("${TESTS}Accord.Tests.Statistics.dll")
 
 
-mono --runtime=v4.0 ${NUNIT} -noxml -nodots -labels -exclude:Serialization,Intensive,WinForms,Office -process=single "${LIST[@]/#/}"
+mono --runtime=v4.0 ${NUNIT} -noxml -nodots -labels -exclude:Serialization,Intensive,WinForms,Office,MonoNotSupported -process=single "${LIST[@]/#/}"

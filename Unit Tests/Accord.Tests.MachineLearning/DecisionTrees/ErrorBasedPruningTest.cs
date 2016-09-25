@@ -38,22 +38,6 @@ namespace Accord.Tests.MachineLearning
     {
 
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void RunTest()
         {
@@ -84,7 +68,7 @@ namespace Accord.Tests.MachineLearning
             foreach (var node in tree)
                 nodeCount2++;
 
-            Assert.AreEqual(0.28922413793103446, error);
+            Assert.AreEqual(0.28922413793103446, error, 1e-8);
             Assert.AreEqual(447, nodeCount);
             Assert.AreEqual(424, nodeCount2);
         }

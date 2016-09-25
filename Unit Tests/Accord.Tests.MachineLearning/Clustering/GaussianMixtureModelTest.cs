@@ -321,6 +321,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        [Category("Office")]
         public void GaussianMixtureModelTest5()
         {
             Accord.Math.Tools.SetupGenerator(0);

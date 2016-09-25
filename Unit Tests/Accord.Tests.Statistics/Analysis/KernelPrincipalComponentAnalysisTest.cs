@@ -731,6 +731,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Category("Office")]
         public void RevertTest2()
         {
             string path = @"Resources\examples.xls";
@@ -767,6 +768,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Category("Office")]
         public void RevertTest2_new_method()
         {
             string path = @"Resources\examples.xls";
@@ -806,6 +808,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Category("Office")]
         public void RevertTest3()
         {
             string path = @"Resources\examples.xls";

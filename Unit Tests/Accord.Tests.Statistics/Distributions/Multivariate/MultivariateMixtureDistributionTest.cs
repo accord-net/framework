@@ -317,6 +317,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Category("Office")]
         public void MixtureWeightsFitTest2()
         {
             MemoryStream stream = new MemoryStream(Resources.CircleWithWeights);

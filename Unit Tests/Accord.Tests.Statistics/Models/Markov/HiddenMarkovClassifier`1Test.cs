@@ -595,7 +595,7 @@ namespace Accord.Tests.Statistics
             // Train the sequence classifier using the algorithm
             double likelihood = teacher.Run(inputs, outputs);
 
-            Assert.AreEqual(-0.84036002169162149, likelihood);
+            Assert.AreEqual(-0.84036002169162149, likelihood, 1e-10);
 
             likelihood = testThresholdModel(inputs, outputs, classifier, likelihood);
         }

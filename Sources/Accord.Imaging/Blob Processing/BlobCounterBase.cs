@@ -897,6 +897,9 @@ namespace Accord.Imaging
                     {
                         if (objectLabels[p] == label)
                         {
+                            image.CheckBounds(src);
+                            blob.Image.CheckBounds(dst);
+
                             // copy pixel
                             *dst = *src;
 
@@ -1231,6 +1234,8 @@ namespace Accord.Imaging
                         area[label]++;
                         xc[label] += x;
                         yc[label] += y;
+
+                        image.CheckBounds(src);
 
                         g = *src;
                         meanG[label] += g;

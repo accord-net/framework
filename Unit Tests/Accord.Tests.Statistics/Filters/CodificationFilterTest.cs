@@ -145,6 +145,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Category("Office")]
         public void ApplyTest4()
         {
             string path = @"Resources\intrusion.xls";

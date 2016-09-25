@@ -58,6 +58,8 @@ namespace Accord.Tests.Imaging
         [Test]
         public void BagOfVisualWordsConstructorTest()
         {
+            Accord.Math.Random.Generator.Seed = 0;
+
             var images = GetImages();
 
             BagOfVisualWords bow = new BagOfVisualWords(10);
@@ -101,6 +103,8 @@ namespace Accord.Tests.Imaging
         [Test]
         public void BagOfVisualWordsConstructorTest3()
         {
+            Accord.Math.Random.Generator.Seed = 0;
+
             var images = GetImages();
 
             MoravecCornersDetector moravec = new MoravecCornersDetector();
@@ -261,6 +265,7 @@ namespace Accord.Tests.Imaging
         {
             // Requires data from the National Data Science bowl
             // https://github.com/accord-net/framework/issues/58
+            // TODO: Add some code to download and cache the data
 
             var trainingDirectory = @"C:\Users\CésarRoberto\Downloads\train\train\";
 

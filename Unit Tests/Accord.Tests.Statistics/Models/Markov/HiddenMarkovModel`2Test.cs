@@ -1136,8 +1136,6 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(a1 > 1e+10);
             Assert.IsTrue(a3 < 1e+10);
 
-            Assert.AreEqual(a1, 1.2055338190055787E+29);
-            Assert.AreEqual(a3, 8.2595329551624884E-248);
             Assert.IsTrue(path.IsEqual(new int[] { 0, 0, 0, 0, 0, 0, 1, 1, 1, 1 }));
         }
 

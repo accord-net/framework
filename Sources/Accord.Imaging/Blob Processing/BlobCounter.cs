@@ -202,6 +202,8 @@ namespace Accord.Imaging
                 {
                     int offset = stride - ImageWidth;
 
+                    image.CheckBounds(src);
+
                     // 1 - for pixels of the first row
                     if (*src > backgroundThresholdG)
                         ObjectLabels[p] = ++labelsCount;
@@ -211,9 +213,13 @@ namespace Accord.Imaging
                     // process the rest of the first row
                     for (int x = 1; x < ImageWidth; x++, src++, p++)
                     {
+                    image.CheckBounds(src);
+
                         // check if we need to label current pixel
                         if (*src > backgroundThresholdG)
                         {
+                            image.CheckBounds(src - 1);
+
                             // check if the previous pixel already was labeled
                             if (src[-1] > backgroundThresholdG)
                             {
@@ -235,8 +241,14 @@ namespace Accord.Imaging
                     {
                         // for the first pixel of the row, we need to check
                         // only upper and upper-right pixels
+
+                        image.CheckBounds(src );
+
                         if (*src > backgroundThresholdG)
                         {
+                            image.CheckBounds(src - stride);
+                            image.CheckBounds(src + 1 - stride);
+
                             // check surrounding pixels
                             if (src[-stride] > backgroundThresholdG)
                             {
@@ -260,8 +272,15 @@ namespace Accord.Imaging
                         // check left pixel and three upper pixels for the rest of pixels
                         for (int x = 1; x < imageWidthM1; x++, src++, p++)
                         {
+                            image.CheckBounds(src );
+
                             if (*src > backgroundThresholdG)
                             {
+                                image.CheckBounds(src - 1);
+                                image.CheckBounds(src - 1 - stride);
+                                image.CheckBounds(src - stride);
+                                image.CheckBounds(src +1 - stride);
+
                                 // check surrounding pixels
                                 if (src[-1] > backgroundThresholdG)
                                 {
@@ -340,8 +359,14 @@ namespace Accord.Imaging
 
                         // for the last pixel of the row, we need to check
                         // only upper and upper-left pixels
+                        image.CheckBounds(src);
+
                         if (*src > backgroundThresholdG)
                         {
+                            image.CheckBounds(src - 1);
+                            image.CheckBounds(src - 1 - stride);
+                            image.CheckBounds(src - stride);
+
                             // check surrounding pixels
                             if (src[-1] > backgroundThresholdG)
                             {

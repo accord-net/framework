@@ -481,6 +481,7 @@ namespace Accord.Tests.Imaging
 
 
         [Test]
+        [Category("MonoNotSupported")]
         public void MeanTest3()
         {
             UnmanagedImage image = UnmanagedImage.FromManagedImage(new byte[,]
@@ -536,6 +537,7 @@ namespace Accord.Tests.Imaging
         }
 
         [Test]
+        [Category("MonoNotSupported")]
         public void StandardDeviationTest3()
         {
             short[,] values =

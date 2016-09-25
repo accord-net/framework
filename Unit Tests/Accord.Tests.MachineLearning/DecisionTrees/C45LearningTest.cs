@@ -555,6 +555,7 @@ Iris-virginica =: (petal length > 2.45) && (petal width > 1.75) && (sepal length
 Iris-virginica =: (petal length > 2.45) && (petal width > 1.75) && (sepal length <= 5.95) && (sepal width <= 3.05)
 ";
             #endregion
+            expected = expected.Replace("\r\n", Environment.NewLine);
 
             Assert.AreEqual(0.026666666666666668, error, 1e-10);
             Assert.AreEqual(4, tree.NumberOfInputs);
@@ -618,6 +619,7 @@ Iris-virginica =: (petal length > 2.45) && (petal width <= 1.75) && (sepal lengt
 Iris-virginica =: (petal length > 2.45) && (petal width > 1.75) && (sepal length > 5.95)
 Iris-virginica =: (petal length > 2.45) && (petal width > 1.75) && (sepal length <= 5.95) && (sepal width <= 3.05)
 ";
+            expected = expected.Replace("\r\n", Environment.NewLine);
 
             Assert.AreEqual(0.026666666666666668, error, 1e-10);
 
@@ -669,6 +671,7 @@ Iris-virginica =: (2 > 2.45) && (3 <= 1.75) && (0 > 7.05)
 Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 > 5.95)
 Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 <= 5.95) && (1 <= 3.05)
 ";
+            expected = expected.Replace("\r\n", Environment.NewLine);
 
             Assert.AreEqual(0.026666666666666668, error, 1e-10);
 
