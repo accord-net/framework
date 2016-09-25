@@ -60,7 +60,7 @@ namespace Accord.Math.Distances
         ///   The Bhattacharyya between the two histograms.
         /// </returns>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(double[] x, double[] y)
@@ -83,7 +83,7 @@ namespace Accord.Math.Distances
         ///   The Bhattacharyya between the two histograms.
         /// </returns>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(GeneralDiscreteDistribution x, GeneralDiscreteDistribution y)
@@ -106,7 +106,7 @@ namespace Accord.Math.Distances
         ///   The Bhattacharyya between the two histograms.
         /// </returns>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(UnivariateDiscreteDistribution x, UnivariateDiscreteDistribution y)
@@ -130,7 +130,7 @@ namespace Accord.Math.Distances
         ///   The Bhattacharyya between the two datasets.
         /// </returns>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(double[][] x, double[][] y)
@@ -155,7 +155,7 @@ namespace Accord.Math.Distances
         ///   The Bhattacharyya between the two datasets.
         /// </returns>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(double[,] x, double[,] y)
@@ -179,7 +179,7 @@ namespace Accord.Math.Distances
         /// 
         /// <returns>The Bhattacharyya distance between the two distributions.</returns>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(double[] meanX, double[,] covX, double[] meanY, double[,] covY)
@@ -203,7 +203,7 @@ namespace Accord.Math.Distances
         /// 
         /// <returns>The Bhattacharyya distance between the two distributions.</returns>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(double[] meanX, double[][] covX, double[] meanY, double[][] covY)
@@ -231,7 +231,7 @@ namespace Accord.Math.Distances
         /// 
         /// <returns>The Bhattacharyya distance between the two distributions.</returns>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(
@@ -282,7 +282,7 @@ namespace Accord.Math.Distances
         /// 
         /// <returns>The Bhattacharyya distance between the two distributions.</returns>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(

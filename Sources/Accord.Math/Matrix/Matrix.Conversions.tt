@@ -86,7 +86,7 @@ namespace Accord.Math
         ///   Converts a <#=a_desc#> to a <#=b_desc#>.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[] To<#=b_name#>(this <#=a_type#>[] value)
@@ -98,7 +98,7 @@ namespace Accord.Math
         ///   Converts a <#=a_desc#> to a <#=b_desc#>.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[,] To<#=b_name#>(this <#=a_type#>[,] value)
@@ -110,7 +110,7 @@ namespace Accord.Math
         ///   Converts a <#=a_desc#> to a <#=b_desc#>.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[][] To<#=b_name#>(this <#=a_type#>[][] value)
@@ -122,7 +122,7 @@ namespace Accord.Math
         ///   Converts a <#=a_desc#> to a <#=b_desc#>.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[][][] To<#=b_name#>(this <#=a_type#>[][][] value)
@@ -137,7 +137,7 @@ namespace Accord.Math
         ///   Converts a <#=a_desc#> array to a <#=b_desc#> array.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[] To<#=b_name#>(this <#=a_type#>[] value, <#=b_type#>[] result)
@@ -151,7 +151,7 @@ namespace Accord.Math
         ///   Converts a multidimensional <#=a_desc#> array to a multidimensional <#=b_desc#> array.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[,] To<#=b_name#>(this <#=a_type#>[,] value, <#=b_type#>[,] result)
@@ -173,7 +173,7 @@ namespace Accord.Math
         ///   Converts a multidimensional <#=a_desc#> array to a jagged <#=b_desc#> array.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[][] To<#=b_name#>(this <#=a_type#>[,] value, <#=b_type#>[][] result)
@@ -189,7 +189,7 @@ namespace Accord.Math
         ///   Converts a jagged <#=a_desc#> array to a jagged <#=b_desc#> array.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[][] To<#=b_name#>(this <#=a_type#>[][] value, <#=b_type#>[][] result)
@@ -204,7 +204,7 @@ namespace Accord.Math
         ///   Converts a jagged <#=a_desc#> array to a jagged <#=b_desc#> array.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[][][] To<#=b_name#>(this <#=a_type#>[][][] value, <#=b_type#>[][][] result)
@@ -220,7 +220,7 @@ namespace Accord.Math
         ///   Converts a jagged <#=a_desc#> array to a multidimensional <#=b_desc#> array.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[,] To<#=b_name#>(this <#=a_type#>[][] value, <#=b_type#>[,] result)

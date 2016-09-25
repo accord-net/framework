@@ -423,7 +423,7 @@ namespace Accord.Math
         ///   Computes log(1-x) without losing precision for small values of x.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Log1m(double x)
@@ -448,7 +448,7 @@ namespace Accord.Math
         ///   - http://www.johndcook.com/csharp_log_one_plus_x.html
         /// </remarks>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Log1p(double x)
@@ -472,7 +472,7 @@ namespace Accord.Math
         ///   - http://www.johndcook.com/cpp_expm1.html
         /// </remarks>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Expm1(double x)
@@ -518,7 +518,7 @@ namespace Accord.Math
         /// 
         /// <returns>If B > 0 then the result is ABS(A), else it is -ABS(A).</returns>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Sign(double a, double b)
@@ -531,7 +531,7 @@ namespace Accord.Math
         ///   Computes x + y without losing precision using ln(x) and ln(y).
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double LogDiff(double lna, double lnc)
@@ -546,7 +546,7 @@ namespace Accord.Math
         ///   Computes x + y without losing precision using ln(x) and ln(y).
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double LogSum(double lna, double lnc)
@@ -566,7 +566,7 @@ namespace Accord.Math
         ///   Computes x + y without losing precision using ln(x) and ln(y).
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double LogSum(float lna, float lnc)
@@ -586,7 +586,7 @@ namespace Accord.Math
         ///   Computes sum(x) without losing precision using ln(x_0) ... ln(x_n).
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double LogSumExp(this double[] array)
@@ -606,7 +606,7 @@ namespace Accord.Math
         /// <summary>
         ///   Secant.
         /// </summary>
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Sec(double x)
@@ -617,7 +617,7 @@ namespace Accord.Math
         /// <summary>
         ///   Cosecant.
         /// </summary>
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Cosec(double x)
@@ -628,7 +628,7 @@ namespace Accord.Math
         /// <summary>
         ///   Cotangent.
         /// </summary>
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Cotan(double x)
@@ -640,7 +640,7 @@ namespace Accord.Math
         ///   Inverse secant.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Asec(double x)
@@ -663,7 +663,7 @@ namespace Accord.Math
         ///   Inverse cotangent.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Acotan(double x)
@@ -675,7 +675,7 @@ namespace Accord.Math
         ///   Hyperbolic secant.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Sech(double x)
@@ -687,7 +687,7 @@ namespace Accord.Math
         ///   Hyperbolic secant.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Cosech(double x)
@@ -699,7 +699,7 @@ namespace Accord.Math
         ///   Hyperbolic cotangent.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Cotanh(double x)
@@ -711,7 +711,7 @@ namespace Accord.Math
         ///   Inverse hyperbolic sin.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Asinh(double x)
@@ -724,7 +724,7 @@ namespace Accord.Math
         ///   Inverse hyperbolic cos.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Acosh(double x)
@@ -737,7 +737,7 @@ namespace Accord.Math
         ///   Inverse hyperbolic tangent.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Atanh(double x)
@@ -749,7 +749,7 @@ namespace Accord.Math
         ///   Inverse hyperbolic secant.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Asech(double x)
@@ -762,7 +762,7 @@ namespace Accord.Math
         ///   Inverse hyperbolic cosecant.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Acosech(double x)
@@ -775,7 +775,7 @@ namespace Accord.Math
         ///   Inverse hyperbolic cotangent.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Acotanh(double x)
@@ -796,7 +796,7 @@ namespace Accord.Math
         /// <returns>A vector with the same number of dimensions as <paramref name="input"/>
         ///   but where values lie between 0 and 1.</returns>
         ///   
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Softmax(double[] input)
@@ -816,7 +816,7 @@ namespace Accord.Math
         /// <returns>A vector with the same number of dimensions as <paramref name="input"/>
         ///   but where values lie between 0 and 1.</returns>
         ///   
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Softmax(double[] input, double[] result)
@@ -842,7 +842,7 @@ namespace Accord.Math
         ///   Computes log(1 + exp(x)) without losing precision.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Log1pexp(double x)

@@ -103,7 +103,7 @@ namespace Accord.Math
         ///   Elementwise <#=name#>.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[] <#=method#>(this <#=a#>[] value)
@@ -115,7 +115,7 @@ namespace Accord.Math
         ///   Elementwise <#=name#>.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[,] <#=method#>(this <#=a#>[,] value)
@@ -127,7 +127,7 @@ namespace Accord.Math
         ///   Elementwise <#=name#>.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[][] <#=method#>(this <#=a#>[][] value)
@@ -156,7 +156,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[] <#=method#>(this <#=a#>[] value, <#=r#>[] result)
@@ -178,7 +178,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[,] <#=method#>(this <#=a#>[,] value, <#=r#>[,] result)
@@ -209,7 +209,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[][] <#=method#>(this <#=a#>[][] value, <#=r#>[][] result)
@@ -256,7 +256,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[] <#=method#>(this <#=a#>[] value, double y)
@@ -271,7 +271,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[,] <#=method#>(this <#=a#>[,] value, double y)
@@ -286,7 +286,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[][] <#=method#>(this <#=a#>[][] value, double y)
@@ -316,7 +316,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[] <#=method#>(this <#=a#>[] value, double y, <#=r#>[] result)
@@ -339,7 +339,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[,] <#=method#>(this <#=a#>[,] value, double y, <#=r#>[,] result)
@@ -371,7 +371,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45
+#if NET45 || NET46
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[][] <#=method#>(this <#=a#>[][] value, double y, <#=r#>[][] result)
