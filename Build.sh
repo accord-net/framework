@@ -12,15 +12,15 @@ echo "                                                         "
 
 
 if [ $# -eq 0 ] || [ "$1" == "framework" ]; then
-	echo ""
-	echo "  - Building NET40 configuration..."
-	echo ""
-	xbuild /p:Configuration=NET40 Sources/Accord.NET.Mono.sln 
+    echo ""
+    echo "  - Building Mono configuration..."
+    echo ""
+    xbuild /p:Configuration=Mono Sources/Accord.NET.sln 
 fi
 
 if [ $# -eq 0 ] || [ "$1" == "samples" ]; then
-	echo ""
-	echo "  - Building samples..."
-	echo ""
-	xbuild /p:Configuration=Mono /p:Platform=x86 Samples/Samples.sln
+    echo ""
+    echo "  - Building samples..."
+    echo ""
+    xbuild /p:Configuration=Mono /p:Platform=x86 Samples/Samples.sln
 fi

@@ -63,6 +63,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\mono\</OutputPath>
     <DefineConstants>TRACE;MONO</DefineConstants>
+	<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>

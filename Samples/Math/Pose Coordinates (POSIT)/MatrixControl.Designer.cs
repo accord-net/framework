@@ -71,7 +71,7 @@
             this.groupBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox.Name = "groupBox";
             this.groupBox.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox.Size = new System.Drawing.Size(345, 169);
+            this.groupBox.Size = new System.Drawing.Size(333, 169);
             this.groupBox.TabIndex = 0;
             this.groupBox.TabStop = false;
             // 
@@ -226,7 +226,7 @@
             this.Controls.Add(this.groupBox);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MatrixControl";
-            this.Size = new System.Drawing.Size(345, 169);
+            this.Size = new System.Drawing.Size(333, 169);
             this.Load += new System.EventHandler(this.MatrixControl_Load);
             this.groupBox.ResumeLayout(false);
             this.groupBox.PerformLayout();

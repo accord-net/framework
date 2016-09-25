@@ -25,7 +25,7 @@ namespace Accord.Collections
     using System;
     using System.Linq;
     using System.Collections.Generic;
-
+#if !MONO
     /// <summary>
     ///   Node of a <see cref="VPTree"/>.
     /// </summary>
@@ -52,4 +52,5 @@ namespace Accord.Collections
             return String.Format("{0}: {1}", Value, base.ToString());
         }
     }
+#endif
 }

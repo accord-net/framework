@@ -400,7 +400,7 @@ namespace Accord.Math.Decompositions
             if (destroyed)
                 throw new InvalidOperationException("The decomposition has been destroyed.");
 
-            int count = value.Columns();
+            // int count = value.Columns();
             var B = inPlace ? value : value.MemberwiseClone();
             int m = B.Columns();
 

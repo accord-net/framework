@@ -284,9 +284,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         }
 
 
-        /// <summary>
-        ///   Computes the model output for a given input.
-        /// </summary>
+#pragma warning disable 612, 618
         [Obsolete("Please use Transform instead.")]
         double[] ILinearRegression.Compute(double[] inputs)
         {
@@ -295,6 +293,7 @@ namespace Accord.Statistics.Models.Regression.Linear
 
             return new double[] { this.Compute(inputs[0]) };
         }
+#pragma warning restore 612, 618
 
         /// <summary>
         /// Applies the transformation to an input, producing an associated output.

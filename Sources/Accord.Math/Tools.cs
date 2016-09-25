@@ -304,7 +304,7 @@ namespace Accord.Math
         [Obsolete("Please use Vector.Scale instead.")]
         public static int Scale(this IntRange from, IntRange to, int x)
         {
-            return Accord.Math.Vector.Scale(x, from, to);
+            return Accord.Math.Vector.Scale(x, (IRange<int>)from, (IRange<int>)to);
         }
 
         /// <summary>
@@ -359,7 +359,7 @@ namespace Accord.Math
         [Obsolete("Please use Vector.Scale instead.")]
         public static int[] Scale(IntRange from, IntRange to, int[] x)
         {
-            return Accord.Math.Vector.Scale(x, from, to);
+            return Accord.Math.Vector.Scale(x, (IRange<int>)from, (IRange<int>)to);
         }
 
         /// <summary>
@@ -392,7 +392,7 @@ namespace Accord.Math
         [Obsolete("Please use Vector.Scale instead.")]
         public static float[] Scale(Range from, Range to, float[] x)
         {
-            return Accord.Math.Vector.Scale(x, from, to);
+            return Accord.Math.Vector.Scale(x, (IRange<float>)from, (IRange<float>)to);
         }
 
         /// <summary>

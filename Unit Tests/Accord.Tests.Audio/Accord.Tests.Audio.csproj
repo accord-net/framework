@@ -55,6 +55,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\mono\</OutputPath>
+	<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DefineConstants>TRACE;MONO</DefineConstants>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
@@ -102,6 +103,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Accord.Audio.DirectSound\Accord.Audio.DirectSound.csproj">
+      <Project>{456db2e8-745a-4f87-a2bd-c43cf8677770}</Project>
+      <Name>Accord.Audio.DirectSound</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Audio\Accord.Audio.csproj">
       <Project>{E7B65F08-82F1-438F-847A-2AAC2BEC9AC0}</Project>
       <Name>Accord.Audio</Name>

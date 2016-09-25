@@ -43,7 +43,6 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void constructor_test()
         {
-            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
             var times = ReadCSV(Properties.Resources.times);
             var features = ReadCSV(Properties.Resources.features);
             var didSolve = times.Select(list => list.Select(d => d < 5000).ToList()).ToList();
@@ -92,7 +91,10 @@ namespace Accord.Tests.MachineLearning
             foreach (string[] r in reader)
             {
                 //Process row
-                list.Add(r.Skip(1).Select(double.Parse).ToList());
+                list.Add(r
+                    .Skip(1)
+                    .Select(x => double.Parse(x, System.Globalization.CultureInfo.InvariantCulture))
+                    .ToList());
             }
 
             return list;

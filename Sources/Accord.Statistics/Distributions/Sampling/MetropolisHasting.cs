@@ -189,6 +189,14 @@ namespace Accord.Statistics.Distributions.Sampling
             get { return this.accepts / (double)this.steps; }
         }
 
+        /// <summary>
+        ///   Gets the number of dimensions in each observation.
+        /// </summary>
+        /// 
+        public int NumberOfInputs
+        {
+            get { return dimensions; }
+        }
 
         /// <summary>
         ///   Gets or sets how many initial samples will get discarded as part
@@ -282,7 +290,7 @@ namespace Accord.Statistics.Distributions.Sampling
             {
                 var aux = current;
                 current = next;
-                next = current;
+                next = aux;
                 currentLogProb = pNext;
                 accepts++;
                 return true;

@@ -22,6 +22,7 @@
 
 namespace Accord.Tests.MachineLearning
 {
+#if !MONO
     using Accord.IO;
     using Accord.MachineLearning;
     using Accord.MachineLearning.Clustering;
@@ -60,7 +61,6 @@ namespace Accord.Tests.MachineLearning
 
             Assert.Fail();
         }
-
-
     }
+#endif
 }

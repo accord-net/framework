@@ -66,6 +66,7 @@ namespace Accord.MachineLearning.Clustering
     using System.Threading.Tasks;
     using Accord.Math;
 
+#if !MONO
     /// <summary>
     ///   Barnes-Hutt t-SNE.
     /// </summary>
@@ -862,6 +863,7 @@ namespace Accord.MachineLearning.Clustering
                 Debug.WriteLine(String.Format("Wrote the {0} x {1} data matrix successfully!", n, d));
             }
         }
-
     }
+
+#endif
 }

@@ -674,16 +674,13 @@ namespace Accord.Statistics.Analysis
             }
         }
 
-        /// <summary>
-        ///   Computes the analysis using given source data and parameters.
-        /// </summary>
-        /// 
+#pragma warning disable 612, 618
+        [Obsolete("Please use the Learn method instead.")]
         void IAnalysis.Compute()
         {
-#pragma warning disable 612, 618
             Compute();
-#pragma warning restore 612, 618
         }
+#pragma warning restore 612, 618
 
 
         /// <summary>

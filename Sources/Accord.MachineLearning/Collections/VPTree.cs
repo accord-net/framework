@@ -33,6 +33,7 @@ namespace Accord.Collections
     using System.Threading.Tasks;
     using System.Collections;
 
+#if !MONO
     /// <summary>
     ///   Vantage-Point Tree.
     /// </summary>
@@ -168,6 +169,6 @@ namespace Accord.Collections
         {
         }
     }
-
+#endif
 }
 

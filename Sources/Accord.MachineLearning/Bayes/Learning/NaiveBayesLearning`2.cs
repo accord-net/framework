@@ -22,6 +22,7 @@
 
 namespace Accord.MachineLearning.Bayes
 {
+#if !MONO
     using System;
     using System.Linq;
     using Accord.Math;
@@ -124,4 +125,5 @@ namespace Accord.MachineLearning.Bayes
             return new NaiveBayes<TDistribution, TInput>(inputs: inputs, classes: y, initial: Distribution);
         }
     }
+#endif
 }

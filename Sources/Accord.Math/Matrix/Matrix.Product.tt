@@ -1957,7 +1957,7 @@ namespace Accord.Math
             int brows = b.Rows();
             int bcols = b.Columns();
 
-            int crows = arows * brows;
+            //int crows = arows * brows;
             int ccols = acols * bcols;
             int block = brows * ccols;
 

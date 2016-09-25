@@ -355,7 +355,7 @@ namespace Accord
 
             var aKeys = new HashSet<TKey>(a.Keys);
             var bKeys = new HashSet<TKey>(b.Keys);
-            if (!aKeys.SetEquals(b.Keys))
+            if (!aKeys.SetEquals(bKeys))
                 return false;
 
             if (HasMethod<TValue>("SetEquals"))

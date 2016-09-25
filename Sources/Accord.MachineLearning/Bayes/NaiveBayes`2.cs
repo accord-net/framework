@@ -27,6 +27,7 @@ namespace Accord.MachineLearning.Bayes
     using Accord.Statistics.Distributions.Multivariate;
     using System;
 
+#if !MONO
     /// <summary>
     ///   Naïve Bayes Classifier for arbitrary distributions of arbitrary elements.
     /// </summary>
@@ -125,6 +126,17 @@ namespace Accord.MachineLearning.Bayes
             : base(classes, inputs, (i) =>  new Independent<TDistribution, TInput>(inputs, (j) =>  (TDistribution)initial[i][j].Clone()))
         {
         } 
+    }
+#else
+    /// <summary>
+    ///   This class is currently not supported in Mono due to
+    ///   a bug in the Mono compiler.
+    /// </summary>
+    /// 
+    [Obsolete("This class is not supported in Mono.")]
+    public class NaiveBayes<T1, T2>
+    {
 
     }
+#endif
 }

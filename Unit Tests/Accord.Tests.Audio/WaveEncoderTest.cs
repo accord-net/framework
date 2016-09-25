@@ -32,22 +32,6 @@ namespace Accord.Tests.Audio
     public class WaveEncoderTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void WaveEncoderConstructorTest()
         {

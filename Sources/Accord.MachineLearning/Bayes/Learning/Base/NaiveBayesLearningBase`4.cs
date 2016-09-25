@@ -31,7 +31,7 @@ namespace Accord.MachineLearning.Bayes
     using Accord.Statistics.Distributions.Fitting;
     using System.Threading;
     using System.Threading.Tasks;
-
+#if !MONO
     /// <summary>
     ///   Base class for Naive Bayes learning algorithms.
     /// </summary>
@@ -229,4 +229,5 @@ namespace Accord.MachineLearning.Bayes
                 throw new DimensionMismatchException("y");
         }
     }
+#endif
 }

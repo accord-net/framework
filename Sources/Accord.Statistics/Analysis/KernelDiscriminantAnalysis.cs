@@ -413,7 +413,7 @@ namespace Accord.Statistics.Analysis
             base.StandardDeviations = Measures.StandardDeviation(K, Means);
 
             // Initialize the kernel analogous scatter matrices
-            int dimension = x.Columns();
+            //int dimension = x.Columns();
             double[][] Sb = Jagged.Zeros(NumberOfSamples, NumberOfSamples);
             double[][] Sw = Jagged.Zeros(NumberOfSamples, NumberOfSamples);
 

@@ -20,7 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-#if NET35 || NET40
+#if NET35 || NET40 || MONO
 namespace Accord
 {
     using System.Collections;

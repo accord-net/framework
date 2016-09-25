@@ -28,7 +28,7 @@ namespace Accord.Math.Distances
     /// <summary>
     ///   The Minkowski distance is a metric in a normed vector space which can be 
     ///   considered as a generalization of both the <see cref="Euclidean">Euclidean 
-    ///   distance</see> and the <see cref="Manhattan ">Manhattan distance</see>.
+    ///   distance</see> and the <see cref="Manhattan">Manhattan distance</see>.
     /// </summary>
     /// 
     /// <remarks>

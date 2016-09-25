@@ -61,7 +61,7 @@ namespace Accord.Collections
     using Accord.Collections;
     using Accord.Math;
     using Accord.Math.Distances;
-
+#if !MONO
     /// <summary>
     ///   Base class for Vantage-Point Trees.
     /// </summary>
@@ -271,6 +271,6 @@ namespace Accord.Collections
                 }
             }
         }
-
     }
+#endif
 }

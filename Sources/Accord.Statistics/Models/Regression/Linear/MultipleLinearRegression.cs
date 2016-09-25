@@ -581,12 +581,13 @@ namespace Accord.Statistics.Models.Regression.Linear
             return regression;
         }
 
+#pragma warning disable 612, 618
         [Obsolete("Please use Transform instead.")]
         double[] ILinearRegression.Compute(double[] inputs)
         {
             return new double[] { this.Compute(inputs) };
         }
-
+#pragma warning restore 612, 618
 
 
         /// <summary>

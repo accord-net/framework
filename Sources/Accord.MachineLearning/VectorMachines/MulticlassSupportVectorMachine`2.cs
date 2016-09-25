@@ -590,8 +590,7 @@ namespace Accord.MachineLearning.VectorMachines
 
         /// <summary>
         ///   Gets the total kernel evaluations performed in the last call
-        ///   to <see cref="IClassifier{TInput, TClasses}.Decide(TInput)"/>
-        ///   and similar functions in the current thread.
+        ///   to Decide(TInput) and similar functions in the current thread.
         /// </summary>
         ///
         /// <returns>The number of total kernel evaluations.</returns>
@@ -603,8 +602,7 @@ namespace Accord.MachineLearning.VectorMachines
 
         /// <summary>
         ///   Gets the number of cache hits during in the last call
-        ///   to <see cref="IClassifier{TInput, TClasses}.Decide(TInput)"/>
-        ///   and similar functions in the current thread.
+        ///   to Decide(TInput) and similar functions in the current thread.
         /// </summary>
         ///
         /// <returns>The number of cache hits in the last decision.</returns>

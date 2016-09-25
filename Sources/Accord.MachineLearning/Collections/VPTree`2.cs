@@ -61,6 +61,7 @@ namespace Accord.Collections
     using System.Linq;
     using System.Collections.Generic;
 
+#if !MONO
     /// <summary>
     ///   Vantage-Point Tree.
     /// </summary>
@@ -172,4 +173,5 @@ namespace Accord.Collections
             return node;
         }
     }
+#endif
 }

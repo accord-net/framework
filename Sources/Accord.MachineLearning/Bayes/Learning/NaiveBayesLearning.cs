@@ -35,7 +35,7 @@ namespace Accord.MachineLearning.Bayes
     using System.Runtime.Serialization;
     using System.Threading.Tasks;
 
-
+#if !MONO
     /// <summary>
     ///   Naïve Bayes learning algorithm for discrete distribution models.
     /// </summary>
@@ -210,4 +210,16 @@ namespace Accord.MachineLearning.Bayes
             probabilities.Divide(sum, result: probabilities);
         }
     }
+
+#else
+    /// <summary>
+    ///   This class is currently not supported in Mono due to
+    ///   a bug in the Mono compiler.
+    /// </summary>
+    /// 
+    [Obsolete("This class is not supported in Mono due to a bug in the Mono compiler.")]
+    public class NaiveBayesLearning
+    {
+    }
+#endif
 }

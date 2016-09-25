@@ -64,6 +64,7 @@
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\mono\</OutputPath>
     <DefineConstants>TRACE;MONO</DefineConstants>
     <PlatformTarget>AnyCPU</PlatformTarget>
+	<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <ItemGroup>

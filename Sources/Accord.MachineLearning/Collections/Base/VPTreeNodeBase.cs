@@ -22,6 +22,7 @@
 
 namespace Accord.Collections
 {
+#if !MONO
     using System;
     using System.Linq;
     using System.Collections.Generic;
@@ -104,4 +105,5 @@ namespace Accord.Collections
             return sb.ToString();
         }
     }
+#endif
 }

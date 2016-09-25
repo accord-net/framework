@@ -38,7 +38,7 @@ namespace Accord.Collections
     /// <typeparam name="TKey">The types of the keys in the dictionary.</typeparam>
     /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
     /// 
-#if !NET35 && !NET40
+#if !NET35 && !NET40 && !MONO
     [Obsolete("Use System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue> instead.")]
 #endif
     [Serializable]

@@ -27,6 +27,7 @@ namespace Accord.Collections
     using System.Collections.Generic;
     using Accord.Math.Distances;
 
+#if !MONO
     /// <summary>
     ///   Vantage-Point Tree.
     /// </summary>
@@ -64,4 +65,5 @@ namespace Accord.Collections
             return tree;
         }
     }
+#endif
 }

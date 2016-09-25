@@ -107,7 +107,7 @@ namespace Accord.MachineLearning.VectorMachines
 
         /// <summary>
         ///   Gets whether this machine has been calibrated to
-        ///   produce probabilistic outputs (through the <see cref="BinaryLikelihoodClassifierBase{TInput}.Probability(TInput)"/>
+        ///   produce probabilistic outputs (through the Probability(TInput)
         ///   method).
         /// </summary>
         /// 

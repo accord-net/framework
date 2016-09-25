@@ -178,7 +178,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
         /// <summary>
-        ///   Converts <see cref="SupportVectorMachineLearningConfigurationFunction "/>
+        ///   Converts <see cref="SupportVectorMachineLearningConfigurationFunction"/>
         ///   into a lambda function that can be passed to the <see cref=" OneVsOneLearning{TInput, TBinary, TModel}.Learner"/>
         ///   property of a <see cref="MulticlassSupportVectorLearning"/> learning algorithm.
         /// </summary>

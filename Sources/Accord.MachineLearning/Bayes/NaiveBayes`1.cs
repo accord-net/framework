@@ -33,6 +33,7 @@ namespace Accord.MachineLearning.Bayes
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading.Tasks;
 
+#if !MONO
     /// <summary>
     ///   Naïve Bayes Classifier for arbitrary distributions.
     /// </summary>
@@ -124,7 +125,7 @@ namespace Accord.MachineLearning.Bayes
     [Serializable]
     public class NaiveBayes<TDistribution> : NaiveBayes<TDistribution, double>
         where TDistribution : IFittableDistribution<double>,
-                              IUnivariateDistribution, 
+                              IUnivariateDistribution,
                               IUnivariateDistribution<double>
     {
 
@@ -237,7 +238,7 @@ namespace Accord.MachineLearning.Bayes
             }
         }
 
-        #region Obsolete
+    #region Obsolete
         /// <summary>
         ///   Obsolete.
         /// </summary>
@@ -453,10 +454,10 @@ namespace Accord.MachineLearning.Bayes
         {
             this.Priors = priors;
         }
-        #endregion
+    #endregion
 
 
-        #region Serialization backwards compatibility
+    #region Serialization backwards compatibility
         internal static readonly NaiveBayesBinder Binder = new NaiveBayesBinder();
 
         internal class NaiveBayesBinder : SerializationBinder
@@ -492,9 +493,9 @@ namespace Accord.MachineLearning.Bayes
                 var nb = new NaiveBayes<TDistribution>(
                     obj.classCount, obj.inputCount,
                     obj.probabilities)
-                    {
-                        Priors = obj.priors
-                    };
+                {
+                    Priors = obj.priors
+                };
                 return nb;
             }
         }
@@ -502,7 +503,18 @@ namespace Accord.MachineLearning.Bayes
 #pragma warning restore 0169
 #pragma warning restore 0649
 
-        #endregion
+    #endregion
     }
-
+#else
+    /// <summary>
+    ///   This class is currently not supported in Mono due to
+    ///   a bug in the Mono compiler.
+    /// </summary>
+    /// 
+    [Obsolete("This class is not supported in Mono.")]
+    public class NaiveBayes<T>
+    {
+       
+    }
+#endif
 }

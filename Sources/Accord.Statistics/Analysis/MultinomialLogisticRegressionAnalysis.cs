@@ -570,11 +570,13 @@ namespace Accord.Statistics.Analysis
             }
         }
 
+#pragma warning disable 612, 618
         [Obsolete("Please use the Learn method instead.")]
         void IAnalysis.Compute()
         {
             Compute();
         }
+#pragma warning restore 612, 618
 
         /// <summary>
         /// Applies the transformation to an input, producing an associated output.

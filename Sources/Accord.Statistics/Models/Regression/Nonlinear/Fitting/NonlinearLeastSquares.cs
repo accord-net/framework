@@ -196,8 +196,13 @@ using Accord.MachineLearning;
         public NonlinearRegression Learn(double[][] x, double[] y, double[] weights = null)
         {
             solver.Token = Token;
+#if DEBUG
             double error = solver.Minimize(x, y);
-
+            if (Double.IsNaN(error) || Double.IsInfinity(error))
+                throw new Exception();
+#else
+            solver.Minimize(x, y);
+#endif
             if (computeStandardErrors)
             {
                 double[] errors = solver.StandardErrors;
@@ -205,10 +210,7 @@ using Accord.MachineLearning;
                     regression.StandardErrors[i] = solver.StandardErrors[i];
             }
 
-#if DEBUG
-            if (Double.IsNaN(error) || Double.IsInfinity(error))
-                throw new Exception();
-#endif
+
 
             return regression;
         }

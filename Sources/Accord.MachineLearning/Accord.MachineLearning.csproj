@@ -236,7 +236,6 @@
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
       <Private>False</Private>
-      <Aliases>global,core</Aliases>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Math.Core\Accord.Math.Core.csproj">
       <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>

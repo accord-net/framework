@@ -96,172 +96,63 @@ namespace Accord.MachineLearning
         }
 
 
-
-        /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
         double IClassifier<int[], double>.Decide(int[] input)
         {
             return Decide(input);
         }
 
-        /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
         double IClassifier<float[], double>.Decide(float[] input)
         {
             return Decide(input);
         }
 
 
-        /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
         double[] IClassifier<int[], double>.Decide(int[][] input)
         {
             return Decide(input, new double[input.Length]);
         }
 
-        /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
         double[] IClassifier<float[], double>.Decide(float[][] input)
         {
             return Decide(input, new double[input.Length]);
         }
 
 
-        /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
         double[][] IClassifier<int[], double[]>.Decide(int[][] input)
         {
             return Decide(input, Jagged.Create<double>(input.Length, NumberOfOutputs));
         }
 
-        /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
         double[][] IClassifier<float[], double[]>.Decide(float[][] input)
         {
             return Decide(input, Jagged.Create<double>(input.Length, NumberOfOutputs));
         }
 
-        /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
         bool[][] IClassifier<int[], bool[]>.Decide(int[][] input)
         {
             return Decide(input, Jagged.Create<bool>(input.Length, NumberOfOutputs));
         }
 
-        /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
         bool[][] IClassifier<float[], bool[]>.Decide(float[][] input)
         {
             return Decide(input, Jagged.Create<bool>(input.Length, NumberOfOutputs));
         }
 
-        /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
         double[] IClassifier<int[], double[]>.Decide(int[] input)
         {
             return Decide(input, new double[NumberOfOutputs]);
         }
 
-        /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
         double[] IClassifier<float[], double[]>.Decide(float[] input)
         {
             return Decide(input, new double[NumberOfOutputs]);
         }
 
-        /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
         bool[] IClassifier<int[], bool[]>.Decide(int[] input)
         {
             return Decide(input, new bool[NumberOfOutputs]);
         }
 
-        /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
         bool[] IClassifier<float[], bool[]>.Decide(float[] input)
         {
             return Decide(input, new bool[NumberOfOutputs]);
@@ -542,30 +433,12 @@ namespace Accord.MachineLearning
 
 
 
-        /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
         int[] IClassifier<float[], int[]>.Decide(float[] input)
         {
             var t = (IMultilabelClassifier<float[]>)this;
             return t.Decide(input, new int[NumberOfOutputs]);
         }
 
-        /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
         int[] IClassifier<int[], int[]>.Decide(int[] input)
         {
             var t = (IMultilabelClassifier<double[]>)this;
@@ -604,37 +477,15 @@ namespace Accord.MachineLearning
 
 
 
-        /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
         int[][] IClassifier<float[], int[]>.Decide(float[][] input)
         {
             return Decide(input, Jagged.Create<int>(input.Length, NumberOfOutputs));
         }
 
-        /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
         int[][] IClassifier<int[], int[]>.Decide(int[][] input)
         {
             return Decide(input, Jagged.Create<int>(input.Length, NumberOfOutputs));
         }
-
-
-
-
 
 
 
@@ -900,145 +751,61 @@ namespace Accord.MachineLearning
 
 
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         double[] ITransform<int[], double[]>.Transform(int[] input)
         {
             return Vector.OneHot(Decide(input), NumberOfOutputs);
         }
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         double[][] ITransform<int[], double[]>.Transform(int[][] input)
         {
             return Jagged.OneHot(Decide(input), NumberOfOutputs);
         }
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         double[] ITransform<float[], double[]>.Transform(float[] input)
         {
             return Vector.OneHot(Decide(input), NumberOfOutputs);
         }
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         double[][] ITransform<float[], double[]>.Transform(float[][] input)
         {
             return Jagged.OneHot(Decide(input), NumberOfOutputs);
         }
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         bool[] ITransform<float[], bool[]>.Transform(float[] input)
         {
             return Vector.OneHot<bool>(Decide(input), NumberOfOutputs);
         }
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         bool[][] ITransform<float[], bool[]>.Transform(float[][] input)
         {
             return Jagged.OneHot<bool>(Decide(input), NumberOfOutputs);
         }
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         int[] ITransform<float[], int[]>.Transform(float[] input)
         {
             return Vector.OneHot<int>(Decide(input), NumberOfOutputs);
         }
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         int[][] ITransform<float[], int[]>.Transform(float[][] input)
         {
             return Jagged.OneHot<int>(Decide(input), NumberOfOutputs);
         }
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         int[] ITransform<int[], int[]>.Transform(int[] input)
         {
             return Vector.OneHot<int>(Decide(input), NumberOfOutputs);
         }
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         int[][] ITransform<int[], int[]>.Transform(int[][] input)
         {
             return Jagged.OneHot<int>(Decide(input), NumberOfOutputs);
         }
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         bool[] ITransform<int[], bool[]>.Transform(int[] input)
         {
             return Vector.OneHot<bool>(Decide(input), NumberOfOutputs);
         }
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         bool[][] ITransform<int[], bool[]>.Transform(int[][] input)
         {
             return Jagged.OneHot<bool>(Decide(input), NumberOfOutputs);
@@ -1047,25 +814,11 @@ namespace Accord.MachineLearning
 
 
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         int ITransform<int[], int>.Transform(int[] input)
         {
             return Decide(input);
         }
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         int[] ITransform<int[], int>.Transform(int[][] input)
         {
             return Decide(input);
@@ -1073,25 +826,11 @@ namespace Accord.MachineLearning
 
 
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         double ITransform<int[], double>.Transform(int[] input)
         {
             return Decide(input);
         }
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         double[] ITransform<int[], double>.Transform(int[][] input)
         {
             var result = new double[input.Length];
@@ -1099,25 +838,11 @@ namespace Accord.MachineLearning
         }
 
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         double ITransform<float[], double>.Transform(float[] input)
         {
             return Decide(input);
         }
 
-        /// <summary>
-        /// Applies the transformation to an input, producing an associated output.
-        /// </summary>
-        /// <param name="input">The input data to which the transformation should be applied.</param>
-        /// <returns>
-        /// The output generated by applying this transformation to the given input.
-        /// </returns>
         double[] ITransform<float[], double>.Transform(float[][] input)
         {
             var result = new double[input.Length];

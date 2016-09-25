@@ -329,6 +329,7 @@ namespace Accord.Statistics.Models.Markov
 
         #region ISequenceClassifier implementation
 
+#pragma warning disable 612, 618
         /// <summary>
         ///   Computes the most likely class for a given sequence.
         /// </summary>
@@ -339,6 +340,7 @@ namespace Accord.Statistics.Models.Markov
             likelihoods = base.LogLikelihoods(sequence as int[], out decision);
             return decision;
         }
+#pragma warning restore 612, 618
         #endregion
 
 

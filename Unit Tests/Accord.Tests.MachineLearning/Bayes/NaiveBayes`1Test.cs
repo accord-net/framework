@@ -20,8 +20,10 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+
 namespace Accord.Tests.MachineLearning
 {
+#if !MONO
     using Accord;
     using Accord.IO;
     using Accord.MachineLearning.Bayes;
@@ -318,7 +320,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void learn_test_mitchell()
         {
-            #region doc_mitchell_1
+#region doc_mitchell_1
             // We will represent Mitchell's Tennis example using a DataTable. However,
             // the use of a DataTable is not required in order to use the Naive Bayes. 
             // Please take a look at the other examples below for simpler approaches.
@@ -342,15 +344,15 @@ namespace Accord.Tests.MachineLearning
             data.Rows.Add("D12", "Overcast", 27.0, 97.0, "Strong", "Yes");
             data.Rows.Add("D13", "Overcast", 39.0, 41.0, "Weak", "Yes");
             data.Rows.Add("D14", "Rain", 23.0, 98.0, "Strong", "No");
-            #endregion
+#endregion
 
-            #region doc_mitchell_2
+#region doc_mitchell_2
             // Create a new codification codebook to
             // convert strings into discrete symbols
             Codification codebook = new Codification(data);
-            #endregion
+#endregion
 
-            #region doc_mitchell_3
+#region doc_mitchell_3
             // Some distributions require constructor parameters, and as such, cannot 
             // be automatically initialized by the learning algorithm. For this reason, 
             // we might need to specify how each component should be initialized:
@@ -376,9 +378,9 @@ namespace Accord.Tests.MachineLearning
 
             // Learn the Naive Bayes model
             var naiveBayes = learner.Learn(inputs, outputs);
-            #endregion
+#endregion
 
-            #region doc_mitchell_4
+#region doc_mitchell_4
             // Create an instance representing a "sunny, cool, humid and windy day":
             double[] instance = new double[] 
             {
@@ -399,7 +401,7 @@ namespace Accord.Tests.MachineLearning
 
             // Finally, the result can be translated back using
             string result = codebook.Translate("PlayTennis", predicted); // Should be "No"
-            #endregion
+#endregion
 
             Assert.AreEqual("No", result);
             Assert.AreEqual(0, predicted);
@@ -414,7 +416,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void learn_test()
         {
-            #region doc_learn
+#region doc_learn
             // Let's say we have the following data to be classified
             // into three possible classes. Those are the samples:
             //
@@ -465,7 +467,7 @@ namespace Accord.Tests.MachineLearning
 
             // Now, let's test  the model output for the first input sample:
             int answer = bayes.Decide(new double[] { 1, 0, 0, 1 }); // should be 1
-            #endregion
+#endregion
 
             Assert.AreEqual(0, error);
             Assert.AreEqual(1, answer);
@@ -475,7 +477,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void learn_test_with_options()
         {
-            #region doc_learn_options
+#region doc_learn_options
             // Let's say we have the following data to be classified
             // into three possible classes. Those are the samples:
             //
@@ -523,7 +525,7 @@ namespace Accord.Tests.MachineLearning
 
             // Now, let's test  the model output for the first input sample:
             int answer = bayes.Decide(new double[] { 1, 0, 0, 1 }); // should be 1
-            #endregion
+#endregion
 
             Assert.AreEqual(0, error);
             Assert.AreEqual(1, answer);
@@ -594,6 +596,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(2, responses.Length);
         }
 
-
     }
+
+#endif
 }

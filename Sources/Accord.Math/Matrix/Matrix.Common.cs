@@ -162,8 +162,8 @@ namespace Accord.Math
             return true;
         }
 
-        private static readonly Dictionary<Tuple<Type, Type>, MethodInfo> equalsCache =
-            new Dictionary<Tuple<Type, Type>, MethodInfo>();
+        //private static readonly Dictionary<Tuple<Type, Type>, MethodInfo> equalsCache =
+        //    new Dictionary<Tuple<Type, Type>, MethodInfo>();
 
         /// <summary>Compares two matrices for equality.</summary>
         public static bool IsEqual(this Array objA, Array objB, double atol = 0, double rtol = 0)

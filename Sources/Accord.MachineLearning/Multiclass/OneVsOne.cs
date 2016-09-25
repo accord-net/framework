@@ -397,7 +397,7 @@ namespace Accord.MachineLearning
                 var model = Models[i - 1][j] as IBinaryScoreClassifier<TInput>;
 
                 bool decision;
-                double distance = model.Score(input, out decision);
+                sum = model.Score(input, out decision);
 
                 if (decision)
                 {

@@ -876,7 +876,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             if (i1 == i2)
                 return false;
 
-            TInput p1 = Inputs[i1]; // Input point at index i1
+            //TInput p1 = Inputs[i1]; // Input point at index i1
             double alph1 = alpha[i1]; // Lagrange multiplier for p1
             double y1 = Outputs[i1];  // Classification label for p1
             double c1 = C[i1];
@@ -884,7 +884,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             // SVM output on p1 - y1 [without bias threshold]. Check if it has already been computed
             double e1 = (alph1 > 0 && alph1 < c1) ? errors[i1] : errors[i1] = computeNoBias(i1) - y1;
 
-            TInput p2 = Inputs[i2]; // Input point at index i2
+            //TInput p2 = Inputs[i2]; // Input point at index i2
             double alph2 = alpha[i2]; // Lagrange multiplier for p2
             double y2 = Outputs[i2];  // Classification label for p2
             double c2 = C[i2];

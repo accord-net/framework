@@ -415,7 +415,6 @@ namespace Accord.Statistics.Kernels
         {
             result = (result == null) ? Jagged.CreateAs(kernelMatrix) : kernelMatrix;
 
-            int samples = kernelMatrix.GetLength(0);
             double[] rowMean1 = kernelMatrix.Mean(1);
             for (int i = 0; i < rowMean1.Length; i++)
                 for (int j = 0; j < rowMean.Length; j++)

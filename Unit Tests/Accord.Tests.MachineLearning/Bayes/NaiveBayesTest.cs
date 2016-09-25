@@ -22,6 +22,7 @@
 
 namespace Accord.Tests.MachineLearning
 {
+#if !MONO
     using Accord;
     using Accord.IO;
     using Accord.MachineLearning;
@@ -166,7 +167,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void ComputeTest()
         {
-            #region doc_mitchell
+#region doc_mitchell
             DataTable data = new DataTable("Mitchell's Tennis Example");
 
             data.Columns.Add("Day", "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
@@ -185,9 +186,9 @@ namespace Accord.Tests.MachineLearning
             data.Rows.Add("D12", "Overcast", "Mild", "High", "Strong", "Yes");
             data.Rows.Add("D13", "Overcast", "Hot", "Normal", "Weak", "Yes");
             data.Rows.Add("D14", "Rain", "Mild", "High", "Strong", "No");
-            #endregion
+#endregion
 
-            #region doc_codebook
+#region doc_codebook
             // Create a new codification codebook to
             // convert strings into discrete symbols
             Codification codebook = new Codification(data,
@@ -197,18 +198,18 @@ namespace Accord.Tests.MachineLearning
             DataTable symbols = codebook.Apply(data);
             int[][] inputs = symbols.ToArray<int>("Outlook", "Temperature", "Humidity", "Wind");
             int[] outputs = symbols.ToArray<int>("PlayTennis");
-            #endregion
+#endregion
 
-            #region doc_learn
+#region doc_learn
             // Create a new Naive Bayes learning
             var learner = new NaiveBayesLearning();
 
             // Learn a Naive Bayes model from the examples
             NaiveBayes nb = learner.Learn(inputs, outputs);
-            #endregion
+#endregion
 
 
-            #region doc_test
+#region doc_test
             // Consider we would like to know whether one should play tennis at a
             // sunny, cool, humid and windy day. Let us first encode this instance
             int[] instance = codebook.Translate("Sunny", "Cool", "High", "Strong");
@@ -221,7 +222,7 @@ namespace Accord.Tests.MachineLearning
 
             // We can also extract the probabilities for each possible answer
             double[] probs = nb.Probabilities(instance); // { 0.795, 0.205 }
-            #endregion
+#endregion
 
             Assert.AreEqual("No", result);
             Assert.AreEqual(0, c);
@@ -379,7 +380,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void laplace_smoothing_missing_sample()
         {
-            #region doc_laplace
+#region doc_laplace
             // To test the effectiveness of the Laplace rule for when
             // an example of a symbol is not present in the training set,
             // lets create dataset where the second column could contain
@@ -425,7 +426,7 @@ namespace Accord.Tests.MachineLearning
 
             // Estimate a sample with 0 in the second col
             int answer = bayes.Decide(new int[] { 0, 1 });
-            #endregion
+#endregion
 
             Assert.AreEqual(0, answer);
 
@@ -444,7 +445,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void ComputeTest3()
         {
-            #region doc_multiclass
+#region doc_multiclass
             // Let's say we have the following data to be classified
             // into three possible classes. Those are the samples:
             //
@@ -483,7 +484,7 @@ namespace Accord.Tests.MachineLearning
 
             // Now, let's test  the model output for the first input sample:
             int answer = nb.Decide(new int[] { 0, 1, 1, 0 }); // should be 1
-            #endregion
+#endregion
 
             double error = new ZeroOneLoss(outputs).Loss(nb.Decide(inputs));
             Assert.AreEqual(0, error);
@@ -630,4 +631,5 @@ namespace Accord.Tests.MachineLearning
         }
 
     }
+#endif
 }

@@ -61,12 +61,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             where TKernel : IKernel<double[]>
         {
             TModel result = Create<TModel, double[], TKernel>(inputs, kernel);
-            var type = typeof(TModel);
-
-            if (result == null)
-            {
-
-            }
 
             if (result == null)
                 throw new NotSupportedException("If you are implementing your own support vector machine type, please override the Create method in your learning algorithm to instruct the framework how to instantiate a type of your new class.");

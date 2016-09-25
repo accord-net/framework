@@ -131,12 +131,6 @@ namespace Accord.Statistics.Kernels
 
 
 
-        /// <summary>
-        ///   Estimates kernel parameters from the data.
-        /// </summary>
-        /// 
-        /// <param name="inputs">The input data.</param>
-        /// 
         void IEstimable<double[]>.Estimate(double[][] inputs)
         {
             this.Gamma = Gaussian.Estimate(innerKernel, inputs).Gamma;

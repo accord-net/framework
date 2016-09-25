@@ -438,7 +438,7 @@ namespace Accord.Statistics.Distributions.Multivariate
 
             foreach (int[] idx in Combinatorics.Sequences(symbols))
             {
-                if (lessThanOrEqual(x, idx))
+                if (lessThanOrEqual(value, idx))
                     sum += this[idx];
             }
 

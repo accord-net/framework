@@ -592,7 +592,7 @@ namespace Accord.Statistics.Analysis
                 // Initialization
                 int iterations = 0;
                 bool stop = false;
-                double lastChange = 1;
+                //double lastChange = 1;
 
                 double[] w = init.GetRow(i);
                 double[] w0 = init.GetRow(i);
@@ -627,7 +627,7 @@ namespace Accord.Statistics.Analysis
                     {
                         // Advance to the next iteration
                         w0 = w; w = new double[m];
-                        lastChange = delta;
+                        //lastChange = delta;
                         iterations++;
 
                         // Compute wx = w*x
@@ -709,7 +709,7 @@ namespace Accord.Statistics.Analysis
 
             bool stop = false;
             int iterations = 0;
-            double lastChange = 1;
+            //double lastChange = 1;
 
 
             do // until convergence
@@ -760,7 +760,7 @@ namespace Accord.Statistics.Analysis
                     // Advance to the next iteration
                     W0 = W;
                     W = Jagged.Zeros(components, m);
-                    lastChange = delta;
+                    //lastChange = delta;
                     iterations++;
 
 

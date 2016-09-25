@@ -67,8 +67,7 @@ namespace Accord.Statistics.Models.Markov
         /// <summary>
         ///   Uses the forward algorithm (sum-prod) to compute the likelihood of a sequence.
         ///   The likelihood will be computed considering every possible path in the model (default).
-        ///   When set, calling <see cref="LikelihoodTaggerBase{T}.LogLikelihoods(T[])"/> will give the
-        ///   model's posterior distribution.
+        ///   When set, calling LogLikelihoods will give the model's posterior distribution.
         /// </summary>
         /// 
         Forward
@@ -213,9 +212,9 @@ namespace Accord.Statistics.Models.Markov
 
         /// <summary>
         ///   Gets or sets the <see cref="HiddenMarkovModelAlgorithm">algorithm</see>
-        ///   that should be used to compute solutions to this model's <see cref="LikelihoodTaggerBase{T}.LogLikelihood(T[])">
-        ///   evaluation</see>, <see cref="ClassifierBase{I, U}.Decide(I[])">decoding</see> and <see cref="LikelihoodTaggerBase{T}.LogLikelihoods(T[])">
-        ///   posterior</see> problems.
+        ///   that should be used to compute solutions to this model's LogLikelihood(T[] input)
+        ///   evaluation, Decide(T[] input) decoding and LogLikelihoods(T[] input)
+        ///   posterior problems.
         /// </summary>
         /// 
         public HiddenMarkovModelAlgorithm Algorithm { get; set; }

@@ -33,6 +33,7 @@ namespace Accord.MachineLearning.Bayes
     using System.Runtime.Serialization;
     using System.Threading.Tasks;
 
+#if !MONO
     /// <summary>
     ///   Naïve Bayes Classifier.
     /// </summary>
@@ -107,8 +108,8 @@ namespace Accord.MachineLearning.Bayes
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_learn" />
     ///   
     /// <para>Now that we have created and estimated our classifier, we 
-    /// can query the classifier for new input samples through the <see
-    /// cref="IClassifier{TInput, TClasses}.Decide(TInput)">Decide</see> method.</para>
+    /// can query the classifier for new input samples through the 
+    /// Decide method.</para>
     /// 
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_test" />
     /// 
@@ -531,4 +532,24 @@ namespace Accord.MachineLearning.Bayes
 
     }
 
+#else
+    /// <summary>
+    ///   This class is currently not supported in Mono due to
+    ///   a bug in the Mono compiler.
+    /// </summary>
+    /// 
+    [Obsolete("This class is not supported in Mono.")]
+    public class NaiveBayes
+    {
+        /// <summary>
+        ///   Not supported in Mono.
+        /// </summary>
+        /// 
+        [Obsolete("This method is not supported in Mono.")]
+        public int Normal(int a, int b)
+        {
+            return a + b;
+        }
+    }
+#endif
 }

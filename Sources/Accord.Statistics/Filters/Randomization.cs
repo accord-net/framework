@@ -78,7 +78,6 @@ namespace Accord.Statistics.Filters
 
             int rows = data.Rows.Count;
 
-            int r = Accord.Math.Random.Generator.Random.Next();
             if (Seed.HasValue)
                 Accord.Math.Random.Generator.Seed = Seed.Value;
 

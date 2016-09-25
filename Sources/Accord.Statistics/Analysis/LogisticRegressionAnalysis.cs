@@ -825,15 +825,13 @@ namespace Accord.Statistics.Analysis
         }
 
 
-        /// <summary>
-        ///   Computes the analysis using given source data and parameters.
-        /// </summary>
-        /// 
-        [Obsolete("Please use the Learn() method instead.")]
+#pragma warning disable 612, 618
+        [Obsolete("Please use the Learn method instead.")]
         void IAnalysis.Compute()
         {
             Compute();
         }
+#pragma warning restore 612, 618
 
         /// <summary>
         /// Applies the transformation to an input, producing an associated output.

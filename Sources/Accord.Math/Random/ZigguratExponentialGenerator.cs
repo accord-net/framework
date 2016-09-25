@@ -151,7 +151,7 @@ namespace Accord.Math.Random
                     return jz * we[iz];
             }
 
-            throw new InvalidOperationException("Execution should not reach here.");
+            //throw new InvalidOperationException("Execution should not reach here.");
         }
 
 

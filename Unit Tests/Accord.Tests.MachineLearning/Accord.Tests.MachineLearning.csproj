@@ -4,8 +4,6 @@
     <ProjectGuid>{987E989A-E48B-428F-A392-0E7EEC9BCECD}</ProjectGuid>
     <RootNamespace>Accord.Tests.MachineLearning</RootNamespace>
     <AssemblyName>Accord.Tests.MachineLearning</AssemblyName>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -58,6 +56,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\mono\</OutputPath>
     <DefineConstants>TRACE;MONO</DefineConstants>
+	<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <ItemGroup>
@@ -156,7 +155,6 @@
     <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
-      <Aliases>global, core</Aliases>
     </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.IO\Accord.IO.csproj">
       <Project>{63184EBD-6B28-4066-AAEE-5B99431E31F4}</Project>

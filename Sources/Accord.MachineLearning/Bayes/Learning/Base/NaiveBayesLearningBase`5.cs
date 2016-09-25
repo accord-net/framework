@@ -28,6 +28,7 @@ namespace Accord.MachineLearning.Bayes
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
 
+#if !MONO
     /// <summary>
     ///   Base class for Naive Bayes learning algorithms.
     /// </summary>
@@ -56,4 +57,5 @@ namespace Accord.MachineLearning.Bayes
             Model.Distributions[i].Fit(values, weights, Options);
         }
     }
+#endif
 }
