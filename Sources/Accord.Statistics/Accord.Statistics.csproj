@@ -67,6 +67,13 @@
     <DocumentationFile>$(SolutionDir)..\Release\net46\Accord.Statistics.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net46\Accord.Statistics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono|AnyCPU'">
+    <OutputPath>$(SolutionDir)..\Release\mono</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;MONO</DefineConstants>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <DocumentationFile>$(SolutionDir)..\Release\mono\Accord.Statistics.XML</DocumentationFile>
+	<RunCodeAnalysis>False</RunCodeAnalysis>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
     <Reference Include="System" />

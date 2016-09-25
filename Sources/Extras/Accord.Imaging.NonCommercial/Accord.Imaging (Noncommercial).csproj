@@ -43,30 +43,38 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <DocumentationFile>$(SolutionDir)..\Release\net45\Noncommercial\Accord.Imaging.Noncommercial.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Noncommercial\Accord.Math.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Release\net40\Noncommercial\</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\net45\Noncommercial\Accord.Imaging.Noncommercial.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Noncommercial\Accord.Math.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Noncommercial\Accord.Imaging.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
     <OutputPath>$(SolutionDir)..\Release\net45\Noncommercial\</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\net45\Noncommercial\Accord.Imaging.Noncommercial.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Noncommercial\Accord.Math.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Noncommercial\Accord.Imaging.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET46|AnyCPU'">
     <OutputPath>$(SolutionDir)..\Release\net46\Noncommercial\</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET46</DefineConstants>
-    <DocumentationFile>C:\Projects\Accord.NET\framework\Sources\..\Release\net46\Accord.Math.XML</DocumentationFile>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)..\Release\net46\Accord.Math.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net46\Accord.Math.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <DocumentationFile>$(SolutionDir)..\Release\net46\Noncommercial\Accord.Imaging.Noncommercial.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net46\Noncommercial\Accord.Imaging.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <NoWarn>0612, 0618</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono|AnyCPU'">
+    <OutputPath>$(SolutionDir)..\Release\mono\Noncommercial\</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;MONO</DefineConstants>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <DocumentationFile>$(SolutionDir)..\Release\mono\Noncommercial\Accord.Imaging.Noncommercial.XML</DocumentationFile>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>

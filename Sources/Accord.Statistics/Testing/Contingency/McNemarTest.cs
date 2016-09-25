@@ -64,10 +64,10 @@ namespace Accord.Statistics.Testing
         /// 
         public McNemarTest(ConfusionMatrix matrix, bool yatesCorrection = false)
         {
-            int a = matrix.TruePositives;
+            //int a = matrix.TruePositives;
             int b = matrix.FalseNegatives;
             int c = matrix.FalsePositives;
-            int d = matrix.TrueNegatives;
+            //int d = matrix.TrueNegatives;
 
             double u = b - c;
             

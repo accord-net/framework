@@ -66,6 +66,13 @@
     <DocumentationFile>$(SolutionDir)..\Release\net46\Accord.Controls.Vision.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net46\Accord.Controls.Vision.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono|AnyCPU'">
+    <OutputPath>$(SolutionDir)..\Release\mono</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;MONO</DefineConstants>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <DocumentationFile>$(SolutionDir)..\Release\mono\Accord.Controls.Vision.XML</DocumentationFile>
+	<RunCodeAnalysis>False</RunCodeAnalysis>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
