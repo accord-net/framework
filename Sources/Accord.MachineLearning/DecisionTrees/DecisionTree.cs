@@ -466,7 +466,7 @@ namespace Accord.MachineLearning.DecisionTrees
         }
 
         /// <summary>
-        ///   Obsolete. Please use <see cref="Accord.IO.Serializer.Load(Stream)"/>.
+        ///   Obsolete. Please use <see cref="Accord.IO.Serializer.Load{T}(Stream)"/>.
         /// </summary>
         /// 
         [Obsolete("Please use Accord.IO.Serializer.Load() instead (or use it as an extension method).")]
@@ -476,7 +476,7 @@ namespace Accord.MachineLearning.DecisionTrees
         }
 
         /// <summary>
-        ///   Obsolete. Please use <see cref="Accord.IO.Serializer.Load(string)"/>.
+        ///   Obsolete. Please use <see cref="Accord.IO.Serializer.Load{T}(string)"/>.
         /// </summary>
         /// 
         [Obsolete("Please use Accord.IO.Serializer.Load() instead (or use it as an extension method).")]

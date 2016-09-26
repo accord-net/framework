@@ -55,7 +55,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\mono\</OutputPath>
-	<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DefineConstants>TRACE;MONO</DefineConstants>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
@@ -368,7 +368,7 @@
     <None Include="Resources\CircleWithWeights.xls" />
     <None Include="Resources\ica_data.dat" />
     <None Include="Resources\examples.xls">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\hsbdemo.csv" />
     <None Include="Resources\intrusion.xls">
