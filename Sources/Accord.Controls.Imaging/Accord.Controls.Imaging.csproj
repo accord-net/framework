@@ -29,7 +29,7 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <OutputPath>bin\Debug\</OutputPath>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -90,9 +90,7 @@
     <Compile Include="AForge\ColorSlider.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="AForge\Histogram.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="AForge\Histogram.cs" />
     <Compile Include="AForge\HuePicker.cs">
       <SubType>Component</SubType>
     </Compile>

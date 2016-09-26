@@ -81,5 +81,27 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(253, actual[73].Y);
         }
 
+        [Test]
+        public void batch_test()
+        {
+            Bitmap[] images =
+            {
+                Accord.Imaging.Image.Clone(Properties.Resources.flower01),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower02),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower03),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower04),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower05),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower06),
+            };
+
+            FastCornersDetector target = new FastCornersDetector();
+
+            for (int i = 0; i < images.Length; i++)
+            {
+                List<IntPoint> actual = target.ProcessImage(images[i]);
+                Assert.IsNotNull(actual);
+            }
+        }
+
     }
 }

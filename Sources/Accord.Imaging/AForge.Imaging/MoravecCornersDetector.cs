@@ -259,6 +259,9 @@ namespace Accord.Imaging
                                 // for each windows' pixels
                                 for (int j = 0, maxJ = windowSize * pixelSize; j < maxJ; j++, ptr1++, ptr2++)
                                 {
+                                    image.CheckBounds(ptr1);
+                                    image.CheckBounds(ptr2);
+
                                     int dif = *ptr1 - *ptr2;
                                     sum += dif * dif;
                                 }

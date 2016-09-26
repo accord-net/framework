@@ -165,6 +165,7 @@ namespace Accord.Tests.MachineLearning
 
 
         [Test]
+        [Category("Random")]
         public void SparseLinearTest()
         {
             MulticlassSupportVectorMachine<Linear> svm1;

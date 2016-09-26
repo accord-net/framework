@@ -401,6 +401,8 @@ namespace Accord.Imaging
                 // for each pixel
                 for (int x = 1; x <= width; x++, src += pixelSize)
                 {
+                    image.CheckBounds(src);
+
                     long p1 = *src;
                     long p2 = p1 * p1;
 
@@ -428,6 +430,8 @@ namespace Accord.Imaging
                     
                     for (int x = 2; x < width + 2; x++, src += pixelSize)
                     {
+                        image.CheckBounds(src);
+
                         int a = y1 + (x - 1);
                         int b = yy + (x - 1);
                         int c = y1 + (x - 2);

@@ -37,23 +37,6 @@ namespace Accord.Tests.MachineLearning
     public class ReducedErrorPruningTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void RunTest()
         {
@@ -82,7 +65,7 @@ namespace Accord.Tests.MachineLearning
             foreach (var node in tree)
                 nodeCount2++;
 
-            Assert.AreEqual(0.19454022988505748, error);
+            Assert.AreEqual(0.19454022988505748, error, 1e-4);
             Assert.AreEqual(447, nodeCount);
             Assert.AreEqual(4, nodeCount2);
         }

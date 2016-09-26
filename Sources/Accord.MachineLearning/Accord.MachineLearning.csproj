@@ -71,7 +71,7 @@
     <DefineConstants>TRACE;CODE_ANALYSIS;MONO</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\mono\Accord.MachineLearning.XML</DocumentationFile>
-	<RunCodeAnalysis>False</RunCodeAnalysis>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -86,6 +86,7 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="DecisionTrees\DecisionTreeHelper.cs" />
     <Compile Include="Rules\AssociationRule.cs" />
     <Compile Include="Rules\Apriori.cs" />
     <Compile Include="Bayes\Learning\Base\NaiveBayesLearningBase`4.cs" />

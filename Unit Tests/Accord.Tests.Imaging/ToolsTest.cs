@@ -455,6 +455,7 @@ namespace Accord.Tests.Imaging
         }
 
         [Test]
+        [Category("MonoNotSupported")]
         public void MeanTest2()
         {
             // Test for 16 bpp images
@@ -520,6 +521,7 @@ namespace Accord.Tests.Imaging
         }
 
         [Test]
+        [Category("MonoNotSupported")]
         public void StandardDeviationTest2()
         {
             short[,] values =

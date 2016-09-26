@@ -201,6 +201,8 @@ namespace Accord.Imaging
                     // for each pixel
                     for (int x = 1; x <= width; x++, src++)
                     {
+                        image.CheckBounds(src);
+
                         rowSum += *src;
 
                         integralImage[y, x] = rowSum + integralImage[y - 1, x];

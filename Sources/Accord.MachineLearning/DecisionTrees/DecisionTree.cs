@@ -446,12 +446,8 @@ namespace Accord.MachineLearning.DecisionTrees
 
         #region Obsolete
         /// <summary>
-        ///   Loads a tree from a file.
+        ///   Obsolete. Please use <see cref="Accord.IO.Serializer.Save(string)"/> (or use it as an extension method).
         /// </summary>
-        /// 
-        /// <param name="path">The path to the file from which the tree is to be deserialized.</param>
-        /// 
-        /// <returns>The deserialized tree.</returns>
         /// 
         [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
         public void Save(string path)
@@ -460,10 +456,8 @@ namespace Accord.MachineLearning.DecisionTrees
         }
 
         /// <summary>
-        ///   Saves the tree to a stream.
+        ///   Obsolete. Please use <see cref="Accord.IO.Serializer.Save(Stream)"/> (or use it as an extension method).
         /// </summary>
-        /// 
-        /// <param name="stream">The stream to which the tree is to be serialized.</param>
         /// 
         [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
         public void Save(Stream stream)
@@ -472,12 +466,8 @@ namespace Accord.MachineLearning.DecisionTrees
         }
 
         /// <summary>
-        ///   Loads a tree from a stream.
+        ///   Obsolete. Please use <see cref="Accord.IO.Serializer.Load(Stream)"/>.
         /// </summary>
-        /// 
-        /// <param name="stream">The stream from which the tree is to be deserialized.</param>
-        /// 
-        /// <returns>The deserialized tree.</returns>
         /// 
         [Obsolete("Please use Accord.IO.Serializer.Load() instead (or use it as an extension method).")]
         public static DecisionTree Load(Stream stream)
@@ -486,12 +476,8 @@ namespace Accord.MachineLearning.DecisionTrees
         }
 
         /// <summary>
-        ///   Loads a tree from a file.
+        ///   Obsolete. Please use <see cref="Accord.IO.Serializer.Load(path)"/>.
         /// </summary>
-        /// 
-        /// <param name="path">The path to the tree from which the machine is to be deserialized.</param>
-        /// 
-        /// <returns>The deserialized tree.</returns>
         /// 
         [Obsolete("Please use Accord.IO.Serializer.Load() instead (or use it as an extension method).")]
         public static DecisionTree Load(string path)
@@ -500,54 +486,54 @@ namespace Accord.MachineLearning.DecisionTrees
         }
 
         /// <summary>
-        ///   Deprecated.
+        ///   Deprecated. Please use the NumberOfOutputs property instead.
         /// </summary>
         /// 
-        [Obsolete("Please use NumberOfInputs instead.")]
+        [Obsolete("Please use NumberOfOutputs instead.")]
         public int OutputClasses { get { return NumberOfOutputs; } }
 
         /// <summary>
-        ///   Deprecated.
+        ///   Deprecated. Please use the NumberOfInputs property.
         /// </summary>
         /// 
         [Obsolete("Please use NumberOfInputs instead.")]
         public int InputCount { get { return NumberOfInputs; } }
 
         /// <summary>
-        ///   Deprecated.
+        ///   Deprecated. Please use the Decide() method instead.
         /// </summary>
         /// 
-        [Obsolete("Please use Decide instead.")]
+        [Obsolete("Please use the Decide() method instead.")]
         public int Compute(int[] input)
         {
             return Decide(input);
         }
 
         /// <summary>
-        ///   Deprecated.
+        ///   Deprecated. Please use the Decide() method instead.
         /// </summary>
         /// 
-        [Obsolete("Please use Decide instead.")]
+        [Obsolete("Please use the Decide() method instead.")]
         public int Compute(double[] input)
         {
             return Decide(input);
         }
 
         /// <summary>
-        ///   Deprecated.
+        ///   Deprecated. Please use the Decide() method instead.
         /// </summary>
         /// 
-        [Obsolete("Please use Decide instead.")]
+        [Obsolete("Please use the Decide() method instead.")]
         public int[] Compute(int[][] input)
         {
             return Decide(input);
         }
 
         /// <summary>
-        ///   Deprecated.
+        ///   Deprecated. Please use the Decide() method instead.
         /// </summary>
         /// 
-        [Obsolete("Please use Decide instead.")]
+        [Obsolete("Please use the Decide() method instead.")]
         public int Compute(double[] input, DecisionNode subtree)
         {
             return Decide(input, subtree);

@@ -56,6 +56,7 @@ namespace Accord.Tests.Imaging
         }
 
         [Test]
+        [Category("Random")]
         public void BagOfVisualWordsConstructorTest()
         {
             Accord.Math.Random.Generator.Seed = 0;
@@ -101,6 +102,7 @@ namespace Accord.Tests.Imaging
         }
 
         [Test]
+        [Category("Random")]
         public void BagOfVisualWordsConstructorTest3()
         {
             Accord.Math.Random.Generator.Seed = 0;

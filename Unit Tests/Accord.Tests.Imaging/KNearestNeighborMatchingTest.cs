@@ -91,6 +91,7 @@ namespace Accord.Tests.Imaging
         }
 
         [Test]
+        [Category("Random")]
         public void MatchTest3()
         {
             Accord.Math.Random.Generator.Seed = 0;
@@ -130,6 +131,7 @@ namespace Accord.Tests.Imaging
         }
 
         [Test]
+        [Category("Random")]
         public void MatchTest3_Compatibility()
         {
             Accord.Math.Random.Generator.Seed = 0;

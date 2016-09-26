@@ -403,7 +403,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         private void run(double[][] inputs, int[] outputs)
         {
             // Initial argument check
-            checkArgs(inputs, outputs);
+            DecisionTreeHelper.CheckArgs(tree, inputs, outputs);
 
             // Reset the usage of all attributes
             for (int i = 0; i < attributeUsageCount.Length; i++)
@@ -756,64 +756,5 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             }.Loss(tree.Decide(inputs));
         }
 
-        private void checkArgs(double[][] inputs, int[] outputs)
-        {
-            if (inputs == null)
-                throw new ArgumentNullException("inputs");
-
-            if (outputs == null)
-                throw new ArgumentNullException("outputs");
-
-            if (inputs.Length != outputs.Length)
-                throw new DimensionMismatchException("outputs",
-                    "The number of input vectors and output labels does not match.");
-
-            if (inputs.Length == 0)
-                throw new ArgumentOutOfRangeException("inputs",
-                    "Training algorithm needs at least one training vector.");
-
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                if (inputs[i] == null)
-                {
-                    throw new ArgumentNullException("inputs",
-                        "The input vector at index " + i + " is null.");
-                }
-
-                if (inputs[i].Length != tree.NumberOfInputs)
-                {
-                    throw new DimensionMismatchException("inputs", "The size of the input vector at index "
-                        + i + " does not match the expected number of inputs of the tree."
-                        + " All input vectors for this tree must have length " + tree.NumberOfInputs);
-                }
-
-                for (int j = 0; j < inputs[i].Length; j++)
-                {
-                    if (tree.Attributes[j].Nature != DecisionVariableKind.Discrete)
-                        continue;
-
-                    int min = (int)tree.Attributes[j].Range.Min;
-                    int max = (int)tree.Attributes[j].Range.Max;
-
-                    if (inputs[i][j] < min || inputs[i][j] > max)
-                    {
-                        throw new ArgumentOutOfRangeException("inputs", "The input vector at position "
-                            + i + " contains an invalid entry at column " + j +
-                            ". The value must be between the bounds specified by the decision tree " +
-                            "attribute variables.");
-                    }
-                }
-            }
-
-            for (int i = 0; i < outputs.Length; i++)
-            {
-                if (outputs[i] < 0 || outputs[i] >= tree.NumberOfOutputs)
-                {
-                    throw new ArgumentOutOfRangeException("outputs",
-                      "The output label at index " + i + " should be equal to or higher than zero, " +
-                      "and should be lesser than the number of output classes expected by the tree.");
-                }
-            }
-        }
     }
 }

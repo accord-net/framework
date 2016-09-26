@@ -409,5 +409,45 @@ namespace Accord
                 return true;
             }
         }
+
+        /// <summary>
+        ///   Determines whether <c>a > b</c>.
+        /// </summary>
+        /// 
+        public static bool IsGreaterThan<T>(this T a, object b)
+            where T : IComparable
+        {
+            return a.CompareTo(b) > 0;
+        }
+
+        /// <summary>
+        ///   Determines whether <c>a >= b</c>.
+        /// </summary>
+        /// 
+        public static bool IsGreaterThanOrEqual<T>(this T a, object b)
+            where T : IComparable
+        {
+            return a.CompareTo(b) >= 0;
+        }
+
+        /// <summary>
+        ///   Determines whether <c>a &lt; b</c>.
+        /// </summary>
+        /// 
+        public static bool IsLessThan<T>(this T a, object b)
+            where T : IComparable
+        {
+            return a.CompareTo(b) < 0;
+        }
+
+        /// <summary>
+        ///   Determines whether <c>a &lt;= b</c>.
+        /// </summary>
+        /// 
+        public static bool IsLessThanOrEqual<T>(this T a, object b)
+            where T : IComparable
+        {
+            return a.CompareTo(b) <= 0;
+        }
     }
 }

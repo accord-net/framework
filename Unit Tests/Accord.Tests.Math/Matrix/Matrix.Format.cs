@@ -161,18 +161,18 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
 
 
-            expected = String.Format("new double[][] {{0}" +
-                       "    new double[] { 1, 2 },{0}" +
-                       "    new double[] { 3, 4 } {0}" +
-                       "};", Environment.NewLine);
+            expected = String.Format("new double[][] {{{0}" +
+                       "    new double[] {{ 1, 2 }},{0}" +
+                       "    new double[] {{ 3, 4 }} {0}" +
+                       "}};", Environment.NewLine);
             actual = Matrix.ToString(matrix, CSharpJaggedMatrixFormatProvider.InvariantCulture);
             Assert.AreEqual(expected, actual);
 
 
-            expected = String.Format("new double[,] {\r\n" +
-                       "    { 1, 2 },\r\n" +
-                       "    { 3, 4 } \r\n" +
-                       "};", Environment.NewLine);
+            expected = String.Format("new double[,] {{{0}" +
+                       "    {{ 1, 2 }},{0}" +
+                       "    {{ 3, 4 }} {0}" +
+                       "}};", Environment.NewLine);
             actual = Matrix.ToString(matrix, CSharpMatrixFormatProvider.InvariantCulture);
             Assert.AreEqual(expected, actual);
         }
