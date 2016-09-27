@@ -68,9 +68,8 @@ Then navigate to the Sources directory, and open the *Accord.NET.sln* solution f
     cd framework
 
     # Build the framework solution using Mono
-    ./autogen
-    ./configure
-    make framework
+    ./autogen.sh
+    make build
     make samples
     make test
     
