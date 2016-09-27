@@ -147,12 +147,12 @@ namespace Accord.Tests.Imaging
         }
 
         [Test]
+        [Category("Random")]
         public void GetFeatureVectorTest()
         {
             var images = GetImages();
 
             Accord.Math.Random.Generator.Seed = 0;
-            Bitmap image = new Bitmap(images[0]);
 
             // The Bag-of-Visual-Words model converts arbitrary-size images 
             // into fixed-length feature vectors. In this example, we will
@@ -170,7 +170,7 @@ namespace Accord.Tests.Imaging
 
             // After this point, we will be able to translate
             // images into double[] feature vectors using
-            double[] feature = bow.GetFeatureVector(image);
+            double[] feature = bow.GetFeatureVector(images[0]);
 
             Assert.AreEqual(10, feature.Length);
 

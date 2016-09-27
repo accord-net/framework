@@ -38,27 +38,24 @@ namespace Accord.Imaging
         /// 
         public static bool IsGrayscale(this Bitmap image)
         {
-            bool ret = false;
-
             // check pixel format
             if (image.PixelFormat == PixelFormat.Format8bppIndexed)
             {
-                ret = true;
                 // check palette
                 ColorPalette cp = image.Palette;
-                Color c;
+
                 // init palette
                 for (int i = 0; i < 256; i++)
                 {
-                    c = cp.Entries[i];
+                    Color c = cp.Entries[i];
                     if ((c.R != i) || (c.G != i) || (c.B != i))
-                    {
-                        ret = false;
-                        break;
-                    }
+                        return false;
                 }
+
+                return true;
             }
-            return ret;
+
+            return false;
         }
 
         /// <summary>
@@ -79,8 +76,10 @@ namespace Accord.Imaging
         {
             // create new image
             Bitmap image = new Bitmap(width, height, PixelFormat.Format8bppIndexed);
+            
             // set palette to grayscale
             SetGrayscalePalette(image);
+
             // return new image
             return image;
         }
@@ -141,9 +140,8 @@ namespace Accord.Imaging
             Bitmap bitmap = new Bitmap(width, height, format);
 
             // draw source image on the new one using Graphics
-            Graphics g = Graphics.FromImage(bitmap);
-            g.DrawImage(source, 0, 0, width, height);
-            g.Dispose();
+            using (Graphics g = Graphics.FromImage(bitmap))
+                g.DrawImage(source, 0, 0, width, height);
 
             return bitmap;
         }
@@ -183,13 +181,9 @@ namespace Accord.Imaging
                 ColorPalette srcPalette = source.Palette;
                 ColorPalette dstPalette = destination.Palette;
 
-                int n = srcPalette.Entries.Length;
-
                 // copy pallete
-                for (int i = 0; i < n; i++)
-                {
+                for (int i = 0; i < dstPalette.Entries.Length; i++)
                     dstPalette.Entries[i] = srcPalette.Entries[i];
-                }
 
                 destination.Palette = dstPalette;
             }
@@ -264,8 +258,10 @@ namespace Accord.Imaging
                 )
             {
                 Bitmap tmp = image;
+
                 // convert to 24 bits per pixel
                 image = Clone(tmp, PixelFormat.Format24bppRgb);
+
                 // delete old image
                 tmp.Dispose();
             }
@@ -300,8 +296,8 @@ namespace Accord.Imaging
                 // read image to temporary memory stream
                 stream = File.OpenRead(fileName);
                 MemoryStream memoryStream = new MemoryStream();
-
                 byte[] buffer = new byte[10000];
+
                 while (true)
                 {
                     int read = stream.Read(buffer, 0, 10000);
@@ -330,7 +326,7 @@ namespace Accord.Imaging
         /// Convert bitmap with 16 bits per plane to a bitmap with 8 bits per plane.
         /// </summary>
         /// 
-        /// <param name="bimap">Source image to convert.</param>
+        /// <param name="bitmap">Source image to convert.</param>
         /// 
         /// <returns>Returns new image which is a copy of the source image but with 8 bits per plane.</returns>
         /// 
@@ -349,17 +345,17 @@ namespace Accord.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">Invalid pixel format of the source image.</exception>
         /// 
-        public static Bitmap Convert16bppTo8bpp(this Bitmap bimap)
+        public static Bitmap Convert16bppTo8bpp(this Bitmap bitmap)
         {
             Bitmap newImage = null;
             int layers = 0;
 
             // get image size
-            int width = bimap.Width;
-            int height = bimap.Height;
+            int width = bitmap.Width;
+            int height = bitmap.Height;
 
             // create new image depending on source image format
-            switch (bimap.PixelFormat)
+            switch (bitmap.PixelFormat)
             {
                 case PixelFormat.Format16bppGrayScale:
                     // create new grayscale image
@@ -390,34 +386,33 @@ namespace Accord.Imaging
             }
 
             // lock both images
-            BitmapData sourceData = bimap.LockBits(new Rectangle(0, 0, width, height),
-                ImageLockMode.ReadOnly, bimap.PixelFormat);
+            BitmapData sourceData = bitmap.LockBits(new Rectangle(0, 0, width, height),
+                ImageLockMode.ReadOnly, bitmap.PixelFormat);
             BitmapData newData = newImage.LockBits(new Rectangle(0, 0, width, height),
                 ImageLockMode.ReadWrite, newImage.PixelFormat);
 
             unsafe
             {
                 // base pointers
-                byte* sourceBasePtr = (byte*)sourceData.Scan0.ToPointer();
-                byte* newBasePtr = (byte*)newData.Scan0.ToPointer();
+                byte* src = (byte*)sourceData.Scan0.ToPointer();
+                byte* dst = (byte*)newData.Scan0.ToPointer();
+
                 // image strides
                 int sourceStride = sourceData.Stride;
                 int newStride = newData.Stride;
 
                 for (int y = 0; y < height; y++)
                 {
-                    ushort* sourcePtr = (ushort*)(sourceBasePtr + y * sourceStride);
-                    byte* newPtr = (byte*)(newBasePtr + y * newStride);
+                    ushort* s = (ushort*)(src + y * sourceStride);
+                    byte* d = (byte*)(dst + y * newStride);
 
-                    for (int x = 0, lineSize = width * layers; x < lineSize; x++, sourcePtr++, newPtr++)
-                    {
-                        *newPtr = (byte)(*sourcePtr >> 8);
-                    }
+                    for (int x = 0, lineSize = width * layers; x < lineSize; x++, s++, d++)
+                        *d = (byte)(*s >> 8);
                 }
             }
 
             // unlock both image
-            bimap.UnlockBits(sourceData);
+            bitmap.UnlockBits(sourceData);
             newImage.UnlockBits(newData);
 
             return newImage;
@@ -427,7 +422,7 @@ namespace Accord.Imaging
         /// Convert bitmap with 8 bits per plane to a bitmap with 16 bits per plane.
         /// </summary>
         /// 
-        /// <param name="bimap">Source image to convert.</param>
+        /// <param name="bitmap">Source image to convert.</param>
         /// 
         /// <returns>Returns new image which is a copy of the source image but with 16 bits per plane.</returns>
         /// 
@@ -446,17 +441,17 @@ namespace Accord.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">Invalid pixel format of the source image.</exception>
         /// 
-        public static Bitmap Convert8bppTo16bpp(this Bitmap bimap)
+        public static Bitmap Convert8bppTo16bpp(this Bitmap bitmap)
         {
             Bitmap newImage = null;
             int layers = 0;
 
             // get image size
-            int width = bimap.Width;
-            int height = bimap.Height;
+            int width = bitmap.Width;
+            int height = bitmap.Height;
 
             // create new image depending on source image format
-            switch (bimap.PixelFormat)
+            switch (bitmap.PixelFormat)
             {
                 case PixelFormat.Format8bppIndexed:
                     // create new grayscale image
@@ -487,34 +482,33 @@ namespace Accord.Imaging
             }
 
             // lock both images
-            BitmapData sourceData = bimap.LockBits(new Rectangle(0, 0, width, height),
-                ImageLockMode.ReadOnly, bimap.PixelFormat);
+            BitmapData sourceData = bitmap.LockBits(new Rectangle(0, 0, width, height),
+                ImageLockMode.ReadOnly, bitmap.PixelFormat);
             BitmapData newData = newImage.LockBits(new Rectangle(0, 0, width, height),
                 ImageLockMode.ReadWrite, newImage.PixelFormat);
 
             unsafe
             {
                 // base pointers
-                byte* sourceBasePtr = (byte*)sourceData.Scan0.ToPointer();
-                byte* newBasePtr = (byte*)newData.Scan0.ToPointer();
+                byte* src = (byte*)sourceData.Scan0.ToPointer();
+                byte* dst = (byte*)newData.Scan0.ToPointer();
+
                 // image strides
                 int sourceStride = sourceData.Stride;
                 int newStride = newData.Stride;
 
                 for (int y = 0; y < height; y++)
                 {
-                    byte* sourcePtr = (byte*)(sourceBasePtr + y * sourceStride);
-                    ushort* newPtr = (ushort*)(newBasePtr + y * newStride);
+                    byte* s = (byte*)(src + y * sourceStride);
+                    ushort* d = (ushort*)(dst + y * newStride);
 
-                    for (int x = 0, lineSize = width * layers; x < lineSize; x++, sourcePtr++, newPtr++)
-                    {
-                        *newPtr = (ushort)(*sourcePtr << 8);
-                    }
+                    for (int x = 0, lineSize = width * layers; x < lineSize; x++, s++, d++)
+                        *d = (ushort)(*s << 8);
                 }
             }
 
             // unlock both image
-            bimap.UnlockBits(sourceData);
+            bitmap.UnlockBits(sourceData);
             newImage.UnlockBits(newData);
 
             return newImage;

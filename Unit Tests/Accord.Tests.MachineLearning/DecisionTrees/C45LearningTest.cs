@@ -189,7 +189,7 @@ namespace Accord.Tests.MachineLearning
             table.Columns.Add(outputColumn);
 
             string[] lines = nurseryData.Split(
-                new[] { Environment.NewLine }, StringSplitOptions.None);
+                new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var line in lines)
                 table.Rows.Add(line.Split(','));
@@ -230,6 +230,10 @@ namespace Accord.Tests.MachineLearning
             int y = tree.Compute(inputs[25]);
             #endregion
 
+            Assert.AreEqual(12960, lines.Length);
+            Assert.AreEqual("usual,proper,complete,1,convenient,convenient,nonprob,recommended,recommend", lines[0]);
+            Assert.AreEqual("great_pret,very_crit,foster,more,critical,inconv,problematic,not_recom,not_recom", lines[lines.Length - 1]);
+
             Assert.AreEqual(0, error);
 
             for (int i = 0; i < inputs.Length; i++)
@@ -239,7 +243,6 @@ namespace Accord.Tests.MachineLearning
 
                 Assert.AreEqual(expected, actual);
             }
-
 
 #if !NET35
 
@@ -494,7 +497,8 @@ namespace Accord.Tests.MachineLearning
             //
 
             // First, let's load the dataset into an array of text that we can process
-            string[][] text = Resources.iris_data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Apply(x => x.Split(','));
+            string[][] text = Resources.iris_data.Split(new[] { Environment.NewLine },
+                StringSplitOptions.RemoveEmptyEntries).Apply(x => x.Split(','));
 
             // The first four columns contain the flower features
             double[][] inputs = text.GetColumns(0, 1, 2, 3).To<double[][]>();
@@ -569,7 +573,8 @@ Iris-virginica =: (petal length > 2.45) && (petal width > 1.75) && (sepal length
         [Test, Timeout(30 * 1000)]
         public void iris_new_method_create_tree()
         {
-            string[][] text = Resources.iris_data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Apply(x => x.Split(','));
+            string[][] text = Resources.iris_data.Split(new[] { Environment.NewLine },
+                StringSplitOptions.RemoveEmptyEntries).Apply(x => x.Split(','));
 
             double[][] inputs = text.GetColumns(0, 1, 2, 3).To<double[][]>();
 
@@ -631,7 +636,8 @@ Iris-virginica =: (petal length > 2.45) && (petal width > 1.75) && (sepal length
         [Test]
         public void new_method_create_tree()
         {
-            string[][] text = Resources.iris_data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Apply(x => x.Split(','));
+            string[][] text = Resources.iris_data.Split(new[] { Environment.NewLine },
+                StringSplitOptions.RemoveEmptyEntries).Apply(x => x.Split(','));
 
             double[][] inputs = text.GetColumns(0, 1, 2, 3).To<double[][]>();
 
@@ -684,9 +690,14 @@ Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 <= 5.95) && (1 <= 3.05)
         [Test]
         public void AttributeReuseTest1()
         {
-            string[][] text = Resources.iris_data.Split(
-                new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
+            string[][] text = Resources.iris_data
+                .Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
                 .Apply(x => x.Split(','));
+
+            Assert.AreEqual(150, text.Rows());
+            Assert.AreEqual(5, text.Columns());
+            Assert.AreEqual("Iris-setosa", text[0].Get(-1));
+            Assert.AreEqual("Iris-virginica", text.Get(-1).Get(-1));
 
             double[][] inputs = new double[text.Length][];
             for (int i = 0; i < inputs.Length; i++)
@@ -725,9 +736,17 @@ Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 <= 5.95) && (1 <= 3.05)
             string ruleText = rules.ToString(codebook,
                 System.Globalization.CultureInfo.InvariantCulture);
 
-            // TODO: implement this assertion properly, actually checking
-            // the text contents once the feature is completely finished.
-            Assert.AreEqual(600, ruleText.Length);
+            string expected = @"0 =: (petal length <= 2.45)
+1 =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length <= 7.05) && (petal length <= 4.95)
+1 =: (petal length > 2.45) && (petal width > 1.75) && (petal length <= 4.85) && (sepal length <= 5.95)
+2 =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length > 7.05)
+2 =: (petal length > 2.45) && (petal width > 1.75) && (petal length > 4.85)
+2 =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length <= 7.05) && (petal length > 4.95)
+2 =: (petal length > 2.45) && (petal width > 1.75) && (petal length <= 4.85) && (sepal length > 5.95)
+";
+            expected = expected.Replace("\r\n", Environment.NewLine);
+
+            Assert.AreEqual(expected, ruleText);
         }
 
         public double ComputeError(DecisionSet rules, double[][] inputs, int[] outputs)

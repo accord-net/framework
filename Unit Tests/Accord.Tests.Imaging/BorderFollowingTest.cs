@@ -35,6 +35,7 @@ namespace Accord.Tests.Imaging
     {
 
         [Test]
+        [Category("MonoNotSupported")]
         public void FindContourTest()
         {
             Bitmap bmp = Accord.Imaging.Image.Clone(Properties.Resources.sample_black);

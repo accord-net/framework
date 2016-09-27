@@ -180,7 +180,10 @@ namespace Accord.Imaging
             // For all images
             Parallel.For(0, images.Length, ParallelOptions,
 
-                () => (IFeatureDetector<TPoint, TFeature>)Detector.Clone(),
+                () =>
+                {
+                    return (IFeatureDetector<TPoint, TFeature>)Detector.Clone();
+                },
 
                 (i, state, detector) =>
                 {

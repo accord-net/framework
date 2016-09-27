@@ -65,7 +65,7 @@ namespace Accord.Tests.MachineLearning
             foreach (var node in tree)
                 nodeCount2++;
 
-            Assert.AreEqual(0.19454022988505748, error, 1e-4);
+            Assert.AreEqual(0.19454022988505748, error, 5e-4);
             Assert.AreEqual(447, nodeCount);
             Assert.AreEqual(4, nodeCount2);
         }
@@ -87,7 +87,11 @@ namespace Accord.Tests.MachineLearning
             table.Columns.Add(outputColumn);
 
             string[] lines = nurseryData.Split(
-                new[] { Environment.NewLine }, StringSplitOptions.None);
+                new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
+            Assert.AreEqual(12960, lines.Length);
+            Assert.AreEqual("usual,proper,complete,1,convenient,convenient,nonprob,recommended,recommend", lines[0]);
+            Assert.AreEqual("great_pret,very_crit,foster,more,critical,inconv,problematic,not_recom,not_recom", lines[lines.Length - 1]);
 
             foreach (var line in lines)
                 table.Rows.Add(line.Split(','));

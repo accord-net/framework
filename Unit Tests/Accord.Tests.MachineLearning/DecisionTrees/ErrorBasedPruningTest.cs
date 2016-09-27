@@ -34,7 +34,7 @@ namespace Accord.Tests.MachineLearning
 
 
     [TestFixture]
-    public class ErrorBasedpruningTest
+    public class ErrorBasedPruningTest
     {
 
 
@@ -68,7 +68,7 @@ namespace Accord.Tests.MachineLearning
             foreach (var node in tree)
                 nodeCount2++;
 
-            Assert.AreEqual(0.28922413793103446, error, 1e-8);
+            Assert.AreEqual(0.28922413793103446, error, 5e-4);
             Assert.AreEqual(447, nodeCount);
             Assert.AreEqual(424, nodeCount2);
         }

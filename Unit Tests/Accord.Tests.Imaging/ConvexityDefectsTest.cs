@@ -35,6 +35,7 @@ namespace Accord.Tests.Imaging
     {
 
         [Test]
+        [Category("MonoNotSupported")]
         public void FindDefectsTest()
         {
             Bitmap bmp = Accord.Imaging.Image.Clone(Properties.Resources.hand);
