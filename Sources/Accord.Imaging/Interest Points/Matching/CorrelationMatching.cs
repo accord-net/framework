@@ -86,8 +86,6 @@ namespace Accord.Imaging
     ///   </list></para>
     /// </remarks>
     ///
-    /// <seealso cref="RansacHomographyEstimator"/>
-    ///
     public class CorrelationMatching
     {
 

@@ -120,6 +120,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Tests.Video.FFMPEG",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Tests.Video", "..\Unit Tests\Accord.Tests.Video\Accord.Tests.Video.csproj", "{53D1CFE6-0639-46FF-8DD2-9D3BAC4971E8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mono", "Mono", "{DB1D2E4F-0D35-4321-996B-0DFB04609ACE}"
+	ProjectSection(SolutionItems) = preProject
+		..\accord.pc.in = ..\accord.pc.in
+		..\configure.ac = ..\configure.ac
+		..\Makefile.am = ..\Makefile.am
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{B7B46F3E-2C0A-4AB3-9490-38BF59463C21}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitattributes = ..\.gitattributes
+		..\.gitignore = ..\.gitignore
+		..\.travis.yml = ..\.travis.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

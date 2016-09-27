@@ -101,8 +101,6 @@ namespace Accord.Imaging.Filters
     /// <img src="..\images\panorama-3.png" /> 
     /// </example>
     /// 
-    /// <seealso cref="RansacHomographyEstimator"/>
-    /// 
     public class Blend : BaseTransformationFilter
     {
 

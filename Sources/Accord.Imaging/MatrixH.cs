@@ -41,8 +41,6 @@ namespace Accord.Imaging
     ///   element is just a scale parameter.</para>  
     /// </remarks>
     /// 
-    /// <seealso cref="RansacHomographyEstimator"/>
-    /// 
     [Serializable]
     public class MatrixH
     {

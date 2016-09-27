@@ -41,10 +41,8 @@ namespace Accord.Imaging
     /// 
     /// <example>
     ///   For an example on how to use this class, please take a look
-    ///   on the example section for <see cref="BagOfVisualWords{T}"/>.
+    ///   on the example section for <c>BagOfVisualWords{T}</c>.
     /// </example>
-    /// 
-    /// <seealso cref="BagOfVisualWords{T}"/>
     /// 
     public class CornerFeaturesDetector : IFeatureDetector<CornerFeaturePoint>
     {
