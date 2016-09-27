@@ -27,3 +27,11 @@ obj
 /Sources/Release
 
 /Sources/*.opensdf
+/autom4te.cache/
+/Makefile.in
+/Makefile
+/configure
+/config.status
+/config.log
+*.m4
+/accord.pc

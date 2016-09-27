@@ -1,8 +1,9 @@
 language: csharp
-solution: Sources/Accord.NET.sln
 install:
   - nuget restore Sources/Accord.NET.sln
 script:
-  - ./Build.sh framework
-  - ./Build.sh samples
-  - ./Tests.sh
+  - ./autogen.sh
+  - make
+  - make samples
+  - make test
+  - make check
