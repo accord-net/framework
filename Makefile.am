@@ -67,11 +67,11 @@ help:
 build: Sources/Accord.NET.sln
 	$(XBUILD) /p:Configuration=Mono Sources/Accord.NET.sln
 
-# target: build - Build sample applications
+# target: samples - Build sample applications
 samples: Samples/Samples.sln
 	$(XBUILD) /p:Configuration=Mono /p:Platform=x86 Samples/Samples.sln
 
-# target: build - Build documentation
+# target: docs - Build documentation
 docs:
 	mdoc update --lib=Release/mono/ --out=Docs/monodoc Release/mono/*.dll
 	mdoc export-html -o htmldocs docfiles
