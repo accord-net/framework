@@ -2,8 +2,8 @@
 
 [![Build Status](https://travis-ci.org/accord-net/framework.svg?branch=development)](https://travis-ci.org/accord-net/framework)
 [![License](https://img.shields.io/badge/license-LGPL--2.1-blue.svg)](LICENSE)
-[![Github All Releases](https://img.shields.io/github/downloads/atom/atom/total.svg?maxAge=2592000)]()
-[![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg?maxAge=2592000)]()
+[![Github All Releases](https://img.shields.io/github/downloads/accord-net/framework/total.svg?maxAge=2592000)]()
+[![GitHub release](https://img.shields.io/github/release/accord-net/framework.svg?maxAge=2592000)]()
 
 Welcome to the Accord.NET GitHub repository. The Accord.NET project provides standard machine learning, statistics, artificial intelligence, computer vision, image processing methods to .NET, be it on Microsoft Windows, Xamarin, Unity3D, Windows Store applications or mobile.
 
