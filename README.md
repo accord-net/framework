@@ -1,4 +1,4 @@
-# Accord.NET Framework
+# The Accord.NET Machine Learning Framework
 
 [![Build Status](https://travis-ci.org/accord-net/framework.svg?branch=development)](https://travis-ci.org/accord-net/framework)
 [![Github All Releases](https://img.shields.io/github/downloads/accord-net/framework/total.svg?maxAge=2592000)]()
