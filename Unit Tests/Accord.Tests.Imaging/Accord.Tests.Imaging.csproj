@@ -58,7 +58,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\mono\</OutputPath>
     <DefineConstants>TRACE;MONO</DefineConstants>
-	<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <ItemGroup>
@@ -86,9 +86,7 @@
   </ItemGroup>
  -->
   <ItemGroup>
-    <Compile Include="BagOfVisualWordsTest.cs" />
     <Compile Include="Converters\ArrayToImageTest.cs" />
-    <Compile Include="BlendTest.cs" />
     <Compile Include="ConcatenateTest.cs" />
     <Compile Include="ConvexityDefectsTest.cs" />
     <Compile Include="BorderFollowingTest.cs" />
@@ -107,7 +105,6 @@
     <Compile Include="LocalBinaryPatternsTest.cs" />
     <Compile Include="Filters\GaborTest.cs" />
     <Compile Include="HistogramsOfOrientedGradientsTest.cs" />
-    <Compile Include="KNearestNeighborMatchingTest.cs" />
     <Compile Include="FastRetinaKeypointDetectorTest.cs" />
     <Compile Include="HuMomentsTest.cs" />
     <Compile Include="MachineLearning\RansacLineImageTest.cs" />
@@ -121,7 +118,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="RansacFundamentalEstimatorTest.cs" />
     <Compile Include="FastCornersDetectorTest.cs" />
     <Compile Include="Converters\ImageToArrayTest.cs" />
     <Compile Include="Converters\ImageToMatrixTest.cs" />
@@ -132,7 +128,6 @@
     <Compile Include="IntegralImage2Test.cs" />
     <Compile Include="MatrixHTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RansacHomographyEstimatorTest.cs" />
     <Compile Include="RawMomentsTest.cs" />
     <Compile Include="Filters\RobinsonEdgeDetectorTest.cs" />
     <Compile Include="SpeededUpRobustFeaturesDescriptorTest.cs" />

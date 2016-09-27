@@ -44,12 +44,12 @@ namespace Accord.Tests.Imaging
         {
             Bitmap[] images = 
             { 
-                Accord.Imaging.Image.Clone(Properties.Resources.flower01),
-                Accord.Imaging.Image.Clone(Properties.Resources.flower02),
-                Accord.Imaging.Image.Clone(Properties.Resources.flower03),
-                Accord.Imaging.Image.Clone(Properties.Resources.flower04),
-                Accord.Imaging.Image.Clone(Properties.Resources.flower05),
-                Accord.Imaging.Image.Clone(Properties.Resources.flower06),
+                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower01),
+                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower02),
+                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower03),
+                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower04),
+                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower05),
+                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower06),
             };
 
             return images;

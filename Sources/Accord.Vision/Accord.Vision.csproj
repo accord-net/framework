@@ -72,13 +72,14 @@
     <DefineConstants>TRACE;CODE_ANALYSIS;MONO</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\mono\Accord.Vision.XML</DocumentationFile>
-	<RunCodeAnalysis>False</RunCodeAnalysis>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'NET35'" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -87,6 +88,13 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Accord.Imaging\BagOfVisualWords.cs" />
+    <Compile Include="Accord.Imaging\BagOfVisualWords`1.cs" />
+    <Compile Include="Accord.Imaging\BagOfVisualWords`2.cs" />
+    <Compile Include="Accord.Imaging\Matching\KNearestNeighborMatching.cs" />
+    <Compile Include="Accord.Imaging\Matching\KNearestNeighborMatching`1.cs" />
+    <Compile Include="Accord.Imaging\RansacFundamentalEstimator.cs" />
+    <Compile Include="Accord.Imaging\RansacHomographyEstimator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="GroupMatching.cs" />
     <Compile Include="Detection\Haar Cascade\Default\FaceHaarCascade.cs" />

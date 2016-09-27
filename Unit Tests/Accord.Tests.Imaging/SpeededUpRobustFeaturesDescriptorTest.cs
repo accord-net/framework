@@ -37,7 +37,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ProcessImageTest()
         {
-            var bitmaps = BagOfVisualWordsTest.GetImages();
+            var bitmaps = SpeededUpRobustFeaturesDetectorTest.GetImages();
 
             foreach (Bitmap img in bitmaps)
             {

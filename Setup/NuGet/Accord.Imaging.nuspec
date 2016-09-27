@@ -20,7 +20,6 @@
     <dependencies>
       <dependency id="Accord"                 version="$version$" />
       <dependency id="Accord.Math"            version="$version$" />
-      <dependency id="Accord.MachineLearning" version="$version$" />
       <dependency id="Accord.Statistics"      version="$version$" />
     </dependencies>
   </metadata>
@@ -33,8 +32,8 @@
 
     <file src="..\..\Release\net45\Accord.Imaging.dll" target="lib\net45\Accord.Imaging.dll" />
     <file src="..\..\Release\net45\Accord.Imaging.xml" target="lib\net45\Accord.Imaging.xml" />
-	
-	<file src="..\..\Release\net46\Accord.Imaging.dll" target="lib\net46\Accord.Imaging.dll" />
+
+    <file src="..\..\Release\net46\Accord.Imaging.dll" target="lib\net46\Accord.Imaging.dll" />
     <file src="..\..\Release\net46\Accord.Imaging.xml" target="lib\net46\Accord.Imaging.xml" />
   </files>
 </package>

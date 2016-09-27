@@ -70,6 +70,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'NET35'" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -89,6 +90,11 @@
   <ItemGroup>
     <Compile Include="HaarCascadeTest.cs" />
     <Compile Include="HaarDataParserTest.cs" />
+    <Compile Include="Imaging\BagOfVisualWordsTest.cs" />
+    <Compile Include="Imaging\BlendTest.cs" />
+    <Compile Include="Imaging\KNearestNeighborMatchingTest.cs" />
+    <Compile Include="Imaging\RansacFundamentalEstimatorTest.cs" />
+    <Compile Include="Imaging\RansacHomographyEstimatorTest.cs" />
     <Compile Include="NoseHaarCascadeTest.cs" />
     <Compile Include="ObjectDetectorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,9 +148,48 @@
     <None Include="Resources\lena_color_small.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\blend_net35.png" />
+    <None Include="Resources\blend_net45.png" />
     <Content Include="Resources\haarcascade_eye.xml" />
     <Content Include="Resources\haarcascade_eye_tree_eyeglasses.xml" />
     <Content Include="Resources\haarcascade_frontalface_alt2.xml" />
+    <None Include="Resources\PICT0108a.jpg" />
+    <None Include="Resources\PICT0107a.jpg" />
+    <None Include="Resources\old.png" />
+    <None Include="Resources\new.png" />
+    <None Include="Resources\image2.bmp" />
+    <None Include="Resources\image1.bmp" />
+    <Content Include="Resources\SURF\flower01.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SURF\flower02.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SURF\flower03.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SURF\flower04.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SURF\flower05.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SURF\flower06.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SURF\flower07.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SURF\flower08.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SURF\flower09.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SURF\flower10.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SURF\surf-bug-1.bmp" />
     <None Include="Resources\haarcascade_mcs_nose.xml" />
   </ItemGroup>
   <ItemGroup>

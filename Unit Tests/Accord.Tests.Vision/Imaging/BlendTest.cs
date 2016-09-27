@@ -25,7 +25,7 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging;
     using Accord.Imaging.Filters;
     using Accord.Math;
-    using Accord.Tests.Imaging.Properties;
+    using Accord.Tests.Vision.Properties;
     using NUnit.Framework;
     using System.Drawing;
     using System.Drawing.Imaging;
@@ -92,10 +92,10 @@ namespace Accord.Tests.Imaging
 
 #if NET35
             // result.Save(@"C:\Projects\Accord.NET\framework\Unit Tests\Accord.Tests.Imaging\Resources\blend_net35.png", ImageFormat.Png);
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.blend_net35);
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.blend_net35);
 #else
             // result.Save(@"C:\Projects\Accord.NET\framework\Unit Tests\Accord.Tests.Imaging\Resources\blend_net45.png", ImageFormat.Png);
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.blend_net45);
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.blend_net45);
 #endif
 
 #pragma warning disable 618
@@ -109,8 +109,8 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ApplyTest()
         {
-            var img1 = Accord.Imaging.Image.Clone(Properties.Resources.image2);
-            var img2 = Accord.Imaging.Image.Clone(Properties.Resources.image2);
+            var img1 = Accord.Imaging.Image.Clone(Resources.image2);
+            var img2 = Accord.Imaging.Image.Clone(Resources.image2);
 
             MatrixH homography = new MatrixH(1, 0, 32,
                                              0, 1, 0,
@@ -141,11 +141,11 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ApplyTest2()
         {
-            var img1 = Accord.Imaging.Image.Clone(Properties.Resources.image2);
-            var img2 = Accord.Imaging.Image.Clone(Properties.Resources.image2);
+            var img1 = Accord.Imaging.Image.Clone(Resources.image2);
+            var img2 = Accord.Imaging.Image.Clone(Resources.image2);
 
-            var img3 = Accord.Imaging.Image.Clone(Properties.Resources.image2);
-            var img4 = Accord.Imaging.Image.Clone(Properties.Resources.image2);
+            var img3 = Accord.Imaging.Image.Clone(Resources.image2);
+            var img4 = Accord.Imaging.Image.Clone(Resources.image2);
 
 
             MatrixH homography;

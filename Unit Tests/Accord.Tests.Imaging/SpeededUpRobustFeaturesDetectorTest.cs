@@ -32,6 +32,21 @@ namespace Accord.Tests.Imaging
     [TestFixture]
     public class SpeededUpRobustFeaturesDetectorTest
     {
+        // Load some test images
+        public static Bitmap[] GetImages()
+        {
+            Bitmap[] images =
+            {
+                Accord.Imaging.Image.Clone(Properties.Resources.flower01),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower02),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower03),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower04),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower05),
+                Accord.Imaging.Image.Clone(Properties.Resources.flower06),
+            };
+
+            return images;
+        }
 
         [Test]
         public void ProcessImageTest()
@@ -241,7 +256,7 @@ namespace Accord.Tests.Imaging
         [Test, Ignore]
         public void ProcessImageTest4()
         {
-            var bitmaps = BagOfVisualWordsTest.GetImages();
+            var bitmaps = GetImages();
             var surf = new SpeededUpRobustFeaturesDetector();
 
             int current = 0;

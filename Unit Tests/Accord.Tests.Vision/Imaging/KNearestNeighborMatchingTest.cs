@@ -26,6 +26,7 @@ using System.Drawing;
 using AForge;
 using Accord.Math;
 using System.Collections.Generic;
+using Accord.Tests.Vision.Properties;
 using System;
 using Accord.Math.Distances;
 
@@ -40,8 +41,8 @@ namespace Accord.Tests.Imaging
         [Test]
         public void MatchTest()
         {
-            var image1 = Accord.Imaging.Image.Clone(Properties.Resources.image1);
-            var image2 = Accord.Imaging.Image.Clone(Properties.Resources.image2);
+            var image1 = Accord.Imaging.Image.Clone(Resources.image1);
+            var image2 = Accord.Imaging.Image.Clone(Resources.image2);
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector();
 
             var keyPoints1 = freak.ProcessImage(image1).ToArray();
@@ -65,8 +66,8 @@ namespace Accord.Tests.Imaging
         [Test]
         public void MatchTest2()
         {
-            var imgOld = Accord.Imaging.Image.Clone(Properties.Resources.old);
-            var imgNew = Accord.Imaging.Image.Clone(Properties.Resources._new); 
+            var imgOld = Accord.Imaging.Image.Clone(Resources.old);
+            var imgNew = Accord.Imaging.Image.Clone(Resources._new); 
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector();
 
             var keyPoints1 = freak.ProcessImage(imgOld).ToArray();
@@ -96,8 +97,8 @@ namespace Accord.Tests.Imaging
         {
             Accord.Math.Random.Generator.Seed = 0;
 
-            var old = Accord.Imaging.Image.Clone(Properties.Resources.old);
-            var flower01 = Accord.Imaging.Image.Clone(Properties.Resources.flower01);
+            var old = Accord.Imaging.Image.Clone(Resources.old);
+            var flower01 = Accord.Imaging.Image.Clone(Resources.flower01);
 
             FastCornersDetector fast = new FastCornersDetector(threshold: 10);
 
@@ -136,8 +137,8 @@ namespace Accord.Tests.Imaging
         {
             Accord.Math.Random.Generator.Seed = 0;
 
-            var old = Accord.Imaging.Image.Clone(Properties.Resources.old);
-            var flower01 = Accord.Imaging.Image.Clone(Properties.Resources.flower01);
+            var old = Accord.Imaging.Image.Clone(Resources.old);
+            var flower01 = Accord.Imaging.Image.Clone(Resources.flower01);
 
             FastCornersDetector fast = new FastCornersDetector(threshold: 10);
 
