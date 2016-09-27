@@ -189,7 +189,7 @@ namespace Accord.Tests.MachineLearning
             table.Columns.Add(outputColumn);
 
             string[] lines = nurseryData.Split(
-                new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var line in lines)
                 table.Rows.Add(line.Split(','));
@@ -497,7 +497,7 @@ namespace Accord.Tests.MachineLearning
             //
 
             // First, let's load the dataset into an array of text that we can process
-            string[][] text = Resources.iris_data.Split(new[] { Environment.NewLine },
+            string[][] text = Resources.iris_data.Split(new[] { "\r\n" },
                 StringSplitOptions.RemoveEmptyEntries).Apply(x => x.Split(','));
 
             // The first four columns contain the flower features
@@ -573,7 +573,7 @@ Iris-virginica =: (petal length > 2.45) && (petal width > 1.75) && (sepal length
         [Test, Timeout(30 * 1000)]
         public void iris_new_method_create_tree()
         {
-            string[][] text = Resources.iris_data.Split(new[] { Environment.NewLine },
+            string[][] text = Resources.iris_data.Split(new[] { "\r\n" },
                 StringSplitOptions.RemoveEmptyEntries).Apply(x => x.Split(','));
 
             double[][] inputs = text.GetColumns(0, 1, 2, 3).To<double[][]>();
@@ -636,7 +636,7 @@ Iris-virginica =: (petal length > 2.45) && (petal width > 1.75) && (sepal length
         [Test]
         public void new_method_create_tree()
         {
-            string[][] text = Resources.iris_data.Split(new[] { Environment.NewLine },
+            string[][] text = Resources.iris_data.Split(new[] { "\r\n" },
                 StringSplitOptions.RemoveEmptyEntries).Apply(x => x.Split(','));
 
             double[][] inputs = text.GetColumns(0, 1, 2, 3).To<double[][]>();
@@ -691,7 +691,7 @@ Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 <= 5.95) && (1 <= 3.05)
         public void AttributeReuseTest1()
         {
             string[][] text = Resources.iris_data
-                .Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                .Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries)
                 .Apply(x => x.Split(','));
 
             Assert.AreEqual(150, text.Rows());

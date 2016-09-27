@@ -172,7 +172,7 @@ namespace Accord.Tests.MachineLearning
             table.Columns.Add(outputColumn);
 
             string[] lines = nurseryData.Split(
-                new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var line in lines)
                 table.Rows.Add(line.Split(','));

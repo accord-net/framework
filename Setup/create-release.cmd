@@ -29,7 +29,7 @@ echo.
 
 :: Build NuGet packages
 cd NuGet
-cmd /c "package-nuget.cmd"
+cmd /c "create-packages.cmd"
 cd ..
 
 echo.

@@ -87,7 +87,7 @@ namespace Accord.Tests.MachineLearning
             table.Columns.Add(outputColumn);
 
             string[] lines = nurseryData.Split(
-                new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
             Assert.AreEqual(12960, lines.Length);
             Assert.AreEqual("usual,proper,complete,1,convenient,convenient,nonprob,recommended,recommend", lines[0]);

@@ -18,9 +18,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="Archiver\Build.cmd" />
-    <None Include="Archiver\Samples.cmd" />
-    <None Include="CreateRelease.cmd" />
+    <None Include="Archiver\package-framework.cmd" />
+    <None Include="Archiver\package-samples.cmd" />
+    <None Include="create-release.cmd" />
     <None Include="Installer\Build.cmd" />
     <None Include="NuGet\Accord.Fuzzy.nuspec" />
     <None Include="NuGet\Accord.Genetic.nuspec" />
@@ -50,12 +50,12 @@
     <None Include="NuGet\Accord.Video.DirectShow.nuspec" />
     <None Include="NuGet\Accord.Video.nuspec" />
     <None Include="NuGet\Accord.Vision.nuspec" />
-    <None Include="NuGet\Build.cmd" />
     <None Include="NuGet\Accord.MachineLearning.GPL.nuspec" />
-    <None Include="NuGet\Push.cmd" />
-    <None Include="NuGet\Update.cmd" />
+    <None Include="NuGet\create-packages.cmd" />
     <None Include="NuGet\NuGet.exe" />
-    <None Include="PublishNuGet.cmd" />
+    <None Include="NuGet\push-packages.cmd" />
+    <None Include="NuGet\update-nuget.cmd" />
+    <None Include="publish-nuget.cmd" />
     <None Include="Scripts\Accord.targets" />
     <None Include="Scripts\Accord.Video.FFMPEG.targets" />
     <None Include="Scripts\Accord.Video.Kinect.targets" />
