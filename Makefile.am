@@ -82,7 +82,7 @@ test: build
 		-exclude:Serialization,Intensive,WinForms,Office,MonoNotSupported,Random \
 		${TESTFILES}
 
-# target: clean obj and bin directories
+# target: clean - remove all obj and bin directories
 clean-local: 
 	rm -rvf $(LIBDIR)/*
 	rm -rvf $(DIR_RELEASE)/*
