@@ -24,7 +24,7 @@ If you would like to install the framework on [Unity3D applications](https://uni
 Add the framework binaries to your Plugins folder, but remove any assemblies that might have external dependencies, such as Accord.Video and Accord.Audio. Finally, find and
 add the System.ComponentModel.DataAnnotations assembly from your system as well.
 
-# Sample applications
+## Sample applications
 
 The framework comes with a wide range of sample applications to help get you started quickly. If you downloaded the framework sources or cloned the repository, open the *Samples.sln* solution file in the Samples folder.
 
@@ -54,7 +54,7 @@ Please download and install the following dependencies:
 Then navigate to the Sources directory, and open the *Accord.NET.sln* solution file.
 
 
-#### With MonoDevelop, for running on Linux
+#### With Mono (Linux/xbuild)
 
     # Install Mono
     sudo apt-get install mono-complete monodevelop monodevelop-nunit
