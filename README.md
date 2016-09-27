@@ -1,17 +1,17 @@
-# The Accord.NET Machine Learning Framework
+# Accord.NET Framework
 
 [![Build Status](https://travis-ci.org/accord-net/framework.svg?branch=development)](https://travis-ci.org/accord-net/framework)
 [![Github All Releases](https://img.shields.io/github/downloads/accord-net/framework/total.svg?maxAge=2592000)]()
 [![License](https://img.shields.io/badge/license-LGPL--2.1-blue.svg)](LICENSE)
 [![GitHub release](https://img.shields.io/github/release/accord-net/framework.svg?maxAge=2592000)]()
 
-Welcome to the Accord.NET GitHub repository. The Accord.NET project provides standard machine learning, statistics, artificial intelligence, computer vision, image processing methods to .NET, be it on Microsoft Windows, Xamarin, Unity3D, Windows Store applications or mobile.
+The Accord.NET project provides machine learning, statistics, artificial intelligence, computer vision and image processing methods to .NET. It can be used on Microsoft Windows, Xamarin, Unity3D, Windows Store applications, Linux or mobile.
 
-Following a big refactoring after the merge with the AForge.NET project, the framework now offers a unified API for learning/training machine learning models that is both easy to use *and* extensible. It is based on the following pattern:
+After merging with the AForge.NET project, the framework now offers a unified API for learning/training machine learning models that is both easy to use *and* extensible. It is based on the following pattern:
 
-- Instantiate a desired *learning algorithm* that provides a .Learn(x, y) method;
-- Call the learning algorithm's Learn(x, y) method with the data you have; 
-- It will return you a trained model that you can use to Transform(), Decide(), Score(), compute Probabilities() or LogLikelihoods() for new data.
+- Choose a *learning algorithm* that provides a _Learn(x, y)_ method;
+- Use the _Learn(x, y)_ to create a machine learning model learned from the data; 
+- Use the model's Transform(), Decide(), Score(), Probabilities() or LogLikelihoods() methods to process new samples.
 
 For more information, please see the getting started guide, and check the wiki. *Note: the wiki has been gradually updated/rewritten followed the recent merge/refactoring. Please do not hesitate to edit it if you would like!*
 
