@@ -104,7 +104,6 @@ namespace Accord.Statistics.Distributions.Univariate
         private double k;     // shape
 
         // Derived measures
-        private double constant;
         private double lnconstant;
 
         private bool immutable;
@@ -178,7 +177,6 @@ namespace Accord.Statistics.Distributions.Univariate
             this.k = k;
 
             this.lnconstant = -(k * Math.Log(theta) + Gamma.Log(k));
-            this.constant = Math.Exp(lnconstant);
         }
 
         /// <summary>
@@ -334,13 +332,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityDensityFunction(double x)
         {
-            double a = Math.Pow(x, k - 1);
-            double b = Math.Exp(-x / theta);
-            if (b == 0)
-                return 0;
-            if (a == 0)
-                return 0;
-            return constant * a * b;
+            return Math.Exp(LogProbabilityDensityFunction(x));
         }
 
         /// <summary>
