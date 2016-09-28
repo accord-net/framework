@@ -76,6 +76,6 @@ Then navigate to the Sources directory, and open the *Accord.NET.sln* solution f
 
 # Contributing
 
-If you would like to contribute, please do so by helping update the project's Wiki pages. While you can also make a donation, fill bug reports and contribute code in the form of pull requests, priority is being given to the documentation. 
+If you would like to contribute, please do so by helping us update the [project's Wiki pages](https://github.com/accord-net/framework/wiki). While you could also make a donation through PayPal [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=N4Q6YQSPWN8BG) or Flattr [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=cesarsouza&url=https://github.com/accord-net/framework&title=Accord.NET&language=&tags=github&category=software), fill-in bug reports and contribute code in the form of pull requests, the most precious donation we could receive would be a bit of your time - [please take some minutes to submit us more documentation examples to our Wiki pages](https://github.com/accord-net/framework/wiki) :wink: 
 
 Join the chat at https://gitter.im/accord-net/framework
