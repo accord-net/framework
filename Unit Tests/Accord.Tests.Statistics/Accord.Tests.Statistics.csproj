@@ -93,6 +93,7 @@
     <Compile Include="Distances\DistanceTest.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\VonMisesFisherDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\AndersonDarlingDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\GrubbDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GeneralizedBetaDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GeneralizedParetoDistributionTest.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="Links\LogLogLinkFunctionTest.cs" />
     <Compile Include="Links\ProbitLinkFunctionTest.cs" />
     <Compile Include="Links\SinLinkFunctionTest.cs" />
+    <Compile Include="Testing\GrubbTestTest.cs" />
     <Compile Include="Testing\TwoSamples\PairedTTestTest.cs" />
     <Compile Include="Testing\MannWhitneyWilcoxonTestTest.cs" />
     <Compile Include="Models\Fields\Learning\GradientDescentHiddenLearningTest.cs" />

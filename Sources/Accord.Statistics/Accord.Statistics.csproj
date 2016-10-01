@@ -72,7 +72,7 @@
     <DefineConstants>TRACE;CODE_ANALYSIS;MONO</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\mono\Accord.Statistics.XML</DocumentationFile>
-	<RunCodeAnalysis>False</RunCodeAnalysis>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
@@ -198,6 +198,7 @@
     <Compile Include="Distributions\Multivariate\Discrete\HiddenMarkovDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\AndersonDarlingDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\GrubbDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\KumaraswamyDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\RademacherDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\ShapiroWilkDistribution.cs" />
@@ -506,6 +507,7 @@
     <Compile Include="Testing\TwoSample\PairedTTest.cs" />
     <Compile Include="Testing\TwoSample\TwoProportionZTest.cs" />
     <Compile Include="Testing\Contingency\TwoReceiverOperatingCurveTest.cs" />
+    <Compile Include="Testing\GrubbTest.cs" />
     <Compile Include="Testing\WilcoxonTest.cs" />
     <Compile Include="Testing\TwoSample\MannWhitneyWilcoxonTest.cs" />
     <Compile Include="Testing\Power\Base\IPowerAnalysis.cs" />
