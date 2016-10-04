@@ -141,29 +141,29 @@ namespace Accord.Tests.Statistics
             TDistribution target = new TDistribution(1);
             double expected = 0.31830988618379075;
             double actual = target.ProbabilityDensityFunction(0);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = 0.017076710632177614;
             actual = target.ProbabilityDensityFunction(4.2);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             target = new TDistribution(2);
             expected = 0.35355339059327379;
             actual = target.ProbabilityDensityFunction(0);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = 0.011489146700777093;
             actual = target.ProbabilityDensityFunction(4.2);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             target = new TDistribution(3);
             expected = 0.36755259694786141;
             actual = target.ProbabilityDensityFunction(0);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = 0.0077650207237835792;
             actual = target.ProbabilityDensityFunction(4.2);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
         }
 
         [Test]

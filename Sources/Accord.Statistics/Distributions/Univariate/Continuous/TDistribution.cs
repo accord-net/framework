@@ -104,7 +104,7 @@ namespace Accord.Statistics.Distributions.Univariate
     public class TDistribution : UnivariateContinuousDistribution, IFormattable
     {
 
-        private double constant;
+        private double lnconstant;
 
 
         /// <summary>
@@ -129,8 +129,9 @@ namespace Accord.Statistics.Distributions.Univariate
 
             double v = degreesOfFreedom;
 
-            // TODO: Use LogGamma instead.
-            this.constant = Gamma.Function((v + 1) / 2.0) / (Math.Sqrt(v * Math.PI) * Gamma.Function(v / 2.0));
+            double num = Gamma.Log((v + 1) / 2.0);
+            double den = 0.5 * Math.Log(v * Math.PI) + Gamma.Log(v / 2.0);
+            this.lnconstant = num - den;
         }
 
 
@@ -249,8 +250,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityDensityFunction(double x)
         {
-            double v = DegreesOfFreedom;
-            return constant * Math.Pow(1 + (x * x) / DegreesOfFreedom, -(v + 1) / 2.0);
+            return Math.Exp(LogProbabilityDensityFunction(x));
         }
 
         /// <summary>
@@ -276,8 +276,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double LogProbabilityDensityFunction(double x)
         {
-            double v = DegreesOfFreedom;
-            return Math.Log(constant) - ((v + 1) / 2.0) * Math.Log(1 + (x * x) / DegreesOfFreedom);
+            return lnconstant - ((DegreesOfFreedom + 1) / 2.0) * Special.Log1p((x * x) / DegreesOfFreedom);
         }
 
         /// <summary>
@@ -333,7 +332,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format(formatProvider, "T(x; df = {0})",
+            return String.Format("T(x; df = {0})", 
                 DegreesOfFreedom.ToString(format, formatProvider));
         }
 
