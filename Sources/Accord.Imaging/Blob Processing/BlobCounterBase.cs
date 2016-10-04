@@ -675,18 +675,7 @@ namespace Accord.Imaging
         /// 
         public Blob[] GetObjects(UnmanagedImage image, bool extractInOriginalSize)
         {
-            // check if objects map was collected
-            if (objectLabels == null)
-                throw new InvalidOperationException("Image should be processed before to collect objects map.");
-
-            if ((image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppPArgb)
-                )
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the provided image.");
+            CheckArgs(image);
 
             // image size
             int width = image.Width;
@@ -767,6 +756,20 @@ namespace Accord.Imaging
             return objects;
         }
 
+        private void CheckArgs(UnmanagedImage image)
+        {
+            // check if objects map was collected
+            if (objectLabels == null)
+                throw new InvalidOperationException("Image should be processed before to collect objects map.");
+
+            if ((image.PixelFormat != PixelFormat.Format24bppRgb) &&
+                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
+                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
+                (image.PixelFormat != PixelFormat.Format32bppArgb) &&
+                (image.PixelFormat != PixelFormat.Format32bppPArgb))
+                throw new UnsupportedImageFormatException("Unsupported pixel format of the provided image.");
+        }
+
         /// <summary>
         /// Extract blob's image.
         /// </summary>
@@ -836,18 +839,7 @@ namespace Accord.Imaging
         /// 
         public void ExtractBlobsImage(UnmanagedImage image, Blob blob, bool extractInOriginalSize)
         {
-            // check if objects map was collected
-            if (objectLabels == null)
-                throw new InvalidOperationException("Image should be processed before to collect objects map.");
-
-            if ((image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppPArgb)
-                )
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the provided image.");
+            CheckArgs(image);
 
             // image size
             int width = image.Width;
