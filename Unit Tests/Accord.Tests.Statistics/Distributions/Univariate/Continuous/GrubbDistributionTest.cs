@@ -64,6 +64,9 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+#if MONO
+        [Ignore("Mono output differs for the same formulae.")]
+#endif
         public void cdf()
         {
             double[] x = Vector.Range(0.0, 1.0, stepSize: 1e-3);
@@ -74,8 +77,10 @@ namespace Accord.Tests.Statistics
             double min = cdf.Min();
             double max = cdf.Max();
 
-            Assert.AreEqual(max, 6.3264373484457685, 1e-10);
+            Assert.AreEqual(6.3264373484457685, max, 1e-10);
             Assert.AreEqual(max, target.Support.Max, 1e-10);
+
+            Assert.AreEqual(1.9451708565372674, min, 1e-10);
 
             Assert.AreEqual(0, target.DistributionFunction(-1));
             Assert.AreEqual(0, target.DistributionFunction(0));
@@ -84,7 +89,6 @@ namespace Accord.Tests.Statistics
             double actual = target.DistributionFunction(min + 1e-10);
             Assert.AreEqual(2.5226376543230344E-10, actual, 1e-10);
         }
-
 
     }
 }
