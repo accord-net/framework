@@ -134,12 +134,12 @@ namespace Accord.Math
         /// 
         public static int GreatestCommonDivisor(int a, int b)
         {
-            int x = a - b * (int)Math.Floor((double)(a / b));
+            int x = a - b * (int)Math.Floor(a / (double)b);
             while (x != 0)
             {
                 a = b;
                 b = x;
-                x = a - b * (int)Math.Floor((double)(a / b));
+                x = a - b * (int)Math.Floor(a / (double)b);
             }
             return b;
         }
