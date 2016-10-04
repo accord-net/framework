@@ -50,6 +50,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(values2.Mean(), target.Mean, 1e-10);
             Assert.AreEqual(values2.StandardDeviation(), target.StandardDeviation, 1e-10);
             Assert.AreEqual(values2.Variance(), target.Variance, 1e-10);
+            Assert.AreEqual(values2.Length, target.Count);
         }
 
         [Test]
@@ -107,6 +108,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, target.Mean);
             Assert.AreEqual(0, target.StandardDeviation);
             Assert.AreEqual(0, target.Variance);
+            Assert.AreEqual(0, target.Count);
         }
 
     }

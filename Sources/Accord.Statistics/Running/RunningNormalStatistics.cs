@@ -95,6 +95,17 @@ namespace Accord.Statistics.Running
         }
 
         /// <summary>
+        /// Gets the current count of values seen.
+        /// </summary>
+        /// 
+        /// <value>The number of samples seen.</value>
+        /// 
+        public int Count
+        {
+            get { return count; }
+        }
+
+        /// <summary>
         ///   Initializes a new instance of the <see cref="RunningNormalStatistics"/> class.
         /// </summary>
         /// 
