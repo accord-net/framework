@@ -32,23 +32,6 @@ namespace Accord.Tests.Statistics
     public class KolmogorovSmirnovTestTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void KolmogorovSmirnovTestConstructorTest()
         {
@@ -207,7 +190,7 @@ namespace Accord.Tests.Statistics
 
             var target = new KolmogorovSmirnovTest(sample, distribution);
 
-            IUnivariateDistribution actual = target.TheoreticalDistribution;
+            var actual = target.TheoreticalDistribution;
             Assert.AreEqual(distribution, actual);
         }
     }

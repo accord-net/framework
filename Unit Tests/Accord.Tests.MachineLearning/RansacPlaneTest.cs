@@ -134,6 +134,8 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void RansacPlaneConstructorTest2()
         {
+            Accord.Math.Random.Generator.Seed = 0;
+
             Point3[] points = 
             {
                 new Point3(1,1,1),
@@ -148,10 +150,10 @@ namespace Accord.Tests.MachineLearning
             var normal = plane.Normal / plane.Normal.Max;
             double d = plane.DistanceToPoint(Point3.Origin);
 
-            Assert.AreEqual(normal.X, 1, 1e-4);
-            Assert.AreEqual(normal.Y, 1, 1e-4);
-            Assert.AreEqual(normal.Z, -1, 1e-4);
-            Assert.AreEqual(plane.Offset, -d, 1e-4);
+            Assert.AreEqual(normal.X, -1, 1e-4);
+            Assert.AreEqual(normal.Y, -1, 1e-4);
+            Assert.AreEqual(normal.Z, 1, 1e-4);
+            Assert.AreEqual(plane.Offset, d, 1e-4);
         }
     }
 }
