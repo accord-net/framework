@@ -162,7 +162,9 @@ namespace Accord.Statistics.Testing
         /// <param name="hypothesizedDistribution">A fully specified distribution (which must NOT have been estimated from the data).</param>
         /// 
         public KolmogorovSmirnovTest(double[] sample, IDistribution<double> hypothesizedDistribution)
-            : this(sample, hypothesizedDistribution, KolmogorovSmirnovTestHypothesis.SampleIsDifferent) { }
+            : this(sample, hypothesizedDistribution, KolmogorovSmirnovTestHypothesis.SampleIsDifferent)
+        {
+        }
 
         /// <summary>
         ///   Creates a new One-Sample Kolmogorov test.
@@ -297,11 +299,11 @@ namespace Accord.Statistics.Testing
             //  section "1.3.5.16. Kolmogorov-Smirnov Goodness-of-Fit Test" for more
             //  details: http://www.itl.nist.gov/div898/handbook/eda/section3/eda35g.htm
 
-            double max = Math.Max(Math.Abs(F(sortedSamples[0])), Math.Abs(1 / N - F(sortedSamples[0])));
-            for (int i = 1; i < sortedSamples.Length; i++)
+            double max = Math.Max(Math.Abs(F(Y[0])), Math.Abs(1 / N - F(Y[0])));
+            for (int i = 1; i < Y.Length; i++)
             {
-                double a = Math.Abs(F(sortedSamples[i]) - i / N);
-                double b = Math.Abs((i + 1) / N - F(sortedSamples[i]));
+                double a = Math.Abs(F(Y[i]) - i / N);
+                double b = Math.Abs((i + 1) / N - F(Y[i]));
                 if (a > max) max = a;
                 if (b > max) max = b;
             }
