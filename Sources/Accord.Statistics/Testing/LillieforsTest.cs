@@ -29,7 +29,7 @@ namespace Accord.Statistics.Testing
     using System.Threading.Tasks;
 
     /// <summary>
-    ///   One sample Lilliefors's corrected Kolmogorov-Smirnov (KS) test.
+    ///   One sample Lilliefors' corrected Kolmogorov-Smirnov (KS) test.
     /// </summary>
     /// 
     /// <remarks>
@@ -91,12 +91,12 @@ namespace Accord.Statistics.Testing
         /// 
         public EmpiricalDistribution EmpiricalDistribution { get; private set; }
 
-        /// <summary>
-        ///   Gets or sets the parallelization options used when simulating 
-        ///   the KS statistic distribution using the Monte-Carlo method.
-        /// </summary>
-        /// 
-        public ParallelOptions ParallelOptions { get; set; }
+        ///// <summary>
+        /////   Gets or sets the parallelization options used when simulating 
+        /////   the KS statistic distribution using the Monte-Carlo method.
+        ///// </summary>
+        ///// 
+        //public ParallelOptions ParallelOptions { get; set; }
 
         /// <summary>
         ///   Gets the number of observations in the sample being tested.
@@ -106,7 +106,7 @@ namespace Accord.Statistics.Testing
 
         private LillieforsTest()
         {
-            this.ParallelOptions = new ParallelOptions();
+            // this.ParallelOptions = new ParallelOptions();
         }
 
         /// <summary>
@@ -117,12 +117,21 @@ namespace Accord.Statistics.Testing
         /// <param name="hypothesizedDistribution">A fully specified distribution (which could have been estimated from the data).</param>
         /// <param name="alternate">The alternative hypothesis (research hypothesis) to test.</param>
         /// <param name="iterations">The number of Monte-Carlo iterations to perform. Default is 10,000.</param>
+        /// <param name="reestimate">Whether the target distribution should be re-estimated from the sampled data
+        ///   at each Monte-Carlo iteration. Pass true in case <paramref name="hypothesizedDistribution"/> has been
+        ///   estimated from the data.</param>
         /// 
         public LillieforsTest(double[] sample, ISampleableDistribution<double> hypothesizedDistribution,
             KolmogorovSmirnovTestHypothesis alternate = KolmogorovSmirnovTestHypothesis.SampleIsDifferent,
-            int iterations = 10000)
+            int iterations = 10000, bool reestimate = true)
             : this()
         {
+            if (reestimate)
+            {
+                if (!(hypothesizedDistribution is IFittableDistribution<double>))
+                    throw new InvalidOperationException("The estimate option can only be used with distributions that implement IFittableDistribution<double>.");
+            }
+
             this.Hypothesis = alternate;
 
             // Create a copy of the samples to prevent altering the
@@ -134,7 +143,8 @@ namespace Accord.Statistics.Testing
             this.EmpiricalDistribution = new EmpiricalDistribution(orderedSamples, smoothing: 0);
             this.NumberOfSamples = sample.Length;
 
-            StatisticDistribution = GetSimulatedDistribution(hypothesizedDistribution, iterations, alternate);
+            StatisticDistribution = GetSimulatedDistribution(hypothesizedDistribution,
+                reestimate, iterations, alternate);
 
             // Finally, compute the test statistic and perform actual testing.
             base.Statistic = KolmogorovSmirnovTest.GetStatistic(orderedSamples, TheoreticalDistribution, alternate);
@@ -143,15 +153,33 @@ namespace Accord.Statistics.Testing
         }
 
         private EmpiricalDistribution GetSimulatedDistribution(ISampleableDistribution<double> hypothesizedDistribution,
-            int iterations, KolmogorovSmirnovTestHypothesis alternate)
+            bool reestimate, int iterations, KolmogorovSmirnovTestHypothesis alternate)
         {
-            var samples = new double[iterations];
-            Parallel.For(0, iterations, ParallelOptions, (Action<int>)(i =>
+            double[] samples = new double[iterations];
+
+            if (reestimate)
             {
-                var s = hypothesizedDistribution.Generate(samples: NumberOfSamples);
-                Vector.Sort<double>(s);
-                samples[i] = KolmogorovSmirnovTest.GetStatistic((double[])s, (IDistribution<double>)hypothesizedDistribution, alternate);
-            }));
+                Parallel.For(0, iterations, (Action<int>)(i =>
+                {
+                    double[] s = hypothesizedDistribution.Generate(samples: NumberOfSamples);
+                    Vector.Sort<double>(s);
+
+                    var fittable = (IFittableDistribution<double>)hypothesizedDistribution.Clone();
+                    fittable.Fit(s);
+
+                    samples[i] = KolmogorovSmirnovTest.GetStatistic((double[])s, (IDistribution<double>)fittable, alternate);
+                }));
+            }
+            else
+            {
+                Parallel.For(0, iterations, (Action<int>)(i =>
+                {
+                    double[] s = hypothesizedDistribution.Generate(samples: NumberOfSamples);
+                    Vector.Sort<double>(s);
+                    samples[i] = KolmogorovSmirnovTest.GetStatistic((double[])s, (IDistribution<double>)hypothesizedDistribution, alternate);
+                }));
+            }
+            
 
             return new EmpiricalDistribution(samples, smoothing: 0);
         }
