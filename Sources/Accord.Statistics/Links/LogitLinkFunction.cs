@@ -119,8 +119,9 @@ namespace Accord.Statistics.Links
         /// <returns>The log of the reverse transformed value.</returns>
         public double Log(double x)
         {
-            double z = B * x + A;
-            return Math.Log(1.0) - Math.Log(1.0 + Math.Exp(-z)); // TODO: Log 1+z
+            //double z = B * x + A;
+            //return -Math.Log(1.0 + Math.Exp(-z)); // TODO: Log 1+z
+            return x;
         }
 
         /// <summary>

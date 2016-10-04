@@ -64,6 +64,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System.Collections;
     using System.Diagnostics;
     using System.Threading;
+    using Statistics.Models.Regression.Linear;
 
     /// <summary>
     ///   Different categories of loss functions that can be used to learn 
@@ -142,6 +143,14 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
     ///   where the binary machines are learned using the Linear Dual Coordinate Descent algorithm.</para>
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    ///   
+    /// <para>
+    ///   The following example shows how to obtain a <see cref="MultipleLinearRegression"/> 
+    ///   from a linear <see cref="SupportVectorMachine"/>. It contains exactly the same data 
+    ///   used in the <see cref="OrdinaryLeastSquares"/> documentation page for 
+    ///   <see cref="MultipleLinearRegression"/>.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\LinearDualCoordinateDescentTest.cs" region="doc_linreg"/>
     /// </example>
     /// 
     /// <see cref="SequentialMinimalOptimization"/>

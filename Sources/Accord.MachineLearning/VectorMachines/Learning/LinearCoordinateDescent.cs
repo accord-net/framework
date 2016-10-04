@@ -64,6 +64,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Math;
     using System.Diagnostics;
     using System.Threading;
+    using Statistics.Models.Regression.Linear;
 
     /// <summary>
     ///   L1-regularized L2-loss support vector 
@@ -94,6 +95,16 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <para>
     ///   See Yuan et al. (2010) and appendix of LIBLINEAR paper, Fan et al. (2008)</para>
     /// </remarks>
+    /// 
+    /// <examples>
+    /// <para>
+    ///   The following example shows how to obtain a <see cref="MultipleLinearRegression"/> 
+    ///   from a linear <see cref="SupportVectorMachine"/>. It contains exactly the same data 
+    ///   used in the <see cref="OrdinaryLeastSquares"/> documentation page for 
+    ///   <see cref="MultipleLinearRegression"/>.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\LinearCoordinateDescentTest.cs" region="doc_linreg"/>
+    /// </examples>
     /// 
     /// <see cref="SequentialMinimalOptimization"/>
     /// <see cref="LinearNewtonMethod"/>

@@ -151,6 +151,8 @@ namespace Accord.Tests.Statistics
         [Test]
         public void learn_new_mechanism()
         {
+            Accord.Math.Random.Generator.Seed = 0;
+
             #region doc_log_reg_1
             // Suppose we have the following data about some patients.
             // The first variable is continuous and represent patient
@@ -225,20 +227,15 @@ namespace Accord.Tests.Statistics
             bool[] actual = regression.Decide(input);
             #endregion
 
-            double[] expected = 
+            double[] expected =
             {
-                0.21044171560168326,
-                0.13242527535212373,
-                0.65747803433771812,
-                0.18122484822324372,
-                0.74755661773156912,
-                0.61450041841477232,
-                0.33116705418194975,
-                0.14474110902457912,
-                0.43627109657399382,
-                0.54419383282533118
+                0.26653094409723, 0.152638465629209, 1.91952079193046,
+                0.221336525913065, 2.96128427776555, 1.59403653839456,
+                0.495141657849358, 0.169236601885844, 0.773902301904016,
+                1.1939150275367
             };
 
+            string str = scores.ToCSharp();
             for (int i = 0; i < scores.Length; i++)
                 Assert.AreEqual(expected[i], scores[i], 1e-8);
 

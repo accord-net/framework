@@ -189,8 +189,8 @@ namespace Accord.Tests.Statistics
             MultipleLinearRegression regression = ols.Learn(inputs, outputs);
 
             // As result, we will be given the following:
-            double a = regression.Coefficients[0]; // a = 0
-            double b = regression.Coefficients[1]; // b = 0
+            double a = regression.Weights[0]; // a = 0
+            double b = regression.Weights[1]; // b = 0
             double c = regression.Intercept; // c = 1
 
             // This is the plane described by the equation

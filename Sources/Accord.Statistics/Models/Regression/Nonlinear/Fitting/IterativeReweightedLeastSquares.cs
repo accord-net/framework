@@ -46,8 +46,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
     /// <para>
     ///   The Iterative Reweighted Least Squares algorithm can also be used to learn
     ///   arbitrary generalized linear models. However, the use of this class to learn
-    ///   such models is currently experimental.
-    /// </para>
+    ///   such models is currently experimental.</para>
     /// 
     /// <para>
     ///   References:

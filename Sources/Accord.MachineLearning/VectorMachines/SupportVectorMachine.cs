@@ -30,9 +30,11 @@ namespace Accord.MachineLearning.VectorMachines
     using Accord.Statistics.Kernels;
     using Accord.Statistics.Links;
     using Accord.Statistics.Models.Regression;
+    using Accord.MachineLearning.VectorMachines.Learning;
     using System.Reflection;
     using System.Runtime.Serialization;
     using System.Security.Permissions;
+    using Statistics.Models.Regression.Linear;
 
     /// <summary>
     ///  Linear Support Vector Machine (SVM).
@@ -43,6 +45,15 @@ namespace Accord.MachineLearning.VectorMachines
     ///   This class implements a linear support vector machine classifier. For its kernel
     ///   counterpart, which can produce non-linear decision boundaries, please check 
     ///   <see cref="SupportVectorMachine{TKernel}"/> and <see cref="SupportVectorMachine{TKernel, TData}"/>.</para>
+    ///   
+    /// <para>
+    ///   Note: a linear SVM model can be converted to <see cref="MultipleLinearRegression"/> and 
+    ///   <see cref="LogisticRegression"/>. This means that linear and logistic regressions
+    ///   can be created using any of the highly optimized LIBLINEAR learning algorithms
+    ///   such as <see cref="LinearCoordinateDescent"/>, <see cref="LinearDualCoordinateDescent"/>,
+    ///   <see cref="ProbabilisticCoordinateDescent"/> and <see cref="ProbabilisticDualCoordinateDescent"/>.
+    ///   </para>
+    ///   
     /// <para>
     ///   References:
     ///   <list type="bullet">
@@ -185,6 +196,78 @@ namespace Accord.MachineLearning.VectorMachines
 
         #endregion
 
-    }
 
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="SupportVectorMachine"/> to <see cref="MultipleLinearRegression"/>.
+        /// </summary>
+        /// 
+        /// <param name="svm">The <see cref="SupportVectorMachine">linear Support Vector Machine</see> to be converted.</param>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
+        public static explicit operator MultipleLinearRegression(SupportVectorMachine svm)
+        {
+            double[] w = svm.ToWeights();
+            return new MultipleLinearRegression()
+            {
+                Weights = w.Get(1, 0),
+                Intercept = svm.Threshold
+            };
+        }
+
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="SupportVectorMachine"/> to <see cref="LogisticRegression"/>.
+        /// </summary>
+        /// 
+        /// <param name="svm">The <see cref="SupportVectorMachine">linear Support Vector Machine</see> to be converted.</param>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
+        public static explicit operator LogisticRegression(SupportVectorMachine svm)
+        {
+            double[] w = svm.ToWeights();
+            return new LogisticRegression()
+            {
+                Weights = w.Get(1, 0),
+                Intercept = svm.Threshold
+            };
+        }
+
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="MultipleLinearRegression"/> to <see cref="SupportVectorMachine"/>.
+        /// </summary>
+        /// 
+        /// <param name="regression">The linear regression to be converted.</param>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
+        public static explicit operator SupportVectorMachine(MultipleLinearRegression regression)
+        {
+            return new SupportVectorMachine(regression.NumberOfInputs)
+            {
+                Weights = new[] { 1.0 },
+                SupportVectors = new[] { regression.Weights },
+                Threshold = regression.Intercept,
+            };
+        }
+
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="MultipleLinearRegression"/> to <see cref="SupportVectorMachine"/>.
+        /// </summary>
+        /// 
+        /// <param name="regression">The linear regression to be converted.</param>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
+        public static explicit operator SupportVectorMachine(LogisticRegression regression)
+        {
+            return new SupportVectorMachine(regression.NumberOfInputs)
+            {
+                Weights = new[] { 1.0 },
+                SupportVectors = new[] { regression.Weights },
+                Threshold = regression.Intercept,
+                IsProbabilistic = true
+            };
+        }
+    }
 }

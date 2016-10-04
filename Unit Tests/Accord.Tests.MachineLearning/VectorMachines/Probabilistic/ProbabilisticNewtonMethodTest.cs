@@ -30,6 +30,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.MachineLearning.VectorMachines;
+    using Math.Optimization.Losses;
 
     [TestFixture]
     public class ProbabilisticNewtonMethodTest
@@ -97,5 +98,76 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(1.7678893101571855, regression.Coefficients[2], 1e-8);
         }
 
+        [Test]
+        public void logistic_regression_test()
+        {
+            #region doc_logreg
+            // Declare some training data. This is exactly the same
+            // data used in the LogisticRegression documentation page
+
+            // Suppose we have the following data about some patients.
+            // The first variable is continuous and represent patient
+            // age. The second variable is dichotomic and give whether
+            // they smoke or not (This is completely fictional data).
+
+            // We also know if they have had lung cancer or not, and 
+            // we would like to know whether smoking has any connection
+            // with lung cancer (This is completely fictional data).
+
+            double[][] input =
+            {              // age, smokes?, had cancer?
+                new double[] { 55,    0  }, // false - no cancer
+                new double[] { 28,    0  }, // false
+                new double[] { 65,    1  }, // false
+                new double[] { 46,    0  }, // true  - had cancer
+                new double[] { 86,    1  }, // true
+                new double[] { 56,    1  }, // true
+                new double[] { 85,    0  }, // false
+                new double[] { 33,    0  }, // false
+                new double[] { 21,    1  }, // false
+                new double[] { 42,    1  }, // true
+            };
+
+            double[] output = // Whether each patient had lung cancer or not
+            {
+                0, 0, 0, 1, 1, 1, 0, 0, 0, 1
+            };
+
+            // Create the probabilistic-SVM learning algorithm
+            var teacher = new ProbabilisticNewtonMethod()
+            {
+                Tolerance = 1e-10,
+                Complexity = 1e+10, // learn a hard-margin model
+            };
+
+            // Learn the support vector machine
+            var svm = teacher.Learn(input, output);
+
+            // Convert the svm to logistic regression
+            var regression = (LogisticRegression)svm;
+
+            // Compute the predicted outcome for inputs
+            bool[] predicted = regression.Decide(input);
+
+            // Compute probability scores for the outputs
+            double[] scores = regression.Score(input);
+
+            // Compute odds-ratio as in the LogisticRegression example
+            double ageOdds = regression.GetOddsRatio(1);   // 1.0208597028836701
+            double smokeOdds = regression.GetOddsRatio(2); // 5.8584748789881331
+
+            // Compute the classification error as in SVM example
+            double error = new ZeroOneLoss(output).Loss(predicted);
+            #endregion
+
+            Assert.AreEqual(0.2, error);
+            Assert.AreEqual(1.0208597028836701, ageOdds, 1e-4);
+            Assert.AreEqual(5.8584748789881331, smokeOdds, 1e-4);
+
+            Assert.AreEqual(-2.4577464307294092, regression.Intercept, 1e-8);
+            Assert.AreEqual(-2.4577464307294092, regression.Coefficients[0], 1e-8);
+            Assert.AreEqual(0.020645118265359252, regression.Coefficients[1], 1e-8);
+            Assert.AreEqual(1.7678893101571855, regression.Coefficients[2], 1e-8);
+        }
     }
 }

@@ -27,6 +27,8 @@ namespace Accord.Statistics.Models.Regression
     using AForge;
     using Accord.Math;
     using Accord.MachineLearning;
+    using Analysis;
+    using Fitting;
 
     /// <summary>
     ///   Binary Logistic Regression.
@@ -67,8 +69,26 @@ namespace Accord.Statistics.Models.Regression
     /// </remarks>
     /// 
     /// <example>
-    ///     <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\LogisticRegressionTest.cs" region="doc_log_reg_1" />
+    /// <para>
+    ///   The following example shows how to learn a logistic regression using the
+    ///   standard <see cref="IterativeReweightedLeastSquares"/> algorithm.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\LogisticRegressionTest.cs" region="doc_log_reg_1" />
+    /// 
+    /// <para>
+    ///   Please note that it is also possible to train logistic regression models
+    ///   using large-margin algorithms. With those algorithms, it is possible to
+    ///   train using different regularization options, such as L1 (with ProbabilisticCoordinateDescent)
+    ///   or L2 (with ProbabilisticDualCoordinateDescent). The following example 
+    ///   shows how to obtain L1-regularized regression from a probabilistic linear 
+    ///   Support Vector Machine:</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\Probabilistic\ProbabilisticCoordinateDescentTest.cs" region="doc_logreg"/>
     /// </example>
+    /// 
+    /// <see cref="MultinomialLogisticRegression"/>
+    /// <see cref="LogisticRegressionAnalysis"/>
+    /// <see cref="StepwiseLogisticRegressionAnalysis"/>
     /// 
     [Serializable]
     public class LogisticRegression : GeneralizedLinearRegression

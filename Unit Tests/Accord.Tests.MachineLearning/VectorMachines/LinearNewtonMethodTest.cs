@@ -29,6 +29,8 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Kernels;
     using NUnit.Framework;
     using System;
+    using Accord.Statistics.Models.Regression.Linear;
+    using Math.Optimization.Losses;
 
     [TestFixture]
     public class LinearNewtonMethodTest
@@ -73,6 +75,76 @@ namespace Accord.Tests.MachineLearning
             for (int i = 0; i < output.Length; i++)
                 Assert.AreEqual(System.Math.Sign(xor[i]), System.Math.Sign(output[i]));
         }
+
+        [Test]
+        public void linear_regression_test()
+        {
+            #region doc_linreg
+            // Declare some training data. This is exactly the same
+            // data used in the MultipleLinearRegression documentation page
+
+            // We will try to model a plane as an equation in the form
+            // "ax + by + c = z". We have two input variables (x and y)
+            // and we will be trying to find two parameters a and b and 
+            // an intercept term c.
+
+            // Create a linear-SVM learning method
+            var teacher = new LinearNewtonMethod()
+            {
+                Tolerance = 1e-10,
+                Complexity = 1e+10, // learn a hard-margin model
+            };
+
+            // Now suppose you have some points
+            double[][] inputs =
+            {
+                new double[] { 1, 1 },
+                new double[] { 0, 1 },
+                new double[] { 1, 0 },
+                new double[] { 0, 0 },
+            };
+
+            // located in the same Z (z = 1)
+            double[] outputs = { 1, 1, 1, 1 };
+
+            // Learn the support vector machine
+            var svm = teacher.Learn(inputs, outputs);
+
+            // Convert the svm to logistic regression
+            var regression = (MultipleLinearRegression)svm;
+
+            // As result, we will be given the following:
+            double a = regression.Weights[0]; // a = 0
+            double b = regression.Weights[1]; // b = 0
+            double c = regression.Intercept;  // c = 1
+
+            // This is the plane described by the equation
+            // ax + by + c = z => 0x + 0y + 1 = z => 1 = z.
+
+            // We can compute the predicted points using
+            double[] predicted = regression.Transform(inputs);
+
+            // And the squared error loss using 
+            double error = new SquareLoss(outputs).Loss(predicted);
+            #endregion
+
+            Assert.AreEqual(2, regression.NumberOfInputs);
+            Assert.AreEqual(1, regression.NumberOfOutputs);
+
+
+            Assert.AreEqual(0.0, a, 1e-6);
+            Assert.AreEqual(0.0, b, 1e-6);
+            Assert.AreEqual(1.0, c, 1e-6);
+            Assert.AreEqual(0.0, error, 1e-6);
+
+            double[] expected = regression.Compute(inputs);
+            double[] actual = regression.Transform(inputs);
+            Assert.IsTrue(expected.IsEqual(actual, 1e-10));
+
+            double r = regression.CoefficientOfDetermination(inputs, outputs);
+            Assert.AreEqual(1.0, r);
+        }
+
 
         [Test]
         public void ComputeTest5()

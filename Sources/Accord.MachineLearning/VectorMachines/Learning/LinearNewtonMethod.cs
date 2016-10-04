@@ -58,6 +58,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System.Threading;
     using Accord.Statistics.Kernels;
     using Accord.Math;
+    using Statistics.Models.Regression.Linear;
 
     /// <summary>
     ///   L2-regularized L2-loss linear support vector classification (primal).
@@ -78,6 +79,17 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   classification.
     /// </para>
     /// </remarks>
+    /// 
+    /// <examples>
+    /// <para>
+    ///   The following example shows how to obtain a <see cref="MultipleLinearRegression"/> 
+    ///   from a linear <see cref="SupportVectorMachine"/>. It contains exactly the same data 
+    ///   used in the <see cref="OrdinaryLeastSquares"/> documentation page for 
+    ///   <see cref="MultipleLinearRegression"/>.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\LinearNewtonMethodTest.cs" region="doc_linreg"/>
+    /// </examples>
+    /// 
     /// 
     /// <seealso cref="SequentialMinimalOptimization"/>
     /// <seealso cref="LinearDualCoordinateDescent"/>

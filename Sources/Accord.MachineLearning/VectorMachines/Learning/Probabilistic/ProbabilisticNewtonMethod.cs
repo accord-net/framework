@@ -60,6 +60,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System.Diagnostics;
     using Accord.Statistics.Kernels;
     using Accord.Math;
+    using Statistics.Models.Regression;
+    using Statistics.Models.Regression.Fitting;
 
     /// <summary>
     ///   L2-regularized L2-loss logistic regression (probabilistic 
@@ -79,6 +81,22 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   Liblinear's solver <c>-s 0</c>: <c>L2R_LR</c>. A trust region newton
     ///   algorithm for the primal of L2-regularized, L2-loss logistic regression.
     /// </para>
+    /// 
+    /// <examples>
+    /// <para>
+    ///   Probabilistic SVMs are exactly the same as logistic regression models 
+    ///   trained using a large-margin decision criteria. As such, any linear SVM 
+    ///   learning algorithm can be used to obtain <see cref="LogisticRegression"/>
+    ///   objects as well.</para>
+    ///   
+    /// <para>
+    ///   The following example shows how to obtain a <see cref="LogisticRegression"/> 
+    ///   from a probabilistic linear <see cref="SupportVectorMachine"/>. It contains
+    ///   exactly the same data used in the <see cref="IterativeReweightedLeastSquares"/>
+    ///   documentation page for <see cref="LogisticRegression"/>.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\Probabilistic\ProbabilisticNewtonMethodTest.cs" region="doc_logreg"/>
+    /// </examples>
     /// 
     /// <seealso cref="SequentialMinimalOptimization"/>
     /// <seealso cref="LinearDualCoordinateDescent"/>
@@ -134,6 +152,22 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   algorithm for the primal of L2-regularized, L2-loss logistic regression.
     /// </para>
     /// 
+    /// <examples>
+    /// <para>
+    ///   Probabilistic SVMs are exactly the same as logistic regression models 
+    ///   trained using a large-margin decision criteria. As such, any linear SVM 
+    ///   learning algorithm can be used to obtain <see cref="LogisticRegression"/>
+    ///   objects as well.</para>
+    ///   
+    /// <para>
+    ///   The following example shows how to obtain a <see cref="LogisticRegression"/> 
+    ///   from a probabilistic linear <see cref="SupportVectorMachine"/>. It contains
+    ///   exactly the same data used in the <see cref="IterativeReweightedLeastSquares"/>
+    ///   documentation page for <see cref="LogisticRegression"/>.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\Probabilistic\ProbabilisticNewtonMethodTest.cs" region="doc_logreg"/>
+    /// </examples>
+    /// 
     /// <seealso cref="SequentialMinimalOptimization"/>
     /// <seealso cref="LinearDualCoordinateDescent"/>
     /// 
@@ -155,6 +189,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <summary>
     ///   Base class for probabilistic Newton Method learning.
     /// </summary>
+    /// 
     public abstract class BaseProbabilisticNewtonMethod<TModel, TKernel> :
         BaseSupportVectorClassification<TModel, TKernel, double[]>
         where TKernel : ILinear<double[]>

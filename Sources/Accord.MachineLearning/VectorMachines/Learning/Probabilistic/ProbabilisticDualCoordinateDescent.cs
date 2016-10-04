@@ -59,6 +59,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Statistics.Links;
     using Accord.Statistics.Kernels;
     using Accord.Math;
+    using Statistics.Models.Regression;
+    using Statistics.Models.Regression.Fitting;
 
     /// <summary>
     ///   L2-regularized logistic regression (probabilistic support 
@@ -100,6 +102,22 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <para>
     /// See Algorithm 5 of Yu et al., MLJ 2010.</para>
     /// </remarks>
+    /// 
+    /// <examples>
+    /// <para>
+    ///   Probabilistic SVMs are exactly the same as logistic regression models 
+    ///   trained using a large-margin decision criteria. As such, any linear SVM 
+    ///   learning algorithm can be used to obtain <see cref="LogisticRegression"/>
+    ///   objects as well.</para>
+    ///   
+    /// <para>
+    ///   The following example shows how to obtain a <see cref="LogisticRegression"/> 
+    ///   from a probabilistic linear <see cref="SupportVectorMachine"/>. It contains
+    ///   exactly the same data used in the <see cref="IterativeReweightedLeastSquares"/>
+    ///   documentation page for <see cref="LogisticRegression"/>.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\Probabilistic\ProbabilisticDualCoordinateDescentTest.cs" region="doc_logreg"/>
+    /// </examples>
     /// 
     /// <see cref="SequentialMinimalOptimization"/>
     /// <see cref="ProbabilisticNewtonMethod"/>
