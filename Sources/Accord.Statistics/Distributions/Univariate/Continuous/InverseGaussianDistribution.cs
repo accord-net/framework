@@ -322,7 +322,7 @@ namespace Accord.Statistics.Distributions.Univariate
             }
             else
             {
-                mean = observations.WeightedMean(observations);
+                mean = observations.WeightedMean(weights);
 
                 double sum = 0;
                 for (int i = 0; i < observations.Length; i++)
