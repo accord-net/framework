@@ -23,15 +23,30 @@
 namespace Accord.Math.Random
 {
     using System;
+    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
 
     /// <summary>
-    ///   Framework-wide random number generator. If you would like
-    ///   to always generate the same results when using the framework,
-    ///   set the <see cref="Seed"/> property of this class to a fixed
-    ///   value.
+    ///   Framework-wide random number generator. If you would like to always generate 
+    ///   the same results when using the framework, set the <see cref="Seed"/> property 
+    ///   of this class to a fixed value.
     /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   By setting <see cref="Seed"/> to a given value, it is possible to adjust how
+    ///   random numbers are generated within the framework. Preferably, this property
+    ///   should be adjusted <b>before</b> other computations. </para>
+    ///   
+    /// <para>
+    ///   If the <see cref="Seed"/> is set to a value that is less than or equal to zero, all
+    ///   generators will start with the same fixed seed, <b>even among multiple threads</b>. 
+    ///   If set to any other value, the generators in other threads will start with fixed, but 
+    ///   different, seeds.</para>
+    /// </remarks>
+    /// 
+    /// <seealso cref="IRandomNumberGenerator"/>
     /// 
     public static class Generator
     {
@@ -60,7 +75,7 @@ namespace Accord.Math.Random
             lock (sourceLock)
             {
                 if (source == null)
-                    return new Random(0);
+                    return new Random(Generator.seed.GetValueOrDefault());
                 return new Random(source.Next());
             }
         }
@@ -73,11 +88,12 @@ namespace Accord.Math.Random
         public static Random Random { get { return random.Value; } }
 
         /// <summary>
-        ///   Sets a random seed for the framework's main <see cref="Random">internal 
-        ///   number generator</see>. Preferably, this method should be called <b>before</b>
-        ///   other computations. If set to zero, all generators will start with the same
-        ///   fixed seed, <b>even among multiple threads</b>. If set to any other value,
-        ///   the generators in other threads will start with fixed, but different, seeds.
+        ///   Sets a random seed for the framework's main <see cref="Random">internal number 
+        ///   generator</see>. Preferably, this method should be called <b>before</b> other 
+        ///   computations. If set to a value less than or equal to zero, all generators will 
+        ///   start with the same fixed seed, <b>even among multiple threads</b>. If set to any 
+        ///   other value, the generators in other threads will start with fixed, but different, 
+        ///   seeds.
         /// </summary>
         /// 
         public static int? Seed
@@ -93,17 +109,20 @@ namespace Accord.Math.Random
                     {
                         if (Generator.seed.HasValue)
                         {
-                            if (Generator.seed.Value == 0)
+                            if (Generator.seed.Value <= 0)
                             {
+                                Trace.WriteLine("All threads will be initialized with the same seed: " + value);
                                 Generator.source = null;
                             }
                             else
                             {
+                                Trace.WriteLine("All threads will be initialized with predictable, but random seeds.");
                                 Generator.source = new Random(Generator.seed.Value);
                             }
                         }
                         else
                         {
+                            Trace.WriteLine("All threads will be initialized with unpredictable random seeds.");
                             Generator.source = new Random();
                         }
                     }
