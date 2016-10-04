@@ -155,7 +155,7 @@ namespace Accord.Audio
         /// 
         public static double GetSpectralResolution(int samplingRate, int samples)
         {
-            return samplingRate / samples;
+            return samplingRate / (double)samples;
         }
 
         /// <summary>
