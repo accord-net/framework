@@ -113,7 +113,7 @@ namespace Accord.Audio
         public static void Convert(byte[][] from, Int16[][] to)
         {
             for (int i = 0; i < from.Length; i++)
-                for (int j = 0; j < from[0].Length; j++)
+                for (int j = 0; j < from[i].Length; j++)
                     to[i][j] = (Int16)((from[i][j] - 128) << 8);
         }
 
@@ -157,7 +157,7 @@ namespace Accord.Audio
         public static void Convert(byte[][] from, int[][] to)
         {
             for (int i = 0; i < from.Length; i++)
-                for (int j = 0; j < from[0].Length; j++)
+                for (int j = 0; j < from[i].Length; j++)
                     to[i][j] = ((from[i][j] - 128) << 24);
         }
 
@@ -201,7 +201,7 @@ namespace Accord.Audio
         public static void Convert(byte[][] from, float[][] to)
         {
             for (int i = 0; i < from.Length; i++)
-                for (int j = 0; j < from[0].Length; j++)
+                for (int j = 0; j < from[i].Length; j++)
                     to[i][j] = (from[i][j] - 128) * const_1_div_128_;
         }
 
@@ -250,7 +250,7 @@ namespace Accord.Audio
         public static void Convert(Int16[][] from, byte[][] to)
         {
             for (int j = 0; j < from.Length; j++)
-                for (int i = 0; i < from[0].Length; i++)
+                for (int i = 0; j < from[i].Length; i++)
                     to[i][j] = (byte)(((from[i][j]) >> 8) + 128);
         }
 
@@ -294,7 +294,7 @@ namespace Accord.Audio
         public static void Convert(Int16[][] from, Int32[][] to)
         {
             for (int i = 0; i < from.Length; i++)
-                for (int j = 0; j < from[0].Length; j++)
+                for (int j = 0; j < from[i].Length; j++)
                     to[i][j] = (byte)(((from[i][j]) >> 8) + 128);
         }
 
@@ -338,7 +338,7 @@ namespace Accord.Audio
         public static void Convert(Int16[][] from, float[][] to)
         {
             for (int i = 0; i < from.Length; i++)
-                for (int j = 0; j < from[0].Length; j++)
+                for (int j = 0; j < from[i].Length; j++)
                     to[i][j] = (float)(from[i][j] * const_1_div_32768_);
         }
 
@@ -382,7 +382,7 @@ namespace Accord.Audio
         public static void Convert(Int16[][] from, double[][] to)
         {
             for (int i = 0; i < from.Length; i++)
-                for (int j = 0; j < from[0].Length; j++)
+                for (int j = 0; j < from[i].Length; j++)
                     to[i][j] = (double)(from[i][j] * const_1_div_32768_);
         }
 
@@ -431,7 +431,7 @@ namespace Accord.Audio
         public static void Convert(Int32[][] from, byte[][] to)
         {
             for (int i = 0; i < from.Length; i++)
-                for (int j = 0; j < from[0].Length; j++)
+                for (int j = 0; j < from[i].Length; j++)
                     to[i][j] = (byte)(((from[i][j]) >> 24) + 128);
         }
 
@@ -475,7 +475,7 @@ namespace Accord.Audio
         public static void Convert(Int32[][] from, Int16[][] to)
         {
             for (int i = 0; i < from.Length; i++)
-                for (int j = 0; j < from[0].Length; j++)
+                for (int j = 0; j < from[i].Length; j++)
                     to[i][j] = (Int16)(from[i][j] >> 16);
         }
 
@@ -568,7 +568,7 @@ namespace Accord.Audio
         public static void Convert(float[][] from, byte[][] to)
         {
             for (int i = 0; i < from.Length; i++)
-                for (int j = 0; j < from[0].Length; j++)
+                for (int j = 0; j < from[i].Length; j++)
                     to[i][j] = (byte)(128 + ((byte)(to[i][j] * (127f))));
         }
 
@@ -608,7 +608,7 @@ namespace Accord.Audio
         public static void Convert(float[][] from, short[][] to)
         {
             for (int i = 0; i < from.Length; i++)
-                for (int j = 0; i < from[0].Length; j++)
+                for (int j = 0; j < from[i].Length; j++)
                     to[i][j] = (short)(from[i][j] * (32767f));
         }
 
@@ -648,7 +648,7 @@ namespace Accord.Audio
         public static void Convert(float[][] from, Int32[][] to)
         {
             for (int i = 0; i < from.Length; i++)
-                for (int j = 0; j < from[0].Length; j++)
+                for (int j = 0; j < from[i].Length; j++)
                     to[i][j] = (int)((double)from[i][j] * 0x7FFFFFFF);
         }
 
