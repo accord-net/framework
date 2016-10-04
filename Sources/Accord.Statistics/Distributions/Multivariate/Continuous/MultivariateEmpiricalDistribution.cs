@@ -643,6 +643,22 @@ using Accord.Math.Random;
         ///   Fits the underlying distribution to a given set of observations.
         /// </summary>
         /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public override void Fit(double[][] observations, int[] weights, IFittingOptions options)
+        {
+            Fit(observations, weights, options as MultivariateEmpiricalOptions);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
         /// <param name="observations">The array of observations to fit the model against.</param>
         /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
         /// <param name="options">Optional arguments which may be used during fitting, such
