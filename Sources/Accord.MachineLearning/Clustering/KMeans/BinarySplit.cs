@@ -95,7 +95,7 @@ namespace Accord.MachineLearning
 
             int cols = x[0].Length;
             for (int i = 0; i < x.Length; i++)
-                if (x[0].Length != cols)
+                if (x[i].Length != cols)
                     throw new DimensionMismatchException("data", "The points matrix should be rectangular. The vector at position {} has a different length than previous ones.");
             
 
