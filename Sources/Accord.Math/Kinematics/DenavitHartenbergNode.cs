@@ -127,12 +127,10 @@ namespace Accord.Math.Kinematics
             {
                 Model.Compute();
             }
-
             else
             {
                 Model.Compute(Parent.Model);
             }
-
 
             foreach (DenavitHartenbergNode child in Children)
             {
@@ -145,6 +143,7 @@ namespace Accord.Math.Kinematics
     ///   Collection of Denavit-Hartenberg model nodes.
     /// </summary>
     /// 
+    [Serializable]
     public class DenavitHartenbergNodeCollection : Collection<DenavitHartenbergNode>
     {
         /// <summary>
