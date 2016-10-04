@@ -324,19 +324,23 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets the name of the input variables.
+        ///   Gets or sets the name of the input variables.
         /// </summary>
         /// 
-        public String[] Inputs { get { return this.inputNames; }
+        public String[] Inputs
+        {
+            get { return this.inputNames; }
+            set { this.inputNames = value; }
         }
 
         /// <summary>
-        ///   Gets the name of the output variables.
+        ///   Gets or sets the name of the output variables.
         /// </summary>
         /// 
         public String Output
         {
             get { return this.outputName; }
+            set { this.outputName = value; }
         }
 
         /// <summary>

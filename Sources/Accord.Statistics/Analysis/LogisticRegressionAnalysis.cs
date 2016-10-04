@@ -432,21 +432,23 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets the name of the input variables for the model.
+        ///   Gets or sets the name of the input variables for the model.
         /// </summary>
         /// 
         public String[] Inputs
         {
             get { return inputNames; }
+            set { inputNames = value; }
         }
 
         /// <summary>
-        ///   Gets the name of the output variable for the model.
+        ///   Gets or sets the name of the output variable for the model.
         /// </summary>
         /// 
         public String Output
         {
             get { return outputName; }
+            set { outputName = value; }
         }
 
         /// <summary>

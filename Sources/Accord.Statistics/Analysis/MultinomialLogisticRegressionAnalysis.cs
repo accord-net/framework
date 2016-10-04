@@ -253,7 +253,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets the name of the input variables for the model.
+        ///   Gets or sets the name of the input variables for the model.
         /// </summary>
         /// 
         public String[] Inputs
@@ -263,7 +263,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets the name of the output variable for the model.
+        ///   Gets or sets the name of the output variable for the model.
         /// </summary>
         /// 
         public String[] OutputNames

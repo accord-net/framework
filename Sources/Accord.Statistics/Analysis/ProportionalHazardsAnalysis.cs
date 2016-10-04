@@ -429,30 +429,33 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets the name of the input variables for the model.
+        ///   Gets or sets the name of the input variables for the model.
         /// </summary>
         /// 
         public String[] InputNames
         {
             get { return inputNames; }
+            set { InputNames = value; }
         }
 
         /// <summary>
-        ///   Gets the name of the output variable for the model.
+        ///   Gets or sets the name of the output variable for the model.
         /// </summary>
         /// 
         public String TimeName
         {
             get { return timeName; }
+            set { TimeName = value; }
         }
 
         /// <summary>
-        ///   Gets the name of event occurrence variable in the model.
+        ///   Gets or sets the name of event occurrence variable in the model.
         /// </summary>
         /// 
         public String EventName
         {
             get { return censorName; }
+            set { censorName = value; }
         }
 
         /// <summary>
