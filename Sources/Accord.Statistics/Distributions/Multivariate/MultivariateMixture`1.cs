@@ -693,8 +693,7 @@ namespace Accord.Statistics.Distributions.Multivariate
 
                 if (fmt != null)
                     sb.AppendFormat(fmt.ToString(format, formatProvider));
-                else
-                    sb.AppendFormat(fmt.ToString());
+                else sb.AppendFormat(components[i].ToString());
 
                 if (i < coefficients.Length - 1)
                     sb.Append(" + ");
