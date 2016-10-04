@@ -29,6 +29,7 @@ namespace Accord.Statistics.Moving
     ///   Moving-window circular statistics.
     /// </summary>
     /// 
+    [Serializable]
     public class MovingCircularStatistics : IMovingStatistics
     {
 

@@ -30,6 +30,7 @@ namespace Accord.Statistics.Moving
     ///   Moving-window statistics.
     /// </summary>
     /// 
+    [Serializable]
     public class MovingNormalStatistics : IMovingStatistics, IEnumerable<double>
     {
         private Queue<double> values;

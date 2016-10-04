@@ -53,6 +53,7 @@ namespace Accord.Statistics.Running
     ///   </list></para>
     /// </remarks>
     /// 
+    [Serializable]
     public class RunningNormalStatistics : IRunningStatistics
     {
         private int count;

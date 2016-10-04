@@ -30,6 +30,7 @@
 
 namespace Accord.Statistics.Running
 {
+    using System;
     using Accord.Math;
     using AForge;
 
@@ -48,6 +49,7 @@ namespace Accord.Statistics.Running
     ///   </list></para>
     /// </remarks>
     /// 
+    [Serializable]
     public class KalmanFilter2D : IRunning<DoublePoint>
     {
 

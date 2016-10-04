@@ -35,7 +35,6 @@ namespace Accord.Statistics.Running
     /// <seealso cref="HiddenMarkovClassifier{TDistribution}"/>
     /// <seealso cref="RunningMarkovClassifier"/>
     /// 
-    [Obsolete("This class will be removed.")]
     [Serializable]
     public class RunningMarkovClassifier<TDistribution> : IRunning<double[]>
         where TDistribution : IDistribution
