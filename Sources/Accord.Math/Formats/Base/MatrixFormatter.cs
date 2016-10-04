@@ -289,7 +289,7 @@ namespace Accord.Math
         public static double[][] ParseJagged(string str, IMatrixFormatProvider provider)
         {
             // remove excess spaces
-            str = Regex.Replace(str, @" +", " ");
+            str = Regex.Replace(str.Replace('\t', ' '), @" +", " ");
 
             // First remove starting and trailing tokens
             str = str.Remove(0, provider.ParseMatrixStart.Length);

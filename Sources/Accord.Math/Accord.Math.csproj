@@ -73,7 +73,7 @@
     <DefineConstants>TRACE;CODE_ANALYSIS;MONO</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\mono\Accord.Math.XML</DocumentationFile>
-	<RunCodeAnalysis>False</RunCodeAnalysis>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
@@ -144,7 +144,13 @@
     <Compile Include="Decompositions\JaggedSingularValueDecompositionF.cs">
       <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
     </Compile>
+    <Compile Include="Decompositions\SingularValueDecomposition.cs">
+      <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
+    </Compile>
     <Compile Include="Decompositions\SingularValueDecompositionD.cs">
+      <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\SingularValueDecompositionF.cs">
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
     </Compile>
     <Compile Include="Matrix\Jagged.Product.Generated.cs">
@@ -158,6 +164,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Matrix\Matrix.Get.cs" />
+    <Compile Include="Matrix\Jagged.Parsing.cs" />
     <Compile Include="Norm.Generated.cs">
       <DependentUpon>Norm.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -325,12 +332,6 @@
     <Compile Include="Decompositions\GramSchmidtOrthogonalization.cs" />
     <Compile Include="Decompositions\JaggedLuDecomposition.cs">
       <DependentUpon>JaggedLuDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\SingularValueDecomposition.cs">
-      <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\SingularValueDecompositionF.cs">
-      <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
     </Compile>
     <Compile Include="Integration\RombergMethod.cs" />
     <Compile Include="Integration\TrapezoidalRule.cs" />

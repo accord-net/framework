@@ -28,7 +28,7 @@
 namespace Accord.Math.Decompositions
 {
     using System;
-	using Accord.Math;
+    using Accord.Math;
 
     /// <summary>
     ///   Singular Value Decomposition for a rectangular matrix.
@@ -52,7 +52,7 @@ namespace Accord.Math.Decompositions
     ///   of singular values may contain one or more zeros. The identity A = U * S * V'
     ///   may still hold, however. To overcome this problem, pass true to the
     ///   <see cref="JaggedSingularValueDecompositionD(Decimal[][], bool, bool, bool)">autoTranspose</see>
-	///   argument of the class constructor.</para>
+    ///   argument of the class constructor.</para>
     ///
     ///  <para>
     ///   This routine computes the economy decomposition of A.</para> 
@@ -772,9 +772,9 @@ namespace Accord.Math.Decompositions
                            if ((b != 0) || (c != 0))
                            {
                             if (b < 0)
-								shift = -Tools.Sqrt(b * b + c);
-							else
-								shift = Tools.Sqrt(b * b + c);
+                                shift = -Tools.Sqrt(b * b + c);
+                            else
+                                shift = Tools.Sqrt(b * b + c);
                               shift = c / (b + shift);
                            }
 

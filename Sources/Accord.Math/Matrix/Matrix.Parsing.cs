@@ -497,9 +497,10 @@ namespace Accord.Math
         /// <returns>A double-precision floating-point number matrix parsed
         /// from the given string using the given format provider.</returns>
         /// 
+        [Obsolete("Please use the Jagged.Parse() method instead.")]
         public static double[][] ParseJagged(string s, IMatrixFormatProvider provider)
         {
-            return MatrixFormatter.ParseJagged(s, provider);
+            return Jagged.Parse(s, provider);
         }
 
         /// <summary>
@@ -562,22 +563,7 @@ namespace Accord.Math
         /// 
         public static bool TryParse(string s, IMatrixFormatProvider provider, out double[][] matrix)
         {
-            // TODO: Create a proper TryParse method without
-            //       resorting to a underlying try-catch block.
-            try
-            {
-                matrix = ParseJagged(s, provider);
-            }
-            catch (FormatException)
-            {
-                matrix = null;
-            }
-            catch (ArgumentNullException)
-            {
-                matrix = null;
-            }
-
-            return matrix != null;
+            return Jagged.TryParse(s, provider, out matrix);
         }
         #endregion
 

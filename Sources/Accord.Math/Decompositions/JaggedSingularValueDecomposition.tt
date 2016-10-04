@@ -3,17 +3,17 @@
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 <#@ include file="T4Toolbox.tt" #>
 <#
-	new DecompositionTemplate("",  "Double") .RenderToFile("JaggedSingularValueDecomposition.cs");
-	new DecompositionTemplate("F", "Single") .RenderToFile("JaggedSingularValueDecompositionF.cs");
+    new DecompositionTemplate("",  "Double") .RenderToFile("JaggedSingularValueDecomposition.cs");
+    new DecompositionTemplate("F", "Single") .RenderToFile("JaggedSingularValueDecompositionF.cs");
     new DecompositionTemplate("D", "Decimal") .RenderToFile("JaggedSingularValueDecompositionD.cs");
 #>
 <#+
     public class DecompositionTemplate : Template
     {
         public string Suffix { get; set; }
-		public string T { get; set; }
+        public string T { get; set; }
 
-		public DecompositionTemplate(string suffix, string dataType) { this.Suffix = suffix; this.T = dataType; }
+        public DecompositionTemplate(string suffix, string dataType) { this.Suffix = suffix; this.T = dataType; }
 
         public override string TransformText() {
 #>
@@ -47,7 +47,7 @@
 namespace Accord.Math.Decompositions
 {
     using System;
-	using Accord.Math;
+    using Accord.Math;
 
     /// <summary>
     ///   Singular Value Decomposition for a rectangular matrix.
@@ -71,7 +71,7 @@ namespace Accord.Math.Decompositions
     ///   of singular values may contain one or more zeros. The identity A = U * S * V'
     ///   may still hold, however. To overcome this problem, pass true to the
     ///   <see cref="JaggedSingularValueDecomposition<#=Suffix#>(<#=T#>[][], bool, bool, bool)">autoTranspose</see>
-	///   argument of the class constructor.</para>
+    ///   argument of the class constructor.</para>
     ///
     ///  <para>
     ///   This routine computes the economy decomposition of A.</para> 
@@ -808,18 +808,18 @@ namespace Accord.Math.Decompositions
                            {
 #>
                             if (b < 0)
-								shift = -Tools.Sqrt(b * b + c);
-							else
-								shift = Tools.Sqrt(b * b + c);
+                                shift = -Tools.Sqrt(b * b + c);
+                            else
+                                shift = Tools.Sqrt(b * b + c);
 <#+
                            }
                            else
                            {
 #>
                             if (b < 0)
-								shift = -(<#=T#>)System.Math.Sqrt(b * b + c);
-							else
-								shift = (<#=T#>)System.Math.Sqrt(b * b + c);
+                                shift = -(<#=T#>)System.Math.Sqrt(b * b + c);
+                            else
+                                shift = (<#=T#>)System.Math.Sqrt(b * b + c);
 <#+
                            }
 #>
