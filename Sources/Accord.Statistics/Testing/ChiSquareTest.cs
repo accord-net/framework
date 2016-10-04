@@ -204,7 +204,7 @@ namespace Accord.Statistics.Testing
         ///   Constructs a Chi-Square Test.
         /// </summary>
         /// 
-        public ChiSquareTest(double[] observations, IUnivariateDistribution hypothesizedDistribution)
+        public ChiSquareTest(double[] observations, IUnivariateDistribution<double> hypothesizedDistribution)
         {
             int n = observations.Length;
             var E = new EmpiricalDistribution(observations);

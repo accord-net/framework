@@ -146,7 +146,7 @@ namespace Accord.Statistics.Testing
         ///   which should have been stated <i>before</i> any measurements.
         /// </summary>
         /// 
-        public IUnivariateDistribution TheoreticalDistribution { get; private set; }
+        public IDistribution<double> TheoreticalDistribution { get; private set; }
 
         /// <summary>
         ///   Gets the empirical distribution measured from the sample.
@@ -161,7 +161,7 @@ namespace Accord.Statistics.Testing
         /// <param name="sample">The sample we would like to test as belonging to the <paramref name="hypothesizedDistribution"/>.</param>
         /// <param name="hypothesizedDistribution">A fully specified distribution (which must NOT have been estimated from the data).</param>
         /// 
-        public KolmogorovSmirnovTest(double[] sample, IUnivariateDistribution hypothesizedDistribution)
+        public KolmogorovSmirnovTest(double[] sample, IDistribution<double> hypothesizedDistribution)
             : this(sample, hypothesizedDistribution, KolmogorovSmirnovTestHypothesis.SampleIsDifferent) { }
 
         /// <summary>
@@ -172,73 +172,141 @@ namespace Accord.Statistics.Testing
         /// <param name="hypothesizedDistribution">A fully specified distribution (which must NOT have been estimated from the data).</param>
         /// <param name="alternate">The alternative hypothesis (research hypothesis) to test.</param>
         /// 
-        public KolmogorovSmirnovTest(double[] sample, IUnivariateDistribution hypothesizedDistribution,
+        public KolmogorovSmirnovTest(double[] sample, IDistribution<double> hypothesizedDistribution,
             KolmogorovSmirnovTestHypothesis alternate = KolmogorovSmirnovTestHypothesis.SampleIsDifferent)
         {
             this.Hypothesis = alternate;
 
-            double N = sample.Length;
-
             // Create the test statistic distribution with given degrees of freedom
             StatisticDistribution = new KolmogorovSmirnovDistribution(sample.Length);
 
-
             // Create a copy of the samples to prevent altering the
             // constructor's original arguments in the sorting step 
-            double[] Y = (double[])sample.Clone();
-            double[] D = new double[sample.Length];
-
-            // Sort sample
-            Array.Sort(Y);
+            double[] sortedSamples = sample.Sorted();
 
             // Create the theoretical and empirical distributions
             this.TheoreticalDistribution = hypothesizedDistribution;
-            this.EmpiricalDistribution = new EmpiricalDistribution(Y, smoothing: 0);
-
-            Func<double, double> F = TheoreticalDistribution.DistributionFunction;
+            this.EmpiricalDistribution = new EmpiricalDistribution(sortedSamples, smoothing: 0);
 
             // Finally, compute the test statistic and perform actual testing.
-            if (alternate == KolmogorovSmirnovTestHypothesis.SampleIsDifferent)
+            base.Statistic = GetStatistic(sortedSamples, TheoreticalDistribution, alternate);
+            this.Tail = (DistributionTail)alternate;
+            base.PValue = StatisticToPValue(Statistic);
+        }
+
+        /// <summary>
+        ///   Gets the appropriate Kolmogorov-Sminorv D statistic for the samples and target distribution.
+        /// </summary>
+        /// 
+        /// <param name="sortedSamples">The sorted samples.</param>
+        /// <param name="distribution">The target distribution.</param>
+        /// <param name="alternate">The alternate hypothesis for the KS test. For <see cref="KolmogorovSmirnovTestHypothesis.SampleIsDifferent"/>, this
+        ///   is the two-sided Dn statistic; for <see cref="KolmogorovSmirnovTestHypothesis.SampleIsGreater"/> this is the one sided Dn+ statistic;
+        ///   and for <see cref="KolmogorovSmirnovTestHypothesis.SampleIsSmaller"/> this is the one sided Dn- statistic.</param>
+        /// 
+        public static double GetStatistic(double[] sortedSamples, IDistribution<double> distribution, KolmogorovSmirnovTestHypothesis alternate)
+        {
+            // Finally, compute the test statistic and perform actual testing.
+            switch (alternate)
             {
-                // Test if the sample's distribution is just significantly
-                //   "different" than the given theoretical distribution.
-
-                // This is a correction on the common formulation found in many places
-                //  such as in Wikipedia. Please see the Engineering Statistics Handbook,
-                //  section "1.3.5.16. Kolmogorov-Smirnov Goodness-of-Fit Test" for more
-                //  details: http://www.itl.nist.gov/div898/handbook/eda/section3/eda35g.htm
-
-                for (int i = 0; i < sample.Length; i++)
-                    D[i] = Math.Max(Math.Abs(F(Y[i]) - i / N), Math.Abs((i + 1) / N - F(Y[i])));
-
-                base.Statistic = D.Max(); // This is the two-sided "Dn" statistic.
-                base.PValue = StatisticDistribution.ComplementaryDistributionFunction(Statistic);
-                base.Tail = Testing.DistributionTail.TwoTail;
+                case KolmogorovSmirnovTestHypothesis.SampleIsDifferent:
+                    return TwoSide(sortedSamples, distribution);
+                case KolmogorovSmirnovTestHypothesis.SampleIsGreater:
+                    return OneSideUpper(sortedSamples, distribution);
+                case KolmogorovSmirnovTestHypothesis.SampleIsSmaller:
+                    return OneSideLower(sortedSamples, distribution);
             }
-            else if (alternate == KolmogorovSmirnovTestHypothesis.SampleIsGreater)
+
+            throw new ArgumentOutOfRangeException("alternate");
+        }
+
+        /// <summary>
+        ///   Gets the one-sided "Dn-" Kolmogorov-Sminorv statistic for the samples and target distribution.
+        /// </summary>
+        /// 
+        /// <param name="sortedSamples">The sorted samples.</param>
+        /// <param name="distribution">The target distribution.</param>
+        /// 
+        public static double OneSideLower(double[] sortedSamples, IDistribution<double> distribution)
+        {
+            double N = sortedSamples.Length;
+            double[] Y = sortedSamples;
+            Func<double, double> F = distribution.DistributionFunction;
+
+            // Test if the sample's distribution is "smaller" than the
+            // given theoretical distribution, in a statistical sense.
+
+            double max = Math.Max(F(Y[0]), F(Y[0]) - 1 / N);
+            for (int i = 1; i < Y.Length; i++)
             {
-                // Test if the sample's distribution is "larger" than the
-                // given theoretical distribution, in a statistical sense.
-
-                for (int i = 0; i < sample.Length; i++)
-                    D[i] = Math.Max(i / N - F(Y[i]), (i + 1) / N - F(Y[i]));
-
-                base.Statistic = D.Max(); // This is the one-sided "Dn+" statistic.
-                base.PValue = StatisticDistribution.OneSideDistributionFunction(Statistic);
-                base.Tail = Testing.DistributionTail.OneUpper;
+                double a = F(Y[i]) - i / N;
+                double b = F(Y[i]) - (i + 1) / N;
+                if (a > max) max = a;
+                if (b > max) max = b;
             }
-            else
+
+            return max; // This is the one-sided "Dn-" statistic.
+        }
+
+        /// <summary>
+        ///   Gets the one-sided "Dn+" Kolmogorov-Sminorv statistic for the samples and target distribution.
+        /// </summary>
+        /// 
+        /// <param name="sortedSamples">The sorted samples.</param>
+        /// <param name="distribution">The target distribution.</param>
+        /// 
+        public static double OneSideUpper(double[] sortedSamples, IDistribution<double> distribution)
+        {
+            double N = sortedSamples.Length;
+            double[] Y = sortedSamples;
+            Func<double, double> F = distribution.DistributionFunction;
+
+            // Test if the sample's distribution is "larger" than the
+            // given theoretical distribution, in a statistical sense.
+
+            double max = Math.Max(-F(Y[0]), 1 / N - F(Y[0]));
+            for (int i = 1; i < Y.Length; i++)
             {
-                // Test if the sample's distribution is "smaller" than the
-                // given theoretical distribution, in a statistical sense.
-
-                for (int i = 0; i < sample.Length; i++)
-                    D[i] = Math.Max(F(Y[i]) - i / N, F(Y[i]) - (i + 1) / N);
-
-                base.Statistic = D.Max(); // This is the one-sided "Dn-" statistic.
-                base.PValue = StatisticDistribution.OneSideDistributionFunction(Statistic);
-                base.Tail = Testing.DistributionTail.OneLower;
+                double a = i / N - F(Y[i]);
+                double b = (i + 1) / N - F(Y[i]);
+                if (a > max) max = a;
+                if (b > max) max = b;
             }
+
+            return max; // This is the one-sided "Dn+" statistic.
+        }
+
+        /// <summary>
+        ///   Gets the two-sided "Dn" Kolmogorov-Sminorv statistic for the samples and target distribution.
+        /// </summary>
+        /// 
+        /// <param name="sortedSamples">The sorted samples.</param>
+        /// <param name="distribution">The target distribution.</param>
+        /// 
+        public static double TwoSide(double[] sortedSamples, IDistribution<double> distribution)
+        {
+            double N = sortedSamples.Length;
+            double[] Y = sortedSamples;
+            Func<double, double> F = distribution.DistributionFunction;
+
+            // Test if the sample's distribution is just significantly
+            //   "different" than the given theoretical distribution.
+
+            // This is a correction on the common formulation found in many places
+            //  such as in Wikipedia. Please see the Engineering Statistics Handbook,
+            //  section "1.3.5.16. Kolmogorov-Smirnov Goodness-of-Fit Test" for more
+            //  details: http://www.itl.nist.gov/div898/handbook/eda/section3/eda35g.htm
+
+            double max = Math.Max(Math.Abs(F(sortedSamples[0])), Math.Abs(1 / N - F(sortedSamples[0])));
+            for (int i = 1; i < sortedSamples.Length; i++)
+            {
+                double a = Math.Abs(F(sortedSamples[i]) - i / N);
+                double b = Math.Abs((i + 1) / N - F(sortedSamples[i]));
+                if (a > max) max = a;
+                if (b > max) max = b;
+            }
+
+            return max; // This is the two-sided "Dn" statistic.
         }
 
         /// <summary>
@@ -264,7 +332,9 @@ namespace Accord.Statistics.Testing
         /// 
         public override double StatisticToPValue(double x)
         {
-            throw new NotSupportedException();
+            if (Tail == Testing.DistributionTail.TwoTail)
+                return StatisticDistribution.ComplementaryDistributionFunction(Statistic);
+            return StatisticDistribution.OneSideDistributionFunction(Statistic);
         }
     }
 }

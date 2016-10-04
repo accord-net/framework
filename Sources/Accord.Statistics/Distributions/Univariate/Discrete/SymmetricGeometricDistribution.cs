@@ -41,15 +41,13 @@ namespace Accord.Statistics.Distributions.Univariate
     /// <seealso cref="HypergeometricDistribution"/>
     /// 
     [Serializable]
-    public class SymmetricGeometricDistribution : UnivariateDiscreteDistribution,
-        IFittableDistribution<double, IFittingOptions>
+    public class SymmetricGeometricDistribution : UnivariateDiscreteDistribution
     {
 
         // Distribution parameters
         private double p;
 
         // Derived measures
-        private double constant;
         private double lnconstant;
 
 
@@ -77,7 +75,6 @@ namespace Accord.Statistics.Distributions.Univariate
 
             this.p = probabilityOfSuccess;
             this.lnconstant = Math.Log(p) - Math.Log(2 * (1 - p));
-            this.constant = p / (2 * (1 - p));
         }
 
 
@@ -158,7 +155,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityMassFunction(int k)
         {
-            return constant * Math.Pow(1 - p, Math.Abs(k));
+            return Math.Exp(lnconstant) * Math.Pow(1 - p, Math.Abs(k));
         }
 
         /// <summary>
@@ -256,7 +253,6 @@ namespace Accord.Statistics.Distributions.Univariate
             return String.Format(formatProvider, "SymmetricGeometric(x; p = {0})",
                 p.ToString(format, formatProvider));
         }
-
 
     }
 }

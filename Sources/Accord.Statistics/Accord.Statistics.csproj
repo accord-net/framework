@@ -175,8 +175,12 @@
     <Compile Include="Distributions\Multivariate\Independent.cs" />
     <Compile Include="Distributions\Multivariate\Independent`3.cs" />
     <Compile Include="Distributions\Multivariate\Independent`2.cs" />
+    <Compile Include="Distributions\Sampling\MetropolisHasting`3.cs" />
+    <Compile Include="Distributions\Sampling\MetropolisHasting`2.cs" />
+    <Compile Include="Distributions\Sampling\MetropolisHasting`1.cs" />
     <Compile Include="Distributions\Sampling\MetropolisHasting.cs" />
     <Compile Include="Distributions\Univariate\Accord.Statistics.Distributions.Univariate.cs" />
+    <Compile Include="Distributions\Univariate\Base\IUnivariateDistribution`2.cs" />
     <Compile Include="Distributions\Univariate\Base\IUnivariateDistribution.cs" />
     <Compile Include="Distributions\Fitting\CauchyOptions.cs" />
     <Compile Include="Distributions\Fitting\HypergeometricOptions.cs" />
@@ -499,6 +503,7 @@
     <Compile Include="Testing\Contingency\AverageKappaTest.cs" />
     <Compile Include="Testing\Contingency\FisherExactTest.cs" />
     <Compile Include="Testing\AndersonDarlingTest.cs" />
+    <Compile Include="Testing\LillieforsTest.cs" />
     <Compile Include="Testing\ShapiroWilkTest.cs" />
     <Compile Include="Testing\MultinomialTest.cs" />
     <Compile Include="Testing\Multiple Samples\BartlettTest.cs" />

@@ -55,7 +55,9 @@ namespace Accord.Statistics.Testing
         ///   Initializes a new instance of the class.
         /// </summary>
         /// 
-        protected HypothesisTest() { }
+        protected HypothesisTest()
+        {
+        }
 
         /// <summary>
         ///   Gets the distribution associated
@@ -122,6 +124,15 @@ namespace Accord.Statistics.Testing
         }
 
         /// <summary>
+        /// Gets the critical value for the current <see cref="Size">significance level</see>.
+        /// </summary>
+        /// 
+        public virtual double CriticalValue
+        {
+            get { return PValueToStatistic(alpha); }
+        }
+
+        /// <summary>
         ///   Converts a given test statistic to a p-value.
         /// </summary>
         /// 
@@ -145,7 +156,9 @@ namespace Accord.Statistics.Testing
         ///   Called whenever the test <see cref="Size">significance level</see> changes.
         /// </summary>
         /// 
-        protected virtual void OnSizeChanged() { }
+        protected virtual void OnSizeChanged()
+        {
+        }
 
 
         /// <summary>

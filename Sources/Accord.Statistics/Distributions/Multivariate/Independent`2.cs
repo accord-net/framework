@@ -27,7 +27,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions.Fitting;
     using System.Text;
     using Accord.Math.Random;
-using Accord.Statistics.Distributions.Univariate;
+    using Accord.Statistics.Distributions.Univariate;
 
     /// <summary>
     ///   Joint distribution assuming independence between vector components.
@@ -132,9 +132,9 @@ using Accord.Statistics.Distributions.Univariate;
     [Serializable]
     public class Independent<TDistribution, TObservation> : Independent<TDistribution>,
         IMultivariateDistribution<TObservation[]>,
-        IFittableDistribution<TObservation[], IndependentOptions>
-        where TDistribution : IFittableDistribution<TObservation>,
-                              IUnivariateDistribution<TObservation>,
+        IFittableDistribution<TObservation[], IndependentOptions>,
+        ISampleableDistribution<TObservation[]>
+        where TDistribution : IUnivariateDistribution<TObservation>,
                               IUnivariateDistribution
     {
 
@@ -333,19 +333,19 @@ using Accord.Statistics.Distributions.Univariate;
                 if (options.InnerOptions != null)
                 {
                     for (int i = 0; i < Components.Length; i++)
-                        Components[i].Fit(observations[i], weights, options.InnerOptions[i]);
+                        ((IFittableDistribution<TObservation>)Components[i]).Fit(observations[i], weights, options.InnerOptions[i]);
                 }
                 else
                 {
                     for (int i = 0; i < Components.Length; i++)
-                        Components[i].Fit(observations[i], weights, options.InnerOption);
+                        ((IFittableDistribution<TObservation>)Components[i]).Fit(observations[i], weights, options.InnerOption);
                 }
             }
             else
             {
                 observations = observations.Transpose();
                 for (int i = 0; i < Components.Length; i++)
-                    Components[i].Fit(observations[i], weights);
+                    ((IFittableDistribution<TObservation>)Components[i]).Fit(observations[i], weights);
             }
 
             Reset();
@@ -362,14 +362,47 @@ using Accord.Statistics.Distributions.Univariate;
         /// 
         public override object Clone()
         {
-            TDistribution[] clone = new TDistribution[Components.Length];
+            var clone = new TDistribution[Components.Length];
             for (int i = 0; i < clone.Length; i++)
                 clone[i] = (TDistribution)Components[i].Clone();
 
             return new Independent<TDistribution, TObservation>(clone);
         }
 
+        /// <summary>
+        /// Generates a random observation from the current distribution.
+        /// </summary>
+        /// <param name="result">The location where to store the sample.</param>
+        /// <returns>A random observation drawn from this distribution.</returns>
+        public TObservation[] Generate(TObservation[] result)
+        {
+            for (int i = 0; i < Components.Length; i++)
+                result[i] = ((ISampleableDistribution<TObservation>)Components[i]).Generate();
+            return result;
+        }
 
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        public TObservation[][] Generate(int samples, TObservation[][] result)
+        {
+            for (int i = 0; i < Components.Length; i++)
+                result.SetColumn(i, ((ISampleableDistribution<TObservation>)Components[i]).Generate(samples));
+            return result;
+        }
+
+        TObservation[][] IRandomNumberGenerator<TObservation[]>.Generate(int samples)
+        {
+            return Generate(samples, Jagged.Zeros<TObservation>(samples, Components.Length));
+        }
+
+        TObservation[] IRandomNumberGenerator<TObservation[]>.Generate()
+        {
+            return Generate(new TObservation[Components.Length]);
+        }
     }
 
 }

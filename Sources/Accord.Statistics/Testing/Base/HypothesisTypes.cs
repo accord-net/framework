@@ -141,7 +141,7 @@ namespace Accord.Statistics.Testing
     }
 
     /// <summary>
-    ///   Hypothesis for the one-sample Kolmogorov-Smirnov test.
+    ///   Hypothesis for the <see cref="KolmogorovSmirnovTest">one-sample Kolmogorov-Smirnov test</see>.
     /// </summary>
     /// 
     public enum KolmogorovSmirnovTestHypothesis
@@ -169,7 +169,7 @@ namespace Accord.Statistics.Testing
     }
 
     /// <summary>
-    ///   Test hypothesis for the two-sample Kolmogorov-Smirnov tests.
+    ///   Test hypothesis for the <see cref="TwoSampleKolmogorovSmirnovTest">two-sample Kolmogorov-Smirnov tests</see>.
     /// </summary>
     /// 
     public enum TwoSampleKolmogorovSmirnovTestHypothesis
@@ -196,4 +196,28 @@ namespace Accord.Statistics.Testing
         FirstSampleIsSmallerThanSecond = DistributionTail.OneLower,
     }
 
+    /// <summary>
+    ///   Hypothesis for the one-sample <see cref="GrubbTest">Grubb's test</see>.
+    /// </summary>
+    /// 
+    public enum GrubbTestHypothesis
+    {
+        /// <summary>
+        ///   Tests whether there is at least one outlier in the data.
+        /// </summary>
+        /// 
+        ThereAreOutliers,
+
+        /// <summary>
+        ///   Tests whether the maximum value in the data is actually an outlier.
+        /// </summary>
+        /// 
+        TheMaximumIsAnOutlier,
+
+        /// <summary>
+        ///   Tests whether the minimum value in the data is actually an outlier.
+        /// </summary>
+        /// 
+        TheMinimumIsAnOutlier,
+    }
 }

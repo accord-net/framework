@@ -146,6 +146,7 @@
     <Compile Include="Distributions\Univariate\Continuous\EmpiricalHazardDistributionTest.cs" />
     <Compile Include="Filters\GroupingFilterTest.cs" />
     <Compile Include="Testing\AndersonDarlingTestTest.cs" />
+    <Compile Include="Testing\LillieforsTestTest.cs" />
     <Compile Include="Testing\ShapiroWilkTestTest.cs" />
     <Compile Include="Testing\FTestTest.cs" />
     <Compile Include="Testing\LeveneTestTest.cs" />

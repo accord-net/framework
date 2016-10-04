@@ -179,7 +179,8 @@ namespace Accord.Statistics.Testing
         /// 
         public TwoSampleKolmogorovSmirnovTest(double[] sample1, double[] sample2)
             : this(sample1, sample2, TwoSampleKolmogorovSmirnovTestHypothesis.SamplesDistributionsAreUnequal)
-        { }
+        {
+        }
 
         /// <summary>
         ///   Creates a new Two-Sample Kolmogorov test.
@@ -212,8 +213,10 @@ namespace Accord.Statistics.Testing
             double[] D = new double[Y.Length];
 
             Y[0] = Double.NegativeInfinity;
-            for (int i = 0; i < sample1.Length; i++) Y[i + 1] = sample1[i];
-            for (int i = 0; i < sample2.Length; i++) Y[i + n1 + 1] = sample2[i];
+            for (int i = 0; i < sample1.Length; i++)
+                Y[i + 1] = sample1[i];
+            for (int i = 0; i < sample2.Length; i++)
+                Y[i + n1 + 1] = sample2[i];
 
             // Sort the samples
             Array.Sort(Y);
@@ -237,7 +240,6 @@ namespace Accord.Statistics.Testing
 
                 base.Statistic = D.Max(); // This is the two-sided "Dn" statistic.
                 base.PValue = StatisticDistribution.ComplementaryDistributionFunction(Statistic);
-                base.Tail = Testing.DistributionTail.TwoTail;
             }
             else if (alternate == TwoSampleKolmogorovSmirnovTestHypothesis.FirstSampleIsLargerThanSecond)
             {
@@ -249,7 +251,6 @@ namespace Accord.Statistics.Testing
 
                 base.Statistic = D.Max(); // This is the one-sided "Dn+" statistic.
                 base.PValue = StatisticDistribution.OneSideDistributionFunction(Statistic);
-                base.Tail = Testing.DistributionTail.OneUpper;
             }
             else
             {
@@ -261,8 +262,9 @@ namespace Accord.Statistics.Testing
 
                 base.Statistic = D.Max(); // This is the one-sided "Dn-" statistic.
                 base.PValue = StatisticDistribution.OneSideDistributionFunction(Statistic);
-                base.Tail = Testing.DistributionTail.OneLower;
             }
+
+            base.Tail = (DistributionTail)alternate;
         }
 
         /// <summary>

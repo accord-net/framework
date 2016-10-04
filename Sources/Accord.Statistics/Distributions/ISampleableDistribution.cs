@@ -32,7 +32,7 @@ namespace Accord.Statistics.Distributions
     /// 
     /// <typeparam name="TObservations">The type of the observations, such as <see cref="System.Double"/>.</typeparam>
     /// 
-    public interface ISampleableDistribution<TObservations> : IDistribution,
+    public interface ISampleableDistribution<TObservations> : IDistribution<TObservations>,
         IRandomNumberGenerator<TObservations>
     {
         /// <summary>

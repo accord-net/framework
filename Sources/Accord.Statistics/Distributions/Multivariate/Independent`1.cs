@@ -128,7 +128,9 @@ namespace Accord.Statistics.Distributions.Multivariate
     /// </example>
     /// 
     [Serializable]
-    public class Independent<TDistribution> : MultivariateContinuousDistribution
+    public class Independent<TDistribution> : MultivariateContinuousDistribution,
+        ISampleableDistribution<double[]>,
+        IFittableDistribution<double[], IndependentOptions>
         where TDistribution : IUnivariateDistribution
     {
         private TDistribution[] components;

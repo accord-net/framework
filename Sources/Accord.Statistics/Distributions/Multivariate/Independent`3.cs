@@ -130,10 +130,10 @@ namespace Accord.Statistics.Distributions.Multivariate
     /// </example>
     /// 
     [Serializable]
-    //[Obsolete]
     public class Independent<TDistribution, TObservation, TOptions> :
         Independent<TDistribution, TObservation>,
-        IFittableDistribution<TObservation[], IndependentOptions<TOptions>>
+        IFittableDistribution<TObservation[], IndependentOptions<TOptions>>,
+        ISampleableDistribution<TObservation[]>
         where TDistribution : IFittableDistribution<TObservation, TOptions>,
                               IUnivariateDistribution<TObservation>,
                               IUnivariateDistribution

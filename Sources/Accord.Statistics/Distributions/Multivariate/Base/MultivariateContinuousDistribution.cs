@@ -67,7 +67,6 @@ using Accord.Math.Random;
         IMultivariateDistribution<double[]>,
         IFittableDistribution<double[]>,
         ISampleableDistribution<double[]>,
-        ISampleableDistribution<int[]>,
         IFormattable
     {
 
@@ -495,14 +494,14 @@ using Accord.Math.Random;
             return LogProbabilityDensityFunction(x);
         }
 
-        int[][] IRandomNumberGenerator<int[]>.Generate(int samples)
-        {
-            return Generate(samples, Jagged.Create<int>(samples, dimension));
-        }
+        //int[][] IRandomNumberGenerator<int[]>.Generate(int samples)
+        //{
+        //    return Generate(samples, Jagged.Create<int>(samples, dimension));
+        //}
 
-        int[] IRandomNumberGenerator<int[]>.Generate()
-        {
-            return Generate(new int[dimension]);
-        }
+        //int[] IRandomNumberGenerator<int[]>.Generate()
+        //{
+        //    return Generate(new int[dimension]);
+        //}
     }
 }

@@ -236,7 +236,7 @@ namespace Accord.Statistics.Analysis
                 cs[i] = Double.NegativeInfinity;
                 ad[i] = Double.NegativeInfinity;
 
-                var d = this.Distributions[i] as IUnivariateDistribution;
+                var d = this.Distributions[i] as IUnivariateDistribution<double>;
 
                 if (d == null)
                     continue;
