@@ -208,7 +208,6 @@ namespace Accord.Math.Integration
 
             for (int j = 0; j < Iterations; j++)
             {
-
                 for (int i = 0; i < sample.Length; i++)
                     sample[i] = Random.NextDouble() * Range[i].Length + Range[i].Min;
 

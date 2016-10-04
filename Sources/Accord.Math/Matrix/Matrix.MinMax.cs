@@ -579,7 +579,7 @@ namespace Accord.Math
 
 
         /// <summary>
-        ///   Deprecated
+        ///   Deprecated. Please use GetRange() instead.
         /// </summary>
         /// 
         [Obsolete("Please use GetRange instead.")]
@@ -589,7 +589,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Deprecated
+        ///   Deprecated. Please use GetRange() instead.
         /// </summary>
         /// 
         [Obsolete("Please use GetRange instead.")]
@@ -599,7 +599,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Deprecated
+        ///   Deprecated. Please use GetRange() instead.
         /// </summary>
         /// 
         [Obsolete("Please use GetRange instead.")]
@@ -609,7 +609,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Deprecated
+        ///   Deprecated. Please use GetRange() instead.
         /// </summary>
         /// 
         [Obsolete("Please use GetRange instead.")]
@@ -619,7 +619,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Deprecated.
+        ///   Deprecated. Please use GetRange() instead.
         /// </summary>
         /// 
         [Obsolete("Please use GetRange instead.")]
