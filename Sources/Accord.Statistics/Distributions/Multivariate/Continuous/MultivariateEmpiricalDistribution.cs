@@ -650,12 +650,6 @@ using Accord.Math.Random;
         ///
         public void Fit(double[][] observations, double[] weights, MultivariateEmpiricalOptions options)
         {
-            if (weights != null)
-                throw new ArgumentException("This distribution does not support weighted samples.", "weights");
-
-            if (options != null)
-                throw new ArgumentException("This method does not accept fitting options.");
-
             double[,] smoothing = null;
             bool inPlace = false;
 
@@ -684,12 +678,6 @@ using Accord.Math.Random;
         ///
         public void Fit(double[][] observations, int[] weights, MultivariateEmpiricalOptions options)
         {
-            if (weights != null)
-                throw new ArgumentException("This distribution does not support weighted samples.", "weights");
-
-            if (options != null)
-                throw new ArgumentException("This method does not accept fitting options.");
-
             double[,] smoothing = null;
             bool inPlace = false;
 
