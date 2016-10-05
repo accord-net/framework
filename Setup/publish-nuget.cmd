@@ -2,7 +2,7 @@
 
 :: Build NuGet packages
 cd NuGet
-cmd /c Push.cmd
+cmd /c push-packages.cmd
 cd ..
 
 echo.

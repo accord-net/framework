@@ -64,7 +64,6 @@ namespace Accord.Statistics.Models.Markov
         IEnumerable<HiddenMarkovModel>,
         IHiddenMarkovClassifier
 #pragma warning restore 612, 618
-
     {
 
         /// <summary>

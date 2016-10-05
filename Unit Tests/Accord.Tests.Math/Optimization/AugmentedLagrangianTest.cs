@@ -30,7 +30,7 @@ namespace Accord.Tests.Math
 
 
     [TestFixture]
-    public class AugmentedLagrangianSolverTest
+    public class AugmentedLagrangianTest
     {
 
         [Test]
