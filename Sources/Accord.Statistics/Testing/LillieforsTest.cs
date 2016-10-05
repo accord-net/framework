@@ -159,7 +159,7 @@ namespace Accord.Statistics.Testing
 
             if (reestimate)
             {
-                Parallel.For(0, iterations, (Action<int>)(i =>
+                Parallel.For(0, iterations, i =>
                 {
                     double[] s = hypothesizedDistribution.Generate(samples: NumberOfSamples);
                     Vector.Sort<double>(s);
@@ -168,16 +168,16 @@ namespace Accord.Statistics.Testing
                     fittable.Fit(s);
 
                     samples[i] = KolmogorovSmirnovTest.GetStatistic((double[])s, (IDistribution<double>)fittable, alternate);
-                }));
+                });
             }
             else
             {
-                Parallel.For(0, iterations, (Action<int>)(i =>
+                Parallel.For(0, iterations, i =>
                 {
                     double[] s = hypothesizedDistribution.Generate(samples: NumberOfSamples);
                     Vector.Sort<double>(s);
                     samples[i] = KolmogorovSmirnovTest.GetStatistic((double[])s, (IDistribution<double>)hypothesizedDistribution, alternate);
-                }));
+                });
             }
             
 

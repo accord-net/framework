@@ -28,6 +28,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
     using Accord.Statistics.Testing;
+    using Accord;
 
     /// <summary>
     ///   Grubb's statistic distribution.
@@ -135,7 +136,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <remarks>The Inverse Cumulative Distribution Function (ICDF) specifies, for
         /// a given probability, the value which the random variable will be at,
         /// or below, with that probability.</remarks>
-        public override double InverseDistributionFunction([Range(0, 1)] double p)
+        public override double InverseDistributionFunction(double p)
         {
             // https://www.wolframalpha.com/input/?i=sqrt((N+*(+N-+2)*x%C2%B2)+%2F+((N-1)%C2%B2+-+N*x%C2%B2))+%3D+t+solve+for+x
             double N = NumberOfSamples;

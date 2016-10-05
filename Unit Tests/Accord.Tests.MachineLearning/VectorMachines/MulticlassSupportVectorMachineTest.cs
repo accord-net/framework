@@ -22,11 +22,6 @@
 
 namespace Accord.Tests.MachineLearning
 {
-#if NET35
-    extern alias core;
-    using Parallel = core::System.Threading.Tasks.Parallel;
-#endif
-
     using System.IO;
     using System.Threading.Tasks;
     using Accord.MachineLearning.VectorMachines;
@@ -336,7 +331,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-
+#if !NET35
         [Test]
         public void ComputeTest2()
         {
@@ -426,6 +421,7 @@ namespace Accord.Tests.MachineLearning
             for (int i = 0; i < evals.Length; i++)
                 Assert.AreEqual(msvm.SupportVectorUniqueCount, evals[i]);
         }
+#endif
 
         [Test]
         [Category("Serialization")]

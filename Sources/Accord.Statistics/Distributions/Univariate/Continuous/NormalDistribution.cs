@@ -500,9 +500,15 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Gets the Standard Gaussian Distribution, with zero mean and unit variance.
         /// </summary>
         /// 
-        public static NormalDistribution Standard { get { return standard; } }
+        public static NormalDistribution Standard
+        {
+            get { return standard; }
+        }
 
-        private static readonly NormalDistribution standard = new NormalDistribution() { immutable = true };
+        private static readonly NormalDistribution standard = new NormalDistribution()
+        {
+            immutable = true
+        };
 
         /// <summary>
         ///   Fits the underlying distribution to a given set of observations.

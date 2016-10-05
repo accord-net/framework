@@ -22,11 +22,6 @@
 
 namespace Accord.Tests.MachineLearning
 {
-#if NET35
-    extern alias core;
-    using ParallelOptions = core::System.Threading.Tasks.ParallelOptions;
-#endif
-
     using Accord;
     using Accord.IO;
     using Accord.MachineLearning;
