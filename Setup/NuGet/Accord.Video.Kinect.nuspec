@@ -22,16 +22,13 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\Release\net35\Accord.Video.Kinect.dll"     target="lib\net35\Accord.Video.Kinect.dll" />
-    <file src="..\..\Release\net35\Accord.Video.Kinect.xml"     target="lib\net35\Accord.Video.Kinect.xml" />
-
     <file src="..\..\Release\net40\Accord.Video.Kinect.dll"     target="lib\net40\Accord.Video.Kinect.dll" />
     <file src="..\..\Release\net40\Accord.Video.Kinect.xml"     target="lib\net40\Accord.Video.Kinect.xml" />
 
     <file src="..\..\Release\net45\Accord.Video.Kinect.dll"     target="lib\net45\Accord.Video.Kinect.dll" />
     <file src="..\..\Release\net45\Accord.Video.Kinect.xml"     target="lib\net45\Accord.Video.Kinect.xml" />
-	
-	<file src="..\..\Release\net46\Accord.Video.Kinect.dll"     target="lib\net46\Accord.Video.Kinect.dll" />
+    
+    <file src="..\..\Release\net46\Accord.Video.Kinect.dll"     target="lib\net46\Accord.Video.Kinect.dll" />
     <file src="..\..\Release\net46\Accord.Video.Kinect.xml"     target="lib\net46\Accord.Video.Kinect.xml" />
 
     <file src="..\..\Externals\libfreenect\freenect.dll"        target="build\x86\freenect.dll" />

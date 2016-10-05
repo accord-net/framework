@@ -144,7 +144,7 @@
     <Compile Include="Point3Test.cs" />
     <Compile Include="Functions\BetaTest.cs" />
     <Compile Include="Functions\GammaTest.cs" />
-    <Compile Include="Optimization\AugmentedLagrangianSolverTest.cs" />
+    <Compile Include="Optimization\AugmentedLagrangianTest.cs" />
     <Compile Include="Optimization\GoldfarbIdnaniTest.cs" />
     <Compile Include="Matrix\Matrix.Complex.cs" />
     <Compile Include="Matrix\Matrix.Submatrix.cs" />

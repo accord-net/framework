@@ -39,9 +39,9 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Release\net35</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
+    <DefineConstants>TRACE;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <DocumentationFile>$(SolutionDir)..\Release\net35\Accord.Controls.Vision.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Accord.Controls.Vision.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
