@@ -248,7 +248,7 @@ namespace Accord.Tests.MachineLearning
             MulticlassSupportVectorMachine<Linear, Sparse<double>> svm2;
 
             {
-                Accord.Math.Random.Generator.Seed = 0;
+                Accord.Math.Random.Generator.Seed = 1;
                 MemoryStream file = new MemoryStream(
                     Encoding.Default.GetBytes(Resources.iris_scale));
                 var reader = new SparseReader(file, Encoding.Default);
@@ -266,7 +266,7 @@ namespace Accord.Tests.MachineLearning
             }
 
             {
-                Accord.Math.Random.Generator.Seed = 0;
+                Accord.Math.Random.Generator.Seed = 1;
                 MemoryStream file = new MemoryStream(
                     Encoding.Default.GetBytes(Resources.iris_scale));
 
