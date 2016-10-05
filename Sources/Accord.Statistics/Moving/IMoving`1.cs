@@ -22,7 +22,8 @@
 
 namespace Accord.Statistics.Moving
 {
-    using Accord.Statistics.Running;
+    using System.Collections.Generic;
+    using Running;
 
     /// <summary>
     ///   Common interface for moving-window statistics.
@@ -35,9 +36,24 @@ namespace Accord.Statistics.Moving
     ///   of the full data set.
     /// </remarks>
     /// 
-    public interface IMovingStatistics : IRunningStatistics, IMoving<double>
+    public interface IMoving<in TValue> : IRunning<TValue>
     {
 
+        /// <summary>
+        ///   Gets the size of the window.
+        /// </summary>
+        /// 
+        /// <value>The window's size.</value>
+        /// 
+        int Window { get; }
+
+        /// <summary>
+        ///   Gets the number of samples within the window.
+        /// </summary>
+        /// 
+        /// <value>The number of samples within the window.</value>
+        /// 
+        int Count { get; }
+
     }
-  
 }

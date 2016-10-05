@@ -127,7 +127,7 @@ namespace Accord.Statistics.Moving
             SumOfSines += sin;
             SumOfCosines += cos;
 
-            int N = sines.Count;
+            double N = sines.Count;
             double rho = Math.Sqrt(SumOfSines * SumOfSines + SumOfCosines * SumOfCosines);
 
             Mean = Math.Atan2(SumOfSines / N, SumOfCosines / N);
