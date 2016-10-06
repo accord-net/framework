@@ -83,10 +83,13 @@ namespace Accord.Statistics.Moving
         ///   Gets the standard deviation of the angles within the window.
         /// </summary>
         /// 
-        public double StandardDeviation
-        {
-            get { return System.Math.Sqrt(Variance); }
-        }
+        public double StandardDeviation { get; private set; }
+
+        /// <summary>
+        /// Gets the current length of the sample mean resultant vector of the gathered values.
+        /// </summary>
+        /// 
+        public double Rho { get; private set; }
 
          /// <summary>
         ///   Initializes a new instance of the <see cref="MovingCircularStatistics"/> class.
@@ -128,10 +131,11 @@ namespace Accord.Statistics.Moving
             SumOfCosines += cos;
 
             double N = sines.Count;
-            double rho = Math.Sqrt(SumOfSines * SumOfSines + SumOfCosines * SumOfCosines);
 
+            Rho = Math.Sqrt(SumOfSines * SumOfSines + SumOfCosines * SumOfCosines);
             Mean = Math.Atan2(SumOfSines / N, SumOfCosines / N);
-            Variance = 1.0 - rho / N;
+            Variance = Math.Max(0, 1.0 - Rho / N);
+            StandardDeviation = Math.Sqrt(-2.0 * Math.Log(Rho / N));
         }
 
         /// <summary>
@@ -145,6 +149,8 @@ namespace Accord.Statistics.Moving
 
             Mean = 0;
             Variance = 0;
+            StandardDeviation = 0;
+            Rho = 0;
 
             SumOfSines = 0;
             SumOfCosines = 0;
