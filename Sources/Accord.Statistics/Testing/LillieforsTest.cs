@@ -56,11 +56,19 @@ namespace Accord.Statistics.Testing
     /// 
     /// <example>
     /// <para>
-    ///   The following example contains exactly the same data used for the <see cref="KolmogorovSmirnovTest"/>
-    ///   documentation page.
-    /// </para>
+    ///   In this first example, suppose we got a new sample, and we would 
+    ///   like to test whether this sample has been originated from a uniform
+    ///   continuous distribution. Unlike <see cref="KolmogorovSmirnovTest"/>,
+    ///   we can actually use this test whether the data fits a distribution
+    ///   that has been estimated from the data.</para>
     /// 
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Testing\LillieforsTestTest.cs" region="doc_example1"/>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Testing\LillieforsTestTest.cs" region="doc_uniform"/>
+    /// 
+    /// <para>
+    ///  We can also check whether a Normal distribution fitted on the data 
+    ///  is a good candidate model for the samples:</para>
+    ///  
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Testing\LillieforsTestTest.cs" region="doc_normal"/>
     /// </example>
     /// 
     /// <seealso cref="Accord.Statistics.Distributions.Univariate.KolmogorovSmirnovDistribution"/>

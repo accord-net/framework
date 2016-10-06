@@ -133,6 +133,7 @@
     <Compile Include="Models\Regression\LogarithmRegressionTest.cs" />
     <Compile Include="Models\Regression\NonlinearLeastSquaresTest.cs" />
     <Compile Include="Models\Regression\NonNegativeLeastSquaresTests.cs" />
+    <Compile Include="MovingCircularStatisticsTest.cs" />
     <Compile Include="RunningMarkovClassifierTest.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\MultivariateEmpiricalDistributionTest.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\InverseWishartDistributionTest.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Distributions\Univariate\Continuous\WrappedCauchyDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GompertzDistributionTest.cs" />
     <Compile Include="Models\Regression\ProbitRegressionTest.cs" />
+    <Compile Include="RunningCircularStatisticsTest.cs" />
     <Compile Include="StatisticsTest.cs" />
     <Compile Include="Testing\BartlettTestTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\EmpiricalHazardDistributionTest.cs" />

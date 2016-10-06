@@ -135,7 +135,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   hidden Markov models.
     /// </para>
     /// 
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_mixture"/>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_learn_mixture"/>
     /// 
     /// <para>
     ///   When using Normal distributions, it is often the case we might find problems

@@ -18,62 +18,32 @@
     <OutputPath>..\..\..\..\..\..\Docs\</OutputPath>
     <HtmlHelpName>Accord.NET</HtmlHelpName>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\Namespaces\bin\Release\Namespaces.dll" />
-      <DocumentationSource sourceFile="..\Namespaces\bin\Release\Namespaces.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Audio.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Audio.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Audition.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Audition.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Controls.Audio.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Controls.Audio.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Controls.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Controls.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Controls.Imaging.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Controls.Imaging.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Controls.Vision.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Controls.Vision.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Fuzzy.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Fuzzy.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Genetic.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Genetic.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Imaging.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Imaging.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.IO.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.IO.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.MachineLearning.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.MachineLearning.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Neuro.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Neuro.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Statistics.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Statistics.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Video.DirectShow.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Video.DirectShow.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Video.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Video.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Video.Kinect.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Video.Kinect.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Video.VFW.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Video.VFW.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Video.Ximea.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Video.Ximea.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Vision.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Vision.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\ZedGraph.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\ZedGraph.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\GPL\Accord.MachineLearning.GPL.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\GPL\Accord.MachineLearning.GPL.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\GPL\Accord.Video.FFMPEG.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\GPL\Accord.Video.FFMPEG.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Noncommercial\Accord.Math.Noncommercial.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Noncommercial\Accord.Math.Noncommercial.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Audio.DirectSound.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Audio.DirectSound.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Math.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Accord.Math.xml" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Noncommercial\Accord.Imaging.Noncommercial.dll" />
-      <DocumentationSource sourceFile="..\..\..\Release\net46\Noncommercial\Accord.Imaging.Noncommercial.xml" />
+      <DocumentationSource sourceFile="..\..\Accord.Audio.DirectSound\Accord.Audio.DirectSound.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Audio\Accord.Audio.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Audition\Accord.Audition.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Controls.Audio\Accord.Controls.Audio.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Controls.Statistics\Accord.Controls.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Controls.Vision\Accord.Controls.Vision.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Core\Accord.Core.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Fuzzy\Accord.Fuzzy.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Genetic\Accord.Genetic.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Imaging\Accord.Imaging.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.IO\Accord.IO.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.MachineLearning\Accord.MachineLearning.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Math\Accord.Math.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Neuro\Accord.Neuro.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Statistics\Accord.Statistics.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Video.DirectShow\Accord.Video.DirectShow.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Video.Kinect\Accord.Video.Kinect.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Video.VFW\Accord.Video.VFW.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Video.Ximea\Accord.Video.Ximea.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Video\Accord.Video.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Vision\Accord.Vision.csproj" />
+      <DocumentationSource sourceFile="..\..\Extras\Accord.Imaging.NonCommercial\Accord.Imaging (Noncommercial).csproj" />
+      <DocumentationSource sourceFile="..\..\Extras\Accord.MachineLearning.GPL\Accord.MachineLearning (GPL).csproj" />
+      <DocumentationSource sourceFile="..\..\Extras\Accord.Math.NonCommercial\Accord.Math (Noncommercial).csproj" />
+      <DocumentationSource sourceFile="..\..\Extras\Accord.Video.FFMPEG.GPL\Video.FFMPEG.vcxproj" platform="Win32" />
     </DocumentationSources>
     <CopyrightText>Accord.NET Framework &amp;#169%3b 2009-2016. All documentation is licensed under the Creative Commons Attribution/Share-Alike License.</CopyrightText>
     <FeedbackEMailAddress>feedback%40accord-framework.net</FeedbackEMailAddress>
@@ -286,7 +256,7 @@
     <SyntaxFilters>C#, Visual Basic</SyntaxFilters>
     <NamingMethod>MemberName</NamingMethod>
     <HelpFileVersion>3.4.0.0</HelpFileVersion>
-    <FrameworkVersion>.NET Framework 4.6</FrameworkVersion>
+    <FrameworkVersion>.NET Framework 4.6.1</FrameworkVersion>
     <VisibleItems>Attributes, InheritedMembers, InheritedFrameworkMembers, Protected</VisibleItems>
     <PlugInNamespaces>ms.vsipcc+, ms.vsexpresscc+</PlugInNamespaces>
     <CollectionTocStyle>Flat</CollectionTocStyle>
@@ -309,6 +279,11 @@
       <Argument Key="logoAltText" Value="Accord.NET (logo)" />
       <Argument Key="logoPlacement" Value="left" />
       <Argument Key="logoAlignment" Value="left" />
+      <Argument Key="maxVersionParts" Value="" />
+      <Argument Key="defaultLanguage" Value="cs" />
+      <Argument Key="includeEnumValues" Value="true" />
+      <Argument Key="baseSourceCodeUrl" Value="https://github.com/accord-net/framework/tree/master/Sources/" />
+      <Argument Key="requestExampleUrl" Value="https://github.com/accord-net/framework/issues/new" />
     </TransformComponentArguments>
     <MaximumGroupParts>2</MaximumGroupParts>
     <NamespaceGrouping>False</NamespaceGrouping>
@@ -316,10 +291,19 @@
     <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
     <CppCommentsFixup>False</CppCommentsFixup>
     <WebsiteSdkLinkType>None</WebsiteSdkLinkType>
-    <HtmlSdkLinkType>Msdn</HtmlSdkLinkType>
+    <HtmlSdkLinkType>None</HtmlSdkLinkType>
     <IncludeFavorites>False</IncludeFavorites>
     <BinaryTOC>True</BinaryTOC>
-    <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
+    <SaveComponentCacheCapacity>1000</SaveComponentCacheCapacity>
+    <TocParentId>-1</TocParentId>
+    <TocParentVersion>100</TocParentVersion>
+    <TopicVersion>100</TopicVersion>
+    <TocOrder>-1</TocOrder>
+    <MSHelpViewerSdkLinkType>None</MSHelpViewerSdkLinkType>
+    <CatalogVersion>100</CatalogVersion>
+    <CatalogProductId>VS</CatalogProductId>
+    <WarnOnMissingSourceContext>False</WarnOnMissingSourceContext>
+    <SourceCodeBasePath>..\..\</SourceCodeBasePath>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in
        order for Visual Studio to perform the build.  The others are optional
@@ -327,6 +311,9 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'NET46' ">
+    <OutputPath>..\..\..\..\..\..\Docs\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="diagrams\Modules\" />
@@ -837,11 +824,6 @@
     <ProjectReference Include="..\..\Accord.Math.Core\Accord.Math.Core.csproj">
       <Name>Accord.Math.Core</Name>
       <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Accord.Math\Accord.Math.csproj">
-      <Name>Accord.Math</Name>
-      <Project>{f718e9a8-db62-4785-8c49-4333a60d256a}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

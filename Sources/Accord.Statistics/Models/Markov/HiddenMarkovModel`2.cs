@@ -155,7 +155,7 @@ namespace Accord.Statistics.Models.Markov
     ///   Below, the model's parameters are initialized manually. However, it is possible to learn
     ///   those automatically using <see cref="BaumWelchLearning{TDistribution, TObservation}"/>.</para>
     /// 
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Model\Markov\HiddenMarkovModel`2Test" region="doc_decode" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_decode" />
     /// 
     /// <para>
     ///   Examples on how to learn hidden Markov models can be found on the documentation
@@ -163,7 +163,7 @@ namespace Accord.Statistics.Models.Markov
     ///   <see cref="ViterbiLearning{TDistribution, TObservation}"/>, <see cref="MaximumLikelihoodLearning{TDistribution, TObservation}"/>.
     ///   The simplest of such examples can be seen below:</para>
     /// 
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Model\Markov\HiddenMarkovModel`2Test" region="doc_learn" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_learn" />
     /// 
     /// </example>
     /// 

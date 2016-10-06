@@ -1065,7 +1065,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void LearnTest12()
         {
-            #region learn_mixture_regularization
+            #region doc_learn_mixture_regularization
             // Suppose we have a set of six sequences and we would like to
             // fit a hidden Markov model with mixtures of Normal distributions
             // as the emission densities. 

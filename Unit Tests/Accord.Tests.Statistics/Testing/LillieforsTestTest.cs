@@ -35,7 +35,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void KolmogorovSmirnovTestConstructorTest()
         {
-            #region doc_uniform
+            #region doc_uniform_ks
             // Test against a standard Uniform distribution
             // References: http://www.math.nsysu.edu.tw/~lomn/homepage/class/92/kstest/kolmogorov.pdf
 
@@ -85,7 +85,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void KolmogorovSmirnovTestConstructorTest2()
         {
-            #region doc_normal
+            #region doc_normal_ks
             // Test against a Normal distribution
 
             // Make this example reproducible
@@ -223,34 +223,33 @@ namespace Accord.Tests.Statistics
         public void KolmogorovSmirnovTestConstructorTest_with_reestimation()
         {
             #region doc_uniform
-            // Test against a standard Uniform distribution
-            // References: http://www.math.nsysu.edu.tw/~lomn/homepage/class/92/kstest/kolmogorov.pdf
+            // Test against a Uniform distribution fitted from the data
 
             // Make this example reproducible
             Accord.Math.Random.Generator.Seed = 1;
-
+             
             // Suppose we got a new sample, and we would like to test whether this
             // sample seems to have originated from a uniform continuous distribution.
             //
             double[] sample =
             {
-                0.621, 0.503, 0.203, 0.477, 0.710, 0.581, 0.329, 0.480, 0.554, 0.382
+                0.021, 0.003, 0.203, 0.177, 0.910, 0.881, 0.929, 0.180, 0.854, 0.982
             };
 
             // First, we create the distribution we would like to test against:
             //
-            var distribution = UniformContinuousDistribution.Standard;
+            var distribution = UniformContinuousDistribution.Estimate(sample);
 
             // Now we can define our hypothesis. The null hypothesis is that the sample
             // comes from a standard uniform distribution, while the alternate is that
             // the sample is not from a standard uniform distribution.
             //
-            var kstest = new LillieforsTest(sample, distribution, iterations: 10 * 1000 * 1000);
+            var lillie = new LillieforsTest(sample, distribution, iterations: 10 * 1000 * 1000);
 
-            double statistic = kstest.Statistic; // 0.29
-            double pvalue = kstest.PValue; // 0.3067
+            double statistic = lillie.Statistic; // 0.36925
+            double pvalue = lillie.PValue; // 0.09057
 
-            bool significant = kstest.Significant; // false
+            bool significant = lillie.Significant; // false
 
             // Since the null hypothesis could not be rejected, then the sample
             // can perhaps be from a uniform distribution. However, please note
@@ -258,15 +257,14 @@ namespace Accord.Tests.Statistics
             // only means that we could not rule out the possibility.
             #endregion
 
-            Assert.AreEqual(distribution, kstest.TheoreticalDistribution);
-            Assert.AreEqual(KolmogorovSmirnovTestHypothesis.SampleIsDifferent, kstest.Hypothesis);
-            Assert.AreEqual(DistributionTail.TwoTail, kstest.Tail);
+            Assert.AreEqual(distribution, lillie.TheoreticalDistribution);
+            Assert.AreEqual(KolmogorovSmirnovTestHypothesis.SampleIsDifferent, lillie.Hypothesis);
+            Assert.AreEqual(DistributionTail.TwoTail, lillie.Tail);
 
-            Assert.AreEqual(0.29, statistic, 1e-16);
-            Assert.AreEqual(0.3067, pvalue, 5e-3);
-            Assert.IsFalse(Double.IsNaN(pvalue));
+            Assert.AreEqual(0.36925434116445355, statistic, 1e-16);
+            Assert.AreEqual(0.090571500000000027, pvalue, 5e-3);
 
-            Assert.IsFalse(kstest.Significant);
+            Assert.IsFalse(lillie.Significant);
         }
 
         [Test]
@@ -279,11 +277,11 @@ namespace Accord.Tests.Statistics
             Accord.Math.Random.Generator.Seed = 1;
 
             // This time, let's see if the same sample from the previous example
-            // could have originated from a standard Normal (Gaussian) distribution.
+            // could have originated from a fitted Normal (Gaussian) distribution.
             //
-            double[] sample =
+            double[] sample = 
             {
-                0.621, 0.503, 0.203, 0.477, 0.710, 0.581, 0.329, 0.480, 0.554, 0.382
+                0.021, 0.003, 0.203, 0.177, 0.910, 0.881, 0.929, 0.180, 0.854, 0.982
             };
 
             // Before we could not rule out the possibility that the sample came from
@@ -291,31 +289,31 @@ namespace Accord.Tests.Statistics
             // uniform. This would be an indicative that it would be far from what
             // would be expected from a Normal distribution:
 
-            NormalDistribution distribution = NormalDistribution.Standard;
+            NormalDistribution distribution = NormalDistribution.Estimate(sample);
 
-            var kstest = new LillieforsTest(sample, distribution);
+            // Create the test
+            var lillie = new LillieforsTest(sample, distribution);
 
-            double statistic = kstest.Statistic; // 0.580432
-            double pvalue = kstest.PValue; // 0.000999
+            double statistic = lillie.Statistic; // 0.2882
+            double pvalue = lillie.PValue; // 0.0207
 
-            bool significant = kstest.Significant; // true
+            bool significant = lillie.Significant; // true
 
             // Since the test says that the null hypothesis should be rejected, then
             // this can be regarded as a strong indicative that the sample does not
             // comes from a Normal distribution, just as we expected.
             #endregion
 
-            Assert.AreEqual(distribution, kstest.TheoreticalDistribution);
-            Assert.AreEqual(KolmogorovSmirnovTestHypothesis.SampleIsDifferent, kstest.Hypothesis);
-            Assert.AreEqual(DistributionTail.TwoTail, kstest.Tail);
+            Assert.AreEqual(distribution, lillie.TheoreticalDistribution);
+            Assert.AreEqual(KolmogorovSmirnovTestHypothesis.SampleIsDifferent, lillie.Hypothesis);
+            Assert.AreEqual(DistributionTail.TwoTail, lillie.Tail);
 
-            Assert.AreEqual(0.580432, kstest.Statistic, 1e-5);
-            Assert.AreEqual(0.000999, kstest.PValue, 1e-3);
-            Assert.IsFalse(Double.IsNaN(kstest.Statistic));
+            Assert.AreEqual(0.28823410018244089, lillie.Statistic, 1e-5);
+            Assert.AreEqual(0.020700000000000052, lillie.PValue, 1e-3);
 
             // The null hypothesis can be rejected:
             // the sample is not from a standard Normal distribution
-            Assert.IsTrue(kstest.Significant);
+            Assert.IsTrue(lillie.Significant);
         }
 
         [Test]

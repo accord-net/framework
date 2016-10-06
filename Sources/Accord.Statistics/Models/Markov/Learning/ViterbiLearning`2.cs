@@ -47,7 +47,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// </remarks>
     /// 
     /// <example>
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\ViterbiLearning`2Test.cs" region="doc_learn" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\ViterbiLearning`1Test.cs" region="doc_learn" />
     /// </example>
     /// 
     /// <seealso cref="ViterbiLearning"/>

@@ -496,6 +496,7 @@
     <Compile Include="Moving\IMovingStatistics.cs" />
     <Compile Include="Moving\MovingCircularStatistics.cs" />
     <Compile Include="Running\Markov\RunningMarkovStatistics.cs" />
+    <Compile Include="Running\RunningCircularStatistics.cs" />
     <Compile Include="Running\RunningRangeStatistics.cs" />
     <Compile Include="Running\RunningNormalStatistics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
