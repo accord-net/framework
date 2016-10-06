@@ -42,11 +42,21 @@ namespace Accord.MachineLearning.DecisionTrees
 
 
     /// <summary>
-    ///   Random Forest
+    ///   Random Forest.
     /// </summary>
     /// 
+    /// <remarks>
+    /// <para>
+    ///   Represents a random forest of <see cref="DecisionTree"/>s. For 
+    ///   sample usage and example of learning, please see the documentation
+    ///   page for <see cref="RandomForestLearning"/>.</para>
+    /// </remarks>
+    /// 
+    /// <seealso cref="DecisionTree"/>
+    /// <seealso cref="RandomForestLearning"/>
+    /// 
     [Serializable]
-    public class RandomForest : MulticlassClassifierBase
+    public class RandomForest : MulticlassClassifierBase, IParallel
     {
         private DecisionTree[] trees;
 
@@ -69,6 +79,23 @@ namespace Accord.MachineLearning.DecisionTrees
         public int Classes { get { return NumberOfOutputs; } }
 
         /// <summary>
+        ///   Gets or sets the parallelization options for this algorithm.
+        /// </summary>
+        /// 
+        public ParallelOptions ParallelOptions { get; set; }
+
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used
+        /// to cancel the algorithm while it is running.
+        /// </summary>
+        /// 
+        public CancellationToken Token
+        {
+            get { return ParallelOptions.CancellationToken; }
+            set { ParallelOptions.CancellationToken = value; }
+        }
+
+        /// <summary>
         ///   Creates a new random forest.
         /// </summary>
         /// 
@@ -79,6 +106,7 @@ namespace Accord.MachineLearning.DecisionTrees
         {
             this.trees = new DecisionTree[trees];
             this.NumberOfOutputs = classes;
+            this.ParallelOptions = new ParallelOptions();
         }
 
         /// <summary>
@@ -106,7 +134,7 @@ namespace Accord.MachineLearning.DecisionTrees
         public override int Decide(double[] input)
         {
             int[] responses = new int[NumberOfOutputs];
-            Parallel.For(0, trees.Length, i =>
+            Parallel.For(0, trees.Length, ParallelOptions, i =>
             {
                 int j = trees[i].Decide(input);
                 Interlocked.Increment(ref responses[j]);

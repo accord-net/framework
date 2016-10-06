@@ -40,15 +40,30 @@ namespace Accord.MachineLearning.DecisionTrees
     using Accord.Statistics;
     using Accord.MachineLearning.DecisionTrees.Learning;
 
-
     /// <summary>
     ///   Random Forest learning algorithm.
     /// </summary>
     /// 
+    /// <example>
+    /// <para>
+    ///   This example shows the simplest way to induce a decision tree with continuous variables.</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\RandomForestTest.cs" region="doc_iris" />
+    /// <para>
+    ///   The next example shows how to induce a decision tree with continuous variables using a 
+    ///   <see cref="Accord.Statistics.Filters.Codification">codebook</see> to manage how input 
+    ///   variables should be encoded.</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\RandomForestTest.cs" region="doc_nursery" />
+    /// </example>
+    /// 
+    /// <seealso cref="RandomForest"/>
+    /// <seealso cref="C45Learning"/>
+    /// 
     [Serializable]
-    public class RandomForestLearning
+    public class RandomForestLearning : ParallelLearningBase,
+        ISupervisedLearning<RandomForest, double[], int>
     {
         private RandomForest forest;
+        private IList<DecisionVariable> attributes;
 
         /// <summary>
         ///   Gets or sets the number of trees in the random forest.
@@ -75,6 +90,17 @@ namespace Accord.MachineLearning.DecisionTrees
         public int Join { get; set; }
 
         /// <summary>
+        ///   Gets or sets the collection of attributes to 
+        ///   be processed by the induced decision tree.
+        /// </summary>
+        /// 
+        public IList<DecisionVariable> Attributes
+        {
+            get { return attributes; }
+            set { attributes = value; }
+        }
+
+        /// <summary>
         ///   Gets the proportion of samples used to train each
         ///   of the trees in the decision forest. Default is 0.632.
         /// </summary>
@@ -96,6 +122,9 @@ namespace Accord.MachineLearning.DecisionTrees
         public RandomForestLearning()
         {
             this.SampleRatio = 0.632;
+            this.CoverageRatio = 1;
+            this.NumberOfTrees = 100;
+            this.Join = 100;
         }
 
         /// <summary>
@@ -103,34 +132,47 @@ namespace Accord.MachineLearning.DecisionTrees
         /// </summary>
         /// 
         public RandomForestLearning(RandomForest forest)
+            : this()
         {
-            this.SampleRatio = 0.632;
             this.NumberOfTrees = forest.Trees.Length;
             this.forest = forest;
         }
 
         /// <summary>
-        ///   Learns a new Random Forest with the given data.
+        ///   Creates a new decision forest learning algorithm.
         /// </summary>
         /// 
-        /// <param name="inputs">The input points.</param>
-        /// <param name="output">The class label for each point.</param>
+        /// <param name="attributes">The attributes to be processed by the induced tree.</param>
+        ///
+        public RandomForestLearning(DecisionVariable[] attributes)
+            : this()
+        {
+            this.attributes = attributes;
+        }
+
+        /// <summary>
+        ///   Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
         /// 
-        /// <returns>A <see cref="RandomForest"/> object that learned
-        ///   how to assign class labels to input points.</returns>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
         /// 
-        public RandomForest Learn(double[][] inputs, int[] output)
+        /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
+        /// 
+        public RandomForest Learn(double[][] x, int[] y, double[] weights = null)
         {
             if (forest == null)
             {
-                int classes = output.Max() + 1;
+                int classes = y.Max() + 1;
                 this.forest = new RandomForest(NumberOfTrees, classes);
-                var variables = DecisionVariable.FromData(inputs);
+                if (this.attributes == null)
+                    this.attributes = DecisionVariable.FromData(x);
                 for (int i = 0; i < forest.Trees.Length; i++)
-                    forest.Trees[i] = new DecisionTree(variables, classes);
+                    forest.Trees[i] = new DecisionTree(attributes, classes);
             }
 
-            run(inputs, output);
+            run(x, y);
             return this.forest;
         }
 
@@ -154,8 +196,7 @@ namespace Accord.MachineLearning.DecisionTrees
             int cols = inputs[0].Length;
             int classes = output.DistinctCount();
 
-            int colsPerTree;
-
+            int colsPerTree = 0;
             if (CoverageRatio == 0)
             {
                 colsPerTree = (int)(System.Math.Sqrt(cols));
@@ -166,10 +207,10 @@ namespace Accord.MachineLearning.DecisionTrees
             }
 
             var trees = forest.Trees;
-            int[] idx = Classes.Random(output, classes, trees.Length);
 
-            Parallel.For(0, trees.Length, i =>
+            Parallel.For(0, trees.Length, ParallelOptions, i =>
             {
+                int[] idx = Vector.Sample(SampleRatio, output.Length);
                 var x = inputs.Get(idx);
                 var y = output.Get(idx);
 

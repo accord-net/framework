@@ -32,21 +32,26 @@ namespace Accord.MachineLearning.DecisionTrees
     using System.Runtime.Serialization.Formatters.Binary;
     using Accord.MachineLearning.DecisionTrees.Rules;
     using Accord.Math;
+    using Learning;
 
     /// <summary>
-    ///   Decision tree.
+    ///   Decision tree (for both discrete and continuous classification problems).
     /// </summary>
     /// 
     /// <remarks>
     /// <para>
-    ///   Represent a decision tree which can be compiled to
-    ///   code at run-time. For sample usage and example of
-    ///   learning, please see the <see cref="Learning.ID3Learning">
-    ///   ID3 learning algorithm for decision trees</see>.</para>
+    ///   Represents a decision tree which can be compiled to code at run-time. For sample usage 
+    ///   and example of learning, please see the documentation pages for the <see cref="ID3Learning">
+    ///   ID3</see> and <see cref="C45Learning">C4.5 learning algorithms</see>.</para>
+    ///   
+    /// <para>
+    ///   It is also possible to create <see cref="RandomForest">random forests</see> using
+    ///   the <see cref="RandomForestLearning">random forest learning algorithm</see>.</para>
     /// </remarks>
     ///
-    /// <seealso cref="Learning.ID3Learning"/>
-    /// <seealso cref="Learning.C45Learning"/>
+    /// <seealso cref="ID3Learning"/>
+    /// <seealso cref="C45Learning"/>
+    /// <seealso cref="RandomForestLearning"/>
     ///
     [Serializable]
     [SerializationBinder(typeof(DecisionTree.DecisionTreeBinder))]

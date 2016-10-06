@@ -59,114 +59,27 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     /// </para>   
     /// </remarks>
     ///
-    /// <see cref="ID3Learning"/>
-    /// 
     /// <example>
-    /// <code>
-    /// // This example uses the Nursery Database available from the University of
-    /// // California Irvine repository of machine learning databases, available at
-    /// //
-    /// //   http://archive.ics.uci.edu/ml/machine-learning-databases/nursery/nursery.names
-    /// //
-    /// // The description paragraph is listed as follows.
-    /// //
-    /// //   Nursery Database was derived from a hierarchical decision model
-    /// //   originally developed to rank applications for nursery schools. It
-    /// //   was used during several years in 1980's when there was excessive
-    /// //   enrollment to these schools in Ljubljana, Slovenia, and the
-    /// //   rejected applications frequently needed an objective
-    /// //   explanation. The final decision depended on three subproblems:
-    /// //   occupation of parents and child's nursery, family structure and
-    /// //   financial standing, and social and health picture of the family.
-    /// //   The model was developed within expert system shell for decision
-    /// //   making DEX (M. Bohanec, V. Rajkovic: Expert system for decision
-    /// //   making. Sistemica 1(1), pp. 145-157, 1990.).
-    /// //
-    /// 
-    /// // Let's begin by loading the raw data. This string variable contains
-    /// // the contents of the nursery.data file as a single, continuous text.
-    /// //
-    /// string nurseryData = Resources.nursery;
-    /// 
-    /// // Those are the input columns available in the data
-    /// //
-    /// string[] inputColumns = 
-    /// {
-    ///     "parents", "has_nurs", "form", "children",
-    ///     "housing", "finance", "social", "health"
-    /// };
-    /// 
-    /// // And this is the output, the last column of the data.
-    /// //
-    /// string outputColumn = "output";
-    ///             
-    /// 
-    /// // Let's populate a data table with this information.
-    /// //
-    /// DataTable table = new DataTable("Nursery");
-    /// table.Columns.Add(inputColumns);
-    /// table.Columns.Add(outputColumn);
-    /// 
-    /// string[] lines = nurseryData.Split(
-    ///     new[] { Environment.NewLine }, StringSplitOptions.None);
-    /// 
-    /// foreach (var line in lines)
-    ///     table.Rows.Add(line.Split(','));
-    /// 
-    /// 
-    /// // Now, we have to convert the textual, categorical data found
-    /// // in the table to a more manageable discrete representation.
-    /// //
-    /// // For this, we will create a codebook to translate text to
-    /// // discrete integer symbols:
-    /// //
-    /// Codification codebook = new Codification(table);
-    /// 
-    /// // And then convert all data into symbols
-    /// //
-    /// DataTable symbols = codebook.Apply(table);
-    /// double[][] inputs = symbols.ToArray(inputColumns);
-    /// int[] outputs = symbols.ToArray&lt;int>(outputColumn);
-    /// 
-    /// // From now on, we can start creating the decision tree.
-    /// //
-    /// var attributes = DecisionVariable.FromCodebook(codebook, inputColumns);
-    /// DecisionTree tree = new DecisionTree(attributes, outputClasses: 5);
-    /// 
-    /// 
-    /// // Now, let's create the C4.5 algorithm
-    /// C45Learning c45 = new C45Learning(tree);
-    /// 
-    /// // and learn a decision tree. The value of
-    /// //   the error variable below should be 0.
-    /// //
-    /// double error = c45.Run(inputs, outputs);
-    /// 
-    /// 
-    /// // To compute a decision for one of the input points,
-    /// //   such as the 25-th example in the set, we can use
-    /// //
-    /// int y = tree.Compute(inputs[25]);
-    /// 
-    /// // Finally, we can also convert our tree to a native
-    /// // function, improving efficiency considerably, with
-    /// //
-    /// Func&lt;double[], int> func = tree.ToExpression().Compile();
-    /// 
-    /// // Again, to compute a new decision, we can just use
-    /// //
-    /// int z = func(inputs[25]);
-    /// </code>
+    /// <para>
+    ///   This example shows the simplest way to induce a decision tree with continuous variables.</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_simplest" />
     /// 
     /// <para>
-    ///   The next example shows how to induce a decision tree with continuous variables
-    ///   without using a <see cref="Accord.Statistics.Filters.Codification">codebook</see>
-    ///   for encoding input variables.</para>
+    ///   This is the same example as above, but the decision variables are specified manually.</para>
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_iris" />
+    /// 
+    /// <para>
+    ///   The next example shows how to induce a decision tree for a more complicated example, again
+    ///   using a <see cref="Accord.Statistics.Filters.Codification">codebook</see> to manage how input 
+    ///   variables should be encoded. It also shows how to obtain a compiled version of the decision
+    ///   tree for deciding the class labels for new samples with maximum performance.</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_nursery" />
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_nursery_native" />
     /// </example>
     /// 
     /// <seealso cref="DecisionTree"/>
     /// <seealso cref="ID3Learning"/>
+    /// <seealso cref="RandomForestLearning"/>
     ///
     [Serializable]
     public class C45Learning : ParallelLearningBase,

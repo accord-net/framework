@@ -163,7 +163,7 @@ namespace Accord.Tests.MachineLearning
             //   making DEX (M. Bohanec, V. Rajkovic: Expert system for decision
             //   making. Sistemica 1(1), pp. 145-157, 1990.).
             //
-
+ 
             // Let's begin by loading the raw data. This string variable contains
             // the contents of the nursery.data file as a single, continuous text.
             //
@@ -209,25 +209,26 @@ namespace Accord.Tests.MachineLearning
             double[][] inputs = symbols.ToArray(inputColumns);
             int[] outputs = symbols.ToArray<int>(outputColumn);
 
-            // From now on, we can start creating the decision tree.
-            //
-            var attributes = DecisionVariable.FromCodebook(codebook, inputColumns);
-            DecisionTree tree = new DecisionTree(attributes, classes: 5);
+            // We can either specify the decision attributes we want
+            // manually, or we can ask the codebook to do it for us:
+            DecisionVariable[] attributes = DecisionVariable.FromCodebook(codebook, inputColumns);
 
+            // Now, let's create the C4.5 algorithm:
+            C45Learning c45 = new C45Learning(attributes);
 
-            // Now, let's create the C4.5 algorithm
-            C45Learning c45 = new C45Learning(tree);
+            // and induce a decision tree from the data:
+            DecisionTree tree = c45.Learn(inputs, outputs);
 
-            // and learn a decision tree. The value of
-            //   the error variable below should be 0.
-            //
-            double error = c45.Run(inputs, outputs);
+            // To get the estimated class labels, we can use
+            int[] predicted = tree.Decide(inputs);
 
+            // And the classification error (of 0.0) can be computed as 
+            double error = new ZeroOneLoss(outputs).Loss(tree.Decide(inputs));
 
             // To compute a decision for one of the input points,
             //   such as the 25-th example in the set, we can use
             //
-            int y = tree.Compute(inputs[25]);
+            int y = tree.Decide(inputs[25]); // should be 1
             #endregion
 
             Assert.AreEqual(12960, lines.Length);
@@ -235,6 +236,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual("great_pret,very_crit,foster,more,critical,inconv,problematic,not_recom,not_recom", lines[lines.Length - 1]);
 
             Assert.AreEqual(0, error);
+            Assert.AreEqual(1, y);
 
             for (int i = 0; i < inputs.Length; i++)
             {
@@ -245,7 +247,7 @@ namespace Accord.Tests.MachineLearning
             }
 
 #if !NET35
-
+            #region doc_nursery_native
             // Finally, we can also convert our tree to a native
             // function, improving efficiency considerably, with
             //
@@ -254,7 +256,9 @@ namespace Accord.Tests.MachineLearning
             // Again, to compute a new decision, we can just use
             //
             int z = func(inputs[25]);
+            #endregion
 
+            Assert.AreEqual(z, y);
 
             for (int i = 0; i < inputs.Length; i++)
             {
@@ -535,12 +539,9 @@ namespace Accord.Tests.MachineLearning
 
             // To get the estimated class labels, we can use
             int[] predicted = tree.Decide(inputs);
-            
-            // And the classification error can be computed as 
-            double error = new ZeroOneLoss(outputs) // 0.0266
-            {
-                Mean = true
-            }.Loss(tree.Decide(inputs));
+
+            // And the classification error (of 0.0266) can be computed as 
+            double error = new ZeroOneLoss(outputs).Loss(tree.Decide(inputs));
 
             // Moreover, we may decide to convert our tree to a set of rules:
             DecisionSet rules = tree.ToRules();
@@ -636,30 +637,44 @@ Iris-virginica =: (petal length > 2.45) && (petal width > 1.75) && (sepal length
         [Test]
         public void new_method_create_tree()
         {
+            #region doc_simplest
+            // In this example, we will process the famous Fisher's Iris dataset in 
+            // which the task is to classify weather the features of an Iris flower 
+            // belongs to an Iris setosa, an Iris versicolor, or an Iris virginica:
+            //
+            //  - https://en.wikipedia.org/wiki/Iris_flower_data_set
+            //
+
+            // First, let's load the dataset into an array of text that we can process
             string[][] text = Resources.iris_data.Split(new[] { "\r\n" },
                 StringSplitOptions.RemoveEmptyEntries).Apply(x => x.Split(','));
 
+            // The first four columns contain the flower features
             double[][] inputs = text.GetColumns(0, 1, 2, 3).To<double[][]>();
 
+            // The last column contains the expected flower type
             string[] labels = text.GetColumn(4);
 
+            // Since the labels are represented as text, the first step is to convert
+            // those text labels into integer class labels, so we can process them
+            // more easily. For this, we will create a codebook to encode class labels:
+            //
             var codebook = new Codification("Output", labels);
+
+            // With the codebook, we can convert the labels:
             int[] outputs = codebook.Translate("Output", labels);
 
             // And we can use the C4.5 for learning:
-            var teacher = new C45Learning();
+            C45Learning teacher = new C45Learning();
 
-            // And finally induce the tree:
+            // Finally induce the tree from the data:
             var tree = teacher.Learn(inputs, outputs);
 
             // To get the estimated class labels, we can use
             int[] predicted = tree.Decide(inputs);
 
-            // And the classification error can be computed as 
-            double error = new ZeroOneLoss(outputs) // 0.0266
-            {
-                Mean = true
-            }.Loss(tree.Decide(inputs));
+            // And the classification error (of 0.0266) can be computed as 
+            double error = new ZeroOneLoss(outputs).Loss(tree.Decide(inputs));
 
             // Moreover, we may decide to convert our tree to a set of rules:
             DecisionSet rules = tree.ToRules();
@@ -677,6 +692,8 @@ Iris-virginica =: (2 > 2.45) && (3 <= 1.75) && (0 > 7.05)
 Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 > 5.95)
 Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 <= 5.95) && (1 <= 3.05)
 ";
+            #endregion
+
             expected = expected.Replace("\r\n", Environment.NewLine);
 
             Assert.AreEqual(0.026666666666666668, error, 1e-10);
