@@ -309,7 +309,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(DistributionTail.TwoTail, lillie.Tail);
 
             Assert.AreEqual(0.28823410018244089, lillie.Statistic, 1e-5);
-            Assert.AreEqual(0.020700000000000052, lillie.PValue, 1e-3);
+            Assert.IsTrue(lillie.PValue < 0.03);
 
             // The null hypothesis can be rejected:
             // the sample is not from a standard Normal distribution
