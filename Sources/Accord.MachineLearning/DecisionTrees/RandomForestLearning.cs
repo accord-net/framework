@@ -194,7 +194,6 @@ namespace Accord.MachineLearning.DecisionTrees
         {
             int rows = inputs.Length;
             int cols = inputs[0].Length;
-            int classes = output.DistinctCount();
 
             int colsPerTree = 0;
             if (CoverageRatio == 0)
