@@ -339,7 +339,7 @@ namespace Accord.Collections
         /// 
         public IEnumerator<NodeDistance<TNode>> GetEnumerator()
         {
-            for (int i = 0; i < positions.Length; i++)
+            for (int i = 0; i < count; i++)
                 yield return new NodeDistance<TNode>(positions[i], distances[i]);
 
             yield break;
