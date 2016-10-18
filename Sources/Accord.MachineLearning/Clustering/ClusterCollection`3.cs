@@ -422,7 +422,8 @@ namespace Accord.MachineLearning
         /// 
         public IEnumerator<TCluster> GetEnumerator()
         {
-            return (IEnumerator<TCluster>)clusters.GetEnumerator();
+            foreach (var cluster in clusters)
+                yield return cluster;
         }
 
         /// <summary>

@@ -115,38 +115,10 @@ namespace Accord.MachineLearning
     ///       http://home.dei.polimi.it/matteucc/Clustering/tutorial_html/kmeans.html </description></item>
     ///   </list></para>
     /// </remarks>
+    /// 
     /// <example>
     ///   How to perform clustering with K-Means.
-    ///   <code>
-    ///   // Declare some observations
-    ///   double[][] observations = 
-    ///   {
-    ///       new double[] { -5, -2, -1 },
-    ///       new double[] { -5, -5, -6 },
-    ///       new double[] {  2,  1,  1 },
-    ///       new double[] {  1,  1,  2 },
-    ///       new double[] {  1,  2,  2 },
-    ///       new double[] {  3,  1,  2 },
-    ///       new double[] { 11,  5,  4 },
-    ///       new double[] { 15,  5,  6 },
-    ///       new double[] { 10,  5,  6 },
-    ///   };
-    ///  
-    ///   // Create a new K-Means algorithm with 3 clusters 
-    ///   KMeans kmeans = new KMeans(3);
-    ///  
-    ///   // Compute the algorithm, retrieving an integer array
-    ///   //  containing the labels for each of the observations
-    ///   int[] labels = kmeans.Compute(observations);
-    ///  
-    ///   // As result, the first two observations should belong to the
-    ///   // same cluster (thus having the same label). The same should
-    ///   // happen to the next four observations and to the last three.
-    ///   
-    ///   // In order to classify new, unobserved instances, you can
-    ///   // use the kmeans.Clusters.Nearest method, as shown below:
-    ///   int c = kmeans.Clusters.Nearest(new double[] { 4, 1, 9) });
-    ///   </code>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KMeansTest.cs" region="doc_learn" />
     ///   
     /// <para>
     ///   The following example demonstrates how to use the Mean Shift algorithm
