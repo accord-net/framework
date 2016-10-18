@@ -334,7 +334,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(DistributionTail.OneUpper, target.Tail);
 
             Assert.AreEqual(0.238852, target.Statistic, 1e-5);
-            Assert.AreEqual(0.054032, target.PValue, 5e-4);
+            Assert.AreEqual(0.054032, target.PValue, 5e-3);
             Assert.IsFalse(Double.IsNaN(target.Statistic));
         }
 
