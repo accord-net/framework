@@ -126,7 +126,6 @@ namespace Accord.MachineLearning
     ///   <a href="">color clustering sample application</a>.</para>
     ///   
     /// <code>
-    ///
     ///  int k = 5; 
     ///  
     ///  // Load a test image (shown below)

@@ -248,15 +248,14 @@ namespace Accord.Statistics.Distributions.Multivariate
             this.chol = cd;
             this.svd = svd;
 
-            double lndet;
+            if (chol != null || svd != null)
+            {
+                // Transforming to log operations, we have:
+                double lndet = (cd != null) ? cd.LogDeterminant : svd.LogPseudoDeterminant;
 
-            // Transforming to log operations, we have:
-            if (cd != null)
-                lndet = cd.LogDeterminant;
-            else lndet = svd.LogPseudoDeterminant;
-
-            // So the log(constant) could be computed as:
-            lnconstant = -(Constants.Log2PI * k + lndet) * 0.5;
+                // So the log(constant) could be computed as:
+                lnconstant = -(Constants.Log2PI * k + lndet) * 0.5;
+            }
         }
 
         /// <summary>
@@ -519,18 +518,45 @@ namespace Accord.Statistics.Distributions.Multivariate
                 // Compute covariance matrix
                 if (options != null && options.Diagonal)
                     cov = Matrix.Diagonal(Measures.Variance(observations, means));
-                cov = Measures.Covariance(observations, means).ToMatrix();
+                else cov = Measures.Covariance(observations, means).ToMatrix();
             }
 
 
-            CholeskyDecomposition chol = null;
-            SingularValueDecomposition svd = null;
+            if (options != null && options.Shared)
+            {
+                options.Postprocessing = (components, pi) =>
+                {
+                    var gaussians = components.To<MultivariateNormalDistribution[]>();
+
+                    // Compute pooled variance
+                    double[,] pooledCov = Measures.PooledCovariance(gaussians.Apply(x => x.covariance), pi);
+
+                    // Decompose only once
+                    decompose(options, pooledCov, out chol, out svd);
+
+                    foreach (var gaussian in gaussians)
+                        gaussian.initialize(gaussian.mean, pooledCov, chol, svd);
+                };
+
+                initialize(mean, cov, null, null);
+            }
+            else
+            {
+                decompose(options, cov, out chol, out svd);
+
+                initialize(mean, cov, chol, svd);
+            }
+        }
+
+        private static void decompose(NormalOptions options, double[,] cov, out CholeskyDecomposition chol, out SingularValueDecomposition svd)
+        {
+            svd = null;
+            chol = null;
 
             if (options == null)
             {
-                // We don't have further options. Just attempt a standard
-                // fitting. If the matrix is not positive semi-definite, 
-                // throw an exception.
+                // We don't have options. Just attempt a standard fitting. If
+                // the matrix is not positive semi-definite, throw an exception.
 
                 chol = new CholeskyDecomposition(cov);
 
@@ -541,61 +567,54 @@ namespace Accord.Statistics.Distributions.Multivariate
                         + "(there is an example in the Multivariate Normal Distribution documentation).");
                 }
 
-                // Become the newly fitted distribution.
-                initialize(means, cov, chol, svd: null);
-
                 return;
             }
-
-            // We have options. In this case, we will either be using the SVD
-            // or we can add a regularization constant until the covariance
-            // matrix becomes positive semi-definite.
-
-            if (options.Robust)
+            else
             {
-                svd = new SingularValueDecomposition(cov, true, true, true);
+                // We have options. In this case, we will either be using the SVD
+                // or we can add a regularization constant until the covariance
+                // matrix becomes positive semi-definite.
 
-                // No need to apply a regularization constant in this case
-                // Become the newly fitted distribution.
-                initialize(means, cov, null, svd);
-
-                return;
-            }
-
-
-            chol = new CholeskyDecomposition(cov);
-
-            // Check if need to add a regularization constant
-            double regularization = options.Regularization;
-
-            if (regularization > 0)
-            {
-                int dimension = observations[0].Length;
-
-                while (!chol.IsPositiveDefinite)
+                if (options.Robust)
                 {
-                    for (int i = 0; i < dimension; i++)
-                    {
-                        for (int j = 0; j < dimension; j++)
-                            if (Double.IsNaN(cov[i, j]) || Double.IsInfinity(cov[i, j]))
-                                cov[i, j] = 0.0;
+                    // No need to apply a regularization constant in this case
+                    svd = new SingularValueDecomposition(cov, true, true, true);
+                }
+                else
+                {
+                    // Apply a regularization constant until covariance becomes positive
+                    chol = new CholeskyDecomposition(cov);
 
-                        cov[i, i] += regularization;
+                    // Check if need to add a regularization constant
+                    double regularization = options.Regularization;
+
+                    if (regularization > 0)
+                    {
+                        int dimension = cov.Rows();
+
+                        while (!chol.IsPositiveDefinite)
+                        {
+                            for (int i = 0; i < dimension; i++)
+                            {
+                                for (int j = 0; j < dimension; j++)
+                                    if (Double.IsNaN(cov[i, j]) || Double.IsInfinity(cov[i, j]))
+                                        cov[i, j] = 0.0;
+
+                                cov[i, i] += regularization;
+                            }
+
+                            chol = new CholeskyDecomposition(cov, false, true);
+                        }
                     }
 
-                    chol = new CholeskyDecomposition(cov, false, true);
+                    if (!chol.IsPositiveDefinite)
+                    {
+                        throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive "
+                            + "definite. Try specifying a regularization constant in the fitting options "
+                            + "(there is an example in the Multivariate Normal Distribution documentation).");
+                    }
                 }
             }
-
-            if (!chol.IsPositiveDefinite)
-            {
-                throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive "
-                    + "definite. Try specifying a regularization constant in the fitting options "
-                    + "(there is an example in the Multivariate Normal Distribution documentation).");
-            }
-
-            // Become the newly fitted distribution.
-            initialize(means, cov, chol, svd: null);
         }
 
         /// <summary>
@@ -753,8 +772,8 @@ namespace Accord.Statistics.Distributions.Multivariate
         {
             double[] mean = { mean1, mean2 };
 
-            double[,] covariance = 
-            { 
+            double[,] covariance =
+            {
                 { stdDev1 * stdDev1, stdDev1 * stdDev2 * rho },
                 { stdDev1 * stdDev2 * rho, stdDev2 * stdDev2 },
             };

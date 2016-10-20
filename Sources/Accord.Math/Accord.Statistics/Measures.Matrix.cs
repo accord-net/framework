@@ -1517,6 +1517,27 @@ namespace Accord.Statistics
             return cov;
         }
 
+        /// <summary>
+        ///   Calculates the weighted pooled covariance matrix from a set of covariance matrices.
+        /// </summary>
+        /// 
+        public static double[,] PooledCovariance(double[][,] covariances, double[] weights)
+        {
+            double[,] pooledCov = Matrix.CreateAs(covariances[0]);
+
+            double weightSum = weights.Sum();
+
+            for (int k = 0; k < covariances.Length; k++)
+            {
+                double w = weights[k];
+                if (weightSum != 0)
+                    w /= weightSum;
+
+                pooledCov.MultiplyAndAdd(w, covariances[k], result: pooledCov);
+            }
+
+            return pooledCov;
+        }
 
         /// <summary>
         ///   Calculates the correlation matrix for a matrix of samples.

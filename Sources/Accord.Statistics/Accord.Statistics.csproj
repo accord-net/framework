@@ -149,6 +149,7 @@
     <Compile Include="Distributions\Fitting\GeneralizedBetaOptions.cs" />
     <Compile Include="Distributions\Fitting\BetaOptions.cs" />
     <Compile Include="Distributions\Fitting\GammaOptions.cs" />
+    <Compile Include="Distributions\Fitting\IComponentOptions.cs" />
     <Compile Include="Distributions\Fitting\TriangularOptions.cs" />
     <Compile Include="Distributions\Fitting\LogExpectationMaximization.cs" />
     <Compile Include="Distributions\Fitting\MultivariateEmpiricalOptions.cs" />

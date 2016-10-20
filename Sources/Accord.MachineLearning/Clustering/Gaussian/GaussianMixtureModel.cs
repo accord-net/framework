@@ -43,16 +43,7 @@ namespace Accord.MachineLearning
     /// </remarks>
     /// 
     /// <example>
-    ///   <code>
-    ///   // Create a new Gaussian Mixture Model with 2 components
-    ///   GaussianMixtureModel gmm = new GaussianMixtureModel(2);
-    ///   
-    ///   // Compute the model (estimate)
-    ///   gmm.Compute(samples, 0.0001);
-    ///   
-    ///   // Get classification for a new sample
-    ///   int c = gmm.Gaussians.Nearest(sample);
-    ///   </code>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\GaussianMixtureModelTest.cs" region="doc_learn" />
     /// </example>
     /// 
     [Serializable]

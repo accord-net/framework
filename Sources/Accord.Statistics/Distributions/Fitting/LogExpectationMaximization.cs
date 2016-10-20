@@ -135,6 +135,9 @@ namespace Accord.Statistics.Distributions.Fitting
             // Prepare the iteration
             Convergence.NewValue = LogLikelihood(logPi, pdf, observations);
 
+            var componentOptions = InnerOptions as IComponentOptions;
+
+
             // Start
             do
             {
@@ -200,12 +203,12 @@ namespace Accord.Statistics.Distributions.Fitting
                         throw ex.InnerException;
                 }
 
-                double lnsumPi = Double.NegativeInfinity;
-                for (int i = 0; i < logPi.Length; i++)
-                    lnsumPi = Special.LogSum(lnsumPi, logPi[i]);
-
+                double lnsumPi = Special.LogSum(logPi);
                 for (int i = 0; i < logPi.Length; i++)
                     logPi[i] -= lnsumPi;
+
+                if (componentOptions != null && componentOptions.Postprocessing != null)
+                    componentOptions.Postprocessing(pdf, logPi.Exp());
 
                 // 4. Evaluate the log-likelihood and check for convergence
                 Convergence.NewValue = LogLikelihood(logPi, pdf, observations);

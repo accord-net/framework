@@ -23,6 +23,8 @@
 namespace Accord.Statistics.Distributions.Fitting
 {
     using System;
+    using Multivariate;
+    using Univariate;
 
     /// <summary>
     ///   Estimation options for <see cref="Accord.Statistics.Distributions.Univariate.NormalDistribution">
@@ -30,12 +32,11 @@ namespace Accord.Statistics.Distributions.Fitting
     /// </summary>
     /// 
     [Serializable]
-    public class NormalOptions : IFittingOptions
+    public class NormalOptions : IFittingOptions, IComponentOptions
     {
         /// <summary>
-        ///   Gets or sets the regularization step to
-        ///   avoid singular or non-positive definite
-        ///   covariance matrices. Default is 0.
+        ///   Gets or sets the regularization step to avoid singular or 
+        ///   non-positive definite covariance matrices. Default is 0.
         /// </summary>
         /// 
         /// <value>The regularization step.</value>
@@ -58,6 +59,22 @@ namespace Accord.Statistics.Distributions.Fitting
         /// </summary>
         /// 
         public bool Robust { get; set; }
+
+        /// <summary>
+        ///   Gets or sets whether the normal distributions should have only a single, shared 
+        ///   covariance matrix among all components in a mixture. Setting this property only 
+        ///   has effect if the distributions are part of a <see cref="Mixture{T}"/> or 
+        ///   <see cref="MultivariateMixture{T}"/>
+        /// </summary>
+        /// 
+        public bool Shared { get; set; }
+
+        /// <summary>
+        ///   Gets or sets a post processing step can be called after all component
+        ///   distributions have been fitted (or their .Fit() method has been called).
+        /// </summary>
+        /// 
+        public Action<IDistribution[], double[]> Postprocessing { get; set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="NormalOptions"/> class.

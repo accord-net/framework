@@ -153,6 +153,9 @@ namespace Accord.Statistics.Distributions.Fitting
             // Prepare the iteration
             Convergence.NewValue = LogLikelihood(pi, pdf, observations, weights, weightSum);
 
+            var componentOptions = InnerOptions as IComponentOptions;
+
+
             // Start
             do
             {
@@ -220,9 +223,11 @@ namespace Accord.Statistics.Distributions.Fitting
                 for (int i = 0; i < pi.Length; i++)
                     pi[i] /= sumPi;
 
+                if (componentOptions != null && componentOptions.Postprocessing != null)
+                    componentOptions.Postprocessing(pdf, pi);
+
                 // 4. Evaluate the log-likelihood and check for convergence
                 Convergence.NewValue = LogLikelihood(pi, pdf, observations, weights, weightSum);
-
 
             } while (!Convergence.HasConverged);
 

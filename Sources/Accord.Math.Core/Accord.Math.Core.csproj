@@ -49,7 +49,7 @@
     <OutputPath>$(SolutionDir)..\Release\net40</OutputPath>
     <DefineConstants>TRACE;NET40</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-	<RunCodeAnalysis>false</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <DocumentationFile>$(SolutionDir)..\Release\net40\Accord.Math.Core.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Accord.Math.Core.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
@@ -72,7 +72,7 @@
     <DefineConstants>TRACE;CODE_ANALYSIS;MONO</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\mono\Accord.Math.Core.XML</DocumentationFile>
-	<RunCodeAnalysis>False</RunCodeAnalysis>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
@@ -101,6 +101,9 @@
     </Compile>
     <Compile Include="Matrix.Multiply.Generated.cs">
       <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix.MultiplyAndAdd.Generated.cs">
+      <DependentUpon>Matrix.Elementwise3.tt</DependentUpon>
     </Compile>
     <Compile Include="Matrix.Subtract.Generated.cs">
       <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
@@ -148,6 +151,16 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Matrix.Elementwise3.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Matrix.Elementwise3.tt</DependentUpon>
+    </Content>
+    <None Include="Matrix.Elementwise3.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Elementwise3.txt</LastGenOutput>
+      <LastOutputs>.\Matrix.MultiplyAndAdd.Generated.cs</LastOutputs>
+    </None>
     <Content Include="Matrix.Elementwise2.txt">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

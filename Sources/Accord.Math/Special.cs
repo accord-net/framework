@@ -583,6 +583,21 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Computes x + y without losing precision using ln(x) and ln(y).
+        /// </summary>
+        /// 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double LogSum(double[] values)
+        {
+            double logsum = Double.NegativeInfinity;
+            for (int i = 0; i < values.Length; i++)
+                logsum = Special.LogSum(logsum, values[i]);
+            return logsum;
+        }
+
+        /// <summary>
         ///   Computes sum(x) without losing precision using ln(x_0) ... ln(x_n).
         /// </summary>
         /// 
