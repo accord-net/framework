@@ -1,4 +1,4 @@
-﻿// Accord Machine Learning Library
+// Accord Machine Learning Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -59,6 +59,8 @@ namespace Accord.MachineLearning.DecisionTrees
     public class RandomForest : MulticlassClassifierBase, IParallel
     {
         private DecisionTree[] trees;
+        [NonSerialized]
+        private ParallelOptions parallelOptions;
 
 
         /// <summary>
@@ -81,8 +83,8 @@ namespace Accord.MachineLearning.DecisionTrees
         /// <summary>
         ///   Gets or sets the parallelization options for this algorithm.
         /// </summary>
-        /// 
-        public ParallelOptions ParallelOptions { get; set; }
+        ///
+        public ParallelOptions ParallelOptions { get { return parallelOptions; } set { parallelOptions = value; } }
 
         /// <summary>
         /// Gets or sets a cancellation token that can be used
@@ -141,6 +143,12 @@ namespace Accord.MachineLearning.DecisionTrees
             });
 
             return responses.ArgMax();
+        }
+
+        [OnDeserializing()]
+        internal void OnDeserializingMethod(StreamingContext context)
+        {
+            this.ParallelOptions = new ParallelOptions();
         }
     }
 }
