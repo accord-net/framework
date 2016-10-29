@@ -107,6 +107,16 @@ namespace Accord.Statistics.Distributions.Multivariate
         }
 
         /// <summary>
+        /// Gets the support interval for this distribution.
+        /// </summary>
+        /// <value>A <see cref="IntRange" /> containing
+        /// the support interval for this distribution.</value>
+        public override IntRange[] Support
+        {
+            get { return new [] {  new IntRange(0, model.NumberOfSymbols) }; }
+        }
+
+        /// <summary>
         ///   Gets the probability mass function (pmf) for
         ///   this distribution evaluated at point <c>x</c>.
         /// </summary>

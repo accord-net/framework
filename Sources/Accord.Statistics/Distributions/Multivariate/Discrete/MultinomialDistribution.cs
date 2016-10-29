@@ -199,6 +199,22 @@ namespace Accord.Statistics.Distributions.Multivariate
         }
 
         /// <summary>
+        /// Gets the support interval for this distribution.
+        /// </summary>
+        /// <value>A <see cref="IntRange" /> containing
+        /// the support interval for this distribution.</value>
+        public override IntRange[] Support
+        {
+            get
+            {
+                var range = new IntRange[Dimension];
+                for (int i = 0; i < range.Length; i++)
+                    range[i] = new IntRange(0, N);
+                return range;
+            }
+        }
+
+        /// <summary>
         ///   Not supported.
         /// </summary>
         /// 

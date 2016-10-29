@@ -166,6 +166,24 @@ namespace Accord.Statistics.Distributions.Multivariate
         }
 
         /// <summary>
+        /// Gets the support interval for this distribution.
+        /// </summary>
+        /// 
+        /// <value>A <see cref="IntRange" /> containing
+        ///   the support interval for this distribution.</value>
+        /// 
+        public override IntRange[] Support
+        {
+            get
+            {
+                var range = new IntRange[Dimension];
+                for (int i = 0; i < range.Length; i++)
+                    range[i] = new IntRange(Minimum[i], Maximum[i]);
+                return range;
+            }
+        }
+
+        /// <summary>
         ///   Constructs a new joint discrete distribution.
         /// </summary>
         ///   
@@ -611,5 +629,19 @@ namespace Accord.Statistics.Distributions.Multivariate
         }
 
 
+        /// <summary>
+        ///   Estimates a new <see cref="JointDistribution"/> from a given set of observations.
+        /// </summary>
+        /// 
+        /// <example>
+        ///   Please see <see cref="JointDistribution"/>.
+        /// </example>
+        /// 
+        public static JointDistribution Estimate(int[][] values)
+        {
+            var joint = new JointDistribution(values.DistinctCount());
+            joint.Fit(values);
+            return joint;
+        }
     }
 }

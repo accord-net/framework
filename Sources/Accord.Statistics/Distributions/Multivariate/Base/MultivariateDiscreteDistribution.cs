@@ -150,6 +150,15 @@ namespace Accord.Statistics.Distributions.Multivariate
             get { return Mean; }
         }
 
+        /// <summary>
+        ///   Gets the support interval for this distribution.
+        /// </summary>
+        /// 
+        /// <value>A <see cref="IntRange"/> containing
+        ///  the support interval for this distribution.</value>
+        ///  
+        public abstract IntRange[] Support { get; }
+
         #region IDistribution explicit members
 
         double IDistribution.DistributionFunction(double[] x)
@@ -309,6 +318,82 @@ namespace Accord.Statistics.Distributions.Multivariate
         public virtual double ComplementaryDistributionFunction(int[] x)
         {
             return 1.0 - DistributionFunction(x);
+        }
+
+        /// <summary>
+        ///   Gets the marginal distribution of a given variable.
+        /// </summary>
+        /// 
+        /// <param name="index">The variable index.</param>
+        /// 
+        public double[] MarginalDistributionFunction(int index)
+        {
+            double[] num = new double[Support[index].Length];
+            double den = 0;
+
+            int[] symbols = Support.Apply(x => x.Length);
+            int[] probe = new int[Dimension];
+
+            foreach (int[] input in Combinatorics.Sequences(symbols, inPlace: true))
+            {
+                for (int i = 0; i < probe.Length; i++)
+                    probe[i] = input[i] + Support[i].Min;
+
+                double p = ProbabilityMassFunction(probe);
+
+                for (int k = 0; k < probe.Length; k++)
+                {
+                    if (k == index)
+                        continue;
+
+                    for (int j = 0; j < Support[k].Length; j++)
+                    {
+                        if (probe[k] == Support[k].Min + j)
+                            num[j] += p;
+                    }
+                }
+
+                den += p;
+            }
+
+            return num.Apply(v => v == 0 ? 0 : v / den);
+        }
+
+        /// <summary>
+        ///   Gets the marginal distribution of a given variable evaluated at a given value.
+        /// </summary>
+        /// 
+        /// <param name="index">The variable index.</param>
+        /// <param name="value">The variable value.</param>
+        /// 
+        public double MarginalDistributionFunction(int index, int value)
+        {
+            double num = 0;
+            double den = 0;
+
+            int[] symbols = Support.Apply(x => x.Length);
+            int[] probe = new int[Dimension];
+
+            foreach (int[] input in Combinatorics.Sequences(symbols, inPlace: true))
+            {
+                for (int i = 0; i < probe.Length; i++)
+                    probe[i] = input[i] + Support[i].Min;
+
+                double p = ProbabilityMassFunction(probe);
+
+                for (int k = 0; k < probe.Length; k++)
+                {
+                    if (k == index)
+                        continue;
+
+                    if (probe[k] == Support[k].Min + value)
+                        num += p;
+                }
+
+                den += p;
+            }
+
+            return num == 0 ? 0 : num / den;
         }
 
         /// <summary>

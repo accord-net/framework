@@ -103,7 +103,7 @@ namespace Accord.Tests.Statistics
             int[] symbols = { 3, 5 };
             JointDistribution target = new JointDistribution(symbols);
 
-            double[][] observations = 
+            double[][] observations =
             {
                 new double[] { 0, 0 },
                 new double[] { 1, 1 },
@@ -133,7 +133,7 @@ namespace Accord.Tests.Statistics
             int[] symbols = { 3, 5 };
             JointDistribution target = new JointDistribution(symbols);
 
-            double[][] observations = 
+            double[][] observations =
             {
                 new double[] { 0, 0 },
                 new double[] { 1, 1 },
@@ -292,7 +292,7 @@ namespace Accord.Tests.Statistics
             var target = new JointDistribution(new [] { 42 }, new[] { 0.1, 0.4, 0.5 });
             double expected = 42 * 0.1 + 43 * 0.4 + 44 * 0.5;
             double actual = target.Mean[0];
-             
+
             Assert.AreEqual(expected, actual);
         }
 
@@ -371,5 +371,45 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(l, dist.LogProbabilityMassFunction(new[] { 7 }));
         }
 
+        [Test]
+        public void MarginalTest()
+        {
+            // Example from https://en.wikipedia.org/wiki/Marginal_distribution
+
+            int[][] data =
+            {
+                new[] { 4, 2, 1, 1 },
+                new[] { 2, 4, 1, 1 },
+                new[] { 2, 2, 2, 2 },
+                new[] { 8, 0, 0, 0 },
+            };
+
+            double[][] frequencies = data.Divide(32);
+           
+            var joint = new JointDistribution(frequencies.ToMatrix());
+            double[] x = joint.MarginalDistributionFunction(0);
+            double[] y = joint.MarginalDistributionFunction(1);
+
+            double[][] expected =
+            {
+                new[] { 16 / 32.0, 8 / 32.0, 4 / 32.0, 4 / 32.0 },
+                new[] { 8 / 32.0, 8 / 32.0, 8 / 32.0, 8 / 32.0 }
+            };
+
+            Assert.IsTrue(x.IsEqual(expected[0]));
+            Assert.IsTrue(y.IsEqual(expected[1]));
+
+            for (int i = 0; i < 4; i++)
+            {
+                double a = joint.MarginalDistributionFunction(0, i);
+                Assert.AreEqual(a, expected[0][i]);
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                double a = joint.MarginalDistributionFunction(1, i);
+                Assert.AreEqual(a, expected[1][i]);
+            }
+        }
     }
 }
