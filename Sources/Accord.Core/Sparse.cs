@@ -69,6 +69,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static T[][] ToDense<T>(this Sparse<T>[] vectors)
+            where T : IEquatable<T>
         {
             int max = 0;
             for (int i = 0; i < vectors.Length; i++)
@@ -86,11 +87,12 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static T[][] ToDense<T>(this Sparse<T>[] vectors, int length)
+            where T : IEquatable<T>
         {
             T[][] dense = new T[vectors.Length][];
             for (int i = 0; i < dense.Length; i++)
                 dense[i] = vectors[i].ToDense(length);
-            return dense; 
+            return dense;
         }
 
         /// <summary>
@@ -98,11 +100,57 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static Sparse<T> FromDense<T>(T[] dense)
+            where T : IEquatable<T>
         {
             int[] idx = new int[dense.Length];
             for (int i = 0; i < idx.Length; i++)
                 idx[i] = i;
             return new Sparse<T>(idx, dense);
+        }
+
+        /// <summary>
+        ///   Creates sparse vectors from dense arrays.
+        /// </summary>
+        /// 
+        public static Sparse<T>[] FromDense<T>(T[][] dense)
+            where T : IEquatable<T>
+        {
+            var result = new Sparse<T>[dense.Length];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = FromDense(dense[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the maximum number of columns (dimensions) 
+        ///   that can be inferred from the given sparse vectors.
+        /// </summary>
+        /// 
+        public static int Columns(this Sparse<double>[] inputs)
+        {
+            int max = 0;
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                int c = inputs[i].Length;
+                if (c > max)
+                    max = c;
+            }
+
+            return max;
+        }
+
+
+        /// <summary>
+        ///   Adds the a sparse vector to a dense vector.
+        /// </summary>
+        /// 
+        public static void Add(this Sparse<double> a, double[] b, double[] result)
+        {
+            for (int j = 0; j < b.Length; j++)
+                result[j] = b[j];
+
+            for (int j = 0; j < a.Indices.Length; j++)
+                result[a.Indices[j]] += a.Values[j];
         }
     }
 }

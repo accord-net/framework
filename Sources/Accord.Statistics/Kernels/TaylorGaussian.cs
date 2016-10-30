@@ -43,8 +43,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public struct TaylorGaussian : ITransform, ILinear,
-        IReverseDistance, IDistance
+    public struct TaylorGaussian : ITransform, ILinear, IReverseDistance, IDistance
     {
         Gaussian gaussian;
         Linear linear;
@@ -252,9 +251,50 @@ namespace Accord.Statistics.Kernels
         /// <param name="result">An array to store the result.</param>
         /// <returns>The same vector passed as result.</returns>
         /// 
-        public double[] Add(double[] a, double[] b, double[] result)
+        public void Add(double[] a, double[] b, double[] result)
         {
-            return linear.Add(Transform(a), Transform(b), result);
+            linear.Add(Transform(a), Transform(b), result);
+        }
+
+        /// <summary>
+        ///   Gets the number of parameters in the input vectors.
+        /// </summary>
+        /// 
+        public int GetLength(double[][] inputs)
+        {
+            return coefficients.Length;
+        }
+
+        /// <summary>
+        ///   Creates an input vector from the given double values.
+        /// </summary>
+        /// 
+        public double[] CreateVector(double[] values)
+        {
+            return Vector.Create(values);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication of vector a and vector b, accumulating in result.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector to be multiplied.</param>
+        /// <param name="b">The vector to be multiplied.</param>
+        /// <param name="accumulate">An array to store the result.</param>
+        /// 
+        public void Product(double[] a, double[] b, double[] accumulate)
+        {
+            for (int i = 0; i < a.Length; i++)
+                accumulate[i] += a[i] * b[i];
+        }
+
+        /// <summary>
+        ///   Converts the input vectors to a double-precision representation.
+        /// </summary>
+        /// 
+        public double[][] ToDouble(double[][] input)
+        {
+            return input;
         }
     }
 }

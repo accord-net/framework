@@ -145,6 +145,75 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(1.0, r);
         }
 
+        [Test]
+        public void linear_regression_sparse_test()
+        {
+            #region doc_linreg_sparse
+            // Declare some training data. This is exactly the same
+            // data used in the MultipleLinearRegression documentation page
+
+            // We will try to model a plane as an equation in the form
+            // "ax + by + c = z". We have two input variables (x and y)
+            // and we will be trying to find two parameters a and b and 
+            // an intercept term c.
+
+            // Create a linear-SVM learning method
+            var teacher = new LinearNewtonMethod<Linear, Sparse<double>>()
+            {
+                Tolerance = 1e-10,
+                Complexity = 1e+10, // learn a hard-margin model
+            };
+
+            // Now suppose you have some points
+            Sparse<double>[] inputs = Sparse.FromDense(new[] 
+            {
+                new double[] { 1, 1 },
+                new double[] { 0, 1 },
+                new double[] { 1, 0 },
+                new double[] { 0, 0 },
+            });
+
+            // located in the same Z (z = 1)
+            double[] outputs = { 1, 1, 1, 1 };
+
+            // Learn the support vector machine
+            var svm = teacher.Learn(inputs, outputs);
+
+            // Convert the svm to logistic regression
+            var regression = (MultipleLinearRegression)svm;
+
+            // As result, we will be given the following:
+            double a = regression.Weights[0]; // a = 0
+            double b = regression.Weights[1]; // b = 0
+            double c = regression.Intercept;  // c = 1
+
+            // This is the plane described by the equation
+            // ax + by + c = z => 0x + 0y + 1 = z => 1 = z.
+
+            // We can compute the predicted points using
+            double[] predicted = regression.Transform(inputs.ToDense());
+
+            // And the squared error loss using 
+            double error = new SquareLoss(outputs).Loss(predicted);
+            #endregion
+
+            Assert.AreEqual(2, regression.NumberOfInputs);
+            Assert.AreEqual(1, regression.NumberOfOutputs);
+
+
+            Assert.AreEqual(0.0, a, 1e-6);
+            Assert.AreEqual(0.0, b, 1e-6);
+            Assert.AreEqual(1.0, c, 1e-6);
+            Assert.AreEqual(0.0, error, 1e-6);
+
+            double[] expected = regression.Compute(inputs.ToDense());
+            double[] actual = regression.Transform(inputs.ToDense());
+            Assert.IsTrue(expected.IsEqual(actual, 1e-10));
+
+            double r = regression.CoefficientOfDetermination(inputs.ToDense(), outputs);
+            Assert.AreEqual(1.0, r);
+        }
+
 
         [Test]
         public void ComputeTest5()
@@ -200,6 +269,76 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(49, matrix.TrueNegatives);
             }
 
+        }
+
+
+        [Test]
+        public void learn_linear_sparse()
+        {
+            #region doc_xor_sparse
+            // As an example, we will try to learn a linear machine  that can 
+            // replicate the "exclusive-or" logical function. However, since we
+            // will be using a linear SVM, we will not be able to solve this 
+            // problem perfectly as the XOR is a non-linear classification problem:
+            Sparse<double>[] inputs =
+            {
+                Sparse.FromDense(new double[] { 0, 0 }), // the XOR function takes two booleans
+                Sparse.FromDense(new double[] { 0, 1 }), // and computes their exclusive or: the
+                Sparse.FromDense(new double[] { 1, 0 }), // output is true only if the two booleans
+                Sparse.FromDense(new double[] { 1, 1 })  // are different
+            };
+
+            int[] xor = // this is the output of the xor function
+            {
+                0, // 0 xor 0 = 0 (inputs are equal)
+                1, // 0 xor 1 = 1 (inputs are different)
+                1, // 1 xor 0 = 1 (inputs are different)
+                0, // 1 xor 1 = 0 (inputs are equal)
+            };
+
+            // Now, we can create the sequential minimal optimization teacher
+            var learn = new LinearNewtonMethod<Linear, Sparse<double>>()
+            {
+                UseComplexityHeuristic = true,
+                UseKernelEstimation = false
+            };
+
+            // And then we can obtain a trained SVM by calling its Learn method
+            var svm = learn.Learn(inputs, xor);
+
+            // Finally, we can obtain the decisions predicted by the machine:
+            bool[] prediction = svm.Decide(inputs);
+            #endregion
+
+            Assert.AreEqual(prediction[0], false);
+            Assert.AreEqual(prediction[1], false);
+            Assert.AreEqual(prediction[2], false);
+            Assert.AreEqual(prediction[3], false);
+
+
+            int[] or = // this is the output of the xor function
+            {
+                0, // 0 or 0 = 0 (inputs are equal)
+                1, // 0 or 1 = 1 (inputs are different)
+                1, // 1 or 0 = 1 (inputs are different)
+                1, // 1 or 1 = 1 (inputs are equal)
+            };
+
+
+            learn = new LinearNewtonMethod<Linear, Sparse<double>>()
+            {
+                Complexity = 1e+8,
+                UseKernelEstimation = false
+            };
+
+            svm = learn.Learn(inputs, or);
+
+            prediction = svm.Decide(inputs);
+
+            Assert.AreEqual(prediction[0], false);
+            Assert.AreEqual(prediction[1], true);
+            Assert.AreEqual(prediction[2], true);
+            Assert.AreEqual(prediction[3], true);
         }
     }
 }

@@ -328,7 +328,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 kernel = SupportVectorLearningHelper.EstimateKernel(kernel, x);
 
             if (Model == null)
-                Model = Create(SupportVectorLearningHelper.GetNumberOfInputs(x), kernel);
+                Model = Create(SupportVectorLearningHelper.GetNumberOfInputs(kernel, x), kernel);
 
             Model.Kernel = kernel;
 

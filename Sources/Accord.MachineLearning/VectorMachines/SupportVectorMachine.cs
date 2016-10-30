@@ -197,41 +197,6 @@ namespace Accord.MachineLearning.VectorMachines
         #endregion
 
 
-        /// <summary>
-        /// Performs an explicit conversion from <see cref="SupportVectorMachine"/> to <see cref="MultipleLinearRegression"/>.
-        /// </summary>
-        /// 
-        /// <param name="svm">The <see cref="SupportVectorMachine">linear Support Vector Machine</see> to be converted.</param>
-        /// 
-        /// <returns>The result of the conversion.</returns>
-        /// 
-        public static explicit operator MultipleLinearRegression(SupportVectorMachine svm)
-        {
-            double[] w = svm.ToWeights();
-            return new MultipleLinearRegression()
-            {
-                Weights = w.Get(1, 0),
-                Intercept = svm.Threshold
-            };
-        }
-
-        /// <summary>
-        /// Performs an explicit conversion from <see cref="SupportVectorMachine"/> to <see cref="LogisticRegression"/>.
-        /// </summary>
-        /// 
-        /// <param name="svm">The <see cref="SupportVectorMachine">linear Support Vector Machine</see> to be converted.</param>
-        /// 
-        /// <returns>The result of the conversion.</returns>
-        /// 
-        public static explicit operator LogisticRegression(SupportVectorMachine svm)
-        {
-            double[] w = svm.ToWeights();
-            return new LogisticRegression()
-            {
-                Weights = w.Get(1, 0),
-                Intercept = svm.Threshold
-            };
-        }
 
         /// <summary>
         /// Performs an explicit conversion from <see cref="MultipleLinearRegression"/> to <see cref="SupportVectorMachine"/>.
@@ -243,12 +208,7 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         public static explicit operator SupportVectorMachine(MultipleLinearRegression regression)
         {
-            return new SupportVectorMachine(regression.NumberOfInputs)
-            {
-                Weights = new[] { 1.0 },
-                SupportVectors = new[] { regression.Weights },
-                Threshold = regression.Intercept,
-            };
+            return FromRegression(regression);
         }
 
         /// <summary>
@@ -259,7 +219,38 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         /// <returns>The result of the conversion.</returns>
         /// 
+        public static SupportVectorMachine FromRegression(MultipleLinearRegression regression)
+        {
+            return new SupportVectorMachine(regression.NumberOfInputs)
+            {
+                Weights = new[] { 1.0 },
+                SupportVectors = new[] { regression.Weights },
+                Threshold = regression.Intercept,
+            };
+        }
+
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="LogisticRegression"/> to <see cref="SupportVectorMachine"/>.
+        /// </summary>
+        /// 
+        /// <param name="regression">The logistic regression to be converted.</param>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
         public static explicit operator SupportVectorMachine(LogisticRegression regression)
+        {
+            return FromLogisticRegression(regression);
+        }
+
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="LogisticRegression"/> to <see cref="SupportVectorMachine"/>.
+        /// </summary>
+        /// 
+        /// <param name="regression">The logistic regression to be converted.</param>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
+        public static SupportVectorMachine FromLogisticRegression(LogisticRegression regression)
         {
             return new SupportVectorMachine(regression.NumberOfInputs)
             {
@@ -267,6 +258,42 @@ namespace Accord.MachineLearning.VectorMachines
                 SupportVectors = new[] { regression.Weights },
                 Threshold = regression.Intercept,
                 IsProbabilistic = true
+            };
+        }
+
+
+        /// <summary>
+        ///   Creates a new linear <see cref="SupportVectorMachine"/> 
+        ///   with the given set of linear <paramref name="weights"/>.
+        /// </summary>
+        /// 
+        /// <param name="weights">The machine's linear coefficients.</param>
+        /// <param name="interceptIndex">The index of the intercept term in the given weights vector.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="SupportVectorMachine"/> whose linear coefficients
+        ///   are defined by the given <paramref name="weights"/> vector.
+        /// </returns>
+        /// 
+        public static SupportVectorMachine FromWeights(double[] weights, int interceptIndex = -1)
+        {
+            double[] newWeights = weights;
+            double bias = 0;
+
+            if (interceptIndex >= 0)
+            {
+                newWeights = new double[weights.Length - 1];
+                for (int i = 0, j = 0; i < weights.Length; i++)
+                    if (i != interceptIndex)
+                        newWeights[j++] = weights[i];
+                bias = weights[interceptIndex];
+            }
+
+            return new SupportVectorMachine(newWeights.Length)
+            {
+                Weights = new[] { 1.0 },
+                SupportVectors = new[] { newWeights },
+                Threshold = bias
             };
         }
     }

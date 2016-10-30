@@ -56,7 +56,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\mono\</OutputPath>
     <DefineConstants>TRACE;MONO</DefineConstants>
-	<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <ItemGroup>
@@ -84,6 +84,15 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Parameters.cs">
+      <Link>VectorMachines\Liblinear\Parameters.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Problem.cs">
+      <Link>VectorMachines\Liblinear\Problem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Train.cs">
+      <Link>VectorMachines\Liblinear\Train.cs</Link>
+    </Compile>
     <Compile Include="BagOfWordsTest.cs" />
     <Compile Include="Boosting\AdaBoostTest.cs" />
     <Compile Include="AprioriTest.cs" />
@@ -123,6 +132,7 @@
     <Compile Include="Structures\SPTreeTest.cs" />
     <Compile Include="Structures\VPTreeTest.cs" />
     <Compile Include="VectorMachines\LinearCoordinateDescentTest.cs" />
+    <Compile Include="VectorMachines\Liblinear\LiblinearTest.cs" />
     <Compile Include="VectorMachines\LinearDualCoordinateDescentTest.cs" />
     <Compile Include="VectorMachines\LinearNewtonMethodTest.cs" />
     <Compile Include="VectorMachines\LeastSquaresLearningTest.cs" />
@@ -215,8 +225,12 @@
     <None Include="Accord.snk" />
     <None Include="Resources\rforest\features.csv" />
     <None Include="Resources\kmeans.bin" />
-    <None Include="Resources\liblinear\a9a.test" />
-    <None Include="Resources\liblinear\a9a.train" />
+    <None Include="Resources\liblinear\a9a.test">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\liblinear\a9a.train">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\CircleWithWeights.xls" />
     <None Include="Resources\ml-svm.bin" />
     <None Include="Resources\mnist\pca_mnist.bin" />

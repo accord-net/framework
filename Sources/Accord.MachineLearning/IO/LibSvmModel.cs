@@ -236,6 +236,8 @@ namespace Accord.IO
         /// 
         public SupportVectorMachine CreateMachine()
         {
+            // TODO: Add the option for creating Sparse machines from model definitions
+
             switch (type)
             {
                 case LibSvmSolverType.Unknown:

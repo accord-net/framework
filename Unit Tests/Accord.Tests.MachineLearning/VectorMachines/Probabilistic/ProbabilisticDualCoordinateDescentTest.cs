@@ -149,6 +149,85 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(1.9798227572056906, regression.Coefficients[2], 1e-8);
         }
 
+        [Test]
+        public void logistic_regression_sparse_test()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+
+            #region doc_logreg_sparse
+            // Declare some training data. This is exactly the same
+            // data used in the LogisticRegression documentation page
+
+            // Suppose we have the following data about some patients.
+            // The first variable is continuous and represent patient
+            // age. The second variable is dichotomic and give whether
+            // they smoke or not (This is completely fictional data).
+
+            // We also know if they have had lung cancer or not, and 
+            // we would like to know whether smoking has any connection
+            // with lung cancer (This is completely fictional data).
+
+            Sparse<double>[] input =
+            {                               // age, smokes?, had cancer?
+                Sparse.FromDense(new double[] { 55,    0  }), // false - no cancer
+                Sparse.FromDense(new double[] { 28,    0  }), // false
+                Sparse.FromDense(new double[] { 65,    1  }), // false
+                Sparse.FromDense(new double[] { 46,    0  }), // true  - had cancer
+                Sparse.FromDense(new double[] { 86,    1  }), // true
+                Sparse.FromDense(new double[] { 56,    1  }), // true
+                Sparse.FromDense(new double[] { 85,    0  }), // false
+                Sparse.FromDense(new double[] { 33,    0  }), // false
+                Sparse.FromDense(new double[] { 21,    1  }), // false
+                Sparse.FromDense(new double[] { 42,    1  }), // true
+            };
+
+            double[] output = // Whether each patient had lung cancer or not
+            {
+                0, 0, 0, 1, 1, 1, 0, 0, 0, 1
+            };
+
+            // Create the probabilistic-SVM learning algorithm
+            var teacher = new ProbabilisticDualCoordinateDescent<Linear, Sparse<double>>()
+            {
+                Tolerance = 1e-10,
+                Complexity = 1e+10, // learn a hard-margin model
+            };
+
+            // Learn the support vector machine
+            var svm = teacher.Learn(input, output);
+
+            // Convert the svm to logistic regression
+            var regression = (LogisticRegression)svm;
+
+            // Compute the predicted outcome for inputs
+            bool[] predicted = regression.Decide(input.ToDense(regression.NumberOfInputs));
+
+            // Compute probability scores for the outputs
+            double[] scores = regression.Score(input.ToDense(regression.NumberOfInputs));
+
+            // Compute odds-ratio as in the LogisticRegression example
+            double ageOdds = regression.GetOddsRatio(1);   // 1.0430443799578411
+            double smokeOdds = regression.GetOddsRatio(2); // 7.2414593749145508
+
+            // Compute the classification error as in SVM example
+            double error = new ZeroOneLoss(output).Loss(predicted);
+            #endregion
+
+            var rsvm = (SupportVectorMachine)regression;
+            Assert.AreEqual(2, rsvm.NumberOfInputs);
+            Assert.AreEqual(2, rsvm.NumberOfOutputs);
+            double[] svmpred = svm.Probability(input);
+            Assert.IsTrue(scores.IsEqual(svmpred, 1e-10));
+
+            Assert.AreEqual(0.4, error);
+            Assert.AreEqual(1.0430443799578411, ageOdds, 1e-4);
+            Assert.AreEqual(7.2414593749145508, smokeOdds, 1e-4);
+
+            Assert.AreEqual(-21.4120677536517, regression.Intercept, 1e-8);
+            Assert.AreEqual(-21.4120677536517, regression.Coefficients[0], 1e-8);
+            Assert.AreEqual(0.042143725408546939, regression.Coefficients[1], 1e-8);
+            Assert.AreEqual(1.9798227572056906, regression.Coefficients[2], 1e-8);
+        }
 
     }
 }

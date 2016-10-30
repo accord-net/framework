@@ -45,7 +45,7 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\net35\Accord.Math.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Accord.Math.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-	<RunCodeAnalysis>false</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Release\net40</OutputPath>
@@ -53,7 +53,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\net40\Accord.Math.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Accord.Math.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-	<RunCodeAnalysis>false</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
     <OutputPath>$(SolutionDir)..\Release\net45</OutputPath>

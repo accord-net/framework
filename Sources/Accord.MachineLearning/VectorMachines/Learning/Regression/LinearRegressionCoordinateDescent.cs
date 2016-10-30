@@ -119,7 +119,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <see cref="LinearNewtonMethod"/>
     /// 
     public class LinearRegressionCoordinateDescent :
-        BaseLinearRegressionCoordinateDescent<SupportVectorMachine>
+        BaseLinearRegressionCoordinateDescent<SupportVectorMachine, Linear, double[]>
     {
         /// <summary>
         ///   Obsolete.
@@ -201,9 +201,39 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <see cref="SequentialMinimalOptimization"/>
     /// <see cref="LinearNewtonMethod"/>
     /// 
-    public abstract class BaseLinearRegressionCoordinateDescent<TModel> :
-        BaseSupportVectorRegression<TModel, Linear, double[]>
-        where TModel : SupportVectorMachine<Linear, double[]>
+    public class LinearRegressionCoordinateDescent<TKernel, TInput> :
+        BaseLinearRegressionCoordinateDescent<SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
+        where TKernel : struct, ILinear<TInput>
+        where TInput : ICloneable
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LinearRegressionCoordinateDescent"/> class.
+        /// </summary>
+        public LinearRegressionCoordinateDescent()
+        {
+        }
+
+        /// <summary>
+        /// Creates an instance of the model to be learned. Inheritors
+        /// of this abstract class must define this method so new models
+        /// can be created from the training data.
+        /// </summary>
+        protected override SupportVectorMachine<TKernel, TInput> Create(int inputs, TKernel kernel)
+        {
+            return new SupportVectorMachine<TKernel, TInput>(inputs, kernel);
+        }
+    }
+
+    /// <summary>
+    ///   Base class for Coordinate descent algorithm for the L1 or L2-loss linear Support 
+    ///   Vector Regression (epsilon-SVR) learning problem in the dual form (-s 12 and -s 13).
+    /// </summary>
+    /// 
+    public abstract class BaseLinearRegressionCoordinateDescent<TModel, TKernel, TInput> :
+        BaseSupportVectorRegression<TModel, TKernel, TInput>
+        where TModel : SupportVectorMachine<TKernel, TInput>
+        where TKernel : struct, ILinear<TInput>
+        where TInput : ICloneable
     {
 
         int max_iter = 1000;
@@ -273,7 +303,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         protected override void InnerRun()
         {
             int samples = Inputs.Length;
-            int dimension = Inputs[0].Length;
+            int dimension = Kernel.GetLength(Inputs) + 1;
 
             // Lagrange multipliers
             this.alpha = new double[samples];
@@ -281,7 +311,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             this.weights = new double[dimension];
 
             double[] w = weights;
-            double[][] x = Inputs;
+            TInput[] x = Inputs;
             double[] y = Outputs;
 
             var random = Accord.Math.Random.Generator.Random;
@@ -321,15 +351,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             {
                 QD[i] = 0;
 
-                double[] xi = x[i];
+                TInput xi = x[i];
 
-                for (int j = 0; j < xi.Length; j++)
-                {
-                    double val = xi[j];
-                    QD[i] += val * val;
-                    w[j] += beta[i] * val;
-                }
-
+                QD[i] = Kernel.Function(xi, xi);
+                Kernel.Product(beta[i], xi, accumulate: w);
                 index[i] = i;
             }
 
@@ -358,9 +383,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                     G = -y[i] + lambda * beta[i];
                     H = QD[i] + lambda;
 
-                    double[] xi = x[i];
-                    for (int j = 0; j < xi.Length; j++)
-                        G += xi[j] * w[j];
+                    G += Kernel.Function(w, x[i]);
 
                     double Gp = G + p;
                     double Gn = G - p;
@@ -459,10 +482,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
                     if (d != 0)
                     {
-                        xi = x[i];
-
-                        for (int j = 0; j < xi.Length; j++)
-                            w[j] += d * xi[j];
+                        Kernel.Product(d, x[i], accumulate: w);
                     }
                 }
 
@@ -520,7 +540,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             Debug.WriteLine("nSV = " + nSV);
 
 
-            Model.SupportVectors = new[] { w };
+            Model.SupportVectors = new[] { Kernel.CreateVector(w) };
             Model.Weights = new[] { 1.0 };
             Model.Threshold = bias;
         }
@@ -529,7 +549,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <summary>
         ///   Obsolete.
         /// </summary>
-        protected BaseLinearRegressionCoordinateDescent(TModel model, double[][] input, double[] output)
+        /// 
+        protected BaseLinearRegressionCoordinateDescent(TModel model, TInput[] input, double[] output)
             : base(model, input, output)
         {
         }

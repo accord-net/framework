@@ -31,9 +31,8 @@ namespace Accord.Statistics.Kernels
     /// </summary>
     /// 
     [Serializable]
-    public struct Linear : IKernel, IDistance, ILinear,
-        ICloneable, IReverseDistance, ITransform,
-        IKernel<Sparse<double>>, ILinear<Sparse<double>>
+    public struct Linear : IKernel, IDistance, ILinear, ICloneable, IReverseDistance,
+        ITransform, IKernel<Sparse<double>>, ILinear<Sparse<double>>
     {
         private double constant;
 
@@ -151,11 +150,9 @@ namespace Accord.Statistics.Kernels
         /// <param name="result">An array to store the result.</param>
         /// <returns>The same vector passed as result.</returns>
         /// 
-        public double[] Add(double[] a, double[] b, double[] result)
+        public void Add(double[] a, double[] b, double[] result)
         {
-            for (int i = 0; i < a.Length; i++)
-                result[i] = a[i] + b[i];
-            return result;
+            a.Add(b, result: result);
         }
 
 
@@ -172,19 +169,18 @@ namespace Accord.Statistics.Kernels
             return MemberwiseClone();
         }
 
-
         /// <summary>
         ///   Elementwise multiplication of scalar a and vector b, storing in result.
         /// </summary>
         /// 
         /// <param name="a">The scalar to be multiplied.</param>
         /// <param name="b">The vector to be multiplied.</param>
-        /// <param name="result">An array to store the result.</param>
+        /// <param name="accumulate">An array to store the result.</param>
         /// 
-        public void Product(double a, double[] b, double[] result)
+        public void Product(double a, double[] b, double[] accumulate)
         {
             for (int j = 0; j < b.Length; j++)
-                result[j] += a * b[j];
+                accumulate[j] += a * b[j];
         }
 
         /// <summary>
@@ -278,26 +274,10 @@ namespace Accord.Statistics.Kernels
         /// <param name="a">The first vector to add.</param>
         /// <param name="b">The second vector to add.</param>
         /// <param name="result">An array to store the result.</param>
-        /// <returns>The same vector passed as result.</returns>
         /// 
-        public double[] Add(Sparse<double> a, double[] b, double[] result)
+        public void Add(Sparse<double> a, double[] b, double[] result)
         {
-            int i = 0;
-            for (int j = 0; j < a.Indices.Length; j++)
-            {
-                if (a.Indices[j] == i)
-                {
-                    result[i] += b[i] + a.Values[j];
-                }
-                else
-                {
-                    result[i] += b[i];
-                }
-
-                i++;
-            }
-
-            return result;
+            a.Add(b, result);
         }
 
         /// <summary>
@@ -305,14 +285,11 @@ namespace Accord.Statistics.Kernels
         /// </summary>
         /// <param name="a">The scalar to be multiplied.</param>
         /// <param name="b">The vector to be multiplied.</param>
-        /// <param name="result">An array to store the result.</param>
-        public void Product(double a, Sparse<double> b, double[] result)
+        /// <param name="accumulate">An array to store the result.</param>
+        public void Product(double a, Sparse<double> b, double[] accumulate)
         {
             for (int j = 0; j < b.Indices.Length; j++)
-            {
-                int i = b.Indices[j];
-                result[i] += a * b.Values[j];
-            }
+                accumulate[b.Indices[j]] += a * b.Values[j];
         }
 
         /// <summary>
@@ -320,14 +297,16 @@ namespace Accord.Statistics.Kernels
         /// </summary>
         /// <param name="a">The scalar to be multiplied.</param>
         /// <param name="b">The vector to be multiplied.</param>
-        /// <param name="result">An array to store the result.</param>
-        public void Product(double a, Sparse<double> b, Sparse<double> result)
+        /// <param name="accumulate">An array to store the result.</param>
+        public void Product(double a, Sparse<double> b, Sparse<double> accumulate)
         {
-            int n = result.Indices.Length;
+            // TODO: Move those implementations to extension methods in the Sparse class.
+
+            int n = accumulate.Indices.Length;
             bool seq = true;
-            for (int i = 0; i < result.Indices.Length; i++)
+            for (int i = 0; i < accumulate.Indices.Length; i++)
             {
-                if (result.Indices[i] != i)
+                if (accumulate.Indices[i] != i)
                 {
                     seq = false;
                     break;
@@ -335,18 +314,18 @@ namespace Accord.Statistics.Kernels
             }
 
             int m = b.Indices.Length;
-            int max = Math.Max(result.Indices[n - 1], b.Indices[m - 1]);
+            int max = Math.Max(accumulate.Indices[n - 1], b.Indices[m - 1]);
 
-            if (!seq || result.Indices[n - 1] < b.Indices[m - 1])
+            if (!seq || accumulate.Indices[n - 1] < b.Indices[m - 1])
             {
-                result.Values = result.ToDense(max + 1);
-                result.Indices = Vector.Range(max + 1);
+                accumulate.Values = accumulate.ToDense(max + 1);
+                accumulate.Indices = Vector.Range(max + 1);
             }
 
             for (int j = 0; j < b.Indices.Length; j++)
             {
                 int i = b.Indices[j];
-                result.Values[i] += a * b.Values[j];
+                accumulate.Values[i] += a * b.Values[j];
             }
         }
 
@@ -365,6 +344,87 @@ namespace Accord.Statistics.Kernels
             return Accord.Math.Sparse.FromDense(Compress(weights, supportVectors.ToDense(), out c));
         }
 
-        
+        /// <summary>
+        ///   Gets the number of parameters in the input vectors.
+        /// </summary>
+        /// 
+        public int GetLength(double[][] inputs)
+        {
+            return inputs.Columns(max: true);
+        }
+
+        /// <summary>
+        ///   Gets the number of parameters in the input vectors.
+        /// </summary>
+        /// 
+        public int GetLength(Sparse<double>[] inputs)
+        {
+            return inputs.Columns();
+        }
+
+        /// <summary>
+        ///   Creates an input vector from the given double values.
+        /// </summary>
+        /// 
+        public double[] CreateVector(double[] values)
+        {
+            return Accord.Math.Vector.Create(values);
+        }
+
+        /// <summary>
+        ///   Creates an input vector from the given double values.
+        /// </summary>
+        /// 
+        Sparse<double> ILinear<Sparse<double>>.CreateVector(double[] values)
+        {
+            return Accord.Math.Sparse.FromDense(values);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication of vector a and vector b, accumulating in result.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector to be multiplied.</param>
+        /// <param name="b">The vector to be multiplied.</param>
+        /// <param name="accumulate">An array to store the result.</param>
+        /// 
+        public void Product(double[] a, Sparse<double> b, double[] accumulate)
+        {
+            for (int j = 0; j < b.Indices.Length; j++)
+                accumulate[b.Indices[j]] += a[b.Indices[j]] * b.Values[j];
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication of vector a and vector b, accumulating in result.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector to be multiplied.</param>
+        /// <param name="b">The vector to be multiplied.</param>
+        /// <param name="accumulate">An array to store the result.</param>
+        /// 
+        public void Product(double[] a, double[] b, double[] accumulate)
+        {
+            for (int i = 0; i < a.Length; i++)
+                accumulate[i] += a[i] * b[i];
+        }
+
+        /// <summary>
+        ///   Converts the input vectors to a double-precision representation.
+        /// </summary>
+        /// 
+        public double[][] ToDouble(double[][] input)
+        {
+            return input;
+        }
+
+        /// <summary>
+        ///   Converts the input vectors to a double-precision representation.
+        /// </summary>
+        /// 
+        public double[][] ToDouble(Sparse<double>[] input)
+        {
+            return Accord.Math.Sparse.ToDense(input);
+        }
+
     }
 }

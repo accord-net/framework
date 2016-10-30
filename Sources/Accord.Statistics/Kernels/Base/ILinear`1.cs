@@ -53,27 +53,37 @@ namespace Accord.Statistics.Kernels
         /// <param name="result">An array to store the result.</param>
         /// <returns>The same vector passed as result.</returns>
         /// 
-        double[] Add(T a, double[] b, double[] result);
+        void Add(T a, double[] b, double[] result);
 
         /// <summary>
-        ///   Elementwise multiplication of scalar a and vector b, storing in result.
+        ///   Elementwise multiplication of scalar a and vector b, accumulating in result.
         /// </summary>
         /// 
         /// <param name="a">The scalar to be multiplied.</param>
         /// <param name="b">The vector to be multiplied.</param>
-        /// <param name="result">An array to store the result.</param>
+        /// <param name="accumulate">An array to store the result.</param>
         /// 
-        void Product(double a, T b, double[] result);
+        void Product(double a, T b, double[] accumulate);
 
         /// <summary>
-        ///   Elementwise multiplication of scalar a and vector b, storing in result.
+        ///   Elementwise multiplication of vector a and vector b, accumulating in result.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector to be multiplied.</param>
+        /// <param name="b">The vector to be multiplied.</param>
+        /// <param name="accumulate">An array to store the result.</param>
+        /// 
+        void Product(double[] a, T b, double[] accumulate);
+
+        /// <summary>
+        ///   Elementwise multiplication of scalar a and vector b, accumulating in result.
         /// </summary>
         /// 
         /// <param name="a">The scalar to be multiplied.</param>
         /// <param name="b">The vector to be multiplied.</param>
-        /// <param name="result">An array to store the result.</param>
+        /// <param name="accumulate">An array to store the result.</param>
         /// 
-        void Product(double a, T b, T result);
+        void Product(double a, T b, T accumulate);
 
         /// <summary>
         ///   Compress a set of support vectors and weights into a single
@@ -99,5 +109,22 @@ namespace Accord.Statistics.Kernels
         /// 
         double Function(double[] y, T x);
 
+        /// <summary>
+        ///   Gets the number of parameters in the input vectors.
+        /// </summary>
+        /// 
+        int GetLength(T[] inputs);
+
+        /// <summary>
+        ///   Creates an input vector from the given double values.
+        /// </summary>
+        /// 
+        T CreateVector(double[] values);
+
+        /// <summary>
+        ///   Converts the input vectors to a double-precision representation.
+        /// </summary>
+        /// 
+        double[][] ToDouble(T[] input);
     }
 }

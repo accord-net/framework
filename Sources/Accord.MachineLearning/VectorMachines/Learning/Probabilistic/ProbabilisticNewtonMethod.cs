@@ -102,7 +102,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <seealso cref="LinearDualCoordinateDescent"/>
     /// 
     public class ProbabilisticNewtonMethod :
-        BaseProbabilisticNewtonMethod<SupportVectorMachine, Linear>,
+        BaseProbabilisticNewtonMethod<SupportVectorMachine, Linear, double[]>,
         ILinearSupportVectorMachineLearning
     {
         /// <summary>
@@ -172,8 +172,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <seealso cref="LinearDualCoordinateDescent"/>
     /// 
     public class ProbabilisticNewtonMethod<TKernel> :
-        BaseProbabilisticNewtonMethod<SupportVectorMachine<TKernel>, TKernel>
-        where TKernel : ILinear<double[]>
+        BaseProbabilisticNewtonMethod<SupportVectorMachine<TKernel>, TKernel, double[]>
+        where TKernel : struct, ILinear<double[]>
     {
         /// <summary>
         /// Creates an instance of the model to be learned. Inheritors
@@ -187,13 +187,66 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     }
 
     /// <summary>
+    ///   L2-regularized L2-loss logistic regression (probabilistic 
+    ///   support vector machine) learning algorithm in the primal.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   This class implements a L2-regularized L2-loss logistic regression (probabilistic
+    ///   support vector machine) learning algorithm that operates in the primal form of the
+    ///   optimization problem. This method has been based on liblinear's <c>l2r_lr_fun</c>
+    ///   problem specification, optimized using a <see cref="TrustRegionNewtonMethod">
+    ///   Trust-region Newton method</see>.</para>
+    /// </remarks>
+    /// 
+    /// <para>
+    ///   Liblinear's solver <c>-s 0</c>: <c>L2R_LR</c>. A trust region newton
+    ///   algorithm for the primal of L2-regularized, L2-loss logistic regression.
+    /// </para>
+    /// 
+    /// <examples>
+    /// <para>
+    ///   Probabilistic SVMs are exactly the same as logistic regression models 
+    ///   trained using a large-margin decision criteria. As such, any linear SVM 
+    ///   learning algorithm can be used to obtain <see cref="LogisticRegression"/>
+    ///   objects as well.</para>
+    ///   
+    /// <para>
+    ///   The following example shows how to obtain a <see cref="LogisticRegression"/> 
+    ///   from a probabilistic linear <see cref="SupportVectorMachine"/>. It contains
+    ///   exactly the same data used in the <see cref="IterativeReweightedLeastSquares"/>
+    ///   documentation page for <see cref="LogisticRegression"/>.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\Probabilistic\ProbabilisticNewtonMethodTest.cs" region="doc_logreg"/>
+    /// </examples>
+    /// 
+    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="LinearDualCoordinateDescent"/>
+    /// 
+    public class ProbabilisticNewtonMethod<TKernel, TInput> :
+        BaseProbabilisticNewtonMethod<SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
+        where TKernel : ILinear<TInput>
+    {
+        /// <summary>
+        /// Creates an instance of the model to be learned. Inheritors
+        /// of this abstract class must define this method so new models
+        /// can be created from the training data.
+        /// </summary>
+        protected override SupportVectorMachine<TKernel, TInput> Create(int inputs, TKernel kernel)
+        {
+            return new SupportVectorMachine<TKernel, TInput>(inputs, kernel);
+        }
+    }
+
+    /// <summary>
     ///   Base class for probabilistic Newton Method learning.
     /// </summary>
     /// 
-    public abstract class BaseProbabilisticNewtonMethod<TModel, TKernel> :
-        BaseSupportVectorClassification<TModel, TKernel, double[]>
-        where TKernel : ILinear<double[]>
-        where TModel : SupportVectorMachine<TKernel, double[]>
+    public abstract class BaseProbabilisticNewtonMethod<TModel, TKernel, TInput> :
+        BaseSupportVectorClassification<TModel, TKernel, TInput>
+        where TKernel : ILinear<TInput>
+        where TModel : SupportVectorMachine<TKernel, TInput>
     {
 
         TrustRegionNewtonMethod tron;
@@ -307,38 +360,18 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         private void Xv(double[] v, double[] Xv)
         {
-            double[][] x = Inputs;
-
-            for (int i = 0; i < x.Length; i++)
-            {
-                double[] s = x[i];
-
-                Debug.Assert(s.Length == v.Length - 1);
-
-                double sum = v[biasIndex];
-                for (int j = 0; j < s.Length; j++)
-                    sum += v[j] * s[j];
-                Xv[i] = sum;
-            }
+            for (int i = 0; i < Inputs.Length; i++)
+                Xv[i] = Kernel.Function(v, Inputs[i]) + v[biasIndex];
         }
 
         private void XTv(double[] v, double[] XTv)
         {
-            double[][] x = Inputs;
-
-            Debug.Assert(XTv.Length == g.Length);
             for (int i = 0; i < XTv.Length; i++)
                 XTv[i] = 0;
 
-            for (int i = 0; i < x.Length; i++)
+            for (int i = 0; i < Inputs.Length; i++)
             {
-                double[] s = x[i];
-
-                Debug.Assert(XTv.Length == s.Length + 1);
-
-                for (int j = 0; j < s.Length; j++)
-                    XTv[j] += v[i] * s[j];
-
+                Kernel.Product(v[i], Inputs[i], accumulate: XTv);
                 XTv[biasIndex] += v[i];
             }
         }
@@ -351,7 +384,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         protected override void InnerRun()
         {
             int samples = Inputs.Length;
-            int parameters = Model.NumberOfInputs + 1;
+            int parameters = Kernel.GetLength(Inputs) + 1;
 
             this.z = new double[samples];
             this.D = new double[samples];
@@ -374,18 +407,28 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             tron.Minimize();
 
-            double[] weights = tron.Solution;
+            // Get the solution found by TRON
+            double[] weightsWithBias = tron.Solution;
 
-            Model.Weights = new double[] { 1.0 };
-            Model.SupportVectors = new[] { weights.First(weights.Length - 1) };
-            Model.Threshold = weights[biasIndex];
+            // Separate the weights and the bias coefficient
+            double[] weights = weightsWithBias.Get(0, -1);
+            double bias = weightsWithBias[biasIndex];
+
+            Debug.Assert(weights.Length == parameters - 1);
+
+            // Create the machine
+            Model.NumberOfInputs = weights.Length;
+            Model.SupportVectors = new[] { Kernel.CreateVector(weights) };
+            Model.Weights = new[] { 1.0 };
+            Model.Threshold = bias;
             Model.IsProbabilistic = true;
         }
 
         /// <summary>
         ///   Obsolete.
         /// </summary>
-        protected BaseProbabilisticNewtonMethod(TModel model, double[][] input, int[] output)
+        /// 
+        protected BaseProbabilisticNewtonMethod(TModel model, TInput[] input, int[] output)
             : base(model, input, output)
         {
         }

@@ -1,7 +1,7 @@
 ﻿// Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2016, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -41,12 +41,31 @@ using System.Threading;
 using Accord.MachineLearning;
 using Accord.Math.Optimization.Losses;
 using Accord;
+using Accord.Statistics.Kernels;
+
+using Machine = Accord.MachineLearning.VectorMachines
+    .SupportVectorMachine<Accord.Statistics.Kernels.Linear, Accord.Math.Sparse<double>>;
+using Solver = Accord.MachineLearning.
+    ISupervisedLearning<Accord.MachineLearning.VectorMachines.SupportVectorMachine<
+        Accord.Statistics.Kernels.Linear, Accord.Math.Sparse<double>>, Accord.Math.Sparse<double>, bool>;
+
 
 namespace Liblinear
 {
     public class Train
     {
-        public static void Main(params string[] args)
+        // From LIBLINEAR definitions
+        public LibSvmModel Model { get; private set; }
+        public Parameters Parameters { get; private set; }
+        public Problem Problem { get; private set; }
+
+        // From Accord.NET implementations
+        public Machine Machine { get; private set; }
+        public Solver Solver { get; private set; }
+
+        public string ErrorMessage { get; private set; }
+
+        public void Main(params string[] args)
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
@@ -60,31 +79,38 @@ namespace Liblinear
             string input_file_name;
             string model_file_name;
 
-            var parameters = parse_command_line(args, out input_file_name, out model_file_name);
-            var problem = read_problem(input_file_name, parameters.Bias);
+            // The parameters object contains information about which parameters we passed to
+            // the command line and that should be used to control the training of the machine,
+            // such as which solver to use, the model complexity C, etc.
+            this.Parameters = parse_command_line(args, out input_file_name, out model_file_name);
 
-            string error_msg = check_parameter(problem, parameters);
+            // The problem object contains the input and output data
+            this.Problem = read_problem(input_file_name, Parameters.Bias);
 
-            if (!String.IsNullOrEmpty(error_msg))
+            this.ErrorMessage = check_parameter(Problem, Parameters);
+
+            if (!String.IsNullOrEmpty(ErrorMessage))
             {
-                Console.WriteLine("ERROR:" + error_msg);
-                Environment.Exit(1);
+                Console.WriteLine("ERROR:" + ErrorMessage);
+                return;
             }
 
-            // Learn the specified problem
-            var model = train(problem, parameters);
-
+            // Learn the specified problem and register steps and obtained results
+            Tuple<Machine, Solver, LibSvmModel> result= train(Problem, Parameters);
+            this.Machine = result.Item1; // The SVM actually created by Accord.NET
+            this.Solver = result.Item2;  // The Accord.NET learning algorithm used.
+            this.Model = result.Item3;   // LIBLINEAR's definition of what a SVM is
 
             try
             {
                 // Save the model to disk
-                model.Save(model_file_name);
+                Model.Save(model_file_name);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("can't save model to file " + model_file_name);
+                this.ErrorMessage = "can't save model to file " + model_file_name;
+                Console.WriteLine(this.ErrorMessage);
                 Console.WriteLine(ex.Message);
-                Environment.Exit(1);
             }
         }
 
@@ -130,7 +156,6 @@ namespace Liblinear
             Console.WriteLine("-wi weight: weights adjust the parameter C of different classes (see README for details)");
             Console.WriteLine("-v n: n-fold cross validation mode");
             Console.WriteLine("-q : quiet mode (no outputs)");
-            Environment.Exit(1);
         }
 
 
@@ -225,6 +250,7 @@ namespace Liblinear
             catch
             {
                 exit_with_help();
+                return null;
             }
 
             if (parameters.Tolerance == Double.PositiveInfinity)
@@ -270,8 +296,8 @@ namespace Liblinear
             if (bias > 0)
                 reader.Intercept = bias;
 
-            var r = reader.ReadDenseToEnd();
-            double[][] x = r.Item1;
+            Tuple<Sparse<double>[], double[]> r = reader.ReadSparseToEnd();
+            Sparse<double>[] x = r.Item1;
             double[] y = r.Item2;
 
             return new Problem()
@@ -284,6 +310,9 @@ namespace Liblinear
 
         public static string check_parameter(Problem prob, Parameters param)
         {
+            if (param == null)
+                return "unknown parameters";
+
             if (param.Epsilon <= 0)
                 return "eps <= 0";
 
@@ -302,7 +331,7 @@ namespace Liblinear
             return null;
         }
 
-        public static LibSvmModel train(Problem prob, Parameters parameters)
+        public static Tuple<Machine, Solver, LibSvmModel> train(Problem prob, Parameters parameters)
         {
             double[] w;
             double Cp = parameters.Complexity;
@@ -320,9 +349,9 @@ namespace Liblinear
                 }
             }
 
-            train_one(prob, parameters, out w, Cp, Cn);
+            Tuple<Machine, Solver> result = train_one(prob, parameters, out w, Cp, Cn);
 
-            return new LibSvmModel()
+            return Tuple.Create(result.Item1, result.Item2, new LibSvmModel()
             {
                 Dimension = prob.Dimensions,
                 Classes = 2,
@@ -330,22 +359,22 @@ namespace Liblinear
                 Solver = parameters.Solver,
                 Weights = w,
                 Bias = 0
-            };
+            });
         }
 
-        public static void train_one(Problem prob, Parameters param, out double[] w, double Cp, double Cn)
+        public static Tuple<Machine, Solver> train_one(Problem prob, Parameters param, out double[] w, double Cp, double Cn)
         {
-            double[][] inputs = prob.Inputs;
-            int[] labels = prob.Outputs.Apply(x => x >= 0 ? 1 : -1);
+            Sparse<double>[] inputs = prob.Inputs;
+            bool[] labels = prob.Outputs.Apply(x => x >= 0);
 
             // Create the learning algorithm from the parameters
-            var teacher = create(param, Cp, Cn, inputs, labels);
+            var teacher = create_solver(param, Cp, Cn, inputs, labels);
 
             Trace.WriteLine("Training " + param.Solver);
             
             // Run the learning algorithm
             var sw = Stopwatch.StartNew();
-            SupportVectorMachine svm = teacher.Learn(inputs, labels);
+            var svm = teacher.Learn(inputs, labels);
             sw.Stop();
 
             double error = new HingeLoss(labels).Loss(svm.Score(inputs));
@@ -353,12 +382,11 @@ namespace Liblinear
             // Save the solution
             w = svm.ToWeights();
 
-            Trace.WriteLine(String.Format("Finished {0}: {1} in {2}", 
-                param.Solver, error, sw.Elapsed));
+            Trace.WriteLine(String.Format("Finished {0}: {1} in {2}", param.Solver, error, sw.Elapsed));
+            return Tuple.Create(svm, teacher);
         }
 
-        private static ISupervisedLearning<SupportVectorMachine, double[], int> create(
-            Parameters param, double Cp, double Cn, double[][] inputs, int[] outputs)
+        private static Solver create_solver(Parameters param, double Cp, double Cn, Sparse<double>[] inputs, bool[] outputs)
         {
             double eps = param.Tolerance;
             int n = outputs.Length;
@@ -366,7 +394,7 @@ namespace Liblinear
             int pos = 0;
             for (int i = 0; i < outputs.Length; i++)
             {
-                if (outputs[i] >= 0) 
+                if (outputs[i]) 
                     pos++;
             }
             int neg = n - pos;
@@ -375,54 +403,54 @@ namespace Liblinear
 
             switch (param.Solver)
             {
-                case LibSvmSolverType.L2RegularizedLogisticRegression:
+                case LibSvmSolverType.L2RegularizedLogisticRegression: // -s 0
                     // l2r_lr_fun
-                    return new ProbabilisticNewtonMethod()
+                    return new ProbabilisticNewtonMethod<Linear, Sparse<double>>()
                     {
                         PositiveWeight = Cp,
                         NegativeWeight = Cn,
                         Tolerance = primal_solver_tol
-                    }; 
+                    };
 
-                case LibSvmSolverType.L2RegularizedL2LossSvc:
-                    // fun_obj=new l2r_l2_svc_fun(prob, C);
-                    return new LinearNewtonMethod()
-                    {
-                        PositiveWeight = Cp,
-                        NegativeWeight = Cn,
-                        Tolerance = primal_solver_tol
-                    }; 
-
-                case LibSvmSolverType.L2RegularizedL2LossSvcDual:
+                case LibSvmSolverType.L2RegularizedL2LossSvcDual: // -s 1
                     // solve_l2r_l1l2_svc(prob, w, eps, Cp, Cn, L2R_L2LOSS_SVC_DUAL);
-                    return new LinearDualCoordinateDescent()
+                    return new LinearDualCoordinateDescent<Linear, Sparse<double>>()
                     {
                         Loss = Loss.L2,
                         PositiveWeight = Cp,
                         NegativeWeight = Cn,
-                    }; 
+                    };
 
-                case LibSvmSolverType.L2RegularizedL1LossSvcDual:
+                case LibSvmSolverType.L2RegularizedL2LossSvc: // -s 2
+                    // fun_obj=new l2r_l2_svc_fun(prob, C);
+                    return new LinearNewtonMethod<Linear, Sparse<double>>()
+                    {
+                        PositiveWeight = Cp,
+                        NegativeWeight = Cn,
+                        Tolerance = primal_solver_tol
+                    }; 
+    
+                case LibSvmSolverType.L2RegularizedL1LossSvcDual:// -s 3
                     // solve_l2r_l1l2_svc(prob, w, eps, Cp, Cn, L2R_L1LOSS_SVC_DUAL);
-                    return new LinearDualCoordinateDescent()
+                    return new LinearDualCoordinateDescent<Linear, Sparse<double>>()
                     {
                         Loss = Loss.L1,
                         PositiveWeight = Cp,
                         NegativeWeight = Cn,
                     }; 
 
-                case LibSvmSolverType.L1RegularizedLogisticRegression:
+                case LibSvmSolverType.L1RegularizedLogisticRegression:// -s 6
                     // solve_l1r_lr(&prob_col, w, primal_solver_tol, Cp, Cn);
-                    return new ProbabilisticCoordinateDescent()
+                    return new ProbabilisticCoordinateDescent<Linear, Sparse<double>>()
                     {
                         PositiveWeight = Cp,
                         NegativeWeight = Cn,
                         Tolerance = primal_solver_tol
                     }; 
 
-                case LibSvmSolverType.L2RegularizedLogisticRegressionDual:
+                case LibSvmSolverType.L2RegularizedLogisticRegressionDual: // -s 7
                     // solve_l2r_lr_dual(prob, w, eps, Cp, Cn);
-                    return new ProbabilisticDualCoordinateDescent()
+                    return new ProbabilisticDualCoordinateDescent<Linear, Sparse<double>>()
                     {
                         PositiveWeight = Cp,
                         NegativeWeight = Cn,
@@ -436,11 +464,12 @@ namespace Liblinear
 
 
 
-        private static void ExecuteTestAndExit(string[] args)
+        private void ExecuteTestAndExit(string[] args)
         {
             string[] commands = 
             {
                 "-s 0 -c 4.0 -e 1e-06 Resources/a9a.train ../../Results/L2R_LR_a9a.txt",
+                "-s 2 -c 4.0 -e 1e-06 Resources/a9a.train ../../Results/L2R_LR_a9a_2.txt",
                 "-s 7 -c 4.0 -e 1e-06 Resources/a9a.train ../../Results/L1R_LR_DUAL_a9a.txt"
             };
 

@@ -292,7 +292,7 @@ namespace Accord.Tests.MachineLearning
                 var ma = svm1[i].Value;
                 var mb = svm2[i].Value;
 
-                Assert.IsTrue(ma.Weights.IsEqual(mb.Weights));
+                Assert.IsTrue(ma.Weights.IsEqual(mb.Weights, 1e-8));
                 Assert.AreEqual(ma.SupportVectors.Length, mb.SupportVectors.Length);
                 for (int j = 0; j < ma.SupportVectors.Length; j++)
                 {

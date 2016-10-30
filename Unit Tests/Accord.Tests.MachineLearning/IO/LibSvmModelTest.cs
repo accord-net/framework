@@ -61,11 +61,12 @@ namespace Accord.Tests.IO
 
             var machine = reader.CreateMachine();
 
-            Assert.IsNull(machine.SupportVectors);
+            Assert.AreEqual(1, machine.SupportVectors.Length);
+            Assert.AreEqual(122, machine.SupportVectors[0].Length);
             Assert.AreEqual(machine.Threshold, a9a_weights[0]);
 
-            for (int i = 0; i < machine.Weights.Length; i++)
-                Assert.AreEqual(machine.Weights[i], a9a_weights[i + 1]);
+            for (int i = 0; i < machine.SupportVectors[0].Length; i++)
+                Assert.AreEqual(machine.SupportVectors[0][i], a9a_weights[i + 1]);
         }
 
         [Test]

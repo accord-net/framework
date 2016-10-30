@@ -185,7 +185,7 @@ namespace Accord.MachineLearning
         {
             if (Model == null)
             {
-                int numberOfInputs = SupportVectorLearningHelper.GetNumberOfInputs(x);
+                int numberOfInputs = SupportVectorLearningHelper.GetNumberOfInputs(new Linear(), x);
                 int numberOfClasses = y[0].Length;
                 Model = Create(numberOfInputs, numberOfClasses);
             }

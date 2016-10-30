@@ -68,8 +68,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             return result;
         }
 
-        public static int GetNumberOfInputs<TInput>(TInput[] x)
+        public static int GetNumberOfInputs<TKernel, TInput>(TKernel kernel, TInput[] x)
         {
+            var linear = kernel as ILinear<TInput>;
+            if (linear != null)
+                return linear.GetLength(x);
+
             var first = x[0] as IList;
             if (first == null)
                 return 0;
@@ -82,7 +86,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 if (c != length)
                     return 0;
             }
-            
+
             return length;
         }
 
@@ -152,12 +156,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                     }
 
                     var xi = inputs[i] as Array;
-                    if (xi.Length != machine.NumberOfInputs)
+                    if (xi != null)
                     {
-                        throw new DimensionMismatchException("inputs",
-                            "The size of the input vector at index " + i
-                            + " does not match the expected number of inputs of the machine."
-                            + " All input vectors for this machine must have length " + machine.NumberOfInputs);
+                        if (xi.Length != machine.NumberOfInputs)
+                        {
+                            throw new DimensionMismatchException("inputs",
+                                "The size of the input vector at index " + i
+                                + " does not match the expected number of inputs of the machine."
+                                + " All input vectors for this machine must have length " + machine.NumberOfInputs);
+                        }
                     }
 
                     var di = inputs[i] as double[];

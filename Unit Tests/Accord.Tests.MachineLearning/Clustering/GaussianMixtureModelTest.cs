@@ -522,7 +522,7 @@ namespace Accord.Tests.MachineLearning
 
             #endregion
 
-            Assert.AreEqual(-35.930732550698494, gmm.LogLikelihood, 1e-10);
+            Assert.AreEqual(-36.94746115411408, gmm.LogLikelihood, 1e-10);
 
             Assert.AreEqual(2, clusters.Count);
 

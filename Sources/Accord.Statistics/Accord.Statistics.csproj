@@ -620,6 +620,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Accord.Math\Optimization\" />
     <Folder Include="Models\Regression\Linear\Fitting\Base\" />
     <Folder Include="Running\Markov\Base\" />
   </ItemGroup>

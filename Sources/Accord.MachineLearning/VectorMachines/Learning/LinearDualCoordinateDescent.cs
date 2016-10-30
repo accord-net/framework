@@ -471,7 +471,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             for (int i = 0; i < x.Length; i++)
             {
                 QD[i] = 1 + diag[i] + Kernel.Function(x[i], x[i]);
-                Kernel.Product(y[i] * alpha[i], x[i], result: w);
+                Kernel.Product(y[i] * alpha[i], x[i], accumulate: w);
                 bias += y[i] * alpha[i];
 
                 index[i] = i;
@@ -559,7 +559,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
                         double d = (alpha[i] - alpha_old) * yi;
 
-                        Kernel.Product(d, x[i], result: w);
+                        Kernel.Product(d, x[i], accumulate: w);
                         bias += d;
                     }
                 }

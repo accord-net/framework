@@ -489,7 +489,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public void Fit(double[][] observations, double[] weights, NormalOptions options)
         {
-            double[] means;
+            double[] mean;
             double[,] cov;
 
 
@@ -503,22 +503,22 @@ namespace Accord.Statistics.Distributions.Multivariate
                 }
 #endif
                 // Compute weighted mean vector
-                means = Measures.WeightedMean(observations, weights);
+                mean = Measures.WeightedMean(observations, weights);
 
                 // Compute weighted covariance matrix
                 if (options != null && options.Diagonal)
-                    cov = Matrix.Diagonal(Measures.WeightedVariance(observations, weights, means));
-                else cov = Measures.WeightedCovariance(observations, weights, means);
+                    cov = Matrix.Diagonal(Measures.WeightedVariance(observations, weights, mean));
+                else cov = Measures.WeightedCovariance(observations, weights, mean);
             }
             else
             {
                 // Compute mean vector
-                means = Measures.Mean(observations, dimension: 0);
+                mean = Measures.Mean(observations, dimension: 0);
 
                 // Compute covariance matrix
                 if (options != null && options.Diagonal)
-                    cov = Matrix.Diagonal(Measures.Variance(observations, means));
-                else cov = Measures.Covariance(observations, means).ToMatrix();
+                    cov = Matrix.Diagonal(Measures.Variance(observations, mean));
+                else cov = Measures.Covariance(observations, mean).ToMatrix();
             }
 
 

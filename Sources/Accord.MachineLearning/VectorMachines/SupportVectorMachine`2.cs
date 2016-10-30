@@ -31,6 +31,7 @@ namespace Accord.MachineLearning.VectorMachines
     using Accord.Math;
     using Accord.MachineLearning;
     using Accord.Statistics;
+    using Statistics.Models.Regression.Linear;
 
     /// <summary>
     ///  Sparse Kernel Support Vector Machine (kSVM)
@@ -228,7 +229,7 @@ namespace Accord.MachineLearning.VectorMachines
             var linear = Kernel as ILinear<TInput>;
 
             if (linear == null)
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Only linear machines can be compressed.");
 
             double bias;
             var weights = linear.Compress(Weights, SupportVectors, out bias);
@@ -297,63 +298,6 @@ namespace Accord.MachineLearning.VectorMachines
         }
 
         /// <summary>
-        ///   Creates a new <see cref="SupportVectorMachine"/> that is
-        ///   completely equivalent to a <see cref="LogisticRegression"/>.
-        /// </summary>
-        /// 
-        /// <param name="regression">The <see cref="LogisticRegression"/> to be converted.</param>
-        /// 
-        /// <returns>
-        ///   A <see cref="SupportVectorMachine"/> whose linear weights are
-        ///   equivalent to the given <see cref="LogisticRegression"/>'s
-        ///   <see cref="GeneralizedLinearRegression.Coefficients"> linear 
-        ///   coefficients</see>, properly configured with a <see cref="LogLinkFunction"/>. 
-        /// </returns>
-        /// 
-        public static SupportVectorMachine FromLogisticRegression(LogisticRegression regression)
-        {
-            return new SupportVectorMachine(regression.NumberOfInputs)
-            {
-                Weights = regression.Weights.Copy(),
-                Threshold = regression.Intercept
-            };
-        }
-
-        /// <summary>
-        ///   Creates a new linear <see cref="SupportVectorMachine"/> 
-        ///   with the given set of linear <paramref name="weights"/>.
-        /// </summary>
-        /// 
-        /// <param name="weights">The machine's linear coefficients.</param>
-        /// <param name="interceptIndex">The index of the intercept term in the given weights vector.</param>
-        /// 
-        /// <returns>
-        ///   A <see cref="SupportVectorMachine"/> whose linear coefficients
-        ///   are defined by the given <paramref name="weights"/> vector.
-        /// </returns>
-        /// 
-        public static SupportVectorMachine FromWeights(double[] weights, int interceptIndex = -1)
-        {
-            double[] newWeights = weights;
-            double bias = 0;
-
-            if (interceptIndex >= 0)
-            {
-                newWeights = new double[weights.Length - 1];
-                for (int i = 0, j = 0; i < weights.Length; i++)
-                    if (i != interceptIndex)
-                        newWeights[j++] = weights[i];
-                bias = weights[interceptIndex];
-            }
-
-            return new SupportVectorMachine(newWeights.Length)
-            {
-                Weights = newWeights,
-                Threshold = bias
-            };
-        }
-
-        /// <summary>
         ///   Converts a <see cref="Accord.Statistics.Kernels.Linear"/>-kernel
         ///   machine into an array of linear coefficients. The first position
         ///   in the array is the <see cref="Threshold"/> value.
@@ -365,15 +309,23 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         public virtual double[] ToWeights()
         {
-            var w = new double[weights.Length + 1];
+            var genericLinear = Kernel as ILinear<TInput>;
+            var doubleLinear = Kernel as ILinear<double[]>;
+            if (genericLinear == null || doubleLinear == null)
+                throw new InvalidOperationException("Only double-precision linear machines can be converted to linear weights.");
+            
+            double[][] sv = genericLinear.ToDouble(SupportVectors);
+            double bias;
+            double[] weights = doubleLinear.Compress(Weights, sv, out bias);
+
+            int parameters = Math.Max(weights.Length, NumberOfInputs);
+
+            var w = new double[parameters + 1];
             for (int i = 0; i < weights.Length; i++)
                 w[i + 1] = weights[i];
-            w[0] = threshold;
-
+            w[0] = Threshold + bias;
             return w;
         }
-
-
 
         /// <summary>
         ///   Gets the number of inputs accepted by this machine.
@@ -421,5 +373,46 @@ namespace Accord.MachineLearning.VectorMachines
             clone.Threshold = Threshold;
             return clone;
         }
+
+
+
+
+
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="SupportVectorMachine"/> to <see cref="MultipleLinearRegression"/>.
+        /// </summary>
+        /// 
+        /// <param name="svm">The <see cref="SupportVectorMachine">linear Support Vector Machine</see> to be converted.</param>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
+        public static explicit operator MultipleLinearRegression(SupportVectorMachine<TKernel, TInput> svm)
+        {
+            double[] w = svm.ToWeights();
+            return new MultipleLinearRegression()
+            {
+                Weights = w.Get(1, 0),
+                Intercept = svm.Threshold
+            };
+        }
+
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="SupportVectorMachine"/> to <see cref="LogisticRegression"/>.
+        /// </summary>
+        /// 
+        /// <param name="svm">The <see cref="SupportVectorMachine">linear Support Vector Machine</see> to be converted.</param>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
+        public static explicit operator LogisticRegression(SupportVectorMachine<TKernel, TInput> svm)
+        {
+            double[] w = svm.ToWeights();
+            return new LogisticRegression()
+            {
+                Weights = w.Get(1, 0),
+                Intercept = svm.Threshold
+            };
+        }
+
     }
 }

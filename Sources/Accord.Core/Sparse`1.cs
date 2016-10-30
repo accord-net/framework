@@ -36,8 +36,8 @@ namespace Accord.Math
     /// 
     /// <typeparam name="T">The type for the non-zero elements in this vector.</typeparam>
     /// 
-    public sealed class Sparse<T> : IEnumerable<T>, ICloneable,
-        IList<T>, IList, IFormattable
+    public sealed class Sparse<T> : IEnumerable<T>, ICloneable, IList<T>, IList, IFormattable
+        where T: IEquatable<T>
     {
         private int[] indices;
         private T[] values;
@@ -121,8 +121,20 @@ namespace Accord.Math
         }
 
 
-
-
+        /// <summary>
+        ///   Gets the the value stored at position <paramref name="i"/>.
+        /// </summary>
+        /// 
+        public T this[int i]
+        {
+            get
+            {
+                int j = Array.IndexOf(Indices, i);
+                if (j >= 0)
+                    return Values[j];
+                return default(T);
+            }
+        }
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
@@ -147,12 +159,23 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Gets the number of non-zero elements in the sparse vector.
+        ///   Gets the maximum non-zero element index in the sparse vector.
         /// </summary>
         /// 
         public int Length
         {
-            get { return Indices.Length; }
+            get
+            {
+                T zero = default(T);
+
+                for (int i = Indices.Length - 1; i >= 0; i--)
+                {
+                    if (!Values[i].Equals(zero))
+                        return Indices[i] + 1;
+                }
+
+                return 0;
+            }
         }
 
 
@@ -342,5 +365,6 @@ namespace Accord.Math
             sb.Append("}");
             return sb.ToString();
         }
+
     }
 }
