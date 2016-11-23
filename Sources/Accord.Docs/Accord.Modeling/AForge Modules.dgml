@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="RightToLeft" Layout="Sugiyama" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="(@16)" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Robotics.Lego, Version=2.1.1.0, Culture=neutral, PublicKeyToken=5f361631ec856b74" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Robotics.Lego.dll" Label="AForge.Robotics.Lego.dll">
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="(@23)" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Imaging.Formats, Version=2.1.1.0, Culture=neutral, PublicKeyToken=8065ed5a639199a0" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Imaging.Formats.dll" Label="AForge.Imaging.Formats.dll">
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="(@24)" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Video.VFW, Version=2.1.3.0, Culture=neutral, PublicKeyToken=a82f807c999637c8" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Video.VFW.dll" Label="AForge.Video.VFW.dll">
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="(@25)" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Video.DirectShow, Version=2.1.5.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Video.DirectShow.dll" Label="AForge.Video.DirectShow.dll">
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="(@26)" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Fuzzy, Version=2.1.2.0, Culture=neutral, PublicKeyToken=cb12670d0eae17c9" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Fuzzy.dll" Label="AForge.Fuzzy.dll">
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="(@7)" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.MachineLearning, Version=2.1.1.0, Culture=neutral, PublicKeyToken=b3f1bdd78212f4e4" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.MachineLearning.dll" Label="AForge.MachineLearning.dll">
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@11" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Robotics.TeRK, Version=2.1.1.0, Culture=neutral, PublicKeyToken=5c0f140128226168" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Robotics.TeRK.dll" Label="AForge.Robotics.TeRK.dll">
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@13" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Vision, Version=2.1.1.0, Culture=neutral, PublicKeyToken=b612fa915eefaa06" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Vision.dll" Label="AForge.Vision.dll">
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@15" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Video, Version=2.1.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Video.dll" IsHub="True" Label="AForge.Video.dll">
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@18" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Neuro, Version=2.1.1.0, Culture=neutral, PublicKeyToken=2094f4ea39731d4f" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Neuro.dll" IsHub="True" Label="AForge.Neuro.dll">
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@2" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Genetic, Version=2.1.5.0, Culture=neutral, PublicKeyToken=4336634eeb41b69b" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Genetic.dll" Label="AForge.Genetic.dll">
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@20" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Robotics.Surveyor, Version=2.1.3.0, Culture=neutral, PublicKeyToken=7ed9f718a0f5b2f6" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Robotics.Surveyor.dll" Label="AForge.Robotics.Surveyor.dll">
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@22" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Controls, Version=2.1.5.0, Culture=neutral, PublicKeyToken=a8ac264d1dc6b9d9" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Controls.dll" Label="AForge.Controls.dll">
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@4" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge, Version=2.1.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.dll" IsHub="True" Label="AForge.dll">
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@6" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Imaging, Version=2.1.5.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Imaging.dll" Label="AForge.Imaging.dll">
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@9" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Math, Version=2.1.5.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Math.dll" IsHub="True" Label="AForge.Math.dll">
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+  </Nodes>
+  <Links>
+    <Link Source="(@24)" Target="@15" Category="References" />
+    <Link Source="(@25)" Target="@15" Category="References" />
+    <Link Source="(@26)" Target="@4" Category="References" />
+    <Link Source="@11" Target="@15" Category="References" />
+    <Link Source="@11" Target="@4" Category="References" />
+    <Link Source="@13" Target="@4" Category="References" />
+    <Link Source="@13" Target="@6" Category="References" />
+    <Link Source="@18" Target="@2" Category="References" />
+    <Link Source="@18" Target="@4" Category="References" />
+    <Link Source="@18" Target="@9" Category="References" />
+    <Link Source="@2" Target="@4" Category="References" />
+    <Link Source="@2" Target="@9" Category="References" />
+    <Link Source="@20" Target="@15" Category="References" />
+    <Link Source="@20" Target="@4" Category="References" />
+    <Link Source="@22" Target="@15" Category="References" />
+    <Link Source="@22" Target="@4" Category="References" />
+    <Link Source="@6" Target="@4" Category="References" />
+    <Link Source="@6" Target="@9" Category="References" />
+    <Link Source="@9" Target="@4" Category="References" />
+  </Links>
+  <Categories>
+    <Category Id="CodeSchema_Assembly" Label="Assembly" BasedOn="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Assembly" IsProviderRoot="False" NavigationActionLabel="Assemblies" />
+    <Category Id="File" Label="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="File" IsProviderRoot="False" NavigationActionLabel="Files" />
+    <Category Id="FileSystem.Category.FileOfType.dll" Label="dll File" BasedOn="CodeSchema_Assembly" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="dll Files" />
+    <Category Id="References" Label="References" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Referenced By" OutgoingActionLabel="References" />
+  </Categories>
+  <Properties>
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_StrongName" Label="StrongName" Description="StrongName" DataType="System.String" />
+    <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
+    <Property Id="FilePath" Label="File Path" Description="File Path" DataType="System.String" />
+    <Property Id="GraphDirection" DataType="Microsoft.VisualStudio.Progression.Layout.GraphDirection" />
+    <Property Id="Icon" Label="Icon" Description="Icon" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsHub" Label="Hub" Description="Node is in the top 25% of highly connected nodes.  Other nodes not directly connecting these hubs have been hidden to simplify the graph." DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+  </Properties>
+  <QualifiedNames>
+    <Name Id="Assembly" Label="Assembly" ValueType="Uri" />
+  </QualifiedNames>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Hub" ToolTip="Node is in the top 25% of highly connected nodes.  Other nodes not directly connecting these hubs have been hidden to simplify the graph." ValueLabel="True">
+      <Condition Expression="IsHub" />
+      <Setter Property="Background" Value="#FF008080" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="References" ValueLabel="True">
+      <Condition Expression="HasCategory('References')" />
+      <Setter Property="Background" Value="#FFC0C0C0" />
+    </Style>
+  </Styles>
+  <IdentifierAliases>
+    <Alias n="1" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Genetic.dll" />
+    <Alias n="2" Id="(@1)" />
+    <Alias n="3" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.dll" />
+    <Alias n="4" Id="(@3)" />
+    <Alias n="5" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Imaging.dll" />
+    <Alias n="6" Id="(@5)" />
+    <Alias n="7" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.MachineLearning.dll" />
+    <Alias n="8" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Math.dll" />
+    <Alias n="9" Id="(@8)" />
+    <Alias n="10" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Robotics.TeRK.dll" />
+    <Alias n="11" Id="(@10)" />
+    <Alias n="12" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Vision.dll" />
+    <Alias n="13" Id="(@12)" />
+    <Alias n="14" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Video.dll" />
+    <Alias n="15" Id="(@14)" />
+    <Alias n="16" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Robotics.Lego.dll" />
+    <Alias n="17" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Neuro.dll" />
+    <Alias n="18" Id="(@17)" />
+    <Alias n="19" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Robotics.Surveyor.dll" />
+    <Alias n="20" Id="(@19)" />
+    <Alias n="21" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Controls.dll" />
+    <Alias n="22" Id="(@21)" />
+    <Alias n="23" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Imaging.Formats.dll" />
+    <Alias n="24" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Video.VFW.dll" />
+    <Alias n="25" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Video.DirectShow.dll" />
+    <Alias n="26" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Fuzzy.dll" />
+  </IdentifierAliases>
+  <Paths>
+    <Path Id="ProgramFiles" Value="C:\Program Files (x86)" />
+    <Path Id="ProgramFilesUri" Value="file:///C:/Program Files (x86)" />
+  </Paths>
+</DirectedGraph>

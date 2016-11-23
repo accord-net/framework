@@ -1,0 +1,751 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{F718E9A8-DB62-4785-8C49-4333A60D256A}</ProjectGuid>
+    <RootNamespace>Accord.Math</RootNamespace>
+    <AssemblyName>Accord.Math</AssemblyName>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <MapFileExtensions>true</MapFileExtensions>
+    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <TargetFrameworkProfile />
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
+    <OutputPath>$(SolutionDir)..\Release\net35</OutputPath>
+    <DefineConstants>TRACE;NET35</DefineConstants>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <DocumentationFile>$(SolutionDir)..\Release\net35\Accord.Math.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Accord.Math.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
+    <OutputPath>$(SolutionDir)..\Release\net40</OutputPath>
+    <DefineConstants>TRACE;NET40</DefineConstants>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <DocumentationFile>$(SolutionDir)..\Release\net40\Accord.Math.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Accord.Math.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
+    <OutputPath>$(SolutionDir)..\Release\net45</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <DocumentationFile>$(SolutionDir)..\Release\net45\Accord.Math.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Accord.Math.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET46|AnyCPU'">
+    <OutputPath>$(SolutionDir)..\Release\net46</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET46</DefineConstants>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <DocumentationFile>$(SolutionDir)..\Release\net46\Accord.Math.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net46\Accord.Math.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono|AnyCPU'">
+    <OutputPath>$(SolutionDir)..\Release\mono</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;MONO</DefineConstants>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <DocumentationFile>$(SolutionDir)..\Release\mono\Accord.Math.XML</DocumentationFile>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <ItemGroup>
+    <Reference Include="envdte, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'NET35'" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Accord.Statistics\Classes.cs" />
+    <Compile Include="Accord.Statistics\Measures.Histogram.cs" />
+    <Compile Include="Accord.Statistics\Measures.Matrix.cs" />
+    <Compile Include="Accord.Statistics\Measures.Matrix.Weighted.cs" />
+    <Compile Include="Accord.Statistics\Measures.Vectors.cs" />
+    <Compile Include="Accord.Statistics\Measures.Vectors.Weighted.cs" />
+    <Compile Include="AForge.Math\ContinuousHistogram.cs" />
+    <Compile Include="AForge.Math\FourierTransform.cs" />
+    <Compile Include="AForge.Math\Gaussian.cs" />
+    <Compile Include="AForge.Math\Geometry\ClosePointsMergingOptimizer.cs" />
+    <Compile Include="AForge.Math\Geometry\CoplanarPosit.cs" />
+    <Compile Include="AForge.Math\Geometry\FlatAnglesOptimizer.cs" />
+    <Compile Include="AForge.Math\Geometry\GeometryTools.cs" />
+    <Compile Include="AForge.Math\Geometry\GrahamConvexHull.cs" />
+    <Compile Include="AForge.Math\Geometry\IConvexHullAlgorithm.cs" />
+    <Compile Include="AForge.Math\Geometry\IShapeOptimizer.cs" />
+    <Compile Include="AForge.Math\Geometry\Line.cs" />
+    <Compile Include="AForge.Math\Geometry\LineSegment.cs" />
+    <Compile Include="AForge.Math\Geometry\LineStraighteningOptimizer.cs" />
+    <Compile Include="AForge.Math\Geometry\PointsCloud.cs" />
+    <Compile Include="AForge.Math\Geometry\POSIT.cs" />
+    <Compile Include="AForge.Math\Geometry\ShapeType.cs" />
+    <Compile Include="AForge.Math\Geometry\SimpleShapeChecker.cs" />
+    <Compile Include="AForge.Math\Matrix3x3.cs" />
+    <Compile Include="AForge.Math\Matrix4x4.cs" />
+    <Compile Include="AForge.Math\Metrics\CosineDistance.cs" />
+    <Compile Include="AForge.Math\Metrics\CosineSimilarity.cs" />
+    <Compile Include="AForge.Math\Metrics\EuclideanDistance.cs" />
+    <Compile Include="AForge.Math\Metrics\EuclideanSimilarity.cs" />
+    <Compile Include="AForge.Math\Metrics\HammingDistance.cs" />
+    <Compile Include="AForge.Math\Metrics\IDistance.cs" />
+    <Compile Include="AForge.Math\Metrics\ISimilarity.cs" />
+    <Compile Include="AForge.Math\Metrics\JaccardDistance.cs" />
+    <Compile Include="AForge.Math\Metrics\ManhattanDistance.cs" />
+    <Compile Include="AForge.Math\Metrics\PearsonCorrelation.cs" />
+    <Compile Include="AForge.Math\PerlinNoise.cs" />
+    <Compile Include="AForge.Math\Random\ExponentialGenerator.cs" />
+    <Compile Include="AForge.Math\Random\GaussianGenerator.cs" />
+    <Compile Include="AForge.Math\Random\IRandomNumberGenerator.cs" />
+    <Compile Include="AForge.Math\Random\StandardGenerator.cs" />
+    <Compile Include="AForge.Math\Random\UniformGenerator.cs" />
+    <Compile Include="AForge.Math\Random\UniformOneGenerator.cs" />
+    <Compile Include="AForge.Math\SVD.cs" />
+    <Compile Include="AForge.Math\Vector3.cs" />
+    <Compile Include="AForge.Math\Vector4.cs" />
+    <Compile Include="Decompositions\JaggedGeneralizedEigenvalueDecomposition.cs" />
+    <Compile Include="Decompositions\JaggedSingularValueDecomposition.cs">
+      <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedSingularValueDecompositionD.cs">
+      <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedSingularValueDecompositionF.cs">
+      <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\SingularValueDecomposition.cs">
+      <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\SingularValueDecompositionD.cs">
+      <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\SingularValueDecompositionF.cs">
+      <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Jagged.Product.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Jagged.Product.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Linear.Generated.cs">
+      <DependentUpon>Matrix.Linear.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Get.cs" />
+    <Compile Include="Matrix\Jagged.Parsing.cs" />
+    <Compile Include="Norm.Generated.cs">
+      <DependentUpon>Norm.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Distance.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Distance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Distances\Base\IMetric.cs" />
+    <Compile Include="Distances\Base\ISimilarity.cs" />
+    <Compile Include="Distances\Jaccard.cs" />
+    <Compile Include="Distances\ArgMax.cs" />
+    <Compile Include="Distances\Matching.cs" />
+    <Compile Include="Distances\RogersTanimoto.cs" />
+    <Compile Include="Distances\RusselRao.cs" />
+    <Compile Include="Distances\SokalMichener.cs" />
+    <Compile Include="Distances\SokalSneath.cs" />
+    <Compile Include="Distances\Kulczynski.cs" />
+    <Compile Include="Distances\Yule.cs" />
+    <Compile Include="Distances\Dice.cs" />
+    <Compile Include="Distances\Hamming.cs" />
+    <Compile Include="Distances\Jaccard`1.cs" />
+    <Compile Include="Distances\Hellinger.cs" />
+    <Compile Include="Distances\Canberra.cs" />
+    <Compile Include="Distances\Chebyshev.cs" />
+    <Compile Include="Distances\Levenshtein.cs" />
+    <Compile Include="Distances\Mahalanobis.cs" />
+    <Compile Include="Distances\PearsonCorrelation.cs" />
+    <Compile Include="Distances\Cosine.cs" />
+    <Compile Include="Distances\Modular.cs" />
+    <Compile Include="Distances\Minkowski.cs" />
+    <Compile Include="Distances\Hamming`1.cs" />
+    <Compile Include="Distances\Levenshtein`1.cs" />
+    <Compile Include="Distances\Manhattan.cs" />
+    <Compile Include="Distances\BrayCurtis.cs" />
+    <Compile Include="Distances\SquaredMahalanobis.cs" />
+    <Compile Include="Distances\SquareEuclidean.cs" />
+    <Compile Include="Distances\Euclidean.cs" />
+    <Compile Include="Distances\Base\IDistance.cs" />
+    <Compile Include="Matrix\Jagged.Common.cs" />
+    <Compile Include="Matrix\Matrix.Comparisons1.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Matrix.Comparisons.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Conversions.Generated.cs">
+      <DependentUpon>Matrix.Conversions.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Reduction.Generated.cs">
+      <DependentUpon>Matrix.Reduction.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Matrix\Jagged.MinMax.cs" />
+    <Compile Include="Matrix\Matrix.Product1.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Matrix.Product.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Jagged.Random.Generated.cs">
+      <DependentUpon>Jagged.Random.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Matrix\JaggedReducedRowEchelonForm.cs" />
+    <Compile Include="Matrix\Vector.MinMax.cs" />
+    <Compile Include="Matrix\Matrix.MinMax.cs" />
+    <Compile Include="Optimization\Losses\BinaryCrossEntropyLoss.cs" />
+    <Compile Include="Optimization\Losses\CategoryCrossEntropyLoss.cs" />
+    <Compile Include="Optimization\Losses\HammingLoss.cs" />
+    <Compile Include="Optimization\Losses\LogLikelihoodLoss.cs" />
+    <Compile Include="Optimization\Losses\LossBase.cs" />
+    <Compile Include="Optimization\Losses\AbsoluteLoss.cs" />
+    <Compile Include="Optimization\Losses\HingeLoss.cs" />
+    <Compile Include="Optimization\Losses\ILoss.cs" />
+    <Compile Include="Optimization\Losses\LogisticLoss.cs" />
+    <Compile Include="Optimization\Losses\RSquaredLoss.cs" />
+    <Compile Include="Optimization\Losses\SquareLoss.cs" />
+    <Compile Include="Optimization\Losses\ZeroOneLoss.cs" />
+    <Compile Include="Optimization\Unconstrained\TrustRegionNewtonMethod.cs" />
+    <Compile Include="Random\IRandomNumberGenerator.cs" />
+    <Compile Include="Random\ZigguratExponentialGenerator.cs" />
+    <Compile Include="Random\ZigguratUniformGenerator.cs" />
+    <Compile Include="Random\ZigguratUniformOneGenerator.cs" />
+    <Compile Include="Random\ZigguratNormalGenerator.cs" />
+    <Compile Include="Sort.cs" />
+    <Compile Include="Vector\Vector.Sparse.cs" />
+    <Compile Include="Vector\Vector.Common.cs" />
+    <Compile Include="IO\Mat\MatArrayFlags.cs" />
+    <Compile Include="IO\Mat\MatArrayType.cs" />
+    <Compile Include="IO\Mat\MatDataTag.cs" />
+    <Compile Include="IO\Mat\MatDataType.cs" />
+    <Compile Include="IO\Mat\MatHeader.cs" />
+    <Compile Include="IO\Mat\MatNode.cs" />
+    <Compile Include="IO\Mat\MatReader.cs" />
+    <Compile Include="IO\Mat\MatSparse.cs" />
+    <Compile Include="Optimization\Unconstrained\FanChenLinQuadraticOptimization.cs" />
+    <Compile Include="Random\Generator.cs" />
+    <Compile Include="Comparers\Accord.Math.Comparers.cs" />
+    <Compile Include="Convergence\Base\IConvergence.cs" />
+    <Compile Include="Convergence\GeneralConvergence.cs" />
+    <Compile Include="Decompositions\Accord.Math.Decompositions.cs" />
+    <Compile Include="Decompositions\JaggedEigenvalueDecomposition.cs">
+      <DependentUpon>JaggedEigenvalueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedEigenvalueDecompositionF.cs">
+      <DependentUpon>JaggedEigenvalueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedQrDecomposition.cs">
+      <DependentUpon>JaggedQrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedQrDecompositionD.cs">
+      <DependentUpon>JaggedQrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedQrDecompositionF.cs">
+      <DependentUpon>JaggedQrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\QrDecomposition.cs">
+      <DependentUpon>QrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\QrDecompositionD.cs">
+      <DependentUpon>QrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\QrDecompositionF.cs">
+      <DependentUpon>QrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Functions\OwensT.cs" />
+    <Compile Include="Integration\Accord.Math.Integration.cs" />
+    <Compile Include="Integration\Base\IMultidimensionalIntegration.cs" />
+    <Compile Include="Integration\Base\IUnidimensionalIntegration.cs" />
+    <Compile Include="Integration\Base\INumericalIntegration.cs" />
+    <Compile Include="Integration\InfiniteAdaptiveGaussKronrod.cs" />
+    <Compile Include="Integration\NonAdaptiveGaussKronrod.cs" />
+    <Compile Include="Differentiation\FiniteDifferences.cs" />
+    <Compile Include="Integration\MonteCarloIntegration.cs" />
+    <Compile Include="Combinatorics.cs" />
+    <Compile Include="Comparers\ArrayComparer`1.cs" />
+    <Compile Include="Comparers\ElementComparer.cs" />
+    <Compile Include="Comparers\CustomComparer`1.cs" />
+    <Compile Include="Comparers\GeneralComparer.cs" />
+    <Compile Include="Comparers\StableComparer.cs" />
+    <Compile Include="Convergence\AbsoluteConvergence.cs" />
+    <Compile Include="Convergence\Base\ISingleValueConvergence.cs" />
+    <Compile Include="Convergence\RelativeConvergence.cs" />
+    <Compile Include="Convergence\RelativeParameterConvergence.cs" />
+    <Compile Include="Decompositions\CholeskyDecomposition.cs">
+      <DependentUpon>CholeskyDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\CholeskyDecompositionD.cs">
+      <DependentUpon>CholeskyDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\CholeskyDecompositionF.cs">
+      <DependentUpon>CholeskyDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\EigenvalueDecomposition.cs">
+      <DependentUpon>EigenvalueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\EigenvalueDecompositionF.cs">
+      <DependentUpon>EigenvalueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\GramSchmidtOrthogonalization.cs" />
+    <Compile Include="Decompositions\JaggedLuDecomposition.cs">
+      <DependentUpon>JaggedLuDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Integration\RombergMethod.cs" />
+    <Compile Include="Integration\TrapezoidalRule.cs" />
+    <Compile Include="Environments\REnvironment.cs" />
+    <Compile Include="Functions\Gabor.cs" />
+    <Compile Include="Geometry\Circle.cs" />
+    <Compile Include="Geometry\DiscreteCurveEvolution.cs" />
+    <Compile Include="Geometry\Plane.cs" />
+    <Compile Include="Geometry\Point3.cs" />
+    <Compile Include="Kinematics\DenavitHartenbergMatrix.cs" />
+    <Compile Include="Kinematics\DenavitHartenbergModel.cs" />
+    <Compile Include="Kinematics\DenavitHartenbergNode.cs" />
+    <Compile Include="Kinematics\DenavitHartenbergParameter.cs" />
+    <Compile Include="Kinematics\DenavitHartenbergJoint.cs" />
+    <Compile Include="Matrix\Matrix.Submatrix.cs" />
+    <Compile Include="Optimization\Accord.Math.Optimization.cs" />
+    <Compile Include="Optimization\Base\BaseGradientOptimizationMethod.cs" />
+    <Compile Include="Optimization\Base\BaseOptimizationMethod.cs" />
+    <Compile Include="Optimization\Base\IGradientOptimizationMethod.cs" />
+    <Compile Include="Optimization\Base\ILeastSquaresMethod.cs" />
+    <Compile Include="Optimization\BinarySearch.cs" />
+    <Compile Include="Optimization\Constrained\Cobyla.cs" />
+    <Compile Include="Optimization\Constrained\Constraints\IConstraint.cs" />
+    <Compile Include="Optimization\Constrained\Constraints\LinearConstraintCollection.cs" />
+    <Compile Include="Optimization\Unconstrained\BoundedBroydenFletcherGoldfarbShanno.FORTRAN.cs" />
+    <Compile Include="Optimization\Unconstrained\BroydenFletcherGoldfarbShanno.LIBLBFGS.cs" />
+    <Compile Include="Optimization\Unconstrained\BoundedBroydenFletcherGoldfarbShanno.cs" />
+    <Compile Include="Optimization\Unconstrained\BoundedBroydenFletcherGoldfarbShannoInnerStatus.cs" />
+    <Compile Include="Optimization\Unconstrained\Least Squares\GaussNewton.cs" />
+    <Compile Include="Optimization\Unconstrained\Least Squares\LevenbergMarquardt.cs" />
+    <Compile Include="Optimization\Unconstrained\NelderMead.cs" />
+    <Compile Include="Optimization\Unconstrained\ResilientBackpropagation.cs" />
+    <Compile Include="Optimization\Unconstrained\Subplex.cs" />
+    <Compile Include="Taylor.cs" />
+    <Compile Include="Transforms\FourierTransform2.cs" />
+    <Compile Include="Transforms\HartleyTransform.cs" />
+    <Compile Include="Transforms\SineTransform.cs" />
+    <Compile Include="Transforms\CosineTransform.cs" />
+    <Compile Include="Decompositions\Base\ISolverArrayDecomposition.cs" />
+    <Compile Include="Decompositions\Base\ISolverMatrixDecomposition.cs" />
+    <None Include="Comparers\Accord.Math.Comparers.cd" />
+    <None Include="Decompositions\CholeskyDecomposition.tt">
+      <LastOutputs>
+.\CholeskyDecomposition.cs
+.\CholeskyDecomposition.txt
+.\CholeskyDecompositionD.cs
+.\CholeskyDecompositionF.cs
+</LastOutputs>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CholeskyDecomposition.txt</LastGenOutput>
+    </None>
+    <None Include="Decompositions\Accord.Math.Decompositions.cd" />
+    <None Include="Decompositions\JaggedEigenvalueDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JaggedEigenvalueDecomposition.txt</LastGenOutput>
+      <LastOutputs>
+.\JaggedEigenvalueDecomposition.cs
+.\JaggedEigenvalueDecomposition.txt
+.\JaggedEigenvalueDecompositionF.cs
+</LastOutputs>
+    </None>
+    <None Include="Decompositions\JaggedCholeskyDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JaggedCholeskyDecomposition.txt</LastGenOutput>
+      <LastOutputs>
+.\JaggedCholeskyDecomposition.cs
+.\JaggedCholeskyDecomposition.txt
+.\JaggedCholeskyDecompositionD.cs
+.\JaggedCholeskyDecompositionF.cs
+</LastOutputs>
+    </None>
+    <None Include="Decompositions\JaggedLuDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>
+.\JaggedLuDecomposition.cs
+.\JaggedLuDecomposition.txt
+.\JaggedLuDecompositionD.cs
+.\JaggedLuDecompositionF.cs
+</LastOutputs>
+      <LastGenOutput>JaggedLuDecomposition.txt</LastGenOutput>
+    </None>
+    <Compile Include="Decompositions\GeneralizedEigenvalueDecomposition.cs" />
+    <None Include="Decompositions\EigenvalueDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EigenvalueDecomposition.txt</LastGenOutput>
+      <LastOutputs>
+.\EigenvalueDecomposition.cs
+.\EigenvalueDecomposition.txt
+.\EigenvalueDecompositionF.cs
+</LastOutputs>
+    </None>
+    <Compile Include="Decompositions\JaggedCholeskyDecomposition.cs">
+      <DependentUpon>JaggedCholeskyDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedCholeskyDecompositionD.cs">
+      <DependentUpon>JaggedCholeskyDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedCholeskyDecompositionF.cs">
+      <DependentUpon>JaggedCholeskyDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedLuDecompositionD.cs">
+      <DependentUpon>JaggedLuDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedLuDecompositionF.cs">
+      <DependentUpon>JaggedLuDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\LuDecomposition.cs">
+      <DependentUpon>LuDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\LuDecompositionD.cs">
+      <DependentUpon>LuDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\LuDecompositionF.cs">
+      <DependentUpon>LuDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\NonnegativeMatrixFactorization.cs" />
+    <None Include="Decompositions\JaggedSingularValueDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>
+.\JaggedSingularValueDecomposition.cs
+.\JaggedSingularValueDecomposition.txt
+.\JaggedSingularValueDecompositionD.cs
+.\JaggedSingularValueDecompositionF.cs
+</LastOutputs>
+      <LastGenOutput>JaggedSingularValueDecomposition.txt</LastGenOutput>
+    </None>
+    <None Include="Decompositions\JaggedQrDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JaggedQrDecomposition.txt</LastGenOutput>
+      <LastOutputs>
+.\JaggedQrDecomposition.cs
+.\JaggedQrDecomposition.txt
+.\JaggedQrDecompositionD.cs
+.\JaggedQrDecompositionF.cs
+</LastOutputs>
+    </None>
+    <None Include="Decompositions\QrDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>QrDecomposition.txt</LastGenOutput>
+      <LastOutputs>
+.\QrDecomposition.cs
+.\QrDecomposition.txt
+.\QrDecompositionD.cs
+.\QrDecompositionF.cs
+</LastOutputs>
+    </None>
+    <None Include="Decompositions\SingularValueDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SingularValueDecomposition.txt</LastGenOutput>
+      <LastOutputs>
+.\SingularValueDecomposition.cs
+.\SingularValueDecomposition.txt
+.\SingularValueDecompositionD.cs
+.\SingularValueDecompositionF.cs
+</LastOutputs>
+    </None>
+    <Compile Include="Distance.cs" />
+    <Compile Include="Environments\OctaveEnvironment.cs" />
+    <Compile Include="Formats\Base\IMatrixFormatProvider.cs" />
+    <Compile Include="Formats\Base\MatrixFormatProviderBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Formats\OctaveArrayFormatProvider.cs" />
+    <Compile Include="Formats\DefaultArrayFormatProvider.cs" />
+    <Compile Include="Formats\CSharpArrayFormatProvider.cs" />
+    <Compile Include="Formats\CSharpMatrixFormatProvider.cs" />
+    <Compile Include="Formats\CSharpJaggedMatrixFormatProvider.cs" />
+    <Compile Include="Formats\DefaultMatrixFormatProvider.cs" />
+    <Compile Include="Formats\Base\MatrixFormatter.cs" />
+    <Compile Include="Formats\OctaveMatrixFormatProvider.cs" />
+    <Compile Include="Functions\Normal.cs" />
+    <Compile Include="Geometry\ConvexHullDefects.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\ConvexityDefect.cs" />
+    <Compile Include="Geometry\KCurvature.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Matrix\ReducedRowEchelonForm.cs" />
+    <Compile Include="Matrix\Matrix.Construction.cs" />
+    <Compile Include="Matrix\Matrix.Parsing.cs" />
+    <Compile Include="Matrix\Matrix.Complex.cs" />
+    <Compile Include="Matrix\Matrix.Elementwise.cs" />
+    <Compile Include="Matrix\Matrix.Conversions.cs" />
+    <Compile Include="Matrix\Matrix.Algebra.cs" />
+    <Compile Include="Matrix\Matrix.Selection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Norm.cs" />
+    <Compile Include="Optimization\Constrained\AugmentedLagrangian.cs" />
+    <Compile Include="Optimization\Constrained\Constraints\QuadraticConstraint.cs" />
+    <Compile Include="Optimization\Constrained\Constraints\NonlinearConstraint.cs" />
+    <Compile Include="Optimization\ExpressionParser.cs" />
+    <Compile Include="Optimization\NonlinearObjectiveFunction.cs" />
+    <Compile Include="Optimization\Unconstrained\ConjugateGradient.cs" />
+    <Compile Include="Optimization\Constrained\Constraints\LinearConstraint.cs" />
+    <Compile Include="Optimization\IObjectiveFunction.cs" />
+    <Compile Include="Optimization\QuadraticObjectiveFunction.cs" />
+    <Compile Include="Optimization\Base\IOptimizationMethod.cs" />
+    <Compile Include="Optimization\Unconstrained\BroydenFletcherGoldfarbShanno.cs" />
+    <Compile Include="Optimization\Unconstrained\LineSearchFailedException.cs" />
+    <Compile Include="Optimization\Unconstrained\OptimizationProgressEventHandler.cs" />
+    <Compile Include="Optimization\Constrained\GoldfarbIdnani.cs" />
+    <Compile Include="Optimization\BrentSearch.cs" />
+    <Compile Include="Special.cs" />
+    <Compile Include="Transforms\HilbertTransform.cs" />
+    <Compile Include="Matrix\Matrix.Common.cs" />
+    <Compile Include="Functions\Beta.cs" />
+    <Compile Include="Functions\Gamma.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Functions\Bessel.cs" />
+    <Compile Include="Tools.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Matrix\Jagged.Construction.cs" />
+    <Compile Include="Vector\Vector.Construction.cs" />
+    <Compile Include="Vector\Vector.Interval.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Vector.Interval.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vector\Vector.Order.cs" />
+    <Compile Include="Matrix\Matrix.Random.Generated.cs">
+      <DependentUpon>Matrix.Random.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Vector\Vector.Random.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Vector.Random.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vector\Vector.Range.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Vector.Range.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vector\Vector.Scale.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Vector.Scale.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Wavelets\CDF97.cs" />
+    <Compile Include="Wavelets\Haar.cs" />
+    <Compile Include="Wavelets\Base\IWavelet.cs" />
+    <None Include="Matrix\Jagged.Product.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Jagged.Product.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Jagged.Product.Generated.cs</LastOutputs>
+    </None>
+    <None Include="Norm.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Norm.Generated.cs</LastGenOutput>
+    </None>
+    <None Include="Distance.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Distance.Generated.cs</LastGenOutput>
+    </None>
+    <None Include="Integration\Accord.Math.Integration.cd" />
+    <None Include="Matrix\Matrix.Comparisons.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>.\Matrix.Comparisons1.Generated.cs</LastOutputs>
+      <LastGenOutput>Matrix.Comparisons1.Generated.cs</LastGenOutput>
+    </None>
+    <None Include="Matrix\Matrix.Conversions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Conversions.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Matrix.Conversions.Generated.cs</LastOutputs>
+    </None>
+    <None Include="Matrix\Matrix.Reduction.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Reduction.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Matrix.Reduction.Generated.cs</LastOutputs>
+    </None>
+    <None Include="Matrix\Matrix.Product.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Product1.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Matrix.Product1.Generated.cs</LastOutputs>
+    </None>
+    <None Include="Matrix\Jagged.Random.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Jagged.Random.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Jagged.Random.Generated.cs</LastOutputs>
+    </None>
+    <None Include="Optimization\Accord.Math.Optimization.cd" />
+    <None Include="Matrix\Matrix.Random.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Random.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Matrix.Random.Generated.cs</LastOutputs>
+    </None>
+    <None Include="Vector\Vector.Random.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>.\Vector.Random.Generated.cs</LastOutputs>
+      <LastGenOutput>Vector.Random.Generated.cs</LastGenOutput>
+    </None>
+    <None Include="Vector\Vector.Range.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>.\Vector.Range.Generated.cs</LastOutputs>
+      <LastGenOutput>Vector.Range.Generated.cs</LastGenOutput>
+    </None>
+    <None Include="Vector\Vector.Interval.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>.\Vector.Interval.Generated.cs</LastOutputs>
+      <LastGenOutput>Vector.Interval.Generated.cs</LastGenOutput>
+    </None>
+    <None Include="Vector\Vector.Scale.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>.\Vector.Scale.Generated.cs</LastOutputs>
+      <LastGenOutput>Vector.Scale.Generated.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Accord.Math.cd" />
+    <None Include="Accord.snk" />
+    <None Include="Decompositions\LuDecomposition.tt">
+      <LastGenOutput>LuDecomposition.txt</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>
+.\LuDecomposition.cs
+.\LuDecomposition.txt
+.\LuDecompositionD.cs
+.\LuDecompositionF.cs
+</LastOutputs>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="Properties\CustomDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Accord.Core\Accord.Core.csproj">
+      <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
+      <Name>Accord.Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Decompositions\CholeskyDecomposition.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CholeskyDecomposition.tt</DependentUpon>
+    </Content>
+    <Content Include="Decompositions\JaggedEigenvalueDecomposition.txt">
+      <DependentUpon>JaggedEigenvalueDecomposition.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Content>
+    <Content Include="Decompositions\EigenvalueDecomposition.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EigenvalueDecomposition.tt</DependentUpon>
+    </Content>
+    <Content Include="Decompositions\JaggedCholeskyDecomposition.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JaggedCholeskyDecomposition.tt</DependentUpon>
+    </Content>
+    <Content Include="Decompositions\JaggedLuDecomposition.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JaggedLuDecomposition.tt</DependentUpon>
+    </Content>
+    <Content Include="Decompositions\JaggedSingularValueDecomposition.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
+    </Content>
+    <Content Include="Decompositions\LuDecomposition.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LuDecomposition.tt</DependentUpon>
+    </Content>
+    <Content Include="Decompositions\JaggedQrDecomposition.txt">
+      <DependentUpon>JaggedQrDecomposition.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Content>
+    <Content Include="Decompositions\QrDecomposition.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QrDecomposition.tt</DependentUpon>
+    </Content>
+    <Content Include="Decompositions\SingularValueDecomposition.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
+    </Content>
+    <None Include="Matrix\Matrix.Linear.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Linear.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Matrix.Linear.Generated.cs</LastOutputs>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+</Project>

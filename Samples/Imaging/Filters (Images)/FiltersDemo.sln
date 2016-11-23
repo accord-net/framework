@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiltersDemo", "FiltersDemo.csproj", "{744FC79F-5B6D-44AD-8C34-1ABB6EABAE6B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{744FC79F-5B6D-44AD-8C34-1ABB6EABAE6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{744FC79F-5B6D-44AD-8C34-1ABB6EABAE6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{744FC79F-5B6D-44AD-8C34-1ABB6EABAE6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{744FC79F-5B6D-44AD-8C34-1ABB6EABAE6B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,1047 @@
+﻿// Accord Unit Tests
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2016
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
+
+namespace Accord.Tests.MachineLearning
+{
+    using Accord.IO;
+    using Accord.MachineLearning.VectorMachines;
+    using Accord.MachineLearning.VectorMachines.Learning;
+    using Accord.Math;
+    using Accord.Math.Optimization.Losses;
+    using Accord.Statistics;
+    using Accord.Statistics.Kernels;
+    using NUnit.Framework;
+    using System.IO;
+    using System.Threading.Tasks;
+
+    [TestFixture]
+    public class MultilabelSupportVectorLearningTest
+    {
+
+        [Test]
+        public void RunTest()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Sample data
+            //   The following is a simple auto association function
+            //   in which each input correspond to its own class. This
+            //   problem should be easily solved using a Linear kernel.
+
+            // Sample input data
+            double[][] inputs =
+            {
+                new double[] { 0, 0 },
+                new double[] { 0, 1 },
+                new double[] { 1, 0 },
+                new double[] { 1, 1 },
+            };
+
+            // Outputs for each of the inputs
+            int[][] outputs =
+            { 
+                //       and   or   nand   xor
+                new[] {  -1,  -1,    +1,   +1 }, 
+                new[] {  -1,  +1,    +1,   -1 },
+                new[] {  -1,  +1,    +1,   -1 },
+                new[] {  +1,  +1,    -1,   +1 },
+            };
+
+            // Create a new Linear kernel
+            IKernel linear = new Linear();
+
+            // Create a new Multi-class Support Vector Machine for one input,
+            //  using the linear kernel and four disjoint classes.
+            var machine = new MultilabelSupportVectorMachine(inputs: 2, kernel: linear, classes: 4);
+
+            // Create the Multi-class learning algorithm for the machine
+            var teacher = new MultilabelSupportVectorLearning(machine, inputs, outputs);
+
+            // Configure the learning algorithm to use SMO to train the
+            //  underlying SVMs in each of the binary class subproblems.
+            teacher.Algorithm = (svm, classInputs, classOutputs, i, j) =>
+                new SequentialMinimalOptimization(svm, classInputs, classOutputs)
+                {
+                    // Create a hard SVM
+                    Complexity = 10000.0
+                };
+
+            // Run the learning algorithm
+            double error = teacher.Run();
+
+            // only xor is not learnable by
+            // a hard-margin linear machine
+
+            bool[][] pred = machine.Decide(inputs);
+            bool[][] train = Classes.Decide(outputs);
+
+            var and = pred.GetColumn(0);
+            Assert.IsTrue(and.IsEqual(train.GetColumn(0)));
+
+            var or = pred.GetColumn(1);
+            Assert.IsTrue(or.IsEqual(train.GetColumn(1)));
+
+            var nand = pred.GetColumn(2);
+            Assert.IsTrue(nand.IsEqual(train.GetColumn(2)));
+
+            var xor = pred.GetColumn(3);
+            Assert.IsFalse(xor.IsEqual(train.GetColumn(3)));
+
+
+            Assert.AreEqual(2 / 16.0, error);
+        }
+
+
+        [Test]
+        public void ComputeTest1()
+        {
+            double[][] inputs =
+            {
+                new double[] { 1, 4, 2, 0, 1 },
+                new double[] { 1, 3, 2, 0, 1 },
+                new double[] { 3, 0, 1, 1, 1 },
+                new double[] { 3, 0, 1, 0, 1 },
+                new double[] { 0, 5, 5, 5, 5 },
+                new double[] { 1, 5, 5, 5, 5 },
+                new double[] { 1, 0, 0, 0, 0 },
+                new double[] { 1, 0, 0, 0, 0 },
+            };
+
+            int[] outputs =
+            {
+                0, 0,
+                1, 1,
+                2, 2,
+                3, 3,
+            };
+
+
+            IKernel kernel = new Polynomial(2);
+            var msvm = new MultilabelSupportVectorMachine(5, kernel, 4);
+            var smo = new MultilabelSupportVectorLearning(msvm, inputs, outputs);
+            smo.Algorithm = (svm, classInputs, classOutputs, i, j) =>
+                new SequentialMinimalOptimization(svm, classInputs, classOutputs)
+                {
+                    Complexity = 1
+                };
+
+            Assert.AreEqual(0, msvm.GetLastKernelEvaluations());
+
+#if DEBUG
+            smo.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+#endif
+            msvm.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            double error = smo.Run();
+            Assert.AreEqual(0, error);
+
+
+            int[] evals = new int[inputs.Length];
+            int[] hits = new int[inputs.Length];
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double expected = outputs[i];
+                double[] responses; msvm.Compute(inputs[i], out responses);
+                int actual; responses.Max(out actual);
+                Assert.AreEqual(expected, actual);
+                evals[i] = msvm.GetLastKernelEvaluations();
+                hits[i] = msvm.GetLastKernelHits();
+            }
+
+            for (int i = 0; i < evals.Length; i++)
+                Assert.AreEqual(msvm.SupportVectorUniqueCount, evals[i]);
+        }
+
+        [Test]
+        public void LinearComputeTest1()
+        {
+            double[][] inputs =
+            {
+                new double[] { 1, 4, 2, 0, 1 },
+                new double[] { 1, 3, 2, 0, 1 },
+                new double[] { 3, 0, 1, 1, 1 },
+                new double[] { 3, 0, 1, 0, 1 },
+                new double[] { 0, 5, 5, 5, 5 },
+                new double[] { 1, 5, 5, 5, 5 },
+                new double[] { 1, 0, 0, 0, 0 },
+                new double[] { 1, 0, 0, 0, 0 },
+            };
+
+            int[] outputs =
+            {
+                0, 0,
+                1, 1,
+                2, 2,
+                3, 3,
+            };
+
+
+            var msvm = new MultilabelSupportVectorMachine(5, 4);
+            var smo = new MultilabelSupportVectorLearning(msvm, inputs, outputs);
+            smo.Algorithm = (svm, classInputs, classOutputs, i, j) =>
+                new LinearNewtonMethod(svm, classInputs, classOutputs)
+                {
+                    Complexity = 1
+                };
+
+            Assert.AreEqual(0, msvm.GetLastKernelEvaluations());
+
+#if DEBUG
+            smo.ParallelOptions.MaxDegreeOfParallelism = 1;
+            msvm.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
+
+            double error = smo.Run();
+            Assert.AreEqual(0.125, error);
+
+
+            int[] evals = new int[inputs.Length];
+            int[] y = new int[inputs.Length];
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double expected = outputs[i];
+                double[] responses;
+                msvm.Compute(inputs[i], out responses);
+                int actual;
+                responses.Max(out actual);
+                y[i] = actual;
+                if (i < 6)
+                {
+                    Assert.AreEqual(expected, actual);
+                    evals[i] = msvm.GetLastKernelEvaluations();
+                }
+                else
+                {
+                    Assert.AreNotEqual(expected, actual);
+                    evals[i] = msvm.GetLastKernelEvaluations();
+                }
+            }
+
+            for (int i = 0; i < evals.Length; i++)
+                Assert.AreEqual(0, evals[i]);
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                int actual;
+                msvm.Scores(inputs[i], out actual);
+                Assert.AreEqual(y[i], actual);
+            }
+        }
+
+        [Test]
+        [Category("Serialization")]
+        public void SerializeTest1()
+        {
+            double[][] inputs =
+            {
+                new double[] { 1, 4, 2, 0, 1 },
+                new double[] { 1, 3, 2, 0, 1 },
+                new double[] { 3, 0, 1, 1, 1 },
+                new double[] { 3, 0, 1, 0, 1 },
+                new double[] { 0, 5, 5, 5, 5 },
+                new double[] { 1, 5, 5, 5, 5 },
+                new double[] { 1, 0, 0, 0, 0 },
+                new double[] { 1, 0, 0, 0, 0 },
+            };
+
+            int[] outputs =
+            {
+                0, 0,
+                1, 1,
+                2, 2,
+                3, 3,
+            };
+
+            IKernel kernel = new Linear();
+            var msvm = new MultilabelSupportVectorMachine(5, kernel, 4);
+            var smo = new MultilabelSupportVectorLearning(msvm, inputs, outputs);
+            smo.Algorithm = (svm, classInputs, classOutputs, i, j) =>
+                new SequentialMinimalOptimization(svm, classInputs, classOutputs)
+                {
+                    Complexity = 1
+                };
+
+            double error = smo.Run();
+            Assert.AreEqual(0, error);
+
+            int count = 0; // Compute errors
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double[] responses;
+                msvm.Compute(inputs[i], out responses);
+                int y; responses.Max(out y);
+                if (y != outputs[i]) count++;
+            }
+
+            double expected = (double)count / inputs.Length;
+
+            Assert.AreEqual(msvm.Inputs, 5);
+            Assert.AreEqual(msvm.Classes, 4);
+            Assert.AreEqual(4, msvm.Machines.Length);
+
+
+            MemoryStream stream = new MemoryStream();
+
+            // Save the machines
+            msvm.Save(stream);
+
+            // Rewind
+            stream.Seek(0, SeekOrigin.Begin);
+
+            // Reload the machines
+            var target = MultilabelSupportVectorMachine.Load(stream);
+
+            double actual;
+
+            count = 0; // Compute errors
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double[] responses;
+                target.Compute(inputs[i], out responses);
+                int y; responses.Max(out y);
+                if (y != outputs[i]) count++;
+            }
+
+            actual = (double)count / inputs.Length;
+
+
+            Assert.AreEqual(expected, actual);
+
+            Assert.AreEqual(msvm.Inputs, target.Inputs);
+            Assert.AreEqual(msvm.Classes, target.Classes);
+            for (int i = 0; i < msvm.Machines.Length; i++)
+            {
+                var a = msvm[i];
+                var b = target[i];
+
+                Assert.IsTrue(a.SupportVectors.IsEqual(b.SupportVectors));
+            }
+        }
+
+        [Test]
+        [Category("Serialization")]
+        public void SerializeTest2()
+        {
+            double[][] inputs =
+            {
+                new double[] { 1, 4, 2, 0, 1 },
+                new double[] { 1, 3, 2, 0, 1 },
+                new double[] { 3, 0, 1, 1, 1 },
+                new double[] { 3, 0, 1, 0, 1 },
+                new double[] { 0, 5, 5, 5, 5 },
+                new double[] { 1, 5, 5, 5, 5 },
+                new double[] { 1, 0, 0, 0, 0 },
+                new double[] { 1, 0, 0, 0, 0 },
+            };
+
+            int[] outputs =
+            {
+                0, 0,
+                1, 1,
+                2, 2,
+                3, 3,
+            };
+
+            // Reload the machines
+            var target = Serializer.Load<MultilabelSupportVectorMachine>(Properties.Resources.ml_svm);
+
+            double actual;
+
+            int count = 0; // Compute errors
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double[] responses;
+                target.Compute(inputs[i], out responses);
+                int y; responses.Max(out y);
+                if (y != outputs[i]) count++;
+            }
+
+            actual = (double)count / inputs.Length;
+
+
+            Assert.AreEqual(0, actual);
+
+            Assert.AreEqual(5, target.Inputs);
+            Assert.AreEqual(4, target.Classes);
+            double[] thresholds = target.Machines.Apply(x => x.Threshold);
+            double[][][] svs = target.Machines.Apply(x => x.SupportVectors);
+            double[][] weights = target.Machines.Apply(x => x.Weights);
+
+            string str = weights.ToString(CSharpJaggedMatrixFormatProvider.InvariantCulture);
+            var expectedThresholds = new double[] { -1.02283345107303, -1.84854331146833, -1.54770710059171, 1.58508471778734 };
+            var expectedSVs = new double[][][]
+            {
+                new double[][]
+                {
+                    new double[] { 1, 5, 5, 5, 5 },
+                    new double[] { 1, 3, 2, 0, 1 },
+                    new double[] { 3, 0, 1, 0, 1 },
+                    new double[] { 0, 5, 5, 5, 5 },
+                    new double[] { 1, 0, 0, 0, 0 },
+                    new double[] { 1, 0, 0, 0, 0 } 
+                },
+                new double[][] 
+                {
+                    new double[] { 3, 0, 1, 1, 1 },
+                    new double[] { 1, 0, 0, 0, 0 },
+                    new double[] { 3, 0, 1, 0, 1 },
+                    new double[] { 1, 0, 0, 0, 0 },
+                    new double[] { 1, 5, 5, 5, 5 } 
+                },
+                new double[][] 
+                {
+                    new double[] { 1, 5, 5, 5, 5 },
+                    new double[] { 1, 4, 2, 0, 1 },
+                    new double[] { 0, 5, 5, 5, 5 } 
+                },
+                new double[][] 
+                {
+                    new double[] { 1, 0, 0, 0, 0 },
+                    new double[] { 3, 0, 1, 1, 1 },
+                    new double[] { 1, 3, 2, 0, 1 },
+                    new double[] { 3, 0, 1, 0, 1 } 
+                }
+             };
+
+            double[][] expectedWeights = new double[][] {
+                new double[] { -0.0234960254651262, 0.39850600072147, -0.0378635563194698, -0.0921056339066905, -0.15657076610795, -0.0884700189222341 },
+                new double[] { 0.274739982272114, -0.161382051864791, 0.152130797418313, -0.209064650742987, -0.0564240770826484 },
+                new double[] { 0.0384615384615383, -0.0392011834319528, 0.000739644970414358 },
+                new double[] { 0.373020681418016, -0.00340179246301696, -0.079374696169365, -0.290244192785634 } 
+            };
+
+            //Matrix.IsEqual(
+            Assert.IsTrue(thresholds.IsEqual(expectedThresholds, rtol: 1e-8));
+            Assert.IsTrue(svs.IsEqual(expectedSVs, rtol: 1e-8));
+            Assert.IsTrue(weights.IsEqual(expectedWeights, rtol: 1e-8));
+        }
+
+
+        [Test]
+        [Category("Serialization")]
+        public void serialize_reload_new_version()
+        {
+            double[][] inputs =
+            {
+                new double[] { 1, 4, 2, 0, 1 },
+                new double[] { 1, 3, 2, 0, 1 },
+                new double[] { 3, 0, 1, 1, 1 },
+                new double[] { 3, 0, 1, 0, 1 },
+                new double[] { 0, 5, 5, 5, 5 },
+                new double[] { 1, 5, 5, 5, 5 },
+                new double[] { 1, 0, 0, 0, 0 },
+                new double[] { 1, 0, 0, 0, 0 },
+            };
+
+            int[] outputs =
+            {
+                0, 0,
+                1, 1,
+                2, 2,
+                3, 3,
+            };
+
+            IKernel kernel = new Linear();
+            var msvm = new MultilabelSupportVectorMachine(5, kernel, 4);
+            var smo = new MultilabelSupportVectorLearning(msvm, inputs, outputs);
+            smo.Algorithm = (svm, classInputs, classOutputs, i, j) =>
+                new SequentialMinimalOptimization(svm, classInputs, classOutputs)
+                {
+                    Complexity = 1
+                };
+
+            double expected = smo.Run();
+
+
+            // Save the machines
+
+            var bytes = msvm.Save();
+
+            // Reload the machines
+            var target = Serializer.Load<MultilabelSupportVectorMachine>(bytes);
+
+            double actual;
+
+            int count = 0; // Compute errors
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double[] responses;
+                target.Compute(inputs[i], out responses);
+                int y; responses.Max(out y);
+                if (y != outputs[i]) count++;
+            }
+
+            actual = (double)count / inputs.Length;
+
+
+            Assert.AreEqual(expected, actual);
+
+            Assert.AreEqual(msvm.Inputs, target.Inputs);
+            Assert.AreEqual(msvm.Classes, target.Classes);
+            for (int i = 0; i < msvm.Machines.Length; i++)
+            {
+                var a = msvm[i];
+                var b = target[i];
+
+                Assert.AreEqual(a.Threshold, b.Threshold);
+                Assert.AreEqual(a.NumberOfInputs, b.NumberOfInputs);
+                Assert.AreEqual(a.NumberOfOutputs, b.NumberOfOutputs);
+                Assert.IsTrue(a.Weights.IsEqual(b.Weights));
+
+                Assert.IsTrue(a.SupportVectors.IsEqual(b.SupportVectors));
+            }
+        }
+
+        [Test]
+        public void multilabel_linear_new_usage()
+        {
+            #region doc_learn_ldcd
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            double[][] inputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 1, 1, 1, 1 }, //  2
+                new double[] { 1, 0, 1, 1 }, //  2
+                new double[] { 1, 1, 0, 1 }, //  2
+                new double[] { 0, 1, 1, 1 }, //  2
+                new double[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+            };
+
+            // Create a one-vs-one multi-class SVM learning algorithm 
+            var teacher = new MultilabelSupportVectorLearning<Linear>()
+            {
+                // using LIBLINEAR's L2-loss SVC dual for each SVM
+                Learner = (p) => new LinearDualCoordinateDescent()
+                {
+                    Loss = Loss.L2
+                }
+            };
+
+            // Configure parallel execution options
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // Learn a machine
+            var machine = teacher.Learn(inputs, outputs);
+
+            // Obtain class predictions for each sample
+            bool[][] predicted = machine.Decide(inputs);
+
+            // Compute classification error using mean accuracy (mAcc)
+            double error = new HammingLoss(outputs).Loss(predicted);
+            #endregion
+
+            Assert.AreEqual(0, error);
+            Assert.IsTrue(predicted.ArgMax(dimension:1 ).IsEqual(outputs));
+        }
+
+        [Test]
+        public void multilabel_gaussian_new_usage()
+        {
+            #region doc_learn_gaussian
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            double[][] inputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 1, 1, 1, 1 }, //  2
+                new double[] { 1, 0, 1, 1 }, //  2
+                new double[] { 1, 1, 0, 1 }, //  2
+                new double[] { 0, 1, 1, 1 }, //  2
+                new double[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+            };
+
+            // Create the multi-class learning algorithm for the machine
+            var teacher = new MulticlassSupportVectorLearning<Gaussian>()
+            {
+                // Configure the learning algorithm to use SMO to train the
+                //  underlying SVMs in each of the binary class subproblems.
+                Learner = (param) => new SequentialMinimalOptimization<Gaussian>()
+                {
+                    // Estimate a suitable guess for the Gaussian kernel's parameters.
+                    // This estimate can serve as a starting point for a grid search.
+                    UseKernelEstimation = true
+                }
+            };
+
+            // Configure parallel execution options
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // Learn a machine
+            var machine = teacher.Learn(inputs, outputs);
+
+            // Obtain class predictions for each sample
+            int[] predicted = machine.Decide(inputs);
+
+            // Get class scores for each sample
+            double[] scores = machine.Score(inputs);
+
+            // Compute classification error
+            double error = new ZeroOneLoss(outputs).Loss(predicted);
+            #endregion
+
+            // Get log-likelihoods (should be same as scores)
+            double[][] logl = machine.LogLikelihoods(inputs);
+
+            // Get probability for each sample
+            double[][] prob = machine.Probabilities(inputs);
+
+            // Compute classification error
+            double loss = new CategoryCrossEntropyLoss(outputs).Loss(prob);
+
+            string str = scores.ToCSharp();
+
+            double[] expectedScores =
+            { 
+                1.00888999727541, 1.00303259868784, 1.00068403386636, 1.00888999727541,
+                1.00303259868784, 1.00831890183328, 1.00831890183328, 0.843757409449037, 
+                0.996768862332386, 0.996768862332386, 1.02627325826713, 1.00303259868784,
+                0.996967401312164, 0.961947708617365, 1.02627325826713
+            };
+
+            double[][] expectedLogL =
+            {
+                new double[] { 1.00888999727541, -1.00888999727541, -1.00135670089335 },
+                new double[] { 1.00303259868784, -0.991681098166717, -1.00303259868784 },
+                new double[] { 1.00068403386636, -0.54983354268499, -1.00068403386636 },
+                new double[] { 1.00888999727541, -1.00888999727541, -1.00135670089335 },
+                new double[] { 1.00303259868784, -0.991681098166717, -1.00303259868784 },
+                new double[] { -1.00831890183328, 1.00831890183328, -0.0542719287771535 },
+                new double[] { -1.00831890183328, 1.00831890183328, -0.0542719287771535 },
+                new double[] { -0.843757409449037, 0.843757409449037, -0.787899083913034 },
+                new double[] { -0.178272229157676, 0.996768862332386, -0.996768862332386 },
+                new double[] { -0.178272229157676, 0.996768862332386, -0.996768862332386 },
+                new double[] { -1.02627325826713, -1.00323113766761, 1.02627325826713 },
+                new double[] { -1.00303259868784, -0.38657999872922, 1.00303259868784 },
+                new double[] { -0.996967401312164, -0.38657999872922, 0.996967401312164 },
+                new double[] { -0.479189991343958, -0.961947708617365, 0.961947708617365 },
+                new double[] { -1.02627325826713, -1.00323113766761, 1.02627325826713 } 
+            };
+
+            double[][] expectedProbs =
+            {
+                new double[] { 0.789324598208647, 0.104940932711551, 0.105734469079803 },
+                new double[] { 0.78704862182644, 0.107080012017624, 0.105871366155937 },
+                new double[] { 0.74223157627093, 0.157455631737191, 0.100312791991879 },
+                new double[] { 0.789324598208647, 0.104940932711551, 0.105734469079803 },
+                new double[] { 0.78704862182644, 0.107080012017624, 0.105871366155937 },
+                new double[] { 0.0900153422818135, 0.676287261796794, 0.233697395921392 },
+                new double[] { 0.0900153422818135, 0.676287261796794, 0.233697395921392 },
+                new double[] { 0.133985810363445, 0.72433118122885, 0.141683008407705 },
+                new double[] { 0.213703968297751, 0.692032433073136, 0.0942635986291124 },
+                new double[] { 0.213703968297751, 0.692032433073136, 0.0942635986291124 },
+                new double[] { 0.10192623206507, 0.104302095948601, 0.79377167198633 },
+                new double[] { 0.0972161784678357, 0.180077937396817, 0.722705884135347 },
+                new double[] { 0.0981785890979593, 0.180760971768703, 0.721060439133338 },
+                new double[] { 0.171157270099157, 0.105617610634377, 0.723225119266465 },
+                new double[] { 0.10192623206507, 0.104302095948601, 0.79377167198633 } 
+            };
+
+            Assert.AreEqual(0, error);
+            Assert.AreEqual(4.5289447815997672, loss, 1e-10);
+            Assert.IsTrue(predicted.IsEqual(outputs));
+            Assert.IsTrue(expectedScores.IsEqual(scores, 1e-10));
+            Assert.IsTrue(expectedLogL.IsEqual(logl, 1e-10));
+            Assert.IsTrue(expectedProbs.IsEqual(prob, 1e-10));
+        }
+
+        [Test]
+        public void multilabel_calibration()
+        {
+            #region doc_learn_calibration
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            double[][] inputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 1, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 1, 0, 1, 1 }, //  2
+                new double[] { 1, 1, 0, 1 }, //  2
+                new double[] { 0, 1, 1, 1 }, //  2
+                new double[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 
+                2, 2, 2, 2, 
+            };
+
+            // Create the multi-class learning algorithm for the machine
+            var teacher = new MultilabelSupportVectorLearning<Gaussian>()
+            {
+                // Configure the learning algorithm to use SMO to train the
+                //  underlying SVMs in each of the binary class subproblems.
+                Learner = (param) => new SequentialMinimalOptimization<Gaussian>()
+                {
+                    // Estimate a suitable guess for the Gaussian kernel's parameters.
+                    // This estimate can serve as a starting point for a grid search.
+                    UseKernelEstimation = true
+                }
+            };
+
+            // Learn a machine
+            var machine = teacher.Learn(inputs, outputs);
+
+            // Create the multi-class learning algorithm for the machine
+            var calibration = new MultilabelSupportVectorLearning<Gaussian>()
+            {
+                Model = machine, // We will start with an existing machine
+
+                // Configure the learning algorithm to use SMO to train the
+                //  underlying SVMs in each of the binary class subproblems.
+                Learner = (param) => new ProbabilisticOutputCalibration<Gaussian>()
+                {
+                    Model = param.Model // Start with an existing machine
+                }
+            };
+
+
+            // Configure parallel execution options
+            calibration.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // Learn a machine
+            calibration.Learn(inputs, outputs);
+
+            // Obtain class predictions for each sample
+            bool[][] predicted = machine.Decide(inputs);
+
+            // Get class scores for each sample
+            double[][] scores = machine.Scores(inputs);
+
+            // Get log-likelihoods (should be same as scores)
+            double[][] logl = machine.LogLikelihoods(inputs);
+
+            // Get probability for each sample
+            double[][] prob = machine.Probabilities(inputs);
+
+            // Compute classification error using mean accuracy (mAcc)
+            double error = new HammingLoss(outputs).Loss(predicted);
+            double loss = new CategoryCrossEntropyLoss(outputs).Loss(prob);
+            #endregion
+
+            string a = scores.ToCSharp();
+            string b = logl.ToCSharp();
+            string c = prob.ToCSharp();
+
+            double[][] expectedScores =
+            {
+                new double[] { 1.85316017783605, -2.59688389729331, -2.32170102153988 },
+                new double[] { 1.84933597524124, -1.99399145231446, -2.2920299547693 },
+                new double[] { 1.44477953581274, -1.98592298465108, -2.27356092239125 },
+                new double[] { 1.85316017783605, -2.59688389729331, -2.32170102153988 },
+                new double[] { 1.84933597524124, -1.99399145231446, -2.2920299547693 },
+                new double[] { -2.40815576360914, 0.328362962196791, -0.932721757919691 },
+                new double[] { -2.13111157264226, 1.809192096031, -2.2920299547693 },
+                new double[] { -2.13111157264226, 1.809192096031, -2.2920299547693 },
+                new double[] { -2.14888646926108, -1.99399145231447, 1.33101148524982 },
+                new double[] { -2.12915064678299, -1.98592298465108, 1.3242171079396 },
+                new double[] { -1.47197826667149, -1.96368715704762, 0.843414180834243 },
+                new double[] { -2.14221021749314, -2.83117892529093, 2.61354519154994 } 
+            };
+
+            double[][] expectedLogL =
+            {
+                new double[] { 1.85316017783605, -2.59688389729331, -2.32170102153988 },
+                new double[] { 1.84933597524124, -1.99399145231446, -2.2920299547693 },
+                new double[] { 1.44477953581274, -1.98592298465108, -2.27356092239125 },
+                new double[] { 1.85316017783605, -2.59688389729331, -2.32170102153988 },
+                new double[] { 1.84933597524124, -1.99399145231446, -2.2920299547693 },
+                new double[] { -2.40815576360914, 0.328362962196791, -0.932721757919691 },
+                new double[] { -2.13111157264226, 1.809192096031, -2.2920299547693 },
+                new double[] { -2.13111157264226, 1.809192096031, -2.2920299547693 },
+                new double[] { -2.14888646926108, -1.99399145231447, 1.33101148524982 },
+                new double[] { -2.12915064678299, -1.98592298465108, 1.3242171079396 },
+                new double[] { -1.47197826667149, -1.96368715704762, 0.843414180834243 },
+                new double[] { -2.14221021749314, -2.83117892529093, 2.61354519154994 } 
+            };
+
+            double[][] expectedProbs =
+            {
+                new double[] { 6.37994947365835, 0.0745053832890827, 0.0981065622139132 },
+                new double[] { 6.35559784678136, 0.136150899620619, 0.101061104020747 },
+                new double[] { 4.24091706941419, 0.137253872418087, 0.102944947658882 },
+                new double[] { 6.37994947365835, 0.0745053832890827, 0.0981065622139132 },
+                new double[] { 6.35559784678136, 0.136150899620619, 0.101061104020747 },
+                new double[] { 0.0899810880411361, 1.38869292386051, 0.393481290780948 },
+                new double[] { 0.118705270957796, 6.10551277113228, 0.101061104020747 },
+                new double[] { 0.118705270957796, 6.10551277113228, 0.101061104020747 },
+                new double[] { 0.116613938707895, 0.136150899620619, 3.78486979203385 },
+                new double[] { 0.118938271567046, 0.137253872418087, 3.75924112261421 },
+                new double[] { 0.229471080877097, 0.140340010119971, 2.3242889884131 },
+                new double[] { 0.11739508739354, 0.0589433229176013, 13.6473476521179 }             };
+
+            int[] actual = predicted.ArgMax(dimension: 1);
+            Assert.IsTrue(actual.IsEqual(outputs));
+            Assert.AreEqual(0, error);
+            Assert.AreEqual(3, machine.Count);
+            Assert.AreEqual(0.5, machine[0].Kernel.Gamma);
+            Assert.AreEqual(0.5, machine[1].Kernel.Gamma);
+            Assert.AreEqual(0.5, machine[2].Kernel.Gamma);
+            Assert.AreEqual(-18.908706961799737, loss);
+            Assert.IsTrue(expectedScores.IsEqual(scores, 1e-10));
+            Assert.IsTrue(expectedLogL.IsEqual(logl, 1e-10));
+            Assert.IsTrue(expectedProbs.IsEqual(prob, 1e-10));
+        }
+
+        [Test]
+        public void multilabel_calibration_generic_kernel()
+        {
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            double[][] inputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 1, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 1, 0, 1, 1 }, //  2
+                new double[] { 1, 1, 0, 1 }, //  2
+                new double[] { 0, 1, 1, 1 }, //  2
+                new double[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 
+                2, 2, 2, 2, 
+            };
+
+            // Create the multi-class learning algorithm for the machine
+            var teacher = new MultilabelSupportVectorLearning<IKernel>()
+            {
+                // Configure the learning algorithm to use SMO to train the
+                //  underlying SVMs in each of the binary class subproblems.
+                Learner = (param) => new SequentialMinimalOptimization<IKernel>()
+                {
+                    UseKernelEstimation = false,
+                    Kernel = Gaussian.FromGamma(0.5)
+                }
+            };
+
+            // Learn a machine
+            var machine = teacher.Learn(inputs, outputs);
+
+
+            // Create the multi-class learning algorithm for the machine
+            var calibration = new MultilabelSupportVectorLearning<IKernel>(machine)
+            {
+                // Configure the learning algorithm to use SMO to train the
+                //  underlying SVMs in each of the binary class subproblems.
+                Learner = (p) => new ProbabilisticOutputCalibration<IKernel>(p.Model)
+            };
+
+
+            // Configure parallel execution options
+            calibration.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // Learn a machine
+            calibration.Learn(inputs, outputs);
+
+            // Obtain class predictions for each sample
+            bool[][] predicted = machine.Decide(inputs);
+
+            // Get class scores for each sample
+            double[][] scores = machine.Scores(inputs);
+
+            // Get log-likelihoods (should be same as scores)
+            double[][] logl = machine.LogLikelihoods(inputs);
+
+            // Get probability for each sample
+            double[][] prob = machine.Probabilities(inputs);
+
+            // Compute classification error using mean accuracy (mAcc)
+            double error = new HammingLoss(outputs).Loss(predicted);
+            double loss = new CategoryCrossEntropyLoss(outputs).Loss(prob);
+
+            string a = scores.ToCSharp();
+            string b = logl.ToCSharp();
+            string c = prob.ToCSharp();
+
+            double[][] expectedScores =
+            {
+                new double[] { 1.85316017783605, -2.59688389729331, -2.32170102153988 },
+                new double[] { 1.84933597524124, -1.99399145231446, -2.2920299547693 },
+                new double[] { 1.44477953581274, -1.98592298465108, -2.27356092239125 },
+                new double[] { 1.85316017783605, -2.59688389729331, -2.32170102153988 },
+                new double[] { 1.84933597524124, -1.99399145231446, -2.2920299547693 },
+                new double[] { -2.40815576360914, 0.328362962196791, -0.932721757919691 },
+                new double[] { -2.13111157264226, 1.809192096031, -2.2920299547693 },
+                new double[] { -2.13111157264226, 1.809192096031, -2.2920299547693 },
+                new double[] { -2.14888646926108, -1.99399145231447, 1.33101148524982 },
+                new double[] { -2.12915064678299, -1.98592298465108, 1.3242171079396 },
+                new double[] { -1.47197826667149, -1.96368715704762, 0.843414180834243 },
+                new double[] { -2.14221021749314, -2.83117892529093, 2.61354519154994 } 
+            };
+
+            double[][] expectedLogL =
+            {
+                new double[] { 1.85316017783605, -2.59688389729331, -2.32170102153988 },
+                new double[] { 1.84933597524124, -1.99399145231446, -2.2920299547693 },
+                new double[] { 1.44477953581274, -1.98592298465108, -2.27356092239125 },
+                new double[] { 1.85316017783605, -2.59688389729331, -2.32170102153988 },
+                new double[] { 1.84933597524124, -1.99399145231446, -2.2920299547693 },
+                new double[] { -2.40815576360914, 0.328362962196791, -0.932721757919691 },
+                new double[] { -2.13111157264226, 1.809192096031, -2.2920299547693 },
+                new double[] { -2.13111157264226, 1.809192096031, -2.2920299547693 },
+                new double[] { -2.14888646926108, -1.99399145231447, 1.33101148524982 },
+                new double[] { -2.12915064678299, -1.98592298465108, 1.3242171079396 },
+                new double[] { -1.47197826667149, -1.96368715704762, 0.843414180834243 },
+                new double[] { -2.14221021749314, -2.83117892529093, 2.61354519154994 } 
+            };
+
+            double[][] expectedProbs =
+            {
+                new double[] { 6.37994947365835, 0.0745053832890827, 0.0981065622139132 },
+                new double[] { 6.35559784678136, 0.136150899620619, 0.101061104020747 },
+                new double[] { 4.24091706941419, 0.137253872418087, 0.102944947658882 },
+                new double[] { 6.37994947365835, 0.0745053832890827, 0.0981065622139132 },
+                new double[] { 6.35559784678136, 0.136150899620619, 0.101061104020747 },
+                new double[] { 0.0899810880411361, 1.38869292386051, 0.393481290780948 },
+                new double[] { 0.118705270957796, 6.10551277113228, 0.101061104020747 },
+                new double[] { 0.118705270957796, 6.10551277113228, 0.101061104020747 },
+                new double[] { 0.116613938707895, 0.136150899620619, 3.78486979203385 },
+                new double[] { 0.118938271567046, 0.137253872418087, 3.75924112261421 },
+                new double[] { 0.229471080877097, 0.140340010119971, 2.3242889884131 },
+                new double[] { 0.11739508739354, 0.0589433229176013, 13.6473476521179 }             };
+
+            int[] actual = predicted.ArgMax(dimension: 1);
+            Assert.IsTrue(actual.IsEqual(outputs));
+
+            // Must be exactly the same as test above
+            Assert.AreEqual(0, error);
+            Assert.AreEqual(0.5, ((Gaussian)machine[0].Kernel).Gamma);
+            Assert.AreEqual(0.5, ((Gaussian)machine[1].Kernel).Gamma);
+            Assert.AreEqual(0.5, ((Gaussian)machine[2].Kernel).Gamma);
+            Assert.AreEqual(-18.908706961799737, loss);
+            Assert.IsTrue(expectedScores.IsEqual(scores, 1e-10));
+            Assert.IsTrue(expectedLogL.IsEqual(logl, 1e-10));
+            Assert.IsTrue(expectedProbs.IsEqual(prob, 1e-10));
+        }
+
+        [Test]
+        public void multilabel_linear_smo_new_usage()
+        {
+
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            double[][] inputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 1, 1, 1, 1 }, //  2
+                new double[] { 1, 0, 1, 1 }, //  2
+                new double[] { 1, 1, 0, 1 }, //  2
+                new double[] { 0, 1, 1, 1 }, //  2
+                new double[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+            };
+
+            // Create a one-vs-one learning algorithm using LIBLINEAR's L2-loss SVC dual
+            var teacher = new MultilabelSupportVectorLearning<Linear>();
+            teacher.Learner = (p) => new SequentialMinimalOptimization<Linear>()
+            {
+                UseComplexityHeuristic = true
+            };
+
+#if DEBUG
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
+
+            // Learn a machine
+            var machine = teacher.Learn(inputs, outputs);
+
+            int[] actual = machine.Decide(inputs).ArgMax(dimension: 1);
+            outputs[13] = 0;
+            Assert.IsTrue(actual.IsEqual(outputs));
+        }
+    }
+}

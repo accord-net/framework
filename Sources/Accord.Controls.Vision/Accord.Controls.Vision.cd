@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.Controls.Vision.FaceController" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.75" />
+    <Members>
+      <Field Name="bindingContext" Hidden="true" />
+      <Property Name="BindingContext" Hidden="true" />
+      <Method Name="computeCurrentPosition" Hidden="true" />
+      <Field Name="currentPosition" Hidden="true" />
+      <Field Name="dataBindings" Hidden="true" />
+      <Property Name="DataBindings" Hidden="true" />
+      <Field Name="detector" Hidden="true" />
+      <Method Name="OnFaceEnter" Hidden="true" />
+      <Method Name="OnFaceLeave" Hidden="true" />
+      <Method Name="OnFaceMove" Hidden="true" />
+      <Method Name="OnPropertyChanged" Hidden="true" />
+      <Field Name="rawPosition" Hidden="true" />
+      <Method Name="source_NewFrame" Hidden="true" />
+      <Field Name="synchronizingObject" Hidden="true" />
+      <Property Name="SynchronizingObject" Hidden="true" />
+      <Field Name="syncObject" Hidden="true" />
+      <Field Name="tracker" Hidden="true" />
+      <Field Name="videoSource" Hidden="true" />
+      <Field Name="xaxisRange" Hidden="true" />
+      <Field Name="xsmooth" Hidden="true" />
+      <Field Name="yaxisRange" Hidden="true" />
+      <Field Name="ysmooth" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>gQABAACFAKEABogCIBGQRMESgAQABAAAoARABIEABQA=</HashCode>
+      <FileName>FaceController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Device" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Controls.Vision.FaceEventArgs">
+    <Position X="8.75" Y="5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
+      <FileName>FaceEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Controls.Vision.HeadController" BaseTypeListCollapsed="true">
+    <Position X="6.25" Y="1" Width="2" />
+    <Members>
+      <Field Name="angleRange" Hidden="true" />
+      <Field Name="bindingContext" Hidden="true" />
+      <Property Name="BindingContext" Hidden="true" />
+      <Property Name="BytesReceived" Hidden="true" />
+      <Method Name="computeCurrentPosition" Hidden="true" />
+      <Field Name="currentAngle" Hidden="true" />
+      <Field Name="currentPosition" Hidden="true" />
+      <Field Name="currentScale" Hidden="true" />
+      <Field Name="dataBindings" Hidden="true" />
+      <Property Name="DataBindings" Hidden="true" />
+      <Field Name="detector" Hidden="true" />
+      <Field Name="frameSize" Hidden="true" />
+      <Property Name="FramesReceived" Hidden="true" />
+      <Method Name="OnHeadEnter" Hidden="true" />
+      <Method Name="OnHeadLeave" Hidden="true" />
+      <Method Name="OnHeadMove" Hidden="true" />
+      <Method Name="OnPropertyChanged" Hidden="true" />
+      <Field Name="requestedToStop" Hidden="true" />
+      <Field Name="resize" Hidden="true" />
+      <Field Name="scaleRange" Hidden="true" />
+      <Field Name="skip" Hidden="true" />
+      <Method Name="source_NewFrame" Hidden="true" />
+      <Field Name="synchronizingObject" Hidden="true" />
+      <Property Name="SynchronizingObject" Hidden="true" />
+      <Field Name="syncObject" Hidden="true" />
+      <Field Name="tracker" Hidden="true" />
+      <Field Name="videoSource" Hidden="true" />
+      <Method Name="videoSource_PlayingFinished" Hidden="true" />
+      <Method Name="videoSource_VideoSourceError" Hidden="true" />
+      <Field Name="xaxisRange" Hidden="true" />
+      <Field Name="yaxisRange" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AQNBAgcBEqAKBogCIhEARMk2ggAABAKApwQQIIEQBQA=</HashCode>
+      <FileName>HeadController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Tracker" />
+      <Property Name="Detector" />
+      <Property Name="Device" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Controls.Vision.HeadEventArgs">
+    <Position X="8.75" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAEAAAAAAYAA=</HashCode>
+      <FileName>HeadEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Video.DirectShow.VideoCaptureDevice" Collapsed="true">
+    <Position X="3.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Accord.Vision.Tracking.IObjectTracker" Collapsed="true">
+    <Position X="3.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Accord.Vision.Detection.IObjectDetector" Collapsed="true">
+    <Position X="3.5" Y="5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="AForge.Video.IVideoSource" Collapsed="true">
+    <Position X="3.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Enum Name="Accord.Controls.Vision.FaceMovement">
+    <Position X="11.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAAAAI=</HashCode>
+      <FileName>FaceMovements.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Controls.Vision.HeadMovement">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAACACBAgAAAAI=</HashCode>
+      <FileName>HeadMovements.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,543 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.Math.Optimization.BinarySearch">
+    <Position X="15.5" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAABAAAABAIAAAEIAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Optimization\BinarySearch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Math.Optimization.BrentSearch">
+    <Position X="13" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>EAAAABAAAAACAAABAAAABAIAAAEIAAAAACIgAAAAAgA=</HashCode>
+      <FileName>Optimization\BrentSearch.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Optimization.AugmentedLagrangian" BaseTypeListCollapsed="true">
+    <Position X="17.5" Y="9.25" Width="2.75" />
+    <Members>
+      <Field Name="dualSolver" Hidden="true" />
+      <Field Name="equalityConstraints" Hidden="true" />
+      <Field Name="ftol_abs" Hidden="true" />
+      <Field Name="ftol_rel" Hidden="true" />
+      <Field Name="functionEvaluations" Hidden="true" />
+      <Field Name="greaterThanConstraints" Hidden="true" />
+      <Method Name="init" Hidden="true" />
+      <Field Name="iterations" Hidden="true" />
+      <Field Name="lambda" Hidden="true" />
+      <Field Name="lesserThanConstraints" Hidden="true" />
+      <Field Name="maxEvaluations" Hidden="true" />
+      <Field Name="mu" Hidden="true" />
+      <Field Name="nu" Hidden="true" />
+      <Method Name="objectiveFunction" Hidden="true" />
+      <Method Name="objectiveGradient" Hidden="true" />
+      <Method Name="Optimize" Hidden="true" />
+      <Method Name="relstop" Hidden="true" />
+      <Field Name="rho" Hidden="true" />
+      <Field Name="rhoMax" Hidden="true" />
+      <Field Name="rhoMin" Hidden="true" />
+      <Field Name="xtol_rel" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>UAAAADANACAAIAAAAgAAAAJAAAAAAEJBBJEAAQQQAAA=</HashCode>
+      <FileName>Optimization\Constrained\AugmentedLagrangian.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Optimization.LinearConstraint" BaseTypeListCollapsed="true">
+    <Position X="6" Y="9.5" Width="2.5" />
+    <Members>
+      <Method Name="compute" Hidden="true" />
+      <Method Name="gradient" Hidden="true" />
+      <Method Name="parse" Hidden="true" />
+      <Method Name="parseExpression" Hidden="true" />
+      <Method Name="parseString" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AIAAQAAAIABAAAAAQAAQAAIAEAAAAAAAACAgAAlIIAA=</HashCode>
+      <FileName>Optimization\Constrained\Constraints\LinearConstraint.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Optimization.LinearConstraintCollection">
+    <Position X="6" Y="13.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Optimization\Constrained\Constraints\LinearConstraintCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Optimization.NonlinearConstraint">
+    <Position X="9" Y="9.5" Width="2.75" />
+    <Members>
+      <Method Name="parse" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIABCAAAAAAAQAAIAAAAAAEAAACAgAAAAIAA=</HashCode>
+      <FileName>Optimization\Constrained\Constraints\NonlinearConstraint.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Optimization.QuadraticConstraint">
+    <Position X="9" Y="13.25" Width="2.75" />
+    <Members>
+      <Method Name="function" Hidden="true" />
+      <Method Name="gradient" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAQgAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Optimization\Constrained\Constraints\QuadraticConstraint.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Optimization.GoldfarbIdnani">
+    <Position X="21" Y="18.5" Width="2.5" />
+    <Members>
+      <Field Name="constraintMatrix" Hidden="true" />
+      <Field Name="constraintValues" Hidden="true" />
+      <Method Name="dpofa" Hidden="true" />
+      <Method Name="dpori" Hidden="true" />
+      <Method Name="dposl" Hidden="true" />
+      <Field Name="hessian" Hidden="true" />
+      <Method Name="initialize" Hidden="true" />
+      <Field Name="iwnbv" Hidden="true" />
+      <Field Name="iwrm" Hidden="true" />
+      <Field Name="iwrv" Hidden="true" />
+      <Field Name="iwsv" Hidden="true" />
+      <Field Name="iwuv" Hidden="true" />
+      <Field Name="iwzv" Hidden="true" />
+      <Field Name="linearTerms" Hidden="true" />
+      <Method Name="minimize" Hidden="true" />
+      <Method Name="qpgen2" Hidden="true" />
+      <Field Name="r" Hidden="true" />
+      <Field Name="work" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ACASMABMADAAABBAAIkAAAIQAJAIABAACAIBAQBAAgg=</HashCode>
+      <FileName>Optimization\Constrained\GoldfarbIdnani.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Optimization.ExpressionParser">
+    <Position X="2.75" Y="13.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Optimization\ExpressionParser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Math.Optimization.NonlinearObjectiveFunction" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="1" Width="3" />
+    <Members>
+      <Method Name="CheckGradient" Hidden="true" />
+      <Field Name="indices" Hidden="true" />
+      <Field Name="readOnlyIndices" Hidden="true" />
+      <Field Name="readOnlyVariables" Hidden="true" />
+      <Field Name="variables" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAEBAABAACAAAABIAAAAgQAAAACQAAAAEAAA=</HashCode>
+      <FileName>Optimization\NonlinearObjectiveFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Optimization.QuadraticObjectiveFunction" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="4" Width="3" />
+    <Members>
+      <Method Name="addTuple" Hidden="true" />
+      <Method Name="createLinearTermsVector" Hidden="true" />
+      <Method Name="createQuadraticTermsMatrix" Hidden="true" />
+      <Field Name="d" Hidden="true" />
+      <Method Name="function" Hidden="true" />
+      <Method Name="gradient" Hidden="true" />
+      <Method Name="initialize" Hidden="true" />
+      <Field Name="linear" Hidden="true" />
+      <Method Name="parseExpression" Hidden="true" />
+      <Method Name="parseString" Hidden="true" />
+      <Field Name="Q" Hidden="true" />
+      <Field Name="quadratic" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AIQCAAAAABAAIAAEQgEAAIAAAAAAAACEACAAACFgQAA=</HashCode>
+      <FileName>Optimization\QuadraticObjectiveFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Optimization.BoundedBroydenFletcherGoldfarbShanno" BaseTypeListCollapsed="true">
+    <Position X="24.25" Y="9.75" Width="3" />
+    <Members>
+      <Field Name="corrections" Hidden="true" />
+      <Field Name="evaluations" Hidden="true" />
+      <Field Name="factr" Hidden="true" />
+      <Field Name="iterations" Hidden="true" />
+      <Field Name="lowerBound" Hidden="true" />
+      <Field Name="pgtol" Hidden="true" />
+      <Field Name="stpmax" Hidden="true" />
+      <Field Name="stpmin" Hidden="true" />
+      <Field Name="upperBound" Hidden="true" />
+      <Field Name="work" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQAABScAAECAAJABkgAIAsEKAggAQCFBQoAoAySCBA=</HashCode>
+      <FileName>Optimization\Unconstrained\BoundedBroydenFletcherGoldfarbShanno.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Optimization.BroydenFletcherGoldfarbShanno" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="13.25" Width="3.25" />
+    <Members>
+      <Field Name="delta" Hidden="true" />
+      <Field Name="epsilon" Hidden="true" />
+      <Field Name="ftol" Hidden="true" />
+      <Field Name="gtol" Hidden="true" />
+      <Field Name="linesearch" Hidden="true" />
+      <Field Name="m" Hidden="true" />
+      <Field Name="max_iterations" Hidden="true" />
+      <Field Name="max_linesearch" Hidden="true" />
+      <Field Name="max_step" Hidden="true" />
+      <Field Name="min_step" Hidden="true" />
+      <Field Name="orthantwise_c" Hidden="true" />
+      <Field Name="orthantwise_end" Hidden="true" />
+      <Field Name="orthantwise_start" Hidden="true" />
+      <Field Name="past" Hidden="true" />
+      <Field Name="wolfe" Hidden="true" />
+      <Field Name="xtol" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>QAAAoAAEKJACCCQMQgAgBBgAAAgQAABBkwAAIkCCAAA=</HashCode>
+      <FileName>Optimization\Unconstrained\BroydenFletcherGoldfarbShanno.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="LineSearch" />
+      <Property Name="Status" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Optimization.ConjugateGradient" BaseTypeListCollapsed="true">
+    <Position X="24.75" Y="14" Width="2.5" />
+    <Members>
+      <Field Name="brackt" Hidden="true" />
+      <Method Name="cvsmod" Hidden="true" />
+      <Field Name="d" Hidden="true" />
+      <Field Name="dg2" Hidden="true" />
+      <Field Name="dgtest" Hidden="true" />
+      <Field Name="dgx" Hidden="true" />
+      <Field Name="dgy" Hidden="true" />
+      <Field Name="epsilon" Hidden="true" />
+      <Field Name="evaluations" Hidden="true" />
+      <Field Name="finit" Hidden="true" />
+      <Field Name="ftest1" Hidden="true" />
+      <Field Name="ftol" Hidden="true" />
+      <Field Name="fx" Hidden="true" />
+      <Field Name="fy" Hidden="true" />
+      <Field Name="g" Hidden="true" />
+      <Field Name="gold" Hidden="true" />
+      <Field Name="gtol" Hidden="true" />
+      <Field Name="infoc" Hidden="true" />
+      <Field Name="iterations" Hidden="true" />
+      <Field Name="maxfev" Hidden="true" />
+      <Field Name="maxIterations" Hidden="true" />
+      <Field Name="searches" Hidden="true" />
+      <Field Name="stage1" Hidden="true" />
+      <Field Name="stmax" Hidden="true" />
+      <Field Name="stmin" Hidden="true" />
+      <Field Name="stpmax" Hidden="true" />
+      <Field Name="stpmin" Hidden="true" />
+      <Field Name="stx" Hidden="true" />
+      <Field Name="sty" Hidden="true" />
+      <Field Name="tolerance" Hidden="true" />
+      <Field Name="w" Hidden="true" />
+      <Field Name="width" Hidden="true" />
+      <Field Name="width1" Hidden="true" />
+      <Field Name="xtol" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAIQIEAhBCKAIARgAiBBIIAQAACCAMBAoAAISAGBA=</HashCode>
+      <FileName>Optimization\Unconstrained\ConjugateGradient.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Method" />
+      <Property Name="Status" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Optimization.GaussNewton" BaseTypeListCollapsed="true">
+    <Position X="2" Y="16.25" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>QAQAABAAAABAQAAAQAEAAgoAgAAIQIAAQCAAAEAAAgA=</HashCode>
+      <FileName>Optimization\Unconstrained\Least Squares\GaussNewton.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Optimization.LevenbergMarquardt" BaseTypeListCollapsed="true">
+    <Position X="4" Y="16.25" Width="1.75" />
+    <Members>
+      <Field Name="blocks" Hidden="true" />
+      <Method Name="computeErrors" Hidden="true" />
+      <Method Name="computeJacobian" Hidden="true" />
+      <Field Name="decomposition" Hidden="true" />
+      <Field Name="deltas" Hidden="true" />
+      <Field Name="diagonal" Hidden="true" />
+      <Field Name="errors" Hidden="true" />
+      <Field Name="gradient" Hidden="true" />
+      <Field Name="hessian" Hidden="true" />
+      <Field Name="jacobian" Hidden="true" />
+      <Field Name="lambda" Hidden="true" />
+      <Field Name="lambdaMax" Hidden="true" />
+      <Field Name="numberOfParameters" Hidden="true" />
+      <Field Name="outputCount" Hidden="true" />
+      <Field Name="solution" Hidden="true" />
+      <Field Name="v" Hidden="true" />
+      <Field Name="weights" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>IAQEADAIAABQQAAAQAEAAApAAAAIQKgAQTAAAGAABgA=</HashCode>
+      <FileName>Optimization\Unconstrained\Least Squares\LevenbergMarquardt.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Optimization.LineSearchFailedException">
+    <Position X="20.5" Y="1.75" Width="2" />
+    <Members>
+      <Field Name="info" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAgAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Optimization\Unconstrained\LineSearchFailedException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Math.Optimization.OptimizationProgressEventArgs">
+    <Position X="11.75" Y="1.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAABiAAQAAAQAAAAAAAAAAAAAJAAgAAAACAA=</HashCode>
+      <FileName>Optimization\Unconstrained\OptimizationProgressEventHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Math.Optimization.ResilientBackpropagation" BaseTypeListCollapsed="true">
+    <Position X="24.75" Y="18.75" Width="2.25" />
+    <Members>
+      <Field Name="convergence" Hidden="true" />
+      <Field Name="deltaMax" Hidden="true" />
+      <Field Name="deltaMin" Hidden="true" />
+      <Field Name="etaMinus" Hidden="true" />
+      <Field Name="etaPlus" Hidden="true" />
+      <Field Name="gradient" Hidden="true" />
+      <Field Name="initialStep" Hidden="true" />
+      <Field Name="previousGradient" Hidden="true" />
+      <Method Name="runEpoch" Hidden="true" />
+      <Field Name="weightsUpdates" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>CIAAAEEEAAMCBAAAwAQAAAIAAAAggAAAIAAUAAABAIA=</HashCode>
+      <FileName>Optimization\Unconstrained\ResilientBackpropagation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Optimization.Cobyla" BaseTypeListCollapsed="true">
+    <Position X="28.25" Y="5.75" Width="2" />
+    <Members>
+      <Method Name="cobyla" Hidden="true" />
+      <Field Name="constraints" Hidden="true" />
+      <Field Name="iterations" Hidden="true" />
+      <Field Name="maxfun" Hidden="true" />
+      <Field Name="rhobeg" Hidden="true" />
+      <Field Name="rhoend" Hidden="true" />
+      <Method Name="trstlp" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>CAAAAAAEACAAAAAAAgAAAAIAAAAAAAAAAAAQAAAQAIA=</HashCode>
+      <FileName>Optimization\Constrained\Cobyla.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Optimization.BaseGradientOptimizationMethod">
+    <Position X="20.75" Y="5.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAgA=</HashCode>
+      <FileName>Optimization\Base\BaseGradientOptimizationMethod.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Math.Optimization.BaseOptimizationMethod">
+    <Position X="24.25" Y="1" Width="3" />
+    <Members>
+      <Field Name="value" Hidden="true" />
+      <Field Name="x" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAABAEAAAAAAAAAAAAAAIAAAAAACAAACJgAAAAAgA=</HashCode>
+      <FileName>Optimization\Base\BaseOptimizationMethod.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Math.Optimization.TrustRegionNewtonMethod">
+    <Position X="28.75" Y="18" Width="3" />
+    <Members>
+      <Field Name="eps" Hidden="true" />
+      <Field Name="max_iter" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAACAAAAAiIEAAgAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Optimization\Unconstrained\TrustRegionNewtonMethod.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Accord.Math.Optimization.IGradientOptimizationMethod">
+    <Position X="0.75" Y="6" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Optimization\Base\IGradientOptimizationMethod.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Math.Optimization.ILeastSquaresMethod">
+    <Position X="6.25" Y="16.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAABAAAAAAAAAAAIAAAAAAAAAQCAAAAAAAgA=</HashCode>
+      <FileName>Optimization\Base\ILeastSquaresMethod.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Function" />
+      <Property Name="Gradient" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="Accord.Math.Optimization.IOptimizationMethod">
+    <Position X="2.5" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAACIgAAAAAgA=</HashCode>
+      <FileName>Optimization\Base\IOptimizationMethod.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Math.Optimization.IConstraint">
+    <Position X="3.75" Y="9.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIABAAAAAAAAQAAIAAAAAAAAAACAgAAAAAAA=</HashCode>
+      <FileName>Optimization\Constrained\Constraints\IConstraint.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ShouldBe" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="Accord.Math.Optimization.IObjectiveFunction">
+    <Position X="4.75" Y="0.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAIAAAAAAAAAACQAAAAAAAA=</HashCode>
+      <FileName>Optimization\IObjectiveFunction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Math.Optimization.IOptimizationMethod&lt;TCode&gt;">
+    <Position X="3.75" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Optimization\Base\IOptimizationMethod.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Accord.Math.Optimization.ConstraintType">
+    <Position X="1" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAIAAAAAA=</HashCode>
+      <FileName>Optimization\Constrained\Constraints\LinearConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Math.Optimization.LineSearch">
+    <Position X="14.75" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAIAAgAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Optimization\Unconstrained\BroydenFletcherGoldfarbShanno.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Math.Optimization.ConjugateGradientMethod">
+    <Position X="28.75" Y="15.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAABAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Optimization\Unconstrained\ConjugateGradient.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Math.Optimization.GoldfarbIdnaniStatus">
+    <Position X="18.25" Y="20" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAgAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Optimization\Constrained\GoldfarbIdnani.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Math.Optimization.BoundedBroydenFletcherGoldfarbShannoStatus">
+    <Position X="28.25" Y="10.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAABAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Optimization\Unconstrained\BoundedBroydenFletcherGoldfarbShanno.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Math.Optimization.BroydenFletcherGoldfarbShannoStatus">
+    <Position X="13.5" Y="15.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAACAEAAAIgAAAABCAAAAABAgAAIAAAIICAAAACAIA=</HashCode>
+      <FileName>Optimization\Unconstrained\BroydenFletcherGoldfarbShanno.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Math.Optimization.ConjugateGradientCode">
+    <Position X="29" Y="13" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAIAABAAAAAAAQQAAAggAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Optimization\Unconstrained\ConjugateGradient.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Math.Optimization.CobylaStatus">
+    <Position X="31.25" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAgAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Optimization\Constrained\Cobyla.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="Accord.Math.Optimization.LeastSquaresFunction" Collapsed="true">
+    <Position X="9.25" Y="16.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Optimization\Base\ILeastSquaresMethod.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Accord.Math.Optimization.LeastSquaresGradientFunction" Collapsed="true">
+    <Position X="9" Y="17.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Optimization\Base\ILeastSquaresMethod.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.Math.Integration.InfiniteAdaptiveGaussKronrod" BaseTypeListCollapsed="true">
+    <Position X="2.5" Y="7.75" Width="3.25" />
+    <Members>
+      <Field Name="error" Hidden="true" />
+      <Field Name="evaluations" Hidden="true" />
+      <Field Name="iwork" Hidden="true" />
+      <Field Name="result" Hidden="true" />
+      <Field Name="work" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEBAAAAMAQAACQAABAEgABIAAAAAAAJAAAAACRXAABg=</HashCode>
+      <FileName>Integration\InfiniteAdaptiveGaussKronrod.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Integration.TrapezoidalRule" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="1.5" Width="2.5" />
+    <Members>
+      <Field Name="range" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEABAAAIAAAACAAAAAAAAAIAAAAAAAAAAAAAAQEAABA=</HashCode>
+      <FileName>Integration\TrapezoidalRule.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Integration.MonteCarloIntegration" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="1.5" Width="2.75" />
+    <Members>
+      <Field Name="convergence" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAACCQAAAAAAIAIAAAAABAAAAAAAAQEAAJA=</HashCode>
+      <FileName>Integration\MonteCarloIntegration.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Integration.NonAdaptiveGaussKronrod" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="7" Width="3" />
+    <Members>
+      <Field Name="error" Hidden="true" />
+      <Field Name="evaluations" Hidden="true" />
+      <Field Name="range" Hidden="true" />
+      <Field Name="result" Hidden="true" />
+      <Field Name="w10" Hidden="true" />
+      <Field Name="w21a" Hidden="true" />
+      <Field Name="w21b" Hidden="true" />
+      <Field Name="w43a" Hidden="true" />
+      <Field Name="w43b" Hidden="true" />
+      <Field Name="w87a" Hidden="true" />
+      <Field Name="w87b" Hidden="true" />
+      <Field Name="x1" Hidden="true" />
+      <Field Name="x2" Hidden="true" />
+      <Field Name="x3" Hidden="true" />
+      <Field Name="x4" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEhAAAAMAQAACQAJBAEAAAIAAZAAAACAAAQAQQXAADQ=</HashCode>
+      <FileName>Integration\NonAdaptiveGaussKronrod.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Integration.RombergMethod" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="1.5" Width="2.5" />
+    <Members>
+      <Field Name="range" Hidden="true" />
+      <Field Name="s" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEABAAAIAAAACAAAAAAAAAIAAAAAAAAAAIAAAQEAABA=</HashCode>
+      <FileName>Integration\RombergMethod.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Accord.Math.Integration.IMultidimensionalIntegration">
+    <Position X="1.75" Y="4.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAIAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Integration\Base\IMultidimensionalIntegration.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Math.Integration.INumericalIntegration">
+    <Position X="3.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Integration\Base\INumericalIntegration.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Math.Integration.INumericalIntegration&lt;TCode&gt;">
+    <Position X="0.5" Y="2.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Integration\Base\INumericalIntegration.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Math.Integration.IUnivariateIntegration">
+    <Position X="4.75" Y="4.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Integration\Base\IUnidimensionalIntegration.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Accord.Math.Integration.InfiniteAdaptiveGaussKronrodStatus">
+    <Position X="6.75" Y="11.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAEAAAAAAAAAAAAAAAgAAAAAAACAABAAAABA=</HashCode>
+      <FileName>Integration\InfiniteAdaptiveGaussKronrod.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Math.Integration.NonAdaptiveGaussKronrodStatus">
+    <Position X="11.75" Y="7" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Integration\NonAdaptiveGaussKronrod.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

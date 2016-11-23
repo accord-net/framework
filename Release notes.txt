@@ -1,0 +1,1885 @@
+Accord.NET Framework 3.3.0 release notes
+-----------------------------------------
+17.09.2016.
+
+Version updates and fixes:
+  - GC-62:  Add support for computing prediction intervals in linear and generalized linear models
+  - GH-113: System.AggregateException thrown in C45Learning.Run;
+  - GH-115: Add documentation about how to work with sparse data;
+  - GH-130: Multi class support vector machine doesn't work with SparseGaussian kernel;
+  - GH-139: Examples using explicit kernel matrices;
+  - GH-178: DecisionTreeWriter uses local CultureInfo when writing values;
+  - GH-249: Potential bug in RandomForest or C45Learning;
+  - GH-201: Adding Generalized Pareto Distribution;
+  - GH-245: Incorrect method usage in Distance.GetDistance;
+  - GH-255: Adding examples on how to use Laplace rule in Naive Bayes learning;
+  - GH-253: BlobCounter needs a IDisposable implementation;
+  - GH-252: Bug in Kurtosis Contrast Function;
+  - GH-270: Adding example to show to use continuous variables in C4.5;
+  - GH-271: OneclassSupportVectorLearning does not use shrinking heuristics property;
+  - GH-281: Possible bug in GammaDistribution generation function when k < 1;
+  - GH-282: Issue in LogisticRegression.Transform() returns true for all inputs;
+  - GH-280: Merge pull request #280 from fch-aa/Fix-SMO-CacheSize;
+  - GH-278: Merge pull request #278 from kulov/development;
+  - GH-272: Merge pull request #272 from kdbanman/GH-271;
+  - GH-269: Merge pull request #269 from mikhail-barg/minor-fix;
+  - GH-273: VideoFileWriter not working;
+  - GH-274: Merge pull request #274 from hzawary:development;
+  - GH-285: Deserialize of Codification error in 3.2.0;
+  - GH-286: Ransac - possible bug in calculation of 'N' if pInlier = 0;
+  - GH-288: NaiveBayes issue when probability is 0;
+  - GH-289: Incorrect use of GetLength(0) for jagged arrays in Matrix class.
+
+* General
+  - This will be last release that includes an executable installer. If you
+    are still using the installer, please move to NuGet or use the framework
+    compressed archive files.
+
+* Imaging
+  - Creating a new Accord.Imaging.Noncommercial assembly to hold non-commercial imaging methods;
+  - Adding Fast Guided Filter to Accord.Imaging.Noncommercial.
+
+* MachineLearning
+  - Fixing Binary Split's learn method to accept null weights;
+  - Updating Binary Split example to reflect the new API;
+  - Adding constructors to allow tree inducing algorithms to create a tree from scratch;
+  
+* Statistics  
+  - Fixing multiple issues with statistical analyses classes when they are used using the
+    new classification/regression APIs;
+  - Statistical measures (Measures.cs) have been moved to the Accord.Math assembly,
+    but have been kept under the Accord.Statistics namespace;
+  - Correcting L2-regularization in Logistic Regression.
+
+
+
+
+Accord.NET Framework 3.2.0 release notes
+-----------------------------------------
+20.08.2016.
+
+ Accord.NET 3.2 "auto-generated" release
+
+Version updates and fixes:
+  - GH-76/GC-24: Add easier creating and handling of factors for categorical variables
+  - GH-123: Bug in the Euclidean on Accord.Math.Distance
+  - GH-124: Fixing the Envelop filter as missing loop variables were not being incremented
+  - GH-135: When the from and to ranges are equal, scaled values should remain unchanged
+  - GH-159: Gamma Distribution Fit stalls for some arrays
+  - GH-162: ntdll on OS X
+  - GH-167: Posterior method has wrong signature in continuous hidden Markov Models
+  - GH-171: Quadratic Programming (Goldfarb-Idnani) NoPossibleSolution on possible problems
+  - GH-188: ProbabilisticOutputCalibration Class Example Incorrect Object Name
+  - GH-206: Chessboard distance is incorrect
+  - GH-214: Bug found in ReplaceChannel filter
+  - GH-215: Bug Found in DecisionTrees.Learning.ID3Learning.
+  - GH-225: Independent Component Analysis not converging
+  - GH-232: Bug in Levenshtein distance.
+  - GH-234: The subset of observations corresponding to a decision node may contains duplicates
+  - GH-235: The getMaxChild method returns the max grandchild
+  - GH-236: Possibly-biased comparison between errors
+  - GH-237: The subset of observations corresponding to a decision node may contains duplicates
+  - GH-240: Re() and Im() function of ComplexMatrix generates a OutOfRangeException
+
+* General
+  - In this release, the Matrix library from Accord.Math has been almost completely
+    redesigned to make heavy use of automatic code generation. This results in more
+    code reuse, more consistent interfaces and the availability of many methods which
+    before were available only for Double to almost all native numerical types in the
+    .NET Framework;
+  - The framework now contains core classes and interfaces for defining classification
+    and regression models and their respective learning algorithms, offering a more 
+    standard interface when using different parts of the framework;
+  - The framework now offers a Accord.Serializer class that should be responsible for
+    serializing and deserializing any object from the framework, and will take care of
+    versioning in case of breaking changes between releases;
+  - All AForge.NET namespaces have been finally moved to inside Accord.NET, although
+    some functionality is still duplicate.
+  
+* Core
+  - Adding Interlocked operations (Increment, Add) for double values;
+  - To<> universal converter can now convert jagged arrays;
+  - Adding a common framework to unify all classification models, and all learning algorithms;
+  - Integrating the AForge.NET Range classes in the framework, adding ByteRange;
+  - Adding a common serialization mechanism to the framework to manage backwards compatibility;
+  - All classes from Accord.MachineLearning.Structures have been moved into Accord.Collections;
+  - Updating RedBlackTrees to implement the new base classes for tree structures;
+  - Updating KD-Trees to implement the base classes for tree structures (introduces breaking changes).
+
+* Sample applications
+  - Fixing wrong arguments in sample applications.
+
+* Math
+  - Revamped matrix library making heavy use of code generation with T4 templates;
+  - Matrix dot products, and elementwise operations are now auto-generated;
+  - Renaming InnerProduct to Dot, and marking previous products as obsolete;
+  - Vector Range, Scale and Interval are now auto-generated;
+  - Standardizing the way Vectors, Matrices and Jagged matrices are created and handled
+    in the framework;
+  - Adding OneHot and KHot methods overloads for creating vectors using boolean masks;
+  - Adding ArgMin and ArgMax methods to Vector, Jagged and Multidimensional matrices;
+  - Re-implementing Matrix.Sum and Matrix.Product using T4 templates;
+  - Breaking change: Sum() now computes the Sum over the entire matrix (before it needed
+    to be done with Sum().Sum(). In order to compute the sum vector over rows, use matrix.Sum(0)
+    and for columns, matrix.Sum(1);
+  - Chessboard distance has been removed as it is the same as Chebyshev;
+  - Moving AForge.NET's old Random classes into the framework, and marking them as deprecated;
+  - Adding a log1pexp method for computing (1.0 + Math.Exp(-sum)) without loss of precision;
+  - Adding new random generators based on Marsaglia's Ziggurat method;
+  - Introducing a new, generic IRandomNumberGenerator interface so existing statistical
+    distributions can be used as Random Number Generators;
+  - Updating Matrix.IsEqual method to use the auto-generated overloads if possible;
+  - Replacing the previous framework-wide generator with a better API;
+  - Improving the framework-wide random number generator so generators created in short
+    timespans do not get initialized with the same seed: Now, updating a seed will not
+    affect existent random generators in other threads. It will affect only newly created
+    generators and the one in the current thread;
+  - Fixing the DiagonalMatrix property in SingularValueDecomposition and 
+    JaggedSingularValueDecomposition so the returned diagonal matrices has the necessary 
+    dimensions to reconstruct the original matrix using the decomposition main formulation;
+  - Fixing a bug in Combinatorics.Sequences method where the current vector would be returned
+    instead of a copy when inPlace = false;
+  - Distance functions can now be auto-generated from classes from the framework;
+  - Adding Dice, Jaccard, Kulczynski, Matching, Rogers-Tanimoto, Russel-Rao, Sokal Michener,
+    Sokal Sneath, Yule, Bhattacharyya and LogLikelihood distances as proper classes;
+  - Updating IsEqual to support absoluete and relative tolarance thresholds;
+  - Adding a Histogram method for creating a histogram from an array of integer values;
+  - Updating the Interval, Range and Scale method overloads to be automatically generated;
+  - Adding loss functions to be used in the unified framework;
+  - Moving the Elementwise class to a separate Accord.Math.Core project in order to avoid
+    excessive build times due the number of auto-generated methods in this class;
+  - Adding overloads to Eigenvalue decomposition to automatically sorter eigenvectors and 
+    eigenvalues in descending order of absolute eigenvalue;
+  - Adding a dedicated Sort static class with ordering-related methods such as Partition,
+    Introsort and NthElement.
+  - Expanding decompositions with two additional methods: GetInformationMatrix and Reverse
+    GetInformationMatrix can be used to retrieve the standard errors for each coefficient 
+	when solving a linear system; Reverse reconstructs the original matrix using the definition
+	of the decomposition;
+  - Deprecating Submatrix in favor of Get (methods with non-inclusive last indices);
+  - Adding ArgSort function for retrieving the indices that can be used to sort a vector;
+  - Adding LogSumExp to the set of special functions.
+
+* MachineLearning
+  - Adding a base foundation to encompass all classification and regression models in the
+    framework as well as their learning algorithms: common interfaces and base classes for
+    classifiers, distance-based classifiers and generative classifiers; common interfaces
+    and base classes for supervised and unsupervised learning algorithms;
+  - Updating Support Vector Machines, Decision Trees, Naive Bayes, Regressions and Analyses
+    to use the new classes;
+  - Unifying Linear and Kernel SupportVectorMachines, updating their classes to accept the
+    Kernel function as a generic parameter: when the kernel function is a ValueType, this
+    forces generic classes to be compiled specifically for each kernel type, allowing for
+    the inlining of the kernel function calls;
+  - Updating the way compact SVMs are represented: instead of having only a weight vector 
+    and no support vectors, compact machines have a single support vector and a single weight
+    of value one, eliminating what before was a special case;
+  - Adding classes for OneVsOne and OneVsRest classifiers, separating the functionality that
+    was previously inside MulticlassSupportVectorMachine and MultilabelSupportVectorMachine;
+  - Fixing multiple issues with ErrorBasedPruning (YaronK);
+  - Updating GridSearch to implement ToString methods for easier debugging;
+  - Updating Linear machines and learning algorithms to accept sparse kernels;
+  - Deprecating the previous sparse vector implementations and moving the current implementation
+    to the existing Linear class, since they represent the same operation;
+  - Adding a true implementation for LibSVM-style Sparse vectors;
+  - Updating SparseReader to read sparse vectors using the new Sparse representation;
+  - Refactoring the clustering namespace to increase code reuse between the different algorithms;
+  - Updating K-Means, GMM and BagOfWords to expose a ParallelOptions object that can
+    be used to configure and stop the parallelization of those algorithms;
+  - Updating K-Means to support sample weights;
+  - Correcting multiple random initializations of Gaussian mixture model;
+  - Adding a PriorityQueue class based on the MIT-licensed code by Daniel "BlueRaja" Pflughoeft.
+  - Adding Vantage-Point and Space-Partitioning trees and Barnes Hutt t-SNE based on the original
+    code from Laurens van der Maaten BH t-SNE implementation;
+  - Adding a basic implementation for the Apriori algorithm.
+
+* Imaging
+  - Updating static methods in AForge.NET's Image class to become extension methods;
+  - Implementing ICloneable in all corner and feature detectors.
+
+* Neuro
+  - Updating ResilientBackpropagation with the improvements from iRProp+.
+
+* Statistics
+  - Adding Non negative Least Squares regression;
+  - Adding Procrustes Analysis;
+  - Deprecating IAnalysis in favor of the new framelet for classification, 
+    regression and transformation methods;
+  - Merging AForge.NET and Accord.NET Histogram classes;
+  - Updating IFittingOptions to implement ICloneable;
+  - Adding constructors to Independent distributions accepting a lambda function
+    to initialize inner components instead of relying on cloning;
+  - Adding a Classes class to provide methods that operate with categorical/label data,
+    such as converting boolean, double or integer values to [0;1] or [-1; +1] indicators;
+  - Adding Decide methods to unambiguously transform a distance/score value into a boolean;
+  - Updating statistic distributions to implement the IRandomNumberGenerator interface, meaning 
+    any distribution can now be used as random number generator;
+  - Adding the Metropolis-Hasting sampler to generate samples from multivariate distributions 
+    that do not have specialized samplers;
+  - Adding named constructors for building regressions directly from coefficient vectors;
+  - Updating kernels to rely in Accord.Math.IDistance instead of the previous IDistance from 
+    the Statistics namespace;
+  - Adding Pearson's Universal Kernel, Thin Spline Plate and Hellinger kernels
+    contributed by Diego Catalano;
+  - Moving standard statistical measures (i.e. mean, standard deviation, variance, ...) to a
+    separate Measures class;
+  - Updating Mean methods to operate in the same way as Sum: if a dimension is not specified,
+    the Mean will be computed across all dimensions of the matrix;
+  - Updating Hidden Markov Models to use the new Tagger interfaces and base classes.
+
+* Genetics
+  - Updating the Genetics project to use the new sample generators based on statistical 
+    distributions;
+    
+
+    
+
+Accord.NET Framework 3.0.0 release notes
+-----------------------------------------
+16.08.2015.
+
+Version updates and fixes:
+  - GC-70: Merge with AForge.NET.
+  - GC-90: Convert unit test projects to NUnit
+  - GH-114: GeneralizedBetaDistribution's calls Random with wrong parameter order
+
+* General
+  - This release marks a milestone in the Accord.NET Framework. Starting from this
+    release, the AForge.NET Framework has been incorporated directly in the project,
+    meaning that we are now free to fix, maintain, transform and improve AForge.NET
+    directly.
+
+  - This release provides most of the AForge.NET namespaces unchanged. This means
+    that this specific version of Accord.NET Framework can be used as drop-in
+    replacement in any project currently using the AForge.NET Framework and that
+    is willing to upgrade to Accord.NET sometime in the future.
+
+  - This release is mostly a transition release to help projects using the AForge.NET
+    framework make the transition to Accord.NET more easily. Further releases will be
+    aimed at improving the interaction between the two codebases and streamlining the
+    provided functionality.
+
+
+
+
+Accord.NET Framework 2.15.0 release notes
+-----------------------------------------
+01.05.2015.
+
+Version updates and fixes:
+  - GC-56:  Reuse decision attributes in the C4.5 algorithm for decision trees;
+  - GC-109: The GoldfarbIdnani optimizer does not optimize well some problems;
+  - GH-24:  Disentangling unit test projects and adding a LGPL-only project;
+  - GH-57:  Decision trees created using C4.5 depends on the sorting order;
+  - GH-58:  SURF detector might generate Divide By Zero exceptions;
+  - GH-60:  Regularization breaks LogisticRegressionAnalysis in 2.14;
+  - GH-61:  SVM code that worked with version 2.11 now fails to converge;
+  - GH-64:  Exception in KPCA when using jagged matrices;
+  - GH-69:  Fix K-Means deserialization between framework versions.
+  
+* General
+  - Upgrading solution to VS2013 and adding support for .NET 4.5;
+  - Packaging scripts can now create NuGet symbol packages;
+  - The framework can now be built using Mono.
+
+* Accord.Statistics
+  - Correcting Circular statistics' AngularDeviation method;
+  - Correcting kernel profile functions and their gradient;
+  - Improving the precision of the Binomial distribution;
+  - Improving sample generation for Poisson and Rayleigh distributions;
+  - Updating all univariate distributions to support sample generation;
+  - Making sure all probability distributions implement IFormattable;
+  - Adding Generalized Beta distribution with PERT estimation;
+  - Adding the von-Mises Fisher distribution for circular data;
+  - Adding sample generation in Beta and Generalized Beta distributions;
+  - Adding estimation using the Method-of-moments and Maximum Likelihood;
+  - Adding support for weighted samples in LogisticRegressionAnalysis;
+  - Adding a named constructor to create an Analysis from summary data;
+  - Adding all missing Shapiro-Wilk distribution's methods;
+  - Adding a common interface for radial basis function kernels;
+  - Adding a new generic Gaussian kernel for creating composite kernels;
+  - Adding a Windowing filter in the Statistics filters namespace;
+  - Adding support for weighted samples in LogisticRegressionAnalysis;
+  - Adding a named constructor to create an Analysis from summary data;
+  - Adding Multinomial Logistic Regression Analysis.
+
+* Accord.Math
+  - Updating Augmented Lagragian to detect more accurately 
+    when the inner optimization algorithm has diverged;
+  - Adding a new Fast Fourier Transform (FFT) implementation for general 
+    matrices and vectors whose dimensions are not necessarily powers of 2;
+  - Adding Hellinge and Levenshtein distances for generic arrays;
+  - Adding jagged-matrix version of the QR and Eigenvalue decompositions.
+
+* Accord.MachineLearning
+  - Updating tree inducing algorithms (ID3 and C4.5) se they can reuse
+    decision variables multiple times when creating a decision tree;
+  - Correcting Levenberg-Marquardt's chain-rule Jacobian calculation 
+    when there are many output neurons in the learned neural network;
+  - Updating the way SVM learning algorithms detect whether a machine is linear or not;
+  - Updating SVM learning algorithms to use an heuristic value for 
+    C by default unless it has been manually specified by the user;
+  - Updating the linear kernels so they are created without a constant term by default;
+  - Improving multi-class SVM to generate more user-friendly stack traces when
+    an exception occurs during the learning of one of the binary sub-problems;
+  - Updating Kd-Trees to use interval heaps instead of general .NET structures;
+  - Adding Nu-SVMs based on LibSVM's quadratic programming solver.
+
+* Accord.Neuro
+  - Updating Levenberg-Marquardt to avoid setting lambda to zero. 
+
+* Accord.Imaging
+  - Updating IntegralImage to work with In64 matrices to avoid overflows;
+  - Correcting Variance, Sauvola and Niblack threshold filters;
+  - Adding Fast Variance, Wolf-Joulion Threshold, RG Chromaticity and 
+    Objective fidelity filters.
+
+* Accord.IO
+  - Integrating and repackaging Sebastien Lorion's Fast CSV Reader into the Accord.IO
+    namespace with an added support for auto-detecting the file's field delimiter.
+
+* Accord.Audio
+  - Adding IWindow apply overloads to operate directly on double[] vectors;
+  - Adding Sine and Custom signal generators and correcting existing ones.
+  
+* Sample applications
+  - Adding feature selection sample application using L1-regularized logistic SVMs;
+  - Correcting the display of all sample applications in high-DPI displays.
+
+
+
+
+Accord.NET Framework 2.14.0 release notes
+-----------------------------------------
+15.12.2014.
+
+Version updates and fixes:
+  - GH-29: HiddenConditionalRandomField is not correctly serialized;
+  - GH-31: Adding hidden Markov Model methods for computing the probability of 
+           a state assuming a particular value inside an observation sequence;
+  - GH-36: Extensions class collides with the Accord.NET Extensions Framework;
+  - GH-35: Distribution issue with .NET 3.5 assemblies;
+  - GH-37: Adding Taylor series functions and dissimilarity functions;
+  - GH-42: Adding new contributed distance functions;
+  - GH-46: Optimization functions and constraints to now support different cultures;
+  - GH-48: Fix calculation of log likelihoods for BaumWelch learning algorithm;
+  - GC-33: GoldfarbIdnaniQuadraticSolver class failed to give correct answer.
+
+* Accord.Core
+  - Adding Red-Black trees and a Red-Black dictionary based on those trees
+    with support for efficiently searching for maximum and minimum elements.
+
+* Accord.IO
+  - Updating the IDX reader to automatically convert between different data types.
+
+* Accord.Math
+  - Adding the Nelder-Mead and Subplex non-linear optimization algorithms;
+  - Adding matrix padding methods (adding extra rows and columns with zeros);
+  - Updating quadratic optimization constraints to support tolerance parameters.
+
+* Accord.Statistics
+  - Adding regularization in IterativeReweightedLeastSquares;
+  - Adding DistributionAnalysis for estimating distributions from observed data;
+  - Adding weighted measure methods in Statistics.Tools that are 
+    based on element repetitions rather than element importance;
+  - Adding Anderson-Daring, Shapiro-Wilk, Inverse Chi-Square, Lévy, Folded 
+    Normal, Shifted Log-Logistic, Kumaraswamy, Trapezoidal, U-quadratic and
+    BetaPrime distributions;
+  - Adding Anderson-Daring and Shapiro-Wilk hypothesis tests;
+  - Correcting the MarkovMultivariateFunction constructor for 
+    explicit Independent<NormalDistribution> hidden Markov models;
+  - Correcting discrete Viterbi learning convergence check and unifying 
+    the Viterbi implementations for discrete and continuous variables;
+  - Correcting the calculation of log likelihoods in Baum Welch learning;
+  - Correcting serialization issue with DynamicTimeWarping kernel;
+  - Updating all distribution functions constructors to offer Range attributes
+    that can be used to automatically determine valid values for its parameters;
+  - Updating Logistic Regression and Cox's Proportional Hazards 
+    analyses to avoid computing LR-ratio tests unless necessary;
+  - Updating Multivariate Empirical Distributions to support CDF;
+  - Updating Empirical Distributions to support weighted samples;
+  - Updating CRF output feature functions to activate only once per sequence;
+  - Updating all probability distributions to offer a Generate method;
+  - Updating ChiSquare Test to support testing against continuous distributions;
+  - Updating univariate discrete distributions with Quantile Density functions.
+
+* Accord.MachineLearning
+  - Adding LIBLINEAR's linear support vector regression (SVR) algorithms;
+  - Adding LinearCoordinateDescent for the primal formulation and renaming the 
+    previous coordinate descent algorithm to LinearDualCoordinateDescent;
+  - Adding named constructors in Naive Bayes to build Gaussian models more easily;
+  - Updating Naive Bayes classifiers to estimate component variables in parallel;
+  - Updating ID3 algorithm so attributes can join multiple times a decision;
+  - Updating Bag-of-Visual-Words to avoid computing costly cluster measures;
+  - Updating K-Means to support setting algorithm options through its class itself;
+  - Updating K-NearestNeighbor feature matching to use KD-Trees when its possible;
+  - Updating error-based pruning to avoid computing modes when there are no elements;
+  - Updating K-Modes to select modes per column, instead of entire elements. Now it 
+    is also possible to use the Kmeans++ initialization scheme in this algorithm.
+ 
+* Accord.Neuro
+  - Adding Rectified Linear activation functions.
+
+* Accord.Imaging
+  - Fixing Niblack and Sauvola thresholding algorithms for 8bpp images.
+
+* Accord.Audio
+  - Adding a Volume adjustment filter for audio signals.
+
+* Accord.Controls
+  - Adding a DataBarBox visualization box;
+  - Updating visualizations to offer more flexibility in customizing ZedGraph charts;
+
+* Sample applications
+  - Adding support for adjusting volume in the Recorder sample application.
+
+
+
+
+Accord.NET Framework 2.13.1 release notes
+-----------------------------------------
+30.08.2014.
+
+Version updates and fixes:
+  - GC-61: GoldfarbIdnani should implement the IOptimizationMethod interface;
+  - GC-63: Updating optimization methods to avoid throwing exceptions;
+  - GC-80: Audio.Formats.WaveDecoder.AverageBitsPerSecond should be bytes, not bits;
+  - GC-85: Tools.Random is not thread safe;
+  - GC-87: Add a base distance method for kernel functions;
+  - GC-88: General Discrete Distribution estimation doesn't handle negative values;
+  - GC-90: EmpiricalDistribution's SmoothingRule should use +0.2 in the factor calculation;
+  - GC-91: Update L-BFGS optimization algorithms from the latest Fortran source algorithms;
+  - GC-96: ConvexHullDefects doesn't accounts for defects between the last and first points;
+  - GC-98: Fixing ProbabilityDensityFunction in MultivariateNormalDistribution;
+  - GC-99: Combinatorics.Permutations(array) method does not include the original array;
+  - GC-101: Issue with Haar transform at orders grater than one;
+  - GH-04: Replacing SlimDX with SharpDX in Audio libraries;
+  - GH-05: ComplexSignalConstructor unit test fails;
+  - GH-07: Fixing typos in Haralick algorithm;
+  - GH-08: Updating IntegralImage2 to support Format32bppRgb images;
+  - GH-09: Binomial probability mass function result differs from Excel result;
+  - GH-10: Fixing issue in Singular value decomposition clone method;
+  - GH-11: Fixing issue in Statistics.Filters.Codification.Translate method;
+  - GH-12: Add a HistogramBox viewer in the same spirit as ScatterplotBox and DataGridBox;
+  - GH-13: NaiveBayes constructor incorrectly checks its arguments;
+  - GH-25: SauvolaThreshold and NiblackThreshold filter are always making whole black image;
+  - GH-27: Fixing Bernoulli distribution sampling.
+
+* General
+  - This release brings some big changes. The SlimDX libraries have been replaced by SharpDX, 
+    which now enables the framework to be run into more platforms. Two new assemblies have also 
+    been created to further accommodate future framework extensions, such as a dedicate matrix
+    format library, and an additional library for math algorithms that are not available under 
+    the LGPL. As such, the former Accord.Statistics.Formats namespace has been moved into the
+    new Accord.IO, and a new Accord.Math.NonCommercial assembly has been created to contain
+    other algorithms that are free but are not shared under a free software license and thus 
+    cannot be used in commercial applications.
+
+* Accord.IO
+  - Adding a LibSVM's file model to load and save LibSVM's classifiers;
+  - Adding a IDX file reader to read the MNIST (and possibly others) datasets;
+  - Adding a MAT file reader to read Matlab/Octave data, including sparse,
+    structures and objects.
+    
+* Accord.Statistics
+  - Fixing Codification filter when columns have a max-length constraint;
+  - Fixing MultivariateNormalDistribution to handle edge cases;
+  - Fixing distance computations for most kernel functions;
+  - Updating Hidden Markov Model classes with more Debug assertions;
+  - Updating descriptive analysis to support quantile computation;
+  - Adding Deviance measure in the DescriptiveAnalysis;
+  - Adding a IReverseDistance interface to separate distinct kernel distances;
+  - Adding support for directly processing matrices in the Normalization filter;
+  - Adding support for explicit feature space transformation in some kernels;
+  - Adding Beta and Pareto distribution fitting;
+  - Adding explicit Gaussian kernel projection using a Taylor approximation;
+  - Adding Birnbaum-Saunders, Generalized Normal, Gumbel, Power Lognormal, 
+    Power Normal, Triangular, Tukey Lambda, Logistic, Hyperbolic Secant,
+    Degenerate and General Continuous distributions.
+
+* Accord.Imaging
+  - Adding new user-contributed imaging filters: Difference of 
+    Gaussians, HighBoost, Niblack Threshold, Sauvola Threshold.
+
+* Accord.Math
+  - Introducing the Accord.Math.Integration namespace for numerical integration;
+  - Updating FiniteDifferences to support any order and number of interpolation points;
+  - Fixing NonnegativeFactorization when smaller rank approximations are requested;
+  - Updating the previous L-BFGS implementation from the latest Lbfgsb.3.0 version;
+  - Adding the L-BFGS optimizer with support for Orthant-Wise optimizer from LibBFGS;
+  - Adding the Cobyla method for derivative-free optimization (user contribution);
+  - Adding Carl Edward Rasmussen's FminCG conjugate gradient minimizer (user contribution);
+  - Adding the Discrete Curve Evolution algorithm (user contribution);
+  - Adding a Singular value decomposition implementation for Jagged matrices;
+  - Adding a simple 2D Kalman filter implementation (user contribution);
+  - Adding an 'online' version of the TruthTable method which can generate samples on the fly
+    through IEnumerable. Now it can also work with any number of symbols per element position.
+
+* Accord.Audio
+  - Fixing position calculation when sampleIndex is set in WindowBase.Apply method.
+
+* Accord.MachineLearning
+  - Fixing SequentialMinimalOptimization when working with weighted samples;
+  - Renaming ProbabilisticOutputLearning to ProbabilisticOutputCalibration;
+  - Updating cross-validation to support class-balanced partitions;
+  - Adding support for different sample weights in SMO and and IRLS;
+  - Adding a configurable model threshold for AdaBoost learning;
+  - Adding a generic base model for AdaBoost's weak classifiers;
+  - Adding specialized linear SVM algorithms based on liblinear's offerings, 
+    such as L2-regularized L1 and L2-loss SVM for the dual formulation and
+    the L2-regularized, L2-loss SVM for the primal formulation, as well as
+    probabilistic SVM and Logistic Regression algorithms.
+
+* Accord.Controls
+  - Adding HistogramBox for displaying histograms in the same manner as MessageBox;
+  - Updating Scatterplot to allow for constructing a plot from a single parameter.
+
+
+
+Accord.NET Framework 2.12.0 release notes
+-----------------------------------------
+04.01.2014.    
+
+Version updates and fixes:
+  - GC-83: Error in Accord.Statistics.Tools;
+  - GC-81: Redundant condition check in specialized Inverse method;
+  - GC-82: Serializable annotation is needed on class contrast functions;
+  - GC-66: Adding fitting options for empirical distributions.
+
+* General
+  - The general focus for this release was again to improve 
+    the documentation and provide standard bug-fixing;
+  - The project now also provides Debug binaries which be used
+    to provide more detailed information when debugging applications.
+
+* Accord.Controls
+  - Adding a WavechartBox control to display wavecharts with ease, in 
+    the same way as MessageBox can display text messages on screen.
+
+* Accord.Audio
+  - Correcting WaveDecoder.AverageBytesPerSecond (Google Code #80);
+  - Correcting the creation of base audio windows;
+  - Adding the ExtractChannel filter for extracting single channels
+    from multiple-channel audio signals.
+
+* Accord.Statistics
+  - Adding generic base classes for probability distributions;
+  - Adding support for computing the cumulative multivariate normal 
+    distribution function for specifically one and two dimensions;
+  - Correcting behavior of the Binomial test under .NET 4.5;
+  - Updating DescriptiveAnalysis to provide sums and confidence intervals;
+  - Updating ChiSquareTest to accept ConfusionMatrices as input;
+  - Unifying Univariate and Multivariate mixture distribution fitting
+    through Expectation-Maximization into a single and generic class;
+  - Updating the WeightedMean method to accept unnormalized weights;
+  - Updating the Codification filter to work without DataTables;
+  - Adding fitting options for empirical distributions (Google Code #66);
+  - Adding options to robustly fit Multivariate Normal Distributions using 
+    the Singular Value Decomposition, avoiding non-positive definite issues. 
+
+* Accord.MachineLearning
+  - GaussianMixtureModel now accepts a maximum number of iterations;
+  - Updating the KDTree class to provide a non-generic version when there 
+    is no interest in the kind of values stored as information in the nodes;
+  - Adding specialized methods for when only the closest neighbor is needed
+    in a KDTree. Also adding options to provide only an approximate answer;
+  - Updating the K-Means algorithm to fully support parallel processing;
+  - Adding support for generating decision rules from Decision Trees.
+
+* Accord.Math
+  - Correcting InsertColumn and InsertRow implementations;
+  - Improving Submatrix creation to avoid extra memory allocations when desired;
+  - Reshape method for jagged arrays can now work with non-rectangular arrays;
+  - Correcting relative convergence issues with negative watched interest values;
+  - Adding Modulo and Modular distance for double-precision floating point inputs.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.2.5. May work with newer versions.
+
+
+
+Accord.NET Framework 2.11.0 release notes
+-----------------------------------------
+27.10.2013.    
+
+Version updates and fixes:
+
+* General
+  - The general focus for this release was to improve the documentation, 
+    re-organize the sample applications and provide standard bug-fixing.
+
+* Accord.Controls
+  - Fixing ArrayDataView to show jagged arrays in DataGridViews;
+  - Adding a ComponentView control to display analysis information.
+
+* Accord.Imaging
+  - Adding a Save overload to BagOfVisualWords (Google Code #74);
+  - Marking FAST and FREAK as Serializable (Google Code #75).
+
+* Accord.Statistics
+  - Improving documentation for the 'unbiased' parameter (Google Code #66);
+  - Removing the DEBUG flag from the Statistics assembly (Google Code #78);
+  - Adding NonlinearRegression models and least-squares learning algorithms;
+  - Adding a option to force the use of SVD when fitting linear regressions;
+  - Adding a option to disable normalization when creating Cox's models;
+  - Adding MultipleBaumWelchLearning to test random weight initializations;
+  - Updating HCRF learning algorithms to use relative convergence by default.
+
+* Accord.MachineLearning
+  - Correcting the score generation on k-NN classifier (Google Code #68);
+  - Fixing the Compact property of the SequentialMinimalOptimization class;
+  - Correcting the KD-Tree implementation to correctly identify all neighbor
+    points when querying for a finite number of neighbors (Google Code #71).
+
+* Accord.Math
+  - Adding the Gauss-Newton and Levenberg-Marquardt Least-Squares algorithms;
+  - Updating Absolute and Relative Convergence to implement a common interface;
+  - Adding a configurable minimum convergence checks in relative convergence.
+
+* Sample applications
+  - Reorganizing all sample applications, adding more relevant information
+    to their description and improving their documentation.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.2.5. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.10.0 release notes
+-----------------------------------------
+07.09.2013.    
+
+Version updates and fixes:
+
+* General
+  - This release aimed to provide improvements to the documentation. 
+    Most of the Univariate Distributions now include proper examples
+    for all main functions and measures in their summary page.
+
+* Accord.Imaging
+  - Adding Haralick's set of textural features;
+  - Adding Local Binary Pattern (LBP) features;
+  - Adding Gabor, Variance and Kuwahara filters;
+  - Adding Gray-World, WhitePatch filters;
+  - Adding Kirsch and Robinson edge detectors;
+  - Adding Gray-Level Co-occurrence Matrices (GLCM);
+  - Adding Gray-Level Run-length Matrices (GLRLM);
+  - Adding Gray-Level Difference Method (GLDM);
+  - Adding byte and color conversions in the ArrayToImage converter;
+  - Updating IFeaturePoint's to include better conversion operators.
+
+* Accord.Statistics
+  - Adding random Covariance matrix generation methods;
+  - Adding Von-Mises cumulative distribution function;
+  - Adding Poisson inverse cumulative distribution function;
+  - Adding Support information for all distributions;
+  - Adding support for threshold models in Markov running filters;
+  - Adding default support computing the true Median and Quantile 
+    functions (inverse cumulative distribution function) for all 
+    univariate continuous distributions;
+  - Improving ToString methods for linear/polynomial regressions;
+  - Updating all regression methods to use SVD by default;
+  - Correcting Wishart and Inverse Wishart distributions.
+
+* Accord.MachineLearning
+  - Adding simple Minimum (Mean) Distance Classifier;
+  - Adding RANSAC methods for plane, circle and line fitting;
+  - Adding options to trade speed vs. accuracy in Mean-Shift; 
+  - Updating Bag-of-Words to support any feature point type;
+  - Fixing Grid-Search issue when one of the models returns NaN;
+  - Fixing issue when k-Nearest Neighbors Matching is called 
+    with less than k points on its second argument;
+  - Improving the performance of KD-Trees and Mean Shift;
+  - Updating Gaussian Mixture Model methods to report the 
+    classification strength (score) as an out parameter.
+
+* Accord.Math
+  - Adding the first version of the Math.Kinematics
+    namespace with Denavit-Hartenberg joint models;
+  - Adding Binary Search root finding algorithm;
+  - Adding missing Gamma.Inverse special function;
+  - Adding Mixture Distribution's Distribution functions;
+  - Adding dedicated class for Gram-Schmidt Orthogonalization;
+  - Adding general purpose Resilient Backpropagation algorithm; 
+  - Fixing precision-loss issue in the Augmented Lagrangian Solver;
+  - Updating FiniteDifferences to support configurable step sizes;
+  - Updating Matrix.Range methods to require a dimension parameter;
+  - Moving matrix formatters from Accord.Math.Formats to 
+    Accord.Math in order to improve their discoverability.
+
+* Accord.Vision
+  - Moving the GroupMatching algorithms to Accord.Vision.
+
+* Sample applications
+  - Adding sample application for Denavit-Hartenberg joint models;
+  - Adding sample application for Eigenfaces, PCA for images;
+  - Adding sample application for mouse gesture classification 
+    using Dynamic Time Warping Kernel Support Vector Machines. 
+  
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.2.5. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.9.0 release notes
+-----------------------------------------
+20.04.2013.    
+
+Version updates and fixes:
+
+* General
+  - Updating installer to register framework libraries.
+
+* Accord.MachineLearning
+  - Adding Least-Squares Support Vector Machines (LS-SVMs);
+  - Adding support for Decision Tree pruning (experimental);
+  - Adding Hybrid Markov Models (experimental, use with care);
+  - Adding Load and Save methods to Bag-of-Words;
+  - Adding initial support for Boosting (AdaBoost);
+  - Correcting k-Nearest Neighbors, KD-Trees and 
+    Mean-Shift to respect non-Euclidean distances;
+  - Fixing IndexOutOfRange Exception in C4.5 learning;
+  - Fixing bug in k-Nearest Neighbors classifier;
+  - Fixing C4.5 split when working with continuous attributes;
+  - Renaming DecisionAttributeKind to DecisionVariableKind
+    for better naming consistency with DecisionVariables.
+
+* Accord.Statistics
+  - Adding support for combining Confusion Matrices;
+  - Updating Levene's Test to support Trimmed Mean;
+  - Updating Binomial Test to use the small p-values;
+  - Fixing Two-Tailed computation in Binomial test.
+
+* Accord.Math
+  - Adding Discrete Cosine, Sine and Hartley Transforms.
+
+* Accord.Imaging
+  - Adding missing overloads for image moment calculators;
+  - Adding the Fast Retina Keypoint (FREAK) image descriptor;
+  - Correcting Histograms-of-Oriented-Gradients;
+  - Updating HaarObjectDetector to ignore Channel 
+    information when working with Grayscale images.
+
+* Accord.DirectSound
+  - Adding support for recording multiple bit-rates.
+
+* Accord.Controls
+  - Adding support for Codebooks in DecisionTreeView.
+  
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.2.4. May work with newer versions.
+
+
+
+
+
+Accord.NET Framework 2.8.2 release notes
+-----------------------------------------
+25.02.2013.    
+
+Version updates and fixes:
+
+* Accord.MachineLearning
+  - Adding several K-d tree traversal methods;
+  - Adding support for generating decision tree assemblies;
+  - Adding maximum height option for ID3 and C4.5 learning;
+  - Adding a generic Bag-Of-Words to accept other feature detectors;
+  - Updating DecisionVariable to initialize itself from a Codebook;
+  - Fixing C4.5 learning when presented with constant variable inputs;
+  - Fixing and normalizing the name of cluster identification methods.
+  
+* Accord.Statistics
+  - Adding support for opening binary streams in ExcelReader;
+  - Adding support for generalized linear regression models;
+  - Adding support for integer observations in generic density HMMs;
+  - Fixing Levene's test to behave as a one-tailed test;
+  - Fixing Stepwise Logistic Regression's result property;
+  - Fixing HMM classifier rejection using Threshold models;
+  - Fixing ConfusionMatrix's ToGeneralMatrix method so it respects
+    the expected order of elements in the contingency table.
+
+* Accord.Math
+  - Adding Discrete Cosine, Sine and Hartley Transforms.
+
+* Accord.Imaging
+  - Adding Hu's set of invariant image moments;
+  - Adding k-nearest neighbors feature point matching;
+  - Adding an early, experimental version of the Histograms of
+    Oriented Gradients (HOG) descriptors due to popular demand;
+  - Correcting image converters for different pixel sizes.
+
+* Accord.DirectSound
+  - Adding support for capturing audio in different bit resolutions.
+  
+* Accord.Controls
+  - Fixing the initialization of ScatterplotView.
+  
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.2.4. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.8.1 release notes
+-----------------------------------------
+21.12.2012.    
+
+Version updates and fixes:
+
+* General
+  - Working on more source code examples for the documentation.
+
+* Accord.Math
+  - Adding Levenshtein distance for strings.
+
+* Accord.Imaging
+  - Updating BagOfVisualWords to be fully serializable.
+
+* Accord.MachineLearning
+  - Adding K-dimensional trees (K-d trees);
+  - Adding Mean-Shift clustering algorithm;
+  - Adding support for weights in Gaussian Mixture Models;
+  - Correcting the name of the K-Nearest Neighbors algorithm;
+  - Improving K-Nearest Neighbors for double[] using a K-d tree;
+  - Changing K-Nearest Neighbors generic argument to represent the 
+    instance type rather than the type of the array of instances.
+
+* Accord.Statistics
+  - Adding interfaces for density estimation kernels;
+  - Adding Gaussian, Epanechnikov, Uniform density kernels;
+  - Adding Bartlett's and Levene's tests for variances;
+  - Adding hypothesis tests for comparing ROC curves;
+  - Adding support for scatter plot generation directly from ROC curves;
+  - Adding running Markov models and running Markov classifier filters;
+  - Adding stochastic gradient descent learning for logistic regression models;
+  - Updating Two-Sample Kolmogorov to work with number of samples in double-precision;
+  - Correcting standard error calculation in Paired T-Tests.
+
+* Accord.Neuro
+  - Adding Boltzmann Machines, Contrastive Divergence Learning and Deep Neural Networks.
+
+* Accord.Vision
+  - Adding rectangle averaging support in the Haar object detector.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.2.4. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.8.0 release notes
+-----------------------------------------
+06.11.2012.    
+
+Version updates and fixes:
+
+* General
+  - Adding support for previous versions of the .NET framework (3.5).
+
+* Accord.Audio
+  - Fixing finalizers to avoid disposing null object references.
+
+* Accord.Math
+  - Adding Absolute and Relative convergence classes;
+  - Adding Algorithm Environments to the Math project;
+  - Fixing SVD precision when solving ill-conditioned problems.
+
+* Accord.Statistics
+  - Reorganizing the (Hidden) Conditional Random Fields namespace;
+  - Adding Forward-Backward Gradient calculator for linear-chain HCRFs;
+  - Adding Cox's Proportional Hazards and Partial Newton-Raphson estimation algorithm;
+  - Adding Gompertz and Empirical Hazard Distributions;
+  - Adding Weighted Confusion Matrix and Weighted Kappa;
+  - Adding support for Weighted Kappa in Kappa tests;
+  - Fixing class balancing in the Grouping filter;
+
+* Accord.MachineLearning
+  - Marking DecisionAttributeCollection as Serializable;
+  - Updating Multi-class and Multi-label SVMs to implement the IEnumerable interface;
+  - Updating Multi-class SVM decision to be thread-safe in multithreaded environments;
+  - Adding explicit class count parameter to KNearestNeighbors;
+  - Adding Bag-of-Words model for text categorization;
+  - Fixing SMO when there is only one class label in outputs;
+  - Fixing set size counting in Cross-Validation.
+
+* Accord.Controls
+  - Updating Confusion Matrix View to display Actual and Expected labels.
+
+* Accord.Imaging
+  - Fixing an issue with PointH transform method.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.2.4. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.7.1 release notes
+-----------------------------------------
+01.09.2012.    
+
+Version updates and fixes:
+
+* Accord.Statistics
+  - Adding data processing filters for data randomization,
+    branching, grouping, elimination and imputation;
+  - Adding Precision, Recall and F-Score in Confusion matrix; 
+  - Adding GrandMean calculation in Statistics.Tools;
+  - Adding the Negative Binomial, Pareto, Laplace, Inverse
+    Gamma, Beta, Wishart, Inverse Wishart, Dirichlet distributions;
+  - Adding the Two Proportion Z-Test, Paired T-Test and Multinomial test
+  - Correcting Noncentral T distribution pdf calculation; 
+  - Correcting Skewness and Kurtosis calculations; 
+  - Correcting ANOVA when groups have different sizes;
+  - Adding support for newer Excel versions in ExcelReader;
+  - Adding support for different sample weights in HMM learning;
+  - Adding distinct elements calculation in DescriptiveAnalysis;
+  - Adding standalone Standard Error computation for ROC curves. 
+
+* Accord.MachineLearning
+  - Redesigning clustering framework to accommodate the
+    Binary-Split algorithm, K-Means, K-Modes and GMMs;
+  - Adding support for cancellation in SVM learning;
+  - Adding support for different class weights in SMO;
+
+* Accord.Controls
+  - Adding Confusion Matrix viewer;
+  - Adding numeric collection editor.
+
+* Accord.Imaging
+  - Adding Mean and Standard Deviation for images.
+
+* Accord.Vision
+  - Marking TrackingObject as Serializable.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.2.4. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.7.0 release notes
+-----------------------------------------
+08.07.2012.    
+
+Version updates and fixes:
+
+* Accord.Statistics
+  - Standardizing statistical tests hypotheses;
+  - Adding power analysis for statistical tests;
+  - Adding Fisher's exact test for contingency tables;
+  - Adding Multiple-Matrix Kappa and Average Kappa tests;
+  - Adding Binomial tests, Sign tests, Wilcoxon and Mann-Whitney tests;
+  - Adding Noncentral T, Wilcoxon's W and Mann-Whitney's U distributions;
+  - Adding Multiple Linear Regression Analysis with ANOVA statistics;
+  - Adding inverse distribution calculation in the T-Distribution;
+  - Adding the unsupervised Viterbi learning and the supervised
+    Maximum Likelihood Estimation learning for hidden Markov models;
+  - Adding Generate methods for sampling from hidden Markov models;
+  - Marking several Statistics.Tools methods as extension methods;
+  - Introducing the ISampleableDistribution interface for probability
+    distributions and adding generate methods for most distributions;
+  - Correcting variance calculation for Cohen's Kappa, adding variants
+    for the null hypothesis and the calculation using the Delta method;
+  - Correcting F-Distribution ComplementaryDistributionFunction;
+  - Correcting Kernel Principal Component Analysis bug when auto-
+    selecting the maximum number of components;
+  - Resolving naming confusion in KMeans, renaming Classify to Nearest;
+  - Renaming ContinuousUniformDistribution to UniformContinuousDistribution;
+  - Renaming DiscreteUniformDistribution to UniformDiscreteDistribution;
+  - Renaming Random to RandomSample for clarity;
+  - Updating MultipleLinearRegression to use a single SVD;
+  - Updating Covariance method with two variables to generate
+    a covariance value rather than a 2x2 covariance matrix;
+  - Renaming IMultipleRegressionAnalysis interface to the
+    more adequate name IMultivariateRegressionAnalysis;
+  - Renaming ConfusionMatrix.Observations to .Samples to  
+    maintain consistency with the GeneralConfusionMatrix.
+
+* Accord.MachineLearning
+  - Adding Bootstrap for generalization performance estimation;
+  - Adding the K-Modes clustering algorithm for discrete data;
+  - Optimizing both memory usage and performance for Sequential
+    Minimal Optimization learning and the kernel function cache.
+
+* Accord.Math
+  - Adding Brent Search Root Finding Algorithm;
+  - Adding Combinatorics class for permutations and combinations;
+  - Fixing a bug in Goldfarb-Idnani Quadratic Solver;
+  - Adding Trigamma function to Gamma class;
+  - Adding array format providers.
+
+* Accord.Controls
+  - Adding ScatterplotBox class for displaying point data; DataGridBox for
+    displaying tabular data; and DataSeriesBox to display series data in the
+    same way as Windows.Forms's MessageBox can be used to display text data;
+  - Adding extension method for enabling DataGridViewColumns nested properties;
+  - Adding ImageBox overloads to work with images represented in matrix form.
+
+* Accord.Imaging
+  - Adding the Bag of Visual Words (BoW) feature extractor;
+  - Renaming SpeededUpRobustFeatures (SURF) classes avoiding acronyms.
+  - Updating FeaturesMarker to make it work with indexed images.
+
+* Sample applications
+  - Adding image classification sample application;
+  - Updating Regression sample application to include
+    more information for linear regression analysis.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.2.4. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.6.1 release notes
+-----------------------------------------
+05.05.2012.    
+
+Version updates and fixes:
+
+* General
+  - The project's website has moved. This minor release updates all
+    references to reflect the new project URL and includes only some new
+    additions and fixes. The project is now being hosted at Google Code.
+
+* Accord.MachineLearning
+  - Adding Multi-label Support Vector Machines;
+  - Adding K-Nearest Neighbor (k-NN) classifiers;
+  - Adding linear elimination Support Vector Reduction;
+  - Correcting SVM serialization compatibility.
+
+* Accord.Statistics
+  - Adding named constructors in PCA to create analysis
+    directly from covariance or correlation matrices;
+  - Adding support for adjusting the rejection threshold
+    in Hidden Markov Classifiers with threshold models;
+  - Updating Center, Standardize and ZScores methods so
+    they are not in-place by default.
+
+* Accord.Math
+  - Adding Augmented Lagrangian solver for Non-linear programming problems;
+  - Adding Row-reduced Echelon Form reductor.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.2.4. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.6.0 release notes
+-----------------------------------------
+05.04.2012.    
+
+Version updates and fixes:
+
+* General
+  - Introducing experimental NuGet packages.
+
+* Accord.Statistics
+  - Adding class features to HCRF potential functions;
+  - Adding resilient gradient (RProp) learning for HCRFs;
+  - Adding notifications for HMM classifier learning;
+  - Adding non-stochastic mode for GradientDescentHiddenLearning;
+  - Adding notifications for stochastic and conjugate gradient learning;
+  - Adding optimizations for HMM-based linear-chain HCRFs;
+  - Implementing ICloneable in all CRF/HCRF related classes;
+  - Updating positive definite checks in Cholesky decompositions;
+  - Correcting HMM computations to normalize probabilities only if required;
+  - Correcting DistributionBase to be marked as serializable;
+  - Correcting catastrophic cancellation in HCRF evaluation;
+  - Correcting output feature marginal probability calculation;
+  - Correcting Phi and ChiSquare calculation in GeneralConfusionMatrix;
+  - Renaming BaseSequenceClassifierLearning to BaseHiddenMarkovClassifierLearning.
+
+* Accord.MachineLearning
+  - Adding pooled variance support for Cross-Validation;
+  - Adding a switch to disable parallel computations in Cross-Validation;
+  - Adding support for external initialization in  Cross-Validation;
+  - Adding support for compact form linear SVMs;
+  - Adding kernel function cache in SVMs and SMO;
+  - Adding notification events to multi-class SVM learning;
+  - Adding Keerthi et al. improvements to the SMO algorithm;
+  - Splitting Cross-Validation and Grid-Search classes in different files;
+  - Splitting Multiquadric and InverseMultiquadric kernels;
+  - Correcting Multiquadric kernel to be positive-definite;
+  - Optimizing multi-class SVM evaluation based on DAGs.
+
+* Accord.Math
+  - Adding the Goldfarb-Idnani solver for constrained QP problems.
+
+* Accord.Imaging
+  - Adding further options to disable gradient blending in Blend filter;
+  - Adding image rectification filter for projective transformations;
+  - Adding specialized RANSAC fundamental matrix estimator.
+
+* Sample applications
+  - Adding Solver sample application for constrained optimization problems.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.2.4. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.5.0 release notes
+-----------------------------------------
+20.01.2012.    
+
+Version updates and fixes:
+
+* Accord.Math
+  - Splitting Special class into smaller classes;
+  - Moving ComplexMatrix to ComplexExtensions namespace.
+
+* Accord.Statistics
+  - Introducing Accord.Statistics.Links namespace for link functions;
+  - Adding Absolute, Cauchit, Identity, Inverse, Inverse Squared,
+    Logit, Log, Log-log, Probit and Sin link functions;
+  - Adding IFittableDistribution interface to eventually replace
+    the functionality of IDistribution.Fit in a future version;
+  - Adding Gamma, Cauchy, InverseGaussian, Hypergeometric, Geometric,
+    Exponential, Binomial and Kolmogorov-Smirnov probability distributions;
+  - Adding InverseDistributionFunction to most Univariate distributions;
+  - Adding ComplementaryDistributionFunction for all IDistributions;
+  - Adding HypothesisTest interface for specifying statistical tests;
+  - Adding Kolmogorov-Smirnov tests for one and two samples;
+  - Adding Student's T-Test for one and two samples;
+  - Adding Quartiles function to statistical tools;
+  - Adding several association measures to general contingency tables;
+  - Adding Bhapkar, Bowker, Kappa, McNemar, Stuart-Maxwell and Two-matrix Kappa tests;
+  - Adding symmetric triangle, Squared sinc, Hypersecant and Dirichlet kernels;
+  - Adding Gamma formulations to sparse Gaussian and sparse Laplacian kernels;
+  - Correcting property name from LogEmissions to Emissions in Markov models.
+
+* Accord.MachineLearning
+  - Adding small optimizations to SMO such as index sets and diagonal caching;
+  - Adding support vector sharing in the computation of multi-class SVMs;
+  - Adding Estimate methods for Gaussian, Laplacian and Sigmoid kernels;
+  - Adding probabilistic output learning and link functions to SVMs;
+  - Adding elimination-based multi-class decision for multi-class SVMs (DAGs);
+  - Changing default value for constant in linear and polynomial kernels to 1;
+  - Changing default behavior of SVM compute in order to return decisions.
+
+* Accord.Neuro
+  - Adding linear activation function.
+
+* Accord.Audio
+  - Adding simple mode to Wavechart control;
+  - Adding navigation support to WaveEncoder;
+  - Correcting Wave Encoder and Decoder classes.
+
+* Accord.Imaging
+  - Adding better starting values in Image/Matrix converters.
+
+* Sample applications
+  - Updating Handwriting (SVM) sample application to use all samples
+    available and to perform automatic estimation of Gaussian kernel;
+  - Adding new audio recording sample application.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.2.3. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.4.0 release notes
+-----------------------------------------
+04.01.2012.    
+
+Version updates and fixes:
+
+* General
+  - Updating all projects to .NET 4.0;
+  - Updating all libraries to use Task Parallel Library;
+  - Updating SlimDX to latest version (September 2011);
+  - Adding new project for GPL source codes.
+
+* Accord.Audio
+  - Adding WaveEncoder class for saving/encoding Wave files.
+
+* Accord.Controls
+  - Updating ArrowDataView to support row labels.
+
+Accord.Imaging
+  - Correcting Blending filter and Harris corners detector convolutions.
+
+* Accord.MachineLearning
+  - Adding Naïve Bayes classifier;
+  - Adding Decision Trees models;
+  - Adding ID3 and C4.5 learning algorithms for decision trees;
+  - Adding Load and Save methods to all Support Vector Machines;
+  - Correcting race condition in multi-class vector machine decision;
+  - Renaming KMean's method "Nearest" to "Classify".
+
+* Accord.Math
+  - Adding Conjugate Gradient (CG) optimization algorithm;
+  - Adding IsUpperTriangular, IsLowerTriangular, IsDiagonal methods to matrix class;
+  - Adding Mode for integers and Entropy calculation in Math.Tools;
+  - Adding Lambda Comparer for specifying ad-hoc comparison rules;
+  - Adding LogSum function for summing exponential without losing accuracy;
+  - Adding efficient trace of the inverse in Cholesky decomposition;
+  - Adding jagged-array variants of Cholesky and Lu decompositions;
+  - Adding single-precision and decimal variants of Cholesky, Qr,
+    Eigenvalue, Singular value and Lu matrix decompositions;
+  - Correcting matrix formatter to use argument culture;
+  - Correcting regularized Gamma special functions;
+  - Updating numeric decompositions to use T4 templates;
+  - Renaming LbfgsOptimization to BroydenFletcherGoldfarbShanno;
+  - Adding parallelization to LDLt Cholesky Decomposition.
+
+* Accord.Neuro
+  - Heavily optimizing Levenberg-Marquardt to lessen memory and CPU requirements;
+  - Adding partial Jacobian calculation in Levenberg-Marquardt to conserve memory;
+  - Adding Resilient Backpropagation (RProp) learning algorithm;
+  - Renaming NguyenWidrowInitializer to NguyenWidrow.
+  
+* Accord.Statistics
+  - Adding Conditional Random Fields (CRFs);
+  - Adding Hidden Conditional Random Fields (HCRFs);
+  - Adding Stochastic Gradient Descent (SGD) learning for HCRFs;
+  - Adding Conjugate Gradient and QuasiNewton (L-BFGS) learning for HCRFs;
+  - Renaming SequenceClassifiers to HiddenMarkovClassifiers;
+  - Adding class priors to HiddenMarkovClassifiers;
+  - Adding InverseGaussian, Nakagami, Rayleigh and Weibull distributions;
+  - Adding Joint and Independent probability distributions;
+  - Adding fitting options for GeneralDiscreteDistribution;
+  - Adding LogProbabilityFunction method to all probability distributions;
+  - Adding Load and Save methods for all Hidden Markov Models and Fields;
+  - Updating Markov models to use log-domain computations by default;
+  - Updating Normal fitting options to limit to diagonal covariance matrices; 
+  - Correcting weighted mixture distribution fitting;
+  - Correcting running normal statistics;
+  - Correcting LDA classification function;
+  - Correcting Kernel matrix centering in KPCA;
+  - Correcting Backward algorithm for HMMs.
+
+* Accord.Vision
+  - Adding smoothness to Camshift image extraction;
+  - Adding parallelism to Haar Object Detector;
+  - Optimizing IntegralImage computation with unsafe operations.
+
+* Sample applications
+  - Adding Naive Bayes sample application;
+  - Adding Decision Tree sample application;
+  - Adding Classification sample application for
+    Levenberg-Marquardt trained Neural Networks;
+  - Adding XOR, TimeSeries and Approximation samples
+    for ResilientBackpropagation trained Networks.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.2.3. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.3.0 release notes
+-----------------------------------------
+01.09.2011.    
+
+Version updates and fixes:
+
+* General
+  - Ensuring copyright information stay as complete as possible.
+  
+* Accord.Neuro
+  - Levenberg-Marquardt now supports networks with multiple hidden layers.
+
+* Accord.Statistics
+  - Adding ANOVA and Two-way ANOVA;
+  - Adding Odds Ratio, Overall Diagnostic Power and Normalized 
+    Mutual Information properties for 2 x 2 confusion matrices;
+  - Adding class for General Confusion Matrices (i.e. NxN confusion matrices);
+  - Adding Multinomial Logistic Regression using a Lower-Bound Newton optimization;
+  - Adding Predict method for arbitrary-density hidden Markov models;
+  - Adding Empirical, Lognormal, T and Uniform distributions;
+  - Splitting logistic regression models and related 
+    fitting algorithms into independent classes;
+  - Fixing Clone operation of Mixture distributions.
+  - Fixing Normal distributions constructor's parameters;
+  - Fixing variance calculation for multivariate mixture;
+  - Replacing continuous-density hidden Markov models with generic, arbitrary-density models;
+  - Correcting an infinite loop when regularization is zero in MultivariateNormalDistribution;
+  - Correcting KDA to avoid argument out of range exceptions when removing unneeded components;
+  - Correcting probability mass function for general discrete distribution;
+  - Renaming Multivariate distributions to make a better distinction from univariate ones;
+  - Renaming UniformDistribution to ContinuousUniformDistribution;
+  - Updating univariate Normal to use log computations instead;
+  - Adding initial class for Scatter plots.
+
+* Accord.Math
+  - Adding Kronecker product to Matrix class.
+
+* Accord.Controls
+  - Introducing ScatterplotView.
+
+* Sample applications
+  - Adding Kinect controller for interfacing with Microsoft Kinect.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.2.1. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.2.0 release notes
+-----------------------------------------
+01.07.2011.    
+
+Version updates and fixes:
+
+* General
+  - This release introduces some breaking interface changes. As
+    result, the current minor version number has been increased;
+  - Updating DimensionMismatchException to be an ArgumentException;
+  - Merging Accord.Wavelets into Accord.Math.
+
+* Accord.MachineLearning
+  - Adding more argument checks in SVM learning related classes;
+  - Adding a overload to initialize GMM with known distributions;
+  - Adding a overload to compute K-Means errors directly from the data.
+
+* Accord.Math  
+  - Adding 1D convolution extension method in Matrix class;
+  - Adding modified Bessel functions in the Special functions class;
+  - Adding Finite Differences class for automatic gradient computation;
+  - Adding GetAngle(IntPoint, IntPoint) and GetDirection in Math.Tools.
+  - Adding new LogDeteminant properties to Cholesky and LU decompositions
+    to compute the determinant's logarithm avoiding overflown values;
+  - Correcting LU decomposition of matrices with more columns than rows;
+  - Correcting matrix Power operation.
+
+* Accord.Statistics
+  - Adding Circular statistics tools;
+  - Adding Von-Mises probability distribution;
+  - Adding static methods for NormalDistribution estimation;
+  - Adding Moving and Running namespaces for moving window and running statistics;
+  - Adding MovingNormalStatistics class for computing moving averages and variances;
+  - Adding MovingCircularStatistics class for moving circular averages and variances;
+  - Adding more method overloads for float input values in Statistics.Tools;
+  - Adding versions of the Forward and Backward algorithms without scaling;
+  - Adding smoothing support in hidden Markov Threshold model creation;
+  - Adding more argument checks in statistical analysis and models;
+  - Adding base interfaces for statistical analyses;
+  - Updating analyses classes to implement base interfaces;
+  - Updating SequenceClassifierBase to compute the threshold model in parallel;
+  - Updating Continuous Baum-Welch to automatically convert univariate distributions;
+  - Updating multivariate NormalDistribution to use logarithmic computations;
+  - Fixing initialization of the symbols property in Hidden Markov Model constructor;
+  - Fixing univariate mixture distribution to respect component's fitting options;
+  - Fixing threshold model generation in discrete sequence Markov classifiers;
+  - Experimental version of linear-chain Conditional Random Fields;
+  - Marking all kernel classes as sealed.
+  
+* Accord.Neuro
+  - Correcting iterator bug in Levenberg Marquardt learning.
+  
+* Accord.Imaging
+  - Adding Raw and Central image moments calculators;
+  - Adding border following contour extraction algorithm;
+  - Adding K-curvature algorithm for contour peak detection;
+  - Adding convex hull defects extraction algorithm;
+  - Updating PointsMarker and RectanglesMarker to accept
+    any IEnumerable collection rather than just arrays.
+
+* Accord.Vision
+  - Adding HSL Range Blob Tracker for color-based tracking;
+  - Adding Block Matching Tracker for template-based tracking;
+  - Adding steady detection in Camshift and HaarObjectDetector;
+  - Adding new classes for default Face and Nose Haar cascades;
+  - Adding support for hard-coded code generation in Haar cascades;
+  - Adding Axis orientation support for TrackingObject;
+  - Updating TrackingObject to use integer coordinates;
+  - Updating all Haar related classes to implement the ICloneable interface;
+  - Splitting HaarCascade class from the HaarCascadeClassifier;
+  - Fixing multi-threaded issues when using the default face detector;
+  - Fixing red channel extraction in HaarObjectDetector;
+  - Fixing minimum window size in HaarObjectDetector.
+  
+* Accord.Controls
+  - Adding Accord.Controls.Vision namespace for vision related controls;
+  - Adding AngleBox and PointBox controls to show angle and position information;
+  - Adding HeadController component for interface control based on head events;
+  - Adding FaceController component for interface control based on face events;
+
+* Sample applications
+  - Adding Controller sample application for head and face based application control;
+  - Adding Glove Tracking sample application for colored glove tracking and finger detection;
+  - Updating Mouse Gestures sample application to perform continuous recognition using
+    hidden Markov threshold models and use discrete models instead.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.1.5. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.1.6 release notes
+-----------------------------------------
+01.04.2011.    
+
+Version updates and fixes:
+
+* General
+  - Introducing new exception classes for math operations.
+
+* Accord.Audio
+  - Adding new AudioDeviceCollection class to list available 
+    audio devices information based on category (output or capture);
+  - Updating AudioCaptureDevice and AudioOutputDevice to actually 
+    support any available audio device (Origo Issue #21).
+ 
+* Accord.MachineLearning
+  - Adding methods to (re-)initialize Gaussian Mixture Models and K-Means;
+  - Adding support for setting the centroids in K-Means (Origo Issue #20);
+
+* Accord.Math
+  - Adding L-BFGS method for non-linear optimization;
+  - Adding optimized matrix inversions for 3x3 and 2x2 matrices; 
+  - Matrix decompositions now implement the ICloneable interface;
+  - Updating Multivariate/NormalDistribution to always use the
+    Cholesky decomposition and throw exceptions when appropriate;
+  - Updating Cholesky decomposition to cache the result of the
+    determinant property to avoid unnecessary computations.
+
+* Accord.Statistics
+  - New architecture for statistical distribution fitting;
+  - Adding a regularization parameter in multivariate Normal distribution
+    fitting to avoid non-positive definite or singular covariance matrices;
+  - Adding configurable fitting options in the ContinuousBaumWelchLearning;
+  - Adding confidence support in sequence classifiers using Threshold models;
+  - Adding support for inclusive upper bounds in the Histogram class;
+  - Adding more selection rules for the number and widths of Histogram bins;
+  - Fixing Histogram computing when data is constant (Origo Issue #23);
+  - Renaming weighted sample methods from Measures.
+  
+* Accord.Imaging
+  - Adding Speeded-Up Robust Features (SURF) detector and descriptor;
+  - Adding Features from Accelerated Segment Test (FAST) corners detector;
+
+* Sample applications
+  - Mouse gestures sample application now supports non-gesture models
+    and a regularization parameter for Normal distribution estimation.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.1.5. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.1.5 release notes
+-----------------------------------------
+12.02.2011.    
+
+Version updates and fixes:
+
+* General
+  - The various works on this release have introduced some breaking
+    interface changes, mainly in the Audio and Statistics namespaces.
+
+* Accord.Audio
+  - Major architectural changes of the Audio namespace;
+  - Code cleanup of untested audio processing filters;
+  - Signal processing filters now operate in more similar
+    ways to AForge.NET's image processing filters;
+  - Signals can now have multiple sample formats.
+ 
+* Accord.MachineLearning
+  - Updating GridSearch to use parallel computing;
+  - Adding a new option to automatically compute the complexity parameter
+    C using a heuristic in Sequential Minimal Optimization SVM learning.
+
+* Accord.Math
+  - Reorganizing Special functions, adding (ln) Beta functions;
+  - Splitting Matrix.cs into several partial classes for organization;
+  - Adding MultiplyByTranspose and TransposeAndMultiply methods for matrices;
+  - Adding a new algorithm for LDLt Cholesky matrix decomposition;
+  - Adding a new property in SVD to store original value sorting order;
+  - Adding options for Eigenvalue and Singular value decompositions to
+    be computed in place, conserving memory.
+
+* Accord.Neuro
+  - Updating LevenbergMarquardtLearning to introduce a constant factor
+    while computing the Hessian/Bayesian Regularization weight update.
+
+* Accord.Statistics
+  - Major refactoring of the Statistics.Models.Markov namespace;
+  - Adding a new Predict method in HMMs to predict next observations in a sequence;
+  - Adding Topology classes to specify a Hidden Markov Model architecture at model
+    construction, such as Ergodic (fully connected) or Forward-only (left-to-right);
+  - Adding a base class and interfaces for Continuous and Discrete hidden Markov models;
+  - Adding a base class and interfaces for hidden Markov model learning algorithms;
+  - Adding a class for the Univariate F-Distribution;
+  - Adding a class for Independent Component Analysis (ICA);
+  - Adding a Whitening Transform method in Statistics.Tools;
+  - Adding Sparse versions of Gaussian, Polynomial, Laplacian, Sigmoid
+    and Cauchy kernels to operate on sparse vectors directly;
+  - Adding options for Principal Component Analysis and Kernel Principal
+    Component Analysis to be computed in place, conserving memory;
+  - Updating Projection filter to use a Collection instead of List<T> (CA1002);
+  - Updating Histogram and HistogramView to work with empty sample vectors;
+  - Updating Principal Component Analysis and Partial Least Squares Analysis
+    to raise exception if std deviation is zero, instead of failing silently;
+  - Updating Evaluate method in Hidden Markov models to compute forward
+    probabilities instead of the probability of the most likely (Viterbi) path;
+  - Fixing an issue with Mixture model fitting when one of the weights is zero.
+  
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.1.5. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.1.4 release notes
+-----------------------------------------
+01.12.2010.    
+
+Version updates and fixes:
+ 
+* Accord.Core
+  - Adding a new assembly, Accord.Core, to accommodate common
+    framework classes such as specialized exceptions;
+
+* Accord.Math
+  - Adding some Tools.Scale overloads to operate on matrices and arrays;
+  - Adding an option to compute LU decomposition and transpose in place;
+  - Cleaning Matrix to have only generic implementations for Max and Min;
+  - Fixing a bug in Nonnegative Matrix Factorization in which certain
+    input characteristics would raise an IndexOutOfRange exception.
+
+* Accord.MachineLearning
+  - Adding a SparseSampleReader class to read from files containing
+    sparse data samples represented in libsvm's sparse vector format;
+  - Changing MulticlassSupportVectorMachine to implement the interface
+    ISupportVectorMachine.Compute explicitly, so the method can also
+    return a more intuitive integer class label rather than a double.
+  
+* Accord.Neuro
+  - Adding several optimizations to Levenberg-Marquardt learning.
+
+* Accord.Statistics
+  - Adding a Custom (lambda) kernel for ad-hoc kernels;
+  - Adding a Precomputed kernel for manually specifying a kernel Matrix;
+  - Adding a Sparse Linear Kernel to operate on sparse vectors directly;
+  - Adding support for different weights in the Additive combination kernel;
+  - Adding support for setting the Gamma parameter in the Gaussian kernel;
+  - Moving nested classes in StepwiseLogisticRegression to separate locations;
+  - Correcting error calculation in Multiple Linear Regression.
+
+* Accord.Imaging
+  - Adding a ToBitmap overload to convert from byte matrices;
+  - Adding a new overload to the Scale method to accept floats;
+  - Adding a new overload to ImageBox to support background color;
+  - Correcting Harris Corners Detector (with support for Nobel's corner measure);
+  - Correcting Blend filter to ignore fully transparent pixels;
+  - Modifying Blend filter to use float instead of doubles.
+
+* Accord.Vision
+  - Adding different scaling modes to Haar Cascade Object Detector;
+  - Adding initial support for Tilted features in HaarCascadeClassifier and
+    Tilted Integral Image calculation in IntegralImage2 class;
+  - Rewrite of the Haar Cascade Classifier to work with all compatible XML
+    definitions. Serialization is now performed using standard .NET serializers.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.1.4. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.1.3 release notes
+-----------------------------------------
+01.11.2010.    
+
+Version updates and fixes:
+ 
+* General
+  - Heavy work on documentation;
+  - Adding parameter verification in several methods;
+
+* Accord.Math
+  - Adding Non-Negative Matrix Factorization;
+  - Adding a new Split method to split vectors in Matrix class;
+  - Adding a new IsPositiveDefinite method in Matrix class;
+  - Adding a new method for equation solving in LU and QR
+    decompositions to help in multiplication by inverse;
+  - Adding a new overload to the Solve method in Cholesky
+    decomposition to solve for vectors;
+  - Updating Matrix.Divide to use the LU and QR decompositions;
+  - Correcting a bug in the Submatrix method for vectors;
+  - Reworking some of the matrix formatting architecture.
+
+* Accord.MachineLearning
+  - Adding Gaussian Mixture Models;
+  - Adding configurable distance metric and adjustable/relative
+    convergence threshold to K-Means clustering;
+  - Updating the interface of Crossvalidation and Multiclass Support
+    Vector Machines to use delegates instead of raw lambda functions.
+
+* Accord.Statistics
+  - Major reorganization of the Statistics.Markov namespace;
+  - Major reorganization of the Statistics.Distributions namespace;
+  - Adding Continuous Hidden Markov Models and Sequence Classifier;
+  - Adding support for univariate/multivariate Mixture distributions;
+  - Adding Poisson, Multinomial and Bernoulli probability distributions; 
+  - Adding overloads to Statistics.Tools for weighted measures;
+  - Correcting an infinite loop issue in hidden Markov models learning;
+  - Fixing Wavelet kernel - translation parameter was being ignored.
+
+* Accord.Imaging
+  - Adding ToBitmap/ToDoubleArray extension methods for color images;
+  - Correcting a bug in distance function in RansacHomograpyEstimation.
+
+* Accord.Vision
+  - Adding HaarCascadeClassifier as a parameter to HaarObjectDetector;
+  - Changing DefaultFaceDetector to be a property rather than a method.
+
+* Accord.Controls
+  - Adding a RangeTypeConverter to show AForge.IntRange and DoubleRanges
+    properly in controls such as the PropertyGrid.
+
+* Samples 
+  - Added Continuous density Hidden Markov Models sample application;
+  - Added Gaussian Mixture Models sample application;
+  - Added K-Means color clustering sample application.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.1.4. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.1.2 release notes
+-----------------------------------------
+01.10.2010.    
+
+Version updates and fixes:
+ 
+* Accord.Math
+  - Adding formatting and parsing extension methods for matrices;
+  - Fixing an infinite-loop condition in SVD, also updating the
+    inverse and solve methods to use optimized matrix multiplication;
+
+* Accord.MachineLearning
+  - Adding initial version of the K-Means clustering algorithm;
+
+* Accord.Statistics
+  - Adding a missing overload of the Variance method;
+  - Adding a minimum variance threshold for components in KPCA;
+  - Fixing an issue with the Result property of PCA, KPCA, LDA and KDA;
+
+* Accord.Imaging
+  - Adding ToBitmap extension methods;
+  - Performance improvements in the Harris Corners Detector;
+  - Fixing interface compatibility with the latest version of AForge.
+    Minimum required version of AForge.NET is now version 2.1.4.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.1.4. May work with newer versions.
+
+
+
+
+Accord.NET Framework 2.1.1 release notes
+-----------------------------------------
+01.09.2010.    
+
+Version updates and fixes:
+
+* General
+  - Most model classes are now serializable;
+  - Adding a new icon for the framework;
+  - Adding a great number of unit tests;
+  - Several improvements in documentation;
+
+* Accord.Vision
+  - Fixing some issues with Camshift in HSL mode;
+  - Adding a Camshift mixed mode to work on a HSL space
+    with some lightness/saturation information;
+
+* Accord.Math
+  - Added optimizations to some matrix operations;
+  - Added autocorrection for JAMA's SVD assumptions;
+  - Added more tests for the matrix decompositions;
+
+* Accord.MachineLearning
+  - Corrected the casing of the name of GridSearch related classes;
+
+* Accord.Statistics
+  - Several corrections to basic statistics tools;
+  - Added Wavelet and Dynamic Time Warp kernels;
+
+* Accord.Imaging
+  - Added support for 32bpp images in the blending
+    filter, also fixed a issue with final image size;
+  - Some fixes for the Correlation Matching class;
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.1.3. May work with other versions.
+
+
+
+
+Accord.NET Framework 2.1.0 release notes
+-----------------------------------------
+01.08.2010.    
+
+Version updates and fixes:
+
+* General
+  - Updated AForge version to v2.1.3
+  - Updating some projects to target .NET 3.5
+  - Added the Accord.Vision namespace
+
+* Accord.Statistics
+  - Correction of the ANOVA kernel;
+  - Added minor optimizations to some radial basis function kernels;
+  - Added option to force the inclusion of the origin point in ROC curves;
+
+* Accord.Imaging
+  - Fixed blending filter issue when second image was placed at left of the first image.
+  - WaveletTransform now works properly on 16bpp Grayscale images for added precision;
+
+* Accord.Vision
+  - Added support for Camshift-based object tracking;
+  - Added support for the Viola-Jones method for face detection;
+
+* Accord.Math
+  - Added more comments on the Singular Value Decomposition issues;
+  - Added more extension methods to Accord.Math.Matrix, such as CartesianProduct;
+  - Updated Factorial, Binomial and other special functions;
+
+* Accord.MachineLearning
+  - Added support for Multiclass (Kernel) Support Vector Machines;
+  - Added a Grid Search class for parameter tuning;
+  - Added a Crossvalidation class for model measurement;
+  - Sequential Minimal Optimization now works with common (linear) machines;
+
+* Samples 
+  - Adjusting Panorama sample application;
+  - Removed incomplete SignalSplitter sample;
+  - Added Multiclass Support Vector Machine-based Handwriting Recognition sample application;
+  - Added sample applications for face tracking and detection
+  - Added a sample application to demonstrate some matrix operations.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.1.3. May work with other versions.
+
+
+
+
+Accord.NET Framework 2.0.2 release notes
+-----------------------------------------
+01.07.2010.            
+
+Version updates and fixes:
+
+* General
+  - Some refactoring to comply with more Code Analysis rules
+
+* Accord.Statistics
+  - Added common base class for DataTable Filters
+  - Added computation of Variable Importance in Projection (VIP) for PLS
+  - Changed Kernel Discriminant Analysis to use a Generalized Eigenvalue
+    Decomposition for increased efficiency.
+
+* Accord.Imaging
+  - Added Wavelet transform filter
+  - Improvements to the Blending filter
+  - Adding sample pictures for the Panorama sample application
+  - Added MatrixH to represent general transformation matrices more efficiently
+  - Simplification of RansacHomographyEstimator using PointF instead of PointH
+
+* Accord.MachineLearning
+  - Adding initial Crossvalidation class for general models
+  - Simplifying RANSAC to be independent of the model data type
+
+* Accord.Wavelets
+  - Updating the Wavelet libraries and adding a sample application
+
+* Accord.Math
+  - Added special functions Log1p and Expm1 to Accord.Math.Special
+  - Added support for computing Generalized Eigenvalue Decompositions
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.1.2. May work with other versions.
+
+
+
+
+Accord.NET Framework 2.0.1 release notes
+-----------------------------------------
+01.06.2010.            
+
+Version updates and fixes:
+
+* General
+  - Added support for Sandcastle generated documentation
+  - Added unit testing for Imaging, MachineLearning, Math, Neuro, Statistics and Wavelets namespaces
+  - Updated assemblies information
+
+* Accord.Statistics
+  - Fixed an issue with Kernel Principal Component Analysis reversion
+
+* Accord.Wavelets
+  - Added Haar and CDF97 1D and 2D Wavelet Transforms
+
+
+
+
+Accord.NET Framework 2.0.0 release notes
+-----------------------------------------
+20.05.2010.
+
+Initial release.
+
+* Accord.Math
+  - MATLAB-like matrix manipulation of multidimensional-arrays
+  - Hilbert transform
+  - Numeric decompositions (SVD, Eigen, Cholesky, LU, QR)
+  - Special scientific functions;
+
+* Accord.Statistics
+  - Simple Descriptive Analysis
+  - Linear Discriminant Analysis (LDA)
+  - Kernel Discriminant Analysis (KDA)
+  - Principal Component Analysis (PCA)
+  - Kernel Principal Component Analysis (KPCA)
+  - Partial Least Squares Analysis (PLS)
+  - Logistic Regression Fitting and Analysis
+  - Multivariate, Multiple and Simple Linear Regressions
+  - Receiver Operating Curves (ROC)
+  - Chi-Square and Wald Hypothesis Tests
+  - Wide variety of Kernels for machine learning
+  - Hidden Markov Models (HMM) and Sequence Classifiers
+  - Filters for preprocessing of DataTables such as
+    discretization, normalization, categorization and equalization
+  
+* Accord.Neuro
+  - Levenberg-Marquardt (with Bayesian Regularization) Learning Algorithm
+  - Nguyen-Widrow Weight Initialization for Activation Networks
+  
+* Accord.MachineLearning
+  - Support Vector Machines (SVM)
+  - Kernel Support Vector Machines (kSVM)
+  - Sequential Minimal Optimization Learning (SMO)
+  - Sequential Minimal Optimization for Regression (SMOr)
+  - Multipurpose RANSAC for robust model estimation
+
+* Accord.Imaging
+  - Harris Corner Detector for AForge.NET
+  - Robust Homography estimation using RANSAC
+  
+* Accord.Audio
+  - Experimental audio library for audio processing
+  
+* Accord.Audition
+  - Experimental audio library for computer audition
+
+  
+* Samples
+  - Sample applications for almost all features listed here.
+  

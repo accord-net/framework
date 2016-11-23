@@ -1,0 +1,476 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.Statistics.Kernels.Additive" BaseTypeListCollapsed="true">
+    <Position X="1" Y="13.25" Width="2" />
+    <Members>
+      <Field Name="kernels" Hidden="true" />
+      <Field Name="weights" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAUAAAAFAAAAAAAAA=</HashCode>
+      <FileName>Kernels\Additive.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Anova" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="3.25" Width="1.5" />
+    <Members>
+      <Field Name="K" Hidden="true" />
+      <Method Name="kernel" Hidden="true" />
+      <Field Name="n" Hidden="true" />
+      <Field Name="p" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAEEAAAIAAAAI=</HashCode>
+      <FileName>Kernels\Anova.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Bessel" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="10.25" Width="1.5" />
+    <Members>
+      <Field Name="order" Hidden="true" />
+      <Field Name="sigma" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAAABAAAAAAAAAAAAAAIAABAAAAAQAAAAAAAAABA=</HashCode>
+      <FileName>Kernels\Bessel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.BSpline" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="5.25" Width="1.5" />
+    <Members>
+      <Field Name="order" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAAABAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Kernels\BSpline.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Cauchy" BaseTypeListCollapsed="true">
+    <Position X="14" Y="7.75" Width="1.5" />
+    <Members>
+      <Field Name="sigma" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAABAAAAAQAAAAAAAAABA=</HashCode>
+      <FileName>Kernels\Cauchy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.ChiSquare" BaseTypeListCollapsed="true">
+    <Position X="14" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Kernels\ChiSquare.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Circular" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="5.25" Width="1.5" />
+    <Members>
+      <Field Name="c2dPI" Hidden="true" />
+      <Field Name="sigma" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAAAAIAABAAAAAQAAAAAAAAABA=</HashCode>
+      <FileName>Kernels\Circular.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Custom" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="3.25" Width="1.5" />
+    <Members>
+      <Field Name="func" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Kernels\Custom.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Dirichlet" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="5.25" Width="1.5" />
+    <Members>
+      <Field Name="N" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAQAAAAAAAABAAABA=</HashCode>
+      <FileName>Kernels\Dirichlet.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.DynamicTimeWarping" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="9.5" Width="2.5" />
+    <Members>
+      <Field Name="alpha" Hidden="true" />
+      <Field Name="degree" Hidden="true" />
+      <Field Name="length" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAZQAAAAEBAEAAAQBAAAABA=</HashCode>
+      <FileName>Kernels\DynamicTimeWarping.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Gaussian" BaseTypeListCollapsed="true">
+    <Position X="1" Y="9.5" Width="2" />
+    <Members>
+      <Field Name="gamma" Hidden="true" />
+      <Field Name="sigma" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAgAAAAAAAICABAAAABQAACAAAABABA=</HashCode>
+      <FileName>Kernels\Gaussian.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.HistogramIntersection" BaseTypeListCollapsed="true">
+    <Position X="1" Y="16" Width="2" />
+    <Members>
+      <Field Name="alpha" Hidden="true" />
+      <Field Name="beta" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAIAAAAAAAAAAAAQAAAAABA=</HashCode>
+      <FileName>Kernels\HistogramIntersection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Hypersecant" BaseTypeListCollapsed="true">
+    <Position X="14" Y="5.25" Width="1.5" />
+    <Members>
+      <Field Name="gamma" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAABABA=</HashCode>
+      <FileName>Kernels\Hypersecant.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.InverseMultiquadric" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="6.5" Width="2.5" />
+    <Members>
+      <Field Name="constant" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAgAAAAIAAAAABA=</HashCode>
+      <FileName>Kernels\InverseMultiquadric.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Laplacian" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="6.5" Width="2" />
+    <Members>
+      <Field Name="gamma" Hidden="true" />
+      <Field Name="sigma" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAgAAAAAAAICABAAAABQAAAAAAABABA=</HashCode>
+      <FileName>Kernels\Laplacian.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Linear" BaseTypeListCollapsed="true">
+    <Position X="1" Y="3.25" Width="2" />
+    <Members>
+      <Field Name="constant" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAhAAAAIAAAAABA=</HashCode>
+      <FileName>Kernels\Linear.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Log" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="7.75" Width="1.5" />
+    <Members>
+      <Field Name="degree" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIQAAAAEAAAAAAAAAAAABA=</HashCode>
+      <FileName>Kernels\Log.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Multiquadric" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="13.25" Width="2.5" />
+    <Members>
+      <Field Name="constant" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAgAAAAIAAAAABA=</HashCode>
+      <FileName>Kernels\Multiquadric.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Polynomial" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="3.25" Width="2" />
+    <Members>
+      <Field Name="constant" Hidden="true" />
+      <Field Name="degree" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIQAAAAEAhAAAAIAAAAABA=</HashCode>
+      <FileName>Kernels\Polynomial.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Power" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="10.25" Width="1.5" />
+    <Members>
+      <Field Name="degree" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIQAAAAEAAAAAAAAAAAABA=</HashCode>
+      <FileName>Kernels\Power.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Precomputed" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="5.25" Width="1.5" />
+    <Members>
+      <Field Name="matrix" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACIAAAAgAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Kernels\Precomputed.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Quadratic" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="3.25" Width="2.5" />
+    <Members>
+      <Field Name="constant" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAhAAAAIAAAAABA=</HashCode>
+      <FileName>Kernels\Quadratic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.RationalQuadratic" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="16" Width="2" />
+    <Members>
+      <Field Name="constant" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAgAAAAIAAAAABA=</HashCode>
+      <FileName>Kernels\RationalQuadratic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Sigmoid" BaseTypeListCollapsed="true">
+    <Position X="1" Y="6.5" Width="2" />
+    <Members>
+      <Field Name="alpha" Hidden="true" />
+      <Field Name="constant" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAICAAAAABgAAAAYAAAAABQ=</HashCode>
+      <FileName>Kernels\Sigmoid.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Spherical" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="10.25" Width="1.5" />
+    <Members>
+      <Field Name="sigma" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAABAAAAAQAAAAAAAAABA=</HashCode>
+      <FileName>Kernels\Spherical.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Spline" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Kernels\Spline.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.SquaredSinc" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="7.75" Width="1.5" />
+    <Members>
+      <Field Name="gamma" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAABABA=</HashCode>
+      <FileName>Kernels\SquaredSinc.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.KernelFunctionCache">
+    <Position X="18.75" Y="4" Width="2.75" />
+    <Members>
+      <Field Name="capacity" Hidden="true" />
+      <Field Name="data" Hidden="true" />
+      <Field Name="diagonal" Hidden="true" />
+      <Field Name="hits" Hidden="true" />
+      <Field Name="inputs" Hidden="true" />
+      <Field Name="kernel" Hidden="true" />
+      <Field Name="lruIndices" Hidden="true" />
+      <Field Name="lruIndicesLookupTable" Hidden="true" />
+      <Field Name="misses" Hidden="true" />
+      <Field Name="size" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAIAQAAAAEAhAAACYIABABEAAQQBBAAAAAUAABAgCI=</HashCode>
+      <FileName>Kernels\Structures\KernelFunctionCache.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.SymmetricTriangle" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="13.25" Width="2" />
+    <Members>
+      <Field Name="gamma" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAABABA=</HashCode>
+      <FileName>Kernels\SymmetricTriangle.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Tensor" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="3.25" Width="1.5" />
+    <Members>
+      <Field Name="kernels" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Kernels\Tensor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.TStudent" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="7.75" Width="1.5" />
+    <Members>
+      <Field Name="degree" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIQAAAAEAAAAAAAAAAAABA=</HashCode>
+      <FileName>Kernels\TStudent.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Wave" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="7.75" Width="1.5" />
+    <Members>
+      <Field Name="sigma" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAABAAAAAQAAAAAAAAABA=</HashCode>
+      <FileName>Kernels\Wave.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Wavelet" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="9.5" Width="2" />
+    <Members>
+      <Field Name="dilation" Hidden="true" />
+      <Field Name="h" Hidden="true" />
+      <Field Name="invariant" Hidden="true" />
+      <Field Name="translation" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>CAAAAAgAAAIACAACAAAAAAIAAAAAAACAQAAAgAAAABA=</HashCode>
+      <FileName>Kernels\Wavelet.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Sparse.SparseCauchy" BaseTypeListCollapsed="true">
+    <Position X="14.5" Y="16" Width="1.5" />
+    <Members>
+      <Field Name="sigma" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAABAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Kernels\Sparse\SparseCauchy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Sparse.SparseGaussian">
+    <Position X="14.5" Y="10.75" Width="1.5" />
+    <Members>
+      <Field Name="gamma" Hidden="true" />
+      <Field Name="sigma" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAgAAAAAAAIAABAAAABQAAAAAAABAAA=</HashCode>
+      <FileName>Kernels\Sparse\SparseGaussian.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Sparse.SparseLaplacian" BaseTypeListCollapsed="true">
+    <Position X="16.75" Y="10.75" Width="2.5" />
+    <Members>
+      <Field Name="gamma" Hidden="true" />
+      <Field Name="sigma" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAgAAAAAAAIAABAAAABQAAAAAAABAAA=</HashCode>
+      <FileName>Kernels\Sparse\SparseLaplacian.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Sparse.SparseLinear" BaseTypeListCollapsed="true">
+    <Position X="16.75" Y="16" Width="2.5" />
+    <Members>
+      <Field Name="constant" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAhAAAAIAAAAAAA=</HashCode>
+      <FileName>Kernels\Sparse\SparseLinear.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Sparse.SparsePolynomial" BaseTypeListCollapsed="true">
+    <Position X="16.75" Y="13.5" Width="2.5" />
+    <Members>
+      <Field Name="constant" Hidden="true" />
+      <Field Name="degree" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIQAAAAEAhAAAAIAAAAAAA=</HashCode>
+      <FileName>Kernels\Sparse\SparsePolynomial.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Kernels.Sparse.SparseSigmoid" BaseTypeListCollapsed="true">
+    <Position X="14.5" Y="13.5" Width="1.5" />
+    <Members>
+      <Field Name="constant" Hidden="true" />
+      <Field Name="gamma" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAIAAAAAAAgAAAAIAAABAAA=</HashCode>
+      <FileName>Kernels\Sparse\SparseSigmoid.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Accord.Statistics.Kernels.IDistance">
+    <Position X="9.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Kernels\Base\IDistance.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Kernels.IKernel">
+    <Position X="11.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Kernels\Base\IKernel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Kernels.IEstimable">
+    <Position X="13.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Kernels\Base\IEstimable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

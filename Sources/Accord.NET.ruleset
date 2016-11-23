@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Accord.NET Rules" Description="This rule set contains default rules to be used with the Accord.NET Framework." ToolsVersion="10.0">
+  <IncludeAll Action="Warning" />
+  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <Rule Id="CA1002" Action="None" />
+    <Rule Id="CA1004" Action="None" />
+    <Rule Id="CA1006" Action="None" />
+    <Rule Id="CA1014" Action="None" />
+    <Rule Id="CA1020" Action="None" />
+    <Rule Id="CA1021" Action="None" />
+    <Rule Id="CA1026" Action="None" />
+    <Rule Id="CA1062" Action="None" />
+    <Rule Id="CA1063" Action="Error" />
+    <Rule Id="CA1303" Action="None" />
+    <Rule Id="CA1305" Action="None" />
+    <Rule Id="CA1500" Action="None" />
+    <Rule Id="CA1502" Action="None" />
+    <Rule Id="CA1505" Action="None" />
+    <Rule Id="CA1704" Action="None" />
+    <Rule Id="CA1719" Action="None" />
+    <Rule Id="CA1726" Action="None" />
+    <Rule Id="CA1809" Action="None" />
+    <Rule Id="CA1814" Action="None" />
+    <Rule Id="CA1819" Action="None" />
+    <Rule Id="CA1824" Action="None" />
+    <Rule Id="CA2000" Action="None" />
+    <Rule Id="CA2202" Action="None" />
+    <Rule Id="CA2233" Action="None" />
+  </Rules>
+</RuleSet>

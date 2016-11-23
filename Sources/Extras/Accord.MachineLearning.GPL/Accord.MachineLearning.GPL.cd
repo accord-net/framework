@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimizationRegression">
+    <Position X="0.5" Y="0.5" Width="3" />
+    <Members>
+      <Field Name="alpha_a" Hidden="true" />
+      <Field Name="alpha_b" Hidden="true" />
+      <Field Name="biasLower" Hidden="true" />
+      <Field Name="biasLowerIndex" Hidden="true" />
+      <Field Name="biasUpper" Hidden="true" />
+      <Field Name="biasUpperIndex" Hidden="true" />
+      <Field Name="c" Hidden="true" />
+      <Method Name="compute" Hidden="true" />
+      <Field Name="epsilon" Hidden="true" />
+      <Field Name="errors" Hidden="true" />
+      <Method Name="examineExample" Hidden="true" />
+      <Field Name="I0" Hidden="true" />
+      <Field Name="I1" Hidden="true" />
+      <Field Name="I2" Hidden="true" />
+      <Field Name="I3" Hidden="true" />
+      <Field Name="inputs" Hidden="true" />
+      <Field Name="kernel" Hidden="true" />
+      <Field Name="machine" Hidden="true" />
+      <Field Name="outputs" Hidden="true" />
+      <Field Name="roundingEpsilon" Hidden="true" />
+      <Method Name="takeStep" Hidden="true" />
+      <Field Name="tolerance" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQABAIAAAACEAAAAAFgBBIQAQBQADGABAAAAARABFI=</HashCode>
+      <FileName>SequentialMinimalOptimizationRegression.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

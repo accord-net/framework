@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Fuzzy</id>
+    <version>$version$</version>
+    <title>Accord.Fuzzy</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Contains Fuzzy logic tools, such as fuzzy sets, linguistic variables and inference systems. This package originated from the AForge.NET Framework and is part of the Accord.NET Framework.
+    </description>
+    <summary>Create fuzzy decision systems using fuzzy logic. Contains Fuzzy sets, linguistic variables and fuzzy inference systems.</summary>
+    <tags>accord.net aforge.net fuzzy logic math</tags>
+    <dependencies>
+      <dependency id="Accord"            version="$version$" />
+      <dependency id="Accord.Math"       version="$version$" />
+      <dependency id="Accord.Statistics" version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Accord.Fuzzy.dll" target="lib\net35\Accord.Fuzzy.dll" />
+    <file src="..\..\Release\net35\Accord.Fuzzy.xml" target="lib\net35\Accord.Fuzzy.xml" />
+
+    <file src="..\..\Release\net40\Accord.Fuzzy.dll" target="lib\net40\Accord.Fuzzy.dll" />
+    <file src="..\..\Release\net40\Accord.Fuzzy.xml" target="lib\net40\Accord.Fuzzy.xml" />
+
+    <file src="..\..\Release\net45\Accord.Fuzzy.dll" target="lib\net45\Accord.Fuzzy.dll" />
+    <file src="..\..\Release\net45\Accord.Fuzzy.xml" target="lib\net45\Accord.Fuzzy.xml" />
+	
+    <file src="..\..\Release\net46\Accord.Fuzzy.dll" target="lib\net46\Accord.Fuzzy.dll" />
+    <file src="..\..\Release\net46\Accord.Fuzzy.xml" target="lib\net46\Accord.Fuzzy.xml" />
+  </files>
+</package>

@@ -1,0 +1,376 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="RightToLeft" Layout="Sugiyama" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="(@15)" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.MachineLearning, Version=2.1.1.0, Culture=neutral, PublicKeyToken=b3f1bdd78212f4e4" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.MachineLearning.dll" IsDragSource="True" Label="AForge.MachineLearning" Visibility="Hidden">
+      <Category Ref="AForge" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="(@32)" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Robotics.Lego, Version=2.1.1.0, Culture=neutral, PublicKeyToken=5f361631ec856b74" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Robotics.Lego.dll" IsDragSource="True" Label="AForge.Robotics.Lego" Visibility="Hidden">
+      <Category Ref="AForge" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="(@49)" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="AForge.Imaging.Formats, Version=2.1.1.0, Culture=neutral, PublicKeyToken=8065ed5a639199a0" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Imaging.Formats.dll" IsDragSource="True" Label="AForge.Imaging.Formats" Visibility="Hidden">
+      <Category Ref="AForge" />
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@10" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="Accord.Imaging, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7" FilePath="$(4959a83d-f78f-439e-80a5-41583eceaac6.OutputPath)" IsDragSource="True" Label="Accord.Imaging">
+      <Category Ref="Accord.NET" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@12" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="AForge.Imaging, Version=2.1.5.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Imaging.dll" IsDragSource="True" Label="AForge.Imaging" Visibility="Hidden">
+      <Category Ref="AForge" />
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@14" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="Accord.MachineLearning, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7" FilePath="$(7ab4bbcc-6222-423d-9ff9-ba9cb7c09199.OutputPath)" IsDragSource="True" Label="Accord.MachineLearning">
+      <Category Ref="Accord.NET" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@17" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="Accord.Math, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7" FilePath="$(f718e9a8-db62-4785-8c49-4333a60d256a.OutputPath)" IsDragSource="True" IsHub="True" Label="Accord.Math">
+      <Category Ref="Accord.NET" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@19" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="AForge.Math, Version=2.1.5.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Math.dll" IsDragSource="True" Label="AForge.Math" Visibility="Hidden">
+      <Category Ref="AForge" />
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@2" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="AForge.Genetic, Version=2.1.5.0, Culture=neutral, PublicKeyToken=4336634eeb41b69b" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Genetic.dll" IsDragSource="True" Label="AForge.Genetic" Visibility="Hidden">
+      <Category Ref="AForge" />
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@21" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Robotics.TeRK, Version=2.1.1.0, Culture=neutral, PublicKeyToken=5c0f140128226168" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Robotics.TeRK.dll" IsDragSource="True" Label="AForge.Robotics.TeRK" Visibility="Hidden">
+      <Category Ref="AForge" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@23" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="Accord.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7" FilePath="$(c70a159d-74a4-405f-9a7f-c17acf451cca.OutputPath)" IsDragSource="True" Label="Accord.Vision">
+      <Category Ref="Accord.Audio" />
+      <Category Ref="Accord.NET" />
+    </Node>
+    <Node Id="@25" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="AForge.Vision, Version=2.1.1.0, Culture=neutral, PublicKeyToken=b612fa915eefaa06" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Vision.dll" IsDragSource="True" Label="AForge.Vision" Visibility="Hidden">
+      <Category Ref="AForge" />
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@27" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="Accord.Controls.Vision, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7" FilePath="$(6158e759-fe2b-4308-ba29-11c9e4a07812.OutputPath)" IsDragSource="True" IsHub="True" Label="Accord.Controls.Vision">
+      <Category Ref="Accord.Audio" />
+      <Category Ref="Accord.NET" />
+    </Node>
+    <Node Id="@29" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="Accord.Audition, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7" FilePath="$(cdbefb1a-10bc-49ec-9833-d2cf6d4f6131.OutputPath)" IsDragSource="True" Label="Accord.Audition">
+      <Category Ref="Accord.NET" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@31" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="AForge.Video, Version=2.1.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Video.dll" IsDragSource="True" Label="AForge.Video" Visibility="Hidden">
+      <Category Ref="AForge" />
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@34" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="Accord.Audio, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7" FilePath="$(e7b65f08-82f1-438f-847a-2aac2bec9ac0.OutputPath)" IsDragSource="True" Label="Accord.Audio">
+      <Category Ref="Accord.Audio" />
+      <Category Ref="Accord.NET" />
+    </Node>
+    <Node Id="@36" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="Accord.Controls.Audio, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7" FilePath="$(e0b826ac-2a51-41ec-9f09-561ca14a82bb.OutputPath)" IsDragSource="True" Label="Accord.Controls.Audio">
+      <Category Ref="Accord.NET" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@38" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="Accord.Neuro, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7" FilePath="$(179f3045-8757-4f4b-9508-f48327ba11e3.OutputPath)" IsDragSource="True" Label="Accord.Neuro">
+      <Category Ref="Accord.NET" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@4" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="Accord.DirectSound, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7" FilePath="$(456db2e8-745a-4f87-a2bd-c43cf8677770.OutputPath)" IsDragSource="True" Label="Accord.DirectSound">
+      <Category Ref="Accord.NET" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@40" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="AForge.Neuro, Version=2.1.1.0, Culture=neutral, PublicKeyToken=2094f4ea39731d4f" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Neuro.dll" IsDragSource="True" Label="AForge.Neuro" Visibility="Hidden">
+      <Category Ref="AForge" />
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@42" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Robotics.Surveyor, Version=2.1.3.0, Culture=neutral, PublicKeyToken=7ed9f718a0f5b2f6" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Robotics.Surveyor.dll" IsDragSource="True" Label="AForge.Robotics.Surveyor" Visibility="Hidden">
+      <Category Ref="AForge" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@44" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="Accord.Statistics, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7" FilePath="$(fd8101dd-c95d-42d6-ad44-ae01c25f2811.OutputPath)" IsDragSource="True" IsHub="True" Label="Accord.Statistics">
+      <Category Ref="Accord.NET" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@46" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="Accord.Controls, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7" FilePath="$(0ab27a20-925c-4556-9fa4-6e2c109e448e.OutputPath)" IsDragSource="True" Label="Accord.Controls">
+      <Category Ref="Accord.NET" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@48" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="AForge.Controls, Version=2.1.5.0, Culture=neutral, PublicKeyToken=a8ac264d1dc6b9d9" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Controls.dll" IsDragSource="True" Label="AForge.Controls" Visibility="Hidden">
+      <Category Ref="AForge" />
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@51" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="Accord.Audio.Formats, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7" FilePath="$(ec70c2a7-2b49-40d3-ae82-4c2f6e1724af.OutputPath)" IsDragSource="True" Label="Accord.Audio.Formats">
+      <Category Ref="Accord.NET" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@53" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="AForge.Video.VFW, Version=2.1.3.0, Culture=neutral, PublicKeyToken=a82f807c999637c8" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Video.VFW.dll" IsDragSource="True" Label="AForge.Video.VFW" Visibility="Hidden">
+      <Category Ref="AForge" />
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@55" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="AForge.Video.DirectShow, Version=2.1.5.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Video.DirectShow.dll" IsDragSource="True" Label="AForge.Video.DirectShow" Visibility="Hidden">
+      <Category Ref="AForge" />
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@57" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AForge.Fuzzy, Version=2.1.2.0, Culture=neutral, PublicKeyToken=cb12670d0eae17c9" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.Fuzzy.dll" IsDragSource="True" Label="AForge.Fuzzy" Visibility="Hidden">
+      <Category Ref="AForge" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@6" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="Accord, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7" FilePath="$(a177a90c-8207-466a-af70-f2b8452a42ac.OutputPath)" IsDragSource="True" Label="Accord">
+      <Category Ref="Accord.NET" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@8" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="AForge, Version=2.1.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb" FilePath="$(ProgramFiles)\AForge.NET\Framework\Release\AForge.dll" IsDragSource="True" Label="AForge" Visibility="Hidden">
+      <Category Ref="AForge" />
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="NewGroup1" Group="Expanded" Label="Accord.NET Framework" Visibility="Hidden" />
+    <Node Id="NewGroup2" Group="Expanded" Label="AForge.NET Framework" Visibility="Hidden" />
+  </Nodes>
+  <Links>
+    <Link Source="@10" Target="@12" Category="References" />
+    <Link Source="@10" Target="@14" Category="References" />
+    <Link Source="@10" Target="@17" Category="References" />
+    <Link Source="@10" Target="@19" Category="References" />
+    <Link Source="@10" Target="@8" Category="References" />
+    <Link Source="@12" Target="@19" Category="References" />
+    <Link Source="@12" Target="@8" Category="References" />
+    <Link Source="@14" Target="@17" Category="References" />
+    <Link Source="@14" Target="@44" Category="References" />
+    <Link Source="@14" Target="@8" Category="References" />
+    <Link Source="@17" Target="@19" Category="References" />
+    <Link Source="@17" Target="@6" Category="References" />
+    <Link Source="@17" Target="@8" Category="References" />
+    <Link Source="@19" Target="@8" Category="References" />
+    <Link Source="@2" Target="@19" Category="References" />
+    <Link Source="@2" Target="@8" Category="References" />
+    <Link Source="@21" Target="@31" Category="References" />
+    <Link Source="@21" Target="@8" Category="References" />
+    <Link Source="@23" Target="@10" Category="References" />
+    <Link Source="@23" Target="@12" Category="References" />
+    <Link Source="@23" Target="@19" Category="References" />
+    <Link Source="@23" Target="@25" Category="References" />
+    <Link Source="@23" Target="@31" Category="References" />
+    <Link Source="@23" Target="@44" Category="References" />
+    <Link Source="@23" Target="@8" Category="References" />
+    <Link Source="@25" Target="@12" Category="References" />
+    <Link Source="@25" Target="@8" Category="References" />
+    <Link Source="@27" Target="@12" Category="References" />
+    <Link Source="@27" Target="@17" Category="References" />
+    <Link Source="@27" Target="@19" Category="References" />
+    <Link Source="@27" Target="@23" Category="References" />
+    <Link Source="@27" Target="@25" Category="References" />
+    <Link Source="@27" Target="@31" Category="References" />
+    <Link Source="@27" Target="@44" Category="References" />
+    <Link Source="@27" Target="@53" Category="References" />
+    <Link Source="@27" Target="@55" Category="References" />
+    <Link Source="@27" Target="@8" Category="References" />
+    <Link Source="@29" Target="@19" Category="References" />
+    <Link Source="@29" Target="@34" Category="References" />
+    <Link Source="@29" Target="@8" Category="References" />
+    <Link Source="@34" Target="@17" Category="References" />
+    <Link Source="@34" Target="@19" Category="References" />
+    <Link Source="@34" Target="@8" Category="References" />
+    <Link Source="@36" Target="@17" Category="References" />
+    <Link Source="@36" Target="@19" Category="References" />
+    <Link Source="@36" Target="@48" Category="References" />
+    <Link Source="@36" Target="@8" Category="References" />
+    <Link Source="@38" Target="@17" Category="References" />
+    <Link Source="@38" Target="@19" Category="References" />
+    <Link Source="@38" Target="@40" Category="References" />
+    <Link Source="@38" Target="@8" Category="References" />
+    <Link Source="@4" Target="@19" Category="References" />
+    <Link Source="@4" Target="@34" Category="References" />
+    <Link Source="@4" Target="@51" Category="References" />
+    <Link Source="@40" Target="@19" Category="References" />
+    <Link Source="@40" Target="@2" Category="References" />
+    <Link Source="@40" Target="@8" Category="References" />
+    <Link Source="@42" Target="@31" Category="References" />
+    <Link Source="@42" Target="@8" Category="References" />
+    <Link Source="@44" Target="@17" Category="References" />
+    <Link Source="@44" Target="@19" Category="References" />
+    <Link Source="@44" Target="@6" Category="References" />
+    <Link Source="@44" Target="@8" Category="References" />
+    <Link Source="@46" Target="@17" Category="References" />
+    <Link Source="@46" Target="@19" Category="References" />
+    <Link Source="@46" Target="@44" Category="References" />
+    <Link Source="@46" Target="@8" Category="References" />
+    <Link Source="@48" Target="@31" Category="References" />
+    <Link Source="@48" Target="@8" Category="References" />
+    <Link Source="@51" Target="@34" Category="References" />
+    <Link Source="@53" Target="@31" Category="References" />
+    <Link Source="@55" Target="@31" Category="References" />
+    <Link Source="@57" Target="@8" Category="References" />
+    <Link Source="NewGroup1" Target="@10" Category="Contains" />
+    <Link Source="NewGroup1" Target="@14" Category="Contains" />
+    <Link Source="NewGroup1" Target="@17" Category="Contains" />
+    <Link Source="NewGroup1" Target="@23" Category="Contains" />
+    <Link Source="NewGroup1" Target="@27" Category="Contains" />
+    <Link Source="NewGroup1" Target="@29" Category="Contains" />
+    <Link Source="NewGroup1" Target="@34" Category="Contains" />
+    <Link Source="NewGroup1" Target="@36" Category="Contains" />
+    <Link Source="NewGroup1" Target="@38" Category="Contains" />
+    <Link Source="NewGroup1" Target="@4" Category="Contains" />
+    <Link Source="NewGroup1" Target="@44" Category="Contains" />
+    <Link Source="NewGroup1" Target="@46" Category="Contains" />
+    <Link Source="NewGroup1" Target="@51" Category="Contains" />
+    <Link Source="NewGroup1" Target="@6" Category="Contains" />
+    <Link Source="NewGroup2" Target="(@15)" Category="Contains" />
+    <Link Source="NewGroup2" Target="(@32)" Category="Contains" />
+    <Link Source="NewGroup2" Target="(@49)" Category="Contains" />
+    <Link Source="NewGroup2" Target="@12" Category="Contains" />
+    <Link Source="NewGroup2" Target="@19" Category="Contains" />
+    <Link Source="NewGroup2" Target="@2" Category="Contains" />
+    <Link Source="NewGroup2" Target="@21" Category="Contains" />
+    <Link Source="NewGroup2" Target="@25" Category="Contains" />
+    <Link Source="NewGroup2" Target="@31" Category="Contains" />
+    <Link Source="NewGroup2" Target="@40" Category="Contains" />
+    <Link Source="NewGroup2" Target="@42" Category="Contains" />
+    <Link Source="NewGroup2" Target="@48" Category="Contains" />
+    <Link Source="NewGroup2" Target="@53" Category="Contains" />
+    <Link Source="NewGroup2" Target="@55" Category="Contains" />
+    <Link Source="NewGroup2" Target="@57" Category="Contains" />
+    <Link Source="NewGroup2" Target="@8" Category="Contains" />
+  </Links>
+  <Categories>
+    <Category Id="Accord.Audio" Label="Assembly" IsTag="True" />
+    <Category Id="Accord.NET" Label="AForge.NET" IsTag="True" />
+    <Category Id="AForge" Label="AForge.NET" IsTag="True" />
+    <Category Id="CodeSchema_Assembly" Label="Assembly" BasedOn="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Assembly" IsProviderRoot="False" NavigationActionLabel="Assemblies" />
+    <Category Id="Contains" Label="Contains" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contained By" IsContainment="True" OutgoingActionLabel="Contains" />
+    <Category Id="File" Label="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="File" IsProviderRoot="False" NavigationActionLabel="Files" />
+    <Category Id="FileSystem.Category.FileOfType.dll" Label="dll File" BasedOn="CodeSchema_Assembly" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="dll Files" />
+    <Category Id="References" Label="References" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Referenced By" OutgoingActionLabel="References" />
+  </Categories>
+  <Properties>
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_StrongName" Label="StrongName" Description="StrongName" DataType="System.String" />
+    <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
+    <Property Id="FilePath" Label="File Path" Description="File Path" DataType="System.String" />
+    <Property Id="GraphDirection" DataType="Microsoft.VisualStudio.Progression.Layout.GraphDirection" />
+    <Property Id="Group" Label="Group" Description="Display the node as a group" DataType="Microsoft.VisualStudio.Progression.GraphModel.GroupStyle" />
+    <Property Id="Icon" Label="Icon" Description="Icon" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsDragSource" Label="IsDragSource" Description="IsDragSource" DataType="System.Boolean" />
+    <Property Id="IsHub" Label="Hub" Description="Node is in the top 25% of highly connected nodes.  Other nodes not directly connecting these hubs have been hidden to simplify the graph." DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="IsTag" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="Visibility" Label="Visibility" Description="Defines whether a node in the graph is visible or not" DataType="System.Windows.Visibility" />
+  </Properties>
+  <QualifiedNames>
+    <Name Id="Assembly" Label="Assembly" ValueType="Uri" />
+  </QualifiedNames>
+  <Styles>
+    <Style TargetType="Node" IsEnabled="false" GroupLabel="Group" ValueLabel="Expanded">
+      <Condition Expression="Group = 'Expanded'" />
+      <Setter Property="Background" Value="#00FFFFFF" />
+    </Style>
+    <Style TargetType="Node" IsEnabled="false" GroupLabel="Accord.NET" ValueLabel="True">
+      <Condition Expression="HasCategory('Accord.NET')" />
+      <Setter Property="Background" Value="#FF0000FF" />
+    </Style>
+    <Style TargetType="Node" IsEnabled="false" GroupLabel="AForge.NET" ValueLabel="True">
+      <Condition Expression="HasCategory('Accord.NET')" />
+      <Setter Property="Background" Value="#FF0080C0" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Hub" ToolTip="Node is in the top 25% of highly connected nodes.  Other nodes not directly connecting these hubs have been hidden to simplify the graph." ValueLabel="True">
+      <Condition Expression="IsHub" />
+      <Setter Property="Background" Value="#FF0080FF" />
+    </Style>
+  </Styles>
+  <IdentifierAliases>
+    <Alias n="1" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Genetic.dll" />
+    <Alias n="2" Id="(@1)" />
+    <Alias n="3" Uri="Assembly=$(456db2e8-745a-4f87-a2bd-c43cf8677770.OutputPathUri)" />
+    <Alias n="4" Id="(@3)" />
+    <Alias n="5" Uri="Assembly=$(a177a90c-8207-466a-af70-f2b8452a42ac.OutputPathUri)" />
+    <Alias n="6" Id="(@5)" />
+    <Alias n="7" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.dll" />
+    <Alias n="8" Id="(@7)" />
+    <Alias n="9" Uri="Assembly=$(4959a83d-f78f-439e-80a5-41583eceaac6.OutputPathUri)" />
+    <Alias n="10" Id="(@9)" />
+    <Alias n="11" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Imaging.dll" />
+    <Alias n="12" Id="(@11)" />
+    <Alias n="13" Uri="Assembly=$(7ab4bbcc-6222-423d-9ff9-ba9cb7c09199.OutputPathUri)" />
+    <Alias n="14" Id="(@13)" />
+    <Alias n="15" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.MachineLearning.dll" />
+    <Alias n="16" Uri="Assembly=$(f718e9a8-db62-4785-8c49-4333a60d256a.OutputPathUri)" />
+    <Alias n="17" Id="(@16)" />
+    <Alias n="18" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Math.dll" />
+    <Alias n="19" Id="(@18)" />
+    <Alias n="20" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Robotics.TeRK.dll" />
+    <Alias n="21" Id="(@20)" />
+    <Alias n="22" Uri="Assembly=$(c70a159d-74a4-405f-9a7f-c17acf451cca.OutputPathUri)" />
+    <Alias n="23" Id="(@22)" />
+    <Alias n="24" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Vision.dll" />
+    <Alias n="25" Id="(@24)" />
+    <Alias n="26" Uri="Assembly=$(6158e759-fe2b-4308-ba29-11c9e4a07812.OutputPathUri)" />
+    <Alias n="27" Id="(@26)" />
+    <Alias n="28" Uri="Assembly=$(cdbefb1a-10bc-49ec-9833-d2cf6d4f6131.OutputPathUri)" />
+    <Alias n="29" Id="(@28)" />
+    <Alias n="30" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Video.dll" />
+    <Alias n="31" Id="(@30)" />
+    <Alias n="32" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Robotics.Lego.dll" />
+    <Alias n="33" Uri="Assembly=$(e7b65f08-82f1-438f-847a-2aac2bec9ac0.OutputPathUri)" />
+    <Alias n="34" Id="(@33)" />
+    <Alias n="35" Uri="Assembly=$(e0b826ac-2a51-41ec-9f09-561ca14a82bb.OutputPathUri)" />
+    <Alias n="36" Id="(@35)" />
+    <Alias n="37" Uri="Assembly=$(179f3045-8757-4f4b-9508-f48327ba11e3.OutputPathUri)" />
+    <Alias n="38" Id="(@37)" />
+    <Alias n="39" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Neuro.dll" />
+    <Alias n="40" Id="(@39)" />
+    <Alias n="41" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Robotics.Surveyor.dll" />
+    <Alias n="42" Id="(@41)" />
+    <Alias n="43" Uri="Assembly=$(fd8101dd-c95d-42d6-ad44-ae01c25f2811.OutputPathUri)" />
+    <Alias n="44" Id="(@43)" />
+    <Alias n="45" Uri="Assembly=$(0ab27a20-925c-4556-9fa4-6e2c109e448e.OutputPathUri)" />
+    <Alias n="46" Id="(@45)" />
+    <Alias n="47" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Controls.dll" />
+    <Alias n="48" Id="(@47)" />
+    <Alias n="49" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Imaging.Formats.dll" />
+    <Alias n="50" Uri="Assembly=$(ec70c2a7-2b49-40d3-ae82-4c2f6e1724af.OutputPathUri)" />
+    <Alias n="51" Id="(@50)" />
+    <Alias n="52" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Video.VFW.dll" />
+    <Alias n="53" Id="(@52)" />
+    <Alias n="54" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Video.DirectShow.dll" />
+    <Alias n="55" Id="(@54)" />
+    <Alias n="56" Uri="Assembly=$(ProgramFilesUri)/AForge.NET/Framework/Release/AForge.Fuzzy.dll" />
+    <Alias n="57" Id="(@56)" />
+  </IdentifierAliases>
+  <Paths>
+    <Path Id="0ab27a20-925c-4556-9fa4-6e2c109e448e.OutputPath" Value="D:\Projects\Accord.NET\Sources\Accord.Controls.Statistics\bin\Debug\Accord.Controls.dll" />
+    <Path Id="0ab27a20-925c-4556-9fa4-6e2c109e448e.OutputPathUri" Value="file:///D:/Projects/Accord.NET/Sources/Accord.Controls.Statistics/bin/Debug/Accord.Controls.dll" />
+    <Path Id="179f3045-8757-4f4b-9508-f48327ba11e3.OutputPath" Value="D:\Projects\Accord.NET\Sources\Accord.Neuro\bin\Debug\Accord.Neuro.dll" />
+    <Path Id="179f3045-8757-4f4b-9508-f48327ba11e3.OutputPathUri" Value="file:///D:/Projects/Accord.NET/Sources/Accord.Neuro/bin/Debug/Accord.Neuro.dll" />
+    <Path Id="456db2e8-745a-4f87-a2bd-c43cf8677770.OutputPath" Value="D:\Projects\Accord.NET\Sources\Accord.DirectSound\bin\Debug\Accord.DirectSound.dll" />
+    <Path Id="456db2e8-745a-4f87-a2bd-c43cf8677770.OutputPathUri" Value="file:///D:/Projects/Accord.NET/Sources/Accord.DirectSound/bin/Debug/Accord.DirectSound.dll" />
+    <Path Id="4959a83d-f78f-439e-80a5-41583eceaac6.OutputPath" Value="D:\Projects\Accord.NET\Sources\Accord.Imaging\bin\Debug\Accord.Imaging.dll" />
+    <Path Id="4959a83d-f78f-439e-80a5-41583eceaac6.OutputPathUri" Value="file:///D:/Projects/Accord.NET/Sources/Accord.Imaging/bin/Debug/Accord.Imaging.dll" />
+    <Path Id="6158e759-fe2b-4308-ba29-11c9e4a07812.OutputPath" Value="D:\Projects\Accord.NET\Sources\Accord.Controls.Vision\bin\Debug\Accord.Controls.Vision.dll" />
+    <Path Id="6158e759-fe2b-4308-ba29-11c9e4a07812.OutputPathUri" Value="file:///D:/Projects/Accord.NET/Sources/Accord.Controls.Vision/bin/Debug/Accord.Controls.Vision.dll" />
+    <Path Id="7ab4bbcc-6222-423d-9ff9-ba9cb7c09199.OutputPath" Value="D:\Projects\Accord.NET\Sources\Accord.MachineLearning\bin\Debug\Accord.MachineLearning.dll" />
+    <Path Id="7ab4bbcc-6222-423d-9ff9-ba9cb7c09199.OutputPathUri" Value="file:///D:/Projects/Accord.NET/Sources/Accord.MachineLearning/bin/Debug/Accord.MachineLearning.dll" />
+    <Path Id="a177a90c-8207-466a-af70-f2b8452a42ac.OutputPath" Value="D:\Projects\Accord.NET\Sources\Accord.Core\bin\Debug\Accord.dll" />
+    <Path Id="a177a90c-8207-466a-af70-f2b8452a42ac.OutputPathUri" Value="file:///D:/Projects/Accord.NET/Sources/Accord.Core/bin/Debug/Accord.dll" />
+    <Path Id="c70a159d-74a4-405f-9a7f-c17acf451cca.OutputPath" Value="D:\Projects\Accord.NET\Sources\Accord.Vision\bin\Debug\Accord.Vision.dll" />
+    <Path Id="c70a159d-74a4-405f-9a7f-c17acf451cca.OutputPathUri" Value="file:///D:/Projects/Accord.NET/Sources/Accord.Vision/bin/Debug/Accord.Vision.dll" />
+    <Path Id="cdbefb1a-10bc-49ec-9833-d2cf6d4f6131.OutputPath" Value="D:\Projects\Accord.NET\Sources\Accord.Audition\bin\Debug\Accord.Audition.dll" />
+    <Path Id="cdbefb1a-10bc-49ec-9833-d2cf6d4f6131.OutputPathUri" Value="file:///D:/Projects/Accord.NET/Sources/Accord.Audition/bin/Debug/Accord.Audition.dll" />
+    <Path Id="e0b826ac-2a51-41ec-9f09-561ca14a82bb.OutputPath" Value="D:\Projects\Accord.NET\Sources\Accord.Controls.Audio\bin\Debug\Accord.Controls.Audio.dll" />
+    <Path Id="e0b826ac-2a51-41ec-9f09-561ca14a82bb.OutputPathUri" Value="file:///D:/Projects/Accord.NET/Sources/Accord.Controls.Audio/bin/Debug/Accord.Controls.Audio.dll" />
+    <Path Id="e1089999-eaed-4e55-ac47-b6a196df84fc.OutputPath" Value="D:\Projects\Accord.NET\Sources\Accord.Controls.Imaging\bin\Debug\Accord.Controls.Imaging.dll" />
+    <Path Id="e7b65f08-82f1-438f-847a-2aac2bec9ac0.OutputPath" Value="D:\Projects\Accord.NET\Sources\Accord.Audio\bin\Debug\Accord.Audio.dll" />
+    <Path Id="e7b65f08-82f1-438f-847a-2aac2bec9ac0.OutputPathUri" Value="file:///D:/Projects/Accord.NET/Sources/Accord.Audio/bin/Debug/Accord.Audio.dll" />
+    <Path Id="ec70c2a7-2b49-40d3-ae82-4c2f6e1724af.OutputPath" Value="D:\Projects\Accord.NET\Sources\Accord.Audio.Formats\bin\Debug\Accord.Audio.Formats.dll" />
+    <Path Id="ec70c2a7-2b49-40d3-ae82-4c2f6e1724af.OutputPathUri" Value="file:///D:/Projects/Accord.NET/Sources/Accord.Audio.Formats/bin/Debug/Accord.Audio.Formats.dll" />
+    <Path Id="f718e9a8-db62-4785-8c49-4333a60d256a.OutputPath" Value="D:\Projects\Accord.NET\Sources\Accord.Math\bin\Debug\Accord.Math.dll" />
+    <Path Id="f718e9a8-db62-4785-8c49-4333a60d256a.OutputPathUri" Value="file:///D:/Projects/Accord.NET/Sources/Accord.Math/bin/Debug/Accord.Math.dll" />
+    <Path Id="fd8101dd-c95d-42d6-ad44-ae01c25f2811.OutputPath" Value="D:\Projects\Accord.NET\Sources\Accord.Statistics\bin\Debug\Accord.Statistics.dll" />
+    <Path Id="fd8101dd-c95d-42d6-ad44-ae01c25f2811.OutputPathUri" Value="file:///D:/Projects/Accord.NET/Sources/Accord.Statistics/bin/Debug/Accord.Statistics.dll" />
+    <Path Id="ProgramFiles" Value="C:\Program Files (x86)" />
+    <Path Id="ProgramFilesUri" Value="file:///C:/Program Files (x86)" />
+  </Paths>
+</DirectedGraph>

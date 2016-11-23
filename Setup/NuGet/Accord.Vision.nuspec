@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Vision</id>
+    <version>$version$</version>
+    <title>Accord.Vision</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Real-time face detection and tracking, as well as general methods for detecting, tracking and transforming objects in image streams. Contains Haar cascade definitions, Camshift and Dynamic Template Matching trackers. This package is part of the Accord.NET Framework.
+    </description>
+    <summary>Real-time face recognition, object tracking and computer vision library.</summary>
+    <tags>accord.net aforge.net framework computer vision object detection tracking haar viola-jones camshift</tags>
+    <dependencies>
+      <dependency id="Accord"                 version="$version$" />
+      <dependency id="Accord.Imaging"         version="$version$" />
+      <dependency id="Accord.MachineLearning" version="$version$" />
+      <dependency id="Accord.Math"            version="$version$" />
+      <dependency id="Accord.Statistics"      version="$version$" />
+      <dependency id="Accord.Video"           version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Accord.Vision.dll" target="lib\net35\Accord.Vision.dll" />
+    <file src="..\..\Release\net35\Accord.Vision.xml" target="lib\net35\Accord.Vision.xml" />
+
+    <file src="..\..\Release\net40\Accord.Vision.dll" target="lib\net40\Accord.Vision.dll" />
+    <file src="..\..\Release\net40\Accord.Vision.xml" target="lib\net40\Accord.Vision.xml" />
+
+    <file src="..\..\Release\net45\Accord.Vision.dll" target="lib\net45\Accord.Vision.dll" />
+    <file src="..\..\Release\net45\Accord.Vision.xml" target="lib\net45\Accord.Vision.xml" />
+	
+	<file src="..\..\Release\net46\Accord.Vision.dll" target="lib\net46\Accord.Vision.dll" />
+    <file src="..\..\Release\net46\Accord.Vision.xml" target="lib\net46\Accord.Vision.xml" />
+  </files>
+</package>

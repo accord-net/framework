@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{F454DBD6-2AB9-461D-9624-2249B921B6E6}</ProjectGuid>
+    <RootNamespace>Accord.Tests.Math</RootNamespace>
+    <AssemblyName>Accord.Tests.Math</AssemblyName>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <FileAlignment>512</FileAlignment>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <NoWarn>0612, 0618</NoWarn>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
+    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net35\</OutputPath>
+    <DefineConstants>TRACE;NET35</DefineConstants>
+    <NoWarn>0612, 0618</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
+    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net40\</OutputPath>
+    <DefineConstants>TRACE;NET40</DefineConstants>
+    <NoWarn>0612, 0618</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET45|AnyCPU' ">
+    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net45\</OutputPath>
+    <DefineConstants>TRACE;NET45</DefineConstants>
+    <NoWarn>0612, 0618</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET46|AnyCPU' ">
+    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net46\</OutputPath>
+    <DefineConstants>TRACE;NET46</DefineConstants>
+    <NoWarn>0612, 0618</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono|AnyCPU' ">
+    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\mono\</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <DefineConstants>TRACE;MONO</DefineConstants>
+    <NoWarn>0612, 0618</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\Externals\NUnit\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'NET35'" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <!--
+  <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Release (3.5)|AnyCPU'">
+  	<Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+    </Reference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)' != 'Release (3.5)|AnyCPU'">
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>c:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+ -->
+  <ItemGroup>
+    <Compile Include="AForge\Geometry\ClosePointsMergingOptimizerTest.cs" />
+    <Compile Include="AForge\Geometry\FlatAnglesOptimizerTest.cs" />
+    <Compile Include="AForge\Geometry\GeometryToolsTest.cs" />
+    <Compile Include="AForge\Geometry\GrahamConvexHullTest.cs" />
+    <Compile Include="AForge\Geometry\LineSegmentTest.cs" />
+    <Compile Include="AForge\Geometry\LineStraighteningOptimizerTest.cs" />
+    <Compile Include="AForge\Geometry\LineTest.cs" />
+    <Compile Include="AForge\Geometry\ShapeOptimizerTestBase.cs" />
+    <Compile Include="AForge\Geometry\SimpleShapeCheckerTest.cs" />
+    <Compile Include="AForge\Matrix3x3Test.cs" />
+    <Compile Include="AForge\Matrix4x4Test.cs" />
+    <Compile Include="AForge\Metrics\MetricsTest.cs" />
+    <Compile Include="AForge\ToolsTest.cs" />
+    <Compile Include="AForge\Vector3Test.cs" />
+    <Compile Include="Collections\RedBlackTreeDictionaryTest.cs" />
+    <Compile Include="Collections\RedBlackTreeTest.cs" />
+    <Compile Include="Decompositions\JaggedCholeskyDecompositionTest.cs" />
+    <Compile Include="Decompositions\JaggedEigenvalueDecompositionTest.cs" />
+    <Compile Include="Decompositions\JaggedQrDecompositionTest.cs" />
+    <Compile Include="Functions\OwensTTest.cs" />
+    <Compile Include="FourierTransformTest.cs" />
+    <Compile Include="Integration\MonteCarloTest.cs" />
+    <Compile Include="Integration\IntegralTest.cs" />
+    <Compile Include="Convergence\AbsoluteConvergenceTest.cs" />
+    <Compile Include="Comparers\ElementComparerTest.cs" />
+    <Compile Include="Comparers\CustomComparerTest.cs" />
+    <Compile Include="Convergence\RelativeParameterConvergenceTest.cs" />
+    <Compile Include="Convergence\RelativeConvergenceTest.cs" />
+    <Compile Include="CombinatoricsTest.cs" />
+    <Compile Include="Decompositions\JaggedSingularValueDecompositionTest.cs" />
+    <Compile Include="IO\MatReaderTest.cs" />
+    <Compile Include="Matrix\Matrix.Selection.cs" />
+    <Compile Include="Matrix\Matrix.Construction.cs" />
+    <Compile Include="Matrix\Matrix.Common.cs" />
+    <Compile Include="Matrix\Matrix.Algebra.cs" />
+    <Compile Include="Matrix\VectorTest.cs" />
+    <Compile Include="Optimization\BinarySearchTest.cs" />
+    <Compile Include="Optimization\CobylaTest.cs" />
+    <Compile Include="Optimization\BoundedBroydenFletcherGoldfarbShannoTest.cs" />
+    <Compile Include="Optimization\LinearConstraintTest.cs" />
+    <Compile Include="Optimization\SubplexTest.cs" />
+    <Compile Include="Optimization\NelderMeadTest.cs" />
+    <Compile Include="Optimization\NonlinearConstraintTest.cs" />
+    <Compile Include="Environment\REnvironmentTest.cs" />
+    <Compile Include="CosineTransformTest.cs" />
+    <Compile Include="Decompositions\GramSchmidtOrthogonalizationTest.cs" />
+    <Compile Include="Functions\BesselTest.cs" />
+    <Compile Include="Functions\NormalTest.cs" />
+    <Compile Include="GaborTest.cs" />
+    <Compile Include="Matrix\Matrix.Conversion.cs" />
+    <Compile Include="Environment\OctaveEnvironmentTest.cs" />
+    <Compile Include="Optimization\BrentSearchTest.cs" />
+    <Compile Include="Optimization\QuadraticObjectiveFunctionTest.cs" />
+    <Compile Include="PlaneTest.cs" />
+    <Compile Include="Point3Test.cs" />
+    <Compile Include="Functions\BetaTest.cs" />
+    <Compile Include="Functions\GammaTest.cs" />
+    <Compile Include="Optimization\AugmentedLagrangianTest.cs" />
+    <Compile Include="Optimization\GoldfarbIdnaniTest.cs" />
+    <Compile Include="Matrix\Matrix.Complex.cs" />
+    <Compile Include="Matrix\Matrix.Submatrix.cs" />
+    <Compile Include="Matrix\Matrix.Multiply.cs" />
+    <Compile Include="Optimization\ConjugateGradientTest.cs" />
+    <Compile Include="Decompositions\JaggedCholeskyDecompositionFTest.cs" />
+    <Compile Include="Decompositions\NonnegativeMatrixFactorization.cs" />
+    <Compile Include="Differentiation\FiniteDifferencesTest.cs" />
+    <Compile Include="Decompositions\JaggedLuDecompositionFTest.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ReducedRowEchelonFormTest.cs" />
+    <Compile Include="Wavelets\CDF97Test.cs" />
+    <Compile Include="Wavelets\HaarTest.cs" />
+    <Compile Include="HilbertTransformTest.cs" />
+    <Compile Include="Optimization\BroydenFletcherGoldfarbShannoTest.cs" />
+    <Compile Include="Matrix\Matrix.Format.cs" />
+    <Compile Include="Decompositions\CholeskyDecompositionTest.cs" />
+    <Compile Include="DistanceTest.cs" />
+    <Compile Include="Decompositions\EigenvalueDecompositionTest.cs" />
+    <Compile Include="Comparers\GeneralComparerTest.cs" />
+    <Compile Include="Decompositions\GeneralizedEigenvalueDecompositionTest.cs" />
+    <Compile Include="Decompositions\LuDecompositionTest.cs" />
+    <Compile Include="Matrix\MatrixTest.cs" />
+    <Compile Include="NormTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Decompositions\QrDecompositionTest.cs" />
+    <Compile Include="Decompositions\SingularValueDecompositionTest.cs" />
+    <Compile Include="SpecialTest.cs" />
+    <Compile Include="ToolsTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core.csproj">
+      <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
+      <Name>Accord.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.IO\Accord.IO.csproj">
+      <Project>{63184ebd-6b28-4066-aaee-5b99431e31f4}</Project>
+      <Name>Accord.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
+      <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
+      <Name>Accord.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Statistics\Accord.Statistics.csproj">
+      <Project>{fd8101dd-c95d-42d6-ad44-ae01c25f2811}</Project>
+      <Name>Accord.Statistics</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Accord.snk" />
+    <None Include="Resources\constraintMatrix11_15_2.csv" />
+    <None Include="Resources\constraintMatrix11_15.csv" />
+    <None Include="Resources\constraintMatrix11_15_3.csv" />
+    <None Include="Resources\constraints11_14_2.csv" />
+    <None Include="Resources\constraints11_14.csv" />
+    <None Include="Resources\constraints11_14_3.csv" />
+    <None Include="Resources\dmatFull.csv" />
+    <None Include="Resources\mat\a64.mat" />
+    <None Include="Resources\mat\bigsparse.mat" />
+    <None Include="Resources\mat\cell.mat" />
+    <None Include="Resources\mat\int32.mat" />
+    <None Include="Resources\mat\int64.mat" />
+    <None Include="Resources\mat\int8.mat" />
+    <None Include="Resources\mat\java.mat" />
+    <None Include="Resources\mat\logical.mat" />
+    <None Include="Resources\mat\matnativedouble.mat" />
+    <None Include="Resources\mat\matnativedouble2.mat" />
+    <None Include="Resources\mat\nan.mat" />
+    <None Include="Resources\mat\object.mat" />
+    <None Include="Resources\mat\simplestruct.mat" />
+    <None Include="Resources\mat\single.mat" />
+    <None Include="Resources\mat\sparse.mat" />
+    <None Include="Resources\mat\uint32.mat" />
+    <None Include="Resources\mat\uint64.mat" />
+    <None Include="Resources\mat\uint8.mat" />
+    <None Include="Resources\pseudoInverse1.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

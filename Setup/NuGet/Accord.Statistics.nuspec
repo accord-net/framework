@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Statistics</id>
+    <version>$version$</version>
+    <title>Accord.Statistics</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Contains probability distributions, statistical models and methods such as Linear and Logistic regression, Hidden Markov Models, (Hidden) Conditional Random Fields, Principal Component Analysis, Partial Least Squares, Discriminant Analysis, Kernel methods and functions and many other related techniques. Provides methods for computing variances, standard deviations, averages, and many other statistical measures. This package is part of the Accord.NET Framework.
+    </description>
+    <summary>Conduct statistical analysis (i.e. PCA, KPCA, LDA, ANOVA), hypothesis tests, create Linear, Logistic and Generalized Linear regressions and models, Hidden Markov Models and others.</summary>
+    <tags>accord.net aforge.net framework statistics kernel methods pca kpca least squares markov models conditional random fields hmm crf hcrf logistic linear regression</tags>
+    <dependencies>
+      <dependency id="Accord"      version="$version$" />
+      <dependency id="Accord.Math" version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Accord.Statistics.dll" target="lib\net35\Accord.Statistics.dll" />
+    <file src="..\..\Release\net35\Accord.Statistics.xml" target="lib\net35\Accord.Statistics.xml" />
+
+    <file src="..\..\Release\net40\Accord.Statistics.dll" target="lib\net40\Accord.Statistics.dll" />
+    <file src="..\..\Release\net40\Accord.Statistics.xml" target="lib\net40\Accord.Statistics.xml" />
+
+    <file src="..\..\Release\net45\Accord.Statistics.dll" target="lib\net45\Accord.Statistics.dll" />
+    <file src="..\..\Release\net45\Accord.Statistics.xml" target="lib\net45\Accord.Statistics.xml" />
+	
+	<file src="..\..\Release\net46\Accord.Statistics.dll" target="lib\net46\Accord.Statistics.dll" />
+    <file src="..\..\Release\net46\Accord.Statistics.xml" target="lib\net46\Accord.Statistics.xml" />
+  </files>
+</package>

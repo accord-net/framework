@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Controls.Audio</id>
+    <version>$version$</version>
+    <title>Accord.Controls.Audio</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Windows Forms controls to display waveforms and audio-related information. This package is part of the Accord.NET Framework.
+    </description>
+    <summary>Display waveforms and audio-related visualizations in Windows Forms.</summary>
+    <tags>accord.net aforge.net framework winforms controls audio</tags>
+    <dependencies>
+      <dependency id="Accord"            version="$version$" />
+      <dependency id="Accord.Audio"      version="$version$" />
+      <dependency id="Accord.Controls"   version="$version$" />
+      <dependency id="Accord.Math"       version="$version$" />
+      <dependency id="Accord.Statistics" version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Accord.Controls.Audio.dll" target="lib\net35\Accord.Controls.Audio.dll" />
+    <file src="..\..\Release\net35\Accord.Controls.Audio.xml" target="lib\net35\Accord.Controls.Audio.xml" />
+
+    <file src="..\..\Release\net40\Accord.Controls.Audio.dll" target="lib\net40\Accord.Controls.Audio.dll" />
+    <file src="..\..\Release\net40\Accord.Controls.Audio.xml" target="lib\net40\Accord.Controls.Audio.xml" />
+
+    <file src="..\..\Release\net45\Accord.Controls.Audio.dll" target="lib\net45\Accord.Controls.Audio.dll" />
+    <file src="..\..\Release\net45\Accord.Controls.Audio.xml" target="lib\net45\Accord.Controls.Audio.xml" />
+	
+	<file src="..\..\Release\net46\Accord.Controls.Audio.dll" target="lib\net46\Accord.Controls.Audio.dll" />
+    <file src="..\..\Release\net46\Accord.Controls.Audio.xml" target="lib\net46\Accord.Controls.Audio.xml" />
+  </files>
+</package>

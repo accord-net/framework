@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Genetic</id>
+    <version>$version$</version>
+    <title>Accord.Genetic</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Contains chromosome and selection classes to create Genetic Algorithms (GA), Genetic Programming (GP) and Gene Expression Programming (GEP). This package originated from the AForge.NET Framework and is now part of the Accord.NET Framework.
+    </description>
+    <summary>Genetic Algorithms (GA), Genetic Programming (GP) and Gene Expression Programming (GEP) for non-linear optimization.</summary>
+    <tags>accord.net aforge.net framework genetic algorithms programming GA GP GEP</tags>
+    <dependencies>
+      <dependency id="Accord"       version="$version$" />
+      <dependency id="Accord.Math"  version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Accord.Genetic.dll" target="lib\net35\Accord.Genetic.dll" />
+    <file src="..\..\Release\net35\Accord.Genetic.xml" target="lib\net35\Accord.Genetic.xml" />
+
+    <file src="..\..\Release\net40\Accord.Genetic.dll" target="lib\net40\Accord.Genetic.dll" />
+    <file src="..\..\Release\net40\Accord.Genetic.xml" target="lib\net40\Accord.Genetic.xml" />
+
+    <file src="..\..\Release\net45\Accord.Genetic.dll" target="lib\net45\Accord.Genetic.dll" />
+    <file src="..\..\Release\net45\Accord.Genetic.xml" target="lib\net45\Accord.Genetic.xml" />
+	
+	<file src="..\..\Release\net46\Accord.Genetic.dll" target="lib\net46\Accord.Genetic.dll" />
+    <file src="..\..\Release\net46\Accord.Genetic.xml" target="lib\net46\Accord.Genetic.xml" />
+  </files>
+</package>

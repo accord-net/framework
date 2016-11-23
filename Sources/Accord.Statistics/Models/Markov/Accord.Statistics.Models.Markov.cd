@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="Accord.Statistics.Models.Markov.HiddenMarkovModel">
+    <Position X="2.5" Y="4" Width="3" />
+    <Members>
+      <Method Name="Clone" Hidden="true" />
+      <Method Name="CreateGeneric" Hidden="true" />
+      <Method Name="explicit operator HiddenMarkovModel&lt;GeneralDiscreteDistribution&gt;" Hidden="true" />
+      <Method Name="IHiddenMarkovModel.Decode" Hidden="true" />
+      <Method Name="IHiddenMarkovModel.Evaluate" Hidden="true" />
+      <Field Name="logB" Hidden="true" />
+      <Field Name="symbols" Hidden="true" />
+      <Method Name="ToContinuousModel" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQgAEAAQAhAAAAwAAAAAgAAAAAAAAAAAAAAQEAAABg=</HashCode>
+      <FileName>Models\Markov\HiddenMarkovModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.HiddenMarkovModel&lt;TDistribution&gt;">
+    <Position X="6" Y="4" Width="2.75" />
+    <Members>
+      <Field Name="B" Hidden="true" />
+      <Method Name="Clone" Hidden="true" />
+      <Field Name="dimension" Hidden="true" />
+      <Method Name="getMode" Hidden="true" />
+      <Field Name="multivariate" Hidden="true" />
+      <Method Name="predict" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAgAAiAAAAAAAgBCAAAAQAAAAAAASEEAABg=</HashCode>
+      <FileName>Models\Markov\HiddenMarkovModel`1.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.BaseHiddenMarkovModel">
+    <Position X="4.25" Y="1.25" Width="3" />
+    <Members>
+      <Field Name="logA" Hidden="true" />
+      <Field Name="logPi" Hidden="true" />
+      <Field Name="states" Hidden="true" />
+      <Field Name="tag" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAEAACAAAAEgAAAEAAAAAAAAAAAAAAAEAAAADAAAAAA=</HashCode>
+      <FileName>Models\Markov\Base\BaseHiddenMarkovModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.Topology.Custom" BaseTypeListCollapsed="true">
+    <Position X="14.25" Y="3.5" Width="2" />
+    <Members>
+      <Field Name="pi" Hidden="true" />
+      <Field Name="states" Hidden="true" />
+      <Field Name="transitions" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAQAAAAAAEAEAAAADAAAAAg=</HashCode>
+      <FileName>Models\Markov\Topology\Custom.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.Topology.Ergodic" BaseTypeListCollapsed="true">
+    <Position X="12" Y="3.5" Width="2" />
+    <Members>
+      <Field Name="pi" Hidden="true" />
+      <Field Name="random" Hidden="true" />
+      <Field Name="states" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAQAAAAABEAEAAQABAAAAAA=</HashCode>
+      <FileName>Models\Markov\Topology\Ergodic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.Topology.Forward" BaseTypeListCollapsed="true">
+    <Position X="9.75" Y="3.5" Width="2" />
+    <Members>
+      <Field Name="deepness" Hidden="true" />
+      <Field Name="pi" Hidden="true" />
+      <Field Name="random" Hidden="true" />
+      <Field Name="states" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAQAAAAAJEAEACQABAAAAAA=</HashCode>
+      <FileName>Models\Markov\Topology\Forward.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.ForwardBackwardAlgorithm">
+    <Position X="8.75" Y="8" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAEAAAAAAAAAQAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Models\Markov\ForwardBackwardAlgorithm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.Learning.BaumWelchLearning" Collapsed="true">
+    <Position X="17.5" Y="4" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>CAAAQAAAAAAAAAQAAAAAAAAAACAAAAAAAAiBAAAIAAI=</HashCode>
+      <FileName>Models\Markov\Learning\BaumWelchLearning.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.Learning.BaumWelchLearning&lt;TDistribution&gt;" Collapsed="true">
+    <Position X="20" Y="4" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAARAAAAAAAgAAAAAAAAAAAACAAQAAAAAiAAAAIABY=</HashCode>
+      <FileName>Models\Markov\Learning\BaumWelchLearning`1.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.Learning.MaximumLikelihoodLearning" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.5" Y="6.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAQAAAAAAAAAAAAAEAAAAAAAAAAAAAgAAAAIAAI=</HashCode>
+      <FileName>Models\Markov\Learning\MaximumLikelihoodLearning.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.Learning.MaximumLikelihoodLearning&lt;TDistribution&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20" Y="6.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>BAAABAQAAAAAgAAAAAAAEAAAAAAAAAAAAAgAAAAIAAY=</HashCode>
+      <FileName>Models\Markov\Learning\MaximumLikelihoodLearning`1.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.Learning.ViterbiLearning" Collapsed="true">
+    <Position X="17.5" Y="5.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAQAAAACAAAAAAAAAAIAAAAAAAAAAAgAAAAIAII=</HashCode>
+      <FileName>Models\Markov\Learning\ViterbiLearning.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.Learning.ViterbiLearning&lt;TDistribution&gt;" Collapsed="true">
+    <Position X="20" Y="5.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAABAQAAAACgAAAAAAAAAIAAAAAAAAAAAgAAAAIAII=</HashCode>
+      <FileName>Models\Markov\Learning\ViterbiLearning`1.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.HiddenMarkovClassifier&lt;TDistribution&gt;">
+    <Position X="5.5" Y="12" Width="3.75" />
+    <Members>
+      <Method Name="Load" Hidden="true" />
+      <Method Name="Save" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAgIAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Models\Markov\HiddenMarkovClassifier`1.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.HiddenMarkovClassifier">
+    <Position X="2" Y="12" Width="3" />
+    <Members>
+      <Method Name="CreateGeneric" Hidden="true" />
+      <Method Name="IHiddenMarkovClassifier.Compute" Hidden="true" />
+      <Method Name="Load" Hidden="true" />
+      <Method Name="Save" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEQAgIAAAABAAAAAAAAAAAAAAAAAAAQAAAAAAAAQAAA=</HashCode>
+      <FileName>Models\Markov\HiddenMarkovClassifier.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.BaseHiddenMarkovClassifier&lt;TModel&gt;">
+    <Position X="3.75" Y="8.5" Width="3" />
+    <Members>
+      <Method Name="BaseHiddenMarkovClassifier" Hidden="true" />
+      <Field Name="classPriors" Hidden="true" />
+      <Method Name="GetEnumerator" Hidden="true" />
+      <Field Name="models" Hidden="true" />
+      <Method Name="setSerializationDefaults" Hidden="true" />
+      <Method Name="System.Collections.IEnumerable.GetEnumerator" Hidden="true" />
+      <Property Name="this" Hidden="true" />
+      <Field Name="threshold" Hidden="true" />
+      <Field Name="weight" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AGAAAAAAAAEAJBAACAAAAAAAIAAAACggAAggAAAYAAA=</HashCode>
+      <FileName>Models\Markov\Base\BaseHiddenMarkovClassifier.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.Learning.HiddenMarkovClassifierLearning">
+    <Position X="13.5" Y="12" Width="3" />
+    <Members>
+      <Method Name="ComputeError" Hidden="true" />
+      <Method Name="createSmoothingKernel" Hidden="true" />
+      <Field Name="gaussianKernel" Hidden="true" />
+      <Field Name="smoothingKernelSize" Hidden="true" />
+      <Field Name="smoothingSigma" Hidden="true" />
+      <Method Name="Threshold" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAQgAAAAAAAAAAAAAAAAAAAgAAAAgAAAEQAI=</HashCode>
+      <FileName>Models\Markov\Learning\HiddenMarkovClassifierLearning.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.Learning.HiddenMarkovClassifierLearning&lt;TDistribution&gt;">
+    <Position X="17.25" Y="12.25" Width="3.5" />
+    <Members>
+      <Method Name="ComputeError" Hidden="true" />
+      <Method Name="Threshold" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAI=</HashCode>
+      <FileName>Models\Markov\Learning\HiddenMarkovClassifierLearning`1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.Learning.BaseHiddenMarkovClassifierLearning&lt;TClassifier, TModel&gt;">
+    <Position X="15" Y="8.25" Width="3.75" />
+    <Members>
+      <Method Name="BaseHiddenMarkovClassifierLearning" Hidden="true" />
+      <Method Name="OnGenerativeClassModelLearningFinished" Hidden="true" />
+      <Method Name="OnGenerativeClassModelLearningStarted" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAgAACAAAAAAEAAAAAAAABAAACAAAgAAQAAgI=</HashCode>
+      <FileName>Models\Markov\Learning\Base\BaseHiddenMarkovClassifierLearning.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Algorithm" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.Learning.BaseBaumWelchLearning" Collapsed="true">
+    <Position X="19" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AgAAQgAAAAACAAAAAAAAAAIIACAAAAgAAACAAAAIAII=</HashCode>
+      <FileName>Models\Markov\Learning\Base\BaseBaumWelchLearning.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Markov.Learning.GenerativeLearningEventArgs">
+    <Position X="21" Y="10" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Markov\Learning\Base\BaseHiddenMarkovClassifierLearning.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Accord.Statistics.Models.Markov.IHiddenMarkovModel">
+    <Position X="1.5" Y="1.25" Width="2" />
+    <Members>
+      <Property Name="Tag" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAgAAAAAAAAAgAAAAAAAAAAAAAATAAAAAA=</HashCode>
+      <FileName>Models\Markov\Base\IHiddenMarkovModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Models.Markov.Topology.ITopology">
+    <Position X="12" Y="1.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAABAAAAAA=</HashCode>
+      <FileName>Models\Markov\Topology\ITopology.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Models.Markov.Learning.ISupervisedLearning">
+    <Position X="20.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Models\Markov\Learning\Base\ISupervisedLearning.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Models.Markov.Learning.IUnsupervisedLearning">
+    <Position X="18" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Models\Markov\Learning\Base\IUnsupervisedLearning.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Models.Markov.IHiddenMarkovClassifier">
+    <Position X="1.25" Y="8.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Markov\Base\IHiddenMarkovClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Models.Markov.Learning.IWeightedUnsupervisedLearning">
+    <Position X="15.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Models\Markov\Learning\Base\IUnsupervisedLearning.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Delegate Name="Accord.Statistics.Models.Markov.Learning.ClassifierLearningAlgorithmConfiguration">
+    <Position X="19.75" Y="8.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Markov\Learning\Base\BaseHiddenMarkovClassifierLearning.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

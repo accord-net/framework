@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Math.Noncommercial</id>
+    <version>$version$</version>
+    <title>Accord.Math (Non-commercial algorithms)</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Contains mathematical algorithms which can only be used for educational applications, and cannot be used in commercial products without express permission of its authors. Currently contains the non-linear Conjugate Gradient algorithm for non-linear optimization. This package is part of the Accord.NET Framework.
+    </description>
+    <summary>Extra math algorithms that are not available under the GPL or LGPL. Contains the non-linear Conjugate Gradient for non-linear optimization.</summary>
+    <tags>accord.net aforge.net non-linear conjugate gradient fmincg</tags>
+    <dependencies>
+      <dependency id="Accord.Math"      version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Noncommercial\Accord.Math.Noncommercial.dll" target="lib\net35\Accord.Math.Noncommercial.dll" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Math.Noncommercial.xml" target="lib\net35\Accord.Math.Noncommercial.xml" />
+
+    <file src="..\..\Release\net40\Noncommercial\Accord.Math.Noncommercial.dll" target="lib\net40\Accord.Math.Noncommercial.dll" />
+    <file src="..\..\Release\net40\Noncommercial\Accord.Math.Noncommercial.xml" target="lib\net40\Accord.Math.Noncommercial.xml" />
+
+    <file src="..\..\Release\net45\Noncommercial\Accord.Math.Noncommercial.dll" target="lib\net45\Accord.Math.Noncommercial.dll" />
+    <file src="..\..\Release\net45\Noncommercial\Accord.Math.Noncommercial.xml" target="lib\net45\Accord.Math.Noncommercial.xml" />
+	
+	<file src="..\..\Release\net46\Noncommercial\Accord.Math.Noncommercial.dll" target="lib\net46\Accord.Math.Noncommercial.dll" />
+    <file src="..\..\Release\net46\Noncommercial\Accord.Math.Noncommercial.xml" target="lib\net46\Accord.Math.Noncommercial.xml" />
+  </files>
+</package>

@@ -1,0 +1,392 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="Accord.Statistics.Models.Fields.ForwardBackwardAlgorithm">
+    <Position X="28" Y="10.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAEAAAAAAAAAQAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Models\Fields\ForwardBackwardAlgorithm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.HiddenConditionalRandomField&lt;T&gt;">
+    <Position X="1.5" Y="0.5" Width="3" />
+    <Members>
+      <Method Name="computeLogLikelihood" Hidden="true" />
+      <Method Name="Load" Hidden="true" />
+      <Method Name="Save" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>BEAAgIAAAAAAAAAAAAAAAAIAAAoAQAAAAAAAQAAQABA=</HashCode>
+      <FileName>Models\Fields\HiddenConditionalRandomField.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Function" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Features.EmissionFeature" Collapsed="true">
+    <Position X="16.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAIAAAAAAAAAAAAAAEAAAAACAAAAAAEAAAAAAAAABA=</HashCode>
+      <FileName>Models\Fields\Features\EmissionFeature.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Features.InitialFeature&lt;T&gt;" Collapsed="true">
+    <Position X="14.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAEAAAAAiAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Models\Fields\Features\InitialFeature.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Features.MultivariateFirstMomentFeature" Collapsed="true">
+    <Position X="16.75" Y="11.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAEAAABACAAAAAAEAAAAAAAAABA=</HashCode>
+      <FileName>Models\Fields\Features\Multivariate\MultivariateFirstMomentFeature.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Features.MultivariateSecondMomentFeature" Collapsed="true">
+    <Position X="16.75" Y="10.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAEAAABACAAAAAAEAAAAAAAAABA=</HashCode>
+      <FileName>Models\Fields\Features\Multivariate\MultivariateSecondMomentFeature.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Features.OccupancyFeature&lt;T&gt;" Collapsed="true">
+    <Position X="20" Y="9.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAEAAAAAiAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Models\Fields\Features\OccupancyFeature.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Features.OutputFeature&lt;T&gt;" Collapsed="true">
+    <Position X="19.75" Y="10.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAEAAAAACAAAAAAAAAAAAAAAQBA=</HashCode>
+      <FileName>Models\Fields\Features\OutputFeature.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Features.TransitionFeature&lt;T&gt;" Collapsed="true">
+    <Position X="18" Y="9.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAMAAAAAiAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Models\Fields\Features\TransitionFeature.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Features.FirstMomentFeature" Collapsed="true">
+    <Position X="14.5" Y="10.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAEAAAAACAAAAAAEAAAAAAAAABA=</HashCode>
+      <FileName>Models\Fields\Features\FirstMomentFeature.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Features.SecondMomentFeature" Collapsed="true">
+    <Position X="14.5" Y="11.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAEAAAAACAAAAAAEAAAAAAAAABA=</HashCode>
+      <FileName>Models\Fields\Features\SecondMomentFeature.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Functions.PotentialFunctionBase&lt;T&gt;" Collapsed="true">
+    <Position X="5.5" Y="11.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>BAAAQAAAAAAAAAAIAAABAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Models\Fields\Potential Functions\Base\PotentialFunctionBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Functions.FactorPotential&lt;T&gt;" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="4.75" Width="3.25" />
+    <Members>
+      <Method Name="Clone" Hidden="true" />
+      <Property Name="EdgeParameterCount" Hidden="true" />
+      <Property Name="EdgeParameterEnd" Hidden="true" />
+      <Property Name="EdgeParameterIndex" Hidden="true" />
+      <Method Name="GetEnumerator" Hidden="true" />
+      <Property Name="Index" Hidden="true" />
+      <Method Name="OnDeserializedMethod" Hidden="true" />
+      <Property Name="ParameterCount" Hidden="true" />
+      <Property Name="ParameterEnd" Hidden="true" />
+      <Property Name="ParameterIndex" Hidden="true" />
+      <Property Name="StateParameterCount" Hidden="true" />
+      <Property Name="StateParameterEnd" Hidden="true" />
+      <Property Name="StateParameterIndex" Hidden="true" />
+      <Method Name="System.Collections.IEnumerable.GetEnumerator" Hidden="true" />
+    </Members>
+    <AssociationLine Name="Owner" Type="Accord.Statistics.Models.Fields.Functions.IPotentialFunction&lt;T&gt;">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.141" Y="0.081" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>EGCAQAHBBAAAABBAAAAAAAEAGABAAAAEAIkABAAAABA=</HashCode>
+      <FileName>Models\Fields\Potential Functions\Clique Factor Potentials\FactorPotential.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Owner" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Learning.ForwardBackwardGradient&lt;T&gt;">
+    <Position X="24.75" Y="10.25" Width="2.75" />
+    <Members>
+      <Method Name="~ForwardBackwardGradient" Hidden="true" />
+      <Method Name="Dispose" Hidden="true" />
+      <Field Name="error" Hidden="true" />
+      <Field Name="function" Hidden="true" />
+      <Field Name="gradient" Hidden="true" />
+      <Field Name="inputs" Hidden="true" />
+      <Property Name="LastError" Hidden="true" />
+      <Field Name="lnZx" Hidden="true" />
+      <Field Name="lnZxy" Hidden="true" />
+      <Field Name="logLikelihoods" Hidden="true" />
+      <Field Name="model" Hidden="true" />
+      <Property Name="Model" Hidden="true" />
+      <Field Name="outputs" Hidden="true" />
+      <Property Name="Regularization" Hidden="true" />
+      <Field Name="sigma" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>BQAgAAAAICBAAAABQgEAAgAAEAAAABAQAIggAAQIAAA=</HashCode>
+      <FileName>Models\Fields\Gradient\ForwardBackwardGradient.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Learning.HiddenQuasiNewtonLearning&lt;T&gt;">
+    <Position X="24" Y="4" Width="3" />
+    <Members>
+      <Field Name="calculator" Hidden="true" />
+      <Field Name="lbfgs" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAIAAAAAAgAAAAIAAAAAAEgAAAAAAAI=</HashCode>
+      <FileName>Models\Fields\Learning\Hidden\HiddenQuasiNewtonLearning.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Learning.QuasiNewtonLearning&lt;T&gt;" BaseTypeListCollapsed="true">
+    <Position X="27.25" Y="4" Width="2.75" />
+    <Members>
+      <Method Name="gradient" Hidden="true" />
+      <Field Name="lbfgs" Hidden="true" />
+      <Field Name="model" Hidden="true" />
+      <Method Name="p" Hidden="true" />
+      <Method Name="partition" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAEAAAAAIAAI=</HashCode>
+      <FileName>Models\Fields\Learning\Visible\QuasiNewtonLearning.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Learning.HiddenGradientDescentLearning&lt;T&gt;">
+    <Position X="20.75" Y="4" Width="3" />
+    <Members>
+      <Method Name="~HiddenGradientDescentLearning" Hidden="true" />
+      <Field Name="calculator" Hidden="true" />
+      <Field Name="convergence" Hidden="true" />
+      <Method Name="Dispose" Hidden="true" />
+      <Field Name="gradient" Hidden="true" />
+      <Method Name="HiddenGradientDescentLearning" Hidden="true" />
+      <Field Name="learningRate" Hidden="true" />
+      <Field Name="lockObj" Hidden="true" />
+      <Property Name="Model" Hidden="true" />
+      <Method Name="OnProgressChanged" Hidden="true" />
+      <Field Name="stepSize" Hidden="true" />
+      <Field Name="stochastic" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>IAAAgAAAACECBAIEQAAABgIAAAIgAAAAAAgAACIAAII=</HashCode>
+      <FileName>Models\Fields\Learning\Hidden\HiddenGradientDescentLearning.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="calculator" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Features.MultivariateEmissionFeature" Collapsed="true">
+    <Position X="19.75" Y="11.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AEAIAAAAAAAAAAAAAAEAAABACAAAAAAEAAAAAAAAABA=</HashCode>
+      <FileName>Models\Fields\Features\Multivariate\MultivariateEmissionFeature.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Functions.Specialized.MarkovDiscreteFactor">
+    <Position X="2" Y="8.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Fields\Potential Functions\Clique Factor Potentials\Specialized\MarkovDiscreteFactor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Functions.Specialized.MarkovIndependentFactor">
+    <Position X="7" Y="8.75" Width="2.25" />
+    <Members>
+      <Field Name="stateTable" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Fields\Potential Functions\Clique Factor Potentials\Specialized\MarkovIndependentFactor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Functions.Specialized.MarkovMultivariateNormalFactor">
+    <Position X="4.25" Y="8.75" Width="2.5" />
+    <Members>
+      <Field Name="dimensions" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Fields\Potential Functions\Clique Factor Potentials\Specialized\MarkovMultivariateNormalFactor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Functions.Specialized.MarkovNormalFactor">
+    <Position X="9.5" Y="8.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Fields\Potential Functions\Clique Factor Potentials\Specialized\MarkovNormalFactor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Learning.HiddenResilientGradientLearning&lt;T&gt;">
+    <Position X="14.25" Y="4" Width="3" />
+    <Members>
+      <Method Name="~HiddenResilientGradientLearning" Hidden="true" />
+      <Field Name="calculator" Hidden="true" />
+      <Field Name="convergence" Hidden="true" />
+      <Field Name="deltaMax" Hidden="true" />
+      <Field Name="deltaMin" Hidden="true" />
+      <Method Name="Dispose" Hidden="true" />
+      <Field Name="etaMinus" Hidden="true" />
+      <Field Name="etaPlus" Hidden="true" />
+      <Field Name="gradient" Hidden="true" />
+      <Method Name="HiddenResilientGradientLearning" Hidden="true" />
+      <Field Name="initialStep" Hidden="true" />
+      <Field Name="lockObj" Hidden="true" />
+      <Property Name="Model" Hidden="true" />
+      <Method Name="OnProgressChanged" Hidden="true" />
+      <Field Name="previousGradient" Hidden="true" />
+      <Field Name="stochastic" Hidden="true" />
+      <Field Name="weightsUpdates" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>CIAAAEEAACECBAIEwAQABgIAAAIggAAAIAgUAAIBAII=</HashCode>
+      <FileName>Models\Fields\Learning\Hidden\HiddenResilientGradientLearning.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="calculator" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Learning.HiddenConjugateGradientLearning&lt;T&gt;">
+    <Position X="17.5" Y="4" Width="3" />
+    <Members>
+      <Field Name="calculator" Hidden="true" />
+      <Field Name="optimizer" Hidden="true" />
+      <Method Name="progressChanged" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACECAgIBBAAAAgIAAAIAAAAAAAgAAAAAAAI=</HashCode>
+      <FileName>Models\Fields\Learning\Hidden\HiddenConjugateGradientLearning.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Functions.MarkovDiscreteFunction">
+    <Position X="2" Y="12.75" Width="3" />
+    <Members>
+      <Method Name="Clone" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Models\Fields\Potential Functions\MarkovDiscreteFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Functions.MarkovMultivariateFunction">
+    <Position X="5.25" Y="12.75" Width="3" />
+    <Members>
+      <Method Name="Clone" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Models\Fields\Potential Functions\MarkovMultivariateFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.ConditionalRandomField&lt;T&gt;">
+    <Position X="1.5" Y="3.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AEgAgIAAAAAAAAAAAAAAAAIAAAgAQAAAAAAABAAQABA=</HashCode>
+      <FileName>Models\Fields\ConditionalRandomField.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Function" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Fields.Functions.MarkovContinuousFunction">
+    <Position X="8.5" Y="12.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Models\Fields\Potential Functions\MarkovContinuousFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Accord.Statistics.Models.Fields.Features.IFeature&lt;TObservation&gt;">
+    <Position X="10" Y="3.5" Width="2.75" />
+    <Members>
+      <Method Name="Clone" Hidden="true" />
+      <Property Name="Owner" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAAACAAAAAAAAAAAEAAAAACAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Models\Fields\Features\Base\IFeature.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Owner" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="Accord.Statistics.Models.Fields.Functions.IPotentialFunction&lt;T&gt;">
+    <Position X="6" Y="2.5" Width="2.25" />
+    <AssociationLine Name="Factors" Type="Accord.Statistics.Models.Fields.Functions.FactorPotential&lt;T&gt;">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.911" Y="0.05" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>BAAAQAAAAAAAAAAIAAABAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Models\Fields\Potential Functions\Base\IPotentialFunction.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Factors" />
+      <Property Name="Features" />
+    </ShowAsCollectionAssociation>
+  </Interface>
+  <Interface Name="Accord.Statistics.Models.Fields.Learning.IConditionalRandomFieldLearning&lt;T&gt;">
+    <Position X="22" Y="1.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Models\Fields\Learning\Visible\IConditionalRandomFieldLearning.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Models.Fields.Learning.IHiddenConditionalRandomFieldLearning&lt;T&gt;">
+    <Position X="17.5" Y="1.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Models\Fields\Learning\Hidden\IHiddenConditionalRandomFieldLearning.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Models.Fields.IHiddenRandomFieldGradient">
+    <Position X="26.75" Y="8.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Fields\Gradient\IHiddenRandomFieldGradient.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

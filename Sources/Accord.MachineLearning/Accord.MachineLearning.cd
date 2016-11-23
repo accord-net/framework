@@ -1,0 +1,347 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.MachineLearning.RANSAC&lt;TModel&gt;">
+    <Position X="1.25" Y="1.75" Width="2.25" />
+    <Members>
+      <Field Name="degenerate" Hidden="true" />
+      <Field Name="distances" Hidden="true" />
+      <Field Name="fitting" Hidden="true" />
+      <Field Name="maxEvaluations" Hidden="true" />
+      <Field Name="maxSamplings" Hidden="true" />
+      <Field Name="probability" Hidden="true" />
+      <Field Name="s" Hidden="true" />
+      <Field Name="t" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEIAAAAAAAAAAAAAgAAAAIAAAEAAACBgBJQgAAQSAAA=</HashCode>
+      <FileName>Ransac.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.GridSearch&lt;TModel&gt;">
+    <Position X="1.75" Y="8.5" Width="1.75" />
+    <Members>
+      <Field Name="fitting" Hidden="true" />
+      <Field Name="ranges" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEIAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgCAAA=</HashCode>
+      <FileName>GridSearch.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ParameterRanges" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Accord.MachineLearning.GridSearchRange">
+    <Position X="5.25" Y="8.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAggAAAAAA=</HashCode>
+      <FileName>GridSearchRange.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.Bayes.NaiveBayes">
+    <Position X="17.75" Y="8.5" Width="2.25" />
+    <Members>
+      <Field Name="classCount" Hidden="true" />
+      <Method Name="initialize" Hidden="true" />
+      <Method Name="logLikelihood" Hidden="true" />
+      <Field Name="priors" Hidden="true" />
+      <Field Name="probabilities" Hidden="true" />
+      <Field Name="symbols" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEAAgMABAIAAAAiAABEAAAAQAACAAAgAgAAIAAAAAAA=</HashCode>
+      <FileName>Bayes\NaiveBayes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.Bayes.NaiveBayes&lt;TDistribution&gt;">
+    <Position X="20.25" Y="8.5" Width="2.25" />
+    <Members>
+      <Field Name="classCount" Hidden="true" />
+      <Method Name="initialize" Hidden="true" />
+      <Field Name="inputCount" Hidden="true" />
+      <Method Name="logLikelihood" Hidden="true" />
+      <Field Name="priors" Hidden="true" />
+      <Field Name="probabilities" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEAAAIABAAAAEQiAABEAAAAQAACAAAgAgAAIAAAAAAA=</HashCode>
+      <FileName>Bayes\NaiveBayes`1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.CrossValidation&lt;TModel&gt;">
+    <Position X="8" Y="1" Width="2.5" />
+    <Members>
+      <Field Name="fitting" Hidden="true" />
+      <Field Name="folds" Hidden="true" />
+      <Field Name="indices" Hidden="true" />
+      <Field Name="parallel" Hidden="true" />
+      <Field Name="samples" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AGIAUAAAAEAAAAAAAAAAAAAAACAAAACgIAAAAIICABA=</HashCode>
+      <FileName>Performance\CrossValidation\CrossValidation`1.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Fitting" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Accord.MachineLearning.CrossValidation">
+    <Position X="8" Y="4.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Performance\CrossValidation\CrossValidation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.CrossValidationValues&lt;TModel&gt;">
+    <Position X="4.75" Y="1" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Performance\CrossValidation\CrossValidationValues.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.CrossValidationResult&lt;TModel&gt;">
+    <Position X="11.75" Y="3.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgIAAAAAgAAAAACAAAAAAEAAAAAAAgAgAAAAAAAA=</HashCode>
+      <FileName>Performance\CrossValidation\CrossValidationResult`1.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Training" />
+      <Property Name="Validation" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Accord.MachineLearning.CrossValidationStatistics">
+    <Position X="15.5" Y="2.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAQAAAAAAAAABAAAAgEEgAAgAAAAAAA=</HashCode>
+      <FileName>Performance\CrossValidation\CrossValidationStatistics.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.EarlyStopping&lt;TModel&gt;">
+    <Position X="10.25" Y="8.5" Width="2" />
+    <Members>
+      <Method Name="cloneValue" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAYACAAgAAgAAAAAAAAAAEQAAAAACAAAAAAA=</HashCode>
+      <FileName>EarlyStopping.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Mode" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Accord.MachineLearning.Bootstrap">
+    <Position X="22.25" Y="0.75" Width="2" />
+    <Members>
+      <Field Name="fitting" Hidden="true" />
+      <Field Name="parallel" Hidden="true" />
+      <Field Name="samples" Hidden="true" />
+      <Field Name="subsampleIndices" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AGIIAAAAAAAAAIAAAAAAAAAAACAABACgIAAAAAMCAAA=</HashCode>
+      <FileName>Performance\Bootstrap\Bootstrap.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Fitting" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Accord.MachineLearning.BootstrapResult">
+    <Position X="19.5" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAgIAAAAAAAAgAACAAAAAAEAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Performance\Bootstrap\BootstrapResult.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Validation" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Accord.MachineLearning.BootstrapValues">
+    <Position X="22" Y="4" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAgABAgAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Performance\Bootstrap\BootstrapValues.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.CrossValidationValues">
+    <Position X="4.75" Y="4.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAgABAgAAAAAAAAAEAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Performance\CrossValidation\CrossValidationValues.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.SplitSetResult&lt;TModel&gt;">
+    <Position X="33" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAACAAAAAAEAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Performance\SplitSet\SplitSetResult`1.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Settings" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Accord.MachineLearning.SplitSetStatistics&lt;TModel&gt;">
+    <Position X="26.75" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAggAAAAAAAAAAABAAAAAAAgAggAAAAAAA=</HashCode>
+      <FileName>Performance\SplitSet\SplitSetStatistics`1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.SplitSetStatistics">
+    <Position X="27" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Performance\SplitSet\SplitSetStatistics`1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.SplitSetValidation&lt;TModel&gt;">
+    <Position X="29.25" Y="1" Width="2.5" />
+    <Members>
+      <Field Name="estimation" Hidden="true" />
+      <Field Name="fitting" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEIAgAAAAEAgAAAAACAAAAAAAAAAEEAAAAAAAAAiAAA=</HashCode>
+      <FileName>Performance\SplitSet\SplitSetValidation`1.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Fitting" />
+      <Property Name="Evaluation" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Accord.MachineLearning.BagOfWords">
+    <Position X="32.75" Y="6.75" Width="2.25" />
+    <Members>
+      <Field Name="codeToString" Hidden="true" />
+      <Field Name="stringToCode" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAQAAAAAAAAQAAACEAgBAAABAAAAAAACAAAAABEAA=</HashCode>
+      <FileName>BagOfWords.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.GridSearchParameterCollection">
+    <Position X="5" Y="13" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GridSearchParameter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.GridSearchRangeCollection">
+    <Position X="1.75" Y="12.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GridSearchRange.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.KNearestNeighbors&lt;T&gt;">
+    <Position X="25" Y="8.25" Width="2.5" />
+    <Members>
+      <Method Name="checkArgs" Hidden="true" />
+      <Field Name="classCount" Hidden="true" />
+      <Field Name="distance" Hidden="true" />
+      <Field Name="distances" Hidden="true" />
+      <Method Name="initialize" Hidden="true" />
+      <Field Name="inputs" Hidden="true" />
+      <Field Name="k" Hidden="true" />
+      <Field Name="outputs" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>BEAAAAAAAAAAAAAAAAEAABAAEECAABBAgAAAAIQAAAA=</HashCode>
+      <FileName>KNearestNeighbors`1.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Distance" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Accord.MachineLearning.KNearestNeighbors">
+    <Position X="25" Y="11" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KNearestNeighbors.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Accord.MachineLearning.GridSearchParameter">
+    <Position X="5.75" Y="10.5" Width="1.75" />
+    <Members>
+      <Field Name="name" Hidden="true" />
+      <Method Name="operator !=" Hidden="true" />
+      <Method Name="operator ==" Hidden="true" />
+      <Field Name="value" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAQAAAAEAKAAAAAgAAAAAiA=</HashCode>
+      <FileName>GridSearchParameter.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="Accord.MachineLearning.ModelStorageMode">
+    <Position X="13.25" Y="9.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAACAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EarlyStopping.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="Accord.MachineLearning.GridSearchFittingFunction&lt;TModel&gt;">
+    <Position X="1.5" Y="11" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>GridSearch.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Accord.MachineLearning.CrossValidationFittingFunction&lt;TModel&gt;">
+    <Position X="11.5" Y="1" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEYAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Performance\CrossValidation\CrossValidation`1.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Accord.MachineLearning.BootstrapFittingFunction">
+    <Position X="19.25" Y="1" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Performance\Bootstrap\Bootstrap.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Accord.MachineLearning.SplitValidationFittingFunction&lt;TModel&gt;">
+    <Position X="33" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Performance\SplitSet\SplitSetValidation`1.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Accord.MachineLearning.SplitValidationEvaluateFunction&lt;TModel&gt;">
+    <Position X="33" Y="1.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Performance\SplitSet\SplitSetValidation`1.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="System.Func&lt;T1, T2, TResult&gt;">
+    <Position X="28.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier />
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

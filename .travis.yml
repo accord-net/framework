@@ -1,0 +1,9 @@
+language: csharp
+install:
+  - nuget restore Sources/Accord.NET.sln
+script:
+  - ./autogen.sh
+  - make
+  - make samples
+  - make test
+  - make check

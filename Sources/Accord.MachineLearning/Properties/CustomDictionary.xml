@@ -1,0 +1,26 @@
+﻿<Dictionary>
+  <Words>
+    <Unrecognized>
+      <Word></Word>
+    </Unrecognized>
+    <Recognized>
+      <Word>ransac</Word>
+    </Recognized>
+    <Deprecated>
+      <Term PreferredAlternate=""></Term>
+    </Deprecated>
+    <Compound>
+      <Term CompoundAlternate=""></Term>
+    </Compound>
+    <DiscreteExceptions>
+      <Term>PreOrder</Term>
+    </DiscreteExceptions>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+      <Acronym>RANSAC</Acronym>
+      <Acronym>KMeans</Acronym>
+      <Acronym>kmeans</Acronym>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>

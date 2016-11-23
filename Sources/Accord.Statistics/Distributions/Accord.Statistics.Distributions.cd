@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.Statistics.Distributions.Univariate.UnivariateContinuousDistribution">
+    <Position X="5.25" Y="11.25" Width="3.5" />
+    <Members>
+      <Method Name="IDistribution.ComplementaryDistributionFunction" Hidden="true" />
+      <Method Name="IDistribution.DistributionFunction" Hidden="true" />
+      <Method Name="IDistribution.Fit" Hidden="true" />
+      <Method Name="IDistribution.LogProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution.ProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;double&gt;.LogProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;double&gt;.ProbabilityFunction" Hidden="true" />
+      <Field Name="median" Hidden="true" />
+      <Field Name="quartiles" Hidden="true" />
+      <Field Name="stdDev" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAQAAiQAIAEgImCBACABAIIBAIAAAgEgAwAJAAAIBQ=</HashCode>
+      <FileName>Distributions\Univariate\Base\UnivariateContinuousDistribution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Distributions.Univariate.UnivariateDiscreteDistribution">
+    <Position X="9.75" Y="11.75" Width="4" />
+    <Members>
+      <Method Name="IDistribution.ComplementaryDistributionFunction" Hidden="true" />
+      <Method Name="IDistribution.DistributionFunction" Hidden="true" />
+      <Method Name="IDistribution.Fit" Hidden="true" />
+      <Method Name="IDistribution.LogProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution.ProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;double[]&gt;.ComplementaryDistributionFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;double[]&gt;.DistributionFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;double[]&gt;.LogProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;double[]&gt;.ProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;double&gt;.ComplementaryDistributionFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;double&gt;.DistributionFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;double&gt;.LogProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;double&gt;.ProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;int&gt;.LogProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;int&gt;.ProbabilityFunction" Hidden="true" />
+      <Method Name="IUnivariateDistribution.ComplementaryDistributionFunction" Hidden="true" />
+      <Method Name="IUnivariateDistribution.CumulativeHazardFunction" Hidden="true" />
+      <Method Name="IUnivariateDistribution.DistributionFunction" Hidden="true" />
+      <Method Name="IUnivariateDistribution.HazardFunction" Hidden="true" />
+      <Method Name="IUnivariateDistribution.InverseDistributionFunction" Hidden="true" />
+      <Method Name="IUnivariateDistribution.LogProbabilityFunction" Hidden="true" />
+      <Method Name="IUnivariateDistribution.ProbabilityFunction" Hidden="true" />
+      <Method Name="IUnivariateDistribution&lt;double&gt;.CumulativeHazardFunction" Hidden="true" />
+      <Method Name="IUnivariateDistribution&lt;double&gt;.HazardFunction" Hidden="true" />
+      <Method Name="IUnivariateDistribution&lt;double&gt;.InverseDistributionFunction" Hidden="true" />
+      <Field Name="median" Hidden="true" />
+      <Field Name="stdDev" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAAgQAICEQImCBICIMAIIBAIAgAgEkCQAJQAAIFY=</HashCode>
+      <FileName>Distributions\Univariate\Base\UnivariateDiscreteDistribution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Distributions.Multivariate.MultivariateContinuousDistribution">
+    <Position X="17.25" Y="11.75" Width="3.25" />
+    <Members>
+      <Field Name="dimension" Hidden="true" />
+      <Method Name="IDistribution.Fit" Hidden="true" />
+      <Method Name="IDistribution.LogProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution.ProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;double[]&gt;.LogProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;double[]&gt;.ProbabilityFunction" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAAgAAIAAAAGAAIAIBABAAAIAQAAEgAAAIAAAIBQ=</HashCode>
+      <FileName>Distributions\Multivariate\Base\MultivariateContinuousDistribution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Distributions.Multivariate.MultivariateDiscreteDistribution">
+    <Position X="21" Y="11.75" Width="4" />
+    <Members>
+      <Field Name="dimension" Hidden="true" />
+      <Method Name="IDistribution.ComplementaryDistributionFunction" Hidden="true" />
+      <Method Name="IDistribution.DistributionFunction" Hidden="true" />
+      <Method Name="IDistribution.Fit" Hidden="true" />
+      <Method Name="IDistribution.LogProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution.ProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;double[]&gt;.ComplementaryDistributionFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;double[]&gt;.DistributionFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;double[]&gt;.LogProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;double[]&gt;.ProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;int[]&gt;.LogProbabilityFunction" Hidden="true" />
+      <Method Name="IDistribution&lt;int[]&gt;.ProbabilityFunction" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEQAAgQAIAAAAmAAIAIMABIAAIAQAIEgAAAAQAAIBQ=</HashCode>
+      <FileName>Distributions\Multivariate\Base\MultivariateDiscreteDistribution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Accord.Statistics.Distributions.IDistribution">
+    <Position X="7.75" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAGAAAAAAAAAAAAAAAAAAAAAAAEAIAA=</HashCode>
+      <FileName>Distributions\IDistribution.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Distributions.IUnivariateDistribution">
+    <Position X="4" Y="3.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIIAAAkAAACAAAIAAAAAAAgEgAAAIAEAIAQ=</HashCode>
+      <FileName>Distributions\Univariate\Base\IUnivariateDistribution.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Distributions.IMultivariateDistribution">
+    <Position X="11" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAIAAAAAAAAAAQAAEgAAAAAAAAAQ=</HashCode>
+      <FileName>Distributions\Multivariate\Base\IMultivariateDistribution.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Distributions.IFittableDistribution&lt;TObservations, TOptions&gt;">
+    <Position X="23.75" Y="7.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Distributions\IFittableDistribution.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Distributions.IMixture&lt;TDistribution&gt;">
+    <Position X="8" Y="8.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Distributions\IMixture.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Distributions.ISampleableDistribution&lt;TObservations&gt;">
+    <Position X="4.75" Y="8.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Distributions\ISampleableDistribution.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Distributions.IUnivariateDistribution&lt;TObservation&gt;" HideInheritanceLine="true">
+    <Position X="16" Y="4.75" Width="3" />
+    <InheritanceLine Type="Accord.Statistics.Distributions.IDistribution" IsHidden="true" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAgAAACAAAIAAAAAAAgEgAAAIAAAAAQ=</HashCode>
+      <FileName>Distributions\Univariate\Base\IUnivariateDistribution.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Distributions.IMultivariateDistribution&lt;TObservation&gt;" HideInheritanceLine="true">
+    <Position X="19.75" Y="4.75" Width="3" />
+    <InheritanceLine Type="Accord.Statistics.Distributions.IDistribution" IsHidden="true" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAIAAAAAAAAAAQAAEgAAAAAAAAAQ=</HashCode>
+      <FileName>Distributions\Multivariate\Base\IMultivariateDistribution.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Distributions.IDistribution&lt;TObservation&gt;" HideInheritanceLine="true">
+    <Position X="18" Y="2" Width="2.75" />
+    <InheritanceLine Type="Accord.Statistics.Distributions.IDistribution" IsHidden="true" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAEAAAAAAAAAAAAAAAAAAAAAAAEAIAA=</HashCode>
+      <FileName>Distributions\IDistribution.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Distributions.IFittableDistribution&lt;TObservations&gt;">
+    <Position X="24" Y="5.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Distributions\IFittableDistribution.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

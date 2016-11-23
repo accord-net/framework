@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BenchmarkDotNet</name>
+    </assembly>
+    <members>
+        <member name="T:BenchmarkDotNet.Attributes.DryConfigAttribute">
+            <summary>
+            This attribute has the same effect as writing <code>[Config("Jobs=Dry")]</code>
+            </summary>
+        </member>
+        <member name="T:BenchmarkDotNet.Diagnosers.IDiagnoser">
+            The events are guaranteed to happen in the following sequence:
+            Start                  // When the Benchmark run is started and most importantly BEFORE the process has been launched
+            ProcessStarted         // After the Process (in a "Diagnostic" run) has been launched
+            AfterBenchmarkHasRun   // After a "Warmpup" iteration of the Benchmark has run, i.e. we know the [Benchmark] method has been 
+                                   // executed and JITted, this is important if the Diagnoser needs to know when it can do a Memory Dump.
+            ProcessStopped         // Once the Process (in a "Diagnostic" run) has stopped/completed
+            Stop                   // At the end, when the entire Benchmark run has complete
+            DisplayResults         // When the results/output should be displayed
+        </member>
+        <member name="P:BenchmarkDotNet.Helpers.EnvironmentHelper.ChronometerFrequency">
+            <summary>
+            The frequency of the timer as the number of ticks per second.
+            </summary>
+        </member>
+        <member name="F:BenchmarkDotNet.Horology.HardwareTimerKind.System">
+            <summary>
+            System timer
+            </summary>
+        </member>
+        <member name="F:BenchmarkDotNet.Horology.HardwareTimerKind.Tsc">
+            <summary>
+            Time Stamp Counter
+            <seealso cref="!:https://en.wikipedia.org/wiki/Time_Stamp_Counter"/>
+            </summary>
+        </member>
+        <member name="F:BenchmarkDotNet.Horology.HardwareTimerKind.Hpet">
+            <summary>
+            High Precision Event Timer
+            <seealso cref="!:https://en.wikipedia.org/wiki/High_Precision_Event_Timer"/>
+            </summary>
+        </member>
+        <member name="M:BenchmarkDotNet.Horology.TimeUnit.GetBestTimeUnit(System.Double[])">
+            <summary>
+            This method chooses the best time unit for representing a set of time measurements. 
+            </summary>
+            <param name="values">The list of time measurements in nanoseconds.</param>
+            <returns>Best time unit.</returns>
+        </member>
+        <member name="P:BenchmarkDotNet.Jobs.IJob.IterationTime">
+            <summary>
+            Desired time of execution of an iteration (in ms).
+            </summary>
+        </member>
+        <member name="P:BenchmarkDotNet.Jobs.IJob.Affinity">
+            <summary>
+            ProcessorAffinity for the benchmark process.
+            <seealso cref="!:https://msdn.microsoft.com/library/system.diagnostics.process.processoraffinity.aspx"/>
+            </summary>
+        </member>
+        <member name="M:BenchmarkDotNet.Jobs.JobExtensions.WithIterationTime(BenchmarkDotNet.Jobs.IJob,BenchmarkDotNet.Jobs.Count)">
+            <summary>
+            Create a new job as a copy of the original job with specific time of a single iteration
+            </summary>
+            <param name="job">Original job</param>
+            <param name="iterationTime">Iteration time in Millisecond or Auto</param>
+            <returns></returns>
+        </member>
+        <member name="T:BenchmarkDotNet.Loggers.LoggerWithPrefix">
+            <summary>
+            Adds prefix for each line
+            </summary>
+        </member>
+        <member name="T:BenchmarkDotNet.Reports.Measurement">
+            <summary>
+            The basic captured statistics for a benchmark.
+            </summary>
+        </member>
+        <member name="P:BenchmarkDotNet.Reports.Measurement.Operations">
+            <summary>
+            Gets the number of operations performed.
+            </summary>
+        </member>
+        <member name="P:BenchmarkDotNet.Reports.Measurement.Nanoseconds">
+            <summary>
+            Gets the total number of nanoseconds it took to perform all operations.
+            </summary>
+        </member>
+        <member name="M:BenchmarkDotNet.Reports.Measurement.#ctor(System.Int32,BenchmarkDotNet.Running.IterationMode,System.Int32,System.Int64,System.Double)">
+            <summary>
+            Creates an instance of <see cref="T:BenchmarkDotNet.Reports.Measurement"/> class.
+            </summary>
+            <param name="launchIndex"></param>
+            <param name="iterationMode"></param>
+            <param name="iterationIndex"></param>
+            <param name="operations">The number of operations performed.</param>
+            <param name="nanoseconds">The total number of nanoseconds it took to perform all operations.</param>
+        </member>
+        <member name="M:BenchmarkDotNet.Reports.Measurement.Parse(BenchmarkDotNet.Loggers.ILogger,System.String,System.Int32)">
+            <summary>
+            Parses the benchmark statistics from the plain text line.
+            
+            E.g. given the input <paramref name="line"/>:
+            
+                Target 1: 10 op, 1005842518 ns
+            
+            Will extract the number of <see cref="P:BenchmarkDotNet.Reports.Measurement.Operations"/> performed and the 
+            total number of <see cref="P:BenchmarkDotNet.Reports.Measurement.Nanoseconds"/> it took to perform them.
+            </summary>
+            <param name="logger">The logger to write any diagnostic messages to.</param>
+            <param name="line">The line to parse.</param>
+            <returns>An instance of <see cref="T:BenchmarkDotNet.Reports.Measurement"/> if parsed successfully. <c>Null</c> in case of any trouble.</returns>
+        </member>
+        <member name="M:BenchmarkDotNet.Reports.MeasurementExtensions.GetOpsPerSecond(BenchmarkDotNet.Reports.Measurement)">
+            <summary>
+            Gets the number of operations performed per second (ops/sec).
+            </summary>
+        </member>
+        <member name="M:BenchmarkDotNet.Reports.MeasurementExtensions.GetAverageNanoseconds(BenchmarkDotNet.Reports.Measurement)">
+            <summary>
+            Gets the average duration of one operation in nanoseconds.
+            </summary>
+        </member>
+        <member name="F:BenchmarkDotNet.Running.IterationMode.Pilot">
+            <summary>
+            <seealso cref="!:https://en.wikipedia.org/wiki/Pilot_experiment"/>
+            </summary>
+        </member>
+        <member name="F:BenchmarkDotNet.Running.IterationMode.IdleWarmup">
+            <summary>
+            Warmup for idle method (overhead)
+            </summary>
+        </member>
+        <member name="F:BenchmarkDotNet.Running.IterationMode.IdleTarget">
+            <summary>
+            Idle method (overhead)
+            </summary>
+        </member>
+        <member name="F:BenchmarkDotNet.Running.IterationMode.MainWarmup">
+            <summary>
+            Warmup for main benchmark iteration (with overhead)
+            </summary>
+        </member>
+        <member name="F:BenchmarkDotNet.Running.IterationMode.MainTarget">
+            <summary>
+            Main benchmark iteration (with overhead)
+            </summary>
+        </member>
+        <member name="F:BenchmarkDotNet.Running.IterationMode.Result">
+            <summary>
+            Target - TargetIdle (without overhead)
+            </summary>
+        </member>
+        <member name="F:BenchmarkDotNet.Running.IterationMode.Unknown">
+            <summary>
+            Unknown 
+            </summary>
+        </member>
+        <member name="M:BenchmarkDotNet.Toolchains.DotNetCli.DotNetCliBuilder.Build(BenchmarkDotNet.Toolchains.Results.GenerateResult,BenchmarkDotNet.Loggers.ILogger,BenchmarkDotNet.Running.Benchmark)">
+            <summary>
+            generates project.lock.json that tells compiler where to take dlls and source from
+            and builds executable and copies all required dll's
+            </summary>
+        </member>
+        <member name="M:BenchmarkDotNet.Toolchains.DotNetCli.DotNetCliBuilder.BuildExecutablePath(BenchmarkDotNet.Toolchains.Results.GenerateResult,BenchmarkDotNet.Running.Benchmark)">
+            <summary>
+            we use custom output path in order to avoid any future problems related to dotnet cli paths changing
+            </summary>
+        </member>
+        <member name="M:BenchmarkDotNet.Toolchains.DotNetCli.DotNetCliGenerator.GetDirectoryPath(BenchmarkDotNet.Running.Benchmark)">
+            <summary>
+            we need our folder to be on the same level as the project that we want to reference
+            we are limited by xprojs (by default compiles all .cs files in all subfolders, Program.cs could be doubled and fail the build)
+            and also by nuget internal implementation like looking for global.json file in parent folders
+            </summary>
+        </member>
+        <member name="M:BenchmarkDotNet.Toolchains.DotNetCli.DotNetCliGenerator.GetPackageVersion(System.Reflection.AssemblyName)">
+            <summary>
+            we can not simply call assemblyName.Version.ToString() because it is different than package version which can contain (and often does) text
+            we are using the wildcard to get latest version of package/project restored
+            </summary>
+        </member>
+    </members>
+</doc>

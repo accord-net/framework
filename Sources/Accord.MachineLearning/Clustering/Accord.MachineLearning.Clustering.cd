@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.MachineLearning.KMeans">
+    <Position X="14.75" Y="8" Width="2.25" />
+    <Members>
+      <Field Name="clusters" Hidden="true" />
+      <Method Name="converged" Hidden="true" />
+      <Property Name="IClusteringAlgorithm&lt;double[]&gt;.Clusters" Hidden="true" />
+      <Method Name="Nearest" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Internal" Collapsed="true" />
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEAAAAACAABEAAAAAAAAAACAAAAAYABAACAAAIAAAAA=</HashCode>
+      <FileName>Clustering\KMeans.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Clusters" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.GaussianMixtureModel">
+    <Position X="15.75" Y="1.75" Width="2.75" />
+    <Members>
+      <Method Name="Classify" Hidden="true" />
+      <Field Name="clusters" Hidden="true" />
+      <Method Name="constructor" Hidden="true" />
+      <Property Name="IClusteringAlgorithm&lt;double[]&gt;.Clusters" Hidden="true" />
+      <Method Name="IClusteringAlgorithm&lt;double[]&gt;.Compute" Hidden="true" />
+      <Field Name="model" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Internal" Collapsed="true" />
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>QEAAACAAAAAEAQAAAAAAAAAAAEAAIAAAICAAAAAIAAA=</HashCode>
+      <FileName>Clustering\GaussianMixtureModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Gaussians" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.GaussianMixtureModelOptions">
+    <Position X="15.75" Y="4" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAEAgAAAAAAA=</HashCode>
+      <FileName>Clustering\GaussianMixtureModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.BinarySplit" BaseTypeListCollapsed="true">
+    <Position X="14.75" Y="11" Width="2.25" />
+    <Members>
+      <Field Name="clusters" Hidden="true" />
+      <Property Name="IClusteringAlgorithm&lt;double[]&gt;.Clusters" Hidden="true" />
+      <Method Name="split" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAEAAAAAAAAAAAAABAAYABAACAAAIAAAAA=</HashCode>
+      <FileName>Clustering\BinarySplit.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Clusters" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.KModes&lt;TData&gt;">
+    <Position X="6.75" Y="1" Width="2" />
+    <Members>
+      <Field Name="clusters" Hidden="true" />
+      <Method Name="converged" Hidden="true" />
+      <Property Name="IClusteringAlgorithm&lt;TData&gt;.Clusters" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEAAAAACAAAAAAAAAAAAAACAAAAAIABAACAAAIAABAA=</HashCode>
+      <FileName>Clustering\KModes`1.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Clusters" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.KModes">
+    <Position X="7" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Clustering\KModes`1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.KMeansClusterCollection">
+    <Position X="20.5" Y="9" Width="2" />
+    <Members>
+      <Field Name="centroids" Hidden="true" />
+      <Field Name="clusters" Hidden="true" />
+      <Field Name="covariances" Hidden="true" />
+      <Field Name="distance" Hidden="true" />
+      <Method Name="GetEnumerator" Hidden="true" />
+      <Method Name="IEnumerable.GetEnumerator" Hidden="true" />
+      <Field Name="proportions" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAABCAJAACACAAAQAgEAAIABEAAAAAAAAABA=</HashCode>
+      <FileName>Clustering\KMeansCluster.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.KMeansCluster">
+    <Position X="18.25" Y="9.25" Width="1.5" />
+    <Members>
+      <Field Name="index" Hidden="true" />
+      <Field Name="owner" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Internal" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACgAAAAIAAAAAAAAAAEAAEAAEAAAABAAA=</HashCode>
+      <FileName>Clustering\KMeansCluster.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.KModesClusterCollection&lt;TData&gt;">
+    <Position X="9.5" Y="3.25" Width="2.75" />
+    <Members>
+      <Field Name="centroids" Hidden="true" />
+      <Field Name="clusters" Hidden="true" />
+      <Field Name="distance" Hidden="true" />
+      <Method Name="GetEnumerator" Hidden="true" />
+      <Method Name="IEnumerable.GetEnumerator" Hidden="true" />
+      <Field Name="proportions" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABCAJAACACAAAQAgEAAIABEAAAAAAAAAAA=</HashCode>
+      <FileName>Clustering\KModesCluster.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.GaussianCluster">
+    <Position X="19.75" Y="1.25" Width="2.25" />
+    <Members>
+      <Field Name="index" Hidden="true" />
+      <Field Name="owner" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEgAAAAIAAAAAAAAAAEACEAAEAAAARAAA=</HashCode>
+      <FileName>Clustering\GaussianCluster.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.GaussianClusterCollection">
+    <Position X="19.75" Y="4.5" Width="2.25" />
+    <Members>
+      <Field Name="owner" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAgAAAAAAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Clustering\GaussianCluster.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.KModesCluster&lt;TData&gt;">
+    <Position X="9.75" Y="0.5" Width="2" />
+    <Members>
+      <Field Name="index" Hidden="true" />
+      <Field Name="owner" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIACgAAAAAAAAAAAAAAAEAAAAAEAAAABAAA=</HashCode>
+      <FileName>Clustering\KModesCluster.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.MeanShift" BaseTypeListCollapsed="true">
+    <Position X="6" Y="8.75" Width="3" />
+    <Members>
+      <Field Name="bandwidth" Hidden="true" />
+      <Field Name="clusters" Hidden="true" />
+      <Field Name="cut" Hidden="true" />
+      <Field Name="dimension" Hidden="true" />
+      <Field Name="distance" Hidden="true" />
+      <Field Name="kernel" Hidden="true" />
+      <Field Name="maximum" Hidden="true" />
+      <Field Name="tree" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>gEAAAMAEAAAEAIAIgAQAAAFEAEAAYAAACCAAAAAAAAI=</HashCode>
+      <FileName>Clustering\MeanShift.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Clusters" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.MeanShiftClusterCollection" BaseTypeListCollapsed="true">
+    <Position X="9.75" Y="8.25" Width="2.25" />
+    <Members>
+      <Field Name="clusters" Hidden="true" />
+      <Field Name="modes" Hidden="true" />
+      <Field Name="tree" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAABAAiAAAAAQAQAAAIEAEAAAAAAAAAAA=</HashCode>
+      <FileName>Clustering\MeanShiftCluster.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.MeanShiftCluster">
+    <Position X="10.5" Y="11" Width="1.5" />
+    <Members>
+      <Field Name="index" Hidden="true" />
+      <Field Name="owner" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAgAAAAAAAAAAAAAAAAAAAAAEAAAABAAA=</HashCode>
+      <FileName>Clustering\MeanShiftCluster.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Accord.MachineLearning.IClusteringAlgorithm&lt;TData&gt;">
+    <Position X="4" Y="6" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Clustering\IClusteringAlgorithm.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Clusters" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IClusterCollection&lt;TData&gt;">
+    <Position X="0.75" Y="5.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Clustering\IClusteringAlgorithm.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.IClusterCollection&lt;TData, TCluster&gt;">
+    <Position X="0.5" Y="4" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Clustering\IClusteringAlgorithm.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

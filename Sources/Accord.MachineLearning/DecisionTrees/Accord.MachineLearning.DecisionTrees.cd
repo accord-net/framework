@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.MachineLearning.DecisionTrees.DecisionNode">
+    <Position X="11.75" Y="1.5" Width="1.5" />
+    <Members>
+      <Field Name="owner" Hidden="true" />
+      <Field Name="parent" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AMAAAAGAAAAAggBEAAAIVAAAAAAAAAAAAQAgAAAAAAA=</HashCode>
+      <FileName>DecisionTrees\DecisionNode.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Comparison" />
+      <Property Name="Branches" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Accord.MachineLearning.DecisionTrees.DecisionBranchNodeCollection">
+    <Position X="14.5" Y="4" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>DecisionTrees\DecisionBranchNodeCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.DecisionTrees.DecisionTree">
+    <Position X="7" Y="1.25" Width="3.25" />
+    <Members>
+      <Method Name="OnDeserialized" Hidden="true" />
+      <Method Name="System.Collections.IEnumerable.GetEnumerator" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Class Name="Accord.MachineLearning.DecisionTrees.DecisionTree.TreeTraversal" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>DecisionTrees\DecisionTree.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AGAAsIEAAAAAADAAABAAAAAQAAgAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>DecisionTrees\DecisionTree.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Root" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Attributes" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.DecisionTrees.DecisionVariable">
+    <Position X="3.5" Y="3" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgCAAAAAAAAAQQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DecisionTrees\DecisionVariable.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Nature" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Accord.MachineLearning.DecisionTrees.Learning.Measures">
+    <Position X="1.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DecisionTrees\Learning\Measures.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.DecisionTrees.DecisionTreeExpressionCreator">
+    <Position X="7.25" Y="5.5" Width="2.5" />
+    <Members>
+      <Method Name="create" Hidden="true" />
+      <Method Name="DecisionTreeExpressionCreator" Hidden="true" />
+      <Field Name="inputs" Hidden="true" />
+      <Field Name="label" Hidden="true" />
+      <Field Name="tree" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAgAAAAAAAAAAAAFAAAABAAAAAAAA=</HashCode>
+      <FileName>DecisionTrees\TreeExpression.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.DecisionTrees.DecisionVariableCollection">
+    <Position X="3.5" Y="1.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DecisionTrees\DecisionVariable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.DecisionTrees.Learning.ID3Learning">
+    <Position X="10" Y="8" Width="1.5" />
+    <Members>
+      <Field Name="attributes" Hidden="true" />
+      <Method Name="computeGainRatio" Hidden="true" />
+      <Method Name="computeInfo" Hidden="true" />
+      <Method Name="computeInfoGain" Hidden="true" />
+      <Field Name="inputRanges" Hidden="true" />
+      <Field Name="outputClasses" Hidden="true" />
+      <Method Name="split" Hidden="true" />
+      <Field Name="tree" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQQAIAAAAAAAAAAgAAAAAAAABAAUAAIBAAAAAAAEBI=</HashCode>
+      <FileName>DecisionTrees\Learning\ID3Learning.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.DecisionTrees.Learning.C45Learning">
+    <Position X="12.25" Y="8" Width="2" />
+    <Members>
+      <Field Name="attributes" Hidden="true" />
+      <Method Name="computeGainRatio" Hidden="true" />
+      <Method Name="computeInfoGain" Hidden="true" />
+      <Field Name="inputRanges" Hidden="true" />
+      <Field Name="outputClasses" Hidden="true" />
+      <Method Name="split" Hidden="true" />
+      <Field Name="thresholds" Hidden="true" />
+      <Field Name="tree" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQQQYAAAAAAAAAAgAAAAAAAABAAEEAIBAAAAAAAEBI=</HashCode>
+      <FileName>DecisionTrees\Learning\C45Learning.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.DecisionTrees.DecisionTreeTraversal">
+    <Position X="0.75" Y="0.5" Width="1.75" />
+    <Members>
+      <Method Name="GetNextSibling" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAABAAAAAAAAAAAAIAAAAAAAAAAQ=</HashCode>
+      <FileName>DecisionTrees\DecisionTreeTraversal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.DecisionTrees.DecisionTreeWriter">
+    <Position X="3.25" Y="5.5" Width="1.75" />
+    <Members>
+      <Method Name="create" Hidden="true" />
+      <Method Name="getComparisonString" Hidden="true" />
+      <Field Name="writer" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAQBAAAEAAAA=</HashCode>
+      <FileName>DecisionTrees\DecisionTreeWriter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.DecisionTrees.Pruning.ErrorBasedPruning">
+    <Position X="3.75" Y="8" Width="2.5" />
+    <Members>
+      <Field Name="actual" Hidden="true" />
+      <Method Name="clearCache" Hidden="true" />
+      <Method Name="compute" Hidden="true" />
+      <Method Name="computeError" Hidden="true" />
+      <Method Name="computeErrorReplacingSubtrees" Hidden="true" />
+      <Method Name="computeErrorSubtree" Hidden="true" />
+      <Method Name="computeErrorWithoutSubtree" Hidden="true" />
+      <Method Name="createCache" Hidden="true" />
+      <Method Name="getMaxChild" Hidden="true" />
+      <Field Name="inputs" Hidden="true" />
+      <Field Name="limit" Hidden="true" />
+      <Field Name="outputs" Hidden="true" />
+      <Field Name="subsets" Hidden="true" />
+      <Method Name="trackDecisions" Hidden="true" />
+      <Field Name="tree" Hidden="true" />
+      <Method Name="upperBound" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAIAAAAgAAAIACAAAECEDABAgAgAARAAEo=</HashCode>
+      <FileName>DecisionTrees\Pruning\ErrorBasedPruning.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.DecisionTrees.Pruning.ReducedErrorPruning">
+    <Position X="6.75" Y="8" Width="2.25" />
+    <Members>
+      <Field Name="actual" Hidden="true" />
+      <Method Name="computeError" Hidden="true" />
+      <Method Name="computeGain" Hidden="true" />
+      <Field Name="info" Hidden="true" />
+      <Field Name="inputs" Hidden="true" />
+      <Field Name="outputs" Hidden="true" />
+      <Method Name="trackDecisions" Hidden="true" />
+      <Field Name="tree" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Class Name="Accord.MachineLearning.DecisionTrees.Pruning.ReducedErrorPruning.NodeInfo" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>DecisionTrees\Pruning\ReducedErrorPruning.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAQAEAAAIAAAAgAAAAAAAAAAAEBAAQAAAAAQAAAI=</HashCode>
+      <FileName>DecisionTrees\Pruning\ReducedErrorPruning.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Accord.MachineLearning.DecisionTrees.ComparisonKind">
+    <Position X="15" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAQVAACA=</HashCode>
+      <FileName>DecisionTrees\ComparisonKind.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.MachineLearning.DecisionTrees.DecisionVariableKind">
+    <Position X="0.75" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASA=</HashCode>
+      <FileName>DecisionTrees\DecisionVariable.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="Accord.MachineLearning.DecisionTrees.DecisionTreeTraversalMethod">
+    <Position X="0.5" Y="2.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>DecisionTrees\DecisionTreeTraversal.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

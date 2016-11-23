@@ -1,0 +1,459 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner"
+  dslVersion="1.0.0.0"
+  Id="cbc76357-abe1-4c0d-8c70-52b51a218094"
+  name="Accord.Documentation" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <profileInstances>
+    <packageHasProfileInstances
+      Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b">
+      <profileInstance
+        Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791"
+        name="StandardProfileL2" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances
+      Id="29349502-908c-4fda-9054-c48619c59ed0">
+      <profileInstance
+        Id="532ea607-fb19-44b8-8502-3351b05452be"
+        name="StandardProfileL3" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <packageHasNamedElement>
+      <component
+        Id="266b3efe-4bde-4370-a1d3-d0b67587bb56"
+        name="HeadController"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false"
+        isIndirectlyInstantiated="false">
+        <ownedAttributesInternal>
+          <providedInterface
+            Id="2e6e7a7b-c5d3-4841-b9ab-31fa0ef080cc"
+            name="Port1"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false"
+            isService="false"
+            isBehavior="false">
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="f9e76291-96f6-4698-99a4-e2ccd6412a83"
+                LastKnownName="IVideoSource"
+                LastKnownLocation="Accord.Documentation.uml" />
+            </type_NamedElement>
+          </providedInterface>
+          <requiredInterface
+            Id="7de45313-6d57-4415-97e1-a8cac9defd9b"
+            name="Port2"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false"
+            isService="false"
+            isBehavior="false">
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="7e5a4127-4f79-407c-a691-2b2882d04793"
+                LastKnownName="VideoCaptureDevice"
+                LastKnownLocation="Accord.Documentation.uml" />
+            </type_NamedElement>
+          </requiredInterface>
+        </ownedAttributesInternal>
+      </component>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="f9e76291-96f6-4698-99a4-e2ccd6412a83"
+        name="IVideoSource"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="7e5a4127-4f79-407c-a691-2b2882d04793"
+        name="VideoCaptureDevice"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="c215ce54-a281-48b2-afac-fb9e87fb9830"
+        name="Ransac"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedRedefinableTemplateSignatureInternal>
+          <redefinableTemplateSignature
+            Id="6dd8196b-f855-4149-920e-7d40121f1e65"
+            parameters=""
+            isLeaf="false">
+            <ownedParameters>
+              <classifierTemplateParameter
+                Id="0bddec56-c668-4f46-a1a4-7f75c1af4326">
+                <ownedParameterableElement>
+                  <class
+                    Id="1406c968-d2d1-4978-a875-5b73c3ebbae4"
+                    name="TModel"
+                    isAbstract="false"
+                    isLeaf="false"
+                    isActiveClass="false" />
+                </ownedParameterableElement>
+              </classifierTemplateParameter>
+            </ownedParameters>
+          </redefinableTemplateSignature>
+        </ownedRedefinableTemplateSignatureInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="23dfa3f8-dfe5-478a-b057-9464eb09d146"
+            name="Fitting"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="560d5b2c-4b48-451a-9f8e-7f7f9ff13b31"
+            name="Degenerate"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="d4bc81b1-1f9c-4c31-9f83-8494dc97f722"
+                LastKnownName="Lambda"
+                LastKnownLocation="Accord.Documentation.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="319c8945-5134-48ef-8f48-eeae1d20e266"
+            name="Distances"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="d4bc81b1-1f9c-4c31-9f83-8494dc97f722"
+        name="Lambda"
+        isAbstract="false"
+        isLeaf="false">
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="1c630be9-4c08-438e-a33e-518d4cade675"
+            name="specification"
+            profile="StandardProfileL2" />
+        </appliedStereotypesInternal>
+        <ownedRedefinableTemplateSignatureInternal>
+          <redefinableTemplateSignature
+            Id="12fd69d7-728a-4466-9062-98298832456c"
+            parameters=""
+            isLeaf="false">
+            <ownedParameters>
+              <classifierTemplateParameter
+                Id="6316b6fe-64c1-463d-9a65-cc1b182ed3a1"
+                allowSubstitutable="false">
+                <ownedParameterableElement>
+                  <class
+                    Id="290806da-2022-4773-91d1-fc5ff8f22a41"
+                    name="TReturn"
+                    isAbstract="false"
+                    isLeaf="false"
+                    isActiveClass="false" />
+                </ownedParameterableElement>
+              </classifierTemplateParameter>
+              <classifierTemplateParameter
+                Id="b6511d7c-d6b5-466d-9504-714468a4b87c">
+                <ownedParameterableElement>
+                  <class
+                    Id="22b9eb92-5e0b-49a5-92c2-9192a23ed706"
+                    name="TArg1"
+                    isAbstract="false"
+                    isLeaf="false"
+                    isActiveClass="false" />
+                </ownedParameterableElement>
+              </classifierTemplateParameter>
+            </ownedParameters>
+          </redefinableTemplateSignature>
+        </ownedRedefinableTemplateSignatureInternal>
+        <ownedOperations>
+          <operation
+            Id="907dcfe1-3f64-4ef9-8c96-dbc31cf28744"
+            name="Operation1"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperations>
+      </Interface>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <activity
+        Id="ed8969b4-3a3f-4b30-9caa-e63ec027b157"
+        name="Activity1"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false"
+        isReentrant="false"
+        isReadOnly="false"
+        isSingleExecution="false">
+        <nodes>
+          <initialNode
+            Id="091e7ce8-bce9-40bb-9cd7-e8d4e65b2d8d"
+            name="Initial1"
+            isLeaf="false" />
+          <activityFinalNode
+            Id="7975a862-d0be-416b-88e6-2bcaf72d3268"
+            name="ActivityFinal1"
+            isLeaf="false" />
+          <opaqueAction
+            Id="4e49fb37-3a3e-4a24-928b-f454f721df7d"
+            name="Action1"
+            isLeaf="false" />
+        </nodes>
+      </activity>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="c90f78a9-7f2c-4aed-8d29-7b6dd67b0adb"
+        name="VideoSource"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="8b0a20ce-4d65-4520-8591-5b7669ea77b9"
+        name="AudioSource"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="c158ccc9-f3c8-4d67-a7fa-3ce60f7b46d3"
+        name="Statistical Analysis"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <activity
+        Id="47e8e5ce-00bb-4b60-b999-35db2feb1b92"
+        name="Activity2"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false"
+        isReentrant="false"
+        isReadOnly="false"
+        isSingleExecution="false">
+        <nodes>
+          <initialNode
+            Id="f90a0eec-5669-469f-83f6-4bfd78ccc1bf"
+            name="Initial1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="a099356f-b1ad-4d98-a136-98f257ddab30"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="640bb68e-5d61-41a3-82c2-a3b857dfa9f6"
+                  LastKnownName="Image Source"
+                  LastKnownLocation="Accord.Documentation.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <initialNode
+            Id="714377bf-99aa-47de-96fe-a93037b9c071"
+            name="Initial2"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="44736ac1-99e0-4834-9459-607ffe070fba"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="84d462bb-192e-442e-8508-4e54ea6673b0"
+                  LastKnownName="Table Source"
+                  LastKnownLocation="Accord.Documentation.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <initialNode
+            Id="c21834a6-d869-433f-b51b-33b87c545e20"
+            name="Initial3"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="af512fef-faf8-4142-83e6-64064c3a80cb"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="b4c8c1bc-5dab-4396-b5c1-21ea70f8ab5f"
+                  LastKnownName="Signal Source"
+                  LastKnownLocation="Accord.Documentation.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <opaqueAction
+            Id="640bb68e-5d61-41a3-82c2-a3b857dfa9f6"
+            name="Image Source"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="7d64ea5a-97de-4709-8890-cef034b71c23"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="8327cdff-2703-499c-9a67-93bafb0bde45"
+                  LastKnownName="Image Filters"
+                  LastKnownLocation="Accord.Documentation.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="84d462bb-192e-442e-8508-4e54ea6673b0"
+            name="Table Source"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="9366d885-f7b8-4484-9e4d-1b893d3b5702"
+                isLeaf="false">
+                <joinNodeMoniker
+                  Id="f332fe6f-60f7-4d0b-a102-10ea28af333a"
+                  LastKnownName="Join1"
+                  LastKnownLocation="Accord.Documentation.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="b4c8c1bc-5dab-4396-b5c1-21ea70f8ab5f"
+            name="Signal Source"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="d5d7ed73-5352-4475-882d-e0feae692d49"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="6cf537e3-058f-4474-9b7c-61e4677b551a"
+                  LastKnownName="Signal Filters"
+                  LastKnownLocation="Accord.Documentation.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="8327cdff-2703-499c-9a67-93bafb0bde45"
+            name="Image Filters"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="12952f73-1047-4ded-8426-bfa4b7109344"
+                isLeaf="false">
+                <joinNodeMoniker
+                  Id="f332fe6f-60f7-4d0b-a102-10ea28af333a"
+                  LastKnownName="Join1"
+                  LastKnownLocation="Accord.Documentation.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="1d3a3bb8-183d-4c29-bd5c-5f9d8d896fec"
+            name="Data Filters"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="186006b3-f2a9-4eaa-b150-7c7e12147752"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="8333e664-9f6d-4827-ab83-c54b630e844e"
+                  LastKnownName="Conversion To Matrix"
+                  LastKnownLocation="Accord.Documentation.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="6cf537e3-058f-4474-9b7c-61e4677b551a"
+            name="Signal Filters"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="2e002ac4-51a7-4fe4-9e7e-70223603b51f"
+                isLeaf="false">
+                <joinNodeMoniker
+                  Id="f332fe6f-60f7-4d0b-a102-10ea28af333a"
+                  LastKnownName="Join1"
+                  LastKnownLocation="Accord.Documentation.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <joinNode
+            Id="f332fe6f-60f7-4d0b-a102-10ea28af333a"
+            name="Join1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="5a5b52ca-4330-4188-9857-1610b2fdb476"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="1d3a3bb8-183d-4c29-bd5c-5f9d8d896fec"
+                  LastKnownName="Data Filters"
+                  LastKnownLocation="Accord.Documentation.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </joinNode>
+          <opaqueAction
+            Id="8333e664-9f6d-4827-ab83-c54b630e844e"
+            name="Conversion To Matrix"
+            isLeaf="false" />
+          <opaqueAction
+            Id="ca5877b3-cc1b-459f-9c89-71d2d466d283"
+            name="Classification/Regression"
+            isLeaf="false" />
+          <opaqueAction
+            Id="0ca00df5-68bd-4078-885c-856a586e7962"
+            name="Performance"
+            isLeaf="false" />
+        </nodes>
+      </activity>
+    </packageHasNamedElement>
+  </packagedElements>
+  <primitiveType
+    Id="220a3521-e091-4221-bae9-3ef9018e845c"
+    name="Integer"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+    name="Boolean"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+    name="String"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="3ab42e7d-4969-445a-b209-471f5cb8209c"
+    name="UnlimitedNatural"
+    isAbstract="false"
+    isLeaf="false" />
+</modelStoreModel>

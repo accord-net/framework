@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.Neuro.Learning.LevenbergMarquardtLearning" BaseTypeListCollapsed="true">
+    <Position X="3.75" Y="1.25" Width="3.25" />
+    <Members>
+      <Field Name="alpha" Hidden="true" />
+      <Field Name="beta" Hidden="true" />
+      <Field Name="blocks" Hidden="true" />
+      <Method Name="CalculateDerivatives" Hidden="true" />
+      <Method Name="ComputeDerivative" Hidden="true" />
+      <Method Name="createCoefficients" Hidden="true" />
+      <Field Name="deltas" Hidden="true" />
+      <Field Name="derivativeStep" Hidden="true" />
+      <Field Name="derivativeStepSize" Hidden="true" />
+      <Field Name="diagonal" Hidden="true" />
+      <Field Name="differentialCoefficients" Hidden="true" />
+      <Field Name="errors" Hidden="true" />
+      <Field Name="gamma" Hidden="true" />
+      <Method Name="getNumberOfParameters" Hidden="true" />
+      <Field Name="gradient" Hidden="true" />
+      <Field Name="hessian" Hidden="true" />
+      <Field Name="jacobian" Hidden="true" />
+      <Method Name="JacobianByChainRule" Hidden="true" />
+      <Method Name="JacobianByFiniteDifference" Hidden="true" />
+      <Field Name="lambda" Hidden="true" />
+      <Field Name="lambdaMax" Hidden="true" />
+      <Method Name="loadArrayIntoNetwork" Hidden="true" />
+      <Field Name="method" Hidden="true" />
+      <Field Name="network" Hidden="true" />
+      <Field Name="numberOfParameters" Hidden="true" />
+      <Field Name="outputCount" Hidden="true" />
+      <Method Name="saveNetworkToArray" Hidden="true" />
+      <Field Name="thresholdsDerivatives" Hidden="true" />
+      <Field Name="useBayesianRegularization" Hidden="true" />
+      <Field Name="v" Hidden="true" />
+      <Field Name="weightDerivatives" Hidden="true" />
+      <Field Name="weights" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAUEACAIAAIAACAASAEAJABAAAYIRbiCBDAQQmAQBAo=</HashCode>
+      <FileName>Learning\LevenbergMarquardtLearning.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Neuro.NguyenWidrow">
+    <Position X="0.75" Y="2.75" Width="2" />
+    <Members>
+      <Field Name="beta" Hidden="true" />
+      <Field Name="network" Hidden="true" />
+      <Field Name="randRange" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAABACAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Initialization\NguyenWidrow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Neuro.Learning.ParallelResilientBackpropagationLearning">
+    <Position X="11.25" Y="1.5" Width="3" />
+    <Members>
+      <Method Name="~ParallelResilientBackpropagationLearning" Hidden="true" />
+      <Method Name="CalculateError" Hidden="true" />
+      <Method Name="CalculateGradient" Hidden="true" />
+      <Field Name="deltaMax" Hidden="true" />
+      <Field Name="deltaMin" Hidden="true" />
+      <Field Name="etaMinus" Hidden="true" />
+      <Field Name="etaPlus" Hidden="true" />
+      <Field Name="initialStep" Hidden="true" />
+      <Field Name="lockNetwork" Hidden="true" />
+      <Field Name="network" Hidden="true" />
+      <Field Name="networkErrors" Hidden="true" />
+      <Field Name="networkOutputs" Hidden="true" />
+      <Method Name="ResetGradient" Hidden="true" />
+      <Field Name="thresholdsDerivatives" Hidden="true" />
+      <Field Name="thresholdsPreviousDerivatives" Hidden="true" />
+      <Field Name="thresholdsUpdates" Hidden="true" />
+      <Method Name="UpdateNetwork" Hidden="true" />
+      <Field Name="weightsDerivatives" Hidden="true" />
+      <Field Name="weightsPreviousDerivatives" Hidden="true" />
+      <Field Name="weightsUpdates" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>CIQAAkEABCQABAAQgAQAAgAAAAIAgAgAZIBUAAABAAo=</HashCode>
+      <FileName>Learning\ParallelResilientBackPropagationLearning.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Neuro.LinearFunction">
+    <Position X="23.75" Y="6.75" Width="2.5" />
+    <Members>
+      <Field Name="alpha" Hidden="true" />
+      <Field Name="range" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIEAAACAAAAAAAAAIAAAAAABAAAAAQBAAAAAA=</HashCode>
+      <FileName>Activation Functions\LinearFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Neuro.ActivationFunctions.BernoulliFunction" BaseTypeListCollapsed="true">
+    <Position X="19" Y="6.75" Width="1.5" />
+    <Members>
+      <Field Name="alpha" Hidden="true" />
+      <Field Name="random" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAIAAAAABBAAAAQQBEAAAAA=</HashCode>
+      <FileName>Activation Functions\BernoulliFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Neuro.ActivationFunctions.GaussianFunction" BaseTypeListCollapsed="true">
+    <Position X="21" Y="6.75" Width="2.5" />
+    <Members>
+      <Field Name="alpha" Hidden="true" />
+      <Field Name="gaussian" Hidden="true" />
+      <Field Name="range" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIEAAACAAAAAAAAAIAAAAAJBAAAAAQBEAAAAA=</HashCode>
+      <FileName>Activation Functions\GaussianFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Neuro.GaussianWeights">
+    <Position X="0.75" Y="0.75" Width="2" />
+    <Members>
+      <Field Name="network" Hidden="true" />
+      <Field Name="random" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAACAAAAAAAAABAQAAAAAAAA=</HashCode>
+      <FileName>Initialization\GaussianWeights.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Neuro.Neurons.StochasticNeuron">
+    <Position X="12.5" Y="6.5" Width="2" />
+    <Members>
+      <Field Name="function" Hidden="true" />
+      <Field Name="sample" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AMAAAAAAAAAAAAAAAgAAAABAAAAAQAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Neurons\StochasticNeuron.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ActivationFunction" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Accord.Neuro.Layers.StochasticLayer">
+    <Position X="9" Y="6.5" Width="2.25" />
+    <Members>
+      <Field Name="neurons" Hidden="true" />
+      <Field Name="sample" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAgAAAAIAAAAAAAAAAAAABAAAAAQAAAAAAAAEAQAAA=</HashCode>
+      <FileName>Layers\StochasticLayer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Neurons" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Accord.Neuro.Learning.ContrastiveDivergenceLearning" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="1.25" Width="3.25" />
+    <Members>
+      <Method Name="~ContrastiveDivergenceLearning" Hidden="true" />
+      <Method Name="CalculateUpdates" Hidden="true" />
+      <Method Name="ComputeGradient" Hidden="true" />
+      <Field Name="decay" Hidden="true" />
+      <Field Name="hidden" Hidden="true" />
+      <Field Name="hiddenBiasGradient" Hidden="true" />
+      <Field Name="hiddenBiasUpdates" Hidden="true" />
+      <Field Name="hiddenCount" Hidden="true" />
+      <Method Name="init" Hidden="true" />
+      <Field Name="inputsCount" Hidden="true" />
+      <Field Name="learningRate" Hidden="true" />
+      <Field Name="momentum" Hidden="true" />
+      <Field Name="steps" Hidden="true" />
+      <Field Name="storage" Hidden="true" />
+      <Method Name="UpdateNetwork" Hidden="true" />
+      <Field Name="visible" Hidden="true" />
+      <Field Name="visibleBiasGradient" Hidden="true" />
+      <Field Name="visibleBiasUpdates" Hidden="true" />
+      <Field Name="weightsGradient" Hidden="true" />
+      <Field Name="weightsUpdates" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Class Name="Accord.Neuro.Learning.ContrastiveDivergenceLearning.ParallelStorage" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Learning\ContrastiveDivergenceLearning.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>IAAAAQAAASAggAEAIAAAARgAAAMMAAIAQAQGCCgAAAI=</HashCode>
+      <FileName>Learning\ContrastiveDivergenceLearning.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Neuro.Learning.DeepBeliefNetworkLearning" BaseTypeListCollapsed="true">
+    <Position X="23.75" Y="1.75" Width="2.25" />
+    <Members>
+      <Field Name="algorithms" Hidden="true" />
+      <Field Name="configure" Hidden="true" />
+      <Field Name="layerIndex" Hidden="true" />
+      <Field Name="network" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAACAAAAQQAIAOAAABAAAAAUAAAI=</HashCode>
+      <FileName>Learning\DeepBeliefNetworkLearning.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Algorithm" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Neuro.Learning.DeepNeuralNetworkLearning" BaseTypeListCollapsed="true">
+    <Position X="15.5" Y="2" Width="2.25" />
+    <Members>
+      <Field Name="algorithms" Hidden="true" />
+      <Field Name="configure" Hidden="true" />
+      <Field Name="layerIndex" Hidden="true" />
+      <Field Name="network" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAACAAAAQQAIAOAAABAAAAAUAAAI=</HashCode>
+      <FileName>Learning\DeepNeuralNetworkLearning.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Algorithm" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Neuro.Networks.DeepBeliefNetwork">
+    <Position X="0.75" Y="6" Width="2.5" />
+    <Members>
+      <Field Name="machines" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAgKAAEAAgAgAAAAAAAAAACACAAAAgAAAAAAAAiAQ=</HashCode>
+      <FileName>Networks\DeepBeliefNetwork.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Machines" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Accord.Neuro.Networks.RestrictedBoltzmannMachine">
+    <Position X="4.5" Y="6.5" Width="3.25" />
+    <Members>
+      <Field Name="hidden" Hidden="true" />
+      <Field Name="visible" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAgAAAEAAAAgAAAAAAAAAAAAAAAAAoAAQACAAEgAQ=</HashCode>
+      <FileName>Networks\RestrictedBoltzmannMachine.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Visible" />
+      <Property Name="Hidden" />
+    </ShowAsAssociation>
+  </Class>
+  <Interface Name="Accord.Neuro.ActivationFunctions.IStochasticFunction">
+    <Position X="16.25" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Activation Functions\IStochasticFunction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Accord.Neuro.Learning.JacobianMethod">
+    <Position X="0.75" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Learning\LevenbergMarquardtLearning.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="Accord.Neuro.Learning.RestrictedBoltzmannNetworkLearningConfigurationFunction">
+    <Position X="18.25" Y="1.75" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAEgAAAAAAAA=</HashCode>
+      <FileName>Learning\DeepBeliefNetworkLearning.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Accord.Neuro.Learning.ActivationNetworkLearningConfigurationFunction">
+    <Position X="19.75" Y="3.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAQA=</HashCode>
+      <FileName>Learning\DeepNeuralNetworkLearning.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

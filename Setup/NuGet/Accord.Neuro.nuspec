@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Neuro</id>
+    <version>$version$</version>
+    <title>Accord.Neuro</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Contains neural learning algorithms such as Levenberg-Marquardt, Parallel Resilient Backpropagation, initialization procedures such as Nguyen-Widrow and other neural network related methods. This package is part of the Accord.NET Framework.
+    </description>
+    <summary>Neural networks and related non-linear optimization methods, supporting rectified linear units (ReLU),
+		Nguyen-Widrow initialization and others.</summary>
+    <tags>accord.net aforge.net framework artificial neural networks levenberg-marquardt nguyen-widrow deep-learning ann neuron</tags>
+    <dependencies>
+      <dependency id="Accord"       version="$version$" />
+      <dependency id="Accord.Math"  version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Accord.Neuro.dll" target="lib\net35\Accord.Neuro.dll" />
+    <file src="..\..\Release\net35\Accord.Neuro.xml" target="lib\net35\Accord.Neuro.xml" />
+
+    <file src="..\..\Release\net40\Accord.Neuro.dll" target="lib\net40\Accord.Neuro.dll" />
+    <file src="..\..\Release\net40\Accord.Neuro.xml" target="lib\net40\Accord.Neuro.xml" />
+
+    <file src="..\..\Release\net45\Accord.Neuro.dll" target="lib\net45\Accord.Neuro.dll" />
+    <file src="..\..\Release\net45\Accord.Neuro.xml" target="lib\net45\Accord.Neuro.xml" />
+	
+    <file src="..\..\Release\net46\Accord.Neuro.dll" target="lib\net46\Accord.Neuro.dll" />
+    <file src="..\..\Release\net46\Accord.Neuro.xml" target="lib\net46\Accord.Neuro.xml" />
+  </files>
+</package>

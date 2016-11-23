@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Imaging</id>
+    <version>$version$</version>
+    <title>Accord.Imaging</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Contains interest point detectors (SURF and FAST), image matching and image stitching methods.
+	  This package is part of the Accord.NET Framework.
+    </description>
+    <summary>Point detectors (i.e. SURF, Fast, Harris, SUSAN, HOG), large collection of image filters, texture generation, bag-of-visual-words for feature representation, homography estimation, and others image processing related algorithms.</summary>
+    <tags>accord.net aforge.net framework image processing computer vision blur Gaussian integral</tags>
+    <dependencies>
+      <dependency id="Accord"                 version="$version$" />
+      <dependency id="Accord.Math"            version="$version$" />
+      <dependency id="Accord.Statistics"      version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Accord.Imaging.dll" target="lib\net35\Accord.Imaging.dll" />
+    <file src="..\..\Release\net35\Accord.Imaging.xml" target="lib\net35\Accord.Imaging.xml" />
+
+    <file src="..\..\Release\net40\Accord.Imaging.dll" target="lib\net40\Accord.Imaging.dll" />
+    <file src="..\..\Release\net40\Accord.Imaging.xml" target="lib\net40\Accord.Imaging.xml" />
+
+    <file src="..\..\Release\net45\Accord.Imaging.dll" target="lib\net45\Accord.Imaging.dll" />
+    <file src="..\..\Release\net45\Accord.Imaging.xml" target="lib\net45\Accord.Imaging.xml" />
+
+    <file src="..\..\Release\net46\Accord.Imaging.dll" target="lib\net46\Accord.Imaging.dll" />
+    <file src="..\..\Release\net46\Accord.Imaging.xml" target="lib\net46\Accord.Imaging.xml" />
+  </files>
+</package>

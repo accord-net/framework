@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Accord.Setup</RootNamespace>
+    <AssemblyName>Accord.Setup</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <OutputPath>bin</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'NET46'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\NET46\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="Archiver\package-framework.cmd" />
+    <None Include="Archiver\package-samples.cmd" />
+    <None Include="create-release.cmd" />
+    <None Include="Installer\Build.cmd" />
+    <None Include="NuGet\Accord.Fuzzy.nuspec" />
+    <None Include="NuGet\Accord.Genetic.nuspec" />
+    <None Include="NuGet\Accord.Audio.DirectSound.nuspec" />
+    <None Include="NuGet\Accord.Audio.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="NuGet\Accord.Controls.Audio.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="NuGet\Accord.Controls.Imaging.nuspec" />
+    <None Include="NuGet\Accord.Controls.nuspec" />
+    <None Include="NuGet\Accord.Controls.Vision.nuspec" />
+    <None Include="NuGet\Accord.Imaging.Noncommercial.nuspec" />
+    <None Include="NuGet\Accord.Imaging.nuspec" />
+    <None Include="NuGet\Accord.IO.nuspec" />
+    <None Include="NuGet\Accord.MachineLearning.nuspec" />
+    <None Include="NuGet\Accord.Math.Noncommercial.nuspec" />
+    <None Include="NuGet\Accord.Math.nuspec" />
+    <None Include="NuGet\Accord.Neuro.nuspec" />
+    <None Include="NuGet\Accord.nuspec" />
+    <None Include="NuGet\Accord.Statistics.nuspec" />
+    <None Include="NuGet\Accord.Video.FFMPEG.nuspec" />
+    <None Include="NuGet\Accord.Video.Kinect.nuspec" />
+    <None Include="NuGet\Accord.Video.Ximea.nuspec" />
+    <None Include="NuGet\Accord.Video.VFW.nuspec" />
+    <None Include="NuGet\Accord.Video.DirectShow.nuspec" />
+    <None Include="NuGet\Accord.Video.nuspec" />
+    <None Include="NuGet\Accord.Vision.nuspec" />
+    <None Include="NuGet\Accord.MachineLearning.GPL.nuspec" />
+    <None Include="NuGet\create-packages.cmd" />
+    <None Include="NuGet\NuGet.exe" />
+    <None Include="NuGet\push-packages.cmd" />
+    <None Include="NuGet\update-nuget.cmd" />
+    <None Include="publish-nuget.cmd" />
+    <None Include="Scripts\Accord.targets" />
+    <None Include="Scripts\Accord.Video.FFMPEG.targets" />
+    <None Include="Scripts\Accord.Video.Kinect.targets" />
+    <None Include="version.cmd" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Installer\Accord.iss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>-->
+  <Target Name="AfterBuild">
+    <!-- Load up the information from the assembly -->
+    <GetAssemblyIdentity AssemblyFiles="$(OutputPath)$(AssemblyName).dll">
+      <Output TaskParameter="Assemblies" ItemName="OutputAssemblyInfo" />
+    </GetAssemblyIdentity>
+    <Message Text="Info: %(OutputAssemblyInfo.Version)" />
+  </Target>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>

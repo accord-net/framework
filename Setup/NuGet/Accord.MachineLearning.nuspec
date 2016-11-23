@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.MachineLearning</id>
+    <version>$version$</version>
+    <title>Accord.MachineLearning</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Contains Support Vector Machines, Decision Trees, Naive Bayesian models, K-means, Gaussian Mixture models and general algorithms such as Ransac, Cross-validation and Grid-Search for machine-learning applications. This package is part of the Accord.NET Framework.
+    </description>
+    <summary>Supervised and unsupervised algorithms for classification, clustering, optimization and search, such as SVMs, Naive Bayes, k-Means, GMMs, k-Nearest Neighbors, and Decision Trees.</summary>
+    <tags>accord.net aforge.net aforge.net machine learning artificial intelligence svm kmeans kmodes gmm ransac kernel deep learning knn</tags>
+    <dependencies>
+      <dependency id="Accord"            version="$version$" />
+      <dependency id="Accord.Math"       version="$version$" />
+      <dependency id="Accord.Statistics" version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Accord.MachineLearning.dll" target="lib\net35\Accord.MachineLearning.dll" />
+    <file src="..\..\Release\net35\Accord.MachineLearning.xml" target="lib\net35\Accord.MachineLearning.xml" />
+
+    <file src="..\..\Release\net40\Accord.MachineLearning.dll" target="lib\net40\Accord.MachineLearning.dll" />
+    <file src="..\..\Release\net40\Accord.MachineLearning.xml" target="lib\net40\Accord.MachineLearning.xml" />
+
+    <file src="..\..\Release\net45\Accord.MachineLearning.dll" target="lib\net45\Accord.MachineLearning.dll" />
+    <file src="..\..\Release\net45\Accord.MachineLearning.xml" target="lib\net45\Accord.MachineLearning.xml" />
+	
+	<file src="..\..\Release\net46\Accord.MachineLearning.dll" target="lib\net46\Accord.MachineLearning.dll" />
+    <file src="..\..\Release\net46\Accord.MachineLearning.xml" target="lib\net46\Accord.MachineLearning.xml" />
+  </files>
+</package>

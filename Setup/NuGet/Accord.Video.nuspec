@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Video</id>
+    <version>$version$</version>
+    <title>Accord.Video</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Contains interfaces and classes to access different video sources, such as IP video cameras (MJPEG streams). This package originated from the AForge.NET Framework and is part of the Accord.NET Framework.
+    </description>
+    <summary>Capture video from USB cameras, network (IP) cameras, folders of pictures and other devices.</summary>
+    <tags>accord.net aforge.net framework video MJPEG cameras</tags>
+    <dependencies>
+      <dependency id="Accord"                 version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Accord.Video.dll" target="lib\net35\Accord.Video.dll" />
+    <file src="..\..\Release\net35\Accord.Video.xml" target="lib\net35\Accord.Video.xml" />
+
+    <file src="..\..\Release\net40\Accord.Video.dll" target="lib\net40\Accord.Video.dll" />
+    <file src="..\..\Release\net40\Accord.Video.xml" target="lib\net40\Accord.Video.xml" />
+
+    <file src="..\..\Release\net45\Accord.Video.dll" target="lib\net45\Accord.Video.dll" />
+    <file src="..\..\Release\net45\Accord.Video.xml" target="lib\net45\Accord.Video.xml" />
+	
+	<file src="..\..\Release\net46\Accord.Video.dll" target="lib\net46\Accord.Video.dll" />
+    <file src="..\..\Release\net46\Accord.Video.xml" target="lib\net46\Accord.Video.xml" />
+  </files>
+</package>

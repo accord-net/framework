@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="FullSignature">
+  <Class Name="Accord.MachineLearning.BinaryClassifierBase&lt;TInput&gt;">
+    <Position X="3" Y="0.5" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAYAAAAAAAAACAAAAAQAACAAAAAAAAgFCFAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Two classes\BinaryClassifierBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.BinaryDistanceClassifierBase&lt;TInput&gt;">
+    <Position X="2.75" Y="9.25" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Two classes\BinaryDistanceClassifierBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.BinaryGenerativeClassifierBase&lt;TInput&gt;">
+    <Position X="2.5" Y="21.75" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAgAIQAAAAAAAAAAAABAAAQAAA=</HashCode>
+      <FileName>MachineLearning\Classifiers\Two classes\BinaryGenerativeClassifierBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Accord.MachineLearning.IBinaryClassifier&lt;TInput&gt;" Collapsed="true">
+    <Position X="9.25" Y="0.75" Width="2.25" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

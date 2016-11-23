@@ -1,0 +1,4 @@
+ 
+ The libraries available in this folder are not distributed under
+ the LGPL. Please check the specific license terms for each library
+ before using or modifying them.

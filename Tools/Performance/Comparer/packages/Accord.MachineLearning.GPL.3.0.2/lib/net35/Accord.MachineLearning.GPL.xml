@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Accord.MachineLearning.GPL</name>
+    </assembly>
+    <members>
+        <member name="T:Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimizationRegression">
+            <summary>
+              Sequential Minimal Optimization (SMO) Algorithm for Regression. Warning:
+              this code is contained in a GPL assembly. Thus, if you link against this
+              assembly, you should comply with the GPL license.
+            </summary>
+            
+            <remarks>
+            <para>
+              The SMO algorithm is an algorithm for solving large quadratic programming (QP)
+              optimization problems, widely used for the training of support vector machines.
+              First developed by John C. Platt in 1998, SMO breaks up large QP problems into
+              a series of smallest possible QP problems, which are then solved analytically.</para>
+            <para>
+              This class incorporates modifications in the original SMO algorithm to solve
+              regression problems as suggested by Alex J. Smola and Bernhard Schölkopf and
+              further modifications for better performance by Shevade et al.</para> 
+              
+            <para>
+              Portions of this implementation has been based on the GPL code by Sylvain Roy in SMOreg.java, a 
+              part of the Weka software package. It is, thus, available under the same GPL license. This file is
+              not linked against the rest of the Accord.NET Framework and can only be used in GPL applications.
+              This class is only available in the special Accord.MachineLearning.GPL assembly, which has to be
+              explicitly selected in the framework installation. Before linking against this assembly, please
+              read the <a href="http://www.gnu.org/copyleft/gpl.html">GPL license</a> for more details. This
+              assembly also should have been distributed with a copy of the GNU GPLv3 alongside with it.
+            </para>
+            
+            <para>
+              To use this class, add a reference to the <c>Accord.MachineLearning.GPL.dll</c> assembly
+              that resides inside the Release/GPL folder of the framework's installation directory.</para>
+              
+            <para>
+              References:
+              <list type="bullet">
+                <item><description>
+                 A. J. Smola and B. Schölkopf. A Tutorial on Support Vector Regression. NeuroCOLT2
+                 Technical Report Series, 1998. Available on: <a href="http://www.kernel-machines.org/publications/SmoSch98c">
+                 http://www.kernel-machines.org/publications/SmoSch98c </a></description></item>
+                <item><description>
+                 S.K. Shevade et al. Improvements to SMO Algorithm for SVM Regression, 1999. Available
+                 on: <a href="http://drona.csa.iisc.ernet.in/~chiru/papers/ieee_smo_reg.ps.gz">
+                 http://drona.csa.iisc.ernet.in/~chiru/papers/ieee_smo_reg.ps.gz </a></description></item>
+                <item><description>
+                 G. W. Flake, S. Lawrence. Efficient SVM Regression Training with SMO.
+                 Available on: <a href="http://www.keerthis.com/smoreg_ieee_shevade_00.pdf">
+                 http://www.keerthis.com/smoreg_ieee_Shevade_00.pdf </a></description></item>
+              </list></para>
+            </remarks>
+            
+            <example>
+            <code>
+            // Example regression problem. Suppose we are trying
+            // to model the following equation: f(x, y) = 2x + y
+            
+            double[][] inputs = // (x, y)
+            {
+                new double[] { 0,  1 }, // 2*0 + 1 =  1
+                new double[] { 4,  3 }, // 2*4 + 3 = 11
+                new double[] { 8, -8 }, // 2*8 - 8 =  8
+                new double[] { 2,  2 }, // 2*2 + 2 =  6
+                new double[] { 6,  1 }, // 2*6 + 1 = 13
+                new double[] { 5,  4 }, // 2*5 + 4 = 14
+                new double[] { 9,  1 }, // 2*9 + 1 = 19
+                new double[] { 1,  6 }, // 2*1 + 6 =  8
+            };
+            
+            double[] outputs = // f(x, y)
+            {
+                    1, 11, 8, 6, 13, 14, 20, 8
+            };
+            
+            // Create Kernel Support Vector Machine with a Polynomial Kernel of 2nd degree
+            var machine = new KernelSupportVectorMachine(new Polynomial(2), inputs: 2);
+            
+            // Create the sequential minimal optimization teacher
+            var learn = new SequentialMinimalOptimizationRegression(machine, inputs, outputs);
+            
+            // Run the learning algorithm
+            double error = learn.Run();
+            
+            // Compute the answer for one particular example
+            double fxy = machine.Compute(inputs[0]); // 1.0003849827673186
+            </code>
+            </example>
+            
+        </member>
+        <member name="M:Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimizationRegression.#ctor(Accord.MachineLearning.VectorMachines.SupportVectorMachine,System.Double[][],System.Double[])">
+            <summary>
+              Initializes a new instance of a Sequential Minimal Optimization (SMO) algorithm.
+            </summary>
+            
+            <param name="machine">A Support Vector Machine.</param>
+            <param name="inputs">The input data points as row vectors.</param>
+            <param name="outputs">The classification label for each data point.</param>
+            
+        </member>
+        <member name="M:Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimizationRegression.Run(System.Boolean)">
+            <summary>
+              Runs the SMO algorithm.
+            </summary>
+            
+            <param name="computeError">
+              True to compute error after the training
+              process completes, false otherwise. Default is true.
+            </param>
+            
+            <returns>
+              The sum of squares error rate for
+              the resulting support vector machine.
+            </returns>
+            
+        </member>
+        <member name="M:Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimizationRegression.Run">
+            <summary>
+              Runs the SMO algorithm.
+            </summary>
+            
+            <returns>
+              The sum of squares error rate for
+              the resulting support vector machine.
+            </returns>
+            
+        </member>
+        <member name="M:Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimizationRegression.ComputeError(System.Double[][],System.Double[])">
+            <summary>
+              Computes the error ratio for a given set of input and outputs.
+            </summary>
+            
+        </member>
+        <member name="M:Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimizationRegression.examineExample(System.Int32)">
+            <summary>
+             Chooses which multipliers to optimize using heuristics.
+            </summary>
+            
+        </member>
+        <member name="M:Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimizationRegression.takeStep(System.Int32,System.Int32)">
+            <summary>
+              Analytically solves the optimization problem for two Lagrange multipliers.
+            </summary>
+            
+        </member>
+        <member name="M:Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimizationRegression.compute(System.Double[])">
+            <summary>
+              Computes the SVM output for a given point.
+            </summary>
+            
+        </member>
+        <member name="P:Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimizationRegression.Complexity">
+            <summary>
+              Complexity (cost) parameter C. Increasing the value of C forces the creation
+              of a more accurate model that may not generalize well. Default value is 1.
+            </summary>
+            
+            <remarks>
+              The cost parameter C controls the trade off between allowing training
+              errors and forcing rigid margins. It creates a soft margin that permits
+              some misclassifications. Increasing the value of C increases the cost of
+              misclassifying points and forces the creation of a more accurate model
+              that may not generalize well.
+            </remarks>
+            
+        </member>
+        <member name="P:Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimizationRegression.Epsilon">
+            <summary>
+              Insensitivity zone ε. Increasing the value of ε can result in fewer support
+              vectors in the created model. Default value is 1e-3.
+            </summary>
+            
+            <remarks>
+              Parameter ε controls the width of the ε-insensitive zone, used to fit the training
+              data. The value of ε can affect the number of support vectors used to construct the
+              regression function. The bigger ε, the fewer support vectors are selected. On the
+              other hand, bigger ε-values results in more flat estimates.
+            </remarks>
+            
+        </member>
+        <member name="P:Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimizationRegression.Tolerance">
+            <summary>
+              Convergence tolerance. Default value is 1e-3.
+            </summary>
+            <remarks>
+              The criterion for completing the model training process. The default is 0.001.
+            </remarks>
+        </member>
+    </members>
+</doc>
