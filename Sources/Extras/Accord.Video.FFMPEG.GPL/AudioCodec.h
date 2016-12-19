@@ -31,40 +31,39 @@ extern int audio_codecs[];
 extern int AUDIO_CODECS_COUNT;
 
 namespace Accord {
-    namespace Video {
-        namespace FFMPEG
-        {
-            /// <summary>
-            ///   Enumeration of some audio codecs from FFmpeg library, which are available for writing audio files.
-            /// </summary>
-            ///
-            public enum class AudioCodec
-            {
-                /// <summary>
-                /// No audio
-                /// </summary>
-                ///
-                None = -1,
+	namespace Video {
+		namespace FFMPEG
+		{
+			/// <summary>
+			///   Enumeration of some audio codecs from FFmpeg library, which are available for writing audio files.
+			/// </summary>
+			///
+			public enum class AudioCodec
+			{
+				/// <summary>
+				/// No audio
+				/// </summary>
+				///
+				None = -1,
 
-                /// <summary>
-                /// MPEG-3
-                /// </summary>
-                ///
-                MP3 = 0,
+				/// <summary>
+				/// MPEG-3
+				/// </summary>
+				///
+				MP3 = 0,
 
-                /// <summary>
-                /// AAC
-                /// </summary>
-                ///
-                AAC,
+				/// <summary>
+				/// AAC
+				/// </summary>
+				///
+				AAC,
 
-                /// <summary>
-                /// M4A
-                /// </summary>
-                ///
-                M4A,
-            };
-
-        }
-    }
+				/// <summary>
+				/// M4A
+				/// </summary>
+				///
+				M4A,
+			};
+		}
+	}
 }

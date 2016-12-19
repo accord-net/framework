@@ -26,5 +26,3 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyVersionAttribute("3.3.0")];
 [assembly:AssemblyInformationalVersionAttribute("3.3.0")];
 [assembly:AssemblyFileVersionAttribute("3.3.0.5736")];
-
-

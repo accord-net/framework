@@ -28,20 +28,17 @@
 
 namespace libffmpeg
 {
-    extern "C"
-    {
-#pragma warning(disable:4635) 
-#pragma warning(disable:4244) 
+	extern "C"
+	{
 #include "libavcodec\avcodec.h"
-    }
+	}
 }
 
 int audio_codecs[] =
 {
-    libffmpeg::CODEC_ID_MP3,
-    libffmpeg::CODEC_ID_AAC,
-    libffmpeg::CODEC_ID_MP4ALS
+	libffmpeg::AV_CODEC_ID_MP3,
+	libffmpeg::AV_CODEC_ID_AAC,
+	libffmpeg::AV_CODEC_ID_MP4ALS
 };
 
-
-int AUDIO_CODECS_COUNT(sizeof(audio_codecs) / sizeof(libffmpeg::CodecID));
+int AUDIO_CODECS_COUNT(sizeof(audio_codecs) / sizeof(libffmpeg::AVCodecID));
