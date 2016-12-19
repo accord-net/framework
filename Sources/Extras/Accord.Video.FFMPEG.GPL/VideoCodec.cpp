@@ -28,46 +28,46 @@
 
 namespace libffmpeg
 {
-    extern "C"
-    {
-#pragma warning(disable:4635) 
-#pragma warning(disable:4244) 
+	extern "C"
+	{
 #include "libavcodec\avcodec.h"
-    }
+	}
 }
 
 int video_codecs[] =
 {
-    libffmpeg::CODEC_ID_MPEG4,
-    libffmpeg::CODEC_ID_WMV1,
-    libffmpeg::CODEC_ID_WMV2,
-    libffmpeg::CODEC_ID_MSMPEG4V2,
-    libffmpeg::CODEC_ID_MSMPEG4V3,
-    libffmpeg::CODEC_ID_H263P,
-    libffmpeg::CODEC_ID_FLV1,
-    libffmpeg::CODEC_ID_MPEG2VIDEO,
-    libffmpeg::CODEC_ID_RAWVIDEO,
-    libffmpeg::CODEC_ID_FFV1,
-    libffmpeg::CODEC_ID_FFVHUFF,
-    libffmpeg::CODEC_ID_H264,
-    libffmpeg::CODEC_ID_THEORA,
+	libffmpeg::AV_CODEC_ID_MPEG4,
+	libffmpeg::AV_CODEC_ID_WMV1,
+	libffmpeg::AV_CODEC_ID_WMV2,
+	libffmpeg::AV_CODEC_ID_MSMPEG4V2,
+	libffmpeg::AV_CODEC_ID_MSMPEG4V3,
+	libffmpeg::AV_CODEC_ID_H263P,
+	libffmpeg::AV_CODEC_ID_FLV1,
+	libffmpeg::AV_CODEC_ID_MPEG2VIDEO,
+	libffmpeg::AV_CODEC_ID_RAWVIDEO,
+	libffmpeg::AV_CODEC_ID_FFV1,
+	libffmpeg::AV_CODEC_ID_FFVHUFF,
+	libffmpeg::AV_CODEC_ID_H264,
+	libffmpeg::AV_CODEC_ID_H265,
+	libffmpeg::AV_CODEC_ID_THEORA,
 };
 
 int pixel_formats[] =
 {
-    libffmpeg::PIX_FMT_YUV420P,
-    libffmpeg::PIX_FMT_YUV420P,
-    libffmpeg::PIX_FMT_YUV420P,
-    libffmpeg::PIX_FMT_YUV420P,
-    libffmpeg::PIX_FMT_YUV420P,
-    libffmpeg::PIX_FMT_YUV420P,
-    libffmpeg::PIX_FMT_YUV420P,
-    libffmpeg::PIX_FMT_YUV420P,
-    libffmpeg::PIX_FMT_BGR24,
-    libffmpeg::PIX_FMT_YUV420P,
-    libffmpeg::PIX_FMT_RGB32,
-    libffmpeg::PIX_FMT_YUVJ420P,
-    libffmpeg::PIX_FMT_YUV420P,
+	libffmpeg::AV_PIX_FMT_YUV420P,
+	libffmpeg::AV_PIX_FMT_YUV420P,
+	libffmpeg::AV_PIX_FMT_YUV420P,
+	libffmpeg::AV_PIX_FMT_YUV420P,
+	libffmpeg::AV_PIX_FMT_YUV420P,
+	libffmpeg::AV_PIX_FMT_YUV420P,
+	libffmpeg::AV_PIX_FMT_YUV420P,
+	libffmpeg::AV_PIX_FMT_YUV420P,
+	libffmpeg::AV_PIX_FMT_BGR24,
+	libffmpeg::AV_PIX_FMT_YUV420P,
+	libffmpeg::AV_PIX_FMT_RGB32,
+	libffmpeg::AV_PIX_FMT_YUVJ444P,
+	libffmpeg::AV_PIX_FMT_YUVJ444P,
+	libffmpeg::AV_PIX_FMT_YUV420P,
 };
 
-int CODECS_COUNT(sizeof(video_codecs) / sizeof(libffmpeg::CodecID));
+int CODECS_COUNT(sizeof(video_codecs) / sizeof(libffmpeg::AVCodecID));

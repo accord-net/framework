@@ -20,52 +20,65 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Tests.Video
-{
-    using Accord.Vision.Detection;
-    using NUnit.Framework;
-    using System.Threading;
-    using Accord.Vision.Detection.Cascades;
-    using Accord.Video.FFMPEG;
-    using Accord.Math;
-    using Accord.Imaging.Converters;
-    using System.Drawing;
-    using System;
-    using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using Accord.Video.FFMPEG;
+using NUnit.Framework;
 
+namespace Accord.Tests.Video.FFMPEG
+{
     [TestFixture]
     public class VideoFileWriterTest
     {
-
         [Test]
         public void write_video_test()
         {
-            var videoWriter = new VideoFileWriter();
+            var path = "text.mkv";
+            var seconds = 15;
+            var framerate = 30;
+            var width = 1024;
+            var height = 1024;
 
-            int width = 800;
-            int height = 600;
-            int framerate = 24;
-            string path = Path.GetFullPath("output.avi");
-            int videoBitRate = 1200 * 1000;
+            // create large font
+            var font = new Font(SystemFonts.DefaultFont.Name, width / 2f,
+                SystemFonts.DefaultFont.Style, SystemFonts.DefaultFont.Unit);
 
-            videoWriter.Open(path, width, height, framerate, VideoCodec.H264, videoBitRate);
-
-            Assert.AreEqual(videoBitRate, videoWriter.BitRate);
-
-            var m2i = new MatrixToImage();
-            Bitmap frame;
-
-            for (byte i = 0; i < 255; i++)
+            var brushes = new[]
             {
-                byte[,] matrix = Matrix.Create(height, width, i);
-                m2i.Convert(matrix, out frame);
-                videoWriter.WriteVideoFrame(frame, TimeSpan.FromSeconds(i));
+                new SolidBrush(Color.Red),
+                new SolidBrush(Color.Green),
+                new SolidBrush(Color.Blue)
+            };
+
+            // create instance of video writer
+            var writer = new VideoFileWriter();
+
+            // create new video file, (Other codecs need work)
+            writer.Open(path, width, height, framerate, VideoCodec.MPEG4);
+
+            // create a bitmap to save into the video file
+            var bitmap = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+            using (var g = Graphics.FromImage(bitmap))
+            {
+                for (var i = 0; i < seconds; i++)
+                    for (var f = 0; f < framerate; f++)
+                    {
+
+                        var txt = i.ToString();
+                        var size = g.MeasureString(txt, font);
+                        var point = new PointF(width / 2f - size.Width / 2,
+                            height / 2f - size.Height / 2);
+
+                        g.FillRectangle(brushes[i % brushes.Length], 0, 0, width, height);
+                        g.DrawString(txt, font, brushes[(i + 1) % brushes.Length], point);
+
+
+                        writer.WriteVideoFrame(bitmap);
+                    }
             }
-
-            videoWriter.Close();
-
+            writer.Close();
             Assert.IsTrue(File.Exists(path));
         }
-
     }
 }
