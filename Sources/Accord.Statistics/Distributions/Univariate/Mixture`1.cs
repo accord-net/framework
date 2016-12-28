@@ -439,11 +439,16 @@ namespace Accord.Statistics.Distributions.Univariate
                 if (options != null)
                 {
                     em.InnerOptions = options.InnerOptions;
-                    em.Convergence.Iterations = options.Iterations;
+                    em.Convergence.Iterations = options.MaxIterations;
                     em.Convergence.Tolerance = options.Threshold;
                 }
 
                 em.Compute(observations);
+
+#pragma warning disable 612, 618
+                if (options != null)
+                    options.Iterations = em.Convergence.CurrentIteration;
+#pragma warning restore 612, 618
             }
             else
             {
@@ -452,11 +457,16 @@ namespace Accord.Statistics.Distributions.Univariate
                 if (options != null)
                 {
                     em.InnerOptions = options.InnerOptions;
-                    em.Convergence.Iterations = options.Iterations;
+                    em.Convergence.Iterations = options.MaxIterations;
                     em.Convergence.Tolerance = options.Threshold;
                 }
 
                 em.Compute(observations, weights);
+
+#pragma warning disable 612, 618
+                if (options != null)
+                    options.Iterations = em.Convergence.CurrentIteration;
+#pragma warning restore 612, 618
             }
 
             for (int i = 0; i < components.Length; i++)

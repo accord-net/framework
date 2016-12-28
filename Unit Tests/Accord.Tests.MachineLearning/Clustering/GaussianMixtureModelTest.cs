@@ -623,5 +623,88 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(clusters.Covariance[0].IsEqual(clusters.Covariance[1]));
         }
 
+        [Test]
+        public void learn_test_shared_fixed_iterations()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Test Samples
+            double[][] samples =
+            {
+                new double[] { 0, 1 },
+                new double[] { 1, 2 },
+                new double[] { 1, 1 },
+                new double[] { 0, 7 },
+                new double[] { 1, 1 },
+                new double[] { 6, 2 },
+                new double[] { 6, 5 },
+                new double[] { 5, 1 },
+                new double[] { 7, 1 },
+                new double[] { 5, 1 }
+            };
+
+            // Create a new Gaussian Mixture Model with 2 components
+            GaussianMixtureModel gmm = new GaussianMixtureModel(2)
+            {
+                Options = new NormalOptions()
+                {
+                    Shared = true,
+                },
+
+                MaxIterations = 10
+            };
+
+            Assert.AreEqual(0, gmm.Iterations);
+            Assert.AreEqual(10, gmm.MaxIterations);
+
+            // Estimate the Gaussian Mixture
+            var clusters = gmm.Learn(samples);
+
+            Assert.AreEqual(4, gmm.Iterations);
+            Assert.AreEqual(10, gmm.MaxIterations);
+
+            // Predict cluster labels for each sample
+            int[] predicted = clusters.Decide(samples);
+
+
+            Assert.AreEqual(-38.935822773153589, gmm.LogLikelihood, 1e-8);
+
+            Assert.AreEqual(2, clusters.Count);
+
+            Assert.IsTrue(clusters.Means[0].IsEqual(new[] { 5.8, 2.0 }, 1e-3));
+            Assert.IsTrue(clusters.Means[1].IsEqual(new[] { 0.6, 2.4 }, 1e-3));
+
+            Assert.IsTrue(clusters.Covariance[0].IsEqual(clusters.Covariance[1]));
+
+            for (int i = 0; i < samples.Length; i++)
+            {
+                double[] responses;
+                int e = gmm.Gaussians.Nearest(samples[i], out responses);
+                int a = responses.ArgMax();
+
+                Assert.AreEqual(a, e);
+                Assert.AreEqual(predicted[i], (i < 5) ? 1 : 0);
+
+                double[] actual = clusters.Scores(samples[i]);
+                Assert.IsTrue(responses.IsEqual(actual, 1e-10));
+            }
+
+            GaussianMixtureModel gmm2 = new GaussianMixtureModel(2)
+            {
+                UseLogarithm = true,
+
+                Options = new NormalOptions()
+                {
+                    Shared = true,
+                }
+            };
+
+            clusters = gmm.Learn(samples);
+
+            Assert.IsTrue(clusters.Means[0].IsEqual(new[] { 5.8, 2.0 }, 1e-3));
+            Assert.IsTrue(clusters.Means[1].IsEqual(new[] { 0.6, 2.4 }, 1e-3));
+
+            Assert.IsTrue(clusters.Covariance[0].IsEqual(clusters.Covariance[1]));
+        }
     }
 }

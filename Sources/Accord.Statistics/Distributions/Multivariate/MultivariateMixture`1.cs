@@ -38,7 +38,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     /// <typeparam name="T">The distribution type.</typeparam>
     /// 
     [Serializable]
-    public struct MixtureComponent<T> : IMixtureComponent<T> 
+    public struct MixtureComponent<T> : IMixtureComponent<T>
         where T : class, IDistribution
     {
         private IMixture<T> mixture;
@@ -443,11 +443,16 @@ namespace Accord.Statistics.Distributions.Multivariate
                 if (options != null)
                 {
                     em.InnerOptions = options.InnerOptions;
-                    em.Convergence.Iterations = options.Iterations;
+                    em.Convergence.Iterations = options.MaxIterations;
                     em.Convergence.Tolerance = options.Threshold;
                 }
 
                 em.Compute(observations);
+
+#pragma warning disable 612, 618
+                if (options != null)
+                    options.Iterations = em.Convergence.CurrentIteration;
+#pragma warning restore 612, 618
             }
             else
             {
@@ -456,11 +461,16 @@ namespace Accord.Statistics.Distributions.Multivariate
                 if (options != null)
                 {
                     em.InnerOptions = options.InnerOptions;
-                    em.Convergence.Iterations = options.Iterations;
+                    em.Convergence.Iterations = options.MaxIterations;
                     em.Convergence.Tolerance = options.Threshold;
                 }
 
                 em.Compute(observations, weights);
+
+#pragma warning disable 612, 618
+                if (options != null)
+                    options.Iterations = em.Convergence.CurrentIteration;
+#pragma warning restore 612, 618
             }
 
             for (int i = 0; i < components.Length; i++)
@@ -662,7 +672,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             {
                 // Choose one coefficient at random
                 int j = GeneralDiscreteDistribution.Random(coefficients);
-                
+
                 // Sample from the chosen coefficient
                 result[i] = sampleable[j].Generate();
             }

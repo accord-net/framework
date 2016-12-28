@@ -49,6 +49,21 @@ namespace Accord.Statistics.Distributions.Fitting
         ///   algorithm. Default is zero (iterate until convergence).
         /// </summary>
         /// 
+        public int MaxIterations
+        {
+#pragma warning disable 612, 618
+            get { return Iterations; }
+            set { Iterations = value; }
+#pragma warning restore 612, 618
+        }
+
+        /// <summary>
+        ///   Gets or sets the maximum number of iterations
+        ///   to be performed by the Expectation-Maximization
+        ///   algorithm. Default is zero (iterate until convergence).
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
         public int Iterations { get; set; }
 
         /// <summary>

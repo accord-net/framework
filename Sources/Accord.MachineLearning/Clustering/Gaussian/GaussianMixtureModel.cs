@@ -274,7 +274,7 @@ namespace Accord.MachineLearning
             {
                 Threshold = this.Tolerance,
                 InnerOptions = this.Options,
-                Iterations = this.Iterations,
+                MaxIterations = this.MaxIterations,
                 Logarithm = this.UseLogarithm,
             };
 
@@ -282,6 +282,9 @@ namespace Accord.MachineLearning
 
             // Fit a multivariate Gaussian distribution
             model.Fit(x, weights, mixtureOptions);
+#pragma warning disable 612, 618
+            this.Iterations = mixtureOptions.Iterations;
+#pragma warning restore 612, 618
 
             for (int i = 0; i < clusters.Model.Components.Length; i++)
                 clusters.Centroids[i] = new MixtureComponent<MultivariateNormalDistribution>(model, i);
