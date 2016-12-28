@@ -45,6 +45,12 @@ namespace Accord.Math.Decompositions
         T[] Solve(T[] value);
 
         /// <summary>
+        ///   Solves a set of equation systems of type <c>A * X = B</c> where B is a diagonal matrix.
+        /// </summary>
+        /// 
+        T[][] SolveForDiagonal(T[] diagonal);
+
+        /// <summary>
         ///   Solves a set of equation systems of type <c>A * X = I</c>.
         /// </summary>
         /// 

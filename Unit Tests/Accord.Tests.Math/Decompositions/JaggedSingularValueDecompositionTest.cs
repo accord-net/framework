@@ -454,7 +454,7 @@ namespace Accord.Tests.Math
 
             {
                 double[][] expected = value;
-                double[][] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors, 
+                double[][] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors,
                     target.DiagonalMatrix),
                     target.RightSingularVectors.Transpose());
 
@@ -467,6 +467,65 @@ namespace Accord.Tests.Math
 
                 double[] expected = output;
                 double[] actual = value.Multiply(solution);
+
+                Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-8));
+            }
+        }
+
+
+        [Test]
+        public void solve_for_diagonal()
+        {
+            int count = 3;
+            double[][] value = new double[count][];
+            double[] output = new double[count];
+
+            for (int i = 0; i < count; i++)
+            {
+                value[i] = new double[3];
+
+                double x = i + 1;
+                double y = 2 * (i + 1) - 1;
+                value[i][0] = x;
+                value[i][1] = y;
+                value[i][2] = System.Math.Pow(x, 2);
+                output[i] = 4 * x - y + 3;
+            }
+
+
+
+            var target = new JaggedSingularValueDecomposition(value,
+                computeLeftSingularVectors: true,
+                computeRightSingularVectors: true);
+
+            {
+                double[][] expected = value;
+                double[][] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors,
+                    target.DiagonalMatrix),
+                    target.RightSingularVectors.Transpose());
+
+                // Checking the decomposition
+                Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-8));
+            }
+
+            {
+                double[][] expected = value.Inverse();
+                double[][] actual = Matrix.Multiply(Matrix.Multiply(
+                    target.RightSingularVectors.Transpose().Inverse(),
+                    target.DiagonalMatrix.Inverse()),
+                    target.LeftSingularVectors.Inverse()
+                    );
+
+                // Checking the invers decomposition
+                Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-8));
+            }
+
+
+            {
+                double[][] solution = target.SolveForDiagonal(output);
+
+                double[][] expected = Jagged.Diagonal(output);
+                double[][] actual = value.Multiply(solution);
 
                 Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-8));
             }

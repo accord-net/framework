@@ -69,6 +69,10 @@ namespace Accord.MachineLearning
             parallelOptions = new ParallelOptions();
         }
 
+        /// <summary>
+        ///   Called when the object is being deserialized.
+        /// </summary>
+        /// 
         [OnDeserializing]
         protected void OnDeserializingMethod(StreamingContext context)
         {

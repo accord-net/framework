@@ -150,7 +150,11 @@ namespace Accord.MachineLearning.DecisionTrees
             return responses.ArgMax();
         }
 
-        [OnDeserializing()]
+        /// <summary>
+        ///   Called when the object is being deserialized.
+        /// </summary>
+        /// 
+        [OnDeserializing]
         protected void OnDeserializingMethod(StreamingContext context)
         {
             this.parallelOptions = new ParallelOptions();

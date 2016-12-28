@@ -503,6 +503,20 @@ namespace Accord.Math.Decompositions
             return B;
         }
 
+		/// <summary>
+        ///   Solves a set of equation systems of type <c>A * X = B</c> where B is a diagonal matrix.
+        /// </summary>
+        /// <param name="diagonal">Diagonal fo the right hand side matrix with as many rows as <c>A</c>.</param>
+        /// <returns>Matrix <c>X</c> so that <c>L * U * X = B</c>.</returns>
+        /// 
+        public Double[][] SolveForDiagonal(Double[] diagonal)
+        {
+            if (diagonal == null)
+                throw new ArgumentNullException("diagonal");
+
+            return Solve(Jagged.Diagonal(diagonal));
+        }
+
         /// <summary>
         ///   Solves a set of equation systems of type <c>A * X = I</c>.
         /// </summary>

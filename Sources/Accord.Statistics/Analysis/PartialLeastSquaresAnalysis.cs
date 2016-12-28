@@ -700,7 +700,7 @@ namespace Accord.Statistics.Analysis
             var P = Jagged.Zeros(xcols, factors); // loading matrix P, the loadings for X such that X = TP + F
             var C = Jagged.Zeros(ycols, factors); // loading matrix C, the loadings for Y such that Y = TC + E
             var W = Jagged.Zeros(xcols, xcols);   // weight matrix W
-            double[] B = new double[xcols];
+            double[] B = new double[factors];
 
             double[] varX = new double[factors];
             double[] varY = new double[factors];
@@ -846,8 +846,9 @@ namespace Accord.Statistics.Analysis
 
 
             // Solve the linear system R = inv(P')*B
-            this.coeffbase = new JaggedSingularValueDecomposition(P.Transpose())
-                .SolveForDiagonal(B);
+            //var svd = new JaggedSingularValueDecomposition(P.Transpose());
+            //this.coeffbase = svd.SolveForDiagonal(B);
+            this.coeffbase = P.Transpose().SolveForDiagonal(B, leastSquares: true);
 
             // Set class variables
             this.scoresX = T;      // factor score matrix T

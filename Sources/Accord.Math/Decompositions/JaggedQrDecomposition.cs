@@ -294,6 +294,20 @@ namespace Accord.Math.Decompositions
             return X.First(p);
         }
 
+		/// <summary>
+        ///   Solves a set of equation systems of type <c>A * X = B</c> where B is a diagonal matrix.
+        /// </summary>
+        /// <param name="diagonal">Diagonal fo the right hand side matrix with as many rows as <c>A</c>.</param>
+        /// <returns>Matrix <c>X</c> so that <c>L * U * X = B</c>.</returns>
+        /// 
+        public Double[][] SolveForDiagonal(Double[] diagonal)
+        {
+            if (diagonal == null)
+                throw new ArgumentNullException("diagonal");
+
+            return Solve(Jagged.Diagonal(diagonal));
+        }
+
         /// <summary>Shows if the matrix <c>A</c> is of full rank.</summary>
         /// <value>The value is <see langword="true"/> if <c>R</c>, and hence <c>A</c>, has full rank.</value>
         public bool FullRank

@@ -394,6 +394,34 @@ namespace Accord.Math
             return matrix.Decompose(leastSquares).Solve(rightSide);
         }
 
+		/// <summary>
+        ///   Returns the solution matrix for a linear system involving a diagonal matrix ion the right-hand side.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix for the linear problem.</param>
+        /// <param name="diagonalRightSide">The right side <c>b</c>.</param>
+        /// <param name="leastSquares">True to produce a solution even if the 
+        ///   <paramref name="matrix"/> is singular; false otherwise. Default is false.</param>
+        /// 
+        /// <remarks>
+        ///   Please note that this does not check if the matrix is non-singular
+        ///   before attempting to solve. If a least squares solution is desired
+        ///   in case the matrix is singular, pass true to the <paramref name="leastSquares"/>
+        ///   parameter when calling this function.
+        /// </remarks>
+        /// 
+		public static Double[][] SolveForDiagonal(this Double[][] matrix, Double[] diagonalRightSide, bool leastSquares = false)
+        {
+            if (matrix.Length != diagonalRightSide.Length)
+            {
+                throw new DimensionMismatchException("diagonalRightSide",
+                    "The right hand side matrix must have the same length"
+                     + "as there are rows of the problem matrix.");
+            }
+
+            return matrix.Decompose(leastSquares).SolveForDiagonal(diagonalRightSide);
+        }
+
 
         /// <summary>
         ///   Creates a matrix decomposition that be used to compute the solution matrix if the 
@@ -1063,6 +1091,34 @@ namespace Accord.Math
             return matrix.Decompose(leastSquares).Solve(rightSide);
         }
 
+		/// <summary>
+        ///   Returns the solution matrix for a linear system involving a diagonal matrix ion the right-hand side.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix for the linear problem.</param>
+        /// <param name="diagonalRightSide">The right side <c>b</c>.</param>
+        /// <param name="leastSquares">True to produce a solution even if the 
+        ///   <paramref name="matrix"/> is singular; false otherwise. Default is false.</param>
+        /// 
+        /// <remarks>
+        ///   Please note that this does not check if the matrix is non-singular
+        ///   before attempting to solve. If a least squares solution is desired
+        ///   in case the matrix is singular, pass true to the <paramref name="leastSquares"/>
+        ///   parameter when calling this function.
+        /// </remarks>
+        /// 
+		public static Single[][] SolveForDiagonal(this Single[][] matrix, Single[] diagonalRightSide, bool leastSquares = false)
+        {
+            if (matrix.Length != diagonalRightSide.Length)
+            {
+                throw new DimensionMismatchException("diagonalRightSide",
+                    "The right hand side matrix must have the same length"
+                     + "as there are rows of the problem matrix.");
+            }
+
+            return matrix.Decompose(leastSquares).SolveForDiagonal(diagonalRightSide);
+        }
+
 
         /// <summary>
         ///   Creates a matrix decomposition that be used to compute the solution matrix if the 
@@ -1730,6 +1786,34 @@ namespace Accord.Math
             }
 
             return matrix.Decompose(leastSquares).Solve(rightSide);
+        }
+
+		/// <summary>
+        ///   Returns the solution matrix for a linear system involving a diagonal matrix ion the right-hand side.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix for the linear problem.</param>
+        /// <param name="diagonalRightSide">The right side <c>b</c>.</param>
+        /// <param name="leastSquares">True to produce a solution even if the 
+        ///   <paramref name="matrix"/> is singular; false otherwise. Default is false.</param>
+        /// 
+        /// <remarks>
+        ///   Please note that this does not check if the matrix is non-singular
+        ///   before attempting to solve. If a least squares solution is desired
+        ///   in case the matrix is singular, pass true to the <paramref name="leastSquares"/>
+        ///   parameter when calling this function.
+        /// </remarks>
+        /// 
+		public static Decimal[][] SolveForDiagonal(this Decimal[][] matrix, Decimal[] diagonalRightSide, bool leastSquares = false)
+        {
+            if (matrix.Length != diagonalRightSide.Length)
+            {
+                throw new DimensionMismatchException("diagonalRightSide",
+                    "The right hand side matrix must have the same length"
+                     + "as there are rows of the problem matrix.");
+            }
+
+            return matrix.Decompose(leastSquares).SolveForDiagonal(diagonalRightSide);
         }
 
 

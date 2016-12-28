@@ -165,12 +165,12 @@ namespace Accord.Tests.Math
 
             float[][] B = Matrix.Identity(4).ToSingle().ToJagged();
 
-            float[][] expected = 
+            float[][] expected =
             {
                 new float[] { 0.4000f,    1.2000f,    1.4000f,   -0.5000f },
                 new float[] { 1.2000f,    3.6000f,    4.2000f,   -2.0000f },
                 new float[] { 1.4000f,    4.2000f,    5.4000f,   -2.5000f },
-                new float[] { -0.5000f,  -2.0000f,   -2.5000f,    1.0000f }, 
+                new float[] { -0.5000f,  -2.0000f,   -2.5000f,    1.0000f },
             };
 
             float[][] actual = chol.Solve(B);
@@ -242,7 +242,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(chol.IsPositiveDefinite);
             float[][] L = chol.LeftTriangularFactor;
 
-            float[][] expected = 
+            float[][] expected =
             {
                 new float[] { 0.750f, 0.500f, 0.250f },
                 new float[] { 0.500f, 1.000f, 0.500f },
@@ -342,7 +342,7 @@ namespace Accord.Tests.Math
                     Assert.AreEqual(original[i][j], value[i][j]);
 
             // Lower triangular should contain the Cholesky factorization
-            float[][] expected = 
+            float[][] expected =
             {
                 new float[] {  3.000f,       0,       0,       0,       0 },
                 new float[] { -0.333f,  3.300f,       0,       0,       0 },
@@ -487,6 +487,35 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(reverse, value.GetSymmetric(MatrixType.LowerTriangular), 1e-6f));
         }
 
+        [Test]
+        public void solve_for_diagonal()
+        {
+            float[][] value = // not positive-definite
+            {
+               new float[] {  6, -1,  2,  6 },
+               new float[] { -1,  3, -3, -2 },
+               new float[] {  2, -3,  2,  0 },
+               new float[] {  6, -2,  0,  0 },
+            };
 
+            var chol = new JaggedCholeskyDecompositionF(value, robust: true);
+            float[][] L = chol.LeftTriangularFactor;
+
+            float[] B = new float[] { 1, 2, 3, 4 };
+
+            float[][] expected = 
+            {
+                new float[] { 0.4f,    2.4f,      4.2f,  -2 },
+                new float[] { 1.2f,    7.2f,     12.6f,  -8 },
+                new float[] { 1.4f,    8.4f,     16.2f, -10 },
+                new float[] { -0.5f,  -4.0f,     -7.5f,   4 }
+            };
+
+            float[][] actual = chol.SolveForDiagonal(B);
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-4f));
+            float[][] reverse = chol.Reverse();
+            Assert.IsTrue(Matrix.IsEqual(value, reverse, atol: 1e-3f));
+        }
     }
 }

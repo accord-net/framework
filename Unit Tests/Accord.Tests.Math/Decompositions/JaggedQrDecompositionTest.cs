@@ -511,5 +511,31 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expectedM.IsEqual(m, 1e-6));
             Assert.IsTrue(expectedQ.IsEqual(q, 1e-6)); 
         }
+
+        [Test]
+        public void solve_for_diagonal()
+        {
+            double[][] value =
+            {
+               new double[] {  2, -1,  0 },
+               new double[] { -1,  2, -1 },
+               new double[] {  0, -1,  2 }
+            };
+
+            double[] b = { 1, 2, 3 };
+
+            double[][] expected = 
+            {
+                new double[] { 0.75, 1, 0.75 },
+                new double[] { 0.50, 2, 1.50 },
+                new double[] { 0.25, 1, 2.25 }
+            };
+
+            var target = new JaggedQrDecomposition(value);
+            double[][] actual = target.SolveForDiagonal(b);
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
+            Assert.IsTrue(Matrix.IsEqual(value.Transpose(), target.Reverse(), 1e-6));
+        }
     }
 }
