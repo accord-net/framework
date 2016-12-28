@@ -25,6 +25,7 @@ namespace Accord.MachineLearning
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.Serialization;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -33,13 +34,21 @@ namespace Accord.MachineLearning
     ///   Base class for parallel learning algorithms.
     /// </summary>
     /// 
+    [Serializable]
     public class ParallelLearningBase : IParallel
     {
+        [NonSerialized]
+        private ParallelOptions parallelOptions;
+
         /// <summary>
         ///   Gets or sets the parallelization options for this algorithm.
         /// </summary>
         /// 
-        public ParallelOptions ParallelOptions { get; set; }
+        public ParallelOptions ParallelOptions
+        {
+            get { return parallelOptions; }
+            set { parallelOptions = value; }
+        }
 
         /// <summary>
         /// Gets or sets a cancellation token that can be used
@@ -57,7 +66,13 @@ namespace Accord.MachineLearning
         /// </summary>
         public ParallelLearningBase()
         {
-            ParallelOptions = new ParallelOptions();
+            parallelOptions = new ParallelOptions();
+        }
+
+        [OnDeserializing]
+        protected void OnDeserializingMethod(StreamingContext context)
+        {
+            parallelOptions = new ParallelOptions();
         }
     }
 }

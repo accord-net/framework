@@ -264,5 +264,38 @@ namespace Accord.Tests.MachineLearning
             }
 
         }
+
+        [Test]
+        public void test_serialization()
+        {
+            // Fix random seed for reproducibility
+            Accord.Math.Random.Generator.Seed = 1;
+
+            string[][] text = Resources.iris_data.Split(new[] { "\r\n" },
+                StringSplitOptions.RemoveEmptyEntries).Apply(x => x.Split(','));
+
+            double[][] inputs = text.GetColumns(0, 1, 2, 3).To<double[][]>();
+
+            string[] labels = text.GetColumn(4);
+
+            var codebook = new Codification("Output", labels);
+
+            int[] outputs = codebook.Translate("Output", labels);
+
+            var teacher = new RandomForestLearning()
+            {
+                NumberOfTrees = 10, // use 10 trees in the forest
+            };
+
+            var forest1 = teacher.Learn(inputs, outputs);
+
+
+            byte[] bytes = forest1.Save();
+
+            var forest2 = Serializer.Load<RandomForest>(bytes);
+
+            Assert.IsTrue(forest1.Decide(inputs).IsEqual(forest2.Decide(inputs)));
+            Assert.IsTrue(forest1.Transform(inputs).IsEqual(forest2.Transform(inputs)));
+        }
     }
 }

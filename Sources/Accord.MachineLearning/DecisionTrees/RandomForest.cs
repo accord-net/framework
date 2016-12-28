@@ -60,6 +60,9 @@ namespace Accord.MachineLearning.DecisionTrees
     {
         private DecisionTree[] trees;
 
+        [NonSerialized]
+        private ParallelOptions parallelOptions;
+
 
         /// <summary>
         ///   Gets the trees in the random forest.
@@ -82,7 +85,11 @@ namespace Accord.MachineLearning.DecisionTrees
         ///   Gets or sets the parallelization options for this algorithm.
         /// </summary>
         /// 
-        public ParallelOptions ParallelOptions { get; set; }
+        public ParallelOptions ParallelOptions
+        {
+            get { return parallelOptions; }
+            set { parallelOptions = value; }
+        }
 
         /// <summary>
         /// Gets or sets a cancellation token that can be used
@@ -141,6 +148,12 @@ namespace Accord.MachineLearning.DecisionTrees
             });
 
             return responses.ArgMax();
+        }
+
+        [OnDeserializing()]
+        protected void OnDeserializingMethod(StreamingContext context)
+        {
+            this.parallelOptions = new ParallelOptions();
         }
     }
 }
