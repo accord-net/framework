@@ -393,8 +393,8 @@ namespace Accord.Tests.MachineLearning
 
             int[] outputs =
             {
-                 0, 0, 0, 0,  // First four sequences are of class 0
-                 1, 1, 1, 1, 1 // Last five sequences are of class 1
+                    0, 0, 0, 0,  // First four sequences are of class 0
+                    1, 1, 1, 1, 1 // Last five sequences are of class 1
             };
 
             // Create the Sequential Minimal Optimization learning algorithm
@@ -470,8 +470,8 @@ namespace Accord.Tests.MachineLearning
 
             int[] outputs =
             {
-                 0, 0,  // First two sequences are of class 0 (those start with {1,1,1})
-                 1, 1,  // Last two sequences are of class  1 (don't start with {1,1,1})
+                    0, 0,  // First two sequences are of class 0 (those start with {1,1,1})
+                    1, 1,  // Last two sequences are of class  1 (don't start with {1,1,1})
             };
 
             // Now we can create the Sequential Minimal Optimization learning algorithm
