@@ -86,6 +86,7 @@ namespace Accord.Audio.Generators
             this.Frequency = frequency;
             this.Amplitude = amplitude;
             this.Format = SampleFormat.Format32BitIeeeFloat;
+            this.SamplingRate = samplingRate;
             this.Channels = 1;
 
             this.theta = 2.0 * Math.PI * frequency / samplingRate;

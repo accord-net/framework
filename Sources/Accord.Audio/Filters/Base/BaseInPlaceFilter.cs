@@ -22,14 +22,19 @@
 
 namespace Accord.Audio.Filters
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
     ///   Base in-place signal processing filter
     /// </summary>
     /// 
+    [Serializable]
     public abstract class BaseInPlaceFilter : IInPlaceFilter, IFilter
     {
+
+        private readonly Dictionary<SampleFormat, SampleFormat> formatTranslations =
+            new Dictionary<SampleFormat, SampleFormat>();
 
         /// <summary>
         ///   Format translations dictionary.
@@ -42,7 +47,10 @@ namespace Accord.Audio.Filters
         ///   source signals and which sample format will be used for resulting signal.
         /// </remarks>
         /// 
-        public abstract Dictionary<SampleFormat, SampleFormat> FormatTranslations { get; }
+        public Dictionary<SampleFormat, SampleFormat> FormatTranslations
+        {
+            get { return formatTranslations; }
+        }
 
 
         /// <summary>

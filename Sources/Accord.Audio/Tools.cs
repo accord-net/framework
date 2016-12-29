@@ -141,11 +141,11 @@ namespace Accord.Audio
         public static double[] GetFrequencyVector(int length, int sampleRate)
         {
             int numUniquePts = (int)System.Math.Ceiling((length + 1) / 2.0);
+
             double[] freq = new double[numUniquePts];
             for (int i = 0; i < numUniquePts; i++)
-            {
-                freq[i] = (double)i * sampleRate / length;
-            }
+                freq[i] = i * sampleRate / (double)length;
+
             return freq;
         }
 

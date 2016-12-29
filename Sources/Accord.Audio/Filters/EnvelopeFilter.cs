@@ -39,26 +39,6 @@ namespace Accord.Audio.Filters
     {
         private float alpha = 0.001f;
 
-        private Dictionary<SampleFormat, SampleFormat> formatTranslations
-            = new Dictionary<SampleFormat, SampleFormat>();
-
-
-        /// <summary>
-        ///   Format translations dictionary.
-        /// </summary>
-        /// 
-        /// <value>The format translations.</value>
-        /// 
-        /// <remarks>
-        ///   The dictionary defines which sample formats are supported for
-        ///   source signals and which sample format will be used for resulting signal.
-        /// </remarks>
-        /// 
-        public override Dictionary<SampleFormat, SampleFormat> FormatTranslations
-        {
-            get { return formatTranslations; }
-        }
-
         /// <summary>
         ///   Alpha
         /// </summary>
@@ -77,7 +57,7 @@ namespace Accord.Audio.Filters
         {
             this.alpha = alpha;
 
-            formatTranslations[SampleFormat.Format32BitIeeeFloat] = SampleFormat.Format32BitIeeeFloat;
+            FormatTranslations[SampleFormat.Format32BitIeeeFloat] = SampleFormat.Format32BitIeeeFloat;
         }
 
         /// <summary>

@@ -32,24 +32,6 @@ namespace Accord.Audio.Filters
     public class VolumeFilter : BaseInPlaceFilter
     {
 
-        private Dictionary<SampleFormat, SampleFormat> formatTranslations = new Dictionary<SampleFormat, SampleFormat>();
-
-        /// <summary>
-        ///   Format translations dictionary.
-        /// </summary>
-        /// 
-        /// <value>The format translations.</value>
-        /// 
-        /// <remarks>
-        ///   The dictionary defines which sample formats are supported for
-        ///   source signals and which sample format will be used for resulting signal.
-        /// </remarks>
-        /// 
-        public override Dictionary<SampleFormat, SampleFormat> FormatTranslations
-        {
-            get { return formatTranslations; }
-        }
-
         /// <summary>
         ///   Gets or sets the volume multiplier.
         /// </summary>
@@ -66,7 +48,7 @@ namespace Accord.Audio.Filters
         {
             Volume = volume;
 
-            formatTranslations[SampleFormat.Format32BitIeeeFloat] = SampleFormat.Format32BitIeeeFloat;
+            FormatTranslations[SampleFormat.Format32BitIeeeFloat] = SampleFormat.Format32BitIeeeFloat;
         }
 
 

@@ -275,7 +275,7 @@ namespace Accord.Audio.Formats
             numberOfSamples += signal.Samples;
             numberOfFrames += signal.Length;
             bytes += signal.RawData.Length;
-            duration += signal.Duration;
+            duration += (int)signal.Duration.TotalMilliseconds;
 
             // Navigate to start position
             long position = waveStream.Position;

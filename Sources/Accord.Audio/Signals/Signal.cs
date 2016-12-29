@@ -156,7 +156,7 @@ namespace Accord.Audio
         ///   Gets the signal duration in milliseconds.
         /// </summary>
         /// 
-        public int Duration
+        public TimeSpan Duration
         {
             get { return DurationOfSamples(length, sampleRate); }
         }
@@ -507,18 +507,18 @@ namespace Accord.Audio
         ///   Gets the number of samples contained in a signal of given duration and sampling rate.
         /// </summary>
         /// 
-        public static int NumberOfSamples(int duration, int samplingRate)
+        public static int NumberOfSamples(long duration, int samplingRate)
         {
-            return (duration / 1000) * samplingRate;
+            return (int)((duration / 1000) * samplingRate);
         }
 
         /// <summary>
         ///   Gets the duration of each sample in a signal with the given number of samples and sampling rate.
         /// </summary>
         /// 
-        public static int DurationOfSamples(int samples, int samplingRate)
+        public static TimeSpan DurationOfSamples(long samples, int samplingRate)
         {
-            return (int)(samples / (double)samplingRate * 1000.0);
+            return TimeSpan.FromMilliseconds(samples / samplingRate * 1000.0);
         }
 
         /// <summary>

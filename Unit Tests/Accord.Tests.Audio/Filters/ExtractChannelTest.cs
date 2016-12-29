@@ -31,22 +31,6 @@ namespace Accord.Tests.Audio
     public class ExtractChannelTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
         private float[,] data = 
         {
             {  0.00f, 0.2f  },

@@ -188,6 +188,15 @@ namespace Accord.Audio
         }
 
         /// <summary>
+        ///   Converts the complex signal to a complex array.
+        /// </summary>
+        /// 
+        public Complex[] ToArray(int channel)
+        {
+            return GetChannel(channel);
+        }
+
+        /// <summary>
         ///   Extracts a channel from the signal.
         /// </summary>
         /// 

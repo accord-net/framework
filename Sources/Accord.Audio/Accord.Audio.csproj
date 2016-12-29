@@ -46,7 +46,7 @@
     <OutputPath>$(SolutionDir)..\Release\net40</OutputPath>
     <DefineConstants>TRACE;NET40</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-	<RunCodeAnalysis>false</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <DocumentationFile>$(SolutionDir)..\Release\net40\Accord.Audio.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Accord.Audio.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
@@ -69,7 +69,7 @@
     <DefineConstants>TRACE;CODE_ANALYSIS;MONO</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\mono\Accord.Audio.XML</DocumentationFile>
-	<RunCodeAnalysis>False</RunCodeAnalysis>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
@@ -84,6 +84,7 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Filters\AddFilter.cs" />
     <Compile Include="Formats\FrameInfo.cs" />
     <Compile Include="Formats\IAudioDecoder.cs" />
     <Compile Include="Formats\IAudioEncoder.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Filters\Base\IFilter.cs" />
     <Compile Include="IAudioSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnsafeTools.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Windows\BlackmanWindow.cs" />
     <Compile Include="Windows\RectangularWindow.cs" />
@@ -142,6 +144,10 @@
     <ProjectReference Include="..\Accord.Core\Accord.Core.csproj">
       <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>
       <Name>Accord.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>

@@ -32,29 +32,41 @@ namespace Accord.Audio.Filters
     public class HighPassFilter : BaseFilter
     {
 
-        private Dictionary<SampleFormat, SampleFormat> formatTranslations = new Dictionary<SampleFormat, SampleFormat>();
-
-        /// <summary>
-        ///   Format translations dictionary.
-        /// </summary>
-        /// 
-        /// <value>The format translations.</value>
-        /// 
-        /// <remarks>
-        ///   The dictionary defines which sample formats are supported for
-        ///   source signals and which sample format will be used for resulting signal.
-        /// </remarks>
-        /// 
-        public override Dictionary<SampleFormat, SampleFormat> FormatTranslations
-        {
-            get { return formatTranslations; }
-        }
-
         /// <summary>
         ///   Gets or sets the high-pass alpha.
         /// </summary>
         /// 
         public float Alpha { get; set; }
+
+        /// <summary>
+        ///   Gets the alpha value that can be used to achieve a given
+        ///   cut-off frequency under a given sampling rate.
+        /// </summary>
+        /// 
+        /// <param name="frequency">The desired cut-off frequency.</param>
+        /// <param name="sampleRate">The signal sampling rate.</param>
+        /// 
+        /// <returns>A value for <see cref="Alpha"/> that creates a filter
+        ///   that can filter out the given cut-off frequency.</returns>
+        /// 
+        public static float GetAlpha(double frequency, double sampleRate)
+        {
+            double rc = 1 / (2 * Math.PI * frequency);
+            double dt = 1 / sampleRate;
+            return (float)(rc / (rc + dt));
+        }
+
+        /// <summary>
+        ///   Constructs a new Low-Pass Filter using the given cut-off frequency and sample rate.
+        /// </summary>
+        /// 
+        /// <param name="frequency">The desired cut-off frequency.</param>
+        /// <param name="sampleRate">The signal sampling rate.</param>
+        /// 
+        public HighPassFilter(double frequency, double sampleRate)
+            : this(GetAlpha(frequency, sampleRate))
+        {
+        }
 
         /// <summary>
         ///   Constructs a new High-Pass filter using the given alpha.
@@ -66,7 +78,7 @@ namespace Accord.Audio.Filters
         {
             Alpha = alpha;
 
-            formatTranslations[SampleFormat.Format32BitIeeeFloat] = SampleFormat.Format32BitIeeeFloat;
+            FormatTranslations[SampleFormat.Format32BitIeeeFloat] = SampleFormat.Format32BitIeeeFloat;
         }
 
 
@@ -84,13 +96,16 @@ namespace Accord.Audio.Filters
             {
                 unsafe
                 {
-                    float* src = (float*)sourceData.Data.ToPointer() + channels;
-                    float* dst = (float*)destinationData.Data.ToPointer() + channels;
+                    float* src = (float*)sourceData.Data.ToPointer();
+                    float* dst = (float*)destinationData.Data.ToPointer();
 
-                    for (int i = channels; i < length; i++, src++, dst++)
-                    {
-                        *dst = Alpha * (dst[-channels] + src[0] - src[-channels]);
-                    }
+                    // Copy the first frame
+                    for (int j = 0; j < channels; j++)
+                        dst[j] = src[j];
+
+                    for (int i = 1; i < length; i++)
+                        for (int j = 0; j < channels; j++, src++, dst++)
+                            dst[0] = Alpha * (dst[-channels] + src[0] - src[-channels]);
                 }
             }
 
