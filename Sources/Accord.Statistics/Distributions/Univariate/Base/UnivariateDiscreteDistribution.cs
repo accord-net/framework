@@ -68,7 +68,7 @@ namespace Accord.Statistics.Distributions.Univariate
     public abstract class UnivariateDiscreteDistribution : DistributionBase,
         IUnivariateDistribution<int>, IUnivariateDistribution,
         IUnivariateDistribution<double>, IDistribution<double[]>,
-        IDistribution<double>, 
+        IDistribution<double>,
         ISampleableDistribution<double>, ISampleableDistribution<int>,
         IFormattable
     {
@@ -686,38 +686,41 @@ namespace Accord.Statistics.Distributions.Univariate
                     }
 
                     // completely unbounded
-                    {
-                        int lower = -1;
-                        int upper = +1;
-
-                        double f = DistributionFunction(0);
-
-                        if (f > p)
-                        {
-                            while (f > p)
-                            {
-                                upper = lower;
-                                lower = 2 * lower - 1;
-                                f = DistributionFunction(lower);
-                            }
-                        }
-                        else
-                        {
-                            while (f < p)
-                            {
-                                lower = upper;
-                                upper = 2 * upper + 1;
-                                f = DistributionFunction(upper);
-                            }
-                        }
-
-                        return new BinarySearch(DistributionFunction, lower, upper).Find(p);
-                    }
+                    return UnboundedBaseInverseDistributionFunction(p, lower: -1, upper: +1, start: 0);
                 }
             }
             catch (OverflowException)
             {
                 return 0;
+            }
+        }
+
+        private int UnboundedBaseInverseDistributionFunction(double p, int lower, int upper, int start)
+        {
+            checked
+            {
+                double f = DistributionFunction(start);
+
+                if (f > p)
+                {
+                    while (f > p)
+                    {
+                        upper = lower;
+                        lower = 2 * lower - 1;
+                        f = DistributionFunction(lower);
+                    }
+                }
+                else
+                {
+                    while (f < p)
+                    {
+                        lower = upper;
+                        upper = 2 * upper + 1;
+                        f = DistributionFunction(upper);
+                    }
+                }
+
+                return new BinarySearch(DistributionFunction, lower, upper).Find(p);
             }
         }
 

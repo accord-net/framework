@@ -307,52 +307,6 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Gets the inverse of the cumulative distribution function (icdf) for
-        ///   this distribution evaluated at probability <c>p</c>. This function
-        ///   is also known as the Quantile function.
-        /// </summary>
-        /// 
-        /// <param name="p">A probability value between 0 and 1.</param>
-        /// 
-        /// <returns>The observation which most likely generated <paramref name="p"/>.</returns>
-        /// 
-        /// <remarks>
-        /// <para>
-        ///   The Inverse Cumulative Distribution Function (ICDF) specifies, for
-        ///   a given probability, the value which the random variable will be at,
-        ///   or below, with that probability.</para>
-        /// <para>
-        ///   In Poisson's distribution, the Inverse CDF can be computed using
-        ///   the <see cref="Gamma.Inverse">inverse Gamma function Γ'(a, x)</see>
-        ///   as 
-        ///             <code>icdf(p) = Γ'(λ, 1 - p)</code>
-        ///   .</para>
-        /// </remarks>
-        public override int InverseDistributionFunction(double p)
-        {
-            if (p == 1)
-                return Support.Max;
-            else if (p == 0)
-                return Support.Min;
-
-            double result = Gamma.InverseUpperIncomplete(lambda, 1.0 - p) - 1;
-
-            int actual = (int)Math.Ceiling(result);
-            double m = DistributionFunction(actual);
-
-            if (m < p)
-                actual = actual + 1;
-
-#if DEBUG
-            double expected = BaseInverseDistributionFunction(p);
-            if (actual != expected)
-                throw new Exception();
-#endif
-
-            return actual;
-        }
-
-        /// <summary>
         ///   Fits the underlying distribution to a given set of observations.
         /// </summary>
         /// 
