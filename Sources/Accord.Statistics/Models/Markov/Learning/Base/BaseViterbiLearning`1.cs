@@ -58,7 +58,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   stop the learning algorithm while it is running.
         /// </summary>
         /// 
-        public CancellationToken Token { get; set; }
+        public virtual CancellationToken Token { get; set; }
 
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                 // Check convergence
                 convergence.NewValue = newLogLikelihood;
 
-            } while (!convergence.HasConverged);
+            } while (!convergence.HasConverged && !Token.IsCancellationRequested);
 
             return newLogLikelihood;
         }

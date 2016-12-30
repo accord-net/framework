@@ -262,6 +262,8 @@ namespace Accord.Tests.MachineLearning
                     Learner = (p) => new LinearDualCoordinateDescent<Linear>()
                 };
 
+                learner.ParallelOptions.MaxDegreeOfParallelism = 1;
+
                 svm1 = learner.Learn(x, y);
             }
 
@@ -282,6 +284,8 @@ namespace Accord.Tests.MachineLearning
                 {
                     Learner = (p) => new LinearDualCoordinateDescent<Linear, Sparse<double>>()
                 };
+
+                learner.ParallelOptions.MaxDegreeOfParallelism = 1;
 
                 svm2 = learner.Learn(x, y);
             }

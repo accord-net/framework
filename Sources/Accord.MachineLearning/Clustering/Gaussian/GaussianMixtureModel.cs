@@ -28,6 +28,7 @@ namespace Accord.MachineLearning
     using Accord.Statistics.Distributions.Univariate;
     using System;
     using System.Threading.Tasks;
+    using System.Threading;
 
     /// <summary>
     ///   Gaussian mixture model clustering.
@@ -62,6 +63,17 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         public int MaxIterations { get; set; }
+
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        /// <value>The token.</value>
+        public CancellationToken Token
+        { 
+            get { return ParallelOptions.CancellationToken; }
+            set { ParallelOptions.CancellationToken = value; }
+        }
 
         /// <summary>
         ///   Gets or sets the convergence criterion for the
@@ -276,6 +288,7 @@ namespace Accord.MachineLearning
                 InnerOptions = this.Options,
                 MaxIterations = this.MaxIterations,
                 Logarithm = this.UseLogarithm,
+                ParallelOptions = ParallelOptions,
             };
 
             MultivariateMixture<MultivariateNormalDistribution> model = clusters.Model;

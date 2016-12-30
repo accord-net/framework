@@ -37,7 +37,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   This class cannot be instantiated.
     /// </summary>
     /// 
-    public abstract class BaseHiddenMarkovModelLearning<TModel, TObservation>
+    public abstract class BaseHiddenMarkovModelLearning<TModel, TObservation> : ParallelLearningBase
     {
 
         /// <summary>

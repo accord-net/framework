@@ -115,7 +115,8 @@ namespace Accord.Statistics.Models.Markov.Learning
             MixtureOptions mixOptions = new MixtureOptions()
             {
                 Iterations = 1,
-                InnerOptions = options
+                InnerOptions = options,
+                //ParallelOptions = ParallelOptions, // TODO:
             };
 
             return new BaumWelchLearning<Mixture<NormalDistribution>>(model)
@@ -143,5 +144,47 @@ namespace Accord.Statistics.Models.Markov.Learning
                 FittingOptions = mixOptions
             };
         }
+
+        // TODO: Uncomment the following lines
+        ///// <summary>
+        /////   Creates a Baum-Welch with default configurations for
+        /////   hidden Markov models with normal mixture densities.
+        ///// </summary>
+        ///// 
+        //public static BaumWelchLearning<Mixture<NormalDistribution>> FromMixtureModel(
+        //    HiddenMarkovModel<Mixture<NormalDistribution, double>> model, NormalOptions options)
+        //{
+        //    MixtureOptions mixOptions = new MixtureOptions()
+        //    {
+        //        Iterations = 1,
+        //        InnerOptions = options,
+        //        //ParallelOptions = ParallelOptions, // TODO:
+        //    };
+
+        //    return new BaumWelchLearning<Mixture<NormalDistribution>>(model)
+        //    {
+        //        FittingOptions = mixOptions
+        //    };
+        //}
+
+        ///// <summary>
+        /////   Creates a Baum-Welch with default configurations for
+        /////   hidden Markov models with normal mixture densities.
+        ///// </summary>
+        ///// 
+        //public static BaumWelchLearning<MultivariateMixture<MultivariateNormalDistribution, double[]>> FromMixtureModel(
+        //    HiddenMarkovModel<MultivariateMixture<MultivariateNormalDistribution>> model, NormalOptions options)
+        //{
+        //    MixtureOptions mixOptions = new MixtureOptions()
+        //    {
+        //        Iterations = 1,
+        //        InnerOptions = options
+        //    };
+
+        //    return new BaumWelchLearning<MultivariateMixture<MultivariateNormalDistribution>>(model)
+        //    {
+        //        FittingOptions = mixOptions
+        //    };
+        //}
     }
 }

@@ -290,6 +290,17 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        /// <value>The token.</value>
+        public CancellationToken Token
+        {
+            get { return ParallelOptions.CancellationToken; }
+            set { ParallelOptions.CancellationToken = value; }
+        }
+
+        /// <summary>
         ///   Initializes a new instance of KMeans algorithm
         /// </summary>
         /// 
@@ -578,6 +589,9 @@ namespace Accord.MachineLearning
             Iterations++;
 
             if (MaxIterations > 0 && Iterations > MaxIterations)
+                return true;
+
+            if (Token.IsCancellationRequested)
                 return true;
 
             for (int i = 0; i < centroids.Length; i++)

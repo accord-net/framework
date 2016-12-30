@@ -28,6 +28,7 @@ namespace Accord.MachineLearning.Rules
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Threading;
 
     /// <summary>
     ///   A-priori algorithm for association rule mining.
@@ -81,6 +82,12 @@ namespace Accord.MachineLearning.Rules
             get { return frequent; }
         }
 
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        /// <value>The token.</value>
+        public CancellationToken Token { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Apriori{T}"/> class.

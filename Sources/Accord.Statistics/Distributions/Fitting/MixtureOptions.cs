@@ -23,6 +23,8 @@
 namespace Accord.Statistics.Distributions.Fitting
 {
     using System;
+    using System.Threading.Tasks;
+    using MachineLearning;
 
     /// <summary>
     ///   Estimation options for <see cref="Accord.Statistics.Distributions.Univariate.Mixture{T}">univariate</see>
@@ -67,6 +69,14 @@ namespace Accord.Statistics.Distributions.Fitting
         public int Iterations { get; set; }
 
         /// <summary>
+        /// Gets or sets the parallelization options to be used when fitting.
+        /// </summary>
+        /// 
+        /// <value>The parallel options.</value>
+        /// 
+        public ParallelOptions ParallelOptions { get; set; }
+
+        /// <summary>
         ///   Gets or sets the fitting options for the inner
         ///   component distributions of the mixture density.
         /// </summary>
@@ -88,7 +98,8 @@ namespace Accord.Statistics.Distributions.Fitting
         /// 
         public MixtureOptions()
         {
-            Threshold = 1e-3;
+            this.Threshold = 1e-3;
+            this.ParallelOptions = new ParallelOptions();
         }
 
         /// <summary>
@@ -99,6 +110,7 @@ namespace Accord.Statistics.Distributions.Fitting
         ///   Expectation-Maximization algorithm. Default is 1e-3.</param>
         ///   
         public MixtureOptions(double threshold)
+            : this()
         {
             Threshold = threshold;
         }
@@ -113,8 +125,8 @@ namespace Accord.Statistics.Distributions.Fitting
         ///   component distributions of the mixture density.</param>
         ///   
         public MixtureOptions(double threshold, IFittingOptions innerOptions)
+            : this(threshold)
         {
-            Threshold = threshold;
             InnerOptions = innerOptions;
         }
 

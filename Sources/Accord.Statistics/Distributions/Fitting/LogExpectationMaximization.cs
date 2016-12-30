@@ -25,6 +25,7 @@ namespace Accord.Statistics.Distributions.Fitting
     using Accord.Math;
     using System;
     using System.Threading.Tasks;
+    using MachineLearning;
 
     /// <summary>
     ///   Expectation Maximization algorithm for mixture model fitting in the log domain.
@@ -38,7 +39,7 @@ namespace Accord.Statistics.Distributions.Fitting
     ///   which can be used with both univariate or multivariate distribution types.</para>
     /// </remarks>
     /// 
-    public class LogExpectationMaximization<TObservation>
+    public class LogExpectationMaximization<TObservation> : ParallelLearningBase
     {
 
         /// <summary>
@@ -133,7 +134,7 @@ namespace Accord.Statistics.Distributions.Fitting
                 pdf[i] = (IFittableDistribution<TObservation>)components[i];
 
             // Prepare the iteration
-            Convergence.NewValue = LogLikelihood(logPi, pdf, observations);
+            Convergence.NewValue = LogLikelihood(logPi, pdf, observations, ParallelOptions);
 
             var componentOptions = InnerOptions as IComponentOptions;
 
@@ -144,7 +145,7 @@ namespace Accord.Statistics.Distributions.Fitting
                 // 2. Expectation: Evaluate the component distributions 
                 //    responsibilities using the current parameter values.
 
-                Parallel.For(0, LogGamma.Length, k =>
+                Parallel.For(0, LogGamma.Length, ParallelOptions, k =>
                 {
                     double[] logGammak = LogGamma[k];
                     for (int i = 0; i < observations.Length; i++)
@@ -162,7 +163,7 @@ namespace Accord.Statistics.Distributions.Fitting
 
                 try
                 {
-                    Parallel.For(0, LogGamma.Length, k =>
+                    Parallel.For(0, LogGamma.Length, ParallelOptions, k =>
                     {
                         double[] lngammak = LogGamma[k];
 
@@ -211,7 +212,7 @@ namespace Accord.Statistics.Distributions.Fitting
                     componentOptions.Postprocessing(pdf, logPi.Exp());
 
                 // 4. Evaluate the log-likelihood and check for convergence
-                Convergence.NewValue = LogLikelihood(logPi, pdf, observations);
+                Convergence.NewValue = LogLikelihood(logPi, pdf, observations, ParallelOptions);
 
 
             } while (!Convergence.HasConverged);
@@ -238,7 +239,7 @@ namespace Accord.Statistics.Distributions.Fitting
         /// </summary>
         /// 
         public static double LogLikelihood(double[] lnpi, IDistribution<TObservation>[] pdf,
-            TObservation[] observations)
+            TObservation[] observations, ParallelOptions parallelOptions)
         {
             double logLikelihood = 0.0;
 
@@ -252,7 +253,7 @@ namespace Accord.Statistics.Distributions.Fitting
 #else
             object syncObj = new object();
 
-            Parallel.For(0, observations.Length,
+            Parallel.For(0, observations.Length, parallelOptions,
 
                 () => 0.0,
 

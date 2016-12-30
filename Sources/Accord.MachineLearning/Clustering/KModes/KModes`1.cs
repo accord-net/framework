@@ -29,6 +29,8 @@ namespace Accord.MachineLearning
     using Accord.Statistics;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Math.Distances;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   k-Modes algorithm.
@@ -52,6 +54,10 @@ namespace Accord.MachineLearning
     {
 
         private KModesClusterCollection<T> clusters;
+
+        [NonSerialized]
+        private ParallelOptions parallelOptions;
+
 
         /// <summary>
         ///   Gets the clusters found by K-modes.
@@ -134,6 +140,32 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         public Seeding Initialization { get; set; }
+
+        /// <summary>
+        ///   Gets or sets parallelization options.
+        /// </summary>
+        /// 
+        public ParallelOptions ParallelOptions
+        {
+            get
+            {
+                if (parallelOptions == null)
+                    parallelOptions = new ParallelOptions();
+                return parallelOptions;
+            }
+            set { parallelOptions = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        /// <value>The token.</value>
+        public CancellationToken Token
+        {
+            get { return ParallelOptions.CancellationToken; }
+            set { ParallelOptions.CancellationToken = value; }
+        }
 
         /// <summary>
         ///   Initializes a new instance of KModes algorithm
@@ -243,7 +275,7 @@ namespace Accord.MachineLearning
                 // information into the newClusters variable.
 
                 // For each point in the data set,
-                for (int i = 0; i < x.Length; i++)
+                Parallel.For(0, x.Length, ParallelOptions, i =>
                 {
                     // Get the point
                     T[] point = x[i];
@@ -253,17 +285,17 @@ namespace Accord.MachineLearning
 
                     // Accumulate in the corresponding centroid
                     clusters[c].Add(point);
-                }
+                });
 
                 // Next we will compute each cluster's new centroid
                 //  value by computing the mode in each cluster.
 
-                for (int i = 0; i < k; i++)
+                Parallel.For(0, k, ParallelOptions, i =>
                 {
                     if (clusters[i].Count == 0)
                     {
                         newCentroids[i] = centroids[i];
-                        continue;
+                        return;
                     }
 
                     T[][] p = clusters[i].ToArray();
@@ -277,7 +309,7 @@ namespace Accord.MachineLearning
 
                         newCentroids[i][d] = mode;
                     }
-                }
+                });
 
 
                 // The algorithm stops when there is no further change in the
@@ -323,6 +355,9 @@ namespace Accord.MachineLearning
             Iterations++;
 
             if (MaxIterations > 0 && Iterations > MaxIterations)
+                return true;
+
+            if (Token.IsCancellationRequested)
                 return true;
 
             for (int i = 0; i < centroids.Length; i++)

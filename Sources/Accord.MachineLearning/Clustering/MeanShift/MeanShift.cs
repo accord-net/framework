@@ -32,6 +32,7 @@ namespace Accord.MachineLearning
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using System.Threading;
 
     /// <summary>
     ///   Mean shift clustering algorithm.
@@ -146,6 +147,9 @@ namespace Accord.MachineLearning
         private IRadiallySymmetricKernel kernel;
         private MeanShiftClusterCollection clusters;
 
+        [NonSerialized]
+        private ParallelOptions parallelOptions;
+
         /// <summary>
         ///   Gets the clusters found by Mean Shift.
         /// </summary>
@@ -204,7 +208,12 @@ namespace Accord.MachineLearning
         ///   at each run.
         /// </summary>
         /// 
-        public bool UseParallelProcessing { get; set; }
+        [Obsolete("Please set ParallelOptions.MaxDegreeOfParallelism to 1 instead.")]
+        public bool UseParallelProcessing
+        {
+            get { return ParallelOptions.MaxDegreeOfParallelism == 1; }
+            set { ParallelOptions.MaxDegreeOfParallelism = 1; }
+        }
 
         /// <summary>
         ///   Gets or sets whether to use the agglomeration shortcut,
@@ -214,6 +223,7 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         public bool UseAgglomeration { get; set; }
+
         /// <summary>
         ///   Gets or sets whether to use seeding to initialize the algorithm.
         ///   With seeding, new points will be sampled from an uniform grid in
@@ -265,6 +275,27 @@ namespace Accord.MachineLearning
         /// 
         public double Tolerance { get; set; }
 
+        public ParallelOptions ParallelOptions
+        {
+            get
+            {
+                if (parallelOptions == null)
+                    parallelOptions = new ParallelOptions();
+                return parallelOptions;
+            }
+            set { parallelOptions = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        /// <value>The token.</value>
+        public CancellationToken Token
+        {
+            get { return ParallelOptions.CancellationToken; }
+            set { ParallelOptions.CancellationToken = value; }
+        }
 
         /// <summary>
         ///   Creates a new <see cref="MeanShift"/> algorithm.
@@ -280,7 +311,7 @@ namespace Accord.MachineLearning
             this.kernel = kernel;
             this.Bandwidth = bandwidth;
             this.Distance = new Accord.Math.Distances.Euclidean();
-            this.UseParallelProcessing = true;
+            this.ParallelOptions = new ParallelOptions();
             this.MaxIterations = 100;
             this.Tolerance = 1e-3;
             this.ComputeLabels = true;
@@ -365,9 +396,9 @@ namespace Accord.MachineLearning
             else func = general;
 
             // For each seed
-            if (UseParallelProcessing)
+            if (ParallelOptions.MaxDegreeOfParallelism != 1)
             {
-                Parallel.For(0, current.Length, i =>
+                Parallel.For(0, current.Length, ParallelOptions, i =>
                     move(tree, current, i, maxima, func));
 
                 for (int i = 0; i < current.Length; i++)

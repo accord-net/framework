@@ -208,7 +208,7 @@ namespace Accord.MachineLearning.DecisionTrees
                 Codification.Options col;
 
                 if (codebook.Columns.TryGetValue(name, out col))
-                    variables[i] = new DecisionVariable(name, col.Symbols);
+                    variables[i] = new DecisionVariable(name, col.NumberOfSymbols);
                 else
                     variables[i] = new DecisionVariable(name, DecisionVariableKind.Continuous);
             }

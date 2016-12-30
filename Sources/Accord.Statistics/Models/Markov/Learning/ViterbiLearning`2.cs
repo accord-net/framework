@@ -28,6 +28,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.MachineLearning;
+    using System.Threading;
 
     /// <summary>
     ///   Viterbi learning algorithm.
@@ -99,6 +100,18 @@ namespace Accord.Statistics.Models.Markov.Learning
         {
             get { return mle.UseLaplaceRule; }
             set { mle.UseLaplaceRule = value; }
+        }
+
+
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used
+        /// to cancel the algorithm while it is running.
+        /// </summary>
+        /// 
+        public override CancellationToken Token
+        {
+            get { return mle.Token; }
+            set { mle.Token = value; }
         }
 
         /// <summary>

@@ -31,6 +31,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.MachineLearning;
     using Accord.Statistics.Models.Markov.Topology;
+    using System.Threading;
 
     /// <summary>
     ///   Base class for implementations of the Baum-Welch learning algorithm.
@@ -321,6 +322,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                     //            and dividing it by the probability of the entire string.
 
                     // Calculate gamma values for next computations
+                    // TODO: Use parallel-for
                     for (int t = 0; t < T; t++)
                     {
                         double lnsum = Double.NegativeInfinity;
@@ -353,13 +355,14 @@ namespace Accord.Statistics.Models.Markov.Learning
                 LogLikelihood = newLogLikelihood;
 
                 // Check for convergence
-                if (convergence.HasConverged)
+                if (convergence.HasConverged || Token.IsCancellationRequested)
                     break;
 
                 // 3. Continue with parameter re-estimation
                 newLogLikelihood = Double.NegativeInfinity;
 
                 // 3.1 Re-estimation of initial state probabilities 
+                // TODO: Use parallel-for
                 for (int i = 0; i < logP.Length; i++)
                 {
                     double lnsum = Double.NegativeInfinity;
@@ -369,6 +372,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                 }
 
                 // 3.2 Re-estimation of transition probabilities 
+                // TODO: Use parallel-for
                 for (int i = 0; i < states; i++)
                 {
                     for (int j = 0; j < states; j++)
@@ -433,7 +437,7 @@ namespace Accord.Statistics.Models.Markov.Learning
             var logKsi = LogKsi[index];
             var w = LogWeights[index];
 
-
+            // TODO: Use parallel-for
             for (int t = 0; t < T - 1; t++)
             {
                 double lnsum = Double.NegativeInfinity;
@@ -473,6 +477,7 @@ namespace Accord.Statistics.Models.Markov.Learning
             var B = Model.Emissions;
 
             // For each state i in the model
+            // TODO: Use parallel-for
             for (int i = 0; i < B.Length; i++)
             {
                 double lnsum = Double.NegativeInfinity;

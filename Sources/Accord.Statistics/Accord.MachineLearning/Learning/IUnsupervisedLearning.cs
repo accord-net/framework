@@ -26,6 +26,7 @@ namespace Accord.MachineLearning
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -39,6 +40,13 @@ namespace Accord.MachineLearning
     public interface IUnsupervisedLearning<out TModel, in TInput, out TOutput>
         where TModel : ITransform<TInput, TOutput>
     {
+
+        /// <summary>
+        ///   Gets or sets a cancellation token that can be used to 
+        ///   stop the learning algorithm while it is running.
+        /// </summary>
+        /// 
+        CancellationToken Token { get; set; }
 
         /// <summary>
         ///   Learns a model that can map the given inputs to the desired outputs.
