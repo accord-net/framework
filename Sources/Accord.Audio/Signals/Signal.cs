@@ -518,7 +518,7 @@ namespace Accord.Audio
         /// 
         public static TimeSpan DurationOfSamples(long samples, int samplingRate)
         {
-            return TimeSpan.FromMilliseconds(samples / samplingRate * 1000.0);
+            return TimeSpan.FromMilliseconds(samples / (double)samplingRate * 1000.0);
         }
 
         /// <summary>

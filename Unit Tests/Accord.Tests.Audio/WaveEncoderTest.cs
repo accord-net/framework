@@ -66,7 +66,7 @@ namespace Accord.Tests.Audio
             Signal sourceSignal = sourceDecoder.Decode();
             Assert.AreEqual(352800, sourceSignal.Samples);
             Assert.AreEqual(176400, sourceSignal.Length);
-            Assert.AreEqual(4000, sourceSignal.Duration);
+            Assert.AreEqual(4000, sourceSignal.Duration.TotalMilliseconds);
             Assert.AreEqual(2, sourceSignal.Channels);
             Assert.AreEqual(44100, sourceSignal.SampleRate);
             Assert.AreEqual(sizeof(float) * 352800, sourceSignal.RawData.Length);

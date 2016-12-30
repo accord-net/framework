@@ -100,7 +100,7 @@ namespace Accord.Tests.Audio
             {
                 ComplexSignal c = complex[i];
                 Assert.AreEqual(2, c.Channels);
-                Assert.AreEqual(92, c.Duration);
+                Assert.AreEqual(93, c.Duration.TotalMilliseconds);
                 Assert.AreEqual(4096, c.Length);
                 Assert.AreEqual(SampleFormat.Format128BitComplex, c.SampleFormat);
                 Assert.AreEqual(44100, c.SampleRate);

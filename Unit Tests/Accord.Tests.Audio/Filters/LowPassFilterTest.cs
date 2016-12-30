@@ -42,7 +42,6 @@ namespace Accord.Tests.Audio
 
             double f1 = 22;
             double f2 = 300;
-            double c = 280;
 
             Signal cosine = new CosineGenerator(f1, 1, sampleRate).Generate(n);
             Signal sine = new SineGenerator(f2, 1, sampleRate).Generate(n);
@@ -84,9 +83,9 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(1.420896515288728E-05, hf22); // should be higher
             Assert.IsTrue(hf22 > hf21);
 
-            Assert.AreEqual(16000, cosine.Duration.TotalMilliseconds);
-            Assert.AreEqual(16000, sine.Duration.TotalMilliseconds);
-            Assert.AreEqual(16000, original.Duration.TotalMilliseconds);
+            Assert.AreEqual(16384, cosine.Duration.TotalMilliseconds);
+            Assert.AreEqual(16384, sine.Duration.TotalMilliseconds);
+            Assert.AreEqual(16384, original.Duration.TotalMilliseconds);
         }
 
         private static double FindFrequencyCount(int sampleRate, Signal signal, double frequency)
