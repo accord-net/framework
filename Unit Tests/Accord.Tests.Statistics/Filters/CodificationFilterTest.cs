@@ -319,6 +319,14 @@ namespace Accord.Tests.Statistics
 
             Codification codebook = new Codification("Label", names);
 
+            Assert.AreEqual(0, codebook.Translate("Label", "child"));
+            Assert.AreEqual(1, codebook.Translate("Label", "adult"));
+            Assert.AreEqual(2, codebook.Translate("Label", "elder"));
+            Assert.AreEqual("child", codebook.Translate("Label", 0));
+            Assert.AreEqual("adult", codebook.Translate("Label", 1));
+            Assert.AreEqual("elder", codebook.Translate("Label", 2));
+
+
             byte[] bytes = codebook.Save();
 
             Codification reloaded = Serializer.Load<Codification>(bytes);

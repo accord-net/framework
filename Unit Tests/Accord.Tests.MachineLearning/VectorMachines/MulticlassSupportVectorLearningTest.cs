@@ -33,6 +33,7 @@ namespace Accord.Tests.MachineLearning
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using Accord.Statistics.Filters;
 
     [TestFixture]
     public class MulticlassSupportVectorLearningTest
@@ -972,6 +973,79 @@ namespace Accord.Tests.MachineLearning
 
                 Assert.IsTrue(a.Weights.IsEqual(e.Weights));
             }
+        }
+
+        [Test]
+        public void output_labels_test()
+        {
+            #region doc_learn_codification
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            double[][] inputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 1, 1, 1, 1 }, //  2
+                new double[] { 1, 0, 1, 1 }, //  2
+                new double[] { 1, 1, 0, 1 }, //  2
+                new double[] { 0, 1, 1, 1 }, //  2
+                new double[] { 1, 1, 1, 1 }, //  2
+            };
+
+            // Now, suppose that our class labels are not contiguous. We
+            // have 3 classes, but they have the class labels 5, 1, and 8
+            // respectively. In this case, we can use a Codification filter
+            // to obtain a contiguous zero-indexed labeling before learning
+            int[] output_labels = 
+            {
+                5, 5, 5, 5, 5,
+                1, 1, 1, 1, 1,
+                8, 8, 8, 8, 8,
+            };
+
+            // Create a codification object to obtain a output mapping
+            var codebook = new Codification<int>().Learn(output_labels);
+
+            // Transform the original labels using the codebook
+            int[] outputs = codebook.Transform(output_labels);
+
+            // Create the multi-class learning algorithm for the machine
+            var teacher = new MulticlassSupportVectorLearning<Gaussian>()
+            {
+                // Configure the learning algorithm to use SMO to train the
+                //  underlying SVMs in each of the binary class subproblems.
+                Learner = (param) => new SequentialMinimalOptimization<Gaussian>()
+                {
+                    // Estimate a suitable guess for the Gaussian kernel's parameters.
+                    // This estimate can serve as a starting point for a grid search.
+                    UseKernelEstimation = true
+                }
+            };
+
+            // Configure parallel execution options
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // Learn a machine
+            var machine = teacher.Learn(inputs, outputs);
+
+            // Obtain class predictions for each sample
+            int[] predicted = machine.Decide(inputs);
+
+            // Translate the integers back to the original lagbels
+            int[] predicted_labels = codebook.Revert(predicted);
+            #endregion
+
+            Assert.IsTrue(predicted_labels.IsEqual(output_labels));
         }
 
     }
