@@ -60,9 +60,9 @@ namespace Accord.Collections
         /// 
         public TwoWayDictionary()
         {
-            firstToSecond = new Dictionary<TFirst, TSecond>();
-            secondToFirst = new Dictionary<TSecond, TFirst>();
-            reverse = new ReverseDictionary(this);
+            this.firstToSecond = new Dictionary<TFirst, TSecond>();
+            this.secondToFirst = new Dictionary<TSecond, TFirst>();
+            this.reverse = new ReverseDictionary(this);
         }
 
         /// <summary>
@@ -75,9 +75,9 @@ namespace Accord.Collections
         /// 
         public TwoWayDictionary(int capacity)
         {
-            firstToSecond = new Dictionary<TFirst, TSecond>(capacity);
-            secondToFirst = new Dictionary<TSecond, TFirst>(capacity);
-            reverse = new ReverseDictionary(this);
+            this.firstToSecond = new Dictionary<TFirst, TSecond>(capacity);
+            this.secondToFirst = new Dictionary<TSecond, TFirst>(capacity);
+            this.reverse = new ReverseDictionary(this);
         }
 
         /// <summary> 
@@ -90,13 +90,13 @@ namespace Accord.Collections
         /// 
         public TwoWayDictionary(IDictionary<TFirst, TSecond> dictionary)
         {
-            firstToSecond = new Dictionary<TFirst, TSecond>(dictionary);
-            secondToFirst = new Dictionary<TSecond, TFirst>();
+            this.firstToSecond = new Dictionary<TFirst, TSecond>(dictionary);
+            this.secondToFirst = new Dictionary<TSecond, TFirst>();
 
             foreach (var value in dictionary)
-                secondToFirst.Add(value.Value, value.Key);
+                this.secondToFirst.Add(value.Value, value.Key);
 
-            reverse = new ReverseDictionary(this);
+            this.reverse = new ReverseDictionary(this);
         }
 
         /// <summary>
@@ -454,6 +454,9 @@ namespace Accord.Collections
         [OnDeserialized]
         private void OnDeserialized(StreamingContext context)
         {
+            // Force complete deserialization of the first-to-second dictionary
+            (this.firstToSecond as IDeserializationCallback).OnDeserialization(this);
+
             this.secondToFirst = new Dictionary<TSecond, TFirst>(firstToSecond.Count);
             foreach (var item in firstToSecond)
                 secondToFirst.Add(item.Value, item.Key);
