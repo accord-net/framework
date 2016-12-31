@@ -125,6 +125,13 @@ namespace Accord.Math
             if (rows == 0) return new T[rows][];
             int cols = matrix[0].Length;
 
+            var isARectangularMatrix = IsRectangularMatrix(matrix);
+
+            if (!isARectangularMatrix)
+            {
+                throw new ArgumentException("Only rectangular matrices can be transposed.");
+            }
+
             if (inPlace)
             {
                 if (rows != cols)
@@ -154,6 +161,19 @@ namespace Accord.Math
 
                 return result;
             }
+        }
+
+        private static bool IsRectangularMatrix<T>(T[][] matrix)
+        {
+            var numberOfRows = matrix.Length;
+            var numberOfCols = matrix[0].Length;
+
+            for (int i = 1; i < numberOfRows; i++)
+            {
+                var length = matrix[i].Length;
+                if (length != numberOfCols) return false;
+            }
+            return true;
         }
 
 
