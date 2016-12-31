@@ -31,6 +31,7 @@ namespace Accord.MachineLearning
     using Accord.Math.Distances;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Collections.Concurrent;
 
     /// <summary>
     ///   k-Modes algorithm.
@@ -226,19 +227,16 @@ namespace Accord.MachineLearning
             for (int i = 0; i < newCentroids.Length; i++)
                 newCentroids[i] = new T[cols];
 
-            var clusters = new List<T[]>[k];
-            for (int i = 0; i < k; i++)
-                clusters[i] = new List<T[]>();
+            var clusters = new ConcurrentBag<T[]>[k];
 
-            Iterations = 0;
+            this.Iterations = 0;
 
             do // Main loop
             {
                 // Reset the centroids and the
                 //  cluster member counters'
                 for (int i = 0; i < k; i++)
-                    clusters[i].Clear();
-
+                    clusters[i] = new ConcurrentBag<T[]>();
 
                 // First we will accumulate the data points
                 // into their nearest clusters, storing this
@@ -261,23 +259,25 @@ namespace Accord.MachineLearning
                 //  value by computing the mode in each cluster.
 
                 Parallel.For(0, k, ParallelOptions, i =>
+                //for (int i = 0; i < k; i++)
                 {
                     if (clusters[i].Count == 0)
                     {
                         newCentroids[i] = centroids[i];
-                        return;
                     }
-
-                    T[][] p = clusters[i].ToArray();
-
-                    // For each dimension
-                    for (int d = 0; d < Dimension; d++)
+                    else
                     {
-                        T[] values = p.GetColumn(d);
+                        T[][] p = clusters[i].Transpose();
 
-                        T mode = values.Mode(alreadySorted: false, inPlace: true);
+                        // For each dimension
+                        for (int d = 0; d < this.Dimension; d++)
+                        {
+                            T[] values = p[d];
 
-                        newCentroids[i][d] = mode;
+                            T mode = values.Mode(alreadySorted: false, inPlace: true);
+
+                            newCentroids[i][d] = mode;
+                        }
                     }
                 });
 

@@ -45,6 +45,62 @@ namespace Accord.Math
         /// 
         /// <returns>The transpose of the given matrix.</returns>
         /// 
+        public static T[][] Transpose<T>(this IList<T[]> matrix)
+        {
+            int rows = matrix.Count;
+            if (rows == 0)
+                return new T[rows][];
+            int cols = matrix[0].Length;
+
+            T[][] result = new T[cols][];
+            for (int j = 0; j < cols; j++)
+            {
+                result[j] = new T[rows];
+                for (int i = 0; i < rows; i++)
+                    result[j][i] = matrix[i][j];
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the transpose of a matrix.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A matrix.</param>
+        /// 
+        /// <returns>The transpose of the given matrix.</returns>
+        /// 
+        public static T[][] Transpose<T>(this IReadOnlyCollection<T[]> matrix)
+        {
+            int rows = matrix.Count;
+            if (rows == 0)
+                return new T[rows][];
+            int cols = matrix.Columns();
+
+            T[][] result = new T[cols][];
+            for (int j = 0; j < cols; j++)
+            {
+                result[j] = new T[rows];
+                int i = 0;
+                foreach (var row in matrix)
+                {
+                    result[j][i] = row[j];
+                    i++;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the transpose of a matrix.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A matrix.</param>
+        /// 
+        /// <returns>The transpose of the given matrix.</returns>
+        /// 
         public static T[][] Transpose<T>(this T[][] matrix)
         {
             return Transpose(matrix, false);
@@ -99,7 +155,6 @@ namespace Accord.Math
                 return result;
             }
         }
-
 
 
         /// <summary>
@@ -172,6 +227,22 @@ namespace Accord.Math
             if (matrix.Length == 0)
                 return 0;
             return matrix[0].Length;
+        }
+
+        /// <summary>
+        ///   Gets the number of columns in a jagged matrix.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements in the matrix.</typeparam>
+        /// <param name="matrix">The matrix whose number of columns must be computed.</param>
+        /// 
+        /// <returns>The number of columns in the matrix.</returns>
+        /// 
+        public static int Columns<T>(this IEnumerable<T[]> matrix)
+        {
+            foreach (var row in matrix)
+                return row.Length;
+            return 0;
         }
 
         /// <summary>

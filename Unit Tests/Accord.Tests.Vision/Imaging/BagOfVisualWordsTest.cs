@@ -237,11 +237,10 @@ namespace Accord.Tests.Imaging
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector(fast);
 
             var kmodes = new KModes<byte>(5, new Hamming());
+            kmodes.ParallelOptions.MaxDegreeOfParallelism = 1;
 
             var bow = new BagOfVisualWords<FastRetinaKeypoint, byte[]>(freak, kmodes);
-
             bow.Compute(images);
-
 
             double[][] expected = new double[images.Length][];
             for (int i = 0; i < expected.Length; i++)
@@ -256,7 +255,6 @@ namespace Accord.Tests.Imaging
             double[][] actual = new double[expected.Length][];
             for (int i = 0; i < actual.Length; i++)
                 actual[i] = bow.GetFeatureVector(images[i]);
-
 
             Assert.IsTrue(expected.IsEqual(actual));
         }

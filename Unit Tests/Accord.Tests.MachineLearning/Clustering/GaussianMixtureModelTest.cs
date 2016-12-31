@@ -333,6 +333,7 @@ namespace Accord.Tests.MachineLearning
 
             GaussianMixtureModel gmm = new GaussianMixtureModel(2);
             gmm.Initializations = 1;
+            gmm.ParallelOptions.MaxDegreeOfParallelism = 1;
 
             gmm.Compute(points, new GaussianMixtureModelOptions()
             {
