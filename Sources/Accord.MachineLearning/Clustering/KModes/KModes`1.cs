@@ -49,15 +49,11 @@ namespace Accord.MachineLearning
     /// <seealso cref="MeanShift"/>
     /// 
     [Serializable]
-    public class KModes<T> : IClusteringAlgorithm<T[]>,
+    public class KModes<T> : ParallelLearningBase, IClusteringAlgorithm<T[]>,
         IUnsupervisedLearning<KModesClusterCollection<T>, T[], int>
     {
 
         private KModesClusterCollection<T> clusters;
-
-        [NonSerialized]
-        private ParallelOptions parallelOptions;
-
 
         /// <summary>
         ///   Gets the clusters found by K-modes.
@@ -140,32 +136,6 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         public Seeding Initialization { get; set; }
-
-        /// <summary>
-        ///   Gets or sets parallelization options.
-        /// </summary>
-        /// 
-        public ParallelOptions ParallelOptions
-        {
-            get
-            {
-                if (parallelOptions == null)
-                    parallelOptions = new ParallelOptions();
-                return parallelOptions;
-            }
-            set { parallelOptions = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets a cancellation token that can be used to
-        /// stop the learning algorithm while it is running.
-        /// </summary>
-        /// <value>The token.</value>
-        public CancellationToken Token
-        {
-            get { return ParallelOptions.CancellationToken; }
-            set { ParallelOptions.CancellationToken = value; }
-        }
 
         /// <summary>
         ///   Initializes a new instance of KModes algorithm

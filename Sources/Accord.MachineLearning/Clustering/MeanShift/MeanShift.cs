@@ -135,7 +135,7 @@ namespace Accord.MachineLearning
     /// <see cref="GaussianMixtureModel"/>
     /// 
     [Serializable]
-    public class MeanShift : IClusteringAlgorithm<double[]>,
+    public class MeanShift : ParallelLearningBase, IClusteringAlgorithm<double[]>,
         IUnsupervisedLearning<MeanShiftClusterCollection, double[], int>
     {
 
@@ -147,8 +147,6 @@ namespace Accord.MachineLearning
         private IRadiallySymmetricKernel kernel;
         private MeanShiftClusterCollection clusters;
 
-        [NonSerialized]
-        private ParallelOptions parallelOptions;
 
         /// <summary>
         ///   Gets the clusters found by Mean Shift.
@@ -274,28 +272,6 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         public double Tolerance { get; set; }
-
-        public ParallelOptions ParallelOptions
-        {
-            get
-            {
-                if (parallelOptions == null)
-                    parallelOptions = new ParallelOptions();
-                return parallelOptions;
-            }
-            set { parallelOptions = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets a cancellation token that can be used to
-        /// stop the learning algorithm while it is running.
-        /// </summary>
-        /// <value>The token.</value>
-        public CancellationToken Token
-        {
-            get { return ParallelOptions.CancellationToken; }
-            set { ParallelOptions.CancellationToken = value; }
-        }
 
         /// <summary>
         ///   Creates a new <see cref="MeanShift"/> algorithm.

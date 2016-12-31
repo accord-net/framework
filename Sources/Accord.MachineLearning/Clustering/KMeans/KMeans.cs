@@ -173,15 +173,11 @@ namespace Accord.MachineLearning
     ///
     [Serializable]
     [SerializationBinder(typeof(KMeans.KMeansBinder))]
-    public class KMeans : IClusteringAlgorithm<double[], double>,
+    public class KMeans : ParallelLearningBase, IClusteringAlgorithm<double[], double>,
         IUnsupervisedLearning<KMeansClusterCollection, double[], int>
     {
 
         private KMeansClusterCollection clusters;
-
-        [NonSerialized]
-        private ParallelOptions parallelOptions;
-
 
         /// <summary>
         ///   Gets the clusters found by K-means.
@@ -273,32 +269,6 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         public Seeding UseSeeding { get; set; }
-
-        /// <summary>
-        ///   Gets or sets parallelization options.
-        /// </summary>
-        /// 
-        public ParallelOptions ParallelOptions
-        {
-            get
-            {
-                if (parallelOptions == null)
-                    parallelOptions = new ParallelOptions();
-                return parallelOptions;
-            }
-            set { parallelOptions = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets a cancellation token that can be used to
-        /// stop the learning algorithm while it is running.
-        /// </summary>
-        /// <value>The token.</value>
-        public CancellationToken Token
-        {
-            get { return ParallelOptions.CancellationToken; }
-            set { ParallelOptions.CancellationToken = value; }
-        }
 
         /// <summary>
         ///   Initializes a new instance of KMeans algorithm

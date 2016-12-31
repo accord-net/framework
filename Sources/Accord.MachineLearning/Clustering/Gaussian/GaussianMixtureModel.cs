@@ -48,13 +48,11 @@ namespace Accord.MachineLearning
     /// </example>
     /// 
     [Serializable]
-    public class GaussianMixtureModel : IClusteringAlgorithm<double[], double>,
+    public class GaussianMixtureModel : ParallelLearningBase, 
+        IClusteringAlgorithm<double[], double>,
         IUnsupervisedLearning<GaussianClusterCollection, double[], int>
     {
         private GaussianClusterCollection clusters;
-
-        [NonSerialized]
-        private ParallelOptions parallelOptions;
 
         /// <summary>
         ///   Gets or sets the maximum number of iterations to
@@ -63,17 +61,6 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         public int MaxIterations { get; set; }
-
-        /// <summary>
-        /// Gets or sets a cancellation token that can be used to
-        /// stop the learning algorithm while it is running.
-        /// </summary>
-        /// <value>The token.</value>
-        public CancellationToken Token
-        { 
-            get { return ParallelOptions.CancellationToken; }
-            set { ParallelOptions.CancellationToken = value; }
-        }
 
         /// <summary>
         ///   Gets or sets the convergence criterion for the
@@ -126,21 +113,6 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         public bool UseLogarithm { get; set; }
-
-        /// <summary>
-        ///   Gets or sets parallelization options.
-        /// </summary>
-        /// 
-        public ParallelOptions ParallelOptions
-        {
-            get
-            {
-                if (parallelOptions == null)
-                    parallelOptions = new ParallelOptions();
-                return parallelOptions;
-            }
-            set { parallelOptions = value; }
-        }
 
         /// <summary>
         ///   Gets or sets the fitting options for the component
