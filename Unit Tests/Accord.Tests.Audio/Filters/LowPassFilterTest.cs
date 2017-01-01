@@ -52,8 +52,8 @@ namespace Accord.Tests.Audio
 
             var of1 = FindFrequencyCount(sampleRate, original, f1);
             var of2 = FindFrequencyCount(sampleRate, original, f2);
-            Assert.AreEqual(2.1919473889115457E-05, of1);
-            Assert.AreEqual(2.9269612275882952E-05, of2);
+            Assert.AreEqual(2.1919473889115457E-05, of1, 1e-8);
+            Assert.AreEqual(2.9269612275882952E-05, of2, 1e-8);
 
             Signal lowFiltered1 = new LowPassFilter(f1, sampleRate).Apply(original);
             Signal lowFiltered2 = new LowPassFilter(f2, sampleRate).Apply(original);
@@ -63,24 +63,24 @@ namespace Accord.Tests.Audio
 
             var lf11 = FindFrequencyCount(sampleRate, lowFiltered1, f1);
             var lf12 = FindFrequencyCount(sampleRate, lowFiltered1, f2);
-            Assert.AreEqual(1.5008301894378632E-05, lf11); // should be higher
-            Assert.AreEqual(2.33561994410787E-06, lf12);
+            Assert.AreEqual(1.5008301894378632E-05, lf11, 1e-8); // should be higher
+            Assert.AreEqual(2.33561994410787E-06, lf12, 1e-8);
             Assert.IsTrue(lf11 > lf12);
 
             var lf21 = FindFrequencyCount(sampleRate, lowFiltered2, f1);
             var lf22 = FindFrequencyCount(sampleRate, lowFiltered2, f2);
-            Assert.AreEqual(2.1754311480113727E-05, lf21); // should not have much difference
-            Assert.AreEqual(1.6551627449395776E-05, lf22);
+            Assert.AreEqual(2.1754311480113727E-05, lf21, 1e-8); // should not have much difference
+            Assert.AreEqual(1.6551627449395776E-05, lf22, 1e-8);
 
             var hf11 = FindFrequencyCount(sampleRate, highFiltered1, f1);
             var hf12 = FindFrequencyCount(sampleRate, highFiltered1, f2);
-            Assert.AreEqual(1.4979563644182712E-05, hf11);  // should not have much difference
-            Assert.AreEqual(2.7342436340623498E-05, hf12);
+            Assert.AreEqual(1.4979563644182712E-05, hf11, 1e-8);  // should not have much difference
+            Assert.AreEqual(2.7342436340623498E-05, hf12, 1e-8);
 
             var hf21 = FindFrequencyCount(sampleRate, highFiltered2, f1);
             var hf22 = FindFrequencyCount(sampleRate, highFiltered2, f2);
-            Assert.AreEqual(1.5938293048394034E-06, hf21); 
-            Assert.AreEqual(1.420896515288728E-05, hf22); // should be higher
+            Assert.AreEqual(1.5938293048394034E-06, hf21, 1e-8); 
+            Assert.AreEqual(1.420896515288728E-05, hf22, 1e-8); // should be higher
             Assert.IsTrue(hf22 > hf21);
 
             Assert.AreEqual(16384, cosine.Duration.TotalMilliseconds);

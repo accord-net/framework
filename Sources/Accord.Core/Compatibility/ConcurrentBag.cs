@@ -31,7 +31,7 @@ namespace Accord
     ///   Accord.NET work. This is not a complete implementation.
     /// </summary>
     /// 
-    public class ConcurrentBag<T> : IEnumerable<T>
+    public class ConcurrentBag<T> : IEnumerable<T>, IReadOnlyCollection<T>
     {
         private LinkedList<T> list;
 

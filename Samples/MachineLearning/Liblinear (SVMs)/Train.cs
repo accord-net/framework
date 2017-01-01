@@ -48,7 +48,11 @@ using Machine = Accord.MachineLearning.VectorMachines
 using Solver = Accord.MachineLearning.
     ISupervisedLearning<Accord.MachineLearning.VectorMachines.SupportVectorMachine<
         Accord.Statistics.Kernels.Linear, Accord.Math.Sparse<double>>, Accord.Math.Sparse<double>, bool>;
-
+#if NET35
+using NS = Accord;
+#else
+using NS = System;
+#endif
 
 namespace Liblinear
 {
@@ -96,7 +100,7 @@ namespace Liblinear
             }
 
             // Learn the specified problem and register steps and obtained results
-            Tuple<Machine, Solver, LibSvmModel> result= train(Problem, Parameters);
+            NS.Tuple<Machine, Solver, LibSvmModel> result= train(Problem, Parameters);
             this.Machine = result.Item1; // The SVM actually created by Accord.NET
             this.Solver = result.Item2;  // The Accord.NET learning algorithm used.
             this.Model = result.Item3;   // LIBLINEAR's definition of what a SVM is
@@ -296,7 +300,7 @@ namespace Liblinear
             if (bias > 0)
                 reader.Intercept = bias;
 
-            Tuple<Sparse<double>[], double[]> r = reader.ReadSparseToEnd();
+            NS.Tuple<Sparse<double>[], double[]> r = reader.ReadSparseToEnd();
             Sparse<double>[] x = r.Item1;
             double[] y = r.Item2;
 
@@ -331,7 +335,7 @@ namespace Liblinear
             return null;
         }
 
-        public static Tuple<Machine, Solver, LibSvmModel> train(Problem prob, Parameters parameters)
+        public static NS.Tuple<Machine, Solver, LibSvmModel> train(Problem prob, Parameters parameters)
         {
             double[] w;
             double Cp = parameters.Complexity;
@@ -349,9 +353,9 @@ namespace Liblinear
                 }
             }
 
-            Tuple<Machine, Solver> result = train_one(prob, parameters, out w, Cp, Cn);
+            NS.Tuple<Machine, Solver> result = train_one(prob, parameters, out w, Cp, Cn);
 
-            return Tuple.Create(result.Item1, result.Item2, new LibSvmModel()
+            return NS.Tuple.Create(result.Item1, result.Item2, new LibSvmModel()
             {
                 Dimension = prob.Dimensions,
                 Classes = 2,
@@ -362,7 +366,7 @@ namespace Liblinear
             });
         }
 
-        public static Tuple<Machine, Solver> train_one(Problem prob, Parameters param, out double[] w, double Cp, double Cn)
+        public static NS.Tuple<Machine, Solver> train_one(Problem prob, Parameters param, out double[] w, double Cp, double Cn)
         {
             Sparse<double>[] inputs = prob.Inputs;
             bool[] labels = prob.Outputs.Apply(x => x >= 0);
@@ -383,7 +387,7 @@ namespace Liblinear
             w = svm.ToWeights();
 
             Trace.WriteLine(String.Format("Finished {0}: {1} in {2}", param.Solver, error, sw.Elapsed));
-            return Tuple.Create(svm, teacher);
+            return NS.Tuple.Create(svm, teacher);
         }
 
         private static Solver create_solver(Parameters param, double Cp, double Cn, Sparse<double>[] inputs, bool[] outputs)

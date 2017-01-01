@@ -20,6 +20,8 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+#define CHECKS
+
 namespace Accord.Math
 {
     using System;
@@ -51,7 +53,10 @@ namespace Accord.Math
             if (rows == 0)
                 return new T[rows][];
             int cols = matrix[0].Length;
-
+#if CHECKS
+            if (!IsRectangular(matrix))
+                throw new ArgumentException("Only rectangular matrices can be transposed.");
+#endif
             T[][] result = new T[cols][];
             for (int j = 0; j < cols; j++)
             {
@@ -77,7 +82,10 @@ namespace Accord.Math
             if (rows == 0)
                 return new T[rows][];
             int cols = matrix.Columns();
-
+#if CHECKS
+            if (!IsRectangular(matrix))
+                throw new ArgumentException("Only rectangular matrices can be transposed.");
+#endif
             T[][] result = new T[cols][];
             for (int j = 0; j < cols; j++)
             {
@@ -124,14 +132,10 @@ namespace Accord.Math
             int rows = matrix.Length;
             if (rows == 0) return new T[rows][];
             int cols = matrix[0].Length;
-
-            var isARectangularMatrix = IsRectangularMatrix(matrix);
-
-            if (!isARectangularMatrix)
-            {
+#if CHECKS
+            if (!IsRectangular(matrix))
                 throw new ArgumentException("Only rectangular matrices can be transposed.");
-            }
-
+#endif
             if (inPlace)
             {
                 if (rows != cols)
@@ -162,20 +166,6 @@ namespace Accord.Math
                 return result;
             }
         }
-
-        private static bool IsRectangularMatrix<T>(T[][] matrix)
-        {
-            var numberOfRows = matrix.Length;
-            var numberOfCols = matrix[0].Length;
-
-            for (int i = 1; i < numberOfRows; i++)
-            {
-                var length = matrix[i].Length;
-                if (length != numberOfCols) return false;
-            }
-            return true;
-        }
-
 
         /// <summary>
         ///   Gets the transpose of a row vector.
@@ -210,14 +200,10 @@ namespace Accord.Math
             return result;
         }
 
-
-
         #endregion
 
 
         #region Matrix Characteristics
-
-
 
         /// <summary>
         ///   Gets the number of rows in a jagged matrix.
@@ -392,7 +378,8 @@ namespace Accord.Math
         /// 
         public static bool IsDiagonal<T>(this T[][] matrix) where T : IComparable
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
             T zero = default(T);
 
@@ -430,6 +417,7 @@ namespace Accord.Math
             return false;
         }
 
+        // TODO: Move to T4 template
         /// <summary>
         ///   Gets the trace of a matrix.
         /// </summary>
@@ -472,6 +460,44 @@ namespace Accord.Math
         public static bool IsPositiveDefinite(this double[][] matrix)
         {
             return new JaggedCholeskyDecomposition(matrix).IsPositiveDefinite;
+        }
+
+        /// <summary>
+        /// Determines whether the specified matrix is rectangular.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix.</param>
+        /// 
+        /// <returns><c>true</c> if the specified matrix is rectangular; otherwise, <c>false</c>.</returns>
+        /// 
+        public static bool IsRectangular<T>(T[][] matrix)
+        {
+            int numberOfCols = matrix[0].Length;
+
+            for (int i = 1; i < matrix.Length; i++)
+                if (matrix[i].Length != numberOfCols)
+                    return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Determines whether the specified matrix is rectangular.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix.</param>
+        /// 
+        /// <returns><c>true</c> if the specified matrix is rectangular; otherwise, <c>false</c>.</returns>
+        /// 
+        public static bool IsRectangular<T>(IEnumerable<T[]> matrix)
+        {
+            int numberOfCols = matrix.Columns();
+
+            foreach (T[] row in matrix)
+                if (row.Length != numberOfCols)
+                    return false;
+
+            return true;
         }
         #endregion
 
@@ -611,9 +637,6 @@ namespace Accord.Math
                 for (int j = 0; j < matrix[i].Length; j++)
                     destination[i, j] = matrix[i][j];
         }
-
-
-
 
     }
 }
