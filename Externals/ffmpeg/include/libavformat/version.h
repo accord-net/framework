@@ -27,10 +27,12 @@
  * Libavformat version macros
  */
 
-#include "libavutil/avutil.h"
+#include "libavutil/version.h"
 
-#define LIBAVFORMAT_VERSION_MAJOR 53
-#define LIBAVFORMAT_VERSION_MINOR 31
+// Major bumping may affect Ticket5467, 5421, 5451(compatibility with Chromium)
+// Also please add any ticket numbers that you believe might be affected here
+#define LIBAVFORMAT_VERSION_MAJOR  57
+#define LIBAVFORMAT_VERSION_MINOR  58
 #define LIBAVFORMAT_VERSION_MICRO 100
 
 #define LIBAVFORMAT_VERSION_INT AV_VERSION_INT(LIBAVFORMAT_VERSION_MAJOR, \
@@ -44,86 +46,47 @@
 #define LIBAVFORMAT_IDENT       "Lavf" AV_STRINGIFY(LIBAVFORMAT_VERSION)
 
 /**
- * Those FF_API_* defines are not part of public API.
- * They may change, break or disappear at any time.
+ * FF_API_* defines may be placed below to indicate public API that will be
+ * dropped at a future version bump. The defines themselves are not part of
+ * the public API and may change, break or disappear at any time.
+ *
+ * @note, when bumping the major version it is recommended to manually
+ * disable each FF_API_* in its own commit instead of disabling them all
+ * at once through the bump. This improves the git bisect-ability of the change.
+ *
  */
-#ifndef FF_API_OLD_METADATA2
-#define FF_API_OLD_METADATA2           (LIBAVFORMAT_VERSION_MAJOR < 54)
+#ifndef FF_API_LAVF_BITEXACT
+#define FF_API_LAVF_BITEXACT            (LIBAVFORMAT_VERSION_MAJOR < 58)
 #endif
-#ifndef FF_API_OLD_AVIO
-#define FF_API_OLD_AVIO                (LIBAVFORMAT_VERSION_MAJOR < 54)
+#ifndef FF_API_LAVF_FRAC
+#define FF_API_LAVF_FRAC                (LIBAVFORMAT_VERSION_MAJOR < 58)
 #endif
-#ifndef FF_API_DUMP_FORMAT
-#define FF_API_DUMP_FORMAT             (LIBAVFORMAT_VERSION_MAJOR < 54)
+#ifndef FF_API_LAVF_CODEC_TB
+#define FF_API_LAVF_CODEC_TB            (LIBAVFORMAT_VERSION_MAJOR < 58)
 #endif
-#ifndef FF_API_PARSE_DATE
-#define FF_API_PARSE_DATE              (LIBAVFORMAT_VERSION_MAJOR < 54)
+#ifndef FF_API_URL_FEOF
+#define FF_API_URL_FEOF                 (LIBAVFORMAT_VERSION_MAJOR < 58)
 #endif
-#ifndef FF_API_FIND_INFO_TAG
-#define FF_API_FIND_INFO_TAG           (LIBAVFORMAT_VERSION_MAJOR < 54)
+#ifndef FF_API_LAVF_FMT_RAWPICTURE
+#define FF_API_LAVF_FMT_RAWPICTURE      (LIBAVFORMAT_VERSION_MAJOR < 58)
 #endif
-#ifndef FF_API_PKT_DUMP
-#define FF_API_PKT_DUMP                (LIBAVFORMAT_VERSION_MAJOR < 54)
+#ifndef FF_API_COMPUTE_PKT_FIELDS2
+#define FF_API_COMPUTE_PKT_FIELDS2      (LIBAVFORMAT_VERSION_MAJOR < 58)
 #endif
-#ifndef FF_API_GUESS_IMG2_CODEC
-#define FF_API_GUESS_IMG2_CODEC        (LIBAVFORMAT_VERSION_MAJOR < 54)
+#ifndef FF_API_OLD_OPEN_CALLBACKS
+#define FF_API_OLD_OPEN_CALLBACKS       (LIBAVFORMAT_VERSION_MAJOR < 58)
 #endif
-#ifndef FF_API_SDP_CREATE
-#define FF_API_SDP_CREATE              (LIBAVFORMAT_VERSION_MAJOR < 54)
+#ifndef FF_API_LAVF_AVCTX
+#define FF_API_LAVF_AVCTX               (LIBAVFORMAT_VERSION_MAJOR < 58)
 #endif
-#ifndef FF_API_ALLOC_OUTPUT_CONTEXT
-#define FF_API_ALLOC_OUTPUT_CONTEXT    (LIBAVFORMAT_VERSION_MAJOR < 54)
+#ifndef FF_API_NOCONST_GET_SIDE_DATA
+#define FF_API_NOCONST_GET_SIDE_DATA    (LIBAVFORMAT_VERSION_MAJOR < 58)
 #endif
-#ifndef FF_API_FORMAT_PARAMETERS
-#define FF_API_FORMAT_PARAMETERS       (LIBAVFORMAT_VERSION_MAJOR < 54)
-#endif
-#ifndef FF_API_FLAG_RTP_HINT
-#define FF_API_FLAG_RTP_HINT           (LIBAVFORMAT_VERSION_MAJOR < 54)
-#endif
-#ifndef FF_API_AVSTREAM_QUALITY
-#define FF_API_AVSTREAM_QUALITY        (LIBAVFORMAT_VERSION_MAJOR < 54)
-#endif
-#ifndef FF_API_LOOP_INPUT
-#define FF_API_LOOP_INPUT              (LIBAVFORMAT_VERSION_MAJOR < 54)
-#endif
-#ifndef FF_API_LOOP_OUTPUT
-#define FF_API_LOOP_OUTPUT             (LIBAVFORMAT_VERSION_MAJOR < 54)
-#endif
-#ifndef FF_API_TIMESTAMP
-#define FF_API_TIMESTAMP               (LIBAVFORMAT_VERSION_MAJOR < 54)
-#endif
-#ifndef FF_API_FILESIZE
-#define FF_API_FILESIZE                (LIBAVFORMAT_VERSION_MAJOR < 54)
-#endif
-#ifndef FF_API_MUXRATE
-#define FF_API_MUXRATE                 (LIBAVFORMAT_VERSION_MAJOR < 54)
-#endif
-#ifndef FF_API_RTSP_URL_OPTIONS
-#define FF_API_RTSP_URL_OPTIONS        (LIBAVFORMAT_VERSION_MAJOR < 54)
-#endif
-#ifndef FF_API_NEW_STREAM
-#define FF_API_NEW_STREAM              (LIBAVFORMAT_VERSION_MAJOR < 54)
-#endif
-#ifndef FF_API_PRELOAD
-#define FF_API_PRELOAD                 (LIBAVFORMAT_VERSION_MAJOR < 54)
-#endif
-#ifndef FF_API_STREAM_COPY
-#define FF_API_STREAM_COPY             (LIBAVFORMAT_VERSION_MAJOR < 54)
-#endif
-#ifndef FF_API_SEEK_PUBLIC
-#define FF_API_SEEK_PUBLIC             (LIBAVFORMAT_VERSION_MAJOR < 54)
-#endif
-#ifndef FF_API_REORDER_PRIVATE
-#define FF_API_REORDER_PRIVATE         (LIBAVFORMAT_VERSION_MAJOR < 54)
-#endif
-#ifndef FF_API_OLD_INTERRUPT_CB
-#define FF_API_OLD_INTERRUPT_CB        (LIBAVFORMAT_VERSION_MAJOR < 54)
-#endif
-#ifndef FF_API_SET_PTS_INFO
-#define FF_API_SET_PTS_INFO            (LIBAVFORMAT_VERSION_MAJOR < 54)
-#endif
-#ifndef FF_API_CLOSE_INPUT_FILE
-#define FF_API_CLOSE_INPUT_FILE        (LIBAVFORMAT_VERSION_MAJOR < 55)
+#ifndef FF_API_HTTP_USER_AGENT
+#define FF_API_HTTP_USER_AGENT          (LIBAVFORMAT_VERSION_MAJOR < 58)
 #endif
 
+#ifndef FF_API_R_FRAME_RATE
+#define FF_API_R_FRAME_RATE            1
+#endif
 #endif /* AVFORMAT_VERSION_H */

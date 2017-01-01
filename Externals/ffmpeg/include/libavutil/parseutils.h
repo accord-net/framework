@@ -29,6 +29,30 @@
  */
 
 /**
+ * Parse str and store the parsed ratio in q.
+ *
+ * Note that a ratio with infinite (1/0) or negative value is
+ * considered valid, so you should check on the returned value if you
+ * want to exclude those values.
+ *
+ * The undefined value can be expressed using the "0:0" string.
+ *
+ * @param[in,out] q pointer to the AVRational which will contain the ratio
+ * @param[in] str the string to parse: it has to be a string in the format
+ * num:den, a float number or an expression
+ * @param[in] max the maximum allowed numerator and denominator
+ * @param[in] log_offset log level offset which is applied to the log
+ * level of log_ctx
+ * @param[in] log_ctx parent logging context
+ * @return >= 0 on success, a negative error code otherwise
+ */
+int av_parse_ratio(AVRational *q, const char *str, int max,
+                   int log_offset, void *log_ctx);
+
+#define av_parse_ratio_quiet(rate, str, max) \
+    av_parse_ratio(rate, str, max, AV_LOG_MAX_OFFSET, NULL)
+
+/**
  * Parse str and put in width_ptr and height_ptr the detected values.
  *
  * @param[in,out] width_ptr pointer to the variable which will contain the detected
@@ -75,6 +99,19 @@ int av_parse_color(uint8_t *rgba_color, const char *color_string, int slen,
                    void *log_ctx);
 
 /**
+ * Get the name of a color from the internal table of hard-coded named
+ * colors.
+ *
+ * This function is meant to enumerate the color names recognized by
+ * av_parse_color().
+ *
+ * @param color_idx index of the requested color, starting from 0
+ * @param rgbp      if not NULL, will point to a 3-elements array with the color value in RGB
+ * @return the color name string or NULL if color_idx is not in the array
+ */
+const char *av_get_known_color_name(int color_idx, const uint8_t **rgb);
+
+/**
  * Parse timestr and return in *time a corresponding number of
  * microseconds.
  *
@@ -88,7 +125,7 @@ int av_parse_color(uint8_t *rgba_color, const char *color_string, int slen,
  * @param timestr a string representing a date or a duration.
  * - If a date the syntax is:
  * @code
- * [{YYYY-MM-DD|YYYYMMDD}[T|t| ]]{{HH[:MM[:SS[.m...]]]}|{HH[MM[SS[.m...]]]}}[Z]
+ * [{YYYY-MM-DD|YYYYMMDD}[T|t| ]]{{HH:MM:SS[.m...]]]}|{HHMMSS[.m...]]]}}[Z]
  * now
  * @endcode
  * If the value is "now" it takes the current time.
@@ -98,12 +135,12 @@ int av_parse_color(uint8_t *rgba_color, const char *color_string, int slen,
  * year-month-day.
  * - If a duration the syntax is:
  * @code
- * [-]HH[:MM[:SS[.m...]]]
+ * [-][HH:]MM:SS[.m...]
  * [-]S+[.m...]
  * @endcode
  * @param duration flag which tells how to interpret timestr, if not
  * zero timestr is interpreted as a duration, otherwise as a date
- * @return 0 in case of success, a negative value corresponding to an
+ * @return >= 0 in case of success, a negative value corresponding to an
  * AVERROR code otherwise
  */
 int av_parse_time(int64_t *timeval, const char *timestr, int duration);
@@ -115,6 +152,38 @@ int av_parse_time(int64_t *timeval, const char *timestr, int duration);
  * Return 1 if found.
  */
 int av_find_info_tag(char *arg, int arg_size, const char *tag1, const char *info);
+
+/**
+ * Simplified version of strptime
+ *
+ * Parse the input string p according to the format string fmt and
+ * store its results in the structure dt.
+ * This implementation supports only a subset of the formats supported
+ * by the standard strptime().
+ *
+ * The supported input field descriptors are listed below.
+ * - %H: the hour as a decimal number, using a 24-hour clock, in the
+ *   range '00' through '23'
+ * - %J: hours as a decimal number, in the range '0' through INT_MAX
+ * - %M: the minute as a decimal number, using a 24-hour clock, in the
+ *   range '00' through '59'
+ * - %S: the second as a decimal number, using a 24-hour clock, in the
+ *   range '00' through '59'
+ * - %Y: the year as a decimal number, using the Gregorian calendar
+ * - %m: the month as a decimal number, in the range '1' through '12'
+ * - %d: the day of the month as a decimal number, in the range '1'
+ *   through '31'
+ * - %T: alias for '%H:%M:%S'
+ * - %%: a literal '%'
+ *
+ * @return a pointer to the first character not processed in this function
+ *         call. In case the input string contains more characters than
+ *         required by the format string the return value points right after
+ *         the last consumed input character. In case the whole input string
+ *         is consumed the return value points to the null byte at the end of
+ *         the string. On failure NULL is returned.
+ */
+char *av_small_strptime(const char *p, const char *fmt, struct tm *dt);
 
 /**
  * Convert the decomposed UTC time in tm to a time_t value.
