@@ -97,7 +97,7 @@ namespace Accord.Tests.Statistics
 
         [Test]
 #if !DEBUG
-        [Timeout(2000)]
+        [Timeout(50000)]
 #endif
         public void ConstructorTest()
         {
@@ -130,7 +130,6 @@ namespace Accord.Tests.Statistics
                 analysis.Compute();
                 Assert.AreEqual("Gamma", analysis.GoodnessOfFit[0].Name);
             }
-
         }
 
 

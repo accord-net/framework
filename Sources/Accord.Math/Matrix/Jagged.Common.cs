@@ -76,26 +76,25 @@ namespace Accord.Math
         /// 
         /// <returns>The transpose of the given matrix.</returns>
         /// 
-        public static T[][] Transpose<T>(this IReadOnlyCollection<T[]> matrix)
+        public static TItem[][] Transpose<TCollection, TItem>(this TCollection matrix)
+            where TCollection : ICollection, IEnumerable<TItem[]>
         {
             int rows = matrix.Count;
             if (rows == 0)
-                return new T[rows][];
+                return new TItem[rows][];
             int cols = matrix.Columns();
 #if CHECKS
             if (!IsRectangular(matrix))
                 throw new ArgumentException("Only rectangular matrices can be transposed.");
 #endif
-            T[][] result = new T[cols][];
-            for (int j = 0; j < cols; j++)
+            TItem[][] result = Jagged.Zeros<TItem>(cols, rows);
+
+            int i = 0;
+            foreach (TItem[] row in matrix)
             {
-                result[j] = new T[rows];
-                int i = 0;
-                foreach (var row in matrix)
-                {
+                for (int j = 0; j < result.Length; j++)
                     result[j][i] = row[j];
-                    i++;
-                }
+                i++;
             }
 
             return result;

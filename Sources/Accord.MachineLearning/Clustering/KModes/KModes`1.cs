@@ -259,7 +259,6 @@ namespace Accord.MachineLearning
                 //  value by computing the mode in each cluster.
 
                 Parallel.For(0, k, ParallelOptions, i =>
-                //for (int i = 0; i < k; i++)
                 {
                     if (clusters[i].Count == 0)
                     {
@@ -267,17 +266,11 @@ namespace Accord.MachineLearning
                     }
                     else
                     {
-                        T[][] p = clusters[i].Transpose();
+                        T[][] p = Matrix.Transpose<ConcurrentBag<T[]>, T>(clusters[i]);
 
                         // For each dimension
                         for (int d = 0; d < this.Dimension; d++)
-                        {
-                            T[] values = p[d];
-
-                            T mode = values.Mode(alreadySorted: false, inPlace: true);
-
-                            newCentroids[i][d] = mode;
-                        }
+                            newCentroids[i][d] = p[d].Mode(alreadySorted: false, inPlace: true);
                     }
                 });
 

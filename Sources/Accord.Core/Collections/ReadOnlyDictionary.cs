@@ -24,7 +24,7 @@ namespace Accord.Collections
 {
     using System;
     using System.Collections.Generic;
-
+#if !MONO
     /// <summary>
     ///   Read-only dictionary wrapper.
     /// </summary>
@@ -38,7 +38,7 @@ namespace Accord.Collections
     /// <typeparam name="TKey">The types of the keys in the dictionary.</typeparam>
     /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
     /// 
-#if !NET35 && !NET40 && !MONO
+#if !NET35 && !NET40
     [Obsolete("Use System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue> instead.")]
 #endif
     [Serializable]
@@ -262,4 +262,5 @@ namespace Accord.Collections
         }
 
     }
+#endif
 }

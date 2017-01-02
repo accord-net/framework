@@ -27,7 +27,7 @@ namespace Accord.Math.Optimization
     using System.Collections.ObjectModel;
     using System.Linq.Expressions;
 
-#if NET35 || NET40 || MONO
+#if NET35 || NET40
     using Accord.Collections;
 #endif
 
