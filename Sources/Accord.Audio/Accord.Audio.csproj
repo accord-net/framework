@@ -67,7 +67,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono|AnyCPU'">
     <OutputPath>$(SolutionDir)..\Release\mono</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;MONO</DefineConstants>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\mono\Accord.Audio.XML</DocumentationFile>
     <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>

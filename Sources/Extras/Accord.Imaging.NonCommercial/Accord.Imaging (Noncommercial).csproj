@@ -72,7 +72,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono|AnyCPU'">
     <OutputPath>$(SolutionDir)..\Release\mono\Noncommercial\</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;MONO</DefineConstants>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\mono\Noncommercial\Accord.Imaging.Noncommercial.XML</DocumentationFile>
     <RunCodeAnalysis>False</RunCodeAnalysis>
     <NoWarn>0612, 0618</NoWarn>
