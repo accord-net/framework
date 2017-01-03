@@ -74,10 +74,8 @@ namespace Accord.Math.Optimization.Losses
         /// </summary>
         /// <param name="expected">The expected outputs (ground truth).</param>
         public ZeroOneLoss(int[] expected)
-            : base(expected)
+            : base(Classes.IsMinusOnePlusOne(expected) ? Classes.ToMulticlass(expected) : expected)
         {
-            if (Expected.Min() < 0)
-                throw new Exception("Expected values should be greater than or equal to zero.");
         }
 
         /// <summary>

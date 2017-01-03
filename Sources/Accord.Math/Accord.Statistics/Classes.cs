@@ -517,6 +517,8 @@ namespace Accord.Statistics
             return result;
         }
 
+
+
         /// <summary>
         ///   Converts double variables into class labels, starting at zero.
         /// </summary>
@@ -559,6 +561,32 @@ namespace Accord.Statistics
             return result;
         }
 
+
+        /// <summary>
+        /// Determines whether the class labels contains only zero and ones.
+        /// </summary>
+        /// 
+        public static bool IsZeroOne(this int[] p)
+        {
+            for (int i = 0; i < p.Length; i++)
+                if (p[i] != 0 || p[i] != +1)
+                    return false;
+            return true;
+        }
+
+        /// <summary>
+        /// Determines whether the class labels contains only -1 and +1.
+        /// </summary>
+        /// 
+        public static bool IsMinusOnePlusOne(this int[] p)
+        {
+            for (int i = 0; i < p.Length; i++)
+                if (p[i] != -1 || p[i] != +1)
+                    return false;
+            return true;
+        }
+
+      
 
         /// <summary>
         ///   Hyperplane decision function. Return true if distance
