@@ -88,6 +88,7 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="DecisionTrees\DecisionTreeHelper.cs" />
+    <Compile Include="Representations\BagOfWords.cs" />
     <Compile Include="Rules\AssociationRule.cs" />
     <Compile Include="Rules\Apriori.cs" />
     <Compile Include="Bayes\Learning\Base\NaiveBayesLearningBase`4.cs" />
@@ -98,7 +99,7 @@
     <Compile Include="Bayes\NaiveBayes`2.cs" />
     <Compile Include="Boosting\Accord.MachineLearning.Boosting.cs" />
     <Compile Include="Boosting\AdaBoost.cs" />
-    <Compile Include="BagOfWords.cs" />
+    <Compile Include="Representations\IBagOfWords.cs" />
     <Compile Include="Bayes\NaiveBayes`1.cs" />
     <Compile Include="Boosting\Boost.cs" />
     <Compile Include="Boosting\Learners\Accord.MachineLearning.Boosting.Learners.cs" />

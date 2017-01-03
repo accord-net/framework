@@ -34,7 +34,8 @@ namespace Accord.MachineLearning
     /// <typeparam name="T">The type of the element to be 
     /// converted to a fixed-length vector representation.</typeparam>
     /// 
-    public interface IBagOfWords<T>// : ITransform<T, double[]>
+    public interface IBagOfWords<T> : ITransform<T, double[]>,
+        ITransform<T, int[]>
     {
         /// <summary>
         ///   Gets the number of words in this codebook.
@@ -51,6 +52,7 @@ namespace Accord.MachineLearning
         /// <returns>A double vector with the same length as words
         /// in the code book.</returns>
         /// 
+        [Obsolete("Please use the Transform(value) method instead.")]
         double[] GetFeatureVector(T value);
     }
   
