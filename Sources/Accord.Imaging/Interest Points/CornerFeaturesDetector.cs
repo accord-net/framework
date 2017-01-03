@@ -75,8 +75,7 @@ namespace Accord.Imaging
         /// 
         public List<CornerFeaturePoint> ProcessImage(Bitmap image)
         {
-            List<IntPoint> corners = Detector.ProcessImage(image);
-            return corners.ConvertAll(convert);
+            return Detector.ProcessImage(image).ConvertAll(convert);
         }
 
         /// <summary>
@@ -89,8 +88,7 @@ namespace Accord.Imaging
         /// 
         public List<CornerFeaturePoint> ProcessImage(BitmapData imageData)
         {
-            List<IntPoint> corners = Detector.ProcessImage(imageData);
-            return corners.ConvertAll(convert);
+            return Detector.ProcessImage(imageData).ConvertAll(convert);
         }
 
         /// <summary>
@@ -103,8 +101,23 @@ namespace Accord.Imaging
         /// 
         public List<CornerFeaturePoint> ProcessImage(UnmanagedImage image)
         {
-            List<IntPoint> corners = Detector.ProcessImage(image);
-            return corners.ConvertAll(convert);
+            return Detector.ProcessImage(image).ConvertAll(convert);
+        }
+
+
+        IEnumerable<CornerFeaturePoint> IFeatureDetector<CornerFeaturePoint, double[]>.ProcessImage(Bitmap image)
+        {
+            return ProcessImage(image);
+        }
+
+        IEnumerable<CornerFeaturePoint> IFeatureDetector<CornerFeaturePoint, double[]>.ProcessImage(BitmapData imageData)
+        {
+            return ProcessImage(imageData);
+        }
+
+        IEnumerable<CornerFeaturePoint> IFeatureDetector<CornerFeaturePoint, double[]>.ProcessImage(UnmanagedImage image)
+        {
+            return ProcessImage(image);
         }
 
 
@@ -153,5 +166,6 @@ namespace Accord.Imaging
             
             // free native resources if there are any.
         }
+
     }
 }

@@ -31,7 +31,9 @@ namespace Accord.Imaging
     ///   Common interface for feature detectors.
     /// </summary>
     /// 
-    public interface IFeatureDetector<TPoint> : IFeatureDetector<TPoint, double[]>
+    public interface IFeatureDetector<
+        out
+        TPoint> : IFeatureDetector<TPoint, double[]>
         where TPoint : IFeatureDescriptor<double[]>
     {
         // This class exists to maintain backward compatibility with
@@ -44,7 +46,11 @@ namespace Accord.Imaging
     ///   Common interface for feature detectors.
     /// </summary>
     /// 
-    public interface IFeatureDetector<TPoint, TFeature> : ICloneable, IDisposable
+    public interface IFeatureDetector<
+        out 
+        TPoint,
+        out 
+        TFeature> : ICloneable, IDisposable
         where TPoint : IFeatureDescriptor<TFeature>
     {
         /// <summary>
@@ -55,7 +61,7 @@ namespace Accord.Imaging
         /// 
         /// <returns>Returns list of found interest points.</returns>
         /// 
-        List<TPoint> ProcessImage(Bitmap image);
+        IEnumerable<TPoint> ProcessImage(Bitmap image);
 
         /// <summary>
         ///   Process image looking for interest points.
@@ -65,7 +71,7 @@ namespace Accord.Imaging
         /// 
         /// <returns>Returns list of found interest points.</returns>
         /// 
-        List<TPoint> ProcessImage(BitmapData imageData);
+        IEnumerable<TPoint> ProcessImage(BitmapData imageData);
 
         /// <summary>
         ///   Process image looking for interest points.
@@ -75,7 +81,7 @@ namespace Accord.Imaging
         /// 
         /// <returns>Returns list of found interest points.</returns>
         /// 
-        List<TPoint> ProcessImage(UnmanagedImage image);
+        IEnumerable<TPoint> ProcessImage(UnmanagedImage image);
     }
 
 }

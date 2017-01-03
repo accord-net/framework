@@ -530,6 +530,20 @@ namespace Accord.Imaging
 
 
 
+        IEnumerable<SpeededUpRobustFeaturePoint> IFeatureDetector<SpeededUpRobustFeaturePoint, double[]>.ProcessImage(Bitmap image)
+        {
+            return ProcessImage(image);
+        }
+
+        IEnumerable<SpeededUpRobustFeaturePoint> IFeatureDetector<SpeededUpRobustFeaturePoint, double[]>.ProcessImage(BitmapData imageData)
+        {
+            return ProcessImage(imageData);
+        }
+
+        IEnumerable<SpeededUpRobustFeaturePoint> IFeatureDetector<SpeededUpRobustFeaturePoint, double[]>.ProcessImage(UnmanagedImage image)
+        {
+            return ProcessImage(image);
+        }
 
 
         #region ICornersDetector Members

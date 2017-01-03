@@ -125,7 +125,9 @@ namespace Accord.Imaging
     /// <seealso cref="LocalBinaryPattern"/>
     /// 
     [Serializable]
-    public class FastRetinaKeypointDetector : IFeatureDetector<FastRetinaKeypoint, byte[]>
+    public class FastRetinaKeypointDetector : 
+        IFeatureDetector<FastRetinaKeypoint, byte[]>,
+        IFeatureDetector<FastRetinaKeypoint, double[]>
     {
 
         private FastRetinaKeypointDescriptorType featureType = FastRetinaKeypointDescriptorType.Standard;
@@ -383,6 +385,40 @@ namespace Accord.Imaging
         {
             return ProcessImage(new UnmanagedImage(imageData));
         }
+
+
+
+        IEnumerable<FastRetinaKeypoint> IFeatureDetector<FastRetinaKeypoint, byte[]>.ProcessImage(Bitmap image)
+        {
+            return ProcessImage(image);
+        }
+
+        IEnumerable<FastRetinaKeypoint> IFeatureDetector<FastRetinaKeypoint, byte[]>.ProcessImage(BitmapData imageData)
+        {
+            return ProcessImage(imageData);
+        }
+
+        IEnumerable<FastRetinaKeypoint> IFeatureDetector<FastRetinaKeypoint, byte[]>.ProcessImage(UnmanagedImage image)
+        {
+            return ProcessImage(image);
+        }
+
+        IEnumerable<FastRetinaKeypoint> IFeatureDetector<FastRetinaKeypoint, double[]>.ProcessImage(Bitmap image)
+        {
+            return ProcessImage(image);
+        }
+
+        IEnumerable<FastRetinaKeypoint> IFeatureDetector<FastRetinaKeypoint, double[]>.ProcessImage(BitmapData imageData)
+        {
+            return ProcessImage(imageData);
+        }
+
+        IEnumerable<FastRetinaKeypoint> IFeatureDetector<FastRetinaKeypoint, double[]>.ProcessImage(UnmanagedImage image)
+        {
+            return ProcessImage(image);
+        }
+
+
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
