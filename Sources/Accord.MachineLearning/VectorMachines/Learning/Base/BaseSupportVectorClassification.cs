@@ -283,7 +283,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Gets or sets the cost values associated with each input vector.
         /// </summary>
         /// 
-        public double[] C { get; set; }
+        protected double[] C { get; set; }
 
         /// <summary>
         ///   Creates an instance of the model to be learned. Inheritors
