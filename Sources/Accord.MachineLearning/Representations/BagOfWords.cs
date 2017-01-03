@@ -33,33 +33,7 @@ namespace Accord.MachineLearning
     using Accord.Collections;
 #endif
 
-
-    /// <summary>
-    ///   Common interface for Bag of Words objects.
-    /// </summary>
-    /// 
-    /// <typeparam name="T">The type of the element to be 
-    /// converted to a fixed-length vector representation.</typeparam>
-    /// 
-    public interface IBagOfWords<T>
-    {
-        /// <summary>
-        ///   Gets the number of words in this codebook.
-        /// </summary>
-        /// 
-        int NumberOfWords { get; }
-
-        /// <summary>
-        ///   Gets the codeword representation of a given value.
-        /// </summary>
-        /// 
-        /// <param name="value">The value to be processed.</param>
-        /// 
-        /// <returns>A double vector with the same length as words
-        /// in the code book.</returns>
-        /// 
-        double[] GetFeatureVector(T value);
-    }
+    // TODO: Use the Learn interface.
 
     /// <summary>
     ///   Bag of words.
