@@ -337,6 +337,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   vector machines</see>.
         /// </summary>
         /// 
+        //[Obsolete("Please the kernel function in the individual learner for each machine.")]
         public TKernel Kernel { get; set; }
     }
 
@@ -355,6 +356,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   vector machines</see>.
         /// </summary>
         /// 
+        //[Obsolete("Please the kernel function in the individual learner for each machine.")]
         public TKernel Kernel { get; set; }
     }
 }

@@ -32,11 +32,11 @@ namespace Accord.Tests.MachineLearning
     using System.IO;
     using Accord.Statistics.Analysis;
 
-    [TestFixture, Ignore]
+    [TestFixture]
     public class TSNETest
     {
 
-        [Test]
+        [Test, Ignore]
         public void ConstructorTest()
         {
             Accord.Math.Random.Generator.Seed = 0;
@@ -60,6 +60,45 @@ namespace Accord.Tests.MachineLearning
             var Y = tSNE.Transform(X);
 
             Assert.Fail();
+        }
+
+        [Test]
+        public void learn_test()
+        {
+            #region doc_learn
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Declare some observations
+            double[][] observations =
+            {
+                new double[] { -5, -2, -1 },
+                new double[] { -5, -5, -6 },
+                new double[] {  2,  1,  1 },
+                new double[] {  1,  1,  2 },
+                new double[] {  1,  2,  2 },
+                new double[] {  3,  1,  2 },
+                new double[] { 11,  5,  4 },
+                new double[] { 15,  5,  6 },
+                new double[] { 10,  5,  6 },
+            };
+
+            // Create a new t-SNE algorithm 
+            TSNE tSNE = new TSNE()
+            {
+                NumberOfOutputs = 1,
+                Perplexity = 1.5
+            };
+
+            // Transform to a reduced dimensionality space
+            double[][] output = tSNE.Transform(observations);
+
+            // Make it 1-dimensional
+            double[] y = output.Reshape();
+            #endregion
+
+            string str = y.ToCSharp();
+            double[] expected = new double[] { 327.15556116089, 144.502680170483, -21.5116375004548, 253.712522074559, 214.067349874275, 24.8621254326599, -299.97879062709, -260.342898777221, -382.466911808102 };
+            Assert.IsTrue(y.IsEqual(expected, rtol: 1e-5));
         }
     }
 #endif

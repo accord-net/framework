@@ -121,9 +121,10 @@ namespace Accord.MachineLearning
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KMeansTest.cs" region="doc_learn" />
     ///   
     /// <para>
-    ///   The following example demonstrates how to use the Mean Shift algorithm
+    ///   The following example demonstrates how to use the K-Means algorithm
     ///   for color clustering. It is the same code which can be found in the
-    ///   <a href="">color clustering sample application</a>.</para>
+    ///   <a href="https://github.com/accord-net/framework/wiki/Sample-applications#clustering-k-means-and-meanshift">
+    ///   color clustering sample application</a>.</para>
     ///   
     /// <code>
     ///  int k = 5; 
@@ -143,10 +144,15 @@ namespace Accord.MachineLearning
     ///  //  square Euclidean distance as distance metric.
     ///  KMeans kmeans = new KMeans(k, Distance.SquareEuclidean);
     ///  
-    ///  // Compute the K-Means algorithm until the difference in
-    ///  //  cluster centroids between two iterations is below 0.05
-    ///  int[] idx = kmeans.Compute(pixels, 0.05);
+    ///  // We will compute the K-Means algorithm until cluster centroids
+    ///  // change less than 0.5 between two iterations of the algorithm
+    ///  kmeans.Tolerance = 0.05;
     ///  
+    /// // Learn the clusters in the data
+    ///  var clustering = kmeans.Learn(pixels);
+    ///  
+    ///  // Use clusters to decide class labels
+    ///  int[] idx = clustering.Decide(pixels);
     ///  
     ///  // Replace every pixel with its corresponding centroid
     ///  pixels.ApplyInPlace((x, i) => kmeans.Clusters.Centroids[idx[i]]);

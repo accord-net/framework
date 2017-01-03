@@ -86,7 +86,6 @@ namespace Accord.MachineLearning
     ///   <a href="">color clustering sample application</a>.</para>
     ///   
     /// <code>
-    /// 
     ///  int pixelSize = 3;   // RGB color pixel
     ///  double sigma = 0.06; // kernel bandwidth
     /// 
@@ -104,11 +103,16 @@ namespace Accord.MachineLearning
     ///  //   and a Gaussian density kernel as kernel function.
     ///  MeanShift meanShift = new MeanShift(pixelSize, new GaussianKernel(3), sigma);
     /// 
-    /// 
-    ///  // Compute the mean-shift algorithm until the difference in
-    ///  //  shifting means between two iterations is below 0.05
-    ///  int[] idx = meanShift.Compute(pixels, 0.05, maxIterations: 10);
-    /// 
+    ///  // We will compute the mean-shift algorithm until the means
+    ///  // change less than 0.5 between two iterations of the algorithm
+    ///  meanShift.Tolerance = 0.05;
+    ///  meanShift.MaxIterations = 10;
+    ///  
+    /// // Learn the clusters in the data
+    ///  var clustering = meanShift.Learn(pixels);
+    ///  
+    ///  // Use clusters to decide class labels
+    ///  int[] idx = clustering.Decide(pixels);
     /// 
     ///  // Replace every pixel with its corresponding centroid
     ///  pixels.ApplyInPlace((x, i) => meanShift.Clusters.Modes[idx[i]]);

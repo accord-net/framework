@@ -47,6 +47,9 @@ namespace Accord.MachineLearning
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\GaussianMixtureModelTest.cs" region="doc_learn" />
     /// </example>
     /// 
+    /// <seealso cref="KMeans"/> 
+    /// <seealso cref="MeanShift"/> 
+    /// 
     [Serializable]
     public class GaussianMixtureModel : ParallelLearningBase, 
         IClusteringAlgorithm<double[], double>,
