@@ -1944,5 +1944,14 @@ namespace Accord.Imaging
                     throw new NotImplementedException();
             }
         }
+
+        /// <summary>
+        /// Locks a Bitmap into system memory.
+        /// </summary>
+        public static BitmapData LockBits(this Bitmap value)
+        {
+            return value.LockBits(new Rectangle(0, 0, value.Width, value.Height), 
+                ImageLockMode.ReadOnly, value.PixelFormat);
+        }
     }
 }
