@@ -50,7 +50,7 @@
     <OutputPath>$(SolutionDir)..\Release\net40</OutputPath>
     <DefineConstants>TRACE;NET40</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-	<RunCodeAnalysis>false</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <DocumentationFile>$(SolutionDir)..\Release\net40\Accord.Vision.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Accord.Vision.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
@@ -91,6 +91,8 @@
     </Compile>
     <Compile Include="Accord.Imaging\BagOfVisualWords.cs" />
     <Compile Include="Accord.Imaging\BagOfVisualWords`1.cs" />
+    <Compile Include="Accord.Imaging\BaseBagOfVisualWords`5.cs" />
+    <Compile Include="Accord.Imaging\BagOfVisualWords`4.cs" />
     <Compile Include="Accord.Imaging\BagOfVisualWords`2.cs" />
     <Compile Include="Accord.Imaging\Matching\KNearestNeighborMatching.cs" />
     <Compile Include="Accord.Imaging\Matching\KNearestNeighborMatching`1.cs" />

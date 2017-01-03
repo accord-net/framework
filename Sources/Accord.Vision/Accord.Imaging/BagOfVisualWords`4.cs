@@ -33,14 +33,26 @@ namespace Accord.Imaging
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Collections.Concurrent;
 
     /// <summary>
     ///   Bag of Visual Words
     /// </summary>
     /// 
     /// <typeparam name="TPoint">
-    ///   The <see cref="IFeaturePoint"/> type to be used with this class,
+    ///   The <see cref="IFeaturePoint{TFeature}"/> type to be used with this class,
     ///   such as <see cref="SpeededUpRobustFeaturePoint"/>.</typeparam>
+    /// <typeparam name="TFeature">
+    ///   The feature type of the <typeparamref name="TPoint"/>, such
+    ///   as <see cref="T:double[]"/>.
+    /// </typeparam>
+    /// <typeparam name="TClustering">
+    ///   The type of the clustering algorithm to be used to cluster the visual features
+    ///   and form visual codewords.
+    /// </typeparam>
+    /// <typeparam name="TDetector">
+    ///   The type of the feature detector used to extract features from the images.
+    /// </typeparam>
     /// 
     /// <remarks>
     /// <para>
@@ -64,23 +76,13 @@ namespace Accord.Imaging
     /// <seealso cref="BagOfVisualWords"/>
     /// 
     [Serializable]
-    public class BagOfVisualWords<TPoint> :
-        BaseBagOfVisualWords<BagOfVisualWords<TPoint>,
-            TPoint, double[], IClusteringAlgorithm<double[]>, IFeatureDetector<TPoint, double[]>>
-        where TPoint : IFeatureDescriptor<double[]>
+    public class BagOfVisualWords<TPoint, TFeature, TClustering, TDetector> :
+        BaseBagOfVisualWords<BagOfVisualWords<TPoint, TFeature, TClustering, TDetector>, 
+            TPoint, TFeature, TClustering, TDetector>
+        where TPoint : IFeatureDescriptor<TFeature>
+        where TClustering : IClusteringAlgorithm<TFeature>
+        where TDetector : IFeatureDetector<TPoint, TFeature>
     {
-        /// <summary>
-        ///   Constructs a new <see cref="BagOfVisualWords"/>.
-        /// </summary>
-        /// 
-        /// <param name="detector">The feature detector to use.</param>
-        /// <param name="numberOfWords">The number of codewords.</param>
-        /// 
-        public BagOfVisualWords(IFeatureDetector<TPoint> detector, int numberOfWords)
-        {
-            base.Init(detector, base.KMeans(numberOfWords));
-        }
-
         /// <summary>
         ///   Constructs a new <see cref="BagOfVisualWords"/>.
         /// </summary>
@@ -88,11 +90,10 @@ namespace Accord.Imaging
         /// <param name="detector">The feature detector to use.</param>
         /// <param name="algorithm">The clustering algorithm to use.</param>
         /// 
-        public BagOfVisualWords(IFeatureDetector<TPoint> detector, IClusteringAlgorithm<double[]> algorithm)
+        public BagOfVisualWords(TDetector detector, TClustering algorithm)
         {
-            base.Init(detector, algorithm);
+            Init(detector, algorithm);
         }
-        
-    }
 
+    }
 }

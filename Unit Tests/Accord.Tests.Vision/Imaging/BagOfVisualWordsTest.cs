@@ -34,6 +34,11 @@ namespace Accord.Tests.Imaging
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization.Formatters.Binary;
+    using MachineLearning.VectorMachines;
+    using MachineLearning.VectorMachines.Learning;
+    using Statistics.Kernels;
+    using Math.Optimization.Losses;
+    using Math.Metrics;
 
     [TestFixture]
     public class BagOfVisualWordsTest
@@ -42,8 +47,8 @@ namespace Accord.Tests.Imaging
         // Load some test images
         public static Bitmap[] GetImages()
         {
-            Bitmap[] images = 
-            { 
+            Bitmap[] images =
+            {
                 Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower01),
                 Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower02),
                 Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower03),
@@ -179,7 +184,7 @@ namespace Accord.Tests.Imaging
             {
                 new double[] { 47, 44, 42, 4, 23, 22, 28, 53, 50, 96 },
                 new double[] { 26, 91, 71, 49, 99, 70, 59, 28, 155, 79 },
-                new double[] { 71, 34, 51, 33, 53, 25, 44, 64, 32, 145 } 
+                new double[] { 71, 34, 51, 33, 53, 25, 44, 64, 32, 145 }
             };
 
             double[][] actual = new double[expected.Length][];
@@ -193,6 +198,306 @@ namespace Accord.Tests.Imaging
                 for (int j = 0; j < actual[i].Length; j++)
                     Assert.IsTrue(expected[i].Contains(actual[i][j]));
         }
+
+        [Test]
+        public void learn_new()
+        {
+            #region doc_learn
+            // Ensure results are reproducible
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // The Bag-of-Visual-Words model converts images of arbitrary 
+            // size into fixed-length feature vectors. In this example, we
+            // will be setting the codebook size to 10. This means all feature
+            // vectors that will be generated will have the same length of 10.
+
+            // By default, the BoW object will use the sparse SURF as the 
+            // feature extractor and K-means as the clustering algorithm.
+
+            // Create a new Bag-of-Visual-Words (BoW) model
+            BagOfVisualWords bow = new BagOfVisualWords(10); 
+            // Note: the BoW model can also be created using
+            // var bow = BagOfVisualWords.Create(10);
+
+            // Ensure results are reproducible
+            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // Get some training images
+            Bitmap[] images = GetImages();
+
+            // Compute the model
+            bow.Learn(images);
+
+            // After this point, we will be able to translate
+            // images into double[] feature vectors using
+            double[][] features = bow.Transform(images);
+            #endregion
+
+            Assert.AreEqual(features.GetLength(), new[] { 0, 10 });
+
+            string str = features.ToCSharp();
+
+            double[][] expected =
+            {
+                new double[] { 47, 44, 42, 4, 23, 22, 28, 53, 50, 96 },
+                new double[] { 26, 91, 71, 49, 99, 70, 59, 28, 155, 79 },
+                new double[] { 71, 34, 51, 33, 53, 25, 44, 64, 32, 145 }
+            };
+
+            for (int i = 0; i < features.Length; i++)
+                for (int j = 0; j < features[i].Length; j++)
+                    Assert.IsTrue(expected[i].Contains(features[i][j]));
+
+            #region doc_classification
+
+            // Now, the features can be used to train any classification
+            // algorithm as if they were the images themselves. For example,
+            // let's assume the first three images belong to a class and
+            // the second three to another class. We can train an SVM using
+
+            int[] labels = { -1, -1, -1, +1, +1, +1 };
+
+            // Create the SMO algorithm to learn a Linear kernel SVM
+            var teacher = new SequentialMinimalOptimization<Linear>()
+            {
+                Complexity = 10000 // make a hard margin SVM
+            };
+
+            // Obtain a learned machine
+            var svm = teacher.Learn(features, labels);
+
+            // Use the machine to classify the features
+            bool[] output = svm.Decide(features);
+
+            // Compute the error between the expected and predicted labels
+            double error = new ZeroOneLoss(labels).Loss(output);
+            #endregion
+
+            Assert.AreEqual(error, 0);
+        }
+
+
+        [Test]
+        public void custom_clustering_test()
+        {
+            #region doc_clustering
+            // Ensure results are reproducible
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // The Bag-of-Visual-Words model converts images of arbitrary 
+            // size into fixed-length feature vectors. In this example, we
+            // will be setting the codebook size to 10. This means all feature
+            // vectors that will be generated will have the same length of 10.
+
+            // By default, the BoW object will use the sparse SURF as the 
+            // feature extractor and K-means as the clustering algorithm.
+            // In this example, we will use the Binary-Split clustering
+            // algorithm instead.
+
+            // Create a new Bag-of-Visual-Words (BoW) model
+            var bow = BagOfVisualWords.Create(new BinarySplit(10));
+
+            // Ensure results are reproducible
+            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // Get some training images
+            Bitmap[] images = GetImages();
+
+            // Compute the model
+            bow.Learn(images);
+
+            // After this point, we will be able to translate
+            // images into double[] feature vectors using
+            double[][] features = bow.Transform(images);
+            #endregion
+
+            Assert.AreEqual(features.GetLength(), new[] { 6, 10 });
+
+            string str = features.ToCSharp();
+
+            double[][] expected = new double[][] 
+            {
+                new double[] { 100, 142, 68, 29, 18, 40, 99, 58, 83, 65 },
+                new double[] { 100, 144, 68, 26, 19, 40, 97, 54, 83, 65 },
+                new double[] { 96, 136, 66, 30, 16, 36, 93, 61, 78, 66 },
+                new double[] { 96, 136, 66, 30, 16, 36, 93, 61, 78, 66 },
+                new double[] { 95, 137, 67, 30, 17, 35, 94, 59, 78, 65 },
+                new double[] { 133, 312, 91, 83, 76, 157, 151, 59, 180, 23 }
+            };
+
+            for (int i = 0; i < features.Length; i++)
+                for (int j = 0; j < features[i].Length; j++)
+                    Assert.IsTrue(expected[i].Contains(features[i][j]));
+
+            #region doc_classification_clustering
+
+            // Now, the features can be used to train any classification
+            // algorithm as if they were the images themselves. For example,
+            // let's assume the first three images belong to a class and
+            // the second three to another class. We can train an SVM using
+
+            int[] labels = { -1, -1, -1, +1, +1, +1 };
+
+            // Create the SMO algorithm to learn a Linear kernel SVM
+            var teacher = new SequentialMinimalOptimization<Linear>()
+            {
+                Complexity = 10000 // make a hard margin SVM
+            };
+
+            // Obtain a learned machine
+            var svm = teacher.Learn(features, labels);
+
+            // Use the machine to classify the features
+            bool[] output = svm.Decide(features);
+
+            // Compute the error between the expected and predicted labels
+            double error = new ZeroOneLoss(labels).Loss(output);
+            #endregion
+
+            Assert.AreEqual(error, 0);
+        }
+
+        [Test]
+        public void custom_feature_test()
+        {
+            #region doc_feature
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // The Bag-of-Visual-Words model converts images of arbitrary 
+            // size into fixed-length feature vectors. In this example, we
+            // will be setting the codebook size to 10. This means all feature
+            // vectors that will be generated will have the same length of 10.
+
+            // By default, the BoW object will use the sparse SURF as the 
+            // feature extractor and K-means as the clustering algorithm.
+            // In this example, we will use the HOG feature extractor
+            // and the Binary-Split clustering algorithm instead.
+
+            // Create a new Bag-of-Visual-Words (BoW) model using HOG features
+            var bow = BagOfVisualWords.Create(new HistogramsOfOrientedGradients(), new BinarySplit(10));
+
+            // Get some training images
+            Bitmap[] images = GetImages();
+
+            // Compute the model
+            bow.Learn(images);
+
+            // After this point, we will be able to translate
+            // images into double[] feature vectors using
+            double[][] features = bow.Transform(images);
+            #endregion
+
+            Assert.AreEqual(features.GetLength(), new[] { 0, 10 });
+
+            string str = features.ToCSharp();
+
+            double[][] expected =
+            {
+                new double[] { 47, 44, 42, 4, 23, 22, 28, 53, 50, 96 },
+                new double[] { 26, 91, 71, 49, 99, 70, 59, 28, 155, 79 },
+                new double[] { 71, 34, 51, 33, 53, 25, 44, 64, 32, 145 }
+            };
+
+            for (int i = 0; i < features.Length; i++)
+                for (int j = 0; j < features[i].Length; j++)
+                    Assert.IsTrue(expected[i].Contains(features[i][j]));
+
+            #region doc_classification_feature
+
+            // Now, the features can be used to train any classification
+            // algorithm as if they were the images themselves. For example,
+            // let's assume the first three images belong to a class and
+            // the second three to another class. We can train an SVM using
+
+            int[] labels = { -1, -1, -1, +1, +1, +1 };
+
+            // Create the SMO algorithm to learn a Linear kernel SVM
+            var teacher = new SequentialMinimalOptimization<Linear>();
+
+            // Obtain a learned machine
+            var svm = teacher.Learn(features, labels);
+
+            // Use the machine to classify the features
+            bool[] output = svm.Decide(features);
+
+            // Compute the error between the expected and predicted labels
+            double error = new ZeroOneLoss(labels).Loss(output);
+            #endregion
+
+            Assert.AreEqual(error, 0);
+        }
+
+        [Test]
+        public void custom_data_type_test()
+        {
+            #region doc_datatype
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // The Bag-of-Visual-Words model converts images of arbitrary 
+            // size into fixed-length feature vectors. In this example, we
+            // will be setting the codebook size to 10. This means all feature
+            // vectors that will be generated will have the same length of 10.
+
+            // By default, the BoW object will use the sparse SURF as the 
+            // feature extractor and K-means as the clustering algorithm.
+            // In this example, we will use the FREAK feature extractor
+            // and the K-Modes clustering algorithm instead.
+
+            // Create a new Bag-of-Visual-Words (BoW) model using FREAK binary features
+            var bow = BagOfVisualWords.Create<FastRetinaKeypointDetector, KModes<byte>, byte[]>(
+                new FastRetinaKeypointDetector(), new KModes<byte>(10, new Hamming()));
+
+            // Get some training images
+            Bitmap[] images = GetImages();
+
+            // Compute the model
+            bow.Learn(images);
+
+            // After this point, we will be able to translate
+            // images into double[] feature vectors using
+            double[][] features = bow.Transform(images);
+            #endregion
+
+            Assert.AreEqual(features.GetLength(), new[] { 0, 10 });
+
+            string str = features.ToCSharp();
+
+            double[][] expected =
+            {
+                new double[] { 47, 44, 42, 4, 23, 22, 28, 53, 50, 96 },
+                new double[] { 26, 91, 71, 49, 99, 70, 59, 28, 155, 79 },
+                new double[] { 71, 34, 51, 33, 53, 25, 44, 64, 32, 145 }
+            };
+
+            for (int i = 0; i < features.Length; i++)
+                for (int j = 0; j < features[i].Length; j++)
+                    Assert.IsTrue(expected[i].Contains(features[i][j]));
+
+            #region doc_classification_datatype
+
+            // Now, the features can be used to train any classification
+            // algorithm as if they were the images themselves. For example,
+            // let's assume the first three images belong to a class and
+            // the second three to another class. We can train an SVM using
+
+            int[] labels = { -1, -1, -1, +1, +1, +1 };
+
+            // Create the SMO algorithm to learn a Linear kernel SVM
+            var teacher = new SequentialMinimalOptimization<Linear>();
+
+            // Obtain a learned machine
+            var svm = teacher.Learn(features, labels);
+
+            // Use the machine to classify the features
+            bool[] output = svm.Decide(features);
+
+            // Compute the error between the expected and predicted labels
+            double error = new ZeroOneLoss(labels).Loss(output);
+            #endregion
+
+            Assert.AreEqual(error, 0);
+        }
+
 
         [Test, Timeout(600 * 1000)]
         [Category("Serialization")]
