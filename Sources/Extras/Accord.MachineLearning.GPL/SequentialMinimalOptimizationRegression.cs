@@ -17,7 +17,7 @@
 // Copyright © Sylvain Roy, 2002
 // sro33 at student.canterbury.ac.nz
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //   Portions of this file have been based on the GPL code by Sylvain

@@ -5,7 +5,7 @@
 // Copyright © Steven G. Johnson, 2008
 // stevenj@alum.mit.edu
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //

@@ -5,7 +5,7 @@
 // LumenWorks.Framework.IO.CSV.CsvReader
 // Copyright (c) 2005 Sébastien Lorion
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 // This class has been based on the original work by Sébastien Lorion, originally
