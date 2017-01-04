@@ -125,7 +125,10 @@ namespace Accord.Imaging
     /// <seealso cref="LocalBinaryPattern"/>
     /// 
     [Serializable]
-    public class FastRetinaKeypointDetector : 
+    public class FastRetinaKeypointDetector :
+#if NET35
+        IFeatureDetector<IFeatureDescriptor<byte[]>, byte[]>,
+#endif
         IFeatureDetector<FastRetinaKeypoint, byte[]>,
         IFeatureDetector<FastRetinaKeypoint, double[]>
     {
@@ -418,7 +421,22 @@ namespace Accord.Imaging
             return ProcessImage(image);
         }
 
+#if NET35
+        IEnumerable<IFeatureDescriptor<byte[]>> IFeatureDetector<IFeatureDescriptor<byte[]>, byte[]>.ProcessImage(Bitmap image)
+        {
+            return ProcessImage(image).ConvertAll(x => (IFeatureDescriptor<byte[]>)x);
+        }
 
+        IEnumerable<IFeatureDescriptor<byte[]>> IFeatureDetector<IFeatureDescriptor<byte[]>, byte[]>.ProcessImage(BitmapData imageData)
+        {
+            return ProcessImage(imageData).ConvertAll(x => (IFeatureDescriptor<byte[]>)x);
+        }
+
+        IEnumerable<IFeatureDescriptor<byte[]>> IFeatureDetector<IFeatureDescriptor<byte[]>, byte[]>.ProcessImage(UnmanagedImage image)
+        {
+            return ProcessImage(image).ConvertAll(x => (IFeatureDescriptor<byte[]>)x);
+        }
+#endif
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
@@ -473,5 +491,6 @@ namespace Accord.Imaging
 
             // free native resources if there are any.
         }
+
     }
 }

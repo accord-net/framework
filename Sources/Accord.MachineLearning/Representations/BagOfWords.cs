@@ -26,11 +26,11 @@ namespace Accord.MachineLearning
     using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
+    using System.Threading;
+    using System.Threading.Tasks;
 
 #if !NET35 && !NET40
     using System.Collections.ObjectModel;
-    using System.Threading;
-    using System.Threading.Tasks;
 #else
     using Accord.Collections;
 #endif

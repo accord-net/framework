@@ -32,7 +32,9 @@ namespace Accord.Imaging
     /// </summary>
     /// 
     public interface IFeatureDetector<
+#if !NET35
         out
+#endif
         TPoint> : IFeatureDetector<TPoint, double[]>
         where TPoint : IFeatureDescriptor<double[]>
     {
@@ -47,9 +49,13 @@ namespace Accord.Imaging
     /// </summary>
     /// 
     public interface IFeatureDetector<
+#if !NET35
         out 
+#endif
         TPoint,
+#if !NET35
         out 
+#endif
         TFeature> : ICloneable, IDisposable
         where TPoint : IFeatureDescriptor<TFeature>
     {

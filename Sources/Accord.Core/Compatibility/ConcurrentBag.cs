@@ -114,6 +114,22 @@ namespace Accord
             lock (SyncRoot)
                 ((ICollection)list).CopyTo(array, index);
         }
+
+        /// <summary>
+        ///   Copies all elements to an array.
+        /// </summary>
+        /// 
+        public T[] ToArray()
+        {
+            lock (SyncRoot)
+            {
+                var array = new T[list.Count];
+                int i = 0;
+                foreach (T item in list)
+                    array[i++] = item;
+                return array;
+            }
+        }
     }
 }
 #endif
