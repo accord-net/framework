@@ -1,7 +1,7 @@
 @echo off
 
 echo.
-echo Accord.NET Framework all projects configurations builder
+echo Accord.NET Framework - all project configurations builder
 echo =========================================================
 echo. 
 echo This Windows batch file will use Visual Studio 2013 to
@@ -17,6 +17,9 @@ echo.
 echo.
 echo  - Building Debug configuration...
 %DEVENV% Sources\Accord.NET.sln /Rebuild Debug /out "bin\Build.Debug.log"
+echo.
+echo  - Building Mono configuration...
+%DEVENV% Sources\Accord.NET.sln /Rebuild MONO /out "bin\Build.MONO.log"
 echo.
 echo  - Building NET35 configuration...
 %DEVENV% Sources\Accord.NET.sln /Rebuild NET35 /out "bin\Build.NET35.log"

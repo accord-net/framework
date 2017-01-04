@@ -7,6 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{51B993EE-FE3F-44B0-8FA1-C0EEBF2670C8}"
 	ProjectSection(SolutionItems) = preProject
+		..\.gitattributes = ..\.gitattributes
+		..\.gitignore = ..\.gitignore
+		..\.travis.yml = ..\.travis.yml
 		Accord.NET.ruleset = Accord.NET.ruleset
 		Accord.NET.testrunconfig = Accord.NET.testrunconfig
 		Accord.NET.vsmdi = Accord.NET.vsmdi
@@ -16,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\License.txt = ..\License.txt
 		..\README.md = ..\README.md
 		..\Release notes.txt = ..\Release notes.txt
+		..\Version.txt = ..\Version.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Controls.Audio", "Accord.Controls.Audio\Accord.Controls.Audio.csproj", "{E0B826AC-2A51-41EC-9F09-561CA14A82BB}"
@@ -125,13 +129,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mono", "Mono", "{DB1D2E4F-0
 		..\accord.pc.in = ..\accord.pc.in
 		..\configure.ac = ..\configure.ac
 		..\Makefile.am = ..\Makefile.am
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{B7B46F3E-2C0A-4AB3-9490-38BF59463C21}"
-	ProjectSection(SolutionItems) = preProject
-		..\.gitattributes = ..\.gitattributes
-		..\.gitignore = ..\.gitignore
-		..\.travis.yml = ..\.travis.yml
 	EndProjectSection
 EndProject
 Global
