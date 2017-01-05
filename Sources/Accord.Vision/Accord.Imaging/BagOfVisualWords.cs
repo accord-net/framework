@@ -86,8 +86,8 @@ namespace Accord.Imaging
     ///   However, it is also possible to use other detectors, including dense
     ///   detectors such as <see cref="HistogramsOfOrientedGradients"/>.</para>
     ///   
-    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_features" />
-    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_features" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_feature" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_feature" />
     ///   
     /// <para>
     ///   More advanced use cases are also supported. For example, some image patches
