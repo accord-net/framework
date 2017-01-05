@@ -92,7 +92,12 @@ clean-local:
 maintainer-clean-local:
 	rm -rf autom4te.cache
 
+install-exec-local:
+	mkdir -p $(DESTDIR)$(libdir)/$(PACKAGE)
+	$(INSTALL_SCRIPT) -t $(DESTDIR)$(libdir)/$(PACKAGE)/ $(LIBFILES)
 
+uninstall-local: 
+	rm -rf $(DESTDIR)$(libdir)/$(PACKAGE)
 
 MAINTAINERCLEANFILES = Makefile.in \
 		       install-sh \
