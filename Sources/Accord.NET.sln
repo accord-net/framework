@@ -7,6 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{51B993EE-FE3F-44B0-8FA1-C0EEBF2670C8}"
 	ProjectSection(SolutionItems) = preProject
+		..\.gitattributes = ..\.gitattributes
+		..\.gitignore = ..\.gitignore
+		..\.travis.yml = ..\.travis.yml
 		Accord.NET.ruleset = Accord.NET.ruleset
 		Accord.NET.testrunconfig = Accord.NET.testrunconfig
 		Accord.NET.vsmdi = Accord.NET.vsmdi
@@ -16,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\License.txt = ..\License.txt
 		..\README.md = ..\README.md
 		..\Release notes.txt = ..\Release notes.txt
+		..\Version.txt = ..\Version.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Controls.Audio", "Accord.Controls.Audio\Accord.Controls.Audio.csproj", "{E0B826AC-2A51-41EC-9F09-561CA14A82BB}"
@@ -120,18 +124,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Tests.Video.FFMPEG",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Tests.Video", "..\Unit Tests\Accord.Tests.Video\Accord.Tests.Video.csproj", "{53D1CFE6-0639-46FF-8DD2-9D3BAC4971E8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mono", "Mono", "{DB1D2E4F-0D35-4321-996B-0DFB04609ACE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Linux", "Linux", "{DB1D2E4F-0D35-4321-996B-0DFB04609ACE}"
 	ProjectSection(SolutionItems) = preProject
 		..\accord.pc.in = ..\accord.pc.in
 		..\configure.ac = ..\configure.ac
 		..\Makefile.am = ..\Makefile.am
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{B7B46F3E-2C0A-4AB3-9490-38BF59463C21}"
-	ProjectSection(SolutionItems) = preProject
-		..\.gitattributes = ..\.gitattributes
-		..\.gitignore = ..\.gitignore
-		..\.travis.yml = ..\.travis.yml
 	EndProjectSection
 EndProject
 Global
@@ -401,16 +398,18 @@ Global
 		{6DD1A48C-D7A8-4B39-9C06-5A71FEEC70B9}.NET45|Any CPU.Build.0 = NET45|Any CPU
 		{6DD1A48C-D7A8-4B39-9C06-5A71FEEC70B9}.NET46|Any CPU.ActiveCfg = NET46|Any CPU
 		{6DD1A48C-D7A8-4B39-9C06-5A71FEEC70B9}.NET46|Any CPU.Build.0 = NET46|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Debug|Any CPU.ActiveCfg = NET46|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Debug|Any CPU.Build.0 = NET46|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Mono|Any CPU.ActiveCfg = NET46|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.NET35|Any CPU.ActiveCfg = NET46|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.NET35|Any CPU.Build.0 = NET46|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.NET40|Any CPU.ActiveCfg = NET46|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.NET40|Any CPU.Build.0 = NET46|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.NET45|Any CPU.ActiveCfg = NET46|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.NET45|Any CPU.Build.0 = NET46|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.NET46|Any CPU.ActiveCfg = NET46|Any CPU
+		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Mono|Any CPU.ActiveCfg = Debug|Any CPU
+		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Mono|Any CPU.Build.0 = Debug|Any CPU
+		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.NET35|Any CPU.ActiveCfg = Debug|Any CPU
+		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.NET35|Any CPU.Build.0 = Debug|Any CPU
+		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.NET40|Any CPU.ActiveCfg = Debug|Any CPU
+		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.NET40|Any CPU.Build.0 = Debug|Any CPU
+		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.NET45|Any CPU.ActiveCfg = Debug|Any CPU
+		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.NET45|Any CPU.Build.0 = Debug|Any CPU
+		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.NET46|Any CPU.ActiveCfg = Debug|Any CPU
+		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.NET46|Any CPU.Build.0 = Debug|Any CPU
 		{4ED2AB06-991F-44FF-AC01-53394B222AF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4ED2AB06-991F-44FF-AC01-53394B222AF7}.Mono|Any CPU.ActiveCfg = Mono|Any CPU
 		{4ED2AB06-991F-44FF-AC01-53394B222AF7}.NET35|Any CPU.ActiveCfg = Debug|Any CPU
@@ -730,6 +729,7 @@ Global
 		{44BB1934-5BFF-4A7B-8BF9-6F30043EB0D3} = {54EB52AC-52D0-4046-BDB6-276A5C7ED0F4}
 		{E688E7EB-64B0-41DA-A1A0-924B75727A4B} = {54EB52AC-52D0-4046-BDB6-276A5C7ED0F4}
 		{53D1CFE6-0639-46FF-8DD2-9D3BAC4971E8} = {D059B679-8B38-44FE-BEC6-8DFF9271CE59}
+		{DB1D2E4F-0D35-4321-996B-0DFB04609ACE} = {51B993EE-FE3F-44B0-8FA1-C0EEBF2670C8}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Accord.NET.vsmdi

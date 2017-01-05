@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -107,13 +107,17 @@ namespace Accord.MachineLearning.Clustering
     /// </code> 
     /// </remarks>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\TSNETest.cs" region="doc_learn" />
+    /// </example>
+    /// 
     public class TSNE : MultipleTransformBase<double[], double>
     {
         const double DBL_MAX = -1.7976931348623157e+308;
         const double DBL_MIN = 2.2250738585072014e-308;
 
-        const double FLT_MIN = 1.175494351e-38F; 
-        
+        const double FLT_MIN = 1.175494351e-38F;
+
         double perplexity = 50;
         double theta = 0.5;
 
@@ -131,7 +135,7 @@ namespace Accord.MachineLearning.Clustering
         ///   Gets or sets t-SNE's perplexity value. Default is 50.
         /// </summary>
         /// 
-        public double Perplexity 
+        public double Perplexity
         {
             get { return perplexity; }
             set { perplexity = value; }
@@ -183,9 +187,10 @@ namespace Accord.MachineLearning.Clustering
 
             // Determine whether we are using an exact algorithm
             if (N - 1 < 3 * perplexity)
-                throw new Exception("Perplexity too large for the number of data points!");
+                throw new Exception(String.Format("Perplexity too large for the number of data points. For {0} points, should be less than {1}", N, (N - 1) / 3.0));
 
             Debug.Write(String.Format("Using no_dims = {0}, perplexity = {1}, and theta = {2}", no_dims, perplexity, theta));
+
             bool exact = (theta == 0.0);
 
             // Set learning parameters
@@ -264,7 +269,7 @@ namespace Accord.MachineLearning.Clustering
                 for (int i = 0; i < row_P[N]; i++)
                     val_P[i] *= 12.0;
             }
-            
+
             if (!skip_random_init)
             {
                 // Initialize solution (randomly)
@@ -581,7 +586,7 @@ namespace Accord.MachineLearning.Clustering
         internal static void computeGaussianPerplexity(double[][] X, int N, int D, ref int[] _row_P, ref int[] _col_P, ref double[] _val_P, double perplexity, int K)
         {
             if (perplexity > K)
-                throw new Exception("Perplexity should be lower than K!");
+                throw new Exception(String.Format("Perplexity should be lower than K ({0}).", K));
 
             // Allocate the memory we need
             _row_P = new int[N + 1];
@@ -745,7 +750,7 @@ namespace Accord.MachineLearning.Clustering
             for (int n = 0; n < N; n++)
             {
                 for (int i = row_P[n]; i < row_P[n + 1]; i++)
-                {                                  
+                {
                     // considering element(n, col_P[i])
 
                     // Check whether element (col_P[i], n) is present
@@ -756,7 +761,7 @@ namespace Accord.MachineLearning.Clustering
                         {
                             present = true;
                             if (n <= col_P[i])
-                            {                                                 
+                            {
                                 // make sure we do not add elements twice
                                 sym_col_P[sym_row_P[n] + offset[n]] = col_P[i];
                                 sym_col_P[sym_row_P[col_P[i]] + offset[col_P[i]]] = n;

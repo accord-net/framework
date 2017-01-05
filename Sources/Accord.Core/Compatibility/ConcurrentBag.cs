@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -113,6 +113,22 @@ namespace Accord
         {
             lock (SyncRoot)
                 ((ICollection)list).CopyTo(array, index);
+        }
+
+        /// <summary>
+        ///   Copies all elements to an array.
+        /// </summary>
+        /// 
+        public T[] ToArray()
+        {
+            lock (SyncRoot)
+            {
+                var array = new T[list.Count];
+                int i = 0;
+                foreach (T item in list)
+                    array[i++] = item;
+                return array;
+            }
         }
     }
 }

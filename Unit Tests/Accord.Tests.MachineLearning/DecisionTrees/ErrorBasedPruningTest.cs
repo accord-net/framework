@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -41,18 +41,20 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void RunTest()
         {
+            Accord.Math.Random.Generator.Seed = 0;
+
             double[][] inputs;
             int[] outputs;
 
-            int training = 6000;
-            DecisionTree tree = ReducedErrorPruningTest.createNurseryExample(out inputs, out outputs, training);
+            int trainingSamplesCount = 6000;
+            DecisionTree tree = ReducedErrorPruningTest.createNurseryExample(out inputs, out outputs, trainingSamplesCount);
 
             int nodeCount = 0;
             foreach (var node in tree)
                 nodeCount++;
 
-            var pruningInputs = inputs.Submatrix(training, inputs.Length - 1);
-            var pruningOutputs = outputs.Submatrix(training, inputs.Length - 1);
+            var pruningInputs = inputs.Submatrix(trainingSamplesCount, inputs.Length - 1);
+            var pruningOutputs = outputs.Submatrix(trainingSamplesCount, inputs.Length - 1);
             ErrorBasedPruning prune = new ErrorBasedPruning(tree, pruningInputs, pruningOutputs);
 
             prune.Threshold = 0.1;
@@ -77,6 +79,8 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void RunTest3()
         {
+            Accord.Math.Random.Generator.Seed = 0;
+
             double[][] inputs;
             int[] outputs;
 

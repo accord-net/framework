@@ -1,9 +1,14 @@
 @echo off
 
-
 :: Automated builder for executable installer,
 :: compressed archive and NuGet packages
 
+echo.
+echo =========================================================
+
+
+:: Update version numbers
+cmd /c "update-version.cmd"
 
 :: Compile sources
 cd ..

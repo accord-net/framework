@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -46,6 +46,9 @@ namespace Accord.MachineLearning
     /// <example>
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\GaussianMixtureModelTest.cs" region="doc_learn" />
     /// </example>
+    /// 
+    /// <seealso cref="KMeans"/> 
+    /// <seealso cref="MeanShift"/> 
     /// 
     [Serializable]
     public class GaussianMixtureModel : ParallelLearningBase, 

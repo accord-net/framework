@@ -11,12 +11,7 @@
     <FileAlignment>512</FileAlignment>
     <OutputPath>bin</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'NET46'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\NET46\</OutputPath>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+
   <ItemGroup>
     <None Include="Archiver\package-framework.cmd" />
     <None Include="Archiver\package-samples.cmd" />
@@ -59,7 +54,9 @@
     <None Include="Scripts\Accord.targets" />
     <None Include="Scripts\Accord.Video.FFMPEG.targets" />
     <None Include="Scripts\Accord.Video.Kinect.targets" />
-    <None Include="version.cmd" />
+    <None Include="Scripts\UpdateVersion.cmd" />
+    <None Include="Scripts\UpdateVersion.ps1" />
+    <None Include="update-version.cmd" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -67,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\UpdateVersion.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

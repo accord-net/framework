@@ -21,7 +21,7 @@ namespace Accord.Imaging
     /// <remarks><para>The interface specifies set of methods, which should be implemented by different
     /// corners detection algorithms.</para></remarks>
     /// 
-    public interface ICornersDetector : ICloneable
+    public interface ICornersDetector : ICloneable // TODO: Return double[] and/or int[] instead
     {
         /// <summary>
         /// Process image looking for corners.
@@ -31,7 +31,7 @@ namespace Accord.Imaging
         /// 
         /// <returns>Returns list of found corners (X-Y coordinates).</returns>
         /// 
-        List<IntPoint> ProcessImage( Bitmap image );
+        List<IntPoint> ProcessImage(Bitmap image);
 
         /// <summary>
         /// Process image looking for corners.
@@ -41,7 +41,7 @@ namespace Accord.Imaging
         /// 
         /// <returns>Returns list of found corners (X-Y coordinates).</returns>
         /// 
-        List<IntPoint> ProcessImage( BitmapData imageData );
+        List<IntPoint> ProcessImage(BitmapData imageData);
 
         /// <summary>
         /// Process image looking for corners.
@@ -51,6 +51,6 @@ namespace Accord.Imaging
         /// 
         /// <returns>Returns list of found corners (X-Y coordinates).</returns>
         /// 
-        List<IntPoint> ProcessImage( UnmanagedImage image );
+        List<IntPoint> ProcessImage(UnmanagedImage image);
     }
 }

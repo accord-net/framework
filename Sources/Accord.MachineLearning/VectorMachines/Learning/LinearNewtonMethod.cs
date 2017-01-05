@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -290,7 +290,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         where TModel : SupportVectorMachine<TKernel, TInput>
     {
         TrustRegionNewtonMethod tron;
-        TKernel kernel;
 
         int parameters;
 
@@ -349,7 +348,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         {
             int[] y = Outputs;
 
-            LinearNewtonMethod.Xv(kernel, Inputs, biasIndex, w, z);
+            LinearNewtonMethod.Xv(Kernel, Inputs, biasIndex, w, z);
 
             double f = 0;
             for (int i = 0; i < w.Length; i++)

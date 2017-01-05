@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -31,7 +31,11 @@ namespace Accord.Imaging
     ///   Common interface for feature detectors.
     /// </summary>
     /// 
-    public interface IFeatureDetector<TPoint> : IFeatureDetector<TPoint, double[]>
+    public interface IFeatureDetector<
+#if !NET35
+        out
+#endif
+        TPoint> : IFeatureDetector<TPoint, double[]>
         where TPoint : IFeatureDescriptor<double[]>
     {
         // This class exists to maintain backward compatibility with
@@ -44,7 +48,15 @@ namespace Accord.Imaging
     ///   Common interface for feature detectors.
     /// </summary>
     /// 
-    public interface IFeatureDetector<TPoint, TFeature> : ICloneable, IDisposable
+    public interface IFeatureDetector<
+#if !NET35
+        out 
+#endif
+        TPoint,
+#if !NET35
+        out 
+#endif
+        TFeature> : ICloneable, IDisposable
         where TPoint : IFeatureDescriptor<TFeature>
     {
         /// <summary>
@@ -55,7 +67,7 @@ namespace Accord.Imaging
         /// 
         /// <returns>Returns list of found interest points.</returns>
         /// 
-        List<TPoint> ProcessImage(Bitmap image);
+        IEnumerable<TPoint> ProcessImage(Bitmap image);
 
         /// <summary>
         ///   Process image looking for interest points.
@@ -65,7 +77,7 @@ namespace Accord.Imaging
         /// 
         /// <returns>Returns list of found interest points.</returns>
         /// 
-        List<TPoint> ProcessImage(BitmapData imageData);
+        IEnumerable<TPoint> ProcessImage(BitmapData imageData);
 
         /// <summary>
         ///   Process image looking for interest points.
@@ -75,7 +87,7 @@ namespace Accord.Imaging
         /// 
         /// <returns>Returns list of found interest points.</returns>
         /// 
-        List<TPoint> ProcessImage(UnmanagedImage image);
+        IEnumerable<TPoint> ProcessImage(UnmanagedImage image);
     }
 
 }

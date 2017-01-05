@@ -32,6 +32,9 @@
     <ClCompile Include="AudioCodec.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VersionInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stdafx.h">
@@ -52,10 +55,5 @@
     <ClInclude Include="AudioCodec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\accord.core\properties\VersionInfo.cs">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
 </Project>

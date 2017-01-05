@@ -45,7 +45,7 @@
       <DocumentationSource sourceFile="..\..\Extras\Accord.Math.NonCommercial\Accord.Math (Noncommercial).csproj" />
       <DocumentationSource sourceFile="..\..\Extras\Accord.Video.FFMPEG.GPL\Video.FFMPEG.vcxproj" platform="Win32" />
     </DocumentationSources>
-    <CopyrightText>Accord.NET Framework &amp;#169%3b 2009-2016. All documentation is licensed under the Creative Commons Attribution/Share-Alike License.</CopyrightText>
+    <CopyrightText>Accord.NET Framework &amp;#169%3b 2009-2017. All documentation is licensed under the Creative Commons Attribution/Share-Alike License.</CopyrightText>
     <FeedbackEMailAddress>feedback%40accord-framework.net</FeedbackEMailAddress>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="(global)" isDocumented="True">&lt;b&gt;Accord.NET Framework&lt;/b&gt;</NamespaceSummaryItem>
@@ -255,7 +255,7 @@
     <PresentationStyle>VS2013</PresentationStyle>
     <SyntaxFilters>C#, Visual Basic</SyntaxFilters>
     <NamingMethod>MemberName</NamingMethod>
-    <HelpFileVersion>3.4.0.0</HelpFileVersion>
+    <HelpFileVersion>3.3.2.0</HelpFileVersion>
     <FrameworkVersion>.NET Framework 4.6.1</FrameworkVersion>
     <VisibleItems>Attributes, InheritedMembers, InheritedFrameworkMembers, Protected</VisibleItems>
     <PlugInNamespaces>ms.vsipcc+, ms.vsexpresscc+</PlugInNamespaces>
@@ -282,7 +282,7 @@
       <Argument Key="maxVersionParts" Value="" />
       <Argument Key="defaultLanguage" Value="cs" />
       <Argument Key="includeEnumValues" Value="true" />
-      <Argument Key="baseSourceCodeUrl" Value="https://github.com/accord-net/framework/tree/master/Sources/" />
+      <Argument Key="baseSourceCodeUrl" Value="https://github.com/accord-net/framework/blob/master/Sources/" />
       <Argument Key="requestExampleUrl" Value="https://github.com/accord-net/framework/issues/new" />
     </TransformComponentArguments>
     <MaximumGroupParts>2</MaximumGroupParts>

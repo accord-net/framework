@@ -12,7 +12,7 @@ echo.
 :: Settings for complete and (libs-only) package creation
 :: ---------------------------------------------------------
 
-call ..\version.cmd
+set /p version=<"..\..\Version.txt"
 set rar="C:\Program Files\WinRAR\rar"
 set fullname="Accord.NET-%version%-archive.rar" 
 set libsname="Accord.NET-%version%-libsonly.rar"

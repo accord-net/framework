@@ -154,6 +154,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET45|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET46|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="VersionInfo.cpp" />
     <ClCompile Include="VideoCodec.cpp" />
     <ClCompile Include="VideoFileReader.cpp" />
     <ClCompile Include="VideoFileSource.cpp" />
@@ -171,9 +172,6 @@
     <ProjectReference Include="..\..\Accord.Video\Accord.Video.csproj">
       <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Accord.Core\Properties\VersionInfo.cs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

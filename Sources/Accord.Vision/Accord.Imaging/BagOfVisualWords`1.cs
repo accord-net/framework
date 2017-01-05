@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -52,61 +52,21 @@ namespace Accord.Imaging
     /// <para>
     ///   For a simpler, non-generic version of the Bag-of-Words model which 
     ///   defaults to the <see cref="SpeededUpRobustFeaturesDetector">SURF 
-    ///   features detector</see>, please see <see cref="BagOfVisualWords"/>
+    ///   features detector</see>, please see <see cref="BagOfVisualWords"/>.
     /// </para>
     /// </remarks>
     /// 
     /// <example>
     /// <para>
-    ///   The following example shows how to use a BoW model with the
-    ///   <see cref="SpeededUpRobustFeaturesDetector"/>.</para>
-    ///   
-    /// <code>
-    ///   int numberOfWords = 32;
-    ///   
-    ///   // Create bag-of-words (BoW) with the given SURF detector
-    ///   var bow = new BagOfVisualWords&lt;SpeededUpRobustFeaturePoint>(
-    ///      new SpeededUpRobustFeaturesDetector(), numberOfWords);
-    ///   
-    ///   // Create the BoW codebook using a set of training images
-    ///   bow.Compute(imageArray);
-    ///   
-    ///   // Create a fixed-length feature vector for a new image
-    ///   double[] featureVector = bow.GetFeatureVector(image);
-    /// </code>
-    /// 
-    /// <para>
-    ///   The following example shows how to create a BoW which works with any
-    ///   of corner detector, such as <see cref="HarrisCornersDetector"/>:</para>
-    ///   
-    /// <code>
-    ///   int numberOfWords = 16;
-    /// 
-    ///   // Create a Harris corners detector
-    ///   var harris = new HarrisCornersDetector();
-    ///   
-    ///   // Create an adapter to convert corners to visual features
-    ///   CornerFeaturesDetector detector = new CornerFeaturesDetector(harris);
-    ///   
-    ///   // Create a bag-of-words (BoW) with the corners detector and number of words
-    ///   var bow = new BagOfVisualWords&lt;CornerFeaturePoint>(detector, numberOfWords);
-    ///   
-    ///   // Create the BoW codebook using a set of training images
-    ///   bow.Compute(imageArray);
-    ///   
-    ///   // Create a fixed-length feature vector for a new image
-    ///   double[] featureVector = bow.GetFeatureVector(image);
-    /// </code>
+    ///   Please see <see cref="BagOfVisualWords"/>.</para>
     /// </example>
     /// 
     /// <seealso cref="BagOfVisualWords"/>
-    /// <seealso cref="IFeatureDetector{TPoint}"/>
-    /// 
-    /// <seealso cref="SpeededUpRobustFeaturesDetector"/>
-    /// <seealso cref="FastRetinaKeypointDetector"/>
     /// 
     [Serializable]
-    public class BagOfVisualWords<TPoint> : BagOfVisualWords<TPoint, double[]>
+    public class BagOfVisualWords<TPoint> :
+        BaseBagOfVisualWords<BagOfVisualWords<TPoint>,
+            TPoint, double[], IClusteringAlgorithm<double[]>, IFeatureDetector<TPoint, double[]>>
         where TPoint : IFeatureDescriptor<double[]>
     {
         /// <summary>
@@ -118,7 +78,7 @@ namespace Accord.Imaging
         /// 
         public BagOfVisualWords(IFeatureDetector<TPoint> detector, int numberOfWords)
         {
-            base.Init(detector, kmeans(numberOfWords));
+            base.Init(detector, base.KMeans(numberOfWords));
         }
 
         /// <summary>
@@ -132,16 +92,7 @@ namespace Accord.Imaging
         {
             base.Init(detector, algorithm);
         }
-
-        private KMeans kmeans(int numberOfWords)
-        {
-            return new KMeans(numberOfWords)
-            {
-                ComputeCovariances = false,
-                UseSeeding = Seeding.KMeansPlusPlus,
-                ParallelOptions = ParallelOptions
-            };
-        }
+        
     }
 
 }

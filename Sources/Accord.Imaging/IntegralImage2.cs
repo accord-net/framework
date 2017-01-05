@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -256,7 +256,10 @@ namespace Accord.Imaging
         /// 
         public static IntegralImage2 FromBitmap(BitmapData imageData, int channel)
         {
-            return FromBitmap(new UnmanagedImage(imageData), channel);
+            using (UnmanagedImage uImage = new UnmanagedImage(imageData))
+            {
+                return FromBitmap(uImage, channel);
+            }
         }
 
         /// <summary>
@@ -274,7 +277,10 @@ namespace Accord.Imaging
         /// 
         public static IntegralImage2 FromBitmap(BitmapData imageData, int channel, bool computeTilted)
         {
-            return FromBitmap(new UnmanagedImage(imageData), channel, computeTilted);
+            using (UnmanagedImage uImage = new UnmanagedImage(imageData))
+            {
+                return FromBitmap(uImage, channel, computeTilted);
+            }
         }
 
         /// <summary>
@@ -291,7 +297,10 @@ namespace Accord.Imaging
         /// 
         public static IntegralImage2 FromBitmap(BitmapData imageData, bool computeTilted)
         {
-            return FromBitmap(new UnmanagedImage(imageData), 0, computeTilted);
+            using (UnmanagedImage uImage = new UnmanagedImage(imageData))
+            {
+                return FromBitmap(uImage, 0, computeTilted);
+            }
         }
 
         /// <summary>
@@ -307,6 +316,7 @@ namespace Accord.Imaging
         /// 
         public static IntegralImage2 FromBitmap(UnmanagedImage image, int channel)
         {
+
             return FromBitmap(image, channel, false);
         }
 
@@ -427,7 +437,7 @@ namespace Accord.Imaging
                 {
                     int yy = tWidth * (y);
                     int y1 = tWidth * (y - 1);
-                    
+
                     for (int x = 2; x < width + 2; x++, src += pixelSize)
                     {
                         image.CheckBounds(src);

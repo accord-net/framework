@@ -5,7 +5,7 @@
 // Copyright © Christopher Evans, 2009-2011
 // http://www.chrisevansdev.com/
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -530,6 +530,20 @@ namespace Accord.Imaging
 
 
 
+        IEnumerable<SpeededUpRobustFeaturePoint> IFeatureDetector<SpeededUpRobustFeaturePoint, double[]>.ProcessImage(Bitmap image)
+        {
+            return ProcessImage(image);
+        }
+
+        IEnumerable<SpeededUpRobustFeaturePoint> IFeatureDetector<SpeededUpRobustFeaturePoint, double[]>.ProcessImage(BitmapData imageData)
+        {
+            return ProcessImage(imageData);
+        }
+
+        IEnumerable<SpeededUpRobustFeaturePoint> IFeatureDetector<SpeededUpRobustFeaturePoint, double[]>.ProcessImage(UnmanagedImage image)
+        {
+            return ProcessImage(image);
+        }
 
 
         #region ICornersDetector Members

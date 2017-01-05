@@ -11,7 +11,7 @@ echo.
 timeout /T 5
 
 :: Set version info
-call ..\version.cmd
+set /p version=<"..\..\Version.txt"
 set output=..\bin\nupkg
 
 :: Create output directory

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -1943,6 +1943,15 @@ namespace Accord.Imaging
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        /// <summary>
+        /// Locks a Bitmap into system memory.
+        /// </summary>
+        public static BitmapData LockBits(this Bitmap value)
+        {
+            return value.LockBits(new Rectangle(0, 0, value.Width, value.Height), 
+                ImageLockMode.ReadOnly, value.PixelFormat);
         }
     }
 }

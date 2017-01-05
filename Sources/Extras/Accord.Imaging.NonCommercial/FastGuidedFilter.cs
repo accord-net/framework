@@ -9,7 +9,7 @@
 // hashemzawary@gmail.com
 // https://www.linkedin.com/in/hashem-zavvari-53b01457
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 // This code has been contributed by Hashem Zawary based on the original from 

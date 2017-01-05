@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -74,10 +74,8 @@ namespace Accord.Math.Optimization.Losses
         /// </summary>
         /// <param name="expected">The expected outputs (ground truth).</param>
         public ZeroOneLoss(int[] expected)
-            : base(expected)
+            : base(Classes.IsMinusOnePlusOne(expected) ? Classes.ToMulticlass(expected) : expected)
         {
-            if (Expected.Min() < 0)
-                throw new Exception("Expected values should be greater than or equal to zero.");
         }
 
         /// <summary>
