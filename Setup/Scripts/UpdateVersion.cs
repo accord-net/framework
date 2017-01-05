@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Accord.Setup.Scripts
 {
@@ -9,32 +10,34 @@ namespace Accord.Setup.Scripts
         public static string GetVersionText(string major, string minor, string rev, string build, string tag, bool cpp)
         {
             var sb = new StringBuilder();
+            string semicolon;
 
             if (cpp)
             {
+                semicolon = ";";
                 sb.AppendLine("#include \"stdafx.h\"");
                 sb.AppendLine("using namespace System::Reflection;");
             }
             else
             {
+                semicolon = String.Empty;
                 sb.AppendLine("using System.Reflection;");
             }
 
-            sb.AppendLine("[assembly: AssemblyProductAttribute(\"Accord.NET Framework\")]");
-            sb.AppendLine(String.Format("[assembly: AssemblyCopyrightAttribute(\"Copyright (c) Accord.NET authors, 2009-{0}\")]", DateTime.Now.Year));
-            sb.AppendLine("[assembly: AssemblyCompanyAttribute(\"Accord.NET\")]");
-            sb.AppendLine("[assembly: AssemblyTrademarkAttribute(\"\")]");
-            sb.AppendLine("[assembly: AssemblyCultureAttribute(\"\")]");
-            sb.AppendLine(String.Format("[assembly: AssemblyVersionAttribute(\"{0}.{1}.{2}\")]", major, minor, rev));
-            sb.AppendLine(String.Format("[assembly: AssemblyInformationalVersionAttribute(\"{0}.{1}.{2}-{3}\")]", major, minor, rev, tag));
-            sb.AppendLine(String.Format("[assembly: AssemblyFileVersionAttribute(\"{0}.{1}.{2}.{3}\")]", major, minor, rev, build));
+            sb.AppendLine("[assembly: AssemblyProductAttribute(\"Accord.NET Framework\")]" + semicolon);
+            sb.AppendLine(String.Format("[assembly: AssemblyCopyrightAttribute(\"Copyright (c) Accord.NET authors, 2009-{0}\")]" + semicolon, DateTime.Now.Year));
+            sb.AppendLine("[assembly: AssemblyCompanyAttribute(\"Accord.NET\")]" + semicolon);
+            sb.AppendLine("[assembly: AssemblyTrademarkAttribute(\"\")]" + semicolon);
+            sb.AppendLine("[assembly: AssemblyCultureAttribute(\"\")]" + semicolon);
+            sb.AppendLine(String.Format("[assembly: AssemblyVersionAttribute(\"{0}.{1}.{2}\")]" + semicolon, major, minor, rev));
+            sb.AppendLine(String.Format("[assembly: AssemblyInformationalVersionAttribute(\"{0}.{1}.{2}-{3}\")]" + semicolon, major, minor, rev, tag));
+            sb.AppendLine(String.Format("[assembly: AssemblyFileVersionAttribute(\"{0}.{1}.{2}.{3}\")]" + semicolon, major, minor, rev, build));
             return sb.ToString();
         }
 
         public static void Replace(string frameworkRootPath)
         {
-            var dir = new DirectoryInfo(Path.Combine(frameworkRootPath, "Sources"));
-            var files = dir.GetFiles("VersionInfo.*", SearchOption.AllDirectories);
+
 
             string version = File.ReadAllText(Path.Combine(frameworkRootPath, "Version.txt"));
             string[] parts;
@@ -48,6 +51,24 @@ namespace Accord.Setup.Scripts
 
             Console.WriteLine("Updating source files with version number {0}.{1}.{2}.{3}-{4}", major, minor, rev, build, tag);
 
+            replaceAssemblyInfo(frameworkRootPath, tag, major, minor, rev, build);
+            replaceDocumentation(frameworkRootPath, major, minor, rev);
+        }
+
+        private static void replaceDocumentation(string frameworkRootPath, string major, string minor, string rev)
+        {
+            string pattern = "<HelpFileVersion>.*</HelpFileVersion>";
+            string docPath = Path.Combine(frameworkRootPath, "Sources/Accord.Docs/Accord.Documentation/Accord.Documentation.shfbproj");
+            string contents = File.ReadAllText(docPath);
+            string replacement = String.Format("<HelpFileVersion>{0}.{1}.{2}.0</HelpFileVersion>", major, minor, rev);
+            contents = Regex.Replace(contents, pattern, replacement);
+            File.WriteAllText(docPath, contents);
+        }
+
+        private static void replaceAssemblyInfo(string frameworkRootPath, string tag, string major, string minor, string rev, string build)
+        {
+            var dir = new DirectoryInfo(Path.Combine(frameworkRootPath, "Sources"));
+            var files = dir.GetFiles("VersionInfo.*", SearchOption.AllDirectories);
             foreach (FileInfo file in files)
             {
                 bool cpp = file.Extension == ".cpp";
@@ -55,6 +76,5 @@ namespace Accord.Setup.Scripts
                 File.WriteAllText(file.FullName, contents);
             }
         }
-
     }
 }

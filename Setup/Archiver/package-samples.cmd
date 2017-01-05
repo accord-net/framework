@@ -13,7 +13,7 @@ echo.
 :: Settings for complete and (libs-only) package creation
 :: ---------------------------------------------------------
 set rar="C:\Program Files\WinRAR\winrar"
-set opts=a -m5 -s
+set opts=a -m5 -s -ibck
 set sampleDir=..\..\Samples\
 set outputDir=..\bin\samples\
 set sampleBin=\bin\x86\Release\
