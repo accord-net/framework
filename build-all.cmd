@@ -17,30 +17,30 @@ echo.
 echo.
 echo  - Building Debug configuration...
 %DEVENV% Sources\Accord.NET.sln /Rebuild Debug /out "Setup\bin\Build.Debug.log"
-wait 10
+timeout /T 30
 echo.
 echo  - Building Mono configuration...
 %DEVENV% Sources\Accord.NET.sln /Rebuild MONO /out "Setup\bin\Build.MONO.log"
-wait 10
+timeout /T 30
 echo.
 echo  - Building NET35 configuration...
 %DEVENV% Sources\Accord.NET.sln /Rebuild NET35 /out "Setup\bin\Build.NET35.log"
-wait 10
+timeout /T 30
 echo.
 echo  - Building NET40 configuration...
 %DEVENV% Sources\Accord.NET.sln /Rebuild NET40 /out "Setup\bin\Build.NET40.log"
-wait 10
+timeout /T 30
 echo.
 echo  - Building NET45 configuration...
 %DEVENV% Sources\Accord.NET.sln /Rebuild NET45 /out "Setup\bin\Build.NET45.log"
-wait 10
+timeout /T 30
 echo.
 echo  - Building NET46 configuration...
 %DEVENV% Sources\Accord.NET.sln /Rebuild NET46 /out "Setup\bin\Build.NET46.log"
-wait 10
+timeout /T 30
 echo.
 echo  - Building samples...
 %DEVENV% Samples\Samples.sln /Rebuild Release /out "Setup\bin\Build.Samples.log"
-wait 10
+timeout /T 30
 echo.
-timeout /T 5
+timeout /T 10
