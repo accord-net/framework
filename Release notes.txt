@@ -1,3 +1,79 @@
+Accord.NET Framework 3.4.0 release notes
+-----------------------------------------
+08.01.2017.
+
+Version updates and fixes:
+  - GH-19: Implement Grubbs' test;
+  - GH-129:Possible error in Special.BSpline function;
+  - GH-153: Visual Studio 2015;
+  - GH-172: Add Random Forest Implementation;
+  - GH-177: AugmentedLagrangian with NonlinearConstraints - Gradient NullReferenceException issue;
+  - GH-183: Severity Check in NumberOfVertices Set Property on DiscreteCurveEvolution Class;
+  - GH-229: Can't build cloned repository;
+  - GH-250: Prediction interval - Accord.Statistics.Models.Regression.LogisticRegression;
+  - GH-264: Integer division instead of double in GetSpectralResolution;
+  - GH-264: Incorrect use of loop variables in sample converter;
+  - GH-264: Checking same arguments multiple times in blob counter;
+  - GH-264: Checking length of same vector in a loop;
+  - GH-264: Integer division instead of double in Math.Tools;
+  - GH-264: Dependency classes of Denavit Harternberg IK solver should be marked as Serializable;
+  - GH-264: Error when checking whether component mixtures implement IFormattable;
+  - GH-264: Multivariate Empirical Distribution outdated/unecessary argument checks;
+  - GH-264: Correcting the support for weighted samples in Inverse Gaussian Distribution;
+  - GH-275: Examples for the GoldfarbIdnani solver are not up to date and do not compile;
+  - GH-291: Accord.Imaging nuget dependencies;
+  - GH-295: Accord.Video.FFMPEG.VideoFileWriter ignores bitrate;
+  - GH-296: Update documentation for hidden Markov models;
+  - GH-299: Update to .NET 4.6 and VS2015;
+  - GH-302: Regression (SVMs) : NullReferenceException on clicking 'Create Machine';
+  - GH-309: Compile error with release 3.2.2;
+  - GH-310: Examples for L1-regularized (Logistic) regression;
+  - GH-313: Inaccuracy in Accord.Math Pseudoinverse;
+  - GH-314: V3.3.0 Cannot set input and output names in LogisticRegressionAnalysis;
+  - GH-320: Shared Covariance Matrix for Gaussian Mixture Models;
+  - GH-325: ClusterCollection doesn't implement IEnumerable properly (runtime error);
+  - GH-327: NegativeBinomialDistribution Cum Dist func not returning expected value;
+  - GH-301: Bug in Accord.Statistics.Analysis.DistributionAnalysis
+  - GH-304: Bug in GammaDistribution.ProbabilityDensityFunction
+  - GH-330: Liblinear (Linear SVMs) does not train, exits with "index out of range";
+  - GH-331: RandomForest is not serializable;
+  - GH-332: Partial Least Squares issue with NIPALS method and the new API;
+  - GH-337: ExpectationMaximization max Iterations can't be changed;
+  - GH-340: PoissonDistribution InverseDistributionFunction not returning expected value;
+  - GH-365: Can HOG to work with BoW'2 with SVM or OSVM.
+
+ * General
+   - Fixing make install on Linux/Mono.
+   
+ * Imaging
+   - Updating BagOfVisualWords to implement the updated IBagOfWords interface;
+   - Adding methods to facilitate the creation of BoVW with arbitrary extractors;
+   - Adding examples in the documentation on how to learn SVMs on the extracted Bo(V)Ws;
+   - Updating IFeatureDetector interfaces to use covariance and contravariance to avoid element-by-element type conversions.
+
+ * Math
+   - Adding support for computing the full QR decomposition (besides only the economy one);
+   - Adding methods to compute the null-space of a given matrix.
+
+ * MachineLearning
+   - Updating the IBagOfWords interface and implementing classes to implement the IUnsupervisedLearning and ITransform interfaces;
+   - Updating ZeroOneLoss to handle class labels in the -1/+1 format;
+   - Updating the kernel cache to pre-compute the entire kernel matrix by default.
+
+  * Statistics
+    - Adding random generators for the von-Mises Fisher distribution;
+    - Updating documentation examples for Hidden Markov Models, Hidden Markov Classifiers and their respective algorithms;
+    - Adding a new GammaOptions class to pass fitting options to Gamma distributions;
+    - Updating DistributionAnalysis to use the new machine learning interfaces/API;
+    - Updating code and documentation for Dynamic Time warping kernel;
+    - Updating Gamma distribution so probabilities are computed in the log-domain by default;
+    - Marking Moving and Running statistics as ISerializable;
+    - Adding methods to compute the marginals in multivariate discrete distributions;
+    - Adding RunningRangeStatistics and MovingRangeStatistics.
+
+
+
+
 Accord.NET Framework 3.3.0 release notes
 -----------------------------------------
 17.09.2016.
