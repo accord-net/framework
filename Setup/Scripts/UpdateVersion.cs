@@ -71,6 +71,9 @@ namespace Accord.Setup.Scripts
             var files = dir.GetFiles("VersionInfo.*", SearchOption.AllDirectories);
             foreach (FileInfo file in files)
             {
+                if (file.Extension != ".cpp" && file.Extension != ".cs")
+                    continue;
+
                 bool cpp = file.Extension == ".cpp";
                 string contents = GetVersionText(major, minor, rev, build, tag, cpp);
                 File.WriteAllText(file.FullName, contents);
