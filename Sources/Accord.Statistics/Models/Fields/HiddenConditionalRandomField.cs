@@ -23,13 +23,13 @@
 namespace Accord.Statistics.Models.Fields
 {
     using Accord.MachineLearning;
-using Accord.Math;
-using Accord.Statistics.Models.Fields.Functions;
-using Accord.Statistics.Models.Fields.Learning;
-using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Threading.Tasks;
+    using Accord.Math;
+    using Accord.Statistics.Models.Fields.Functions;
+    using Accord.Statistics.Models.Fields.Learning;
+    using System;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Hidden Conditional Random Field (HCRF).
@@ -247,7 +247,7 @@ using System.Threading.Tasks;
     /// <see cref="HiddenResilientGradientLearning{T}"/>
     /// 
     [Serializable]
-    public class HiddenConditionalRandomField<T> : MulticlassClassifierBase<T[]>, 
+    public class HiddenConditionalRandomField<T> : MulticlassClassifierBase<T[]>,
         ICloneable
     {
 
@@ -282,17 +282,24 @@ using System.Threading.Tasks;
         ///   Computes the most likely output for the given observations.
         /// </summary>
         /// 
+        [Obsolete("Please use the Decide() method instead.")]
         public int Compute(T[] observations)
         {
             double[] logLikelihoods;
-            return Compute(observations, out logLikelihoods);
+            return compute(observations, out logLikelihoods);
         }
 
         /// <summary>
         ///   Computes the most likely output for the given observations.
         /// </summary>
         /// 
+        [Obsolete("Please use the Decide() method instead.")]
         public int Compute(T[] observations, out double[] logLikelihoods)
+        {
+            return compute(observations, out logLikelihoods);
+        }
+
+        private int compute(T[] observations, out double[] logLikelihoods)
         {
             // Compute log-likelihoods for all possible outputs
             logLikelihoods = computeLogLikelihood(observations);
@@ -321,10 +328,11 @@ using System.Threading.Tasks;
         ///   Computes the most likely output for the given observations.
         /// </summary>
         /// 
+        [Obsolete("Please use the Decide() method instead.")]
         public int Compute(T[] observations, out double logLikelihood)
         {
             double[] logLikelihoods;
-            int i = Compute(observations, out logLikelihoods);
+            int i = compute(observations, out logLikelihoods);
             logLikelihood = logLikelihoods[i];
             return i;
         }
@@ -611,10 +619,10 @@ using System.Threading.Tasks;
         /// 
         /// <param name="stream">The stream to which the random field is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save() instead.")]
         public void Save(Stream stream)
         {
-            BinaryFormatter b = new BinaryFormatter();
-            b.Serialize(stream, this);
+            Accord.IO.Serializer.Save(this, stream);
         }
 
         /// <summary>
@@ -623,9 +631,10 @@ using System.Threading.Tasks;
         /// 
         /// <param name="path">The stream to which the random field is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save() instead.")]
         public void Save(string path)
         {
-            Save(new FileStream(path, FileMode.Create));
+            Accord.IO.Serializer.Save(this, path);
         }
 
         /// <summary>
@@ -636,10 +645,10 @@ using System.Threading.Tasks;
         /// 
         /// <returns>The deserialized random field.</returns>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Load<HiddenConditionalRandomField<T>>() instead.")]
         public static HiddenConditionalRandomField<T> Load(Stream stream)
         {
-            BinaryFormatter b = new BinaryFormatter();
-            return (HiddenConditionalRandomField<T>)b.Deserialize(stream);
+            return Accord.IO.Serializer.Load<HiddenConditionalRandomField<T>>(stream);
         }
 
         /// <summary>
@@ -650,9 +659,10 @@ using System.Threading.Tasks;
         /// 
         /// <returns>The deserialized random field.</returns>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Load<HiddenConditionalRandomField<T>>() instead.")]
         public static HiddenConditionalRandomField<T> Load(string path)
         {
-            return Load(new FileStream(path, FileMode.Open));
+            return Accord.IO.Serializer.Load<HiddenConditionalRandomField<T>>(path);
         }
 
         #region ICloneable Members
@@ -683,7 +693,8 @@ using System.Threading.Tasks;
         /// </returns>
         public override int Decide(T[] input)
         {
-            return Compute(input);
+            double[] v;
+            return compute(input, out v);
         }
     }
 }

@@ -711,72 +711,72 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
-        public static double[][] ToArray(this DataTable table)
+        public static double[][] ToJagged(this DataTable table)
         {
-            return ToArray<double>(table);
+            return ToJagged<double>(table);
         }
 
         /// <summary>
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
-        public static double[][] ToArray(this DataTable table, IFormatProvider provider)
+        public static double[][] ToJagged(this DataTable table, IFormatProvider provider)
         {
-            return ToArray<double>(table, provider);
+            return ToJagged<double>(table, provider);
         }
 
         /// <summary>
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
-        public static double[][] ToArray(this DataTable table, out string[] columnNames)
+        public static double[][] ToJagged(this DataTable table, out string[] columnNames)
         {
-            return ToArray<double>(table, out columnNames);
+            return ToJagged<double>(table, out columnNames);
         }
 
         /// <summary>
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
-        public static double[][] ToArray(this DataTable table, IFormatProvider provider, out string[] columnNames)
+        public static double[][] ToJagged(this DataTable table, IFormatProvider provider, out string[] columnNames)
         {
-            return ToArray<double>(table, provider, out columnNames);
+            return ToJagged<double>(table, provider, out columnNames);
         }
 
         /// <summary>
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
-        public static double[][] ToArray(this DataTable table, params string[] columnNames)
+        public static double[][] ToJagged(this DataTable table, params string[] columnNames)
         {
-            return ToArray<double>(table, columnNames);
+            return ToJagged<double>(table, columnNames);
         }
 
         /// <summary>
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
-        public static T[][] ToArray<T>(this DataTable table)
-        {
-            String[] names;
-            return ToArray<T>(table, out names);
-        }
-
-        /// <summary>
-        ///   Converts a DataTable to a double[][] array.
-        /// </summary>
-        /// 
-        public static T[][] ToArray<T>(this DataTable table, IFormatProvider provider)
+        public static T[][] ToJagged<T>(this DataTable table)
         {
             String[] names;
-            return ToArray<T>(table, provider, out names);
+            return ToJagged<T>(table, out names);
         }
 
         /// <summary>
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
-        public static T[][] ToArray<T>(this DataTable table, out string[] columnNames)
+        public static T[][] ToJagged<T>(this DataTable table, IFormatProvider provider)
+        {
+            String[] names;
+            return ToJagged<T>(table, provider, out names);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[][] array.
+        /// </summary>
+        /// 
+        public static T[][] ToJagged<T>(this DataTable table, out string[] columnNames)
         {
             T[][] m = new T[table.Rows.Count][];
             columnNames = new string[table.Columns.Count];
@@ -802,7 +802,7 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
-        public static T[][] ToArray<T>(this DataTable table, IFormatProvider provider, out string[] columnNames)
+        public static T[][] ToJagged<T>(this DataTable table, IFormatProvider provider, out string[] columnNames)
         {
             T[][] m = new T[table.Rows.Count][];
             columnNames = new string[table.Columns.Count];
@@ -825,7 +825,7 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
-        public static T[][] ToArray<T>(this DataTable table, params string[] columnNames)
+        public static T[][] ToJagged<T>(this DataTable table, params string[] columnNames)
         {
             T[][] m = new T[table.Rows.Count][];
 
@@ -841,6 +841,112 @@ namespace Accord.Math
             }
 
             return m;
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts a DataTable to a double[][] array.
+        /// </summary>
+        /// 
+        [Obsolete("Please use ToJagged() instead.")]
+        public static double[][] ToArray(this DataTable table)
+        {
+            return ToJagged<double>(table);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[][] array.
+        /// </summary>
+        /// 
+        [Obsolete("Please use ToJagged() instead.")]
+        public static double[][] ToArray(this DataTable table, IFormatProvider provider)
+        {
+            return ToJagged<double>(table, provider);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[][] array.
+        /// </summary>
+        /// 
+        [Obsolete("Please use ToJagged() instead.")]
+        public static double[][] ToArray(this DataTable table, out string[] columnNames)
+        {
+            return ToJagged<double>(table, out columnNames);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[][] array.
+        /// </summary>
+        /// 
+        [Obsolete("Please use ToJagged() instead.")]
+        public static double[][] ToArray(this DataTable table, IFormatProvider provider, out string[] columnNames)
+        {
+            return ToJagged<double>(table, provider, out columnNames);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[][] array.
+        /// </summary>
+        /// 
+        [Obsolete("Please use ToJagged() instead.")]
+        public static double[][] ToArray(this DataTable table, params string[] columnNames)
+        {
+            return ToJagged<double>(table, columnNames);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[][] array.
+        /// </summary>
+        /// 
+        [Obsolete("Please use ToJagged() instead.")]
+        public static T[][] ToArray<T>(this DataTable table)
+        {
+            String[] names;
+            return ToJagged<T>(table, out names);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[][] array.
+        /// </summary>
+        /// 
+        [Obsolete("Please use ToJagged() instead.")]
+        public static T[][] ToArray<T>(this DataTable table, IFormatProvider provider)
+        {
+            String[] names;
+            return ToJagged<T>(table, provider, out names);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[][] array.
+        /// </summary>
+        /// 
+        [Obsolete("Please use ToJagged() instead.")]
+        public static T[][] ToArray<T>(this DataTable table, out string[] columnNames)
+        {
+            return ToJagged<T>(table, out columnNames);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[][] array.
+        /// </summary>
+        /// 
+        [Obsolete("Please use ToJagged() instead.")]
+        public static T[][] ToArray<T>(this DataTable table, IFormatProvider provider, out string[] columnNames)
+        {
+            return ToJagged<T>(table, provider, out columnNames);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[][] array.
+        /// </summary>
+        /// 
+        [Obsolete("Please use ToJagged() instead.")]
+        public static T[][] ToArray<T>(this DataTable table, params string[] columnNames)
+        {
+            return ToJagged<T>(table, out columnNames);
         }
 
         /// <summary>
