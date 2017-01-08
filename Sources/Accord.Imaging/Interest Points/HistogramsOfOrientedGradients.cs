@@ -185,8 +185,17 @@ namespace Accord.Imaging
 
 
             // 1. Calculate partial differences
-            direction = new float[height, width];
-            magnitude = new float[height, width]; // TODO: Reuse across different calls
+            if (direction == null || height > direction.GetLength(0) || width > direction.GetLength(1))
+            {
+                direction = new float[height, width];
+                magnitude = new float[height, width];
+            }
+            else
+            {
+                System.Diagnostics.Debug.Write(String.Format("Reusing storage for direction and magnitude. " +
+                    "Need ({0}, {1}), have ({1}, {2})", height, width, direction.Rows(), direction.Columns()));
+            }
+
 
             unsafe
             {
@@ -237,7 +246,19 @@ namespace Accord.Imaging
             // 2. Compute cell histograms
             int cellCountX = (int)Math.Floor(width / (double)cellSize);
             int cellCountY = (int)Math.Floor(height / (double)cellSize);
-            histograms = new double[cellCountX, cellCountY][];
+
+            if (histograms == null || cellCountX > histograms.GetLength(0) || cellCountY > histograms.GetLength(1))
+            {
+                this.histograms = new double[cellCountX, cellCountY][];
+                for (int i = 0; i < cellCountX; i++)
+                    for (int j = 0; j < cellCountY; j++)
+                        this.histograms[i, j] = new double[NumberOfBins];
+            }
+            else
+            {
+                System.Diagnostics.Debug.Write(String.Format("Reusing storage for histograms. " +
+                    "Need ({0}, {1}), have ({1}, {2})", cellCountX, cellCountY, histograms.Rows(), histograms.Columns()));
+            }
 
             // For each cell
             for (int i = 0; i < cellCountX; i++)
@@ -245,7 +266,8 @@ namespace Accord.Imaging
                 for (int j = 0; j < cellCountY; j++)
                 {
                     // Compute the histogram
-                    double[] histogram = new double[numberOfBins]; // TODO: Do not create new vectors here
+                    double[] histogram = this.histograms[i, j];
+                    Array.Clear(histogram, 0, histogram.Length);
 
                     int startCellX = i * cellSize;
                     int startCellY = j * cellSize;
@@ -264,8 +286,6 @@ namespace Accord.Imaging
                             histogram[bin] += mag;
                         }
                     }
-
-                    histograms[i, j] = histogram;
                 }
             }
 
@@ -279,7 +299,7 @@ namespace Accord.Imaging
             {
                 for (int j = 0; j < blocksCountY; j++)
                 {
-                    double[] v = new double[blockSize * blockSize * numberOfBins];
+                    double[] block = new double[blockSize * blockSize * numberOfBins];
 
                     int startBlockX = i * blockSize;
                     int startBlockY = j * blockSize;
@@ -294,12 +314,12 @@ namespace Accord.Imaging
 
                             // Copy all histograms to the block vector
                             for (int k = 0; k < histogram.Length; k++)
-                                v[c++] = histogram[k];
+                                block[c++] = histogram[k];
                         }
                     }
 
-                    double[] block = (normalize) ? // TODO: in place
-                        v.Divide(v.Euclidean() + epsilon) : v;
+                    if (normalize)
+                        block.Divide(block.Euclidean() + epsilon, result: block);
 
                     blocks.Add(block);
                 }
@@ -353,7 +373,7 @@ namespace Accord.Imaging
             }
 
             // lock source image
-            BitmapData imageData = image.LockBits();
+            BitmapData imageData = image.LockBits(ImageLockMode.ReadOnly);
 
             try
             {
@@ -409,13 +429,7 @@ namespace Accord.Imaging
         public object Clone()
         {
             var clone = new HistogramsOfOrientedGradients(numberOfBins, blockSize, cellSize);
-            clone.direction = (float[,])direction.Clone();
-            clone.magnitude = (float[,])magnitude.Clone();
             clone.epsilon = epsilon;
-            clone.histograms = Matrix.CreateAs(histograms); // TODO: Replace with a deep clone
-            for (int i = 0; i < clone.histograms.Rows(); i++)
-                for (int j = 0; j < clone.histograms.Columns(); j++)
-                    clone.histograms[i, j] = (double[])histograms[i, j].Clone();
             clone.normalize = normalize;
             return clone;
         }
