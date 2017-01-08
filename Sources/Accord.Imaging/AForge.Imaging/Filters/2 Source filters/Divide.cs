@@ -139,24 +139,24 @@ namespace Accord.Imaging.Filters
             {
 
                 // initialize other variables
-                var pixelSize = (pixelFormat == PixelFormat.Format8bppIndexed) ? 1 :
+                int pixelSize = (pixelFormat == PixelFormat.Format8bppIndexed) ? 1 :
                     (pixelFormat == PixelFormat.Format24bppRgb) ? 3 : 4;
-                var lineSize = width * pixelSize;
-                var srcOffset = image.Stride - lineSize;
-                var ovrOffset = overlay.Stride - lineSize;
+                int lineSize = width * pixelSize;
+                int srcOffset = image.Stride - lineSize;
+                int ovrOffset = overlay.Stride - lineSize;
                 // new pixel value
 
                 // do the job
-                var ptr = (byte*)image.ImageData.ToPointer();
-                var ovr = (byte*)overlay.ImageData.ToPointer();
+                byte* ptr = (byte*)image.ImageData.ToPointer();
+                byte* ovr = (byte*)overlay.ImageData.ToPointer();
 
                 // for each line
-                for (var y = 0; y < height; y++)
+                for (int y = 0; y < height; y++)
                 {
                     // for each pixel
-                    for (var x = 0; x < lineSize; x++, ptr++, ovr++)
+                    for (int x = 0; x < lineSize; x++, ptr++, ovr++)
                     {
-                        var v = (*ptr * 256f) / (*ovr + 1f);
+                        float v = (*ptr * 256f) / (*ovr + 1f);
                         *ptr = (v > 255) ? (byte)255 : (byte)v;
                     }
                     ptr += srcOffset;
@@ -166,27 +166,27 @@ namespace Accord.Imaging.Filters
             else
             {
                 // initialize other variables
-                var pixelSize = (pixelFormat == PixelFormat.Format16bppGrayScale) ? 1 :
+                int pixelSize = (pixelFormat == PixelFormat.Format16bppGrayScale) ? 1 :
                     (pixelFormat == PixelFormat.Format48bppRgb) ? 3 : 4;
-                var lineSize = width * pixelSize;
-                var srcStride = image.Stride;
-                var ovrStride = overlay.Stride;
+                int lineSize = width * pixelSize;
+                int srcStride = image.Stride;
+                int ovrStride = overlay.Stride;
                 // new pixel value
 
                 // do the job
-                var basePtr = (byte*)image.ImageData.ToPointer();
-                var baseOvr = (byte*)overlay.ImageData.ToPointer();
+                byte* basePtr = (byte*)image.ImageData.ToPointer();
+                byte* baseOvr = (byte*)overlay.ImageData.ToPointer();
 
                 // for each line
                 for (var y = 0; y < height; y++)
                 {
-                    var ptr = (ushort*)(basePtr + y * srcStride);
-                    var ovr = (ushort*)(baseOvr + y * ovrStride);
+                    ushort* ptr = (ushort*)(basePtr + y * srcStride);
+                    ushort* ovr = (ushort*)(baseOvr + y * ovrStride);
 
                     // for each pixel
-                    for (var x = 0; x < lineSize; x++, ptr++, ovr++)
+                    for (int x = 0; x < lineSize; x++, ptr++, ovr++)
                     {
-                        var v = (*ptr * 65536f) / (*ovr + 1f);
+                        float v = (*ptr * 65536f) / (*ovr + 1f);
                         *ptr = (v > 65535) ? (ushort)65535 : (ushort)v;
                     }
                 }

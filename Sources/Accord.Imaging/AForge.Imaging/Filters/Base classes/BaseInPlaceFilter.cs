@@ -54,9 +54,7 @@ namespace Accord.Imaging.Filters
         public Bitmap Apply(Bitmap image)
         {
             // lock source bitmap data
-            BitmapData srcData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, image.PixelFormat);
+            BitmapData srcData = image.LockBits(ImageLockMode.ReadOnly);
 
             Bitmap dstImage = null;
 
@@ -108,9 +106,7 @@ namespace Accord.Imaging.Filters
                 new Bitmap(width, height, dstPixelFormat);
 
             // lock destination bitmap data
-            BitmapData dstData = dstImage.LockBits(
-                new Rectangle(0, 0, width, height),
-                ImageLockMode.ReadWrite, dstPixelFormat);
+            BitmapData dstData = dstImage.LockBits(ImageLockMode.ReadWrite);
 
             // copy image
             Accord.SystemTools.CopyUnmanagedMemory(dstData.Scan0, imageData.Scan0, imageData.Stride * height);
@@ -232,9 +228,7 @@ namespace Accord.Imaging.Filters
             CheckSourceFormat(image.PixelFormat);
 
             // lock source bitmap data
-            BitmapData data = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadWrite, image.PixelFormat);
+            BitmapData data = image.LockBits(ImageLockMode.ReadWrite);
 
             try
             {

@@ -76,7 +76,7 @@ namespace Accord.Imaging
         {
             // create new image
             Bitmap image = new Bitmap(width, height, PixelFormat.Format8bppIndexed);
-            
+
             // set palette to grayscale
             SetGrayscalePalette(image);
 
@@ -513,5 +513,42 @@ namespace Accord.Imaging
 
             return newImage;
         }
+
+        /// <summary>
+        /// Gets the color depth used in an image, in number of bytes per pixel.
+        /// </summary>
+        /// <param name="image">The image.</param>
+        public static int GetPixelFormatSizeInBytes(this Bitmap image)
+        {
+            return System.Drawing.Image.GetPixelFormatSize(image.PixelFormat) / 8;
+        }
+
+        /// <summary>
+        /// Gets the color depth used in an image, in number of bits per pixel.
+        /// </summary>
+        /// <param name="image">The image.</param>
+        public static int GetPixelFormatSize(this Bitmap image)
+        {
+            return System.Drawing.Image.GetPixelFormatSize(image.PixelFormat);
+        }
+
+        /// <summary>
+        /// Gets the color depth used in an image, in number of bytes per pixel.
+        /// </summary>
+        /// <param name="image">The image.</param>
+        public static int GetPixelFormatSizeInBytes(this UnmanagedImage image)
+        {
+            return System.Drawing.Image.GetPixelFormatSize(image.PixelFormat) / 8;
+        }
+
+        /// <summary>
+        /// Gets the color depth used in an image, in number of bits per pixel.
+        /// </summary>
+        /// <param name="image">The image.</param>
+        public static int GetPixelFormatSize(this UnmanagedImage image)
+        {
+            return System.Drawing.Image.GetPixelFormatSize(image.PixelFormat);
+        }
+
     }
 }

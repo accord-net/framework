@@ -1948,10 +1948,9 @@ namespace Accord.Imaging
         /// <summary>
         /// Locks a Bitmap into system memory.
         /// </summary>
-        public static BitmapData LockBits(this Bitmap value)
+        public static BitmapData LockBits(this Bitmap value, ImageLockMode mode)
         {
-            return value.LockBits(new Rectangle(0, 0, value.Width, value.Height), 
-                ImageLockMode.ReadOnly, value.PixelFormat);
+            return value.LockBits(new Rectangle(0, 0, value.Width, value.Height), mode, value.PixelFormat);
         }
     }
 }

@@ -59,7 +59,7 @@ namespace Accord.Imaging.Filters
             {
                 overlayImage = value;
 
-                if ( value != null )
+                if (value != null)
                     unmanagedOverlayImage = null;
             }
         }
@@ -88,7 +88,7 @@ namespace Accord.Imaging.Filters
             {
                 unmanagedOverlayImage = value;
 
-                if ( value != null )
+                if (value != null)
                     overlayImage = null;
             }
         }
@@ -97,7 +97,7 @@ namespace Accord.Imaging.Filters
         /// Initializes a new instance of the <see cref="BaseInPlaceFilter2"/> class.
         /// </summary>
         /// 
-        protected BaseInPlaceFilter2( ) { }
+        protected BaseInPlaceFilter2() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseInPlaceFilter2"/> class.
@@ -105,7 +105,7 @@ namespace Accord.Imaging.Filters
         /// 
         /// <param name="overlayImage">Overlay image.</param>
         /// 
-        protected BaseInPlaceFilter2( Bitmap overlayImage )
+        protected BaseInPlaceFilter2(Bitmap overlayImage)
         {
             this.overlayImage = overlayImage;
         }
@@ -116,7 +116,7 @@ namespace Accord.Imaging.Filters
         /// 
         /// <param name="unmanagedOverlayImage">Unmanaged overlay image.</param>
         /// 
-        protected BaseInPlaceFilter2( UnmanagedImage unmanagedOverlayImage )
+        protected BaseInPlaceFilter2(UnmanagedImage unmanagedOverlayImage)
         {
             this.unmanagedOverlayImage = unmanagedOverlayImage;
         }
@@ -130,50 +130,48 @@ namespace Accord.Imaging.Filters
         /// <exception cref="InvalidImagePropertiesException">Source and overlay images have different pixel formats and/or size.</exception>
         /// <exception cref="NullReferenceException">Overlay image is not set.</exception>
         ///
-        protected override unsafe void ProcessFilter( UnmanagedImage image )
+        protected override unsafe void ProcessFilter(UnmanagedImage image)
         {
             PixelFormat pixelFormat = image.PixelFormat;
             // get image dimension
-            int width  = image.Width;
+            int width = image.Width;
             int height = image.Height;
 
             // check overlay type
-            if ( overlayImage != null )
+            if (overlayImage != null)
             {
                 // source image and overlay must have same pixel format
-                if ( pixelFormat != overlayImage.PixelFormat )
-                    throw new InvalidImagePropertiesException( "Source and overlay images must have same pixel format." );
+                if (pixelFormat != overlayImage.PixelFormat)
+                    throw new InvalidImagePropertiesException("Source and overlay images must have same pixel format.");
 
                 // check overlay image size
-                if ( ( width != overlayImage.Width ) || ( height != overlayImage.Height ) )
-                    throw new InvalidImagePropertiesException( "Overlay image size must be equal to source image size." );
+                if ((width != overlayImage.Width) || (height != overlayImage.Height))
+                    throw new InvalidImagePropertiesException("Overlay image size must be equal to source image size.");
 
                 // lock overlay image
-                BitmapData ovrData = overlayImage.LockBits(
-                    new Rectangle( 0, 0, width, height ),
-                    ImageLockMode.ReadOnly, pixelFormat );
+                BitmapData ovrData = overlayImage.LockBits(ImageLockMode.ReadOnly);
 
                 try
                 {
-                    ProcessFilter( image, new UnmanagedImage( ovrData ) );
+                    ProcessFilter(image, new UnmanagedImage(ovrData));
                 }
                 finally
                 {
                     // unlock overlay image
-                    overlayImage.UnlockBits( ovrData );
+                    overlayImage.UnlockBits(ovrData);
                 }
             }
-            else if ( unmanagedOverlayImage != null )
+            else if (unmanagedOverlayImage != null)
             {
                 // source image and overlay must have same pixel format
-                if ( pixelFormat != unmanagedOverlayImage.PixelFormat )
-                    throw new InvalidImagePropertiesException( "Source and overlay images must have same pixel format." );
+                if (pixelFormat != unmanagedOverlayImage.PixelFormat)
+                    throw new InvalidImagePropertiesException("Source and overlay images must have same pixel format.");
 
                 // check overlay image size
-                if ( ( width != unmanagedOverlayImage.Width ) || ( height != unmanagedOverlayImage.Height ) )
-                    throw new InvalidImagePropertiesException( "Overlay image size must be equal to source image size." );
+                if ((width != unmanagedOverlayImage.Width) || (height != unmanagedOverlayImage.Height))
+                    throw new InvalidImagePropertiesException("Overlay image size must be equal to source image size.");
 
-                ProcessFilter( image, unmanagedOverlayImage );
+                ProcessFilter(image, unmanagedOverlayImage);
             }
             else
             {
@@ -191,6 +189,6 @@ namespace Accord.Imaging.Filters
         /// <remarks><para>Overlay image size and pixel format is checked by this base class, before
         /// passing execution to inherited class.</para></remarks>
         ///
-        protected abstract unsafe void ProcessFilter( UnmanagedImage image, UnmanagedImage overlay );
+        protected abstract unsafe void ProcessFilter(UnmanagedImage image, UnmanagedImage overlay);
     }
 }
