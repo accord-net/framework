@@ -83,10 +83,10 @@ namespace Accord.Neuro
         /// <remarks>Protected contructor, which initializes <see cref="inputsCount"/>,
         /// <see cref="neuronsCount"/> and <see cref="neurons"/> members.</remarks>
         /// 
-        protected Layer( int neuronsCount, int inputsCount )
+        protected Layer(int neuronsCount, int inputsCount)
         {
-            this.inputsCount = Math.Max( 1, inputsCount );
-            this.neuronsCount = Math.Max( 1, neuronsCount );
+            this.inputsCount = Math.Max(1, inputsCount);
+            this.neuronsCount = Math.Max(1, neuronsCount);
             // create collection of neurons
             neurons = new Neuron[this.neuronsCount];
         }
@@ -112,14 +112,14 @@ namespace Accord.Neuro
         /// of the method, but not on layer's output property.</note></para>
         /// </remarks>
         /// 
-        public virtual double[] Compute( double[] input )
+        public virtual double[] Compute(double[] input)
         {
             // local variable to avoid mutlithread conflicts
             double[] output = new double[neuronsCount];
 
             // compute each neuron
-            for ( int i = 0; i < neurons.Length; i++ )
-                output[i] = neurons[i].Compute( input );
+            for (int i = 0; i < neurons.Length; i++)
+                output[i] = neurons[i].Compute(input);
 
             // assign output property as well (works correctly for single threaded usage)
             this.output = output;
@@ -134,10 +134,10 @@ namespace Accord.Neuro
         /// <remarks>Randomizes layer's neurons by calling <see cref="Neuron.Randomize"/> method
         /// of each neuron.</remarks>
         /// 
-        public virtual void Randomize( )
+        public virtual void Randomize()
         {
-            foreach ( Neuron neuron in neurons )
-                neuron.Randomize( );
+            foreach (Neuron neuron in neurons)
+                neuron.Randomize();
         }
     }
 }
