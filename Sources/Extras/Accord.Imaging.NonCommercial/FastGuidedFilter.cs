@@ -57,7 +57,7 @@ namespace Accord.Imaging.Filters
         /// <summary>
         /// Format translations dictionary.
         /// </summary>
-        public override Dictionary<PixelFormat, PixelFormat> FormatTranslations 
+        public override Dictionary<PixelFormat, PixelFormat> FormatTranslations
         {
             get { return _formatTranslations; }
         }
@@ -137,7 +137,7 @@ namespace Accord.Imaging.Filters
             _formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
             _formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
             //_formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
-            //_formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
+            _formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
             _formatTranslations[PixelFormat.Format16bppGrayScale] = PixelFormat.Format16bppGrayScale;
             _formatTranslations[PixelFormat.Format48bppRgb] = PixelFormat.Format48bppRgb;
             //_formatTranslations[PixelFormat.Format64bppArgb] = PixelFormat.Format64bppArgb;
@@ -152,35 +152,37 @@ namespace Accord.Imaging.Filters
         ///
         protected override void ProcessFilter(UnmanagedImage image, UnmanagedImage overlay)
         {
+            // TODO: Refactor, add "using" clauses, manipulate pixel/pointers directly
             BaseResizeFilter resizer = new ResizeNearestNeighbor(
                 (int)(image.Width * _subSamplingRatio),
                 (int)(image.Height * _subSamplingRatio));
 
             UnmanagedImage imageSub = resizer.Apply(image);
             UnmanagedImage overlaySub = resizer.Apply(overlay);
+
             byte kernelSizeSub = (byte)(_kernelSize * _subSamplingRatio);
+            FastBoxBlur blur = new FastBoxBlur(kernelSizeSub, kernelSizeSub);
 
-            UnmanagedImage imageBorder = new FastBoxBlur(kernelSizeSub, kernelSizeSub).Apply(
-                GetFilledImage(imageSub.Width, imageSub.Height, imageSub.PixelFormat, Color.White));
+            UnmanagedImage imageBorder = blur.Apply(GetFilledImage(imageSub.Width, imageSub.Height, imageSub.PixelFormat, Color.White));
 
-            UnmanagedImage imageMean = new FastBoxBlur(kernelSizeSub, kernelSizeSub).Apply(imageSub);
+            UnmanagedImage imageMean = blur.Apply(imageSub);
             new Divide(imageBorder).ApplyInPlace(imageMean);
 
-            UnmanagedImage overlayMean = new FastBoxBlur(kernelSizeSub, kernelSizeSub).Apply(overlaySub);
+            UnmanagedImage overlayMean = blur.Apply(overlaySub);
             new Divide(imageBorder).ApplyInPlace(overlayMean);
 
             UnmanagedImage mulMean = new Multiply(overlaySub).Apply(imageSub);
             overlaySub.Dispose();
-            new FastBoxBlur(kernelSizeSub, kernelSizeSub).ApplyInPlace(mulMean);
+            blur.ApplyInPlace(mulMean);
             new Divide(imageBorder).ApplyInPlace(mulMean);
 
-            //This is the covariance of (image, overlay) in each local patch.
+            // This is the covariance of (image, overlay) in each local patch.
             UnmanagedImage mulCov = new Subtract(new Multiply(overlayMean).Apply(imageMean)).Apply(mulMean);
             mulMean.Dispose();
 
             UnmanagedImage imageMean2 = new Multiply(imageSub).Apply(imageSub);
             imageSub.Dispose();
-            new FastBoxBlur(kernelSizeSub, kernelSizeSub).ApplyInPlace(imageMean2);
+            blur.ApplyInPlace(imageMean2);
             new Divide(imageBorder).ApplyInPlace(imageMean2);
 
             UnmanagedImage imageVar = new Subtract(new Multiply(imageMean).Apply(imageMean)).Apply(imageMean2);
@@ -201,8 +203,8 @@ namespace Accord.Imaging.Filters
             imageMean.Dispose();
             overlayMean.Dispose();
 
-            UnmanagedImage aMean = new Divide(imageBorder).Apply(new FastBoxBlur(kernelSizeSub, kernelSizeSub).Apply(a));
-            UnmanagedImage bMean = new Divide(imageBorder).Apply(new FastBoxBlur(kernelSizeSub, kernelSizeSub).Apply(b));
+            UnmanagedImage aMean = new Divide(imageBorder).Apply(blur.Apply(a));
+            UnmanagedImage bMean = new Divide(imageBorder).Apply(blur.Apply(b));
             imageBorder.Dispose();
             a.Dispose();
             b.Dispose();
@@ -248,7 +250,7 @@ namespace Accord.Imaging.Filters
             {
                 filledImage = UnmanagedImage.Create(width, height, pixelFormat);
 
-                if (pixelFormat == PixelFormat.Format24bppRgb)
+                if (pixelFormat == PixelFormat.Format24bppRgb || pixelFormat == PixelFormat.Format32bppArgb || pixelFormat == PixelFormat.Format32bppRgb)
                 {
                     SystemTools.SetUnmanagedMemory(grayImage.ImageData, color.R, grayImage.Stride * grayImage.Height);
                     var replaceChannel = new ReplaceChannel(RGB.R, grayImage);
@@ -263,6 +265,14 @@ namespace Accord.Imaging.Filters
                     replaceChannel.Channel = RGB.B;
                     grayImage.Copy(replaceChannel.UnmanagedChannelImage);
                     replaceChannel.ApplyInPlace(filledImage);
+
+                    if (pixelFormat == PixelFormat.Format32bppArgb)
+                    {
+                        SystemTools.SetUnmanagedMemory(grayImage.ImageData, color.A, grayImage.Stride * grayImage.Height);
+                        replaceChannel.Channel = RGB.A;
+                        grayImage.Copy(replaceChannel.UnmanagedChannelImage);
+                        replaceChannel.ApplyInPlace(filledImage);
+                    }
                 }
                 else
                 {
