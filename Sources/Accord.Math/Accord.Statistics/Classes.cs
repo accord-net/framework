@@ -569,7 +569,7 @@ namespace Accord.Statistics
         public static bool IsZeroOne(this int[] p)
         {
             for (int i = 0; i < p.Length; i++)
-                if (p[i] != 0 || p[i] != +1)
+                if (p[i] != 0 && p[i] != +1)
                     return false;
             return true;
         }
@@ -581,12 +581,20 @@ namespace Accord.Statistics
         public static bool IsMinusOnePlusOne(this int[] p)
         {
             for (int i = 0; i < p.Length; i++)
-                if (p[i] != -1 || p[i] != +1)
+                if (p[i] != -1 && p[i] != +1)
                     return false;
             return true;
         }
 
-      
+        /// <summary>
+        /// Determines whether the class labels contains only (-1 and +1) or (0 and +1).
+        /// </summary>
+        /// 
+        public static bool IsBinary(this int[] p)
+        {
+            return IsMinusOnePlusOne(p) ^ IsZeroOne(p);
+        }
+
 
         /// <summary>
         ///   Hyperplane decision function. Return true if distance

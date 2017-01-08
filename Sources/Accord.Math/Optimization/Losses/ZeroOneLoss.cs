@@ -35,6 +35,7 @@ namespace Accord.Math.Optimization.Losses
         ILoss<double[][]>, ILoss<double[]>
     {
         private bool mean = true;
+        private bool isBinary;
 
         /// <summary>
         ///   Gets or sets a value indicating whether the average 
@@ -52,11 +53,20 @@ namespace Accord.Math.Optimization.Losses
         }
 
         /// <summary>
+        ///   Gets a value indicating whether the expected class labels are binary.
+        /// </summary>
+        /// 
+        public bool IsBinary
+        {
+            get { return isBinary; }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ZeroOneLoss"/> class.
         /// </summary>
         /// <param name="expected">The expected outputs (ground truth).</param>
         public ZeroOneLoss(double[][] expected)
-            : base(expected.ArgMax(dimension: 0))
+            : this(expected.ArgMax(dimension: 0))
         {
         }
 
@@ -74,8 +84,9 @@ namespace Accord.Math.Optimization.Losses
         /// </summary>
         /// <param name="expected">The expected outputs (ground truth).</param>
         public ZeroOneLoss(int[] expected)
-            : base(Classes.IsMinusOnePlusOne(expected) ? Classes.ToMulticlass(expected) : expected)
+            : base(Classes.IsMinusOnePlusOne(expected) ? expected.ToZeroOne() : expected)
         {
+            this.isBinary = Classes.IsBinary(expected);
         }
 
         /// <summary>
@@ -83,7 +94,7 @@ namespace Accord.Math.Optimization.Losses
         /// </summary>
         /// <param name="expected">The expected outputs (ground truth).</param>
         public ZeroOneLoss(bool[] expected)
-            : base(expected.ToInt32())
+            : this(expected.ToInt32())
         {
         }
 
@@ -112,6 +123,9 @@ namespace Accord.Math.Optimization.Losses
         /// </returns>
         public override double Loss(int[] actual)
         {
+            if (isBinary)
+                actual = actual.ToZeroOne();
+
             int error = 0;
             for (int i = 0; i < Expected.Length; i++)
                 if (Expected[i] != actual[i])

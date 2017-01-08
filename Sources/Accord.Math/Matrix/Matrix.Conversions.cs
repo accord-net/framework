@@ -946,7 +946,7 @@ namespace Accord.Math
         [Obsolete("Please use ToJagged() instead.")]
         public static T[][] ToArray<T>(this DataTable table, params string[] columnNames)
         {
-            return ToJagged<T>(table, out columnNames);
+            return ToJagged<T>(table, columnNames);
         }
 
         /// <summary>
