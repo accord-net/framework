@@ -30,7 +30,7 @@ namespace Accord.Setup.Scripts
             sb.AppendLine("[assembly: AssemblyTrademarkAttribute(\"\")]" + semicolon);
             sb.AppendLine("[assembly: AssemblyCultureAttribute(\"\")]" + semicolon);
             sb.AppendLine(String.Format("[assembly: AssemblyVersionAttribute(\"{0}.{1}.{2}\")]" + semicolon, major, minor, rev));
-            sb.AppendLine(String.Format("[assembly: AssemblyInformationalVersionAttribute(\"{0}.{1}.{2}-{3}\")]" + semicolon, major, minor, rev, tag));
+            sb.AppendLine(String.Format("[assembly: AssemblyInformationalVersionAttribute(\"{0}.{1}.{2}{3}\")]" + semicolon, major, minor, rev, tag));
             sb.AppendLine(String.Format("[assembly: AssemblyFileVersionAttribute(\"{0}.{1}.{2}.{3}\")]" + semicolon, major, minor, rev, build));
             return sb.ToString();
         }
@@ -42,14 +42,14 @@ namespace Accord.Setup.Scripts
             string version = File.ReadAllText(Path.Combine(frameworkRootPath, "Version.txt"));
             string[] parts;
             parts = version.Split('-');
-            string tag = parts[1];
+            string tag = parts.Length > 1 ? "-" + parts[1] : String.Empty;
             parts = parts[0].Split('.');
             string major = parts[0];
             string minor = parts[1];
             string rev = parts[2];
             string build = ((int)(DateTime.UtcNow - new DateTime(2001, 1, 1)).TotalDays).ToString();
 
-            Console.WriteLine("Updating source files with version number {0}.{1}.{2}.{3}-{4}", major, minor, rev, build, tag);
+            Console.WriteLine("Updating source files with version number {0}.{1}.{2}.{3}{4}", major, minor, rev, build, tag);
 
             replaceAssemblyInfo(frameworkRootPath, tag, major, minor, rev, build);
             replaceDocumentation(frameworkRootPath, major, minor, rev);
