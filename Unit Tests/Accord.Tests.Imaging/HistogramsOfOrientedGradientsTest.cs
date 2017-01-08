@@ -25,10 +25,28 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging;
     using Accord.Imaging.Converters;
     using NUnit.Framework;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using Accord.Math;
 
     [TestFixture]
     public class HistogramsOfOrientedGradientsTest
     {
+        public static Bitmap[] GetImages()
+        {
+            Bitmap[] images =
+            {
+                Accord.Imaging.Image.Clone(Accord.Tests.Imaging.Properties.Resources.flower01),
+                Accord.Imaging.Image.Clone(Accord.Tests.Imaging.Properties.Resources.flower02),
+                Accord.Imaging.Image.Clone(Accord.Tests.Imaging.Properties.Resources.flower03),
+                Accord.Imaging.Image.Clone(Accord.Tests.Imaging.Properties.Resources.flower04),
+                Accord.Imaging.Image.Clone(Accord.Tests.Imaging.Properties.Resources.flower05),
+                Accord.Imaging.Image.Clone(Accord.Tests.Imaging.Properties.Resources.flower06),
+            };
+
+            return images;
+        }
+
 
         [Test]
         public void MagnitudeDirectionTest()
@@ -68,6 +86,27 @@ namespace Accord.Tests.Imaging
                         Assert.AreEqual(1, actualMag[i, j]);
                 }
             }
+        }
+
+        [Test]
+        public void CloneTest()
+        {
+            var images = GetImages();
+
+            var hog = new HistogramsOfOrientedGradients();
+            var clone1 = (HistogramsOfOrientedGradients)hog.Clone();
+
+            List<double[]> features1 = hog.ProcessImage(images[0]);
+            Assert.AreEqual(features1.Count, 2352);
+
+            List<double[]> features2 = clone1.ProcessImage(images[0]);
+            Assert.AreEqual(features2.Count, 2352);
+            Assert.IsTrue(features1.ToArray().IsEqual(features2.ToArray()));
+
+            var clone2 = (HistogramsOfOrientedGradients)hog.Clone();
+            List<double[]> features3 = clone2.ProcessImage(images[0]);
+            Assert.AreEqual(features3.Count, 2352);
+            Assert.IsTrue(features1.ToArray().IsEqual(features3.ToArray()));
         }
     }
 }

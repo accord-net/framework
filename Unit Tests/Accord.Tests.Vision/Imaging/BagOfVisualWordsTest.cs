@@ -180,19 +180,18 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(10, feature.Length);
 
 
-            double[][] expected =
+            double[][] expected = new double[][]
             {
-                new double[] { 47, 44, 42, 4, 23, 22, 28, 53, 50, 96 },
-                new double[] { 26, 91, 71, 49, 99, 70, 59, 28, 155, 79 },
-                new double[] { 71, 34, 51, 33, 53, 25, 44, 64, 32, 145 }
+                new double[] { 4, 28, 24, 68, 51, 97, 60, 35, 18, 24 },
+                new double[] { 53, 111, 89, 70, 24, 80, 130, 46, 50, 74 },
+                new double[] { 31, 29, 57, 102, 63, 142, 40, 18, 37, 33 }
             };
 
             double[][] actual = new double[expected.Length][];
             for (int i = 0; i < actual.Length; i++)
                 actual[i] = bow.GetFeatureVector(images[i]);
 
-            //string str = actual.ToString(CSharpJaggedMatrixFormatProvider.InvariantCulture);
-            //Assert.IsNullOrEmpty(str);
+            string str = actual.ToCSharp();
 
             for (int i = 0; i < actual.Length; i++)
                 for (int j = 0; j < actual[i].Length; j++)
@@ -215,7 +214,7 @@ namespace Accord.Tests.Imaging
             // feature extractor and K-means as the clustering algorithm.
 
             // Create a new Bag-of-Visual-Words (BoW) model
-            BagOfVisualWords bow = new BagOfVisualWords(10); 
+            BagOfVisualWords bow = new BagOfVisualWords(10);
             // Note: the BoW model can also be created using
             // var bow = BagOfVisualWords.Create(10);
 
@@ -233,15 +232,18 @@ namespace Accord.Tests.Imaging
             double[][] features = bow.Transform(images);
             #endregion
 
-            Assert.AreEqual(features.GetLength(), new[] { 0, 10 });
+            Assert.AreEqual(features.GetLength(), new[] { 6, 10 });
 
             string str = features.ToCSharp();
 
-            double[][] expected =
+            double[][] expected = new double[][]
             {
-                new double[] { 47, 44, 42, 4, 23, 22, 28, 53, 50, 96 },
-                new double[] { 26, 91, 71, 49, 99, 70, 59, 28, 155, 79 },
-                new double[] { 71, 34, 51, 33, 53, 25, 44, 64, 32, 145 }
+                new double[] { 4, 28, 24, 68, 51, 97, 60, 35, 18, 24 },
+                new double[] { 53, 111, 89, 70, 24, 80, 130, 46, 50, 74 },
+                new double[] { 31, 29, 57, 102, 63, 142, 40, 18, 37, 33 },
+                new double[] { 24, 52, 57, 78, 56, 69, 65, 22, 21, 16 },
+                new double[] { 124, 35, 33, 145, 90, 83, 31, 4, 95, 79 },
+                new double[] { 97, 110, 127, 131, 71, 264, 139, 58, 116, 152 }
             };
 
             for (int i = 0; i < features.Length; i++)
@@ -273,6 +275,7 @@ namespace Accord.Tests.Imaging
             double error = new ZeroOneLoss(labels).Loss(output);
             #endregion
 
+            Assert.IsTrue(new ZeroOneLoss(labels).IsBinary);
             Assert.AreEqual(error, 0);
         }
 
@@ -315,14 +318,14 @@ namespace Accord.Tests.Imaging
 
             string str = features.ToCSharp();
 
-            double[][] expected = new double[][] 
+            double[][] expected = new double[][]
             {
-                new double[] { 100, 142, 68, 29, 18, 40, 99, 58, 83, 65 },
-                new double[] { 100, 144, 68, 26, 19, 40, 97, 54, 83, 65 },
-                new double[] { 96, 136, 66, 30, 16, 36, 93, 61, 78, 66 },
-                new double[] { 96, 136, 66, 30, 16, 36, 93, 61, 78, 66 },
-                new double[] { 95, 137, 67, 30, 17, 35, 94, 59, 78, 65 },
-                new double[] { 133, 312, 91, 83, 76, 157, 151, 59, 180, 23 }
+                new double[] { 118, 43, 65, 87, 19, 12, 31, 14, 17, 3 },
+                new double[] { 121, 67, 35, 98, 65, 113, 98, 19, 104, 7 },
+                new double[] { 130, 50, 73, 120, 25, 51, 49, 16, 31, 7 },
+                new double[] { 63, 35, 77, 109, 28, 37, 53, 6, 50, 2 },
+                new double[] { 74, 83, 97, 198, 28, 84, 28, 48, 26, 53 },
+                new double[] { 202, 134, 78, 195, 83, 182, 169, 58, 118, 46 }
             };
 
             for (int i = 0; i < features.Length; i++)
@@ -351,7 +354,7 @@ namespace Accord.Tests.Imaging
             bool[] output = svm.Decide(features);
 
             // Compute the error between the expected and predicted labels
-            double error = new ZeroOneLoss(labels).Loss(output);
+            double error = new ZeroOneLoss(labels).Loss(output); // should be 0
             #endregion
 
             Assert.AreEqual(error, 0);
@@ -376,6 +379,8 @@ namespace Accord.Tests.Imaging
             // Create a new Bag-of-Visual-Words (BoW) model using HOG features
             var bow = BagOfVisualWords.Create(new HistogramsOfOrientedGradients(), new BinarySplit(10));
 
+            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
+
             // Get some training images
             Bitmap[] images = GetImages();
 
@@ -387,15 +392,18 @@ namespace Accord.Tests.Imaging
             double[][] features = bow.Transform(images);
             #endregion
 
-            Assert.AreEqual(features.GetLength(), new[] { 0, 10 });
+            Assert.AreEqual(features.GetLength(), new[] { 6, 10 });
 
             string str = features.ToCSharp();
 
-            double[][] expected =
+            double[][] expected = new double[][]
             {
-                new double[] { 47, 44, 42, 4, 23, 22, 28, 53, 50, 96 },
-                new double[] { 26, 91, 71, 49, 99, 70, 59, 28, 155, 79 },
-                new double[] { 71, 34, 51, 33, 53, 25, 44, 64, 32, 145 }
+                new double[] { 141, 332, 240, 88, 363, 238, 282, 322, 114, 232 },
+                new double[] { 103, 452, 195, 140, 158, 260, 283, 368, 163, 230 },
+                new double[] { 88, 231, 185, 172, 631, 189, 219, 241, 237, 159 },
+                new double[] { 106, 318, 262, 212, 165, 276, 264, 275, 244, 230 },
+                new double[] { 143, 302, 231, 113, 332, 241, 273, 320, 157, 240 },
+                new double[] { 87, 347, 248, 249, 63, 227, 292, 288, 339, 212 }
             };
 
             for (int i = 0; i < features.Length; i++)
@@ -412,7 +420,10 @@ namespace Accord.Tests.Imaging
             int[] labels = { -1, -1, -1, +1, +1, +1 };
 
             // Create the SMO algorithm to learn a Linear kernel SVM
-            var teacher = new SequentialMinimalOptimization<Linear>();
+            var teacher = new SequentialMinimalOptimization<Linear>()
+            {
+                Complexity = 100 // make a hard margin SVM
+            };
 
             // Obtain a learned machine
             var svm = teacher.Learn(features, labels);
@@ -421,7 +432,7 @@ namespace Accord.Tests.Imaging
             bool[] output = svm.Decide(features);
 
             // Compute the error between the expected and predicted labels
-            double error = new ZeroOneLoss(labels).Loss(output);
+            double error = new ZeroOneLoss(labels).Loss(output); // should be 0
             #endregion
 
             Assert.AreEqual(error, 0);
@@ -447,6 +458,8 @@ namespace Accord.Tests.Imaging
             var bow = BagOfVisualWords.Create<FastRetinaKeypointDetector, KModes<byte>, byte[]>(
                 new FastRetinaKeypointDetector(), new KModes<byte>(10, new Hamming()));
 
+            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
+
             // Get some training images
             Bitmap[] images = GetImages();
 
@@ -458,15 +471,17 @@ namespace Accord.Tests.Imaging
             double[][] features = bow.Transform(images);
             #endregion
 
-            Assert.AreEqual(features.GetLength(), new[] { 0, 10 });
+            Assert.AreEqual(features.GetLength(), new[] { 6, 10 });
 
             string str = features.ToCSharp();
 
-            double[][] expected =
-            {
-                new double[] { 47, 44, 42, 4, 23, 22, 28, 53, 50, 96 },
-                new double[] { 26, 91, 71, 49, 99, 70, 59, 28, 155, 79 },
-                new double[] { 71, 34, 51, 33, 53, 25, 44, 64, 32, 145 }
+            double[][] expected = new double[][] {
+                new double[] { 17, 81, 103, 91, 38, 63, 65, 57, 125, 40 },
+                new double[] { 137, 55, 38, 63, 41, 150, 28, 67, 302, 136 },
+                new double[] { 58, 96, 51, 71, 43, 128, 51, 74, 110, 69 },
+                new double[] { 53, 39, 9, 9, 12, 133, 2, 39, 128, 115 },
+                new double[] { 202, 45, 24, 42, 30, 156, 22, 61, 211, 153 },
+                new double[] { 37, 26, 40, 23, 41, 121, 22, 63, 171, 122 }
             };
 
             for (int i = 0; i < features.Length; i++)
@@ -483,7 +498,10 @@ namespace Accord.Tests.Imaging
             int[] labels = { -1, -1, -1, +1, +1, +1 };
 
             // Create the SMO algorithm to learn a Linear kernel SVM
-            var teacher = new SequentialMinimalOptimization<Linear>();
+            var teacher = new SequentialMinimalOptimization<Linear>()
+            {
+                Complexity = 10000 // make a hard margin SVM
+            };
 
             // Obtain a learned machine
             var svm = teacher.Learn(features, labels);
@@ -492,7 +510,7 @@ namespace Accord.Tests.Imaging
             bool[] output = svm.Decide(features);
 
             // Compute the error between the expected and predicted labels
-            double error = new ZeroOneLoss(labels).Loss(output);
+            double error = new ZeroOneLoss(labels).Loss(output); // should be 0
             #endregion
 
             Assert.AreEqual(error, 0);

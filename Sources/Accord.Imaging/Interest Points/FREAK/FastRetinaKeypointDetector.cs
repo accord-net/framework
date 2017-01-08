@@ -126,9 +126,7 @@ namespace Accord.Imaging
     /// 
     [Serializable]
     public class FastRetinaKeypointDetector :
-#if NET35
         IFeatureDetector<IFeatureDescriptor<byte[]>, byte[]>,
-#endif
         IFeatureDetector<FastRetinaKeypoint, byte[]>,
         IFeatureDetector<FastRetinaKeypoint, double[]>
     {
@@ -287,7 +285,7 @@ namespace Accord.Imaging
             // 1. Extract corners points from the image.
             List<IntPoint> corners = Detector.ProcessImage(grayImage);
 
-            List<FastRetinaKeypoint> features = new List<FastRetinaKeypoint>();
+            var features = new List<FastRetinaKeypoint>();
             for (int i = 0; i < corners.Count; i++)
                 features.Add(new FastRetinaKeypoint(corners[i].X, corners[i].Y));
 
@@ -352,24 +350,18 @@ namespace Accord.Imaging
             }
 
             // lock source image
-            BitmapData imageData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, image.PixelFormat);
-
-            List<FastRetinaKeypoint> corners;
+            BitmapData imageData = image.LockBits(ImageLockMode.ReadOnly);
 
             try
             {
                 // process the image
-                corners = ProcessImage(new UnmanagedImage(imageData));
+                return ProcessImage(new UnmanagedImage(imageData));
             }
             finally
             {
                 // unlock image
                 image.UnlockBits(imageData);
             }
-
-            return corners;
         }
 
         /// <summary>
@@ -421,7 +413,6 @@ namespace Accord.Imaging
             return ProcessImage(image);
         }
 
-#if NET35
         IEnumerable<IFeatureDescriptor<byte[]>> IFeatureDetector<IFeatureDescriptor<byte[]>, byte[]>.ProcessImage(Bitmap image)
         {
             return ProcessImage(image).ConvertAll(x => (IFeatureDescriptor<byte[]>)x);
@@ -436,7 +427,6 @@ namespace Accord.Imaging
         {
             return ProcessImage(image).ConvertAll(x => (IFeatureDescriptor<byte[]>)x);
         }
-#endif
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
