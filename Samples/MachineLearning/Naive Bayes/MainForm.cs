@@ -95,11 +95,11 @@ namespace SampleApp
             double[,] table = (dgvLearningSource.DataSource as DataTable).ToMatrix(out columnNames);
 
             // Get only the input vector values
-            double[][] inputs = table.Submatrix(null, 0, 1).ToArray();
+            double[][] inputs = table.GetColumns(0, 1).ToJagged();
 
             // Get only the label outputs
             int[] outputs = table.GetColumn(2).ToInt32();
-            string[] colNames = columnNames.Submatrix(first: 2);
+            string[] colNames = columnNames.Get(0, 2);
 
             // Create the Bayes classifier and perform classification
             var teacher = new NaiveBayesLearning<NormalDistribution>();
@@ -151,7 +151,7 @@ namespace SampleApp
 
 
             // Get only the input vector values
-            double[][] inputs = table.Submatrix(null, 0, 1).ToArray();
+            double[][] inputs = table.Get(null, 0, 1).ToJagged();
 
             // Get only the label outputs
             int[] expected = new int[table.GetLength(0)];
@@ -159,9 +159,7 @@ namespace SampleApp
                 expected[i] = (int)table[i, 2];
 
             // Compute the machine outputs
-            int[] output = new int[inputs.Length];
-            for (int i = 0; i < inputs.Length; i++)
-                output[i] = bayes.Compute(inputs[i]);
+            int[] output = bayes.Decide(inputs);
 
 
             // Use confusion matrix to compute some statistics.

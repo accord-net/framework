@@ -482,8 +482,9 @@ namespace SampleApp
             DataGridViewRow row = dgvMachines.CurrentRow;
             if (row == null) return;
 
-            KernelSupportVectorMachine m = row.Tag as KernelSupportVectorMachine;
-            if (m == null) return;
+            var m = row.Tag as SupportVectorMachine<IKernel>;
+            if (m == null)
+                return;
 
             double max = m.Weights.Max();
             double min = m.Weights.Min();

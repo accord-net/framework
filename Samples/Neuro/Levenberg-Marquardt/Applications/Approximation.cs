@@ -618,8 +618,8 @@ namespace SampleApp
 
             // prepare learning data
             DoubleRange unit = new DoubleRange(-1, 1);
-            double[][] input = data.GetColumn(0).Scale(fromRange: xRange, toRange: unit).ToArray();
-            double[][] output = data.GetColumn(1).Scale(fromRange: yRange, toRange: unit).ToArray();
+            double[][] input = data.GetColumn(0).Scale(fromRange: xRange, toRange: unit).ToJagged();
+            double[][] output = data.GetColumn(1).Scale(fromRange: yRange, toRange: unit).ToJagged();
 
 
             // create multi-layer neural network

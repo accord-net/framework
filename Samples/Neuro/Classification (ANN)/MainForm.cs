@@ -209,12 +209,11 @@ namespace SampleApp
             int samples = sourceMatrix.GetLength(0);
 
             // prepare learning data
-            double[][] inputs = sourceMatrix.Submatrix(null, 0, 1).ToArray();
-            double[][] outputs = sourceMatrix.GetColumn(2).Transpose().ToArray();
+            double[][] inputs = sourceMatrix.GetColumns(0, 1).ToJagged();
+            double[][] outputs = sourceMatrix.GetColumn(2).Transpose().ToJagged();
 
             // create multi-layer neural network
-            ann = new ActivationNetwork(
-                new BipolarSigmoidFunction(sigmoidAlphaValue),
+            this.ann = new ActivationNetwork(new BipolarSigmoidFunction(sigmoidAlphaValue),
                 2, neuronsInFirstLayer, 1);
 
             if (useNguyenWidrow)

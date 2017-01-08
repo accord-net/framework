@@ -55,6 +55,8 @@ namespace Analysis.PLS
 
         string[] inputColumnNames;
         string[] outputColumnNames;
+        double[][] inputs;
+        double[][] outputs;
 
 
 
@@ -118,8 +120,8 @@ namespace Analysis.PLS
             DataTable inputTable = table.DefaultView.ToTable(false, inputColumnNames);
             DataTable outputTable = table.DefaultView.ToTable(false, outputColumnNames);
 
-            double[][] inputs = inputTable.ToArray();
-            double[][] outputs = outputTable.ToArray();
+            this.inputs = inputTable.ToArray();
+            this.outputs = outputTable.ToArray();
 
 
 
@@ -132,7 +134,7 @@ namespace Analysis.PLS
 
 
             // Computes the Partial Least Squares
-            pls.Learn(inputs, outputs);
+            MultivariateLinearRegression classifier = pls.Learn(inputs, outputs);
 
 
             // Populates components overview with analysis data
@@ -143,7 +145,7 @@ namespace Analysis.PLS
             dgvAnalysisLoadingsOutput.DataSource = new ArrayDataView(pls.Dependents.FactorMatrix);
 
             this.regression = pls.CreateRegression();
-            dgvRegressionCoefficients.DataSource = new ArrayDataView(regression.Coefficients, outputColumnNames);
+            dgvRegressionCoefficients.DataSource = new ArrayDataView(regression.Weights, outputColumnNames);
             dgvRegressionIntercept.DataSource = new ArrayDataView(regression.Intercepts, outputColumnNames);
 
             dgvProjectionComponents.DataSource = pls.Factors;
@@ -172,11 +174,13 @@ namespace Analysis.PLS
             }
 
             int components = (int)numComponents.Value;
-            double[,] sourceInput = Matrix.ToMatrix(dgvProjectionSourceX.DataSource as DataTable);
-            double[,] sourceOutput = Matrix.ToMatrix(dgvProjectionSourceY.DataSource as DataTable);
+            double[][] sourceInput = Matrix.ToArray(dgvProjectionSourceX.DataSource as DataTable);
+            double[][] sourceOutput = Matrix.ToArray(dgvProjectionSourceY.DataSource as DataTable);
 
-            double[,] input = pls.Transform(sourceInput, components);
-            double[,] output = pls.TransformOutput(sourceOutput, components);
+            pls.NumberOfOutputs = components;
+
+            double[][] input = pls.Transform(sourceInput);
+            double[][] output = pls.TransformOutput(sourceOutput);
 
             dgvProjectionX.DataSource = new ArrayDataView(input);
             dgvProjectionY.DataSource = new ArrayDataView(output);
@@ -199,11 +203,11 @@ namespace Analysis.PLS
             DataTable outputTable = table.DefaultView.ToTable(false, outputColumnNames);
 
 
-            double[][] sourceInput = Matrix.ToArray(inputTable as DataTable);
-            double[][] sourceOutput = Matrix.ToArray(outputTable as DataTable);
+            double[][] sourceInput = inputTable.ToArray();
+            double[][] sourceOutput = outputTable.ToArray();
 
             
-            double[,] result = Matrix.ToMatrix(regression.Compute(sourceInput));
+            double[,] result = Matrix.ToMatrix(regression.Transform(sourceInput));
 
             double[] rSquared = regression.CoefficientOfDetermination(sourceInput, sourceOutput, cbAdjusted.Checked);
 
@@ -238,8 +242,6 @@ namespace Analysis.PLS
                             clbInput.Items.Add(col.ColumnName);
                             clbOutput.Items.Add(col.ColumnName);
                         }
-
-
                     }
                 }
             }
@@ -271,8 +273,8 @@ namespace Analysis.PLS
             if (dgvDistributionMeasures.CurrentRow != null)
             {
                 DataGridViewRow row = (DataGridViewRow)dgvDistributionMeasures.CurrentRow;
-                dataHistogramView1.DataSource =
-                    ((DescriptiveMeasures)row.DataBoundItem).Samples;
+                DescriptiveMeasures measures = (DescriptiveMeasures)row.DataBoundItem;
+                dataHistogramView1.DataSource = inputs.GetColumn(measures.Index);
             }
         }
 

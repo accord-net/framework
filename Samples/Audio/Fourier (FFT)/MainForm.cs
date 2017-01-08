@@ -61,7 +61,7 @@ namespace SampleApp
         void btnStart_Click(object sender, EventArgs e)
         {
             // Get the device currently selected in the combobox
-            AudioDeviceInfo info = comboBox1.SelectedItem as AudioDeviceInfo;
+            var info = comboBox1.SelectedItem as AudioDeviceInfo;
 
             if (info == null)
             {
@@ -155,7 +155,7 @@ namespace SampleApp
             chart1.AddWaveform("fft", Color.Black, 1, false);
 
             // Enumerate audio devices and add all devices to combo
-            AudioDeviceCollection audioDevices = new AudioDeviceCollection(AudioDeviceCategory.Capture);
+            var audioDevices = new AudioDeviceCollection(AudioDeviceCategory.Capture);
 
             foreach (AudioDeviceInfo device in audioDevices)
                 comboBox1.Items.Add(device);
@@ -230,6 +230,5 @@ namespace SampleApp
             Close();
         }
 
-        
     }
 }

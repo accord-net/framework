@@ -38,6 +38,7 @@ using System.Windows.Forms;
 using Accord.Controls;
 using Accord.IO;
 using Accord.Math;
+using Accord.Statistics;
 using Accord.Statistics.Analysis;
 using Accord.Statistics.Kernels;
 using Components;
@@ -64,6 +65,8 @@ namespace Analysis.KPCA
         private DescriptiveAnalysis sda;
 
         string[] columnNames;
+        double[][] inputs;
+        int[] outputs;
 
 
         public MainForm()
@@ -156,10 +159,10 @@ namespace Analysis.KPCA
 
 
             // Get the input values (the two first columns)
-            double[][] inputs = sourceMatrix.GetColumns(0, 1);
+            this.inputs = sourceMatrix.GetColumns(0, 1);
 
             // Get only the associated labels (last column)
-            int[] outputs = sourceMatrix.GetColumn(2).ToInt32();
+            this.outputs = sourceMatrix.GetColumn(2).ToMulticlass();
 
 
             var method = (PrincipalComponentMethod)cbMethod.SelectedValue;
@@ -251,7 +254,7 @@ namespace Analysis.KPCA
         private void btnReversion_Click(object sender, EventArgs e)
         {
             double[][] reversionSource = (double[][])(dgvReversionSource.DataSource as ArrayDataView).ArrayData;
-            double[][] m = kpca.Revert(reversionSource.ToMatrix(), (int)numNeighbor.Value).ToJagged(); // TODO
+            double[][] m = kpca.Revert(reversionSource, (int)numNeighbor.Value); 
             dgvReversionResult.DataSource = new ArrayDataView(m);
 
             // Creates a matrix from the source data table
@@ -283,8 +286,8 @@ namespace Analysis.KPCA
             if (dgvDistributionMeasures.CurrentRow != null)
             {
                 DataGridViewRow row = (DataGridViewRow)dgvDistributionMeasures.CurrentRow;
-                dataHistogramView1.DataSource =
-                    ((DescriptiveMeasures)row.DataBoundItem).Samples;
+                DescriptiveMeasures measures = (DescriptiveMeasures)row.DataBoundItem;
+                dataHistogramView1.DataSource = inputs.InsertColumn(outputs).GetColumn(measures.Index);
             }
         }
 
@@ -351,15 +354,10 @@ namespace Analysis.KPCA
             double y;
             graphMapInput.GraphPane.ReverseTransform(new PointF(e.X, e.Y), out x, out y);
 
-            double[,] data = new double[1, 2];
-            data[0, 0] = x;
-            data[0, 1] = y;
-
-
-            double[,] result = kpca.Transform(data);
+            double[] result = kpca.Transform(new double[] { x, y });
 
             graphMapFeature.GraphPane.CurveList["M"].Clear();
-            graphMapFeature.GraphPane.CurveList["M"].AddPoint(result[0, 0], result[0, 1]);
+            graphMapFeature.GraphPane.CurveList["M"].AddPoint(result[0], result[1]);
             graphMapFeature.Invalidate();
         }
 
@@ -376,12 +374,12 @@ namespace Analysis.KPCA
         private void button2_Click(object sender, EventArgs e)
         {
             // Create a matrix from the source data table
-            double[,] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToMatrix(out columnNames);
+            double[][] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToArray(out columnNames);
 
             // Get the input values (the two first columns)
-            double[,] inputs = sourceMatrix.GetColumns(0, 1);
+            double[][] inputs = sourceMatrix.GetColumns(0, 1);
 
-            numSigma.Value = (decimal)Gaussian.Estimate(inputs.ToArray()).Sigma;
+            numSigma.Value = (decimal)Gaussian.Estimate(inputs).Sigma;
         }
 
     }

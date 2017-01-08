@@ -18,6 +18,7 @@ using Accord;
 using Accord.Imaging;
 using Accord.Imaging.Filters;
 using Accord.Imaging.Textures;
+using System.IO;
 
 namespace SampleApp
 {
@@ -84,6 +85,8 @@ namespace SampleApp
 
             // set default size mode of picture box
             pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+
+            openFileDialog.InitialDirectory = Path.Combine(Application.StartupPath, "Resources");
         }
 
         /// <summary>

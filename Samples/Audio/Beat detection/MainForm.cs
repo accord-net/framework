@@ -138,7 +138,7 @@ namespace SampleApp
         void MainFormLoad(object sender, EventArgs e)
         {
             // enumerate audio devices and add all devices to combo
-            AudioDeviceCollection audioDevices = new AudioDeviceCollection(AudioDeviceCategory.Capture);
+            var audioDevices = new AudioDeviceCollection(AudioDeviceCategory.Capture);
 
             foreach (AudioDeviceInfo device in audioDevices)
             {
@@ -169,7 +169,6 @@ namespace SampleApp
         void Button3Click(object sender, EventArgs e)
         {
             sample.Clear();
-            //collecting = true;
         }
 
         void Button4Click(object sender, EventArgs e)
@@ -187,8 +186,6 @@ namespace SampleApp
         {
             new AboutBox().ShowDialog(this);
         }
-
-
 
     }
 }

@@ -288,20 +288,14 @@ namespace Handwriting.KDA
                 double[] input = canvas.GetDigit();
 
                 // Classify the input vector
-                //int num = kda.Classifier.Decide(input, out responses);
                 int num;
                 double[] responses = kda.Classifier.Scores(input, out num);
 
                 // Set the actual classification answer 
                 lbCanvasClassification.Text = num.ToString();
 
-
                 // Scale the responses to a [0,1] interval
-                double max = responses.Max();
-                double min = responses.Min();
-
-                for (int i = 0; i < responses.Length; i++)
-                    responses[i] = responses[i].Scale(min, max, 0, 1);
+                responses = Vector.Scale(responses, 0.0, 1.0);
 
                 // Create the bar graph to show the relative responses
                 CreateBarGraph(graphClassification, responses);

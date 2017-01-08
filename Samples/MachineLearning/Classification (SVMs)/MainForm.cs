@@ -227,7 +227,7 @@ namespace SampleApp
             double[,] sourceMatrix = source.ToMatrix(out columnNames);
 
             // Get only the input vector values (in the first two columns)
-            double[][] inputs = sourceMatrix.GetColumns(0, 1).ToArray();
+            double[][] inputs = sourceMatrix.GetColumns(0, 1).ToJagged();
 
             DoubleRange range; // valid range will be returned as an out parameter
             Gaussian gaussian = Gaussian.Estimate(inputs, inputs.Length, out range);
@@ -243,7 +243,7 @@ namespace SampleApp
             double[,] sourceMatrix = source.ToMatrix(out columnNames);
 
             // Get only the input vector values (in the first two columns)
-            double[][] inputs = sourceMatrix.GetColumns(0, 1).ToArray();
+            double[][] inputs = sourceMatrix.GetColumns(0, 1).ToJagged();
 
             DoubleRange range; // valid range will be returned as an out parameter
             var laplacian = Laplacian.Estimate(inputs, inputs.Length, out range);
@@ -259,7 +259,7 @@ namespace SampleApp
             double[,] sourceMatrix = source.ToMatrix(out columnNames);
 
             // Get only the input vector values (in the first two columns)
-            double[][] inputs = sourceMatrix.GetColumns(0, 1).ToArray();
+            double[][] inputs = sourceMatrix.GetColumns(0, 1).ToJagged();
 
             DoubleRange range; // valid range will be returned as an out parameter
             var sigmoid = Sigmoid.Estimate(inputs, inputs.Length, out range);
@@ -279,7 +279,7 @@ namespace SampleApp
             double[,] sourceMatrix = source.ToMatrix(out columnNames);
 
             // Get only the input vector values (in the first two columns)
-            double[][] inputs = sourceMatrix.GetColumns(0, 1).ToArray();
+            double[][] inputs = sourceMatrix.GetColumns(0, 1).ToJagged();
 
             IKernel kernel = createKernel();
 

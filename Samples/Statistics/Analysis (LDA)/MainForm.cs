@@ -33,6 +33,7 @@
 using Accord.Controls;
 using Accord.IO;
 using Accord.Math;
+using Accord.Statistics;
 using Accord.Statistics.Analysis;
 using Components;
 using System;
@@ -49,6 +50,8 @@ namespace Analysis.LDA
         private DescriptiveAnalysis sda;
 
         string[] columnNames;
+        double[][] inputs;
+        int[] outputs;
 
 
         public MainForm()
@@ -116,29 +119,26 @@ namespace Analysis.LDA
             double[][] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToArray(out columnNames);
 
             // Create and compute a new Simple Descriptive Analysis
-            sda = new DescriptiveAnalysis(columnNames);
-
-            sda.Learn(sourceMatrix);
+            sda = new DescriptiveAnalysis(columnNames).Learn(sourceMatrix);
 
             // Show the descriptive analysis on the screen
             dgvDistributionMeasures.DataSource = sda.Measures;
 
 
             // Get the input values (the two first columns)
-            double[][] inputs = sourceMatrix.GetColumns(0, 1);
+            this.inputs = sourceMatrix.GetColumns(0, 1);
 
             // Get only the associated labels (last column)
-            int[] outputs = sourceMatrix.GetColumn(2).ToInt32();
-            outputs = outputs.Subtract(outputs.Min()); // start at 0
+            this.outputs = sourceMatrix.GetColumn(2).ToMulticlass();
 
             // Create a Linear Discriminant Analysis for the data 
-            lda = new LinearDiscriminantAnalysis()
+            this.lda = new LinearDiscriminantAnalysis()
             {
                 NumberOfOutputs = 2
             };
 
             // Compute the analysis!
-            lda.Learn(inputs, outputs); 
+            var classifier = lda.Learn(inputs, outputs); 
 
 
             // Perform the transformation of the data
@@ -209,8 +209,8 @@ namespace Analysis.LDA
             if (dgvDistributionMeasures.CurrentRow != null)
             {
                 DataGridViewRow row = (DataGridViewRow)dgvDistributionMeasures.CurrentRow;
-                dataHistogramView1.DataSource =
-                    ((DescriptiveMeasures)row.DataBoundItem).Samples;
+                DescriptiveMeasures measures = (DescriptiveMeasures)row.DataBoundItem;
+                dataHistogramView1.DataSource = inputs.InsertColumn(outputs).GetColumn(measures.Index);
             }
         }
 
@@ -219,9 +219,8 @@ namespace Analysis.LDA
             if (dgvClasses.CurrentRow != null)
             {
                 DiscriminantAnalysisClass dclass = (DiscriminantAnalysisClass)dgvClasses.CurrentRow.DataBoundItem;
-
                 dgvScatter.DataSource = new ArrayDataView(dclass.Scatter);
-                dgvClassData.DataSource = new ArrayDataView(dclass.Subset);
+                dgvClassData.DataSource = new ArrayDataView(inputs.Get(outputs.Find(x => x == dclass.Number)));
             }
         }
 
@@ -230,7 +229,7 @@ namespace Analysis.LDA
             if (dgvClassData.CurrentCell != null && dgvClassData.DataSource != null)
             {
                 int index = dgvClassData.CurrentCell.ColumnIndex;
-                double[,] subset = (double[,])(dgvClassData.DataSource as ArrayDataView).ArrayData;
+                double[][] subset = (double[][])(dgvClassData.DataSource as ArrayDataView).ArrayData;
                 dataHistogramView2.DataSource = subset.GetColumn(index);
             }
         }

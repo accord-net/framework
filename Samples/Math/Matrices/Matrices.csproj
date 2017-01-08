@@ -34,7 +34,8 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <NuGetPackageImportStamp>0055d964</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -81,16 +82,16 @@
     <ApplicationIcon>framework.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accord, Version=3.2.3.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Accord.3.2.3-alpha\lib\net40\Accord.dll</HintPath>
+    <Reference Include="Accord, Version=3.3.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Accord.3.3.2-alpha\lib\net40\Accord.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Accord.Math, Version=3.2.3.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Accord.Math.3.2.3-alpha\lib\net40\Accord.Math.dll</HintPath>
+    <Reference Include="Accord.Math, Version=3.3.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Accord.Math.3.3.2-alpha\lib\net40\Accord.Math.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Accord.Math.Core, Version=3.2.3.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Accord.Math.3.2.3-alpha\lib\net40\Accord.Math.Core.dll</HintPath>
+    <Reference Include="Accord.Math.Core, Version=3.3.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Accord.Math.3.3.2-alpha\lib\net40\Accord.Math.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -145,9 +146,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-    <Error Condition="!Exists('..\..\packages\Accord.3.2.3-alpha\build\Accord.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Accord.3.2.3-alpha\build\Accord.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Accord.3.3.2-alpha\build\Accord.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Accord.3.3.2-alpha\build\Accord.targets'))" />
   </Target>
-  <Import Project="..\..\packages\Accord.3.2.3-alpha\build\Accord.targets" Condition="Exists('..\..\packages\Accord.3.2.3-alpha\build\Accord.targets')" />
+  <Import Project="..\..\packages\Accord.3.3.2-alpha\build\Accord.targets" Condition="Exists('..\..\packages\Accord.3.3.2-alpha\build\Accord.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

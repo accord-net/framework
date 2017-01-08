@@ -47,6 +47,7 @@ using AForge;
 using Components;
 using ZedGraph;
 using System.Diagnostics;
+using Accord.Statistics;
 
 namespace SampleApp
 {
@@ -92,12 +93,11 @@ namespace SampleApp
             dgvLearningSource.EndEdit();
 
 
-
             // Creates a matrix from the entire source data table
             double[,] table = (dgvLearningSource.DataSource as DataTable).ToMatrix(out columnNames);
 
             // Get only the input vector values (first two columns)
-            double[][] inputs = table.GetColumns(0, 1).ToArray();
+            double[][] inputs = table.GetColumns(0, 1).ToJagged();
 
             // Get only the output labels (last column)
             int[] outputs = table.GetColumn(2).ToInt32();
@@ -145,7 +145,7 @@ namespace SampleApp
         private void createSurface(double[,] table)
         {
             // Get the ranges for each variable (X and Y)
-            DoubleRange[] ranges = Matrix.Range(table, 0);
+            DoubleRange[] ranges = Matrix.GetRange(table, 0);
 
             // Generate a Cartesian coordinate system
             double[][] map = Matrix.Cartesian(
@@ -153,8 +153,7 @@ namespace SampleApp
                 Vector.Interval(ranges[1], 0.05));
 
             // Classify each point in the Cartesian coordinate system
-            double[] result = map.Apply(svm.Compute).Apply(x => x > 0.5 ? 1.0 : -1.0);
-            double[,] surface = map.ToMatrix().InsertColumn(result);
+            double[][] surface = map.InsertColumn(svm.Decide(map));
 
             CreateScatterplot(zedGraphControl2, surface);
         }
@@ -178,18 +177,13 @@ namespace SampleApp
 
 
             // Extract the first and second columns (X and Y)
-            double[][] inputs = table.GetColumns(0, 1).ToArray();
+            double[][] inputs = table.GetColumns(0, 1).ToJagged();
 
             // Extract the expected output labels
             int[] expected = table.GetColumn(2).ToInt32();
 
-
-            int[] output = new int[expected.Length];
-
-            // Compute the actual machine outputs
-            for (int i = 0; i < expected.Length; i++)
-                output[i] = svm.Compute(inputs[i]) > 0.5 ? 1 : -1;
-
+            // Compute the predicted output labels
+            int[] output = svm.Decide(inputs).ToMinusOnePlusOne();
 
 
             // Use confusion matrix to compute some performance metrics
@@ -210,7 +204,7 @@ namespace SampleApp
             double[,] sourceMatrix = source.ToMatrix(out columnNames);
 
             // Get only the input vector values (in the first two columns)
-            double[][] inputs = sourceMatrix.GetColumns(0, 1).ToArray();
+            double[][] inputs = sourceMatrix.GetColumns(0, 1).ToJagged();
 
             // Estimate a suitable value for SVM's complexity parameter C
             double c = Kernel.EstimateComplexity(inputs);
@@ -234,10 +228,10 @@ namespace SampleApp
                     {
                         DataTable tableSource = db.GetWorksheet(t.Selection);
 
-                        double[,] sourceMatrix = tableSource.ToMatrix(out columnNames);
+                        double[][] sourceMatrix = tableSource.ToArray(out columnNames);
 
                         // Detect the kind of problem loaded.
-                        if (sourceMatrix.GetLength(1) == 2)
+                        if (sourceMatrix.Columns() == 2)
                         {
                             MessageBox.Show("Missing class column.");
                         }
@@ -245,7 +239,6 @@ namespace SampleApp
                         {
                             this.dgvLearningSource.DataSource = tableSource;
                             this.dgvTestingSource.DataSource = tableSource.Copy();
-
 
                             CreateScatterplot(graphInput, sourceMatrix);
                         }
@@ -261,7 +254,7 @@ namespace SampleApp
 
 
         #region Scatter plot and Graph creation
-        public void CreateScatterplot(ZedGraphControl zgc, double[,] graph)
+        public void CreateScatterplot(ZedGraphControl zgc, double[][] graph)
         {
             GraphPane myPane = zgc.GraphPane;
             myPane.CurveList.Clear();
@@ -277,10 +270,10 @@ namespace SampleApp
             PointPairList list2 = new PointPairList(); // Z = +1
             for (int i = 0; i < graph.GetLength(0); i++)
             {
-                if (graph[i, 2] == -1)
-                    list1.Add(graph[i, 0], graph[i, 1]);
-                if (graph[i, 2] == 1)
-                    list2.Add(graph[i, 0], graph[i, 1]);
+                if (graph[i][2] <= 0)
+                    list1.Add(graph[i][0], graph[i][1]);
+                if (graph[i][2] == 1)
+                    list2.Add(graph[i][0], graph[i][1]);
             }
 
             // Add the curve
@@ -326,14 +319,14 @@ namespace SampleApp
             {
                 if (output[i] == -1)
                 {
-                    if (expected[i] == -1)
+                    if (expected[i] <= 0)
                         list1.Add(inputs[i][0], inputs[i][1]);
                     if (expected[i] == 1)
                         list3.Add(inputs[i][0], inputs[i][1]);
                 }
                 else
                 {
-                    if (expected[i] == -1)
+                    if (expected[i] <= 0)
                         list4.Add(inputs[i][0], inputs[i][1]);
                     if (expected[i] == 1)
                         list2.Add(inputs[i][0], inputs[i][1]);

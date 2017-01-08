@@ -59,7 +59,7 @@ namespace SampleApp
 
         private int frames;
         private int samples;
-        private int duration;
+        private TimeSpan duration;
 
 
         public MainForm()
@@ -368,7 +368,7 @@ namespace SampleApp
 
         private void updateTimer_Tick(object sender, EventArgs e)
         {
-            lbLength.Text = String.Format("Length: {0:00.00} sec.", duration / 1000.0);
+            lbLength.Text = String.Format("Length: {0:00.00} sec.", duration.Seconds);
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)

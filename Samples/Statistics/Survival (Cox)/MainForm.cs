@@ -49,6 +49,12 @@ namespace Survival.Cox
         private ProportionalHazardsAnalysis pha;
         private DataTable sourceTable;
 
+        double[][] sourceMatrix;
+
+        double[][] inputs;
+        double[] time;
+        int[] censor;
+
 
         public MainForm()
         {
@@ -125,25 +131,22 @@ namespace Survival.Cox
             String[] independentNames = names.ToArray();
 
             // Creates the input and output matrices from the source data table
-            double[][] input;
-            double[] time = timeTable.Columns[dependentName].ToArray();
-            int[] censor = censorTable.Columns[censorName].ToArray().ToInt32();
+            this.time = timeTable.Columns[dependentName].ToArray();
+            this.censor = censorTable.Columns[censorName].ToArray().ToInt32();
 
             if (independentNames.Length == 0)
             {
-                input = new double[time.Length][];
-                for (int i = 0; i < input.Length; i++)
-                    input[i] = new double[0];
+                this.inputs = Jagged.Zeros(time.Length, 0);
             }
             else
             {
                 DataTable independent = sourceTable.DefaultView.ToTable(false, independentNames);
-                input = independent.ToArray();
+                this.inputs = independent.ToArray();
             }
 
 
             String[] sourceColumns;
-            double[][] sourceMatrix = sourceTable.ToArray(out sourceColumns);
+            this.sourceMatrix = sourceTable.ToArray(out sourceColumns);
 
             // Creates the Simple Descriptive Analysis of the given source
             var sda = new DescriptiveAnalysis(sourceColumns).Learn(sourceMatrix);
@@ -157,7 +160,7 @@ namespace Survival.Cox
 
 
             // Compute the Logistic Regression Analysis
-            ProportionalHazards model = pha.Learn(input, time, censor);
+            ProportionalHazards model = pha.Learn(inputs, time, censor);
 
             // Populates coefficient overview with analysis data
             dgvLogisticCoefficients.DataSource = pha.Coefficients;
@@ -186,8 +189,9 @@ namespace Survival.Cox
         {
             if (dgvDistributionMeasures.CurrentRow != null)
             {
-                DescriptiveMeasures m = dgvDistributionMeasures.CurrentRow.DataBoundItem as DescriptiveMeasures;
-                dataHistogramView1.DataSource = m.Samples;
+                DataGridViewRow row = (DataGridViewRow)dgvDistributionMeasures.CurrentRow;
+                DescriptiveMeasures measures = (DescriptiveMeasures)row.DataBoundItem;
+                dataHistogramView1.DataSource = sourceMatrix.GetColumn(measures.Index);
             }
         }
 
@@ -215,13 +219,8 @@ namespace Survival.Cox
             }
 
 
-
             for (int i = 0; i < input.Length; i++)
-            {
-                double[] x = input[i];
-
-                output[i] = pha.Regression.Compute(x, times[i]);
-            }
+                output[i] = pha.Regression.Probability(Tuple.Create(input[i], times[i]));
 
 
             DataTable result = source.Clone();

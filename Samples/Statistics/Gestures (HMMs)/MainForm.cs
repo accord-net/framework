@@ -52,7 +52,7 @@ namespace Gestures.HMMs
     {
 
         private Database database;
-        private HiddenMarkovClassifier<MultivariateNormalDistribution> hmm;
+        private HiddenMarkovClassifier<MultivariateNormalDistribution, double[]> hmm;
         private HiddenConditionalRandomField<double[]> hcrf;
 
 
@@ -95,15 +95,15 @@ namespace Gestures.HMMs
             bool rejection = false;
 
 
-            hmm = new HiddenMarkovClassifier<MultivariateNormalDistribution>(classes.Count,
+            hmm = new HiddenMarkovClassifier<MultivariateNormalDistribution, double[]>(classes.Count,
                 new Forward(states), new MultivariateNormalDistribution(2), classes.ToArray());
 
 
             // Create the learning algorithm for the ensemble classifier
-            var teacher = new HiddenMarkovClassifierLearning<MultivariateNormalDistribution>(hmm,
-
+            var teacher = new HiddenMarkovClassifierLearning<MultivariateNormalDistribution, double[]>(hmm)
+            {
                 // Train each model using the selected convergence criteria
-                i => new BaumWelchLearning<MultivariateNormalDistribution>(hmm.Models[i])
+                Learner = i => new BaumWelchLearning<MultivariateNormalDistribution, double[]>(hmm.Models[i])
                 {
                     Tolerance = tolerance,
                     Iterations = iterations,
@@ -113,20 +113,20 @@ namespace Gestures.HMMs
                         Regularization = 1e-5
                     }
                 }
-            );
+            };
 
             teacher.Empirical = true;
             teacher.Rejection = rejection;
 
 
             // Run the learning algorithm
-            double error = teacher.Run(inputs, outputs);
+            teacher.Learn(inputs, outputs);
 
 
             // Classify all training instances
             foreach (var sample in database.Samples)
             {
-                sample.RecognizedAs = hmm.Compute(sample.Input);
+                sample.RecognizedAs = hmm.Decide(sample.Input);
             }
 
             foreach (DataGridViewRow row in gridSamples.Rows)
@@ -177,7 +177,7 @@ namespace Gestures.HMMs
 
 
             // Run the learning algorithm
-            double error = teacher.Run(inputs, outputs);
+            teacher.Learn(inputs, outputs);
 
 
             foreach (var sample in database.Samples)
@@ -298,8 +298,7 @@ namespace Gestures.HMMs
 
             else
             {
-                int index = (hcrf != null) ?
-                    hcrf.Compute(input) : hmm.Compute(input);
+                int index = (hcrf != null) ? hcrf.Decide(input) : hmm.Decide(input);
 
                 string label = database.Classes[index];
                 lbHaveYouDrawn.Text = String.Format("Have you drawn a {0}?", label);

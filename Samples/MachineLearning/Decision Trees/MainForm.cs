@@ -96,7 +96,7 @@ namespace SampleApp
             double[,] table = (dgvLearningSource.DataSource as DataTable).ToMatrix(out columnNames);
 
             // Get only the input vector values (first two columns)
-            double[][] inputs = table.GetColumns(0, 1).ToArray();
+            double[][] inputs = table.GetColumns(0, 1).ToJagged();
 
             // Get only the output labels (last column)
             int[] outputs = table.GetColumn(2).ToInt32();
@@ -128,8 +128,7 @@ namespace SampleApp
                 Vector.Interval(ranges[1], 0.05));
 
             // Classify each point in the Cartesian coordinate system
-            double[] result = map.Apply(tree.Compute).ToDouble();
-            double[,] surface = map.ToMatrix().InsertColumn(result);
+            double[,] surface = map.ToMatrix().InsertColumn(tree.Decide(map));
 
             CreateScatterplot(zedGraphControl2, surface);
 
@@ -151,19 +150,17 @@ namespace SampleApp
 
 
             // Creates a matrix from the entire source data table
-            double[,] table = (dgvLearningSource.DataSource as DataTable).ToMatrix(out columnNames);
+            double[][] table = (dgvLearningSource.DataSource as DataTable).ToArray(out columnNames);
 
             // Get only the input vector values (first two columns)
-            double[][] inputs = table.GetColumns(0, 1).ToArray();
+            double[][] inputs = table.GetColumns(0, 1);
 
             // Get the expected output labels (last column)
             int[] expected = table.GetColumn(2).ToInt32();
 
 
             // Compute the actual tree outputs
-            int[] actual = new int[inputs.Length];
-            for (int i = 0; i < inputs.Length; i++)
-                actual[i] = tree.Compute(inputs[i]);
+            int[] actual = tree.Decide(inputs);
 
 
             // Use confusion matrix to compute some statistics.

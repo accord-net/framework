@@ -130,8 +130,8 @@ namespace SampleApp
             homography = ransac.Estimate(correlationPoints1, correlationPoints2);
 
             // Plot RANSAC results against correlation results
-            IntPoint[] inliers1 = correlationPoints1.Submatrix(ransac.Inliers);
-            IntPoint[] inliers2 = correlationPoints2.Submatrix(ransac.Inliers);
+            IntPoint[] inliers1 = correlationPoints1.Get(ransac.Inliers);
+            IntPoint[] inliers2 = correlationPoints2.Get(ransac.Inliers);
 
             // Concatenate the two images in a single image (just to show on screen)
             Concatenate concat = new Concatenate(img1);

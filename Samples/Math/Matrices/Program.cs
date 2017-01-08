@@ -162,10 +162,10 @@ namespace SampleApp
                 int[] idx = v.Find(e => e > 2); // finding the index of every element in v higher than 2.
 
                 // 5.2 Selecting elements by index
-                double[] u = v.Submatrix(idx); // u is { 5, 7 }
+                double[] u = v.Get(idx); // u is { 5, 7 }
 
                 // 5.3 Converting between different matrix representations
-                double[][] jaggedA = A.ToArray(); // from multidimensional to jagged array
+                double[][] jaggedA = A.ToJagged(); // from multidimensional to jagged array
 
                 // 5.4 Extracting a column or row from the matrix
                 double[] a = A.GetColumn(0); // retrieves the first column

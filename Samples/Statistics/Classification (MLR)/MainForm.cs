@@ -39,6 +39,7 @@ using Components;
 using System;
 using System.Data;
 using System.Drawing;
+using Accord.Statistics;
 using System.IO;
 using System.Windows.Forms;
 using ZedGraph;
@@ -56,6 +57,8 @@ namespace Classification.MLR
 
         string[] columnNames; // stores the column names for the loaded data
         string[] inputNames;
+        double[][] inputs;
+        int[] outputs;
 
 
         public MainForm()
@@ -87,13 +90,11 @@ namespace Classification.MLR
             // Creates a matrix from the entire source data table
             double[][] table = (dgvLearningSource.DataSource as DataTable).ToArray(out columnNames);
 
-            // Get only the input vector values (first two columns)
-            double[][] inputs = table.GetColumns(0, 1);
+            // Get the input values (the two first columns)
+            this.inputs = table.GetColumns(0, 1);
 
-            // Get only the output labels (last column)
-            int[] outputs = table.GetColumn(2).Subtract(1).ToInt32();
-
-
+            // Get only the associated labels (last column)
+            this.outputs = table.GetColumn(2).ToMulticlass();
 
 
             // Create and compute a new Simple Descriptive Analysis
@@ -101,8 +102,6 @@ namespace Classification.MLR
 
             // Show the descriptive analysis on the screen
             dgvDistributionMeasures.DataSource = sda.Measures;
-
-
 
 
             // Creates the Support Vector Machine for 2 input variables
@@ -232,13 +231,14 @@ namespace Classification.MLR
         }
 
 
+
         private void bindingSource1_CurrentChanged(object sender, EventArgs e)
         {
             if (dgvDistributionMeasures.CurrentRow != null)
             {
                 DataGridViewRow row = (DataGridViewRow)dgvDistributionMeasures.CurrentRow;
-                dataHistogramView1.DataSource =
-                    ((DescriptiveMeasures)row.DataBoundItem).Samples;
+                DescriptiveMeasures measures = (DescriptiveMeasures)row.DataBoundItem;
+                dataHistogramView1.DataSource = inputs.InsertColumn(outputs).GetColumn(measures.Index);
             }
         }
 
