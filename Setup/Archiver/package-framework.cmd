@@ -40,7 +40,7 @@ mkdir ..\bin
 set output=..\bin\%fullname%
 del %output%
 
-set ignore=-x*.tmp -x*.vs -x*.suo -x*.user -x*.vsp -x*.pidb -x*SlimDX.pdb -x*.sdf -x*\obj -x*\.svn* -x*.lastcodeanalysissucceeded -x*.CodeAnalysisLog.xml
+set ignore=-x*.tmp -x*\.vs -x*.suo -x*.user -x*.vsp -x*.pidb -x*SlimDX.pdb -x*.sdf -x*\obj -x*\.svn* -x*.lastcodeanalysissucceeded -x*.CodeAnalysisLog.xml -x*.VC.db
 
 %rar% %opts%    %output% "..\..\Contributors.txt"
 %rar% %opts%    %output% "..\..\Copyright.txt"
