@@ -82,8 +82,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             for (int i = 0; i < x.Length; i++)
             {
-                int c = (x[i] as IList).Count;
-                if (c != length)
+                IList l = x[i] as IList;
+                if (l == null || l.Count != length)
                     return 0;
             }
 
@@ -219,6 +219,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         public static TKernel CreateKernel<TKernel, TInput>(TInput[] x)
             where TKernel : IKernel<TInput>
         {
+            if (!typeof(TKernel).HasDefaultConstructor())
+                throw new InvalidOperationException("Please set the kernel function before learning a model.");
+
             var kernel = Activator.CreateInstance<TKernel>();
             var estimable = kernel as IEstimable<TInput>;
             if (estimable != null)
@@ -229,5 +232,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             return kernel;
         }
+
+        public static void CheckArgs<TInput>(TInput[] x)
+        {
+            for (int i = 0; i < x.Length; i++)
+            {
+                if (x[i] == null)
+                    throw new ArgumentException("Input vector at position {0} is null.".Format(i), "x");
+            }
+        }
+    }
     }
 }

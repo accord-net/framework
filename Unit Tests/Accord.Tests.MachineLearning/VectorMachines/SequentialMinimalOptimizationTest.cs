@@ -226,7 +226,7 @@ namespace Accord.Tests.MachineLearning
             // We can also compute the machine prediction to new samples
             double[][] sample =
             {
-                new double[] { 0, 1 } 
+                new double[] { 0, 1 }
             };
 
             // Update the precomputed kernel with the new samples
@@ -969,8 +969,9 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [Test, Ignore]
-        public void SequentialMinimalOptimizationConstructorTest2()
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void new_method_null_test()
         {
             double[][] inputs =
             {
@@ -980,22 +981,10 @@ namespace Accord.Tests.MachineLearning
                 new double[] {  1,  1 }
             };
 
-            int[] or =
-            {
-                0,
-                0,
-                0,
-                +1
-            };
+            int[] or = { 0, 0, 0, +1 };
 
-            // Create Kernel Support Vector Machine with a Polynomial Kernel of 2nd degree
-            var machine = new SupportVectorMachine(inputs[0].Length);
-
-            bool thrown = false;
-            try { new SequentialMinimalOptimization(machine, inputs, or); }
-            catch (ArgumentNullException) { thrown = true; }
-
-            Assert.IsTrue(thrown);
+            var smo = new SequentialMinimalOptimization<Gaussian>();
+            smo.Learn(inputs, or);
         }
 
         [Test]
@@ -1023,6 +1012,25 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(smo1.Complexity, smo2.Complexity);
             Assert.AreEqual(e1, e2);
+        }
+
+        [Test]
+        public void ComplexityHeuristicTest_new_method()
+        {
+            var dataset = yinyang;
+
+            double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
+            int[] labels = dataset.GetColumn(2).ToInt32();
+
+            var smo = new SequentialMinimalOptimization<Gaussian>()
+            {
+                UseClassProportions = true,
+                UseComplexityHeuristic = true
+            };
+
+            var svm = smo.Learn(inputs, labels);
+
+            Assert.AreEqual(1, smo.Complexity);
         }
 
         [Test]

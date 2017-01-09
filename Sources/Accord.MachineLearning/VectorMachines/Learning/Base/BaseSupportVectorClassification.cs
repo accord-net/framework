@@ -92,13 +92,13 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Gets or sets the input vectors for training.
         /// </summary>
         /// 
-        public TInput[] Inputs { get; set; }
+        protected TInput[] Inputs { get; set; }
 
         /// <summary>
         ///   Gets or sets the output labels for each training vector.
         /// </summary>
         /// 
-        public int[] Outputs { get; set; }
+        protected int[] Outputs { get; set; }
 
 
 
@@ -316,10 +316,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             if (x.Length != y.Length)
                 throw new DimensionMismatchException("x", "The number of output labels should match the number of training samples.");
 
+            SupportVectorLearningHelper.CheckArgs(x);
+
             if (kernel == null)
             {
-                if (!typeof(TKernel).HasDefaultConstructor())
-                    throw new InvalidOperationException("Please set the kernel function before learning a model.");
                 kernel = SupportVectorLearningHelper.CreateKernel<TKernel, TInput>(x);
                 initialized = true;
             }
@@ -402,7 +402,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 }
             }
         }
-
 
         /// <summary>
         ///   Runs the main body of the learning algorithm.

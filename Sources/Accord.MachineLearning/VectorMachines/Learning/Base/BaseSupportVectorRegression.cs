@@ -223,12 +223,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Gets or sets the input vectors for training.
         /// </summary>
         /// 
-        public TInput[] Inputs { get { return inputs; } }
+        protected TInput[] Inputs { get { return inputs; } }
 
         /// <summary>
         ///   Gets or sets the output values for each calibration vector.
         /// </summary>
-        public double[] Outputs { get { return outputs; } }
+        protected double[] Outputs { get { return outputs; } }
 
         /// <summary>
         ///   Gets the machine to be taught.
@@ -265,10 +265,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             if (x.Length != y.Length)
                 throw new DimensionMismatchException("x", "The number of output labels should match the number of training samples.");
 
+            SupportVectorLearningHelper.CheckArgs(x);
+
             if (kernel == null)
             {
-                if (!typeof(TKernel).HasDefaultConstructor())
-                    throw new InvalidOperationException("Please set the kernel function before learning a model.");
                 kernel = SupportVectorLearningHelper.CreateKernel<TKernel, TInput>(x);
                 initialized = true;
             }

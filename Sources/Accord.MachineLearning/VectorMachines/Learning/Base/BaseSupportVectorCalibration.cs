@@ -201,6 +201,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </returns>
         public TModel Learn(TInput[] x, bool[] y, double[] weights)
         {
+            SupportVectorLearningHelper.CheckArgs(x);
+
             if (machine == null)
             {
                 int numberOfInputs = 0;
