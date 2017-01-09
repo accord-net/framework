@@ -41,7 +41,7 @@
     <OutputPath>$(SolutionDir)..\Release\net35\Noncommercial\</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <DocumentationFile>$(SolutionDir)..\Release\net35\Noncommercial\Accord.Math.Noncommercial.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Noncommercial\Accord.Math.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
@@ -49,6 +49,7 @@
     <OutputPath>$(SolutionDir)..\Release\net40\Noncommercial\</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+	<RunCodeAnalysis>false</RunCodeAnalysis>
     <DocumentationFile>$(SolutionDir)..\Release\net40\Noncommercial\Accord.Math.Noncommercial.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Noncommercial\Accord.Math.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
@@ -56,6 +57,7 @@
     <OutputPath>$(SolutionDir)..\Release\net45\Noncommercial\</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+	<RunCodeAnalysis>false</RunCodeAnalysis>
     <DocumentationFile>$(SolutionDir)..\Release\net45\Noncommercial\Accord.Math.Noncommercial.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Noncommercial\Accord.Math.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <NoWarn>0612, 0618</NoWarn>

@@ -11,6 +11,11 @@ for /r %sources% %%F in (*.csproj) do (
   %notepad% %%F
 )
 
+for /r %sources% %%F in (*.vcxproj) do (
+  echo %%F
+  %notepad% %%F
+)
+
 echo %unitest%
 for /r %unitest% %%F in (*.csproj) do (
   echo %%F

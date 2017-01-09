@@ -40,18 +40,21 @@ mkdir ..\bin
 set output=..\bin\%fullname%
 del %output%
 
+set ignore=-x*.tmp -x*.vs -x*.suo -x*.user -x*.vsp -x*.pidb -x*SlimDX.pdb -x*.sdf -x*\obj -x*\.svn* -x*.lastcodeanalysissucceeded -x*.CodeAnalysisLog.xml
+
 %rar% %opts%    %output% "..\..\Contributors.txt"
 %rar% %opts%    %output% "..\..\Copyright.txt"
 %rar% %opts%    %output% "..\..\License.txt"
 %rar% %opts%    %output% "..\..\Release notes.txt"
-%rar% %opts%    %output% "..\..\Docs\*.chm"        -x*\.svn*
-%rar% %opts% -r %output% "..\..\Release\*"         -x*\.svn* -x*.lastcodeanalysissucceeded -x*.CodeAnalysisLog.xml -x*SlimDX.pdb
-%rar% %opts% -r %output% "..\..\Debug\*"           -x*\.svn* -x*.lastcodeanalysissucceeded -x*.CodeAnalysisLog.xml -x*SlimDX.pdb
-%rar% %opts% -r %output% "..\..\Sources\*"         -x*\.svn* -x*\obj -x*\bin -x*\TestResults -x*\Accord.Music -x*.sdf -x*.suo -x*.user -x*.shfbproj_* -x*.vsp -x*.pidb
-%rar% %opts% -r %output% "..\..\Unit Tests\*"      -x*\.svn* -x*\obj -x*\bin -x*\TestResults -x*\Accord.Music -x*.sdf -x*.suo -x*.user -x*.shfbproj_* -x*.vsp -x*.pidb
-%rar% %opts% -r %output% "..\..\Samples\*"         -x*\.svn* -x*\obj -x*\bin\x64\ -x*\bin\Debug -x*\bin\Release -x*\bin\x86\Debug -x"*\bin\x86\Release 3.5" -x*.pdb -x*.user -x*.vsp -x*.pidb -x*\packages
-%rar% %opts% -r %output% "..\..\Externals\*"       -x*\.svn* -x*.pdb
-%rar% %opts% -r %output% "..\..\Setup\*"           -x*\.svn* -x*\obj -x*\bin -x*.user
+%rar% %opts%    %output% "..\..\Version.txt"
+%rar% %opts%    %output% "..\..\Docs\*.chm"        
+%rar% %opts% -r %output% "..\..\Release\*"          %ignore%
+%rar% %opts% -r %output% "..\..\Debug\*"            %ignore%
+%rar% %opts% -r %output% "..\..\Sources\*"          %ignore%         -x*\TestResults -x*\Accord.Music -x*.shfbproj_* 
+%rar% %opts% -r %output% "..\..\Unit Tests\*"       %ignore% -x*\bin -x*\TestResults -x*\Accord.Music -x*.shfbproj_* 
+%rar% %opts% -r %output% "..\..\Samples\*"          %ignore% -x*\bin\x64\ -x*\bin\Debug -x*\bin\Release -x*\bin\x86\Debug -x"*\bin\x86\Release 3.5" -x*\packages 
+%rar% %opts% -r %output% "..\..\Externals\*"        %ignore% -x*.pdb 
+%rar% %opts% -r %output% "..\..\Setup\*"            %ignore% -x*\bin 
 %rar% t         %output%
 
 
@@ -69,7 +72,9 @@ del %output%
 %rar% %opts%    %output% "..\..\Copyright.txt"
 %rar% %opts%    %output% "..\..\License.txt"
 %rar% %opts%    %output% "..\..\Release notes.txt"
-%rar% %opts% -r %output% "..\..\Release\*"         -x*\.svn* -x*.lastcodeanalysissucceeded -x*.CodeAnalysisLog.xml -x*SlimDX.pdb
+%rar% %opts%    %output% "..\..\Version.txt"
+%rar% %opts% -r %output% "..\..\Release\*"          %ignore%
+%rar% %opts% -r %output% "..\..\Debug\*"            %ignore%
 %rar% t         %output%
 
 

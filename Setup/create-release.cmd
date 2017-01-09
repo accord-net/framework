@@ -8,9 +8,7 @@ echo =========================================================
 
 
 :: Update version numbers
-cd Scripts
 cmd /c "update-version.cmd"
-cd ..
 
 :: Compile sources
 cd ..

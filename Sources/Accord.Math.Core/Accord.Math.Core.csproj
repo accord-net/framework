@@ -56,6 +56,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
     <OutputPath>$(SolutionDir)..\Release\net45</OutputPath>
     <DefineConstants>TRACE;NET45</DefineConstants>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\net45\Accord.Math.Core.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Accord.Math.Core.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>

@@ -59,6 +59,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\net45\Accord.MachineLearning.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Accord.MachineLearning.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET46|AnyCPU'">
     <OutputPath>$(SolutionDir)..\Release\net46</OutputPath>
