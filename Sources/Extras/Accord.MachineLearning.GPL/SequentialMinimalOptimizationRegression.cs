@@ -86,6 +86,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <code source="Sources\Extras\Accord.Tests.MachineLearning.GPL\SequentialMinimalOptimizationRegressionTest.cs" region="doc_learn" />
     /// </example>
     /// 
+    //[Obsolete("Please use SequentialMinimalOptimizationRegression<TKernel> instead.")]
     public class SequentialMinimalOptimizationRegression :
         BaseSequentialMinimalOptimizationRegression<
             SupportVectorMachine<IKernel>, IKernel, double[]>

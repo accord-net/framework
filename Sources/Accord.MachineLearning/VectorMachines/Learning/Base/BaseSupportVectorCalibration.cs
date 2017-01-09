@@ -157,9 +157,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
-        public TModel Learn(TInput[] x, int[] y, double[] weights)
+        public TModel Learn(TInput[] x, double[] y, double[] weights = null)
         {
-            return Learn(x, y.ToBoolean(), weights);
+            return Learn(x, Classes.Decide(y), weights);
         }
 
         /// <summary>
@@ -171,9 +171,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
-        public TModel Learn(TInput[] x, int[][] y, double[] weights)
+        public TModel Learn(TInput[] x, int[] y, double[] weights=null)
         {
-            return Learn(x, y.GetColumn(0).ToBoolean(), weights);
+            return Learn(x, Classes.Decide(y), weights);
         }
 
         /// <summary>
@@ -185,7 +185,21 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
-        public TModel Learn(TInput[] x, bool[][] y, double[] weights)
+        public TModel Learn(TInput[] x, int[][] y, double[] weights = null)
+        {
+            return Learn(x, Classes.Decide(y.GetColumn(0)), weights);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public TModel Learn(TInput[] x, bool[][] y, double[] weights = null)
         {
             return Learn(x, y.GetColumn(0), weights);
         }
@@ -199,16 +213,13 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
-        public TModel Learn(TInput[] x, bool[] y, double[] weights)
+        public TModel Learn(TInput[] x, bool[] y, double[] weights = null)
         {
-            SupportVectorLearningHelper.CheckArgs(x);
+            SupportVectorLearningHelper.CheckArgs(x, y);
 
             if (machine == null)
             {
-                int numberOfInputs = 0;
-                if (x[0] is IList)
-                    numberOfInputs = (x[0] as IList).Count;
-                this.machine = Create(numberOfInputs, Kernel);            
+                this.machine = Create(SupportVectorLearningHelper.GetNumberOfInputs(kernel, x), Kernel);            
             }
 
             InnerRun();
@@ -238,7 +249,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Obsolete.
         /// </summary>
         [Obsolete("Please use Learn() instead.")]
-        public double Run()
+        public virtual double Run()
         {
             Learn(Input, Output, null);
             var classifier = (IClassifier<TInput, bool>)machine;

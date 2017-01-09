@@ -313,10 +313,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         {
             bool initialized = false;
 
-            if (x.Length != y.Length)
-                throw new DimensionMismatchException("x", "The number of output labels should match the number of training samples.");
-
-            SupportVectorLearningHelper.CheckArgs(x);
+            SupportVectorLearningHelper.CheckArgs(x, y);
 
             if (kernel == null)
             {

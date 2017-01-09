@@ -90,6 +90,23 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             return length;
         }
 
+        public static void CheckArgs<TInput>(TInput[] x)
+        {
+            for (int i = 0; i < x.Length; i++)
+            {
+                if (x[i] == null)
+                    throw new ArgumentException("Input vector at position {0} is null.".Format(i), "x");
+            }
+        }
+
+        public static void CheckArgs<TInput, TOutput>(TInput[] x, TOutput[] y)
+        {
+            if (x.Length != y.Length)
+                throw new DimensionMismatchException("x", "The number of output labels should match the number of training samples.");
+
+            CheckArgs(x);
+        }
+
         public static void CheckArgs<TInput>(ISupportVectorMachine<TInput> machine,
             TInput[] inputs, int[] outputs)
         {
@@ -233,14 +250,5 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             return kernel;
         }
 
-        public static void CheckArgs<TInput>(TInput[] x)
-        {
-            for (int i = 0; i < x.Length; i++)
-            {
-                if (x[i] == null)
-                    throw new ArgumentException("Input vector at position {0} is null.".Format(i), "x");
-            }
-        }
-    }
     }
 }

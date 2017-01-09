@@ -117,6 +117,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <seealso cref="ProbabilisticOutputCalibration"/>
     /// <seealso cref="MulticlassSupportVectorLearning"/>
     /// 
+    //[Obsolete("Please use SequentialMinimalOptimization<TKernel> instead.")]
     public class SequentialMinimalOptimization :
         BaseSequentialMinimalOptimization<
             ISupportVectorMachine<double[]>, IKernel<double[]>, double[]>,
