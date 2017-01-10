@@ -62,7 +62,12 @@ namespace Accord.Tests.MachineLearning
             Assert.Fail();
         }
 
-        [Test]
+
+        [Test,
+#if !DEBUG
+            Ignore
+#endif
+        ]
         public void learn_test()
         {
             #region doc_learn

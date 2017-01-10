@@ -60,6 +60,29 @@ namespace Accord.Math.Decompositions
         private Double[] ort;       // storage for nonsymmetric algorithm.
         private bool symmetric;
 
+        private const Double eps = 2 * Constants.DoubleEpsilon;
+        
+
+        /// <summary>
+        ///   Returns the effective numerical matrix rank.
+        /// </summary>
+        ///
+        /// <value>Number of non-negligible eigen values.</value>
+        ///
+        public int Rank
+        {
+            get
+            {
+                Double tol = n * d[0] * eps;
+
+                int r = 0;
+                for (int i = 0; i < d.Length; i++)
+                    if (d[i] > tol) r++;
+
+                return r;
+            }
+        }
+
         /// <summary>
         ///   Construct an eigenvalue decomposition.</summary>
         ///

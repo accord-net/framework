@@ -60,6 +60,29 @@ namespace Accord.Math.Decompositions
         private Single[] ort;       // storage for nonsymmetric algorithm.
         private bool symmetric;
 
+        private const Single eps = 2 * Constants.SingleEpsilon;
+        
+
+        /// <summary>
+        ///   Returns the effective numerical matrix rank.
+        /// </summary>
+        ///
+        /// <value>Number of non-negligible eigen values.</value>
+        ///
+        public int Rank
+        {
+            get
+            {
+                Single tol = n * d[0] * eps;
+
+                int r = 0;
+                for (int i = 0; i < d.Length; i++)
+                    if (d[i] > tol) r++;
+
+                return r;
+            }
+        }
+
         /// <summary>
         ///   Construct an eigenvalue decomposition.</summary>
         ///
