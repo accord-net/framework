@@ -8,8 +8,10 @@ echo This Windows batch file will use Visual Studio 2015 to
 echo compile the Debug and Release versions of the framework.
 echo. 
 
-
-set DEVENV="C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe"
+:: Using devenv.com instead of .exe makes the console window wait until the completion
+:: set DEVENV="C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.com"
+set DEVENV="C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.com"
+:: set DEVENV="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\devenv.com"
 
 del /q "bin\*.log"
 echo.
