@@ -391,7 +391,7 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <param name="stream">The stream to which the Naïve Bayes model is to be serialized.</param>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Save(stream) instead (or use it as an extension method).")]
 
         public virtual void Save(Stream stream)
         {
@@ -404,7 +404,7 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <param name="path">The path to the file to which the Naïve Bayes model is to be serialized.</param>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Save(path) instead (or use it as an extension method).")]
 
         public void Save(string path)
         {
@@ -419,7 +419,7 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Load() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Load<NaiveBayes>(stream) instead.")]
 
         public static NaiveBayes Load(Stream stream)
         {
@@ -434,7 +434,7 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Load() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Load<NaiveBayes>(path) instead.")]
 
         public static NaiveBayes Load(string path)
         {
@@ -449,13 +449,13 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Load() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Load<NaiveBayes>(stream) instead.")]
 
         public static NaiveBayes<TDistribution> Load<TDistribution>(Stream stream)
             where TDistribution : IFittableDistribution<double>, IUnivariateDistribution<double>,
             IUnivariateDistribution
         {
-            return Accord.IO.Serializer.Load<NaiveBayes<TDistribution>>(stream);
+            return Accord.IO.Serializer.Load<NaiveBayes>(stream);
         }
 
         /// <summary>
@@ -466,7 +466,7 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Load<NaiveBayes<TDistribution>>(path) instead.")]
 
         public static NaiveBayes<TDistribution> Load<TDistribution>(string path)
             where TDistribution : IFittableDistribution<double>, IUnivariateDistribution<double>,

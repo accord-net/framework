@@ -450,7 +450,7 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Load<MulticlassSupportVectorMachine>(stream) instead.")]
         public static MulticlassSupportVectorMachine Load(Stream stream)
         {
             return Accord.IO.Serializer.Load<MulticlassSupportVectorMachine>(stream);
@@ -464,7 +464,7 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Load<MulticlassSupportVectorMachine>(path) instead.")]
         public static MulticlassSupportVectorMachine Load(string path)
         {
             return Accord.IO.Serializer.Load<MulticlassSupportVectorMachine>(path);
