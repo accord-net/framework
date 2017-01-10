@@ -53,7 +53,7 @@ namespace Accord.Imaging.Filters
     ///   var whitePatch = new WhitePatch();
     /// 
     ///   // Apply the filter
-    ///   Bitmap result = grayWorld.Apply(image);
+    ///   Bitmap result = whitePatch.Apply(image);
     ///   
     ///   // Show on the screen
     ///   ImageBox.Show(result);
