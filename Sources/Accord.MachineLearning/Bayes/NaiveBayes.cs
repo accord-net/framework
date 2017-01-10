@@ -449,13 +449,13 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Load<NaiveBayes>(stream) instead.")]
+        [Obsolete("Please use Accord.IO.Serializer.Load<NaiveBayes<TDistribution>>(stream) instead.")]
 
         public static NaiveBayes<TDistribution> Load<TDistribution>(Stream stream)
             where TDistribution : IFittableDistribution<double>, IUnivariateDistribution<double>,
             IUnivariateDistribution
         {
-            return Accord.IO.Serializer.Load<NaiveBayes>(stream);
+            return Accord.IO.Serializer.Load<NaiveBayes<TDistribution>>(stream);
         }
 
         /// <summary>

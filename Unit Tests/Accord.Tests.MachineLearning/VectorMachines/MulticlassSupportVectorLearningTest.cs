@@ -566,8 +566,7 @@ namespace Accord.Tests.MachineLearning
             {
                 Model = machine, // We will start with an existing machine
 
-                // Configure the learning algorithm to use SMO to train the
-                //  underlying SVMs in each of the binary class subproblems.
+                // Configure the learning algorithm to use Platt's calibration
                 Learner = (param) => new ProbabilisticOutputCalibration<Gaussian>()
                 {
                     Model = param.Model // Start with an existing machine
