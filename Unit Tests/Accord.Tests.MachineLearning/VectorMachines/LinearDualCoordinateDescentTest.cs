@@ -157,6 +157,49 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        public void sparse_zero_vector_test()
+        {
+            // Create a linear-SVM learning method
+            var teacher = new LinearDualCoordinateDescent<Linear, Sparse<double>>()
+            {
+                Tolerance = 1e-10,
+                Complexity = 1e+10, // learn a hard-margin model
+            };
+
+            // Now suppose you have some points
+            Sparse<double>[] inputs = Sparse.FromDense(new[]
+            {
+                new double[] { 1, 1, 2 },
+                new double[] { 0, 1, 6 },
+                new double[] { 1, 0, 8 },
+                new double[] { 0, 0, 0 },
+            });
+
+            int[] outputs = { 1, -1, 1, -1 };
+
+            // Learn the support vector machine
+            var svm = teacher.Learn(inputs, outputs);
+
+            // Compute the predicted points 
+            bool[] predicted = svm.Decide(inputs);
+
+            // And the squared error loss using 
+            double error = new ZeroOneLoss(outputs).Loss(predicted);
+
+            Assert.AreEqual(3, svm.NumberOfInputs);
+            Assert.AreEqual(2, svm.NumberOfOutputs);
+
+            Assert.AreEqual(1, svm.Weights.Length);
+            Assert.AreEqual(1, svm.SupportVectors.Length);
+
+            Assert.AreEqual(1.0, svm.Weights[0], 1e-6);
+            Assert.AreEqual(1.9999999997853122, svm.SupportVectors[0][0], 1e-6);
+            Assert.AreEqual(0, svm.SupportVectors[0][1], 1e-6);
+            Assert.AreEqual(0, svm.SupportVectors[0][2], 1e-6);
+            Assert.AreEqual(0.0, error);
+        }
+
+        [Test]
         public void ComputeTest5()
         {
             var dataset = SequentialMinimalOptimizationTest.yinyang;

@@ -199,11 +199,38 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
     }
 
-    /// <summary>
-    ///   Base class for linear coordinate descent learning algorithm.
-    /// </summary>
-    /// 
-    public abstract class BaseLinearCoordinateDescent<TModel, TKernel> :
+    // TODO: Add support for sparse linear kernels
+    //public class LinearCoordinateDescent<TKernel, TInput> :
+    //    BaseLinearCoordinateDescent<SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
+    //    where TKernel : struct, ILinear<TInput>
+    //    where TInput : ICloneable, IList
+    //{
+    //    /// <summary>
+    //    /// Creates an instance of the model to be learned. Inheritors
+    //    /// of this abstract class must define this method so new models
+    //    /// can be created from the training data.
+    //    /// </summary>
+    //    protected override SupportVectorMachine<TKernel, TInput> Create(int inputs, TKernel kernel)
+    //    {
+    //        return new SupportVectorMachine<TKernel, TInput>(inputs, kernel);
+    //    }
+    //}
+
+    ///// <summary>
+    /////   Base class for linear coordinate descent learning algorithm.
+    ///// </summary>
+    ///// 
+    //public abstract class BaseLinearCoordinateDescent<TModel, TKernel, TInput> :
+    //    BaseSupportVectorClassification<TModel, TKernel, TInput>
+    //    where TModel : SupportVectorMachine<TKernel, TInput>
+    //    where TKernel : struct, ILinear<TInput>
+    //    where TInput : ICloneable, IList
+
+        /// <summary>
+        ///   Base class for linear coordinate descent learning algorithm.
+        /// </summary>
+        /// 
+        public abstract class BaseLinearCoordinateDescent<TModel, TKernel> :
         BaseSupportVectorClassification<TModel, TKernel, double[]>
         where TModel : SupportVectorMachine<TKernel, double[]>
         where TKernel : ILinear

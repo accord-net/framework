@@ -179,6 +179,9 @@ namespace Accord.Statistics.Kernels
         /// 
         public void Product(double a, double[] b, double[] accumulate)
         {
+            if (a == 0)
+                return;
+
             for (int j = 0; j < b.Length; j++)
                 accumulate[j] += a * b[j];
         }
@@ -288,6 +291,9 @@ namespace Accord.Statistics.Kernels
         /// <param name="accumulate">An array to store the result.</param>
         public void Product(double a, Sparse<double> b, double[] accumulate)
         {
+            if (a == 0)
+                return;
+
             for (int j = 0; j < b.Indices.Length; j++)
                 accumulate[b.Indices[j]] += a * b.Values[j];
         }
@@ -302,6 +308,9 @@ namespace Accord.Statistics.Kernels
         {
             // TODO: Move those implementations to extension methods in the Sparse class.
 
+            if (a == 0 || b.Length == 0)
+                return;
+
             int n = accumulate.Indices.Length;
             bool seq = true;
             for (int i = 0; i < accumulate.Indices.Length; i++)
@@ -314,6 +323,7 @@ namespace Accord.Statistics.Kernels
             }
 
             int m = b.Indices.Length;
+
             int max = Math.Max(accumulate.Indices[n - 1], b.Indices[m - 1]);
 
             if (!seq || accumulate.Indices[n - 1] < b.Indices[m - 1])
@@ -321,6 +331,8 @@ namespace Accord.Statistics.Kernels
                 accumulate.Values = accumulate.ToDense(max + 1);
                 accumulate.Indices = Vector.Range(max + 1);
             }
+
+            Accord.Diagnostics.Debug.Assert(b.Indices.Length == b.Values.Length);
 
             for (int j = 0; j < b.Indices.Length; j++)
             {

@@ -196,53 +196,22 @@ namespace Accord.MachineLearning
             // Save exceptions but process all machines
             var exceptions = new ConcurrentBag<Exception>();
 
-            // For each class i
-            Parallel.For(0, Model.Models.Length, ParallelOptions, (int i) =>
+#if DEBUG
+            ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
+
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                if (ParallelOptions.CancellationToken.IsCancellationRequested)
-                    return;
-
-                // We will start the binary sub-problem
-                var args = new SubproblemEventArgs(i, -i);
-                OnSubproblemStarted(args);
-
-                // Retrieve the associated machine
-                TBinary model = Model.Models[i];
-
-                // Extract outputs for the given label
-                bool[] suby = y.GetColumn(i);
-
-                // Train the machine on the two-class problem.
-                try
-                {
-                    // Configure the machine on the two-class problem.
-                    var subproblem = Learner(new InnerParameters<TBinary, TInput>(
-                        inputs: x,
-                        outputs: suby,
-                        pair: new ClassPair(i, -i),
-                        model: model
-                    ));
-
-                    if (subproblem != null)
-                    {
-                        // TODO: This check only exists to provide support to previous way of 
-                        // using the library and should be removed after a few releases. In the
-                        // current way (without using any Obsolete methods), subproblem should never be null.
-                        subproblem.Token = ParallelOptions.CancellationToken;
-                        Model[i] = subproblem.Learn(x, suby, weights);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    exceptions.Add(ex);
-                }
-
-                // Update and report progress
-                args.Progress = Interlocked.Increment(ref progress);
-                args.Maximum = total;
-
-                OnSubproblemFinished(args);
-            });
+                // For each class k
+                for (int k = 0; k < total; k++)
+                    TrainBinaryMachine(x, y, weights, k, total, ref progress, exceptions);
+            }
+            else
+            {
+                // For each class k
+                Parallel.For(0, total, ParallelOptions, (int k) =>
+                    TrainBinaryMachine(x, y, weights, k, total, ref progress, exceptions));
+            }
 
             if (exceptions.Count > 0)
             {
@@ -252,6 +221,53 @@ namespace Accord.MachineLearning
             }
 
             return Model;
+        }
+
+        private void TrainBinaryMachine(TInput[] x, bool[][] y, double[] weights, int i, int total, ref int progress, ConcurrentBag<Exception> exceptions)
+        {
+            if (ParallelOptions.CancellationToken.IsCancellationRequested)
+                return;
+
+            // We will start the binary sub-problem
+            var args = new SubproblemEventArgs(i, -i);
+            OnSubproblemStarted(args);
+
+            // Retrieve the associated machine
+            TBinary model = Model.Models[i];
+
+            // Extract outputs for the given label
+            bool[] suby = y.GetColumn(i);
+
+            // Train the machine on the two-class problem.
+            try
+            {
+                // Configure the machine on the two-class problem.
+                var subproblem = Learner(new InnerParameters<TBinary, TInput>(
+                    inputs: x,
+                    outputs: suby,
+                    pair: new ClassPair(i, -i),
+                    model: model
+                ));
+
+                if (subproblem != null)
+                {
+                    // TODO: This check only exists to provide support to previous way of 
+                    // using the library and should be removed after a few releases. In the
+                    // current way (without using any Obsolete methods), subproblem should never be null.
+                    subproblem.Token = ParallelOptions.CancellationToken;
+                    Model[i] = subproblem.Learn(x, suby, weights);
+                }
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(ex);
+            }
+
+            // Update and report progress
+            args.Progress = Interlocked.Increment(ref progress);
+            args.Maximum = total;
+
+            OnSubproblemFinished(args);
         }
 
         /// <summary>

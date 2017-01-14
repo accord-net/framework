@@ -170,68 +170,18 @@ namespace Accord.MachineLearning
             ParallelOptions.MaxDegreeOfParallelism = 1;
 #endif
 
-            // For each class i
-            Parallel.For(0, total, ParallelOptions, (int k) =>
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                if (ParallelOptions.CancellationToken.IsCancellationRequested)
-                    return;
-
-                int i = pairs[k].Item1;
-                int j = pairs[k].Item2;
-
-                // We will start the binary sub-problem
-                var args = new SubproblemEventArgs(i, j);
-                OnSubproblemStarted(args);
-
-                // Retrieve the associated machine
-                TBinary model = Model.GetClassifierForClassPair(classA: i, classB: j);
-
-                // Retrieve the associated classes
-                int[] idx = y.Find(y_i => y_i == i || y_i == j);
-
-                if (idx.Length == 0)
-                {
-                    System.Diagnostics.Trace.TraceWarning("Class pair ({0}, {1}) does not have any examples.", i, j);
-                }
-
-                TInput[] subx = x.Get(idx);
-                bool[] suby = y.Get(idx).Apply(y_i => y_i == i);
-
-                double[] subw = null;
-                if (weights != null)
-                    subw = weights.Get(idx);
-
-                try
-                {
-                    // Configure the machine on the two-class problem.
-                    var subproblem = Learner(new InnerParameters<TBinary, TInput>(
-                        inputs: subx,
-                        outputs: suby,
-                        pair: new ClassPair(i, j),
-                        model: model
-                    ));
-
-                    if (subproblem != null)
-                    {
-                        // TODO: This check only exists to provide support to previous way of 
-                        // using the library and should be removed after a few releases. In the
-                        // current way (without using any Obsolete methods), subproblem should never be null.
-                        subproblem.Token = ParallelOptions.CancellationToken;
-                        Model[i, j] = subproblem.Learn(subx, suby, subw);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ex.Data["pair"] = pairs[k];
-                    exceptions.Add(ex);
-                }
-
-                // Update and report progress
-                args.Progress = Interlocked.Increment(ref progress);
-                args.Maximum = total;
-
-                OnSubproblemFinished(args);
-            });
+                // For each class k
+                for(int k = 0; k < total; k++)
+                    TrainBinaryMachine(x, y, weights, k, total, ref progress, pairs, exceptions);
+            }
+            else
+            {
+                // For each class k
+                Parallel.For(0, total, ParallelOptions, (int k) =>
+                    TrainBinaryMachine(x, y, weights, k, total, ref progress, pairs, exceptions));
+            }
 
 
             if (exceptions.Count > 0)
@@ -242,6 +192,68 @@ namespace Accord.MachineLearning
             }
 
             return Model;
+        }
+
+        private void TrainBinaryMachine(TInput[] x, int[] y, double[] weights, int k, int total, ref int progress, Tuple<int, int>[] pairs, ConcurrentBag<Exception> exceptions)
+        {
+            if (ParallelOptions.CancellationToken.IsCancellationRequested)
+                return;
+
+            int i = pairs[k].Item1;
+            int j = pairs[k].Item2;
+
+            // We will start the binary sub-problem
+            var args = new SubproblemEventArgs(i, j);
+            OnSubproblemStarted(args);
+
+            // Retrieve the associated machine
+            TBinary model = Model.GetClassifierForClassPair(classA: i, classB: j);
+
+            // Retrieve the associated classes
+            int[] idx = y.Find(y_i => y_i == i || y_i == j);
+
+            if (idx.Length == 0)
+            {
+                System.Diagnostics.Trace.TraceWarning("Class pair ({0}, {1}) does not have any examples.", i, j);
+            }
+
+            TInput[] subx = x.Get(idx);
+            bool[] suby = y.Get(idx).Apply(y_i => y_i == i);
+
+            double[] subw = null;
+            if (weights != null)
+                subw = weights.Get(idx);
+
+            try
+            {
+                // Configure the machine on the two-class problem.
+                var subproblem = Learner(new InnerParameters<TBinary, TInput>(
+                    inputs: subx,
+                    outputs: suby,
+                    pair: new ClassPair(i, j),
+                    model: model
+                ));
+
+                if (subproblem != null)
+                {
+                    // TODO: This check only exists to provide support to previous way of 
+                    // using the library and should be removed after a few releases. In the
+                    // current way (without using any Obsolete methods), subproblem should never be null.
+                    subproblem.Token = ParallelOptions.CancellationToken;
+                    Model[i, j] = subproblem.Learn(subx, suby, subw);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.Data["pair"] = pairs[k];
+                exceptions.Add(ex);
+            }
+
+            // Update and report progress
+            args.Progress = Interlocked.Increment(ref progress);
+            args.Maximum = total;
+
+            OnSubproblemFinished(args);
         }
 
         /// <summary>
