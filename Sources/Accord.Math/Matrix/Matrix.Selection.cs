@@ -806,6 +806,9 @@ namespace Accord.Math
         /// <param name="data">The array to search inside.</param>
         /// <param name="func">The search criteria.</param>
         ///
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static int[] Find<T>(this T[] data, Func<T, bool> func)
         {
             List<int> idx = new List<int>();

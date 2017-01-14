@@ -201,17 +201,17 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
 
-        public static TInput GetZeroWeight<TInput>(TInput[] x)
-            where TInput : ICloneable
-        {
-            var w = (TInput)x[0].Clone();
-            if (w is IList)
-            {
-                IList list = (IList)w;
-                Array.Clear((Array)list, 0, list.Count);
-            }
-            return w;
-        }
+        //public static TInput GetZeroWeight<TInput>(TInput[] x)
+        //    where TInput : ICloneable
+        //{
+        //    var w = (TInput)x[0].Clone();
+        //    if (w is IList)
+        //    {
+        //        IList list = (IList)w;
+        //        Array.Clear((Array)list, 0, list.Count);
+        //    }
+        //    return w;
+        //}
 
         public static void CheckOutput<TInput>(ISupportVectorMachine<TInput> model)
         {

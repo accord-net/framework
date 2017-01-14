@@ -53,7 +53,7 @@ namespace Accord.Math
 
             int i = 0, j = 0;
 
-            while (i < x.Length && j < y.Length)
+            while (i < x.Indices.Length && j < y.Indices.Length)
             {
                 int posx = x.Indices[i];
                 int posy = y.Indices[j];
@@ -79,10 +79,10 @@ namespace Accord.Math
                 }
             }
 
-            for (; i < x.Length; i++)
+            for (; i < x.Values.Length; i++)
                 sum += x.Values[i] * x.Values[i];
 
-            for (; j < y.Length; j++)
+            for (; j < y.Values.Length; j++)
                 sum += y.Values[j] * y.Values[j];
 
             return sum;
