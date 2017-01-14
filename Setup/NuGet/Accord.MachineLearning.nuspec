@@ -29,10 +29,10 @@
     <file src="..\..\Release\net40\Accord.MachineLearning.dll" target="lib\net40\Accord.MachineLearning.dll" />
     <file src="..\..\Release\net40\Accord.MachineLearning.xml" target="lib\net40\Accord.MachineLearning.xml" />
 
-    <file src="..\..\Release\net45\Accord.MachineLearning.dll" target="lib\net45\Accord.MachineLearning.dll" />
-    <file src="..\..\Release\net45\Accord.MachineLearning.xml" target="lib\net45\Accord.MachineLearning.xml" />
+    <file src="..\..\Release\net45\Accord.MachineLearning.dll" target="lib\net452\Accord.MachineLearning.dll" />
+    <file src="..\..\Release\net45\Accord.MachineLearning.xml" target="lib\net452\Accord.MachineLearning.xml" />
 	
-	<file src="..\..\Release\net46\Accord.MachineLearning.dll" target="lib\net46\Accord.MachineLearning.dll" />
-    <file src="..\..\Release\net46\Accord.MachineLearning.xml" target="lib\net46\Accord.MachineLearning.xml" />
+	<file src="..\..\Release\net46\Accord.MachineLearning.dll" target="lib\net461\Accord.MachineLearning.dll" />
+    <file src="..\..\Release\net46\Accord.MachineLearning.xml" target="lib\net461\Accord.MachineLearning.xml" />
   </files>
 </package>

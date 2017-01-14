@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Datasets</id>
+    <version>$version$</version>
+    <title>Accord.Datasets</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Contains classes to download and parse machine learning datasets such as MNIST, News20, Iris. This package is part of the Accord.NET Framework.
+    </description>
+    <summary>Download and open standard machine learning datasets from the web, such as MNIST, Newsgroups, Iris and others.</summary>
+    <tags>accord.net aforge.net framework statistics mnist machine learning cifar imagenet</tags>
+    <dependencies>
+      <dependency id="Accord"         version="$version$" />
+      <dependency id="Accord.IO"      version="$version$" />
+	  <dependency id="Accord.Math"    version="$version$" />
+	  <dependency id="SharpZipLib "   version="0.86.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Accord.IO.dll" target="lib\net35\Accord.IO.dll" />
+    <file src="..\..\Release\net35\Accord.IO.xml" target="lib\net35\Accord.IO.xml" />
+
+    <file src="..\..\Release\net40\Accord.IO.dll" target="lib\net40\Accord.IO.dll" />
+    <file src="..\..\Release\net40\Accord.IO.xml" target="lib\net40\Accord.IO.xml" />
+
+    <file src="..\..\Release\net45\Accord.IO.dll" target="lib\net452\Accord.IO.dll" />
+    <file src="..\..\Release\net45\Accord.IO.xml" target="lib\net452\Accord.IO.xml" />
+	
+	<file src="..\..\Release\net46\Accord.IO.dll" target="lib\net461\Accord.IO.dll" />
+    <file src="..\..\Release\net46\Accord.IO.xml" target="lib\net461\Accord.IO.xml" />
+  </files>
+</package>

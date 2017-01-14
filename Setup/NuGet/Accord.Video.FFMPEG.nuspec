@@ -25,11 +25,11 @@
     <file src="..\..\Release\net40\GPL\Accord.Video.FFMPEG.dll" target="lib\net40\Accord.Video.FFMPEG.dll" />
     <file src="..\..\Release\net40\GPL\Accord.Video.FFMPEG.xml" target="lib\net40\Accord.Video.FFMPEG.xml" />
 
-    <file src="..\..\Release\net45\GPL\Accord.Video.FFMPEG.dll" target="lib\net45\Accord.Video.FFMPEG.dll" />
-    <file src="..\..\Release\net45\GPL\Accord.Video.FFMPEG.xml" target="lib\net45\Accord.Video.FFMPEG.xml" />
+    <file src="..\..\Release\net45\GPL\Accord.Video.FFMPEG.dll" target="lib\net452\Accord.Video.FFMPEG.dll" />
+    <file src="..\..\Release\net45\GPL\Accord.Video.FFMPEG.xml" target="lib\net452\Accord.Video.FFMPEG.xml" />
 	
-  	<file src="..\..\Release\net46\GPL\Accord.Video.FFMPEG.dll" target="lib\net46\Accord.Video.FFMPEG.dll" />
-    <file src="..\..\Release\net46\GPL\Accord.Video.FFMPEG.xml" target="lib\net46\Accord.Video.FFMPEG.xml" />
+  	<file src="..\..\Release\net46\GPL\Accord.Video.FFMPEG.dll" target="lib\net461\Accord.Video.FFMPEG.dll" />
+    <file src="..\..\Release\net46\GPL\Accord.Video.FFMPEG.xml" target="lib\net461\Accord.Video.FFMPEG.xml" />
 
     <file src="..\..\Externals\ffmpeg\bin\avcodec-53.dll"       target="build\avcodec-53.dll" />
     <file src="..\..\Externals\ffmpeg\bin\avdevice-53.dll"      target="build\avdevice-53.dll" />
