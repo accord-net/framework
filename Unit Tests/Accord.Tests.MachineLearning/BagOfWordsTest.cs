@@ -34,23 +34,6 @@ namespace Accord.Tests.MachineLearning
     public class BagOfWordsTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         string[][] texts =
         {
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas molestie malesuada nisi et placerat. Curabitur blandit porttitor suscipit. Nunc facilisis ultrices felis, vitae luctus arcu semper in. Fusce ut felis ipsum. Sed faucibus tortor ut felis placerat euismod. Vestibulum pharetra velit et dolor ornare quis malesuada leo aliquam. Aenean lobortis, tortor iaculis vestibulum dictum, tellus nisi vestibulum libero, ultricies pretium nisi ante in neque. Integer et massa lectus. Aenean ut sem quam. Mauris at nisl augue, volutpat tempus nisl. Suspendisse luctus convallis metus, vitae pretium risus pretium vitae. Duis tristique euismod aliquam".Replace(",", "").Replace(".", "").Split(' '),

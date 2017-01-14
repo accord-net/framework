@@ -379,6 +379,11 @@ namespace Accord.Tests.MachineLearning
 
             prediction = svm.Decide(inputs);
 
+            Assert.AreEqual(0, inputs[0].Indices.Length);
+            Assert.AreEqual(1, inputs[1].Indices.Length);
+            Assert.AreEqual(1, inputs[2].Indices.Length);
+            Assert.AreEqual(2, inputs[3].Indices.Length);
+
             Assert.AreEqual(prediction[0], false);
             Assert.AreEqual(prediction[1], true);
             Assert.AreEqual(prediction[2], true);

@@ -59,6 +59,10 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
       <HintPath>..\..\Externals\NUnit\nunit.framework.dll</HintPath>
@@ -165,6 +169,10 @@
     <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Datasets\Accord.Datasets.csproj">
+      <Project>{f11a77c5-00b3-4921-acf5-4728f6576efd}</Project>
+      <Name>Accord.Datasets</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.IO\Accord.IO.csproj">
       <Project>{63184EBD-6B28-4066-AAEE-5B99431E31F4}</Project>
