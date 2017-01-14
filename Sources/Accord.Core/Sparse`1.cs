@@ -37,7 +37,7 @@ namespace Accord.Math
     /// <typeparam name="T">The type for the non-zero elements in this vector.</typeparam>
     /// 
     public sealed class Sparse<T> : IEnumerable<T>, ICloneable, IList<T>, IList, IFormattable
-        where T: IEquatable<T>
+        where T : IEquatable<T>
     {
         private int[] indices;
         private T[] values;
@@ -366,5 +366,21 @@ namespace Accord.Math
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Determines whether this Sparse vector has elements on all indices.
+        /// </summary>
+        /// 
+        /// <returns><c>true</c> if this instance is full; otherwise, <c>false</c>.</returns>
+        /// 
+        public bool IsFull()
+        {
+            for (int i = 0; i < Indices.Length; i++)
+            {
+                if (Indices[i] != i)
+                    return false;
+            }
+
+            return true;
+        }
     }
 }

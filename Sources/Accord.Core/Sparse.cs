@@ -71,15 +71,7 @@ namespace Accord.Math
         public static T[][] ToDense<T>(this Sparse<T>[] vectors)
             where T : IEquatable<T>
         {
-            int max = 0;
-            for (int i = 0; i < vectors.Length; i++)
-            {
-                int lastIndex = vectors[i].Indices[vectors[i].Indices.Length - 1];
-                if (lastIndex > max)
-                    max = lastIndex;
-            }
-
-            return ToDense(vectors, max + 1);
+            return ToDense(vectors, vectors.Columns());
         }
 
         /// <summary>
@@ -99,25 +91,43 @@ namespace Accord.Math
         ///   Creates a sparse vector from a dense array.
         /// </summary>
         /// 
-        public static Sparse<T> FromDense<T>(T[] dense)
+        public static Sparse<T> FromDense<T>(T[] dense, bool removeZeros = true)
             where T : IEquatable<T>
         {
-            int[] idx = new int[dense.Length];
-            for (int i = 0; i < idx.Length; i++)
-                idx[i] = i;
-            return new Sparse<T>(idx, dense);
+            if (removeZeros)
+            {
+                T zero = default(T);
+                var idx = new List<int>();
+                var values = new List<T>();
+                for (int i = 0; i < dense.Length; i++)
+                {
+                    if (!zero.Equals(dense[i]))
+                    {
+                        idx.Add(i);
+                        values.Add(dense[i]);
+                    }
+                }
+                return new Sparse<T>(idx.ToArray(), values.ToArray());
+            }
+            else
+            {
+                int[] idx = new int[dense.Length];
+                for (int i = 0; i < idx.Length; i++)
+                    idx[i] = i;
+                return new Sparse<T>(idx, dense);
+            }
         }
 
         /// <summary>
         ///   Creates sparse vectors from dense arrays.
         /// </summary>
         /// 
-        public static Sparse<T>[] FromDense<T>(T[][] dense)
+        public static Sparse<T>[] FromDense<T>(T[][] dense, bool removeZeros = true)
             where T : IEquatable<T>
         {
             var result = new Sparse<T>[dense.Length];
             for (int i = 0; i < result.Length; i++)
-                result[i] = FromDense(dense[i]);
+                result[i] = FromDense(dense[i], removeZeros);
             return result;
         }
 
@@ -126,7 +136,8 @@ namespace Accord.Math
         ///   that can be inferred from the given sparse vectors.
         /// </summary>
         /// 
-        public static int Columns(this Sparse<double>[] inputs)
+        public static int Columns<T>(this Sparse<T>[] inputs)
+            where T : IEquatable<T>
         {
             int max = 0;
             for (int i = 0; i < inputs.Length; i++)
@@ -139,18 +150,5 @@ namespace Accord.Math
             return max;
         }
 
-
-        /// <summary>
-        ///   Adds the a sparse vector to a dense vector.
-        /// </summary>
-        /// 
-        public static void Add(this Sparse<double> a, double[] b, double[] result)
-        {
-            for (int j = 0; j < b.Length; j++)
-                result[j] = b[j];
-
-            for (int j = 0; j < a.Indices.Length; j++)
-                result[a.Indices[j]] += a.Values[j];
-        }
     }
 }

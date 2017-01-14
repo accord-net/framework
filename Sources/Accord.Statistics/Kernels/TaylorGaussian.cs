@@ -274,6 +274,15 @@ namespace Accord.Statistics.Kernels
             return Vector.Create(values);
         }
 
+        ///// <summary>
+        /////   Creates an input vector with the given dimensions.
+        ///// </summary>
+        ///// 
+        //public double[] CreateVector(int dimensions)
+        //{
+        //    return new double[dimensions];
+        //}
+
         /// <summary>
         ///   Elementwise multiplication of vector a and vector b, accumulating in result.
         /// </summary>

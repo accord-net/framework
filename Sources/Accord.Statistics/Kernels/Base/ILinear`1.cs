@@ -75,15 +75,15 @@ namespace Accord.Statistics.Kernels
         /// 
         void Product(double[] a, T b, double[] accumulate);
 
-        /// <summary>
-        ///   Elementwise multiplication of scalar a and vector b, accumulating in result.
-        /// </summary>
-        /// 
-        /// <param name="a">The scalar to be multiplied.</param>
-        /// <param name="b">The vector to be multiplied.</param>
-        /// <param name="accumulate">An array to store the result.</param>
-        /// 
-        void Product(double a, T b, T accumulate);
+        ///// <summary>
+        /////   Elementwise multiplication of scalar a and vector b, accumulating in result.
+        ///// </summary>
+        ///// 
+        ///// <param name="a">The scalar to be multiplied.</param>
+        ///// <param name="b">The vector to be multiplied.</param>
+        ///// <param name="accumulate">An array to store the result.</param>
+        ///// 
+        //void Product(double a, T b, T accumulate); 
 
         /// <summary>
         ///   Compress a set of support vectors and weights into a single
@@ -120,6 +120,12 @@ namespace Accord.Statistics.Kernels
         /// </summary>
         /// 
         T CreateVector(double[] values);
+
+        ///// <summary>
+        /////   Creates an input vector with the given dimensions.
+        ///// </summary>
+        ///// 
+        //T CreateVector(int dimensions);
 
         /// <summary>
         ///   Converts the input vectors to a double-precision representation.

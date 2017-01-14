@@ -357,7 +357,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         private double eps = 0.1;
 
         private double[] alpha;
-        private TInput weights;
+        private double[] weights;
         private double bias;
 
         private Loss loss = Loss.L2;
@@ -418,9 +418,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         {
             TInput[] x = Inputs;
             int samples = Inputs.Length;
+            int dimensions = Kernel.GetLength(x);
             this.alpha = new double[samples];
-            this.weights = (TInput)x[0].Clone();
-            TInput w = weights;
+            this.weights = new double[dimensions];
+            double[] w = weights;
             double[] c = this.C;
             int[] y = Outputs;
 
@@ -430,7 +431,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             Array.Clear(alpha, 0, alpha.Length);
 
             // Zero the weight vector
-            w.Clear();
             bias = 0;
 
             int iter = 0;
@@ -601,7 +601,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
             Model.Weights = new double[] { 1.0 };
-            Model.SupportVectors = new[] { w };
+            Model.SupportVectors = new[] { Kernel.CreateVector(w) };
             Model.Threshold = bias;
         }
 

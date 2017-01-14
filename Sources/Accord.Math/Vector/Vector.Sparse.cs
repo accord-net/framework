@@ -26,6 +26,7 @@ namespace Accord.Math
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -41,6 +42,9 @@ namespace Accord.Math
         /// 
         /// <returns>The inner product of the multiplication of the vectors.</returns>
         /// 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Dot(this Sparse<double> a, Sparse<double> b)
         {
             double sum = 0;
@@ -62,7 +66,7 @@ namespace Accord.Math
                 {
                     i++;
                 }
-                else if (posx > posy)
+                else //if (posx > posy)
                 {
                     j++;
                 }
@@ -80,6 +84,9 @@ namespace Accord.Math
         /// 
         /// <returns>The inner product of the multiplication of the vectors.</returns>
         /// 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Dot(this Sparse<double> a, double[] b)
         {
             double sum = 0;
@@ -110,5 +117,22 @@ namespace Accord.Math
             return sum;
         }
 
+        /// <summary>
+        ///   Adds a sparse vector to a dense vector.
+        /// </summary>
+        /// 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Add(this Sparse<double> a, double[] b, double[] result)
+        {
+            for (int j = 0; j < b.Length; j++)
+                result[j] = b[j];
+
+            for (int j = 0; j < a.Indices.Length; j++)
+                result[a.Indices[j]] += a.Values[j];
+
+            return result;
+        }
     }
 }

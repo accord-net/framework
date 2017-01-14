@@ -66,6 +66,9 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public double Function(double[] x, double[] y)
         {
             double sum = constant;
@@ -98,6 +101,9 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <returns>Squared distance between <c>x</c> and <c>y</c> in input space.</returns>
         /// 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public double Distance(double[] x, double[] y)
         {
             if (x == y)
@@ -177,6 +183,9 @@ namespace Accord.Statistics.Kernels
         /// <param name="b">The vector to be multiplied.</param>
         /// <param name="accumulate">An array to store the result.</param>
         /// 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public void Product(double a, double[] b, double[] accumulate)
         {
             if (a == 0)
@@ -265,6 +274,7 @@ namespace Accord.Statistics.Kernels
         /// <returns>
         /// Dot product in feature (kernel) space.
         /// </returns>
+        /// 
         public double Function(double[] y, Sparse<double> x)
         {
             return x.Dot(y) + constant;
@@ -278,6 +288,9 @@ namespace Accord.Statistics.Kernels
         /// <param name="b">The second vector to add.</param>
         /// <param name="result">An array to store the result.</param>
         /// 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public void Add(Sparse<double> a, double[] b, double[] result)
         {
             a.Add(b, result);
@@ -289,6 +302,9 @@ namespace Accord.Statistics.Kernels
         /// <param name="a">The scalar to be multiplied.</param>
         /// <param name="b">The vector to be multiplied.</param>
         /// <param name="accumulate">An array to store the result.</param>
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public void Product(double a, Sparse<double> b, double[] accumulate)
         {
             if (a == 0)
@@ -298,48 +314,20 @@ namespace Accord.Statistics.Kernels
                 accumulate[b.Indices[j]] += a * b.Values[j];
         }
 
-        /// <summary>
-        /// Elementwise multiplication of scalar a and vector b, storing in result.
-        /// </summary>
-        /// <param name="a">The scalar to be multiplied.</param>
-        /// <param name="b">The vector to be multiplied.</param>
-        /// <param name="accumulate">An array to store the result.</param>
-        public void Product(double a, Sparse<double> b, Sparse<double> accumulate)
-        {
-            // TODO: Move those implementations to extension methods in the Sparse class.
-
-            if (a == 0 || b.Length == 0)
-                return;
-
-            int n = accumulate.Indices.Length;
-            bool seq = true;
-            for (int i = 0; i < accumulate.Indices.Length; i++)
-            {
-                if (accumulate.Indices[i] != i)
-                {
-                    seq = false;
-                    break;
-                }
-            }
-
-            int m = b.Indices.Length;
-
-            int max = Math.Max(accumulate.Indices[n - 1], b.Indices[m - 1]);
-
-            if (!seq || accumulate.Indices[n - 1] < b.Indices[m - 1])
-            {
-                accumulate.Values = accumulate.ToDense(max + 1);
-                accumulate.Indices = Vector.Range(max + 1);
-            }
-
-            Accord.Diagnostics.Debug.Assert(b.Indices.Length == b.Values.Length);
-
-            for (int j = 0; j < b.Indices.Length; j++)
-            {
-                int i = b.Indices[j];
-                accumulate.Values[i] += a * b.Values[j];
-            }
-        }
+        ///// <summary>
+        ///// Elementwise multiplication of scalar a and vector b, storing in result.
+        ///// </summary>
+        ///// <param name="a">The scalar to be multiplied.</param>
+        ///// <param name="b">The vector to be multiplied.</param>
+        ///// <param name="accumulate">An array to store the result.</param>
+        //public void Product(double a, Sparse<double> b, Sparse<double> accumulate)
+        //{
+        //    if (a == 0)
+        //        return;
+            
+        //    for (int j = 0; j < b.Indices.Length; j++)
+        //        accumulate.Values[b.Indices[j]] += a * b.Values[j];
+        //}
 
         /// <summary>
         /// Compress a set of support vectors and weights into a single
@@ -384,13 +372,23 @@ namespace Accord.Statistics.Kernels
         }
 
         /// <summary>
-        ///   Creates an input vector from the given double values.
+        ///   Creates an input vector with the given dimensions.
         /// </summary>
         /// 
+        public double[] CreateVector(int dimensions)
+        {
+            return new double[dimensions];
+        }
+
         Sparse<double> ILinear<Sparse<double>>.CreateVector(double[] values)
         {
             return Accord.Math.Sparse.FromDense(values);
         }
+
+        //Sparse<double> ILinear<Sparse<double>>.CreateVector(int dimensions)
+        //{
+        //    return Accord.Math.Sparse.FromDense(new double[dimensions], removeZeros: false);
+        //}
 
         /// <summary>
         ///   Elementwise multiplication of vector a and vector b, accumulating in result.
@@ -400,6 +398,9 @@ namespace Accord.Statistics.Kernels
         /// <param name="b">The vector to be multiplied.</param>
         /// <param name="accumulate">An array to store the result.</param>
         /// 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public void Product(double[] a, Sparse<double> b, double[] accumulate)
         {
             for (int j = 0; j < b.Indices.Length; j++)
