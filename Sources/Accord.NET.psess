@@ -3,7 +3,7 @@
   <Options>
     <Solution>Accord.NET.sln</Solution>
     <CollectionMethod>Instrumentation</CollectionMethod>
-    <AllocationMethod>Life</AllocationMethod>
+    <AllocationMethod>None</AllocationMethod>
     <Reportname>..\Performance\Report.vsp</Reportname>
     <AddReport>true</AddReport>
     <ResourceBasedAnalysisSelected>true</ResourceBasedAnalysisSelected>
@@ -217,36 +217,6 @@
       <ProjRef>{A177A90C-8207-466A-AF70-F2B8452A42AC}|Accord.Core\Accord.Core.csproj</ProjRef>
       <ProjPath>Accord.Core\Accord.Core.csproj</ProjPath>
       <ProjName>Accord.Core</ProjName>
-    </ProjBinary>
-    <ProjBinary>
-      <Path>Accord.Datasets\obj\NET45\Accord.DataSets.dll</Path>
-      <ArgumentTimestamp>01/01/0001 00:00:00</ArgumentTimestamp>
-      <Instrument>false</Instrument>
-      <Sample>true</Sample>
-      <ExternalWebsite>false</ExternalWebsite>
-      <InteractionProfilingEnabled>false</InteractionProfilingEnabled>
-      <IsLocalJavascript>false</IsLocalJavascript>
-      <IsWindowsStoreApp>false</IsWindowsStoreApp>
-      <IsWWA>false</IsWWA>
-      <LaunchProject>true</LaunchProject>
-      <OverrideProjectSettings>false</OverrideProjectSettings>
-      <LaunchMethod>Executable</LaunchMethod>
-      <StartupDirectory>..\Release\net45\</StartupDirectory>
-      <Arguments>
-      </Arguments>
-      <NetAppHost>IIS</NetAppHost>
-      <NetBrowser>InternetExplorer</NetBrowser>
-      <ExcludeSmallFuncs>true</ExcludeSmallFuncs>
-      <JScriptProfilingEnabled>false</JScriptProfilingEnabled>
-      <PreinstrumentEvent>
-        <InstrEventExclude>false</InstrEventExclude>
-      </PreinstrumentEvent>
-      <PostinstrumentEvent>
-        <InstrEventExclude>false</InstrEventExclude>
-      </PostinstrumentEvent>
-      <ProjRef>{F11A77C5-00B3-4921-ACF5-4728F6576EFD}|Accord.Datasets\Accord.Datasets.csproj</ProjRef>
-      <ProjPath>Accord.Datasets\Accord.DataSets.csproj</ProjPath>
-      <ProjName>Accord.DataSets</ProjName>
     </ProjBinary>
     <ProjBinary>
       <Path>Accord.Fuzzy\obj\NET45\Accord.Fuzzy.dll</Path>
@@ -602,8 +572,8 @@
       <LaunchProject>true</LaunchProject>
       <OverrideProjectSettings>false</OverrideProjectSettings>
       <LaunchMethod>Executable</LaunchMethod>
-      <ExecutablePath>..\Unit Tests\bin\Release\net45\Accord.Perf.MachineLearning.exe</ExecutablePath>
-      <StartupDirectory>..\Unit Tests\bin\Release\net45\</StartupDirectory>
+      <ExecutablePath>..\Performance\bin\Release\net45\Accord.Perf.MachineLearning.exe</ExecutablePath>
+      <StartupDirectory>..\Performance\bin\Release\net45\</StartupDirectory>
       <Arguments>
       </Arguments>
       <NetAppHost>IIS</NetAppHost>
@@ -875,7 +845,7 @@
     <Binary>
       <Path>..\Externals\SharpZipLib\lib\20\ICSharpCode.SharpZipLib.dll</Path>
       <ArgumentTimestamp>01/01/0001 00:00:00</ArgumentTimestamp>
-      <Instrument>false</Instrument>
+      <Instrument>true</Instrument>
       <Sample>true</Sample>
       <ExternalWebsite>false</ExternalWebsite>
       <InteractionProfilingEnabled>false</InteractionProfilingEnabled>
@@ -896,12 +866,37 @@
         <InstrEventExclude>false</InstrEventExclude>
       </PostinstrumentEvent>
     </Binary>
+    <ProjBinary>
+      <Path>Accord.Datasets\obj\NET45\Accord.DataSets.dll</Path>
+      <ArgumentTimestamp>01/01/0001 00:00:00</ArgumentTimestamp>
+      <Instrument>true</Instrument>
+      <Sample>true</Sample>
+      <ExternalWebsite>false</ExternalWebsite>
+      <InteractionProfilingEnabled>false</InteractionProfilingEnabled>
+      <IsLocalJavascript>false</IsLocalJavascript>
+      <IsWindowsStoreApp>false</IsWindowsStoreApp>
+      <IsWWA>false</IsWWA>
+      <LaunchProject>true</LaunchProject>
+      <OverrideProjectSettings>false</OverrideProjectSettings>
+      <LaunchMethod>Executable</LaunchMethod>
+      <StartupDirectory>..\Release\net45\</StartupDirectory>
+      <Arguments>
+      </Arguments>
+      <NetAppHost>IIS</NetAppHost>
+      <NetBrowser>InternetExplorer</NetBrowser>
+      <ExcludeSmallFuncs>true</ExcludeSmallFuncs>
+      <JScriptProfilingEnabled>false</JScriptProfilingEnabled>
+      <PreinstrumentEvent>
+        <InstrEventExclude>false</InstrEventExclude>
+      </PreinstrumentEvent>
+      <PostinstrumentEvent>
+        <InstrEventExclude>false</InstrEventExclude>
+      </PostinstrumentEvent>
+      <ProjRef>{F11A77C5-00B3-4921-ACF5-4728F6576EFD}|Accord.Datasets\Accord.DataSets.csproj</ProjRef>
+      <ProjPath>Accord.Datasets\Accord.DataSets.csproj</ProjPath>
+      <ProjName>Accord.DataSets</ProjName>
+    </ProjBinary>
   </Binaries>
-  <Reports>
-    <Report>
-      <Path>..\Performance\Report170115(10).vsp</Path>
-    </Report>
-  </Reports>
   <Launches>
     <ProjBinary>
       <Path>:PB:{1D82508D-DE4D-4696-AE0F-163A52B11278}|..\Performance\Accord.Perf.MachineLearning\Accord.Perf.MachineLearning.csproj</Path>

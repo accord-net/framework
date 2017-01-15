@@ -186,7 +186,7 @@ namespace Accord.MachineLearning
             if (Model == null)
             {
                 int numberOfInputs = SupportVectorLearningHelper.GetNumberOfInputs(new Linear(), x);
-                int numberOfClasses = y[0].Length;
+                int numberOfClasses = y.Columns();
                 Model = Create(numberOfInputs, numberOfClasses);
             }
 
@@ -230,6 +230,7 @@ namespace Accord.MachineLearning
 
             // We will start the binary sub-problem
             var args = new SubproblemEventArgs(i, -i);
+            args.Maximum = total;
             OnSubproblemStarted(args);
 
             // Retrieve the associated machine

@@ -144,6 +144,38 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="P:Accord.MachineLearning.ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <param name="result">An array where the scores will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>A class-label that best described <paramref name="input" /> according
+        /// to this classifier.</returns>
+        public override int[] Decide(TInput[] input, int[] result)
+        {
+            for (int i = 0; i < input.Length; i++)
+            {
+                TInput x = input[i];
+                int imax = 0;
+                double max = Double.NegativeInfinity;
+                for (int j = 0; j < models.Length; j++)
+                {
+                    double output = models[j].Score(x);
+                    if (output > max)
+                    {
+                        max = output;
+                        imax = j;
+                    }
+                }
+
+                result[i] = imax;
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Computes whether a class label applies to an <paramref name="input" /> vector.
         /// </summary>
         /// <param name="input">The input vectors that should be classified as

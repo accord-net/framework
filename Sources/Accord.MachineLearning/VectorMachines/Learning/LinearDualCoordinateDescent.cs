@@ -418,7 +418,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         {
             TInput[] x = Inputs;
             int samples = Inputs.Length;
-            int dimensions = Kernel.GetLength(x);
+            TKernel kernel = Kernel;
+            int dimensions = kernel.GetLength(x);
             this.alpha = new double[samples];
             this.weights = new double[dimensions];
             double[] w = weights;
@@ -470,8 +471,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             for (int i = 0; i < x.Length; i++)
             {
-                QD[i] = 1 + diag[i] + Kernel.Function(x[i], x[i]);
-                Kernel.Product(y[i] * alpha[i], x[i], accumulate: w);
+                QD[i] = 1 + diag[i] + kernel.Function(x[i], x[i]);
+                kernel.Product(y[i] * alpha[i], x[i], accumulate: w);
                 bias += y[i] * alpha[i];
 
                 index[i] = i;
@@ -499,7 +500,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                     int i = index[s];
                     int yi = y[i];
 
-                    double G = bias + Kernel.Function(w, x[i]);
+                    double G = bias + kernel.Function(w, x[i]);
 
                     G = G * yi - 1;
 
@@ -559,7 +560,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
                         double d = (alpha[i] - alpha_old) * yi;
 
-                        Kernel.Product(d, x[i], accumulate: w);
+                        kernel.Product(d, x[i], accumulate: w);
                         bias += d;
                     }
                 }
@@ -601,7 +602,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
             Model.Weights = new double[] { 1.0 };
-            Model.SupportVectors = new[] { Kernel.CreateVector(w) };
+            Model.SupportVectors = new[] { kernel.CreateVector(w) };
             Model.Threshold = bias;
         }
 

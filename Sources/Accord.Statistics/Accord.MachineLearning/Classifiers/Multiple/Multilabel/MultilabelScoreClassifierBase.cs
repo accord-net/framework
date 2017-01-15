@@ -449,7 +449,7 @@ namespace Accord.MachineLearning
         /// A class-label that best described <paramref name="input" /> according
         /// to this classifier.
         /// </returns>
-        public int[] Decide(TInput[] input, int[] result)
+        public virtual int[] Decide(TInput[] input, int[] result)
         {
             var t = (IClassifier<TInput, int>)this;
             for (int i = 0; i < input.Length; i++)

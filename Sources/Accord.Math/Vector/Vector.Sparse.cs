@@ -108,7 +108,7 @@ namespace Accord.Math
                 {
                     i++;
                 }
-                else if (posx > posy)
+                else // if (posx > posy)
                 {
                     j++;
                 }

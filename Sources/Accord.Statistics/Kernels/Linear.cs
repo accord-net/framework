@@ -262,6 +262,10 @@ namespace Accord.Statistics.Kernels
         /// <returns>
         /// Dot product in feature (kernel) space.
         /// </returns>
+        /// 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public double Function(Sparse<double> x, Sparse<double> y)
         {
             return x.Dot(y) + constant;
@@ -276,6 +280,9 @@ namespace Accord.Statistics.Kernels
         /// Dot product in feature (kernel) space.
         /// </returns>
         /// 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public double Function(double[] y, Sparse<double> x)
         {
             return x.Dot(y) + constant;

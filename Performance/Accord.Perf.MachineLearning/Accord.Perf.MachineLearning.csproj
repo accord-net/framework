@@ -30,33 +30,33 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Performance\bin\</OutputPath>
+    <OutputPath>bin</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <NoWarn>0612, 0618</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net35\</OutputPath>
+    <OutputPath>$(SolutionDir)..\Performance\bin\Release\net35\</OutputPath>
     <DefineConstants>TRACE;NET35</DefineConstants>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net40\</OutputPath>
+    <OutputPath>$(SolutionDir)..\Performance\bin\Release\net40\</OutputPath>
     <DefineConstants>TRACE;NET40</DefineConstants>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET45|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net45\</OutputPath>
+    <OutputPath>$(SolutionDir)..\Performance\bin\Release\net45\</OutputPath>
     <DefineConstants>TRACE;NET45</DefineConstants>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET46|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net46\</OutputPath>
+    <OutputPath>$(SolutionDir)..\Performance\bin\Release\net46\</OutputPath>
     <DefineConstants>TRACE;NET46</DefineConstants>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\mono\</OutputPath>
+    <OutputPath>$(SolutionDir)..\Performance\bin\Release\mono\</OutputPath>
     <DefineConstants>TRACE;MONO</DefineConstants>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <NoWarn>0612, 0618</NoWarn>
