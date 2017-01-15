@@ -30,10 +30,10 @@
     <file src="..\..\Release\net40\Accord.Imaging.dll" target="lib\net40\Accord.Imaging.dll" />
     <file src="..\..\Release\net40\Accord.Imaging.xml" target="lib\net40\Accord.Imaging.xml" />
 
-    <file src="..\..\Release\net45\Accord.Imaging.dll" target="lib\net452\Accord.Imaging.dll" />
-    <file src="..\..\Release\net45\Accord.Imaging.xml" target="lib\net452\Accord.Imaging.xml" />
+    <file src="..\..\Release\net45\Accord.Imaging.dll" target="lib\net45\Accord.Imaging.dll" />
+    <file src="..\..\Release\net45\Accord.Imaging.xml" target="lib\net45\Accord.Imaging.xml" />
 
-    <file src="..\..\Release\net46\Accord.Imaging.dll" target="lib\net461\Accord.Imaging.dll" />
-    <file src="..\..\Release\net46\Accord.Imaging.xml" target="lib\net461\Accord.Imaging.xml" />
+    <file src="..\..\Release\net46\Accord.Imaging.dll" target="lib\net46\Accord.Imaging.dll" />
+    <file src="..\..\Release\net46\Accord.Imaging.xml" target="lib\net46\Accord.Imaging.xml" />
   </files>
 </package>

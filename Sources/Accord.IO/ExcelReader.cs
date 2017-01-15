@@ -359,21 +359,4 @@ namespace Accord.IO
 
     }
 
-
-#if NET35
-    internal static class Extensions
-    {
-
-        internal static void CopyTo(this Stream input, Stream output)
-        {
-            byte[] buffer = new byte[16 * 1024]; 
-
-            int bytesRead;
-            while ((bytesRead = input.Read(buffer, 0, buffer.Length)) > 0)
-            {
-                output.Write(buffer, 0, bytesRead);
-            }
-        }
-    }
-#endif
 }

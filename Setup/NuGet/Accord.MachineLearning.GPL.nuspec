@@ -29,10 +29,10 @@
     <file src="..\..\Release\net40\GPL\Accord.MachineLearning.GPL.dll" target="lib\net40\Accord.MachineLearning.GPL.dll" />
     <file src="..\..\Release\net40\GPL\Accord.MachineLearning.GPL.xml" target="lib\net40\Accord.MachineLearning.GPL.xml" />
 
-    <file src="..\..\Release\net45\GPL\Accord.MachineLearning.GPL.dll" target="lib\net452\Accord.MachineLearning.GPL.dll" />
-    <file src="..\..\Release\net45\GPL\Accord.MachineLearning.GPL.xml" target="lib\net452\Accord.MachineLearning.GPL.xml" />
+    <file src="..\..\Release\net45\GPL\Accord.MachineLearning.GPL.dll" target="lib\net45\Accord.MachineLearning.GPL.dll" />
+    <file src="..\..\Release\net45\GPL\Accord.MachineLearning.GPL.xml" target="lib\net45\Accord.MachineLearning.GPL.xml" />
 	
-	<file src="..\..\Release\net46\GPL\Accord.MachineLearning.GPL.dll" target="lib\net461\Accord.MachineLearning.GPL.dll" />
-    <file src="..\..\Release\net46\GPL\Accord.MachineLearning.GPL.xml" target="lib\net461\Accord.MachineLearning.GPL.xml" />
+	<file src="..\..\Release\net46\GPL\Accord.MachineLearning.GPL.dll" target="lib\net46\Accord.MachineLearning.GPL.dll" />
+    <file src="..\..\Release\net46\GPL\Accord.MachineLearning.GPL.xml" target="lib\net46\Accord.MachineLearning.GPL.xml" />
   </files>
 </package>

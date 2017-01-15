@@ -31,14 +31,14 @@
     <file src="..\..\Release\net40\Accord.Math.Core.dll" target="lib\net40\Accord.Math.Core.dll" />
     <file src="..\..\Release\net40\Accord.Math.Core.xml" target="lib\net40\Accord.Math.Core.xml" />
 
-    <file src="..\..\Release\net45\Accord.Math.dll"      target="lib\net452\Accord.Math.dll" />
-    <file src="..\..\Release\net45\Accord.Math.xml"      target="lib\net452\Accord.Math.xml" />
-    <file src="..\..\Release\net45\Accord.Math.Core.dll" target="lib\net452\Accord.Math.Core.dll" />
-    <file src="..\..\Release\net45\Accord.Math.Core.xml" target="lib\net452\Accord.Math.Core.xml" />
+    <file src="..\..\Release\net45\Accord.Math.dll"      target="lib\net45\Accord.Math.dll" />
+    <file src="..\..\Release\net45\Accord.Math.xml"      target="lib\net45\Accord.Math.xml" />
+    <file src="..\..\Release\net45\Accord.Math.Core.dll" target="lib\net45\Accord.Math.Core.dll" />
+    <file src="..\..\Release\net45\Accord.Math.Core.xml" target="lib\net45\Accord.Math.Core.xml" />
 	
-	<file src="..\..\Release\net46\Accord.Math.dll"      target="lib\net461\Accord.Math.dll" />
-    <file src="..\..\Release\net46\Accord.Math.xml"      target="lib\net461\Accord.Math.xml" />
-    <file src="..\..\Release\net46\Accord.Math.Core.dll" target="lib\net461\Accord.Math.Core.dll" />
-    <file src="..\..\Release\net46\Accord.Math.Core.xml" target="lib\net461\Accord.Math.Core.xml" />
+	<file src="..\..\Release\net46\Accord.Math.dll"      target="lib\net46\Accord.Math.dll" />
+    <file src="..\..\Release\net46\Accord.Math.xml"      target="lib\net46\Accord.Math.xml" />
+    <file src="..\..\Release\net46\Accord.Math.Core.dll" target="lib\net46\Accord.Math.Core.dll" />
+    <file src="..\..\Release\net46\Accord.Math.Core.xml" target="lib\net46\Accord.Math.Core.xml" />
   </files>
 </package>

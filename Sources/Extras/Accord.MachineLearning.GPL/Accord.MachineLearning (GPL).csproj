@@ -4,79 +4,41 @@
     <ProjectGuid>{6DD1A48C-D7A8-4B39-9C06-5A71FEEC70B9}</ProjectGuid>
     <RootNamespace>Accord.MachineLearning</RootNamespace>
     <AssemblyName>Accord.MachineLearning.GPL</AssemblyName>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <MapFileExtensions>true</MapFileExtensions>
-    <CodeAnalysisRuleSet>..\..\Accord.NET.ruleset</CodeAnalysisRuleSet>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <FileAlignment>4096</FileAlignment>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\Accord.NET.targets" />  
+  <PropertyGroup>
+    <OutputPath>$(SolutionDir)..\Release\$(Configuration)\GPL</OutputPath>
+    <DocumentationFile>$(SolutionDir)..\Release\$(Configuration)\GPL\$(AssemblyName).XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\$(Configuration)\GPL\$(AssemblyName).dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <OutputPath>$(SolutionDir)..\Debug\GPL\</OutputPath>
-    <DebugType>Full</DebugType>
-    <Optimize>False</Optimize>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
-    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Release\net35\GPL\</OutputPath>
-    <DefineConstants>TRACE;NET35</DefineConstants>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-    <DocumentationFile>$(SolutionDir)..\Release\net35\GPL\Accord.MachineLearning.GPL.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\GPL\Accord.MachineLearning.GPL.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Release\net40\GPL\</OutputPath>
-    <DefineConstants>TRACE;NET40</DefineConstants>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-	<RunCodeAnalysis>false</RunCodeAnalysis>
-    <DocumentationFile>$(SolutionDir)..\Release\net40\GPL\Accord.MachineLearning.GPL.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\GPL\Accord.MachineLearning.GPL.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
-    <OutputPath>$(SolutionDir)..\Release\net45\GPL\</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)..\Release\net45\GPL\Accord.MachineLearning.GPL.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\GPL\Accord.MachineLearning.GPL.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <NoWarn>0612, 0618</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET46|AnyCPU'">
-    <OutputPath>$(SolutionDir)..\Release\net46\GPL\</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET46</DefineConstants>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)..\Release\net46\GPL\Accord.MachineLearning.GPL.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net46\GPL\Accord.MachineLearning.GPL.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <NoWarn>0612, 0618</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono|AnyCPU'">
-    <OutputPath>$(SolutionDir)..\Release\mono\GPL\</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;MONO</DefineConstants>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)..\Release\mono\GPL\Accord.MachineLearning.GPL.XML</DocumentationFile>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
-    <NoWarn>0612, 0618</NoWarn>
-  </PropertyGroup>
+		<DebugType>Full</DebugType>
+		<Optimize>False</Optimize>
+		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<OutputPath>$(SolutionDir)..\Debug\GPL</OutputPath>
+		<DocumentationFile></DocumentationFile>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
+		<DefineConstants>TRACE;NET35</DefineConstants>
+		<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
+		<DefineConstants>TRACE;NET40</DefineConstants>
+		<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net45|AnyCPU'">
+		<DefineConstants>TRACE;NET45</DefineConstants>
+		<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net46|AnyCPU'">
+		<DefineConstants>TRACE;NET46</DefineConstants>
+		<TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
+		<DefineConstants>TRACE;MONO</DefineConstants>
+		<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+	</PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>

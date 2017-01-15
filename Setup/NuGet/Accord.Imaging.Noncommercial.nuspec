@@ -28,10 +28,10 @@
     <file src="..\..\Release\net40\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net40\Accord.Imaging.Noncommercial.dll" />
     <file src="..\..\Release\net40\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net40\Accord.Imaging.Noncommercial.xml" />
 
-    <file src="..\..\Release\net45\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net452\Accord.Imaging.Noncommercial.dll" />
-    <file src="..\..\Release\net45\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net452\Accord.Imaging.Noncommercial.xml" />
+    <file src="..\..\Release\net45\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net45\Accord.Imaging.Noncommercial.dll" />
+    <file src="..\..\Release\net45\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net45\Accord.Imaging.Noncommercial.xml" />
 	
-	<file src="..\..\Release\net46\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net461\Accord.Imaging.Noncommercial.dll" />
-    <file src="..\..\Release\net46\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net461\Accord.Imaging.Noncommercial.xml" />
+	<file src="..\..\Release\net46\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net46\Accord.Imaging.Noncommercial.dll" />
+    <file src="..\..\Release\net46\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net46\Accord.Imaging.Noncommercial.xml" />
   </files>
 </package>

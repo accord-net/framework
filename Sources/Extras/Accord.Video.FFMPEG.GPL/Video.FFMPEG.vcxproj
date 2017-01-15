@@ -5,19 +5,19 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="NET35|Win32">
+    <ProjectConfiguration Include="net35|Win32">
       <Configuration>NET35</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="NET40|Win32">
+    <ProjectConfiguration Include="net40|Win32">
       <Configuration>NET40</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="NET45|Win32">
+    <ProjectConfiguration Include="net45|Win32">
       <Configuration>NET45</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="NET46|Win32">
+    <ProjectConfiguration Include="net46|Win32">
       <Configuration>NET46</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
@@ -28,7 +28,7 @@
     <ProjectName>Accord.Video.FFMPEG (GPL)</ProjectName>
     <Keyword>ManagedCProj</Keyword>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>true</CLRSupport>
     <PlatformToolset>v140</PlatformToolset>
@@ -39,22 +39,22 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NET35|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='net35|Win32'" Label="Configuration">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NET40|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='net40|Win32'" Label="Configuration">
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NET45|Win32'" Label="Configuration">
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='net45|Win32'" Label="Configuration">
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NET46|Win32'" Label="Configuration">
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='net46|Win32'" Label="Configuration">
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -63,11 +63,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)..\Debug\GPL\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='NET35|Win32'">$(SolutionDir)..\Release\net35\GPL\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='NET40|Win32'">$(SolutionDir)..\Release\net40\GPL\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='NET45|Win32'">$(SolutionDir)..\Release\net45\GPL\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='NET46|Win32'">$(SolutionDir)..\Release\net46\GPL\</OutDir>
+    <OutDir Condition="'$(Configuration)'=='Debug'">$(SolutionDir)..\Debug\GPL\</OutDir>
+    <OutDir Condition="'$(Configuration)'!='Debug'">$(SolutionDir)..\Release\$(Configuration)\GPL\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -107,32 +104,14 @@
       <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='NET35|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)'!='Debug'">
     <ClCompile>
       <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='NET40|Win32'">
-    <ClCompile>
-      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
-      <WarningLevel>Level3</WarningLevel>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='NET45|Win32'">
-    <ClCompile>
-      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
-      <WarningLevel>Level3</WarningLevel>
-    </ClCompile>
-    <Link>
+	<Link>
       <Profile>true</Profile>
     </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='NET46|Win32'">
-    <ClCompile>
-      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
-      <WarningLevel>Level3</WarningLevel>
-    </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Reference Include="System">
@@ -153,10 +132,10 @@
     <ClCompile Include="AudioCodec.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET35|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET40|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET45|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET46|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='net35|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='net40|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='net45|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='net46|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="VersionInfo.cpp" />
     <ClCompile Include="VideoCodec.cpp" />
