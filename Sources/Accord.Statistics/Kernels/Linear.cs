@@ -25,6 +25,7 @@ namespace Accord.Statistics.Kernels
     using Accord.Math;
     using Accord.Math.Distances;
     using System;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Linear Kernel.

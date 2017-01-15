@@ -266,5 +266,15 @@ namespace Accord.MachineLearning
         /// 
         double[][] Scores(TInput[] input, double[][] result);
 
+
+        /// <summary>
+        /// Views this instance as a multi-class score-based classifier.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// This instance seen as an <see cref="IClassifier{TInput, TClasses}" />.
+        /// </returns>
+        /// 
+        IClassifier<TInput, int> ToMulticlass();
     }
 }

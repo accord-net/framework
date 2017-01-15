@@ -1333,6 +1333,16 @@ namespace Accord.MachineLearning
             return (IMultilabelLikelihoodClassifier<TInput>)this;
         }
 
-    }
+        /// <summary>
+        /// Views this instance as a multi-class generative classifier.
+        /// </summary>
+        /// <returns>
+        /// This instance seen as an <see cref="IMulticlassLikelihoodClassifier{TInput}" />.
+        /// </returns>
+        new public IMulticlassLikelihoodClassifier<TInput> ToMulticlass()
+        {
+            return (IMulticlassLikelihoodClassifier<TInput>)this;
+        }
 
+    }
 }

@@ -425,5 +425,15 @@ namespace Accord.MachineLearning
         /// 
         double[][] Probabilities(TInput[] input, double[][] result);
 
+
+        ///// <summary>
+        ///// Views this instance as a multi-class generative classifier.
+        ///// </summary>
+        ///// 
+        ///// <returns>
+        ///// This instance seen as an <see cref="IMulticlassLikelihoodClassifier{TInput}" />.
+        ///// </returns>
+        ///// 
+        //new IMulticlassLikelihoodClassifier<TInput> ToMulticlass();
     }
 }

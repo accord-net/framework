@@ -688,5 +688,10 @@ namespace Accord.MachineLearning
         {
             return (IMultilabelScoreClassifier<TInput>)this;
         }
+
+        IClassifier<TInput, int> IMultilabelScoreClassifier<TInput>.ToMulticlass()
+        {
+            return (IClassifier<TInput, int>)this;
+        }
     }
 }
