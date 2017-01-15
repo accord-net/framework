@@ -115,10 +115,13 @@ namespace Accord
         {
             if (disposing)
             {
-                lock (lookupTable)
+                if (lookupTable != null)
                 {
-                    if (lookupTable.ContainsKey(this))
-                        lookupTable.Remove(this);
+                    lock (lookupTable)
+                    {
+                        if (lookupTable.ContainsKey(this))
+                            lookupTable.Remove(this);
+                    }
                 }
             }
         }
