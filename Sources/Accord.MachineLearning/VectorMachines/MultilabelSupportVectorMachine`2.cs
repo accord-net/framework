@@ -299,16 +299,15 @@ namespace Accord.MachineLearning.VectorMachines
             // Get the machine for this problem
             var machine = Models[index];
 
-            // Get the vectors shared among all machines
-            int[] vectors = cache.Vectors[index];
-            double[] values = cache.Products;
-
             if (machine.SupportVectors.Length == 1)
             {
                 // For linear machines, computation is simpler
                 return machine.Threshold + machine.Weights[0] * machine.Kernel.Function(machine.SupportVectors[0], input);
             }
 
+            // Get the vectors shared among all machines
+            int[] vectors = cache.Vectors[index];
+            double[] values = cache.Products;
             double sum = machine.Threshold;
 
             // For each support vector in the machine
@@ -441,7 +440,50 @@ namespace Accord.MachineLearning.VectorMachines
             return result;
         }
 
+        /// <summary>
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and a given
+        /// <paramref name="classIndex" />.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="classIndex">The index of the class whose score will be computed.</param>
+        /// <returns>System.Double.</returns>
+        public override double Score(TInput input, int classIndex)
+        {
+            return Models[classIndex].Score(input);
+        }
 
+        /// <summary>
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="P:Accord.MachineLearning.ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <param name="result">An array where the scores will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>A class-label that best described <paramref name="input" /> according
+        /// to this classifier.</returns>
+        public override int[] Decide(TInput[] input, int[] result)
+        {
+            Parallel.For(0, Models.Length, ParallelOptions, i =>
+            {
+                TInput x = input[i];
+                int imax = 0;
+                double max = Double.NegativeInfinity;
+                for (int j = 0; j < Models.Length; j++)
+                {
+                    double output = Models[j].Score(x);
+                    if (output > max)
+                    {
+                        max = output;
+                        imax = j;
+                    }
+                }
+
+                result[i] = imax;
+            });
+
+            return result;
+        }
 
         [OnDeserialized]
         private void onDeserialized(StreamingContext context)

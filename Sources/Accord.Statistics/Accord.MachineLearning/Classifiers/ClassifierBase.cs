@@ -83,7 +83,7 @@ namespace Accord.MachineLearning
         ///   to this classifier.
         /// </returns>
         /// 
-        public TClasses[] Decide(TInput[] input, TClasses[] result)
+        public virtual TClasses[] Decide(TInput[] input, TClasses[] result)
         {
             for (int i = 0; i < input.Length; i++)
                 result[i] = Decide(input[i]);

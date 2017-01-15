@@ -296,6 +296,35 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="P:Accord.MachineLearning.ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <param name="result">The location where to store the class-labels.</param>
+        /// <returns>A class-label that best described <paramref name="input" /> according
+        /// to this classifier.</returns>
+        public override int[] Decide(TInput[] input, int[] result)
+        {
+            if (method == MulticlassComputeMethod.Voting)
+            {
+                for (int i = 0; i < input.Length; i++)
+                    result[i] = DecideByVoting(input[i]);
+            }
+            else
+            {
+                if (Track)
+                    this.lastDecisionPath.Value = null;
+
+                Parallel.For(0, input.Length, options, i =>
+                {
+                    result[i] = DecideByElimination(input[i]);
+                });
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Computes a numerical score measuring the association between
         /// the given <paramref name="input" /> vector and each class.
         /// </summary>

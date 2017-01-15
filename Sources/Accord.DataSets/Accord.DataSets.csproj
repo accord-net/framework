@@ -55,7 +55,7 @@
     <Compile Include="News20.cs" />
     <Compile Include="MNIST.cs" />
     <Compile Include="Iris.cs" />
-    <Compile Include="Base\SparseDataset.cs" />
+    <Compile Include="Base\SparseDataSet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
