@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Math</RootNamespace>
     <AssemblyName>Accord.Math.Noncommercial</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\Accord.NET.targets" />  
+  <Import Project="$(SolutionDir)Accord.NET.targets" />  
   <PropertyGroup>
 	<OutputPath>$(SolutionDir)..\Release\$(Configuration)\Noncommercial</OutputPath>
 	<DocumentationFile>$(SolutionDir)..\Release\$(Configuration)\Noncommercial\$(AssemblyName).XML</DocumentationFile>

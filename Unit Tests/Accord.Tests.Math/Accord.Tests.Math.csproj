@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Tests.Math</RootNamespace>
     <AssemblyName>Accord.Tests.Math</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\..\Unit Tests\Accord.Tests.targets" /> 
+  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" /> 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>

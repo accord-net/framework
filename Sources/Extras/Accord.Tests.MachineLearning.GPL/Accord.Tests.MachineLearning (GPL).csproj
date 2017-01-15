@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Tests.Extras.MachineLearning.GPL</RootNamespace>
     <AssemblyName>Accord.Tests.Extras.MachineLearning.GPL</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\..\Unit Tests\Accord.Tests.targets" />  
+  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" />  
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
 		<DebugType>Full</DebugType>
 		<Optimize>False</Optimize>

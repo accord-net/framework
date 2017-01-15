@@ -5,7 +5,7 @@
     <RootNamespace>Accord.MachineLearning</RootNamespace>
     <AssemblyName>Accord.MachineLearning.GPL</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\Accord.NET.targets" />  
+  <Import Project="$(SolutionDir)Accord.NET.targets" />  
   <PropertyGroup>
     <OutputPath>$(SolutionDir)..\Release\$(Configuration)\GPL</OutputPath>
     <DocumentationFile>$(SolutionDir)..\Release\$(Configuration)\GPL\$(AssemblyName).XML</DocumentationFile>

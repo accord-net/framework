@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Tests.MachineLearning</RootNamespace>
     <AssemblyName>Accord.Tests.MachineLearning</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\..\Unit Tests\Accord.Tests.targets" /> 
+  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" /> 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -139,7 +139,7 @@
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.Datasets\Accord.DataSets.csproj">
+    <ProjectReference Include="..\..\Sources\Accord.DataSets\Accord.DataSets.csproj">
       <Project>{f11a77c5-00b3-4921-acf5-4728f6576efd}</Project>
       <Name>Accord.DataSets</Name>
     </ProjectReference>

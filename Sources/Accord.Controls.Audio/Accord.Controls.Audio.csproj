@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Controls.Audio</RootNamespace>
     <AssemblyName>Accord.Controls.Audio</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\Accord.NET.targets" />  
+  <Import Project="$(SolutionDir)Accord.NET.targets" />  
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
 		<DebugType>Full</DebugType>
 		<Optimize>False</Optimize>

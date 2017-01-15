@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Tests.Neuro</RootNamespace>
     <AssemblyName>Accord.Tests.Neuro</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\..\Unit Tests\Accord.Tests.targets" /> 
+  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" /> 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
