@@ -3,8 +3,8 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <ProjectGuid>{1D82508D-DE4D-4696-AE0F-163A52B11278}</ProjectGuid>
-    <RootNamespace>Accord.Performance.MachineLearning</RootNamespace>
-    <AssemblyName>Accord.Performance.MachineLearning</AssemblyName>
+    <RootNamespace>Accord.Perf.MachineLearning</RootNamespace>
+    <AssemblyName>Accord.Perf.MachineLearning</AssemblyName>
     <OutputType>Exe</OutputType>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -30,9 +30,10 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Debug\</OutputPath>
+    <OutputPath>..\..\Performance\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <NoWarn>0612, 0618</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
     <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net35\</OutputPath>
@@ -61,6 +62,10 @@
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Externals\SharpZipLib\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -77,15 +82,16 @@
   <ItemGroup>
     <None Include="Accord.snk" />
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core.csproj">
       <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>
       <Name>Accord.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.Datasets\Accord.Datasets.csproj">
+    <ProjectReference Include="..\..\Sources\Accord.Datasets\Accord.DataSets.csproj">
       <Project>{f11a77c5-00b3-4921-acf5-4728f6576efd}</Project>
-      <Name>Accord.Datasets</Name>
+      <Name>Accord.DataSets</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.IO\Accord.IO.csproj">
       <Project>{63184ebd-6b28-4066-aaee-5b99431e31f4}</Project>
