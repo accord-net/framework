@@ -2,9 +2,9 @@
 
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>Accord.Datasets</id>
+    <id>Accord.DataSets</id>
     <version>$version$</version>
-    <title>Accord.Datasets</title>
+    <title>Accord.DataSets</title>
     <authors>Accord.NET</authors>
     <owners>Accord.NET</owners>
     <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
@@ -24,16 +24,16 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\Release\net35\Accord.IO.dll" target="lib\net35\Accord.IO.dll" />
-    <file src="..\..\Release\net35\Accord.IO.xml" target="lib\net35\Accord.IO.xml" />
+    <file src="..\..\Release\net35\Accord.DataSets.dll" target="lib\net35\Accord.DataSets.dll" />
+    <file src="..\..\Release\net35\Accord.DataSets.xml" target="lib\net35\Accord.DataSets.xml" />
 
-    <file src="..\..\Release\net40\Accord.IO.dll" target="lib\net40\Accord.IO.dll" />
-    <file src="..\..\Release\net40\Accord.IO.xml" target="lib\net40\Accord.IO.xml" />
+    <file src="..\..\Release\net40\Accord.DataSets.dll" target="lib\net40\Accord.DataSets.dll" />
+    <file src="..\..\Release\net40\Accord.DataSets.xml" target="lib\net40\Accord.DataSets.xml" />
 
-    <file src="..\..\Release\net45\Accord.IO.dll" target="lib\net452\Accord.IO.dll" />
-    <file src="..\..\Release\net45\Accord.IO.xml" target="lib\net452\Accord.IO.xml" />
+    <file src="..\..\Release\net45\Accord.DataSets.dll" target="lib\net452\Accord.DataSets.dll" />
+    <file src="..\..\Release\net45\Accord.DataSets.xml" target="lib\net452\Accord.DataSets.xml" />
 	
-	<file src="..\..\Release\net46\Accord.IO.dll" target="lib\net461\Accord.IO.dll" />
-    <file src="..\..\Release\net46\Accord.IO.xml" target="lib\net461\Accord.IO.xml" />
+	<file src="..\..\Release\net46\Accord.DataSets.dll" target="lib\net461\Accord.DataSets.dll" />
+    <file src="..\..\Release\net46\Accord.DataSets.xml" target="lib\net461\Accord.DataSets.xml" />
   </files>
 </package>

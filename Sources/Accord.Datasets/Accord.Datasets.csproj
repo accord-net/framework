@@ -2,8 +2,8 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{F11A77C5-00B3-4921-ACF5-4728F6576EFD}</ProjectGuid>
-    <RootNamespace>Accord.Datasets</RootNamespace>
-    <AssemblyName>Accord.Datasets</AssemblyName>
+    <RootNamespace>Accord.DataSets</RootNamespace>
+    <AssemblyName>Accord.DataSets</AssemblyName>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -24,7 +24,6 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -57,7 +56,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
     <OutputPath>$(SolutionDir)..\Release\net45</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
+    <DefineConstants>TRACE;NET45</DefineConstants>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\net45\Accord.Datasets.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Accord.Datasets.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
@@ -68,19 +67,19 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\net46\Accord.Datasets.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net46\Accord.Datasets.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono|AnyCPU'">
     <OutputPath>$(SolutionDir)..\Release\mono</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;MONO</DefineConstants>
+    <DefineConstants>TRACE;MONO</DefineConstants>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\mono\Accord.Datasets.XML</DocumentationFile>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Externals\SharpZipLib\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

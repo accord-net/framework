@@ -20,9 +20,9 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Datasets
+namespace Accord.DataSets
 {
-    using Accord.Datasets.Base;
+    using Accord.DataSets.Base;
     using Accord.Math;
     using System;
 
@@ -37,21 +37,21 @@ namespace Accord.Datasets
     /// http://qwone.com/~jason/20Newsgroups/
     /// </remarks>
     /// 
-    /// <seealso cref="Accord.Datasets.MNIST" />
-    /// <seealso cref="Accord.Datasets.Iris" />
-    /// <seealso cref="Accord.Datasets.Base.SparseDataset" />
+    /// <seealso cref="Accord.DataSets.MNIST" />
+    /// <seealso cref="Accord.DataSets.Iris" />
+    /// <seealso cref="Accord.DataSets.Base.SparseDataSet" />
     /// 
-    public class News20 : SparseDataset
+    public class News20 : SparseDataSet
     {
         /// <summary>
         /// Gets the training set of the News20 dataset.
         /// </summary>
-        public Tuple<Sparse<double>[], double[]> Training;
+        public Tuple<Sparse<double>[], double[]> Training { get; private set; }
 
         /// <summary>
         /// Gets the testing set of the News20 dataset.
         /// </summary>
-        public Tuple<Sparse<double>[], double[]> Testing;
+        public Tuple<Sparse<double>[], double[]> Testing { get; private set; }
 
         /// <summary>
         ///   Downloads and prepares the News20 dataset.

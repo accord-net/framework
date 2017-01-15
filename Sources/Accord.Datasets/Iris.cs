@@ -20,9 +20,9 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Datasets
+namespace Accord.DataSets
 {
-    using Accord.Datasets.Base;
+    using Accord.DataSets.Base;
     using Accord.Math;
     using System;
 
@@ -58,16 +58,16 @@ namespace Accord.Datasets
     ///    </list></para>
     /// </remarks>
     /// 
-    /// <seealso cref="Accord.Datasets.MNIST" />
-    /// <seealso cref="Accord.Datasets.Base.SparseDataset" />
+    /// <seealso cref="Accord.DataSets.MNIST" />
+    /// <seealso cref="Accord.DataSets.Base.SparseDataSet" />
     /// 
-    public class Iris : SparseDataset
+    public class Iris : SparseDataSet
     {
         /// <summary>
         /// Gets the Iris dataset.
         /// </summary>
         /// 
-        public Tuple<Sparse<double>[], double[]> Training;
+        public Tuple<Sparse<double>[], double[]> Training { get; private set; }
 
         /// <summary>
         ///   Downloads and prepares the Iris dataset.

@@ -20,7 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Datasets.Base
+namespace Accord.DataSets.Base
 {
     using Accord.Math;
     using ICSharpCode.SharpZipLib.BZip2;
@@ -32,7 +32,7 @@ namespace Accord.Datasets.Base
     /// <summary>
     ///   Base class for sparse datasets that can be downloaded from LIBSVM website.
     /// </summary>
-    public abstract class SparseDataset
+    public abstract class SparseDataSet
     {
         /// <summary>
         /// Gets the path to the directory where the datasets will be stored.
@@ -43,13 +43,13 @@ namespace Accord.Datasets.Base
         public string Path { get; private set; }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="SparseDataset"/> class.
+        ///   Initializes a new instance of the <see cref="SparseDataSet"/> class.
         /// </summary>
         /// 
         /// <param name="path">The path where datasets will be stored. If null or empty, the dataset
         ///   will be saved on a subfolder called "data" in the current working directory.</param>
         /// 
-        public SparseDataset(string path)
+        public SparseDataSet(string path)
         {
             this.Path = path;
 

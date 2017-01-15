@@ -20,9 +20,9 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Datasets
+namespace Accord.DataSets
 {
-    using Accord.Datasets.Base;
+    using Accord.DataSets.Base;
     using Accord.Math;
     using System;
 
@@ -60,9 +60,9 @@ namespace Accord.Datasets
     ///    </list></para>
     /// </remarks>
     /// 
-    /// <seealso cref="Accord.Datasets.Base.SparseDataset" />
+    /// <seealso cref="Accord.DataSets.Base.SparseDataSet" />
     /// 
-    public class MNIST : SparseDataset
+    public class MNIST : SparseDataSet
     {
         /// <summary>
         /// Gets the training set of the MNIST dataset.
