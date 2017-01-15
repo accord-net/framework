@@ -63,8 +63,8 @@ namespace Accord.DataSets
         public News20(string path = null)
             : base(path)
         {
-            Training = Download("https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass/news20.bz2", "mnist.bz2");
-            Testing = Download("https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass/news20.bz2", "mnist.t.bz2");
+            Training = Download("https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass/news20.bz2");
+            Testing = Download("https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass/news20.t.bz2");
         }
         
     }

@@ -28,6 +28,7 @@ namespace Accord.DataSets.Base
     using System;
     using System.IO;
     using System.Net;
+    using ICSharpCode.SharpZipLib.GZip;
 
     /// <summary>
     ///   Base class for sparse datasets that can be downloaded from LIBSVM website.
@@ -64,42 +65,56 @@ namespace Accord.DataSets.Base
         /// </summary>
         /// 
         /// <param name="url">The URL where the dataset resides.</param>
-        /// <param name="name">The name of the file to store the dataset.</param>
         /// 
         /// <returns>System.Tuple&lt;Accord.Math.Sparse&lt;System.Double&gt;[], System.Double[]&gt;.</returns>
         /// 
-        protected Tuple<Sparse<double>[], double[]> Download(string url, string name)
+        protected Tuple<Sparse<double>[], double[]> Download(string url)
         {
-            string destination = System.IO.Path.Combine(Path, name);
+            string name = System.IO.Path.GetFileName(url);
+            string downloadedFileName = System.IO.Path.Combine(Path, name);
 
-            if (!File.Exists(destination))
+            if (!File.Exists(downloadedFileName))
             {
                 Directory.CreateDirectory(Path);
 
                 using (var client = new WebClient())
-                    client.DownloadFile(url, destination);
+                    client.DownloadFile(url, downloadedFileName);
             }
 
+            string uncompressedFileName;
 
-            if (url.EndsWith(".bz2"))
+            // If the file is compressed, decompress it to disk
+            if (downloadedFileName.EndsWith(".bz2"))
             {
-                using (FileStream compressedFile = new FileStream(destination, FileMode.Open))
-                using (Stream stream = new MemoryStream())
+                uncompressedFileName = downloadedFileName.Remove(downloadedFileName.Length - 4);
+                if (!File.Exists(uncompressedFileName))
                 {
-                    BZip2.Decompress(compressedFile, stream, false);
-                    stream.Seek(0, SeekOrigin.Begin);
-                    using (var reader = new SparseReader(stream))
-                        return reader.ReadSparseToEnd();
+                    using (FileStream compressedFile = new FileStream(downloadedFileName, FileMode.Open))
+                    using (FileStream uncompressedFile = new FileStream(uncompressedFileName, FileMode.CreateNew))
+                    {
+                        BZip2.Decompress(compressedFile, uncompressedFile, false);
+                    }
                 }
             }
-            else if (url.EndsWith(".gz"))
+            else if (downloadedFileName.EndsWith(".gz"))
             {
-                using (var compressedFile = new FileStream(destination, FileMode.Open))
-                using (var reader = new SparseReader(compressedFile))
-                    return reader.ReadSparseToEnd();
+                uncompressedFileName = downloadedFileName.Remove(downloadedFileName.Length - 3);
+                if (!File.Exists(uncompressedFileName))
+                {
+                    using (FileStream compressedFile = new FileStream(downloadedFileName, FileMode.Open))
+                    using (GZipOutputStream decompressedFile = new GZipOutputStream(compressedFile))
+                    using (FileStream uncompressedFile = new FileStream(uncompressedFileName, FileMode.CreateNew))
+                    {
+                        decompressedFile.CopyTo(uncompressedFile);
+                    }
+                }
+            }
+            else
+            {
+                uncompressedFileName = downloadedFileName;
             }
 
-            using (var reader = new SparseReader(destination))
+            using (var reader = new SparseReader(uncompressedFileName))
                 return reader.ReadSparseToEnd();
         }
     }

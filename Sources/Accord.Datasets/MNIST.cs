@@ -84,8 +84,8 @@ namespace Accord.DataSets
         public MNIST(string path = null)
             : base(path)
         {
-            Training = Download("https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass/mnist.bz2", "mnist.bz2");
-            Testing = Download("https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass/mnist.t.bz2", "mnist.t.bz2");
+            Training = Download("https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass/mnist.bz2");
+            Testing = Download("https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass/mnist.t.bz2");
         }
         
     }

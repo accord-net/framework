@@ -79,7 +79,7 @@ namespace Accord.DataSets
         public Iris(string path = null)
             : base(path)
         {
-            Training = Download("https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass/iris.scale", "iris.scale");
+            Training = Download("https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass/iris.scale");
         }
 
     }
