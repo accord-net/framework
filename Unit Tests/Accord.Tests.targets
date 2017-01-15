@@ -22,7 +22,7 @@
 		<AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
 		<NoWarn>0612, 0618</NoWarn>
 		
-		<OutputPath>$(SolutionDir)..\Unit Tests\bin\$(Configuration)</OutputPath>
+		<OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\$(Configuration)</OutputPath>
 	</PropertyGroup>  
 	
 	<!-- 
