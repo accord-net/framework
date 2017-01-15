@@ -163,7 +163,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Linux", "Linux", "{DB1D2E4F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Tests.Imaging (Noncommercial)", "Extras\Accord.Tests.Imaging.Noncommercial\Accord.Tests.Imaging (Noncommercial).csproj", "{DD62D03D-D646-4ABD-9F19-22C347523C88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.DataSets", "Accord.Datasets\Accord.DataSets.csproj", "{F11A77C5-00B3-4921-ACF5-4728F6576EFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.DataSets", "Accord.DataSets\Accord.DataSets.csproj", "{F11A77C5-00B3-4921-ACF5-4728F6576EFD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performance", "Performance", "{4D78973D-6B19-4792-B2D8-595EB8EFBC60}"
 EndProject
