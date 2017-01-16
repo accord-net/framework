@@ -56,6 +56,7 @@ namespace Accord.MachineLearning
     using System.Threading;
     using System.Threading.Tasks;
     using System.Runtime.Serialization;
+    using System.Runtime.CompilerServices;
 
 
     /// <summary>
@@ -313,12 +314,20 @@ namespace Accord.MachineLearning
             else
             {
                 if (Track)
-                    this.lastDecisionPath.Value = null;
-
-                Parallel.For(0, input.Length, options, i =>
                 {
-                    result[i] = DecideByElimination(input[i]);
-                });
+                    Parallel.For(0, input.Length - 1, options, i =>
+                    {
+                        result[i] = DecideByElimination(input[i]);
+                    });
+                    result[result.Length - 1] = DecideByElimination(input[input.Length - 1], this.lastDecisionPath.Value);
+                }
+                else
+                {
+                    Parallel.For(0, input.Length, options, i =>
+                    {
+                        result[i] = DecideByElimination(input[i]);
+                    });
+                }
             }
 
             return result;
@@ -367,12 +376,17 @@ namespace Accord.MachineLearning
 
 
 
-
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private int DecideByVoting(TInput input)
         {
             return DistanceByVoting(input, new double[NumberOfOutputs]).ArgMax();
         }
 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private int DecideByElimination(TInput input)
         {
             int i = NumberOfOutputs - 1;
@@ -386,9 +400,12 @@ namespace Accord.MachineLearning
                     i--; // j won, so we advance i
             }
 
-            return i + 1;
+            return i;
         }
 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private int DecideByElimination(TInput input, Decision[] path)
         {
             int i = NumberOfOutputs - 1;
@@ -413,7 +430,9 @@ namespace Accord.MachineLearning
             return i;
         }
 
-
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private double[] DistanceByElimination(TInput input, double[] result)
         {
             int i = NumberOfOutputs - 1;
@@ -450,6 +469,9 @@ namespace Accord.MachineLearning
             return result;
         }
 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private double[] DistanceByElimination(TInput input, double[] result, Decision[] path)
         {
             int i = NumberOfOutputs - 1;
@@ -489,6 +511,9 @@ namespace Accord.MachineLearning
             return result;
         }
 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private double[] DistanceByVoting(TInput input, double[] result)
         {
             Parallel.For(0, indices.Length, options, k =>

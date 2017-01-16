@@ -29,6 +29,7 @@ namespace Accord.MachineLearning.VectorMachines
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Runtime.CompilerServices;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading;
@@ -133,6 +134,9 @@ namespace Accord.MachineLearning.VectorMachines
         [NonSerialized]
         private ThreadLocal<Cache> vectorCache;
 
+        private int? cacheThreshold;
+
+
         /// <summary>
         ///   Gets or sets the kernel function used in all machines at once.
         /// </summary>
@@ -149,6 +153,20 @@ namespace Accord.MachineLearning.VectorMachines
         }
 
         /// <summary>
+        /// Gets or sets the minimum number of shared support vectors that a
+        /// machine should have for kernel evaluation caching to be enabled.
+        /// Default is 64.
+        /// </summary>
+        /// 
+        /// <value>The cache threshold.</value>
+        /// 
+        public int SupportVectorCache
+        {
+            get { return cacheThreshold.Value; }
+            set { cacheThreshold = value; }
+        }
+
+        /// <summary>
         ///   If the inner machines have a linear kernel, compresses
         ///   their support vectors into a single parameter vector for
         ///   each machine.
@@ -156,7 +174,7 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         public void Compress()
         {
-            foreach (var model in this)
+            foreach (KeyValuePair<ClassPair, TModel> model in this)
                 model.Value.Compress();
         }
 
@@ -176,6 +194,8 @@ namespace Accord.MachineLearning.VectorMachines
         {
             this.vectorCache = new ThreadLocal<Cache>(() => new Cache());
             this.sharedVectors = new Lazy<int[][][]>(computeSharedVectors, true);
+            if (this.cacheThreshold == null)
+                cacheThreshold = 64;
         }
 
 
@@ -260,7 +280,7 @@ namespace Accord.MachineLearning.VectorMachines
         private double distance(int a, int b, TInput input, Cache cache)
         {
             // Get the machine for this problem
-            var machine = Models[a - 1][b];
+            TModel machine = Models[a - 1][b];
 
             if (machine.SupportVectors.Length == 1)
             {
@@ -280,12 +300,14 @@ namespace Accord.MachineLearning.VectorMachines
             Parallel.For(0, sharedVectors.Length, ParallelOptions,
 
                 // Init
-                () => 0.0,
+                () => Tuple.Create(0.0, 0, 0),
 
                 // Map
-                (i, state, partialSum) =>
+                (i, state, partial) =>
                 {
                     double value;
+                    int hit = 0;
+                    int evaluated = 0;
 
                     // Check if it is a shared vector
                     int j = sharedVectors[i];
@@ -302,13 +324,13 @@ namespace Accord.MachineLearning.VectorMachines
                         {
                             // Yes, it has. Retrieve the value from the cache
                             value = cachedValues[j];
-                            Interlocked.Increment(ref cache.Hits);
+                            hit = 1;
                         }
                         else
                         {
                             // No, it has not. Compute and store the computed value in the cache
                             value = cachedValues[j] = machine.Kernel.Function(machine.SupportVectors[i], input);
-                            Interlocked.Increment(ref cache.Evaluations);
+                            evaluated = 1;
                         }
 
                         locks[j].Exit();
@@ -317,14 +339,25 @@ namespace Accord.MachineLearning.VectorMachines
                     {
                         // This vector is not shared by any other machine. No need to cache
                         value = machine.Kernel.Function(machine.SupportVectors[i], input);
-                        Interlocked.Increment(ref cache.Evaluations);
+                        evaluated = 1;
                     }
 
-                    return partialSum + machine.Weights[i] * value;
+                    return Tuple.Create(
+                        partial.Item1 + machine.Weights[i] * value,
+                        partial.Item2 + hit,
+                        partial.Item3 + evaluated);
                 },
 
                 // Reduce
-                (partialSum) => { lock (locks) sum += partialSum; }
+                (partial) =>
+                {
+                    lock (locks)
+                    {
+                        sum += partial.Item1;
+                        cache.Hits += partial.Item2;
+                        cache.Evaluations += partial.Item3;
+                    }
+                }
             );
 
 #if DEBUG
@@ -379,6 +412,30 @@ namespace Accord.MachineLearning.VectorMachines
         }
 
         /// <summary>
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="P:Accord.MachineLearning.ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <param name="result">The location where to store the class-labels.</param>
+        /// <returns>A class-label that best described <paramref name="input" /> according
+        /// to this classifier.</returns>
+        public override int[] Decide(TInput[] input, int[] result)
+        {
+            if (SupportVectorSharedCount <= cacheThreshold)
+                return base.Decide(input, result);
+
+            for (int i = 0; i < input.Length; i++)
+                result[i] = Decide(input[i]);
+
+#if DEBUG
+            int[] expected = base.Decide(input, new int[input.Length]);
+            Accord.Diagnostics.Debug.Assert(expected.IsEqual(result));
+#endif
+
+            return result;
+        }
+
+        /// <summary>
         /// Computes a numerical score measuring the association between
         /// the given <paramref name="input" /> vector and each class.
         /// </summary>
@@ -402,22 +459,27 @@ namespace Accord.MachineLearning.VectorMachines
                     DistanceByElimination(input, result, cache);
             }
 
-//#if DEBUG
-//            double[] expected = base.Distances(input, new double[NumberOfOutputs]);
-//            if (!result.IsEqual(expected, rtol: 1e-8))
-//                throw new Exception();
-//#endif
+            //#if DEBUG
+            //            double[] expected = base.Distances(input, new double[NumberOfOutputs]);
+            //            if (!result.IsEqual(expected, rtol: 1e-8))
+            //                throw new Exception();
+            //#endif
             return result;
         }
 
 
 
-
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private int DecideByVoting(TInput input, Cache cache)
         {
             return DistanceByVoting(input, new double[NumberOfOutputs], cache).ArgMax();
         }
 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private int DecideByElimination(TInput input, Cache cache)
         {
             int i = NumberOfOutputs - 1;
@@ -434,6 +496,9 @@ namespace Accord.MachineLearning.VectorMachines
             return i;
         }
 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private int DecideByElimination(TInput input, Decision[] path, Cache cache)
         {
             int i = NumberOfOutputs - 1;
@@ -458,7 +523,9 @@ namespace Accord.MachineLearning.VectorMachines
             return i;
         }
 
-
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private double[] DistanceByElimination(TInput input, double[] result, Cache cache)
         {
             int i = NumberOfOutputs - 1;
@@ -493,6 +560,9 @@ namespace Accord.MachineLearning.VectorMachines
             return result;
         }
 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private double[] DistanceByElimination(TInput input, double[] result, Decision[] path, Cache cache)
         {
             int i = NumberOfOutputs - 1;
@@ -530,6 +600,9 @@ namespace Accord.MachineLearning.VectorMachines
             return result;
         }
 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private double[] DistanceByVoting(TInput input, double[] result, Cache cache)
         {
             Parallel.For(0, Indices.Length, ParallelOptions, k =>
@@ -544,27 +617,6 @@ namespace Accord.MachineLearning.VectorMachines
 
             return result;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -718,19 +770,17 @@ namespace Accord.MachineLearning.VectorMachines
                         {
                             TInput sv = Models[i][j].SupportVectors[k];
 
-                            List<Tuple<int, int, int>> count;
-                            bool success = shared.TryGetValue(sv, out count);
-
-                            if (success)
+                            List<Tuple<int, int, int>> counts;
+                            if (shared.TryGetValue(sv, out counts))
                             {
                                 // Value is already in the dictionary
-                                count.Add(Tuple.Create(i, j, k));
+                                counts.Add(Tuple.Create(i, j, k));
                             }
                             else
                             {
-                                count = new List<Tuple<int, int, int>>();
-                                count.Add(Tuple.Create(i, j, k));
-                                shared[sv] = count;
+                                counts = new List<Tuple<int, int, int>>();
+                                counts.Add(Tuple.Create(i, j, k));
+                                shared[sv] = counts;
                             }
                         }
                     }
@@ -739,13 +789,16 @@ namespace Accord.MachineLearning.VectorMachines
 
             // Create a table of indices for shared vectors
             int idx = 0;
+            int count = 0;
 
             var indices = new Dictionary<TInput, int>();
-            foreach (TInput sv in shared.Keys)
-                indices[sv] = idx++;
+            foreach (KeyValuePair<TInput, List<Tuple<int, int, int>>> sv in shared)
+            {
+                indices[sv.Key] = idx++;
+            }
 
             // Create a lookup table for the machines
-            int[][][] sharedVectors = new int[Models.Length][][];
+            var sharedVectors = new int[Models.Length][][];
             for (int i = 0; i < sharedVectors.Length; i++)
             {
                 sharedVectors[i] = new int[Models[i].Length][];
@@ -758,16 +811,23 @@ namespace Accord.MachineLearning.VectorMachines
                         for (int k = 0; k < Models[i][j].SupportVectors.Length; k++)
                         {
                             TInput sv = Models[i][j].SupportVectors[k];
-                            if (shared.ContainsKey(sv))
+                            List<Tuple<int, int, int>> counts;
+
+                            if (shared.TryGetValue(sv, out counts) && counts.Count > 1)
+                            {
                                 sharedVectors[i][j][k] = indices[sv];
+                                count++;
+                            }
                             else
+                            {
                                 sharedVectors[i][j][k] = -1;
+                            }
                         }
                     }
                 }
             }
 
-            sharedVectorsCount = shared.Count;
+            sharedVectorsCount = count;
             return sharedVectors;
         }
 

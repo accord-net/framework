@@ -363,6 +363,7 @@ namespace Accord.Tests.MachineLearning
 
             // Create the Multi-class Support Vector Machine using the selected Kernel
             var msvm = new MulticlassSupportVectorMachine(inputs, kernel, classes);
+            msvm.SupportVectorCache = 0;
 
             // Create the learning algorithm using the machine and the training data
             var ml = new MulticlassSupportVectorLearning(msvm, input, output);
@@ -525,7 +526,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(3, ksvm.Classes);
             Assert.AreEqual(21, ksvm.Inputs);
             Assert.AreEqual(2334, ksvm.SupportVectorCount);
-            Assert.AreEqual(1542, ksvm.SupportVectorSharedCount);
+            Assert.AreEqual(1584, ksvm.SupportVectorSharedCount);
             Assert.AreEqual(1542, ksvm.SupportVectorUniqueCount);
             Assert.AreEqual(false, ksvm.IsProbabilistic);
             Assert.AreEqual(0, ksvm.Machines[0][0].Weights.Sum());
