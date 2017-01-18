@@ -371,7 +371,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             if (String.IsNullOrEmpty(outputColumn))
                 return String.Format(culture, "{0} =: {1}", Output, sb);
 
-            string name = codebook.Translate(outputColumn, (int)Output);
+            string name = codebook.Revert(outputColumn, (int)Output);
             return String.Format(culture, "{0} =: {1}", name, sb);
         }
 
@@ -388,7 +388,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             String value;
             if (codebook != null && codebook.Columns.Contains(name))
             {
-                value = codebook.Translate(name, (int)antecedent.Value);
+                value = codebook.Revert(name, (int)antecedent.Value);
             }
             else
             {

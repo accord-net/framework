@@ -257,7 +257,7 @@ namespace Accord.MachineLearning.DecisionTrees
 
             String value;
             if (codebook != null && Value.HasValue && codebook.Columns.Contains(name))
-                value = codebook.Translate(name, (int)Value.Value);
+                value = codebook.Revert(name, (int)Value.Value);
 
             else value = Value.ToString();
 

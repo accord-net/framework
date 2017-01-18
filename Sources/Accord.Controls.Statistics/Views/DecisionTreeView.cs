@@ -123,7 +123,7 @@ namespace Accord.Controls
                 return treeNode;
             }
 
-            string value = codebook.Translate(attrib.Name, node.Output.Value);
+            string value = codebook.Revert(attrib.Name, node.Output.Value);
             treeNode.Nodes.Add(new TreeNode(value));
             return treeNode;
         }
