@@ -10,8 +10,8 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ClassificationSample</RootNamespace>
     <AssemblyName>ClassificationSample</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>2b679e93</NuGetPackageImportStamp>
   </PropertyGroup>
@@ -36,25 +36,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord">
-      <HintPath>..\packages\Accord.3.0.1-alpha\lib\net40\Accord.dll</HintPath>
+      <HintPath>..\packages\Accord.3.0.1-alpha\lib\net46\Accord.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Controls">
-      <HintPath>..\packages\Accord.Controls.3.0.1-alpha\lib\net40\Accord.Controls.dll</HintPath>
+      <HintPath>..\packages\Accord.Controls.3.0.1-alpha\lib\net46\Accord.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Accord.IO">
-      <HintPath>..\packages\Accord.IO.3.0.1-alpha\lib\net40\Accord.IO.dll</HintPath>
+      <HintPath>..\packages\Accord.IO.3.0.1-alpha\lib\net46\Accord.IO.dll</HintPath>
     </Reference>
     <Reference Include="Accord.MachineLearning">
-      <HintPath>..\packages\Accord.MachineLearning.3.0.1-alpha\lib\net40\Accord.MachineLearning.dll</HintPath>
+      <HintPath>..\packages\Accord.MachineLearning.3.0.1-alpha\lib\net46\Accord.MachineLearning.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Math">
-      <HintPath>..\packages\Accord.Math.3.0.1-alpha\lib\net40\Accord.Math.dll</HintPath>
+      <HintPath>..\packages\Accord.Math.3.0.1-alpha\lib\net46\Accord.Math.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Neuro">
-      <HintPath>..\packages\Accord.Neuro.3.0.1-alpha\lib\net40\Accord.Neuro.dll</HintPath>
+      <HintPath>..\packages\Accord.Neuro.3.0.1-alpha\lib\net46\Accord.Neuro.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Statistics">
-      <HintPath>..\packages\Accord.Statistics.3.0.1-alpha\lib\net40\Accord.Statistics.dll</HintPath>
+      <HintPath>..\packages\Accord.Statistics.3.0.1-alpha\lib\net46\Accord.Statistics.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

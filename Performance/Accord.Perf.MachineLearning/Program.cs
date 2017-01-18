@@ -18,7 +18,8 @@ namespace Accord.Performance.MachineLearning
         {
             //TestSparseKernelSVM();
             //TestPredictSparseSVM();
-            TestSparseSVMComplete();
+            //TestSparseSVMComplete();
+            TestPredictSparseMulticlassSVM();
         }
 
         private static void TestSparseKernelSVM()
@@ -70,12 +71,41 @@ namespace Accord.Performance.MachineLearning
 
             Console.WriteLine("Learning");
             Stopwatch sw = Stopwatch.StartNew();
-            var svm = learn.Learn(inputs.Get(0, 10), outputs.Get(0, 10));
+            var svm = learn.Learn(inputs.Get(0, 100), outputs.Get(0, 100));
             Console.WriteLine(sw.Elapsed);
 
             Console.WriteLine("Predicting");
             sw = Stopwatch.StartNew();
             int[] predicted = svm.ToMulticlass().Decide(inputs);
+            Console.WriteLine(sw.Elapsed);
+        }
+
+        private static void TestPredictSparseMulticlassSVM()
+        {
+            Console.WriteLine("Downloading dataset");
+            var news20 = new Accord.DataSets.News20(@"C:\Temp\");
+            Sparse<double>[] inputs = news20.Training.Item1;
+            int[] outputs = news20.Training.Item2.ToMulticlass();
+
+            var learn = new MulticlassSupportVectorLearning<Linear, Sparse<double>>()
+            {
+                // using LIBLINEAR's L2-loss SVC dual for each SVM
+                Learner = (p) => new LinearDualCoordinateDescent<Linear, Sparse<double>>()
+                {
+                    Loss = Loss.L2,
+                    Complexity = 1.0,
+                    Tolerance = 1e-4
+                }
+            };
+
+            Console.WriteLine("Learning");
+            Stopwatch sw = Stopwatch.StartNew();
+            var svm = learn.Learn(inputs.Get(0, 1000), outputs.Get(0, 1000));
+            Console.WriteLine(sw.Elapsed);
+
+            Console.WriteLine("Predicting");
+            sw = Stopwatch.StartNew();
+            int[] predicted = svm.Decide(inputs);
             Console.WriteLine(sw.Elapsed);
         }
 

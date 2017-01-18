@@ -102,7 +102,7 @@ namespace SampleApp
             // are replicable across application runs. Comment the 
             // following line to generate truly random data splits.
             //
-            Accord.Math.Random.Generator.Seed = 0;
+            Accord.Math.Random.Generator.Seed = 1;
 
             cbStrategy.DataSource = Enum.GetValues(typeof(SelectionStrategy));
 

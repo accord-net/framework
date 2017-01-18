@@ -10,8 +10,8 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ClassificationSample</RootNamespace>
     <AssemblyName>ClassificationSample</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>2be176a1</NuGetPackageImportStamp>
   </PropertyGroup>
@@ -38,31 +38,31 @@
   <ItemGroup>
     <Reference Include="Accord, Version=3.0.1.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Accord.3.0.1-alpha\lib\net40\Accord.dll</HintPath>
+      <HintPath>..\packages\Accord.3.0.1-alpha\lib\net46\Accord.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Controls, Version=3.0.1.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Accord.Controls.3.0.1-alpha\lib\net40\Accord.Controls.dll</HintPath>
+      <HintPath>..\packages\Accord.Controls.3.0.1-alpha\lib\net46\Accord.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Accord.IO, Version=3.0.1.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Accord.IO.3.0.1-alpha\lib\net40\Accord.IO.dll</HintPath>
+      <HintPath>..\packages\Accord.IO.3.0.1-alpha\lib\net46\Accord.IO.dll</HintPath>
     </Reference>
     <Reference Include="Accord.MachineLearning, Version=3.0.1.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Accord.MachineLearning.3.0.1-alpha\lib\net40\Accord.MachineLearning.dll</HintPath>
+      <HintPath>..\packages\Accord.MachineLearning.3.0.1-alpha\lib\net46\Accord.MachineLearning.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Math, Version=3.0.1.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Accord.Math.3.0.1-alpha\lib\net40\Accord.Math.dll</HintPath>
+      <HintPath>..\packages\Accord.Math.3.0.1-alpha\lib\net46\Accord.Math.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Neuro, Version=3.0.1.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Accord.Neuro.3.0.1-alpha\lib\net40\Accord.Neuro.dll</HintPath>
+      <HintPath>..\packages\Accord.Neuro.3.0.1-alpha\lib\net46\Accord.Neuro.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Statistics, Version=3.0.1.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Accord.Statistics.3.0.1-alpha\lib\net40\Accord.Statistics.dll</HintPath>
+      <HintPath>..\packages\Accord.Statistics.3.0.1-alpha\lib\net46\Accord.Statistics.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

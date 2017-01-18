@@ -219,7 +219,7 @@ namespace SampleApp
             if (useNguyenWidrow)
             {
                 if (useSameWeights)
-                    Accord.Math.Random.Generator.Seed = 0;
+                    Accord.Math.Random.Generator.Seed = 1;
 
                 NguyenWidrow initializer = new NguyenWidrow(ann);
                 initializer.Randomize();
