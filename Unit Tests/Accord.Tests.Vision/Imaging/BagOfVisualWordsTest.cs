@@ -439,6 +439,84 @@ namespace Accord.Tests.Imaging
         }
 
         [Test]
+        public void custom_feature_test_haralick()
+        {
+            #region doc_feature
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // The Bag-of-Visual-Words model converts images of arbitrary 
+            // size into fixed-length feature vectors. In this example, we
+            // will be setting the codebook size to 3. This means all feature
+            // vectors that will be generated will have the same length of 10.
+
+            // By default, the BoW object will use the sparse SURF as the 
+            // feature extractor and K-means as the clustering algorithm.
+            // In this example, we will use the Haralick feature extractor
+            // and the GMM clustering algorithm instead.
+
+            // Create a new Bag-of-Visual-Words (BoW) model using HOG features
+            var bow = BagOfVisualWords.Create(new Haralick(), new GaussianMixtureModel(3));
+
+            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // Get some training images
+            Bitmap[] images = GetImages();
+
+            // Compute the model
+            bow.Learn(images);
+
+            // After this point, we will be able to translate
+            // images into double[] feature vectors using
+            double[][] features = bow.Transform(images);
+            #endregion
+
+            Assert.AreEqual(features.GetLength(), new[] { 6, 10 });
+
+            string str = features.ToCSharp();
+
+            double[][] expected = new double[][]
+            {
+                new double[] { 141, 332, 240, 88, 363, 238, 282, 322, 114, 232 },
+                new double[] { 103, 452, 195, 140, 158, 260, 283, 368, 163, 230 },
+                new double[] { 88, 231, 185, 172, 631, 189, 219, 241, 237, 159 },
+                new double[] { 106, 318, 262, 212, 165, 276, 264, 275, 244, 230 },
+                new double[] { 143, 302, 231, 113, 332, 241, 273, 320, 157, 240 },
+                new double[] { 87, 347, 248, 249, 63, 227, 292, 288, 339, 212 }
+            };
+
+            for (int i = 0; i < features.Length; i++)
+                for (int j = 0; j < features[i].Length; j++)
+                    Assert.IsTrue(expected[i].Contains(features[i][j]));
+
+            #region doc_classification_feature
+
+            // Now, the features can be used to train any classification
+            // algorithm as if they were the images themselves. For example,
+            // let's assume the first three images belong to a class and
+            // the second three to another class. We can train an SVM using
+
+            int[] labels = { -1, -1, -1, +1, +1, +1 };
+
+            // Create the SMO algorithm to learn a Linear kernel SVM
+            var teacher = new SequentialMinimalOptimization<Linear>()
+            {
+                Complexity = 100 // make a hard margin SVM
+            };
+
+            // Obtain a learned machine
+            var svm = teacher.Learn(features, labels);
+
+            // Use the machine to classify the features
+            bool[] output = svm.Decide(features);
+
+            // Compute the error between the expected and predicted labels
+            double error = new ZeroOneLoss(labels).Loss(output); // should be 0
+            #endregion
+
+            Assert.AreEqual(error, 0);
+        }
+
+        [Test]
         public void custom_data_type_test()
         {
             #region doc_datatype

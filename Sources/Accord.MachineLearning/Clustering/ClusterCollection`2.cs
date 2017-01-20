@@ -96,7 +96,7 @@ namespace Accord.MachineLearning
                     //    x and the nearest center that has already been chosen.
 
                     double sum = 0;
-                    double[] D = new double[points.Length];
+                    var D = new double[points.Length];
                     for (int i = 0; i < D.Length; i++)
                     {
                         var x = points[i];
@@ -114,9 +114,12 @@ namespace Accord.MachineLearning
                         sum += min;
                     }
 
-                    for (int i = 0; i < D.Length; i++)
-                        D[i] /= sum;
-
+					if (sum != 0)
+					{
+						for (int i = 0; i < D.Length; i++)
+							D[i] /= sum;
+					}
+					
                     // 3. Choose one new data point at random as a new center, using a weighted
                     //    probability distribution where a point x is chosen with probability 
                     //    proportional to D(x)^2.
