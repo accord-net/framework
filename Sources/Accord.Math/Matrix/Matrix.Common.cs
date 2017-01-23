@@ -2078,7 +2078,7 @@ namespace Accord.Math
         public static void Clear<T>(this T[][] array)
         {
             for (int i = 0; i < array.Length; i++)
-                Array.Clear(array[i], 0, array.Length);
+                Array.Clear(array[i], 0, array[i].Length);
         }
 
         /// <summary>

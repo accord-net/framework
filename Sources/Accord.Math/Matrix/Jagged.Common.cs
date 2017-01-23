@@ -488,7 +488,7 @@ namespace Accord.Math
         /// 
         /// <returns><c>true</c> if the specified matrix is rectangular; otherwise, <c>false</c>.</returns>
         /// 
-        public static bool IsRectangular<T>(IEnumerable<T[]> matrix)
+        public static bool IsRectangular<T>(this IEnumerable<T[]> matrix)
         {
             int numberOfCols = matrix.Columns();
 
@@ -498,6 +498,25 @@ namespace Accord.Math
 
             return true;
         }
+
+        ///// <summary>
+        /////   Determines whether a jagged array is a rectangular
+        /////   matrix (containing all inner arrays of same size).
+        ///// </summary>
+        ///// 
+        //public static bool IsRectangular<T>(this T[][] array)
+        //{
+        //    if (array.Length == 0)
+        //        return true;
+        //    int cols = array[0].Length;
+        //    for (int i = 0; i < array.Length; i++)
+        //    {
+        //        if (array[0].Length != cols)
+        //            return false;
+        //    }
+
+        //    return true;
+        //}
         #endregion
 
 
