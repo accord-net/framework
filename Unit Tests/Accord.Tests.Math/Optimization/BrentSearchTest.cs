@@ -31,26 +31,10 @@ namespace Accord.Tests.Math
     public class BrentSearchTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
         [Test]
         public void ConstructorTest()
         {
-
+            #region doc_example
             // Suppose we were given the function x³ + 2x² - 10x and 
             // we have to find its root, maximum and minimum inside 
             // the interval [-4,3]. First, we express this function
@@ -61,13 +45,19 @@ namespace Accord.Tests.Math
             BrentSearch search = new BrentSearch(function, -4, 3);
 
             // Finally, we can query the information we need
-            Assert.IsTrue(search.Maximize());  // occurs at -2.61
-            double max = search.Solution;
-            Assert.IsTrue(search.Minimize());  // occurs at  1.27
-            double min = search.Solution;
-            Assert.IsTrue(search.FindRoot()); // occurs at  0.50
-            double root = search.Solution;
+            bool success1 = search.Maximize();  // should be true
+            double max = search.Solution;       // occurs at -2.61
 
+            bool success2= search.Minimize();   // should be true  
+            double min = search.Solution;       // occurs at  1.27
+
+            bool success3 = search.FindRoot();  // should be true 
+            double root = search.Solution;      // occurs at  0.50
+            #endregion
+
+            Assert.IsTrue(success1);
+            Assert.IsTrue(success2);
+            Assert.IsTrue(success3);
             Assert.AreEqual(-2.6103173042172645, max);
             Assert.AreEqual(1.2769840667540548, min);
             Assert.AreEqual(-0.5, root);
