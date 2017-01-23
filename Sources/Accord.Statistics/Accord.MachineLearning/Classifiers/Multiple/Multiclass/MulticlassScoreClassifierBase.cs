@@ -94,9 +94,9 @@ namespace Accord.MachineLearning
         /// </returns>
         public override int Decide(TInput input)
         {
-            double max = Double.NegativeInfinity;
+            double max = Score(input, classIndex: 0);
             int imax = 0;
-            for (int i = 0; i < NumberOfOutputs; i++)
+            for (int i = 1; i < NumberOfOutputs; i++)
             {
                 double d = Score(input, classIndex: i);
                 if (d > max)

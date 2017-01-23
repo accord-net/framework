@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Tests.Math</RootNamespace>
     <AssemblyName>Accord.Tests.Math</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" /> 
+  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -88,6 +88,8 @@
     <Compile Include="Matrix\Matrix.Common.cs" />
     <Compile Include="Matrix\Matrix.Algebra.cs" />
     <Compile Include="Matrix\VectorTest.cs" />
+    <Compile Include="Optimization\Munkres.cs" />
+    <Compile Include="Optimization\MunkresTest.cs" />
     <Compile Include="Optimization\BinarySearchTest.cs" />
     <Compile Include="Optimization\CobylaTest.cs" />
     <Compile Include="Optimization\BoundedBroydenFletcherGoldfarbShannoTest.cs" />

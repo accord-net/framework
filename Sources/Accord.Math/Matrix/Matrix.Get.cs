@@ -288,10 +288,32 @@ namespace Accord.Math
         /// <param name="endColumn">End column index in the destination matrix.</param>
         /// 
         public static T[][] Set<T>(this T[][] destination,
-            int startRow, int endRow, int startColumn, int endColumn,
-            T[][] values)
+            int startRow, int endRow, int startColumn, int endColumn, T[][] values)
         {
             return set(destination, values, startRow, endRow, startColumn, endColumn);
+        }
+
+        /// <summary>
+        ///   Sets elements from a matrix to a given value.
+        /// </summary>
+        /// 
+        /// <param name="values">The matrix of values to be changed.</param>
+        /// <param name="match">The function used to determine whether an 
+        ///   element in the matrix should be changed or not.</param>
+        /// <param name="value">The values to set the elements to.</param>
+        /// 
+        public static T[][] Set<T>(this T[][] values, Func<T, bool> match, T value)
+        {
+            for (int i = 0; i < values.Length; i++)
+            {
+                for (int j = 0; j < values[i].Length; j++)
+                {
+                    if (match(values[i][j]))
+                        values[i][j] = value;
+                }
+            }
+
+            return values;
         }
 
         /// <summary>

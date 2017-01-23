@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Tests.MachineLearning</RootNamespace>
     <AssemblyName>Accord.Tests.MachineLearning</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" /> 
+  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -71,6 +71,7 @@
     <Compile Include="AprioriTest.cs" />
     <Compile Include="BootstrapTest.cs" />
     <Compile Include="Clustering\BinarySplitTest.cs" />
+    <Compile Include="Clustering\BalancedKMeansTest.cs" />
     <Compile Include="DecisionTrees\RandomForestTest.cs" />
     <Compile Include="DecisionTrees\DecisionRuleTest.cs" />
     <Compile Include="DecisionTrees\ReducedErrorPruningTest.cs" />

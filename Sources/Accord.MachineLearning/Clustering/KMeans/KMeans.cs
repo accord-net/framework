@@ -259,7 +259,7 @@ namespace Accord.MachineLearning
         ///   last call to this class' Compute methods.
         /// </summary>
         /// 
-        public int Iterations { get; private set; }
+        public int Iterations { get; protected set; }
 
         /// <summary>
         ///   Gets the cluster distortion error after the 
@@ -370,7 +370,7 @@ namespace Accord.MachineLearning
                 if (x[i].Length != cols)
                     throw new DimensionMismatchException("x", "The points matrix should be rectangular. The vector at position {} has a different length than previous ones.");
             
-            Compute(x, weights, weightSum);
+            compute(x, weights, weightSum);
             return clusters;
         }
 
@@ -399,7 +399,14 @@ namespace Accord.MachineLearning
             return Learn(data, weights).Decide(data);
         }
 
-        private void ComputeInformation(double[][] data, int[] labels)
+        /// <summary>
+        /// Computes the information about each cluster (covariance, proportions and error).
+        /// </summary>
+        /// 
+        /// <param name="data">The data points.</param>
+        /// <param name="labels">The assigned labels.</param>
+        /// 
+        protected void ComputeInformation(double[][] data, int[] labels)
         {
             // Compute distortion and other metrics regarding the clustering
             if (ComputeCovariances)
@@ -439,7 +446,7 @@ namespace Accord.MachineLearning
         /// <param name="weights">The weight to consider for each data sample. This is used in weighted K-Means</param>
         /// <param name="weightSum">The total sum of the weights in <paramref name="weights"/>.</param>
         ///   
-        private int[] Compute(double[][] data, double[] weights, double weightSum)
+        private int[] compute(double[][] data, double[] weights, double weightSum)
         {
             this.Iterations = 0;
 
@@ -560,7 +567,7 @@ namespace Accord.MachineLearning
         /// <returns>Returns <see langword="true"/> if all centroids had a percentage change
         ///    less than <see param="threshold"/>. Returns <see langword="false"/> otherwise.</returns>
         ///    
-        private bool converged(double[][] centroids, double[][] newCentroids)
+        protected bool converged(double[][] centroids, double[][] newCentroids)
         {
             Iterations++;
 
