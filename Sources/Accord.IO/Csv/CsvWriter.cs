@@ -256,7 +256,7 @@ namespace Accord.IO
             string[] items = new string[fields.Length];
 
             for (int i = 0; i < items.Length; i++)
-                items[i] = quote(items[i]);
+                items[i] = quote(fields[i]);
 
             write(items, comment);
         }
