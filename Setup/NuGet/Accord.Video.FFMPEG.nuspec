@@ -4,7 +4,7 @@
   <metadata>
     <id>Accord.Video.FFMPEG</id>
     <version>$version$</version>
-    <title>Accord.Video.FFMPEG (GPL)</title>
+    <title>Accord.Video.FFMPEG (GPL) x86</title>
     <authors>Accord.NET</authors>
     <owners>Accord.NET</owners>
     <licenseUrl>http://accord-framework.net/gpl.txt</licenseUrl>
@@ -31,14 +31,14 @@
   	<file src="..\..\Release\net46\GPL\Accord.Video.FFMPEG.dll" target="lib\net46\Accord.Video.FFMPEG.dll" />
     <file src="..\..\Release\net46\GPL\Accord.Video.FFMPEG.xml" target="lib\net46\Accord.Video.FFMPEG.xml" />
 
-    <file src="..\..\Externals\ffmpeg\bin\avcodec-53.dll"       target="build\avcodec-53.dll" />
-    <file src="..\..\Externals\ffmpeg\bin\avdevice-53.dll"      target="build\avdevice-53.dll" />
-    <file src="..\..\Externals\ffmpeg\bin\avformat-53.dll"      target="build\avformat-53.dll" />
-    <file src="..\..\Externals\ffmpeg\bin\avutil-51.dll"        target="build\avutil-51.dll" />
-    <file src="..\..\Externals\ffmpeg\bin\postproc-52.dll"      target="build\postproc-52.dll" />
-    <file src="..\..\Externals\ffmpeg\bin\swresample-0.dll"     target="build\swresample-0.dll" />
-    <file src="..\..\Externals\ffmpeg\bin\swscale-2.dll"        target="build\swscale-2.dll" />
-    <file src="..\..\Externals\ffmpeg\README.txt"               target="build\FFMPEG-README.txt" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avcodec-53.dll"       target="build\avcodec-53.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avdevice-53.dll"      target="build\avdevice-53.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avformat-53.dll"      target="build\avformat-53.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avutil-51.dll"        target="build\avutil-51.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\postproc-52.dll"      target="build\postproc-52.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\swresample-0.dll"     target="build\swresample-0.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\swscale-2.dll"        target="build\swscale-2.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\README.txt"               target="build\FFMPEG-README.txt" />
 
     <file src="..\..\Setup\Scripts\Accord.Video.FFMPEG.targets" target="build\Accord.Video.FFMPEG.targets" />
 
