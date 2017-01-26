@@ -18,7 +18,7 @@ echo.
 
 echo.
 echo  - Building Debug configuration...
-%DEVENV% Sources\Accord.NET.sln /Rebuild "Debug|Win32" /out "Setup\bin\Build.Debug.Win32.log"
+%DEVENV% Sources\Accord.NET.sln /Rebuild "Debug|x64" /out "Setup\bin\Build.Debug.x64.log"
 %DEVENV% Sources\Accord.NET.sln /Rebuild "Debug|Any CPU" /out "Setup\bin\Build.Debug.Any.log"
 timeout /T 10
 echo.
@@ -27,22 +27,22 @@ echo  - Building Mono configuration...
 timeout /T 10
 echo.
 echo  - Building NET35 configuration...
-%DEVENV% Sources\Accord.NET.sln /Rebuild "net35|Win32" /out "Setup\bin\Build.net35.Win32.log"
+%DEVENV% Sources\Accord.NET.sln /Rebuild "net35|x64" /out "Setup\bin\Build.net35.x64.log"
 %DEVENV% Sources\Accord.NET.sln /Build   "net35|Any CPU" /out "Setup\bin\Build.net35.Any.log"
 timeout /T 10
 echo.
 echo  - Building NET40 configuration...
-%DEVENV% Sources\Accord.NET.sln /Rebuild "net40|Win32" /out "Setup\bin\Build.net40.Win32.log"
+%DEVENV% Sources\Accord.NET.sln /Rebuild "net40|x64" /out "Setup\bin\Build.net40.x64.log"
 %DEVENV% Sources\Accord.NET.sln /Build   "net40|Any CPU" /out "Setup\bin\Build.net40.Any.log"
 timeout /T 10
 echo.
 echo  - Building NET45 configuration...
-%DEVENV% Sources\Accord.NET.sln /Rebuild "net45|Win32" /out "Setup\bin\Build.net45.Win32.log"
+%DEVENV% Sources\Accord.NET.sln /Rebuild "net45|x64" /out "Setup\bin\Build.net45.x64.log"
 %DEVENV% Sources\Accord.NET.sln /Build   "net45|Any CPU" /out "Setup\bin\Build.net45.Any.log"
 timeout /T 10
 echo.
 echo  - Building NET46 configuration...
-%DEVENV% Sources\Accord.NET.sln /Rebuild "net46|Win32" /out "Setup\bin\Build.net46.Win32.log"
+%DEVENV% Sources\Accord.NET.sln /Rebuild "net46|x64" /out "Setup\bin\Build.net46.x64.log"
 %DEVENV% Sources\Accord.NET.sln /Build   "net46|Any CPU" /out "Setup\bin\Build.net46.Any.log"
 timeout /T 10
 echo.
