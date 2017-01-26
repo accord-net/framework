@@ -5,7 +5,7 @@
 // Copyright © AForge.NET, 2009-2011
 // contacts@aforgenet.com
 //
-// Copyright © César Souza, 2009-2017
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This program is free software; you can redistribute it and/or modify
@@ -76,6 +76,50 @@ namespace Accord {
             ///
             public ref class VideoFileWriter : IDisposable
             {
+                int m_width;
+                int m_height;
+                int	m_frameRate;
+                int m_bitRate;
+                VideoCodec m_codec;
+
+                // audio support
+                AudioCodec m_audiocodec;
+                // end audio support
+
+                // Checks if video file was opened
+                void CheckIfVideoFileIsOpen()
+                {
+                    if (data == nullptr)
+                    {
+                        throw gcnew System::IO::IOException("Video file is not open, so can not access its properties.");
+                    }
+                }
+
+                // Check if the object was already disposed
+                void CheckIfDisposed()
+                {
+                    if (disposed)
+                    {
+                        throw gcnew System::ObjectDisposedException("The object was already disposed.");
+                    }
+                }
+
+                void AddAudioSamples(WriterPrivateData^ data, uint8_t* soundBuffer, int soundBufferSize /*, TimeSpan timestamp*/);
+
+                // private data of the class
+                WriterPrivateData^ data;
+                bool disposed;
+
+            protected:
+                /// <summary>
+                /// Object's finalizer.
+                /// </summary>
+                /// 
+                !VideoFileWriter()
+                {
+                    Close();
+                }
+
             public:
 
                 /// <summary>
@@ -164,24 +208,11 @@ namespace Accord {
                     }
                 }
 
-            protected:
-
-                /// <summary>
-                /// Object's finalizer.
-                /// </summary>
-                /// 
-                !VideoFileWriter()
-                {
-                    Close();
-                }
-
-            public:
-
                 /// <summary>
                 /// Initializes a new instance of the <see cref="VideoFileWriter"/> class.
                 /// </summary>
                 /// 
-                VideoFileWriter(void);
+                VideoFileWriter();
 
                 /// <summary>
                 /// Disposes the object and frees its resources.
@@ -208,7 +239,10 @@ namespace Accord {
                 /// codec and 25 fps frame rate.</note></para>
                 /// </remarks>
                 ///
-                void Open(String^ fileName, int width, int height);
+                void Open(String^ fileName, int width, int height)
+                {
+                    Open(fileName, width, height, 25);
+                }
 
                 /// <summary>
                 /// Create video file with the specified name and attributes.
@@ -226,7 +260,10 @@ namespace Accord {
                 /// codec.</note></para>
                 /// </remarks>
                 ///
-                void Open(String^ fileName, int width, int height, int frameRate);
+                void Open(String^ fileName, int width, int height, int frameRate)
+                {
+                    Open(fileName, width, height, frameRate, VideoCodec::Default);
+                }
 
                 /// <summary>
                 /// Create video file with the specified name and attributes.
@@ -250,7 +287,10 @@ namespace Accord {
                 /// <exception cref="VideoException">A error occurred while creating new video file. See exception message.</exception>
                 /// <exception cref="System::IO::IOException">Cannot open video file with the specified name.</exception>
                 /// 
-                void Open(String^ fileName, int width, int height, int frameRate, VideoCodec codec);
+                void Open(String^ fileName, int width, int height, int frameRate, VideoCodec codec)
+                {
+                    Open(fileName, width, height, frameRate, codec, 400000);
+                }
 
                 /// <summary>
                 /// Create video file with the specified name and attributes.
@@ -279,7 +319,10 @@ namespace Accord {
                 /// <exception cref="VideoException">A error occurred while creating new video file. See exception message.</exception>
                 /// <exception cref="System::IO::IOException">Cannot open video file with the specified name.</exception>
                 /// 
-                void Open(String^ fileName, int width, int height, int frameRate, VideoCodec codec, int bitRate);
+                void Open(String^ fileName, int width, int height, int frameRate, VideoCodec codec, int bitRate)
+                {
+                    Open(fileName, width, height, frameRate, codec, bitRate, AudioCodec::None, 0, 0, 0);
+                }
 
                 void Open(String^ fileName, int width, int height, int frameRate,
                     VideoCodec codec, int bitRate,
@@ -299,7 +342,10 @@ namespace Accord {
                 /// <exception cref="ArgumentException">Bitmap size must be of the same as video size, which was specified on opening video file.</exception>
                 /// <exception cref="VideoException">A error occurred while writing new video frame. See exception message.</exception>
                 /// 
-                void WriteVideoFrame(Bitmap^ frame);
+                void WriteVideoFrame(Bitmap^ frame)
+                {
+                    WriteVideoFrame(frame, TimeSpan::MinValue);
+                }
 
                 /// <summary>
                 /// Write new video frame with a specific timestamp into currently opened video file.
@@ -328,7 +374,7 @@ namespace Accord {
                 ///
                 void WriteAudioFrame(array<System::Byte> ^buffer);
 
-                //void WriteAudioFrame( array<System::Byte> ^buffer, TimeSpan timestamp );
+                //void WriteAudioFrame( array<System::uint8_t> ^buffer, TimeSpan timestamp );
 
                 void Flush();
 
@@ -337,46 +383,7 @@ namespace Accord {
                 /// </summary>
                 /// 
                 void Close();
-
-            private:
-
-                int m_width;
-                int m_height;
-                int	m_frameRate;
-                int m_bitRate;
-                VideoCodec m_codec;
-
-                // audio support
-                AudioCodec m_audiocodec;
-                // end audio support
-
-            private:
-                // Checks if video file was opened
-                void CheckIfVideoFileIsOpen()
-                {
-                    if (data == nullptr)
-                    {
-                        throw gcnew System::IO::IOException("Video file is not open, so can not access its properties.");
-                    }
-                }
-
-                // Check if the object was already disposed
-                void CheckIfDisposed()
-                {
-                    if (disposed)
-                    {
-                        throw gcnew System::ObjectDisposedException("The object was already disposed.");
-                    }
-                }
-
-                void AddAudioSamples(WriterPrivateData^ data, BYTE* soundBuffer, int soundBufferSize /*, TimeSpan timestamp*/);
-
-            private:
-                // private data of the class
-                WriterPrivateData^ data;
-                bool disposed;
             };
-
         }
     }
 }

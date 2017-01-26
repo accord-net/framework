@@ -5,12 +5,13 @@
     <RootNamespace>Accord.Tests.Video</RootNamespace>
     <AssemblyName>Accord.Tests.Video</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" />  
+  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
     <DefineConstants>TRACE;NET35</DefineConstants>
@@ -25,7 +26,7 @@
     <DefineConstants>TRACE;NET46</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'mono|AnyCPU' ">
-	<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DefineConstants>TRACE;MONO</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
@@ -133,28 +134,36 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="avcodec-53.dll">
+    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avcodec-57.dll">
+      <Link>avcodec-57.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="avdevice-53.dll">
+    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avdevice-57.dll">
+      <Link>avdevice-57.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="avfilter-2.dll">
+    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avfilter-6.dll">
+      <Link>avfilter-6.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="avformat-53.dll">
+    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avformat-57.dll">
+      <Link>avformat-57.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="avutil-51.dll">
+    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avutil-55.dll">
+      <Link>avutil-55.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="postproc-52.dll">
+    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\postproc-54.dll">
+      <Link>postproc-54.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="swresample-0.dll">
+    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\swresample-2.dll">
+      <Link>swresample-2.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="swscale-2.dll">
+    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\swscale-4.dll">
+      <Link>swscale-4.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

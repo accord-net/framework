@@ -5,7 +5,7 @@
 // Copyright © AForge.NET, 2009-2011
 // contacts@aforgenet.com
 //
-// Copyright © César Souza, 2009-2017
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This program is free software; you can redistribute it and/or modify
@@ -64,7 +64,6 @@ namespace Accord {
                 ///
                 M4A,
             };
-
         }
     }
 }

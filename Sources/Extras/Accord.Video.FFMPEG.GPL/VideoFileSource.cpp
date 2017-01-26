@@ -5,7 +5,7 @@
 // Copyright © AForge.NET, 2009-2011
 // contacts@aforgenet.com
 //
-// Copyright © César Souza, 2009-2017
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This program is free software; you can redistribute it and/or modify
@@ -31,7 +31,6 @@ namespace Accord {
     namespace Video {
         namespace FFMPEG
         {
-
             VideoFileSource::VideoFileSource(String^ fileName)
             {
                 m_fileName = fileName;
@@ -44,25 +43,23 @@ namespace Accord {
 
             void VideoFileSource::Start()
             {
-                if (!IsRunning)
-                {
-                    // check source
-                    if (String::IsNullOrEmpty(m_fileName))
-                    {
-                        throw gcnew ArgumentException("Video file name is not specified.");
-                    }
+                if (IsRunning)
+                    return;
 
-                    m_framesReceived = 0;
-                    m_bytesReceived = 0;
+                // check source
+                if (String::IsNullOrEmpty(m_fileName))
+                    throw gcnew ArgumentException("Video file name is not specified.");
 
-                    // create events
-                    m_needToStop = gcnew ManualResetEvent(false);
+                m_framesReceived = 0;
+                m_bytessReceived = 0;
 
-                    // create and start new thread
-                    m_workerThread = gcnew Thread(gcnew ThreadStart(this, &VideoFileSource::WorkerThreadHandler));
-                    m_workerThread->Name = m_fileName; // just for debugging
-                    m_workerThread->Start();
-                }
+                // create events
+                m_needToStop = gcnew ManualResetEvent(false);
+
+                // create and start new thread
+                m_workerThread = gcnew Thread(gcnew ThreadStart(this, &VideoFileSource::WorkerThreadHandler));
+                m_workerThread->Name = m_fileName; // just for debugging
+                m_workerThread->Start();
             }
 
             void VideoFileSource::SignalToStop()
@@ -80,7 +77,6 @@ namespace Accord {
                 {
                     // wait for thread stop
                     m_workerThread->Join();
-
                     Free();
                 }
             }
@@ -113,9 +109,9 @@ namespace Accord {
                     videoReader->Open(m_fileName);
 
                     // frame interval
-                    int interval = (m_frameIntervalFromSource) ?
-                        (int)(1000 / ((videoReader->FrameRate == 0) ? 25 : videoReader->FrameRate)) :
-                        m_frameInterval;
+                    int interval = m_frameIntervalFromSource
+                        ? (int)(1000 / ((videoReader->FrameRate == 0) ? 25 : videoReader->FrameRate))
+                        : m_frameInterval;
 
                     while (!m_needToStop->WaitOne(0, false))
                     {
@@ -132,7 +128,7 @@ namespace Accord {
                         }
 
                         m_framesReceived++;
-                        m_bytesReceived += bitmap->Width * bitmap->Height *
+                        m_bytessReceived += bitmap->Width * bitmap->Height *
                             (Bitmap::GetPixelFormatSize(bitmap->PixelFormat) >> 3);
 
                         // notify clients about the new video frame
@@ -149,7 +145,6 @@ namespace Accord {
 
                             // miliseconds to sleep
                             int msec = interval - (int)span->TotalMilliseconds;
-
                             if ((msec > 0) && (m_needToStop->WaitOne(msec, false) == true))
                                 break;
                         }
@@ -163,7 +158,6 @@ namespace Accord {
                 videoReader->Close();
                 PlayingFinished(this, reasonToStop);
             }
-
         }
     }
 }

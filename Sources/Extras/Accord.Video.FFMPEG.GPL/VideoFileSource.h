@@ -5,7 +5,7 @@
 // Copyright © AForge.NET, 2009-2011
 // contacts@aforgenet.com
 //
-// Copyright © César Souza, 2009-2017
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This program is free software; you can redistribute it and/or modify
@@ -73,8 +73,19 @@ namespace Accord {
             /// 
             public ref class VideoFileSource : IVideoSource
             {
-            public:
+                String^	m_fileName;
+                Thread^	m_workerThread;
+                ManualResetEvent^ m_needToStop;
 
+                int  m_framesReceived;
+                int  m_bytessReceived;
+                bool m_frameIntervalFromSource;
+                int  m_frameInterval;
+
+                void Free();
+                void WorkerThreadHandler();
+
+            public:
                 /// <summary>
                 /// New frame event.
                 /// </summary>
@@ -150,9 +161,9 @@ namespace Accord {
                 /// access to the property.
                 /// </remarks>
                 /// 
-                property long long BytesReceived
+                property int64_t BytesReceived
                 {
-                    virtual long long get()
+                    virtual int64_t get()
                     {
                         return 0;
                     }
@@ -233,8 +244,6 @@ namespace Accord {
                     }
                 }
 
-            public:
-
                 /// <summary>
                 /// Initializes a new instance of the <see cref="VideoFileSource"/> class.
                 /// </summary>
@@ -284,23 +293,7 @@ namespace Accord {
                 /// </remarks>
                 /// 
                 virtual void Stop();
-
-            private:
-                String^	m_fileName;
-                Thread^	m_workerThread;
-                ManualResetEvent^ m_needToStop;
-
-                int  m_framesReceived;
-                int  m_bytesReceived;
-                bool m_frameIntervalFromSource;
-                int  m_frameInterval;
-
-
-            private:
-                void Free();
-                void WorkerThreadHandler();
             };
-
         }
     }
 }

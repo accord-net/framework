@@ -5,26 +5,46 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+	<ProjectConfiguration Include="Debug|x64">
+	  <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="net35|Win32">
-      <Configuration>NET35</Configuration>
+      <Configuration>net35</Configuration>
       <Platform>Win32</Platform>
+    </ProjectConfiguration>
+	<ProjectConfiguration Include="net35|x64">
+      <Configuration>net35</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="net40|Win32">
-      <Configuration>NET40</Configuration>
+      <Configuration>net40</Configuration>
       <Platform>Win32</Platform>
+    </ProjectConfiguration>
+	<ProjectConfiguration Include="net40|x64">
+      <Configuration>net40</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="net45|Win32">
-      <Configuration>NET45</Configuration>
+      <Configuration>net45</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+	<ProjectConfiguration Include="net45|x64">
+      <Configuration>net45</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="net46|Win32">
-      <Configuration>NET46</Configuration>
+      <Configuration>net46</Configuration>
       <Platform>Win32</Platform>
+    </ProjectConfiguration>
+	<ProjectConfiguration Include="net46|x64">
+      <Configuration>net46</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FF31DD24-127D-4EB1-929C-F5738147E886}</ProjectGuid>
-    <RootNamespace>VideoFFMPEG</RootNamespace>
+    <RootNamespace>Accord.Video.FFMPEG</RootNamespace>
     <ProjectName>Accord.Video.FFMPEG (GPL)</ProjectName>
     <Keyword>ManagedCProj</Keyword>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -32,57 +52,73 @@
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>true</CLRSupport>
     <PlatformToolset>v140</PlatformToolset>
-    <TargetName>Accord.Video.FFMPEG</TargetName>
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental></LinkIncremental>
     <IntDir>$(ProjectDir)obj\$(Configuration)\</IntDir>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+	<_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='net35|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)'=='net35'" Label="Configuration">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='net40|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)'=='net40'" Label="Configuration">
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='net45|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)'=='net45'" Label="Configuration">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='net46|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)'=='net46'" Label="Configuration">
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
+  
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup>
-    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)'=='Debug'">$(SolutionDir)..\Debug\GPL\</OutDir>
-    <OutDir Condition="'$(Configuration)'!='Debug'">$(SolutionDir)..\Release\$(Configuration)\GPL\</OutDir>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
+		<OutDir>$(SolutionDir)..\Debug\GPL\</OutDir>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'!='Debug'" Label="Configuration">
+		<OutDir>$(SolutionDir)..\Release\$(Configuration)\GPL\</OutDir>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Platform)'=='Win32'" Label="Configuration">
+		<FFmpegPlatform>Win32</FFmpegPlatform>
+		<PlatformPostfix></PlatformPostfix>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Platform)'=='x64'" Label="Configuration">
+		<FFmpegPlatform>Win64</FFmpegPlatform>
+		<PlatformPostfix>.x64</PlatformPostfix>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<TargetName>Accord.Video.FFMPEG$(PlatformPostfix)</TargetName>
+	</PropertyGroup>
+  
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Externals\ffmpeg\include;$(SolutionDir)..\Externals\msinttypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-dev\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;__STDC_CONSTANT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+	  <WholeProgramOptimization>true</WholeProgramOptimization>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>avformat.lib;avcodec.lib;avutil.lib;swscale.lib</AdditionalDependencies>
+      <AdditionalDependencies>avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;postproc.lib;swresample.lib;swscale.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib;$(SolutionDir)..\Externals\ffmpeg\lib;$(SolutionDir)..\Externals\ffmpeg\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-dev\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalOptions>/ignore:4248 %(AdditionalOptions)</AdditionalOptions>
-      <DelayLoadDLLs>avcodec-53.dll;avformat-53.dll;avutil-51.dll;swscale-2.dll;</DelayLoadDLLs>
+	  <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+	  <WarningLevel>Level3</WarningLevel>
+	  <ImageHasSafeExceptionHandlers />
+	<PrecompiledHeader>NotUsing</PrecompiledHeader>
+	<LanguageStandard>stdcpplatest</LanguageStandard>
+      <TargetMachine>MachineX64</TargetMachine>
+	  <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+	  <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+	  <SubSystem>Windows</SubSystem>
     </Link>
     <Xdcmake>
       <DocumentLibraryDependencies>false</DocumentLibraryDependencies>
@@ -91,28 +127,25 @@
       <Command>sn -Ra "$(TargetPath)" "$(ProjectDir)Accord.snk"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
+	  <WholeProgramOptimization>false</WholeProgramOptimization>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;__STDC_CONSTANT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <WarningLevel>Level3</WarningLevel>
+	  <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+	  <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
-      <Profile>true</Profile>
+	  <Profile>false</Profile>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)'!='Debug'">
-    <ClCompile>
-      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
-      <WarningLevel>Level3</WarningLevel>
-    </ClCompile>
-	<Link>
-      <Profile>true</Profile>
-    </Link>
+  <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
+  <Link>
+	<TargetMachine>MachineX86</TargetMachine>
+	</Link>
   </ItemDefinitionGroup>
+
   <ItemGroup>
     <Reference Include="System">
       <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
@@ -130,13 +163,6 @@
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="AudioCodec.cpp" />
-    <ClCompile Include="Stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='net35|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='net40|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='net45|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='net46|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="VersionInfo.cpp" />
     <ClCompile Include="VideoCodec.cpp" />
     <ClCompile Include="VideoFileReader.cpp" />

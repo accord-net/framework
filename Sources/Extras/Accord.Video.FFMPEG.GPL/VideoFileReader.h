@@ -5,7 +5,7 @@
 // Copyright © AForge.NET, 2009-2011
 // contacts@aforgenet.com
 //
-// Copyright © César Souza, 2009-2017
+// Copyright © César Souza, 2009-2016
 // cesarsouza at gmail.com
 //
 //    This program is free software; you can redistribute it and/or modify
@@ -73,8 +73,43 @@ namespace Accord {
             ///
             public ref class VideoFileReader : IDisposable
             {
-            public:
+                int m_width;
+                int m_height;
+                int	m_frameRate;
+                String^ m_codecName;
+                Int64 m_framesCount;
 
+                // private data of the class
+                ReaderPrivateData^ data;
+                bool disposed;
+
+                Bitmap^ DecodeVideoFrame();
+
+                // Checks if video file was opened
+                void CheckIfVideoFileIsOpen()
+                {
+                    if (data == nullptr)
+                        throw gcnew System::IO::IOException("Video file is not open, so can not access its properties.");
+                }
+
+                // Check if the object was already disposed
+                void CheckIfDisposed()
+                {
+                    if (disposed)
+                        throw gcnew System::ObjectDisposedException("The object was already disposed.");
+                }
+
+            protected:
+                /// <summary>
+                /// Object's finalizer.
+                /// </summary>
+                /// 
+                !VideoFileReader()
+                {
+                    Close();
+                }
+
+            public:
                 /// <summary>
                 /// Frame width of the opened video file.
                 /// </summary>
@@ -165,24 +200,11 @@ namespace Accord {
                     }
                 }
 
-            protected:
-
-                /// <summary>
-                /// Object's finalizer.
-                /// </summary>
-                /// 
-                !VideoFileReader()
-                {
-                    Close();
-                }
-
-            public:
-
                 /// <summary>
                 /// Initializes a new instance of the <see cref="VideoFileReader"/> class.
                 /// </summary>
                 /// 
-                VideoFileReader(void);
+                VideoFileReader();
 
                 /// <summary>
                 /// Disposes the object and frees its resources.
@@ -222,42 +244,7 @@ namespace Accord {
                 /// </summary>
                 /// 
                 void Close();
-
-            private:
-
-                int m_width;
-                int m_height;
-                int	m_frameRate;
-                String^ m_codecName;
-                Int64 m_framesCount;
-
-            private:
-                Bitmap^ DecodeVideoFrame();
-
-                // Checks if video file was opened
-                void CheckIfVideoFileIsOpen()
-                {
-                    if (data == nullptr)
-                    {
-                        throw gcnew System::IO::IOException("Video file is not open, so can not access its properties.");
-                    }
-                }
-
-                // Check if the object was already disposed
-                void CheckIfDisposed()
-                {
-                    if (disposed)
-                    {
-                        throw gcnew System::ObjectDisposedException("The object was already disposed.");
-                    }
-                }
-
-            private:
-                // private data of the class
-                ReaderPrivateData^ data;
-                bool disposed;
             };
-
         }
     }
 }
