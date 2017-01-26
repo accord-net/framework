@@ -5,7 +5,10 @@
 // Copyright © AForge.NET, 2009-2011
 // contacts@aforgenet.com
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © MelvinGr, 2016-2017
+// https://github.com/MelvinGr
+//
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This program is free software; you can redistribute it and/or modify
