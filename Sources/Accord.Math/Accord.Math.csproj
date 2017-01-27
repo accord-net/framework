@@ -113,6 +113,7 @@
     <Compile Include="Decompositions\SingularValueDecompositionF.cs">
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
     </Compile>
+    <Compile Include="Distances\Angular.cs" />
     <Compile Include="Matrix\Jagged.Product.Generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

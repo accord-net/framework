@@ -50,6 +50,8 @@ namespace Accord.Statistics.Models.Fields.Learning
         IHiddenConditionalRandomFieldLearning<T>,
         IDisposable
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
 
         private BoundedBroydenFletcherGoldfarbShanno lbfgs;
         private ForwardBackwardGradient<T> calculator;
@@ -64,7 +66,11 @@ namespace Accord.Statistics.Models.Fields.Learning
         /// Gets or sets a cancellation token that can be used to
         /// stop the learning algorithm while it is running.
         /// </summary>
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
 
         /// <summary>

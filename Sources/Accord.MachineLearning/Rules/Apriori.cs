@@ -68,6 +68,9 @@ namespace Accord.MachineLearning.Rules
         IUnsupervisedLearning<AssociationRuleMatcher<T>, SortedSet<T>, SortedSet<T>[]>,
         IUnsupervisedLearning<AssociationRuleMatcher<T>, T[], T[][]>
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
+
         private int supportMin;
         private double confidence;
         private Dictionary<SortedSet<T>, int> frequent;
@@ -87,7 +90,11 @@ namespace Accord.MachineLearning.Rules
         /// stop the learning algorithm while it is running.
         /// </summary>
         /// <value>The token.</value>
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Apriori{T}"/> class.

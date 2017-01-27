@@ -313,7 +313,7 @@ namespace Accord.Tests.Statistics
 
         private static double[,] expected_r()
         {
-            double[,] expected_pcv = 
+            double[,] expected_pcv =
             {
                 #region expected PCV without R's / m normalization
                 { -0.0266876243479222, -0.00236424647855596 },
@@ -636,18 +636,18 @@ namespace Accord.Tests.Statistics
 
             double[,] result = kpca.Transform(data, 2);
 
-            double[,] expected = new double[,] 
+            double[,] expected = new double[,]
             {
                 { -0.23053882357602, -0.284413654763538 },
                 { -0.387883199575312, -0.331485820285834 },
                 { -0.422077400361521, -0.11134948984113 },
-                { -0.322265008788599, 0.23632015508648 },   
+                { -0.322265008788599, 0.23632015508648 },
                 { -0.12013575394419, 0.490928809797139 },
                 { 0.120135753938394, 0.490928809796094 },
                 { 0.322265008787236, 0.236320155085067 },
                 { 0.422077400363969, -0.111349489837512 },
                 { 0.38788319957867, -0.331485820278937 },
-                { 0.230538823577373, -0.28441365475783 } 
+                { 0.230538823577373, -0.28441365475783 }
             };
 
             Assert.IsTrue(result.IsEqual(expected, 1e-10));
@@ -683,7 +683,7 @@ namespace Accord.Tests.Statistics
 
             double[][] actual = kpca.Transform(sourceMatrix);
 
-            double[][] expected = 
+            double[][] expected =
             {
                 new double[] { -0.827970186,  0.175115307 },
                 new double[] {  1.77758033,  -0.142857227 },
@@ -793,12 +793,12 @@ namespace Accord.Tests.Statistics
 
             // Create analysis
             var target = new KernelPrincipalComponentAnalysis(kernel)
-            { 
-                Method = PrincipalComponentMethod.Center, 
+            {
+                Method = PrincipalComponentMethod.Center,
                 Center = true // Center in feature space
             };
 
-            var regression  = target.Learn(matrix);
+            var regression = target.Learn(matrix);
 
             double[][] forward = regression.Transform(matrix);
 
@@ -907,7 +907,7 @@ namespace Accord.Tests.Statistics
             // Step 1. Get some data
             // ---------------------
 
-            double[][] data = 
+            double[][] data =
             {
                 new double[] { 2.5,  2.4 },
                 new double[] { 0.5,  0.7 },
@@ -960,7 +960,7 @@ namespace Accord.Tests.Statistics
             // And this will be their proportion:
             double[] proportion = eigenvalues.Divide(eigenvalues.Sum());
 
-            
+
             Assert.IsTrue(proportion.IsEqual(pca.ComponentProportions, rtol: 1e-9));
             Assert.IsTrue(eigenvalues.IsEqual(pca.Eigenvalues.Divide(data.GetLength(0) - 1), rtol: 1e-5));
 
@@ -1061,7 +1061,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void learn_whiten_success()
         {
-            double[,] data = 
+            double[,] data =
             {
                 { 2.5,  2.4 },
                 { 0.5,  0.7 },
@@ -1106,11 +1106,60 @@ namespace Accord.Tests.Statistics
                 new double[] { -0.0291545644762578, -0.526334573603598  },
                 new double[] { -0.336693495487974,   0.0698378585807067 },
                 new double[] { -0.128858004446015,   0.0267280693333571 },
-                new double[] { -0.360005627922904,  -0.244755811482527  } 
+                new double[] { -0.360005627922904,  -0.244755811482527  }
             }.Multiply(-1);
 
             // Everything is correct (up to 8 decimal places)
             Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
+        }
+
+        [Test]
+        [Category("Serialization")]
+        public void SerializeTest()
+        {
+            double[][] actual, expected = new double[][] 
+            {
+                new double[] { -0.57497881446526, 0.0385634996866008 },
+                new double[] { 0.615576484818799, 0.463702189462175 },
+                new double[] { -0.593829949403244, 0.225530142279202 },
+                new double[] { -0.317225395167446, -0.470473936541537 },
+                new double[] { -0.372910594880684, 0.490761790918429 },
+                new double[] { -0.635435167456034, 0.154118097007375 },
+                new double[] { 0.0591892009931548, -0.659772491267272 },
+                new double[] { 0.739020019118434, 0.133927036952283 },
+                new double[] { 0.344183901764118, -0.559832164574368 },
+                new double[] { 0.736410314678163, 0.183475836077113 }
+            };
+
+
+
+            var target = new KernelPrincipalComponentAnalysis()
+            {
+                Kernel = new Gaussian(0.7)
+            };
+
+            target.Learn(data.ToJagged());
+
+            actual = target.Transform(data.ToJagged());
+            string str = actual.ToCSharp();
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-10));
+
+            var copy = Serializer.DeepClone(target);
+
+            actual = copy.Transform(data.ToJagged());
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-10));
+
+            Assert.IsTrue(target.Kernel.Equals(copy.Kernel));
+            Assert.IsTrue(target.ComponentProportions.IsEqual(copy.ComponentProportions));
+            Assert.IsTrue(target.ComponentVectors.IsEqual(copy.ComponentVectors));
+            Assert.IsTrue(target.CumulativeProportions.IsEqual(copy.CumulativeProportions));
+            Assert.IsTrue(target.Eigenvalues.IsEqual(copy.Eigenvalues));
+            Assert.IsTrue(target.MaximumNumberOfOutputs.IsEqual(copy.MaximumNumberOfOutputs));
+            Assert.IsTrue(target.Method.Equals(copy.Method));
+            Assert.IsTrue(target.NumberOfInputs.IsEqual(copy.NumberOfInputs));
+            Assert.IsTrue(target.NumberOfOutputs.IsEqual(copy.NumberOfOutputs));
+            Assert.IsTrue(target.Overwrite.Equals(copy.Overwrite));
+            Assert.IsTrue(target.Whiten.Equals(copy.Whiten));
         }
     }
 }

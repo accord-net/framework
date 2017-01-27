@@ -28,13 +28,15 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using System;
     using Accord.Statistics.Models.Regression.Linear;
+    using System.IO;
+    using IO;
 
     [TestFixture]
     public class PrincipalComponentAnalysisTest
     {
 
         // Lindsay's tutorial data
-        private static double[,] data = 
+        private static double[,] data =
         {
             { 2.5,  2.4 },
             { 0.5,  0.7 },
@@ -58,7 +60,7 @@ namespace Accord.Tests.Statistics
             // Step 1. Get some data
             // ---------------------
 
-            double[,] data = 
+            double[,] data =
             {
                 { 2.5,  2.4 },
                 { 0.5,  0.7 },
@@ -176,7 +178,7 @@ namespace Accord.Tests.Statistics
             // Step 1. Get some data
             // ---------------------
 
-            double[][] data = 
+            double[][] data =
             {
                 new[] { 2.5,  2.4 },
                 new[] { 0.5,  0.7 },
@@ -342,7 +344,7 @@ namespace Accord.Tests.Statistics
             #region doc_learn_1
             // Below is the same data used on the excellent paper "Tutorial
             //   On Principal Component Analysis", by Lindsay Smith (2002).
-            double[][] data = 
+            double[][] data =
             {
                 new double[] { 2.5,  2.4 },
                 new double[] { 0.5,  0.7 },
@@ -400,7 +402,7 @@ namespace Accord.Tests.Statistics
             pca.ExplainedVariance = 1.0;
             double[][] actual = pca.Transform(data);
 
-            double[][] expected = 
+            double[][] expected =
             {
                 new double[] {  0.243560157209023,  -0.263472650637184  },
                 new double[] { -0.522902576315494,   0.214938218565977  },
@@ -411,7 +413,7 @@ namespace Accord.Tests.Statistics
                 new double[] { -0.0291545644762578, -0.526334573603598  },
                 new double[] { -0.336693495487974,   0.0698378585807067 },
                 new double[] { -0.128858004446015,   0.0267280693333571 },
-                new double[] { -0.360005627922904,  -0.244755811482527  } 
+                new double[] { -0.360005627922904,  -0.244755811482527  }
             };
 
             // var str = actual.ToString(CSharpJaggedMatrixFormatProvider.InvariantCulture);
@@ -438,7 +440,7 @@ namespace Accord.Tests.Statistics
             // Step 1. Get some data
             // ---------------------
 
-            double[,] data = 
+            double[,] data =
             {
                 { 2.5,  2.4 },
                 { 0.5,  0.7 },
@@ -612,7 +614,7 @@ namespace Accord.Tests.Statistics
             // Assert the scores equals the transformation of the input
             Assert.IsNull(target.Result);
 
-            double[,] expected = 
+            double[,] expected =
             {
                 {  0.50497524691810358, -0.00000000000000044408920985006262 },
                 { -0.504975246918104,   -0.00000000000000035735303605122226 }
@@ -859,7 +861,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void ExceptionTest()
         {
-            double[,] data = 
+            double[,] data =
             {
                 { 1, 2 },
                 { 5, 2 },
@@ -956,6 +958,50 @@ namespace Accord.Tests.Statistics
             // Verify both are equal with 0.01 tolerance value
             Assert.IsTrue(Matrix.IsEqual(actual, expected, 0.01));
 
+        }
+
+        [Test]
+        [Category("Serialization")]
+        public void SerializeTest()
+        {
+            double[][] actual, expected = new double[][]
+            {
+                new double[] {  0.827970186, -0.175115307 },
+                new double[] { -1.77758033,   0.142857227 },
+                new double[] {  0.992197494,  0.384374989 },
+                new double[] {  0.274210416,  0.130417207 },
+                new double[] {  1.67580142,  -0.209498461 },
+                new double[] {  0.912949103,  0.175282444 },
+                new double[] { -0.099109437, -0.349824698 },
+                new double[] { -1.14457216,   0.046417258 },
+                new double[] { -0.438046137,  0.017764629 },
+                new double[] { -1.22382056,  -0.162675287 },
+            };
+
+
+
+            var target = new PrincipalComponentAnalysis();
+
+            target.Learn(data.ToJagged());
+
+            actual = target.Transform(data.ToJagged());
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 0.01));
+
+            var copy = Serializer.DeepClone(target);
+
+            actual = copy.Transform(data.ToJagged());
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 0.01));
+
+            Assert.IsTrue(target.ComponentProportions.IsEqual(copy.ComponentProportions));
+            Assert.IsTrue(target.ComponentVectors.IsEqual(copy.ComponentVectors));
+            Assert.IsTrue(target.CumulativeProportions.IsEqual(copy.CumulativeProportions));
+            Assert.IsTrue(target.Eigenvalues.IsEqual(copy.Eigenvalues));
+            Assert.IsTrue(target.MaximumNumberOfOutputs.IsEqual(copy.MaximumNumberOfOutputs));
+            Assert.IsTrue(target.Method.Equals(copy.Method));
+            Assert.IsTrue(target.NumberOfInputs.IsEqual(copy.NumberOfInputs));
+            Assert.IsTrue(target.NumberOfOutputs.IsEqual(copy.NumberOfOutputs));
+            Assert.IsTrue(target.Overwrite.Equals(copy.Overwrite));
+            Assert.IsTrue(target.Whiten.Equals(copy.Whiten));
         }
     }
 }

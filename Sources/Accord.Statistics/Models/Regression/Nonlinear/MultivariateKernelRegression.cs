@@ -37,6 +37,7 @@ namespace Accord.Statistics.Models.Regression
     /// 
     /// <typeparam name="TKernel">The kernel function.</typeparam>
     /// 
+    [Serializable]
     public class MultivariateKernelRegression<TKernel> : MultipleTransformBase<double[], double>
         where TKernel : IKernel<double[]>
     {
@@ -123,6 +124,7 @@ namespace Accord.Statistics.Models.Regression
     ///   Multivariate non-linear regression using Kernels.
     /// </summary>
     /// 
+    [Serializable]
     public class MultivariateKernelRegression : MultivariateKernelRegression<IKernel>
     {
 

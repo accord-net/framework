@@ -92,6 +92,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
         IMultipleRegressionFitting, IConvergenceLearning
 #pragma warning restore 612, 618
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
 
         private MultinomialLogisticRegression regression;
 
@@ -326,7 +328,11 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// Gets or sets a cancellation token that can be used to
         /// stop the learning algorithm while it is running.
         /// </summary>
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.

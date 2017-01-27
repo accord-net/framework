@@ -52,6 +52,7 @@ namespace Accord
         /// 
         /// <returns>A copy of the collection where each element has also been copied.</returns>
         /// 
+        [Obsolete("Please use Matrix.Copy() instead.")]
         public static T DeepClone<T>(this T list)
             where T : IList<ICloneable>, ICloneable
         {

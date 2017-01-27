@@ -42,12 +42,18 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         where TModel : SupportVectorMachine<TKernel, TInput>, ISupportVectorMachine<TInput>
         where TInput : ICloneable
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
 
         /// <summary>
         /// Gets or sets a cancellation token that can be used to
         /// stop the learning algorithm while it is running.
         /// </summary>
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         // Training data
         private TInput[] inputs;

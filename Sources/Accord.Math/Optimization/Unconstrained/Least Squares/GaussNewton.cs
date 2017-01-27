@@ -39,6 +39,8 @@ namespace Accord.Math.Optimization
     /// 
     public class GaussNewton : ILeastSquaresMethod
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
 
         private int numberOfParameters;
 
@@ -82,7 +84,11 @@ namespace Accord.Math.Optimization
         ///   stop the learning algorithm while it is running.
         /// </summary>
         /// 
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         /// <summary>
         ///   Gets the number of variables (free parameters) in the optimization problem.

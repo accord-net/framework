@@ -90,6 +90,9 @@ using Accord.MachineLearning;
         IRegressionFitting
 #pragma warning restore 612, 618
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
+
         private ILeastSquaresMethod solver;
         private NonlinearRegression regression;
         private bool computeStandardErrors = true;
@@ -182,7 +185,11 @@ using Accord.MachineLearning;
         /// Gets or sets a cancellation token that can be used to
         /// stop the learning algorithm while it is running.
         /// </summary>
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.

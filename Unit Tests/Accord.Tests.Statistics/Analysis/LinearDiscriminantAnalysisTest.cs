@@ -25,6 +25,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Analysis;
     using NUnit.Framework;
     using Accord.Math;
+    using IO;
 
     [TestFixture]
     public class LinearDiscriminantAnalysisTest
@@ -33,7 +34,7 @@ namespace Accord.Tests.Statistics
         // This is the same data used in the example by Gutierrez-Osuna
         // http://research.cs.tamu.edu/prism/lectures/pr/pr_l10.pdf
 
-        private static double[,] inputs =
+        public static double[,] inputs =
         {
             {  4,  1 }, // Class 1
             {  2,  4 },
@@ -48,7 +49,7 @@ namespace Accord.Tests.Statistics
             { 10,  8 }
         };
 
-        private static int[] output = 
+        public static int[] output = 
         {
             1, 1, 1, 1, 1, // Class labels for the input vectors
             2, 2, 2, 2, 2
@@ -495,6 +496,53 @@ namespace Accord.Tests.Statistics
             };
 
             Assert.IsTrue(Matrix.IsEqual(scores, expected, 1e-6));
+        }
+
+        [Test]
+        [Category("Serialization")]
+        public void SerializeTest()
+        {
+            double[][] actual, expected = new double[][] {
+                new double[] { 3.97283892300425, 1.19607843137255 },
+                new double[] { 1.89135569201701, -2.90196078431373 },
+                new double[] { 1.91851676901275, -1.90196078431373 },
+                new double[] { 2.83703353802551, -4.35294117647059 },
+                new double[] { 3.89135569201701, -1.80392156862745 },
+                new double[] { 8.72838923004251, -5.05882352941177 },
+                new double[] { 5.78271138403401, -4.70588235294118 },
+                new double[] { 8.86419461502126, -0.0588235294117654 },
+                new double[] { 7.80987246102976, -2.6078431372549 },
+                new double[] { 9.78271138403401, -2.50980392156863 }
+            };
+
+            int[] output = { 0, 0, 0, 0, 0, 0, 1, 1, 1, 1 };
+
+            var target = new LinearDiscriminantAnalysis();
+
+            target.Learn(inputs.ToJagged(), output);
+
+            actual = target.Transform(inputs.ToJagged());
+            var str = actual.ToCSharp();
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 0.01));
+
+            var copy = Serializer.DeepClone(target);
+
+            actual = copy.Transform(inputs.ToJagged());
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 0.01));
+
+            Assert.IsTrue(target.ScatterBetweenClass.IsEqual(copy.ScatterBetweenClass));
+            Assert.IsTrue(target.ScatterMatrix.IsEqual(copy.ScatterMatrix));
+            Assert.IsTrue(target.ScatterWithinClass.IsEqual(copy.ScatterWithinClass));
+            Assert.IsTrue(target.StandardDeviations.IsEqual(copy.StandardDeviations));
+            Assert.IsTrue(target.Classifications.IsEqual(copy.Classifications));
+            Assert.IsTrue(target.Classifier.NumberOfInputs.IsEqual(copy.Classifier.NumberOfInputs));
+            Assert.IsTrue(target.Classifier.NumberOfOutputs.IsEqual(copy.Classifier.NumberOfOutputs));
+            Assert.IsTrue(target.Classifier.First.Weights.IsEqual(copy.Classifier.First.Weights));
+            Assert.IsTrue(target.Classifier.Second.Function.Equals(copy.Classifier.Second.Function));
+            Assert.IsTrue(target.Classifier.Second.Means.IsEqual(copy.Classifier.Second.Means));
+            Assert.IsTrue(target.NumberOfClasses.IsEqual(copy.NumberOfClasses));
+            Assert.IsTrue(target.NumberOfInputs.Equals(copy.NumberOfInputs));
+            Assert.IsTrue(target.NumberOfOutputs.Equals(copy.NumberOfOutputs));
         }
     }
 }

@@ -80,6 +80,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         where TModel : SupportVectorMachine<TKernel, TInput>
         where TInput : ICloneable
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
+
         private double[] alpha;
         private TInput[] inputs;
         private double nu = 0.5;
@@ -122,7 +125,11 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   stop the learning algorithm while it is running.
         /// </summary>
         /// 
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         /// <summary>
         ///   Convergence tolerance. Default value is 1e-2.

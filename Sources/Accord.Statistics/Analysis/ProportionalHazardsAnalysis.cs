@@ -79,11 +79,18 @@ namespace Accord.Statistics.Analysis
     public class ProportionalHazardsAnalysis : IRegressionAnalysis,
         ISupervisedLearning<ProportionalHazards, Tuple<double[], double>, int>
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
+
         /// <summary>
         /// Gets or sets a cancellation token that can be used to
         /// stop the learning algorithm while it is running.
         /// </summary>
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         private ProportionalHazards regression;
 

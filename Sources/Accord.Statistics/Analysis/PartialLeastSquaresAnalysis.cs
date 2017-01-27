@@ -115,11 +115,18 @@ namespace Accord.Statistics.Analysis
         ISupervisedLearning<MultivariateLinearRegression, double[], double[]>
 #pragma warning restore 612, 618
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
+
         /// <summary>
         /// Gets or sets a cancellation token that can be used to
         /// stop the learning algorithm while it is running.
         /// </summary>
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         [Obsolete]
         internal double[,] sourceX;

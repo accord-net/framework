@@ -39,6 +39,8 @@ using System.Threading;
         ISupervisedLearning<ConditionalRandomField<T>, T[], int[]>,
         IConditionalRandomFieldLearning<T>
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
 
         private BoundedBroydenFletcherGoldfarbShanno lbfgs;
         private ConditionalRandomField<T> model;
@@ -48,7 +50,11 @@ using System.Threading;
         /// stop the learning algorithm while it is running.
         /// </summary>
         /// 
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         /// <summary>
         ///   Constructs a new L-BFGS learning algorithm.

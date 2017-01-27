@@ -190,6 +190,19 @@ namespace Accord.IO
             }
         }
 
+        /// <summary>
+        ///   Performs a deep copy of an object by serializing and deserializing it.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the model to be copied.</typeparam>
+        /// <param name="obj">The object.</param>
+        /// 
+        /// <returns>A deep copy of the given object.</returns>
+        /// 
+        public static T DeepClone<T>(this T obj)
+        {
+            return Load<T>(Save<T>(obj));
+        }
 
 
         private static SerializationBinder GetBinder(Type type)

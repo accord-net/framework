@@ -70,6 +70,8 @@ using System.Threading;
         ISupervisedLearning<HiddenMarkovModel<TDistribution, TObservation>, TObservation[], int[]>
         where TDistribution : IFittableDistribution<TObservation>
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
 
         private HiddenMarkovModel<TDistribution, TObservation> model;
         private bool useLaplaceRule = true;
@@ -86,7 +88,11 @@ using System.Threading;
         ///   stop the learning algorithm while it is running.
         /// </summary>
         /// 
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         /// <summary>
         ///   Gets the model being trained.

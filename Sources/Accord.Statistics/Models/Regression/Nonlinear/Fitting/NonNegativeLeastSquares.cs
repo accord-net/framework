@@ -52,6 +52,9 @@ namespace Accord.Statistics.Models.Regression.Fitting
         ISupervisedLearning<MultipleLinearRegression, double[], double>
 #pragma warning restore 612, 618
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
+
         MultipleLinearRegression regression;
 
         List<int> p = new List<int>();
@@ -96,7 +99,11 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// Gets or sets a cancellation token that can be used to
         /// stop the learning algorithm while it is running.
         /// </summary>
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="NonNegativeLeastSquares"/> class.

@@ -69,6 +69,9 @@ namespace Accord.Statistics.Models.Regression.Linear
         ISupervisedLearning<MultipleLinearRegression, double[], double>,
         ISupervisedLearning<SimpleLinearRegression, double, double>
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
+
         private ISolverArrayDecomposition<double> decomposition;
 
         /// <summary>
@@ -100,7 +103,11 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// stop the learning algorithm while it is running.
         /// </summary>
         /// 
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.

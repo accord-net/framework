@@ -47,6 +47,8 @@ namespace Accord.Statistics.Models.Fields.Learning
         IHiddenConditionalRandomFieldLearning<T>,
         IConvergenceLearning, IDisposable
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
 
         private ForwardBackwardGradient<T> calculator;
         private ConjugateGradient optimizer;
@@ -56,7 +58,11 @@ namespace Accord.Statistics.Models.Fields.Learning
         /// stop the learning algorithm while it is running.
         /// </summary>
         /// 
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         /// <summary>
         ///   Gets or sets the model being trained.

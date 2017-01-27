@@ -92,6 +92,8 @@ namespace Accord.Math.Optimization
     ///
     public class FanChenLinQuadraticOptimization : IOptimizationMethod
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
 
         const double TAU = 1e-12;
 
@@ -146,7 +148,11 @@ namespace Accord.Math.Optimization
         ///   stop the learning algorithm while it is running.
         /// </summary>
         /// 
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         /// <summary>
         ///   Gets the output of the function at the current <see cref="Solution" />.

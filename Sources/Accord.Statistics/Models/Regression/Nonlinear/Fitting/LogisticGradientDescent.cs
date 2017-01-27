@@ -40,6 +40,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
         IRegressionFitting, IConvergenceLearning
 #pragma warning restore 612, 618
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
 
         private LogisticRegression regression;
 
@@ -246,7 +248,11 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// stop the learning algorithm while it is running.
         /// </summary>
         /// 
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.

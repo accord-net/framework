@@ -68,6 +68,8 @@ namespace Accord.Statistics.Models.Markov.Learning
     public class MaximumLikelihoodLearning : ISupervisedLearning,
         ISupervisedLearning<HiddenMarkovModel, int[], int[]>
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
 
         private HiddenMarkovModel model;
         private bool useLaplaceRule = true;
@@ -81,7 +83,11 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   stop the learning algorithm while it is running.
         /// </summary>
         /// 
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         /// <summary>
         ///   Gets the model being trained.

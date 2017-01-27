@@ -31,12 +31,19 @@ namespace Accord.Math.Optimization
     /// 
     public abstract class BaseGradientOptimizationMethod : BaseOptimizationMethod
     {
+        [NonSerialized]
+        private CancellationToken token = new CancellationToken();
+
         /// <summary>
         ///   Gets or sets a cancellation token that can be used to
         ///   stop the learning algorithm while it is running.
         /// </summary>
         /// 
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         /// <summary>
         ///   Gets or sets a function returning the gradient

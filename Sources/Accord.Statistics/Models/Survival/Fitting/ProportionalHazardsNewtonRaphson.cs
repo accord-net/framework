@@ -43,6 +43,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
         ISurvivalFitting, IConvergenceLearning
 #pragma warning disable 612, 618
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
 
         private ProportionalHazards regression;
         private int parameterCount;
@@ -206,7 +208,11 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// Gets or sets a cancellation token that can be used to
         /// stop the learning algorithm while it is running.
         /// </summary>
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
 
         /// <summary>

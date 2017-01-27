@@ -27,6 +27,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Kernels;
     using Accord.Math;
     using System;
+    using IO;
 
     [TestFixture]
     public class KernelDiscriminantAnalysisTest
@@ -578,5 +579,57 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, target.Discriminants.Count);
         }
 
+        [Test]
+        [Category("Serialization")]
+        public void SerializeTest()
+        {
+            double[][] actual, expected = new double[][] {
+                new double[] { -109.160894622401, -127.729010764102 },
+                new double[] { -109.194678442625, -114.24653758324 },
+                new double[] { -109.238116380388, -112.905892408598 },
+                new double[] { -109.209886124532, -132.26101651421 },
+                new double[] { -109.174352521775, -143.574080034334 },
+                new double[] { -109.204229997471, -972.320404618979 },
+                new double[] { 291.003271433059, 81.2380025750026 },
+                new double[] { 290.982068268582, -259.413571936544 },
+                new double[] { 290.973346814048, -161.838508509099 },
+                new double[] { 290.998656827956, -728.677216732875 }
+            };
+
+            int[] output = { 0, 0, 0, 0, 0, 0, 1, 1, 1, 1 };
+
+            var target = new KernelDiscriminantAnalysis()
+            {
+                Kernel = new Polynomial(4)
+            };
+
+            double[][] inputs = LinearDiscriminantAnalysisTest.inputs.ToJagged();
+            int[] outputs = LinearDiscriminantAnalysisTest.output;
+            target.Learn(inputs, output);
+
+            actual = target.Transform(inputs);
+            var str = actual.ToCSharp();
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 0.01));
+
+            var copy = Serializer.DeepClone(target);
+
+            actual = copy.Transform(inputs);
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 0.01));
+
+            Assert.IsTrue(target.Kernel.Equals(copy.Kernel));
+            Assert.IsTrue(target.ScatterBetweenClass.IsEqual(copy.ScatterBetweenClass));
+            Assert.IsTrue(target.ScatterMatrix.IsEqual(copy.ScatterMatrix));
+            Assert.IsTrue(target.ScatterWithinClass.IsEqual(copy.ScatterWithinClass));
+            Assert.IsTrue(target.StandardDeviations.IsEqual(copy.StandardDeviations));
+            Assert.IsTrue(target.Classifications.IsEqual(copy.Classifications));
+            Assert.IsTrue(target.Classifier.NumberOfInputs.IsEqual(copy.Classifier.NumberOfInputs));
+            Assert.IsTrue(target.Classifier.NumberOfOutputs.IsEqual(copy.Classifier.NumberOfOutputs));
+            Assert.IsTrue(target.Classifier.First.Weights.IsEqual(copy.Classifier.First.Weights));
+            Assert.IsTrue(target.Classifier.Second.Function.Equals(copy.Classifier.Second.Function));
+            Assert.IsTrue(target.Classifier.Second.Means.IsEqual(copy.Classifier.Second.Means));
+            Assert.IsTrue(target.NumberOfClasses.IsEqual(copy.NumberOfClasses));
+            Assert.IsTrue(target.NumberOfInputs.Equals(copy.NumberOfInputs));
+            Assert.IsTrue(target.NumberOfOutputs.Equals(copy.NumberOfOutputs));
+        }
     }
 }
