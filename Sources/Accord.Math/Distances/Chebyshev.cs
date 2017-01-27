@@ -30,16 +30,8 @@ namespace Accord.Math.Distances
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Chebyshev : IMetric<double[]>
+    public struct Chebyshev : IMetric<double[]>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Chebyshev"/> class.
-        /// </summary>
-        /// 
-        public Chebyshev()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.

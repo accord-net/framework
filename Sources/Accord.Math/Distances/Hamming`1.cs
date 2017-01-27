@@ -33,17 +33,9 @@ namespace Accord.Math.Distances
     /// <typeparam name="T">The type of the elements to be compared.</typeparam>
     /// 
     [Serializable]
-    public sealed class Hamming<T> : IMetric<T[]>
+    public struct Hamming<T> : IMetric<T[]>
         where T : IEquatable<T>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Hamming"/> class.
-        /// </summary>
-        /// 
-        public Hamming()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.

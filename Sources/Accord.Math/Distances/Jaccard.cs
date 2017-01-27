@@ -48,16 +48,8 @@ namespace Accord.Math.Distances
     /// <seealso cref="Jaccard{T}"/>
     /// 
     [Serializable]
-    public sealed class Jaccard : ISimilarity<double[]>, IDistance<double[]>
+    public struct Jaccard : ISimilarity<double[]>, IDistance<double[]>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Jaccard{T}"/> class.
-        /// </summary>
-        /// 
-        public Jaccard()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.

@@ -31,16 +31,8 @@ namespace Accord.Math.Distances
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Hamming : IMetric<byte[]>, IMetric<string>, IDistance<double[]>, IMetric<BitArray>
+    public struct Hamming : IMetric<byte[]>, IMetric<string>, IDistance<double[]>, IMetric<BitArray>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Hamming"/> class.
-        /// </summary>
-        /// 
-        public Hamming()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.

@@ -32,19 +32,11 @@ namespace Accord.Math.Distances
     /// <seealso cref="SquareEuclidean"/>
     /// 
     [Serializable]
-    public sealed class Euclidean :
+    public struct Euclidean :
         IMetric<double>, ISimilarity<double>,
         IMetric<double[]>, ISimilarity<double[]>,
         IMetric<Tuple<double, double>>, ISimilarity<Tuple<double, double>>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Euclidean"/> class.
-        /// </summary>
-        /// 
-        public Euclidean()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.

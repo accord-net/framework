@@ -30,16 +30,8 @@ namespace Accord.Math.Distances
     /// </summary>
     /// 
     [Serializable]
-    public sealed class ArgMax : IDistance<double[]>
+    public struct ArgMax : IDistance<double[]>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="ArgMax"/> class.
-        /// </summary>
-        /// 
-        public ArgMax()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.

@@ -48,17 +48,9 @@ namespace Accord.Math.Distances
     /// <typeparam name="T">The type of the elements in the arrays to be compared.</typeparam>
     /// 
     [Serializable]
-    public sealed class Jaccard<T> : ISimilarity<T[]>, IMetric<T[]>
+    public struct Jaccard<T> : ISimilarity<T[]>, IMetric<T[]>
         where T : IEquatable<T>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Jaccard{T}"/> class.
-        /// </summary>
-        /// 
-        public Jaccard()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.

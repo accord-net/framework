@@ -34,16 +34,8 @@ namespace Accord.Math.Distances
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Kulczynski : IDistance<double[]>, IDistance<int[]>
+    public struct Kulczynski : IDistance<double[]>, IDistance<int[]>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Kulczynski"/> class.
-        /// </summary>
-        /// 
-        public Kulczynski()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.

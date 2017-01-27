@@ -30,16 +30,8 @@ namespace Accord.Math.Distances
     /// </summary>
     /// 
     [Serializable]
-    public sealed class PearsonCorrelation : ISimilarity<double[]>
+    public struct PearsonCorrelation : ISimilarity<double[]>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="PearsonCorrelation"/> class.
-        /// </summary>
-        /// 
-        public PearsonCorrelation()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.

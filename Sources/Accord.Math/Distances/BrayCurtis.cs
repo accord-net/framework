@@ -34,16 +34,8 @@ namespace Accord.Math.Distances
     /// </summary>
     /// 
     [Serializable]
-    public sealed class BrayCurtis : IDistance<double[]>
+    public struct BrayCurtis : IDistance<double[]>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="BrayCurtis"/> class.
-        /// </summary>
-        /// 
-        public BrayCurtis()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.

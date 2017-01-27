@@ -53,17 +53,8 @@ namespace Accord.Math.Distances
     /// 
     /// <seealso cref="Levenshtein{T}"/>
     /// 
-    public sealed class Levenshtein : IMetric<string>
+    public struct Levenshtein : IMetric<string>
     {
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Levenshtein"/> class.
-        /// </summary>
-        /// 
-        public Levenshtein()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.

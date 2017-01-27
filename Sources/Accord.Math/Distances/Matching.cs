@@ -34,16 +34,8 @@ namespace Accord.Math.Distances
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Matching : IDistance<double[]>, IDistance<int[]>
+    public struct Matching : IDistance<double[]>, IDistance<int[]>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Matching"/> class.
-        /// </summary>
-        /// 
-        public Matching()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.

@@ -34,16 +34,8 @@ namespace Accord.Math.Distances
     /// </summary>
     /// 
     [Serializable]
-    public sealed class RusselRao : IDistance<double[]>, IDistance<int[]>
+    public struct RusselRao : IDistance<double[]>, IDistance<int[]>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="RusselRao"/> class.
-        /// </summary>
-        /// 
-        public RusselRao()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.

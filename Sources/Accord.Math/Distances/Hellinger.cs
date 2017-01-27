@@ -47,16 +47,8 @@ namespace Accord.Math.Distances
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Hellinger : IMetric<double[]>
+    public struct Hellinger : IMetric<double[]>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Hellinger"/> class.
-        /// </summary>
-        /// 
-        public Hellinger()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.

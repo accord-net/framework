@@ -34,16 +34,8 @@ namespace Accord.Math.Distances
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Canberra : IDistance<double[]>
+    public struct Canberra : IDistance<double[]>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Canberra"/> class.
-        /// </summary>
-        /// 
-        public Canberra()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.

@@ -34,16 +34,8 @@ namespace Accord.Math.Distances
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Yule : IDistance<double[]>, IDistance<int[]>
+    public struct Yule : IDistance<double[]>, IDistance<int[]>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Yule"/> class.
-        /// </summary>
-        /// 
-        public Yule()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.

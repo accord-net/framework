@@ -53,17 +53,8 @@ namespace Accord.Math.Distances
     /// 
     /// <typeparam name="T">The type of elements in the string. Default is char.</typeparam>
     /// 
-    public sealed class Levenshtein<T> : IMetric<T[]>
+    public struct Levenshtein<T> : IMetric<T[]>
     {
-
-        /// <summary>
-        ///  Initializes a new instance of the <see cref="Levenshtein{T}"/> class.
-        /// </summary>
-        /// 
-        public Levenshtein()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.

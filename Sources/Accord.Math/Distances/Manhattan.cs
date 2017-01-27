@@ -52,16 +52,8 @@ namespace Accord.Math.Distances
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Manhattan : IMetric<double[]>, IMetric<int[]>
+    public struct Manhattan : IMetric<double[]>, IMetric<int[]>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Manhattan"/> class.
-        /// </summary>
-        /// 
-        public Manhattan()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.
