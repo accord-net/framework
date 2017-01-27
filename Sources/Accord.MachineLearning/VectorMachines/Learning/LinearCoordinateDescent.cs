@@ -622,7 +622,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             int nnz = 0;
             for (int j = 0; j < w.Length; j++)
             {
-
                 if (j == biasIndex)
                 {
                     for (int i = 0; i < x.Length; i++)

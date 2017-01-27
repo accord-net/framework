@@ -74,9 +74,12 @@ namespace Accord.Math.Random
 
             lock (sourceLock)
             {
-                if (source == null)
-                    return new Random(Generator.seed.GetValueOrDefault());
-                return new Random(source.Next());
+                lock (seedLock)
+                {
+                    if (source == null)
+                        return new Random(Generator.seed.GetValueOrDefault());
+                    return new Random(source.Next());
+                }
             }
         }
 
@@ -107,9 +110,9 @@ namespace Accord.Math.Random
 
                     lock (sourceLock)
                     {
-                        if (Generator.seed.HasValue)
+                        if (value.HasValue)
                         {
-                            if (Generator.seed.Value <= 0)
+                            if (value.Value <= 0)
                             {
                                 Trace.WriteLine("All threads will be initialized with the same seed: " + value);
                                 Generator.source = null;
@@ -117,13 +120,14 @@ namespace Accord.Math.Random
                             else
                             {
                                 Trace.WriteLine("All threads will be initialized with predictable, but random seeds.");
-                                Generator.source = new Random(Generator.seed.Value);
+                                Generator.source = new Random(value.Value);
                             }
                         }
                         else
                         {
                             Trace.WriteLine("All threads will be initialized with unpredictable random seeds.");
-                            Generator.source = new Random();
+                            int s = (int)(Thread.CurrentThread.ManagedThreadId ^ DateTime.Now.Ticks);
+                            Generator.source = new Random(s);
                         }
                     }
 
