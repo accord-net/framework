@@ -26,13 +26,13 @@ namespace Accord.Math.Distances
     using System.Runtime.CompilerServices;
 
     /// <summary>
-    ///   Cosine distance. For a proper distance metric, see <see cref="Angular"/>.
+    /// Angular distance, or the proper distance metric version of <see cref="Cosine" /> distance.
     /// </summary>
     /// 
-    /// <seealso cref="Angular"/>
+    /// <seealso cref="Accord.Math.Distances.Cosine"/>
     /// 
     [Serializable]
-    public struct Cosine : IDistance<double[]>, ISimilarity<double[]>
+    public struct Angular : IMetric<double[]>, ISimilarity<double[]>
     {
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
@@ -53,19 +53,21 @@ namespace Accord.Math.Distances
 #endif
         public double Distance(double[] x, double[] y)
         {
-            double sum = 0;
+            double num = 0;
             double p = 0;
             double q = 0;
 
             for (int i = 0; i < x.Length; i++)
             {
-                sum += x[i] * y[i];
+                num += x[i] * y[i];
                 p += x[i] * x[i];
                 q += y[i] * y[i];
             }
 
             double den = Math.Sqrt(p) * Math.Sqrt(q);
-            return sum == 0 ? 1.0 : 1.0 - (sum / den);
+            double similarity = num == 0 ? 1.0 : 1.0 - (num / den);
+
+            return Math.Acos(similarity);
         }
 
         /// <summary>
@@ -82,19 +84,21 @@ namespace Accord.Math.Distances
 #endif
         public double Similarity(double[] x, double[] y)
         {
-            double sum = 0;
+            double num = 0;
             double p = 0;
             double q = 0;
 
             for (int i = 0; i < x.Length; i++)
             {
-                sum += x[i] * y[i];
+                num += x[i] * y[i];
                 p += x[i] * x[i];
                 q += y[i] * y[i];
             }
 
             double den = Math.Sqrt(p) * Math.Sqrt(q);
-            return (sum == 0) ? 0 : sum / den;
+            double similarity = num == 0 ? 1.0 : 1.0 - (num / den);
+
+            return 1 - Math.Acos(similarity);
         }
     }
 }
