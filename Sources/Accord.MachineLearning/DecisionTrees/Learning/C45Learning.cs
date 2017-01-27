@@ -62,7 +62,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     /// <example>
     /// <para>
     ///   This example shows the simplest way to induce a decision tree with continuous variables.</para>
-    /// <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_simplest" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_simplest" />
     /// 
     /// <para>
     ///   This is the same example as above, but the decision variables are specified manually.</para>

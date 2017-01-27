@@ -49,10 +49,27 @@ namespace Accord.MachineLearning.DecisionTrees
     ///   the <see cref="RandomForestLearning">random forest learning algorithm</see>.</para>
     /// </remarks>
     ///
+    /// <example>
+    /// <para>
+    ///   This example shows the simplest way to induce a decision tree with discrete variables.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\ID3LearningTest.cs" region="doc_learn_simplest" />
+    ///   
+    ///<para>
+    ///   This example shows a common textbook example, and how to induce a decision tree using a 
+    ///   <see cref="Codebook"/> to convert string (text) variables into discrete symbols.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\ID3LearningTest.cs" region="doc_learn_mitchell" />
+    ///   <para>For more examples with discrete variables, please see <see cref="ID3Learning"/></para>
+    /// 
+    /// <para>
+    ///   This example shows the simplest way to induce a decision tree with continuous variables.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_simplest" />
+    ///   <para>For more examples with continuous variables, please see <see cref="C45Learning"/></para>
+    /// </example>
+    /// 
     /// <seealso cref="ID3Learning"/>
     /// <seealso cref="C45Learning"/>
     /// <seealso cref="RandomForestLearning"/>
-    ///
+    /// 
     [Serializable]
     [SerializationBinder(typeof(DecisionTree.DecisionTreeBinder))]
     public class DecisionTree : MulticlassClassifierBase, IEnumerable<DecisionNode>

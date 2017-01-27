@@ -54,112 +54,18 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     /// 
     /// <example>
     /// <para>
-    ///   In this example, we will be using the famous Play Tennis example by Tom Mitchell (1998).
-    ///   In Mitchell's example, one would like to infer if a person would play tennis or not
-    ///   based solely on four input variables. Those variables are all categorical, meaning that
-    ///   there is no order between the possible values for the variable (i.e. there is no order
-    ///   relationship between Sunny and Rain, one is not bigger nor smaller than the other, but are 
-    ///   just distinct). Moreover, the rows, or instances presented above represent days on which the
-    ///   behavior of the person has been registered and annotated, pretty much building our set of 
-    ///   observation instances for learning:</para>
-    /// 
-    /// <code>
-    ///   DataTable data = new DataTable("Mitchell's Tennis Example");
+    ///   This example shows the simplest way to induce a decision tree with discrete variables.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\ID3LearningTest.cs" region="doc_learn_simplest" />
     ///   
-    ///   data.Columns.Add("Day", "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
-    ///   
-    ///   data.Rows.Add(   "D1",   "Sunny",      "Hot",       "High",   "Weak",    "No"  );
-    ///   data.Rows.Add(   "D2",   "Sunny",      "Hot",       "High",  "Strong",   "No"  ); 
-    ///   data.Rows.Add(   "D3",  "Overcast",    "Hot",       "High",   "Weak",    "Yes" );
-    ///   data.Rows.Add(   "D4",   "Rain",       "Mild",      "High",   "Weak",    "Yes" ); 
-    ///   data.Rows.Add(   "D5",   "Rain",       "Cool",     "Normal",  "Weak",    "Yes" ); 
-    ///   data.Rows.Add(   "D6",   "Rain",       "Cool",     "Normal", "Strong",   "No"  ); 
-    ///   data.Rows.Add(   "D7",  "Overcast",    "Cool",     "Normal", "Strong",   "Yes" );
-    ///   data.Rows.Add(   "D8",   "Sunny",      "Mild",      "High",   "Weak",    "No"  );  
-    ///   data.Rows.Add(   "D9",   "Sunny",      "Cool",     "Normal",  "Weak",    "Yes" ); 
-    ///   data.Rows.Add(   "D10", "Rain",        "Mild",     "Normal",  "Weak",    "Yes" ); 
-    ///   data.Rows.Add(   "D11",  "Sunny",      "Mild",     "Normal", "Strong",   "Yes" );
-    ///   data.Rows.Add(   "D12", "Overcast",    "Mild",      "High",  "Strong",   "Yes" ); 
-    ///   data.Rows.Add(   "D13", "Overcast",    "Hot",      "Normal",  "Weak",    "Yes" ); 
-    ///   data.Rows.Add(   "D14",  "Rain",       "Mild",      "High",  "Strong",   "No"  );
-    /// </code>
-    /// 
-    /// <para>
-    ///   In order to try to learn a decision tree, we will first convert this problem to a more simpler
-    ///   representation. Since all variables are categories, it does not matter if they are represented
-    ///   as strings, or numbers, since both are just symbols for the event they represent. Since numbers
-    ///   are more easily representable than text string, we will convert the problem to use a discrete 
-    ///   alphabet through the use of a <see cref="Accord.Statistics.Filters.Codification">codebook</see>.</para>
-    /// 
-    /// <para>
-    ///   A codebook effectively transforms any distinct possible value for a variable into an integer 
-    ///   symbol. For example, “Sunny” could as well be represented by the integer label 0, “Overcast” 
-    ///   by “1”, Rain by “2”, and the same goes by for the other variables. So:</para>
-    /// 
-    /// <code>
-    ///   // Create a new codification codebook to 
-    ///   // convert strings into integer symbols
-    ///   Codification codebook = new Codification(data,
-    ///     "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
-    ///   
-    ///   // Translate our training data into integer symbols using our codebook:
-    ///   DataTable symbols = codebook.Apply(data); 
-    ///   int[][] inputs  = symbols.ToArray&lt;int>("Outlook", "Temperature", "Humidity", "Wind"); 
-    ///   int[]   outputs = symbols.ToArray&lt;int>("PlayTennis");
-    /// </code>
-    /// 
-    /// <para>
-    ///   Now that we already have our learning input/ouput pairs, we should specify our
-    ///   decision tree. We will be trying to build a tree to predict the last column, entitled
-    ///   “PlayTennis”. For this, we will be using the “Outlook”, “Temperature”, “Humidity” and
-    ///   “Wind” as predictors (variables which will we will use for our decision). Since those
-    ///   are categorical, we must specify, at the moment of creation of our tree, the
-    ///   characteristics of each of those variables. So:
-    /// </para>
-    /// 
-    /// <code>
-    ///   // Gather information about decision variables
-    ///   DecisionVariable[] attributes =
-    ///   {
-    ///     new DecisionVariable("Outlook",     3), // 3 possible values (Sunny, overcast, rain)
-    ///     new DecisionVariable("Temperature", 3), // 3 possible values (Hot, mild, cool)  
-    ///     new DecisionVariable("Humidity",    2), // 2 possible values (High, normal)    
-    ///     new DecisionVariable("Wind",        2)  // 2 possible values (Weak, strong) 
-    ///   };
-    ///   
-    ///   int classCount = 2; // 2 possible output values for playing tennis: yes or no
-    ///
-    ///   //Create the decision tree using the attributes and classes
-    ///   DecisionTree tree = new DecisionTree(attributes, classCount); 
-    /// </code>
-    /// 
-    /// <para>Now we have created our decision tree. Unfortunately, it is not really very useful,
-    /// since we haven't taught it the problem we are trying to predict. So now we must instantiate
-    /// a learning algorithm to make it useful. For this task, in which we have only categorical 
-    /// variables, the simplest choice is to use the ID3 algorithm by Quinlan. Let’s do it:</para>
-    /// 
-    /// <code>
-    ///   // Create a new instance of the ID3 algorithm
-    ///   ID3Learning id3learning = new ID3Learning(tree);
-    ///
-    ///   // Learn the training instances!
-    ///   id3learning.Run(inputs, outputs); 
-    /// </code>
-    /// 
-    /// <para>The tree can now be queried for new examples through its <see cref="DecisionTree.Compute(double[])"/>
-    /// method. For example, we can use: </para>
-    /// 
-    /// <code>
-    ///   string answer = codebook.Translate("PlayTennis",
-    ///     tree.Compute(codebook.Translate("Sunny", "Hot", "High", "Strong")));
-    /// </code>
-    /// 
-    /// <para>In the above example, answer will be "No".</para>
-    /// 
+    ///<para>
+    ///   This example shows a common textbook example, and how to induce a decision tree using a 
+    ///   <see cref="Codebook"/> to convert string (text) variables into discrete symbols.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\ID3LearningTest.cs" region="doc_learn_mitchell" />
     /// </example>
-    /// 
     ///
+    /// <see cref="DecisionTree"/> 
     /// <see cref="C45Learning"/>
+    /// <see cref="RandomForestLearning"/>
     /// 
     [Serializable]
     public class ID3Learning : ParallelLearningBase, ISupervisedLearning<DecisionTree, int[], int>
