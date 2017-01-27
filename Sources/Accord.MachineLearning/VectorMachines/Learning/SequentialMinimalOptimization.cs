@@ -119,8 +119,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// 
     //[Obsolete("Please use SequentialMinimalOptimization<TKernel> instead.")]
     public class SequentialMinimalOptimization :
-        BaseSequentialMinimalOptimization<
-            ISupportVectorMachine<double[]>, IKernel<double[]>, double[]>,
+        BaseSequentialMinimalOptimization<ISupportVectorMachine<double[]>, IKernel<double[]>, double[]>,
         ISupportVectorMachineLearning
     {
         /// <summary>
@@ -418,8 +417,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ISupportVectorMachineLearning<TInput>
         where TKernel : IKernel<TInput>
         where TModel : ISupportVectorMachine<TInput>
-    // TODO: after a few releases, the TModel constraint should be changed to:
-    // where TModel : SupportVectorMachine<TKernel, TInput>, ISupportVectorMachine<TInput>
+        // TODO: after a few releases, the TModel constraint should be changed to:
+        // where TModel : SupportVectorMachine<TKernel, TInput>, ISupportVectorMachine<TInput>
     {
         // Learning algorithm parameters
         private double tolerance = 1e-2;

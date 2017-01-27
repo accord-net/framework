@@ -27,6 +27,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Kernels;
+    using Math.Optimization.Losses;
     using NUnit.Framework;
 
     [TestFixture]
@@ -40,19 +41,19 @@ namespace Accord.Tests.MachineLearning
 
             var dist = NormalDistribution.Standard;
 
-            double[] x = 
-	        {
-		        +1.0312479734420776,
-		        +0.99444115161895752,
-		        +0.21835240721702576,
-		        +0.47197291254997253,
-		        +0.68701112270355225,
-		        -0.58556461334228516,
-		        -0.64154046773910522,
-		        -0.66485315561294556,
-		        +0.37940266728401184,
-		        -0.61046308279037476
-	        };
+            double[] x =
+            {
+                +1.0312479734420776,
+                +0.99444115161895752,
+                +0.21835240721702576,
+                +0.47197291254997253,
+                +0.68701112270355225,
+                -0.58556461334228516,
+                -0.64154046773910522,
+                -0.66485315561294556,
+                +0.37940266728401184,
+                -0.61046308279037476
+            };
 
             double[][] inputs = Jagged.ColumnVector(x);
 
@@ -73,6 +74,55 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.60801089969006383, machine.Weights[1]);
             Assert.AreEqual(inputs[0][0], machine.SupportVectors[0][0]);
             Assert.AreEqual(inputs[7][0], machine.SupportVectors[1][0]);
+            Assert.AreEqual(0.0, error, 1e-10);
+        }
+
+        [Test]
+        public void learn_test()
+        {
+            #region doc_learn
+            // Ensure that results are reproducible
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Generate some data to be learned
+            double[][] inputs =
+            {
+                new double[] { +1.0312479734420776  },
+                new double[] { +0.99444115161895752 },
+                new double[] { +0.21835240721702576 },
+                new double[] { +0.47197291254997253 },
+                new double[] { +0.68701112270355225 },
+                new double[] { -0.58556461334228516 },
+                new double[] { -0.64154046773910522 },
+                new double[] { -0.66485315561294556 },
+                new double[] { +0.37940266728401184 },
+                new double[] { -0.61046308279037476 }
+            };
+
+
+            // Create a new One-class SVM learning algorithm
+            var teacher = new OneclassSupportVectorLearning<Linear>()
+            {
+                Kernel = new Linear(), // or, for example, 'new Gaussian(0.9)'
+                Nu = 0.1
+            };
+
+            // Learn a support vector machine
+            var svm = teacher.Learn(inputs);
+
+            // Test the machine
+            double[] prediction = svm.Score(inputs);
+
+            // Compute the log-likelihood of the answer
+            double ll = new LogLikelihoodLoss().Loss(prediction);
+            #endregion
+
+            Assert.AreEqual(-1.6653345369377348E-16, ll, 1e-10);
+            Assert.AreEqual(2, svm.Weights.Length);
+            Assert.AreEqual(0.39198910030993617, svm.Weights[0], 1e-10);
+            Assert.AreEqual(0.60801089969006383, svm.Weights[1], 1e-10);
+            Assert.AreEqual(inputs[0][0], svm.SupportVectors[0][0], 1e-10);
+            Assert.AreEqual(inputs[7][0], svm.SupportVectors[1][0], 1e-10);
 
         }
 
