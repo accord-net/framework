@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Tests.Imaging</RootNamespace>
     <AssemblyName>Accord.Tests.Imaging</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" /> 
+  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -66,6 +66,7 @@
     <Compile Include="Filters\KuwaharaTest.cs" />
     <Compile Include="Filters\LogExpTest.cs" />
     <Compile Include="Filters\VarianceTest.cs" />
+    <Compile Include="GrayLevelCooccurrenceMatrixTest.cs" />
     <Compile Include="HaralickTest.cs" />
     <Compile Include="Filters\KirschEdgeDetectorTest.cs" />
     <Compile Include="IntegralImageTest.cs" />

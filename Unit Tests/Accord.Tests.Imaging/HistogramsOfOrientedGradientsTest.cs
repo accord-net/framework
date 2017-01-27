@@ -61,7 +61,7 @@ namespace Accord.Tests.Imaging
             new MatrixToImage().Convert(gradient, out output);
 
             //ImageBox.Show(output);
-            HistogramsOfOrientedGradients hog = new HistogramsOfOrientedGradients();
+            var hog = new HistogramsOfOrientedGradients();
             var result = hog.ProcessImage(output);
 
             float[,] actualDir = hog.Direction;

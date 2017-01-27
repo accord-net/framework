@@ -30,6 +30,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     using Accord.MachineLearning;
     using System.Linq;
     using System.Collections.Generic;
+    using Statistics.Filters;
 
     /// <summary>
     ///   ID3 (Iterative Dichotomizer 3) learning algorithm
@@ -59,7 +60,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     ///   
     ///<para>
     ///   This example shows a common textbook example, and how to induce a decision tree using a 
-    ///   <see cref="Codebook"/> to convert string (text) variables into discrete symbols.</para>
+    ///   <see cref="Codification">codebook</see> to convert string (text) variables into discrete symbols.</para>
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\ID3LearningTest.cs" region="doc_learn_mitchell" />
     /// </example>
     ///

@@ -33,6 +33,7 @@ namespace Accord.MachineLearning.DecisionTrees
     using Accord.MachineLearning.DecisionTrees.Rules;
     using Accord.Math;
     using Learning;
+    using Statistics.Filters;
 
     /// <summary>
     ///   Decision tree (for both discrete and continuous classification problems).
@@ -56,7 +57,7 @@ namespace Accord.MachineLearning.DecisionTrees
     ///   
     ///<para>
     ///   This example shows a common textbook example, and how to induce a decision tree using a 
-    ///   <see cref="Codebook"/> to convert string (text) variables into discrete symbols.</para>
+    ///   <see cref="Codification">codebook</see> to convert string (text) variables into discrete symbols.</para>
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\ID3LearningTest.cs" region="doc_learn_mitchell" />
     ///   <para>For more examples with discrete variables, please see <see cref="ID3Learning"/></para>
     /// 

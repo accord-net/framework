@@ -25,8 +25,11 @@
 
 namespace Accord.Imaging
 {
+    using Filters;
     using System;
     using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.Collections.Generic;
 
     /// <summary>
     ///   Co-occurrence Degree.
@@ -64,8 +67,40 @@ namespace Accord.Imaging
     ///   Gray-Level Co-occurrence Matrix (GLCM).
     /// </summary>
     /// 
+    /// <remarks>
+    /// <para>
+    ///   A co-occurrence matrix or co-occurrence distribution is a matrix that is defined over an image to 
+    ///   be the distribution of co-occurring pixel values (grayscale values, or colors) at a given offset.</para>
+    ///   
+    /// <para>
+    ///   Any matrix or pair of matrices can be used to generate a co-occurrence matrix, though their most 
+    ///   common application has been in measuring texture in images, so the typical definition, as above, 
+    ///   assumes that the matrix is an image. It is also possible to define the matrix across two different
+    ///   images.Such a matrix can then be used for color mapping.</para>
+    /// </remarks>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///       Mryka Hall-Beyer, "The GLCM Tutorial Home Page", The GLCM Tutorial Home Page.
+    ///       Available in: http://www.fp.ucalgary.ca/mhallbey/tutorial.htm </description></item>
+    ///     <item><description><a href="https://en.wikipedia.org/wiki/Co-occurrence_matrix">
+    ///       Wikipedia contributors. "Co-occurrence matrix." Wikipedia, The Free Encyclopedia. 
+    ///       Wikipedia, The Free Encyclopedia, 7 Sep. 2016. Web. 27 Jan. 2017. Available in 
+    ///       https://en.wikipedia.org/wiki/Co-occurrence_matrix </a></description></item>
+    ///   </list>
+    /// </para>   
+    /// </remarks>
+    /// 
+    /// <example>
+    ///   <code source="Accord.Tests.Imaging\GrayLevelCooccurrenceMatrixTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
     public class GrayLevelCooccurrenceMatrix : ICloneable
     {
+        // Dictionary<PixelFormat, PixelFormat> formatTranslations;
 
         private CooccurrenceDegree degree;
         private bool autoGray = true;
@@ -132,11 +167,30 @@ namespace Accord.Imaging
             get { return numPairs; }
         }
 
+        ///// <summary>
+        ///// Format translations dictionary.
+        ///// </summary>
+        ///// <value>The format translations.</value>
+        ///// <remarks><para>The dictionary defines, which pixel formats are supported for
+        ///// source images and which pixel format will be used for resulting image.
+        ///// </para>
+        ///// <para>See <see cref="IFilterInformation.FormatTranslations" /> for more information.</para></remarks>
+        //public override Dictionary<PixelFormat, PixelFormat> FormatTranslations
+        //{
+        //    get { return formatTranslations; }
+        //}
+
         /// <summary>
         ///   Initializes a new instance of the <see cref="GrayLevelCooccurrenceMatrix"/> class.
         /// </summary>
         /// 
-        public GrayLevelCooccurrenceMatrix() { }
+        public GrayLevelCooccurrenceMatrix()
+        {
+            //formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
+            //formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format8bppIndexed;
+            //formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format8bppIndexed;
+            //formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format8bppIndexed;
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="GrayLevelCooccurrenceMatrix"/> class.
@@ -192,6 +246,46 @@ namespace Accord.Imaging
         /// <returns>A square matrix of double-precision values containing
         /// the GLCM for the given <paramref name="source"/>.</returns>
         /// 
+        public double[,] Compute(Bitmap source)
+        {
+            var bitmapData = source.LockBits(ImageLockMode.ReadOnly);
+
+            try
+            {
+                return Compute(bitmapData);
+            }
+            finally
+            {
+                source.UnlockBits(bitmapData);
+            }
+        }
+
+        /// <summary>
+        ///   Computes the Gray-level Co-occurrence Matrix (GLCM) 
+        ///   for the given source image.
+        /// </summary>
+        /// 
+        /// <param name="source">The source image.</param>
+        /// 
+        /// <returns>A square matrix of double-precision values containing
+        /// the GLCM for the given <paramref name="source"/>.</returns>
+        /// 
+        public double[,] Compute(BitmapData source)
+        {
+            using (var unmanagedImage = new UnmanagedImage(source))
+                return Compute(unmanagedImage);
+        }
+
+        /// <summary>
+        ///   Computes the Gray-level Co-occurrence Matrix (GLCM) 
+        ///   for the given source image.
+        /// </summary>
+        /// 
+        /// <param name="source">The source image.</param>
+        /// 
+        /// <returns>A square matrix of double-precision values containing
+        /// the GLCM for the given <paramref name="source"/>.</returns>
+        /// 
         public double[,] Compute(UnmanagedImage source)
         {
             return Compute(source, new Rectangle(0, 0, source.Width, source.Height));
@@ -210,6 +304,9 @@ namespace Accord.Imaging
         /// 
         public double[,] Compute(UnmanagedImage source, Rectangle region)
         {
+            if (source.PixelFormat != PixelFormat.Format8bppIndexed)
+                throw new UnsupportedImageFormatException("Only grayscale 8bpp images are supported.");
+
             int width = region.Width;
             int height = region.Height;
             int stride = source.Stride;
@@ -218,8 +315,6 @@ namespace Accord.Imaging
 
             int startX = region.X;
             int startY = region.Y;
-
-            double[,] cooccurrence;
 
             unsafe
             {
@@ -230,7 +325,7 @@ namespace Accord.Imaging
 
                 numPairs = 0;
                 int size = maxGray + 1;
-                cooccurrence = new double[size, size];
+                double[,] cooccurrence = new double[size, size];
 
 
                 switch (degree)
@@ -298,9 +393,9 @@ namespace Accord.Imaging
                             *c /= numPairs;
                     }
                 }
-            }
 
-            return cooccurrence;
+                return cooccurrence;
+            }
         }
 
         unsafe private static int max(int width, int height, int offset, byte* src)
@@ -334,5 +429,9 @@ namespace Accord.Imaging
             clone.numPairs = numPairs;
             return clone;
         }
+
+        //protected override void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData)
+        //{
+        //}
     }
 }
