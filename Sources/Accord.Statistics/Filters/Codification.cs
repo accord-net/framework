@@ -203,6 +203,30 @@ namespace Accord.Statistics.Filters
         }
 
         /// <summary>
+        ///   Transforms a matrix of key-value pairs (where the first column
+        ///   denotes a key, and the second column a value) into their integer
+        ///   vector representation.
+        /// </summary>
+        /// <param name="values">A 2D matrix with two columns, where the first column contains
+        ///   the keys (i.e. "Date") and the second column the values (i.e. "14/05/1988").</param>
+        ///   
+        /// <returns>A vector of integers where each element contains the translation
+        ///   of each respective row in the given <paramref name="values"/> matrix.</returns>
+        /// 
+        public int[] Transform(string[,] values)
+        {
+            int rows = values.Rows();
+            int cols = values.Columns();
+            if (cols != 2)
+                throw new DimensionMismatchException("values", "The matrix should contain two columns. The first column should contain the key, and the second should contain the value.");
+
+            int[] result = new int[rows];
+            for (int i = 0; i < rows; i++)
+                result[i] = Columns[values[i, 0]].Transform(values[i, 1]);
+            return result;
+        }
+
+        /// <summary>
         ///   Translates a value of a given variable
         ///   into its integer (codeword) representation.
         /// </summary>
@@ -537,7 +561,6 @@ namespace Accord.Statistics.Filters
         {
             Columns.Add(new Options(columnName).Learn(values.Concatenate()));
         }
-
 
         /// <summary>
         ///   Translates a value of a given variable

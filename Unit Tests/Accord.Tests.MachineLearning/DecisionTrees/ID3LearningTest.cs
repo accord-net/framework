@@ -30,6 +30,7 @@ namespace Accord.Tests.MachineLearning
     using Math.Optimization.Losses;
     using NUnit.Framework;
     using System;
+    using System.Collections.Generic;
     using System.Data;
 
     [TestFixture]
@@ -858,7 +859,10 @@ namespace Accord.Tests.MachineLearning
                 new DecisionVariable("Temperature", 3), // 3 possible values (Hot, mild, cool)  
                 new DecisionVariable("Humidity",    2), // 2 possible values (High, normal)    
                 new DecisionVariable("Wind",        2)  // 2 possible values (Weak, strong) 
-              };
+            };
+
+            // Note: It is also possible to create a DecisionVariable[] from a codebook:
+            // DecisionVariable[] attributes = DecisionVariable.FromCodebook(codebook);
 
             // For this task, in which we have only categorical variables, the simplest choice 
             // to induce a decision tree is to use the ID3 algorithm by Quinlan. Let’s do it:
@@ -872,15 +876,26 @@ namespace Accord.Tests.MachineLearning
             // Compute the training error when predicting training instances
             double error = new ZeroOneLoss(outputs).Loss(tree.Decide(inputs));
 
-            // The tree can now be queried for new examples through its <see cref="DecisionTree.Compute(double[])"/>
-            // method. For example, we can use: </para>
+            // The tree can now be queried for new examples through 
+            // its decide method. For example, we can create a query
 
-            int[] query = codebook.Translate("Sunny", "Hot", "High", "Strong");
-            int predicted = tree.Decide(query); // compute the decision
-            string answer = codebook.Translate("PlayTennis", predicted); // Answer will be: "No"
+            int[] query = codebook.Transform(new [,]
+            {
+                { "Outlook",     "Sunny"  },
+                { "Temperature", "Hot"    },
+                { "Humidity",    "High"   },
+                { "Wind",        "Strong" }
+            });
+
+            // And then predict the label using
+            int predicted = tree.Decide(query);  // result will be 0
+
+            // We can translate it back to strings using
+            string answer = codebook.Revert("PlayTennis", predicted); // Answer will be: "No"
             #endregion
 
-            Assert.AreEqual("no", answer);
+            Assert.AreEqual(0, predicted);
+            Assert.AreEqual("No", answer);
             Assert.AreEqual(0, error);
         }
     }
