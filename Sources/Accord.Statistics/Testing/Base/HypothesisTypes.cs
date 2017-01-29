@@ -49,7 +49,7 @@ namespace Accord.Statistics.Testing
         TwoTail = 0,
 
         /// <summary>
-        ///   The test considers the upper tail from a probability distribution.
+        ///   The test considers the upper (right) tail from a probability distribution.
         /// </summary>
         /// 
         /// <remarks>
@@ -61,7 +61,7 @@ namespace Accord.Statistics.Testing
         OneUpper = 1,
 
         /// <summary>
-        ///   The test considers the lower tail from a probability distribution.
+        ///   The test considers the lower (left) tail from a probability distribution.
         /// </summary>
         /// 
         /// <remarks>

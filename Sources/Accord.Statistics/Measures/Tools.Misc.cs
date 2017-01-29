@@ -27,6 +27,7 @@ namespace Accord.Statistics
     using Accord.Statistics.Kernels;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     static partial class Tools
     {
@@ -58,7 +59,8 @@ namespace Accord.Statistics
         ///   Gets the rank of a sample, often used with order statistics.
         /// </summary>
         /// 
-        public static double[] Rank(this double[] samples, bool alreadySorted = false)
+        public static double[] Rank(this double[] samples, bool alreadySorted = false,
+            bool adjustForTies = true)
         {
             int[] idx = Vector.Range(0, samples.Length);
 
@@ -74,37 +76,47 @@ namespace Accord.Statistics
             int tieSize = 0;
 
             int start = 0;
-            while (samples[start] == 0) start++;
+            while (samples[start] == 0)
+                start++;
 
             ranks[start] = 1;
-            for (int i = start + 1, r = 1; i < ranks.Length; i++)
+            if (adjustForTies)
             {
-                // Check if we have a tie
-                if (samples[i] != samples[i - 1])
+                for (int i = start + 1, r = 1; i < ranks.Length; i++)
                 {
-                    // This is not a tie.
-                    // Was a tie before?
-                    if (tieSize > 0)
+                    // Check if we have a tie
+                    if (samples[i] != samples[i - 1])
                     {
-                        // Yes. Then set the previous
-                        // elements with the average.
+                        // This is not a tie.
+                        // Was a tie before?
+                        if (tieSize > 0)
+                        {
+                            // Yes. Then set the previous
+                            // elements with the average.
 
-                        for (int j = 0; j < tieSize + 1; j++)
-                            ranks[i - j - 1] = (r + tieSum) / (tieSize + 1);
+                            for (int j = 0; j < tieSize + 1; j++)
+                                ranks[i - j - 1] = (r + tieSum) / (tieSize + 1);
 
-                        tieSize = 0;
-                        tieSum = 0;
+                            tieSize = 0;
+                            tieSum = 0;
+                        }
+
+                        ranks[i] = ++r;
                     }
-
+                    else
+                    {
+                        // This is a tie. Compute how 
+                        // long we have been in a tie.
+                        tieSize++;
+                        tieSum += r++;
+                    }
+                }
+            }
+            else
+            {
+                // No need to adjust for ties
+                for (int i = start + 1, r = 1; i < ranks.Length; i++)
                     ranks[i] = ++r;
-                }
-                else
-                {
-                    // This is a tie. Compute how 
-                    // long we have been in a tie.
-                    tieSize++;
-                    tieSum += r++;
-                }
             }
 
             if (!alreadySorted)
@@ -113,7 +125,30 @@ namespace Accord.Statistics
             return ranks;
         }
 
+        /// <summary>
+        ///   Gets the number of ties and distinct elements in a rank vector.
+        /// </summary>
+        /// 
+        public static int[] Ties(this double[] ranks)
+        {
+            var counts = new Dictionary<double, int>();
+            for (int i = 0; i < ranks.Length; i++)
+            {
+                double r = ranks[i];
 
+                int c;
+                if (!counts.TryGetValue(r, out c))
+                    c = 0;
+
+                counts[r] = c + 1;
+            }
+
+            int[] ties = new int[counts.Count];
+            double[] sorted = counts.Keys.Sorted();
+            for (int i = 0; i < sorted.Length; i++)
+                ties[i] = counts[sorted[i]];
+            return ties;
+        }
 
 
 

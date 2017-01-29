@@ -1185,6 +1185,15 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        public void TiesTest1()
+        {
+            double[] rank = { 1, 2, 3.5, 3.5, 5, 6, 7, 8.5, 8.5, 10, 11, 12, 13, 14 };
+            int[] actual = rank.Ties();
+            double[] expected = { 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1 };
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
         public void MatrixModeTest2()
         {
             int[][] matrix = 
