@@ -114,16 +114,29 @@ namespace Accord.MachineLearning
                         sum += min;
                     }
 
-					if (sum != 0)
+					// Note: the following checks could have been avoided if we added
+					// a small value to each distance, but is kept as this to avoid 
+					// breaking the random pattern in existing code.
+					
+					if (sum == 0)
 					{
+						// Degenerate case: all points are the same, chose any of them
+						idx = Accord.Math.Random.Generator.Random.Next(0, points.Length);
+					}
+					else
+					{
+						// Convert to probabilities
 						for (int i = 0; i < D.Length; i++)
 							D[i] /= sum;
+						
+						// Sample randomly using the probabilities
+						idx = GeneralDiscreteDistribution.Random(D);
 					}
 					
                     // 3. Choose one new data point at random as a new center, using a weighted
-                    //    probability distribution where a point x is chosen with probability 
-                    //    proportional to D(x)^2.
-                    Centroids[c] = (TData)points[GeneralDiscreteDistribution.Random(D)].Clone();
+					//    probability distribution where a point x is chosen with probability 
+					//    proportional to D(x)^2.					
+					Centroids[c] = (TData)points[idx].Clone();
                 }
             }
         }

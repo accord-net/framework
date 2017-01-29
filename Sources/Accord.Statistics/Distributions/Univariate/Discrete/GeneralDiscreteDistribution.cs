@@ -796,6 +796,9 @@ namespace Accord.Statistics.Distributions.Univariate
                 }
             }
 
+            if (cumulativeSum == 0)
+                throw new ArgumentException("probabilities", "All probabilities are zero.");
+
             throw new InvalidOperationException("Generated value is not between 0 and 1.");
         }
 

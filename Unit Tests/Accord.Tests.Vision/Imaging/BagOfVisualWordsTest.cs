@@ -438,7 +438,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(error, 0);
         }
 
-        [Test]
+        [Test, Ignore]
         public void custom_feature_test_haralick()
         {
             #region doc_feature
