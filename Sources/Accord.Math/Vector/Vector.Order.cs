@@ -201,6 +201,19 @@ namespace Accord.Math
         ///   Sorts the elements of an entire one-dimensional array using the given comparison.
         /// </summary>
         /// 
+        public static T[] Sorted<T>(this ICollection<T> values, bool stable = false)
+            where T : IComparable<T>
+        {
+            T[] clone = new T[values.Count];
+            values.CopyTo(clone, 0);
+            Sort(clone, stable);
+            return clone;
+        }
+
+        /// <summary>
+        ///   Sorts the elements of an entire one-dimensional array using the given comparison.
+        /// </summary>
+        /// 
         public static T[] Sorted<T>(this T[] values, out int[] order, bool stable = false, ComparerDirection direction = ComparerDirection.Ascending)
             where T : IComparable<T>
         {

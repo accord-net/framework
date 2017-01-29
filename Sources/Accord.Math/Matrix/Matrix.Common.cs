@@ -89,7 +89,7 @@ namespace Accord.Math
         /// 
         /// <returns>True if the number if an integer, false otherwise.</returns>
         /// 
-        public static bool IsInteger(this double x, double threshold)
+        public static bool IsInteger(this double x, double threshold = Constants.DoubleSmall)
         {
             double a = Math.Round(x);
             double b = x;
