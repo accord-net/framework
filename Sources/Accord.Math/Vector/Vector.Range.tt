@@ -33,6 +33,7 @@
 namespace Accord.Math
 {
     using System;
+	using System.Collections.Generic;
     using Accord.Math;
 
     public static partial class Vector
@@ -114,6 +115,67 @@ namespace Accord.Math
             }
 
             return r;
+        }
+
+
+
+
+		/// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<<#=i#>> EnumerableRange(<#=i#> n)
+        {
+            for (<#=i#> i = 0; i < n; i++)
+                yield return (<#=i#>)i;
+        }
+
+        /// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<<#=i#>> EnumerableRange(<#=i#> a, <#=i#> b)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int n = (int)(b - a);
+                for (int i = 0; i < n; i++)
+                    yield return (<#=i#>)(a++);
+            }
+            else
+            {
+                int n = (int)(a - b);
+                for (int i = 0; i < n; i++)
+                    yield return (<#=i#>)(a-- - 1);
+            }
+        }
+
+        /// <summary>
+        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<<#=i#>> EnumerableRange(<#=i#> a, <#=i#> b, <#=s#> stepSize)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int steps = (int)System.Math.Ceiling((b - a) / (<#=c#>)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (<#=i#>)(a +  i * stepSize);
+                yield return (<#=i#>)(b);
+            }
+            else
+            {
+                int steps = (int)System.Math.Ceiling((a - b) / (<#=c#>)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (<#=i#>)(a - i * stepSize);
+                yield return (<#=i#>)(b);
+            }
         }
 <#
     }

@@ -29,6 +29,7 @@
 namespace Accord.Math
 {
     using System;
+	using System.Collections.Generic;
     using Accord.Math;
 
     public static partial class Vector
@@ -104,6 +105,67 @@ namespace Accord.Math
             return r;
         }
 
+
+
+
+		/// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<int> EnumerableRange(int n)
+        {
+            for (int i = 0; i < n; i++)
+                yield return (int)i;
+        }
+
+        /// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<int> EnumerableRange(int a, int b)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int n = (int)(b - a);
+                for (int i = 0; i < n; i++)
+                    yield return (int)(a++);
+            }
+            else
+            {
+                int n = (int)(a - b);
+                for (int i = 0; i < n; i++)
+                    yield return (int)(a-- - 1);
+            }
+        }
+
+        /// <summary>
+        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<int> EnumerableRange(int a, int b, double stepSize)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (int)(a +  i * stepSize);
+                yield return (int)(b);
+            }
+            else
+            {
+                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (int)(a - i * stepSize);
+                yield return (int)(b);
+            }
+        }
+
         /// <summary>
         ///   Creates a range vector.
         /// </summary>
@@ -172,6 +234,67 @@ namespace Accord.Math
             }
 
             return r;
+        }
+
+
+
+
+		/// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<float> EnumerableRange(float n)
+        {
+            for (float i = 0; i < n; i++)
+                yield return (float)i;
+        }
+
+        /// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<float> EnumerableRange(float a, float b)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int n = (int)(b - a);
+                for (int i = 0; i < n; i++)
+                    yield return (float)(a++);
+            }
+            else
+            {
+                int n = (int)(a - b);
+                for (int i = 0; i < n; i++)
+                    yield return (float)(a-- - 1);
+            }
+        }
+
+        /// <summary>
+        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<float> EnumerableRange(float a, float b, float stepSize)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (float)(a +  i * stepSize);
+                yield return (float)(b);
+            }
+            else
+            {
+                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (float)(a - i * stepSize);
+                yield return (float)(b);
+            }
         }
 
         /// <summary>
@@ -244,6 +367,67 @@ namespace Accord.Math
             return r;
         }
 
+
+
+
+		/// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<double> EnumerableRange(double n)
+        {
+            for (double i = 0; i < n; i++)
+                yield return (double)i;
+        }
+
+        /// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<double> EnumerableRange(double a, double b)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int n = (int)(b - a);
+                for (int i = 0; i < n; i++)
+                    yield return (double)(a++);
+            }
+            else
+            {
+                int n = (int)(a - b);
+                for (int i = 0; i < n; i++)
+                    yield return (double)(a-- - 1);
+            }
+        }
+
+        /// <summary>
+        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<double> EnumerableRange(double a, double b, double stepSize)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (double)(a +  i * stepSize);
+                yield return (double)(b);
+            }
+            else
+            {
+                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (double)(a - i * stepSize);
+                yield return (double)(b);
+            }
+        }
+
         /// <summary>
         ///   Creates a range vector.
         /// </summary>
@@ -312,6 +496,67 @@ namespace Accord.Math
             }
 
             return r;
+        }
+
+
+
+
+		/// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<short> EnumerableRange(short n)
+        {
+            for (short i = 0; i < n; i++)
+                yield return (short)i;
+        }
+
+        /// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<short> EnumerableRange(short a, short b)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int n = (int)(b - a);
+                for (int i = 0; i < n; i++)
+                    yield return (short)(a++);
+            }
+            else
+            {
+                int n = (int)(a - b);
+                for (int i = 0; i < n; i++)
+                    yield return (short)(a-- - 1);
+            }
+        }
+
+        /// <summary>
+        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<short> EnumerableRange(short a, short b, short stepSize)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (short)(a +  i * stepSize);
+                yield return (short)(b);
+            }
+            else
+            {
+                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (short)(a - i * stepSize);
+                yield return (short)(b);
+            }
         }
 
         /// <summary>
@@ -384,6 +629,67 @@ namespace Accord.Math
             return r;
         }
 
+
+
+
+		/// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<byte> EnumerableRange(byte n)
+        {
+            for (byte i = 0; i < n; i++)
+                yield return (byte)i;
+        }
+
+        /// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<byte> EnumerableRange(byte a, byte b)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int n = (int)(b - a);
+                for (int i = 0; i < n; i++)
+                    yield return (byte)(a++);
+            }
+            else
+            {
+                int n = (int)(a - b);
+                for (int i = 0; i < n; i++)
+                    yield return (byte)(a-- - 1);
+            }
+        }
+
+        /// <summary>
+        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<byte> EnumerableRange(byte a, byte b, byte stepSize)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (byte)(a +  i * stepSize);
+                yield return (byte)(b);
+            }
+            else
+            {
+                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (byte)(a - i * stepSize);
+                yield return (byte)(b);
+            }
+        }
+
         /// <summary>
         ///   Creates a range vector.
         /// </summary>
@@ -452,6 +758,67 @@ namespace Accord.Math
             }
 
             return r;
+        }
+
+
+
+
+		/// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<sbyte> EnumerableRange(sbyte n)
+        {
+            for (sbyte i = 0; i < n; i++)
+                yield return (sbyte)i;
+        }
+
+        /// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<sbyte> EnumerableRange(sbyte a, sbyte b)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int n = (int)(b - a);
+                for (int i = 0; i < n; i++)
+                    yield return (sbyte)(a++);
+            }
+            else
+            {
+                int n = (int)(a - b);
+                for (int i = 0; i < n; i++)
+                    yield return (sbyte)(a-- - 1);
+            }
+        }
+
+        /// <summary>
+        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<sbyte> EnumerableRange(sbyte a, sbyte b, sbyte stepSize)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (sbyte)(a +  i * stepSize);
+                yield return (sbyte)(b);
+            }
+            else
+            {
+                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (sbyte)(a - i * stepSize);
+                yield return (sbyte)(b);
+            }
         }
 
         /// <summary>
@@ -524,6 +891,67 @@ namespace Accord.Math
             return r;
         }
 
+
+
+
+		/// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<long> EnumerableRange(long n)
+        {
+            for (long i = 0; i < n; i++)
+                yield return (long)i;
+        }
+
+        /// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<long> EnumerableRange(long a, long b)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int n = (int)(b - a);
+                for (int i = 0; i < n; i++)
+                    yield return (long)(a++);
+            }
+            else
+            {
+                int n = (int)(a - b);
+                for (int i = 0; i < n; i++)
+                    yield return (long)(a-- - 1);
+            }
+        }
+
+        /// <summary>
+        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<long> EnumerableRange(long a, long b, long stepSize)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (long)(a +  i * stepSize);
+                yield return (long)(b);
+            }
+            else
+            {
+                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (long)(a - i * stepSize);
+                yield return (long)(b);
+            }
+        }
+
         /// <summary>
         ///   Creates a range vector.
         /// </summary>
@@ -592,6 +1020,67 @@ namespace Accord.Math
             }
 
             return r;
+        }
+
+
+
+
+		/// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<decimal> EnumerableRange(decimal n)
+        {
+            for (decimal i = 0; i < n; i++)
+                yield return (decimal)i;
+        }
+
+        /// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<decimal> EnumerableRange(decimal a, decimal b)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int n = (int)(b - a);
+                for (int i = 0; i < n; i++)
+                    yield return (decimal)(a++);
+            }
+            else
+            {
+                int n = (int)(a - b);
+                for (int i = 0; i < n; i++)
+                    yield return (decimal)(a-- - 1);
+            }
+        }
+
+        /// <summary>
+        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<decimal> EnumerableRange(decimal a, decimal b, decimal stepSize)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int steps = (int)System.Math.Ceiling((b - a) / (decimal)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (decimal)(a +  i * stepSize);
+                yield return (decimal)(b);
+            }
+            else
+            {
+                int steps = (int)System.Math.Ceiling((a - b) / (decimal)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (decimal)(a - i * stepSize);
+                yield return (decimal)(b);
+            }
         }
 
         /// <summary>
@@ -664,6 +1153,67 @@ namespace Accord.Math
             return r;
         }
 
+
+
+
+		/// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<ulong> EnumerableRange(ulong n)
+        {
+            for (ulong i = 0; i < n; i++)
+                yield return (ulong)i;
+        }
+
+        /// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<ulong> EnumerableRange(ulong a, ulong b)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int n = (int)(b - a);
+                for (int i = 0; i < n; i++)
+                    yield return (ulong)(a++);
+            }
+            else
+            {
+                int n = (int)(a - b);
+                for (int i = 0; i < n; i++)
+                    yield return (ulong)(a-- - 1);
+            }
+        }
+
+        /// <summary>
+        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<ulong> EnumerableRange(ulong a, ulong b, ulong stepSize)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (ulong)(a +  i * stepSize);
+                yield return (ulong)(b);
+            }
+            else
+            {
+                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (ulong)(a - i * stepSize);
+                yield return (ulong)(b);
+            }
+        }
+
         /// <summary>
         ///   Creates a range vector.
         /// </summary>
@@ -732,6 +1282,67 @@ namespace Accord.Math
             }
 
             return r;
+        }
+
+
+
+
+		/// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<ushort> EnumerableRange(ushort n)
+        {
+            for (ushort i = 0; i < n; i++)
+                yield return (ushort)i;
+        }
+
+        /// <summary>
+        ///   Creates a range enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<ushort> EnumerableRange(ushort a, ushort b)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int n = (int)(b - a);
+                for (int i = 0; i < n; i++)
+                    yield return (ushort)(a++);
+            }
+            else
+            {
+                int n = (int)(a - b);
+                for (int i = 0; i < n; i++)
+                    yield return (ushort)(a-- - 1);
+            }
+        }
+
+        /// <summary>
+        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<ushort> EnumerableRange(ushort a, ushort b, ushort stepSize)
+        {
+            if (a == b)
+                yield return a;
+
+            if (b > a)
+            {
+                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (ushort)(a +  i * stepSize);
+                yield return (ushort)(b);
+            }
+            else
+            {
+                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                for (uint i = 0; i < steps; i++)
+                    yield return (ushort)(a - i * stepSize);
+                yield return (ushort)(b);
+            }
         }
 
         /// <summary>

@@ -107,6 +107,8 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
+        /// <seealso cref="Combinatorics.Sequences(int,int,bool)"/> 
+        /// 
         public static int[][] TruthTable(int symbols, int length)
         {
             int[] sym = new int[length];
@@ -156,6 +158,8 @@ namespace Accord.Math
         /// };
         /// </code></example>
         ///
+        /// <seealso cref="Combinatorics.Sequences(int,int,bool)"/> 
+        /// 
         public static int[][] TruthTable(this int[] symbols)
         {
             int size = 1;
@@ -182,6 +186,58 @@ namespace Accord.Math
             }
 
             return sequences;
+        }
+
+        /// <summary>
+        ///   Provides a way to enumerate all possible ordered permutations
+        ///   with repetitions allowed (i.e. a truth table), without using
+        ///   many memory allocations.
+        /// </summary>
+        /// 
+        /// <param name="length">The length of the sequence to generate.</param>
+        /// <param name="inPlace">
+        ///   If set to true, the different generated sequences will be stored in 
+        ///   the same array, thus preserving memory. However, this may prevent the
+        ///   samples from being stored in other locations without having to clone
+        ///   them. If set to false, a new memory block will be allocated for each
+        ///   new object in the sequence.</param>
+        ///   
+        /// <example>
+        /// <para>
+        ///   Suppose we would like to generate the same sequences shown
+        ///   in the <see cref="Combinatorics.TruthTable(int,int)"/>example,
+        ///   however, without explicitly storing all possible combinations
+        ///   in an array. In order to iterate over all possible combinations
+        ///   efficiently, we can use:
+        /// </para>
+        /// 
+        /// <code>
+        /// int length = 3;  // The number of variables; or number 
+        ///                  // of columns in the generated table.
+        /// 
+        /// foreach (int[] row in Combinatorics.Sequences(length))
+        /// {
+        ///     // The following sequences will be generated in order:
+        ///     //
+        ///     //   new int[] { 0, 0, 0 },
+        ///     //   new int[] { 0, 0, 1 },
+        ///     //   new int[] { 0, 1, 0 },
+        ///     //   new int[] { 0, 1, 1 },
+        ///     //   new int[] { 1, 0, 0 },
+        ///     //   new int[] { 1, 0, 1 },
+        ///     //   new int[] { 1, 1, 0 },
+        ///     //   new int[] { 1, 1, 1 },
+        /// }
+        /// </code>
+        /// </example>
+        /// 
+        public static IEnumerable<int[]> Sequences(int length, bool inPlace = false)
+        {
+            int[] sym = new int[length];
+            for (int i = 0; i < sym.Length; i++)
+                sym[i] = 2;
+
+            return Sequences(sym, inPlace);
         }
 
         /// <summary>
