@@ -105,6 +105,26 @@
     <Compile Include="KNearestNeighbors\NaiveNearestNeighbors.cs" />
     <Compile Include="Structures\SPTreeTest.cs" />
     <Compile Include="Structures\VPTreeTest.cs" />
+    <Compile Include="Text\DanishTest.cs" />
+    <Compile Include="Text\DutchTest.cs" />
+    <Compile Include="Text\EnglishTest.cs" />
+    <Compile Include="Text\FinnishTest.cs" />
+    <Compile Include="Text\FrenchTest.cs" />
+    <Compile Include="Text\German2Test.cs" />
+    <Compile Include="Text\GermanTest.cs" />
+    <Compile Include="Text\HungarianTest.cs" />
+    <Compile Include="Text\ItalianTest.cs" />
+    <Compile Include="Text\KraaijPohlmannTest .cs" />
+    <Compile Include="Text\LovinsTest.cs" />
+    <Compile Include="Text\NorwegianTest.cs" />
+    <Compile Include="Text\PorterTest.cs" />
+    <Compile Include="Text\PortugueseTest.cs" />
+    <Compile Include="Text\RomanianTest.cs" />
+    <Compile Include="Text\RussianTest.cs" />
+    <Compile Include="Text\SpanishTest.cs" />
+    <Compile Include="Text\SwedishTest.cs" />
+    <Compile Include="Text\Tools.cs" />
+    <Compile Include="Text\TurkishTest.cs" />
     <Compile Include="VectorMachines\LinearCoordinateDescentTest.cs" />
     <Compile Include="VectorMachines\Liblinear\LiblinearTest.cs" />
     <Compile Include="VectorMachines\LinearDualCoordinateDescentTest.cs" />
@@ -200,6 +220,120 @@
     <Content Include="Resources\liblinear\L1R_LR_a9a.txt" />
     <Content Include="Resources\liblinear\L1R_LR_DUAL_a9a.txt" />
     <Content Include="Resources\liblinear\L2R_LR_a9a.txt" />
+    <Content Include="Resources\snowball\danish\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\danish\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\dutch\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\dutch\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\english\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\english\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\finnish\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\finnish\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\french\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\french\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\german2\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\german2\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\german\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\german\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\hungarian\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\hungarian\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\italian\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\italian\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\kraaij_pohlmann\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\kraaij_pohlmann\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\lovins\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\lovins\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\norwegian\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\norwegian\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\porter\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\porter\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\portuguese\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\portuguese\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\romanian\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\romanian\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\russian\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\russian\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\spanish\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\spanish\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\swedish\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\swedish\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\turkish\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\snowball\turkish\voc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Accord.snk" />
     <None Include="Resources\rforest\features.csv" />
     <None Include="Resources\kmeans.bin" />
@@ -222,6 +356,9 @@
     <None Include="Resources\nursery.data">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\snowball\COPYING">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\svm2.svm" />
     <None Include="Resources\rforest\times.csv" />
     <None Include="Resources\trainingsample.csv" />
@@ -234,6 +371,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
