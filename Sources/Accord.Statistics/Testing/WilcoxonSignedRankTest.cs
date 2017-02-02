@@ -115,9 +115,16 @@ namespace Accord.Statistics.Testing
         /// <param name="sample">The data samples from which the test will be performed.</param>
         /// <param name="hypothesizedMedian">The constant to be compared with the samples.</param>
         /// <param name="alternate">The alternative hypothesis (research hypothesis) to test.</param>
-        /// 
+        /// <param name="exact">True to compute the exact distribution. May require a significant 
+        ///   amount of processing power for large samples (n > 12). If left at null, whether to
+        ///   compute the exact or approximate distribution will depend on the number of samples.
+        ///   Default is null.</param>
+        /// <param name="adjustForTies">Whether to account for ties when computing the
+        ///   rank statistics or not. Default is true.</param>
+        ///   
         public WilcoxonSignedRankTest(double[] sample, double hypothesizedMedian = 0,
-            OneSampleHypothesis alternate = OneSampleHypothesis.ValueIsDifferentFromHypothesis)
+            OneSampleHypothesis alternate = OneSampleHypothesis.ValueIsDifferentFromHypothesis,
+            bool? exact = null, bool adjustForTies = true)
         {
             int[] signs = new int[sample.Length];
             double[] diffs = new double[sample.Length];
@@ -132,7 +139,7 @@ namespace Accord.Statistics.Testing
 
             this.Hypothesis = alternate;
 
-            Compute(signs, diffs, (DistributionTail)alternate);
+            base.Compute(signs, diffs, (DistributionTail)alternate, exact, adjustForTies);
         }
 
     }

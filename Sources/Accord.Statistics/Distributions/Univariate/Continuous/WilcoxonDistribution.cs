@@ -26,6 +26,8 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics;
     using AForge;
+    using System.Threading.Tasks;
+    using System.Linq;
 
     /// <summary>
     ///   Wilcoxon's W statistic distribution.
@@ -113,31 +115,52 @@ namespace Accord.Statistics.Distributions.Univariate
     [Serializable]
     public class WilcoxonDistribution : UnivariateContinuousDistribution
     {
+        private bool exact;
         private double[] table;
+
+        private int n;
+        private NormalDistribution approximation;
 
 
         /// <summary>
         ///   Gets the number of effective samples.
         /// </summary>
         /// 
-        public int Samples { get; private set; }
+        public int NumberOfSamples { get { return n; } }
 
         /// <summary>
-        ///   Gets the rank statistics for the distribution.
+        ///   Gets whether this distribution computes the exact probabilities
+        ///   (by searching all possible sign combinations) or gives fast 
+        ///   approximations.
         /// </summary>
         /// 
-        public double[] Ranks { get; private set; }
+        /// <value><c>true</c> if this distribution is exact; otherwise, <c>false</c>.</value>
+        /// 
+        public bool Exact { get { return exact; } }
 
+        /// <summary>
+        ///   Gets the statistic values for all possible combinations
+        ///   of ranks. This is used to compute the exact distribution.
+        /// </summary>
+        /// 
+        public double[] Table {  get { return table; } }
+
+        /// <summary>
+        ///   Gets or sets the <see cref="ContinuityCorrection">continuity correction</see>
+        ///   to be applied when using the Normal approximation to this distribution.
+        /// </summary>
+        /// 
+        public ContinuityCorrection Correction { get; set; }
 
         /// <summary>
         ///   Creates a new Wilcoxon's W+ distribution.
         /// </summary>
         /// 
-        /// <param name="ranks">The rank statistics for the samples.</param>
+        /// <param name="n">The number of observations.</param>
         /// 
-        public WilcoxonDistribution(double[] ranks)
-            : this(ranks, false)
+        public WilcoxonDistribution(int n)
         {
+            init(n, null, null);
         }
 
         /// <summary>
@@ -145,36 +168,71 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="ranks">The rank statistics for the samples.</param>
-        /// <param name="forceExact">True to compute the exact test. May requires
-        ///   a significant amount of processing power for large samples (n > 12).</param>
+        /// <param name="exact">True to compute the exact distribution. May require a significant 
+        ///   amount of processing power for large samples (n > 12). If left at null, whether to
+        ///   compute the exact or approximate distribution will depend on the number of samples.
+        /// </param>
         /// 
-        public WilcoxonDistribution(double[] ranks, bool forceExact)
+        public WilcoxonDistribution(double[] ranks, bool? exact = null)
         {
-            // Remove zero elements
-            int[] idx = ranks.Find(x => x != 0);
-            this.Ranks = ranks.Get(idx);
-            this.Samples = idx.Length;
+            init(ranks.Length, ranks, exact);
+        }
 
-            if (forceExact || Samples < 12)
+        private void init(int n, double[] ranks, bool? exact)
+        {
+            this.n = n;
+
+            double mean = n * (n + 1.0) / 4.0;
+            double stdDev = Math.Sqrt((n * (n + 1.0) * (2.0 * n + 1.0)) / 24.0);
+
+            bool hasVectors = ranks != null;
+
+            // For small samples (< 12) the distribution can be exact
+            this.exact = hasVectors && (n <= 12);
+
+            if (exact.HasValue)
             {
-                // For a small sample (i.e. n < 12)
-                // the distribution will be exact.
+                if (exact.Value && !hasVectors)
+                    throw new ArgumentException("exact", "Cannot use exact method if rank vectors are not specified.");
+                this.exact = exact.Value; // force
+            }
 
-                // Generate all possible combinations in advance
-                int[][] combinations = Combinatorics.TruthTable(Samples);
+            if (hasVectors)
+            {
+                if (this.exact)
+                    initExactMethod(ranks);
+            }
+
+            this.approximation = new NormalDistribution(mean, stdDev);
+        }
+
+        private void initExactMethod(double[] ranks)
+        {
+            ranks = ranks.Get(ranks.Find(x => x != 0));
+
+            long combinations = (long)Math.Pow(2, ranks.Length);
+
+            // Compute W+ for all combinations of signs
+            var seq = Enumerable.Zip<int[], long, Tuple<int[], long>>(
+                Combinatorics.Sequences(ranks.Length), Vector.EnumerableRange(combinations),
+                (int[] c, long i) => new Tuple<int[], long>(c, i));
+
+            this.table = new double[combinations];
+
+            Parallel.ForEach(seq, item =>
+            {
+                int[] c = item.Item1;
+                long i = item.Item2;
 
                 // Transform binary into sign combinations
-                for (int i = 0; i < combinations.Length; i++)
-                    for (int j = 0; j < combinations[i].Length; j++)
-                        combinations[i][j] = Math.Sign(combinations[i][j] * 2 - 1);
+                for (int j = 0; j < c.Length; j++)
+                    c[j] = Math.Sign(c[j] * 2 - 1);
 
-                // Compute all possible values for W+ considering those signs
-                this.table = new double[combinations.Length];
-                for (int i = 0; i < combinations.Length; i++)
-                    table[i] = WPositive(combinations[i], ranks);
+                // Compute W+
+                table[i] = WPositive(c, ranks);
+            });
 
-                Array.Sort(table);
-            }
+            Array.Sort(table);
         }
 
 
@@ -183,8 +241,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <remarks>
-        ///   The W+ statistic is computed as the
-        ///   sum of all positive signed ranks.
+        ///   The W+ statistic is computed as the sum of all positive signed ranks.
         /// </remarks>
         /// 
         public static double WPositive(int[] signs, double[] ranks)
@@ -193,7 +250,6 @@ namespace Accord.Statistics.Distributions.Univariate
             for (int i = 0; i < signs.Length; i++)
                 if (signs[i] > 0)
                     sum += ranks[i];
-
             return sum;
         }
 
@@ -202,8 +258,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <remarks>
-        ///   The W- statistic is computed as the
-        ///   sum of all negative signed ranks.
+        ///   The W- statistic is computed as the sum of all negative signed ranks.
         /// </remarks>
         /// 
         public static double WNegative(int[] signs, double[] ranks)
@@ -216,17 +271,18 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Computes the Wilcoxon's W statistic.
+        ///   Computes the Wilcoxon's W statistic (equivalent to 
+        ///   Mann-Whitney U when used in two-sample tests).
         /// </summary>
         /// 
         /// <remarks>
-        ///   The W statistic is computed as the
-        ///   minimum of the W+ and W- statistics.
+        ///   The W statistic is computed as the minimum of the W+ and W- statistics.
         /// </remarks>
         /// 
         public static double WMinimum(int[] signs, double[] ranks)
         {
-            double wp = 0, wn = 0;
+            double wp = 0;
+            double wn = 0;
             for (int i = 0; i < signs.Length; i++)
             {
                 if (signs[i] < 0)
@@ -236,10 +292,9 @@ namespace Accord.Statistics.Distributions.Univariate
                     wp += ranks[i];
             }
 
-            double min = Math.Min(wp, wn);
-
-            return min;
+            return Math.Min(wp, wn);
         }
+
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
@@ -250,7 +305,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override object Clone()
         {
-            return new WilcoxonDistribution(Ranks);
+            var clone = new WilcoxonDistribution(n);
+            clone.exact = exact;
+            clone.table = table;
+            clone.n = n;
+            clone.approximation = (NormalDistribution)approximation.Clone();
+            return clone;
         }
 
 
@@ -263,11 +323,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Mean
         {
-            get
-            {
-                double n = Samples;
-                return n * (n + 1.0) / 4.0;
-            }
+            get { return approximation.Mean; }
         }
 
         /// <summary>
@@ -278,11 +334,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Variance
         {
-            get
-            {
-                double n = Samples;
-                return (n * (n + 1.0) * (2.0 * n + 1.0)) / 24.0;
-            }
+            get { return approximation.Variance; }
         }
 
         /// <summary>
@@ -296,7 +348,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Mode
         {
-            get { return Mean; }
+            get { return approximation.Mode; }
         }
 
         /// <summary>
@@ -310,7 +362,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override DoubleRange Support
         {
-            get { return new DoubleRange(Double.NegativeInfinity, Double.PositiveInfinity); }
+            get { return new DoubleRange(0, Double.PositiveInfinity); }
         }
 
         /// <summary>
@@ -321,7 +373,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Entropy
         {
-            get { throw new NotSupportedException(); }
+            get { return approximation.Entropy; }
         }
 
         /// <summary>
@@ -329,32 +381,69 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   this distribution evaluated at point <c>k</c>.
         /// </summary>
         /// 
-        /// <param name="w">A single point in the distribution range.</param>
+        /// <param name="x">A single point in the distribution range.</param>
         /// 
         /// <remarks>
         ///   The Cumulative Distribution Function (CDF) describes the cumulative
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(double w)
+        public override double DistributionFunction(double x)
         {
-            if (table != null) // Samples < 12
-            {
-                for (int i = 0; i < table.Length; i++)
-                    if (w <= table[i])
-                        return i / (double)table.Length;
+            if (this.exact)
+                return exactMethod(x, table);
 
-                return 1;
+            if (Correction == ContinuityCorrection.Midpoint)
+            {
+                if (x > Mean)
+                {
+                    x = x - 0.5;
+                }
+                else
+                {
+                    x = x + 0.5;
+                }
+            }
+            else if (Correction == ContinuityCorrection.KeepInside)
+            {
+                x = x + 0.5;
             }
 
-            else
+            return approximation.DistributionFunction(x);
+        }
+
+        /// <summary>
+        /// Gets the complementary cumulative distribution function
+        /// (ccdf) for this distribution evaluated at point <c>x</c>.
+        /// This function is also known as the Survival function.
+        /// </summary>
+        /// <param name="x">A single point in the distribution range.</param>
+        /// <returns>System.Double.</returns>
+        /// <remarks>The Complementary Cumulative Distribution Function (CCDF) is
+        /// the complement of the Cumulative Distribution Function, or 1
+        /// minus the CDF.</remarks>
+        public override double ComplementaryDistributionFunction(double x)
+        {
+            if (this.exact)
+                return exactComplement(x, table);
+
+            if (Correction == ContinuityCorrection.Midpoint)
             {
-                // Large sample Normal distribution approximation
-                double wc = w + 0.5; // continuity correction
-                double z = (wc - Mean) / StandardDeviation;
-                double p = NormalDistribution.Standard.DistributionFunction(z);
-                return p;
+                if (x > Mean)
+                {
+                    x = x - 0.5;
+                }
+                else
+                {
+                    x = x + 0.5;
+                }
             }
+            else if (Correction == ContinuityCorrection.KeepInside)
+            {
+                x = x - 0.5;
+            }
+
+            return approximation.ComplementaryDistributionFunction(x);
         }
 
         /// <summary>
@@ -372,18 +461,10 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double InverseDistributionFunction(double p)
         {
-            if (table != null)
-            {
-                double icdf = base.InverseDistributionFunction(p);
-                return icdf;
-            }
-            else
-            {
-                double z = NormalDistribution.Standard.InverseDistributionFunction(p);
-                double wc = z * StandardDeviation + Mean;
-                double w = wc - 0.5; // reverse continuity correction
-                return w;
-            }
+            if (this.exact)
+                return base.InverseDistributionFunction(p);
+
+            return approximation.InverseDistributionFunction(p);
         }
 
         /// <summary>
@@ -391,7 +472,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   this distribution evaluated at point <c>w</c>.
         /// </summary>
         /// 
-        /// <param name="w">A single point in the distribution range.</param>
+        /// <param name="x">A single point in the distribution range.</param>
         /// 
         /// <returns>
         ///   The probability of <c>w</c> occurring
@@ -403,26 +484,12 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double w)
+        public override double ProbabilityDensityFunction(double x)
         {
-            if (table != null) // Samples < 12
-            {
-                // For all possible values for W, find how many
-                // of them are equal to the requested value.
+            if (this.exact)
+                return count(x, table) / (double)table.Length;
 
-                int count = 0;
-                for (int i = 0; i < table.Length; i++)
-                    if (table[i] == w) count++;
-                return count / (double)table.Length;
-            }
-
-            else
-            {
-                // Large sample Normal distribution approximation
-                double wc = w + 0.5; // continuity correction
-                double z = (wc - Mean) / StandardDeviation;
-                return NormalDistribution.Standard.ProbabilityDensityFunction(z);
-            }
+            return approximation.ProbabilityDensityFunction(x);
         }
 
         /// <summary>
@@ -430,7 +497,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   this distribution evaluated at point <c>w</c>.
         /// </summary>
         /// 
-        /// <param name="w">A single point in the distribution range.</param>
+        /// <param name="x">A single point in the distribution range.</param>
         /// 
         /// <returns>
         ///   The logarithm of the probability of <c>x</c>
@@ -442,27 +509,15 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityDensityFunction(double w)
+        public override double LogProbabilityDensityFunction(double x)
         {
-            if (table != null) // Samples < 12
-            {
-                // For all possible values for W, find how many
-                // of them are equal to the requested value.
+            if (this.exact)
+                return Math.Log(count(x, table)) - Math.Log(table.Length);
 
-                int count = 0;
-                for (int i = 0; i < table.Length; i++)
-                    if (table[i] == w) count++;
-                return Math.Log(count) - Math.Log(table.Length);
-            }
-
-            else
-            {
-                // Large sample Normal distribution approximation
-                double wc = w + 0.5; // continuity correction
-                double z = (wc - Mean) / StandardDeviation;
-                return NormalDistribution.Standard.LogProbabilityDensityFunction(z);
-            }
+            return approximation.LogProbabilityDensityFunction(x);
         }
+
+
 
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
@@ -475,6 +530,78 @@ namespace Accord.Statistics.Distributions.Univariate
         public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "W+(x; R)");
+        }
+
+
+
+
+
+
+        // TODO: This is a general method. It should be moved to
+        // a more appropriate place and be changed to public
+        internal static double exactMethod(double x, double[] table)
+        {
+#if DEBUG
+            int count = 0;
+            for (int i = 0; i < table.Length; i++)
+                if (table[i] <= x)
+                    count++;
+            double p = count / (double)table.Length;
+#endif
+
+            for (int i = 0; i < table.Length; i++)
+            {
+                if (x < table[i])
+                {
+#if DEBUG
+                    if (i != count)
+                        throw new Exception();
+#endif
+                    return i / (double)table.Length;
+                }
+            }
+
+            return 1;
+        }
+
+        // TODO: This is a general method. It should be moved to
+        // a more appropriate place and be changed to public
+        internal static double exactComplement(double x, double[] table)
+        {
+#if DEBUG
+            int count = 0;
+            for (int i = 0; i < table.Length; i++)
+                if (table[i] >= x)
+                    count++;
+            double p = count / (double)table.Length;
+#endif
+
+            for (int i = table.Length - 1; i >= 0; i--)
+            {
+                if (table[i] < x)
+                {
+                    int j = table.Length - i - 1;
+#if DEBUG
+                    if (j != count)
+                        throw new Exception();
+#endif
+                    return j / (double)table.Length;
+                }
+            }
+
+            return 1;
+        }
+
+        internal static int count(double x, double[] table)
+        {
+            // For all possible values for W, find how many
+            // of them are equal to the requested value.
+
+            int count = 0;
+            for (int i = 0; i < table.Length; i++)
+                if (table[i] == x)
+                    count++;
+            return count;
         }
     }
 }

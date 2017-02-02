@@ -47,7 +47,7 @@ namespace Accord.Statistics.Testing
         ///   Gets the number of samples being tested.
         /// </summary>
         /// 
-        public int Samples { get { return StatisticDistribution.Samples; } }
+        public int NumberOfSamples { get { return StatisticDistribution.NumberOfSamples; } }
 
         /// <summary>
         ///   Gets the signs for each of the <see cref="Delta"/> differences.
@@ -78,7 +78,7 @@ namespace Accord.Statistics.Testing
         /// 
         public WilcoxonTest(int[] signs, double[] diffs, DistributionTail tail)
         {
-            Compute(signs, diffs, tail);
+            Compute(signs, diffs, tail, null, true);
         }
 
         /// <summary>
@@ -93,26 +93,31 @@ namespace Accord.Statistics.Testing
         ///   Computes the Wilcoxon Signed-Rank test.
         /// </summary>
         /// 
-        protected void Compute(int[] signs, double[] diffs, DistributionTail tail)
+        protected void Compute(int[] signs, double[] diffs, DistributionTail tail, bool? exact, bool adjustForTies)
         {
-            Signs = signs;
-            Delta = diffs;
-            Ranks = Delta.Rank();
+            this.Signs = signs;
+            this.Delta = diffs;
+            this.Ranks = Delta.Rank(adjustForTies: adjustForTies);
 
             double W = WilcoxonDistribution.WPositive(Signs, Ranks);
 
-            this.Compute(W, Ranks, tail);
+            this.Compute(W, Ranks, tail, exact);
         }
 
         /// <summary>
         ///   Computes the Wilcoxon Signed-Rank test.
         /// </summary>
         /// 
-        protected void Compute(double statistic, double[] ranks, DistributionTail tail)
+        protected void Compute(double statistic, double[] ranks, DistributionTail tail, bool? exact)
         {
             this.Statistic = statistic;
-            this.StatisticDistribution = new WilcoxonDistribution(ranks);
             this.Tail = tail;
+
+            this.StatisticDistribution = new WilcoxonDistribution(ranks, exact)
+            {
+                Correction = (Tail == DistributionTail.TwoTail) ? ContinuityCorrection.Midpoint : ContinuityCorrection.KeepInside
+            };
+
             this.PValue = StatisticToPValue(Statistic);
 
             this.OnSizeChanged();
@@ -134,14 +139,15 @@ namespace Accord.Statistics.Testing
                 case DistributionTail.TwoTail:
                     double a = StatisticDistribution.DistributionFunction(x);
                     double b = StatisticDistribution.ComplementaryDistributionFunction(x);
-                    p = 2 * Math.Min(a, b);
-                    break;
-
-                case DistributionTail.OneUpper:
-                    p = StatisticDistribution.DistributionFunction(x);
+                    double c = Math.Min(a, b);
+                    p = Math.Min(2 * c, 1);
                     break;
 
                 case DistributionTail.OneLower:
+                    p = StatisticDistribution.DistributionFunction(x);
+                    break;
+
+                case DistributionTail.OneUpper:
                     p = StatisticDistribution.ComplementaryDistributionFunction(x);
                     break;
 
@@ -173,7 +179,8 @@ namespace Accord.Statistics.Testing
                 case DistributionTail.TwoTail:
                     b = StatisticDistribution.InverseDistributionFunction(1.0 - p / 2.0);
                     break;
-                default: throw new InvalidOperationException();
+                default:
+                    throw new InvalidOperationException();
             }
 
             return b;

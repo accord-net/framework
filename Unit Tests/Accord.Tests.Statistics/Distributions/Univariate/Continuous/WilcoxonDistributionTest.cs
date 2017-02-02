@@ -22,7 +22,9 @@
 
 namespace Accord.Tests.Statistics
 {
+    using Accord.Statistics;
     using Accord.Statistics.Distributions.Univariate;
+    using Math;
     using NUnit.Framework;
     using System;
 
@@ -30,24 +32,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class WilcoxonDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ConstructorTest()
@@ -61,9 +45,9 @@ namespace Accord.Tests.Statistics
             double var = W.Variance;  // 162.5
             double mode = W.Mode;     // 39.0
 
-            double cdf = W.DistributionFunction(w: 42); // 0.60817384423279575
-            double pdf = W.ProbabilityDensityFunction(w: 42); // 0.38418508862319295
-            double lpdf = W.LogProbabilityDensityFunction(w: 42); // 0.38418508862319295
+            double cdf = W.DistributionFunction(x: 42); // 0.60817384423279575
+            double pdf = W.ProbabilityDensityFunction(x: 42); // 0.38418508862319295
+            double lpdf = W.LogProbabilityDensityFunction(x: 42); // 0.38418508862319295
 
             double ccdf = W.ComplementaryDistributionFunction(x: 42); // 0.39182615576720425
             double icdf = W.InverseDistributionFunction(p: cdf); // 42
@@ -75,16 +59,16 @@ namespace Accord.Tests.Statistics
             string str = W.ToString(); // "W+(x; R)"
 
             Assert.AreEqual(39.0, mean);
-            Assert.AreEqual(38.5, median, 1e-6);
-            Assert.AreEqual(39.0, mode);
+            Assert.AreEqual(39, median, 1e-6);
+            Assert.AreEqual(39.0, mode, 1e-8);
             Assert.AreEqual(162.5, var);
-            Assert.AreEqual(0.936937017743799, chf);
-            Assert.AreEqual(0.60817384423279575, cdf);
-            Assert.AreEqual(0.38418508862319295, pdf);
-            Assert.AreEqual(-0.95663084089698047, lpdf);
-            Assert.AreEqual(0.98049883339449373, hf);
-            Assert.AreEqual(0.39182615576720425, ccdf);
-            Assert.AreEqual(42, icdf, 1e-6);
+            Assert.AreEqual(0.87410248360375287, chf, 1e-8);
+            Assert.AreEqual(0.59716796875, cdf, 1e-8);
+            Assert.AreEqual(0.014404296875, pdf, 1e-8);
+            Assert.AreEqual(-4.2402287228136233, lpdf, 1e-8);
+            Assert.AreEqual(0.03452311293153891, hf, 1e-8);
+            Assert.AreEqual(0.417236328125, ccdf, 1e-8);
+            Assert.AreEqual(42.5, icdf, 0.05);
             Assert.AreEqual("W+(x; R)", str);
         }
 
@@ -93,15 +77,15 @@ namespace Accord.Tests.Statistics
         {
             double[] ranks = { 1, 2, 3, 4, 5.5, 5.5, 7, 8, 9, 10, 11, 12 };
 
-            var W = new WilcoxonDistribution(ranks, forceExact: true);
+            var W = new WilcoxonDistribution(ranks, exact: true);
 
             double mean = W.Mean;     // 39
             double median = W.Median; // 39
             double var = W.Variance;  // 162.5
 
-            double cdf = W.DistributionFunction(w: 42); // 0.582763671875
-            double pdf = W.ProbabilityDensityFunction(w: 42); // 0.014404296875
-            double lpdf = W.LogProbabilityDensityFunction(w: 42); // -4.2402287228136233
+            double cdf = W.DistributionFunction(x: 42); // 0.582763671875
+            double pdf = W.ProbabilityDensityFunction(x: 42); // 0.014404296875
+            double lpdf = W.LogProbabilityDensityFunction(x: 42); // -4.2402287228136233
 
             double ccdf = W.ComplementaryDistributionFunction(x: 42); // 0.417236328125
             double icdf = W.InverseDistributionFunction(p: cdf); // 41.965447500067114
@@ -116,24 +100,24 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(39.0, median, 1e-6);
             Assert.AreEqual(162.5, var);
             Assert.AreEqual(0.87410248360375287, chf);
-            Assert.AreEqual(0.582763671875, cdf);
-            Assert.AreEqual(0.014404296875, pdf);
+            Assert.AreEqual(0.59716796875, cdf, 1e-5);
+            Assert.AreEqual(0.014404296875, pdf, 1e-8);
             Assert.AreEqual(-4.2402287228136233, lpdf);
             Assert.AreEqual(0.03452311293153891, hf);
             Assert.AreEqual(0.417236328125, ccdf);
-            Assert.AreEqual(42, icdf, 0.05);
+            Assert.AreEqual(42.5, icdf, 0.05);
             Assert.AreEqual("W+(x; R)", str);
 
             var range1 = W.GetRange(0.95);
             var range2 = W.GetRange(0.99);
             var range3 = W.GetRange(0.01);
 
-            Assert.AreEqual(17.999999736111114, range1.Min);
-            Assert.AreEqual(60.000000315408002, range1.Max);
-            Assert.AreEqual(10.000000351098127, range2.Min);
-            Assert.AreEqual(67.99999981945885, range2.Max);
-            Assert.AreEqual(10.000000351098119, range3.Min);
-            Assert.AreEqual(67.99999981945885, range3.Max);
+            Assert.AreEqual(17.999999736111114, range1.Min, 1e-6);
+            Assert.AreEqual(60.000000315408002, range1.Max, 1e-6);
+            Assert.AreEqual(10.000000351098127, range2.Min, 1e-6);
+            Assert.AreEqual(67.99999981945885, range2.Max, 1e-6);
+            Assert.AreEqual(10.000000351098119, range3.Min, 1e-6);
+            Assert.AreEqual(67.99999981945885, range3.Max, 1e-6);
         }
 
         [Test]
@@ -143,7 +127,7 @@ namespace Accord.Tests.Statistics
             double[] ranks = { 1, 2, 3, 4, 5.5, 5.5, 7, 8, 9, 10, 11, 12 };
             double[] diffs = { 0.1, 0.2, 0.3, 0.6, 1.5, 1.5, 1.8, 2.0, 2.1, 2.3, 2.6, 12.4 };
 
-            double wm, wp, w;
+            double wm, wp, u;
             {
                 double expected = 7;
                 wm = WilcoxonDistribution.WNegative(signs, ranks);
@@ -158,8 +142,8 @@ namespace Accord.Tests.Statistics
 
             {
                 double expected = 7;
-                w = WilcoxonDistribution.WMinimum(signs, ranks);
-                Assert.AreEqual(expected, w);
+                u = WilcoxonDistribution.WMinimum(signs, ranks);
+                Assert.AreEqual(expected, u);
             }
 
             {
@@ -198,7 +182,7 @@ namespace Accord.Tests.Statistics
 
             WilcoxonDistribution target = new WilcoxonDistribution(ranks);
 
-            double[] probabilities = { 0.0, 1 / 8.0, 1 / 8.0, 1 / 8.0, 2 / 8.0, 1 / 8.0, 1 / 8.0, 1 / 8.0 };
+            double[] probabilities = { 1 / 8.0, 1 / 8.0, 1 / 8.0, 2 / 8.0, 1 / 8.0, 1 / 8.0, 1 / 8.0 };
             double[] expected = Accord.Math.Matrix.CumulativeSum(probabilities);
 
             for (int i = 0; i < expected.Length; i++)
@@ -214,9 +198,9 @@ namespace Accord.Tests.Statistics
         {
             // example from https://onlinecourses.science.psu.edu/stat414/node/319
 
-            double[] ranks = 
+            double[] ranks =
             {
-                22, 2, 13, 24, 16, 15, 25, 10, 9, 11, 5, 
+                22, 2, 13, 24, 16, 15, 25, 10, 9, 11, 5,
                 17, 12, 20, 14, 30, 8, 6, 26, 19, 29, 27, 3, 28,
                 7, 21, 23, 1, 18, 4
             };
@@ -242,8 +226,55 @@ namespace Accord.Tests.Statistics
             double[] ranks = { 1, 2, 3, 7 };
 
             WilcoxonDistribution target = new WilcoxonDistribution(ranks);
+            Assert.IsTrue(target.Exact);
 
             Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
+        }
+
+        [Test]
+        public void MedianTest_approximation()
+        {
+            double[] ranks = { 1, 2, 3, 7 };
+
+            WilcoxonDistribution target = new WilcoxonDistribution(ranks, exact: false);
+            Assert.IsFalse(target.Exact);
+
+            Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
+        }
+
+        [Test]
+        public void ApproximationTest()
+        {
+            double[] m = Matrix.Magic(5).Reshape().Get(0, 20);
+
+            double[] samples = m.Rank();
+
+            var exact = new WilcoxonDistribution(samples, exact: true);
+            var approx = new WilcoxonDistribution(samples, exact: false);
+
+            var nd = NormalDistribution.Estimate(exact.Table);
+            Assert.AreEqual(nd.Mean, exact.Mean, 1e-10);
+            Assert.AreEqual(nd.Variance, exact.Variance, 1e-3);
+
+            foreach (double x in Vector.Range(0, 100))
+            {
+                double e = approx.DistributionFunction(x);
+                double a = exact.DistributionFunction(x);
+
+                if (e > 0.25)
+                    Assert.AreEqual(e, a, 0.1);
+                else Assert.AreEqual(e, a, 0.01);
+            }
+
+            foreach (double x in Vector.Range(0, 100))
+            {
+                double e = approx.ComplementaryDistributionFunction(x);
+                double a = exact.ComplementaryDistributionFunction(x);
+
+                if (e > 0.25)
+                    Assert.AreEqual(e, a, 0.1);
+                else Assert.AreEqual(e, a, 0.01);
+            }
         }
     }
 }
