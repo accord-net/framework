@@ -39,7 +39,8 @@ namespace Accord.MachineLearning
     /// <typeparam name="TInput">The type for the input data that enters the model.</typeparam>
     /// 
     public interface ISupervisedMulticlassLearning<out TModel, in TInput> :
-        ISupervisedMultilabelLearning<TModel, TInput>
+        ISupervisedMultilabelLearning<TModel, TInput>,
+        ISupervisedLearning<TModel, TInput, int>
         where TModel : IMulticlassClassifier<TInput>
     {
 

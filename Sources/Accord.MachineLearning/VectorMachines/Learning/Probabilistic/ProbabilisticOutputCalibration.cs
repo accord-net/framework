@@ -593,17 +593,20 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
 
+        ISupportVectorMachine<TInput> ISupervisedLearning<ISupportVectorMachine<TInput>, TInput, int>.Learn(TInput[] x, int[] y, double[] weights)
+        {
+            return Learn(x, y, weights);
+        }
+
         ISupportVectorMachine<TInput> ISupervisedLearning<ISupportVectorMachine<TInput>, TInput, int[]>.Learn(TInput[] x, int[][] y, double[] weights)
         {
             return Learn(x, y, weights);
         }
 
-
         ISupportVectorMachine<TInput> ISupervisedLearning<ISupportVectorMachine<TInput>, TInput, bool[]>.Learn(TInput[] x, bool[][] y, double[] weights)
         {
             return Learn(x, y, weights);
         }
-
 
         ISupportVectorMachine<TInput> ISupervisedLearning<ISupportVectorMachine<TInput>, TInput, bool>.Learn(TInput[] x, bool[] y, double[] weights)
         {
