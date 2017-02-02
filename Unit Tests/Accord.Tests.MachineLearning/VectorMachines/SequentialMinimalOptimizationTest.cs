@@ -620,6 +620,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void weight_test_inhomogeneous_linear_kernel()
         {
+            var yinyang = GetYingYang();
             var dataset = yinyang;
             double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
             int[] labels = dataset.GetColumn(2).ToInt32();
@@ -739,6 +740,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void weight_test_homogeneous_linear_kernel()
         {
+            var yinyang = GetYingYang();
             var dataset = yinyang;
             double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
             int[] labels = dataset.GetColumn(2).ToInt32();
@@ -859,6 +861,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void WeightsTest2()
         {
+            var yinyang = GetYingYang();
             var dataset = yinyang;
 
             double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
@@ -990,6 +993,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void ComplexityHeuristicTest()
         {
+            var yinyang = GetYingYang();
             var dataset = yinyang;
 
             double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
@@ -1017,6 +1021,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void ComplexityHeuristicTest_new_method()
         {
+            var yinyang = GetYingYang();
             var dataset = yinyang;
 
             double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
@@ -1202,6 +1207,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void TransformTest()
         {
+            var yinyang = GetYingYang();
             var inputs = yinyang.Submatrix(null, 0, 1).ToJagged();
             var labels = yinyang.GetColumn(2).ToInt32();
 
@@ -1244,8 +1250,10 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(expected.FalsePositives, actual.FalsePositives);
         }
 
-        public static double[,] yinyang =
+        public static double[,] GetYingYang()
         {
+            double[,] yinyang =
+            {
             #region Yin Yang
             { -0.876847428, 1.996318824, -1 },
             { -0.748759325, 1.997248514, -1 },
@@ -1348,6 +1356,8 @@ namespace Accord.Tests.MachineLearning
             { -0.293782477, 1.008861678, 1 },
             { 0.013431012, 1.082021525, 1 },
             #endregion
-        };
+            };
+            return yinyang;
+        }
     }
 }

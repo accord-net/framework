@@ -94,7 +94,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void RunTest2()
         {
-            var dataset = SequentialMinimalOptimizationTest.yinyang;
+            var dataset = SequentialMinimalOptimizationTest.GetYingYang();
 
             double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
             int[] labels = dataset.GetColumn(2).ToInt32();
@@ -121,7 +121,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void KernelTest1()
         {
-            var dataset = SequentialMinimalOptimizationTest.yinyang;
+            var dataset = SequentialMinimalOptimizationTest.GetYingYang();
             double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
             int[] labels = dataset.GetColumn(2).ToInt32();
 
@@ -164,7 +164,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void KernelTest2()
         {
-            var dataset = SequentialMinimalOptimizationTest.yinyang;
+            var dataset = SequentialMinimalOptimizationTest.GetYingYang();
             var inputs = dataset.Submatrix(null, 0, 1).ToJagged();
             var labels = dataset.GetColumn(2).ToInt32();
 

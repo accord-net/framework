@@ -41,7 +41,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void RunTest()
         {
-            var dataset = SequentialMinimalOptimizationTest.yinyang;
+            var dataset = SequentialMinimalOptimizationTest.GetYingYang();
 
             double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
             int[] labels = dataset.GetColumn(2).ToInt32();

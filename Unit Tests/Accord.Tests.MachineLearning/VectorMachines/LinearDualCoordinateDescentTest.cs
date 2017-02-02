@@ -202,7 +202,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void ComputeTest5()
         {
-            var dataset = SequentialMinimalOptimizationTest.yinyang;
+            var dataset = SequentialMinimalOptimizationTest.GetYingYang();
 
             double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
             int[] labels = dataset.GetColumn(2).ToInt32();
@@ -356,7 +356,7 @@ namespace Accord.Tests.MachineLearning
             // GH-191: Different accuracy by specifying KernelSupportVectorMachine 
             //         input length https://github.com/accord-net/framework/issues/191
 
-            var dataset = SequentialMinimalOptimizationTest.yinyang;
+            var dataset = SequentialMinimalOptimizationTest.GetYingYang();
 
             double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
             int[] outputs = dataset.GetColumn(2).ToInt32();
