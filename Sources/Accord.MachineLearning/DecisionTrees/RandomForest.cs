@@ -52,6 +52,17 @@ namespace Accord.MachineLearning.DecisionTrees
     ///   page for <see cref="RandomForestLearning"/>.</para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <para>
+    ///   This example shows the simplest way to induce a decision tree with continuous variables.</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\RandomForestTest.cs" region="doc_iris" />
+    /// <para>
+    ///   The next example shows how to induce a decision tree with continuous variables using a 
+    ///   <see cref="Accord.Statistics.Filters.Codification">codebook</see> to manage how input 
+    ///   variables should be encoded.</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\RandomForestTest.cs" region="doc_nursery" />
+    /// </example>
+    /// 
     /// <seealso cref="DecisionTree"/>
     /// <seealso cref="RandomForestLearning"/>
     /// 
