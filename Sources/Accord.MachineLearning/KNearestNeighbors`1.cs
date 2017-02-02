@@ -26,12 +26,15 @@ namespace Accord.MachineLearning
     using System.Linq;
     using Accord.Math;
     using Accord.Math.Distances;
+    using System.Threading;
+    using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   K-Nearest Neighbor (k-NN) algorithm.
     /// </summary>
     /// 
-    /// <typeparam name="T">The type of the input data.</typeparam>
+    /// <typeparam name="TInput">The type of the input data.</typeparam>
     /// 
     /// <remarks>
     /// <para> The k-nearest neighbor algorithm (k-NN) is a method for classifying objects
@@ -54,326 +57,174 @@ namespace Accord.MachineLearning
     /// </remarks>
     /// 
     /// <example>
-    /// <para>The following example shows how to create
-    /// and use a k-Nearest Neighbor algorithm to classify
-    /// a set of numeric vectors.</para>
+    /// <para>
+    ///  The following example shows how to create and use a k-Nearest Neighbor algorithm to classify
+    ///   a set of numeric vectors.</para>
     /// 
-    /// <code>
-    /// // Create some sample learning data. In this data,
-    /// // the first two instances belong to a class, the
-    /// // four next belong to another class and the last
-    /// // three to yet another.
+    /// <code source = "Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborTest.cs" region="doc_learn" />
     /// 
-    /// double[][] inputs = 
-    /// {
-    ///     // The first two are from class 0
-    ///     new double[] { -5, -2, -1 },
-    ///     new double[] { -5, -5, -6 },
-    /// 
-    ///     // The next four are from class 1
-    ///     new double[] {  2,  1,  1 },
-    ///     new double[] {  1,  1,  2 },
-    ///     new double[] {  1,  2,  2 },
-    ///     new double[] {  3,  1,  2 },
-    /// 
-    ///     // The last three are from class 2
-    ///     new double[] { 11,  5,  4 },
-    ///     new double[] { 15,  5,  6 },
-    ///     new double[] { 10,  5,  6 },
-    /// };
-    /// 
-    /// int[] outputs =
-    /// {
-    ///     0, 0,        // First two from class 0
-    ///     1, 1, 1, 1,  // Next four from class 1
-    ///     2, 2, 2      // Last three from class 2
-    /// };
+    /// <para>
+    ///   The following example show how to use a different distance metric when computing k-NN:</para>
+    ///   
+    ///   <code source = "Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborTest.cs" region="doc_learn_distance" />
     /// 
     /// 
-    /// // Now we will create the K-Nearest Neighbors algorithm. For this
-    /// // example, we will be choosing k = 4. This means that, for a given
-    /// // instance, its nearest 4 neighbors will be used to cast a decision.
-    /// KNearestNeighbors knn = new KNearestNeighbors(k: 4, classes: 3,
-    ///     inputs: inputs, outputs: outputs);
+    /// <para>
+    ///   The k-Nearest neighbor algorithm implementation in the framework can also be used with any instance 
+    ///   data type. For such cases, the framework offers a generic version of the classifier, as shown in the 
+    ///   example below:</para>
     /// 
-    /// 
-    /// // After the algorithm has been created, we can classify a new instance:
-    /// int answer = knn.Compute(new double[] { 11, 5, 4 }); // answer will be 2.
-    /// </code>
-    /// 
-    /// 
-    /// <para>The k-Nearest neighbor algorithm implementation in the 
-    /// framework can also be used with any instance data type. For
-    /// such cases, the framework offers a generic version of the 
-    /// classifier, as shown in the example below.</para>
-    /// 
-    /// <code>
-    /// // The k-Nearest Neighbors algorithm can be used with
-    /// // any kind of data. In this example, we will see how
-    /// // it can be used to compare, for example, Strings.
-    /// 
-    /// string[] inputs = 
-    /// {
-    ///     "Car",    // class 0
-    ///     "Bar",    // class 0
-    ///     "Jar",    // class 0
-    /// 
-    ///     "Charm",  // class 1
-    ///     "Chair"   // class 1
-    /// };
-    /// 
-    /// int[] outputs =
-    /// {
-    ///     0, 0, 0,  // First three are from class 0
-    ///     1, 1,     // And next two are from class 1
-    /// };
-    /// 
-    /// 
-    /// // Now we will create the K-Nearest Neighbors algorithm. For this
-    /// // example, we will be choosing k = 1. This means that, for a given
-    /// // instance, only its nearest neighbor will be used to cast a new
-    /// // decision. 
-    ///             
-    /// // In order to compare strings, we will be using Levenshtein's string distance
-    /// KNearestNeighbors&lt;string> knn = new KNearestNeighbors&lt;string>(k: 1, classes: 2,
-    ///     inputs: inputs, outputs: outputs, distance: Distance.Levenshtein);
-    /// 
-    /// 
-    /// // After the algorithm has been created, we can use it:
-    /// int answer = knn.Compute("Chars"); // answer should be 1.
-    /// </code>
+    /// <code source = "Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborTest.cs" region="doc_learn_text" />
     /// </example>
     /// 
     /// <seealso cref="KNearestNeighbors"/>
     /// 
     [Serializable]
-    public class KNearestNeighbors<T>
+    public class KNearestNeighbors<TInput> :
+        BaseKNearestNeighbors<KNearestNeighbors<TInput>, TInput, IDistance<TInput>>,
+        IParallel
     {
-        private int k;
+        [NonSerialized]
+        private ThreadLocal<double[]> distances = new ThreadLocal<double[]>();
 
-        private T[] inputs;
-        private int[] outputs;
+        [NonSerialized]
+        private ParallelOptions parallelOptions = new ParallelOptions();
 
-        private int classCount;
-
-        private IDistance<T> distance;
-
-        private double[] distances;
+        /// <summary>
+        ///   Gets or sets the parallelization options for this algorithm.
+        /// </summary>
+        /// 
+        public ParallelOptions ParallelOptions
+        {
+            get { return parallelOptions; }
+            set { parallelOptions = value; }
+        }
 
 
         /// <summary>
         ///   Creates a new <see cref="KNearestNeighbors"/>.
         /// </summary>
         /// 
-        /// <param name="k">The number of nearest neighbors to be used in the decision.</param>
-        /// 
-        /// <param name="inputs">The input data points.</param>
-        /// <param name="outputs">The associated labels for the input points.</param>
-        /// <param name="distance">The distance measure to use in the decision.</param>
-        /// 
-        public KNearestNeighbors(int k, T[] inputs, int[] outputs, IDistance<T> distance)
+        public KNearestNeighbors()
         {
-            checkArgs(k, null, inputs, outputs, distance);
-
-            int classCount = outputs.Distinct().Count();
-
-            initialize(k, classCount, inputs, outputs, distance);
         }
 
         /// <summary>
         ///   Creates a new <see cref="KNearestNeighbors"/>.
         /// </summary>
         /// 
-        /// <param name="k">The number of nearest neighbors to be used in the decision.</param>
-        /// <param name="classes">The number of classes in the classification problem.</param>
-        /// 
-        /// <param name="inputs">The input data points.</param>
-        /// <param name="outputs">The associated labels for the input points.</param>
-        /// <param name="distance">The distance measure to use in the decision.</param>
-        /// 
-        public KNearestNeighbors(int k, int classes, T[] inputs, int[] outputs, IDistance<T> distance)
+        public KNearestNeighbors(int k, IDistance<TInput> distance)
         {
-            checkArgs(k, classes, inputs, outputs, distance);
-
-            initialize(k, classes, inputs, outputs, distance);
-        }
-
-        private void initialize(int k, int classes, T[] inputs, int[] outputs, IDistance<T> distance)
-        {
-            this.inputs = inputs;
-            this.outputs = outputs;
-
-            this.k = k;
-            this.classCount = classes;
-
-            this.distance = distance;
-            this.distances = new double[inputs.Length];
+            this.K = k;
+            this.Distance = distance;
         }
 
 
         /// <summary>
-        ///   Gets the set of points given
-        ///   as input of the algorithm.
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and each class.
         /// </summary>
-        /// 
-        /// <value>The input points.</value>
-        /// 
-        public T[] Inputs
+        /// <param name="input">The input vector.</param>
+        /// <param name="result">An array where the result will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public override double[] Scores(TInput input, double[] result)
         {
-            get { return inputs; }
-        }
+            double[] distances;
+            int[] idx = GetNearestIndices(input, out distances);
 
-        /// <summary>
-        ///   Gets the set of labels associated
-        ///   with each <see cref="Inputs"/> point.
-        /// </summary>
-        /// 
-        public int[] Outputs
-        {
-            get { return outputs; }
-        }
-
-        /// <summary>
-        ///   Gets the number of class labels
-        ///   handled by this classifier.
-        /// </summary>
-        /// 
-        public int ClassCount
-        {
-            get { return classCount; }
-        }
-
-        /// <summary>
-        ///   Gets or sets the distance function used
-        ///   as a distance metric between data points.
-        /// </summary>
-        /// 
-        public IDistance<T> Distance
-        {
-            get { return distance; }
-            set { distance = value; }
-        }
-
-
-        /// <summary>
-        ///   Gets or sets the number of nearest 
-        ///   neighbors to be used in the decision.
-        /// </summary>
-        /// 
-        /// <value>The number of neighbors.</value>
-        /// 
-        public int K
-        {
-            get { return k; }
-            set
-            {
-                if (value <= 0 || value > inputs.Length)
-                    throw new ArgumentOutOfRangeException("value",
-                        "The value for k should be greater than zero and less than total number of input points.");
-
-                k = value;
-            }
-        }
-
-        /// <summary>
-        ///   Computes the most likely label of a new given point.
-        /// </summary>
-        /// 
-        /// <param name="input">A point to be classified.</param>
-        /// 
-        /// <returns>The most likely label for the given point.</returns>
-        /// 
-        public int Compute(T input)
-        {
-            double[] scores;
-            return Compute(input, out scores);
-        }
-
-        /// <summary>
-        ///   Computes the most likely label of a new given point.
-        /// </summary>
-        /// 
-        /// <param name="input">A point to be classified.</param>
-        /// <param name="response">A value between 0 and 1 giving 
-        /// the strength of the classification in relation to the
-        /// other classes.</param>
-        /// 
-        /// <returns>The most likely label for the given point.</returns>
-        /// 
-        public int Compute(T input, out double response)
-        {
-            double[] scores;
-            int result = Compute(input, out scores);
-            response = scores[result] / scores.Sum();
-
-            return result;
-        }
-
-        /// <summary>
-        ///   Computes the most likely label of a new given point.
-        /// </summary>
-        /// 
-        /// <param name="input">A point to be classified.</param>
-        /// <param name="scores">The distance score for each possible class.</param>
-        /// 
-        /// <returns>The most likely label for the given point.</returns>
-        /// 
-        public virtual int Compute(T input, out double[] scores)
-        {
-            // Compute all distances
-            for (int i = 0; i < inputs.Length; i++)
-                distances[i] = distance.Distance(input, inputs[i]);
-
-            int[] idx = distances.Bottom(k, inPlace: true);
-
-            scores = new double[classCount];
-
+            // Compute the scores for these points
             for (int i = 0; i < idx.Length; i++)
             {
                 int j = idx[i];
 
-                int label = outputs[j];
+                int label = Outputs[j];
                 double d = distances[i];
 
                 // Convert to similarity measure
-                scores[label] += 1.0 / (1.0 + d);
+                result[label] += 1.0 / (1.0 + d);
             }
-
-            // Get the maximum weighted score
-            int result; scores.Max(out result);
 
             return result;
         }
 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        private int[] GetNearestIndices(TInput input, out double[] distances)
+        {
+            double[] d = this.distances.Value;
+
+            if (this.parallelOptions.MaxDegreeOfParallelism == 1)
+            {
+                // Compute all distances
+                for (int i = 0; i < Inputs.Length; i++)
+                    d[i] = Distance.Distance(input, Inputs[i]);
+            }
+            else
+            {
+                // Compute all distances
+                Parallel.For(0, Inputs.Length, this.parallelOptions, i =>
+                {
+                    d[i] = Distance.Distance(input, Inputs[i]);
+                });
+            }
+
+            distances = d;
+
+            // Get the K closest points
+            return d.Bottom(K, inPlace: true);
+        }
+
         /// <summary>
-        ///   Gets the top <see cref="KNearestNeighbors{T}.K"/> points that are the closest
-        ///   to a given <paramref name="input"> reference point</paramref>.
+        ///   Gets the top <see cref="BaseKNearestNeighbors{TModel, TInput, TDistance}.K"/> points
+        ///   that are the closest to a given <paramref name="input"> reference point</paramref>.
         /// </summary>
         /// 
         /// <param name="input">The query point whose neighbors will be found.</param>
         /// <param name="labels">The label for each neighboring point.</param>
         /// 
         /// <returns>
-        ///   An array containing the top <see cref="KNearestNeighbors{T}.K"/> points that are 
+        ///   An array containing the top <see cref="BaseKNearestNeighbors{TModel, TInput, TDistance}.K"/> points that are 
         ///   at the closest possible distance to <paramref name="input"/>.
         /// </returns>
         /// 
-        public virtual T[] GetNearestNeighbors(T input, out int[] labels)
+        public override TInput[] GetNearestNeighbors(TInput input, out int[] labels)
         {
-            // Compute all distances
-            for (int i = 0; i < inputs.Length; i++)
-                distances[i] = distance.Distance(input, inputs[i]);
+            double[] distances;
+            int[] idx = GetNearestIndices(input, out distances);
 
-            int[] idx = distances.Bottom(k, inPlace: true);
-
-            labels = outputs.Get(idx);
-            return inputs.Get(idx);
+            labels = this.Outputs.Get(idx);
+            return this.Inputs.Get(idx);
         }
 
 
 
+        /// <summary>
+        ///   Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// 
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// 
+        /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
+        /// 
+        public override KNearestNeighbors<TInput> Learn(TInput[] x, int[] y, double[] weights = null)
+        {
+            CheckArgs(K, x, y, Distance, weights);
 
-        private static void checkArgs(int k, int? classes, T[] inputs, int[] outputs, IDistance<T> distance)
+            this.Inputs = x;
+            this.Outputs = y;
+
+            this.NumberOfOutputs = y.DistinctCount();
+            this.distances.Value = new double[x.Length];
+
+            return this;
+        }
+
+
+        private static void checkArgs(int k, int? classes, TInput[] inputs, int[] outputs, IDistance<TInput> distance)
         {
             if (k <= 0)
                 throw new ArgumentOutOfRangeException("k", "Number of neighbors should be greater than zero.");
@@ -394,5 +245,112 @@ namespace Accord.MachineLearning
             if (distance == null)
                 throw new ArgumentNullException("distance");
         }
+
+
+
+
+
+
+
+        #region Obsolete
+        /// <summary>
+        ///   Creates a new <see cref="KNearestNeighbors"/>.
+        /// </summary>
+        /// 
+        /// <param name="k">The number of nearest neighbors to be used in the decision.</param>
+        /// 
+        /// <param name="inputs">The input data points.</param>
+        /// <param name="outputs">The associated labels for the input points.</param>
+        /// <param name="distance">The distance measure to use in the decision.</param>
+        /// 
+        [Obsolete("Please use KNearestNeighbors(int k, IDistance<T> distance) constructor instead.")]
+        public KNearestNeighbors(int k, TInput[] inputs, int[] outputs, IDistance<TInput> distance)
+        {
+            this.K = k;
+            this.Distance = distance;
+            Learn(inputs, outputs);
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="KNearestNeighbors"/>.
+        /// </summary>
+        /// 
+        /// <param name="k">The number of nearest neighbors to be used in the decision.</param>
+        /// <param name="classes">The number of classes in the classification problem.</param>
+        /// 
+        /// <param name="inputs">The input data points.</param>
+        /// <param name="outputs">The associated labels for the input points.</param>
+        /// <param name="distance">The distance measure to use in the decision.</param>
+        /// 
+        [Obsolete("Please use KNearestNeighbors(int k, IDistance<T> distance) constructor instead.")]
+        public KNearestNeighbors(int k, int classes, TInput[] inputs, int[] outputs, IDistance<TInput> distance)
+            : this(k, inputs, outputs, distance)
+        {
+            if (classes != NumberOfOutputs)
+                throw new ArgumentException("classes");
+        }
+
+        /// <summary>
+        ///   Gets the number of class labels
+        ///   handled by this classifier.
+        /// </summary>
+        /// 
+        [Obsolete("Please use NumberOfOutputs instead.")]
+        public int ClassCount
+        {
+            get { return NumberOfOutputs; }
+        }
+
+        /// <summary>
+        ///   Computes the most likely label of a new given point.
+        /// </summary>
+        /// 
+        /// <param name="input">A point to be classified.</param>
+        /// 
+        /// <returns>The most likely label for the given point.</returns>
+        /// 
+        [Obsolete("Please use the Decide(input) method instead.")]
+        public int Compute(TInput input)
+        {
+            return Decide(input);
+        }
+
+        /// <summary>
+        ///   Computes the most likely label of a new given point.
+        /// </summary>
+        /// 
+        /// <param name="input">A point to be classified.</param>
+        /// <param name="response">A value between 0 and 1 giving 
+        /// the strength of the classification in relation to the
+        /// other classes.</param>
+        /// 
+        /// <returns>The most likely label for the given point.</returns>
+        /// 
+        [Obsolete("Please use the Score(input, out decision) method instead.")]
+        public int Compute(TInput input, out double response)
+        {
+            int decision;
+            response = Score(input, out decision);
+            return decision;
+        }
+
+        /// <summary>
+        ///   Computes the most likely label of a new given point.
+        /// </summary>
+        /// 
+        /// <param name="input">A point to be classified.</param>
+        /// <param name="scores">The distance score for each possible class.</param>
+        /// 
+        /// <returns>The most likely label for the given point.</returns>
+        /// 
+        [Obsolete("Please use the Scores(input, out decision) method instead.")]
+        public virtual int Compute(TInput input, out double[] scores)
+        {
+            int decision;
+            scores = Scores(input, out decision);
+            return decision;
+        }
+        #endregion
+
     }
 }

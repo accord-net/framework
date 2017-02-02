@@ -41,7 +41,8 @@ namespace Accord.MachineLearning
     /// <seealso cref="KNearestNeighbors{T}"/>
     /// 
     [Serializable]
-    public class KNearestNeighbors : KNearestNeighbors<double[]>
+    public class KNearestNeighbors : 
+        BaseKNearestNeighbors<KNearestNeighbors, double[], IMetric<double[]>>
     {
 
         private KDTree<int> tree;
@@ -50,91 +51,60 @@ namespace Accord.MachineLearning
         ///   Creates a new <see cref="KNearestNeighbors"/>.
         /// </summary>
         /// 
-        /// <param name="k">The number of nearest neighbors to be used in the decision.</param>
-        /// 
-        /// <param name="inputs">The input data points.</param>
-        /// <param name="outputs">The associated labels for the input points.</param>
-        /// 
-        public KNearestNeighbors(int k, double[][] inputs, int[] outputs)
-            : base(k, inputs, outputs, new Accord.Math.Distances.Euclidean())
+        public KNearestNeighbors()
         {
-            this.tree = KDTree.FromData(inputs, outputs, new Accord.Math.Distances.Euclidean());
         }
 
         /// <summary>
         ///   Creates a new <see cref="KNearestNeighbors"/>.
         /// </summary>
         /// 
-        /// <param name="k">The number of nearest neighbors to be used in the decision.</param>
-        /// <param name="classes">The number of classes in the classification problem.</param>
-        /// 
-        /// <param name="inputs">The input data points.</param>
-        /// <param name="outputs">The associated labels for the input points.</param>
-        /// 
-        public KNearestNeighbors(int k, int classes, double[][] inputs, int[] outputs)
-            : base(k, classes, inputs, outputs, new Accord.Math.Distances.Euclidean())
+        public KNearestNeighbors(int k)
         {
-            this.tree = KDTree.FromData(inputs, outputs, new Accord.Math.Distances.Euclidean());
+            this.K = k;
+            this.Distance = new Euclidean();
         }
 
         /// <summary>
         ///   Creates a new <see cref="KNearestNeighbors"/>.
         /// </summary>
         /// 
-        /// <param name="k">The number of nearest neighbors to be used in the decision.</param>
-        /// <param name="classes">The number of classes in the classification problem.</param>
-        /// <param name="inputs">The input data points.</param>
-        /// <param name="outputs">The associated labels for the input points.</param>
-        /// <param name="distance">The distance measure to use.</param>
-        /// 
-        public KNearestNeighbors(int k, int classes, double[][] inputs, int[] outputs, IMetric<double[]> distance)
-            : base(k, classes, inputs, outputs, distance)
+        public KNearestNeighbors(int k, IMetric<double[]> distance)
         {
-            this.tree = KDTree.FromData(inputs, outputs, distance);
+            this.K = k;
+            this.Distance = distance;
         }
-
-
-        private KNearestNeighbors(KDTree<int> tree, int k, int classes,
-            double[][] inputs, int[] outputs, IMetric<double[]> distance)
-            : base(k, classes, inputs, outputs, distance)
-        {
-            this.tree = tree;
-        }
-
 
 
         /// <summary>
-        ///   Computes the most likely label of a new given point.
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and each class.
         /// </summary>
-        /// 
-        /// <param name="input">A point to be classified.</param>
-        /// <param name="scores">The distance score for each possible class.</param>
-        /// 
-        /// <returns>The most likely label for the given point.</returns>
-        /// 
-        public override int Compute(double[] input, out double[] scores)
+        /// <param name="input">The input vector.</param>
+        /// <param name="result">An array where the result will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public override double[] Scores(double[] input, double[] result)
         {
-            var neighbors = tree.Nearest(input, this.K);
+            KDTreeNodeCollection<KDTreeNode<int>> neighbors = tree.Nearest(input, this.K);
 
-            scores = new double[ClassCount];
-
-            foreach (var point in neighbors)
+            foreach (NodeDistance<KDTreeNode<int>> point in neighbors)
             {
                 int label = point.Node.Value;
                 double d = point.Distance;
 
                 // Convert to similarity measure
-                scores[label] += 1.0 / (1.0 + d);
+                result[label] += 1.0 / (1.0 + d);
             }
-
-            // Get the maximum weighted score
-            int result; scores.Max(out result);
 
             return result;
         }
 
+
+
+
         /// <summary>
-        ///   Gets the top <see cref="KNearestNeighbors{T}.K"/> points that are the closest
+        ///   Gets the top <see cref="BaseKNearestNeighbors{TModel, TInput, TDistance}.K"/> points that are the closest
         ///   to a given <paramref name="input">reference point</paramref>.
         /// </summary>
         /// 
@@ -142,7 +112,7 @@ namespace Accord.MachineLearning
         /// <param name="labels">The label for each neighboring point.</param>
         /// 
         /// <returns>
-        ///   An array containing the top <see cref="KNearestNeighbors{T}.K"/> points that are 
+        ///   An array containing the top <see cref="BaseKNearestNeighbors{TModel, TInput, TDistance}.K"/> points that are 
         ///   at the closest possible distance to <paramref name="input"/>.
         /// </returns>
         /// 
@@ -151,7 +121,7 @@ namespace Accord.MachineLearning
             var neighbors = tree.Nearest(input, this.K);
 
             double[][] points = new double[neighbors.Count][];
-            labels = new int[points.Length];
+            labels = new int[neighbors.Count];
 
             int k = 0;
             foreach (var point in neighbors)
@@ -180,10 +150,166 @@ namespace Accord.MachineLearning
         /// 
         public static KNearestNeighbors FromTree(KDTree<int> tree, int k, int classes, double[][] inputs, int[] outputs)
         {
-            var knn = new KNearestNeighbors(tree, k, classes, inputs, outputs, tree.Distance);
+            var knn = new KNearestNeighbors();
+            knn.K = k;
+            knn.Inputs = inputs;
+            knn.Outputs = outputs;
+            knn.NumberOfInputs = inputs.Columns();
+            knn.NumberOfOutputs = outputs.DistinctCount();
+            knn.tree = tree;
 
             return knn;
         }
+
+
+        /// <summary>
+        ///   Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// 
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// 
+        /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
+        /// 
+        public override KNearestNeighbors Learn(double[][] x, int[] y, double[] weights = null)
+        {
+            CheckArgs(K, x, y, Distance, weights);
+
+            this.Inputs = x;
+            this.Outputs = y;
+
+            this.NumberOfOutputs = y.DistinctCount();
+
+            this.tree = KDTree.FromData(points: x, values: y, distance: Distance);
+
+            return this;
+        }
+
+
+
+
+
+        #region Obsolete
+        /// <summary>
+        ///   Creates a new <see cref="KNearestNeighbors"/>.
+        /// </summary>
+        /// 
+        /// <param name="k">The number of nearest neighbors to be used in the decision.</param>
+        /// 
+        /// <param name="inputs">The input data points.</param>
+        /// <param name="outputs">The associated labels for the input points.</param>
+        /// 
+        [Obsolete("Please use KNearestNeighbors(int k) constructor instead.")]
+        public KNearestNeighbors(int k, double[][] inputs, int[] outputs)
+        {
+            this.K = k;
+            this.Distance = new Accord.Math.Distances.Euclidean();
+            Learn(inputs, outputs);
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="KNearestNeighbors"/>.
+        /// </summary>
+        /// 
+        /// <param name="k">The number of nearest neighbors to be used in the decision.</param>
+        /// <param name="classes">The number of classes in the classification problem.</param>
+        /// 
+        /// <param name="inputs">The input data points.</param>
+        /// <param name="outputs">The associated labels for the input points.</param>
+        /// 
+        [Obsolete("Please use KNearestNeighbors(int k) constructor instead.")]
+        public KNearestNeighbors(int k, int classes, double[][] inputs, int[] outputs)
+        {
+            this.K = k;
+            this.Distance = new Accord.Math.Distances.Euclidean();
+            Learn(inputs, outputs);
+            if (classes != NumberOfOutputs)
+                throw new ArgumentException("classes");
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="KNearestNeighbors"/>.
+        /// </summary>
+        /// 
+        /// <param name="k">The number of nearest neighbors to be used in the decision.</param>
+        /// <param name="classes">The number of classes in the classification problem.</param>
+        /// <param name="inputs">The input data points.</param>
+        /// <param name="outputs">The associated labels for the input points.</param>
+        /// <param name="distance">The distance measure to use.</param>
+        /// 
+        [Obsolete("Please use KNearestNeighbors(int k, IDistance<T> distance) constructor instead.")]
+        public KNearestNeighbors(int k, int classes, double[][] inputs, int[] outputs, IMetric<double[]> distance)
+        {
+            this.K = k;
+            this.Distance = distance;
+            Learn(inputs, outputs);
+            if (classes != NumberOfOutputs)
+                throw new ArgumentException("classes");
+        }
+
+        /// <summary>
+        ///   Gets the number of class labels
+        ///   handled by this classifier.
+        /// </summary>
+        /// 
+        [Obsolete("Please use NumberOfOutputs instead.")]
+        public int ClassCount
+        {
+            get { return NumberOfOutputs; }
+        }
+
+        /// <summary>
+        ///   Computes the most likely label of a new given point.
+        /// </summary>
+        /// 
+        /// <param name="input">A point to be classified.</param>
+        /// 
+        /// <returns>The most likely label for the given point.</returns>
+        /// 
+        [Obsolete("Please use the Decide(input) method instead.")]
+        public int Compute(double[] input)
+        {
+            return Decide(input);
+        }
+
+        /// <summary>
+        ///   Computes the most likely label of a new given point.
+        /// </summary>
+        /// 
+        /// <param name="input">A point to be classified.</param>
+        /// <param name="response">A value between 0 and 1 giving 
+        /// the strength of the classification in relation to the
+        /// other classes.</param>
+        /// 
+        /// <returns>The most likely label for the given point.</returns>
+        /// 
+        [Obsolete("Please use the Score(input, out decision) method instead.")]
+        public int Compute(double[] input, out double response)
+        {
+            int decision;
+            response = Score(input, out decision);
+            return decision;
+        }
+
+        /// <summary>
+        ///   Computes the most likely label of a new given point.
+        /// </summary>
+        /// 
+        /// <param name="input">A point to be classified.</param>
+        /// <param name="scores">The distance score for each possible class.</param>
+        /// 
+        /// <returns>The most likely label for the given point.</returns>
+        /// 
+        [Obsolete("Please use the Scores(input, out decision) method instead.")]
+        public virtual int Compute(double[] input, out double[] scores)
+        {
+            int decision;
+            scores = Scores(input, out decision);
+            return decision;
+        }
+        #endregion
+
 
     }
 }

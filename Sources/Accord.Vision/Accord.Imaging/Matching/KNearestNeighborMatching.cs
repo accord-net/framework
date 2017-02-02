@@ -74,21 +74,17 @@ namespace Accord.Imaging
         ///   inputs and their respective indices a the corresponding output.
         /// </summary>
         /// 
-        protected override KNearestNeighbors<double[]> CreateNeighbors(double[][] features)
+        protected override IMulticlassScoreClassifier<double[]> CreateNeighbors(double[][] features)
         {
-            int classes = features.Length;
-
-            int[] outputs = new int[classes];
-            for (int i = 0; i < outputs.Length; i++)
-                outputs[i] = i;
+            int[] outputs = Vector.Range(0, features.Length);
 
             // Create a k-Nearest Neighbor classifier to classify points
             // in the second image to nearest points in the first image
             var metric = Distance as IMetric<double[]>;
  
             if (metric != null)
-                return new KNearestNeighbors(K, classes, features, outputs, metric);
-            return new KNearestNeighbors<double[]>(K, classes, features, outputs, Distance);
+                return new KNearestNeighbors(K, metric).Learn(features, outputs);
+            return new KNearestNeighbors<double[]>(K, Distance).Learn(features, outputs);
         }
 
         // TODO: Optimize using a KD-Tree

@@ -50,6 +50,7 @@
     </Compile>
     <Compile Include="Clustering\KMeans\BalancedKMeans.cs" />
     <Compile Include="DecisionTrees\DecisionTreeHelper.cs" />
+    <Compile Include="BaseKNearestNeighbors`2.cs" />
     <Compile Include="Representations\BagOfWords.cs" />
     <Compile Include="Rules\AssociationRule.cs" />
     <Compile Include="Rules\Apriori.cs" />

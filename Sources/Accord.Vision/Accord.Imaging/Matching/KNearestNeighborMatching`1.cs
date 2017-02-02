@@ -167,8 +167,7 @@ namespace Accord.Imaging
 
             double[] scores = new double[features2.Length];
             int[] labels = new int[features2.Length];
-            for (int i = 0; i < features2.Length; i++)
-                labels[i] = knn.Compute(features2[i], out scores[i]);
+            knn.Score(features2, ref labels, result: scores);
 
             int[] bestMatch = new int[points1.Length];
             double[] bestScore = new double[points1.Length];
@@ -225,17 +224,13 @@ namespace Accord.Imaging
         ///   inputs and their respective indices a the corresponding output.
         /// </summary>
         /// 
-        protected virtual KNearestNeighbors<T> CreateNeighbors(T[] features)
+        protected virtual IMulticlassScoreClassifier<T> CreateNeighbors(T[] features)
         {
-            int classes = features.Length;
-
-            int[] outputs = new int[classes];
-            for (int i = 0; i < outputs.Length; i++)
-                outputs[i] = i;
+            int[] outputs = Vector.Range(0, features.Length);
 
             // Create a k-Nearest Neighbor classifier to classify points
             // in the second image to nearest points in the first image
-            return new KNearestNeighbors<T>(K, classes, features, outputs, Distance);
+            return new KNearestNeighbors<T>(K, Distance).Learn(features, outputs);
         }
 
     }
