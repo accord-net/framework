@@ -69,7 +69,7 @@ namespace Accord.Tests.MachineLearning
 
             for (int i = 0; i < samples.Length; i++)
             {
-                if (samples[i][0] > 5 || Tools.Random.NextDouble() > 0.85)
+                if (samples[i][0] > 5 || Accord.Math.Tools.Random.NextDouble() > 0.85)
                     outputs[i] = 1;
             }
 
