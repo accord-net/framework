@@ -26,27 +26,11 @@ namespace Accord.Tests.Statistics
     using NUnit.Framework;
     using System;
     using Accord.Math;
+    using Accord.Statistics;
 
     [TestFixture]
     public class MannWhitneyDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ConstructorTest()
@@ -58,8 +42,7 @@ namespace Accord.Tests.Statistics
             double mean = mannWhitney.Mean;     // 2.7870954605658511
             double median = mannWhitney.Median; // 1.5219615583481305
             double var = mannWhitney.Variance;  // 18.28163603621158
-            try { double mode = mannWhitney.Mode; Assert.Fail(); }
-            catch { }
+            double mode = mannWhitney.Mode;
 
             double cdf = mannWhitney.DistributionFunction(x: 4); // 0.6
             double pdf = mannWhitney.ProbabilityDensityFunction(x: 4); // 0.2
@@ -74,27 +57,28 @@ namespace Accord.Tests.Statistics
             string str = mannWhitney.ToString(); // MannWhitney(u; n1 = 2, n2 = 3)
 
             Assert.AreEqual(3.0, mean);
-            Assert.AreEqual(3.0000006357828775, median);
-            Assert.AreEqual(3.0, var);
-            Assert.AreEqual(0.916290731874155, chf);
-            Assert.AreEqual(0.6, cdf);
-            Assert.AreEqual(0.2, pdf);
-            Assert.AreEqual(-1.6094379124341005, lpdf);
-            Assert.AreEqual(0.5, hf);
-            Assert.AreEqual(0.4, ccdf);
-            Assert.AreEqual(3.6666666666666661, icdf);
+            Assert.AreEqual(3.0, mode);
+            Assert.AreEqual(3.0000006357828775, median, 1e-5);
+            Assert.AreEqual(3.0, var, 1e-5);
+            Assert.AreEqual(0.916290731874155, chf, 1e-8);
+            Assert.AreEqual(0.8, cdf, 1e-8);
+            Assert.AreEqual(0.2, pdf, 1e-8);
+            Assert.AreEqual(-1.6094379124341005, lpdf, 1e-8);
+            Assert.AreEqual(0.5, hf, 1e-8);
+            Assert.AreEqual(0.4, ccdf, 1e-8);
+            Assert.AreEqual(4, icdf, 1e-8);
             Assert.AreEqual("MannWhitney(u; n1 = 2, n2 = 3)", str);
 
             var range1 = mannWhitney.GetRange(0.95);
             var range2 = mannWhitney.GetRange(0.99);
             var range3 = mannWhitney.GetRange(0.01);
 
-            Assert.AreEqual(0.00000095367431640625085, range1.Min);
-            Assert.AreEqual(5.9999995430310555, range1.Max);
-            Assert.AreEqual(0, range2.Min);
-            Assert.AreEqual(6.000000194140088, range2.Max);
-            Assert.AreEqual(0, range3.Min);
-            Assert.AreEqual(6.000000194140088, range3.Max);
+            Assert.AreEqual(0.66666698455810536, range1.Min, 1e-5);
+            Assert.AreEqual(6, range1.Max, 1e-5);
+            Assert.AreEqual(0.66666698455810536, range2.Min, 1e-5);
+            Assert.AreEqual(6.000000194140088, range2.Max, 1e-4);
+            Assert.AreEqual(0.66666698455810536, range3.Min, 1e-5);
+            Assert.AreEqual(6.000000194140088, range3.Max, 1e-5);
         }
 
         [Test]
@@ -149,16 +133,28 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(10, nc);
 
-            double[] expected = { 0.0, 0.1, 0.1, 0.2, 0.2, 0.2, 0.1, 0.1, 0.0, 0.0 };
+            double[] expected = { 0.1, 0.1, 0.2, 0.2, 0.2, 0.1, 0.1, 0.0, 0.0 };
+
             expected = expected.CumulativeSum();
 
             for (int i = 0; i < expected.Length; i++)
             {
                 // P(U<=i)
                 double actual = target.DistributionFunction(i);
-                Assert.AreEqual(expected[i], actual,1e-10);
+                Assert.AreEqual(expected[i], actual, 1e-10);
             }
 
+
+            expected = new double[] { 0.0, 0.0, 0.1, 0.1, 0.2, 0.2, 0.2, 0.1, 0.1 };
+
+            expected = expected.CumulativeSum().Reversed();
+
+            for (int i = 0; i < expected.Length; i++)
+            {
+                // P(U>i)
+                double actual = target.ComplementaryDistributionFunction(i);
+                Assert.AreEqual(expected[i], actual, 1e-10);
+            }
         }
 
         [Test]
@@ -171,10 +167,115 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(n1 + n2, ranks.Length);
 
-
             var target = new MannWhitneyDistribution(ranks, n1, n2);
+            Assert.IsTrue(target.Exact);
 
             Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
+        }
+
+        [Test]
+        public void MedianTest_approximation()
+        {
+            double[] ranks = { 1, 1, 2, 3, 4, 7, 5 };
+
+            int n1 = 4;
+            int n2 = 3;
+
+            Assert.AreEqual(n1 + n2, ranks.Length);
+
+            var target = new MannWhitneyDistribution(ranks, n1, n2, exact: false);
+            Assert.IsFalse(target.Exact);
+
+            Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
+        }
+
+        [Test]
+        public void RCompatibilityTest1()
+        {
+            // Example from https://onlinecourses.science.psu.edu/stat464/node/36
+            double[] a = { 37, 49, 55, 57 };
+            double[] b = { 23, 31, 46 };
+            double[] c = a.Concatenate(b);
+
+            double[] rc = c.Rank();
+            double[] ra = rc.Get(0, a.Length);
+            double[] rb = rc.Get(a.Length, 0);
+
+            Assert.IsTrue(rc.IsEqual(new[] { 3, 5, 6, 7, 1, 2, 4 }));
+            Assert.IsTrue(ra.IsEqual(new[] { 3, 5, 6, 7 }));
+            Assert.IsTrue(rb.IsEqual(new[] { 1, 2, 4 }));
+
+            double w1 = MannWhitneyDistribution.MannWhitneyU(ra);
+            double w2 = MannWhitneyDistribution.MannWhitneyU(rb);
+
+            var target = new MannWhitneyDistribution(rc, a.Length, b.Length);
+            Assert.IsTrue(target.Exact);
+            double p1 = target.DistributionFunction(w1);
+            double p2 = target.DistributionFunction(w2);
+            Assert.AreEqual(0.057142857142857141, p1, 1e-5);
+            Assert.AreEqual(0.97142857142857142, p2, 1e-5);
+
+            target = new MannWhitneyDistribution(rc, b.Length, a.Length);
+            Assert.IsTrue(target.Exact);
+            p1 = target.DistributionFunction(w1);
+            p2 = target.DistributionFunction(w2);
+            Assert.AreEqual(0.97142857142857142, p1, 1e-5);
+            Assert.AreEqual(0.057142857142857141, p2, 1e-5);
+
+
+
+            target = new MannWhitneyDistribution(rc, a.Length, b.Length, exact: false);
+            Assert.IsFalse(target.Exact);
+            p1 = target.DistributionFunction(w1);
+            p2 = target.DistributionFunction(w2);
+            Assert.AreEqual(0.038549935871770913, p1, 1e-5);
+            Assert.AreEqual(0.96145006412822909, p2, 1e-5);
+
+            target = new MannWhitneyDistribution(rc, b.Length, a.Length, exact: false);
+            Assert.IsFalse(target.Exact);
+            p1 = target.DistributionFunction(w1);
+            p2 = target.DistributionFunction(w2);
+            Assert.AreEqual(0.96145006412822909, p1, 1e-5);
+            Assert.AreEqual(0.038549935871770913, p2, 1e-5);
+        }
+
+        [Test]
+        public void ApproximationTest()
+        {
+            double[] m = Matrix.Magic(6).Reshape().Get(0, 28);
+
+            double[] samples = m.Rank();
+
+            int t = 14;
+            double[] rank1 = samples.Get(0, t);
+            double[] rank2 = samples.Get(t, 0);
+
+            var exact = new MannWhitneyDistribution(rank1, rank2, exact: true);
+            var approx = new MannWhitneyDistribution(rank1, rank2, exact: false);
+
+            var nd = NormalDistribution.Estimate(exact.Table);
+            Assert.AreEqual(nd.Mean, exact.Mean, 1e-10);
+            Assert.AreEqual(nd.Variance, exact.Variance, 2e-5);
+
+            foreach (double x in Vector.Range(0, 100))
+            {
+                double e = approx.DistributionFunction(x);
+                double a = exact.DistributionFunction(x);
+
+                if (e > 0.23)
+                    Assert.AreEqual(e, a, 0.1);
+                else Assert.AreEqual(e, a, 0.01);
+            }
+
+            foreach (double x in Vector.Range(0, 100))
+            {
+                double e = approx.ComplementaryDistributionFunction(x);
+                double a = exact.ComplementaryDistributionFunction(x);
+
+                if (e > 0.23)
+                    Assert.AreEqual(e, a, 0.1);
+                else Assert.AreEqual(e, a, 0.01);
+            }
         }
     }
 }

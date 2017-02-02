@@ -105,13 +105,13 @@ namespace Accord.Statistics.Testing
         ///   Gets the number of samples in the first sample.
         /// </summary>
         /// 
-        public int Samples1 { get; protected set; }
+        public int NumberOfSamples1 { get; protected set; }
 
         /// <summary>
         ///   Gets the number of samples in the second sample.
         /// </summary>
         /// 
-        public int Samples2 { get; protected set; }
+        public int NumberOfSamples2 { get; protected set; }
 
         /// <summary>
         ///   Gets the rank statistics for the first sample.
@@ -140,7 +140,7 @@ namespace Accord.Statistics.Testing
         /// <summary>
         ///   Gets the difference between the expected value for
         ///   the observed value of <see cref="RankSum1"/> and its
-        ///   expected value under the null hypothesis. Often known as Ua.
+        ///   expected value under the null hypothesis. Often known as U_a.
         /// </summary>
         /// 
         public double Statistic1 { get; protected set; }
@@ -148,7 +148,7 @@ namespace Accord.Statistics.Testing
         /// <summary>
         ///   Gets the difference between the expected value for
         ///   the observed value of <see cref="RankSum2"/> and its
-        ///   expected value under the null hypothesis. Often known as Ub.
+        ///   expected value under the null hypothesis. Often known as U_b.
         /// </summary>
         /// 
         public double Statistic2 { get; protected set; }
@@ -161,54 +161,69 @@ namespace Accord.Statistics.Testing
         /// <param name="sample1">The first sample.</param>
         /// <param name="sample2">The second sample.</param>
         /// <param name="alternate">The alternative hypothesis (research hypothesis) to test.</param>
-        ///
+        /// <param name="exact">True to compute the exact distribution. May require a significant 
+        ///   amount of processing power for large samples (n > 12). If left at null, whether to
+        ///   compute the exact or approximate distribution will depend on the number of samples.
+        ///   Default is null.</param>
+        /// <param name="adjustForTies">Whether to account for ties when computing the
+        ///   rank statistics or not. Default is true.</param>
+        ///   
         public MannWhitneyWilcoxonTest(double[] sample1, double[] sample2,
-            TwoSampleHypothesis alternate = TwoSampleHypothesis.ValuesAreDifferent)
+            TwoSampleHypothesis alternate = TwoSampleHypothesis.ValuesAreDifferent,
+            bool? exact = null, bool adjustForTies = true)
         {
-            int n1 = sample1.Length;
-            int n2 = sample2.Length;
-            int n = n1 + n2;
+            this.NumberOfSamples1 = sample1.Length;
+            this.NumberOfSamples2 = sample2.Length;
+            int n = NumberOfSamples1 + NumberOfSamples2;
 
             // Concatenate both samples and rank them
             double[] samples = sample1.Concatenate(sample2);
-            double[] rank = samples.Rank();
+            double[] rank = samples.Rank(adjustForTies: true);
 
             // Split the rankings back and sum
-            Rank1 = rank.Get(0, n1);
-            Rank2 = rank.Get(n1, n);
+            Rank1 = rank.Get(0, NumberOfSamples1);
+            Rank2 = rank.Get(NumberOfSamples1, 0);
 
-            double t1 = Rank1.Sum();
-            double t2 = Rank2.Sum();
+            // Compute rank sum statistic
+            this.RankSum1 = Rank1.Sum();
+            this.RankSum2 = Rank2.Sum();
 
-            // Estimated values for t under the null
-            double t1max = n1 * n2 + (n1 * (n1 + 1)) / 2.0;
-            double t2max = n1 * n2 + (n2 * (n2 + 1)) / 2.0;
+            // It is not necessary to compute the sum for both ranks. The sum of ranks in the second
+            // sample can be determined from the first, since the sum of all the ranks equals n(n+1)/2 
+            Accord.Diagnostics.Debug.Assert(RankSum2 == n * (n + 1) / 2 - RankSum1);
 
-            // Diff in observed t and estimated t
-            double u1 = t1max - t1;
-            double u2 = t2max - t2;
+            // The U statistic can be obtained from the sum of the ranks in the sample,
+            // minus the smallest value it can take (i.e. minus (n1 * (n1 + 1)) / 2.0),
+            // meaning there is an wasy way to convert from W to U:
 
-            // double hypothesizedValue = (n1 * n2) / 2.0;
+            // Compute Mann-Whitney's U statistic from the rank sum
+            // as in Zar, Jerrold H. Biostatistical Analysis, 1998:
+            this.Statistic1 = RankSum1 - (NumberOfSamples1 * (NumberOfSamples1 + 1)) / 2.0; // U1
+            this.Statistic2 = RankSum2 - (NumberOfSamples2 * (NumberOfSamples2 + 1)) / 2.0; // U2
 
-            RankSum1 = t1;
-            RankSum2 = t2;
+            // Again, it would not be necessary to compute U2 due the relation:
+            Accord.Diagnostics.Debug.Assert(Statistic1 + Statistic2 == NumberOfSamples1 * NumberOfSamples2);
 
-            Statistic1 = u1;
-            Statistic2 = u2;
+            Accord.Diagnostics.Debug.Assert(Statistic1 == MannWhitneyDistribution.MannWhitneyU(Rank1));
+            Accord.Diagnostics.Debug.Assert(Statistic2 == MannWhitneyDistribution.MannWhitneyU(Rank2));
 
-            Compute(u1, rank, n1, n2, alternate);
-        }
+            // http://users.sussex.ac.uk/~grahamh/RM1web/WilcoxonHandoout2011.pdf
+            // https://onlinecourses.science.psu.edu/stat464/node/38
+            // http://www.real-statistics.com/non-parametric-tests/wilcoxon-rank-sum-test/
+            // http://personal.vu.nl/R.Heijungs/QM/201516/stat/bs/documents/Supplement%2016B%20-%20Wilcoxon%20Mann-Whitney%20Small%20Sample%20Test.pdf
+            // http://www.real-statistics.com/non-parametric-tests/wilcoxon-rank-sum-test/wilcoxon-rank-sum-exact-test/
 
-        /// <summary>
-        ///   Computes the Mann-Whitney-Wilcoxon test.
-        /// </summary>
-        /// 
-        protected void Compute(double statistic, double[] ranks, int n1, int n2, TwoSampleHypothesis alternate)
-        {
-            this.Statistic = statistic;
-            this.StatisticDistribution = new MannWhitneyDistribution(ranks, n1, n2);
+            // The smaller value of U1 and U2 is the one used when using significance tables
+            this.Statistic = (NumberOfSamples1 < NumberOfSamples2) ? Statistic1 : Statistic2;
+
             this.Hypothesis = alternate;
             this.Tail = (DistributionTail)alternate;
+
+            this.StatisticDistribution = new MannWhitneyDistribution(Rank1, Rank2, exact)
+            {
+                Correction = (Tail == DistributionTail.TwoTail) ? ContinuityCorrection.Midpoint : ContinuityCorrection.KeepInside
+            };
+
             this.PValue = StatisticToPValue(Statistic);
 
             this.OnSizeChanged();
@@ -224,18 +239,22 @@ namespace Accord.Statistics.Testing
         /// 
         public override double StatisticToPValue(double x)
         {
+            // TODO: Maybe unify with WilcoxonTest?
             double p;
             switch (Tail)
             {
                 case DistributionTail.TwoTail:
-                    p = 2.0 * StatisticDistribution.ComplementaryDistributionFunction(x);
-                    break;
-
-                case DistributionTail.OneUpper:
-                    p = StatisticDistribution.DistributionFunction(x);
+                    double a = StatisticDistribution.DistributionFunction(x);
+                    double b = StatisticDistribution.ComplementaryDistributionFunction(x);
+                    double c = Math.Min(a, b);
+                    p = Math.Min(2 * c, 1);
                     break;
 
                 case DistributionTail.OneLower:
+                    p = StatisticDistribution.DistributionFunction(x);
+                    break;
+
+                case DistributionTail.OneUpper:
                     p = StatisticDistribution.ComplementaryDistributionFunction(x);
                     break;
 
@@ -255,22 +274,7 @@ namespace Accord.Statistics.Testing
         /// 
         public override double PValueToStatistic(double p)
         {
-            double b;
-            switch (Tail)
-            {
-                case DistributionTail.OneLower:
-                    b = StatisticDistribution.InverseDistributionFunction(p);
-                    break;
-                case DistributionTail.OneUpper:
-                    b = StatisticDistribution.InverseDistributionFunction(1.0 - p);
-                    break;
-                case DistributionTail.TwoTail:
-                    b = StatisticDistribution.InverseDistributionFunction(1.0 - p / 2.0);
-                    break;
-                default: throw new InvalidOperationException();
-            }
-
-            return b;
+            throw new NotImplementedException("This method has not been implemented yet. Please open an issue in the project issue tracker if you are interested in this feature.");
         }
 
     }
