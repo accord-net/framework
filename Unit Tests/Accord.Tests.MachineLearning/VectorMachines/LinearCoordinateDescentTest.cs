@@ -36,6 +36,8 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Kernels.Sparse;
     using Accord.Statistics.Models.Regression.Linear;
     using Math.Optimization.Losses;
+    using System.Threading;
+    using Accord.Statistics;
 
     [TestFixture]
     public class LinearCoordinateDescentTest
@@ -161,7 +163,7 @@ namespace Accord.Tests.MachineLearning
         //        Tolerance = 1e-10,
         //        Complexity = 1e+10, // learn a hard-margin model
         //    };
-
+        //
         //    // Now suppose you have some points
         //    Sparse<double>[] inputs = Sparse.FromDense(new[]
         //    {
@@ -170,24 +172,24 @@ namespace Accord.Tests.MachineLearning
         //        new double[] { 1, 0, 8 },
         //        new double[] { 0, 0, 0 },
         //    });
-
+        //
         //    int[] outputs = { 1, -1, 1, -1 };
-
+        //
         //    // Learn the support vector machine
         //    var svm = teacher.Learn(inputs, outputs);
-
+        //
         //    // Compute the predicted points 
         //    bool[] predicted = svm.Decide(inputs);
-
+        //
         //    // And the squared error loss using 
         //    double error = new ZeroOneLoss(outputs).Loss(predicted);
-
+        //
         //    Assert.AreEqual(3, svm.NumberOfInputs);
         //    Assert.AreEqual(2, svm.NumberOfOutputs);
-
+        //
         //    Assert.AreEqual(1, svm.Weights.Length);
         //    Assert.AreEqual(1, svm.SupportVectors.Length);
-
+        //
         //    Assert.AreEqual(1.0, svm.Weights[0], 1e-6);
         //    Assert.AreEqual(2.0056922148257597, svm.SupportVectors[0][0], 1e-6);
         //    Assert.AreEqual(-0.0085361347231909836, svm.SupportVectors[0][1], 1e-6);
@@ -198,7 +200,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void ComputeTest5()
         {
-            var dataset = SequentialMinimalOptimizationTest.yinyang;
+            var dataset = SequentialMinimalOptimizationTest.GetYingYang();
 
             double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
             int[] labels = dataset.GetColumn(2).ToInt32();
@@ -235,19 +237,73 @@ namespace Accord.Tests.MachineLearning
         //{
         //    MemoryStream file = new MemoryStream(
         //        Encoding.Default.GetBytes(Resources.iris_scale));
-
+        //
         //    // Create a new Sparse Sample Reader to read any given file,
         //    //  passing the correct dense sample size in the constructor
         //    SparseReader reader = new SparseReader(file, Encoding.Default);
-
+        //
         //    var samples = reader.ReadSparseToEnd();
-
+        //
         //    Sparse<double>[] x = samples.Item1;
         //    int[] y = samples.Item2.ToInt32();
-
+        //
         //    var learner = new LinearCoordinateDescent<Linear, Sparse<double>>();
         //    SupportVectorMachine<Linear, Sparse<double>> svm = learner.Learn(x, y);
-
+        //
         //}
+
+
+        [Test]
+        public void multithread_test()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+
+            var dataset = SequentialMinimalOptimizationTest.GetYingYang();
+
+            double[][] inputs = dataset.Submatrix(null, 0, 1).ToJagged();
+            int[] labels = dataset.GetColumn(2).ToInt32();
+
+            var kernel = new Polynomial(2, 1);
+            var projection = kernel.Transform(inputs);
+
+            var t = new Thread[100];
+            var svms = new SupportVectorMachine<Linear>[t.Length];
+            for (int i = 0; i < t.Length; i++)
+            {
+                t[i] = new Thread((object obj) =>
+                {
+                    int j = (int)obj;
+
+                    var teacher = new LinearCoordinateDescent<Linear>()
+                    {
+                        Complexity = 1000000,
+                        Tolerance = 1e-15
+                    };
+
+                    svms[j] = teacher.Learn(projection, labels);
+                });
+
+                t[i].Start(i);
+            }
+
+            for (int i = 0; i < t.Length; i++)
+                t[i].Join();
+
+            double[][] sv = svms[0].SupportVectors;
+            double[] w = svms[0].Weights;
+            for (int i = 0; i < svms.Length; i++)
+            {
+                Assert.IsTrue(sv.IsEqual(svms[i].SupportVectors));
+                Assert.IsTrue(w.IsEqual(svms[i].Weights));
+
+                int[] actual = svms[i].Decide(projection).ToMinusOnePlusOne();
+
+                var matrix = new ConfusionMatrix(actual, labels);
+                Assert.AreEqual(6, matrix.FalseNegatives);
+                Assert.AreEqual(7, matrix.FalsePositives);
+                Assert.AreEqual(44, matrix.TruePositives);
+                Assert.AreEqual(43, matrix.TrueNegatives);
+            }
+        }
     }
 }

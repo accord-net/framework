@@ -348,8 +348,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 {
                     for (int i = 0; i < x.Length; i++)
                     {
-                        x[i][j] *= y[i]; // x->value stores yi*xij
-                        double val = x[i][j];
+                        double val = x[i][j] * y[i];
                         b[i] -= w[j] * val;
                         xj_sq[j] += c[i] * val * val;
                     }
@@ -392,7 +391,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                             }
                             else
                             {
-                                double val = x[i][j];
+                                double val = x[i][j] * y[i];
                                 double tmp = c[i] * val;
                                 G_loss -= tmp * b[i];
                                 H += tmp * val;
@@ -476,7 +475,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                             else
                             {
                                 for (int i = 0; i < b.Length; i++)
-                                    b[i] += d_diff * x[i][j];
+                                    b[i] += d_diff * x[i][j] * y[i];
                             }
 
                             break;
@@ -508,7 +507,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                                     if (b[i] > 0)
                                         loss_old += c[i] * b[i] * b[i];
 
-                                    double b_new = b[i] + d_diff * x[i][j];
+                                    double b_new = b[i] + d_diff * x[i][j]* y[i];
 
                                     b[i] = b_new;
 
@@ -537,7 +536,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                             {
                                 for (int i = 0; i < x.Length; i++)
                                 {
-                                    double b_new = b[i] + d_diff * x[i][j];
+                                    double b_new = b[i] + d_diff * x[i][j]* y[i];
                                     b[i] = b_new;
 
                                     if (b_new > 0)
@@ -626,11 +625,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 {
                     for (int i = 0; i < x.Length; i++)
                         bias[i] *= y[i]; // restore x->value
-                }
-                else
-                {
-                    for (int i = 0; i < x.Length; i++)
-                        x[i][j] *= y[i]; // restore x->value
                 }
 
                 if (w[j] != 0)
