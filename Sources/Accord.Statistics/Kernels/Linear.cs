@@ -229,6 +229,14 @@ namespace Accord.Statistics.Kernels
             return Transform(input, constant);
         }
 
+        public double[][] Transform(double[][] x)
+        {
+            double[][] r = new double[x.Length][];
+            for (int i = 0; i < x.Length; i++)
+                r[i] = Transform(x[i]);
+            return r;
+        }
+
         /// <summary>
         ///   Projects an input point into feature space.
         /// </summary>

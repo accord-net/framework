@@ -77,7 +77,6 @@ namespace Accord.Statistics.Kernels
         /// </returns>
         /// 
         public abstract double Function(TInput x, TInput y);
-
         
     }
 }

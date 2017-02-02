@@ -160,7 +160,13 @@ namespace Accord.Statistics.Kernels
             return features;
         }
 
-
+        public double[][] Transform(double[][] x)
+        {
+            double[][] r = new double[x.Length][];
+            for (int i = 0; i < x.Length; i++)
+                r[i] = Transform(x[i]);
+            return r;
+        }
 
 
         private void createCoefficients(int degree)

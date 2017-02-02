@@ -76,7 +76,7 @@ namespace Accord.Statistics.Kernels.Sparse
     /// 
     [Serializable]
     [Obsolete("Please use the Linear kernel with Sparse<double> instead.")]
-    public sealed class SparseLinear : KernelBase, IKernel, ITransform
+    public sealed class SparseLinear : KernelBase, IKernel
     {
         private double constant;
 

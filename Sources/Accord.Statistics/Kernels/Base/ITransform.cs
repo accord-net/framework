@@ -31,7 +31,7 @@ namespace Accord.Statistics.Kernels
     /// 
     /// <seealso cref="IKernel"/>
     ///
-    public interface ITransform : IKernel, ICloneable
+    public interface ITransform : IKernel, ICloneable, ITransform<double[]>
     {
     }
     
@@ -56,6 +56,16 @@ namespace Accord.Statistics.Kernels
         /// 
         double[] Transform(TInput input);
 
-        
+        /// <summary>
+        ///   Projects an input point into feature space.
+        /// </summary>
+        /// 
+        /// <param name="input">The input point to be projected into feature space.</param>
+        /// 
+        /// <returns>
+        ///   The feature space representation of the given <paramref name="input"/> point.
+        /// </returns>
+        /// 
+        double[][] Transform(TInput[] input);
     }
 }
