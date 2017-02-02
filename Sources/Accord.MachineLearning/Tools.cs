@@ -33,6 +33,11 @@ namespace Accord.MachineLearning
     /// 
     public static partial class Tools
     {
+        /// <summary>
+        ///   Splits the given text into individual atomic words, 
+        ///   irrespective of punctuation and other marks.
+        /// </summary>
+        /// 
         public static string[][] Tokenize(this string[] x)
         {
             var r = new string[x.Length][];
@@ -41,6 +46,11 @@ namespace Accord.MachineLearning
             return r;
         }
 
+        /// <summary>
+        ///   Splits the given text into individual atomic words, 
+        ///   irrespective of punctuation and other marks.
+        /// </summary>
+        /// 
         public static string[] Tokenize(this string x)
         {
             string s = Regex.Replace(x, @"[^\w]", " ");

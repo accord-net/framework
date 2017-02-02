@@ -40,6 +40,7 @@ namespace Accord.Vision.Detection
     using System.Threading.Tasks;
     using Accord.Imaging;
     using System.Drawing.Imaging;
+    using Cascades;
 
     /// <summary>
     ///   Object detector options for the search procedure.
