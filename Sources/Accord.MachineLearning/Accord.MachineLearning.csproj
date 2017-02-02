@@ -165,6 +165,7 @@
     <Compile Include="Collections\VPTreeNode`2.cs" />
     <Compile Include="Collections\Base\VPTreeNodeBase.cs" />
     <Compile Include="Collections\VPTreeNode`1.cs" />
+    <Compile Include="Tools.cs" />
     <Compile Include="VectorMachines\Accord.MachineLearning.VectorMachines.cs" />
     <Compile Include="VectorMachines\ISupportVectorMachine`2.cs" />
     <Compile Include="VectorMachines\KernelSupportVectorMachine.cs" />

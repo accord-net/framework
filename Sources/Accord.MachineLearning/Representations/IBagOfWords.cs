@@ -34,6 +34,8 @@ namespace Accord.MachineLearning
     /// <typeparam name="T">The type of the element to be 
     /// converted to a fixed-length vector representation.</typeparam>
     /// 
+    /// <seealso cref="BagOfWords"/> 
+    /// 
     public interface IBagOfWords<T> : ITransform<T, double[]>,
         ITransform<T, int[]>
     {

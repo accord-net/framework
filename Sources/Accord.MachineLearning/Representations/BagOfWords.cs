@@ -31,11 +31,10 @@ namespace Accord.MachineLearning
 
 #if !NET35 && !NET40
     using System.Collections.ObjectModel;
+    using System.Text.RegularExpressions;
 #else
     using Accord.Collections;
 #endif
-
-    // TODO: Use the Learn interface.
 
     /// <summary>
     ///   Bag of words.
@@ -45,6 +44,10 @@ namespace Accord.MachineLearning
     ///   The bag-of-words (BoW) model can be used to extract finite
     ///   length features from otherwise varying length representations.
     /// </remarks>
+    /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\BagOfWordsTest.cs" region="doc_learn"/>
+    /// </example>
     /// 
     [Serializable]
     public class BagOfWords : ParallelLearningBase, IBagOfWords<string[]>,
@@ -305,7 +308,7 @@ namespace Accord.MachineLearning
         /// transformation to the given input.</returns>
         public int[][] Transform(string[][] input, int[][] result)
         {
-            Parallel.For(0, input.Length, ParallelOptions, i => 
+            Parallel.For(0, input.Length, ParallelOptions, i =>
                 Transform(input[i], result[i]));
             return result;
         }
@@ -322,7 +325,7 @@ namespace Accord.MachineLearning
         /// transformation to the given input.</returns>
         public double[][] Transform(string[][] input, double[][] result)
         {
-            Parallel.For(0, input.Length, ParallelOptions, i => 
+            Parallel.For(0, input.Length, ParallelOptions, i =>
                 Transform(input[i], result[i]));
             return result;
         }
@@ -343,6 +346,18 @@ namespace Accord.MachineLearning
         int[][] ITransform<string[], int[]>.Transform(string[][] input)
         {
             return Transform(input, Jagged.Zeros<int>(input.Length, NumberOfWords));
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
+        /// <returns>A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.</returns>
+        public BagOfWords Learn(string[] x, double[] weights = null)
+        {
+            return Learn(x.Tokenize(), weights);
         }
 
         /// <summary>

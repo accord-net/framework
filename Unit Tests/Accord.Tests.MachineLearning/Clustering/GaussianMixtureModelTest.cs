@@ -385,8 +385,8 @@ namespace Accord.Tests.MachineLearning
         {
             Accord.Math.Tools.SetupGenerator(0);
 
-            Func<double> r = () => Tools.Random.NextDouble();
-            Func<double> b = () => Tools.Random.NextDouble() > 0.3 ? 1 : -1;
+            Func<double> r = () => Accord.Math.Tools.Random.NextDouble();
+            Func<double> b = () => Accord.Math.Tools.Random.NextDouble() > 0.3 ? 1 : -1;
 
             // Test Samples
             int thousand = 1000;
@@ -403,7 +403,7 @@ namespace Accord.Tests.MachineLearning
             for (int j = 0; j < samples.Length; j++)
             {
                 if (j % 10 > 8)
-                    samples[j] = new double[] { r() }.Concatenate(expand(Tools.Random.Next() % 10));
+                    samples[j] = new double[] { r() }.Concatenate(expand(Accord.Math.Tools.Random.Next() % 10));
                 else samples[j] = new double[] { r() * j }.Concatenate(expand(j % 10));
             }
 
