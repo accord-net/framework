@@ -126,11 +126,18 @@ namespace Accord.Vision.Detection
     ///         of Simple Features.</a></description></item>
     ///       <item><description>
     ///         <a href="http://en.wikipedia.org/wiki/Viola-Jones_object_detection_framework">
-    ///         http://en.wikipedia.org/wiki/Viola-Jones_object_detection_framework</a>
+    ///         http://en.wikipedia.org/wiki/Viola-Jones_object_detection_framework </a>
     ///       </description></item>
     ///     </list>
     ///   </para>
     /// </remarks>
+    /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.Vision\ObjectDetectorTest.cs" region="doc_example"/>
+    /// </example>
+    /// 
+    /// <seealso cref="FaceHaarCascade"/> 
+    /// <seealso cref="NoseHaarCascade"/> 
     /// 
     public class HaarObjectDetector : IObjectDetector
     {

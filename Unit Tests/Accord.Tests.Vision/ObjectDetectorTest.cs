@@ -35,19 +35,48 @@ namespace Accord.Tests.Vision
         [Test]
         public void ProcessFrame()
         {
-            HaarCascade cascade = new FaceHaarCascade();
-            HaarObjectDetector target = new HaarObjectDetector(cascade,
-                50, ObjectDetectorSearchMode.NoOverlap);
+            #region doc_example
+            // In order to use a HaarObjectDetector, first we have to tell it
+            // which type of objects we would like to detect. And in a Haar detector,
+            // different object classifiers are specified in terms of a HaarCascade.
+
+            // The framework comes with some built-in cascades for common body
+            // parts, such as Face and Nose. However, it is also possible to
+            // load a cascade from cascade XML definitions in OpenCV 2.0 format.
+
+            // In this example, we will be creating a cascade for a Face detector:
+            var cascade = new Accord.Vision.Detection.Cascades.FaceHaarCascade();
+
+            // Note: In the case we would like to load it from XML, we could use:
+            // var cascade = HaarCascade.FromXml("filename.xml");
+
+            // Now, create a new Haar object detector with the cascade:
+            var detector = new HaarObjectDetector(cascade, minSize: 50, 
+                searchMode: ObjectDetectorSearchMode.NoOverlap);
+
+            // Note that we have specified that we do not want overlapping objects,
+            // and that the minimum object an object can have is 50 pixels. Now, we
+            // can use the detector to classify a new image. For instance, consider
+            // the famous Lena picture:
 
             Bitmap bmp = Properties.Resources.lena_color;
 
-            target.ProcessFrame(bmp);
+            // We have to call ProcessFrame to detect all rectangles containing the 
+            // object we are interested in (which in this case, is the face of Lena):
+            Rectangle[] rectangles = detector.ProcessFrame(bmp);
 
-            Assert.AreEqual(1, target.DetectedObjects.Length);
-            Assert.AreEqual(126, target.DetectedObjects[0].X);
-            Assert.AreEqual(112, target.DetectedObjects[0].Y);
-            Assert.AreEqual(59, target.DetectedObjects[0].Width);
-            Assert.AreEqual(59, target.DetectedObjects[0].Height);
+            // The answer will be a single rectangle of dimensions
+            //
+            //   {X = 126 Y = 112 Width = 59 Height = 59}
+            //
+            // which indeed contains the only face in the picture.
+            #endregion
+
+            Assert.AreEqual(1, detector.DetectedObjects.Length);
+            Assert.AreEqual(126, detector.DetectedObjects[0].X);
+            Assert.AreEqual(112, detector.DetectedObjects[0].Y);
+            Assert.AreEqual(59, detector.DetectedObjects[0].Width);
+            Assert.AreEqual(59, detector.DetectedObjects[0].Height);
         }
 
         [Test]
