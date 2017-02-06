@@ -6,26 +6,40 @@
     <AssemblyName>Accord.Tests.Video</AssemblyName>
   </PropertyGroup>
   <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" />
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  
+  <PropertyGroup Condition=" '$(Platform)' == 'Win32' ">
+	<PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x64' ">
+	<PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(Platform)' == 'Win32' " Label="UserMacros">
+	<FFmpegPlatform>Win32</FFmpegPlatform>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x64' " Label="UserMacros">
+	<FFmpegPlatform>Win64</FFmpegPlatform>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'net35' ">
     <DefineConstants>TRACE;NET35</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'net40' ">
     <DefineConstants>TRACE;NET40</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net45|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'net45' ">
     <DefineConstants>TRACE;NET45</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net46|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'net46' ">
     <DefineConstants>TRACE;NET46</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'mono|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'mono' ">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DefineConstants>TRACE;MONO</DefineConstants>
   </PropertyGroup>
@@ -44,17 +58,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
   </ItemGroup>
-  <!--
-  <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Release (3.5)|AnyCPU'">
-  	<Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-    </Reference>
-  </ItemGroup>
-  <ItemGroup Condition="'$(Configuration)|$(Platform)' != 'Release (3.5)|AnyCPU'">
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>c:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
-    </Reference>
-  </ItemGroup>
- -->
+  
   <ItemGroup>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -134,35 +138,35 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avcodec-57.dll">
+    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-shared\bin\avcodec-57.dll">
       <Link>avcodec-57.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avdevice-57.dll">
+    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-shared\bin\avdevice-57.dll">
       <Link>avdevice-57.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avfilter-6.dll">
+    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-shared\bin\avfilter-6.dll">
       <Link>avfilter-6.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avformat-57.dll">
+    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-shared\bin\avformat-57.dll">
       <Link>avformat-57.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avutil-55.dll">
+    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-shared\bin\avutil-55.dll">
       <Link>avutil-55.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\postproc-54.dll">
+    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-shared\bin\postproc-54.dll">
       <Link>postproc-54.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\swresample-2.dll">
+    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-shared\bin\swresample-2.dll">
       <Link>swresample-2.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\swscale-4.dll">
+    <None Include="..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-shared\bin\swscale-4.dll">
       <Link>swscale-4.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

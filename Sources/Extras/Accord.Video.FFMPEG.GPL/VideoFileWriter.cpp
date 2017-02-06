@@ -164,8 +164,8 @@ namespace Accord {
             }
 
             // Create new video stream and configure it
-            void add_video_stream(WriterPrivateData^ data, int width, int height, int frameRate, int bitRate,
-                libffmpeg::AVCodecID codecId, libffmpeg::AVPixelFormat pixelFormat)
+            void add_video_stream(WriterPrivateData^ data, int width, int height, Rational frameRate,
+				int bitRate, libffmpeg::AVCodecID codecId, libffmpeg::AVPixelFormat pixelFormat)
             {
                 libffmpeg::AVCodec *codec = libffmpeg::avcodec_find_encoder(codecId);
                 libffmpeg::AVCodecContext* codecContex;
@@ -188,7 +188,7 @@ namespace Accord {
                 // of which frame timestamps are represented. for fixed-fps content,
                 // timebase should be 1/framerate and timestamp increments should be
                 // identically 1.
-                codecContex->time_base = { 1, frameRate };
+                codecContex->time_base = { frameRate.Denominator, frameRate.Numerator };
                 data->VideoStream->time_base = codecContex->time_base;
 
                 codecContex->gop_size = 12; // emit one intra frame every twelve frames at most
@@ -297,7 +297,7 @@ namespace Accord {
 
             void add_audio_stream(WriterPrivateData^ data, libffmpeg::AVCodecID codec_id)
             {
-                libffmpeg::AVCodecContext *codecContex;
+                libffmpeg::AVCodecContext* codecContext;
 
                 data->AudioStream = libffmpeg::avformat_new_stream(data->FormatContext, nullptr);
                 data->AudioStream->id = 1;
@@ -306,18 +306,18 @@ namespace Accord {
                     throw gcnew VideoException("Failed creating new audio stream.");
 
                 // Codec.
-                codecContex = data->AudioStream->codec;
-                codecContex->codec_id = codec_id;
-                codecContex->codec_type = libffmpeg::AVMEDIA_TYPE_AUDIO;
+                codecContext = data->AudioStream->codec;
+                codecContext->codec_id = codec_id;
+                codecContext->codec_type = libffmpeg::AVMEDIA_TYPE_AUDIO;
 
                 // Set format
-                codecContex->bit_rate = data->BitRate;
-                codecContex->sample_rate = data->SampleRate;
-                codecContex->channels = data->Channels;
-                codecContex->sample_fmt = libffmpeg::AV_SAMPLE_FMT_S16;
-                codecContex->time_base = { 1, codecContex->sample_rate };
+                codecContext->bit_rate = data->BitRate;
+                codecContext->sample_rate = data->SampleRate;
+                codecContext->channels = data->Channels;
+                codecContext->sample_fmt = libffmpeg::AV_SAMPLE_FMT_S16;
+                codecContext->time_base = { 1, codecContext->sample_rate };
 
-                data->AudioStream->time_base = codecContex->time_base;
+                data->AudioStream->time_base = codecContext->time_base;
                 data->AudioEncodeBufferSize = 4 * MAX_AUDIO_PACKET_SIZE;
 
                 if (data->AudioEncodeBuffer == nullptr)
@@ -325,7 +325,7 @@ namespace Accord {
 
                 // Some formats want stream headers to be separate.
                 if (data->FormatContext->oformat->flags & AVFMT_GLOBALHEADER)
-                    codecContex->flags |= CODEC_FLAG_GLOBAL_HEADER;
+                    codecContext->flags |= CODEC_FLAG_GLOBAL_HEADER;
             }
 
             void open_audio(WriterPrivateData^ data)
@@ -373,7 +373,7 @@ namespace Accord {
             }
 
             // Creates a video file with the specified name and properties
-            void VideoFileWriter::Open(String^ fileName, int width, int height, int frameRate,
+            void VideoFileWriter::Open(String^ fileName, int width, int height, Rational frameRate,
                 VideoCodec codec, int bitRate,
                 AudioCodec audioCodec, int audioBitRate, int sampleRate, int channels)
             {
@@ -621,7 +621,7 @@ namespace Accord {
                 frame->UnlockBits(bitmapData);
                 if (timestamp.Ticks >= 0)
                 {
-                    const double frameNumber = timestamp.TotalSeconds * m_frameRate;
+                    const double frameNumber = timestamp.TotalSeconds * m_frameRate.Value;
                     data->VideoFrame->pts = static_cast<int64_t>(frameNumber);
                 }
 

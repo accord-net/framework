@@ -67,5 +67,61 @@ namespace Accord.Tests.Video
             Assert.IsTrue(File.Exists(path));
         }
 
+        [Test]
+        public void framerate_test()
+        {
+            write_and_open((Rational)30, 30, 1);
+
+            write_and_open((Rational)29.97, 2997, 100);
+        }
+
+        private static void write_and_open(Rational framerate, int num, int den)
+        {
+            int width = 800;
+            int height = 600;
+            string path = Path.GetFullPath("output2.avi");
+            int videoBitRate = 1200 * 1000;
+
+            {
+                var videoWriter = new VideoFileWriter();
+
+                videoWriter.Open(path, width, height, framerate, VideoCodec.H264, videoBitRate);
+
+                Assert.AreEqual(width, videoWriter.Width);
+                Assert.AreEqual(height, videoWriter.Height);
+                Assert.AreEqual(videoBitRate, videoWriter.BitRate);
+                Assert.AreEqual(num, videoWriter.FrameRate.Numerator);
+                Assert.AreEqual(den, videoWriter.FrameRate.Denominator);
+
+
+
+                var m2i = new MatrixToImage();
+                Bitmap frame;
+
+                for (byte i = 0; i < 255; i++)
+                {
+                    byte[,] matrix = Matrix.Create(height, width, i);
+                    m2i.Convert(matrix, out frame);
+                    videoWriter.WriteVideoFrame(frame, TimeSpan.FromSeconds(i));
+                }
+
+                videoWriter.Close();
+            }
+
+            Assert.IsTrue(File.Exists(path));
+
+
+            {
+                VideoFileReader reader = new VideoFileReader();
+
+                reader.Open(path);
+
+                Assert.AreEqual(width, reader.Width);
+                Assert.AreEqual(height, reader.Height);
+                //Assert.AreEqual(videoBitRate, reader.BitRate);
+                Assert.AreEqual(num, reader.FrameRate.Numerator);
+                Assert.AreEqual(den, reader.FrameRate.Denominator);
+            }
+        }
     }
 }

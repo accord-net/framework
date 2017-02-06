@@ -5,15 +5,15 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-	<ProjectConfiguration Include="Debug|x64">
-	  <Configuration>Debug</Configuration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="net35|Win32">
       <Configuration>net35</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-	<ProjectConfiguration Include="net35|x64">
+    <ProjectConfiguration Include="net35|x64">
       <Configuration>net35</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
@@ -21,7 +21,7 @@
       <Configuration>net40</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-	<ProjectConfiguration Include="net40|x64">
+    <ProjectConfiguration Include="net40|x64">
       <Configuration>net40</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
@@ -29,7 +29,7 @@
       <Configuration>net45</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-	<ProjectConfiguration Include="net45|x64">
+    <ProjectConfiguration Include="net45|x64">
       <Configuration>net45</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
@@ -37,7 +37,7 @@
       <Configuration>net46</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-	<ProjectConfiguration Include="net46|x64">
+    <ProjectConfiguration Include="net46|x64">
       <Configuration>net46</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
@@ -52,10 +52,11 @@
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>true</CLRSupport>
     <PlatformToolset>v140</PlatformToolset>
-    <LinkIncremental></LinkIncremental>
+    <LinkIncremental>
+    </LinkIncremental>
     <IntDir>$(ProjectDir)obj\$(Configuration)\</IntDir>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-	<_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
@@ -73,52 +74,50 @@
   <PropertyGroup Condition="'$(Configuration)'=='net46'" Label="Configuration">
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
   </PropertyGroup>
-  
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-    <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
-		<OutDir>$(SolutionDir)..\Debug\GPL\</OutDir>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)'!='Debug'" Label="Configuration">
-		<OutDir>$(SolutionDir)..\Release\$(Configuration)\GPL\</OutDir>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Platform)'=='Win32'" Label="Configuration">
-		<FFmpegPlatform>Win32</FFmpegPlatform>
-		<PlatformPostfix></PlatformPostfix>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Platform)'=='x64'" Label="Configuration">
-		<FFmpegPlatform>Win64</FFmpegPlatform>
-		<PlatformPostfix>.x64</PlatformPostfix>
-	</PropertyGroup>
-	
-	<PropertyGroup>
-		<TargetName>Accord.Video.FFMPEG$(PlatformPostfix)</TargetName>
-	</PropertyGroup>
-  
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
+    <OutDir>$(SolutionDir)..\Debug\GPL\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'!='Debug'" Label="Configuration">
+    <OutDir>$(SolutionDir)..\Release\$(Configuration)\GPL\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)'=='Win32'" Label="Configuration">
+    <FFmpegPlatform>Win32</FFmpegPlatform>
+    <PlatformPostfix>
+    </PlatformPostfix>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)'=='x64'" Label="Configuration">
+    <FFmpegPlatform>Win64</FFmpegPlatform>
+    <PlatformPostfix>.x64</PlatformPostfix>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetName>Accord.Video.FFMPEG$(PlatformPostfix)</TargetName>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-dev\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;__STDC_CONSTANT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-	  <WholeProgramOptimization>true</WholeProgramOptimization>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <AdditionalDependencies>avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;postproc.lib;swresample.lib;swscale.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-dev\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-	  <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-	  <WarningLevel>Level3</WarningLevel>
-	  <ImageHasSafeExceptionHandlers />
-	<PrecompiledHeader>NotUsing</PrecompiledHeader>
-	<LanguageStandard>stdcpplatest</LanguageStandard>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <WarningLevel>Level3</WarningLevel>
+      <ImageHasSafeExceptionHandlers />
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <TargetMachine>MachineX64</TargetMachine>
-	  <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
-	  <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
-	  <SubSystem>Windows</SubSystem>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <Xdcmake>
       <DocumentLibraryDependencies>false</DocumentLibraryDependencies>
@@ -129,23 +128,22 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
-	  <WholeProgramOptimization>false</WholeProgramOptimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
       <Optimization>Disabled</Optimization>
-	  <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-	  <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
-	  <Profile>false</Profile>
+      <Profile>false</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
-  <Link>
-	<TargetMachine>MachineX86</TargetMachine>
-	</Link>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
   </ItemDefinitionGroup>
-
   <ItemGroup>
     <Reference Include="System">
       <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
@@ -178,6 +176,9 @@
     <ClInclude Include="VideoFileWriter.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Accord.Core\Accord.Core.csproj">
+      <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Accord.Video\Accord.Video.csproj">
       <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>
     </ProjectReference>

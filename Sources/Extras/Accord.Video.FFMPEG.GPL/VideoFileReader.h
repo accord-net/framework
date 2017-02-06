@@ -32,6 +32,7 @@ using namespace System;
 using namespace System::Drawing;
 using namespace System::Drawing::Imaging;
 using namespace Accord::Video;
+using namespace Accord::Math;
 
 namespace Accord {
     namespace Video {
@@ -78,9 +79,10 @@ namespace Accord {
             {
                 int m_width;
                 int m_height;
-                int	m_frameRate;
+				Rational m_frameRate;
                 String^ m_codecName;
                 Int64 m_framesCount;
+				int m_bitRate;
 
                 // private data of the class
                 ReaderPrivateData^ data;
@@ -143,20 +145,20 @@ namespace Accord {
                     }
                 }
 
-                /// <summary>
-                /// Frame rate of the opened video file.
-                /// </summary>
-                ///
-                /// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
-                ///
-                property int FrameRate
-                {
-                    int get()
-                    {
-                        CheckIfVideoFileIsOpen();
-                        return m_frameRate;
-                    }
-                }
+				/// <summary>
+				/// Frame rate of the opened video file.
+				/// </summary>
+				///
+				/// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
+				///
+				property Rational FrameRate
+				{
+					Rational get()
+					{
+						CheckIfVideoFileIsOpen();
+						return m_frameRate;
+					}
+				}
 
                 /// <summary>
                 /// Number of video frames in the opened video file.
@@ -176,6 +178,21 @@ namespace Accord {
                         return m_framesCount;
                     }
                 }
+
+				/// <summary>
+				/// Bit rate of the video stream.
+				/// </summary>
+				///
+				/// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
+				///
+				property int BitRate
+				{
+					int get()
+					{
+						CheckIfVideoFileIsOpen();
+						return m_bitRate;
+					}
+				}
 
                 /// <summary>
                 /// Name of codec used for encoding the opened video file.

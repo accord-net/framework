@@ -11,12 +11,12 @@
     <FileAlignment>512</FileAlignment>
     <OutputPath>bin</OutputPath>
   </PropertyGroup>
-
   <ItemGroup>
     <None Include="Archiver\package-framework.cmd" />
     <None Include="Archiver\package-samples.cmd" />
     <None Include="create-release.cmd" />
     <None Include="Installer\Build.cmd" />
+    <None Include="NuGet\Accord.Datasets.nuspec" />
     <None Include="NuGet\Accord.Fuzzy.nuspec" />
     <None Include="NuGet\Accord.Genetic.nuspec" />
     <None Include="NuGet\Accord.Audio.DirectSound.nuspec" />
@@ -38,7 +38,9 @@
     <None Include="NuGet\Accord.Neuro.nuspec" />
     <None Include="NuGet\Accord.nuspec" />
     <None Include="NuGet\Accord.Statistics.nuspec" />
+    <None Include="NuGet\Accord.Text.nuspec" />
     <None Include="NuGet\Accord.Video.FFMPEG.nuspec" />
+    <None Include="NuGet\Accord.Video.FFMPEG.x64.nuspec" />
     <None Include="NuGet\Accord.Video.Kinect.nuspec" />
     <None Include="NuGet\Accord.Video.Ximea.nuspec" />
     <None Include="NuGet\Accord.Video.VFW.nuspec" />

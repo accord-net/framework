@@ -32,6 +32,7 @@ using namespace System;
 using namespace System::Drawing;
 using namespace System::Drawing::Imaging;
 using namespace Accord::Video;
+using namespace Accord::Math;
 
 #include "VideoCodec.h"
 #include "AudioCodec.h"
@@ -81,7 +82,7 @@ namespace Accord {
             {
                 int m_width;
                 int m_height;
-                int	m_frameRate;
+				Rational m_frameRate;
                 int m_bitRate;
                 VideoCodec m_codec;
 
@@ -161,9 +162,9 @@ namespace Accord {
                 ///
                 /// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
                 ///
-                property int FrameRate
+                property Rational FrameRate
                 {
-                    int get()
+					Rational get()
                     {
                         CheckIfVideoFileIsOpen();
                         return m_frameRate;
@@ -263,7 +264,7 @@ namespace Accord {
                 /// codec.</note></para>
                 /// </remarks>
                 ///
-                void Open(String^ fileName, int width, int height, int frameRate)
+                void Open(String^ fileName, int width, int height, Rational frameRate)
                 {
                     Open(fileName, width, height, frameRate, VideoCodec::Default);
                 }
@@ -290,7 +291,7 @@ namespace Accord {
                 /// <exception cref="VideoException">A error occurred while creating new video file. See exception message.</exception>
                 /// <exception cref="System::IO::IOException">Cannot open video file with the specified name.</exception>
                 /// 
-                void Open(String^ fileName, int width, int height, int frameRate, VideoCodec codec)
+                void Open(String^ fileName, int width, int height, Rational frameRate, VideoCodec codec)
                 {
                     Open(fileName, width, height, frameRate, codec, 400000);
                 }
@@ -322,12 +323,12 @@ namespace Accord {
                 /// <exception cref="VideoException">A error occurred while creating new video file. See exception message.</exception>
                 /// <exception cref="System::IO::IOException">Cannot open video file with the specified name.</exception>
                 /// 
-                void Open(String^ fileName, int width, int height, int frameRate, VideoCodec codec, int bitRate)
+                void Open(String^ fileName, int width, int height, Rational frameRate, VideoCodec codec, int bitRate)
                 {
                     Open(fileName, width, height, frameRate, codec, bitRate, AudioCodec::None, 0, 0, 0);
                 }
 
-                void Open(String^ fileName, int width, int height, int frameRate,
+                void Open(String^ fileName, int width, int height, Rational frameRate,
                     VideoCodec codec, int bitRate,
                     AudioCodec audioCodec, int audioBitrate, int sampleRate, int channels);
 

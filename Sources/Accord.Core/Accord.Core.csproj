@@ -74,6 +74,7 @@
     <Compile Include="MachineLearning\Regression\IMultipleRegression.cs" />
     <Compile Include="MachineLearning\Regression\IRegression.cs" />
     <Compile Include="MachineLearning\Unsupervised\IGenerative.cs" />
+    <Compile Include="Math\RationalConverter.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Ranges\ByteRange.cs" />
     <Compile Include="Ranges\DoubleRange.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Collections\RedBlackTree`1.cs" />
     <Compile Include="Ranges\IRange`1.cs" />
     <Compile Include="Serializer.cs" />
+    <Compile Include="Math\Rational.cs" />
     <Compile Include="Sparse.cs" />
     <Compile Include="Sparse`1.cs" />
   </ItemGroup>
