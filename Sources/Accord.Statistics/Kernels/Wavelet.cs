@@ -49,8 +49,12 @@ namespace Accord.Statistics.Kernels
     ///   </list></para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_wavelet" /> 
+    /// </example>
+    /// 
     [Serializable]
-    public sealed class Wavelet : KernelBase, IKernel, ICloneable
+    public sealed class Wavelet : KernelBase, IKernel, ICloneable, IKernel<int[]>
     {
         // Default wavelet mother function : h(x) = cos(1.75x)*exp(-x²/2)
         private Func<double, double> h = (x => Math.Cos(1.75 * x) * Math.Exp(-(x * x) / 2.0));
@@ -185,6 +189,35 @@ namespace Accord.Statistics.Kernels
         }
 
         /// <summary>
+        ///   Wavelet kernel function.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(int[] x, int[] y)
+        {
+            double prod = 1.0;
+
+            if (invariant)
+            {
+                for (int i = 0; i < x.Length; i++)
+                {
+                    prod *= (h((x[i] - translation) / dilation)) *
+                            (h((y[i] - translation) / dilation));
+                }
+            }
+            else
+            {
+                for (int i = 0; i < x.Length; i++)
+                    prod *= h((x[i] - y[i]) / dilation);
+            }
+
+            return prod;
+        }
+
+        /// <summary>
         ///   Creates a new object that is a copy of the current instance.
         /// </summary>
         /// 
@@ -197,5 +230,6 @@ namespace Accord.Statistics.Kernels
             return MemberwiseClone();
         }
 
+        
     }
 }

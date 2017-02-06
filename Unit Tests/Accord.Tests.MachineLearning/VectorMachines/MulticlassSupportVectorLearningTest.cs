@@ -144,6 +144,64 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        public void learn_test_wavelet()
+        {
+            #region doc_learn_wavelet
+            // Generate always same random numbers
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // The following is a simple auto association function in which 
+            // the last column of each input correspond to its own class. This
+            // problem should be easily solved using a Linear kernel.
+
+            // Sample input data
+            int[][] inputs =
+            {
+                new int[] { 1, 2, 0 },
+                new int[] { 6, 2, 3 },
+                new int[] { 1, 1, 1 },
+                new int[] { 7, 6, 2 },
+            };
+
+            // Output for each of the inputs
+            int[] outputs = { 0, 3, 1, 2 };
+
+            // Create the multi-class learning algorithm for the machine
+            var teacher = new MulticlassSupportVectorLearning<Wavelet, int[]>()
+            {
+                // Configure the learning algorithm to use SMO to train the
+                //  underlying SVMs in each of the binary class subproblems.
+                Learner = (param) => new SequentialMinimalOptimization<Wavelet, int[]>()
+                {
+                    // If you would like to use other kernels, simply replace
+                    // the generic parameter to the desired kernel class, such
+                    // as for example, Wavelet:
+
+                    Kernel = new Wavelet(invariant: true) // use the Wavelet kernel
+                }
+            };
+
+            // Estimate the multi-class support vector machine using one-vs-one method
+            var ovo = teacher.Learn(inputs, outputs);
+
+            // Obtain class predictions for each sample
+            int[] predicted = ovo.Decide(inputs);
+
+            // Compute classification error
+            double error = new ZeroOneLoss(outputs).Loss(predicted);
+            #endregion
+
+            Assert.AreEqual(0, error);
+            Assert.IsTrue(predicted.IsEqual(outputs));
+            var s0 = ovo.Scores(inputs[0]);
+            var s1 = ovo.Scores(inputs[1]);
+            var s2 = ovo.Scores(inputs[2]);
+            Assert.IsTrue(s0.IsEqual(new double[] {  1, -1, -1, -1 }, 1e-2));
+            Assert.IsTrue(s1.IsEqual(new double[] { -1, -1, -1,  1 }, 1e-2));
+            Assert.IsTrue(s2.IsEqual(new double[] { -1.18, 1.18, -1, -1 }, 1e-2));
+        }
+
+        [Test]
         public void RunTest2()
         {
 
