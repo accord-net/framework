@@ -240,6 +240,8 @@ namespace Accord.Math.Differentiation
             if (x.Length != parameters)
                 throw new ArgumentException("The number of dimensions does not match.", "x");
 
+            if (Function == null)
+                throw new InvalidOperationException("The Function has not been defined.");
 
             double output = Function(x);
 
@@ -265,6 +267,9 @@ namespace Accord.Math.Differentiation
                 throw new DimensionMismatchException("gradient",
                     "Gradient vector must have at least the same size as x.");
             }
+
+            if (Function == null)
+                throw new InvalidOperationException("The Function has not been defined.");
 
             double output = Function(x);
 
@@ -453,6 +458,21 @@ namespace Accord.Math.Differentiation
 
             return FiniteDifferences.Interpolate(coefficientCache,
                 outputs, order, center, stepSize);
+        }
+
+        /// <summary>
+        ///   Obtains the gradient function for a multidimensional function.
+        /// </summary>
+        /// 
+        /// <param name="function">The function to be differentiated.</param>
+        /// <param name="variables">The number of parameters for the function.</param>
+        /// <param name="order">The derivative order that should be obtained. Default is 1.</param>
+        /// 
+        /// <returns>The gradient function of the given <paramref name="function"/>.</returns>
+        /// 
+        public static Func<double[], double[]> Gradient(Func<double[], double> function, int variables, int order= 1)
+        {
+            return new FiniteDifferences(variables, function).Compute;
         }
 
     }

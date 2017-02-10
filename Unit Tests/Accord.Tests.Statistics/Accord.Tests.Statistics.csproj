@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Tests.Statistics</RootNamespace>
     <AssemblyName>Accord.Tests.Statistics</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" /> 
+  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -100,6 +100,7 @@
     <Compile Include="Models\Markov\HiddenMarkovClassifier`2Test.cs" />
     <Compile Include="Models\Markov\HiddenMarkovModel`2Test.cs" />
     <Compile Include="Models\Regression\LogarithmRegressionTest.cs" />
+    <Compile Include="Models\Regression\MultinomialLogisticGradientDescentTest.cs" />
     <Compile Include="Models\Regression\NonlinearLeastSquaresTest.cs" />
     <Compile Include="Models\Regression\NonNegativeLeastSquaresTests.cs" />
     <Compile Include="MovingCircularStatisticsTest.cs" />

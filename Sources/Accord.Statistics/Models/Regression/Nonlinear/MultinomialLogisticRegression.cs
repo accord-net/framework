@@ -129,6 +129,16 @@ namespace Accord.Statistics.Models.Regression
         }
 
         /// <summary>
+        ///   Gets the total number of parameters in the multinomial 
+        ///   logistic regression [(categories - 1) * (inputs + 1)].
+        /// </summary>
+        /// 
+        public int NumberOfParameters
+        {
+            get { return coefficients.GetTotalLength(); }
+        }
+
+        /// <summary>
         ///   Gets the standard errors associated with each
         ///   coefficient during the model estimation phase.
         /// </summary>
