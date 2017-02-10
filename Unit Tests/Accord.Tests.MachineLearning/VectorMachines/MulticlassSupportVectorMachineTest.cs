@@ -195,6 +195,8 @@ namespace Accord.Tests.MachineLearning
 
             double error = smo.Run();
 
+            Assert.AreEqual(0, error);
+
             // Linear machines in compact form do not require kernel evaluations
             Assert.AreEqual(0, msvm.GetLastKernelEvaluations());
 
