@@ -105,8 +105,8 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the number of iterations performed in the
-        ///   last call to the <see cref="IOptimizationMethod.Minimize()"/> or
-        ///   <see cref="IOptimizationMethod.Maximize"/> methods.
+        ///   last call to the <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/> or
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Maximize"/> methods.
         /// </summary>
         /// 
         /// <value>
@@ -120,8 +120,8 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the number of function evaluations performed
-        ///   in the last call to the <see cref="IOptimizationMethod.Minimize()"/> or
-        ///   <see cref="IOptimizationMethod.Maximize"/> methods.
+        ///   in the last call to the <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/> or
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Maximize"/> methods.
         /// </summary>
         /// 
         /// <value>

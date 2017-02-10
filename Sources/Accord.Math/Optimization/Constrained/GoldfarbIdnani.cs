@@ -225,8 +225,8 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Get the exit code returned in the last call to the
-        ///   <see cref="IOptimizationMethod.Maximize()"/> or 
-        ///   <see cref="IOptimizationMethod.Minimize()"/> methods.
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Maximize()"/> or 
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/> methods.
         /// </summary>
         /// 
         public GoldfarbIdnaniStatus Status { get; private set; }
@@ -346,12 +346,12 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Finds the minimum value of a function. The solution vector
-        ///   will be made available at the <see cref="IOptimizationMethod.Solution"/> property.
+        ///   will be made available at the <see cref="IOptimizationMethod{TInput, TOutput}.Solution"/> property.
         /// </summary>
         /// 
         /// <returns>
-        ///   Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod.Solution"/>.
-        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod.Value"/>
+        ///   Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod{TInput, TOutput}.Solution"/>.
+        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod{TInput, TOutput}.Value"/>
         ///   property.
         /// </returns>
         /// 
@@ -378,11 +378,11 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Finds the maximum value of a function. The solution vector
-        ///   will be made available at the <see cref="IOptimizationMethod.Solution"/> property.
+        ///   will be made available at the <see cref="IOptimizationMethod{TInput, TOutput}.Solution"/> property.
         /// </summary>
         /// <returns>
-        ///   Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod.Solution"/>.
-        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod.Value"/>
+        ///   Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod{TInput, TOutput}.Solution"/>.
+        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod{TInput, TOutput}.Value"/>
         ///   property.
         /// </returns>
         /// 

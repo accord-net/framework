@@ -819,8 +819,8 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Get the exit code returned in the last call to the
-        ///   <see cref="IOptimizationMethod.Maximize()"/> or 
-        ///   <see cref="IOptimizationMethod.Minimize()"/> methods.
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Maximize()"/> or 
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/> methods.
         /// </summary>
         /// 
         public BroydenFletcherGoldfarbShannoStatus Status { get; set; }
@@ -833,12 +833,20 @@ namespace Accord.Math.Optimization
         ///   Creates a new instance of the L-BFGS optimization algorithm.
         /// </summary>
         /// 
+        public BroydenFletcherGoldfarbShanno()
+            : base()
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new instance of the L-BFGS optimization algorithm.
+        /// </summary>
+        /// 
         /// <param name="numberOfVariables">The number of free parameters in the optimization problem.</param>
         /// 
         public BroydenFletcherGoldfarbShanno(int numberOfVariables)
             : base(numberOfVariables)
         {
-            orthantwise_end = numberOfVariables;
         }
 
         /// <summary>
@@ -868,6 +876,18 @@ namespace Accord.Math.Optimization
 
         #endregion
 
+        /// <summary>
+        /// Called when the <see cref="IOptimizationMethod{TInput, TOutput}.NumberOfVariables" /> property has changed.
+        /// </summary>
+        /// 
+        /// <param name="numberOfVariables">The number of variables.</param>
+        /// 
+        protected override void OnNumberOfVariablesChanged(int numberOfVariables)
+        {
+            base.OnNumberOfVariablesChanged(numberOfVariables);
+
+            this.orthantwise_end = numberOfVariables;
+        }
 
 
 

@@ -184,7 +184,7 @@ namespace Accord.Math.Optimization
         private int evaluations;
         private int searches;
         private int maxIterations;
-        private double tolerance = 0;
+        private double tolerance = 1e-5;
 
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the number of iterations performed 
-        ///   in the last call to <see cref="IOptimizationMethod.Minimize()"/>.
+        ///   in the last call to <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/>.
         /// </summary>
         /// 
         /// <value>
@@ -234,7 +234,7 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the number of function evaluations performed
-        ///   in the last call to <see cref="IOptimizationMethod.Minimize()"/>.
+        ///   in the last call to <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/>.
         /// </summary>
         /// 
         /// <value>
@@ -248,7 +248,7 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the number of linear searches performed
-        ///   in the last call to <see cref="IOptimizationMethod.Minimize()"/>.
+        ///   in the last call to <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/>.
         /// </summary>
         /// 
         public int Searches
@@ -258,8 +258,8 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Get the exit code returned in the last call to the
-        ///   <see cref="IOptimizationMethod.Maximize()"/> or 
-        ///   <see cref="IOptimizationMethod.Minimize()"/> methods.
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Maximize()"/> or 
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/> methods.
         /// </summary>
         /// 
         public ConjugateGradientCode Status { get; private set; }
@@ -274,16 +274,21 @@ namespace Accord.Math.Optimization
         ///   Creates a new instance of the CG optimization algorithm.
         /// </summary>
         /// 
+        public ConjugateGradient()
+            : base()
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new instance of the CG optimization algorithm.
+        /// </summary>
+        /// 
         /// <param name="numberOfVariables">The number of free parameters in the optimization problem.</param>
         /// 
         public ConjugateGradient(int numberOfVariables)
             : base(numberOfVariables)
         {
-            d = new double[numberOfVariables];
-            gold = new double[numberOfVariables];
-            w = new double[numberOfVariables];
         }
-
 
         /// <summary>
         ///   Creates a new instance of the CG optimization algorithm.
@@ -297,11 +302,22 @@ namespace Accord.Math.Optimization
             Func<double[], double> function, Func<double[], double[]> gradient)
             : base(numberOfVariables, function, gradient)
         {
-            d = new double[numberOfVariables];
-            gold = new double[numberOfVariables];
-            w = new double[numberOfVariables];
         }
 
+        /// <summary>
+        /// Called when the <see cref="IOptimizationMethod{TInput, TOutput}.NumberOfVariables" /> property has changed.
+        /// </summary>
+        /// 
+        /// <param name="numberOfVariables">The number of variables.</param>
+        /// 
+        protected override void OnNumberOfVariablesChanged(int numberOfVariables)
+        {
+            base.OnNumberOfVariablesChanged(numberOfVariables);
+
+            this.d = new double[numberOfVariables];
+            this.gold = new double[numberOfVariables];
+            this.w = new double[numberOfVariables];
+        }
 
         /// <summary>
         ///   Implements the actual optimization algorithm. This

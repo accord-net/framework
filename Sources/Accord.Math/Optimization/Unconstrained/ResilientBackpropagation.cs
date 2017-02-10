@@ -139,7 +139,7 @@ namespace Accord.Math.Optimization
         }
 
         /// <summary>
-        ///   Creates a new instance of the L-BFGS optimization algorithm.
+        ///   Creates a new <see cref="ResilientBackpropagation"/> function optimizer.
         /// </summary>
         /// 
         /// <param name="function">The function to be optimized.</param>
@@ -150,7 +150,7 @@ namespace Accord.Math.Optimization
         }
 
         /// <summary>
-        ///   Creates a new instance of the L-BFGS optimization algorithm.
+        ///   Creates a new <see cref="ResilientBackpropagation"/> function optimizer.
         /// </summary>
         /// 
         /// <param name="numberOfVariables">The number of free parameters in the function to be optimized.</param>
@@ -161,7 +161,6 @@ namespace Accord.Math.Optimization
             Func<double[], double> function, Func<double[], double[]> gradient)
             : base(numberOfVariables, function, gradient)
         {
-            init(numberOfVariables);
         }
 
         /// <summary>
@@ -173,11 +172,18 @@ namespace Accord.Math.Optimization
         public ResilientBackpropagation(int numberOfVariables)
             : base(numberOfVariables)
         {
-            init(numberOfVariables);
         }
 
-        private void init(int numberOfVariables)
+        /// <summary>
+        /// Called when the <see cref="IOptimizationMethod{TInput, TOutput}.NumberOfVariables" /> property has changed.
+        /// </summary>
+        /// 
+        /// <param name="numberOfVariables">The number of variables.</param>
+        /// 
+        protected override void OnNumberOfVariablesChanged(int numberOfVariables)
         {
+            base.OnNumberOfVariablesChanged(numberOfVariables);
+
             convergence = new RelativeConvergence();
 
             gradient = new double[numberOfVariables];
@@ -187,7 +193,6 @@ namespace Accord.Math.Optimization
             // Initialize steps
             Reset(initialStep);
         }
-
 
         /// <summary>
         ///   Implements the actual optimization algorithm. This

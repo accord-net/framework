@@ -56,7 +56,7 @@ namespace Accord.Tests.Math
             double minimumCost = m.Value;   // should be 6
             #endregion
 
-            Assert.AreEqual(3, m.NumberOfVariables);
+            Assert.AreEqual(3, m.NumberOfTasks);
             Assert.AreEqual(3, m.NumberOfWorkers);
 
             Assert.IsTrue(success);
@@ -73,7 +73,7 @@ namespace Accord.Tests.Math
 
             Munkres m = new Munkres(costMatrix);
 
-            Assert.AreEqual(5, m.NumberOfVariables);
+            Assert.AreEqual(5, m.NumberOfTasks);
             Assert.AreEqual(5, m.NumberOfWorkers);
 
             bool success = m.Minimize();
@@ -100,7 +100,7 @@ namespace Accord.Tests.Math
 
             Munkres m = new Munkres(costMatrix);
 
-            Assert.AreEqual(3, m.NumberOfVariables);
+            Assert.AreEqual(3, m.NumberOfTasks);
             Assert.AreEqual(3, m.NumberOfWorkers);
 
             bool success = m.Minimize();
@@ -123,7 +123,7 @@ namespace Accord.Tests.Math
 
             Munkres m = new Munkres(costMatrix);
 
-            Assert.AreEqual(4, m.NumberOfVariables);
+            Assert.AreEqual(4, m.NumberOfTasks);
             Assert.AreEqual(3, m.NumberOfWorkers);
 
             bool success = m.Minimize();
@@ -148,7 +148,7 @@ namespace Accord.Tests.Math
 
             Munkres m = new Munkres(costMatrix);
 
-            Assert.AreEqual(3, m.NumberOfVariables);
+            Assert.AreEqual(3, m.NumberOfTasks);
             Assert.AreEqual(4, m.NumberOfWorkers);
 
             bool success = m.Minimize();
@@ -168,7 +168,7 @@ namespace Accord.Tests.Math
 
             Munkres m = new Munkres(costMatrix);
 
-            Assert.AreEqual(7, m.NumberOfVariables);
+            Assert.AreEqual(7, m.NumberOfTasks);
             Assert.AreEqual(10, m.NumberOfWorkers);
 
             bool success = m.Minimize();
@@ -217,7 +217,7 @@ namespace Accord.Tests.Math
                         Assert.AreEqual(m.M[i][j], MunkresProgram.M[i,j]);
             }
 
-            Assert.AreEqual(9, m.NumberOfVariables);
+            Assert.AreEqual(9, m.NumberOfTasks);
             Assert.AreEqual(9, m.NumberOfWorkers);
 
             bool success = m.Minimize();
@@ -249,7 +249,7 @@ namespace Accord.Tests.Math
 
             Munkres m = new Munkres(costMatrix);
 
-            Assert.AreEqual(3, m.NumberOfVariables);
+            Assert.AreEqual(3, m.NumberOfTasks);
             Assert.AreEqual(3, m.NumberOfWorkers);
 
             bool success = m.Minimize();

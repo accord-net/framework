@@ -65,7 +65,7 @@ namespace Accord.Math.Optimization
     /// </example>
     /// 
     /// 
-    public sealed class BrentSearch : IOptimizationMethod
+    public sealed class BrentSearch : IOptimizationMethod<double, double>
     {
 
         /// <summary>
@@ -80,6 +80,11 @@ namespace Accord.Math.Optimization
         public int NumberOfVariables
         {
             get { return 1; }
+            set
+            {
+                if (value != 1)
+                    throw new InvalidOperationException("Brent Search supports only one variable.");
+            }
         }
 
         /// <summary>
@@ -107,19 +112,7 @@ namespace Accord.Math.Optimization
         ///   or <see cref="FindRoot()"/>.
         /// </summary>
         /// 
-        public double Solution { get; private set; }
-
-        /// <summary>
-        ///   Gets the value at the solution found in the last call
-        ///   to <see cref="Minimize()"/>, <see cref="Maximize()"/>
-        ///   or <see cref="FindRoot()"/>.
-        /// </summary>
-        /// 
-        double[] IOptimizationMethod.Solution
-        {
-            get { return new double[] { Value }; }
-            set { Value = value[0]; }
-        }
+        public double Solution { get; set; }
 
         /// <summary>
         ///   Gets the value at the solution found in the last call
@@ -247,7 +240,7 @@ namespace Accord.Math.Optimization
             }
 
             // First step - always gold section
-            v = lowerBound + r * (upperBound - lowerBound); 
+            v = lowerBound + r * (upperBound - lowerBound);
             fv = function(v);
             x = v; fx = fv;
             w = v; fw = fv;

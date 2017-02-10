@@ -290,12 +290,12 @@ namespace Accord.Math.Optimization
         /// 
         /// <exception cref="System.ArgumentOutOfRangeException"/>
         /// 
-        public new int NumberOfVariables
+        public override int NumberOfVariables
         {
             get { return base.NumberOfVariables; }
             set
             {
-                if (value <= 0 || value > nmax)
+                if (nmax > 0 && (value <= 0 || value > nmax))
                 {
                     throw new ArgumentOutOfRangeException("value",
                         "The number of variables must be higher than 0 and less than or"
@@ -305,6 +305,16 @@ namespace Accord.Math.Optimization
 
                 base.NumberOfVariables = value;
             }
+        }
+
+        /// <summary>
+        /// Called when the <see cref="NumberOfVariables" /> property has changed.
+        /// </summary>
+        /// <param name="numberOfVariables">The number of variables.</param>
+        protected override void OnNumberOfVariablesChanged(int numberOfVariables)
+        {
+            if (Solution == null || numberOfVariables > Solution.Length)
+                base.OnNumberOfVariablesChanged(numberOfVariables);
         }
 
         /// <summary>
@@ -320,8 +330,8 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Get the exit code returned in the last call to the
-        ///   <see cref="IOptimizationMethod.Maximize()"/> or 
-        ///   <see cref="IOptimizationMethod.Minimize()"/> methods.
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Maximize()"/> or 
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/> methods.
         /// </summary>
         /// 
         public NelderMeadStatus Status
@@ -517,7 +527,7 @@ namespace Accord.Math.Optimization
                     return ret;
             }
 
-        restart:
+            restart:
             for (int i = 0; i < n + 1; i++)
             {
                 t.Add(new KeyValuePair<double, double[]>(val[i], pts[i]));

@@ -628,6 +628,7 @@ namespace Accord.Tests.Math
             };
 
             var target = new ConjugateGradient(2);
+            target.Tolerance = 0;
             AugmentedLagrangian solver = new AugmentedLagrangian(target, function, constraints);
 
             Assert.IsTrue(solver.Minimize());

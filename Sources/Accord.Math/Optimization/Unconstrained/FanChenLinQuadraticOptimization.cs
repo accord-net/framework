@@ -130,7 +130,11 @@ namespace Accord.Math.Optimization
         ///   The number of parameters for the optimization problem.
         /// </value>
         /// 
-        public int NumberOfVariables { get { return l; } }
+        public int NumberOfVariables
+        {
+            get { return l; }
+            set { init(value); }
+        }
 
         /// <summary>
         ///   Gets the current solution found, the values of
@@ -218,7 +222,6 @@ namespace Accord.Math.Optimization
                 ones[i] = 1;
 
             initialize(numberOfVariables, Q, zeros, ones);
-
         }
 
         /// <summary>
@@ -239,18 +242,24 @@ namespace Accord.Math.Optimization
 
         private void initialize(int numberOfVariables, Func<int, int, double> Q, double[] p, int[] y)
         {
-            this.l = numberOfVariables;
+            init(numberOfVariables);
+
             this.Q = Q;
-            this.C = new double[l];
+            this.p = p;
+            this.y = y;
+        }
+
+        private void init(int numberOfVariables)
+        {
+            this.l = numberOfVariables;
             this.indices = new int[l];
             this.alpha_status = new Status[l];
             this.active_set = new int[l];
             this.G = new double[l];
             this.G_bar = new double[l];
-            this.p = p;
-            this.y = y;
             this.alpha = new double[l];
 
+            this.C = new double[l];
             for (int i = 0; i < C.Length; i++)
                 C[i] = 1.0;
         }

@@ -106,6 +106,14 @@ namespace Accord.Math.Optimization
     /// 
     public class Munkres : IOptimizationMethod
     {
+        internal double[][] C;
+        internal int[][] M;
+        internal List<Tuple<int, int>> path;
+        internal int[] RowCover;
+        internal int[] ColCover;
+
+        private int path_row_0;
+        private int path_col_0;
 
         /// <summary>
         ///   Gets or sets the cost matrix for this assignment algorithm.
@@ -115,6 +123,16 @@ namespace Accord.Math.Optimization
         /// 
         public double[][] CostMatrix { get; protected set; }
 
+        /// <summary>
+        /// Gets or sets the number of variables in this optimization problem
+        /// (<see cref="NumberOfTasks"/> * <see cref="NumberOfWorkers"/>).
+        /// </summary>
+        /// 
+        public int NumberOfVariables
+        {
+            get { return NumberOfTasks * NumberOfWorkers; }
+            set { throw new InvalidOperationException(); }
+        }
 
         /// <summary>
         ///   Gets the number of variables (free parameters)
@@ -125,7 +143,10 @@ namespace Accord.Math.Optimization
         /// 
         /// <value>The number of tasks in the assignment problem.</value>
         /// 
-        public int NumberOfVariables { get; protected set; }
+        public int NumberOfTasks
+        {
+            get; protected set;
+        }
 
         /// <summary>
         ///   Gets or sets the number of workers in the assignment algorithm.
@@ -135,7 +156,10 @@ namespace Accord.Math.Optimization
         /// 
         /// <value>The number of workers.</value>
         /// 
-        public int NumberOfWorkers { get; protected set; }
+        public int NumberOfWorkers
+        {
+            get; protected set;
+        }
 
         /// <summary>
         /// Gets the current solution found, the values of
@@ -153,15 +177,6 @@ namespace Accord.Math.Optimization
         /// <value>The value.</value>
         /// 
         public double Value { get; protected set; }
-
-        internal double[][] C;
-        internal int[][] M;
-        internal List<Tuple<int, int>> path;
-        internal int[] RowCover;
-        internal int[] ColCover;
-
-        private int path_row_0;
-        private int path_col_0;
 
 
         /// <summary>
@@ -194,7 +209,7 @@ namespace Accord.Math.Optimization
 
         private void init(int jobs, int workers, double[][] costMatrix)
         {
-            this.NumberOfVariables = jobs;
+            this.NumberOfTasks = jobs;
             this.NumberOfWorkers = workers;
             this.RowCover = new int[workers];
             this.ColCover = new int[jobs];

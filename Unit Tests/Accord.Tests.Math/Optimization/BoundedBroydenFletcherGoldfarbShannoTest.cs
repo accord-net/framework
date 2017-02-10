@@ -180,7 +180,6 @@ namespace Accord.Tests.Math
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void NoGradientTest()
         {
             var target = new BoundedBroydenFletcherGoldfarbShanno(2)
@@ -188,7 +187,9 @@ namespace Accord.Tests.Math
                 Function = (x) => 0.0
             };
 
-            target.Minimize();
+            Assert.IsTrue(target.Minimize());
+
+            // The optimizer should use finite differences as the gradient
         }
 
         [Test]

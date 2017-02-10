@@ -164,7 +164,7 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the number of iterations performed in the last
-        ///   call to <see cref="IOptimizationMethod.Minimize()"/>.
+        ///   call to <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/>.
         /// </summary>
         /// 
         /// <value>
@@ -190,8 +190,8 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Get the exit code returned in the last call to the
-        ///   <see cref="IOptimizationMethod.Maximize()"/> or 
-        ///   <see cref="IOptimizationMethod.Minimize()"/> methods.
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Maximize()"/> or 
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/> methods.
         /// </summary>
         /// 
         public CobylaStatus Status { get; private set; }
