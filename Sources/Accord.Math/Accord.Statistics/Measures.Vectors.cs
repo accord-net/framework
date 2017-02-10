@@ -27,6 +27,7 @@ namespace Accord.Statistics
     using Accord.Math;
     using Accord.Math.Decompositions;
     using AForge;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Set of statistics measures, such as <see cref="Mean(double[])"/>,
@@ -1407,6 +1408,36 @@ namespace Accord.Statistics
             }
 
             return sum;
+        }
+
+        /// <summary>
+        ///   Computes the entropy function between an expected value
+        ///   and a predicted value between 0 and 1.
+        /// </summary>
+        /// 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Entropy(bool expected, double predicted)
+        {
+            if (!expected)
+                return 0;
+            return Math.Log(predicted);
+        }
+
+        /// <summary>
+        ///   Computes the entropy function between an expected value
+        ///   and a predicted value.
+        /// </summary>
+        /// 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Entropy(bool expected, bool predicted)
+        {
+            if (!expected)
+                return 0;
+            return predicted ? 0 : Double.NegativeInfinity;
         }
 
         /// <summary>

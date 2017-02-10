@@ -1116,6 +1116,19 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Gets the length of each dimension of an array.
+        /// </summary>
+        /// 
+        /// <param name="array">The array.</param>
+        /// <param name="deep">Pass true to retrieve all dimensions of the array,
+        ///   even if it contains nested arrays (as in jagged matrices)</param>
+        /// 
+        public static int GetTotalLength(this Array array, bool deep = true)
+        {
+            return GetLength(array, deep).Product();
+        }
+
+        /// <summary>
         ///   Determines whether an array is a jagged array 
         ///   (containing inner arrays as its elements).
         /// </summary>
