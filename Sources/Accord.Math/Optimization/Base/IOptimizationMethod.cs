@@ -34,7 +34,38 @@ namespace Accord.Math.Optimization
     /// <seealso cref="ResilientBackpropagation"/>
     /// <seealso cref="GoldfarbIdnani"/>
     /// 
-    public interface IOptimizationMethod
+    public interface IOptimizationMethod : IOptimizationMethod<double[], double>
+    {
+        // For backward compatibility
+    }
+
+    /// <summary>
+    ///   Common interface for function optimization methods.
+    /// </summary>
+    /// 
+    /// <seealso cref="BoundedBroydenFletcherGoldfarbShanno"/>
+    /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
+    /// <seealso cref="ConjugateGradient"/>
+    /// <seealso cref="ResilientBackpropagation"/>
+    /// <seealso cref="GoldfarbIdnani"/>
+    /// 
+    public interface IOptimizationMethod<TCode> : IOptimizationMethod, IOptimizationMethod<double[], double, TCode>
+        where TCode : struct
+    {
+        // For backward compatibility
+    }
+
+    /// <summary>
+    ///   Common interface for function optimization methods.
+    /// </summary>
+    /// 
+    /// <seealso cref="BoundedBroydenFletcherGoldfarbShanno"/>
+    /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
+    /// <seealso cref="ConjugateGradient"/>
+    /// <seealso cref="ResilientBackpropagation"/>
+    /// <seealso cref="GoldfarbIdnani"/>
+    /// 
+    public interface IOptimizationMethod<TInput, TOutput>
     {
 
         /// <summary>
@@ -44,20 +75,20 @@ namespace Accord.Math.Optimization
         /// 
         /// <value>The number of parameters.</value>
         /// 
-        int NumberOfVariables { get; }
+        int NumberOfVariables { get; set; }
 
         /// <summary>
         ///   Gets the current solution found, the values of 
         ///   the parameters which optimizes the function.
         /// </summary>
         /// 
-        double[] Solution { get; set; }
+        TInput Solution { get; set; }
 
         /// <summary>
         ///   Gets the output of the function at the current <see cref="Solution"/>.
         /// </summary>
         /// 
-        double Value { get; }
+        TOutput Value { get; }
 
         /// <summary>
         ///   Finds the minimum value of a function. The solution vector
@@ -83,6 +114,8 @@ namespace Accord.Math.Optimization
 
     }
 
+    
+
     /// <summary>
     ///   Common interface for function optimization methods.
     /// </summary>
@@ -93,13 +126,13 @@ namespace Accord.Math.Optimization
     /// <seealso cref="ResilientBackpropagation"/>
     /// <seealso cref="GoldfarbIdnani"/>
     /// 
-    public interface IOptimizationMethod<TCode> : IOptimizationMethod
+    public interface IOptimizationMethod<TInput, TOutput, TCode> : IOptimizationMethod<TInput, TOutput>
         where TCode : struct
     {
         /// <summary>
         ///   Get the exit code returned in the last call to the
-        ///   <see cref="IOptimizationMethod.Maximize()"/> or 
-        ///   <see cref="IOptimizationMethod.Minimize()"/> methods.
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Maximize()"/> or 
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/> methods.
         /// </summary>
         /// 
         TCode Status { get; }

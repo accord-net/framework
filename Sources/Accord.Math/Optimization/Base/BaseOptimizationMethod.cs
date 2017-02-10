@@ -23,6 +23,7 @@
 namespace Accord.Math.Optimization
 {
     using System;
+    using System.Threading;
 
     /// <summary>
     ///   Base class for optimization methods.
@@ -30,9 +31,23 @@ namespace Accord.Math.Optimization
     /// 
     public abstract class BaseOptimizationMethod
     {
-
+        private int numberOfVariables;
         private double[] x;
         private double value;
+
+        [NonSerialized]
+        private CancellationToken token = new CancellationToken();
+
+        /// <summary>
+        ///   Gets or sets a cancellation token that can be used to
+        ///   stop the learning algorithm while it is running.
+        /// </summary>
+        /// 
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         /// <summary>
         ///   Gets or sets the function to be optimized.
@@ -49,7 +64,15 @@ namespace Accord.Math.Optimization
         /// 
         /// <value>The number of parameters.</value>
         /// 
-        public int NumberOfVariables { get; protected set; }
+        public virtual int NumberOfVariables
+        {
+            get { return numberOfVariables; }
+            set
+            {
+                this.numberOfVariables = value;
+                OnNumberOfVariablesChanged(value);
+            }
+        }
 
         /// <summary>
         ///   Gets the current solution found, the values of 
@@ -85,6 +108,14 @@ namespace Accord.Math.Optimization
         ///   Initializes a new instance of the <see cref="BaseOptimizationMethod"/> class.
         /// </summary>
         /// 
+        protected BaseOptimizationMethod()
+        {
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="BaseOptimizationMethod"/> class.
+        /// </summary>
+        /// 
         /// <param name="numberOfVariables">The number of free parameters in the optimization problem.</param>
         /// 
         protected BaseOptimizationMethod(int numberOfVariables)
@@ -92,7 +123,7 @@ namespace Accord.Math.Optimization
             if (numberOfVariables <= 0)
                 throw new ArgumentOutOfRangeException("numberOfVariables");
 
-            init(numberOfVariables);
+            this.NumberOfVariables = numberOfVariables;
         }
 
         /// <summary>
@@ -107,7 +138,7 @@ namespace Accord.Math.Optimization
             if (function == null)
                 throw new ArgumentNullException("function");
 
-            init(numberOfVariables);
+            this.NumberOfVariables = numberOfVariables;
             this.Function = function;
         }
 
@@ -122,17 +153,22 @@ namespace Accord.Math.Optimization
             if (function == null)
                 throw new ArgumentNullException("function");
 
-            init(function.NumberOfVariables);
+            this.NumberOfVariables = function.NumberOfVariables;
             this.Function = function.Function;
         }
 
-        private void init(int numberOfVariables)
+        /// <summary>
+        /// Called when the <see cref="NumberOfVariables"/> property has changed.
+        /// </summary>
+        /// 
+        protected virtual void OnNumberOfVariablesChanged(int numberOfVariables)
         {
-            this.NumberOfVariables = numberOfVariables;
-            this.Solution = new double[numberOfVariables];
-
-            for (int i = 0; i < Solution.Length; i++)
-                Solution[i] = Accord.Math.Random.Generator.Random.NextDouble() * 2 - 1;
+            if (this.Solution == null || this.Solution.Length != numberOfVariables)
+            {
+                this.Solution = new double[numberOfVariables];
+                for (int i = 0; i < Solution.Length; i++)
+                    Solution[i] = Accord.Math.Random.Generator.Random.NextDouble() * 2 - 1;
+            }
         }
 
         /// <summary>

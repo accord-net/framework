@@ -25,42 +25,25 @@ namespace Accord.Math.Optimization
     using System;
 
     /// <summary>
-    ///   Common interface for function optimization methods which depend on
-    ///   having both an objective function and a gradient function definition
-    ///   available.
+    ///   Common interface for function optimization methods.
     /// </summary>
     /// 
+    /// <seealso cref="BoundedBroydenFletcherGoldfarbShanno"/>
     /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
     /// <seealso cref="ConjugateGradient"/>
     /// <seealso cref="ResilientBackpropagation"/>
+    /// <seealso cref="GoldfarbIdnani"/>
     /// 
-    public interface IGradientOptimizationMethod : IOptimizationMethod, IGradientOptimizationMethod<double[], double>
+    public interface IFunctionOptimizationMethod<TInput, TOutput> : IOptimizationMethod<TInput, TOutput>
     {
-        // For backward compatibility
 
-    }
-
-    /// <summary>
-    ///   Common interface for function optimization methods which depend on
-    ///   having both an objective function and a gradient function definition
-    ///   available.
-    /// </summary>
-    /// 
-    /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
-    /// <seealso cref="ConjugateGradient"/>
-    /// <seealso cref="ResilientBackpropagation"/>
-    /// 
-    public interface IGradientOptimizationMethod<TInput, TOutput> : IFunctionOptimizationMethod<TInput, TOutput>
-    {
         /// <summary>
-        ///   Gets or sets a function returning the gradient
-        ///   vector of the function to be optimized for a
-        ///   given value of its free parameters.
+        ///   Gets or sets the function to be optimized.
         /// </summary>
         /// 
-        /// <value>The gradient function.</value>
+        /// <value>The function to be optimized.</value>
         /// 
-        Func<TInput, TInput> Gradient { get; set; }
+        Func<TInput, TOutput> Function { get; set; }
 
     }
 }
