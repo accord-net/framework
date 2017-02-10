@@ -470,12 +470,10 @@ namespace Accord.MachineLearning
             }
 
             // Initial variables
-            int[] labels = new int[rows];
-            double[] count = new double[k];
+            var labels = new int[rows];
+            var count = new double[k];
             double[][] centroids = clusters.Centroids;
-            double[][] newCentroids = new double[k][];
-            for (int i = 0; i < newCentroids.Length; i++)
-                newCentroids[i] = new double[cols];
+            double[][] newCentroids = Jagged.Zeros(k, cols);
 
             Object[] syncObjects = new Object[K];
             for (int i = 0; i < syncObjects.Length; i++)
