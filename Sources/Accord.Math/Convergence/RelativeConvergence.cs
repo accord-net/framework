@@ -176,7 +176,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Gets or sets the current iteration number.
+        ///   Gets the current iteration number.
         /// </summary>
         /// 
         public int CurrentIteration { get; private set; }

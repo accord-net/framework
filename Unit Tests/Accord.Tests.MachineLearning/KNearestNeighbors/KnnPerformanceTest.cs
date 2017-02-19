@@ -24,16 +24,11 @@ namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning;
     using Accord.Math;
-    using Accord.Math.Comparers;
     using Accord.Math.Distances;
     using Accord.Statistics.Distributions.Multivariate;
-    using Accord.Statistics.Distributions.Univariate;
     using Accord.Tests.MachineLearning.Structures;
     using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
 
     [TestFixture]
     public class KnnPerformanceTest
@@ -43,6 +38,8 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void PerformanceTest1()
         {
+            Accord.Math.Random.Generator.Seed = 0;
+
             int n1 = 1000;
             int n2 = 2000;
             int k = 5;

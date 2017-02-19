@@ -447,7 +447,6 @@ namespace Accord.Tests.Math
 
         private static void test1(IGradientOptimizationMethod inner, double tol)
         {
-
             // maximize 2x + 3y, s.t. 2x² + 2y² <= 50 and x+y = 1
 
             // Max x' * c
@@ -535,6 +534,8 @@ namespace Accord.Tests.Math
 
         private static void test2(IGradientOptimizationMethod inner)
         {
+            Accord.Math.Random.Generator.Seed = 0;
+
             // maximize 2x + 3y, s.t. 2x² + 2y² <= 50
             //
             // http://www.wolframalpha.com/input/?i=max+2x+%2B+3y%2C+s.t.+2x%C2%B2+%2B+2y%C2%B2+%3C%3D+50
