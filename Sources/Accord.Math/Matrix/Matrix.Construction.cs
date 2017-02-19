@@ -26,6 +26,7 @@ namespace Accord.Math
     using AForge;
     using System.Runtime.CompilerServices;
     using Accord.Math.Random;
+    using System.Collections;
 
     /// <summary>
     ///   Matrix major order. The default is to use C-style Row-Major order.
@@ -194,6 +195,23 @@ namespace Accord.Math
             var result = Zeros<T>(rows, columns);
             Matrix.CopyTo(values, destination: result, transpose: transpose);
             return result;
+        }
+
+        /// <summary>
+        ///   Creates a jagged matrix with all values set to a given value.
+        /// </summary>
+        /// 
+        /// <param name="elementType">The type of the elements to be contained in the matrix.</param>
+        /// <param name="shape">The number of dimensions that the matrix should have.</param>
+        /// 
+        /// <returns>A matrix of the specified size.</returns>
+        /// 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Array Create(Type elementType, params int[] shape)
+        {
+            return Array.CreateInstance(elementType, shape);
         }
 
         /// <summary>
@@ -1067,20 +1085,20 @@ namespace Accord.Math
         ///   Gets the total length over all dimensions of an array.
         /// </summary>
         /// 
-        public static int Length(this Array array, bool deep = true, bool rectangular = true)
+        public static int GetTotalLength(this Array array, bool deep = true, bool rectangular = true)
         {
             if (deep && IsJagged(array))
             {
                 if (rectangular)
                 {
-                    int rest = Length(array.GetValue(0) as Array, deep);
+                    int rest = GetTotalLength(array.GetValue(0) as Array, deep);
                     return array.Length * rest;
                 }
                 else
                 {
                     int sum = 0;
                     for (int i = 0; i < array.Length; i++)
-                        sum += Length(array.GetValue(i) as Array, deep);
+                        sum += GetTotalLength(array.GetValue(i) as Array, deep);
                     return sum;
                 }
             }
@@ -1095,8 +1113,10 @@ namespace Accord.Math
         /// <param name="array">The array.</param>
         /// <param name="deep">Pass true to retrieve all dimensions of the array,
         ///   even if it contains nested arrays (as in jagged matrices)</param>
+        /// <param name="max">Gets the maximum length possible for each dimension (in case
+        ///   the jagged matrices has different lengths).</param>
         /// 
-        public static int[] GetLength(this Array array, bool deep = true)
+        public static int[] GetLength(this Array array, bool deep = true, bool max = false)
         {
             if (array.Rank == 0)
                 return new int[0];
@@ -1105,7 +1125,28 @@ namespace Accord.Math
             {
                 if (array.Length == 0)
                     return new int[0];
-                int[] rest = GetLength(array.GetValue(0) as Array, deep);
+
+                int[] rest;
+                if (!max)
+                {
+                    rest = GetLength(array.GetValue(0) as Array, deep);
+                }
+                else
+                {
+                    // find the max
+                    rest = GetLength(array.GetValue(0) as Array, deep);
+                    for (int i = 1; i < array.Length; i++)
+                    {
+                        int[] r = GetLength(array.GetValue(i) as Array, deep);
+
+                        for (int j = 0; j < r.Length; j++)
+                        {
+                            if (r[j] > rest[j])
+                                rest[j] = r[j];
+                        }
+                    }
+                }
+
                 return array.Length.Concatenate(rest);
             }
 
@@ -1116,16 +1157,44 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Gets the length of each dimension of an array.
+        ///   Trims the specified array, removing zero and empty entries from arrays.
         /// </summary>
         /// 
-        /// <param name="array">The array.</param>
-        /// <param name="deep">Pass true to retrieve all dimensions of the array,
-        ///   even if it contains nested arrays (as in jagged matrices)</param>
+        /// <param name="array">The array to be trimmed.</param>
         /// 
-        public static int GetTotalLength(this Array array, bool deep = true)
+        public static Array Trim(this Array array)
         {
-            return GetLength(array, deep).Product();
+            if (array.IsMatrix())
+                throw new Exception();
+
+            ArrayList list = new ArrayList();
+            for (int i = 0; i < array.Length; i++)
+            {
+                var element = array.GetValue(i);
+                if (element != null)
+                {
+                    Array a = element as Array;
+                    if (a != null)
+                    {
+                        a = Trim(a);
+                        if (a != element)
+                        {
+                            array.SetValue(a, i);
+                            element = a;
+                        }
+                    }
+                    list.Add(element);
+                }
+            }
+
+            if (list.Count == array.Length)
+                return array;
+
+            Array newArray = Array.CreateInstance(array.GetType().GetElementType(), list.Count);
+            for (int i = 0; i < list.Count; i++)
+                newArray.SetValue(list[i], i);
+
+            return newArray;
         }
 
         /// <summary>

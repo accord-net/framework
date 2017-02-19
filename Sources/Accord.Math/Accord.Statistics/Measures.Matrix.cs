@@ -34,7 +34,7 @@ namespace Accord.Statistics
         /// 
         public static double Mean(this double[][] matrix)
         {
-            return matrix.Sum() / matrix.Length();
+            return matrix.Sum() / matrix.GetTotalLength();
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Accord.Statistics
         /// 
         public static double Mean(this double[,] matrix)
         {
-            return matrix.Sum() / matrix.Length();
+            return matrix.Sum() / matrix.GetTotalLength();
         }
 
         /// <summary>

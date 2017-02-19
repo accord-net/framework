@@ -31,7 +31,7 @@ namespace Accord.Math
 
     public static partial class Matrix
     {
-
+       
         /// <summary>
         ///   Converts a jagged-array into a multidimensional array.
         /// </summary>
@@ -338,12 +338,62 @@ namespace Accord.Math
             if (deep && array.IsJagged())
             {
                 Array current = array.GetValue(indices[0]) as Array;
+                if (indices.Length == 1)
+                    return current;
                 int[] last = indices.Get(1, 0);
                 return GetValue(current, true, last);
             }
             else
             {
                 return array.GetValue(indices);
+            }
+        }
+
+        /// <summary>
+        ///  Gets the value at the specified position in the multidimensional System.Array.
+        ///  The indexes are specified as an array of 32-bit integers.
+        /// </summary>
+        /// 
+        /// <param name="array">A jagged or multidimensional array.</param>
+        /// <param name="deep">If set to true, internal arrays in jagged arrays will be followed.</param>
+        /// <param name="indices">A one-dimensional array of 32-bit integers that represent the
+        ///   indexes specifying the position of the System.Array element to get.</param>
+        /// <param name="value">The value retrieved from the array.</param>
+        ///   
+        public static bool TryGetValue(this Array array, bool deep, int[] indices, out object value)
+        {
+            value = null;
+
+            if (array.IsVector())
+            {
+                if (indices.Length > array.Rank)
+                    return false;
+
+                for (int i = 0; i < indices.Length; i++)
+                {
+                    if (indices[i] > array.GetUpperBound(i))
+                        return false;
+                }
+
+                value = array.GetValue(indices);
+                return true;
+            }
+
+            if (deep && array.IsJagged())
+            {
+                Array current = array.GetValue(indices[0]) as Array;
+                if (indices.Length == 1)
+                {
+                    value = current;
+                    return true;
+                }
+                int[] last = indices.Get(1, 0);
+                return TryGetValue(current, true, last, out value);
+            }
+            else
+            {
+                value = array.GetValue(indices);
+                return true;
             }
         }
 
@@ -402,7 +452,9 @@ namespace Accord.Math
         /// 
         /// <param name="array">The array whose indices will be returned.</param>
         /// <param name="deep">Pass true to retrieve all dimensions of the array,
-        ///   even if it contains nested arrays (as in jagged matrices)</param>
+        ///   even if it contains nested arrays (as in jagged matrices).</param>
+        /// <param name="max">Bases computations on the maximum length possible for 
+        ///   each dimension (in case the jagged matrices has different lengths).</param>
         /// 
         /// <returns>
         ///   An enumerable object that can be used to iterate over all
@@ -427,11 +479,10 @@ namespace Accord.Math
         /// 
         /// <seealso cref="Accord.Math.Vector.GetIndices{T}(T[])"/>
         /// 
-        public static IEnumerable<int[]> GetIndices(this Array array, bool deep = false)
+        public static IEnumerable<int[]> GetIndices(this Array array, bool deep = false, bool max = false)
         {
-            return Combinatorics.Sequences(array.GetLength(deep));
+            return Combinatorics.Sequences(array.GetLength(deep, max));
         }
-
 
 
         #region DataTable Conversions

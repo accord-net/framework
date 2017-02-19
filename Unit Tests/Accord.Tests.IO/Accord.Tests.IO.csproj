@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Tests.IO</RootNamespace>
     <AssemblyName>Accord.Tests.IO</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" /> 
+  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -26,7 +26,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'mono|AnyCPU' ">
     <DefineConstants>TRACE;MONO</DefineConstants>
-	<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
@@ -54,12 +54,15 @@
     <Compile Include="CsvReaderTest.cs" />
     <Compile Include="IdxReaderTest.cs" />
     <Compile Include="ExcelReaderTest.cs" />
+    <Compile Include="NumPyWriterTest.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SparseWriterTest.cs" />
     <Compile Include="SparseReaderTest.cs" />
+    <Compile Include="NumPyReaderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +150,11 @@
     <None Include="app.config" />
     <None Include="Resources\liblinear\a9a.test" />
     <None Include="Resources\liblinear\a9a.train" />
+    <None Include="Resources\numpy\npy_bool.npy" />
+    <None Include="Resources\numpy\npy_byte.npy" />
+    <None Include="Resources\numpy\npy_integer.npy" />
+    <None Include="Resources\numpy\npy_strings.npy" />
+    <None Include="Resources\numpy\npy_strings_var.npy" />
     <None Include="Resources\sample.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

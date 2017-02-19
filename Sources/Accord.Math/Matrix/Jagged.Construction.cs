@@ -25,6 +25,7 @@ namespace Accord.Math
     using Accord.Math.Comparers;
     using Accord.Math.Random;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.CompilerServices;
@@ -138,6 +139,50 @@ namespace Accord.Math
             }
 
             return matrix;
+        }
+
+        /// <summary>
+        ///   Creates a jagged matrix with all values set to a given value.
+        /// </summary>
+        /// 
+        /// <param name="elementType">The type of the elements to be contained in the matrix.</param>
+        /// <param name="shape">The number of dimensions that the matrix should have.</param>
+        /// 
+        /// <returns>A matrix of the specified size.</returns>
+        /// 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Array Create(Type elementType, params int[] shape)
+        {
+            int s = shape[0];
+
+            if (shape.Length == 1)
+            {
+                return Array.CreateInstance(elementType, s);
+            }
+            else
+            {
+                int[] rest = shape.Get(1, 0);
+
+                if (s == 0)
+                {
+                    Array dummy = Array.CreateInstance(elementType, rest);
+                    Array container = Array.CreateInstance(dummy.GetType(), 0);
+                    return container;
+                }
+                else
+                {
+                    Array first = Jagged.Create(elementType, rest);
+                    Array container = Array.CreateInstance(first.GetType(), s);
+
+                    container.SetValue(first, 0);
+                    for (int i = 1; i < container.Length; i++)
+                        container.SetValue(Create(elementType, rest), i);
+
+                    return container;
+                }
+            }
         }
 
         /// <summary>
@@ -937,6 +982,270 @@ namespace Accord.Math
         }
 
         #endregion
+
+
+
+
+        /// <summary>
+        ///   Enumerates through all elements in a matrix.
+        /// </summary>
+        /// 
+        /// <param name="array">The array to be iterated.</param>
+        /// <param name="shape">The full shape of <paramref name="array"/> .</param>
+        /// 
+        public static IEnumerable Enumerate(this Array array, int[] shape)
+        {
+            if (array.IsMatrix())
+            {
+                if (array.Rank != shape.Length)
+                    throw new NotSupportedException();
+
+                foreach (var e in array)
+                    yield return e;
+                yield break;
+            }
+
+            var arrays = new Stack<Array>();
+            var counters = new Stack<int>();
+
+            arrays.Push(array);
+            counters.Push(0);
+            int depth = 1;
+
+            Array a = array;
+            int i = 0;
+
+            while (arrays.Count > 0)
+            {
+                if (i >= shape[depth - 1])
+                {
+                    a = arrays.Pop();
+                    i = counters.Pop() + 1;
+                    depth--;
+                }
+                else
+                {
+                    if (a == null || i >= a.Length)
+                    {
+                        if (depth == shape.Length)
+                        {
+                            yield return null;
+                            i++;
+                        }
+                        else
+                        {
+                            arrays.Push(a);
+                            counters.Push(i);
+                            a = null;
+                            i = 0;
+                            depth++;
+                        }
+                    }
+                    else
+                    {
+                        if (depth == shape.Length)
+                        {
+                            yield return a.GetValue(i);
+                            i++;
+                        }
+                        else
+                        {
+                            arrays.Push(a);
+                            counters.Push(i);
+                            a = (Array)a.GetValue(i);
+                            i = 0;
+                            depth++;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Enumerates through all elements in a matrix.
+        /// </summary>
+        /// 
+        /// <param name="array">The array to be iterated.</param>
+        /// <param name="shape">The full shape of <paramref name="array"/> .</param>
+        /// 
+        public static IEnumerable<T> Enumerate<T>(this Array array, int[] shape)
+        {
+            if (array.IsMatrix())
+            {
+                if (array.Rank != shape.Length)
+                    throw new NotSupportedException();
+
+                foreach (var e in array)
+                    yield return (T)e;
+                yield break;
+            }
+
+            var arrays = new Stack<Array>();
+            var counters = new Stack<int>();
+
+            arrays.Push(array);
+            counters.Push(0);
+            int depth = 1;
+
+            Array a = array;
+            int i = 0;
+
+            while (arrays.Count > 0)
+            {
+                if (i >= shape[depth - 1])
+                {
+                    a = arrays.Pop();
+                    i = counters.Pop() + 1;
+                    depth--;
+                }
+                else
+                {
+                    if (a == null || i >= a.Length)
+                    {
+                        if (depth == shape.Length)
+                        {
+                            int n = shape[shape.Length - 1];
+                            for (; i < n; i++)
+                                yield return default(T);
+                        }
+                        else
+                        {
+                            arrays.Push(a);
+                            counters.Push(i);
+                            a = null;
+                            i = 0;
+                            depth++;
+                        }
+                    }
+                    else
+                    {
+                        if (depth == shape.Length)
+                        {
+                            T[] t = (T[])a;
+                            for (; i < t.Length; i++)
+                                yield return t[i];
+                        }
+                        else
+                        {
+                            arrays.Push(a);
+                            counters.Push(i);
+                            a = (Array)a.GetValue(i);
+                            i = 0;
+                            depth++;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Enumerates through all elements in a matrix.
+        /// </summary>
+        /// 
+        /// <param name="array">The array to be iterated.</param>
+        /// 
+        public static IEnumerable<T> Enumerate<T>(this Array array)
+        {
+            if (array.IsMatrix())
+            {
+                foreach (var e in array)
+                    yield return (T)e;
+                yield break;
+            }
+
+            var arrays = new Stack<Array>();
+            var counters = new Stack<int>();
+
+            arrays.Push(array);
+            counters.Push(0);
+            int depth = 1;
+
+            Array a = array;
+            int i = 0;
+
+            while (arrays.Count > 0)
+            {
+                if (i >= a.Length)
+                {
+                    a = arrays.Pop();
+                    i = counters.Pop() + 1;
+                    depth--;
+                }
+                else
+                {
+                    Object e = a.GetValue(i);
+                    T[] next = e as T[];
+                    if (next != null)
+                    {
+                        foreach (T t in next)
+                            yield return t;
+                        i++;
+                    }
+                    else
+                    {
+                        arrays.Push(a);
+                        counters.Push(i);
+                        a = (Array)e;
+                        i = 0;
+                        depth++;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Enumerates through all elements in a matrix.
+        /// </summary>
+        /// 
+        /// <param name="array">The array to be iterated.</param>
+        /// 
+        public static IEnumerable Enumerate(this Array array)
+        {
+            if (array.IsMatrix())
+            {
+                foreach (var e in array)
+                    yield return e;
+                yield break;
+            }
+
+            var arrays = new Stack<Array>();
+            var counters = new Stack<int>();
+
+            arrays.Push(array);
+            counters.Push(0);
+            int depth = 1;
+
+            Array a = array;
+            int i = 0;
+
+            while (arrays.Count > 0)
+            {
+                if (i >= a.Length)
+                {
+                    a = arrays.Pop();
+                    i = counters.Pop() + 1;
+                    depth--;
+                }
+                else
+                {
+                    Object e = a.GetValue(i);
+                    Array next = e as Array;
+                    if (next == null)
+                    {
+                        yield return e;
+                        i++;
+                    }
+                    else
+                    {
+                        arrays.Push(a);
+                        counters.Push(i);
+                        a = next;
+                        i = 0;
+                        depth++;
+                    }
+                }
+            }
+        }
 
     }
 }

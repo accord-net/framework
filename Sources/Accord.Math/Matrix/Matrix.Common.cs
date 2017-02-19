@@ -77,6 +77,32 @@ namespace Accord.Math
 
     public static partial class Matrix
     {
+        /// <summary>
+        /// Determines whether the specified type is a jagged array.
+        /// </summary>
+        /// 
+        public static bool IsJagged(this Type type)
+        {
+            return type.IsArray && type.GetElementType().IsArray;
+        }
+
+        /// <summary>
+        /// Gets the type of the element in a jagged or multi-dimensional matrix.
+        /// </summary>
+        /// 
+        /// <param name="array">The array whose element type should be computed.</param>
+        /// 
+        public static Type GetInnerMostType(this Array array)
+        {
+            Type type = array.GetType();
+
+            while (type.IsArray)
+                type = type.GetElementType();
+
+            return type;
+        }
+
+
 
         #region Comparison
 
@@ -154,8 +180,8 @@ namespace Accord.Math
                 {
                     var elemA = objA[i][j];
                     var elemB = objB[i][j];
-
-                    if (!elemA.Equals(elemB))
+                    
+                    if (!Object.Equals(elemA, elemB))
                         return false;
                 }
             }
