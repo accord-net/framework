@@ -66,6 +66,7 @@
     <Compile Include="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Train.cs">
       <Link>VectorMachines\Liblinear\Train.cs</Link>
     </Compile>
+    <Compile Include="TFIDFTest.cs" />
     <Compile Include="BagOfWordsTest.cs" />
     <Compile Include="Boosting\AdaBoostTest.cs" />
     <Compile Include="AprioriTest.cs" />
@@ -108,6 +109,8 @@
     <Compile Include="VectorMachines\LinearCoordinateDescentTest.cs" />
     <Compile Include="VectorMachines\Liblinear\LiblinearTest.cs" />
     <Compile Include="VectorMachines\LinearDualCoordinateDescentTest.cs" />
+    <Compile Include="VectorMachines\AveragedStochasticGradientDescentTest.cs" />
+    <Compile Include="VectorMachines\StochasticGradientDescentTest.cs" />
     <Compile Include="VectorMachines\LinearNewtonMethodTest.cs" />
     <Compile Include="VectorMachines\LeastSquaresLearningTest.cs" />
     <Compile Include="VectorMachines\OneclassSupportVectorLearningTest.cs" />
