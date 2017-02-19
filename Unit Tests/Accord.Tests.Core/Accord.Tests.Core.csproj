@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Tests.Core</RootNamespace>
     <AssemblyName>Accord.Tests.Core</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" />  
+  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -53,6 +53,8 @@
   <ItemGroup>
     <Compile Include="IntPointTest.cs" />
     <Compile Include="IntRangeTest.cs" />
+    <Compile Include="SerializerTest.cs" />
+    <Compile Include="SparseTest.cs" />
     <Compile Include="PointTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

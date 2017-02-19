@@ -23,8 +23,10 @@
 namespace Accord.IO
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.IO;
+    using System.IO.Compression;
     using System.Linq;
     using System.Reflection;
     using System.Runtime.CompilerServices;
@@ -32,6 +34,25 @@ namespace Accord.IO
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Text;
     using System.Threading.Tasks;
+
+    /// <summary>
+    ///   Compression algorithms supported by the <see cref="Serializer"/>.
+    /// </summary>
+    /// 
+    public enum SerializerCompression
+    {
+        /// <summary>
+        ///   No serialization.
+        /// </summary>
+        /// 
+        None = 0,
+
+        /// <summary>
+        ///   Use GZip serialization.
+        /// </summary>
+        /// 
+        GZip,
+    }
 
     /// <summary>
     ///   Model serializer. Can be used to serialize and deserialize
@@ -48,7 +69,17 @@ namespace Accord.IO
     /// 
     public static class Serializer
     {
+        const SerializerCompression DEFAULT_COMPRESSION = SerializerCompression.None;
+
         private static readonly Object lockObj = new Object();
+
+        private static SerializerCompression ParseCompression(string path)
+        {
+            string ext = Path.GetExtension(path);
+            if (ext == ".gz")
+                return SerializerCompression.GZip;
+            return SerializerCompression.None;
+        }
 
         /// <summary>
         ///   Saves an object to a stream.
@@ -56,10 +87,23 @@ namespace Accord.IO
         /// 
         /// <param name="obj">The object to be serialized.</param>
         /// <param name="stream">The stream to which the object is to be serialized.</param>
+        /// <param name="compression">The type of compression to use. Default is None.</param>
         /// 
-        public static void Save<T>(this T obj, Stream stream)
+        public static void Save<T>(this T obj, Stream stream, SerializerCompression compression = DEFAULT_COMPRESSION)
         {
-            new BinaryFormatter().Serialize(stream, obj);
+            if (compression == SerializerCompression.GZip)
+            {
+                using (var gzip = new GZipStream(stream, CompressionLevel.Optimal))
+                    new BinaryFormatter().Serialize(gzip, obj);
+            }
+            else if (compression == SerializerCompression.None)
+            {
+                new BinaryFormatter().Serialize(stream, obj);
+            }
+            else
+            {
+                throw new ArgumentException("compression");
+            }
         }
 
         /// <summary>
@@ -71,13 +115,28 @@ namespace Accord.IO
         /// 
         public static void Save<T>(this T obj, string path)
         {
+            Save(obj, path, ParseCompression(path));
+        }
+
+        /// <summary>
+        ///   Saves an object to a stream.
+        /// </summary>
+        /// 
+        /// <param name="obj">The object to be serialized.</param>
+        /// <param name="path">The path to the file to which the object is to be serialized.</param>
+        /// <param name="compression">The type of compression to use. Default is None.</param>
+        /// 
+        public static void Save<T>(this T obj, string path, SerializerCompression compression = DEFAULT_COMPRESSION)
+        {
+            path = Path.GetFullPath(path);
+
             var dir = Path.GetDirectoryName(path);
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
             using (var fs = new FileStream(path, FileMode.Create))
             {
-                Save(obj, fs);
+                Save(obj, fs, compression);
             }
         }
 
@@ -86,11 +145,12 @@ namespace Accord.IO
         /// </summary>
         /// 
         /// <param name="obj">The object to be serialized.</param>
+        /// <param name="compression">The type of compression to use. Default is None.</param>
         /// 
-        public static byte[] Save<T>(this T obj)
+        public static byte[] Save<T>(this T obj, SerializerCompression compression = DEFAULT_COMPRESSION)
         {
             byte[] bytes;
-            Save(obj, out bytes);
+            Save(obj, out bytes, compression);
             return bytes;
         }
 
@@ -100,12 +160,13 @@ namespace Accord.IO
         /// 
         /// <param name="obj">The object to be serialized.</param>
         /// <param name="bytes">The sequence of bytes to which the object has been serialized.</param>
+        /// <param name="compression">The type of compression to use. Default is None.</param>
         /// 
-        public static void Save<T>(this T obj, out byte[] bytes)
+        public static void Save<T>(this T obj, out byte[] bytes, SerializerCompression compression = DEFAULT_COMPRESSION)
         {
             using (var fs = new MemoryStream())
             {
-                Save(obj, fs);
+                Save(obj, fs, compression);
                 fs.Seek(0, SeekOrigin.Begin);
                 bytes = fs.ToArray();
             }
@@ -116,12 +177,13 @@ namespace Accord.IO
         /// </summary>
         /// 
         /// <param name="stream">The stream from which the object is to be deserialized.</param>
+        /// <param name="compression">The type of compression to use. Default is None.</param>
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
-        public static T Load<T>(Stream stream)
+        public static T Load<T>(Stream stream, SerializerCompression compression = DEFAULT_COMPRESSION)
         {
-            return Load<T>(stream, new BinaryFormatter());
+            return Load<T>(stream, new BinaryFormatter(), compression);
         }
 
         /// <summary>
@@ -134,9 +196,29 @@ namespace Accord.IO
         /// 
         public static T Load<T>(string path)
         {
+            return Load<T>(path, ParseCompression(path));
+        }
+
+        /// <summary>
+        ///   Loads an object from a file.
+        /// </summary>
+        /// 
+        /// <param name="path">The path to the file from which the object is to be deserialized.</param>
+        /// <param name="compression">The type of compression to use. Default is None.</param>
+        /// 
+        /// <returns>The deserialized object.</returns>
+        /// 
+        public static T Load<T>(string path, SerializerCompression compression = DEFAULT_COMPRESSION)
+        {
+            path = Path.GetFullPath(path);
+            return load<T>(path, compression);
+        }
+
+        private static T load<T>(string path, SerializerCompression compression)
+        {
             using (var fs = new FileStream(path, FileMode.Open))
             {
-                return Load<T>(fs);
+                return Load<T>(fs, compression);
             }
         }
 
@@ -145,15 +227,81 @@ namespace Accord.IO
         /// </summary>
         /// 
         /// <param name="bytes">The byte stream containing the object to be deserialized.</param>
+        /// <param name="compression">The type of compression to use. Default is None.</param>
         /// 
         /// <returns>The deserialized object.</returns>
         /// 
-        public static T Load<T>(byte[] bytes)
+        public static T Load<T>(byte[] bytes, SerializerCompression compression = DEFAULT_COMPRESSION)
         {
             using (var fs = new MemoryStream(bytes, false))
             {
-                return Load<T>(fs);
+                return Load<T>(fs, compression);
             }
+        }
+
+
+
+        /// <summary>
+        ///   Loads an object from a stream.
+        /// </summary>
+        /// 
+        /// <param name="stream">The stream from which the object is to be deserialized.</param>
+        /// <param name="compression">The type of compression to use. Default is None.</param>
+        /// <param name="value">The object to be read. This parameter can be used to avoid the
+        ///   need of specifying a generic argument to this function.</param>
+        /// 
+        /// <returns>The deserialized machine.</returns>
+        /// 
+        public static T Load<T>(Stream stream, out T value, SerializerCompression compression = DEFAULT_COMPRESSION)
+        {
+            return value = Load<T>(stream, compression);
+        }
+
+        /// <summary>
+        ///   Loads an object from a file.
+        /// </summary>
+        /// 
+        /// <param name="path">The path to the file from which the object is to be deserialized.</param>
+        /// <param name="value">The object to be read. This parameter can be used to avoid the
+        ///   need of specifying a generic argument to this function.</param>
+        /// 
+        /// <returns>The deserialized object.</returns>
+        /// 
+        public static T Load<T>(string path, out T value)
+        {
+            return Load<T>(path, out value, ParseCompression(path));
+        }
+
+        /// <summary>
+        ///   Loads an object from a file.
+        /// </summary>
+        /// 
+        /// <param name="path">The path to the file from which the object is to be deserialized.</param>
+        /// <param name="compression">The type of compression to use. Default is None.</param>
+        /// <param name="value">The object to be read. This parameter can be used to avoid the
+        ///   need of specifying a generic argument to this function.</param>
+        /// 
+        /// <returns>The deserialized object.</returns>
+        /// 
+        public static T Load<T>(string path, out T value, SerializerCompression compression)
+        {
+            return value = Load<T>(path, compression);
+        }
+
+        /// <summary>
+        ///   Loads an object from a stream, represented as an array of bytes.
+        /// </summary>
+        /// 
+        /// <param name="bytes">The byte stream containing the object to be deserialized.</param>
+        /// <param name="value">The object to be read. This parameter can be used to avoid the
+        ///   need of specifying a generic argument to this function.</param>
+        /// <param name="compression">The type of compression to use. Default is None.</param>
+        /// 
+        /// <returns>The deserialized object.</returns>
+        /// 
+        public static T Load<T>(byte[] bytes, out T value, SerializerCompression compression = DEFAULT_COMPRESSION)
+        {
+            return value = Load<T>(bytes, compression);
         }
 
 
@@ -164,10 +312,11 @@ namespace Accord.IO
         /// <typeparam name="T">The type of the model to be loaded.</typeparam>
         /// <param name="formatter">The binary formatter.</param>
         /// <param name="stream">The stream from which to deserialize the object graph.</param>
+        /// <param name="compression">The type of compression to use. Default is None.</param>
         /// 
         /// <returns>The deserialized object.</returns>
         /// 
-        public static T Load<T>(Stream stream, BinaryFormatter formatter)
+        public static T Load<T>(Stream stream, BinaryFormatter formatter, SerializerCompression compression = DEFAULT_COMPRESSION)
         {
             lock (lockObj)
             {
@@ -177,7 +326,21 @@ namespace Accord.IO
                         formatter.Binder = GetBinder(typeof(T));
 
                     AppDomain.CurrentDomain.AssemblyResolve += resolve;
-                    object obj = formatter.Deserialize(stream);
+
+                    object obj;
+                    if (compression == SerializerCompression.GZip)
+                    {
+                        using (var gzip = new GZipStream(stream, CompressionMode.Decompress))
+                            obj = formatter.Deserialize(gzip);
+                    }
+                    else if (compression == SerializerCompression.None)
+                    {
+                        obj = formatter.Deserialize(stream);
+                    }
+                    else
+                    {
+                        throw new ArgumentException("compression");
+                    }
 
                     if (obj is T)
                         return (T)obj;
