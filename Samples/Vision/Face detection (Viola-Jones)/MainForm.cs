@@ -38,6 +38,8 @@ using Accord.Imaging.Filters;
 using Accord.Vision.Detection;
 using Accord.Vision.Detection.Cascades;
 using SampleApp.Properties;
+using System.Net;
+using System.IO;
 
 namespace SampleApp
 {
@@ -94,7 +96,31 @@ namespace SampleApp
                 objects.Length, sw.Elapsed);
         }
 
+        private void loadImageButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                byte[] data = null;
+                using (WebClient client = new WebClient())
+                {
+                    string url = urlTextBox.Text;
+                    data = client.DownloadData(new Uri(url));
+                }
 
-
+                using (MemoryStream mem = new MemoryStream(data))
+                {
+                    using (var image = Image.FromStream(mem))
+                    {
+                        pictureBox1.Image = this.picture = new Bitmap(image);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                toolStripStatusLabel1.Text = "LoadImageError: " + ex.Message;
+                pictureBox1.Image = this.picture = new Bitmap(1, 1);
+            }
+        }
     }
 }
