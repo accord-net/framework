@@ -33,6 +33,8 @@ namespace Accord.DataSets.Base
     /// <summary>
     ///   Base class for sparse datasets that can be downloaded from LIBSVM website.
     /// </summary>
+    /// 
+    [Serializable]
     public abstract class SparseDataSet
     {
         /// <summary>
@@ -41,7 +43,7 @@ namespace Accord.DataSets.Base
         /// 
         /// <value>The path to a directory.</value>
         /// 
-        public string Path { get; private set; }
+        public string Path { get; protected set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="SparseDataSet"/> class.
@@ -59,6 +61,15 @@ namespace Accord.DataSets.Base
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="SparseDataSet" /> class.
+        /// </summary>
+        /// 
+        protected SparseDataSet()
+        {
+
+        }
+
+        /// <summary>
         /// Downloads the dataset from a specified URL, saving it to disk, and returning
         /// it as a set of <see cref="Sparse{T}">sparse vectors</see>>. If the dataset
         /// already exists in the disk, it will not be redownloaded again.
@@ -70,18 +81,37 @@ namespace Accord.DataSets.Base
         /// 
         protected Tuple<Sparse<double>[], double[]> Download(string url)
         {
+            string uncompressedFileName;
+            Download(url, Path, out uncompressedFileName);
+
+            using (var reader = new SparseReader(uncompressedFileName))
+                return reader.ReadSparseToEnd();
+        }
+
+        /// <summary>
+        ///   Downloads a file from the specified <paramref name="url"/>, 
+        ///   storing in <paramref name="path"/>, under name <paramref name="uncompressedFileName"/>.
+        /// </summary>
+        /// 
+        /// <param name="url">The URL where the file should be downloaded from.</param>
+        /// <param name="path">The path where the file will be stored localy.</param>
+        /// <param name="uncompressedFileName">The generated name of the uncompressed file.</param>
+        /// 
+        /// <returns><c>true</c> if the download succeeded, <c>false</c> otherwise.</returns>
+        /// 
+        public static bool Download(string url, string path, out string uncompressedFileName)
+        {
             string name = System.IO.Path.GetFileName(url);
-            string downloadedFileName = System.IO.Path.Combine(Path, name);
+            string downloadedFileName = System.IO.Path.Combine(path, name);
 
             if (!File.Exists(downloadedFileName))
             {
-                Directory.CreateDirectory(Path);
+                Directory.CreateDirectory(path);
 
                 using (var client = new WebClient())
                     client.DownloadFile(url, downloadedFileName);
             }
 
-            string uncompressedFileName;
 
             // If the file is compressed, decompress it to disk
             if (downloadedFileName.EndsWith(".bz2"))
@@ -102,7 +132,7 @@ namespace Accord.DataSets.Base
                 if (!File.Exists(uncompressedFileName))
                 {
                     using (FileStream compressedFile = new FileStream(downloadedFileName, FileMode.Open))
-                    using (GZipOutputStream decompressedFile = new GZipOutputStream(compressedFile))
+                    using (GZipInputStream decompressedFile = new GZipInputStream(compressedFile))
                     using (FileStream uncompressedFile = new FileStream(uncompressedFileName, FileMode.CreateNew))
                     {
                         decompressedFile.CopyTo(uncompressedFile);
@@ -114,8 +144,7 @@ namespace Accord.DataSets.Base
                 uncompressedFileName = downloadedFileName;
             }
 
-            using (var reader = new SparseReader(uncompressedFileName))
-                return reader.ReadSparseToEnd();
+            return true;
         }
     }
 }

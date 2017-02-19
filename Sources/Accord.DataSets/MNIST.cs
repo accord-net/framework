@@ -27,7 +27,7 @@ namespace Accord.DataSets
     using System;
 
     /// <summary>
-    ///   MNIST Datset of handwritten digits.
+    ///   MNIST Dataset of handwritten digits.
     /// </summary>
     /// 
     /// <remarks>
