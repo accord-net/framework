@@ -24,8 +24,10 @@ namespace Accord.Statistics.Models.Regression.Linear
 {
     using Fitting;
     using MachineLearning;
+    using Math.Optimization.Losses;
     using System;
     using System.Text;
+    using Accord.Math;
 
     /// <summary>
     ///   Polynomial Linear Regression.
@@ -38,6 +40,8 @@ namespace Accord.Statistics.Models.Regression.Linear
     ///   has a closed form solution, the regression coefficients can be
     ///   efficiently computed using the Regress method of this class.
     /// </remarks>
+    /// 
+    /// <seealso cref="PolynomialLeastSquares"/>
     /// 
     [Serializable]
 #pragma warning disable 612, 618
@@ -56,10 +60,9 @@ namespace Accord.Statistics.Models.Regression.Linear
         public PolynomialRegression(int degree)
             : this()
         {
-            // degree plus the independent constant
             regression = new MultipleLinearRegression()
             {
-                NumberOfInputs = degree + 1
+                NumberOfInputs = degree
             };
         }
 
@@ -88,7 +91,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         public int Degree
         {
-            get { return regression.Weights.Length - 1; }
+            get { return regression.Weights.Length; }
         }
 
         /// <summary>
@@ -101,7 +104,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         public double[] Coefficients
         {
 #pragma warning disable 612, 618
-            get { return regression.Coefficients; }
+            get { return regression.Weights.Concatenate(Intercept); }
 #pragma warning restore 612, 618
         }
 
@@ -147,19 +150,14 @@ namespace Accord.Statistics.Models.Regression.Linear
             if (inputs.Length != outputs.Length)
                 throw new ArgumentException("Number of input and output samples does not match", "outputs");
 
-            int N = inputs.Length;
-            int order = this.Degree + 1;
-
-            // Create polynomials to regress over
-            double[][] X = new double[N][];
-            for (int i = 0; i < inputs.Length; i++)
+            var fit = new PolynomialLeastSquares()
             {
-                X[i] = new double[order];
-                for (int j = 0; j < order; j++)
-                    X[i][j] = Math.Pow(inputs[i], order - j - 1);
-            }
+                Degree = Degree,
+            }.Learn(inputs, outputs);
+            regression.Weights.SetTo(fit.Weights);
+            regression.Intercept = fit.Intercept;
 
-            return regression.Regress(X, outputs);
+            return new SquareLoss(outputs).Loss(Transform(inputs));
         }
 
         /// <summary>
@@ -172,12 +170,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         [Obsolete("Please use Transform instead.")]
         public double[] Compute(double[] input)
         {
-            double[] output = new double[input.Length];
-
-            for (int i = 0; i < input.Length; i++)
-                output[i] = Compute(input[i]);
-
-            return output;
+            return Transform(input);
         }
 
         /// <summary>
@@ -190,13 +183,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         [Obsolete("Please use Transform instead.")]
         public double Compute(double input)
         {
-            // Creates the polynomial
-            int order = this.Degree + 1;
-            double[] polynomial = new double[order];
-            for (int j = 0; j < order; j++)
-                polynomial[j] = Math.Pow(input, order - j - 1);
-
-            return regression.Transform(polynomial);
+            return Transform(input);
         }
 
 
@@ -295,7 +282,7 @@ namespace Accord.Statistics.Models.Regression.Linear
             sb.Append("y(x) = ");
             for (int i = 0; i < regression.Weights.Length; i++)
             {
-                int degree = regression.Weights.Length - i - 1;
+                int degree = regression.Weights.Length - i;
                 double coeff = regression.Weights[i];
 
                 string coefStr = format == null ?
@@ -307,6 +294,12 @@ namespace Accord.Statistics.Models.Regression.Linear
                 if (i < regression.Weights.Length - 1)
                     sb.Append(" + ");
             }
+
+            string interceptStr = format == null ?
+                    Intercept.ToString(formatProvider) :
+                    Intercept.ToString(format, formatProvider);
+
+            sb.AppendFormat(formatProvider, " + {0}", interceptStr);
 
             return sb.ToString();
         }
@@ -352,6 +345,27 @@ namespace Accord.Statistics.Models.Regression.Linear
             for (int j = 0; j < polynomial.Length; j++)
                 polynomial[j] = Math.Pow(input, this.Degree - j);
             return regression.Transform(polynomial);
+        }
+
+
+        /// <summary>
+        /// Applies the transformation to an input, producing an associated output.
+        /// </summary>
+        /// <param name="input">The input data to which the transformation should be applied.</param>
+        /// <param name="result">The location to where to store the result of this transformation.</param>
+        /// <returns>The output generated by applying this transformation to the given input.</returns>
+        public override double[] Transform(double[] input, double[] result)
+        {
+            var polynomial = new double[this.Degree];
+            for (int i = 0; i < input.Length; i++)
+            {
+                for (int j = 0; j < polynomial.Length; j++)
+                    polynomial[j] = Math.Pow(input[i], this.Degree - j);
+
+                result[i] = regression.Transform(polynomial);
+            }
+
+            return result;
         }
     }
 }

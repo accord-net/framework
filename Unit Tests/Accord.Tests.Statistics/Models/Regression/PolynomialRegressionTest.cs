@@ -24,27 +24,35 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Models.Regression.Linear;
     using NUnit.Framework;
+    using System;
 
     [TestFixture]
     public class PolynomialRegressionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
+        [Test]
+        public void learn_test()
         {
-            get
+            double[] inputs = { 15.2, 229.7, 3500 };
+            double[] outputs = { 0.51, 105.66, 1800 };
+
+            var ls = new PolynomialLeastSquares()
             {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+                Degree = 2
+            };
+
+            PolynomialRegression target = ls.Learn(inputs, outputs);
+
+            double[] expected = { 8.003175717e-6, 4.882498125e-1, -6.913246203 };
+            double[] actual;
+
+            actual = target.Weights;
+
+            Assert.AreEqual(2, actual.Length);
+            Assert.AreEqual(expected[0], actual[0], 1e-3);
+            Assert.AreEqual(expected[1], actual[1], 1e-3);
+            Assert.AreEqual(expected[2], target.Intercept, 1e-3);
         }
-
-
 
         [Test]
         public void PolynomialRegressionRegressTest()
@@ -61,9 +69,9 @@ namespace Accord.Tests.Statistics
             target.Regress(inputs, outputs);
             actual = target.Coefficients;
 
-            Assert.AreEqual(expected[0], actual[0], 000.1);
-            Assert.AreEqual(expected[1], actual[1], 000.1);
-            Assert.AreEqual(expected[2], actual[2], 000.1);
+            Assert.AreEqual(expected[0], actual[0], 1e-3);
+            Assert.AreEqual(expected[1], actual[1], 1e-3);
+            Assert.AreEqual(expected[2], actual[2], 1e-3);
         }
 
         [Test]
@@ -77,26 +85,75 @@ namespace Accord.Tests.Statistics
             poly.Regress(x, y);
 
             {
-                string expected = "y(x) = 3x^2 + 1.99999999999999x^1 + 1.00000000000006x^0";
+                string expected = "y(x) = 3x^2 + 1.99999999999998x^1 + 1.00000000000005";
                 expected = expected.Replace(".", System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
                 string actual = poly.ToString();
                 Assert.AreEqual(expected, actual);
             }
 
             {
-                string expected = "y(x) = 3x^2 + 1.99999999999999x^1 + 1.00000000000006x^0";
+                string expected = "y(x) = 3x^2 + 1.99999999999998x^1 + 1.00000000000005";
                 string actual = poly.ToString(null, System.Globalization.CultureInfo.GetCultureInfo("en-US"));
                 Assert.AreEqual(expected, actual);
             }
 
             {
-                string expected = "y(x) = 3.0x^2 + 2.0x^1 + 1.0x^0";
+                string expected = "y(x) = 3.0x^2 + 2.0x^1 + 1.0";
                 string actual = poly.ToString("N1", System.Globalization.CultureInfo.GetCultureInfo("en-US"));
                 Assert.AreEqual(expected, actual);
             }
 
             {
-                string expected = "y(x) = 3,00x^2 + 2,00x^1 + 1,00x^0";
+                string expected = "y(x) = 3,00x^2 + 2,00x^1 + 1,00";
+                string actual = poly.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void learn_ToStringTest_degree_is_0()
+        {
+            var pls = new PolynomialLeastSquares()
+            {
+                Degree = 0
+            };
+        }
+
+        [Test]
+        public void learn_ToStringTest()
+        {
+            var x = new double[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var y = new double[] { 1, 6, 17, 34, 57, 86, 121, 162, 209, 262, 321 };
+
+            var pls = new PolynomialLeastSquares()
+            {
+                Degree = 2
+            };
+
+            PolynomialRegression poly = pls.Learn(x, y);
+
+            {
+                string expected = "y(x) = 3x^2 + 1.99999999999998x^1 + 1.00000000000005";
+                expected = expected.Replace(".", System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+                string actual = poly.ToString();
+                Assert.AreEqual(expected, actual);
+            }
+
+            {
+                string expected = "y(x) = 3x^2 + 1.99999999999998x^1 + 1.00000000000005";
+                string actual = poly.ToString(null, System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                Assert.AreEqual(expected, actual);
+            }
+
+            {
+                string expected = "y(x) = 3.0x^2 + 2.0x^1 + 1.0";
+                string actual = poly.ToString("N1", System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                Assert.AreEqual(expected, actual);
+            }
+
+            {
+                string expected = "y(x) = 3,00x^2 + 2,00x^1 + 1,00";
                 string actual = poly.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
                 Assert.AreEqual(expected, actual);
             }

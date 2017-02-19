@@ -43,9 +43,14 @@ namespace Accord.Statistics.Models.Regression.Linear
     ///   efficiently computed using the Regress method of this class.
     /// </remarks>
     /// 
+    /// <seealso cref="PolynomialRegression"/>
+    /// 
+    [Serializable]
     public class PolynomialLeastSquares :
         ISupervisedLearning<PolynomialRegression, double, double>
     {
+        int degree = 1;
+
         [NonSerialized]
         CancellationToken token = new CancellationToken();
 
@@ -64,7 +69,16 @@ namespace Accord.Statistics.Models.Regression.Linear
         ///   in the polynomial regression.
         /// </summary>
         /// 
-        public int Degree { get; set; }
+        public int Degree
+        {
+            get { return degree; }
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentOutOfRangeException("value", "Degree should be higher than zero.");
+                degree = value;
+            }
+        }
 
         /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.
@@ -78,12 +92,15 @@ namespace Accord.Statistics.Models.Regression.Linear
         public PolynomialRegression Learn(double[] x, double[] y, double[] weights = null)
         {
             double[][] z = Jagged.Zeros(x.Length, Degree);
-
             for (int i = 0; i < x.Length; i++)
                 for (int j = 0; j < z[i].Length; j++)
-                    z[i][j] = Math.Pow(x[i], Degree - j - 1);
+                    z[i][j] = Math.Pow(x[i], Degree - j);
 
-            var lls = new OrdinaryLeastSquares();
+            var lls = new OrdinaryLeastSquares()
+            {
+                UseIntercept = true
+            };
+
             var linear = lls.Learn(z, y, weights);
 
             return new PolynomialRegression(linear);
