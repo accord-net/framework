@@ -441,7 +441,7 @@ namespace Accord.Tests.Imaging
         [Test, Ignore]
         public void custom_feature_test_haralick()
         {
-            #region doc_feature
+            #region doc_feature_haralick
             Accord.Math.Random.Generator.Seed = 0;
 
             // The Bag-of-Visual-Words model converts images of arbitrary 
@@ -488,7 +488,7 @@ namespace Accord.Tests.Imaging
                 for (int j = 0; j < features[i].Length; j++)
                     Assert.IsTrue(expected[i].Contains(features[i][j]));
 
-            #region doc_classification_feature
+            #region doc_classification_feature_haralick
 
             // Now, the features can be used to train any classification
             // algorithm as if they were the images themselves. For example,
@@ -515,6 +515,85 @@ namespace Accord.Tests.Imaging
 
             Assert.AreEqual(error, 0);
         }
+
+        [Test]
+        public void custom_feature_test_lbp()
+        {
+            #region doc_feature_lbp
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // The Bag-of-Visual-Words model converts images of arbitrary 
+            // size into fixed-length feature vectors. In this example, we
+            // will be setting the codebook size to 3. This means all feature
+            // vectors that will be generated will have the same length of 10.
+
+            // By default, the BoW object will use the sparse SURF as the 
+            // feature extractor and K-means as the clustering algorithm.
+            // In this example, we will use the Local Binary Pattern (LBP) 
+            // feature extractor and the Binary-Split clustering algorithm.
+
+            // Create a new Bag-of-Visual-Words (BoW) model using LBP features
+            var bow = BagOfVisualWords.Create(new LocalBinaryPattern(), new BinarySplit(3));
+
+            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // Get some training images
+            Bitmap[] images = GetImages();
+
+            // Compute the model
+            bow.Learn(images);
+
+            // After this point, we will be able to translate
+            // images into double[] feature vectors using
+            double[][] features = bow.Transform(images);
+            #endregion
+
+            Assert.AreEqual(features.GetLength(), new[] { 6, 3 });
+
+            string str = features.ToCSharp();
+
+            double[][] expected = new double[][]
+            {
+                new double[] { 1686, 359, 307 },
+                new double[] { 1689, 356, 307 },
+                new double[] { 1686, 372, 294 },
+                new double[] { 1676, 372, 304 },
+                new double[] { 1700, 356, 296 },
+                new double[] { 1670, 378, 304 }
+            };
+
+            for (int i = 0; i < features.Length; i++)
+                for (int j = 0; j < features[i].Length; j++)
+                    Assert.IsTrue(expected[i].Contains(features[i][j]));
+
+            #region doc_classification_feature_lbp
+
+            // Now, the features can be used to train any classification
+            // algorithm as if they were the images themselves. For example,
+            // let's assume the first three images belong to a class and
+            // the second three to another class. We can train an SVM using
+
+            int[] labels = { -1, -1, +1, +1, +1, +1 };
+
+            // Create the SMO algorithm to learn a Linear kernel SVM
+            var teacher = new SequentialMinimalOptimization<Linear>()
+            {
+                Complexity = 10 // make a hard margin SVM
+            };
+
+            // Obtain a learned machine
+            var svm = teacher.Learn(features, labels);
+
+            // Use the machine to classify the features
+            bool[] output = svm.Decide(features);
+
+            // Compute the error between the expected and predicted labels
+            double error = new ZeroOneLoss(labels).Loss(output); // should be 0
+            #endregion
+
+            Assert.AreEqual(error, 0);
+        }
+
 
         [Test]
         public void custom_data_type_test()
