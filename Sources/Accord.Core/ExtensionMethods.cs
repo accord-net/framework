@@ -219,10 +219,21 @@ namespace Accord
         public static T[,] ReadMatrix<T>(this BinaryReader stream, int rows, int columns)
             where T : struct
         {
-            var type = typeof(T);
+            return (T[,])ReadMatrix(stream, typeof(T), rows, columns);
+        }
+
+        /// <summary>
+        ///   Reads a <c>struct</c> from a stream.
+        /// </summary>
+        /// 
+        public static Array ReadMatrix(this BinaryReader stream, Type type, params int[] lengths)
+        {
             int size = Marshal.SizeOf(type);
-            var buffer = new byte[size * rows * columns];
-            var matrix = new T[rows, columns];
+            int total = 1;
+            for (int i = 0; i < lengths.Length; i++)
+                total *= lengths[i];
+            var buffer = new byte[size * total];
+            var matrix = Array.CreateInstance(type, lengths);
 
             stream.Read(buffer, 0, buffer.Length);
             Buffer.BlockCopy(buffer, 0, matrix, 0, buffer.Length);
