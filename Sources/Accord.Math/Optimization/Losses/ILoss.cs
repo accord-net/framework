@@ -49,10 +49,10 @@ namespace Accord.Math.Optimization.Losses
     /// </para>   
     /// </remarks>
     /// 
-    /// <typeparam name="TInput">The type for the expected data.</typeparam>
-    /// <typeparam name="TOutput">The type for the loss value. Default is double.</typeparam>
+    /// <typeparam name="TScore">The type for the predicted score values.</typeparam>
+    /// <typeparam name="TLoss">The type for the loss value. Default is double.</typeparam>
     /// 
-    public interface ILoss<TInput, TOutput>
+    public interface ILoss<TScore, TLoss>
     {
         /// <summary>
         ///   Computes the loss between the expected values (ground truth) 
@@ -64,10 +64,44 @@ namespace Accord.Math.Optimization.Losses
         /// <returns>The loss value between the expected values and
         ///   the actual predicted values.</returns>
         /// 
-        TOutput Loss(TInput actual);
-
+        TLoss Loss(TScore actual);
     }
 
+    /// <summary>
+    ///   Common interface for differentiable loss functions, such as <see cref="SquareLoss"/>, 
+    ///   <see cref="HingeLoss"/>, <see cref="CategoryCrossEntropyLoss"/> and
+    ///   <see cref="BinaryCrossEntropyLoss"/>.
+    /// </summary>
+    /// 
+    public interface IDifferentiableLoss<TInput, TScore, TLoss>
+    {
+
+        /// <summary>
+        ///   Computes the derivative of the loss between the expected values (ground truth) 
+        ///   and the given actual values that have been predicted.
+        /// </summary>
+        /// 
+        /// <param name="actual">The actual values that have been predicted.</param>
+        /// <param name="expected">The expected values that should have been predicted.</param>
+        /// 
+        /// <returns>The loss value between the expected values and
+        ///   the actual predicted values.</returns>
+        /// 
+        TLoss Loss(TInput expected, TScore actual);
+
+        /// <summary>
+        ///   Computes the derivative of the loss between the expected values (ground truth) 
+        ///   and the given actual values that have been predicted.
+        /// </summary>
+        /// 
+        /// <param name="actual">The actual values that have been predicted.</param>
+        /// <param name="expected">The expected values that should have been predicted.</param>
+        /// 
+        /// <returns>The loss value between the expected values and
+        ///   the actual predicted values.</returns>
+        /// 
+        TLoss Derivative(TInput expected, TScore actual);
+    }
 
 
     /// <summary>
@@ -101,4 +135,6 @@ namespace Accord.Math.Optimization.Losses
     public interface ILoss<T> : ILoss<T, double>
     {
     }
-    }
+
+
+}

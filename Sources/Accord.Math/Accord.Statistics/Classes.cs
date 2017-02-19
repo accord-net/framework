@@ -536,6 +536,34 @@ namespace Accord.Statistics
             return result;
         }
 
+        /// <summary>
+        ///   Converts boolean variables into a -1 or +1 representation (-1 is false, +1 is true).
+        /// </summary>
+        /// 
+        public static double[][] ToMinusOnePlusOne(this bool[][] p)
+        {
+            return ToMinusOnePlusOne<double>(p);
+        }
+
+        /// <summary>
+        ///   Converts boolean variables into a -1 or +1 representation (-1 is false, +1 is true).
+        /// </summary>
+        /// 
+        public static T[][] ToMinusOnePlusOne<T>(this bool[][] p)
+        {
+            T positive = (T)System.Convert.ChangeType(+1, typeof(T));
+            T negative = (T)System.Convert.ChangeType(-1, typeof(T));
+
+            var result = new T[p.Length][];
+            for (int i = 0; i < p.Length; i++)
+            {
+                result[i] = new T[p[i].Length];
+                for (int j = 0; j < p[i].Length; j++)
+                    result[i][j] = p[i][j] ? positive : negative;
+            }
+
+            return result;
+        }
 
 
         /// <summary>
@@ -633,6 +661,23 @@ namespace Accord.Statistics
         ///   is higher than zero, and false otherwise.
         /// </summary>
         /// 
+#if NET45 || NET46
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool Decide(int label)
+        {
+            if (label == 1)
+                return true;
+            if (label == 0 || label == -1)
+                return false;
+            throw new ArgumentOutOfRangeException("label", "Label must be 1, 0 or -1");
+        }
+
+        /// <summary>
+        ///   Hyperplane decision function. Return true if distance
+        ///   is higher than zero, and false otherwise.
+        /// </summary>
+        /// 
         public static bool[] Decide(double[] values)
         {
             bool[] result = new bool[values.Length];
@@ -679,5 +724,6 @@ namespace Accord.Statistics
                 result[i] = Decide(values[i]);
             return result;
         }
+
     }
 }

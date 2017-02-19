@@ -45,8 +45,8 @@ namespace Accord.Math.Optimization.Losses
         /// </summary>
         /// <param name="expected">The expected outputs (ground truth).</param>
         public CategoryCrossEntropyLoss(double[][] expected)
-            : base(Classes.Decide(expected))
         {
+            this.Expected = Classes.Decide(expected);
         }
 
         /// <summary>
@@ -54,8 +54,8 @@ namespace Accord.Math.Optimization.Losses
         /// </summary>
         /// <param name="expected">The expected outputs (ground truth).</param>
         public CategoryCrossEntropyLoss(int[] expected)
-            : base(Jagged.OneHot<bool>(expected))
         {
+            this.Expected = Jagged.OneHot<bool>(expected);
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace Accord.Math.Optimization.Losses
         /// </summary>
         /// <param name="expected">The expected outputs (ground truth).</param>
         public CategoryCrossEntropyLoss(bool[][] expected)
-            : base(expected)
         {
+            this.Expected = expected;
         }
 
         /// <summary>

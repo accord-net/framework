@@ -39,48 +39,59 @@ namespace Accord.Math.Optimization.Losses
         /// <summary>
         /// Initializes a new instance of the <see cref="BinaryCrossEntropyLoss"/> class.
         /// </summary>
+        /// 
         /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
         public BinaryCrossEntropyLoss(double[][] expected)
-            : base(Classes.Decide(expected))
         {
+            this.Expected = Classes.Decide(expected);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BinaryCrossEntropyLoss"/> class.
         /// </summary>
+        /// 
         /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
         public BinaryCrossEntropyLoss(double[] expected)
-            : this(Classes.Decide(expected))
         {
+            this.Expected = Jagged.ColumnVector(Classes.Decide(expected));
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BinaryCrossEntropyLoss"/> class.
         /// </summary>
+        /// 
         /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
         public BinaryCrossEntropyLoss(bool[] expected)
-            : base(Jagged.ColumnVector(expected))
         {
+            this.Expected = Jagged.ColumnVector(expected);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BinaryCrossEntropyLoss"/> class.
         /// </summary>
+        /// 
         /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
         public BinaryCrossEntropyLoss(int[] expected)
-            : this(Jagged.OneHot(expected))
         {
+            this.Expected = Jagged.OneHot<bool>(expected);
         }
 
         /// <summary>
         /// Computes the loss between the expected values (ground truth)
         /// and the given actual values that have been predicted.
         /// </summary>
+        /// 
         /// <param name="actual">The actual values that have been predicted.</param>
+        /// 
         /// <returns>
         /// The loss value between the expected values and
         /// the actual predicted values.
         /// </returns>
+        /// 
         public override double Loss(bool[][] actual)
         {
             int sum = 0;

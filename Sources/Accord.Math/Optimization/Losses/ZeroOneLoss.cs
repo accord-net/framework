@@ -73,26 +73,32 @@ namespace Accord.Math.Optimization.Losses
         /// <summary>
         /// Initializes a new instance of the <see cref="ZeroOneLoss"/> class.
         /// </summary>
+        /// 
         /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
         public ZeroOneLoss(double[] expected)
-            : base(Classes.ToZeroOne(expected))
         {
+            this.Expected = Classes.ToZeroOne(expected);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ZeroOneLoss"/> class.
         /// </summary>
+        /// 
         /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
         public ZeroOneLoss(int[] expected)
-            : base(Classes.IsMinusOnePlusOne(expected) ? expected.ToZeroOne() : expected)
         {
+            this.Expected = Classes.IsMinusOnePlusOne(expected) ? expected.ToZeroOne() : expected;
             this.isBinary = Classes.IsBinary(expected);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ZeroOneLoss"/> class.
         /// </summary>
+        /// 
         /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
         public ZeroOneLoss(bool[] expected)
             : this(expected.ToInt32())
         {

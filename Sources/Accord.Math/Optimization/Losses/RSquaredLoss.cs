@@ -45,7 +45,7 @@ namespace Accord.Math.Optimization.Losses
     /// </remarks>
     /// 
     [Serializable]
-    public class RSquaredLoss : LossBase<double[][], double[]>, ILoss<double[]>
+    public class RSquaredLoss : LossBase<double[][], double[][], double[]>, ILoss<double[]>
     {
 
         /// <summary>
@@ -69,8 +69,8 @@ namespace Accord.Math.Optimization.Losses
         /// <param name="numberOfInputs">The number if variables being fit.</param>
         /// 
         public RSquaredLoss(int numberOfInputs, double[] expected)
-            : base(Jagged.ColumnVector(expected))
         {
+            this.Expected = Jagged.ColumnVector(expected);
             NumberOfInputs = numberOfInputs;
         }
 
@@ -82,8 +82,8 @@ namespace Accord.Math.Optimization.Losses
         /// <param name="numberOfInputs">The number if variables being fit.</param>
         /// 
         public RSquaredLoss(int numberOfInputs, double[][] expected)
-            : base(expected)
         {
+            this.Expected = expected;
             NumberOfInputs = numberOfInputs;
         }
 

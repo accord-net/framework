@@ -59,8 +59,8 @@ namespace Accord.Math.Optimization.Losses
         /// </summary>
         /// <param name="expected">The expected outputs (ground truth).</param>
         public HammingLoss(double[][] expected)
-            : base(expected.ToInt32())
         {
+            this.Expected = expected.ToInt32();
             for (int i = 0; i < expected.Length; i++)
                 total += expected[i].Length;
         }
@@ -70,8 +70,8 @@ namespace Accord.Math.Optimization.Losses
         /// </summary>
         /// <param name="expected">The expected outputs (ground truth).</param>
         public HammingLoss(int[][] expected)
-            : base(expected)
         {
+            this.Expected = expected;
             for (int i = 0; i < expected.Length; i++)
                 total += expected[i].Length;
         }
@@ -90,8 +90,8 @@ namespace Accord.Math.Optimization.Losses
         /// </summary>
         /// <param name="expected">The expected outputs (ground truth).</param>
         public HammingLoss(bool[][] expected)
-            : base(expected.ToInt32())
         {
+            this.Expected = expected.ToInt32();
             for (int i = 0; i < expected.Length; i++)
                 total += expected[i].Length;
         }

@@ -77,8 +77,8 @@ namespace Accord.Math.Optimization.Losses
         /// <param name="expected">The expected outputs (ground truth).</param>
         /// 
         public SquareLoss(double[][] expected)
-            : base(expected)
-        { 
+        {
+            this.Expected = expected;
         }
 
         /// <summary>
@@ -88,8 +88,8 @@ namespace Accord.Math.Optimization.Losses
         /// <param name="expected">The expected outputs (ground truth).</param>
         /// 
         public SquareLoss(double[] expected)
-            : base(Jagged.ColumnVector(expected))
         {
+            this.Expected = Jagged.ColumnVector(expected);
         }
 
         /// <summary>

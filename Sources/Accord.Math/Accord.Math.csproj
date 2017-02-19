@@ -42,6 +42,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'NET35'" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -114,6 +115,12 @@
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
     </Compile>
     <Compile Include="Distances\Angular.cs" />
+    <Compile Include="IO\NumPy\NpzDictionary`1.cs" />
+    <Compile Include="IO\NumPy\NpzDictionary.cs" />
+    <Compile Include="IO\NumPy\NpzFormat.Reader.cs" />
+    <Compile Include="IO\NumPy\NpzFormat.Writer.cs" />
+    <Compile Include="IO\NumPy\NpyFormat.Writer.cs" />
+    <Compile Include="IO\NumPy\NpyFormat.Reader.cs" />
     <Compile Include="Matrix\Jagged.Product.Generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -201,6 +208,8 @@
     <Compile Include="Optimization\Losses\BinaryCrossEntropyLoss.cs" />
     <Compile Include="Optimization\Losses\CategoryCrossEntropyLoss.cs" />
     <Compile Include="Optimization\Losses\HammingLoss.cs" />
+    <Compile Include="Optimization\Losses\SmoothHingeLoss.cs" />
+    <Compile Include="Optimization\Losses\SquaredHingeLoss.cs" />
     <Compile Include="Optimization\Losses\LogLikelihoodLoss.cs" />
     <Compile Include="Optimization\Losses\LossBase.cs" />
     <Compile Include="Optimization\Losses\AbsoluteLoss.cs" />
