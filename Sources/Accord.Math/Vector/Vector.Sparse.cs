@@ -134,5 +134,27 @@ namespace Accord.Math
 
             return result;
         }
+
+        /// <summary>
+        /// Divides an array of sparse vectors by the associated scalars in a dense vector.
+        /// </summary>
+        /// 
+        public static Sparse<double>[] Divide(this Sparse<double>[] a, double[] b, Sparse<double>[] result)
+        {
+            for (int i = 0; i < a.Length; i++)
+                Elementwise.Divide(a[i].Values, b[i], result[i].Values);
+            return result;
+        }
+
+        /// <summary>
+        /// Divides a sparse vector by a scalar.
+        /// </summary>
+        /// 
+        public static Sparse<double> Divide(this Sparse<double> a, double b, Sparse<double> result)
+        {
+            Elementwise.Divide(a.Values, b, result.Values);
+            return result;
+        }
+
     }
 }

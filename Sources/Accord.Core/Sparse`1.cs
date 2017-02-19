@@ -36,6 +36,7 @@ namespace Accord.Math
     /// 
     /// <typeparam name="T">The type for the non-zero elements in this vector.</typeparam>
     /// 
+    [Serializable]
     public sealed class Sparse<T> : IEnumerable<T>, ICloneable, IList<T>, IList, IFormattable
         where T : IEquatable<T>
     {
@@ -65,6 +66,15 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Creates a sparse vector with zero elements.
+        /// </summary>
+        /// 
+        public Sparse()
+            : this(0)
+        {
+        }
+
+        /// <summary>
         ///   Creates a sparse vector with the maximum number of elements.
         /// </summary>
         /// 
@@ -89,6 +99,15 @@ namespace Accord.Math
         {
             this.indices = indices;
             this.values = values;
+        }
+
+        /// <summary>
+        ///   Converts this sparse vector to a dense vector of the given length.
+        /// </summary>
+        /// 
+        public T[] ToDense()
+        {
+            return ToDense(Indices.Max() + 1);
         }
 
         /// <summary>
@@ -133,6 +152,36 @@ namespace Accord.Math
                 if (j >= 0)
                     return Values[j];
                 return default(T);
+            }
+            set
+            {
+                int j = Array.IndexOf(Indices, i);
+                if (j >= 0)
+                {
+                    Values[j] = value;
+                    return;
+                }
+
+                T[] newValues = new T[Values.Length + 1];
+                int[] newIndices = new int[indices.Length + 1];
+
+                int k;
+                for (k = 0; k < indices.Length && indices[k] < i; k++)
+                {
+                    newIndices[k] = indices[k];
+                    newValues[k] = values[k];
+                }
+                newIndices[k] = i;
+                newValues[k] = value;
+                k++;
+                for (; k < newIndices.Length; k++)
+                {
+                    newIndices[k] = indices[k - 1];
+                    newValues[k] = values[k - 1];
+                }
+
+                this.indices = newIndices;
+                this.values = newValues;
             }
         }
 
@@ -199,14 +248,8 @@ namespace Accord.Math
 
         T IList<T>.this[int index]
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { return this[index]; }
+            set { throw new NotImplementedException(); }
         }
 
         void ICollection<T>.Add(T item)
@@ -221,12 +264,18 @@ namespace Accord.Math
 
         bool ICollection<T>.Contains(T item)
         {
-            throw new NotImplementedException();
+            return values.Contains(item);
         }
 
-        void ICollection<T>.CopyTo(T[] array, int arrayIndex)
+        /// <summary>
+        /// Copies the elements of the <see cref="T:System.Collections.Generic.ICollection`1" /> to an <see cref="T:System.Array" />, starting at a particular <see cref="T:System.Array" /> index.
+        /// </summary>
+        /// <param name="array">The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied from <see cref="T:System.Collections.Generic.ICollection`1" />. The <see cref="T:System.Array" /> must have zero-based indexing.</param>
+        /// <param name="arrayIndex">The zero-based index in <paramref name="array" /> at which copying begins.</param>
+        public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < indices.Length; i++)
+                array[arrayIndex + indices[i]] = values[i];
         }
 
         int ICollection<T>.Count
@@ -246,12 +295,14 @@ namespace Accord.Math
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            throw new NotImplementedException();
+            foreach (T t in ToDense())
+                yield return t;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            foreach (T t in ToDense())
+                yield return t;
         }
 
         int IList.Add(object value)
@@ -266,7 +317,7 @@ namespace Accord.Math
 
         bool IList.Contains(object value)
         {
-            throw new NotImplementedException();
+            return ((IList)Values).Contains(value);
         }
 
         int IList.IndexOf(object value)
@@ -301,19 +352,14 @@ namespace Accord.Math
 
         object IList.this[int index]
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { return this[index]; }
+            set { throw new NotImplementedException(); }
         }
 
         void ICollection.CopyTo(Array array, int index)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < indices.Length; i++)
+                array.SetValue(values[i], index + indices[i]);
         }
 
         int ICollection.Count
@@ -353,16 +399,14 @@ namespace Accord.Math
         public string ToString(string format, IFormatProvider formatProvider)
         {
             var sb = new StringBuilder();
-            sb.Append("{");
             for (int i = 0; i < Indices.Length; i++)
             {
-                sb.Append(Indices[i]);
+                sb.Append(Indices[i] + 1); // Note: LibSVM array format is one-based
                 sb.Append(":");
                 sb.AppendFormat(formatProvider, "{0:" + format + "}", Values[i]);
                 if (i < Indices.Length - 1)
                     sb.Append(" ");
             }
-            sb.Append("}");
             return sb.ToString();
         }
 
