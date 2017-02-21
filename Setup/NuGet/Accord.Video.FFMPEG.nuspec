@@ -23,22 +23,20 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\Release\net40\GPL\Accord.Video.FFMPEG.dll" target="lib\net40\Accord.Video.FFMPEG.dll" />
-    <file src="..\..\Release\net40\GPL\Accord.Video.FFMPEG.xml" target="lib\net40\Accord.Video.FFMPEG.xml" />
-
     <file src="..\..\Release\net45\GPL\Accord.Video.FFMPEG.dll" target="lib\net45\Accord.Video.FFMPEG.dll" />
     <file src="..\..\Release\net45\GPL\Accord.Video.FFMPEG.xml" target="lib\net45\Accord.Video.FFMPEG.xml" />
-	
-  	<file src="..\..\Release\net46\GPL\Accord.Video.FFMPEG.dll" target="lib\net46\Accord.Video.FFMPEG.dll" />
+    
+    <file src="..\..\Release\net46\GPL\Accord.Video.FFMPEG.dll" target="lib\net46\Accord.Video.FFMPEG.dll" />
     <file src="..\..\Release\net46\GPL\Accord.Video.FFMPEG.xml" target="lib\net46\Accord.Video.FFMPEG.xml" />
 
-    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avcodec-53.dll"       target="build\avcodec-53.dll" />
-    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avdevice-53.dll"      target="build\avdevice-53.dll" />
-    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avformat-53.dll"      target="build\avformat-53.dll" />
-    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avutil-51.dll"        target="build\avutil-51.dll" />
-    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\postproc-52.dll"      target="build\postproc-52.dll" />
-    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\swresample-0.dll"     target="build\swresample-0.dll" />
-    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\swscale-2.dll"        target="build\swscale-2.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avcodec-57.dll"       target="build\avcodec-57.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avdevice-57.dll"      target="build\avdevice-57.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avfilter-6.dll"       target="build\avfilter-6.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avformat-57.dll"      target="build\avformat-57.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\avutil-55.dll"        target="build\avutil-55.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\postproc-54.dll"      target="build\postproc-54.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\swresample-2.dll"     target="build\swresample-2.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\bin\swscale-4.dll"        target="build\swscale-4.dll" />
     <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win32-shared\README.txt"               target="build\FFMPEG-README.txt" />
 
     <file src="..\..\Setup\Scripts\Accord.Video.FFMPEG.targets" target="build\Accord.Video.FFMPEG.targets" />
