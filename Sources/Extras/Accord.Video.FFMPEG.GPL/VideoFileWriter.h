@@ -328,6 +328,37 @@ namespace Accord {
                     Open(fileName, width, height, frameRate, codec, bitRate, AudioCodec::None, 0, 0, 0);
                 }
 
+				/// <summary>
+				/// Create video file with the specified name and attributes.
+				/// </summary>
+				///
+				/// <param name="fileName">Video file name to create.</param>
+				/// <param name="width">Frame width of the video file.</param>
+				/// <param name="height">Frame height of the video file.</param>
+				/// <param name="frameRate">Frame rate of the video file.</param>
+				/// <param name="codec">Video codec to use for compression.</param>
+				/// <param name="bitRate">Bit rate of the video stream.</param>
+				/// <param name="audioCodec">Audio codec for the audio stream.</param>
+				/// <param name="audioBitrate">Bit rate for the audio stream.</param>
+				/// <param name="sampleRate">Frame rate of the audio stream.</param>
+				/// <param name="channels">Number of audio channels in the audio stream.</param>
+				///
+				/// <remarks><para>The methods creates new video file with the specified name.
+				/// If a file with such name already exists in the file system, it will be overwritten.</para>
+				///
+				/// <para>When adding new video frames using <see cref="WriteVideoFrame(Bitmap^ frame)"/> method,
+				/// the video frame must have width and height as specified during file opening.</para>
+				///
+				/// <para><note>The bit rate parameter represents a trade-off value between video quality
+				/// and video file size. Higher bit rate value increase video quality and result in larger
+				/// file size. Smaller values result in opposite – worse quality and small video files.</note></para>
+				/// </remarks>
+				///
+				/// <exception cref="ArgumentException">Video file resolution must be a multiple of two.</exception>
+				/// <exception cref="ArgumentException">Invalid video codec is specified.</exception>
+				/// <exception cref="VideoException">A error occurred while creating new video file. See exception message.</exception>
+				/// <exception cref="System::IO::IOException">Cannot open video file with the specified name.</exception>
+				/// 
                 void Open(String^ fileName, int width, int height, Rational frameRate,
                     VideoCodec codec, int bitRate,
                     AudioCodec audioCodec, int audioBitrate, int sampleRate, int channels);
@@ -378,9 +409,13 @@ namespace Accord {
                 ///
                 void WriteAudioFrame(array<System::Byte> ^buffer);
 
-                //void WriteAudioFrame( array<System::uint8_t> ^buffer, TimeSpan timestamp );
+                //void WriteAudioFrame( array<System::uint8_t> ^buffer, TimeSpan timestamp );				
 
-                void Flush();
+				/// <summary>
+				/// Flushes the current write buffer to disk.
+				/// </summary>
+				///
+				void Flush();
 
                 /// <summary>
                 /// Close currently opened video file if any.

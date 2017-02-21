@@ -228,7 +228,11 @@ namespace Accord.Math
 
         private static bool TryParse(string s, NumberStyles style, IFormatProvider provider, bool throwOnFailure, out Rational result)
         {
+#if NET35
+            if (string.IsNullOrEmpty(s.Trim()))
+#else
             if (string.IsNullOrWhiteSpace(s))
+#endif
                 return ParseFailure(throwOnFailure, out result);
             var parts = s.Split('/');
             if (parts.Length > 2)
@@ -551,9 +555,9 @@ namespace Accord.Math
             return r._numerator == 0 && r._denominator != 0;
         }
 
-        #endregion
+#endregion
 
-        #region Constructors
+#region Constructors
 
         /// <summary>
         /// Creates a new <see cref="Rational"/> instance with a denominator of 1.
@@ -583,9 +587,9 @@ namespace Accord.Math
             this = FromDouble(value);
         }
 
-        #endregion
+#endregion
 
-        #region Properties
+#region Properties
 
         /// <summary>
         /// Gets the numerator of the current <see cref="Rational"/> value.
@@ -639,9 +643,9 @@ namespace Accord.Math
             return new Rational(-Numerator, Denominator);
         }
 
-        #endregion
+#endregion
 
-        #region Instance Methods
+#region Instance Methods
 
         /// <summary>
         /// Gets the simplified version of the rational number.
@@ -805,9 +809,9 @@ namespace Accord.Math
             }
         }
 
-        #endregion
+#endregion
 
-        #region Operators
+#region Operators
 
         /// <summary>
         /// Gets whether two <see cref="Rational"/> values are numerically equivalent.
@@ -1017,9 +1021,9 @@ namespace Accord.Math
             return x - Rational.One;
         }
 
-        #endregion
+#endregion
 
-        #region Casts
+#region Casts
 
         /// <summary>
         /// Converts the specified <see cref="Int32"/> to a <see cref="Rational"/>.
@@ -1242,9 +1246,9 @@ namespace Accord.Math
             return (decimal)x.Numerator / (decimal)x.Denominator;
         }
 
-        #endregion
+#endregion
 
-        #region IComparable Members
+#region IComparable Members
 
         /// <summary>
         /// Compares this instance to another <see cref="Rational"/> and returns an indication of their relative values.
@@ -1266,9 +1270,9 @@ namespace Accord.Math
             }
         }
 
-        #endregion
+#endregion
 
-        #region IComparable<Rational> Members
+#region IComparable<Rational> Members
 
         /// <summary>
         /// Compares this instance to another <see cref="Rational"/> and returns an indication of their relative values.
@@ -1293,9 +1297,9 @@ namespace Accord.Math
             return value1.CompareTo(value2);
         }
 
-        #endregion
+#endregion
 
-        #region IFormattable Members
+#region IFormattable Members
 
         /// <summary>
         /// Converts this instance to its equivalent string representation.
@@ -1308,9 +1312,9 @@ namespace Accord.Math
             return Numerator.ToString(format, formatProvider) + (Denominator != 1 ? "/" + Denominator.ToString(format, formatProvider) : string.Empty);
         }
 
-        #endregion
+#endregion
 
-        #region IEquatable<Rational> Members
+#region IEquatable<Rational> Members
 
         /// <summary>
         /// Indicates whether this instance and a specified <see cref="Rational"/> are equal.
@@ -1322,7 +1326,7 @@ namespace Accord.Math
             return this == other;
         }
 
-        #endregion
+#endregion
 
 
 

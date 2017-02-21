@@ -24,6 +24,7 @@
 namespace System.Threading.Tasks
 {
     using Accord;
+    using Collections.Generic;
     using System;
     using System.Threading;
 
@@ -48,6 +49,13 @@ namespace System.Threading.Tasks
         /// </summary>
         /// 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
+        public delegate void ForEachLoopBody<T>(T value);
+
+        /// <summary>
+        ///   Loop body delegate.
+        /// </summary>
+        /// 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         public delegate T ForLoopBody<T>(int index, Object state, T result);
 
         /// <summary>
@@ -61,6 +69,16 @@ namespace System.Threading.Tasks
                 loopBody(i);
         }
 
+        /// <summary>
+        ///   Parallel foreach mock-up. The provided
+        ///   code will NOT be run in parallel.
+        /// </summary>
+        /// 
+        public static void ForEach<T>(IEnumerable<T> values, ForEachLoopBody<T> loopBody)
+        {
+            foreach (var v in values)
+                loopBody(v);
+        }
 
         /// <summary>
         ///   Parallel for mock-up. The provided

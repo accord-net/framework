@@ -163,7 +163,13 @@ namespace Accord.DataSets
                 string train;
                 Download(url, Path, out train);
 
-                foreach (string line in File.ReadLines(train))
+#if NET35
+                var lines = File.ReadAllLines(train);
+#else
+                var lines = File.ReadLines(train);
+#endif
+
+                foreach (string line in lines)
                 {
                     if (line.StartsWith(".I "))
                     {
@@ -213,7 +219,13 @@ namespace Accord.DataSets
             string classesPath;
             Download("http://jmlr.csail.mit.edu/papers/volume5/lewis04a/a08-topic-qrels/rcv1-v2.topics.qrels.gz", Path, out classesPath);
 
-            foreach (string line in File.ReadLines(classesPath))
+#if NET35
+            var lines = File.ReadAllLines(classesPath);
+#else
+            var lines = File.ReadLines(classesPath);
+#endif
+
+            foreach (string line in lines)
             {
                 string[] parts = line.Split(' ');
                 string topic = parts[0];

@@ -25,3 +25,9 @@ for /r "%unitest%" %%F in (*.csproj) do (
   echo %%F
   %notepad% %%F
 )
+
+echo "%unitest%"
+for /r "%unitest%" %%F in (*.vcxproj) do (
+  echo %%F
+  %notepad% %%F
+)

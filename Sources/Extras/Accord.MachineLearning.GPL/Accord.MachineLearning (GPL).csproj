@@ -7,6 +7,7 @@
   </PropertyGroup>
   <Import Project="$(SolutionDir)Accord.NET.targets" />  
   <PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\Accord.NET.ruleset</CodeAnalysisRuleSet>
     <OutputPath>$(SolutionDir)..\Release\$(Configuration)\GPL</OutputPath>
     <DocumentationFile>$(SolutionDir)..\Release\$(Configuration)\GPL\$(AssemblyName).XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\$(Configuration)\GPL\$(AssemblyName).dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>

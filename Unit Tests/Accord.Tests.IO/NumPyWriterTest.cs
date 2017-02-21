@@ -209,7 +209,7 @@ namespace Accord.Tests.IO
 
 
 
-
+#if !NET35 && !NET40
         [Test]
         public void WriteStringJaggedVariableColsTrimTest_Compressed()
         {
@@ -245,6 +245,6 @@ namespace Accord.Tests.IO
             string[,] actualMatrix = arrMatrix["arr_0"];
             Assert.IsTrue(actualJagged.IsEqual(expectedJagged));
         }
-
+#endif
     }
 }

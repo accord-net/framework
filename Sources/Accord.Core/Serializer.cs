@@ -93,7 +93,11 @@ namespace Accord.IO
         {
             if (compression == SerializerCompression.GZip)
             {
+#if NET35 || NET40
+                using (var gzip = new GZipStream(stream, CompressionMode.Compress))
+#else
                 using (var gzip = new GZipStream(stream, CompressionLevel.Optimal))
+#endif
                     new BinaryFormatter().Serialize(gzip, obj);
             }
             else if (compression == SerializerCompression.None)

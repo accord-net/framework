@@ -33,12 +33,18 @@ namespace Accord.IO
     using System.Text;
     using System.Threading.Tasks;
 
+#if !NET35 && !NET40
     /// <summary>
     ///   Provides static methods to save and load files saved in NumPy's .npy format. 
     /// </summary>
     /// 
     /// <seealso cref="NpzFormat"/>
+#else
+    /// <summary>
+    ///   Provides static methods to save and load files saved in NumPy's .npy format. 
+    /// </summary>
     /// 
+#endif
     public static partial class NpyFormat
     {
         /// <summary>
@@ -51,7 +57,10 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(byte[] bytes)
-            where T : class, ICloneable, IList, ICollection, IEnumerable, IStructuralComparable, IStructuralEquatable
+            where T : class, ICloneable, IList, ICollection, IEnumerable
+#if !NET35
+            , IStructuralComparable, IStructuralEquatable
+#endif
         {
             if (typeof(T).IsJagged())
                 return LoadJagged(bytes).To<T>();
@@ -70,7 +79,10 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(byte[] bytes, out T value)
-            where T : class, ICloneable, IList, ICollection, IEnumerable, IStructuralComparable, IStructuralEquatable
+            where T : class, ICloneable, IList, ICollection, IEnumerable
+#if !NET35
+            , IStructuralComparable, IStructuralEquatable
+#endif
         {
             return value = Load<T>(bytes);
         }
@@ -87,7 +99,10 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(string path, out T value)
-            where T : class, ICloneable, IList, ICollection, IEnumerable, IStructuralComparable, IStructuralEquatable
+            where T : class, ICloneable, IList, ICollection, IEnumerable
+#if !NET35
+            , IStructuralComparable, IStructuralEquatable
+#endif
         {
             return value = Load<T>(path);
         }
@@ -104,7 +119,10 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(Stream stream, out T value)
-            where T : class, ICloneable, IList, ICollection, IEnumerable, IStructuralComparable, IStructuralEquatable
+            where T : class, ICloneable, IList, ICollection, IEnumerable
+#if !NET35
+            , IStructuralComparable, IStructuralEquatable
+#endif
         {
             return value = Load<T>(stream);
         }
@@ -118,7 +136,10 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(string path)
-            where T : class, ICloneable, IList, ICollection, IEnumerable, IStructuralComparable, IStructuralEquatable
+            where T : class, ICloneable, IList, ICollection, IEnumerable
+#if !NET35
+            , IStructuralComparable, IStructuralEquatable
+#endif
         {
             using (var stream = new FileStream(path, FileMode.Open))
                 return Load<T>(stream);
@@ -134,7 +155,10 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(Stream stream)
-            where T : class, ICloneable, IList, ICollection, IEnumerable, IStructuralComparable, IStructuralEquatable
+            where T : class, ICloneable, IList, ICollection, IEnumerable
+#if !NET35
+            , IStructuralComparable, IStructuralEquatable
+#endif
         {
             if (typeof(T).IsJagged())
                 return LoadJagged(stream).To<T>();
@@ -212,7 +236,11 @@ namespace Accord.IO
         /// 
         public static Array LoadMatrix(Stream stream)
         {
-            using (var reader = new BinaryReader(stream, Encoding.ASCII, leaveOpen: true))
+            using (var reader = new BinaryReader(stream, Encoding.ASCII
+#if !NET35 && !NET40
+            , leaveOpen: true
+#endif
+            ))
             {
                 int bytes;
                 Type type;
@@ -239,7 +267,11 @@ namespace Accord.IO
         /// 
         public static Array LoadJagged(Stream stream, bool trim = true)
         {
-            using (var reader = new BinaryReader(stream, Encoding.ASCII, leaveOpen: true))
+            using (var reader = new BinaryReader(stream, Encoding.ASCII
+#if !NET35 && !NET40
+            , leaveOpen: true
+#endif
+            ))
             {
                 int bytes;
                 Type type;

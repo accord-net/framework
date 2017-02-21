@@ -133,8 +133,16 @@ namespace Accord {
                 ///
                 Theora,
 
+				/// <summary>
+				/// VP-8.
+				/// </summary>
+				///
                 VP8,
 
+				/// <summary>
+				/// VP-9.
+				/// </summary>
+				///
                 VP9,
             };
 

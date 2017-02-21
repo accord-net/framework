@@ -42,8 +42,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'NET35'" />
+    <Reference Include="System.IO.Compression" Condition="('$(Configuration)' != 'net35') AND ('$(Configuration)' != 'net40')" />
+    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'net35'" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>

@@ -77,7 +77,11 @@ namespace Accord.IO
         /// 
         public static ulong Save(Array array, Stream stream)
         {
-            using (var writer = new BinaryWriter(stream, Encoding.ASCII, leaveOpen: true))
+            using (var writer = new BinaryWriter(stream
+#if !NET35 && !NET40
+                , Encoding.ASCII, leaveOpen: true
+#endif
+                ))
             {
                 Type type;
                 int maxLength;
@@ -185,7 +189,7 @@ namespace Accord.IO
             writer.Write((byte)1); // major
             writer.Write((byte)0); // minor;
 
-            string tuple = String.Join(", ", shape.Select(i => i.ToString()));
+            string tuple = String.Join(", ", shape.Select(i => i.ToString()).ToArray());
             string header = "{{'descr': '{0}', 'fortran_order': False, 'shape': ({1}), }}";
             header = String.Format(header, dtype, tuple);
             int preamble = 10; // magic string (6) + 4

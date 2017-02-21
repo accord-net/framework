@@ -27,11 +27,7 @@ namespace Accord.Imaging
     ///   Common interface for feature descriptors.
     /// </summary>
     /// 
-    public interface IFeatureDescriptor<
-#if !NET35
-        out
-#endif
-        T>
+    public interface IFeatureDescriptor<out T>
     {
         /// <summary>
         ///   Gets or sets the descriptor vector

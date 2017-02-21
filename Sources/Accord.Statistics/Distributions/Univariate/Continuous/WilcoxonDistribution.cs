@@ -213,9 +213,15 @@ namespace Accord.Statistics.Distributions.Univariate
             long combinations = (long)Math.Pow(2, ranks.Length);
 
             // Compute W+ for all combinations of signs
+#if NET35
+            var seq = EnumerableEx.Zip<int[], long, Tuple<int[], long>>(
+                Combinatorics.Sequences(ranks.Length), Vector.EnumerableRange(combinations),
+                (int[] c, long i) => new Tuple<int[], long>(c, i));
+#else
             var seq = Enumerable.Zip<int[], long, Tuple<int[], long>>(
                 Combinatorics.Sequences(ranks.Length), Vector.EnumerableRange(combinations),
                 (int[] c, long i) => new Tuple<int[], long>(c, i));
+#endif
 
             this.table = new double[combinations];
 
