@@ -21,6 +21,7 @@ LIBFILES = \
 	$(LIBDIR)/Accord.Math.dll \
 	$(LIBDIR)/Accord.Math.Core.dll \
 	$(LIBDIR)/Accord.MachineLearning.dll \
+	$(LIBDIR)/Accord.Text.dll \
 	$(LIBDIR)/Accord.IO.dll \
 	$(LIBDIR)/Accord.DataSets.dll \
 	$(LIBDIR)/Accord.Imaging.dll \
