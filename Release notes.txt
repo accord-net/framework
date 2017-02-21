@@ -1,3 +1,102 @@
+Accord.NET Framework 3.4.2 release notes
+-----------------------------------------
+27.02.2017.
+
+Version updates and fixes:
+  - GH-55: Adding support for computing TF-IDF vector representations;
+  - GH-213: Linear SVM with SGD Training Support;
+  - GH-297: Looking for "multinomial Logistic Regression (cross-entropy loss)" in accord like sklearn;
+  - GH-330: Liblinear (Linear SVMs) does not train, exits with "index out of range";
+  - GH-355: SVM non-sequential 0 to n class outputs causes index out of bounds;
+  - GH-365: Updating LBP to work with BoW;
+  - GH-373: FrameRate as double in Accord.Video.FFMPEG;
+  - GH-379: Updating NuGet specification files so assemblies are placed under net452 and net461;
+  - GH-386: KNearestNeighbors Constructor (Int32, Int32, Double[][], Int32[], IMetric(Double[]));
+  - GH-389: Wilcoxon Signed Rank Test | Mann-Whitney-Wilcoxon Test - differences to R;
+  - GH-390: MachineLearning.KMeans: Balanced clustering;
+  - GH-396: Using Parallel.For with LinearCoordinateDescent;
+  - GH-397: Add an Example for OneclassSupportVectorLearning(TModel, TKernel, TInput) Class;
+  - GH-398: PrincipalComponentAnalysis serialization error in v3.4.0;
+  - GH-391: Add an Example for DecisionTree Class;
+  - GH-392: Add an Example for GrayLevelCooccurrenceMatrix Constructor;
+  - GH-393: Add an Example for GrayLevelCooccurrenceMatrix Constructor (Int32, CooccurrenceDegree, Boolean, Boolean);
+  - GH-396: Using Parallel.For with LinearCoordinateDescent;
+  - GH-399: Add an Example for HaarObjectDetector Class;
+  - GH-401: KNearestNeighbors parallel;
+  - GH-402: Add an Example for BagOfWords Class;
+  - GH-405: Add an Example for RandomForest Class;
+  - GH-434: Possible issue with PolynomialLeastSquares() Class;
+  - GH-438: Error on LocalBinaryPattern Clone();
+  
+* General
+  - Fixing target framework versions: projects that were targetting 4.5.2 and 
+    4.6.1 have been updated to target 4.5 and 4.6, respectively;
+  - Adding a Accord.DataSets namespace to contain classes that can download and
+    pre-process well-known machine learning datasets directly from the web;
+  - Adding a Accord.Text namespace to contain classes related to text processing;
+  - Creating a separate Accord.Video.FFMPEG NuGet package to target x64 (Win64);
+
+* Core
+  - Updating the framework random generator to allow fixing the seed of independent threads:
+    new random generators created from existing threads will be initialized with the global
+    random seed, except if their thread-specific random seed has been manually overwritten;
+  - Adding support for using GZip compression when serializing through Accord.Serializer;
+  - Adding initial support for rational numbers;
+
+* IO
+  - Adding support for reading and writing NumPy's .npy and .npz formats;
+  - Adding a SparseWriter to save Sparse<T> in LibSVM sparse file format;
+  
+* Video
+  - Updating FFMPEG library to version 3.2.2;
+  - Updating Accord.Video.FFMPEG to support both x86 and x64 platforms;
+  - Updating FrameRate properties of VideoFileWriter and VideoFileReader 
+    to be represented in Rationals instead of Int32;
+  
+* DataSets
+  - Adding downloaders for the RCV1v2, MNIST and News20 datasets;
+  
+* Text  
+  - Adding C# versions of Snowball's stemmers;
+  
+* Math
+  - Fixing ToString() method of Sparse<T> vectors such that they are compatible with LibSVM;
+  - Adding Angular distance metric (proper distance metric based on the Cosine similarity);
+  - Updating distance metrics to be structs rather than classes, allowing for optimizations
+    when used in conjunction with generic classes and methods;
+  - Adding generic versions of the IOptimizationMethod interfaces, and adding a specific 
+    IFunctionOptimizationMethod interface to specify function optimization methods that do 
+    not necessarily require a gradient function;
+  
+* Statistics
+  - Fixing serialization of PCA, KPCA, LDA, KDA and other classes containing a CancellationToken;
+  - Adding support for learning multinomial logistic regression with any optimization algorithm;
+  - Correcting/improving Wilcoxon distribution: Adding a separate method for the ComplementaryDistributionFunction
+    for more precision; adding the approximation distribution using an actual NormalDistribution, and new parameters 
+    at its constructor to control whether exact or approximate distribution should be used; adding parameters to 
+    determine whether to apply different types of continuity corrections; adding an option to determine whether to 
+    correct for ties when computing the rankings;
+  - Correcting/improving Mann-Whitney U's distribution: Adding most corrections as mentioned above, plus checks to ensure
+    we are computing the distribution for the case when the first sample is smaller than the second; adding a correction 
+    to the variance of the approximation distribution for the case of ties; adding parallelization support when computing 
+    the table of exact values;
+  - Correcting/improving Wilcoxon and Mann-Whitney tests: adding a correction for ties in the variance of the Normal 
+    approximation; adding checks to make sure we don't generate p-values higher than 1; adding more comparison tests 
+    against results generated by R;
+  - Wavelet kernel is now a struct and has support for Int32 inputs;
+
+* MachineLearning
+  - Improving the performance for LinearDualCoordinateDescent and OneVsRest SVMs;
+  - Adding a ToMulticlass method to Multilabel classifiers based on scores;
+  - Updating K-Nearest Neighbor to use the new classification/learning interfaces;
+  - Adding parallelism to the non-data-structure-based version of K-Nearest Neighbors;
+  
+* Accord.Imaging
+  - Adding support for LocalBinaryPattern and Haralick in Bag-of-Visual-Words.
+
+
+
+
 Accord.NET Framework 3.4.0 release notes
 -----------------------------------------
 14.01.2017.
