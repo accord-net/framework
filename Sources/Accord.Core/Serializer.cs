@@ -55,17 +55,23 @@ namespace Accord.IO
     }
 
     /// <summary>
-    ///   Model serializer. Can be used to serialize and deserialize
-    ///   (i.e. save and load) models from the framework to and from
-    ///   the disk and other streams.
+    ///   Model serializer. Can be used to serialize and deserialize (i.e. save and 
+    ///   load) models from the framework to and from the disk and other streams.
     /// </summary>
     /// 
     /// <remarks>
-    ///   This class uses a binding mechanism to automatically convert
-    ///   files saved using older versions of the framework to the new
-    ///   format. If a deserialization doesn't work, please fill in a
-    ///   bug report at https://github.com/accord-net/framework/issues
+    ///   This class uses a binding mechanism to automatically convert files saved using 
+    ///   older versions of the framework to the new format. If a deserialization doesn't 
+    ///   work, please fill in a bug report at https://github.com/accord-net/framework/issues
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>Basic usage:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Core\SerializerTest.cs" region="doc_simple" />
+    ///   
+    /// <para>Compression:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Core\SerializerTest.cs" region="doc_compression" />
+    /// </example>
     /// 
     public static class Serializer
     {
@@ -137,6 +143,12 @@ namespace Accord.IO
             var dir = Path.GetDirectoryName(path);
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
+
+            if (compression == SerializerCompression.GZip)
+            {
+                if (!path.EndsWith(".gz"))
+                    path = path + ".gz";
+            }
 
             using (var fs = new FileStream(path, FileMode.Create))
             {

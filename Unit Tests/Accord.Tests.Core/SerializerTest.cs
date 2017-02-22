@@ -51,6 +51,61 @@ namespace Accord.Tests
         }
 
         [Test]
+        public void base_test()
+        {
+            #region doc_simple
+            // The serializer class can be used to save and load Accord.NET 
+            // models to and from the disk (and/or streams and byte arrays).
+
+            // For example, we can create a new object:
+            DoubleRange range = new DoubleRange(4, 2);
+
+            // And we would like to save it as
+            string filename = "my_range.accord";
+
+            // We can call Serializer.Save to save it:
+            Serializer.Save(obj: range, path: filename);
+
+            // Then, we can load it back using:
+            Serializer.Load(filename, out range);
+
+            // Or using the explicit generic method call:
+            range = Serializer.Load<DoubleRange>(filename);
+            #endregion
+
+            Assert.AreEqual(range.Min, 4);
+            Assert.AreEqual(range.Max, 2);
+        }
+
+        [Test]
+        public void compression_test()
+        {
+            #region doc_compression
+            // The serializer can also use compression
+
+            // For example, we can create a new object:
+            DoubleRange range = new DoubleRange(4, 2);
+
+            // And we would like to save it as
+            string filename = "my_range.accord";
+
+            // We can call Serializer.Save to save it:
+            Serializer.Save(obj: range, path: filename,
+                compression: SerializerCompression.GZip);
+
+            // Please note that in this case, the serializer will 
+            // append the ".gz" extension to the generated file, 
+            // if it doesn't have it already.
+
+            // Then, again we could load it back using:
+            Serializer.Load(filename + ".gz", out range);
+            #endregion
+
+            Assert.AreEqual(range.Min, 4);
+            Assert.AreEqual(range.Max, 2);
+        }
+
+        [Test]
         public void compression_test_auto_load()
         {
             var e = new Dictionary<int, string>();
