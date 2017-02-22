@@ -23,6 +23,8 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Models.Regression.Linear;
+    using Math;
+    using Math.Optimization.Losses;
     using NUnit.Framework;
     using System;
 
@@ -52,6 +54,63 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected[0], actual[0], 1e-3);
             Assert.AreEqual(expected[1], actual[1], 1e-3);
             Assert.AreEqual(expected[2], target.Intercept, 1e-3);
+        }
+
+        [Test]
+        public void learn_test_2()
+        {
+            #region doc_learn
+            // Let's say we would like to learn 2nd degree polynomial that 
+            // can map the first column X into its second column Y. We have 
+            // 5 examples of those (x,y) pairs that we can use to learn this 
+            // function:
+
+            double[,] data =
+            {
+                // X       Y
+                { 12,     144 }, // example #1
+                { 15,     225 }, // example #2
+                { 20,     400 }, // example #3
+                { 25,     625 }, // example #4
+                { 35,    1225 }, // example #5
+            };
+
+            // Let's retrieve the input and output data:
+            double[] inputs = data.GetColumn(0);  // X
+            double[] outputs = data.GetColumn(1); // Y
+
+            // We can create a learning algorithm
+            var ls = new PolynomialLeastSquares()
+            {
+                Degree = 2 
+            };
+
+            // Now, we can use the algorithm to learn a polynomial
+            PolynomialRegression poly = ls.Learn(inputs, outputs);
+
+            // The learned polynomial will be given by
+            string str = poly.ToString("N1"); // "y(x) = 1.0x^2 + 0.0x^1 + 0.0"
+
+            // Where its weights can be accessed using
+            double[] weights = poly.Weights;   // { 1.0000000000000024, -1.2407665029287351E-13 }
+            double intercept = poly.Intercept; // 1.5652369518855253E-12
+
+            // Finally, we can use this polynomial
+            // to predict values for the input data
+            double[] pred = poly.Transform(inputs);
+
+            // Where the mean-squared-error (MSE) should be
+            double error = new SquareLoss(outputs).Loss(pred); // 0.0
+            #endregion
+
+            Assert.AreEqual(0, error, 1e-10);
+
+            string ex = weights.ToCSharp();
+            double[] expected = { 1, 0 };
+
+            Assert.AreEqual(str, "y(x) = 1.0x^2 + 0.0x^1 + 0.0");
+            Assert.IsTrue(weights.IsEqual(expected, 1e-6));
+            Assert.AreEqual(0, intercept, 1e-6);
         }
 
         [Test]

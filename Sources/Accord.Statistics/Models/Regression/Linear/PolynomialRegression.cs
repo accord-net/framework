@@ -43,6 +43,10 @@ namespace Accord.Statistics.Models.Regression.Linear
     /// 
     /// <seealso cref="PolynomialLeastSquares"/>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\PolynomialRegressionTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
     [Serializable]
 #pragma warning disable 612, 618
     public class PolynomialRegression : TransformBase<double, double>, ILinearRegression, IFormattable

@@ -45,6 +45,10 @@ namespace Accord.Statistics.Models.Regression.Linear
     /// 
     /// <seealso cref="PolynomialRegression"/>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\PolynomialRegressionTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
     [Serializable]
     public class PolynomialLeastSquares :
         ISupervisedLearning<PolynomialRegression, double, double>
