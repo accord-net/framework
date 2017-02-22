@@ -378,27 +378,7 @@ namespace Accord.Math
         ///   new object in the sequence.</param>
         ///   
         /// <example>
-        /// <code>
-        ///   // Let's say we would like to generate all possible combinations
-        ///   // of the elements (1, 2, 3). In order to enumerate all those 
-        ///   // combinations, we can use:
-        /// 
-        ///   int[] values = { 1, 2, 3 };
-        ///   
-        ///   foreach (int[] combination in Combinatorics.Combinations(values))
-        ///   {
-        ///       // The combinations will be generated in the following order:
-        ///       //
-        ///       //   { 1 };
-        ///       //   { 2 };
-        ///       //   { 3 };
-        ///       //   { 1, 2 };
-        ///       //   { 1, 3 };
-        ///       //   { 2, 3 };
-        ///       //   { 1, 2, 3 };
-        ///       //
-        ///   }
-        /// </code>
+        /// <code source="Unit Tests\Accord.Tests.Math\CombinatoricsTest.cs" region="doc_combinations" />
         /// </example>
         /// 
         public static IEnumerable<T[]> Combinations<T>(this T[] values, bool inPlace = false)
@@ -423,23 +403,7 @@ namespace Accord.Math
         ///   new object in the sequence.</param>
         ///   
         /// <example>
-        /// <code>
-        ///   // Let's say we would like to generate all possible combinations
-        ///   // of size 2 of the elements (1, 2, 3). In order to enumerate all 
-        ///   // those combinations, we can use:
-        /// 
-        ///   int[] values = { 1, 2, 3 };
-        ///   
-        ///   foreach (int[] combination in Combinatorics.Combinations(values, 2))
-        ///   {
-        ///       // The combinations will be generated in the following order:
-        ///       //
-        ///       //   { 1, 2 };
-        ///       //   { 1, 3 };
-        ///       //   { 2, 3 };
-        ///       //
-        ///   }
-        /// </code>
+        /// <code source="Unit Tests\Accord.Tests.Math\CombinatoricsTest.cs" region="doc_combinations_k" />
         /// </example>
         /// 
         public static IEnumerable<T[]> Combinations<T>(this T[] values, int k, bool inPlace = false)
@@ -504,6 +468,10 @@ namespace Accord.Math
         ///   Generates all possibles subsets of the given set.
         /// </summary>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\CombinatoricsTest.cs" region="doc_subsets" />
+        /// </example>
+        /// 
         public static IEnumerable<SortedSet<T>> Subsets<T>(this ISet<T> set, bool inPlace = false)
         {
             // TODO: Optimize
@@ -516,6 +484,10 @@ namespace Accord.Math
         /// <summary>
         ///   Generates all possibles subsets of size k of the given set.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\CombinatoricsTest.cs" region="doc_subsets_k" />
+        /// </example>
         /// 
         public static IEnumerable<SortedSet<T>> Subsets<T>(this ISet<T> set, int k, bool inPlace = false)
         {
@@ -538,25 +510,7 @@ namespace Accord.Math
         ///   new object in the sequence.</param>
         /// 
         /// <example>
-        /// <code>
-        ///   // Let's say we would like to generate all possible permutations
-        ///   // of the elements (1, 2, 3). In order to enumerate all those
-        ///   // permutations, we can use:
-        /// 
-        ///   int[] values = { 1, 2, 3 };
-        ///   
-        ///   foreach (int[] permutation in Combinatorics.Permutations(values))
-        ///   {
-        ///       // The permutations will be generated in the following order:
-        ///       //
-        ///       //   { 1, 3, 2 };
-        ///       //   { 2, 1, 3 };
-        ///       //   { 2, 3, 1 };
-        ///       //   { 3, 1, 2 };
-        ///       //   { 3, 2, 1 };
-        ///       //
-        ///   }
-        /// </code>
+        /// <code source="Unit Tests\Accord.Tests.Math\CombinatoricsTest.cs" region="doc_permutation" />
         /// </example>
         /// 
         public static IEnumerable<T[]> Permutations<T>(T[] values, bool inPlace = false)
