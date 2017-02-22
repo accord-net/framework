@@ -31,14 +31,23 @@ namespace Accord.MachineLearning
     using System.Threading.Tasks;
 
     /// <summary>
-    ///   Balanced K-Means algorithm.
+    ///   Balanced K-Means algorithm. Note: The balanced clusters will be
+    ///   available in the <see cref="Labels"/> property of this instance!
     /// </summary>
     /// 
     /// <remarks>
+    /// <para>
     ///   The Balanced k-Means algorithm attempts to find a clustering where each cluster
     ///   has approximately the same number of data points. The Balanced k-Means implementation
     ///   used in the framework uses the <see cref="Munkres"/> algorithm to solve the assignment
-    ///   problem thus enforcing balance between the clusters.
+    ///   problem thus enforcing balance between the clusters.</para>
+    /// <para>
+    ///   Note: the <see cref="Learn(double[][], double[])"/> method of this class will
+    ///   return the centroids of balanced clusters, but please note that these centroids
+    ///   cannot be used to obtain balanced clusterings for another (or even the same) data 
+    ///   set. Instead, in order to inspect the balanced clustering that has been obtained
+    ///   after calling <see cref="Learn(double[][], double[])"/>, please take a look at the
+    ///   contents of the <see cref="Labels"/> property.</para>
     /// </remarks>
     /// 
     /// <example>
@@ -88,15 +97,24 @@ namespace Accord.MachineLearning
 
 
         /// <summary>
-        /// Learns a model that can map the given inputs to the desired outputs.
+        ///   Learns a model that can map the given inputs to the desired outputs. Note:
+        ///   the model created by this function will not be able to produce balanced
+        ///   clusterings. To retrieve the balanced labels, check the <see cref="Labels"/> 
+        ///   property of this class after calling this function.
         /// </summary>
+        /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="weights">The weight of importance for each input sample.</param>
+        /// 
         /// <returns>A model that has learned how to produce suitable outputs
-        /// given the input data <paramref name="x" />.</returns>
+        ///   given the input data <paramref name="x" />.</returns>
+        /// 
         public override KMeansClusterCollection Learn(double[][] x, double[] weights = null)
         {
             // Initial argument checking
+            if (MaxIterations == 0)
+                throw new InvalidOperationException("MaxIterations must be higher than zero. The Balanced K-Means algorithm has a high chance of oscillating between possible answers without converging.");
+
             if (x == null)
                 throw new ArgumentNullException("x");
 

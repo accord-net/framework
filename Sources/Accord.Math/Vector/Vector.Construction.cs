@@ -468,7 +468,7 @@ namespace Accord.Math
         /// 
         public static int[] Histogram(this int[] labels)
         {
-            return Histogram(labels, new int[labels.Max()]);
+            return Histogram(labels, new int[labels.Max() + 1]);
         }
 
         /// <summary>

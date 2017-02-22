@@ -200,7 +200,7 @@ namespace Accord.Tests.MachineLearning
             Accord.Math.Tools.SetupGenerator(0);
 
             // Declare some observations
-            double[][] observations = 
+            double[][] observations =
             {
                 new double[] { -5, -2, -1 },
                 new double[] { -5, -5, -6 },
@@ -220,7 +220,7 @@ namespace Accord.Tests.MachineLearning
 
             // note: in balanced k-means the chances of the algorithm
             // oscillating between two solutions increases considerably
-            kmeans.MaxIterations = 100; 
+            kmeans.MaxIterations = 100;
 
             kmeans.Randomize(observations);
 
@@ -276,7 +276,7 @@ namespace Accord.Tests.MachineLearning
 
 
             // Declare some observations
-            double[][] observations = 
+            double[][] observations =
             {
                 new double[] { -5, -2, -1 },
                 new double[] { -5, -5, -6 },
@@ -291,11 +291,85 @@ namespace Accord.Tests.MachineLearning
 
             double[][] orig = observations.MemberwiseClone();
 
-            BalancedKMeans kmeans = new BalancedKMeans(15);
+            BalancedKMeans kmeans = new BalancedKMeans(15)
+            {
+                MaxIterations = 10
+            };
 
             int[] labels = kmeans.Compute(observations);
         }
 
+        [Test]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void MaxIterationsZero()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            // Declare some observations
+            double[][] observations =
+            {
+                new double[] { -5, -2, -1 },
+                new double[] { -5, -5, -6 },
+                new double[] {  2,  1,  1 },
+                new double[] {  1,  1,  2 },
+                new double[] {  1,  2,  2 },
+                new double[] {  3,  1,  2 },
+                new double[] { 11,  5,  4 },
+                new double[] { 15,  5,  6 },
+                new double[] { 10,  5,  6 },
+            };
+
+            double[][] orig = observations.MemberwiseClone();
+
+            var kmeans = new BalancedKMeans(2);
+
+            int[] labels = kmeans.Compute(observations);
+        }
+
+        [Test]
+        public void uniform_test()
+        {
+            // https://github.com/accord-net/framework/issues/451
+
+            int numClusters = 6;
+
+            double[][] observations =
+            {
+                new double[] { 10.8, 18.706148721743876 },
+                new double[] { -10.8, 18.706148721743876 },
+                new double[] { -21.6, 0.0 },
+                new double[] { -10.8, -18.706148721743876 },
+                new double[] { 10.8, -18.706148721743876 },
+                new double[] { 21.6, 0.0 },
+                new double[] { 32.400000000000006, 18.706148721743876 },
+                new double[] { 21.600000000000005, 37.412297443487752 },
+                new double[] { 3.5527136788005009E-15, 37.412297443487752 },
+                new double[] { -21.599999999999998, 37.412297443487752 },
+                new double[] { -32.4, 18.706148721743876 },
+                new double[] { -43.2, 0.0 },
+                new double[] { -32.400000000000006, -18.706148721743876 },
+                new double[] { -21.600000000000005, -37.412297443487752 },
+                new double[] { -3.5527136788005009E-15, -37.412297443487752 },
+                new double[] { 21.599999999999998, -37.412297443487752 },
+                new double[] { 32.4, -18.706148721743876 },
+                new double[] { 43.2, 0.0 }
+            };
+
+            Accord.Math.Random.Generator.Seed = 0;
+            var kmeans = new BalancedKMeans(numClusters);
+
+            // If a limit is not set, the following Learn call does not return....
+            kmeans.MaxIterations = 1000;
+
+            var clusters = kmeans.Learn(observations);
+
+            int[] labels = kmeans.Labels;
+
+            int[] hist = Accord.Math.Vector.Histogram(labels);
+
+            for (int i = 0; i < hist.Length; i++)
+                Assert.AreEqual(hist[i], 3);
+        }
 
     }
 }
