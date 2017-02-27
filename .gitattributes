@@ -22,3 +22,21 @@
 #*.csv binary
 #*.xls binary
 #*.xlsx binary
+
+
+
+*.txt     diff
+*.c       diff
+*.cpp     diff
+*.h       diff
+*.sln     diff
+*.tt      diff
+*.bat     diff
+*.svg     diff
+*.csproj  diff
+*.vcxproj diff
+*.cs      diff
+*.tt      diff
+*.xml     diff
+.gitattributes diff
+.gitignore     diff
