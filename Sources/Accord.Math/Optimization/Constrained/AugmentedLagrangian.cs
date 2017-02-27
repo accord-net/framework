@@ -139,6 +139,12 @@ namespace Accord.Math.Optimization
         private int maxEvaluations;
         private int iterations;
 
+        /// <summary>
+        ///   Get the exit code returned in the last call to the
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Maximize()"/> or 
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/> methods.
+        /// </summary>
+        /// 
         public AugmentedLagrangianStatus Status { get; private set; }
 
         /// <summary>
