@@ -227,15 +227,20 @@ namespace Accord.Math.Optimization
             // Do the Resilient Backpropagation parameter update
             for (int k = 0; k < parameters.Length; k++)
             {
-                if (Double.IsInfinity(parameters[k])) continue;
+                if (Double.IsInfinity(parameters[k]) || Double.IsNaN(gradient[k]))
+                    continue;
 
-                double S = previousGradient[k] * gradient[k];
+                double g = gradient[k];
+                if (g > 1e100) g = 1e100;
+                if (g < -1e100) g = -1e100;
+
+                double S = previousGradient[k] * g;
 
                 if (S > 0.0)
                 {
                     weightsUpdates[k] = Math.Min(weightsUpdates[k] * etaPlus, deltaMax);
-                    parameters[k] -= Math.Sign(gradient[k]) * weightsUpdates[k];
-                    previousGradient[k] = gradient[k];
+                    parameters[k] -= Math.Sign(g) * weightsUpdates[k];
+                    previousGradient[k] = g;
                 }
                 else if (S < 0.0)
                 {
@@ -244,8 +249,8 @@ namespace Accord.Math.Optimization
                 }
                 else
                 {
-                    parameters[k] -= Math.Sign(gradient[k]) * weightsUpdates[k];
-                    previousGradient[k] = gradient[k];
+                    parameters[k] -= Math.Sign(g) * weightsUpdates[k];
+                    previousGradient[k] = g;
                 }
             }
 
