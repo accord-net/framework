@@ -25,6 +25,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Math;
     using Accord.Statistics;
     using Accord.Statistics.Kernels;
+    using Math.Optimization;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         /// <summary>
         ///   Uses the sequential selection strategy as
-        ///    suggested by Keerthi et al's algorithm 1.
+        ///   suggested by Keerthi et al's algorithm 1.
         /// </summary>
         /// 
         Sequential,
@@ -50,7 +51,14 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Keerthi et al's algorithm 2.
         /// </summary>
         /// 
-        WorstPair
+        WorstPair,
+
+        /// <summary>
+        ///   Use a second order selection algorithm, using
+        ///   the same algorithm as LibSVM's implementation.
+        /// </summary>
+        /// 
+        SecondOrder,
     };
 
     /// <summary>
@@ -423,6 +431,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         // Learning algorithm parameters
         private double tolerance = 1e-2;
         private double epsilon = 1e-6;
+        private bool shrinking;
 
         // Support Vector Machine parameters
         private double[] alpha;
@@ -586,21 +595,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// 
         protected override void InnerRun()
         {
-
-            // The SMO algorithm chooses to solve the smallest possible optimization problem
-            // at every step. At every step, SMO chooses two Lagrange multipliers to jointly
-            // optimize, finds the optimal values for these multipliers, and updates the SVM
-            // to reflect the new optimal values.
-            //
-            // Reference: http://research.microsoft.com/en-us/um/people/jplatt/smoTR.pdf
-
-            // The algorithm has been updated to implement the improvements suggested
-            // by Keerthi et al. The code has been based on the pseudo-code available
-            // on the author's technical report.
-            //
-            // Reference: http://www.cs.iastate.edu/~honavar/keerthi-svm.pdf
-
-
             // Initialize variables
             int samples = Inputs.Length;
             double[] c = C;
@@ -610,116 +604,160 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             // Lagrange multipliers
             this.alpha = new double[samples];
 
-            // Error cache
-            this.errors = new double[samples];
-
-            // Kernel cache
-            if (this.cacheSize == -1)
-            {
-                this.cacheSize = samples;
-            }
-
-
-            // Lagrange multipliers
-            Array.Clear(alpha, 0, alpha.Length);
-
-            // Error cache
-            Array.Clear(errors, 0, errors.Length);
-
-            // Kernel evaluations cache
-            this.kernelCache = new KernelFunctionCache<TKernel, TInput>(Kernel, Inputs, cacheSize);
-
-            // [Keerthi] Initialize b_up to -1 and 
-            //   i_up to any one index of class 1:
-            this.b_upper = -1;
-            this.i_upper = y.First(y_i => y_i > 0);
-
-            // [Keerthi] Initialize b_low to +1 and 
-            //   i_low to any one index of class 2:
-            this.b_lower = +1;
-            this.i_lower = y.First(y_i => y_i < 0);
-
-            // [Keerthi] Set error cache for i_low and i_up:
-            this.errors[i_lower] = +1;
-            this.errors[i_upper] = -1;
-
-
             // Prepare indices sets
             activeExamples = new HashSet<int>();
             nonBoundExamples = new HashSet<int>();
             atBoundsExamples = new HashSet<int>();
 
-            // Algorithm:
-            int numChanged = 0;
-            int wholeSetChecks = 0;
-            bool examineAll = true;
+            // Kernel cache
+            if (this.cacheSize == -1)
+                this.cacheSize = samples;
+
             bool diverged = false;
-            bool shouldStop = false;
 
-            while ((numChanged > 0 || examineAll) && !shouldStop)
+
+            if (Strategy == SelectionStrategy.SecondOrder)
             {
-                if (Token.IsCancellationRequested)
-                    break;
+                double[] minusOnes = Vector.Create(Inputs.Length, -1.0);
 
-                numChanged = 0;
-                if (examineAll)
+                // TODO: This function should return a row, in order to be more efficient
+                Func<int, int, double> Q = (int i, int j) => y[i] * y[j] * Kernel.Function(x[i], x[j]);
+
+                var s = new FanChenLinQuadraticOptimization(alpha.Length, Q, minusOnes, y)
                 {
-                    // loop I over all training examples
-                    for (int i = 0; i < samples; i++)
-                        if (examineExample(i))
-                            numChanged++;
+                    Tolerance = tolerance,
+                    Shrinking = this.shrinking,
+                    Solution = alpha,
+                    Token = Token,
+                    UpperBounds = c
+                };
 
-                    wholeSetChecks++;
+                diverged = !s.Minimize();
+
+                // Store information about active examples
+                for (int i = 0; i < alpha.Length; i++)
+                {
+                    if (alpha[i] > 0)
+                        activeExamples.Add(i);
                 }
-                else
-                {
-                    if (strategy == SelectionStrategy.Sequential)
-                    {
-                        // loop I over examples not at bounds
-                        for (int i = 0; i < alpha.Length; i++)
-                        {
-                            if (alpha[i] != 0 && alpha[i] != c[i])
-                            {
-                                if (examineExample(i))
-                                    numChanged++;
 
-                                if (b_upper > b_lower - 2.0 * tolerance)
+                b_lower = b_upper = s.Rho;
+            }
+            else
+            {
+                if (shrinking)
+                    throw new InvalidOperationException("Shrinking heuristic can only be used if Strategy is set to SelectionStrategy.SecondOrder.");
+
+                // The SMO algorithm chooses to solve the smallest possible optimization problem
+                // at every step. At every step, SMO chooses two Lagrange multipliers to jointly
+                // optimize, finds the optimal values for these multipliers, and updates the SVM
+                // to reflect the new optimal values.
+                //
+                // Reference: http://research.microsoft.com/en-us/um/people/jplatt/smoTR.pdf
+
+                // The algorithm has been updated to implement the improvements suggested
+                // by Keerthi et al. The code has been based on the pseudo-code available
+                // on the author's technical report.
+                //
+                // Reference: http://www.cs.iastate.edu/~honavar/keerthi-svm.pdf
+
+
+                // Error cache
+                this.errors = new double[samples];
+
+                // Kernel evaluations cache
+                this.kernelCache = new KernelFunctionCache<TKernel, TInput>(Kernel, Inputs, cacheSize);
+
+                // [Keerthi] Initialize b_up to -1 and 
+                //   i_up to any one index of class 1:
+                this.b_upper = -1;
+                this.i_upper = y.First(y_i => y_i > 0);
+
+                // [Keerthi] Initialize b_low to +1 and 
+                //   i_low to any one index of class 2:
+                this.b_lower = +1;
+                this.i_lower = y.First(y_i => y_i < 0);
+
+                // [Keerthi] Set error cache for i_low and i_up:
+                this.errors[i_lower] = +1;
+                this.errors[i_upper] = -1;
+
+
+                // Algorithm:
+                int numChanged = 0;
+                int wholeSetChecks = 0;
+                bool examineAll = true;
+                bool shouldStop = false;
+
+                while ((numChanged > 0 || examineAll) && !shouldStop)
+                {
+                    if (Token.IsCancellationRequested)
+                        break;
+
+                    numChanged = 0;
+                    if (examineAll)
+                    {
+                        // loop I over all training examples
+                        for (int i = 0; i < samples; i++)
+                            if (examineExample(i))
+                                numChanged++;
+
+                        wholeSetChecks++;
+                    }
+                    else
+                    {
+                        if (strategy == SelectionStrategy.Sequential)
+                        {
+                            // loop I over examples not at bounds
+                            for (int i = 0; i < alpha.Length; i++)
+                            {
+                                if (alpha[i] != 0 && alpha[i] != c[i])
                                 {
-                                    numChanged = 0; break;
+                                    if (examineExample(i))
+                                        numChanged++;
+
+                                    if (b_upper > b_lower - 2.0 * tolerance)
+                                    {
+                                        numChanged = 0; break;
+                                    }
                                 }
                             }
                         }
-                    }
-                    else // strategy == Strategy.WorstPair
-                    {
-                        int attempts = 0;
-                        do
+                        else if (strategy == SelectionStrategy.WorstPair)
                         {
-                            attempts++;
+                            int attempts = 0;
+                            do
+                            {
+                                attempts++;
 
-                            if (!takeStep(i_upper, i_lower))
-                                break;
+                                if (!takeStep(i_upper, i_lower))
+                                    break;
 
-                            if (attempts > samples * maxChecks)
-                                break;
+                                if (attempts > samples * maxChecks)
+                                    break;
+                            }
+                            while ((b_upper <= b_lower - 2.0 * tolerance));
+
+                            numChanged = 0;
                         }
-                        while ((b_upper <= b_lower - 2.0 * tolerance));
-
-                        numChanged = 0;
+                        else
+                        {
+                            throw new InvalidOperationException("Unknown strategy");
+                        }
                     }
+
+                    if (examineAll)
+                        examineAll = false;
+
+                    else if (numChanged == 0)
+                        examineAll = true;
+
+                    if (wholeSetChecks > maxChecks)
+                        shouldStop = diverged = true;
+
+                    if (Token.IsCancellationRequested)
+                        shouldStop = true;
                 }
-
-                if (examineAll)
-                    examineAll = false;
-
-                else if (numChanged == 0)
-                    examineAll = true;
-
-                if (wholeSetChecks > maxChecks)
-                    shouldStop = diverged = true;
-
-                if (Token.IsCancellationRequested)
-                    shouldStop = true;
             }
 
 
@@ -744,14 +782,18 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 Model.Weights[index] = alpha[j] * y[j];
                 index++;
             }
+
             Model.Threshold = -(b_lower + b_upper) / 2;
 
             if (isCompact)
                 Model.Compress();
 
             // Clear function cache
-            this.kernelCache.Clear();
-            this.kernelCache = null;
+            if (this.kernelCache != null)
+            {
+                this.kernelCache.Clear();
+                this.kernelCache = null;
+            }
 
             if (diverged)
             {

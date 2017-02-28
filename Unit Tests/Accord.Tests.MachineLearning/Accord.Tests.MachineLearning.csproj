@@ -110,6 +110,8 @@
     <Compile Include="VectorMachines\Liblinear\LiblinearTest.cs" />
     <Compile Include="VectorMachines\LinearDualCoordinateDescentTest.cs" />
     <Compile Include="VectorMachines\AveragedStochasticGradientDescentTest.cs" />
+    <Compile Include="VectorMachines\FanChenLinSequentialMinimalOptimizationTest.cs" />
+    <Compile Include="VectorMachines\Regression\FanChenLinSequentialMinimalOptimizationRegressionTest.cs" />
     <Compile Include="VectorMachines\StochasticGradientDescentTest.cs" />
     <Compile Include="VectorMachines\LinearNewtonMethodTest.cs" />
     <Compile Include="VectorMachines\LeastSquaresLearningTest.cs" />

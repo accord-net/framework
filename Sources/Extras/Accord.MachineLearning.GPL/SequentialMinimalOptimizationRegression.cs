@@ -61,6 +61,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </para>
     /// 
     /// <para>
+    ///   For a non-GPL'd version, see <see cref="FanChenLinSupportVectorRegression{TKernel}"/>.
+    /// </para>
+    /// 
+    /// <para>
     ///   To use this class, add a reference to the <c>Accord.MachineLearning.GPL.dll</c> assembly
     ///   that resides inside the Release/GPL folder of the framework's installation directory.</para>
     ///   

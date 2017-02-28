@@ -133,7 +133,7 @@ namespace Accord.Math.Optimization
         public int NumberOfVariables
         {
             get { return l; }
-            set { init(value); }
+            set { setNumberOfVariables(value); }
         }
 
         /// <summary>
@@ -144,7 +144,12 @@ namespace Accord.Math.Optimization
         public double[] Solution
         {
             get { return alpha; }
-            set { alpha = value; }
+            set
+            {
+                if (value.Length != NumberOfVariables)
+                    throw new DimensionMismatchException("value");
+                alpha = value;
+            }
         }
 
         /// <summary>
@@ -203,7 +208,16 @@ namespace Accord.Math.Optimization
         ///   default is to use a vector filled with 1's.
         /// </summary>
         /// 
-        public double[] UpperBounds { get { return C; } }
+        public double[] UpperBounds
+        {
+            get { return C; }
+            set
+            {
+                if (value.Length != NumberOfVariables)
+                    throw new DimensionMismatchException("value");
+                C = value;
+            }
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="FanChenLinQuadraticOptimization"/> class.
@@ -222,6 +236,7 @@ namespace Accord.Math.Optimization
                 ones[i] = 1;
 
             initialize(numberOfVariables, Q, zeros, ones);
+
         }
 
         /// <summary>
@@ -242,14 +257,14 @@ namespace Accord.Math.Optimization
 
         private void initialize(int numberOfVariables, Func<int, int, double> Q, double[] p, int[] y)
         {
-            init(numberOfVariables);
+            setNumberOfVariables(numberOfVariables);
 
             this.Q = Q;
             this.p = p;
             this.y = y;
         }
 
-        private void init(int numberOfVariables)
+        private void setNumberOfVariables(int numberOfVariables)
         {
             this.l = numberOfVariables;
             this.indices = new int[l];
@@ -258,10 +273,9 @@ namespace Accord.Math.Optimization
             this.G = new double[l];
             this.G_bar = new double[l];
             this.alpha = new double[l];
-
             this.C = new double[l];
             for (int i = 0; i < C.Length; i++)
-                C[i] = 1.0;
+                this.C[i] = 1.0;
         }
 
         /// <summary>
@@ -283,8 +297,8 @@ namespace Accord.Math.Optimization
 
             unshrink = false;
 
-            double[] Q_i = new double[l];
-            double[] Q_j = new double[l];
+            var Q_i = new double[l];
+            var Q_j = new double[l];
 
             // initialize alpha_status
             {
@@ -875,6 +889,7 @@ namespace Accord.Math.Optimization
             return false;
         }
 
+        // TODO: Remove this method and ask Q for a row direcly
         void row(int i, int length, double[] row)
         {
             int ii = indices[i];

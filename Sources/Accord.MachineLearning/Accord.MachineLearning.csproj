@@ -176,6 +176,7 @@
     <Compile Include="VectorMachines\Learning\Base\ISupportVectorMachineLearning.cs" />
     <Compile Include="VectorMachines\Learning\LeastSquaresLearning.cs" />
     <Compile Include="VectorMachines\Learning\AveragedStochasticGradientDescent.cs" />
+    <Compile Include="VectorMachines\Learning\Regression\FanChenLinSupportVectorRegression.cs" />
     <Compile Include="VectorMachines\Learning\StochasticGradientDescent.cs" />
     <Compile Include="VectorMachines\Learning\LinearCoordinateDescent.cs" />
     <Compile Include="VectorMachines\Learning\LinearDualCoordinateDescent.cs" />
