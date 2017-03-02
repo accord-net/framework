@@ -86,8 +86,10 @@ namespace Accord.MachineLearning
                 // Initialize using K-Means++
                 // http://en.wikipedia.org/wiki/K-means%2B%2B
 
+				var r = Accord.Math.Random.Generator.Random;
+				
                 // 1. Choose one center uniformly at random from among the data points.
-                int idx = Accord.Math.Random.Generator.Random.Next(0, points.Length);
+				int idx = r.Next(0, points.Length);
                 Centroids[0] = (TData)points[idx].Clone();
 
                 for (int c = 1; c < Centroids.Length; c++)
@@ -121,7 +123,7 @@ namespace Accord.MachineLearning
 					if (sum == 0)
 					{
 						// Degenerate case: all points are the same, chose any of them
-						idx = Accord.Math.Random.Generator.Random.Next(0, points.Length);
+						idx = r.Next(0, points.Length);
 					}
 					else
 					{

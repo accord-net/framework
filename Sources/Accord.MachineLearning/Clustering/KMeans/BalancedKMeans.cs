@@ -154,13 +154,7 @@ namespace Accord.MachineLearning
             int[] labels = new int[rows];
             double[] count = new double[k];
             double[][] centroids = Clusters.Centroids;
-            double[][] newCentroids = new double[k][];
-            for (int i = 0; i < newCentroids.Length; i++)
-                newCentroids[i] = new double[cols];
-
-            Object[] syncObjects = new Object[K];
-            for (int i = 0; i < syncObjects.Length; i++)
-                syncObjects[i] = new Object();
+            double[][] newCentroids = Jagged.Zeros(k, cols);
 
             Iterations = 0;
 
@@ -193,7 +187,7 @@ namespace Accord.MachineLearning
                 }
 
                 // For each point in the data set,
-                Parallel.For(0, x.Length, ParallelOptions, i =>
+                for (int i = 0; i < x.Length; i++)
                 {
                     // Get the point
                     double[] point = x[i];
@@ -207,17 +201,14 @@ namespace Accord.MachineLearning
                         // Get the closest cluster centroid
                         double[] centroid = newCentroids[c];
 
-                        lock (syncObjects[c])
-                        {
-                            // Increase the cluster's sample counter
-                            count[c] += weight;
+                        // Increase the cluster's sample counter
+                        count[c] += weight;
 
-                            // Accumulate in the cluster centroid
-                            for (int j = 0; j < point.Length; j++)
-                                centroid[j] += point[j] * weight;
-                        }
+                        // Accumulate in the cluster centroid
+                        for (int j = 0; j < point.Length; j++)
+                            centroid[j] += point[j] * weight;
                     }
-                });
+                }
 
                 // Next we will compute each cluster's new centroid
                 //  by dividing the accumulated sums by the number of

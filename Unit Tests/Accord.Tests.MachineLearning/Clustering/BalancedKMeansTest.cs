@@ -335,24 +335,24 @@ namespace Accord.Tests.MachineLearning
 
             double[][] observations =
             {
-                new double[] { 10.8, 18.706148721743876 },
-                new double[] { -10.8, 18.706148721743876 },
-                new double[] { -21.6, 0.0 },
-                new double[] { -10.8, -18.706148721743876 },
-                new double[] { 10.8, -18.706148721743876 },
-                new double[] { 21.6, 0.0 },
-                new double[] { 32.400000000000006, 18.706148721743876 },
-                new double[] { 21.600000000000005, 37.412297443487752 },
-                new double[] { 3.5527136788005009E-15, 37.412297443487752 },
-                new double[] { -21.599999999999998, 37.412297443487752 },
-                new double[] { -32.4, 18.706148721743876 },
-                new double[] { -43.2, 0.0 },
-                new double[] { -32.400000000000006, -18.706148721743876 },
-                new double[] { -21.600000000000005, -37.412297443487752 },
-                new double[] { -3.5527136788005009E-15, -37.412297443487752 },
-                new double[] { 21.599999999999998, -37.412297443487752 },
-                new double[] { 32.4, -18.706148721743876 },
-                new double[] { 43.2, 0.0 }
+                new double[] {  10.8,   18.706148721743876 }, // 5
+                new double[] { -10.8,   18.706148721743876 }, // 0
+                new double[] { -21.6,   0.0 },                // 3
+                new double[] { -10.8, -18.706148721743876 },  // 3
+                new double[] {  10.8, -18.706148721743876 },  // 5
+                new double[] {  21.6,   0.0 },                // 1
+                new double[] {  32.4,  18.706148721743876 },  // 4
+                new double[] {  21.6,  37.412297443487752 },  // 4
+                new double[] {   0.0,  37.412297443487752 },  // 2
+                new double[] { -21.6,  37.412297443487752 },  // 2
+                new double[] { -32.4,  18.706148721743876 },  // 4
+                new double[] { -43.2,   0.0 },                // 5
+                new double[] { -32.4, -18.706148721743876 },  // 2
+                new double[] { -21.6, -37.412297443487752 },  // 3
+                new double[] {   0.0, -37.412297443487752 },  // 1
+                new double[] {  21.6, -37.412297443487752 },  // 1
+                new double[] {  32.4, -18.706148721743876 },  // 0
+                new double[] {  43.2,   0.0 }                 // 0
             };
 
             Accord.Math.Random.Generator.Seed = 0;
@@ -364,6 +364,11 @@ namespace Accord.Tests.MachineLearning
             var clusters = kmeans.Learn(observations);
 
             int[] labels = kmeans.Labels;
+            int[] expected = new [] { 5, 0, 3, 3, 5, 1, 4, 4, 2, 2, 4, 5, 2, 3, 1, 1, 0, 0 };
+
+            string str = labels.ToCSharp();
+
+            Assert.IsTrue(labels.IsEqual(expected));
 
             int[] hist = Accord.Math.Vector.Histogram(labels);
 
