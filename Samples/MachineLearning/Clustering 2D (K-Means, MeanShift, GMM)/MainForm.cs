@@ -100,7 +100,7 @@ namespace SampleApp
             // Get only the input vector values (first two columns)
             double[][] inputs = table.GetColumns(0, 1).ToJagged();
 
-            
+
             try
             {
                 // Create and run the specified algorithm
@@ -110,7 +110,7 @@ namespace SampleApp
             }
             catch (ConvergenceException)
             {
-                lbStatus.Text = "Convergence could not be attained. "+
+                lbStatus.Text = "Convergence could not be attained. " +
                     "The learned clustering might still be usable.";
             }
 
@@ -164,7 +164,7 @@ namespace SampleApp
 
             // Use confusion matrix to compute some performance metrics
             ConfusionMatrix confusionMatrix = new ConfusionMatrix(output, expected, 1, 0);
-            dgvPerformance.DataSource = new [] { confusionMatrix };
+            dgvPerformance.DataSource = new[] { confusionMatrix };
 
 
             // Create performance scatter plot
@@ -173,7 +173,7 @@ namespace SampleApp
 
 
 
-       
+
         /// <summary>
         ///   Creates the clustering algorithm.
         /// </summary>
@@ -181,7 +181,15 @@ namespace SampleApp
         private IMulticlassClassifier<double[]> createClustering(double[][] data)
         {
             if (rbKMeans.Checked)
+            {
+                if (cbBalanced.Checked)
+                    return new BalancedKMeans((int)numKMeans.Value)
+                    {
+                        MaxIterations = 100,
+                    }.Learn(data);
                 return new KMeans((int)numKMeans.Value).Learn(data);
+            }
+
 
             if (rbMeanShift.Checked)
             {
@@ -265,8 +273,8 @@ namespace SampleApp
             for (int i = 0; i < unique.Length; i++)
             {
                 var color = seq.GetColor(i);
-                LineItem myCurve = myPane.AddCurve("G" + i, 
-                    lists[unique[i]],  color, 
+                LineItem myCurve = myPane.AddCurve("G" + i,
+                    lists[unique[i]], color,
                     SymbolType.Diamond);
                 myCurve.Line.IsVisible = false;
                 myCurve.Symbol.Border.IsVisible = false;
@@ -363,6 +371,11 @@ namespace SampleApp
         }
 
         private void numPolyConstant_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
         {
 
         }
