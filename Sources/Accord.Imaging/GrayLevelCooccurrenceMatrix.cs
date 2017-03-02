@@ -95,7 +95,7 @@ namespace Accord.Imaging
     /// </remarks>
     /// 
     /// <example>
-    ///   <code source="Accord.Tests.Imaging\GrayLevelCooccurrenceMatrixTest.cs" region="doc_learn" />
+    ///   <code source="Unit Tests\Accord.Tests.Imaging\GrayLevelCooccurrenceMatrixTest.cs" region="doc_learn" />
     /// </example>
     /// 
     public class GrayLevelCooccurrenceMatrix : ICloneable

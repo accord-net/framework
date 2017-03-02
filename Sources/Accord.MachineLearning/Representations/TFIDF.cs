@@ -416,7 +416,9 @@ namespace Accord.MachineLearning
         public double[] Transform(string[] input, double[] result)
         {
             Sparse<double> r;
-            return Transform(input, out r, new double[NumberOfWords]).ToDense();
+            Transform(input, out r, new double[NumberOfWords]);
+            r.CopyTo(result, 0);
+            return result;
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <!-- The configuration and platform will be used to determine which
@@ -44,6 +44,12 @@
       <DocumentationSource sourceFile="..\..\Extras\Accord.MachineLearning.GPL\Accord.MachineLearning (GPL).csproj" />
       <DocumentationSource sourceFile="..\..\Extras\Accord.Math.NonCommercial\Accord.Math (Noncommercial).csproj" />
       <DocumentationSource sourceFile="..\..\Extras\Accord.Video.FFMPEG.GPL\Video.FFMPEG.vcxproj" platform="Win32" />
+      <DocumentationSource sourceFile="..\..\Accord.DataSets\Accord.DataSets.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Text\Accord.Text.csproj" />
+      <DocumentationSource sourceFile="..\..\..\Externals\SharpDX\v311\net45\SharpDX.DirectSound.xml" />
+      <DocumentationSource sourceFile="..\..\..\Externals\SharpDX\v311\net45\SharpDX.DirectSound.dll" />
+      <DocumentationSource sourceFile="..\..\..\Externals\SharpDX\v311\net45\SharpDX.xml" />
+      <DocumentationSource sourceFile="..\..\..\Externals\SharpDX\v311\net45\SharpDX.dll" />
     </DocumentationSources>
     <CopyrightText>Accord.NET Framework &amp;#169%3b 2009-2017. All documentation is licensed under the Creative Commons Attribution/Share-Alike License.</CopyrightText>
     <FeedbackEMailAddress>feedback%40accord-framework.net</FeedbackEMailAddress>
@@ -256,7 +262,7 @@
     <SyntaxFilters>C#, Visual Basic</SyntaxFilters>
     <NamingMethod>MemberName</NamingMethod>
     <HelpFileVersion>3.4.2.0</HelpFileVersion>
-    <FrameworkVersion>.NET Framework 4.6.1</FrameworkVersion>
+    <FrameworkVersion>.NET Framework 4.6</FrameworkVersion>
     <VisibleItems>Attributes, InheritedMembers, InheritedFrameworkMembers, Protected</VisibleItems>
     <PlugInNamespaces>ms.vsipcc+, ms.vsexpresscc+</PlugInNamespaces>
     <CollectionTocStyle>Flat</CollectionTocStyle>
@@ -787,11 +793,13 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="SharpDX">
-      <HintPath>..\..\..\Externals\SharpDX\net40\SharpDX.dll</HintPath>
+    <Reference Include="SharpDX, Version=3.1.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
+      <HintPath>..\..\..\Externals\SharpDX\v311\net45\SharpDX.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="SharpDX.DirectSound">
-      <HintPath>..\..\..\Externals\SharpDX\net40\SharpDX.DirectSound.dll</HintPath>
+    <Reference Include="SharpDX.DirectSound, Version=3.1.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
+      <HintPath>..\..\..\Externals\SharpDX\v311\net45\SharpDX.DirectSound.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
       <Name>System</Name>
@@ -809,6 +817,10 @@
       <Name>System.Drawing</Name>
       <AssemblyName>System.Drawing.dll</AssemblyName>
       <HintPath>..\..\..\..\..\..\..\..\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ZedGraph, Version=5.1.5.28844, Culture=neutral, PublicKeyToken=02a83cbd123fcd60">
+      <HintPath>..\..\..\Externals\ZedGraph\ZedGraph.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
