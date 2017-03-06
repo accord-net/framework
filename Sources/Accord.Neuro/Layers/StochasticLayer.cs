@@ -128,8 +128,8 @@ namespace Accord.Neuro.Layers
 
             for (int i = 0; i < neurons.Length; i++)
             {
-                sample[i] = neurons[i].Generate(input);
-                output[i] = neurons[i].Output;
+                output[i] = neurons[i].Compute(input);
+                sample[i] = neurons[i].Generate(output[i]);
             }
 
             this.sample = sample;
