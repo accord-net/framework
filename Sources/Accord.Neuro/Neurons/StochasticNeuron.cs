@@ -83,28 +83,6 @@ namespace Accord.Neuro.Neurons
         }
 
         /// <summary>
-        ///   Computes output value of neuron.
-        /// </summary>
-        /// 
-        /// <param name="input">An input vector.</param>
-        /// 
-        /// <returns>Returns the neuron's output value for the given input.</returns>
-        /// 
-        public override double Compute(double[] input)
-        {
-            double sum = threshold;
-            for (int i = 0; i < weights.Length; i++)
-                sum += weights[i] * input[i];
-
-            double output = function.Function(sum);
-
-            this.output = output;
-
-            return output;
-        }
-
-
-        /// <summary>
         ///   Samples the neuron output considering
         ///   the stochastic activation function.
         /// </summary>
