@@ -18,7 +18,6 @@
     <tags>accord.net aforge.net framework ffmpeg video capture decode codec</tags>
     <dependencies>
       <dependency id="Accord"                 version="$version$" />
-      <dependency id="Accord.Core"            version="$version$" />
       <dependency id="Accord.Video"           version="$version$" />
     </dependencies>
   </metadata>
