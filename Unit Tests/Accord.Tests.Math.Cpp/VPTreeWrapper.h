@@ -3,7 +3,6 @@
 #include "bhtsne\vptree.h"
 #include <vector>
 
-using namespace std;
 using namespace System;
 using namespace System::Collections::Generic;
 using namespace System::Reflection;
@@ -42,7 +41,7 @@ namespace AccordTestsMathCpp2
 	public ref class VPTreeWrapper
 	{
 		VpTree<DataPoint, euclidean_distance>* tree = NULL;
-		vector<DataPoint>* data = NULL;
+		std::vector<DataPoint>* data = NULL;
 
 	public:
 		VPTreeWrapper();

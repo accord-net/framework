@@ -317,6 +317,7 @@ namespace Accord.Tests.Math
             }
         }
 
+#if !NET35
         [Test]
         public void subsets()
         {
@@ -415,6 +416,6 @@ namespace Accord.Tests.Math
                 Assert.AreEqual(actual, expected[i]);
             }
         }
-
+#endif
     }
 }

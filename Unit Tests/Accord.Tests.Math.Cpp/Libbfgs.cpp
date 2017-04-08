@@ -157,7 +157,8 @@ String^ Wrapper::Lbfgsb3(array<double>^ start, Function^ function, Gradient^ gra
     memset(csave, 0, sizeof(char) * 60);
     memset(wa, 0, sizeof(doublereal) * ws);
 
-    iprint = 101; // print details of every iteration including x and g;
+    //iprint = 101; // print details of every iteration including x and g;
+	iprint = -1;
     factr = param->factr;
     pgtol = param->pgtol;
 

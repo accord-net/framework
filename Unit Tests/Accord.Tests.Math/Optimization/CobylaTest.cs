@@ -196,7 +196,7 @@ namespace Accord.Tests.Math
             double minimum = cobyla.Value;
             double[] solution = cobyla.Solution;
 
-            Assert.AreEqual(0, minimum, 1e-10);
+            Assert.AreEqual(0, minimum, 1e-8);
             Assert.AreEqual(-1, solution[0], 1e-5);
             Assert.AreEqual(1, solution[1], 1e-4);
 

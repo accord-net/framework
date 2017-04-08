@@ -161,17 +161,20 @@ namespace Accord.Imaging
         public static Bitmap Clone(this Bitmap source)
         {
             // lock source bitmap data
-            BitmapData sourceData = source.LockBits(
-                new Rectangle(0, 0, source.Width, source.Height),
-                ImageLockMode.ReadOnly, source.PixelFormat);
+            BitmapData sourceData = source.LockBits(ImageLockMode.ReadOnly);
+            Bitmap destination;
 
-            // create new image
-            Bitmap destination = Clone(sourceData);
+            try
+            {
+                // create new image
+                destination = Clone(sourceData);
+            }
+            finally
+            {
+                // unlock source image
+                source.UnlockBits(sourceData);
+            }
 
-            // unlock source image
-            source.UnlockBits(sourceData);
-
-            //
             if (
                 (source.PixelFormat == PixelFormat.Format1bppIndexed) ||
                 (source.PixelFormat == PixelFormat.Format4bppIndexed) ||
@@ -210,11 +213,12 @@ namespace Accord.Imaging
             Bitmap destination = new Bitmap(width, height, sourceData.PixelFormat);
 
             // lock destination bitmap data
-            BitmapData destinationData = destination.LockBits(
-                new Rectangle(0, 0, width, height),
-                ImageLockMode.ReadWrite, destination.PixelFormat);
+            BitmapData destinationData = destination.LockBits(ImageLockMode.ReadWrite);
 
-            Accord.SystemTools.CopyUnmanagedMemory(destinationData.Scan0, sourceData.Scan0, height * sourceData.Stride);
+            System.Diagnostics.Debug.Assert(destinationData.Stride == sourceData.Stride);
+
+            Accord.SystemTools.CopyUnmanagedMemory(
+                destinationData.Scan0, sourceData.Scan0, height * sourceData.Stride);
 
             // unlock destination image
             destination.UnlockBits(destinationData);
@@ -386,10 +390,8 @@ namespace Accord.Imaging
             }
 
             // lock both images
-            BitmapData sourceData = bitmap.LockBits(new Rectangle(0, 0, width, height),
-                ImageLockMode.ReadOnly, bitmap.PixelFormat);
-            BitmapData newData = newImage.LockBits(new Rectangle(0, 0, width, height),
-                ImageLockMode.ReadWrite, newImage.PixelFormat);
+            BitmapData sourceData = bitmap.LockBits(ImageLockMode.ReadOnly);
+            BitmapData newData = newImage.LockBits(ImageLockMode.ReadWrite);
 
             unsafe
             {
@@ -482,10 +484,8 @@ namespace Accord.Imaging
             }
 
             // lock both images
-            BitmapData sourceData = bitmap.LockBits(new Rectangle(0, 0, width, height),
-                ImageLockMode.ReadOnly, bitmap.PixelFormat);
-            BitmapData newData = newImage.LockBits(new Rectangle(0, 0, width, height),
-                ImageLockMode.ReadWrite, newImage.PixelFormat);
+            BitmapData sourceData = bitmap.LockBits(ImageLockMode.ReadOnly);
+            BitmapData newData = newImage.LockBits(ImageLockMode.ReadWrite);
 
             unsafe
             {

@@ -242,11 +242,12 @@ namespace Accord.Tests.Statistics
         [Test]
         public void ApproximationTest()
         {
-            double[] m = Matrix.Magic(6).Reshape().Get(0, 28);
+            int t = 14;
+
+            double[] m = Matrix.Magic(6).Reshape().Get(0, t * 2);
 
             double[] samples = m.Rank();
 
-            int t = 14;
             double[] rank1 = samples.Get(0, t);
             double[] rank2 = samples.Get(t, 0);
 

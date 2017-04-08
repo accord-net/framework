@@ -86,8 +86,8 @@ namespace Accord.Tests.Interop.Math
             {
                 LbfgsbComparer cmp = new LbfgsbComparer();
 
-                var expected = cmp.Expected(problem);
-                var actual = cmp.Actual(problem);
+                Info[] expected = cmp.Expected(problem);
+                OptimizationProgressEventArgs[] actual = cmp.Actual(problem);
 
                 check(actual, expected);
             }

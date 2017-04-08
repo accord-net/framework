@@ -156,9 +156,9 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(e1, e2);
             Assert.AreEqual(w1.Length, w2.Length);
-            Assert.AreEqual(w1[0], w2[0]);
-            Assert.AreEqual(w1[1], w2[1]);
-            Assert.AreEqual(w1[2], w2[2]);
+            Assert.AreEqual(w1[0], w2[0], 1e-8);
+            Assert.AreEqual(w1[1], w2[1], 1e-8);
+            Assert.AreEqual(w1[2], w2[2], 1e-8);
         }
 
         [Test]

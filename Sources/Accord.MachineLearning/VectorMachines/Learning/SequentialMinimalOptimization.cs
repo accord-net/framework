@@ -533,6 +533,20 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
         /// <summary>
+        ///   Gets or sets a value indicating whether shrinking heuristics should be used. Note: 
+        ///   this property can only be used when <see cref="Strategy"/> is set to <see cref="SelectionStrategy.SecondOrder"/>.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   <c>true</c> to use shrinking heuristics; otherwise, <c>false</c>.
+        /// </value>
+        /// 
+        public bool Shrinking
+        {
+            get { return shrinking; }
+            set { shrinking = value; }
+        }
+        /// <summary>
         ///   Gets the value for the Lagrange multipliers
         ///   (alpha) for every observation vector.
         /// </summary>

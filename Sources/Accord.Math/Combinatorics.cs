@@ -472,7 +472,13 @@ namespace Accord.Math
         /// <code source="Unit Tests\Accord.Tests.Math\CombinatoricsTest.cs" region="doc_subsets" />
         /// </example>
         /// 
-        public static IEnumerable<SortedSet<T>> Subsets<T>(this ISet<T> set, bool inPlace = false)
+        public static IEnumerable<SortedSet<T>> Subsets<T>(this
+#if NET35
+            IEnumerable<T>
+#else
+            ISet<T> 
+#endif
+            set, bool inPlace = false)
         {
             // TODO: Optimize
             T[] values = set.ToArray();
@@ -489,7 +495,13 @@ namespace Accord.Math
         /// <code source="Unit Tests\Accord.Tests.Math\CombinatoricsTest.cs" region="doc_subsets_k" />
         /// </example>
         /// 
-        public static IEnumerable<SortedSet<T>> Subsets<T>(this ISet<T> set, int k, bool inPlace = false)
+        public static IEnumerable<SortedSet<T>> Subsets<T>(this
+#if NET35
+            IEnumerable<T>
+#else
+            ISet<T> 
+#endif
+            set, int k, bool inPlace = false)
         {
             // TODO: Optimize
             T[] values = set.ToArray();

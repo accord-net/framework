@@ -51,7 +51,8 @@ namespace Accord.Tests.Imaging
                 // Create OpenSURF detector by Chris Evans
                 {
                     // Create Integral Image
-                    OpenSURFcs.IntegralImage iimg = OpenSURFcs.IntegralImage.FromImage(img);
+                    var clone = Accord.Imaging.Image.Clone(img);
+                    OpenSURFcs.IntegralImage iimg = OpenSURFcs.IntegralImage.FromImage(clone);
 
                     // Extract the interest points
                     var pts = OpenSURFcs.FastHessian.getIpoints(0.0002f, 5, 2, iimg);
@@ -69,42 +70,45 @@ namespace Accord.Tests.Imaging
                     }
                 }
 
-                // Create the detector
-                var surf = new SpeededUpRobustFeaturesDetector(0.0002f, 5, 2);
-
-                // Extract interest points
-                actual = surf.ProcessImage(img);
-
-                // Describe the interest points
-                var descriptor = surf.GetDescriptor();
-                descriptor.Invariant = !upright;
-                descriptor.Extended = extended;
-
-                foreach (var expectedPoint in expected)
                 {
-                    var actualPoint = new SpeededUpRobustFeaturePoint(
-                        expectedPoint.X,
-                        expectedPoint.Y,
-                        expectedPoint.Scale,
-                        expectedPoint.Laplacian);
+                    // Create the detector
+                    var surf = new SpeededUpRobustFeaturesDetector(0.0002f, 5, 2);
 
-                    descriptor.Compute(actualPoint);
+                    // Extract interest points
+                    var clone = Accord.Imaging.Image.Clone(img);
+                    actual = surf.ProcessImage(clone);
 
-                    Assert.AreEqual(expectedPoint.X, actualPoint.X);
-                    Assert.AreEqual(expectedPoint.Y, actualPoint.Y);
-                    Assert.AreEqual(expectedPoint.Scale, actualPoint.Scale);
-                    Assert.AreEqual(expectedPoint.Orientation, actualPoint.Orientation);
-                    Assert.AreEqual(expectedPoint.Response, actualPoint.Response);
-                    Assert.AreEqual(expectedPoint.Descriptor.Length, actualPoint.Descriptor.Length);
+                    // Describe the interest points
+                    var descriptor = surf.GetDescriptor();
+                    descriptor.Invariant = !upright;
+                    descriptor.Extended = extended;
 
-                    for (int i = 0; i < expectedPoint.Descriptor.Length; i++)
+                    foreach (var expectedPoint in expected)
                     {
-                        double e = expectedPoint.Descriptor[i];
-                        double a = actualPoint.Descriptor[i];
+                        var actualPoint = new SpeededUpRobustFeaturePoint(
+                            expectedPoint.X,
+                            expectedPoint.Y,
+                            expectedPoint.Scale,
+                            expectedPoint.Laplacian);
 
-                        double u = System.Math.Abs(e - a);
-                        double v = System.Math.Abs(e);
-                        Assert.AreEqual(e, a, 0.05);
+                        descriptor.Compute(actualPoint);
+
+                        Assert.AreEqual(expectedPoint.X, actualPoint.X);
+                        Assert.AreEqual(expectedPoint.Y, actualPoint.Y);
+                        Assert.AreEqual(expectedPoint.Scale, actualPoint.Scale);
+                        Assert.AreEqual(expectedPoint.Orientation, actualPoint.Orientation);
+                        Assert.AreEqual(expectedPoint.Response, actualPoint.Response);
+                        Assert.AreEqual(expectedPoint.Descriptor.Length, actualPoint.Descriptor.Length);
+
+                        for (int i = 0; i < expectedPoint.Descriptor.Length; i++)
+                        {
+                            double e = expectedPoint.Descriptor[i];
+                            double a = actualPoint.Descriptor[i];
+
+                            double u = System.Math.Abs(e - a);
+                            double v = System.Math.Abs(e);
+                            Assert.AreEqual(e, a, 0.05);
+                        }
                     }
                 }
             }

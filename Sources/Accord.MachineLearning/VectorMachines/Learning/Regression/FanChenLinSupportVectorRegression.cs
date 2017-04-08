@@ -96,10 +96,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         where TModel : SupportVectorMachine<TKernel, TInput>
         where TInput : ICloneable
     {
-        [NonSerialized]
-        CancellationToken token = new CancellationToken();
-
-        private bool useKernelEstimation = false;
 
         private double[] alpha;
 
