@@ -39,6 +39,11 @@ namespace Accord.Math
     [GeneratedCode("Accord.NET T4 Templates", "3.2")]
     public static partial class Elementwise
     {
+		private static TOutput[] VectorCreateAs<TInput, TOutput>(TInput[] vector)
+        {
+            return new TOutput[vector.Length];
+        }
+
         private static TOutput[,] MatrixCreateAs<TInput, TOutput>(TInput[,] matrix)
         {
             return new TOutput[matrix.GetLength(0), matrix.GetLength(1)];
@@ -49,6 +54,19 @@ namespace Accord.Math
             var r = new TOutput[matrix.Length][];
             for (int i = 0; i < r.Length; i++)
                 r[i] = new TOutput[matrix[i].Length];
+            return r;
+        }
+
+		private static TOutput[,] MatrixCreateAs<TInput, TOutput>(TInput[][] matrix)
+        {
+            return new TOutput[matrix.Length, matrix[0].Length];
+        }
+
+        private static TOutput[][] JaggedCreateAs<TInput, TOutput>(TInput[,] matrix)
+        {
+            var r = new TOutput[matrix.GetLength(0)][];
+            for (int i = 0; i < r.Length; i++)
+                r[i] = new TOutput[matrix.GetLength(1)];
             return r;
         }
 

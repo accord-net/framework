@@ -188,6 +188,28 @@ namespace Accord.Math
             return true;
         }
 
+        /// <summary>Compares two objects for equality, performing an elementwise comparison if the elements are vectors or matrices.</summary>
+        public static bool IsEqual(this object objA, object objB, decimal atol = 0, decimal rtol = 0)
+        {
+            if (Object.Equals(objA, objB))
+                return true;
+
+            try
+            {
+                decimal a = System.Convert.ToDecimal(objA);
+                decimal b = System.Convert.ToDecimal(objB);
+                if (a == b)
+                    return true;
+                if (atol > 0)
+                    return Math.Abs(a - b) < atol;
+                if (rtol > 0)
+                    return Math.Abs(a - b) < rtol * b;
+            }
+            catch { } // TODO: Remove this try-catch block
+
+            return false;
+        }
+
         //private static readonly Dictionary<Tuple<Type, Type>, MethodInfo> equalsCache =
         //    new Dictionary<Tuple<Type, Type>, MethodInfo>();
 
@@ -206,61 +228,29 @@ namespace Accord.Math
             if (!objA.GetLength().IsEqual(objB.GetLength()))
                 return false;
 
+            bool jaggedA = objA.IsJagged();
+            bool jaggedB = objB.IsJagged();
+
             // TODO: Implement this cache mechanism here
             // http://blog.slaks.net/2015-06-26/code-snippets-fast-property-access-reflection/
 
-            // Base case: arrays contain values, not other arrays
-            if (!objA.GetType().GetElementType().IsArray)
-            {
-                var typeA = objA.GetType();
-                var typeB = objB.GetType();
-                var equals = typeof(Matrix).GetMethod("IsEqual", new Type[] {
+            // Check if there is already an optimized method to perform this comparison
+            Type typeA = objA.GetType();
+            Type typeB = objB.GetType();
+            MethodInfo equals = typeof(Matrix).GetMethod("IsEqual", new Type[] {
                     typeA, typeB, typeof(double), typeof(double)
                 });
 
-                var _this = typeof(Matrix).GetMethod("IsEqual", new Type[] {
+            MethodInfo _this = typeof(Matrix).GetMethod("IsEqual", new Type[] {
                     typeof(Array), typeof(Array), typeof(double), typeof(double)
                 });
 
-                if (equals != _this)
-                    return (bool)equals.Invoke(null, new object[] { objA, objB, atol, rtol });
+            if (equals != _this)
+                return (bool)equals.Invoke(null, new object[] { objA, objB, atol, rtol });
 
-                if (atol == 0 && rtol == 0)
-                {
-                    var a = objA.GetEnumerator();
-                    var b = objB.GetEnumerator();
 
-                    while (a.MoveNext() && b.MoveNext())
-                    {
-                        if (a.Current == b.Current)
-                            continue;
-
-                        Array arrA = a.Current as Array;
-                        Array arrB = b.Current as Array;
-                        if (arrA != null && arrB != null && IsEqual(arrA, arrB))
-                            continue;
-
-                        if (Object.Equals(a.Current, b.Current))
-                            continue;
-
-                        try
-                        {
-                            if (System.Convert.ToDecimal(a.Current) == System.Convert.ToDecimal(b.Current))
-                                continue;
-                        }
-                        catch { } // TODO: Remove this try-catch block
-
-                        return false;
-                    }
-
-                    return true;
-                }
-                else
-                {
-                    throw new Exception();
-                }
-            }
-            else
+            // Base case: arrays contain elements of same nature (both arrays, or both values)
+            if (objA.GetType().GetElementType().IsArray == objB.GetType().GetElementType().IsArray)
             {
                 var a = objA.GetEnumerator();
                 var b = objB.GetEnumerator();
@@ -272,10 +262,24 @@ namespace Accord.Math
 
                     Array arrA = a.Current as Array;
                     Array arrB = b.Current as Array;
-                    if (arrA != null && arrB != null && IsEqual(arrA, arrB))
+                    if (arrA != null && arrB != null && IsEqual(arrA, arrB, atol, rtol))
                         continue;
 
-                    if (!Object.Equals(arrA, arrB))
+                    return IsEqual(a.Current, b.Current, (decimal)atol, (decimal)rtol);
+                }
+
+                return true;
+            }
+            else
+            {
+                // Arrays contain mixed elements (i.e. one is jagged and other multidimensional)
+                foreach (int[] idx in Matrix.GetIndices(objA, deep: true, max: true))
+                {
+                    object a = 0, b = 0;
+                    objA.TryGetValue(deep: true, indices: idx, value: out a);
+                    objB.TryGetValue(deep: true, indices: idx, value: out b);
+
+                    if (!IsEqual(a, b, (decimal)atol, (decimal)rtol))
                         return false;
                 }
 
@@ -2006,6 +2010,21 @@ namespace Accord.Math
         {
             if (matrix != destination)
                 Array.Copy(matrix, 0, destination, 0, matrix.Length);
+        }
+
+        /// <summary>
+        ///   Copies the content of an array to another array.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
+        /// 
+        /// <param name="destination">The matrix where the elements should be set.</param>
+        /// <param name="value">The value to which the matrix elements should be set to.</param>
+        /// 
+        public static void SetTo<T>(this T[] destination, T value)
+        {
+            for (int i = 0; i < destination.Length; i++)
+                destination[i] = value;
         }
 
         /// <summary>

@@ -258,6 +258,18 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Stores a column vector into the given column position of the matrix.
+        /// </summary>
+        public static T[][] SetColumn<T>(this T[][] m, int index, T value)
+        {
+            index = Matrix.index(index, m.Columns());
+            for (int i = 0; i < m.Length; i++)
+                m[i][index] = value;
+
+            return m;
+        }
+
+        /// <summary>
         ///   Stores a row vector into the given row position of the matrix.
         /// </summary>
         public static T[,] SetRow<T>(this T[,] m, int index, T[] row)
@@ -276,6 +288,17 @@ namespace Accord.Math
             index = Matrix.index(index, m.Rows());
             for (int i = 0; i < row.Length; i++)
                 m[index][i] = row[i];
+            return m;
+        }
+
+        /// <summary>
+        ///   Stores a row vector into the given row position of the matrix.
+        /// </summary>
+        public static T[][] SetRow<T>(this T[][] m, int index, T value)
+        {
+            index = Matrix.index(index, m.Rows());
+            for (int i = 0; i < m[index].Length; i++)
+                m[index][i] = value;
             return m;
         }
         #endregion

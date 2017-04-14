@@ -85,10 +85,25 @@ namespace Accord.Math
         /// <param name="source">The matrix to return the submatrix from.</param>
         /// <param name="rowIndexes">Array of row indices. Pass null to select all indices.</param>
         /// <param name="columnIndexes">Array of column indices. Pass null to select all indices.</param>
+        /// <param name="result">An optional matrix where the results should be stored.</param>
         /// 
-        public static T[,] Get<T>(this T[,] source, int[] rowIndexes, int[] columnIndexes)
+        public static T[,] Get<T>(this T[,] source, int[] rowIndexes, int[] columnIndexes, T[,] result = null)
         {
-            return get(source, null, rowIndexes, columnIndexes);
+            return get(source, result, rowIndexes, columnIndexes);
+        }
+
+        /// <summary>
+        ///   Returns a sub matrix extracted from the current matrix.
+        /// </summary>
+        /// 
+        /// <param name="source">The matrix to return the submatrix from.</param>
+        /// <param name="rowMask">Array of row indicators. Pass null to select all indices.</param>
+        /// <param name="columnMask">Array of column indicators. Pass null to select all indices.</param>
+        /// <param name="result">An optional matrix where the results should be stored.</param>
+        /// 
+        public static T[,] Get<T>(this T[,] source, bool[] rowMask, bool[] columnMask, T[,] result = null)
+        {
+            return get(source, result, rowMask.Find(x => x), columnMask.Find(x => x));
         }
 
         /// <summary>
@@ -327,11 +342,31 @@ namespace Accord.Math
         ///   when possible. This might result on the shallow copies of some
         ///   elements. Default is false (default is to always provide a true,
         ///   deep copy of every element in the matrices, using more memory).</param>
+        /// <param name="result">An optional matrix where the results should be stored.</param>
         /// 
         public static T[][] Get<T>(this T[][] source,
-            int[] rowIndexes, int[] columnIndexes, bool reuseMemory = false)
+            int[] rowIndexes, int[] columnIndexes, bool reuseMemory = false, T[][] result = null)
         {
-            return get(source, null, rowIndexes, columnIndexes, reuseMemory);
+            return get(source, result, rowIndexes, columnIndexes, reuseMemory);
+        }
+
+        /// <summary>
+        ///   Returns a sub matrix extracted from the current matrix.
+        /// </summary>
+        /// 
+        /// <param name="source">The matrix to return the submatrix from.</param>
+        /// <param name="rowMask">Array of row indicators. Pass null to select all indices.</param>
+        /// <param name="columnMask">Array of column indicators. Pass null to select all indices.</param>
+        /// <param name="reuseMemory">Set to true to avoid memory allocations 
+        ///   when possible. This might result on the shallow copies of some
+        ///   elements. Default is false (default is to always provide a true,
+        ///   deep copy of every element in the matrices, using more memory).</param>
+        /// <param name="result">An optional matrix where the results should be stored.</param>
+        /// 
+        public static T[][] Get<T>(this T[][] source,
+            bool[] rowMask, bool[] columnMask, bool reuseMemory = false, T[][] result = null)
+        {
+            return get(source, result, rowMask.Find(x => x), columnMask.Find(x => x), reuseMemory);
         }
 
         /// <summary>
