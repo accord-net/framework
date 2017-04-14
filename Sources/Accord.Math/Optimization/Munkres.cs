@@ -49,6 +49,34 @@
 //    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //   SOFTWARE.
 //  
+// This class is also based on the original code written by Yi Cao, originally shared 
+// under the permissive BSD license. The original license text is reproduced below:
+//
+//   Copyright(c) 2009, Yi Cao
+//   All rights reserved.
+//   
+//   Redistribution and use in source and binary forms, with or without
+//   modification, are permitted provided that the following conditions are
+//   met:
+//   
+//   * Redistributions of source code must retain the above copyright
+//   notice, this list of conditions and the following disclaimer.
+//   * Redistributions in binary form must reproduce the above copyright
+//   notice, this list of conditions and the following disclaimer in 
+//   the documentation and/or other materials provided with the distribution
+//   
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+//   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+//   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+//   ARE DISCLAIMED.IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+//   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+//   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+//   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+//   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+//   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+//   POSSIBILITY OF SUCH DAMAGE.
+//
 
 namespace Accord.Math.Optimization
 {
@@ -82,12 +110,16 @@ namespace Accord.Math.Optimization
     ///   published posthumously in 1890 in Latin.</para>
     /// 
     /// <para>
-    ///   This code has been based on the original MIT-licensed code by R.A. Pilgrim,
-    ///   available in http://csclab.murraystate.edu/~bob.pilgrim/445/munkres.html. </para>
+    ///   This code has been based on the original MIT-licensed code by R.A. Pilgrim, available in 
+    ///   http://csclab.murraystate.edu/~bob.pilgrim/445/munkres.html, and on the BSD-licensed code
+    ///   by Yi Cao, available in http://fr.mathworks.com/matlabcentral/fileexchange/20652-hungarian-algorithm-for-linear-assignment-problems--v2-3-
+    /// </para>
     ///   
     /// <para>
     ///   References:
     ///   <list type="bullet">
+    ///     <item><description><a href="http://fr.mathworks.com/matlabcentral/fileexchange/20652-hungarian-algorithm-for-linear-assignment-problems--v2-3-">
+    ///       Yi Cao (2011). Hungarian Algorithm for Linear Assignment Problems (V2.3). Available in http://fr.mathworks.com/matlabcentral/fileexchange/20652-hungarian-algorithm-for-linear-assignment-problems--v2-3- </a></description></item>
     ///     <item><description><a href="http://csclab.murraystate.edu/~bob.pilgrim/445/munkres.html">
     ///       R. A. Pilgrim (2000). Munkres' Assignment Algorithm Modified for 
     ///       Rectangular Matrices. Available in http://csclab.murraystate.edu/~bob.pilgrim/445/munkres.html </a></description></item>
@@ -106,22 +138,74 @@ namespace Accord.Math.Optimization
     /// 
     public class Munkres : IOptimizationMethod
     {
-        internal double[][] C;
-        internal int[][] M;
-        internal List<Tuple<int, int>> path;
-        internal int[] RowCover;
-        internal int[] ColCover;
+        private double[][] originalMatrix;
+        private double[][] costMatrix;
+        private double[][] validCost;
+        private bool[][] stars;
+        private bool[] rowCover;
+        private bool[] colCover;
+        internal int[] starZ;
+        internal int[] primeZ;
+        private bool[][] validMap;
+
+        private double tolerance = 1e-10;
+
+        private double[] minRow;
+        private double[] minCol;
+
+        internal bool[] validRow;
+        internal bool[] validCol;
 
         private int path_row_0;
         private int path_col_0;
 
+        private int nRows;
+        private int nCols;
+        private int n;
+
         /// <summary>
-        ///   Gets or sets the cost matrix for this assignment algorithm.
+        ///   Gets the minimum values across the cost matrix's rows.
+        /// </summary>
+        /// 
+        public double[] MinRow { get { return minRow; } }
+
+        /// <summary>
+        ///   Gets the minimum values across the cost matrix's columns.
+        /// </summary>
+        /// 
+        public double[] MinCol { get { return minCol; } }
+
+        /// <summary>
+        ///   Gets a boolean mask indicating which rows contain at least one valid element.
+        /// </summary>
+        /// 
+        public bool[] ValidRow { get { return validRow; } }
+
+        /// <summary>
+        ///   Gets a boolean mask indicating which columns contain at least one valid element.
+        /// </summary>
+        /// 
+        public bool[] ValidCol { get { return validCol; } }
+
+        /// <summary>
+        ///   Gets or sets the tolerance value used when performing cost comparisons.
+        /// </summary>
+        /// 
+        public double Tolerance
+        {
+            get { return tolerance; }
+            set { tolerance = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the cost matrix for this assignment algorithm. This is
+        ///   a (W x T) matrix where N corresponds to the <see cref="NumberOfWorkers"/>
+        ///   and T to the <see cref="NumberOfTasks"/>.
         /// </summary>
         /// 
         /// <value>The cost matrix.</value>
         /// 
-        public double[][] CostMatrix { get; protected set; }
+        public double[][] CostMatrix { get { return originalMatrix; } }
 
         /// <summary>
         /// Gets or sets the number of variables in this optimization problem
@@ -145,7 +229,7 @@ namespace Accord.Math.Optimization
         /// 
         public int NumberOfTasks
         {
-            get; protected set;
+            get { return originalMatrix.Columns(); }
         }
 
         /// <summary>
@@ -158,7 +242,7 @@ namespace Accord.Math.Optimization
         /// 
         public int NumberOfWorkers
         {
-            get; protected set;
+            get { return originalMatrix.Rows(); }
         }
 
         /// <summary>
@@ -188,7 +272,7 @@ namespace Accord.Math.Optimization
         /// 
         public Munkres(int numberOfJobs, int numberOfWorkers)
         {
-            init(numberOfJobs, numberOfWorkers, Jagged.Zeros(numberOfWorkers, numberOfJobs));
+            init(Jagged.Zeros(numberOfWorkers, numberOfJobs));
         }
 
         /// <summary>
@@ -202,21 +286,13 @@ namespace Accord.Math.Optimization
         /// 
         public Munkres(double[][] costMatrix)
         {
-            int workers = costMatrix.Rows();
-            int jobs = costMatrix.Columns();
-            init(jobs, workers, costMatrix);
+            init(costMatrix);
         }
 
-        private void init(int jobs, int workers, double[][] costMatrix)
+        private void init(double[][] costMatrix)
         {
-            this.NumberOfTasks = jobs;
-            this.NumberOfWorkers = workers;
-            this.RowCover = new int[workers];
-            this.ColCover = new int[jobs];
-            this.CostMatrix = costMatrix;
-            this.M = Jagged.CreateAs<double, int>(costMatrix);
-            this.path = new List<Tuple<int, int>>();
-            this.Solution = new double[jobs];
+            this.originalMatrix = costMatrix;
+            this.Solution = new double[NumberOfWorkers];
         }
 
         /// <summary>
@@ -230,7 +306,7 @@ namespace Accord.Math.Optimization
         /// 
         public bool Minimize()
         {
-            return run(CostMatrix.Copy());
+            return run(originalMatrix.Copy());
         }
 
 
@@ -245,15 +321,16 @@ namespace Accord.Math.Optimization
         /// 
         public bool Maximize()
         {
-            return run(CostMatrix.Multiply(-1));
+            return run(originalMatrix.Multiply(-1));
         }
 
         private bool run(double[][] m)
         {
-            this.C = m;
-            int step = 1;
+            this.costMatrix = m;
 
-            while (step > 0)
+            int step = 0;
+
+            while (step >= 0)
             {
                 step = RunStep(step);
             }
@@ -266,6 +343,8 @@ namespace Accord.Math.Optimization
         {
             switch (step)
             {
+                case 0:
+                    return step_zero();
                 case 1:
                     return step_one();
                 case 2:
@@ -286,6 +365,60 @@ namespace Accord.Math.Optimization
         }
 
 
+        /// <summary>
+        ///  Preprocesses the cost matrix to remove infinities and invalid values.
+        /// </summary>
+        /// 
+        /// <returns>Go to step 1.</returns>
+        /// 
+        private int step_zero()
+        {
+            validRow = new bool[NumberOfWorkers];
+            validCol = new bool[NumberOfTasks];
+            validMap = Jagged.Create<bool>(NumberOfWorkers, NumberOfTasks);
+
+
+            double sum = 0;
+            double max = Double.NegativeInfinity;
+
+            for (int i = 0; i < validRow.Length; i++)
+            {
+                for (int j = 0; j < validCol.Length; j++)
+                {
+                    double v = Math.Abs(costMatrix[i][j]);
+
+                    if (!Double.IsInfinity(v) && !Double.IsNaN(v))
+                    {
+                        validMap[i][j] = validRow[i] = validCol[j] = true;
+
+                        sum += v;
+                        if (v > max)
+                            max = v;
+                    }
+                }
+            }
+
+            double bigM = Math.Pow(10, Math.Ceiling(Math.Log10(sum)) + 1);
+            for (int i = 0; i < costMatrix.Length; i++)
+                for (int j = 0; j < costMatrix[i].Length; j++)
+                    if (!validMap[i][j])
+                        costMatrix[i][j] = Math.Sign(costMatrix[i][j]) * bigM;
+
+            nRows = validRow.Count(x => x);
+            nCols = validCol.Count(x => x);
+            n = Math.Max(nRows, nCols);
+
+            if (n == 0)
+                throw new InvalidOperationException("There are no valid values in the cost matrix.");
+
+            validCost = costMatrix.Get(validRow, validCol, result: Jagged.Create(n, n, 10.0 * max));
+
+            this.rowCover = new bool[n];
+            this.colCover = new bool[n];
+            this.stars = Jagged.Create(n, n, false);
+
+            return 1;
+        }
 
         /// <summary>
         ///  For each row of the cost matrix, find the smallest element
@@ -296,8 +429,8 @@ namespace Accord.Math.Optimization
         /// 
         private int step_one()
         {
-            for (int r = 0; r < C.Length; r++)
-                C[r].Subtract(C[r].Min(), result: C[r]);
+            minRow = Matrix.Min(validCost, dimension: 1);
+            minCol = Matrix.Min(validCost.Subtract(MinRow, dimension: 1), dimension: 0);
 
             return 2;
         }
@@ -312,15 +445,36 @@ namespace Accord.Math.Optimization
         /// 
         private int step_two()
         {
-            M.Clear();
-            for (int r = 0; r < RowCover.Length; r++)
-                for (int c = 0; c < ColCover.Length; c++)
-                    if (C[r][c] == 0 && RowCover[r] == 0 && ColCover[c] == 0)
-                        ColCover[c] = RowCover[r] = M[r][c] = 1;
+            double[][] min;
+            stars = findZeros(validCost, minRow, minCol, out min);
 
-            RowCover.Clear();
-            ColCover.Clear();
+            starZ = Vector.Create(n, -1);
+            primeZ = Vector.Create(n, -1);
+
+            for (int j = 0; j < stars[0].Length; j++)
+            {
+                for (int i = 0; i < stars.Length; i++)
+                {
+                    if (stars[i][j])
+                    {
+                        starZ[i] = j;
+                        stars.SetColumn(j, false);
+                        stars.SetRow(i, false);
+                    }
+                }
+            }
+
             return 3;
+        }
+
+        internal static bool[][] findZeros(double[][] C, double[] minRow, double[] minCol, out double[][] min)
+        {
+            min = Jagged.CreateAs(C);
+            for (int r = 0; r < minRow.Length; r++)
+                for (int c = 0; c < minCol.Length; c++)
+                    min[r][c] = minRow[r] + minCol[c];
+
+            return Elementwise.Equals(C, min);
         }
 
         /// <summary>
@@ -333,17 +487,27 @@ namespace Accord.Math.Optimization
         /// 
         private int step_three()
         {
-            for (int r = 0; r < M.Length; r++)
-                for (int c = 0; c < M[r].Length; c++)
-                    if (M[r][c] == 1)
-                        ColCover[c] = 1;
+            colCover.Clear();
+            rowCover.Clear();
+            primeZ.Clear();
 
+            bool done = true;
             int count = 0;
-            for (int c = 0; c < ColCover.Length; c++)
-                if (ColCover[c] == 1)
-                    count += 1;
+            for (int i = 0; i < starZ.Length; i++)
+            {
+                int j = starZ[i];
+                if (j >= 0)
+                {
+                    colCover[j] = true;
+                    count++;
+                }
+                else
+                {
+                    done = false;
+                }
+            }
 
-            if (count >= ColCover.Length || count >= RowCover.Length)
+            if (done)
                 return 7; // done
             return 4;
         }
@@ -361,69 +525,57 @@ namespace Accord.Math.Optimization
         /// 
         private int step_four()
         {
-            int row = -1;
-            int col = -1;
+            List<Tuple<int, int>> zeros = find_all_zeros();
 
-            while (true)
+            while (zeros.Count > 0)
             {
-                if (!find_a_zero(out row, out col))
-                    return 6;
+                path_row_0 = zeros[0].Item1;
+                path_col_0 = zeros[0].Item2;
+                primeZ[path_row_0] = path_col_0;
 
-                M[row][col] = 2;
-                if (has_star_in_row(row))
-                {
-                    col = find_star_in_row(row);
-                    RowCover[row] = 1;
-                    ColCover[col] = 0;
-                }
-                else
-                {
-                    this.path_row_0 = row;
-                    this.path_col_0 = col;
+                int stz = starZ[path_row_0];
+                if (stz == -1)
                     return 5;
-                }
-            }
-        }
 
-        // methods to support step 4
-        private bool find_a_zero(out int row, out int col)
-        {
-            for (int r = 0; r < RowCover.Length; r++)
-            {
-                for (int c = 0; c < ColCover.Length; c++)
+                rowCover[path_row_0] = true;
+                colCover[stz] = false;
+
+                zeros.RemoveAll(x => x.Item1 == path_row_0);
+
+                // Update
+                for (int r = 0; r < rowCover.Length; r++)
                 {
-                    if (C[r][c] == 0 && RowCover[r] == 0 && ColCover[c] == 0)
-                    {
-                        row = r;
-                        col = c;
-                        return true;
-                    }
+                    if (rowCover[r])
+                        continue;
+
+                    if ((costMatrix[r][stz]).IsEqual(MinRow[r] + MinCol[stz], rtol: tolerance))
+                        zeros.Add(Tuple.Create(r, stz));
                 }
             }
 
-            row = col = -1;
-            return false;
+            return 6;
         }
 
-        private bool has_star_in_row(int row)
+        private List<Tuple<int, int>> find_all_zeros()
         {
-            for (int c = 0; c < M[row].Length; c++)
-                if (M[row][c] == 1)
-                    return true;
-            return false;
+            var zeros = new List<Tuple<int, int>>();
+            for (int c = 0; c < colCover.Length; c++)
+            {
+                if (colCover[c])
+                    continue;
+
+                for (int r = 0; r < rowCover.Length; r++)
+                {
+                    if (rowCover[r])
+                        continue;
+
+                    if ((validCost[r][c]).IsEqual(MinCol[c] + MinRow[r], rtol: 1e-10))
+                        zeros.Add(Tuple.Create(r, c));
+                }
+            }
+
+            return zeros;
         }
-
-        private int find_star_in_row(int row)
-        {
-            int col = -1;
-            for (int c = 0; c < M[row].Length; c++)
-                if (M[row][c] == 1)
-                    col = c;
-            return col;
-        }
-
-
-
 
         /// <summary>
         ///   Construct a series of alternating primed and starred zeros as follows.  
@@ -439,59 +591,19 @@ namespace Accord.Math.Optimization
         /// 
         private int step_five()
         {
-            int c = -1;
-            int r;
-            path.Clear();
-            path.Add(Tuple.Create(path_row_0, path_col_0));
+            int rowZ1 = Array.IndexOf(starZ, path_col_0);
+            starZ[path_row_0] = path_col_0;
 
-            while (find_star_in_col(path[path.Count - 1].Item2, out r))
+            while (rowZ1 >= 0)
             {
-                path.Add(Tuple.Create(r, path[path.Count - 1].Item2));
-                find_prime_in_row(path[path.Count - 1].Item1, ref c);
-                path.Add(Tuple.Create(path[path.Count - 1].Item1, c));
+                starZ[rowZ1] = -1;
+                path_col_0 = primeZ[rowZ1];
+                path_row_0 = rowZ1;
+                rowZ1 = Array.IndexOf(starZ, path_col_0);
+                starZ[path_row_0] = path_col_0;
             }
 
-            augment_path();
-            RowCover.Clear();
-            ColCover.Clear();
-            erase_primes();
             return 3;
-        }
-
-
-        // methods to support step 5
-        private bool find_star_in_col(int c, out int r)
-        {
-            r = -1;
-            for (int i = 0; i < M.Length; i++)
-                if (M[i][c] == 1)
-                    r = i;
-            return r >= 0;
-        }
-
-        private void find_prime_in_row(int r, ref int c)
-        {
-            for (int j = 0; j < M[r].Length; j++)
-                if (M[r][j] == 2)
-                    c = j;
-        }
-
-        private void augment_path()
-        {
-            for (int p = 0; p < path.Count; p++)
-            {
-                int i = path[p].Item1;
-                int j = path[p].Item2;
-                M[i][j] = (M[i][j] == 1) ? 0 : 1;
-            }
-        }
-
-        private void erase_primes()
-        {
-            for (int r = 0; r < M.Length; r++)
-                for (int c = 0; c < M[r].Length; c++)
-                    if (M[r][c] == 2)
-                        M[r][c] = 0;
         }
 
 
@@ -505,16 +617,14 @@ namespace Accord.Math.Optimization
         private int step_six()
         {
             double minval = find_smallest();
-            for (int r = 0; r < RowCover.Length; r++)
-            {
-                for (int c = 0; c < ColCover.Length; c++)
-                {
-                    if (RowCover[r] == 1)
-                        C[r][c] += minval;
-                    if (ColCover[c] == 0)
-                        C[r][c] -= minval;
-                }
-            }
+
+            for (int r = 0; r < rowCover.Length; r++)
+                if (rowCover[r])
+                    minRow[r] -= minval;
+
+            for (int c = 0; c < colCover.Length; c++)
+                if (!colCover[c])
+                    minCol[c] += minval;
 
             return 4;
         }
@@ -523,11 +633,23 @@ namespace Accord.Math.Optimization
         private double find_smallest()
         {
             double minval = Double.PositiveInfinity;
-            for (int r = 0; r < RowCover.Length; r++)
-                for (int c = 0; c < ColCover.Length; c++)
-                    if (RowCover[r] == 0 && ColCover[c] == 0)
-                        if (minval > C[r][c])
-                            minval = C[r][c];
+            for (int c = 0; c < colCover.Length; c++)
+            {
+                if (colCover[c])
+                    continue;
+
+                for (int r = 0; r < rowCover.Length; r++)
+                {
+                    if (rowCover[r])
+                        continue;
+
+                    double v = validCost[r][c] - (MinRow[r] + MinCol[c]);
+
+                    if (v < minval)
+                        minval = v;
+                }
+            }
+
             return minval;
         }
 
@@ -539,12 +661,17 @@ namespace Accord.Math.Optimization
             //
             //                     (http://csclab.murraystate.edu/~bob.pilgrim/445/munkres.html)
             double value = 0;
-            for (int col = 0; col < M.Columns(); col++)
+
+            for (int i = 0; i < nRows; i++)
             {
-                int row;
-                if (find_star_in_col(col, out row))
-                    value += CostMatrix[row][col];
-                Solution[col] = row;
+                Solution[i] = Double.NaN;
+                int j = starZ[i];
+
+                if (j >= 0 && j < nCols && validMap[i][j])
+                {
+                    Solution[i] = j;
+                    value += validCost[i][j];
+                }
             }
 
             Value = value;

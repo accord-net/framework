@@ -111,6 +111,12 @@ namespace Accord.Math.Random
             }
         }
 
+        ///// <summary>
+        /////   Gets an object that can be used to synchronize access to the generator.
+        ///// </summary>
+        ///// 
+        //public static readonly object SyncObject = new Object();
+
         /// <summary>
         ///   Gets the timestamp for when the global random generator
         ///   was last changed (i.e. after setting <see cref="Seed"/>).

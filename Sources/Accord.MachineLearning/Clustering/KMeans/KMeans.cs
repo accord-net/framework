@@ -195,6 +195,18 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
+        ///   Gets or sets the cluster centroids. Setting this property is equivalent
+        ///   to setting <see cref="ClusterCollection{TData, TCentroids, TCluster}.Centroids">
+        ///   KMeans.Clusters.Centroids</see>.
+        /// </summary>
+        /// 
+        public double[][] Centroids
+        {
+            get { return clusters.Centroids; }
+            set { clusters.Centroids = value; }
+        }
+
+        /// <summary>
         ///   Gets the number of clusters.
         /// </summary>
         /// 
@@ -569,7 +581,7 @@ namespace Accord.MachineLearning
         {
             Iterations++;
 
-            if (MaxIterations > 0 && Iterations > MaxIterations)
+            if (MaxIterations > 0 && Iterations >= MaxIterations)
                 return true;
 
             if (Token.IsCancellationRequested)

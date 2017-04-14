@@ -41,6 +41,7 @@ namespace Accord.MachineLearning
     ///   has approximately the same number of data points. The Balanced k-Means implementation
     ///   used in the framework uses the <see cref="Munkres"/> algorithm to solve the assignment
     ///   problem thus enforcing balance between the clusters.</para>
+    ///   
     /// <para>
     ///   Note: the <see cref="Learn(double[][], double[])"/> method of this class will
     ///   return the centroids of balanced clusters, but please note that these centroids
@@ -49,6 +50,18 @@ namespace Accord.MachineLearning
     ///   after calling <see cref="Learn(double[][], double[])"/>, please take a look at the
     ///   contents of the <see cref="Labels"/> property.</para>
     /// </remarks>
+    /// 
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///       M. I. Malinen and P.Fränti, "Balanced K-means for Clustering", Joint Int.Workshop on Structural, Syntactic, 
+    ///       and Statistical Pattern Recognition (S+SSPR 2014), LNCS 8621, 32-41, Joensuu, Finland, August 2014. </description></item>
+    ///     <item><description>
+    ///       M. I. Malinen, "New alternatives for k-Means clustering." PhD thesis. Available in:
+    ///       http://cs.uef.fi/sipu/pub/PhD_Thesis_Mikko_Malinen.pdf </description></item>
+    ///   </list></para>
+    /// 
     /// 
     /// <example>
     ///   How to perform clustering with Balanced K-Means.
@@ -63,6 +76,7 @@ namespace Accord.MachineLearning
     [Serializable]
     public class BalancedKMeans : KMeans
     {
+        internal Munkres munkres;
 
         /// <summary>
         ///   Gets the labels assigned for each data point in the last 
@@ -93,7 +107,9 @@ namespace Accord.MachineLearning
         /// <param name="k">The number of clusters to divide the input data into.</param>    
         /// 
         public BalancedKMeans(int k)
-            : base(k) { }
+            : base(k)
+        {
+        }
 
 
         /// <summary>
@@ -142,12 +158,12 @@ namespace Accord.MachineLearning
             int rows = x.Length;
             int cols = x[0].Length;
 
-            // Perform a random initialization of the clusters
-            // if the algorithm has not been initialized before.
+            // Perform some iterations of the original k-Means 
+            // algorithm if the model has not been initialized
             //
             if (this.Clusters.Centroids[0] == null)
             {
-                Randomize(x);
+                base.Learn(x);
             }
 
             // Initial variables
@@ -160,31 +176,26 @@ namespace Accord.MachineLearning
 
             bool shouldStop = false;
 
-            var m = new Munkres(x.Length, x.Length);
-            double[][] costMatrix = m.CostMatrix;
+            // We will solve the problem of assigning N data points 
+            // to K clusters where the cost will be their distance.
+            this.munkres = new Munkres(x.Length, x.Length)
+            {
+                Tolerance = Tolerance
+            };
 
             while (!shouldStop) // Main loop
             {
                 Array.Clear(count, 0, count.Length);
                 for (int i = 0; i < newCentroids.Length; i++)
                     Array.Clear(newCentroids[i], 0, newCentroids[i].Length);
-                for (int i = 0; i < labels.Length; i++)
-                    labels[i] = -1;
 
                 // Set the cost matrix for Munkres algorithm
-                for (int i = 0; i < costMatrix.Length; i++)
-                    for (int j = 0; j < costMatrix[i].Length; j++)
-                        costMatrix[i][j] = Distance.Distance(x[j], centroids[i % k]);
+                GetDistances(Distance, x, centroids, k, munkres.CostMatrix);
 
-                //string str = costMatrix.ToCSharp();
+                munkres.Minimize(); // solve the assignment problem
 
-                m.Minimize(); // solve the assignment problem
-
-                for (int i = 0; i < x.Length; i++)
-                {
-                    if (m.Solution[i] >= 0)
-                        labels[(int)m.Solution[i]] = i % k;
-                }
+                // Get the clustering from the assignment
+                GetLabels(x, k, munkres.Solution, labels);
 
                 // For each point in the data set,
                 for (int i = 0; i < x.Length; i++)
@@ -229,11 +240,9 @@ namespace Accord.MachineLearning
                 shouldStop = converged(centroids, newCentroids);
 
                 // go to next generation
-                Parallel.For(0, centroids.Length, ParallelOptions, i =>
-                {
+                for (int i = 0; i < centroids.Length; i++)
                     for (int j = 0; j < centroids[i].Length; j++)
                         centroids[i][j] = newCentroids[i][j];
-                });
             }
 
             for (int i = 0; i < Clusters.Centroids.Length; i++)
@@ -249,5 +258,32 @@ namespace Accord.MachineLearning
             return Clusters;
         }
 
+        internal static void GetLabels(double[][] points, int clusters, double[] solution, int[] labels)
+        {
+            for (int i = 0; i < points.Length; i++)
+            {
+                int j = (int)solution[i];
+                if (j >= 0)
+                    labels[j] = GetIndex(clusters, i);
+                else
+                    labels[j] = -1;
+            }
+        }
+
+        internal static double[][] GetDistances(IDistance<double[], double[]> distance, double[][] points, double[][] centroids, int k, double[][] result)
+        {
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = distance.Distance(points[j], centroids[GetIndex(k, i)]);
+            return result;
+        }
+
+        private static int GetIndex(int clusters, int index)
+        {
+            // Equation 6.6 uses ((a mod k) + 1) instead of (a mod k):
+            // http://cs.uef.fi/sipu/pub/PhD_Thesis_Mikko_Malinen.pdf
+
+            return (index + 1) % clusters;
+        }
     }
 }
