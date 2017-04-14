@@ -1121,7 +1121,7 @@ namespace Accord.IO
                     ReadBuffer();
                 }
 
-                if (initializing)
+                if (initializing && (Delimiter == DefaultDelimiter)) // do not guess if delimiter was already set
                 {
                     GuessDelimiterFromBuffer();
                 }
