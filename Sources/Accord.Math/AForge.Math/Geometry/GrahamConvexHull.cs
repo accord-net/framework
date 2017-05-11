@@ -60,66 +60,65 @@ namespace Accord.Math.Geometry
                 return new List<IntPoint>(points);
             }
 
-            List<PointToProcess> pointsToProcess = new List<PointToProcess>();
-
-            // convert input points to points we can process
-            foreach (IntPoint point in points)
-            {
-                pointsToProcess.Add(new PointToProcess(point));
-            }
-
             // find a point, with lowest X and lowest Y
             int firstCornerIndex = 0;
-            PointToProcess firstCorner = pointsToProcess[0];
+            IntPoint pointFirstCorner = points[0];
 
-            for (int i = 1, n = pointsToProcess.Count; i < n; i++)
+            for (int i = 1, n = points.Count; i < n; i++)
             {
-                if ((pointsToProcess[i].X < firstCorner.X) ||
-                     ((pointsToProcess[i].X == firstCorner.X) && (pointsToProcess[i].Y < firstCorner.Y)))
+                if ((points[i].X < pointFirstCorner.X) ||
+                    ((points[i].X == pointFirstCorner.X) && (points[i].Y < pointFirstCorner.Y)))
                 {
-                    firstCorner = pointsToProcess[i];
+                    pointFirstCorner = points[i];
                     firstCornerIndex = i;
                 }
             }
 
-            // remove the just found point
-            pointsToProcess.RemoveAt(firstCornerIndex);
+            // convert input points to points we can process
+            PointToProcess firstCorner = new PointToProcess(pointFirstCorner);
+            // Points to process must exclude the first corner that we've already found
+            PointToProcess[] arrPointsToProcess = new PointToProcess[points.Count - 1];
+            for (int i = 0; i < points.Count - 1; i++)
+            {
+                IntPoint point = points[i >= firstCornerIndex ? i + 1 : i];
+                arrPointsToProcess[i] = new PointToProcess(point);
+            }
 
             // find K (tangent of line's angle) and distance to the first corner
-            for (int i = 0, n = pointsToProcess.Count; i < n; i++)
+            for (int i = 0, n = arrPointsToProcess.Length; i < n; i++)
             {
-                int dx = pointsToProcess[i].X - firstCorner.X;
-                int dy = pointsToProcess[i].Y - firstCorner.Y;
+                int dx = arrPointsToProcess[i].X - firstCorner.X;
+                int dy = arrPointsToProcess[i].Y - firstCorner.Y;
 
                 // don't need square root, since it is not important in our case
-                pointsToProcess[i].Distance = dx * dx + dy * dy;
+                arrPointsToProcess[i].Distance = dx * dx + dy * dy;
                 // tangent of lines angle
-                pointsToProcess[i].K = (dx == 0) ? float.PositiveInfinity : (float)dy / dx;
+                arrPointsToProcess[i].K = (dx == 0) ? float.PositiveInfinity : (float) dy / dx;
             }
 
             // sort points by angle and distance
-            pointsToProcess.Sort();
+            Array.Sort(arrPointsToProcess);
 
-            List<PointToProcess> convexHullTemp = new List<PointToProcess>();
+            // Convert points to process to a queue. Continually removing the first item of an array list
+            //  is highly inefficient
+            Queue<PointToProcess> queuePointsToProcess = new Queue<PointToProcess>(arrPointsToProcess);
+
+            LinkedList<PointToProcess> convexHullTemp = new LinkedList<PointToProcess>();
 
             // add first corner, which is always on the hull
-            convexHullTemp.Add(firstCorner);
+            PointToProcess prevPoint = convexHullTemp.AddLast(firstCorner).Value;
             // add another point, which forms a line with lowest slope
-            convexHullTemp.Add(pointsToProcess[0]);
-            pointsToProcess.RemoveAt(0);
+            PointToProcess lastPoint = convexHullTemp.AddLast(queuePointsToProcess.Dequeue()).Value;
 
-            PointToProcess lastPoint = convexHullTemp[1];
-            PointToProcess prevPoint = convexHullTemp[0];
-
-            while (pointsToProcess.Count != 0)
+            while (queuePointsToProcess.Count != 0)
             {
-                PointToProcess newPoint = pointsToProcess[0];
+                PointToProcess newPoint = queuePointsToProcess.Peek();
 
                 // skip any point, which has the same slope as the last one or
                 // has 0 distance to the first point
                 if ((newPoint.K == lastPoint.K) || (newPoint.Distance == 0))
                 {
-                    pointsToProcess.RemoveAt(0);
+                    queuePointsToProcess.Dequeue();
                     continue;
                 }
 
@@ -127,9 +126,9 @@ namespace Accord.Math.Geometry
                 if ((newPoint.X - prevPoint.X) * (lastPoint.Y - newPoint.Y) - (lastPoint.X - newPoint.X) * (newPoint.Y - prevPoint.Y) < 0)
                 {
                     // add the point to the hull
-                    convexHullTemp.Add(newPoint);
+                    convexHullTemp.AddLast(newPoint);
                     // and remove it from the list of points to process
-                    pointsToProcess.RemoveAt(0);
+                    queuePointsToProcess.Dequeue();
 
                     prevPoint = lastPoint;
                     lastPoint = newPoint;
@@ -137,10 +136,10 @@ namespace Accord.Math.Geometry
                 else
                 {
                     // remove the last point from the hull
-                    convexHullTemp.RemoveAt(convexHullTemp.Count - 1);
+                    convexHullTemp.RemoveLast();
 
                     lastPoint = prevPoint;
-                    prevPoint = convexHullTemp[convexHullTemp.Count - 2];
+                    prevPoint = convexHullTemp.Last.Previous.Value;
                 }
             }
 
