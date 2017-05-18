@@ -2,3 +2,4 @@
 *.VC.db
 *.VC.VC.opendb
 /.vs/
+/packages/

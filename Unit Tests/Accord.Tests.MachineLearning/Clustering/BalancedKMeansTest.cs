@@ -126,12 +126,14 @@ namespace Accord.Tests.MachineLearning
             double[][] orig = observations.MemberwiseClone();
 
             // Create a new K-Means algorithm with 3 clusters 
-            BalancedKMeans kmeans = new BalancedKMeans(3, new Manhattan());
+            BalancedKMeans kmeans = new BalancedKMeans(3, new Manhattan())
+            {
 
-            // Note: in balanced k-means the chances of the algorithm oscillating
-            // between two solutions increases considerably. For this reason, we 
-            // set a max-iterations limit to avoid iterating indefinitely.
-            kmeans.MaxIterations = 100;
+                // Note: in balanced k-means the chances of the algorithm oscillating
+                // between two solutions increases considerably. For this reason, we 
+                // set a max-iterations limit to avoid iterating indefinitely.
+                MaxIterations = 100
+            };
 
             // Compute the algorithm, retrieving an integer array
             //  containing the labels for each of the observations
@@ -299,10 +301,11 @@ namespace Accord.Tests.MachineLearning
             };
 
             Accord.Math.Random.Generator.Seed = 0;
-            var kmeans = new BalancedKMeans(numClusters);
-
-            // If a limit is not set, the following Learn call does not return....
-            kmeans.MaxIterations = 1000;
+            var kmeans = new BalancedKMeans(numClusters)
+            {
+                // If a limit is not set, the following Learn call does not return....
+                MaxIterations = 1000
+            };
 
             var clusters = kmeans.Learn(observations);
 
@@ -536,10 +539,12 @@ namespace Accord.Tests.MachineLearning
 
             Accord.Math.Random.Generator.Seed = 0;
 
-            var kmeans = new BalancedKMeans(2);
+            var kmeans = new BalancedKMeans(2)
+            {
 
-            // If a limit is not set, the following Learn call does not return....
-            kmeans.MaxIterations = 1000;
+                // If a limit is not set, the following Learn call does not return....
+                MaxIterations = 1000
+            };
 
             var clusters = kmeans.Learn(observations);
 
