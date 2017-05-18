@@ -125,16 +125,17 @@ namespace Accord.Tests.Statistics
             var machine = new MulticlassSupportVectorMachine(inputs: 1, classes: classes);
 
             // Create a Multi-class learning algorithm for the machine
-            var teacher = new MulticlassSupportVectorLearning(machine, inputs, outputs);
-
-            // Configure the learning algorithm to use SMO to train the
-            //  underlying SVMs in each of the binary class subproblems.
-            teacher.Algorithm = (svm, classInputs, classOutputs, i, j) =>
+            var teacher = new MulticlassSupportVectorLearning(machine, inputs, outputs)
             {
-                return new SequentialMinimalOptimization(svm, classInputs, classOutputs)
+                // Configure the learning algorithm to use SMO to train the
+                //  underlying SVMs in each of the binary class subproblems.
+                Algorithm = (svm, classInputs, classOutputs, i, j) =>
                 {
-                    Complexity = 1
-                };
+                    return new SequentialMinimalOptimization(svm, classInputs, classOutputs)
+                    {
+                        Complexity = 1
+                    };
+                }
             };
 
             // Run the learning algorithm

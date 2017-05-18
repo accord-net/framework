@@ -343,5 +343,54 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("elder", reloaded.Translate("Label", 2));
         }
 
+        [Test]
+        public void StringApplyTest3()
+        {
+            // Example for https://github.com/accord-net/framework/issues/581
+
+            // Let's say we have a dataset of US birds:
+            string[] names = { "State", "Bird", "Color" };
+
+            string[][] data =
+            {
+                new[] { "Kansas", "Crow", "Black" },
+                new[] { "Ohio", "Pardal", "Yellow" },
+                new[] { "Hawaii", "Penguim", "Black" }
+            };
+
+            // Create a codebook for the dataset
+            var codebook = new Codification(names, data);
+
+            // Transform the data into integer symbols
+            int[][] values = codebook.Transform(data);
+
+            // Transform the symbols into 1-of-K vectors
+            double[][] states = Jagged.OneHot(values.GetColumn(0));
+            double[][] birds = Jagged.OneHot(values.GetColumn(1));
+            double[][] colors = Jagged.OneHot(values.GetColumn(2));
+
+            // Normalize each variable separately if needed
+            states = states.Divide(codebook["State"].NumberOfSymbols);
+            birds = birds.Divide(codebook["Bird"].NumberOfSymbols);
+            colors = colors.Divide(codebook["Color"].NumberOfSymbols);
+
+            // Create final feature vectors
+            double[][] features = Matrix.Concatenate(states, birds, colors);
+
+            Assert.AreEqual(new[] { 3, 3 }, states.GetLength());
+            Assert.AreEqual(new[] { 3, 3 }, birds.GetLength());
+            Assert.AreEqual(new[] { 3, 2 }, colors.GetLength());
+            Assert.AreEqual(new[] { 3, 8 }, features.GetLength());
+
+            // string t = features.ToCSharp();
+            var expected = new double[][] 
+            {
+                new double[] { 0.333333333333333, 0, 0, 0.333333333333333, 0, 0, 0.5, 0 },
+                new double[] { 0, 0.333333333333333, 0, 0, 0.333333333333333, 0, 0, 0.5 },
+                new double[] { 0, 0, 0.333333333333333, 0, 0, 0.333333333333333, 0.5, 0 }
+            };
+
+            Assert.IsTrue(features.IsEqual(expected, rtol: 1e-10));
+        }
     }
 }
