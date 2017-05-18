@@ -1,12 +1,13 @@
-Accord.NET Framework 3.4.2 release notes
+Accord.NET Framework 3.5.0 release notes
 -----------------------------------------
-27.02.2017.
+20.05.2017.
 
 Version updates and fixes:
   - GH-55: Adding support for computing TF-IDF vector representations;
   - GH-213: Linear SVM with SGD Training Support;
   - GH-297: Looking for "multinomial Logistic Regression (cross-entropy loss)" in accord like sklearn;
   - GH-330: Liblinear (Linear SVMs) does not train, exits with "index out of range";
+  - GH-352: Take so much time create a SequentialMinimalOptimizationRegression in Accord.NET;
   - GH-355: SVM non-sequential 0 to n class outputs causes index out of bounds;
   - GH-365: Updating LBP to work with BoW;
   - GH-373: FrameRate as double in Accord.Video.FFMPEG;
@@ -25,8 +26,16 @@ Version updates and fixes:
   - GH-401: KNearestNeighbors parallel;
   - GH-402: Add an Example for BagOfWords Class;
   - GH-405: Add an Example for RandomForest Class;
+  - GH-409: Add an Example for Serializer.Load(T) Method (String);
+  - GH-419: Add an Example for Combinatorics.Subsets(T) Method (ISet(T), Int32, Boolean);
+  - GH-431: AugmentedLagrangian fails on standard convex quadratic problem;
   - GH-434: Possible issue with PolynomialLeastSquares() Class;
   - GH-438: Error on LocalBinaryPattern Clone();
+  - GH-446: Add an Example for PolynomialRegression Class;
+  - GH-448: Could not load type 'SharpDX.Bool' from assembly 'SharpDX, Version=3.1.1.0;
+  - GH-451: BalancedKMeans does not find a solution for this case;
+  - GH-538: CSVReader Ignores specified delimiter;
+  - GH-556: Display license on repository top;
   
 * General
   - Fixing target framework versions: projects that were targetting 4.5.2 and 
@@ -35,6 +44,7 @@ Version updates and fixes:
     pre-process well-known machine learning datasets directly from the web;
   - Adding a Accord.Text namespace to contain classes related to text processing;
   - Creating a separate Accord.Video.FFMPEG NuGet package to target x64 (Win64);
+  - Upgrading C++ projects to VS2017 and removing dependencies on VS2013 and VS2015;
 
 * Core
   - Updating the framework random generator to allow fixing the seed of independent threads:
