@@ -1,6 +1,6 @@
 Accord.NET Framework 3.5.0 release notes
 -----------------------------------------
-20.05.2017.
+21.05.2017.
 
 Version updates and fixes:
   - GH-55: Adding support for computing TF-IDF vector representations;
