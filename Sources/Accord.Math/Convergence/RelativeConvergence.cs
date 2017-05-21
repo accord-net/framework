@@ -95,7 +95,7 @@ namespace Accord.Math
         ///   is 100.
         /// </summary>
         /// 
-        public int Iterations
+        public int MaxIterations
         {
             get { return maxIterations; }
             set
@@ -106,6 +106,17 @@ namespace Accord.Math
 
                 maxIterations = value;
             }
+        }
+
+        /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return MaxIterations; }
+            set { MaxIterations = value; }
         }
 
         /// <summary>
@@ -129,7 +140,7 @@ namespace Accord.Math
         /// 
         public RelativeConvergence(int iterations, double tolerance)
         {
-            this.Iterations = iterations;
+            this.MaxIterations = iterations;
             this.tolerance = tolerance;
         }
 
@@ -149,7 +160,7 @@ namespace Accord.Math
         /// 
         public RelativeConvergence(int iterations, double tolerance, int checks)
         {
-            this.Iterations = iterations;
+            this.MaxIterations = iterations;
             this.tolerance = tolerance;
             this.maxChecks = checks;
         }

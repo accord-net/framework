@@ -96,6 +96,12 @@ namespace Accord.Statistics.Models.Markov.Learning
         protected TObservation[][] Observations { get { return vectorObservations; } }
 
         /// <summary>
+        /// Gets or sets convergence parameters.
+        /// </summary>
+        /// <value>The convergence parameters.</value>
+        public IConvergence Convergence {  get { return convergence; } }
+
+        /// <summary>
         ///   Gets or sets the distribution fitting options
         ///   to use when estimating distribution densities
         ///   during learning.
@@ -188,6 +194,18 @@ namespace Accord.Statistics.Models.Markov.Learning
             set { convergence.Tolerance = value; }
         }
 
+
+        /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return MaxIterations; }
+            set { MaxIterations = value; }
+        }
+
         /// <summary>
         ///   Gets or sets the maximum number of iterations
         ///   performed by the learning algorithm.
@@ -199,10 +217,28 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   likelihood respecting the desired limit.
         /// </remarks>
         /// 
-        public int Iterations
+        public int MaxIterations
         {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the number of performed iterations.
+        /// </summary>
+        /// 
+        public int CurrentIteration
+        {
+            get { return convergence.CurrentIteration; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the algorithm has converged.
+        /// </summary>
+        /// <value><c>true</c> if this instance has converged; otherwise, <c>false</c>.</value>
+        public bool HasConverged
+        {
+            get { return convergence.HasConverged; }
         }
 
         /// <summary>

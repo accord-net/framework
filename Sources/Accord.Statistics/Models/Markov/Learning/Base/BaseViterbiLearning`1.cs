@@ -60,7 +60,6 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         public virtual CancellationToken Token { get; set; }
 
-
         /// <summary>
         ///   Gets or sets the maximum change in the average log-likelihood
         ///   after an iteration of the algorithm used to detect convergence.
@@ -81,6 +80,17 @@ namespace Accord.Statistics.Models.Markov.Learning
         }
 
         /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
+        }
+
+        /// <summary>
         ///   Gets or sets the maximum number of iterations
         ///   performed by the learning algorithm.
         /// </summary>
@@ -91,11 +101,30 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   likelihood respecting the desired limit.
         /// </remarks>
         /// 
-        public int Iterations
+        public int MaxIterations
         {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
         }
+
+        /// <summary>
+        /// Gets the current iteration.
+        /// </summary>
+        /// <value>The current iteration.</value>
+        public int CurrentIteration
+        {
+            get { return convergence.CurrentIteration; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance has converged.
+        /// </summary>
+        /// <value><c>true</c> if this instance has converged; otherwise, <c>false</c>.</value>
+        public bool HasConverged
+        {
+            get { return convergence.HasConverged; }
+        }
+
 
         /// <summary>
         ///   Gets or sets on how many batches the learning data should be divided during learning.

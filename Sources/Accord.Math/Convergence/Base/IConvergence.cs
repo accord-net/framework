@@ -22,11 +22,32 @@
 
 namespace Accord.Math
 {
+    using System;
+
     /// <summary>
     ///   Common interface for convergence detection algorithms.
     /// </summary>
     /// 
-    public interface IConvergence<T>
+    public interface IConvergence<T> : IConvergence
+    {
+        /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        [Obsolete("Please use MaxIterations instead.")]
+        int Iterations { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the watched value after the iteration.
+        /// </summary>
+        /// 
+        T NewValue { get; set; }
+    }
+
+    /// <summary>
+    ///   Common interface for convergence detection algorithms.
+    /// </summary>
+    /// 
+    public interface IConvergence
     {
         /// <summary>
         ///   Gets or sets the maximum relative change in the watched value
@@ -40,22 +61,16 @@ namespace Accord.Math
         ///   performed by the iterative algorithm.
         /// </summary>
         /// 
-        int Iterations { get; set; } // TODO: Rename to MaxIterations
+        int MaxIterations { get; set; } 
 
         /// <summary>
-        ///   Gets or sets the watched value after the iteration.
-        /// </summary>
-        /// 
-        T NewValue { get; set; }
-
-        /// <summary>
-        ///   Gets or sets the current iteration number.
+        ///   Gets the current iteration number.
         /// </summary>
         /// 
         int CurrentIteration { get; }
 
         /// <summary>
-        ///   Gets whether the algorithm has converged.
+        ///   Gets or sets whether the algorithm has converged.
         /// </summary>
         /// 
         bool HasConverged { get; }

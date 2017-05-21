@@ -87,12 +87,23 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return MaxIterations; }
+            set {MaxIterations = value; }
+        }
+
+        /// <summary>
         ///   Gets or sets the maximum number of iterations
         ///   performed by the iterative algorithm. Default 
         ///   is 100.
         /// </summary>
         /// 
-        public int Iterations
+        public int MaxIterations
         {
             get { return maxIterations; }
             set
@@ -126,7 +137,7 @@ namespace Accord.Math
         /// 
         public AbsoluteConvergence(int iterations, double tolerance)
         {
-            this.Iterations = iterations;
+            this.MaxIterations = iterations;
             this.tolerance = tolerance;
         }
 
