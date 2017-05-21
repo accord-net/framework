@@ -91,6 +91,24 @@ namespace Accord.Tests.MachineLearning.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 0.514 0.988 1.003 1.015 0.965 1.007 0.927 0.958 0.992 
+        ///0.528 0.977 0.988 0.981 0.955 0.981 0.933 0.966 0.981 
+        ///0.528 0.988 0.981 0.959 0.981 0.966 0.966 0.981 0.974 
+        ///0.52 0.996 0.973 0.951 0.996 0.958 0.996 0.988 0.966 
+        ///0.508 0.996 0.973 0.957 1.003 0.957 1.011 0.988 0.973 
+        ///0.496 0.996 0.98 0.972 1.004 0.972 1.011 0.996 0.98 
+        ///0.492 0.988 0.98 0.96 0.988 0.992 1.004 0.988 1.012 
+        ///0.498 0.968 0.948 0.956 0.968 0.988 0.976 1 1.007 
+        ///0.502 0.941 0.949 0.957 0.972 0.988 0.992 1 1.011 
+        ///0.506 0.941 0.949 0.9 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string data16 {
+            get {
+                return ResourceManager.GetString("data16", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to instance,nvarsOrig,nclausesOrig,nvars,nclauses,reducedVars,reducedClauses,vars.clauses.ratio,POSNEG.RATIO.CLAUSE.mean,POSNEG.RATIO.CLAUSE.coeff.variation,POSNEG.RATIO.CLAUSE.min,POSNEG.RATIO.CLAUSE.max,POSNEG.RATIO.CLAUSE.entropy,VCG.CLAUSE.mean,VCG.CLAUSE.coeff.variation,VCG.CLAUSE.min,VCG.CLAUSE.max,VCG.CLAUSE.entropy,UNARY,BINARY.,TRINARY.,VCG.VAR.mean,VCG.VAR.coeff.variation,VCG.VAR.min,VCG.VAR.max,VCG.VAR.entropy,POSNEG.RATIO.VAR.mean,POSNEG.RATIO.VAR.stdev,POSNEG.RATIO.VAR.min,POSNEG.RATIO.VAR.max,POS [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string features {
@@ -117,8 +135,7 @@ namespace Accord.Tests.MachineLearning.Properties {
         ///5.8,4.0,1.2,0.2,Iris-setosa
         ///5.7,4.4,1.5,0.4,Iris-setosa
         ///5.4,3.9,1.3,0.4,Iris-setosa
-        ///5.1,3.5,1.4,0.3,Iris-setosa
-        ///5.7,3.8, [rest of string was truncated]&quot;;.
+        ///5.1,3.5,1.4,0.3,Iri [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string iris_data {
             get {
@@ -259,6 +276,169 @@ namespace Accord.Tests.MachineLearning.Properties {
         internal static string L2R_LR_a9a {
             get {
                 return ResourceManager.GetString("L2R_LR_a9a", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///15
+        ///15
+        ///15
+        ///15
+        ///15
+        ///15
+        ///15
+        ///15
+        ///15
+        ///15
+        ///2
+        ///2
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///14
+        ///14
+        ///14
+        ///4
+        ///4
+        ///14
+        ///14
+        ///14
+        ///14
+        ///14
+        ///14
+        ///14
+        ///14
+        ///14
+        ///14
+        ///14
+        ///14
+        ///15
+        ///15
+        ///1
+        ///14
+        ///15
+        ///2
+        ///2
+        ///2
+        ///14
+        ///14
+        ///14
+        ///14
+        ///10
+        ///10
+        ///10
+        ///10
+        ///15
+        ///15
+        ///1
+        ///1
+        ///9
+        ///15
+        ///15
+        ///15
+        ///10
+        ///10
+        ///10
+        ///15
+        ///15
+        ///1
+        ///1
+        ///2
+        ///2
+        ///2
+        ///2
+        ///2
+        ///2
+        ///2
+        ///2
+        ///1
+        ///2
+        ///2
+        ///2
+        ///2
+        ///2
+        ///2
+        ///2
+        ///9
+        ///9
+        ///9
+        ///9
+        ///9
+        ///9
+        ///9
+        ///1
+        ///9
+        ///9
+        ///9
+        ///9
+        ///9
+        ///9
+        ///9
+        ///9
+        ///9
+        ///11
+        ///1
+        ///9
+        ///1
+        ///1
+        ///9
+        ///9
+        ///4
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///3
+        ///3
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///8
+        ///8
+        ///3
+        ///3
+        ///7
+        ///7
+        ///7
+        ///7
+        ///8
+        ///8
+        ///8
+        ///3
+        ///3
+        ///3
+        ///8
+        ///8
+        ///8        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string labels16 {
+            get {
+                return ResourceManager.GetString("labels16", resourceCulture);
             }
         }
         

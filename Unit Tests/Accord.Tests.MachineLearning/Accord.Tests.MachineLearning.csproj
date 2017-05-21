@@ -201,6 +201,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\gh608\data16.txt" />
+    <Content Include="Resources\gh608\labels16.txt" />
     <Content Include="Resources\iris.data.txt" />
     <Content Include="Resources\iris.scale.txt" />
     <Content Include="Resources\liblinear\L1R_LR_a9a.txt" />
