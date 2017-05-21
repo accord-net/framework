@@ -27,6 +27,7 @@ namespace Accord.Tests.Math
     using System.Collections.Generic;
     using System;
     using Accord;
+    using System.IO;
 
     [TestFixture]
     public class MatrixFormatTest
@@ -315,6 +316,19 @@ namespace Accord.Tests.Math
             str = x.ToString(CSharpArrayFormatProvider.CurrentCulture);
 
             Assert.AreEqual("new double[] { 1, 2, 3 };", str);
+        }
+
+        [Test]
+        public void vector_parse_test()
+        {
+            double[][] ex = new Accord.IO.CsvReader(new StringReader(Properties.Resources.data16), hasHeaders: false).ToJagged<double>();
+            int[] ey = new Accord.IO.CsvReader(new StringReader(Properties.Resources.labels16), hasHeaders: false).ToJagged<int>().GetColumn(0);
+
+            double[][] ax = Jagged.Parse(Properties.Resources.data16);
+            double[] ay = Vector.Parse(Properties.Resources.labels16);
+
+            Assert.IsTrue(ex.IsEqual(ax));
+            Assert.IsTrue(ey.IsEqual(ay));
         }
     }
 }

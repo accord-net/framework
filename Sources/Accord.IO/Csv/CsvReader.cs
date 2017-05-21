@@ -80,7 +80,7 @@ namespace Accord.IO
         public const char DefaultComment = '#';
 
 
-        private char[] delimiters = { ',', ';', '\t', '|', ';', '^' };
+        private char[] delimiters = { ',', ';', '\t', '|', ';', '^', ' ' };
 
         private static readonly StringComparer _fieldHeaderComparer =
             StringComparer.CurrentCultureIgnoreCase;
@@ -1489,6 +1489,12 @@ namespace Accord.IO
                         if (_fieldCount == _fields.Length)
                             Array.Resize<string>(ref _fields, (_fieldCount + 1) * 2);
                     }
+                }
+
+                if (Delimiter == ' ' && _fields[_fieldCount] == String.Empty)
+                {
+                    // discard the last empty elements in this case
+                    _fieldCount--;
                 }
 
                 // _fieldCount contains the last field index, but it must contains the field count,
