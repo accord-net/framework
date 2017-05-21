@@ -245,16 +245,44 @@ namespace Accord.Statistics.Models.Fields.Learning
         }
 
         /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return MaxIterations; }
+            set { MaxIterations = value; }
+        }
+
+        /// <summary>
         ///   Gets or sets the maximum number of iterations
         ///   performed by the learning algorithm.
         /// </summary>
         /// 
-        public int Iterations
+        public int MaxIterations
         {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
         }
 
+        /// <summary>
+        ///   Gets or sets the number of performed iterations.
+        /// </summary>
+        /// 
+        public int CurrentIteration
+        {
+            get { return convergence.CurrentIteration; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the algorithm has converged.
+        /// </summary>
+        /// <value><c>true</c> if this instance has converged; otherwise, <c>false</c>.</value>
+        public bool HasConverged
+        {
+            get { return convergence.HasConverged; }
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="HiddenResilientGradientLearning{T}"/> class.

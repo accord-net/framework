@@ -83,11 +83,18 @@ namespace Accord.Statistics.Models.Fields.Learning
         }
 
         /// <summary>
+        ///   Please use HasConverged instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use HasConverged instead.")]
+        public bool Converged { get { return HasConverged; } }
+
+        /// <summary>
         ///   Gets whether the model has converged
         ///   or if the line search has failed.
         /// </summary>
         /// 
-        public bool Converged { get; private set; }
+        public bool HasConverged { get; private set; }
 
         /// <summary>
         ///   Gets the total number of iterations performed
@@ -125,6 +132,17 @@ namespace Accord.Statistics.Models.Fields.Learning
         }
 
         /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return MaxIterations; }
+            set { MaxIterations = value; }
+        }
+
+        /// <summary>
         ///   Gets or sets the maximum number of iterations
         ///   performed by the learning algorithm.
         /// </summary>
@@ -135,7 +153,7 @@ namespace Accord.Statistics.Models.Fields.Learning
         ///   likelihood respecting the desired limit.
         /// </remarks>
         /// 
-        public int Iterations
+        public int MaxIterations
         {
             get { return optimizer.MaxIterations; }
             set
@@ -204,7 +222,7 @@ namespace Accord.Statistics.Models.Fields.Learning
             calculator.Inputs = observations;
             calculator.Outputs = outputs;
 
-            Converged = true;
+            HasConverged = true;
             optimizer.Tolerance = Tolerance;
             optimizer.MaxIterations = Iterations;
             optimizer.Token = Token;
@@ -216,7 +234,7 @@ namespace Accord.Statistics.Models.Fields.Learning
             catch (LineSearchFailedException)
             {
                 // TODO: Restructure CG to avoid exceptions.
-                Converged = false;
+                HasConverged = false;
             }
 
             Model.Function.Weights = optimizer.Solution;

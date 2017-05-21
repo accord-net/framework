@@ -500,7 +500,7 @@ namespace Accord.Statistics.Analysis
             var learning = new LowerBoundNewtonRaphson(regression)
             {
                 Tolerance = tolerance,
-                Iterations = iterations,
+                MaxIterations = iterations,
                 Token = Token
             };
 

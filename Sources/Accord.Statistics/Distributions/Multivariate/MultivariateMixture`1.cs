@@ -443,7 +443,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                 if (options != null)
                 {
                     em.InnerOptions = options.InnerOptions;
-                    em.Convergence.Iterations = options.MaxIterations;
+                    em.Convergence.MaxIterations = options.MaxIterations;
                     em.Convergence.Tolerance = options.Threshold;
                     em.ParallelOptions = options.ParallelOptions;
                 }
@@ -462,7 +462,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                 if (options != null)
                 {
                     em.InnerOptions = options.InnerOptions;
-                    em.Convergence.Iterations = options.MaxIterations;
+                    em.Convergence.MaxIterations = options.MaxIterations;
                     em.Convergence.Tolerance = options.Threshold;
                     em.ParallelOptions = options.ParallelOptions;
                 }

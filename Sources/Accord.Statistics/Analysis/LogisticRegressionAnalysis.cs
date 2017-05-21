@@ -598,7 +598,7 @@ namespace Accord.Statistics.Analysis
             var learning = new IterativeReweightedLeastSquares(regression)
             {
                 Regularization = regularization,
-                Iterations = iterations,
+                MaxIterations = iterations,
                 Tolerance = tolerance,
                 Token = Token
             };
@@ -785,7 +785,7 @@ namespace Accord.Statistics.Analysis
 
                 var learning = new IterativeReweightedLeastSquares(innerModel)
                 {
-                    Iterations = iterations,
+                    MaxIterations = iterations,
                     Tolerance = tolerance,
                     Regularization = regularization
                 };

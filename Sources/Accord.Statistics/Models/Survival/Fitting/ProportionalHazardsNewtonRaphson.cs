@@ -76,14 +76,24 @@ namespace Accord.Statistics.Models.Regression.Fitting
         }
 
         /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
+        }
+
+        /// <summary>
         ///   Gets or sets the maximum number of iterations
         ///   performed by the learning algorithm.
         /// </summary>
         /// 
-        public int Iterations
+        public int MaxIterations
         {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
         }
 
         /// <summary>
@@ -94,6 +104,15 @@ namespace Accord.Statistics.Models.Regression.Fitting
         {
             get { return convergence.CurrentIteration; }
             set { convergence.CurrentIteration = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the algorithm has converged.
+        /// </summary>
+        /// <value><c>true</c> if this instance has converged; otherwise, <c>false</c>.</value>
+        public bool HasConverged
+        {
+            get { return convergence.HasConverged; }
         }
 
         /// <summary>

@@ -280,10 +280,21 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Default is 0 (iterate until convergence).
         /// </summary>
         /// 
+        public int MaxIterations
+        {
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
+        }
+
+        /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
         public int Iterations
         {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
+            get { return MaxIterations; }
+            set { MaxIterations = value; }
         }
 
         /// <summary>
@@ -345,7 +356,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// 
         protected BaseAveragedStochasticGradientDescent()
         {
-            Iterations = 0;
+            MaxIterations = 0;
             Tolerance = 1e-5;
         }
 
@@ -653,7 +664,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             clone.regularizedBias = regularizedBias;
 
             clone.Tolerance = Tolerance;
-            clone.Iterations = Iterations;
+            clone.MaxIterations = MaxIterations;
 
             return clone;
         }

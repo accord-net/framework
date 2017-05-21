@@ -94,7 +94,7 @@ namespace Accord.Math
         ///   performed by the iterative algorithm.
         /// </summary>
         /// 
-        public int Iterations
+        public int MaxIterations
         {
             get { return maxIterations; }
             set
@@ -105,6 +105,17 @@ namespace Accord.Math
 
                 maxIterations = value;
             }
+        }
+
+        /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return MaxIterations; }
+            set { MaxIterations = value; }
         }
 
         /// <summary>
@@ -128,7 +139,7 @@ namespace Accord.Math
         /// 
         public RelativeParameterConvergence(int iterations, double tolerance)
         {
-            this.Iterations = iterations;
+            this.MaxIterations = iterations;
             this.tolerance = tolerance;
         }
 
@@ -253,5 +264,6 @@ namespace Accord.Math
             get { return NewValues; }
             set { NewValues = value; }
         }
+
     }
 }

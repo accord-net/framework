@@ -118,7 +118,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         private bool updateLowerBound = true;
         private ISolverMatrixDecomposition<double> decomposition = null;
 
-        private AbsoluteConvergence convergence;
+        private IConvergence<double> convergence;
 
         /// <summary>
         ///   Gets the previous values for the coefficients which were
@@ -196,13 +196,23 @@ namespace Accord.Statistics.Models.Regression.Fitting
         }
 
         /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
+        }
+
+        /// <summary>
         /// Gets or sets the maximum number of iterations
         /// performed by the learning algorithm.
         /// </summary>
-        public int Iterations
+        public int MaxIterations
         {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
         }
 
         /// <summary>
@@ -215,6 +225,39 @@ namespace Accord.Statistics.Models.Regression.Fitting
             set { convergence.Tolerance = value; }
         }
 
+        /// <summary>
+        ///   Gets or sets the number of performed iterations.
+        /// </summary>
+        /// 
+        public int CurrentIteration
+        {
+            get { return convergence.CurrentIteration; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the algorithm has converged.
+        /// </summary>
+        /// <value><c>true</c> if this instance has converged; otherwise, <c>false</c>.</value>
+        public bool HasConverged
+        {
+            get { return convergence.HasConverged; }
+        }
+
+        /// <summary>
+        ///   Gets the vector of parameter updates in the last iteration.
+        /// </summary>
+        /// 
+        /// <value>How much each parameter changed after the last update.</value>
+        /// 
+        public double[] ParameterChange {  get { return deltas; } }
+
+        /// <summary>
+        ///   Gets the maximum <see cref="ParameterChange">parameter change</see> in the last 
+        ///   iteration. If this value is less than <see cref="Tolerance"/>, the algorithm
+        ///   has converged.
+        /// </summary>
+        /// 
+        public double MaximumChange {  get { return convergence.NewValue; } }
 
         /// <summary>
         ///   Creates a new <see cref="LowerBoundNewtonRaphson"/>.

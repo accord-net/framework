@@ -611,7 +611,7 @@ namespace Accord.Statistics.Analysis
             Array.Clear(regression.Coefficients, 0, regression.Coefficients.Length);
 
 
-            learning.Iterations = Iterations;
+            learning.MaxIterations = Iterations;
             learning.Tolerance = Tolerance;
 
             learning.Learn(inputData, timeData, censorData);
@@ -649,7 +649,7 @@ namespace Accord.Statistics.Analysis
 
                 Array.Clear(innerModel.Coefficients, 0, inputCount - 1);
 
-                learning.Iterations = Iterations;
+                learning.MaxIterations = Iterations;
                 learning.Tolerance = Tolerance;
 
                 learning.Learn(data, timeData, censorData);
@@ -771,7 +771,7 @@ namespace Accord.Statistics.Analysis
             return new ProportionalHazardsNewtonRaphson()
             {
                 Model = model,
-                Iterations = Iterations,
+                MaxIterations = Iterations,
                 Tolerance = Tolerance,
                 Token = Token
             };

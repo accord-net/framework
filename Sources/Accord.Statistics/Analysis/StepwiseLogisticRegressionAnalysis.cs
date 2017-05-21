@@ -549,14 +549,14 @@ namespace Accord.Statistics.Analysis
             var irls = new IterativeReweightedLeastSquares(regression)
             {
                 Tolerance = tolerance,
-                Iterations = iterations,
+                MaxIterations = iterations,
                 Token = Token
             };
 
             irls.Learn(input, output);
 
             // Check if the full model has converged
-            return irls.Iterations <= iterations;
+            return irls.MaxIterations <= iterations;
         }
 
     }

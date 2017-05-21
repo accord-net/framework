@@ -108,10 +108,39 @@ namespace Accord.Statistics.Models.Fields.Learning
         ///   performed by the learning algorithm.
         /// </summary>
         /// 
+        public int MaxIterations
+        {
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
+        }
+
+        /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
         public int Iterations
         {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
+            get { return MaxIterations; }
+            set { MaxIterations = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the number of performed iterations.
+        /// </summary>
+        /// 
+        public int CurrentIteration
+        {
+            get { return convergence.CurrentIteration; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the algorithm has converged.
+        /// </summary>
+        /// <value><c>true</c> if this instance has converged; otherwise, <c>false</c>.</value>
+        public bool HasConverged
+        {
+            get { return convergence.HasConverged; }
         }
 
         /// <summary>
