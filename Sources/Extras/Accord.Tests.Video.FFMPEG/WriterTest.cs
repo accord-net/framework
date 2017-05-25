@@ -71,8 +71,99 @@ namespace Accord.Tests.Video
         public void framerate_test()
         {
             write_and_open((Rational)30, 30, 1);
-
             write_and_open((Rational)29.97, 2997, 100);
+        }
+
+        [Test]
+        public void reencode_vp8()
+        {
+            var fileInput = new FileInfo(@"Resources/fireplace.mp4");
+            var fileOutput = new FileInfo(@"fireplace_output.webm");
+            reencode(fileInput, fileOutput, VideoCodec.VP8);
+        }
+
+        [Test]
+        public void reencode_vp9()
+        {
+            var fileInput = new FileInfo(@"Resources/fireplace.mp4");
+            var fileOutput = new FileInfo(@"fireplace_output.webm");
+            reencode(fileInput, fileOutput, VideoCodec.VP9);
+        }
+
+        [Test]
+        public void reencode_ogg()
+        {
+            var fileInput = new FileInfo(@"Resources/fireplace.mp4");
+            var fileOutput = new FileInfo(@"fireplace_output.ogg");
+            reencode(fileInput, fileOutput, VideoCodec.Theora);
+        }
+
+        [Test]
+        public void reencode_ogm()
+        {
+            var fileInput = new FileInfo(@"Resources/fireplace.mp4");
+            var fileOutput = new FileInfo(@"fireplace_output.ogm");
+            reencode(fileInput, fileOutput, VideoCodec.Theora);
+        }
+
+        [Test]
+        public void reencode_h264_mp4()
+        {
+            var fileInput = new FileInfo(@"Resources/fireplace.mp4");
+            var fileOutput = new FileInfo(@"fireplace_output.mp4");
+            reencode(fileInput, fileOutput, VideoCodec.H264);
+        }
+
+        [Test]
+        public void reencode_h264()
+        {
+            var fileInput = new FileInfo(@"Resources/fireplace.mp4");
+            var fileOutput = new FileInfo(@"fireplace_output_h264.avi");
+            reencode(fileInput, fileOutput, VideoCodec.H264);
+        }
+
+        private static void reencode(FileInfo fileInput, FileInfo fileOutput, VideoCodec outputCodec)
+        {
+            using (var videoFileReader = new Accord.Video.FFMPEG.VideoFileReader())
+            {
+                videoFileReader.Open(fileInput.FullName);
+
+                using (var videoFileWriter = new Accord.Video.FFMPEG.VideoFileWriter())
+                {
+                    Assert.AreEqual(2997, videoFileReader.FrameRate.Numerator);
+                    Assert.AreEqual(100, videoFileReader.FrameRate.Denominator);
+
+                    videoFileWriter.Open
+                    (
+                        fileOutput.FullName,
+                        videoFileReader.Width,
+                        videoFileReader.Height,
+                        videoFileReader.FrameRate,
+                        outputCodec
+                    );
+
+                    do
+                    {
+                        using (var bitmap = videoFileReader.ReadVideoFrame())
+                        {
+                            if (bitmap == null) { break; }
+                            videoFileWriter.WriteVideoFrame(bitmap);
+                        }
+                    }
+                    while (true);
+
+                    videoFileWriter.Close();
+                }
+
+                videoFileReader.Close();
+            }
+
+            using (var videoFileReader = new Accord.Video.FFMPEG.VideoFileReader())
+            {
+                videoFileReader.Open(fileOutput.FullName);
+
+                Assert.AreEqual(2997 / 100.0, videoFileReader.FrameRate.Value, 0.01);
+            }
         }
 
         private static void write_and_open(Rational framerate, int num, int den)
@@ -85,7 +176,7 @@ namespace Accord.Tests.Video
             {
                 var videoWriter = new VideoFileWriter();
 
-                videoWriter.Open(path, width, height, framerate, VideoCodec.H264, videoBitRate);
+                videoWriter.Open(path, width, height, framerate, VideoCodec.FFVHUFF, videoBitRate);
 
                 Assert.AreEqual(width, videoWriter.Width);
                 Assert.AreEqual(height, videoWriter.Height);
@@ -122,6 +213,7 @@ namespace Accord.Tests.Video
                 Assert.AreEqual(num, reader.FrameRate.Numerator);
                 Assert.AreEqual(den, reader.FrameRate.Denominator);
             }
+
         }
     }
 }

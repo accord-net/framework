@@ -76,6 +76,7 @@ namespace Accord {
                 uint8_t*	VideoOutputBuffer;
                 int VideoOutputBufferSize;
 
+
                 WriterPrivateData()
                 {
                     FormatContext = nullptr;
@@ -105,42 +106,36 @@ namespace Accord {
                 if (data->FormatContext->oformat->flags & AVFMT_RAWPICTURE)
                 {
                     Console::WriteLine("Raw picture must be written");
+                    return;
                 }
-                else
-                {
-                    libffmpeg::AVPacket packet;
-                    libffmpeg::av_init_packet(&packet);
-                    packet.data = nullptr;
-                    packet.size = 0;
 
-                    // encode the image
-                    int got_packet;
-                    if (libffmpeg::avcodec_encode_video2(codecContext, &packet, data->VideoFrame, &got_packet) < 0)
-                        throw gcnew VideoException("Error while encoding video frame");
+                libffmpeg::AVPacket packet;
+                libffmpeg::av_init_packet(&packet);
+                packet.data = nullptr;
+                packet.size = 0;
 
-                    if (got_packet)
-                    {
-                        if (codecContext->coded_frame->pts != AV_NOPTS_VALUE)
-                        {
-                            packet.pts = libffmpeg::av_rescale_q(codecContext->coded_frame->pts,
-                                codecContext->time_base, data->VideoStream->time_base);
-                        }
+                // encode the image
+                int got_packet;
+                if (libffmpeg::avcodec_encode_video2(codecContext, &packet, data->VideoFrame, &got_packet) < 0)
+                    throw gcnew VideoException("Error while encoding video frame");
 
-                        if (codecContext->coded_frame->key_frame)
-                            packet.flags |= AV_PKT_FLAG_KEY;
+                if (!got_packet)
+                    return; // image was buffered
 
-                        packet.stream_index = data->VideoStream->index;
-                        Console::WriteLine("Stream: {0} PTS: {1} -> {1} bytes", packet.stream_index, packet.pts, packet.size);
+                if (packet.pts != AV_NOPTS_VALUE)
+                    packet.pts = libffmpeg::av_rescale_q(packet.pts, codecContext->time_base, data->VideoStream->time_base);
+                if (packet.dts != AV_NOPTS_VALUE)
+                    packet.dts = libffmpeg::av_rescale_q(packet.dts, codecContext->time_base, data->VideoStream->time_base);
 
-                        // write the compressed frame to the media file
-                        if (libffmpeg::av_interleaved_write_frame(data->FormatContext, &packet) != 0)
-                            throw gcnew VideoException("Error while writing video frame.");
-                    }
-                    else
-                    {
-                        // image was buffered
-                    }
-                }
+                if (codecContext->coded_frame->key_frame)
+                    packet.flags |= AV_PKT_FLAG_KEY;
+
+                packet.stream_index = data->VideoStream->index;
+                Console::WriteLine("Stream: {0} PTS: {1} -> {1} bytes", packet.stream_index, packet.pts, packet.size);
+
+                // write the compressed frame to the media file
+                if (libffmpeg::av_interleaved_write_frame(data->FormatContext, &packet) != 0)
+                    throw gcnew VideoException("Error while writing video frame.");
             }
 
             // Allocate picture of the specified format and size
@@ -165,7 +160,7 @@ namespace Accord {
 
             // Create new video stream and configure it
             void add_video_stream(WriterPrivateData^ data, int width, int height, Rational frameRate,
-				int bitRate, libffmpeg::AVCodecID codecId, libffmpeg::AVPixelFormat pixelFormat)
+                int bitRate, libffmpeg::AVCodecID codecId, libffmpeg::AVPixelFormat pixelFormat)
             {
                 libffmpeg::AVCodec *codec = libffmpeg::avcodec_find_encoder(codecId);
                 libffmpeg::AVCodecContext* codecContex;
@@ -189,7 +184,9 @@ namespace Accord {
                 // timebase should be 1/framerate and timestamp increments should be
                 // identically 1.
                 codecContex->time_base = { frameRate.Denominator, frameRate.Numerator };
-                data->VideoStream->time_base = codecContex->time_base;
+                //codecContex->framerate = { frameRate.Denominator, frameRate.Numerator };
+                //codecContex->ticks_per_frame = 1;
+                //data->VideoStream->time_base = codecContex->time_base;
 
                 codecContex->gop_size = 12; // emit one intra frame every twelve frames at most
                 codecContex->pix_fmt = pixelFormat;
@@ -209,7 +206,6 @@ namespace Accord {
 
                     codecContex->coder_type = FF_CODER_TYPE_AC;
                     codecContex->profile = FF_PROFILE_H264_BASELINE;
-#pragma message("Move codecContex->crf = 25 ??")
                     //codecContex->crf = 25;
                     codecContex->me_method = 7;
                     codecContex->me_subpel_quality = 4;
@@ -398,6 +394,7 @@ namespace Accord {
                 m_codec = codec;
                 m_frameRate = frameRate;
                 m_bitRate = bitRate;
+                m_framesCount = 0;
 
                 // audio support
                 m_audiocodec = audioCodec;
@@ -475,6 +472,7 @@ namespace Accord {
                     return;
 
                 Flush();
+
                 if (data->FormatContext)
                 {
                     if (data->FormatContext->pb != nullptr)
@@ -555,11 +553,10 @@ namespace Accord {
                         break; // there are no more frames to be written
 
                     // TODO: consider refactoring with write_video_frame?
-                    if (codecContext->coded_frame->pts != AV_NOPTS_VALUE)
-                    {
-                        packet.pts = libffmpeg::av_rescale_q(codecContext->coded_frame->pts,
-                            codecContext->time_base, data->VideoStream->time_base);
-                    }
+                    if (packet.pts != AV_NOPTS_VALUE)
+                        packet.pts = libffmpeg::av_rescale_q(packet.pts, codecContext->time_base, data->VideoStream->time_base);
+                    if (packet.dts != AV_NOPTS_VALUE)
+                        packet.dts = libffmpeg::av_rescale_q(packet.dts, codecContext->time_base, data->VideoStream->time_base);
 
                     if (codecContext->coded_frame->key_frame)
                         packet.flags |= AV_PKT_FLAG_KEY;
@@ -575,7 +572,7 @@ namespace Accord {
             }
 
             // Writes new video frame to the opened video file
-            void VideoFileWriter::WriteVideoFrame(Bitmap^ frame, TimeSpan timestamp)
+            void VideoFileWriter::WriteVideoFrame(Bitmap^ frame, unsigned long frameIndex)
             {
                 CheckIfDisposed();
 
@@ -592,9 +589,7 @@ namespace Accord {
                 }
 
                 if ((frame->Width != m_width) || (frame->Height != m_height))
-                {
                     throw gcnew ArgumentException("Bitmap size must be of the same as video size, which was specified on opening video file.");
-                }
 
                 // lock the bitmap
                 BitmapData^ bitmapData = frame->LockBits(System::Drawing::Rectangle(0, 0, m_width, m_height),
@@ -602,8 +597,7 @@ namespace Accord {
                     (frame->PixelFormat == PixelFormat::Format8bppIndexed) ?
                     PixelFormat::Format8bppIndexed : PixelFormat::Format24bppRgb);
 
-                uint8_t* srcData[4] = { static_cast<uint8_t*>(static_cast<void*>(bitmapData->Scan0)),
-                    nullptr, nullptr, nullptr };
+                uint8_t* srcData[4] = { static_cast<uint8_t*>(static_cast<void*>(bitmapData->Scan0)), nullptr, nullptr, nullptr };
                 int srcLinesize[4] = { bitmapData->Stride, 0, 0, 0 };
 
                 // convert source image to the format of the video file
@@ -619,14 +613,13 @@ namespace Accord {
                 }
 
                 frame->UnlockBits(bitmapData);
-                if (timestamp.Ticks >= 0)
-                {
-                    const double frameNumber = timestamp.TotalSeconds * m_frameRate.Value;
-                    data->VideoFrame->pts = static_cast<int64_t>(frameNumber);
-                }
+
+                data->VideoFrame->pts = frameIndex;
 
                 // write the converted frame to the video file
                 write_video_frame(data);
+
+                m_framesCount++;
             }
 
             /*
