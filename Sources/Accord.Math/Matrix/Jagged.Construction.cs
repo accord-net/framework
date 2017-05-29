@@ -49,7 +49,7 @@ namespace Accord.Math
         /// 
         /// <returns>A matrix of the specified size.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Zeros<T>(int rows, int columns)
@@ -70,7 +70,7 @@ namespace Accord.Math
         /// 
         /// <returns>A matrix of the specified size.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Ones<T>(int rows, int columns)
@@ -89,7 +89,7 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of the specified size.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Zeros(int rows, int columns)
@@ -106,7 +106,7 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of the specified size.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Ones(int rows, int columns)
@@ -125,7 +125,7 @@ namespace Accord.Math
         /// 
         /// <returns>A matrix of the specified size.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Create<T>(int rows, int columns, T value)
@@ -150,7 +150,7 @@ namespace Accord.Math
         /// 
         /// <returns>A matrix of the specified size.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Array Create(Type elementType, params int[] shape)
@@ -196,7 +196,7 @@ namespace Accord.Math
         /// 
         /// <seealso cref="Matrix.Create{T}(int, int, T)"/>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Square<T>(int size, T value)
@@ -214,7 +214,7 @@ namespace Accord.Math
         /// 
         /// <returns>A matrix of the specified size.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Create<T>(int rows, int columns, params T[] values)
@@ -230,7 +230,7 @@ namespace Accord.Math
         /// 
         /// <param name="rows">The row vectors in the matrix.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Create<T>(params T[][] rows)
@@ -249,7 +249,7 @@ namespace Accord.Math
         /// 
         /// <returns>A matrix of the specified size.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Create<T>(int rows, int columns, T[][] values, bool transpose = false)
@@ -265,7 +265,7 @@ namespace Accord.Math
         /// 
         /// <param name="values">The values in the matrix.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Create<T>(T[,] values)
@@ -286,7 +286,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         ///   is one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] OneHot<T>(bool[] mask)
@@ -306,7 +306,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         /// is one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] OneHot<T>(int[] indices)
@@ -324,7 +324,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         /// is one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] OneHot(int[] indices)
@@ -361,7 +361,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         /// is one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] OneHot(int[] indices, int columns)
@@ -383,7 +383,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         ///   is one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] OneHot<T>(bool[] mask, T[][] result)
@@ -410,7 +410,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         /// is one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] OneHot<T>(int[] indices, T[][] result)
@@ -432,7 +432,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         /// is one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] OneHot(int[] indices, double[][] result)
@@ -456,7 +456,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         ///   is one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] KHot<T>(bool[][] mask)
@@ -477,7 +477,7 @@ namespace Accord.Math
         /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
         ///   <paramref name="indices"/> are set to one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] KHot<T>(int[][] indices, int columns)
@@ -496,7 +496,7 @@ namespace Accord.Math
         /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
         ///   <paramref name="indices"/> are set to one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] KHot(int[][] indices, int columns)
@@ -516,7 +516,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         ///   is one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] KHot(bool[][] mask, int columns)
@@ -538,7 +538,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         ///   is one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] KHot<T>(bool[][] mask, T[][] result)
@@ -564,7 +564,7 @@ namespace Accord.Math
         /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
         ///   <paramref name="indices"/> are set to one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] KHot<T>(int[][] indices, T[][] result)
@@ -587,7 +587,7 @@ namespace Accord.Math
         /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
         ///   <paramref name="indices"/> are set to one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] KHot(int[][] indices, double[][] result)
@@ -605,7 +605,7 @@ namespace Accord.Math
         ///   Creates a new multidimensional matrix with the same shape as another matrix.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] CreateAs<T>(T[,] matrix)
@@ -622,7 +622,7 @@ namespace Accord.Math
         ///   Returns a new multidimensional matrix.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] CreateAs<T>(T[][] matrix)
@@ -687,7 +687,7 @@ namespace Accord.Math
         ///   Returns a square diagonal matrix of the given size.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(int size, T value)
@@ -699,7 +699,7 @@ namespace Accord.Math
         ///   Returns a square diagonal matrix of the given size.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(int size, T value, T[][] result)
@@ -713,7 +713,7 @@ namespace Accord.Math
         ///   Returns a matrix of the given size with value on its diagonal.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(int rows, int cols, T value)
@@ -725,7 +725,7 @@ namespace Accord.Math
         ///   Returns a matrix of the given size with value on its diagonal.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(int rows, int cols, T value, T[][] result)
@@ -740,7 +740,7 @@ namespace Accord.Math
         ///   Return a square matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(T[] values)
@@ -752,7 +752,7 @@ namespace Accord.Math
         ///   Return a square matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(T[] values, T[][] result)
@@ -766,7 +766,7 @@ namespace Accord.Math
         ///   Return a square matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(int size, T[] values)
@@ -778,7 +778,7 @@ namespace Accord.Math
         ///   Return a square matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(int size, T[] values, T[][] result)
@@ -790,7 +790,7 @@ namespace Accord.Math
         ///   Returns a matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(int rows, int cols, T[] values)
@@ -802,7 +802,7 @@ namespace Accord.Math
         ///   Returns a matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(int rows, int cols, T[] values, T[][] result)
@@ -817,7 +817,7 @@ namespace Accord.Math
         ///   Returns a block-diagonal matrix with the given matrices on its diagonal.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(T[][][] blocks)
@@ -854,7 +854,7 @@ namespace Accord.Math
         ///   Returns a new multidimensional matrix.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static TOutput[][] CreateAs<TInput, TOutput>(TInput[,] matrix)
@@ -871,7 +871,7 @@ namespace Accord.Math
         ///   Returns a new multidimensional matrix.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static TOutput[][] CreateAs<TInput, TOutput>(TInput[][] matrix)
@@ -886,7 +886,7 @@ namespace Accord.Math
         ///   Returns a new multidimensional matrix.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static TOutput[][][] CreateAs<TInput, TOutput>(TInput[][][] matrix)

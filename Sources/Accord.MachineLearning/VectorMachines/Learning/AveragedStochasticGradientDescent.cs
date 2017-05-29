@@ -373,7 +373,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Renormalize the weights.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         void renorm()
@@ -396,7 +396,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Compute the norm of the weights.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         double wnorm()
@@ -411,7 +411,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Compute the norm of the averaged weights.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         double anorm()
@@ -473,7 +473,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             }
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private double score(TInput x)

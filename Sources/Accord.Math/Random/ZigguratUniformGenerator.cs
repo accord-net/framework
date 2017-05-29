@@ -140,7 +140,7 @@ namespace Accord.Math.Random
         ///   A random vector of observations drawn from this distribution.
         /// </returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Generate()

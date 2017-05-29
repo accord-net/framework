@@ -600,7 +600,7 @@ namespace Accord.Math
         ///   Fast inverse floating-point square root.
         /// </summary>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float InvSqrt(float f)
