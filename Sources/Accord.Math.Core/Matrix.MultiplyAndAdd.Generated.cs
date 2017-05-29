@@ -53,7 +53,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] MultiplyAndAdd(this int[][] a, int b, int[][] c, int[][] result)
@@ -75,7 +75,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] MultiplyAndAdd(this int[,] a, int b, int[,] c, int[,] result)
@@ -103,7 +103,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] MultiplyAndAdd(this float[][] a, float b, float[][] c, float[][] result)
@@ -125,7 +125,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] MultiplyAndAdd(this float[,] a, float b, float[,] c, float[,] result)
@@ -153,7 +153,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] MultiplyAndAdd(this double[][] a, double b, double[][] c, double[][] result)
@@ -175,7 +175,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] MultiplyAndAdd(this double[,] a, double b, double[,] c, double[,] result)
@@ -203,7 +203,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] MultiplyAndAdd(this byte[][] a, byte b, byte[][] c, byte[][] result)
@@ -225,7 +225,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] MultiplyAndAdd(this byte[,] a, byte b, byte[,] c, byte[,] result)
@@ -253,7 +253,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] MultiplyAndAdd(this decimal[][] a, decimal b, decimal[][] c, decimal[][] result)
@@ -275,7 +275,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] MultiplyAndAdd(this decimal[,] a, decimal b, decimal[,] c, decimal[,] result)

@@ -83,7 +83,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Exp(this int[] value)
@@ -95,7 +95,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Exp(this int[,] value)
@@ -107,7 +107,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Exp(this int[][] value)
@@ -118,7 +118,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Log(this int[] value)
@@ -130,7 +130,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Log(this int[,] value)
@@ -142,7 +142,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Log(this int[][] value)
@@ -153,7 +153,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sign(this int[] value)
@@ -165,7 +165,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Sign(this int[,] value)
@@ -177,7 +177,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Sign(this int[][] value)
@@ -188,7 +188,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Abs(this int[] value)
@@ -200,7 +200,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Abs(this int[,] value)
@@ -212,7 +212,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Abs(this int[][] value)
@@ -223,7 +223,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sqrt(this int[] value)
@@ -235,7 +235,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sqrt(this int[,] value)
@@ -247,7 +247,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sqrt(this int[][] value)
@@ -258,7 +258,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignSqrt(this int[] value)
@@ -270,7 +270,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignSqrt(this int[,] value)
@@ -282,7 +282,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignSqrt(this int[][] value)
@@ -293,7 +293,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Floor(this int[] value)
@@ -305,7 +305,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Floor(this int[,] value)
@@ -317,7 +317,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Floor(this int[][] value)
@@ -328,7 +328,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Ceiling(this int[] value)
@@ -340,7 +340,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Ceiling(this int[,] value)
@@ -352,7 +352,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Ceiling(this int[][] value)
@@ -363,7 +363,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Round(this int[] value)
@@ -375,7 +375,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Round(this int[,] value)
@@ -387,7 +387,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Round(this int[][] value)
@@ -398,7 +398,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Exp(this short[] value)
@@ -410,7 +410,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Exp(this short[,] value)
@@ -422,7 +422,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Exp(this short[][] value)
@@ -433,7 +433,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Log(this short[] value)
@@ -445,7 +445,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Log(this short[,] value)
@@ -457,7 +457,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Log(this short[][] value)
@@ -468,7 +468,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sign(this short[] value)
@@ -480,7 +480,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Sign(this short[,] value)
@@ -492,7 +492,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Sign(this short[][] value)
@@ -503,7 +503,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Abs(this short[] value)
@@ -515,7 +515,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Abs(this short[,] value)
@@ -527,7 +527,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Abs(this short[][] value)
@@ -538,7 +538,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sqrt(this short[] value)
@@ -550,7 +550,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sqrt(this short[,] value)
@@ -562,7 +562,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sqrt(this short[][] value)
@@ -573,7 +573,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignSqrt(this short[] value)
@@ -585,7 +585,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignSqrt(this short[,] value)
@@ -597,7 +597,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignSqrt(this short[][] value)
@@ -608,7 +608,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Floor(this short[] value)
@@ -620,7 +620,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Floor(this short[,] value)
@@ -632,7 +632,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Floor(this short[][] value)
@@ -643,7 +643,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Ceiling(this short[] value)
@@ -655,7 +655,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Ceiling(this short[,] value)
@@ -667,7 +667,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Ceiling(this short[][] value)
@@ -678,7 +678,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Round(this short[] value)
@@ -690,7 +690,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Round(this short[,] value)
@@ -702,7 +702,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Round(this short[][] value)
@@ -713,7 +713,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Exp(this float[] value)
@@ -725,7 +725,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Exp(this float[,] value)
@@ -737,7 +737,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Exp(this float[][] value)
@@ -748,7 +748,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Log(this float[] value)
@@ -760,7 +760,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Log(this float[,] value)
@@ -772,7 +772,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Log(this float[][] value)
@@ -783,7 +783,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sign(this float[] value)
@@ -795,7 +795,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Sign(this float[,] value)
@@ -807,7 +807,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Sign(this float[][] value)
@@ -818,7 +818,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Abs(this float[] value)
@@ -830,7 +830,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Abs(this float[,] value)
@@ -842,7 +842,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Abs(this float[][] value)
@@ -853,7 +853,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sqrt(this float[] value)
@@ -865,7 +865,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sqrt(this float[,] value)
@@ -877,7 +877,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sqrt(this float[][] value)
@@ -888,7 +888,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignSqrt(this float[] value)
@@ -900,7 +900,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignSqrt(this float[,] value)
@@ -912,7 +912,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignSqrt(this float[][] value)
@@ -923,7 +923,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Floor(this float[] value)
@@ -935,7 +935,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Floor(this float[,] value)
@@ -947,7 +947,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Floor(this float[][] value)
@@ -958,7 +958,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Ceiling(this float[] value)
@@ -970,7 +970,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Ceiling(this float[,] value)
@@ -982,7 +982,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Ceiling(this float[][] value)
@@ -993,7 +993,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Round(this float[] value)
@@ -1005,7 +1005,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Round(this float[,] value)
@@ -1017,7 +1017,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Round(this float[][] value)
@@ -1028,7 +1028,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Exp(this double[] value)
@@ -1040,7 +1040,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Exp(this double[,] value)
@@ -1052,7 +1052,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Exp(this double[][] value)
@@ -1063,7 +1063,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Log(this double[] value)
@@ -1075,7 +1075,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Log(this double[,] value)
@@ -1087,7 +1087,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Log(this double[][] value)
@@ -1098,7 +1098,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sign(this double[] value)
@@ -1110,7 +1110,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sign(this double[,] value)
@@ -1122,7 +1122,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sign(this double[][] value)
@@ -1133,7 +1133,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Abs(this double[] value)
@@ -1145,7 +1145,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Abs(this double[,] value)
@@ -1157,7 +1157,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Abs(this double[][] value)
@@ -1168,7 +1168,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sqrt(this double[] value)
@@ -1180,7 +1180,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sqrt(this double[,] value)
@@ -1192,7 +1192,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sqrt(this double[][] value)
@@ -1203,7 +1203,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignSqrt(this double[] value)
@@ -1215,7 +1215,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignSqrt(this double[,] value)
@@ -1227,7 +1227,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignSqrt(this double[][] value)
@@ -1238,7 +1238,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Floor(this double[] value)
@@ -1250,7 +1250,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Floor(this double[,] value)
@@ -1262,7 +1262,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Floor(this double[][] value)
@@ -1273,7 +1273,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Ceiling(this double[] value)
@@ -1285,7 +1285,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Ceiling(this double[,] value)
@@ -1297,7 +1297,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Ceiling(this double[][] value)
@@ -1308,7 +1308,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Round(this double[] value)
@@ -1320,7 +1320,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Round(this double[,] value)
@@ -1332,7 +1332,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Round(this double[][] value)
@@ -1343,7 +1343,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Exp(this long[] value)
@@ -1355,7 +1355,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Exp(this long[,] value)
@@ -1367,7 +1367,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Exp(this long[][] value)
@@ -1378,7 +1378,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Log(this long[] value)
@@ -1390,7 +1390,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Log(this long[,] value)
@@ -1402,7 +1402,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Log(this long[][] value)
@@ -1413,7 +1413,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sign(this long[] value)
@@ -1425,7 +1425,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Sign(this long[,] value)
@@ -1437,7 +1437,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Sign(this long[][] value)
@@ -1448,7 +1448,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Abs(this long[] value)
@@ -1460,7 +1460,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Abs(this long[,] value)
@@ -1472,7 +1472,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Abs(this long[][] value)
@@ -1483,7 +1483,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sqrt(this long[] value)
@@ -1495,7 +1495,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sqrt(this long[,] value)
@@ -1507,7 +1507,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sqrt(this long[][] value)
@@ -1518,7 +1518,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignSqrt(this long[] value)
@@ -1530,7 +1530,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignSqrt(this long[,] value)
@@ -1542,7 +1542,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignSqrt(this long[][] value)
@@ -1553,7 +1553,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Floor(this long[] value)
@@ -1565,7 +1565,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Floor(this long[,] value)
@@ -1577,7 +1577,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Floor(this long[][] value)
@@ -1588,7 +1588,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Ceiling(this long[] value)
@@ -1600,7 +1600,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Ceiling(this long[,] value)
@@ -1612,7 +1612,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Ceiling(this long[][] value)
@@ -1623,7 +1623,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Round(this long[] value)
@@ -1635,7 +1635,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Round(this long[,] value)
@@ -1647,7 +1647,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Round(this long[][] value)
@@ -1658,7 +1658,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Exp(this decimal[] value)
@@ -1670,7 +1670,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Exp(this decimal[,] value)
@@ -1682,7 +1682,7 @@ namespace Accord.Math
         ///   Elementwise exponential.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Exp(this decimal[][] value)
@@ -1693,7 +1693,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Log(this decimal[] value)
@@ -1705,7 +1705,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Log(this decimal[,] value)
@@ -1717,7 +1717,7 @@ namespace Accord.Math
         ///   Elementwise logarithm.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Log(this decimal[][] value)
@@ -1728,7 +1728,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sign(this decimal[] value)
@@ -1740,7 +1740,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Sign(this decimal[,] value)
@@ -1752,7 +1752,7 @@ namespace Accord.Math
         ///   Elementwise sign.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Sign(this decimal[][] value)
@@ -1763,7 +1763,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Abs(this decimal[] value)
@@ -1775,7 +1775,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Abs(this decimal[,] value)
@@ -1787,7 +1787,7 @@ namespace Accord.Math
         ///   Elementwise absolute value.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Abs(this decimal[][] value)
@@ -1798,7 +1798,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sqrt(this decimal[] value)
@@ -1810,7 +1810,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sqrt(this decimal[,] value)
@@ -1822,7 +1822,7 @@ namespace Accord.Math
         ///   Elementwise square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sqrt(this decimal[][] value)
@@ -1833,7 +1833,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignSqrt(this decimal[] value)
@@ -1845,7 +1845,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignSqrt(this decimal[,] value)
@@ -1857,7 +1857,7 @@ namespace Accord.Math
         ///   Elementwise signed square-root.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignSqrt(this decimal[][] value)
@@ -1868,7 +1868,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Floor(this decimal[] value)
@@ -1880,7 +1880,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Floor(this decimal[,] value)
@@ -1892,7 +1892,7 @@ namespace Accord.Math
         ///   Elementwise floor.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Floor(this decimal[][] value)
@@ -1903,7 +1903,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Ceiling(this decimal[] value)
@@ -1915,7 +1915,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Ceiling(this decimal[,] value)
@@ -1927,7 +1927,7 @@ namespace Accord.Math
         ///   Elementwise ceiling.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Ceiling(this decimal[][] value)
@@ -1938,7 +1938,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Round(this decimal[] value)
@@ -1950,7 +1950,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Round(this decimal[,] value)
@@ -1962,7 +1962,7 @@ namespace Accord.Math
         ///   Elementwise round.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Round(this decimal[][] value)
@@ -1977,7 +1977,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Exp(this int[] value, int[] result)
@@ -1999,7 +1999,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Exp(this int[,] value, int[,] result)
@@ -2030,7 +2030,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Exp(this int[][] value, int[][] result)
@@ -2056,7 +2056,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Log(this int[] value, int[] result)
@@ -2078,7 +2078,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Log(this int[,] value, int[,] result)
@@ -2109,7 +2109,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Log(this int[][] value, int[][] result)
@@ -2135,7 +2135,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sign(this int[] value, int[] result)
@@ -2157,7 +2157,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Sign(this int[,] value, int[,] result)
@@ -2188,7 +2188,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Sign(this int[][] value, int[][] result)
@@ -2214,7 +2214,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Abs(this int[] value, int[] result)
@@ -2236,7 +2236,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Abs(this int[,] value, int[,] result)
@@ -2267,7 +2267,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Abs(this int[][] value, int[][] result)
@@ -2293,7 +2293,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sqrt(this int[] value, int[] result)
@@ -2315,7 +2315,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Sqrt(this int[,] value, int[,] result)
@@ -2346,7 +2346,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Sqrt(this int[][] value, int[][] result)
@@ -2372,7 +2372,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] SignSqrt(this int[] value, int[] result)
@@ -2394,7 +2394,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SignSqrt(this int[,] value, int[,] result)
@@ -2425,7 +2425,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SignSqrt(this int[][] value, int[][] result)
@@ -2451,7 +2451,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Floor(this int[] value, int[] result)
@@ -2473,7 +2473,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Floor(this int[,] value, int[,] result)
@@ -2504,7 +2504,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Floor(this int[][] value, int[][] result)
@@ -2530,7 +2530,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Ceiling(this int[] value, int[] result)
@@ -2552,7 +2552,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Ceiling(this int[,] value, int[,] result)
@@ -2583,7 +2583,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Ceiling(this int[][] value, int[][] result)
@@ -2609,7 +2609,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Round(this int[] value, int[] result)
@@ -2631,7 +2631,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Round(this int[,] value, int[,] result)
@@ -2662,7 +2662,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Round(this int[][] value, int[][] result)
@@ -2688,7 +2688,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Exp(this int[] value, short[] result)
@@ -2710,7 +2710,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Exp(this int[,] value, short[,] result)
@@ -2741,7 +2741,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Exp(this int[][] value, short[][] result)
@@ -2767,7 +2767,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Log(this int[] value, short[] result)
@@ -2789,7 +2789,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Log(this int[,] value, short[,] result)
@@ -2820,7 +2820,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Log(this int[][] value, short[][] result)
@@ -2846,7 +2846,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sign(this int[] value, short[] result)
@@ -2868,7 +2868,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Sign(this int[,] value, short[,] result)
@@ -2899,7 +2899,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Sign(this int[][] value, short[][] result)
@@ -2925,7 +2925,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Abs(this int[] value, short[] result)
@@ -2947,7 +2947,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Abs(this int[,] value, short[,] result)
@@ -2978,7 +2978,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Abs(this int[][] value, short[][] result)
@@ -3004,7 +3004,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sqrt(this int[] value, short[] result)
@@ -3026,7 +3026,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Sqrt(this int[,] value, short[,] result)
@@ -3057,7 +3057,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Sqrt(this int[][] value, short[][] result)
@@ -3083,7 +3083,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] SignSqrt(this int[] value, short[] result)
@@ -3105,7 +3105,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] SignSqrt(this int[,] value, short[,] result)
@@ -3136,7 +3136,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] SignSqrt(this int[][] value, short[][] result)
@@ -3162,7 +3162,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Floor(this int[] value, short[] result)
@@ -3184,7 +3184,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Floor(this int[,] value, short[,] result)
@@ -3215,7 +3215,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Floor(this int[][] value, short[][] result)
@@ -3241,7 +3241,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Ceiling(this int[] value, short[] result)
@@ -3263,7 +3263,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Ceiling(this int[,] value, short[,] result)
@@ -3294,7 +3294,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Ceiling(this int[][] value, short[][] result)
@@ -3320,7 +3320,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Round(this int[] value, short[] result)
@@ -3342,7 +3342,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Round(this int[,] value, short[,] result)
@@ -3373,7 +3373,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Round(this int[][] value, short[][] result)
@@ -3399,7 +3399,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Exp(this int[] value, float[] result)
@@ -3421,7 +3421,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Exp(this int[,] value, float[,] result)
@@ -3452,7 +3452,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Exp(this int[][] value, float[][] result)
@@ -3478,7 +3478,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Log(this int[] value, float[] result)
@@ -3500,7 +3500,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Log(this int[,] value, float[,] result)
@@ -3531,7 +3531,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Log(this int[][] value, float[][] result)
@@ -3557,7 +3557,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sign(this int[] value, float[] result)
@@ -3579,7 +3579,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Sign(this int[,] value, float[,] result)
@@ -3610,7 +3610,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Sign(this int[][] value, float[][] result)
@@ -3636,7 +3636,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Abs(this int[] value, float[] result)
@@ -3658,7 +3658,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Abs(this int[,] value, float[,] result)
@@ -3689,7 +3689,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Abs(this int[][] value, float[][] result)
@@ -3715,7 +3715,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sqrt(this int[] value, float[] result)
@@ -3737,7 +3737,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Sqrt(this int[,] value, float[,] result)
@@ -3768,7 +3768,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Sqrt(this int[][] value, float[][] result)
@@ -3794,7 +3794,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] SignSqrt(this int[] value, float[] result)
@@ -3816,7 +3816,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SignSqrt(this int[,] value, float[,] result)
@@ -3847,7 +3847,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SignSqrt(this int[][] value, float[][] result)
@@ -3873,7 +3873,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Floor(this int[] value, float[] result)
@@ -3895,7 +3895,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Floor(this int[,] value, float[,] result)
@@ -3926,7 +3926,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Floor(this int[][] value, float[][] result)
@@ -3952,7 +3952,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Ceiling(this int[] value, float[] result)
@@ -3974,7 +3974,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Ceiling(this int[,] value, float[,] result)
@@ -4005,7 +4005,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Ceiling(this int[][] value, float[][] result)
@@ -4031,7 +4031,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Round(this int[] value, float[] result)
@@ -4053,7 +4053,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Round(this int[,] value, float[,] result)
@@ -4084,7 +4084,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Round(this int[][] value, float[][] result)
@@ -4110,7 +4110,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Exp(this int[] value, double[] result)
@@ -4132,7 +4132,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Exp(this int[,] value, double[,] result)
@@ -4163,7 +4163,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Exp(this int[][] value, double[][] result)
@@ -4189,7 +4189,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Log(this int[] value, double[] result)
@@ -4211,7 +4211,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Log(this int[,] value, double[,] result)
@@ -4242,7 +4242,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Log(this int[][] value, double[][] result)
@@ -4268,7 +4268,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sign(this int[] value, double[] result)
@@ -4290,7 +4290,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sign(this int[,] value, double[,] result)
@@ -4321,7 +4321,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sign(this int[][] value, double[][] result)
@@ -4347,7 +4347,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Abs(this int[] value, double[] result)
@@ -4369,7 +4369,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Abs(this int[,] value, double[,] result)
@@ -4400,7 +4400,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Abs(this int[][] value, double[][] result)
@@ -4426,7 +4426,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sqrt(this int[] value, double[] result)
@@ -4448,7 +4448,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sqrt(this int[,] value, double[,] result)
@@ -4479,7 +4479,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sqrt(this int[][] value, double[][] result)
@@ -4505,7 +4505,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignSqrt(this int[] value, double[] result)
@@ -4527,7 +4527,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignSqrt(this int[,] value, double[,] result)
@@ -4558,7 +4558,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignSqrt(this int[][] value, double[][] result)
@@ -4584,7 +4584,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Floor(this int[] value, double[] result)
@@ -4606,7 +4606,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Floor(this int[,] value, double[,] result)
@@ -4637,7 +4637,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Floor(this int[][] value, double[][] result)
@@ -4663,7 +4663,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Ceiling(this int[] value, double[] result)
@@ -4685,7 +4685,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Ceiling(this int[,] value, double[,] result)
@@ -4716,7 +4716,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Ceiling(this int[][] value, double[][] result)
@@ -4742,7 +4742,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Round(this int[] value, double[] result)
@@ -4764,7 +4764,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Round(this int[,] value, double[,] result)
@@ -4795,7 +4795,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Round(this int[][] value, double[][] result)
@@ -4821,7 +4821,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Exp(this int[] value, long[] result)
@@ -4843,7 +4843,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Exp(this int[,] value, long[,] result)
@@ -4874,7 +4874,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Exp(this int[][] value, long[][] result)
@@ -4900,7 +4900,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Log(this int[] value, long[] result)
@@ -4922,7 +4922,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Log(this int[,] value, long[,] result)
@@ -4953,7 +4953,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Log(this int[][] value, long[][] result)
@@ -4979,7 +4979,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sign(this int[] value, long[] result)
@@ -5001,7 +5001,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Sign(this int[,] value, long[,] result)
@@ -5032,7 +5032,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Sign(this int[][] value, long[][] result)
@@ -5058,7 +5058,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Abs(this int[] value, long[] result)
@@ -5080,7 +5080,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Abs(this int[,] value, long[,] result)
@@ -5111,7 +5111,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Abs(this int[][] value, long[][] result)
@@ -5137,7 +5137,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sqrt(this int[] value, long[] result)
@@ -5159,7 +5159,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Sqrt(this int[,] value, long[,] result)
@@ -5190,7 +5190,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Sqrt(this int[][] value, long[][] result)
@@ -5216,7 +5216,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] SignSqrt(this int[] value, long[] result)
@@ -5238,7 +5238,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] SignSqrt(this int[,] value, long[,] result)
@@ -5269,7 +5269,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] SignSqrt(this int[][] value, long[][] result)
@@ -5295,7 +5295,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Floor(this int[] value, long[] result)
@@ -5317,7 +5317,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Floor(this int[,] value, long[,] result)
@@ -5348,7 +5348,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Floor(this int[][] value, long[][] result)
@@ -5374,7 +5374,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Ceiling(this int[] value, long[] result)
@@ -5396,7 +5396,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Ceiling(this int[,] value, long[,] result)
@@ -5427,7 +5427,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Ceiling(this int[][] value, long[][] result)
@@ -5453,7 +5453,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Round(this int[] value, long[] result)
@@ -5475,7 +5475,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Round(this int[,] value, long[,] result)
@@ -5506,7 +5506,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Round(this int[][] value, long[][] result)
@@ -5532,7 +5532,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Exp(this int[] value, decimal[] result)
@@ -5554,7 +5554,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Exp(this int[,] value, decimal[,] result)
@@ -5585,7 +5585,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Exp(this int[][] value, decimal[][] result)
@@ -5611,7 +5611,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Log(this int[] value, decimal[] result)
@@ -5633,7 +5633,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Log(this int[,] value, decimal[,] result)
@@ -5664,7 +5664,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Log(this int[][] value, decimal[][] result)
@@ -5690,7 +5690,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sign(this int[] value, decimal[] result)
@@ -5712,7 +5712,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Sign(this int[,] value, decimal[,] result)
@@ -5743,7 +5743,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Sign(this int[][] value, decimal[][] result)
@@ -5769,7 +5769,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Abs(this int[] value, decimal[] result)
@@ -5791,7 +5791,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Abs(this int[,] value, decimal[,] result)
@@ -5822,7 +5822,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Abs(this int[][] value, decimal[][] result)
@@ -5848,7 +5848,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sqrt(this int[] value, decimal[] result)
@@ -5870,7 +5870,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Sqrt(this int[,] value, decimal[,] result)
@@ -5901,7 +5901,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Sqrt(this int[][] value, decimal[][] result)
@@ -5927,7 +5927,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] SignSqrt(this int[] value, decimal[] result)
@@ -5949,7 +5949,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SignSqrt(this int[,] value, decimal[,] result)
@@ -5980,7 +5980,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SignSqrt(this int[][] value, decimal[][] result)
@@ -6006,7 +6006,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Floor(this int[] value, decimal[] result)
@@ -6028,7 +6028,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Floor(this int[,] value, decimal[,] result)
@@ -6059,7 +6059,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Floor(this int[][] value, decimal[][] result)
@@ -6085,7 +6085,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Ceiling(this int[] value, decimal[] result)
@@ -6107,7 +6107,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Ceiling(this int[,] value, decimal[,] result)
@@ -6138,7 +6138,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Ceiling(this int[][] value, decimal[][] result)
@@ -6164,7 +6164,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Round(this int[] value, decimal[] result)
@@ -6186,7 +6186,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Round(this int[,] value, decimal[,] result)
@@ -6217,7 +6217,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Round(this int[][] value, decimal[][] result)
@@ -6243,7 +6243,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Exp(this short[] value, int[] result)
@@ -6265,7 +6265,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Exp(this short[,] value, int[,] result)
@@ -6296,7 +6296,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Exp(this short[][] value, int[][] result)
@@ -6322,7 +6322,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Log(this short[] value, int[] result)
@@ -6344,7 +6344,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Log(this short[,] value, int[,] result)
@@ -6375,7 +6375,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Log(this short[][] value, int[][] result)
@@ -6401,7 +6401,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sign(this short[] value, int[] result)
@@ -6423,7 +6423,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Sign(this short[,] value, int[,] result)
@@ -6454,7 +6454,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Sign(this short[][] value, int[][] result)
@@ -6480,7 +6480,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Abs(this short[] value, int[] result)
@@ -6502,7 +6502,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Abs(this short[,] value, int[,] result)
@@ -6533,7 +6533,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Abs(this short[][] value, int[][] result)
@@ -6559,7 +6559,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sqrt(this short[] value, int[] result)
@@ -6581,7 +6581,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Sqrt(this short[,] value, int[,] result)
@@ -6612,7 +6612,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Sqrt(this short[][] value, int[][] result)
@@ -6638,7 +6638,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] SignSqrt(this short[] value, int[] result)
@@ -6660,7 +6660,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SignSqrt(this short[,] value, int[,] result)
@@ -6691,7 +6691,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SignSqrt(this short[][] value, int[][] result)
@@ -6717,7 +6717,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Floor(this short[] value, int[] result)
@@ -6739,7 +6739,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Floor(this short[,] value, int[,] result)
@@ -6770,7 +6770,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Floor(this short[][] value, int[][] result)
@@ -6796,7 +6796,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Ceiling(this short[] value, int[] result)
@@ -6818,7 +6818,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Ceiling(this short[,] value, int[,] result)
@@ -6849,7 +6849,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Ceiling(this short[][] value, int[][] result)
@@ -6875,7 +6875,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Round(this short[] value, int[] result)
@@ -6897,7 +6897,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Round(this short[,] value, int[,] result)
@@ -6928,7 +6928,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Round(this short[][] value, int[][] result)
@@ -6954,7 +6954,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Exp(this short[] value, short[] result)
@@ -6976,7 +6976,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Exp(this short[,] value, short[,] result)
@@ -7007,7 +7007,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Exp(this short[][] value, short[][] result)
@@ -7033,7 +7033,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Log(this short[] value, short[] result)
@@ -7055,7 +7055,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Log(this short[,] value, short[,] result)
@@ -7086,7 +7086,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Log(this short[][] value, short[][] result)
@@ -7112,7 +7112,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sign(this short[] value, short[] result)
@@ -7134,7 +7134,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Sign(this short[,] value, short[,] result)
@@ -7165,7 +7165,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Sign(this short[][] value, short[][] result)
@@ -7191,7 +7191,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Abs(this short[] value, short[] result)
@@ -7213,7 +7213,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Abs(this short[,] value, short[,] result)
@@ -7244,7 +7244,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Abs(this short[][] value, short[][] result)
@@ -7270,7 +7270,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sqrt(this short[] value, short[] result)
@@ -7292,7 +7292,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Sqrt(this short[,] value, short[,] result)
@@ -7323,7 +7323,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Sqrt(this short[][] value, short[][] result)
@@ -7349,7 +7349,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] SignSqrt(this short[] value, short[] result)
@@ -7371,7 +7371,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] SignSqrt(this short[,] value, short[,] result)
@@ -7402,7 +7402,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] SignSqrt(this short[][] value, short[][] result)
@@ -7428,7 +7428,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Floor(this short[] value, short[] result)
@@ -7450,7 +7450,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Floor(this short[,] value, short[,] result)
@@ -7481,7 +7481,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Floor(this short[][] value, short[][] result)
@@ -7507,7 +7507,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Ceiling(this short[] value, short[] result)
@@ -7529,7 +7529,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Ceiling(this short[,] value, short[,] result)
@@ -7560,7 +7560,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Ceiling(this short[][] value, short[][] result)
@@ -7586,7 +7586,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Round(this short[] value, short[] result)
@@ -7608,7 +7608,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Round(this short[,] value, short[,] result)
@@ -7639,7 +7639,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Round(this short[][] value, short[][] result)
@@ -7665,7 +7665,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Exp(this short[] value, float[] result)
@@ -7687,7 +7687,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Exp(this short[,] value, float[,] result)
@@ -7718,7 +7718,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Exp(this short[][] value, float[][] result)
@@ -7744,7 +7744,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Log(this short[] value, float[] result)
@@ -7766,7 +7766,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Log(this short[,] value, float[,] result)
@@ -7797,7 +7797,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Log(this short[][] value, float[][] result)
@@ -7823,7 +7823,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sign(this short[] value, float[] result)
@@ -7845,7 +7845,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Sign(this short[,] value, float[,] result)
@@ -7876,7 +7876,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Sign(this short[][] value, float[][] result)
@@ -7902,7 +7902,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Abs(this short[] value, float[] result)
@@ -7924,7 +7924,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Abs(this short[,] value, float[,] result)
@@ -7955,7 +7955,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Abs(this short[][] value, float[][] result)
@@ -7981,7 +7981,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sqrt(this short[] value, float[] result)
@@ -8003,7 +8003,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Sqrt(this short[,] value, float[,] result)
@@ -8034,7 +8034,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Sqrt(this short[][] value, float[][] result)
@@ -8060,7 +8060,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] SignSqrt(this short[] value, float[] result)
@@ -8082,7 +8082,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SignSqrt(this short[,] value, float[,] result)
@@ -8113,7 +8113,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SignSqrt(this short[][] value, float[][] result)
@@ -8139,7 +8139,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Floor(this short[] value, float[] result)
@@ -8161,7 +8161,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Floor(this short[,] value, float[,] result)
@@ -8192,7 +8192,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Floor(this short[][] value, float[][] result)
@@ -8218,7 +8218,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Ceiling(this short[] value, float[] result)
@@ -8240,7 +8240,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Ceiling(this short[,] value, float[,] result)
@@ -8271,7 +8271,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Ceiling(this short[][] value, float[][] result)
@@ -8297,7 +8297,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Round(this short[] value, float[] result)
@@ -8319,7 +8319,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Round(this short[,] value, float[,] result)
@@ -8350,7 +8350,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Round(this short[][] value, float[][] result)
@@ -8376,7 +8376,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Exp(this short[] value, double[] result)
@@ -8398,7 +8398,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Exp(this short[,] value, double[,] result)
@@ -8429,7 +8429,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Exp(this short[][] value, double[][] result)
@@ -8455,7 +8455,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Log(this short[] value, double[] result)
@@ -8477,7 +8477,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Log(this short[,] value, double[,] result)
@@ -8508,7 +8508,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Log(this short[][] value, double[][] result)
@@ -8534,7 +8534,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sign(this short[] value, double[] result)
@@ -8556,7 +8556,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sign(this short[,] value, double[,] result)
@@ -8587,7 +8587,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sign(this short[][] value, double[][] result)
@@ -8613,7 +8613,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Abs(this short[] value, double[] result)
@@ -8635,7 +8635,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Abs(this short[,] value, double[,] result)
@@ -8666,7 +8666,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Abs(this short[][] value, double[][] result)
@@ -8692,7 +8692,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sqrt(this short[] value, double[] result)
@@ -8714,7 +8714,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sqrt(this short[,] value, double[,] result)
@@ -8745,7 +8745,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sqrt(this short[][] value, double[][] result)
@@ -8771,7 +8771,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignSqrt(this short[] value, double[] result)
@@ -8793,7 +8793,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignSqrt(this short[,] value, double[,] result)
@@ -8824,7 +8824,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignSqrt(this short[][] value, double[][] result)
@@ -8850,7 +8850,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Floor(this short[] value, double[] result)
@@ -8872,7 +8872,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Floor(this short[,] value, double[,] result)
@@ -8903,7 +8903,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Floor(this short[][] value, double[][] result)
@@ -8929,7 +8929,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Ceiling(this short[] value, double[] result)
@@ -8951,7 +8951,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Ceiling(this short[,] value, double[,] result)
@@ -8982,7 +8982,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Ceiling(this short[][] value, double[][] result)
@@ -9008,7 +9008,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Round(this short[] value, double[] result)
@@ -9030,7 +9030,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Round(this short[,] value, double[,] result)
@@ -9061,7 +9061,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Round(this short[][] value, double[][] result)
@@ -9087,7 +9087,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Exp(this short[] value, long[] result)
@@ -9109,7 +9109,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Exp(this short[,] value, long[,] result)
@@ -9140,7 +9140,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Exp(this short[][] value, long[][] result)
@@ -9166,7 +9166,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Log(this short[] value, long[] result)
@@ -9188,7 +9188,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Log(this short[,] value, long[,] result)
@@ -9219,7 +9219,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Log(this short[][] value, long[][] result)
@@ -9245,7 +9245,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sign(this short[] value, long[] result)
@@ -9267,7 +9267,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Sign(this short[,] value, long[,] result)
@@ -9298,7 +9298,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Sign(this short[][] value, long[][] result)
@@ -9324,7 +9324,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Abs(this short[] value, long[] result)
@@ -9346,7 +9346,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Abs(this short[,] value, long[,] result)
@@ -9377,7 +9377,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Abs(this short[][] value, long[][] result)
@@ -9403,7 +9403,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sqrt(this short[] value, long[] result)
@@ -9425,7 +9425,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Sqrt(this short[,] value, long[,] result)
@@ -9456,7 +9456,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Sqrt(this short[][] value, long[][] result)
@@ -9482,7 +9482,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] SignSqrt(this short[] value, long[] result)
@@ -9504,7 +9504,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] SignSqrt(this short[,] value, long[,] result)
@@ -9535,7 +9535,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] SignSqrt(this short[][] value, long[][] result)
@@ -9561,7 +9561,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Floor(this short[] value, long[] result)
@@ -9583,7 +9583,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Floor(this short[,] value, long[,] result)
@@ -9614,7 +9614,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Floor(this short[][] value, long[][] result)
@@ -9640,7 +9640,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Ceiling(this short[] value, long[] result)
@@ -9662,7 +9662,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Ceiling(this short[,] value, long[,] result)
@@ -9693,7 +9693,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Ceiling(this short[][] value, long[][] result)
@@ -9719,7 +9719,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Round(this short[] value, long[] result)
@@ -9741,7 +9741,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Round(this short[,] value, long[,] result)
@@ -9772,7 +9772,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Round(this short[][] value, long[][] result)
@@ -9798,7 +9798,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Exp(this short[] value, decimal[] result)
@@ -9820,7 +9820,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Exp(this short[,] value, decimal[,] result)
@@ -9851,7 +9851,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Exp(this short[][] value, decimal[][] result)
@@ -9877,7 +9877,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Log(this short[] value, decimal[] result)
@@ -9899,7 +9899,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Log(this short[,] value, decimal[,] result)
@@ -9930,7 +9930,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Log(this short[][] value, decimal[][] result)
@@ -9956,7 +9956,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sign(this short[] value, decimal[] result)
@@ -9978,7 +9978,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Sign(this short[,] value, decimal[,] result)
@@ -10009,7 +10009,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Sign(this short[][] value, decimal[][] result)
@@ -10035,7 +10035,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Abs(this short[] value, decimal[] result)
@@ -10057,7 +10057,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Abs(this short[,] value, decimal[,] result)
@@ -10088,7 +10088,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Abs(this short[][] value, decimal[][] result)
@@ -10114,7 +10114,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sqrt(this short[] value, decimal[] result)
@@ -10136,7 +10136,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Sqrt(this short[,] value, decimal[,] result)
@@ -10167,7 +10167,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Sqrt(this short[][] value, decimal[][] result)
@@ -10193,7 +10193,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] SignSqrt(this short[] value, decimal[] result)
@@ -10215,7 +10215,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SignSqrt(this short[,] value, decimal[,] result)
@@ -10246,7 +10246,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SignSqrt(this short[][] value, decimal[][] result)
@@ -10272,7 +10272,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Floor(this short[] value, decimal[] result)
@@ -10294,7 +10294,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Floor(this short[,] value, decimal[,] result)
@@ -10325,7 +10325,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Floor(this short[][] value, decimal[][] result)
@@ -10351,7 +10351,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Ceiling(this short[] value, decimal[] result)
@@ -10373,7 +10373,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Ceiling(this short[,] value, decimal[,] result)
@@ -10404,7 +10404,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Ceiling(this short[][] value, decimal[][] result)
@@ -10430,7 +10430,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Round(this short[] value, decimal[] result)
@@ -10452,7 +10452,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Round(this short[,] value, decimal[,] result)
@@ -10483,7 +10483,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Round(this short[][] value, decimal[][] result)
@@ -10509,7 +10509,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Exp(this float[] value, int[] result)
@@ -10531,7 +10531,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Exp(this float[,] value, int[,] result)
@@ -10562,7 +10562,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Exp(this float[][] value, int[][] result)
@@ -10588,7 +10588,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Log(this float[] value, int[] result)
@@ -10610,7 +10610,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Log(this float[,] value, int[,] result)
@@ -10641,7 +10641,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Log(this float[][] value, int[][] result)
@@ -10667,7 +10667,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sign(this float[] value, int[] result)
@@ -10689,7 +10689,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Sign(this float[,] value, int[,] result)
@@ -10720,7 +10720,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Sign(this float[][] value, int[][] result)
@@ -10746,7 +10746,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Abs(this float[] value, int[] result)
@@ -10768,7 +10768,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Abs(this float[,] value, int[,] result)
@@ -10799,7 +10799,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Abs(this float[][] value, int[][] result)
@@ -10825,7 +10825,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sqrt(this float[] value, int[] result)
@@ -10847,7 +10847,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Sqrt(this float[,] value, int[,] result)
@@ -10878,7 +10878,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Sqrt(this float[][] value, int[][] result)
@@ -10904,7 +10904,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] SignSqrt(this float[] value, int[] result)
@@ -10926,7 +10926,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SignSqrt(this float[,] value, int[,] result)
@@ -10957,7 +10957,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SignSqrt(this float[][] value, int[][] result)
@@ -10983,7 +10983,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Floor(this float[] value, int[] result)
@@ -11005,7 +11005,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Floor(this float[,] value, int[,] result)
@@ -11036,7 +11036,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Floor(this float[][] value, int[][] result)
@@ -11062,7 +11062,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Ceiling(this float[] value, int[] result)
@@ -11084,7 +11084,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Ceiling(this float[,] value, int[,] result)
@@ -11115,7 +11115,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Ceiling(this float[][] value, int[][] result)
@@ -11141,7 +11141,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Round(this float[] value, int[] result)
@@ -11163,7 +11163,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Round(this float[,] value, int[,] result)
@@ -11194,7 +11194,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Round(this float[][] value, int[][] result)
@@ -11220,7 +11220,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Exp(this float[] value, short[] result)
@@ -11242,7 +11242,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Exp(this float[,] value, short[,] result)
@@ -11273,7 +11273,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Exp(this float[][] value, short[][] result)
@@ -11299,7 +11299,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Log(this float[] value, short[] result)
@@ -11321,7 +11321,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Log(this float[,] value, short[,] result)
@@ -11352,7 +11352,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Log(this float[][] value, short[][] result)
@@ -11378,7 +11378,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sign(this float[] value, short[] result)
@@ -11400,7 +11400,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Sign(this float[,] value, short[,] result)
@@ -11431,7 +11431,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Sign(this float[][] value, short[][] result)
@@ -11457,7 +11457,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Abs(this float[] value, short[] result)
@@ -11479,7 +11479,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Abs(this float[,] value, short[,] result)
@@ -11510,7 +11510,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Abs(this float[][] value, short[][] result)
@@ -11536,7 +11536,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sqrt(this float[] value, short[] result)
@@ -11558,7 +11558,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Sqrt(this float[,] value, short[,] result)
@@ -11589,7 +11589,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Sqrt(this float[][] value, short[][] result)
@@ -11615,7 +11615,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] SignSqrt(this float[] value, short[] result)
@@ -11637,7 +11637,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] SignSqrt(this float[,] value, short[,] result)
@@ -11668,7 +11668,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] SignSqrt(this float[][] value, short[][] result)
@@ -11694,7 +11694,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Floor(this float[] value, short[] result)
@@ -11716,7 +11716,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Floor(this float[,] value, short[,] result)
@@ -11747,7 +11747,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Floor(this float[][] value, short[][] result)
@@ -11773,7 +11773,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Ceiling(this float[] value, short[] result)
@@ -11795,7 +11795,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Ceiling(this float[,] value, short[,] result)
@@ -11826,7 +11826,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Ceiling(this float[][] value, short[][] result)
@@ -11852,7 +11852,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Round(this float[] value, short[] result)
@@ -11874,7 +11874,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Round(this float[,] value, short[,] result)
@@ -11905,7 +11905,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Round(this float[][] value, short[][] result)
@@ -11931,7 +11931,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Exp(this float[] value, float[] result)
@@ -11953,7 +11953,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Exp(this float[,] value, float[,] result)
@@ -11984,7 +11984,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Exp(this float[][] value, float[][] result)
@@ -12010,7 +12010,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Log(this float[] value, float[] result)
@@ -12032,7 +12032,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Log(this float[,] value, float[,] result)
@@ -12063,7 +12063,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Log(this float[][] value, float[][] result)
@@ -12089,7 +12089,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sign(this float[] value, float[] result)
@@ -12111,7 +12111,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Sign(this float[,] value, float[,] result)
@@ -12142,7 +12142,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Sign(this float[][] value, float[][] result)
@@ -12168,7 +12168,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Abs(this float[] value, float[] result)
@@ -12190,7 +12190,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Abs(this float[,] value, float[,] result)
@@ -12221,7 +12221,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Abs(this float[][] value, float[][] result)
@@ -12247,7 +12247,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sqrt(this float[] value, float[] result)
@@ -12269,7 +12269,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Sqrt(this float[,] value, float[,] result)
@@ -12300,7 +12300,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Sqrt(this float[][] value, float[][] result)
@@ -12326,7 +12326,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] SignSqrt(this float[] value, float[] result)
@@ -12348,7 +12348,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SignSqrt(this float[,] value, float[,] result)
@@ -12379,7 +12379,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SignSqrt(this float[][] value, float[][] result)
@@ -12405,7 +12405,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Floor(this float[] value, float[] result)
@@ -12427,7 +12427,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Floor(this float[,] value, float[,] result)
@@ -12458,7 +12458,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Floor(this float[][] value, float[][] result)
@@ -12484,7 +12484,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Ceiling(this float[] value, float[] result)
@@ -12506,7 +12506,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Ceiling(this float[,] value, float[,] result)
@@ -12537,7 +12537,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Ceiling(this float[][] value, float[][] result)
@@ -12563,7 +12563,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Round(this float[] value, float[] result)
@@ -12585,7 +12585,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Round(this float[,] value, float[,] result)
@@ -12616,7 +12616,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Round(this float[][] value, float[][] result)
@@ -12642,7 +12642,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Exp(this float[] value, double[] result)
@@ -12664,7 +12664,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Exp(this float[,] value, double[,] result)
@@ -12695,7 +12695,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Exp(this float[][] value, double[][] result)
@@ -12721,7 +12721,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Log(this float[] value, double[] result)
@@ -12743,7 +12743,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Log(this float[,] value, double[,] result)
@@ -12774,7 +12774,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Log(this float[][] value, double[][] result)
@@ -12800,7 +12800,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sign(this float[] value, double[] result)
@@ -12822,7 +12822,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sign(this float[,] value, double[,] result)
@@ -12853,7 +12853,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sign(this float[][] value, double[][] result)
@@ -12879,7 +12879,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Abs(this float[] value, double[] result)
@@ -12901,7 +12901,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Abs(this float[,] value, double[,] result)
@@ -12932,7 +12932,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Abs(this float[][] value, double[][] result)
@@ -12958,7 +12958,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sqrt(this float[] value, double[] result)
@@ -12980,7 +12980,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sqrt(this float[,] value, double[,] result)
@@ -13011,7 +13011,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sqrt(this float[][] value, double[][] result)
@@ -13037,7 +13037,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignSqrt(this float[] value, double[] result)
@@ -13059,7 +13059,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignSqrt(this float[,] value, double[,] result)
@@ -13090,7 +13090,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignSqrt(this float[][] value, double[][] result)
@@ -13116,7 +13116,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Floor(this float[] value, double[] result)
@@ -13138,7 +13138,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Floor(this float[,] value, double[,] result)
@@ -13169,7 +13169,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Floor(this float[][] value, double[][] result)
@@ -13195,7 +13195,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Ceiling(this float[] value, double[] result)
@@ -13217,7 +13217,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Ceiling(this float[,] value, double[,] result)
@@ -13248,7 +13248,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Ceiling(this float[][] value, double[][] result)
@@ -13274,7 +13274,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Round(this float[] value, double[] result)
@@ -13296,7 +13296,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Round(this float[,] value, double[,] result)
@@ -13327,7 +13327,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Round(this float[][] value, double[][] result)
@@ -13353,7 +13353,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Exp(this float[] value, long[] result)
@@ -13375,7 +13375,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Exp(this float[,] value, long[,] result)
@@ -13406,7 +13406,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Exp(this float[][] value, long[][] result)
@@ -13432,7 +13432,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Log(this float[] value, long[] result)
@@ -13454,7 +13454,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Log(this float[,] value, long[,] result)
@@ -13485,7 +13485,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Log(this float[][] value, long[][] result)
@@ -13511,7 +13511,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sign(this float[] value, long[] result)
@@ -13533,7 +13533,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Sign(this float[,] value, long[,] result)
@@ -13564,7 +13564,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Sign(this float[][] value, long[][] result)
@@ -13590,7 +13590,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Abs(this float[] value, long[] result)
@@ -13612,7 +13612,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Abs(this float[,] value, long[,] result)
@@ -13643,7 +13643,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Abs(this float[][] value, long[][] result)
@@ -13669,7 +13669,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sqrt(this float[] value, long[] result)
@@ -13691,7 +13691,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Sqrt(this float[,] value, long[,] result)
@@ -13722,7 +13722,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Sqrt(this float[][] value, long[][] result)
@@ -13748,7 +13748,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] SignSqrt(this float[] value, long[] result)
@@ -13770,7 +13770,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] SignSqrt(this float[,] value, long[,] result)
@@ -13801,7 +13801,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] SignSqrt(this float[][] value, long[][] result)
@@ -13827,7 +13827,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Floor(this float[] value, long[] result)
@@ -13849,7 +13849,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Floor(this float[,] value, long[,] result)
@@ -13880,7 +13880,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Floor(this float[][] value, long[][] result)
@@ -13906,7 +13906,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Ceiling(this float[] value, long[] result)
@@ -13928,7 +13928,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Ceiling(this float[,] value, long[,] result)
@@ -13959,7 +13959,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Ceiling(this float[][] value, long[][] result)
@@ -13985,7 +13985,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Round(this float[] value, long[] result)
@@ -14007,7 +14007,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Round(this float[,] value, long[,] result)
@@ -14038,7 +14038,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Round(this float[][] value, long[][] result)
@@ -14064,7 +14064,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Exp(this float[] value, decimal[] result)
@@ -14086,7 +14086,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Exp(this float[,] value, decimal[,] result)
@@ -14117,7 +14117,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Exp(this float[][] value, decimal[][] result)
@@ -14143,7 +14143,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Log(this float[] value, decimal[] result)
@@ -14165,7 +14165,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Log(this float[,] value, decimal[,] result)
@@ -14196,7 +14196,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Log(this float[][] value, decimal[][] result)
@@ -14222,7 +14222,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sign(this float[] value, decimal[] result)
@@ -14244,7 +14244,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Sign(this float[,] value, decimal[,] result)
@@ -14275,7 +14275,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Sign(this float[][] value, decimal[][] result)
@@ -14301,7 +14301,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Abs(this float[] value, decimal[] result)
@@ -14323,7 +14323,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Abs(this float[,] value, decimal[,] result)
@@ -14354,7 +14354,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Abs(this float[][] value, decimal[][] result)
@@ -14380,7 +14380,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sqrt(this float[] value, decimal[] result)
@@ -14402,7 +14402,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Sqrt(this float[,] value, decimal[,] result)
@@ -14433,7 +14433,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Sqrt(this float[][] value, decimal[][] result)
@@ -14459,7 +14459,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] SignSqrt(this float[] value, decimal[] result)
@@ -14481,7 +14481,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SignSqrt(this float[,] value, decimal[,] result)
@@ -14512,7 +14512,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SignSqrt(this float[][] value, decimal[][] result)
@@ -14538,7 +14538,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Floor(this float[] value, decimal[] result)
@@ -14560,7 +14560,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Floor(this float[,] value, decimal[,] result)
@@ -14591,7 +14591,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Floor(this float[][] value, decimal[][] result)
@@ -14617,7 +14617,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Ceiling(this float[] value, decimal[] result)
@@ -14639,7 +14639,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Ceiling(this float[,] value, decimal[,] result)
@@ -14670,7 +14670,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Ceiling(this float[][] value, decimal[][] result)
@@ -14696,7 +14696,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Round(this float[] value, decimal[] result)
@@ -14718,7 +14718,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Round(this float[,] value, decimal[,] result)
@@ -14749,7 +14749,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Round(this float[][] value, decimal[][] result)
@@ -14775,7 +14775,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Exp(this double[] value, int[] result)
@@ -14797,7 +14797,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Exp(this double[,] value, int[,] result)
@@ -14828,7 +14828,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Exp(this double[][] value, int[][] result)
@@ -14854,7 +14854,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Log(this double[] value, int[] result)
@@ -14876,7 +14876,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Log(this double[,] value, int[,] result)
@@ -14907,7 +14907,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Log(this double[][] value, int[][] result)
@@ -14933,7 +14933,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sign(this double[] value, int[] result)
@@ -14955,7 +14955,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Sign(this double[,] value, int[,] result)
@@ -14986,7 +14986,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Sign(this double[][] value, int[][] result)
@@ -15012,7 +15012,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Abs(this double[] value, int[] result)
@@ -15034,7 +15034,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Abs(this double[,] value, int[,] result)
@@ -15065,7 +15065,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Abs(this double[][] value, int[][] result)
@@ -15091,7 +15091,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sqrt(this double[] value, int[] result)
@@ -15113,7 +15113,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Sqrt(this double[,] value, int[,] result)
@@ -15144,7 +15144,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Sqrt(this double[][] value, int[][] result)
@@ -15170,7 +15170,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] SignSqrt(this double[] value, int[] result)
@@ -15192,7 +15192,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SignSqrt(this double[,] value, int[,] result)
@@ -15223,7 +15223,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SignSqrt(this double[][] value, int[][] result)
@@ -15249,7 +15249,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Floor(this double[] value, int[] result)
@@ -15271,7 +15271,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Floor(this double[,] value, int[,] result)
@@ -15302,7 +15302,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Floor(this double[][] value, int[][] result)
@@ -15328,7 +15328,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Ceiling(this double[] value, int[] result)
@@ -15350,7 +15350,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Ceiling(this double[,] value, int[,] result)
@@ -15381,7 +15381,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Ceiling(this double[][] value, int[][] result)
@@ -15407,7 +15407,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Round(this double[] value, int[] result)
@@ -15429,7 +15429,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Round(this double[,] value, int[,] result)
@@ -15460,7 +15460,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Round(this double[][] value, int[][] result)
@@ -15486,7 +15486,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Exp(this double[] value, short[] result)
@@ -15508,7 +15508,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Exp(this double[,] value, short[,] result)
@@ -15539,7 +15539,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Exp(this double[][] value, short[][] result)
@@ -15565,7 +15565,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Log(this double[] value, short[] result)
@@ -15587,7 +15587,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Log(this double[,] value, short[,] result)
@@ -15618,7 +15618,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Log(this double[][] value, short[][] result)
@@ -15644,7 +15644,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sign(this double[] value, short[] result)
@@ -15666,7 +15666,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Sign(this double[,] value, short[,] result)
@@ -15697,7 +15697,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Sign(this double[][] value, short[][] result)
@@ -15723,7 +15723,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Abs(this double[] value, short[] result)
@@ -15745,7 +15745,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Abs(this double[,] value, short[,] result)
@@ -15776,7 +15776,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Abs(this double[][] value, short[][] result)
@@ -15802,7 +15802,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sqrt(this double[] value, short[] result)
@@ -15824,7 +15824,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Sqrt(this double[,] value, short[,] result)
@@ -15855,7 +15855,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Sqrt(this double[][] value, short[][] result)
@@ -15881,7 +15881,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] SignSqrt(this double[] value, short[] result)
@@ -15903,7 +15903,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] SignSqrt(this double[,] value, short[,] result)
@@ -15934,7 +15934,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] SignSqrt(this double[][] value, short[][] result)
@@ -15960,7 +15960,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Floor(this double[] value, short[] result)
@@ -15982,7 +15982,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Floor(this double[,] value, short[,] result)
@@ -16013,7 +16013,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Floor(this double[][] value, short[][] result)
@@ -16039,7 +16039,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Ceiling(this double[] value, short[] result)
@@ -16061,7 +16061,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Ceiling(this double[,] value, short[,] result)
@@ -16092,7 +16092,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Ceiling(this double[][] value, short[][] result)
@@ -16118,7 +16118,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Round(this double[] value, short[] result)
@@ -16140,7 +16140,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Round(this double[,] value, short[,] result)
@@ -16171,7 +16171,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Round(this double[][] value, short[][] result)
@@ -16197,7 +16197,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Exp(this double[] value, float[] result)
@@ -16219,7 +16219,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Exp(this double[,] value, float[,] result)
@@ -16250,7 +16250,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Exp(this double[][] value, float[][] result)
@@ -16276,7 +16276,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Log(this double[] value, float[] result)
@@ -16298,7 +16298,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Log(this double[,] value, float[,] result)
@@ -16329,7 +16329,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Log(this double[][] value, float[][] result)
@@ -16355,7 +16355,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sign(this double[] value, float[] result)
@@ -16377,7 +16377,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Sign(this double[,] value, float[,] result)
@@ -16408,7 +16408,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Sign(this double[][] value, float[][] result)
@@ -16434,7 +16434,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Abs(this double[] value, float[] result)
@@ -16456,7 +16456,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Abs(this double[,] value, float[,] result)
@@ -16487,7 +16487,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Abs(this double[][] value, float[][] result)
@@ -16513,7 +16513,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sqrt(this double[] value, float[] result)
@@ -16535,7 +16535,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Sqrt(this double[,] value, float[,] result)
@@ -16566,7 +16566,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Sqrt(this double[][] value, float[][] result)
@@ -16592,7 +16592,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] SignSqrt(this double[] value, float[] result)
@@ -16614,7 +16614,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SignSqrt(this double[,] value, float[,] result)
@@ -16645,7 +16645,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SignSqrt(this double[][] value, float[][] result)
@@ -16671,7 +16671,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Floor(this double[] value, float[] result)
@@ -16693,7 +16693,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Floor(this double[,] value, float[,] result)
@@ -16724,7 +16724,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Floor(this double[][] value, float[][] result)
@@ -16750,7 +16750,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Ceiling(this double[] value, float[] result)
@@ -16772,7 +16772,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Ceiling(this double[,] value, float[,] result)
@@ -16803,7 +16803,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Ceiling(this double[][] value, float[][] result)
@@ -16829,7 +16829,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Round(this double[] value, float[] result)
@@ -16851,7 +16851,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Round(this double[,] value, float[,] result)
@@ -16882,7 +16882,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Round(this double[][] value, float[][] result)
@@ -16908,7 +16908,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Exp(this double[] value, double[] result)
@@ -16930,7 +16930,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Exp(this double[,] value, double[,] result)
@@ -16961,7 +16961,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Exp(this double[][] value, double[][] result)
@@ -16987,7 +16987,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Log(this double[] value, double[] result)
@@ -17009,7 +17009,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Log(this double[,] value, double[,] result)
@@ -17040,7 +17040,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Log(this double[][] value, double[][] result)
@@ -17066,7 +17066,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sign(this double[] value, double[] result)
@@ -17088,7 +17088,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sign(this double[,] value, double[,] result)
@@ -17119,7 +17119,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sign(this double[][] value, double[][] result)
@@ -17145,7 +17145,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Abs(this double[] value, double[] result)
@@ -17167,7 +17167,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Abs(this double[,] value, double[,] result)
@@ -17198,7 +17198,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Abs(this double[][] value, double[][] result)
@@ -17224,7 +17224,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sqrt(this double[] value, double[] result)
@@ -17246,7 +17246,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sqrt(this double[,] value, double[,] result)
@@ -17277,7 +17277,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sqrt(this double[][] value, double[][] result)
@@ -17303,7 +17303,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignSqrt(this double[] value, double[] result)
@@ -17325,7 +17325,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignSqrt(this double[,] value, double[,] result)
@@ -17356,7 +17356,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignSqrt(this double[][] value, double[][] result)
@@ -17382,7 +17382,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Floor(this double[] value, double[] result)
@@ -17404,7 +17404,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Floor(this double[,] value, double[,] result)
@@ -17435,7 +17435,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Floor(this double[][] value, double[][] result)
@@ -17461,7 +17461,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Ceiling(this double[] value, double[] result)
@@ -17483,7 +17483,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Ceiling(this double[,] value, double[,] result)
@@ -17514,7 +17514,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Ceiling(this double[][] value, double[][] result)
@@ -17540,7 +17540,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Round(this double[] value, double[] result)
@@ -17562,7 +17562,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Round(this double[,] value, double[,] result)
@@ -17593,7 +17593,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Round(this double[][] value, double[][] result)
@@ -17619,7 +17619,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Exp(this double[] value, long[] result)
@@ -17641,7 +17641,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Exp(this double[,] value, long[,] result)
@@ -17672,7 +17672,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Exp(this double[][] value, long[][] result)
@@ -17698,7 +17698,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Log(this double[] value, long[] result)
@@ -17720,7 +17720,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Log(this double[,] value, long[,] result)
@@ -17751,7 +17751,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Log(this double[][] value, long[][] result)
@@ -17777,7 +17777,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sign(this double[] value, long[] result)
@@ -17799,7 +17799,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Sign(this double[,] value, long[,] result)
@@ -17830,7 +17830,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Sign(this double[][] value, long[][] result)
@@ -17856,7 +17856,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Abs(this double[] value, long[] result)
@@ -17878,7 +17878,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Abs(this double[,] value, long[,] result)
@@ -17909,7 +17909,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Abs(this double[][] value, long[][] result)
@@ -17935,7 +17935,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sqrt(this double[] value, long[] result)
@@ -17957,7 +17957,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Sqrt(this double[,] value, long[,] result)
@@ -17988,7 +17988,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Sqrt(this double[][] value, long[][] result)
@@ -18014,7 +18014,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] SignSqrt(this double[] value, long[] result)
@@ -18036,7 +18036,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] SignSqrt(this double[,] value, long[,] result)
@@ -18067,7 +18067,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] SignSqrt(this double[][] value, long[][] result)
@@ -18093,7 +18093,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Floor(this double[] value, long[] result)
@@ -18115,7 +18115,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Floor(this double[,] value, long[,] result)
@@ -18146,7 +18146,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Floor(this double[][] value, long[][] result)
@@ -18172,7 +18172,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Ceiling(this double[] value, long[] result)
@@ -18194,7 +18194,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Ceiling(this double[,] value, long[,] result)
@@ -18225,7 +18225,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Ceiling(this double[][] value, long[][] result)
@@ -18251,7 +18251,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Round(this double[] value, long[] result)
@@ -18273,7 +18273,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Round(this double[,] value, long[,] result)
@@ -18304,7 +18304,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Round(this double[][] value, long[][] result)
@@ -18330,7 +18330,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Exp(this double[] value, decimal[] result)
@@ -18352,7 +18352,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Exp(this double[,] value, decimal[,] result)
@@ -18383,7 +18383,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Exp(this double[][] value, decimal[][] result)
@@ -18409,7 +18409,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Log(this double[] value, decimal[] result)
@@ -18431,7 +18431,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Log(this double[,] value, decimal[,] result)
@@ -18462,7 +18462,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Log(this double[][] value, decimal[][] result)
@@ -18488,7 +18488,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sign(this double[] value, decimal[] result)
@@ -18510,7 +18510,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Sign(this double[,] value, decimal[,] result)
@@ -18541,7 +18541,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Sign(this double[][] value, decimal[][] result)
@@ -18567,7 +18567,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Abs(this double[] value, decimal[] result)
@@ -18589,7 +18589,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Abs(this double[,] value, decimal[,] result)
@@ -18620,7 +18620,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Abs(this double[][] value, decimal[][] result)
@@ -18646,7 +18646,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sqrt(this double[] value, decimal[] result)
@@ -18668,7 +18668,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Sqrt(this double[,] value, decimal[,] result)
@@ -18699,7 +18699,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Sqrt(this double[][] value, decimal[][] result)
@@ -18725,7 +18725,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] SignSqrt(this double[] value, decimal[] result)
@@ -18747,7 +18747,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SignSqrt(this double[,] value, decimal[,] result)
@@ -18778,7 +18778,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SignSqrt(this double[][] value, decimal[][] result)
@@ -18804,7 +18804,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Floor(this double[] value, decimal[] result)
@@ -18826,7 +18826,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Floor(this double[,] value, decimal[,] result)
@@ -18857,7 +18857,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Floor(this double[][] value, decimal[][] result)
@@ -18883,7 +18883,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Ceiling(this double[] value, decimal[] result)
@@ -18905,7 +18905,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Ceiling(this double[,] value, decimal[,] result)
@@ -18936,7 +18936,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Ceiling(this double[][] value, decimal[][] result)
@@ -18962,7 +18962,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Round(this double[] value, decimal[] result)
@@ -18984,7 +18984,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Round(this double[,] value, decimal[,] result)
@@ -19015,7 +19015,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Round(this double[][] value, decimal[][] result)
@@ -19041,7 +19041,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Exp(this long[] value, int[] result)
@@ -19063,7 +19063,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Exp(this long[,] value, int[,] result)
@@ -19094,7 +19094,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Exp(this long[][] value, int[][] result)
@@ -19120,7 +19120,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Log(this long[] value, int[] result)
@@ -19142,7 +19142,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Log(this long[,] value, int[,] result)
@@ -19173,7 +19173,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Log(this long[][] value, int[][] result)
@@ -19199,7 +19199,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sign(this long[] value, int[] result)
@@ -19221,7 +19221,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Sign(this long[,] value, int[,] result)
@@ -19252,7 +19252,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Sign(this long[][] value, int[][] result)
@@ -19278,7 +19278,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Abs(this long[] value, int[] result)
@@ -19300,7 +19300,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Abs(this long[,] value, int[,] result)
@@ -19331,7 +19331,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Abs(this long[][] value, int[][] result)
@@ -19357,7 +19357,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sqrt(this long[] value, int[] result)
@@ -19379,7 +19379,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Sqrt(this long[,] value, int[,] result)
@@ -19410,7 +19410,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Sqrt(this long[][] value, int[][] result)
@@ -19436,7 +19436,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] SignSqrt(this long[] value, int[] result)
@@ -19458,7 +19458,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SignSqrt(this long[,] value, int[,] result)
@@ -19489,7 +19489,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SignSqrt(this long[][] value, int[][] result)
@@ -19515,7 +19515,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Floor(this long[] value, int[] result)
@@ -19537,7 +19537,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Floor(this long[,] value, int[,] result)
@@ -19568,7 +19568,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Floor(this long[][] value, int[][] result)
@@ -19594,7 +19594,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Ceiling(this long[] value, int[] result)
@@ -19616,7 +19616,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Ceiling(this long[,] value, int[,] result)
@@ -19647,7 +19647,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Ceiling(this long[][] value, int[][] result)
@@ -19673,7 +19673,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Round(this long[] value, int[] result)
@@ -19695,7 +19695,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Round(this long[,] value, int[,] result)
@@ -19726,7 +19726,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Round(this long[][] value, int[][] result)
@@ -19752,7 +19752,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Exp(this long[] value, short[] result)
@@ -19774,7 +19774,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Exp(this long[,] value, short[,] result)
@@ -19805,7 +19805,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Exp(this long[][] value, short[][] result)
@@ -19831,7 +19831,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Log(this long[] value, short[] result)
@@ -19853,7 +19853,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Log(this long[,] value, short[,] result)
@@ -19884,7 +19884,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Log(this long[][] value, short[][] result)
@@ -19910,7 +19910,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sign(this long[] value, short[] result)
@@ -19932,7 +19932,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Sign(this long[,] value, short[,] result)
@@ -19963,7 +19963,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Sign(this long[][] value, short[][] result)
@@ -19989,7 +19989,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Abs(this long[] value, short[] result)
@@ -20011,7 +20011,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Abs(this long[,] value, short[,] result)
@@ -20042,7 +20042,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Abs(this long[][] value, short[][] result)
@@ -20068,7 +20068,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sqrt(this long[] value, short[] result)
@@ -20090,7 +20090,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Sqrt(this long[,] value, short[,] result)
@@ -20121,7 +20121,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Sqrt(this long[][] value, short[][] result)
@@ -20147,7 +20147,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] SignSqrt(this long[] value, short[] result)
@@ -20169,7 +20169,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] SignSqrt(this long[,] value, short[,] result)
@@ -20200,7 +20200,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] SignSqrt(this long[][] value, short[][] result)
@@ -20226,7 +20226,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Floor(this long[] value, short[] result)
@@ -20248,7 +20248,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Floor(this long[,] value, short[,] result)
@@ -20279,7 +20279,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Floor(this long[][] value, short[][] result)
@@ -20305,7 +20305,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Ceiling(this long[] value, short[] result)
@@ -20327,7 +20327,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Ceiling(this long[,] value, short[,] result)
@@ -20358,7 +20358,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Ceiling(this long[][] value, short[][] result)
@@ -20384,7 +20384,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Round(this long[] value, short[] result)
@@ -20406,7 +20406,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Round(this long[,] value, short[,] result)
@@ -20437,7 +20437,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Round(this long[][] value, short[][] result)
@@ -20463,7 +20463,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Exp(this long[] value, float[] result)
@@ -20485,7 +20485,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Exp(this long[,] value, float[,] result)
@@ -20516,7 +20516,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Exp(this long[][] value, float[][] result)
@@ -20542,7 +20542,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Log(this long[] value, float[] result)
@@ -20564,7 +20564,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Log(this long[,] value, float[,] result)
@@ -20595,7 +20595,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Log(this long[][] value, float[][] result)
@@ -20621,7 +20621,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sign(this long[] value, float[] result)
@@ -20643,7 +20643,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Sign(this long[,] value, float[,] result)
@@ -20674,7 +20674,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Sign(this long[][] value, float[][] result)
@@ -20700,7 +20700,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Abs(this long[] value, float[] result)
@@ -20722,7 +20722,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Abs(this long[,] value, float[,] result)
@@ -20753,7 +20753,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Abs(this long[][] value, float[][] result)
@@ -20779,7 +20779,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sqrt(this long[] value, float[] result)
@@ -20801,7 +20801,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Sqrt(this long[,] value, float[,] result)
@@ -20832,7 +20832,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Sqrt(this long[][] value, float[][] result)
@@ -20858,7 +20858,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] SignSqrt(this long[] value, float[] result)
@@ -20880,7 +20880,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SignSqrt(this long[,] value, float[,] result)
@@ -20911,7 +20911,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SignSqrt(this long[][] value, float[][] result)
@@ -20937,7 +20937,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Floor(this long[] value, float[] result)
@@ -20959,7 +20959,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Floor(this long[,] value, float[,] result)
@@ -20990,7 +20990,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Floor(this long[][] value, float[][] result)
@@ -21016,7 +21016,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Ceiling(this long[] value, float[] result)
@@ -21038,7 +21038,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Ceiling(this long[,] value, float[,] result)
@@ -21069,7 +21069,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Ceiling(this long[][] value, float[][] result)
@@ -21095,7 +21095,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Round(this long[] value, float[] result)
@@ -21117,7 +21117,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Round(this long[,] value, float[,] result)
@@ -21148,7 +21148,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Round(this long[][] value, float[][] result)
@@ -21174,7 +21174,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Exp(this long[] value, double[] result)
@@ -21196,7 +21196,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Exp(this long[,] value, double[,] result)
@@ -21227,7 +21227,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Exp(this long[][] value, double[][] result)
@@ -21253,7 +21253,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Log(this long[] value, double[] result)
@@ -21275,7 +21275,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Log(this long[,] value, double[,] result)
@@ -21306,7 +21306,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Log(this long[][] value, double[][] result)
@@ -21332,7 +21332,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sign(this long[] value, double[] result)
@@ -21354,7 +21354,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sign(this long[,] value, double[,] result)
@@ -21385,7 +21385,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sign(this long[][] value, double[][] result)
@@ -21411,7 +21411,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Abs(this long[] value, double[] result)
@@ -21433,7 +21433,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Abs(this long[,] value, double[,] result)
@@ -21464,7 +21464,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Abs(this long[][] value, double[][] result)
@@ -21490,7 +21490,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sqrt(this long[] value, double[] result)
@@ -21512,7 +21512,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sqrt(this long[,] value, double[,] result)
@@ -21543,7 +21543,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sqrt(this long[][] value, double[][] result)
@@ -21569,7 +21569,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignSqrt(this long[] value, double[] result)
@@ -21591,7 +21591,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignSqrt(this long[,] value, double[,] result)
@@ -21622,7 +21622,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignSqrt(this long[][] value, double[][] result)
@@ -21648,7 +21648,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Floor(this long[] value, double[] result)
@@ -21670,7 +21670,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Floor(this long[,] value, double[,] result)
@@ -21701,7 +21701,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Floor(this long[][] value, double[][] result)
@@ -21727,7 +21727,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Ceiling(this long[] value, double[] result)
@@ -21749,7 +21749,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Ceiling(this long[,] value, double[,] result)
@@ -21780,7 +21780,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Ceiling(this long[][] value, double[][] result)
@@ -21806,7 +21806,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Round(this long[] value, double[] result)
@@ -21828,7 +21828,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Round(this long[,] value, double[,] result)
@@ -21859,7 +21859,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Round(this long[][] value, double[][] result)
@@ -21885,7 +21885,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Exp(this long[] value, long[] result)
@@ -21907,7 +21907,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Exp(this long[,] value, long[,] result)
@@ -21938,7 +21938,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Exp(this long[][] value, long[][] result)
@@ -21964,7 +21964,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Log(this long[] value, long[] result)
@@ -21986,7 +21986,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Log(this long[,] value, long[,] result)
@@ -22017,7 +22017,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Log(this long[][] value, long[][] result)
@@ -22043,7 +22043,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sign(this long[] value, long[] result)
@@ -22065,7 +22065,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Sign(this long[,] value, long[,] result)
@@ -22096,7 +22096,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Sign(this long[][] value, long[][] result)
@@ -22122,7 +22122,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Abs(this long[] value, long[] result)
@@ -22144,7 +22144,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Abs(this long[,] value, long[,] result)
@@ -22175,7 +22175,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Abs(this long[][] value, long[][] result)
@@ -22201,7 +22201,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sqrt(this long[] value, long[] result)
@@ -22223,7 +22223,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Sqrt(this long[,] value, long[,] result)
@@ -22254,7 +22254,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Sqrt(this long[][] value, long[][] result)
@@ -22280,7 +22280,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] SignSqrt(this long[] value, long[] result)
@@ -22302,7 +22302,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] SignSqrt(this long[,] value, long[,] result)
@@ -22333,7 +22333,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] SignSqrt(this long[][] value, long[][] result)
@@ -22359,7 +22359,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Floor(this long[] value, long[] result)
@@ -22381,7 +22381,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Floor(this long[,] value, long[,] result)
@@ -22412,7 +22412,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Floor(this long[][] value, long[][] result)
@@ -22438,7 +22438,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Ceiling(this long[] value, long[] result)
@@ -22460,7 +22460,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Ceiling(this long[,] value, long[,] result)
@@ -22491,7 +22491,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Ceiling(this long[][] value, long[][] result)
@@ -22517,7 +22517,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Round(this long[] value, long[] result)
@@ -22539,7 +22539,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Round(this long[,] value, long[,] result)
@@ -22570,7 +22570,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Round(this long[][] value, long[][] result)
@@ -22596,7 +22596,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Exp(this long[] value, decimal[] result)
@@ -22618,7 +22618,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Exp(this long[,] value, decimal[,] result)
@@ -22649,7 +22649,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Exp(this long[][] value, decimal[][] result)
@@ -22675,7 +22675,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Log(this long[] value, decimal[] result)
@@ -22697,7 +22697,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Log(this long[,] value, decimal[,] result)
@@ -22728,7 +22728,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Log(this long[][] value, decimal[][] result)
@@ -22754,7 +22754,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sign(this long[] value, decimal[] result)
@@ -22776,7 +22776,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Sign(this long[,] value, decimal[,] result)
@@ -22807,7 +22807,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Sign(this long[][] value, decimal[][] result)
@@ -22833,7 +22833,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Abs(this long[] value, decimal[] result)
@@ -22855,7 +22855,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Abs(this long[,] value, decimal[,] result)
@@ -22886,7 +22886,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Abs(this long[][] value, decimal[][] result)
@@ -22912,7 +22912,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sqrt(this long[] value, decimal[] result)
@@ -22934,7 +22934,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Sqrt(this long[,] value, decimal[,] result)
@@ -22965,7 +22965,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Sqrt(this long[][] value, decimal[][] result)
@@ -22991,7 +22991,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] SignSqrt(this long[] value, decimal[] result)
@@ -23013,7 +23013,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SignSqrt(this long[,] value, decimal[,] result)
@@ -23044,7 +23044,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SignSqrt(this long[][] value, decimal[][] result)
@@ -23070,7 +23070,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Floor(this long[] value, decimal[] result)
@@ -23092,7 +23092,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Floor(this long[,] value, decimal[,] result)
@@ -23123,7 +23123,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Floor(this long[][] value, decimal[][] result)
@@ -23149,7 +23149,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Ceiling(this long[] value, decimal[] result)
@@ -23171,7 +23171,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Ceiling(this long[,] value, decimal[,] result)
@@ -23202,7 +23202,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Ceiling(this long[][] value, decimal[][] result)
@@ -23228,7 +23228,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Round(this long[] value, decimal[] result)
@@ -23250,7 +23250,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Round(this long[,] value, decimal[,] result)
@@ -23281,7 +23281,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Round(this long[][] value, decimal[][] result)
@@ -23307,7 +23307,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Exp(this decimal[] value, int[] result)
@@ -23329,7 +23329,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Exp(this decimal[,] value, int[,] result)
@@ -23360,7 +23360,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Exp(this decimal[][] value, int[][] result)
@@ -23386,7 +23386,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Log(this decimal[] value, int[] result)
@@ -23408,7 +23408,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Log(this decimal[,] value, int[,] result)
@@ -23439,7 +23439,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Log(this decimal[][] value, int[][] result)
@@ -23465,7 +23465,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sign(this decimal[] value, int[] result)
@@ -23487,7 +23487,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Sign(this decimal[,] value, int[,] result)
@@ -23518,7 +23518,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Sign(this decimal[][] value, int[][] result)
@@ -23544,7 +23544,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Abs(this decimal[] value, int[] result)
@@ -23566,7 +23566,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Abs(this decimal[,] value, int[,] result)
@@ -23597,7 +23597,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Abs(this decimal[][] value, int[][] result)
@@ -23623,7 +23623,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sqrt(this decimal[] value, int[] result)
@@ -23645,7 +23645,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Sqrt(this decimal[,] value, int[,] result)
@@ -23676,7 +23676,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Sqrt(this decimal[][] value, int[][] result)
@@ -23702,7 +23702,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] SignSqrt(this decimal[] value, int[] result)
@@ -23724,7 +23724,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SignSqrt(this decimal[,] value, int[,] result)
@@ -23755,7 +23755,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SignSqrt(this decimal[][] value, int[][] result)
@@ -23781,7 +23781,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Floor(this decimal[] value, int[] result)
@@ -23803,7 +23803,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Floor(this decimal[,] value, int[,] result)
@@ -23834,7 +23834,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Floor(this decimal[][] value, int[][] result)
@@ -23860,7 +23860,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Ceiling(this decimal[] value, int[] result)
@@ -23882,7 +23882,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Ceiling(this decimal[,] value, int[,] result)
@@ -23913,7 +23913,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Ceiling(this decimal[][] value, int[][] result)
@@ -23939,7 +23939,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Round(this decimal[] value, int[] result)
@@ -23961,7 +23961,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Round(this decimal[,] value, int[,] result)
@@ -23992,7 +23992,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Round(this decimal[][] value, int[][] result)
@@ -24018,7 +24018,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Exp(this decimal[] value, short[] result)
@@ -24040,7 +24040,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Exp(this decimal[,] value, short[,] result)
@@ -24071,7 +24071,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Exp(this decimal[][] value, short[][] result)
@@ -24097,7 +24097,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Log(this decimal[] value, short[] result)
@@ -24119,7 +24119,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Log(this decimal[,] value, short[,] result)
@@ -24150,7 +24150,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Log(this decimal[][] value, short[][] result)
@@ -24176,7 +24176,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sign(this decimal[] value, short[] result)
@@ -24198,7 +24198,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Sign(this decimal[,] value, short[,] result)
@@ -24229,7 +24229,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Sign(this decimal[][] value, short[][] result)
@@ -24255,7 +24255,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Abs(this decimal[] value, short[] result)
@@ -24277,7 +24277,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Abs(this decimal[,] value, short[,] result)
@@ -24308,7 +24308,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Abs(this decimal[][] value, short[][] result)
@@ -24334,7 +24334,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sqrt(this decimal[] value, short[] result)
@@ -24356,7 +24356,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Sqrt(this decimal[,] value, short[,] result)
@@ -24387,7 +24387,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Sqrt(this decimal[][] value, short[][] result)
@@ -24413,7 +24413,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] SignSqrt(this decimal[] value, short[] result)
@@ -24435,7 +24435,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] SignSqrt(this decimal[,] value, short[,] result)
@@ -24466,7 +24466,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] SignSqrt(this decimal[][] value, short[][] result)
@@ -24492,7 +24492,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Floor(this decimal[] value, short[] result)
@@ -24514,7 +24514,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Floor(this decimal[,] value, short[,] result)
@@ -24545,7 +24545,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Floor(this decimal[][] value, short[][] result)
@@ -24571,7 +24571,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Ceiling(this decimal[] value, short[] result)
@@ -24593,7 +24593,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Ceiling(this decimal[,] value, short[,] result)
@@ -24624,7 +24624,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Ceiling(this decimal[][] value, short[][] result)
@@ -24650,7 +24650,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Round(this decimal[] value, short[] result)
@@ -24672,7 +24672,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Round(this decimal[,] value, short[,] result)
@@ -24703,7 +24703,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Round(this decimal[][] value, short[][] result)
@@ -24729,7 +24729,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Exp(this decimal[] value, float[] result)
@@ -24751,7 +24751,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Exp(this decimal[,] value, float[,] result)
@@ -24782,7 +24782,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Exp(this decimal[][] value, float[][] result)
@@ -24808,7 +24808,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Log(this decimal[] value, float[] result)
@@ -24830,7 +24830,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Log(this decimal[,] value, float[,] result)
@@ -24861,7 +24861,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Log(this decimal[][] value, float[][] result)
@@ -24887,7 +24887,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sign(this decimal[] value, float[] result)
@@ -24909,7 +24909,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Sign(this decimal[,] value, float[,] result)
@@ -24940,7 +24940,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Sign(this decimal[][] value, float[][] result)
@@ -24966,7 +24966,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Abs(this decimal[] value, float[] result)
@@ -24988,7 +24988,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Abs(this decimal[,] value, float[,] result)
@@ -25019,7 +25019,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Abs(this decimal[][] value, float[][] result)
@@ -25045,7 +25045,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sqrt(this decimal[] value, float[] result)
@@ -25067,7 +25067,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Sqrt(this decimal[,] value, float[,] result)
@@ -25098,7 +25098,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Sqrt(this decimal[][] value, float[][] result)
@@ -25124,7 +25124,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] SignSqrt(this decimal[] value, float[] result)
@@ -25146,7 +25146,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SignSqrt(this decimal[,] value, float[,] result)
@@ -25177,7 +25177,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SignSqrt(this decimal[][] value, float[][] result)
@@ -25203,7 +25203,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Floor(this decimal[] value, float[] result)
@@ -25225,7 +25225,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Floor(this decimal[,] value, float[,] result)
@@ -25256,7 +25256,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Floor(this decimal[][] value, float[][] result)
@@ -25282,7 +25282,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Ceiling(this decimal[] value, float[] result)
@@ -25304,7 +25304,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Ceiling(this decimal[,] value, float[,] result)
@@ -25335,7 +25335,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Ceiling(this decimal[][] value, float[][] result)
@@ -25361,7 +25361,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Round(this decimal[] value, float[] result)
@@ -25383,7 +25383,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Round(this decimal[,] value, float[,] result)
@@ -25414,7 +25414,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Round(this decimal[][] value, float[][] result)
@@ -25440,7 +25440,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Exp(this decimal[] value, double[] result)
@@ -25462,7 +25462,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Exp(this decimal[,] value, double[,] result)
@@ -25493,7 +25493,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Exp(this decimal[][] value, double[][] result)
@@ -25519,7 +25519,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Log(this decimal[] value, double[] result)
@@ -25541,7 +25541,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Log(this decimal[,] value, double[,] result)
@@ -25572,7 +25572,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Log(this decimal[][] value, double[][] result)
@@ -25598,7 +25598,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sign(this decimal[] value, double[] result)
@@ -25620,7 +25620,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sign(this decimal[,] value, double[,] result)
@@ -25651,7 +25651,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sign(this decimal[][] value, double[][] result)
@@ -25677,7 +25677,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Abs(this decimal[] value, double[] result)
@@ -25699,7 +25699,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Abs(this decimal[,] value, double[,] result)
@@ -25730,7 +25730,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Abs(this decimal[][] value, double[][] result)
@@ -25756,7 +25756,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sqrt(this decimal[] value, double[] result)
@@ -25778,7 +25778,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Sqrt(this decimal[,] value, double[,] result)
@@ -25809,7 +25809,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Sqrt(this decimal[][] value, double[][] result)
@@ -25835,7 +25835,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignSqrt(this decimal[] value, double[] result)
@@ -25857,7 +25857,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignSqrt(this decimal[,] value, double[,] result)
@@ -25888,7 +25888,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignSqrt(this decimal[][] value, double[][] result)
@@ -25914,7 +25914,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Floor(this decimal[] value, double[] result)
@@ -25936,7 +25936,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Floor(this decimal[,] value, double[,] result)
@@ -25967,7 +25967,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Floor(this decimal[][] value, double[][] result)
@@ -25993,7 +25993,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Ceiling(this decimal[] value, double[] result)
@@ -26015,7 +26015,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Ceiling(this decimal[,] value, double[,] result)
@@ -26046,7 +26046,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Ceiling(this decimal[][] value, double[][] result)
@@ -26072,7 +26072,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Round(this decimal[] value, double[] result)
@@ -26094,7 +26094,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Round(this decimal[,] value, double[,] result)
@@ -26125,7 +26125,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Round(this decimal[][] value, double[][] result)
@@ -26151,7 +26151,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Exp(this decimal[] value, long[] result)
@@ -26173,7 +26173,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Exp(this decimal[,] value, long[,] result)
@@ -26204,7 +26204,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Exp(this decimal[][] value, long[][] result)
@@ -26230,7 +26230,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Log(this decimal[] value, long[] result)
@@ -26252,7 +26252,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Log(this decimal[,] value, long[,] result)
@@ -26283,7 +26283,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Log(this decimal[][] value, long[][] result)
@@ -26309,7 +26309,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sign(this decimal[] value, long[] result)
@@ -26331,7 +26331,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Sign(this decimal[,] value, long[,] result)
@@ -26362,7 +26362,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Sign(this decimal[][] value, long[][] result)
@@ -26388,7 +26388,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Abs(this decimal[] value, long[] result)
@@ -26410,7 +26410,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Abs(this decimal[,] value, long[,] result)
@@ -26441,7 +26441,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Abs(this decimal[][] value, long[][] result)
@@ -26467,7 +26467,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sqrt(this decimal[] value, long[] result)
@@ -26489,7 +26489,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Sqrt(this decimal[,] value, long[,] result)
@@ -26520,7 +26520,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Sqrt(this decimal[][] value, long[][] result)
@@ -26546,7 +26546,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] SignSqrt(this decimal[] value, long[] result)
@@ -26568,7 +26568,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] SignSqrt(this decimal[,] value, long[,] result)
@@ -26599,7 +26599,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] SignSqrt(this decimal[][] value, long[][] result)
@@ -26625,7 +26625,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Floor(this decimal[] value, long[] result)
@@ -26647,7 +26647,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Floor(this decimal[,] value, long[,] result)
@@ -26678,7 +26678,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Floor(this decimal[][] value, long[][] result)
@@ -26704,7 +26704,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Ceiling(this decimal[] value, long[] result)
@@ -26726,7 +26726,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Ceiling(this decimal[,] value, long[,] result)
@@ -26757,7 +26757,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Ceiling(this decimal[][] value, long[][] result)
@@ -26783,7 +26783,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Round(this decimal[] value, long[] result)
@@ -26805,7 +26805,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Round(this decimal[,] value, long[,] result)
@@ -26836,7 +26836,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Round(this decimal[][] value, long[][] result)
@@ -26862,7 +26862,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Exp(this decimal[] value, decimal[] result)
@@ -26884,7 +26884,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Exp(this decimal[,] value, decimal[,] result)
@@ -26915,7 +26915,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Exp(this decimal[][] value, decimal[][] result)
@@ -26941,7 +26941,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Log(this decimal[] value, decimal[] result)
@@ -26963,7 +26963,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Log(this decimal[,] value, decimal[,] result)
@@ -26994,7 +26994,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Log(this decimal[][] value, decimal[][] result)
@@ -27020,7 +27020,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sign(this decimal[] value, decimal[] result)
@@ -27042,7 +27042,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Sign(this decimal[,] value, decimal[,] result)
@@ -27073,7 +27073,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Sign(this decimal[][] value, decimal[][] result)
@@ -27099,7 +27099,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Abs(this decimal[] value, decimal[] result)
@@ -27121,7 +27121,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Abs(this decimal[,] value, decimal[,] result)
@@ -27152,7 +27152,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Abs(this decimal[][] value, decimal[][] result)
@@ -27178,7 +27178,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sqrt(this decimal[] value, decimal[] result)
@@ -27200,7 +27200,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Sqrt(this decimal[,] value, decimal[,] result)
@@ -27231,7 +27231,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Sqrt(this decimal[][] value, decimal[][] result)
@@ -27257,7 +27257,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] SignSqrt(this decimal[] value, decimal[] result)
@@ -27279,7 +27279,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SignSqrt(this decimal[,] value, decimal[,] result)
@@ -27310,7 +27310,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SignSqrt(this decimal[][] value, decimal[][] result)
@@ -27336,7 +27336,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Floor(this decimal[] value, decimal[] result)
@@ -27358,7 +27358,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Floor(this decimal[,] value, decimal[,] result)
@@ -27389,7 +27389,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Floor(this decimal[][] value, decimal[][] result)
@@ -27415,7 +27415,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Ceiling(this decimal[] value, decimal[] result)
@@ -27437,7 +27437,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Ceiling(this decimal[,] value, decimal[,] result)
@@ -27468,7 +27468,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Ceiling(this decimal[][] value, decimal[][] result)
@@ -27494,7 +27494,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Round(this decimal[] value, decimal[] result)
@@ -27516,7 +27516,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Round(this decimal[,] value, decimal[,] result)
@@ -27547,7 +27547,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Round(this decimal[][] value, decimal[][] result)
@@ -27572,7 +27572,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] SignedPow(this int[] value, double y)
@@ -27587,7 +27587,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SignedPow(this int[,] value, double y)
@@ -27602,7 +27602,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SignedPow(this int[][] value, double y)
@@ -27616,7 +27616,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Pow(this int[] value, double y)
@@ -27631,7 +27631,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Pow(this int[,] value, double y)
@@ -27646,7 +27646,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Pow(this int[][] value, double y)
@@ -27660,7 +27660,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] SignedPow(this short[] value, double y)
@@ -27675,7 +27675,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] SignedPow(this short[,] value, double y)
@@ -27690,7 +27690,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] SignedPow(this short[][] value, double y)
@@ -27704,7 +27704,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Pow(this short[] value, double y)
@@ -27719,7 +27719,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Pow(this short[,] value, double y)
@@ -27734,7 +27734,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Pow(this short[][] value, double y)
@@ -27748,7 +27748,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] SignedPow(this float[] value, double y)
@@ -27763,7 +27763,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SignedPow(this float[,] value, double y)
@@ -27778,7 +27778,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SignedPow(this float[][] value, double y)
@@ -27792,7 +27792,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Pow(this float[] value, double y)
@@ -27807,7 +27807,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Pow(this float[,] value, double y)
@@ -27822,7 +27822,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Pow(this float[][] value, double y)
@@ -27836,7 +27836,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignedPow(this double[] value, double y)
@@ -27851,7 +27851,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignedPow(this double[,] value, double y)
@@ -27866,7 +27866,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignedPow(this double[][] value, double y)
@@ -27880,7 +27880,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Pow(this double[] value, double y)
@@ -27895,7 +27895,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Pow(this double[,] value, double y)
@@ -27910,7 +27910,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Pow(this double[][] value, double y)
@@ -27924,7 +27924,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] SignedPow(this long[] value, double y)
@@ -27939,7 +27939,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] SignedPow(this long[,] value, double y)
@@ -27954,7 +27954,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] SignedPow(this long[][] value, double y)
@@ -27968,7 +27968,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Pow(this long[] value, double y)
@@ -27983,7 +27983,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Pow(this long[,] value, double y)
@@ -27998,7 +27998,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Pow(this long[][] value, double y)
@@ -28012,7 +28012,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] SignedPow(this decimal[] value, double y)
@@ -28027,7 +28027,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SignedPow(this decimal[,] value, double y)
@@ -28042,7 +28042,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SignedPow(this decimal[][] value, double y)
@@ -28056,7 +28056,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Pow(this decimal[] value, double y)
@@ -28071,7 +28071,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Pow(this decimal[,] value, double y)
@@ -28086,7 +28086,7 @@ namespace Accord.Math
         /// <param name="value">A matrix.</param>
         /// <param name="y">A power.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Pow(this decimal[][] value, double y)
@@ -28102,7 +28102,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] SignedPow(this int[] value, double y, int[] result)
@@ -28125,7 +28125,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SignedPow(this int[,] value, double y, int[,] result)
@@ -28157,7 +28157,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SignedPow(this int[][] value, double y, int[][] result)
@@ -28184,7 +28184,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Pow(this int[] value, double y, int[] result)
@@ -28207,7 +28207,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Pow(this int[,] value, double y, int[,] result)
@@ -28239,7 +28239,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Pow(this int[][] value, double y, int[][] result)
@@ -28266,7 +28266,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] SignedPow(this int[] value, double y, short[] result)
@@ -28289,7 +28289,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] SignedPow(this int[,] value, double y, short[,] result)
@@ -28321,7 +28321,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] SignedPow(this int[][] value, double y, short[][] result)
@@ -28348,7 +28348,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Pow(this int[] value, double y, short[] result)
@@ -28371,7 +28371,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Pow(this int[,] value, double y, short[,] result)
@@ -28403,7 +28403,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Pow(this int[][] value, double y, short[][] result)
@@ -28430,7 +28430,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] SignedPow(this int[] value, double y, float[] result)
@@ -28453,7 +28453,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SignedPow(this int[,] value, double y, float[,] result)
@@ -28485,7 +28485,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SignedPow(this int[][] value, double y, float[][] result)
@@ -28512,7 +28512,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Pow(this int[] value, double y, float[] result)
@@ -28535,7 +28535,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Pow(this int[,] value, double y, float[,] result)
@@ -28567,7 +28567,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Pow(this int[][] value, double y, float[][] result)
@@ -28594,7 +28594,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignedPow(this int[] value, double y, double[] result)
@@ -28617,7 +28617,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignedPow(this int[,] value, double y, double[,] result)
@@ -28649,7 +28649,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignedPow(this int[][] value, double y, double[][] result)
@@ -28676,7 +28676,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Pow(this int[] value, double y, double[] result)
@@ -28699,7 +28699,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Pow(this int[,] value, double y, double[,] result)
@@ -28731,7 +28731,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Pow(this int[][] value, double y, double[][] result)
@@ -28758,7 +28758,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] SignedPow(this int[] value, double y, long[] result)
@@ -28781,7 +28781,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] SignedPow(this int[,] value, double y, long[,] result)
@@ -28813,7 +28813,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] SignedPow(this int[][] value, double y, long[][] result)
@@ -28840,7 +28840,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Pow(this int[] value, double y, long[] result)
@@ -28863,7 +28863,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Pow(this int[,] value, double y, long[,] result)
@@ -28895,7 +28895,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Pow(this int[][] value, double y, long[][] result)
@@ -28922,7 +28922,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] SignedPow(this int[] value, double y, decimal[] result)
@@ -28945,7 +28945,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SignedPow(this int[,] value, double y, decimal[,] result)
@@ -28977,7 +28977,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SignedPow(this int[][] value, double y, decimal[][] result)
@@ -29004,7 +29004,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Pow(this int[] value, double y, decimal[] result)
@@ -29027,7 +29027,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Pow(this int[,] value, double y, decimal[,] result)
@@ -29059,7 +29059,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Pow(this int[][] value, double y, decimal[][] result)
@@ -29086,7 +29086,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] SignedPow(this short[] value, double y, int[] result)
@@ -29109,7 +29109,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SignedPow(this short[,] value, double y, int[,] result)
@@ -29141,7 +29141,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SignedPow(this short[][] value, double y, int[][] result)
@@ -29168,7 +29168,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Pow(this short[] value, double y, int[] result)
@@ -29191,7 +29191,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Pow(this short[,] value, double y, int[,] result)
@@ -29223,7 +29223,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Pow(this short[][] value, double y, int[][] result)
@@ -29250,7 +29250,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] SignedPow(this short[] value, double y, short[] result)
@@ -29273,7 +29273,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] SignedPow(this short[,] value, double y, short[,] result)
@@ -29305,7 +29305,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] SignedPow(this short[][] value, double y, short[][] result)
@@ -29332,7 +29332,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Pow(this short[] value, double y, short[] result)
@@ -29355,7 +29355,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Pow(this short[,] value, double y, short[,] result)
@@ -29387,7 +29387,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Pow(this short[][] value, double y, short[][] result)
@@ -29414,7 +29414,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] SignedPow(this short[] value, double y, float[] result)
@@ -29437,7 +29437,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SignedPow(this short[,] value, double y, float[,] result)
@@ -29469,7 +29469,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SignedPow(this short[][] value, double y, float[][] result)
@@ -29496,7 +29496,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Pow(this short[] value, double y, float[] result)
@@ -29519,7 +29519,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Pow(this short[,] value, double y, float[,] result)
@@ -29551,7 +29551,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Pow(this short[][] value, double y, float[][] result)
@@ -29578,7 +29578,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignedPow(this short[] value, double y, double[] result)
@@ -29601,7 +29601,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignedPow(this short[,] value, double y, double[,] result)
@@ -29633,7 +29633,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignedPow(this short[][] value, double y, double[][] result)
@@ -29660,7 +29660,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Pow(this short[] value, double y, double[] result)
@@ -29683,7 +29683,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Pow(this short[,] value, double y, double[,] result)
@@ -29715,7 +29715,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Pow(this short[][] value, double y, double[][] result)
@@ -29742,7 +29742,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] SignedPow(this short[] value, double y, long[] result)
@@ -29765,7 +29765,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] SignedPow(this short[,] value, double y, long[,] result)
@@ -29797,7 +29797,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] SignedPow(this short[][] value, double y, long[][] result)
@@ -29824,7 +29824,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Pow(this short[] value, double y, long[] result)
@@ -29847,7 +29847,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Pow(this short[,] value, double y, long[,] result)
@@ -29879,7 +29879,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Pow(this short[][] value, double y, long[][] result)
@@ -29906,7 +29906,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] SignedPow(this short[] value, double y, decimal[] result)
@@ -29929,7 +29929,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SignedPow(this short[,] value, double y, decimal[,] result)
@@ -29961,7 +29961,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SignedPow(this short[][] value, double y, decimal[][] result)
@@ -29988,7 +29988,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Pow(this short[] value, double y, decimal[] result)
@@ -30011,7 +30011,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Pow(this short[,] value, double y, decimal[,] result)
@@ -30043,7 +30043,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Pow(this short[][] value, double y, decimal[][] result)
@@ -30070,7 +30070,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] SignedPow(this float[] value, double y, int[] result)
@@ -30093,7 +30093,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SignedPow(this float[,] value, double y, int[,] result)
@@ -30125,7 +30125,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SignedPow(this float[][] value, double y, int[][] result)
@@ -30152,7 +30152,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Pow(this float[] value, double y, int[] result)
@@ -30175,7 +30175,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Pow(this float[,] value, double y, int[,] result)
@@ -30207,7 +30207,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Pow(this float[][] value, double y, int[][] result)
@@ -30234,7 +30234,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] SignedPow(this float[] value, double y, short[] result)
@@ -30257,7 +30257,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] SignedPow(this float[,] value, double y, short[,] result)
@@ -30289,7 +30289,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] SignedPow(this float[][] value, double y, short[][] result)
@@ -30316,7 +30316,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Pow(this float[] value, double y, short[] result)
@@ -30339,7 +30339,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Pow(this float[,] value, double y, short[,] result)
@@ -30371,7 +30371,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Pow(this float[][] value, double y, short[][] result)
@@ -30398,7 +30398,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] SignedPow(this float[] value, double y, float[] result)
@@ -30421,7 +30421,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SignedPow(this float[,] value, double y, float[,] result)
@@ -30453,7 +30453,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SignedPow(this float[][] value, double y, float[][] result)
@@ -30480,7 +30480,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Pow(this float[] value, double y, float[] result)
@@ -30503,7 +30503,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Pow(this float[,] value, double y, float[,] result)
@@ -30535,7 +30535,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Pow(this float[][] value, double y, float[][] result)
@@ -30562,7 +30562,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignedPow(this float[] value, double y, double[] result)
@@ -30585,7 +30585,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignedPow(this float[,] value, double y, double[,] result)
@@ -30617,7 +30617,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignedPow(this float[][] value, double y, double[][] result)
@@ -30644,7 +30644,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Pow(this float[] value, double y, double[] result)
@@ -30667,7 +30667,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Pow(this float[,] value, double y, double[,] result)
@@ -30699,7 +30699,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Pow(this float[][] value, double y, double[][] result)
@@ -30726,7 +30726,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] SignedPow(this float[] value, double y, long[] result)
@@ -30749,7 +30749,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] SignedPow(this float[,] value, double y, long[,] result)
@@ -30781,7 +30781,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] SignedPow(this float[][] value, double y, long[][] result)
@@ -30808,7 +30808,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Pow(this float[] value, double y, long[] result)
@@ -30831,7 +30831,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Pow(this float[,] value, double y, long[,] result)
@@ -30863,7 +30863,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Pow(this float[][] value, double y, long[][] result)
@@ -30890,7 +30890,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] SignedPow(this float[] value, double y, decimal[] result)
@@ -30913,7 +30913,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SignedPow(this float[,] value, double y, decimal[,] result)
@@ -30945,7 +30945,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SignedPow(this float[][] value, double y, decimal[][] result)
@@ -30972,7 +30972,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Pow(this float[] value, double y, decimal[] result)
@@ -30995,7 +30995,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Pow(this float[,] value, double y, decimal[,] result)
@@ -31027,7 +31027,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Pow(this float[][] value, double y, decimal[][] result)
@@ -31054,7 +31054,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] SignedPow(this double[] value, double y, int[] result)
@@ -31077,7 +31077,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SignedPow(this double[,] value, double y, int[,] result)
@@ -31109,7 +31109,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SignedPow(this double[][] value, double y, int[][] result)
@@ -31136,7 +31136,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Pow(this double[] value, double y, int[] result)
@@ -31159,7 +31159,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Pow(this double[,] value, double y, int[,] result)
@@ -31191,7 +31191,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Pow(this double[][] value, double y, int[][] result)
@@ -31218,7 +31218,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] SignedPow(this double[] value, double y, short[] result)
@@ -31241,7 +31241,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] SignedPow(this double[,] value, double y, short[,] result)
@@ -31273,7 +31273,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] SignedPow(this double[][] value, double y, short[][] result)
@@ -31300,7 +31300,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Pow(this double[] value, double y, short[] result)
@@ -31323,7 +31323,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Pow(this double[,] value, double y, short[,] result)
@@ -31355,7 +31355,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Pow(this double[][] value, double y, short[][] result)
@@ -31382,7 +31382,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] SignedPow(this double[] value, double y, float[] result)
@@ -31405,7 +31405,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SignedPow(this double[,] value, double y, float[,] result)
@@ -31437,7 +31437,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SignedPow(this double[][] value, double y, float[][] result)
@@ -31464,7 +31464,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Pow(this double[] value, double y, float[] result)
@@ -31487,7 +31487,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Pow(this double[,] value, double y, float[,] result)
@@ -31519,7 +31519,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Pow(this double[][] value, double y, float[][] result)
@@ -31546,7 +31546,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignedPow(this double[] value, double y, double[] result)
@@ -31569,7 +31569,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignedPow(this double[,] value, double y, double[,] result)
@@ -31601,7 +31601,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignedPow(this double[][] value, double y, double[][] result)
@@ -31628,7 +31628,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Pow(this double[] value, double y, double[] result)
@@ -31651,7 +31651,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Pow(this double[,] value, double y, double[,] result)
@@ -31683,7 +31683,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Pow(this double[][] value, double y, double[][] result)
@@ -31710,7 +31710,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] SignedPow(this double[] value, double y, long[] result)
@@ -31733,7 +31733,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] SignedPow(this double[,] value, double y, long[,] result)
@@ -31765,7 +31765,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] SignedPow(this double[][] value, double y, long[][] result)
@@ -31792,7 +31792,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Pow(this double[] value, double y, long[] result)
@@ -31815,7 +31815,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Pow(this double[,] value, double y, long[,] result)
@@ -31847,7 +31847,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Pow(this double[][] value, double y, long[][] result)
@@ -31874,7 +31874,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] SignedPow(this double[] value, double y, decimal[] result)
@@ -31897,7 +31897,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SignedPow(this double[,] value, double y, decimal[,] result)
@@ -31929,7 +31929,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SignedPow(this double[][] value, double y, decimal[][] result)
@@ -31956,7 +31956,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Pow(this double[] value, double y, decimal[] result)
@@ -31979,7 +31979,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Pow(this double[,] value, double y, decimal[,] result)
@@ -32011,7 +32011,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Pow(this double[][] value, double y, decimal[][] result)
@@ -32038,7 +32038,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] SignedPow(this long[] value, double y, int[] result)
@@ -32061,7 +32061,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SignedPow(this long[,] value, double y, int[,] result)
@@ -32093,7 +32093,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SignedPow(this long[][] value, double y, int[][] result)
@@ -32120,7 +32120,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Pow(this long[] value, double y, int[] result)
@@ -32143,7 +32143,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Pow(this long[,] value, double y, int[,] result)
@@ -32175,7 +32175,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Pow(this long[][] value, double y, int[][] result)
@@ -32202,7 +32202,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] SignedPow(this long[] value, double y, short[] result)
@@ -32225,7 +32225,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] SignedPow(this long[,] value, double y, short[,] result)
@@ -32257,7 +32257,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] SignedPow(this long[][] value, double y, short[][] result)
@@ -32284,7 +32284,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Pow(this long[] value, double y, short[] result)
@@ -32307,7 +32307,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Pow(this long[,] value, double y, short[,] result)
@@ -32339,7 +32339,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Pow(this long[][] value, double y, short[][] result)
@@ -32366,7 +32366,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] SignedPow(this long[] value, double y, float[] result)
@@ -32389,7 +32389,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SignedPow(this long[,] value, double y, float[,] result)
@@ -32421,7 +32421,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SignedPow(this long[][] value, double y, float[][] result)
@@ -32448,7 +32448,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Pow(this long[] value, double y, float[] result)
@@ -32471,7 +32471,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Pow(this long[,] value, double y, float[,] result)
@@ -32503,7 +32503,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Pow(this long[][] value, double y, float[][] result)
@@ -32530,7 +32530,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignedPow(this long[] value, double y, double[] result)
@@ -32553,7 +32553,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignedPow(this long[,] value, double y, double[,] result)
@@ -32585,7 +32585,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignedPow(this long[][] value, double y, double[][] result)
@@ -32612,7 +32612,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Pow(this long[] value, double y, double[] result)
@@ -32635,7 +32635,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Pow(this long[,] value, double y, double[,] result)
@@ -32667,7 +32667,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Pow(this long[][] value, double y, double[][] result)
@@ -32694,7 +32694,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] SignedPow(this long[] value, double y, long[] result)
@@ -32717,7 +32717,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] SignedPow(this long[,] value, double y, long[,] result)
@@ -32749,7 +32749,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] SignedPow(this long[][] value, double y, long[][] result)
@@ -32776,7 +32776,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Pow(this long[] value, double y, long[] result)
@@ -32799,7 +32799,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Pow(this long[,] value, double y, long[,] result)
@@ -32831,7 +32831,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Pow(this long[][] value, double y, long[][] result)
@@ -32858,7 +32858,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] SignedPow(this long[] value, double y, decimal[] result)
@@ -32881,7 +32881,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SignedPow(this long[,] value, double y, decimal[,] result)
@@ -32913,7 +32913,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SignedPow(this long[][] value, double y, decimal[][] result)
@@ -32940,7 +32940,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Pow(this long[] value, double y, decimal[] result)
@@ -32963,7 +32963,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Pow(this long[,] value, double y, decimal[,] result)
@@ -32995,7 +32995,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Pow(this long[][] value, double y, decimal[][] result)
@@ -33022,7 +33022,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] SignedPow(this decimal[] value, double y, int[] result)
@@ -33045,7 +33045,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SignedPow(this decimal[,] value, double y, int[,] result)
@@ -33077,7 +33077,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SignedPow(this decimal[][] value, double y, int[][] result)
@@ -33104,7 +33104,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Pow(this decimal[] value, double y, int[] result)
@@ -33127,7 +33127,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Pow(this decimal[,] value, double y, int[,] result)
@@ -33159,7 +33159,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Pow(this decimal[][] value, double y, int[][] result)
@@ -33186,7 +33186,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] SignedPow(this decimal[] value, double y, short[] result)
@@ -33209,7 +33209,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] SignedPow(this decimal[,] value, double y, short[,] result)
@@ -33241,7 +33241,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] SignedPow(this decimal[][] value, double y, short[][] result)
@@ -33268,7 +33268,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Pow(this decimal[] value, double y, short[] result)
@@ -33291,7 +33291,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] Pow(this decimal[,] value, double y, short[,] result)
@@ -33323,7 +33323,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] Pow(this decimal[][] value, double y, short[][] result)
@@ -33350,7 +33350,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] SignedPow(this decimal[] value, double y, float[] result)
@@ -33373,7 +33373,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SignedPow(this decimal[,] value, double y, float[,] result)
@@ -33405,7 +33405,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SignedPow(this decimal[][] value, double y, float[][] result)
@@ -33432,7 +33432,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Pow(this decimal[] value, double y, float[] result)
@@ -33455,7 +33455,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Pow(this decimal[,] value, double y, float[,] result)
@@ -33487,7 +33487,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Pow(this decimal[][] value, double y, float[][] result)
@@ -33514,7 +33514,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] SignedPow(this decimal[] value, double y, double[] result)
@@ -33537,7 +33537,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SignedPow(this decimal[,] value, double y, double[,] result)
@@ -33569,7 +33569,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SignedPow(this decimal[][] value, double y, double[][] result)
@@ -33596,7 +33596,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Pow(this decimal[] value, double y, double[] result)
@@ -33619,7 +33619,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Pow(this decimal[,] value, double y, double[,] result)
@@ -33651,7 +33651,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Pow(this decimal[][] value, double y, double[][] result)
@@ -33678,7 +33678,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] SignedPow(this decimal[] value, double y, long[] result)
@@ -33701,7 +33701,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] SignedPow(this decimal[,] value, double y, long[,] result)
@@ -33733,7 +33733,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] SignedPow(this decimal[][] value, double y, long[][] result)
@@ -33760,7 +33760,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Pow(this decimal[] value, double y, long[] result)
@@ -33783,7 +33783,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] Pow(this decimal[,] value, double y, long[,] result)
@@ -33815,7 +33815,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] Pow(this decimal[][] value, double y, long[][] result)
@@ -33842,7 +33842,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] SignedPow(this decimal[] value, double y, decimal[] result)
@@ -33865,7 +33865,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SignedPow(this decimal[,] value, double y, decimal[,] result)
@@ -33897,7 +33897,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SignedPow(this decimal[][] value, double y, decimal[][] result)
@@ -33924,7 +33924,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Pow(this decimal[] value, double y, decimal[] result)
@@ -33947,7 +33947,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Pow(this decimal[,] value, double y, decimal[,] result)
@@ -33979,7 +33979,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as <paramref name="value"/> to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Pow(this decimal[][] value, double y, decimal[][] result)

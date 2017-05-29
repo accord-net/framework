@@ -376,7 +376,7 @@ namespace Accord.MachineLearning
 
 
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private int DecideByVoting(TInput input)
@@ -384,7 +384,7 @@ namespace Accord.MachineLearning
             return DistanceByVoting(input, new double[NumberOfOutputs]).ArgMax();
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private int DecideByElimination(TInput input)
@@ -403,7 +403,7 @@ namespace Accord.MachineLearning
             return i;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private int DecideByElimination(TInput input, Decision[] path)
@@ -430,7 +430,7 @@ namespace Accord.MachineLearning
             return i;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private double[] DistanceByElimination(TInput input, double[] result)
@@ -469,7 +469,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private double[] DistanceByElimination(TInput input, double[] result, Decision[] path)
@@ -511,7 +511,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private double[] DistanceByVoting(TInput input, double[] result)

@@ -6,7 +6,7 @@
     <RootNamespace>Accord.Perf.MachineLearning</RootNamespace>
     <AssemblyName>Accord.Perf.MachineLearning</AssemblyName>
     <OutputType>Exe</OutputType>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -85,7 +85,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET40|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net40|x64'">
     <OutputPath>bin\x64\NET40\</OutputPath>
     <DefineConstants>TRACE;NET40</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -97,7 +97,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net45|x64'">
     <OutputPath>bin\x64\NET45\</OutputPath>
     <DefineConstants>TRACE;NET45</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -109,7 +109,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET46|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net46|x64'">
     <OutputPath>bin\x64\NET46\</OutputPath>
     <DefineConstants>TRACE;NET46</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

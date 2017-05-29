@@ -236,7 +236,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Levenshtein distance between x and y.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Levenshtein<T>(T[] x, T[] y)

@@ -69,7 +69,7 @@ namespace Accord.Math
         ///   The format provider to use in the conversion. Default is to use
         ///   <see cref="DefaultMatrixFormatProvider.CurrentCulture"/>.
         /// </param>
-        /// <param name="matrix">A double-precision floating-point number matrix parsed
+        /// <param name="vector">A double-precision floating-point number matrix parsed
         /// from the given string using the given format provider.</param>
         /// <result>When this method returns, contains the double-precision floating-point
         /// number matrix equivalent to the <see param="s"/> parameter, if the conversion succeeded, 

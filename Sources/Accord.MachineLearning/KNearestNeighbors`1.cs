@@ -148,7 +148,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private int[] GetNearestIndices(TInput input, out double[] distances)
