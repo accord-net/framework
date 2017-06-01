@@ -1,7 +1,5 @@
 ﻿namespace Accord.Video.DirectShow
 {
-#if !NETSTANDARD2_0
-
     partial class VideoCaptureDeviceForm
     {
         /// <summary>
@@ -218,5 +216,4 @@
         private System.Windows.Forms.ComboBox videoInputsCombo;
         private System.Windows.Forms.Label label3;
     }
-#endif
 }

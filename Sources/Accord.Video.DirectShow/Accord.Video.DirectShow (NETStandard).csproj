@@ -17,6 +17,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='netstandard|AnyCPU'">
     <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="VideoCaptureDeviceForm.cs" />
+    <Compile Remove="VideoCaptureDeviceForm.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="VideoCaptureDeviceForm.resx" />
+  </ItemGroup>
 
     <ItemGroup>
     <PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131" />
