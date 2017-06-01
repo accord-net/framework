@@ -65,7 +65,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accord.Tests.Video (NETStan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accord.Tests.Vision (NETStandard)", "..\Unit Tests\Accord.Tests.Vision\Accord.Tests.Vision (NETStandard).csproj", "{8F453D40-C163-4E7D-A3A1-C3DD7D411C99}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{B26C9DA9-C351-4401-B4CA-D217FA090C9E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B26C9DA9-C351-4401-B4CA-D217FA090C9E}"
 	ProjectSection(SolutionItems) = preProject
 		Accord.NET (NETStandard).targets = Accord.NET (NETStandard).targets
 		..\build-all.cmd = ..\build-all.cmd

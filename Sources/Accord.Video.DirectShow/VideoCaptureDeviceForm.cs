@@ -8,8 +8,6 @@
 
 namespace Accord.Video.DirectShow
 {
-#if !NETSTANDARD2_0
-
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -353,5 +351,4 @@ namespace Accord.Video.DirectShow
             }
         }
     }
-#endif
 }

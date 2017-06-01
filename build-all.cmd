@@ -5,69 +5,45 @@ echo Accord.NET Framework - all project configurations builder
 echo =========================================================
 echo. 
 
-:: Using devenv.com instead of .exe makes the console window wait until the completion
-set DEVENV="C:\Program Files (x86)\Microsoft Visual Studio\Preview\Professional\Common7\IDE\devenv.com"
-set DEVVER=2017 Professional Preview
-if not exist %DEVENV% (
-	set DEVENV="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\devenv.com"
-	set DEVVER=2017 Community
-	if not exist %DEVENV% (
-		set DEVENV="C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.com"
-		set DEVVER=2015
-		if not exist %DEVENV% (
-			set DEVENV="C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.com"
-			set DEVVER=2013
-			if not exist %DEVENV% (
-				echo "Error: Could not find Visual Studio's devenv.com"
-				exit
-			)
-		)
-	)
-) 
+:: Use Microsoft's vswhere.exe to locate the appropriate version of MSBuild:
+for /f "usebackq tokens=1* delims=: " %%i in (`Tools\vswhere -latest -requires Microsoft.Component.MSBuild`) do (
+  if /i "%%i"=="installationPath" set InstallDir=%%j
+)
+set MSBUILD="%InstallDir%\MSBuild\15.0\Bin\MSBuild.exe"
 
-echo This Windows batch file will use Visual Studio %DEVVER% 
+echo This Windows batch file will use MSBuild.exe from the path
+echo %MSBUILD%
 echo to compile the Debug and Release versions of the framework.
 echo. 
+::pause
 
-del /q "bin\*.log"
-echo.
+del /q "Setup\bin\*.log"
 
 echo.
-echo  - Building Debug configuration...
-%DEVENV% Sources\Accord.NET.sln /Build "Debug|x64" /out "Setup\bin\Build.Debug.x64.log"
-%DEVENV% Sources\Accord.NET.sln /Build "Debug|Any CPU" /out "Setup\bin\Build.Debug.Any.log"
-timeout /T 10
+call:BUILD "Sources\Accord.NET.sln","Debug","x64"
+call:BUILD "Sources\Accord.NET.sln","Debug","Any CPU"
+call:BUILD "Sources\Accord.NET.sln","Mono","Any CPU"
+call:BUILD "Sources\Accord.NET.sln","NET35","x64"
+call:BUILD "Sources\Accord.NET.sln","NET35","Any CPU"
+call:BUILD "Sources\Accord.NET.sln","NET40","x64"
+call:BUILD "Sources\Accord.NET.sln","NET40","Any CPU"
+call:BUILD "Sources\Accord.NET.sln","NET45","x64"
+call:BUILD "Sources\Accord.NET.sln","NET45","Any CPU"
+call:BUILD "Sources\Accord.NET.sln","NET46","x64"
+call:BUILD "Sources\Accord.NET.sln","NET46","Any CPU"
+call:BUILD "Sources\Accord.NET.sln","NET462","x64"
+call:BUILD "Sources\Accord.NET.sln","NET462","Any CPU"
+call:BUILD "Sources\Accord.NET (NETStandard).sln","netstandard","Any CPU"
+call:BUILD "Samples\Samples.sln","Release","x86"
+goto:eof
+
+
+
+:BUILD
+set SOLUTION=%~1
+set CONFIGURATION=%~2
+set PLATFORM=%~3
 echo.
-echo  - Building Mono configuration...
-%DEVENV% Sources\Accord.NET.sln /Build "Mono|Any CPU" /out "Setup\bin\Build.Mono.log"
-timeout /T 10
-echo.
-echo  - Building NET35 configuration...
-%DEVENV% Sources\Accord.NET.sln /Build "net35|x64" /out "Setup\bin\Build.net35.x64.log"
-%DEVENV% Sources\Accord.NET.sln /Build "net35|Any CPU" /out "Setup\bin\Build.net35.Any.log"
-timeout /T 10
-echo.
-echo  - Building NET40 configuration...
-%DEVENV% Sources\Accord.NET.sln /Build "net40|x64" /out "Setup\bin\Build.net40.x64.log"
-%DEVENV% Sources\Accord.NET.sln /Build "net40|Any CPU" /out "Setup\bin\Build.net40.Any.log"
-timeout /T 10
-echo.
-echo  - Building NET45 configuration...
-%DEVENV% Sources\Accord.NET.sln /Build "net45|x64" /out "Setup\bin\Build.net45.x64.log"
-%DEVENV% Sources\Accord.NET.sln /Build "net45|Any CPU" /out "Setup\bin\Build.net45.Any.log"
-timeout /T 10
-echo.
-echo  - Building NET46 configuration...
-%DEVENV% Sources\Accord.NET.sln /Build "net46|x64" /out "Setup\bin\Build.net46.x64.log"
-%DEVENV% Sources\Accord.NET.sln /Build "net46|Any CPU" /out "Setup\bin\Build.net46.Any.log"
-timeout /T 10
-echo.
-echo  - Building NETSTANDARD configuration...
-%DEVENV% "Sources\Accord.NET (NETStandard).sln" /Build "netstandard|Any CPU" /out "Setup\bin\Build.netstandard.Any.log"
-timeout /T 10
-echo.
-echo  - Building samples...
-%DEVENV% Samples\Samples.sln /Build Release /out "Setup\bin\Build.Samples.log"
-timeout /T 10
-echo.
-timeout /T 10
+echo  - Building %SOLUTION% in %CONFIGURATION% / %PLATFORM% configuration...
+%MSBUILD% "%SOLUTION%" /t:Rebuild /p:Configuration=%CONFIGURATION% /p:Platform="%PLATFORM%" /fl /flp:logfile="Setup\bin\Build.%CONFIGURATION%.%PLATFORM%.log";verbosity=normal /consoleloggerparameters:ErrorsOnly;Summary /verbosity:minimal /nologo
+goto:eof
