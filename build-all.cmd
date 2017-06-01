@@ -62,6 +62,10 @@ echo  - Building NET46 configuration...
 %DEVENV% Sources\Accord.NET.sln /Build "net46|Any CPU" /out "Setup\bin\Build.net46.Any.log"
 timeout /T 10
 echo.
+echo  - Building NETSTANDARD configuration...
+%DEVENV% "Sources\Accord.NET (NETStandard).sln" /Build "netstandard|Any CPU" /out "Setup\bin\Build.netstandard.Any.log"
+timeout /T 10
+echo.
 echo  - Building samples...
 %DEVENV% Samples\Samples.sln /Build Release /out "Setup\bin\Build.Samples.log"
 timeout /T 10

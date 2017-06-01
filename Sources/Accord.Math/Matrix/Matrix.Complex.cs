@@ -380,7 +380,7 @@ namespace Accord.Math
         ///   Gets the squared magnitude of a complex number.
         /// </summary>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SquaredMagnitude(this Complex value)

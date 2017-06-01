@@ -1,6 +1,7 @@
 bin
 obj
 
+.vs
 *.user
 *.pidb
 *.suo

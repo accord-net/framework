@@ -50,4 +50,10 @@
 		<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
 	</PropertyGroup>
 	-->
+
+  <Target Name="SpicNSpan"  AfterTargets="Clean">
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
+    <RemoveDir Directories="$(BaseOutputPath)" />
+  </Target>
+  
 </Project>  

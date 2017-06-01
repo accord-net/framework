@@ -22,7 +22,6 @@
 
 namespace Accord.Audio.Windows
 {
-    using AForge.Math;
     using System.Numerics;
 
     /// <summary>

@@ -133,7 +133,7 @@ namespace Accord.Math
         ///   Compares two values for equality, considering a relative acceptance threshold.
         /// </summary>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         [Obsolete("Use IsEqual(a, b, rtol) with the named parameter rtol instead.")]

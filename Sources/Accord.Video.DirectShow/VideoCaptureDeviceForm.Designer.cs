@@ -1,5 +1,7 @@
 ﻿namespace Accord.Video.DirectShow
 {
+#if !NETSTANDARD2_0
+
     partial class VideoCaptureDeviceForm
     {
         /// <summary>
@@ -20,7 +22,7 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+#region Windows Form Designer generated code
 
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -201,7 +203,7 @@
 
         }
 
-        #endregion
+#endregion
 
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button okButton;
@@ -216,4 +218,5 @@
         private System.Windows.Forms.ComboBox videoInputsCombo;
         private System.Windows.Forms.Label label3;
     }
+#endif
 }

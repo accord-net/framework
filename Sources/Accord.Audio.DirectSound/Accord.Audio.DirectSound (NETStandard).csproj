@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk"> 
+
+  <PropertyGroup>
+    <AssemblyName>Accord.Audio.DirectSound</AssemblyName>
+    <RootNamespace>Accord.Audio.DirectSound</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
+
+<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
+	<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='netstandard|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="SharpDX" Version="4.0.1" />
+    <PackageReference Include="SharpDX.DirectSound" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Accord.Audio\Accord.Audio (NETStandard).csproj" />
+  </ItemGroup>
+
+</Project>

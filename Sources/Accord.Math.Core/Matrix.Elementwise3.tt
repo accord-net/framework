@@ -92,7 +92,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[][] MultiplyAndAdd(this <#=a#>[][] a, <#=b#> b, <#=c#>[][] c, <#=r#>[][] result)
@@ -114,7 +114,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[,] MultiplyAndAdd(this <#=a#>[,] a, <#=b#> b, <#=c#>[,] c, <#=r#>[,] result)
