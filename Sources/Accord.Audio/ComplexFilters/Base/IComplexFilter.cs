@@ -23,8 +23,6 @@
 namespace Accord.Audio.ComplexFilters
 {
     using System;
-    using AForge;
-    using AForge.Math;
 
     /// <summary>
     ///   Audio processing filter, which operates with Fourier transformed

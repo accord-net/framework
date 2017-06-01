@@ -23,7 +23,6 @@
 namespace Accord.Audio.Generators
 {
     using System;
-    using AForge.Math;
     using System.Numerics;
 
     /// <summary>

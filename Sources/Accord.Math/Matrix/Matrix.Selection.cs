@@ -829,7 +829,7 @@ namespace Accord.Math
         /// <param name="data">The array to search inside.</param>
         /// <param name="func">The search criteria.</param>
         ///
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Find<T>(this T[] data, Func<T, bool> func)
@@ -919,7 +919,7 @@ namespace Accord.Math
         /// <param name="values">The values to be ordered.</param>
         /// <param name="indices">The new index positions.</param>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static void Swap<T>(this T[] values, int[] indices)
@@ -933,7 +933,7 @@ namespace Accord.Math
         ///   Swaps the contents of two object references.
         /// </summary>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static void Swap<T>(ref T a, ref T b)
@@ -951,7 +951,7 @@ namespace Accord.Math
         /// <param name="a">The index of the first element to be swapped.</param>
         /// <param name="b">The index of the second element to be swapped.</param>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static void Swap<T>(this T[] array, int a, int b)
@@ -1151,7 +1151,7 @@ namespace Accord.Math
         ///   Returns a copy of an array in reversed order.
         /// </summary>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] Reversed<T>(this T[] values)
@@ -1166,7 +1166,7 @@ namespace Accord.Math
         ///   Returns a copy of an array in reversed order.
         /// </summary>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] First<T>(this T[] values, int count)
@@ -1181,7 +1181,7 @@ namespace Accord.Math
         ///   Returns the last <paramref name="count"/> elements of an array.
         /// </summary>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] Last<T>(this T[] values, int count)

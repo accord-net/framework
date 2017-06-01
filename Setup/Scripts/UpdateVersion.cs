@@ -37,8 +37,6 @@ namespace Accord.Setup.Scripts
 
         public static void Replace(string frameworkRootPath)
         {
-
-
             string version = File.ReadAllText(Path.Combine(frameworkRootPath, "Version.txt"));
             string[] parts;
             parts = version.Split('-');
@@ -52,6 +50,7 @@ namespace Accord.Setup.Scripts
             Console.WriteLine("Updating source files with version number {0}.{1}.{2}.{3}{4}", major, minor, rev, build, tag);
 
             replaceAssemblyInfo(frameworkRootPath, tag, major, minor, rev, build);
+            replaceNetStandardTargets(frameworkRootPath, tag, major, minor, rev, build);
             replaceDocumentation(frameworkRootPath, major, minor, rev);
         }
 
@@ -78,6 +77,25 @@ namespace Accord.Setup.Scripts
                 string contents = GetVersionText(major, minor, rev, build, tag, cpp);
                 File.WriteAllText(file.FullName, contents);
             }
+        }
+
+        private static void replaceNetStandardTargets(string frameworkRootPath, string tag, string major, string minor, string rev, string build)
+        {
+            string targetsFile = Path.Combine(frameworkRootPath, "Sources", "Version.targets");
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine("<Project>");
+            sb.AppendLine("  <PropertyGroup>");
+            sb.AppendLine(string.Format("    <Copyright>Copyright (c) Accord.NET authors, 2009-{0}</Copyright>", DateTime.Now.Year));
+            sb.AppendLine("    <Version>3.5.0</Version>");
+            sb.AppendLine(string.Format("    <AssemblyVersion>{0}.{1}.{2}</AssemblyVersion>", major, minor, rev));
+            sb.AppendLine(string.Format("    <AssemblyInformationalVersion>{0}.{1}.{2}{3}</AssemblyInformationalVersion>", major, minor, rev, tag));
+            sb.AppendLine(string.Format("    <FileVersion>{0}.{1}.{2}.{3}</FileVersion>", major, minor, rev, build));
+            sb.AppendLine("  </PropertyGroup>");
+            sb.AppendLine("</Project>");
+            
+            File.WriteAllText(targetsFile, sb.ToString());
         }
     }
 }

@@ -22,7 +22,6 @@
 
 namespace Accord.Audio.ComplexFilters
 {
-    using AForge.Math;
     using System.Numerics;
 
     /// <summary>

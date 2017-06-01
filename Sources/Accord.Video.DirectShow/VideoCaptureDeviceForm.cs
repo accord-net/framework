@@ -6,17 +6,19 @@
 // contacts@aforgenet.com
 //
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-
-using Accord.Video.DirectShow;
-
 namespace Accord.Video.DirectShow
 {
+#if !NETSTANDARD2_0
+
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Text;
+    using System.Windows.Forms;
+
+    using Accord.Video.DirectShow;
+
     /// <summary>
     /// Local video device selection form.
     /// </summary>
@@ -351,4 +353,5 @@ namespace Accord.Video.DirectShow
             }
         }
     }
+#endif
 }

@@ -52,7 +52,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Yule distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Yule(int[] x, int[] y)
@@ -69,7 +69,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Yule distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Yule(double[] x, double[] y)
@@ -89,7 +89,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Jaccard distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Jaccard(double[] x, double[] y)
@@ -109,7 +109,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Hellinger distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Hellinger(double[] x, double[] y)
@@ -129,7 +129,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Euclidean distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Euclidean(double x, double y)
@@ -146,7 +146,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Euclidean distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Euclidean(double[] x, double[] y)
@@ -165,7 +165,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Euclidean distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Euclidean(double vector1x, double vector1y, double vector2x, double vector2y)
@@ -182,7 +182,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Euclidean distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Euclidean(Tuple<double, double> x, Tuple<double, double> y)
@@ -202,7 +202,7 @@ namespace Accord.Math
         /// 
         /// <returns>The SquareMahalanobis distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SquareMahalanobis(double[] x, double[] y)
@@ -220,7 +220,7 @@ namespace Accord.Math
         /// 
         /// <returns>The SquareMahalanobis distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SquareMahalanobis(double[] x, double[] y, CholeskyDecomposition chol)
@@ -238,7 +238,7 @@ namespace Accord.Math
         /// 
         /// <returns>The SquareMahalanobis distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SquareMahalanobis(double[] x, double[] y, SingularValueDecomposition svd)
@@ -256,7 +256,7 @@ namespace Accord.Math
         /// 
         /// <returns>The SquareMahalanobis distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SquareMahalanobis(double[] x, double[] y, double[,] precision)
@@ -276,7 +276,7 @@ namespace Accord.Math
         /// 
         /// <returns>The RusselRao distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double RusselRao(int[] x, int[] y)
@@ -293,7 +293,7 @@ namespace Accord.Math
         /// 
         /// <returns>The RusselRao distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double RusselRao(double[] x, double[] y)
@@ -313,7 +313,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Chebyshev distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Chebyshev(double[] x, double[] y)
@@ -333,7 +333,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Dice distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Dice(int[] x, int[] y)
@@ -350,7 +350,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Dice distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Dice(double[] x, double[] y)
@@ -370,7 +370,7 @@ namespace Accord.Math
         /// 
         /// <returns>The SokalMichener distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SokalMichener(int[] x, int[] y)
@@ -387,7 +387,7 @@ namespace Accord.Math
         /// 
         /// <returns>The SokalMichener distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SokalMichener(double[] x, double[] y)
@@ -407,7 +407,7 @@ namespace Accord.Math
         /// 
         /// <returns>The SquareEuclidean distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SquareEuclidean(double[] x, double[] y)
@@ -426,7 +426,7 @@ namespace Accord.Math
         /// 
         /// <returns>The SquareEuclidean distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SquareEuclidean(double x1, double y1, double x2, double y2)
@@ -446,7 +446,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Hamming distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Hamming(byte[] x, byte[] y)
@@ -463,7 +463,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Hamming distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Hamming(string x, string y)
@@ -480,7 +480,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Hamming distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Hamming(double[] x, double[] y)
@@ -497,7 +497,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Hamming distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Hamming(BitArray x, BitArray y)
@@ -517,7 +517,7 @@ namespace Accord.Math
         /// 
         /// <returns>The ArgMax distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double ArgMax(double[] x, double[] y)
@@ -538,7 +538,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Modular distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Modular(double x, double y, int modulo)
@@ -556,7 +556,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Modular distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Modular(int x, int y, int modulo)
@@ -573,7 +573,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Cosine distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Cosine(double[] x, double[] y)
@@ -593,7 +593,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Mahalanobis distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Mahalanobis(double[] x, double[] y)
@@ -611,7 +611,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Mahalanobis distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Mahalanobis(double[] x, double[] y, CholeskyDecomposition chol)
@@ -629,7 +629,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Mahalanobis distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Mahalanobis(double[] x, double[] y, SingularValueDecomposition svd)
@@ -647,7 +647,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Mahalanobis distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Mahalanobis(double[] x, double[] y, double[,] precision)
@@ -667,7 +667,7 @@ namespace Accord.Math
         /// 
         /// <returns>The BrayCurtis distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double BrayCurtis(double[] x, double[] y)
@@ -688,7 +688,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Minkowski distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Minkowski(int[] x, int[] y, double p)
@@ -706,7 +706,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Minkowski distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Minkowski(double[] x, double[] y, double p)
@@ -723,7 +723,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Levenshtein distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Levenshtein(string x, string y)
@@ -743,7 +743,7 @@ namespace Accord.Math
         /// 
         /// <returns>The SokalSneath distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SokalSneath(int[] x, int[] y)
@@ -760,7 +760,7 @@ namespace Accord.Math
         /// 
         /// <returns>The SokalSneath distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SokalSneath(double[] x, double[] y)
@@ -780,7 +780,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Matching distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Matching(int[] x, int[] y)
@@ -797,7 +797,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Matching distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Matching(double[] x, double[] y)
@@ -817,7 +817,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Canberra distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Canberra(double[] x, double[] y)
@@ -837,7 +837,7 @@ namespace Accord.Math
         /// 
         /// <returns>The RogersTanimoto distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double RogersTanimoto(int[] x, int[] y)
@@ -854,7 +854,7 @@ namespace Accord.Math
         /// 
         /// <returns>The RogersTanimoto distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double RogersTanimoto(double[] x, double[] y)
@@ -874,7 +874,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Manhattan distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Manhattan(int[] x, int[] y)
@@ -891,7 +891,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Manhattan distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Manhattan(double[] x, double[] y)
@@ -911,7 +911,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Kulczynski distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Kulczynski(int[] x, int[] y)
@@ -928,7 +928,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Kulczynski distance between x and y.</returns>
         /// 
-#if NET45 || NET46 || NET462
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Kulczynski(double[] x, double[] y)
