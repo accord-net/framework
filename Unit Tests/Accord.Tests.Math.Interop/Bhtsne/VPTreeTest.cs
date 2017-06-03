@@ -40,7 +40,7 @@ namespace Accord.Tests.Interop.Math
     public class VPTreeTest
     {
 # if DEBUG
-        [Test]
+        [Test, Ignore("Random")]
         public void FromDataTest2()
         {
             Accord.Math.Random.Generator.Seed = 0;
@@ -147,7 +147,7 @@ namespace Accord.Tests.Interop.Math
             Assert.IsTrue(actual.ToArray().IsEqual(expected.ToArray()));
         }
 
-        [Test]
+        [Test, Ignore("Random")]
         public void larger_test1()
         {
             Accord.Math.Random.Generator.Seed = 0;

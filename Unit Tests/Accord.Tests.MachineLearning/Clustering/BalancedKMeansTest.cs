@@ -214,7 +214,6 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void KMeansMoreClustersThanSamples()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -241,11 +240,11 @@ namespace Accord.Tests.MachineLearning
                 MaxIterations = 10
             };
 
-            int[] labels = kmeans.Compute(observations);
+            Assert.Throws<ArgumentException>(() => kmeans.Compute(observations), 
+                "Not enough points. There should be more points than the number K of clusters.");
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void MaxIterationsZero()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -268,7 +267,7 @@ namespace Accord.Tests.MachineLearning
 
             var kmeans = new BalancedKMeans(2);
 
-            int[] labels = kmeans.Compute(observations);
+            Assert.Throws<InvalidOperationException>(() => kmeans.Compute(observations), "");
         }
 
         [Test]
@@ -560,6 +559,6 @@ namespace Accord.Tests.MachineLearning
             for (int i = 0; i < hist.Length; i++)
                 Assert.AreEqual(hist[i], 50);
         }
-            
+
     }
 }

@@ -34,6 +34,11 @@ namespace Accord.Tests.IO
     public class SparseWriterTest
     {
 
+        string test_txt = Path.Combine(TestContext.CurrentContext.TestDirectory, "test.txt");
+        string test2_txt = Path.Combine(TestContext.CurrentContext.TestDirectory, "test2.txt");
+        string test_txt_gz = Path.Combine(TestContext.CurrentContext.TestDirectory, "test.txt.gz");
+        
+
         [Test]
         public void WriteSamplesTest()
         {
@@ -45,7 +50,7 @@ namespace Accord.Tests.IO
             int sampleSize = 4;
 
             SparseReader src = new SparseReader(file, Encoding.Default, sampleSize);
-            SparseWriter dst = new SparseWriter("test.txt", Encoding.Default);
+            SparseWriter dst = new SparseWriter(test_txt, Encoding.Default);
 
             // Read a sample from the file
             var r = src.ReadDense();
@@ -73,7 +78,7 @@ namespace Accord.Tests.IO
             file = new MemoryStream(
                 Encoding.Default.GetBytes(Accord.Tests.IO.Properties.Resources.iris_scale));
             using (SparseReader orig = new SparseReader(file, Encoding.Default, sampleSize))
-            using (SparseReader copy = new SparseReader("test.txt", Encoding.Default, sampleSize))
+            using (SparseReader copy = new SparseReader(test_txt, Encoding.Default, sampleSize))
             {
                 while (!orig.EndOfStream)
                 {
@@ -90,7 +95,7 @@ namespace Accord.Tests.IO
             file = new MemoryStream(
                 Encoding.Default.GetBytes(Accord.Tests.IO.Properties.Resources.iris_scale));
             using (SparseReader orig = new SparseReader(file, Encoding.Default, sampleSize))
-            using (SparseReader copy = new SparseReader("test.txt", Encoding.Default))
+            using (SparseReader copy = new SparseReader(test_txt, Encoding.Default))
             {
                 while (!orig.EndOfStream)
                 {
@@ -118,9 +123,9 @@ namespace Accord.Tests.IO
 
             bool[] outputs = { false, true, false };
 
-            SparseFormat.Save(samples, outputs, "test.txt");
+            SparseFormat.Save(samples, outputs, test_txt);
 
-            string actual = File.ReadAllText("test.txt");
+            string actual = File.ReadAllText(test_txt);
             string expected = @"-1 1:1 2:2 4:3
 1 1:6 3:4 4:2
 -1 
@@ -141,16 +146,16 @@ namespace Accord.Tests.IO
 
             bool[] outputs = { false, true, false };
 
-            SparseFormat.Save(samples, outputs, "test.txt.gz", compression: SerializerCompression.GZip);
+            SparseFormat.Save(samples, outputs, test_txt_gz, compression: SerializerCompression.GZip);
 
             Sparse<double>[] newSamples;
             bool[] newOutput;
-            SparseFormat.Load("test.txt.gz", out newSamples, out newOutput, compression: SerializerCompression.GZip);
+            SparseFormat.Load(test_txt_gz, out newSamples, out newOutput, compression: SerializerCompression.GZip);
 
 
-            SparseFormat.Save(newSamples, newOutput, "test2.txt");
+            SparseFormat.Save(newSamples, newOutput, Path.Combine(TestContext.CurrentContext.TestDirectory, "test2.txt"));
 
-            string actual = File.ReadAllText("test2.txt");
+            string actual = File.ReadAllText(test2_txt);
             string expected = @"-1 1:1 2:2 4:3
 1 1:6 3:4 4:2
 -1 

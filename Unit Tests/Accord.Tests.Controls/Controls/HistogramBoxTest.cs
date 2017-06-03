@@ -30,8 +30,8 @@ namespace Accord.Tests.Statistics
     public class HistogramBoxText
     {
 
-     
-        [Test, Ignore]
+
+        [Test, Ignore("Requires interaction with Windows Forms")]
         public void HistogramBox_ShowTest1()
         {
             // Generate some normally distributed samples

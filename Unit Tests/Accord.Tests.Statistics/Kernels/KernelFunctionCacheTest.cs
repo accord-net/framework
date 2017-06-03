@@ -33,7 +33,7 @@ namespace Accord.Tests.Statistics
     public class KernelFunctionCacheTest
     {
 
-        double[][] inputs = 
+        double[][] inputs =
         {
             new double[] { 0 },
             new double[] { 1 },
@@ -308,7 +308,6 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
-        [ExpectedException(ExpectedMessage = "The cache is not using a LRU list.")]
         public void KernelFunctionCacheConstructorTest8()
         {
             double[][] inputs =
@@ -341,7 +340,7 @@ namespace Accord.Tests.Statistics
                 }
             }
 
-            var lruList1 = target.GetLeastRecentlyUsedList();
+            Assert.Throws<InvalidOperationException>(() => target.GetLeastRecentlyUsedList(), "The cache is not using a LRU list.");
         }
 
         [Test]

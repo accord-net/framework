@@ -30,7 +30,7 @@ namespace Accord.Tests.Statistics
     {
 
 
-        [Test, Ignore]
+        [Test, Ignore("Requires interaction with Windows Forms")]
         public void ScatterplotBox_ShowTest1()
         {
             double[,] points = 

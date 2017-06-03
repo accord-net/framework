@@ -82,7 +82,7 @@ namespace Accord.Tests.Statistics
             // We can create a learning algorithm
             var ls = new PolynomialLeastSquares()
             {
-                Degree = 2 
+                Degree = 2
             };
 
             // Now, we can use the algorithm to learn a polynomial
@@ -170,13 +170,12 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void learn_ToStringTest_degree_is_0()
         {
-            var pls = new PolynomialLeastSquares()
+            Assert.Throws<ArgumentOutOfRangeException>(() => new PolynomialLeastSquares()
             {
                 Degree = 0
-            };
+            }, "");
         }
 
         [Test]

@@ -32,11 +32,11 @@ namespace Accord.Tests.Imaging
     using System.IO;
 
 
-    [TestFixture, Ignore]
+    [TestFixture]
     public class BlendTest
     {
 
-        [Test]
+        [Test, Ignore("Random")]
         public void Panorama_Example1()
         {
             Accord.Math.Random.Generator.Seed = 0;

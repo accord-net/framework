@@ -384,7 +384,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [Test, Ignore]
+        [Test, Ignore("Feature has been removed")]
         public void CsvReader_Comma()
         {
             string text = "\n"

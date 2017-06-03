@@ -164,8 +164,7 @@ namespace Liblinear
 
 
 
-        public static Parameters parse_command_line(string[] args,
-            out string input_file_name, out string model_file_name)
+        public static Parameters parse_command_line(string[] args, out string input_file_name, out string model_file_name)
         {
             // default values
             var parameters = new Parameters()

@@ -354,7 +354,8 @@ namespace Accord.MachineLearning
                     double den = System.Math.Log(pNoOutliers);
                     if (den == 0)
                         TrialsNeeded = num == 0 ? 0 : MaxEvaluations;
-                    else TrialsNeeded = (int)(num / den);
+                    else
+                        TrialsNeeded = (int)(num / den);
                 }
 
                 TrialsPerformed++; // Increase the trial counter.

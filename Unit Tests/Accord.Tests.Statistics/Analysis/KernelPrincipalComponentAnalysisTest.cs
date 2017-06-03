@@ -29,6 +29,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Kernels;
     using NUnit.Framework;
     using System.Data;
+    using System.IO;
 
     [TestFixture]
     public class KernelPrincipalComponentAnalysisTest
@@ -734,7 +735,7 @@ namespace Accord.Tests.Statistics
         [Category("Office")]
         public void RevertTest2()
         {
-            string path = @"Resources\examples.xls";
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "examples.xls");
 
             // Create a new reader, opening a given path
             ExcelReader reader = new ExcelReader(path);
@@ -771,7 +772,7 @@ namespace Accord.Tests.Statistics
         [Category("Office")]
         public void RevertTest2_new_method()
         {
-            string path = @"Resources\examples.xls";
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "examples.xls");
 
             // Create a new reader, opening a given path
             ExcelReader reader = new ExcelReader(path);
@@ -811,7 +812,7 @@ namespace Accord.Tests.Statistics
         [Category("Office")]
         public void RevertTest3()
         {
-            string path = @"Resources\examples.xls";
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "examples.xls");
 
             // Create a new reader, opening a given path
             ExcelReader reader = new ExcelReader(path);

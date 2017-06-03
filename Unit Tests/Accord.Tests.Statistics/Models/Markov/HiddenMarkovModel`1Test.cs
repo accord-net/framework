@@ -1389,30 +1389,6 @@ namespace Accord.Tests.Statistics
             checkDegenerate(observations, 3);
         }
 
-        [Test]
-        [Category("Intensive")]
-        [Ignore]
-        public void BigSampleLearnTest13()
-        {
-            Accord.Math.Random.Generator.Seed = 0;
-
-            var list = new double[1000000][][];
-
-            for (int i = 0; i < 1000000; i++)
-            {
-                list[i] = new double[][]
-                {
-                    new double[] { 2, 1 },
-                    new double[] { 5, 2 },
-                    new double[] { 10, 3 },
-                };
-            }
-            
-            checkDegenerate(list, 3);
-        }
-
-
-
         private static void checkDegenerate(double[][][] observations, int states)
         {
             bool thrown = false;

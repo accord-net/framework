@@ -37,7 +37,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual("amtsgeheimnis", german.Stem("amtsgeheimnisse"));
         }
 
-        [Test, Ignore]
+        [Test, Ignore("Snowball issue")]
         public void German2_FullTest()
         {
             // This test is ignored because it seems that the german2 

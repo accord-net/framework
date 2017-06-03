@@ -253,7 +253,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [Test, Ignore]
+        [Test, Ignore("Random")]
         public void ProcessImageTest4()
         {
             var bitmaps = GetImages();
@@ -297,8 +297,8 @@ namespace Accord.Tests.Imaging
 
                 for (int i = 0; i < expected.Count; i++)
                 {
-                    var e = expected[i];
-                    var a = actual[i];
+                    SpeededUpRobustFeaturePoint e = expected[i];
+                    SpeededUpRobustFeaturePoint a = actual[i];
                     Assert.AreEqual(e, a);
                 }
             }

@@ -43,7 +43,7 @@ namespace Accord.Tests.MachineLearning
             Accord.Math.Random.Generator.Seed = 0;
 
             // Declare some observations
-            double[][] observations = 
+            double[][] observations =
             {
                 new double[] { -5, -2, -1 },
                 new double[] { -5, -5, -6 },
@@ -160,7 +160,7 @@ namespace Accord.Tests.MachineLearning
             Accord.Math.Tools.SetupGenerator(0);
 
             // Declare some observations
-            double[][] observations = 
+            double[][] observations =
             {
                 new double[] { -5, -2, -1 },
                 new double[] { -5, -5, -6 },
@@ -234,14 +234,13 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void KMeansMoreClustersThanSamples()
         {
             Accord.Math.Tools.SetupGenerator(0);
 
 
             // Declare some observations
-            double[][] observations = 
+            double[][] observations =
             {
                 new double[] { -5, -2, -1 },
                 new double[] { -5, -5, -6 },
@@ -258,7 +257,7 @@ namespace Accord.Tests.MachineLearning
 
             KMeans kmeans = new KMeans(15);
 
-            int[] labels = kmeans.Compute(observations);
+            Assert.Throws<ArgumentException>(() => kmeans.Compute(observations), "");
         }
 
         [Test]

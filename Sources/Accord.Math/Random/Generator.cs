@@ -179,7 +179,7 @@ namespace Accord.Math.Random
                     return threadRandom;
 
                 // No possibility of race condition here since its thread static
-                if (Generator.threadRandom == null || Generator.threadLastUpdateTicks < Generator.sourceLastUpdateTicks)
+                if (Generator.threadRandom == null || Generator.threadLastUpdateTicks <= Generator.sourceLastUpdateTicks)
                 {
                     Generator.threadSeed = GetRandomSeed();
                     Generator.threadLastUpdateTicks = Generator.sourceLastUpdateTicks;
@@ -220,13 +220,13 @@ namespace Accord.Math.Random
                                 Trace.WriteLine("All threads will be initialized with the same seed: " + value);
                                 Generator.sourceRandom = null;
                             }
-                            else
+                            else // value.Value > 0
                             {
                                 Trace.WriteLine("All threads will be initialized with predictable, but random seeds.");
                                 Generator.sourceRandom = new Random(value.Value);
                             }
                         }
-                        else
+                        else // value == null
                         {
                             Trace.WriteLine("All threads will be initialized with unpredictable random seeds.");
                             int s = unchecked((int)(13 * Thread.CurrentThread.ManagedThreadId ^ Generator.sourceLastUpdateTicks));
