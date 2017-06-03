@@ -29,7 +29,8 @@ namespace Accord.Performance.MachineLearning
             //TestPredictSparseSVM();
             //TestSparseSVMComplete();
             //TestPredictSparseMulticlassSVM();
-            TestLinearASGD();
+            //TestLinearASGD();
+            TestSMO();
         }
 
         private static void TestSparseKernelSVM()
@@ -304,6 +305,39 @@ namespace Accord.Performance.MachineLearning
             Console.WriteLine(sw.Elapsed);
 
             var test = new ConfusionMatrix(testPred, yTest);
+            Console.WriteLine("Test acc: " + test.Accuracy);
+        }
+
+        private static void TestSMO()
+        {
+            Console.WriteLine("Downloading dataset");
+            var news20 = new Accord.DataSets.News20(@"C:\Temp\");
+            Sparse<double>[] inputs = news20.Training.Item1.Get(0, 2000);
+            int[] outputs = news20.Training.Item2.ToMulticlass().Get(0, 2000);
+
+            var learn = new MultilabelSupportVectorLearning<Linear, Sparse<double>>()
+            {
+                // using LIBLINEAR's SVC dual for each SVM
+                Learner = (p) => new SequentialMinimalOptimization<Linear, Sparse<double>>()
+                {
+                    Strategy = SelectionStrategy.SecondOrder,
+                    Complexity = 1.0,
+                    Tolerance = 1e-4,
+                    CacheSize = 1000
+                },
+            };
+
+            Console.WriteLine("Learning");
+            Stopwatch sw = Stopwatch.StartNew();
+            var svm = learn.Learn(inputs, outputs);
+            Console.WriteLine(sw.Elapsed);
+
+            Console.WriteLine("Predicting");
+            sw = Stopwatch.StartNew();
+            int[] predicted = svm.ToMulticlass().Decide(inputs);
+            Console.WriteLine(sw.Elapsed);
+
+            var test = new ConfusionMatrix(predicted, outputs);
             Console.WriteLine("Test acc: " + test.Accuracy);
         }
     }

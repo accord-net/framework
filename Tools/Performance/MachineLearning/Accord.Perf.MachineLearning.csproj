@@ -51,7 +51,7 @@
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET46|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Performance\bin\Release\net46\</OutputPath>
+    <OutputPath>bin\Any CPU\net46\</OutputPath>
     <DefineConstants>TRACE;NET46</DefineConstants>
     <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
@@ -134,9 +134,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Externals\SharpZipLib\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\..\Externals\SharpZipLib\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -158,31 +157,31 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core.csproj">
+    <ProjectReference Include="..\..\..\Sources\Accord.Core\Accord.Core.csproj">
       <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>
       <Name>Accord.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.Datasets\Accord.DataSets.csproj">
+    <ProjectReference Include="..\..\..\Sources\Accord.DataSets\Accord.DataSets.csproj">
       <Project>{f11a77c5-00b3-4921-acf5-4728f6576efd}</Project>
       <Name>Accord.DataSets</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.IO\Accord.IO.csproj">
+    <ProjectReference Include="..\..\..\Sources\Accord.IO\Accord.IO.csproj">
       <Project>{63184ebd-6b28-4066-aaee-5b99431e31f4}</Project>
       <Name>Accord.IO</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.MachineLearning\Accord.MachineLearning.csproj">
+    <ProjectReference Include="..\..\..\Sources\Accord.MachineLearning\Accord.MachineLearning.csproj">
       <Project>{7ab4bbcc-6222-423d-9ff9-ba9cb7c09199}</Project>
       <Name>Accord.MachineLearning</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core.csproj">
+    <ProjectReference Include="..\..\..\Sources\Accord.Math.Core\Accord.Math.Core.csproj">
       <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
       <Name>Accord.Math.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
+    <ProjectReference Include="..\..\..\Sources\Accord.Math\Accord.Math.csproj">
       <Project>{f718e9a8-db62-4785-8c49-4333a60d256a}</Project>
       <Name>Accord.Math</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.Statistics\Accord.Statistics.csproj">
+    <ProjectReference Include="..\..\..\Sources\Accord.Statistics\Accord.Statistics.csproj">
       <Project>{fd8101dd-c95d-42d6-ad44-ae01c25f2811}</Project>
       <Name>Accord.Statistics</Name>
     </ProjectReference>
