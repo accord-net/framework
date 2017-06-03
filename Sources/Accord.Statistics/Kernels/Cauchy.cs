@@ -22,6 +22,8 @@
 
 namespace Accord.Statistics.Kernels
 {
+    using Accord.Math;
+    using Accord.Math.Distances;
     using System;
 
     /// <summary>
@@ -36,7 +38,7 @@ namespace Accord.Statistics.Kernels
     /// 
     [Serializable]
     public sealed class Cauchy : KernelBase, IKernel, 
-        IRadialBasisKernel, ICloneable
+        IRadialBasisKernel, ICloneable, IKernel<Sparse<double>>, IDistance<Sparse<double>>
     {
         private double sigma;
 
@@ -86,6 +88,46 @@ namespace Accord.Statistics.Kernels
             }
 
             return (1.0 / (1.0 + norm / sigma));
+        }
+
+        /// <summary>
+        ///   Cauchy Kernel Function
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(Sparse<double> x, Sparse<double> y)
+        {
+            // Optimization in case x and y are
+            // exactly the same object reference.
+
+            if (x == y)
+                return 1.0;
+
+            double norm = Accord.Math.Distance.SquareEuclidean(x, y);
+
+            return (1.0 / (1.0 + norm / sigma));
+        }
+
+
+        /// <summary>
+        ///   Computes the squared distance in feature space
+        ///   between two points given in input space.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
+        /// <returns>
+        ///   Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.
+        /// </returns>
+        /// 
+        public double Distance(Sparse<double> x, Sparse<double> y)
+        {
+            return Function(x, x) + Function(y, y) - 2 * Function(x, y);
         }
 
         /// <summary>

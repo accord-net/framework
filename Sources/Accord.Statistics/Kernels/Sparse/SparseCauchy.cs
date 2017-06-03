@@ -34,6 +34,7 @@ namespace Accord.Statistics.Kernels.Sparse
     /// </remarks>
     /// 
     [Serializable]
+    [Obsolete("Please use the Cauchy kernel with Sparse<double> instead.")]
     public sealed class SparseCauchy : KernelBase, IKernel
     {
         private double sigma;

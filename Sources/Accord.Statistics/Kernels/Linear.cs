@@ -33,7 +33,7 @@ namespace Accord.Statistics.Kernels
     /// 
     [Serializable]
     public struct Linear : IKernel, IDistance, ILinear, ICloneable, IReverseDistance,
-        ITransform, IKernel<Sparse<double>>, ILinear<Sparse<double>>
+        ITransform, IKernel<Sparse<double>>, ILinear<Sparse<double>>, IDistance<Sparse<double>>
     {
         private double constant;
 
@@ -118,6 +118,27 @@ namespace Accord.Statistics.Kernels
             }
 
             return sum;
+        }
+
+        /// <summary>
+        ///   Computes the squared distance in input space
+        ///   between two points given in feature space.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in feature (kernel) space.</param>
+        /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
+        /// 
+        /// <returns>Squared distance between <c>x</c> and <c>y</c> in input space.</returns>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public double Distance(Sparse<double> x, Sparse<double> y)
+        {
+            if (x == y)
+                return 0.0;
+
+            return Accord.Math.Distance.SquareEuclidean(x, y);
         }
 
         /// <summary>

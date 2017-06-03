@@ -32,7 +32,8 @@ namespace Accord.Statistics.Kernels
     /// 
     [Serializable]
     public struct Polynomial : IKernel, IDistance,
-        IReverseDistance, ICloneable, ITransform
+        IReverseDistance, ICloneable, ITransform, 
+        IKernel<Sparse<double>>, IDistance<Sparse<double>>
     {
         private int degree;
         private double constant;
@@ -107,6 +108,20 @@ namespace Accord.Statistics.Kernels
         ///   Polynomial kernel function.
         /// </summary>
         /// 
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(Sparse<double> x, Sparse<double> y)
+        {
+            double sum = x.Dot(y) + constant;
+            return Math.Pow(sum, degree);
+        }
+
+        /// <summary>
+        ///   Polynomial kernel function.
+        /// </summary>
+        /// 
         /// <param name="z">Distance <c>z</c> in input space.</param>
         /// 
         /// <returns>Dot product in feature (kernel) space.</returns>
@@ -141,6 +156,30 @@ namespace Accord.Statistics.Kernels
                 sumy += y[i] * y[i];
                 sum += x[i] * y[i];
             }
+
+            int d = degree;
+
+            return Math.Pow(sumx, d) + Math.Pow(sumy, d) - 2 * Math.Pow(sum, d);
+        }
+
+        /// <summary>
+        ///   Computes the squared distance in feature space
+        ///   between two points given in input space.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
+        /// <returns>Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.</returns>
+        /// 
+        public double Distance(Sparse<double> x, Sparse<double> y)
+        {
+            if (x == y)
+                return 0.0;
+
+            double sumx = constant + x.Dot(x);
+            double sumy = constant + y.Dot(y);
+            double sum = constant + x.Dot(y);
 
             int d = degree;
 
