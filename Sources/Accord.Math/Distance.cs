@@ -37,6 +37,22 @@ namespace Accord.Math
     {
 
         /// <summary>
+        ///   Computes the Euclidean distance of two vectors given in sparse representation.
+        /// </summary>
+        /// 
+        /// <param name="x">The first vector <c>x</c>.</param>
+        /// <param name="y">The second vector <c>y</c>.</param>
+        /// 
+        /// <returns>
+        ///   The squared Euclidean distance <c>d² = |x - y|²</c> between the given vectors.
+        /// </returns>
+        /// 
+        public static double Euclidean(Sparse<double> x, Sparse<double> y)
+        {
+            return Math.Sqrt(SquareEuclidean(x, y));
+        }
+
+        /// <summary>
         ///   Computes the squared Euclidean distance of two vectors given in sparse representation.
         /// </summary>
         /// 
@@ -67,7 +83,7 @@ namespace Accord.Math
                 }
                 else if (posx < posy)
                 {
-                    double d = x.Values[j];
+                    double d = x.Values[i];
                     sum += d * d;
                     i++;
                 }

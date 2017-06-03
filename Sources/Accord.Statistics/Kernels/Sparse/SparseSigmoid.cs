@@ -35,6 +35,7 @@ namespace Accord.Statistics.Kernels.Sparse
     /// </remarks>
     /// 
     [Serializable]
+    [Obsolete("Please use the Sigmoid kernel with Sparse<double> instead.")]
     public sealed class SparseSigmoid : KernelBase, IKernel
     {
         private double gamma;

@@ -112,8 +112,8 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(0, target.Hits);
 
-            int[] hits = { 0, 1, 3, 6, 10, 15, 20, 25, 30, 35 };
-            int[] miss = { 9, 17, 24, 30, 35, 39, 43, 47, 51, 55 };
+            int[] hits = { 0, 9, 18, 27, 36, 45, 54, 63, 72, 81 };
+            int[] miss = { 9, 9, 9, 9, 9, 9, 9, 9, 9, 9 };
 
             for (int i = 0; i < inputs.Length; i++)
             {
@@ -140,8 +140,8 @@ namespace Accord.Tests.Statistics
                 }
             }
 
-            Assert.AreEqual(100, target.Misses);
-            Assert.AreEqual(80, target.Hits);
+            Assert.AreEqual(9, target.Misses);
+            Assert.AreEqual(171, target.Hits);
             Assert.AreEqual(1.0, target.Usage);
         }
 
@@ -224,8 +224,8 @@ namespace Accord.Tests.Statistics
             }
 
 
-            Assert.AreEqual(45, target.Misses);
-            Assert.AreEqual(0, target.Hits);
+            Assert.AreEqual(9, target.Misses);
+            Assert.AreEqual(36, target.Hits);
             Assert.AreEqual(1.0, target.Usage);
 
             // lower half
@@ -241,8 +241,8 @@ namespace Accord.Tests.Statistics
             }
 
 
-            Assert.AreEqual(90, target.Misses);
-            Assert.AreEqual(0, target.Hits);
+            Assert.AreEqual(9, target.Misses);
+            Assert.AreEqual(81, target.Hits);
             Assert.AreEqual(1.0, target.Usage);
         }
 
@@ -282,9 +282,9 @@ namespace Accord.Tests.Statistics
 
             var lruList1 = target.GetLeastRecentlyUsedList();
 
-            Assert.AreEqual(3, target.Misses);
-            Assert.AreEqual(0, target.Hits);
-            Assert.AreEqual(1.0, target.Usage);
+            Assert.AreEqual(2, target.Misses);
+            Assert.AreEqual(1, target.Hits);
+            Assert.AreEqual(0.66666, target.Usage, 1e-4);
 
             // upper half, backwards
             for (int i = inputs.Length - 2; i >= 0; i--)
@@ -300,11 +300,11 @@ namespace Accord.Tests.Statistics
 
             var lruList2 = target.GetLeastRecentlyUsedList();
 
-            Assert.IsTrue(lruList2.SequenceEqual(lruList1.Reverse()));
+            Assert.IsTrue(lruList2.SequenceEqual(new[] { lruList1[1], lruList1[2], lruList1[0] }));
 
-            Assert.AreEqual(3, target.Misses);
-            Assert.AreEqual(3, target.Hits);
-            Assert.AreEqual(1.0, target.Usage);
+            Assert.AreEqual(2, target.Misses);
+            Assert.AreEqual(4, target.Hits);
+            Assert.AreEqual(0.666666, target.Usage, 1e-5);
         }
 
         [Test]
@@ -379,8 +379,8 @@ namespace Accord.Tests.Statistics
                 }
             }
 
-            Assert.AreEqual(9, target.Hits);
-            Assert.AreEqual(81, target.Misses);
+            Assert.AreEqual(51, target.Hits);
+            Assert.AreEqual(39, target.Misses);
 
             var snapshot = target.GetDataCache();
 
@@ -393,8 +393,8 @@ namespace Accord.Tests.Statistics
             }
 
 
-            Assert.AreEqual(81, target.Misses);
-            Assert.AreEqual(29, target.Hits);
+            Assert.AreEqual(39, target.Misses);
+            Assert.AreEqual(121, target.Hits);
             Assert.AreEqual(1.0, target.Usage);
         }
 

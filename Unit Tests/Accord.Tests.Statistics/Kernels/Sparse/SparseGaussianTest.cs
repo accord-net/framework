@@ -26,7 +26,6 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Kernels;
     using NUnit.Framework;
 
-    ///</summary>
     [TestFixture]
     public class SparseGaussianTest
     {

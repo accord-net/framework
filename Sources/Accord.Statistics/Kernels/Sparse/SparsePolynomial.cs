@@ -29,6 +29,7 @@ namespace Accord.Statistics.Kernels.Sparse
     /// </summary>
     /// 
     [Serializable]
+    [Obsolete("Please use the Polynomial kernel with Sparse<double> instead.")]
     public sealed class SparsePolynomial : KernelBase, IKernel
     {
         private int degree;
