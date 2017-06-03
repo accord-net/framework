@@ -457,7 +457,7 @@ namespace Accord.Tests.Neuro
                     double j1 = jacobian1[i][j];
                     double j2 = jacobian2[i][j];
 
-                    Assert.AreEqual(j1, j2, 1e-4);
+                    Assert.AreEqual(j1, j2, 1e-3);
 
                     Assert.IsFalse(Double.IsNaN(j1));
                     Assert.IsFalse(Double.IsNaN(j2));

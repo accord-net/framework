@@ -349,7 +349,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 for (int i = n + 1; i < l; i++)
                     alpha[i] = 0;
 
-                Func<int, int, double> Q = (int i, int j) => kernel.Function(x[i], x[j]);
+                Func<int, int[], int, double[], double[]> Q = (int i, int[] indices, int length, double[] row) =>
+                {
+                    for (int j = 0; j < length; j++)
+                        row[j] = Kernel.Function(x[i], x[indices[j]]);
+                    return row;
+                };
 
                 var s = new FanChenLinQuadraticOptimization(alpha.Length, Q, zeros, ones)
                 {

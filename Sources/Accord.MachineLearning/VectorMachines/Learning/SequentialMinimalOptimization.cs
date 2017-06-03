@@ -470,7 +470,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
         /// <summary>
-        ///   Epsilon for round-off errors. Default value is 1e-12.
+        ///   Epsilon for round-off errors. Default value is 1e-6.
         /// </summary>
         /// 
         public double Epsilon
@@ -515,11 +515,21 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
         /// <summary>
-        ///   Gets or sets the cache size to partially stored the kernel 
-        ///   matrix. Default is the same number of input vectors. If set
-        ///   to zero, the cache will be disabled and all operations will
+        ///   Gets or sets the cache size to partially store the kernel 
+        ///   matrix. Default is the same number of input vectors, meaning
+        ///   the entire kernel matrix will be computed and cached in memory.
+        ///   If set to zero, the cache will be disabled and all operations will
         ///   be computed as needed.
         /// </summary>
+        /// 
+        /// <remarks>
+        ///   In order to know how many rows can fit under a amount of memory, you can use
+        ///   <see cref="KernelFunctionCache.GetNumberOfRowsForMaximumSizeInBytes(int)"/>.
+        ///   Be sure to also test the algorithm with the cache disabled, as sometimes the
+        ///   cost of the extra memory allocations needed by the cache will be higher than
+        ///   the cost of evaluating the kernel function, specially for fast kernels such
+        ///   as <see cref="Linear"/>.
+        /// </remarks>
         /// 
         public int CacheSize
         {
@@ -533,7 +543,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
         /// <summary>
-        ///   Gets or sets a value indicating whether shrinking heuristics should be used. Note: 
+        ///   Gets or sets a value indicating whether shrinking heuristics should be used. Default is false. Note: 
         ///   this property can only be used when <see cref="Strategy"/> is set to <see cref="SelectionStrategy.SecondOrder"/>.
         /// </summary>
         /// 
@@ -627,193 +637,203 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             if (this.cacheSize == -1)
                 this.cacheSize = samples;
 
-            bool diverged = false;
-
-
-            if (Strategy == SelectionStrategy.SecondOrder)
+            using (this.kernelCache = new KernelFunctionCache<TKernel, TInput>(Kernel, Inputs, cacheSize))
             {
-                double[] minusOnes = Vector.Create(Inputs.Length, -1.0);
+                bool diverged = false;
 
-                // TODO: This function should return a row, in order to be more efficient
-                Func<int, int, double> Q = (int i, int j) => y[i] * y[j] * Kernel.Function(x[i], x[j]);
 
-                var s = new FanChenLinQuadraticOptimization(alpha.Length, Q, minusOnes, y)
+                if (Strategy == SelectionStrategy.SecondOrder)
                 {
-                    Tolerance = tolerance,
-                    Shrinking = this.shrinking,
-                    Solution = alpha,
-                    Token = Token,
-                    UpperBounds = c
-                };
+                    double[] minusOnes = Vector.Create(Inputs.Length, -1.0);
+                    Func<int, int[], int, double[], double[]> Q;
 
-                diverged = !s.Minimize();
-
-                // Store information about active examples
-                for (int i = 0; i < alpha.Length; i++)
-                {
-                    if (alpha[i] > 0)
-                        activeExamples.Add(i);
-                }
-
-                b_lower = b_upper = s.Rho;
-            }
-            else
-            {
-                if (shrinking)
-                    throw new InvalidOperationException("Shrinking heuristic can only be used if Strategy is set to SelectionStrategy.SecondOrder.");
-
-                // The SMO algorithm chooses to solve the smallest possible optimization problem
-                // at every step. At every step, SMO chooses two Lagrange multipliers to jointly
-                // optimize, finds the optimal values for these multipliers, and updates the SVM
-                // to reflect the new optimal values.
-                //
-                // Reference: http://research.microsoft.com/en-us/um/people/jplatt/smoTR.pdf
-
-                // The algorithm has been updated to implement the improvements suggested
-                // by Keerthi et al. The code has been based on the pseudo-code available
-                // on the author's technical report.
-                //
-                // Reference: http://www.cs.iastate.edu/~honavar/keerthi-svm.pdf
-
-
-                // Error cache
-                this.errors = new double[samples];
-
-                // Kernel evaluations cache
-                this.kernelCache = new KernelFunctionCache<TKernel, TInput>(Kernel, Inputs, cacheSize);
-
-                // [Keerthi] Initialize b_up to -1 and 
-                //   i_up to any one index of class 1:
-                this.b_upper = -1;
-                this.i_upper = y.First(y_i => y_i > 0);
-
-                // [Keerthi] Initialize b_low to +1 and 
-                //   i_low to any one index of class 2:
-                this.b_lower = +1;
-                this.i_lower = y.First(y_i => y_i < 0);
-
-                // [Keerthi] Set error cache for i_low and i_up:
-                this.errors[i_lower] = +1;
-                this.errors[i_upper] = -1;
-
-
-                // Algorithm:
-                int numChanged = 0;
-                int wholeSetChecks = 0;
-                bool examineAll = true;
-                bool shouldStop = false;
-
-                while ((numChanged > 0 || examineAll) && !shouldStop)
-                {
-                    if (Token.IsCancellationRequested)
-                        break;
-
-                    numChanged = 0;
-                    if (examineAll)
+                    if (kernelCache.Enabled)
                     {
-                        // loop I over all training examples
-                        for (int i = 0; i < samples; i++)
-                            if (examineExample(i))
-                                numChanged++;
-
-                        wholeSetChecks++;
+                        Q = (int i, int[] indices, int length, double[] row) =>
+                        {
+                            for (int j = 0; j < length; j++)
+                                row[j] = y[i] * y[indices[j]] * kernelCache.GetOrCompute(i, indices[j]);
+                            return row;
+                        };
                     }
                     else
                     {
-                        if (strategy == SelectionStrategy.Sequential)
+                        Q = (int i, int[] indices, int length, double[] row) =>
                         {
-                            // loop I over examples not at bounds
-                            for (int i = 0; i < alpha.Length; i++)
-                            {
-                                if (alpha[i] != 0 && alpha[i] != c[i])
-                                {
-                                    if (examineExample(i))
-                                        numChanged++;
+                            for (int j = 0; j < length; j++)
+                                row[j] = y[i] * y[indices[j]] * Kernel.Function(x[i], x[indices[j]]);
+                            return row;
+                        };
+                    }
 
-                                    if (b_upper > b_lower - 2.0 * tolerance)
-                                    {
-                                        numChanged = 0; break;
-                                    }
-                                }
-                            }
-                        }
-                        else if (strategy == SelectionStrategy.WorstPair)
+                    var s = new FanChenLinQuadraticOptimization(alpha.Length, Q, minusOnes, y)
+                    {
+                        Tolerance = tolerance,
+                        Shrinking = this.shrinking,
+                        Solution = alpha,
+                        Token = Token,
+                        UpperBounds = c
+                    };
+
+                    diverged = !s.Minimize();
+
+                    // Store information about active examples
+                    for (int i = 0; i < alpha.Length; i++)
+                    {
+                        if (alpha[i] > 0)
+                            activeExamples.Add(i);
+                    }
+
+                    b_lower = b_upper = s.Rho;
+                }
+                else // Strategy is Strategy.WorstPair or Strategy.Sequential
+                {
+                    if (shrinking)
+                        throw new InvalidOperationException("Shrinking heuristic can only be used if Strategy is set to SelectionStrategy.SecondOrder.");
+
+                    // The SMO algorithm chooses to solve the smallest possible optimization problem
+                    // at every step. At every step, SMO chooses two Lagrange multipliers to jointly
+                    // optimize, finds the optimal values for these multipliers, and updates the SVM
+                    // to reflect the new optimal values.
+                    //
+                    // Reference: http://research.microsoft.com/en-us/um/people/jplatt/smoTR.pdf
+
+                    // The algorithm has been updated to implement the improvements suggested
+                    // by Keerthi et al. The code has been based on the pseudo-code available
+                    // on the author's technical report.
+                    //
+                    // Reference: http://www.cs.iastate.edu/~honavar/keerthi-svm.pdf
+
+
+                    // Error cache
+                    this.errors = new double[samples];
+
+                    // [Keerthi] Initialize b_up to -1 and 
+                    //   i_up to any one index of class 1:
+                    this.b_upper = -1;
+                    this.i_upper = y.First(y_i => y_i > 0);
+
+                    // [Keerthi] Initialize b_low to +1 and 
+                    //   i_low to any one index of class 2:
+                    this.b_lower = +1;
+                    this.i_lower = y.First(y_i => y_i < 0);
+
+                    // [Keerthi] Set error cache for i_low and i_up:
+                    this.errors[i_lower] = +1;
+                    this.errors[i_upper] = -1;
+
+
+                    // Algorithm:
+                    int numChanged = 0;
+                    int wholeSetChecks = 0;
+                    bool examineAll = true;
+                    bool shouldStop = false;
+
+                    while ((numChanged > 0 || examineAll) && !shouldStop)
+                    {
+                        if (Token.IsCancellationRequested)
+                            break;
+
+                        numChanged = 0;
+                        if (examineAll)
                         {
-                            int attempts = 0;
-                            do
-                            {
-                                attempts++;
+                            // loop I over all training examples
+                            for (int i = 0; i < samples; i++)
+                                if (examineExample(i))
+                                    numChanged++;
 
-                                if (!takeStep(i_upper, i_lower))
-                                    break;
-
-                                if (attempts > samples * maxChecks)
-                                    break;
-                            }
-                            while ((b_upper <= b_lower - 2.0 * tolerance));
-
-                            numChanged = 0;
+                            wholeSetChecks++;
                         }
                         else
                         {
-                            throw new InvalidOperationException("Unknown strategy");
+                            if (strategy == SelectionStrategy.Sequential)
+                            {
+                                // loop I over examples not at bounds
+                                for (int i = 0; i < alpha.Length; i++)
+                                {
+                                    if (alpha[i] != 0 && alpha[i] != c[i])
+                                    {
+                                        if (examineExample(i))
+                                            numChanged++;
+
+                                        if (b_upper > b_lower - 2.0 * tolerance)
+                                        {
+                                            numChanged = 0; break;
+                                        }
+                                    }
+                                }
+                            }
+                            else if (strategy == SelectionStrategy.WorstPair)
+                            {
+                                int attempts = 0;
+                                do
+                                {
+                                    attempts++;
+
+                                    if (!takeStep(i_upper, i_lower))
+                                        break;
+
+                                    if (attempts > samples * maxChecks)
+                                        break;
+                                }
+                                while ((b_upper <= b_lower - 2.0 * tolerance));
+
+                                numChanged = 0;
+                            }
+                            else
+                            {
+                                throw new InvalidOperationException("Unknown strategy");
+                            }
                         }
+
+                        if (examineAll)
+                            examineAll = false;
+
+                        else if (numChanged == 0)
+                            examineAll = true;
+
+                        if (wholeSetChecks > maxChecks)
+                            shouldStop = diverged = true;
+
+                        if (Token.IsCancellationRequested)
+                            shouldStop = true;
                     }
-
-                    if (examineAll)
-                        examineAll = false;
-
-                    else if (numChanged == 0)
-                        examineAll = true;
-
-                    if (wholeSetChecks > maxChecks)
-                        shouldStop = diverged = true;
-
-                    if (Token.IsCancellationRequested)
-                        shouldStop = true;
                 }
-            }
 
 
-            // Store information about bounded examples
-            for (int i = 0; i < alpha.Length; i++)
-            {
-                if (alpha[i] == c[i])
-                    atBoundsExamples.Add(i);
-            }
+                // Store information about bounded examples
+                for (int i = 0; i < alpha.Length; i++)
+                {
+                    if (alpha[i] == c[i])
+                        atBoundsExamples.Add(i);
+                }
 
 
-            // Store Support Vectors in the SV Machine. Only vectors which have Lagrange multipliers
-            // greater than zero will be stored as only those are actually required during evaluation.
+                // Store Support Vectors in the SV Machine. Only vectors which have Lagrange multipliers
+                // greater than zero will be stored as only those are actually required during evaluation.
 
-            int activeCount = activeExamples.Count;
-            Model.SupportVectors = new TInput[activeCount];
-            Model.Weights = new double[activeCount];
-            int index = 0;
-            foreach (var j in activeExamples)
-            {
-                Model.SupportVectors[index] = x[j];
-                Model.Weights[index] = alpha[j] * y[j];
-                index++;
-            }
+                int activeCount = activeExamples.Count;
+                Model.SupportVectors = new TInput[activeCount];
+                Model.Weights = new double[activeCount];
+                int index = 0;
+                foreach (var j in activeExamples)
+                {
+                    Model.SupportVectors[index] = x[j];
+                    Model.Weights[index] = alpha[j] * y[j];
+                    index++;
+                }
 
-            Model.Threshold = -(b_lower + b_upper) / 2;
+                Model.Threshold = -(b_lower + b_upper) / 2;
 
-            if (isCompact)
-                Model.Compress();
+                if (isCompact)
+                    Model.Compress();
 
-            // Clear function cache
-            if (this.kernelCache != null)
-            {
-                this.kernelCache.Clear();
-                this.kernelCache = null;
-            }
-
-            if (diverged)
-            {
-                throw new ConvergenceException("Convergence could not be attained. " +
-                            "Please reduce the cost of misclassification errors by reducing " +
-                            "the complexity parameter C or try a different kernel function.");
+                if (diverged)
+                {
+                    throw new ConvergenceException("Convergence could not be attained. " +
+                                "Please reduce the cost of misclassification errors by reducing " +
+                                "the complexity parameter C or try a different kernel function.");
+                }
             }
         }
 
