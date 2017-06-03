@@ -315,6 +315,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
+#if !NETSTANDARD2_0
         [Test]
         [Category("Office")]
         public void GaussianMixtureModelTest5()
@@ -361,7 +362,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsFalse(gmm.Gaussians[0].Mean.HasNaN());
             Assert.IsFalse(gmm.Gaussians[1].Mean.HasNaN());
         }
-
+#endif
 
 
         [Test]
@@ -433,7 +434,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void learn_test()
         {
-            #region doc_learn
+#region doc_learn
             Accord.Math.Random.Generator.Seed = 0;
 
             // Test Samples
@@ -460,7 +461,7 @@ namespace Accord.Tests.MachineLearning
             // Predict cluster labels for each sample
             int[] predicted = clusters.Decide(samples);
 
-            #endregion
+#endregion
 
             Assert.AreEqual(-35.930732550698494, gmm.LogLikelihood, 1e-10);
 
@@ -488,7 +489,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void learn_test_diagonal()
         {
-            #region doc_learn_diagonal
+#region doc_learn_diagonal
             Accord.Math.Random.Generator.Seed = 0;
 
             // Test Samples
@@ -521,7 +522,7 @@ namespace Accord.Tests.MachineLearning
             // Predict cluster labels for each sample
             int[] predicted = clusters.Decide(samples);
 
-            #endregion
+#endregion
 
             Assert.AreEqual(-36.94746115411408, gmm.LogLikelihood, 1e-10);
 
@@ -549,7 +550,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void learn_test_shared()
         {
-            #region doc_learn_shared
+#region doc_learn_shared
             Accord.Math.Random.Generator.Seed = 0;
 
             // Test Samples
@@ -582,7 +583,7 @@ namespace Accord.Tests.MachineLearning
             // Predict cluster labels for each sample
             int[] predicted = clusters.Decide(samples);
 
-            #endregion
+#endregion
 
             Assert.AreEqual(-38.935822773153589, gmm.LogLikelihood, 1e-8);
 

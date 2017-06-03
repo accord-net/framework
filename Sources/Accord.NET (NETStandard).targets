@@ -1,4 +1,7 @@
 <Project>
+
+  <Import Project="$(SolutionDir)Version.targets" />
+
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
@@ -13,8 +16,8 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <CodeAnalysisRuleSet>$(SolutionDir)\Accord.NET.ruleset</CodeAnalysisRuleSet>
-	
-	<Configurations>Debug;netstandard</Configurations>
+
+    <Configurations>Debug;netstandard</Configurations>
 
     <OutputPath>$(SolutionDir)..\Release\$(Configuration)</OutputPath>
     <DocumentationFile>$(SolutionDir)..\Release\$(Configuration)\$(AssemblyName).XML</DocumentationFile>

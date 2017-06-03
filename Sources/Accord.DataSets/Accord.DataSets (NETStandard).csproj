@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk"> 
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <AssemblyName>Accord.DataSets</AssemblyName>
@@ -8,9 +8,9 @@
   <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
 
 
-<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
-	<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
@@ -18,7 +18,7 @@
     <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
 
-    <ItemGroup>
+  <ItemGroup>
     <PackageReference Include="SharpZipLib.NETStandard" Version="0.86.0.1" />
   </ItemGroup>
 
@@ -26,5 +26,5 @@
     <ProjectReference Include="..\Accord.Core\Accord.Core (NETStandard).csproj" />
     <ProjectReference Include="..\Accord.IO\Accord.IO (NETStandard).csproj" />
   </ItemGroup>
-  
+
 </Project>

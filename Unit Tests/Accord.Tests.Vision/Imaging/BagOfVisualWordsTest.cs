@@ -693,8 +693,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [Test, Timeout(600 * 1000)]
-        [Category("Serialization")]
+        [Test, Category("Serialization")]
         public void SerializeTest()
         {
             var images = GetImages();

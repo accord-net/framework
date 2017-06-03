@@ -731,6 +731,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(data, preimage, 0.0001));
         }
 
+#if !NETSTANDARD2_0
         [Test]
         [Category("Office")]
         public void RevertTest2()
@@ -844,6 +845,7 @@ namespace Accord.Tests.Statistics
 
             Assert.IsTrue(!reversion.HasNaN());
         }
+#endif
 
         [Test]
         public void transform_more_columns_than_samples_new_interface()

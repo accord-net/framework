@@ -244,7 +244,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(newPrediction[0], true);
         }
 
-
+#if !NETSTANDARD2_0
         [Test]
         public void learn_gaussian_sparse_kernel2()
         {
@@ -274,11 +274,12 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(0.9499999, test.Accuracy, 1e-5);
         }
+#endif
 
         [Test]
         public void learn_sparse_kernel()
         {
-            #region doc_xor_sparse
+#region doc_xor_sparse
             // As an example, we will try to learn a decision machine 
             // that can replicate the "exclusive-or" logical function:
 
@@ -310,7 +311,7 @@ namespace Accord.Tests.MachineLearning
 
             // Finally, we can obtain the decisions predicted by the machine:
             bool[] prediction = svm.Decide(inputs);
-            #endregion
+#endregion
 
             Assert.AreEqual(prediction, Classes.Decide(xor));
         }
@@ -1283,7 +1284,7 @@ namespace Accord.Tests.MachineLearning
         {
             double[,] yinyang =
             {
-            #region Yin Yang
+#region Yin Yang
             { -0.876847428, 1.996318824, -1 },
             { -0.748759325, 1.997248514, -1 },
             { -0.635574695, 1.978046579, -1 },
@@ -1384,7 +1385,7 @@ namespace Accord.Tests.MachineLearning
             { -0.228760025, 0.93490314, 1 },
             { -0.293782477, 1.008861678, 1 },
             { 0.013431012, 1.082021525, 1 },
-            #endregion
+#endregion
             };
             return yinyang;
         }

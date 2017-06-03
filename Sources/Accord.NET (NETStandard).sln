@@ -44,6 +44,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accord.Video.Ximea (NETStandard)", "Accord.Video.Ximea\Accord.Video.Ximea (NETStandard).csproj", "{9E2B0452-2DC0-4029-8741-9401C24419DB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{BFD784FF-6E86-4540-8DEC-2F6AD779E0F9}"
+	ProjectSection(SolutionItems) = preProject
+		..\Unit Tests\Accord.Tests (NETStandard).targets = ..\Unit Tests\Accord.Tests (NETStandard).targets
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accord.Tests.Audio (NETStandard)", "..\Unit Tests\Accord.Tests.Audio\Accord.Tests.Audio (NETStandard).csproj", "{93FCFD75-656D-4B13-AEDC-CC771297BE65}"
 EndProject
@@ -68,6 +71,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B26C9DA9-C351-4401-B4CA-D217FA090C9E}"
 	ProjectSection(SolutionItems) = preProject
 		Accord.NET (NETStandard).targets = Accord.NET (NETStandard).targets
+		Accord.NET.targets = Accord.NET.targets
+		Accord.NET.testrunconfig = Accord.NET.testrunconfig
 		..\build-all.cmd = ..\build-all.cmd
 		..\clean-all.cmd = ..\clean-all.cmd
 		..\Contributors.txt = ..\Contributors.txt
@@ -76,10 +81,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Version.targets = Version.targets
 		..\Version.txt = ..\Version.txt
 	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{793E5883-F610-40FA-948C-271AF89DC065}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accord.Setup (NETStandard)", "..\Setup\Accord.Setup (NETStandard).csproj", "{63F96F44-980F-4A7E-B990-25DA1F730F8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -170,34 +171,44 @@ Global
 		{9E2B0452-2DC0-4029-8741-9401C24419DB}.netstandard|Any CPU.Build.0 = netstandard|Any CPU
 		{93FCFD75-656D-4B13-AEDC-CC771297BE65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93FCFD75-656D-4B13-AEDC-CC771297BE65}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93FCFD75-656D-4B13-AEDC-CC771297BE65}.netstandard|Any CPU.ActiveCfg = Release|Any CPU
+		{93FCFD75-656D-4B13-AEDC-CC771297BE65}.netstandard|Any CPU.ActiveCfg = netstandard|Any CPU
+		{93FCFD75-656D-4B13-AEDC-CC771297BE65}.netstandard|Any CPU.Build.0 = netstandard|Any CPU
 		{EC291E7D-EA7D-44B3-BDDA-D72BAC12A30E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EC291E7D-EA7D-44B3-BDDA-D72BAC12A30E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC291E7D-EA7D-44B3-BDDA-D72BAC12A30E}.netstandard|Any CPU.ActiveCfg = Release|Any CPU
+		{EC291E7D-EA7D-44B3-BDDA-D72BAC12A30E}.netstandard|Any CPU.ActiveCfg = netstandard|Any CPU
+		{EC291E7D-EA7D-44B3-BDDA-D72BAC12A30E}.netstandard|Any CPU.Build.0 = netstandard|Any CPU
 		{5DB153FB-1B3D-46D7-9465-6C13E3825B6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5DB153FB-1B3D-46D7-9465-6C13E3825B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5DB153FB-1B3D-46D7-9465-6C13E3825B6F}.netstandard|Any CPU.ActiveCfg = Release|Any CPU
+		{5DB153FB-1B3D-46D7-9465-6C13E3825B6F}.netstandard|Any CPU.ActiveCfg = netstandard|Any CPU
+		{5DB153FB-1B3D-46D7-9465-6C13E3825B6F}.netstandard|Any CPU.Build.0 = netstandard|Any CPU
 		{B075B6C1-3F4E-492C-8CA5-0627A295C566}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B075B6C1-3F4E-492C-8CA5-0627A295C566}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B075B6C1-3F4E-492C-8CA5-0627A295C566}.netstandard|Any CPU.ActiveCfg = Release|Any CPU
+		{B075B6C1-3F4E-492C-8CA5-0627A295C566}.netstandard|Any CPU.ActiveCfg = netstandard|Any CPU
+		{B075B6C1-3F4E-492C-8CA5-0627A295C566}.netstandard|Any CPU.Build.0 = netstandard|Any CPU
 		{1C58CE85-7C20-4208-8804-9A5DF7E4F728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1C58CE85-7C20-4208-8804-9A5DF7E4F728}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C58CE85-7C20-4208-8804-9A5DF7E4F728}.netstandard|Any CPU.ActiveCfg = Release|Any CPU
+		{1C58CE85-7C20-4208-8804-9A5DF7E4F728}.netstandard|Any CPU.ActiveCfg = netstandard|Any CPU
+		{1C58CE85-7C20-4208-8804-9A5DF7E4F728}.netstandard|Any CPU.Build.0 = netstandard|Any CPU
 		{24AE2C2A-7DEB-4B9F-84C8-0F5E65E41EBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{24AE2C2A-7DEB-4B9F-84C8-0F5E65E41EBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{24AE2C2A-7DEB-4B9F-84C8-0F5E65E41EBC}.netstandard|Any CPU.ActiveCfg = Release|Any CPU
+		{24AE2C2A-7DEB-4B9F-84C8-0F5E65E41EBC}.netstandard|Any CPU.ActiveCfg = netstandard|Any CPU
+		{24AE2C2A-7DEB-4B9F-84C8-0F5E65E41EBC}.netstandard|Any CPU.Build.0 = netstandard|Any CPU
 		{1588C792-DC7D-43AF-B4E7-5A71A0EE860E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1588C792-DC7D-43AF-B4E7-5A71A0EE860E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1588C792-DC7D-43AF-B4E7-5A71A0EE860E}.netstandard|Any CPU.ActiveCfg = Release|Any CPU
+		{1588C792-DC7D-43AF-B4E7-5A71A0EE860E}.netstandard|Any CPU.ActiveCfg = netstandard|Any CPU
+		{1588C792-DC7D-43AF-B4E7-5A71A0EE860E}.netstandard|Any CPU.Build.0 = netstandard|Any CPU
 		{57CE28FA-C8FC-4330-AE03-D70B98333641}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{57CE28FA-C8FC-4330-AE03-D70B98333641}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{57CE28FA-C8FC-4330-AE03-D70B98333641}.netstandard|Any CPU.ActiveCfg = Release|Any CPU
+		{57CE28FA-C8FC-4330-AE03-D70B98333641}.netstandard|Any CPU.ActiveCfg = netstandard|Any CPU
+		{57CE28FA-C8FC-4330-AE03-D70B98333641}.netstandard|Any CPU.Build.0 = netstandard|Any CPU
 		{9F1820B0-2B9D-4F76-B6D5-DA5FA58F5F56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9F1820B0-2B9D-4F76-B6D5-DA5FA58F5F56}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F1820B0-2B9D-4F76-B6D5-DA5FA58F5F56}.netstandard|Any CPU.ActiveCfg = Release|Any CPU
+		{9F1820B0-2B9D-4F76-B6D5-DA5FA58F5F56}.netstandard|Any CPU.ActiveCfg = netstandard|Any CPU
+		{9F1820B0-2B9D-4F76-B6D5-DA5FA58F5F56}.netstandard|Any CPU.Build.0 = netstandard|Any CPU
 		{8F453D40-C163-4E7D-A3A1-C3DD7D411C99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8F453D40-C163-4E7D-A3A1-C3DD7D411C99}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8F453D40-C163-4E7D-A3A1-C3DD7D411C99}.netstandard|Any CPU.ActiveCfg = Release|Any CPU
+		{8F453D40-C163-4E7D-A3A1-C3DD7D411C99}.netstandard|Any CPU.ActiveCfg = netstandard|Any CPU
+		{8F453D40-C163-4E7D-A3A1-C3DD7D411C99}.netstandard|Any CPU.Build.0 = netstandard|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -213,6 +224,5 @@ Global
 		{57CE28FA-C8FC-4330-AE03-D70B98333641} = {BFD784FF-6E86-4540-8DEC-2F6AD779E0F9}
 		{9F1820B0-2B9D-4F76-B6D5-DA5FA58F5F56} = {BFD784FF-6E86-4540-8DEC-2F6AD779E0F9}
 		{8F453D40-C163-4E7D-A3A1-C3DD7D411C99} = {BFD784FF-6E86-4540-8DEC-2F6AD779E0F9}
-		{63F96F44-980F-4A7E-B990-25DA1F730F8E} = {793E5883-F610-40FA-948C-271AF89DC065}
 	EndGlobalSection
 EndGlobal

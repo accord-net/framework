@@ -1,23 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
+
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Accord.Tests.MachineLearning</AssemblyName>
+    <RootNamespace>Accord.Tests.MachineLearning</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
-
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Properties\AssemblyInfo.cs" />
-    <Compile Remove="Properties\VersionInfo.cs" />
+    <EmbeddedResource Remove="Properties\Resources.resx" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\Samples\MachineLearning\Liblinear (SVMs)\Parameters.cs" />
+    <Compile Include="..\..\Samples\MachineLearning\Liblinear (SVMs)\Problem.cs" />
+    <Compile Include="..\..\Samples\MachineLearning\Liblinear (SVMs)\Program.cs" />
+    <Compile Include="..\..\Samples\MachineLearning\Liblinear (SVMs)\Train.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.DataSets\Accord.DataSets (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.IO\Accord.IO (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.MachineLearning\Accord.MachineLearning (NETStandard).csproj" />
-    <ProjectReference Include="..\Accord.Math.Core\Accord.NS.Math.Core.csproj" />
-    <ProjectReference Include="..\Accord.Math\Accord.NS.Math.csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math (NETStandard).csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Parameters.cs" Link="VectorMachines\Liblinear\Parameters.cs" />
+    <Compile Update="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Problem.cs" Link="VectorMachines\Liblinear\Problem.cs" />
+    <Compile Update="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Program.cs" Link="VectorMachines\Liblinear\Program.cs" />
+    <Compile Update="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Train.cs" Link="VectorMachines\Liblinear\Train.cs" />
   </ItemGroup>
 
 </Project>
