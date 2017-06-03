@@ -246,6 +246,36 @@ namespace Accord.Tests.MachineLearning
 
 
         [Test]
+        public void learn_gaussian_sparse_kernel2()
+        {
+            var news20 = new Accord.DataSets.News20(@"C:\Temp\");
+            Sparse<double>[] inputs = news20.Training.Item1.Get(0, 2000);
+            int[] outputs = news20.Training.Item2.ToMulticlass().Get(0, 2000);
+
+            var learn = new MultilabelSupportVectorLearning<Gaussian, Sparse<double>>()
+            {
+                // using LIBLINEAR's SVC dual for each SVM
+                Learner = (p) => new SequentialMinimalOptimization<Gaussian, Sparse<double>>()
+                {
+                    Strategy = SelectionStrategy.SecondOrder,
+                    Complexity = 1.0,
+                    Tolerance = 1e-4,
+                    CacheSize = 1999
+                },
+            };
+
+            learn.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            var svm = learn.Learn(inputs, outputs);
+
+            int[] predicted = svm.ToMulticlass().Decide(inputs);
+
+            var test = new ConfusionMatrix(predicted, outputs);
+
+            Assert.AreEqual(0.9499999, test.Accuracy, 1e-5);
+        }
+
+        [Test]
         public void learn_sparse_kernel()
         {
             #region doc_xor_sparse
