@@ -37,6 +37,9 @@ namespace Accord.Tests.Video
     public class VideoFileWriterTest
     {
 
+        string fireplace_mp4 = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "fireplace.mp4");
+
+
         [Test]
         public void write_video_test()
         {
@@ -45,7 +48,7 @@ namespace Accord.Tests.Video
             int width = 800;
             int height = 600;
             int framerate = 24;
-            string path = Path.GetFullPath("output.avi");
+            string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, "output.avi"));
             int videoBitRate = 1200 * 1000;
 
             videoWriter.Open(path, width, height, framerate, VideoCodec.H264, videoBitRate);
@@ -77,48 +80,48 @@ namespace Accord.Tests.Video
         [Test]
         public void reencode_vp8()
         {
-            var fileInput = new FileInfo(@"Resources/fireplace.mp4");
-            var fileOutput = new FileInfo(@"fireplace_output.webm");
+            var fileInput = new FileInfo(fireplace_mp4);
+            var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "fireplace_output.webm"));
             reencode(fileInput, fileOutput, VideoCodec.VP8);
         }
 
         [Test]
         public void reencode_vp9()
         {
-            var fileInput = new FileInfo(@"Resources/fireplace.mp4");
-            var fileOutput = new FileInfo(@"fireplace_output.webm");
+            var fileInput = new FileInfo(fireplace_mp4);
+            var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "fireplace_output.webm"));
             reencode(fileInput, fileOutput, VideoCodec.VP9);
         }
 
         [Test]
         public void reencode_ogg()
         {
-            var fileInput = new FileInfo(@"Resources/fireplace.mp4");
-            var fileOutput = new FileInfo(@"fireplace_output.ogg");
+            var fileInput = new FileInfo(fireplace_mp4);
+            var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "fireplace_output.ogg"));
             reencode(fileInput, fileOutput, VideoCodec.Theora);
         }
 
         [Test]
         public void reencode_ogm()
         {
-            var fileInput = new FileInfo(@"Resources/fireplace.mp4");
-            var fileOutput = new FileInfo(@"fireplace_output.ogm");
+            var fileInput = new FileInfo(fireplace_mp4);
+            var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, @"fireplace_output.ogm"));
             reencode(fileInput, fileOutput, VideoCodec.Theora);
         }
 
         [Test]
         public void reencode_h264_mp4()
         {
-            var fileInput = new FileInfo(@"Resources/fireplace.mp4");
-            var fileOutput = new FileInfo(@"fireplace_output.mp4");
+            var fileInput = new FileInfo(fireplace_mp4);
+            var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, @"fireplace_output.mp4"));
             reencode(fileInput, fileOutput, VideoCodec.H264);
         }
 
         [Test]
         public void reencode_h264()
         {
-            var fileInput = new FileInfo(@"Resources/fireplace.mp4");
-            var fileOutput = new FileInfo(@"fireplace_output_h264.avi");
+            var fileInput = new FileInfo(fireplace_mp4);
+            var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, @"fireplace_output_h264.avi"));
             reencode(fileInput, fileOutput, VideoCodec.H264);
         }
 
@@ -170,7 +173,7 @@ namespace Accord.Tests.Video
         {
             int width = 800;
             int height = 600;
-            string path = Path.GetFullPath("output2.avi");
+            string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, "output2.avi"));
             int videoBitRate = 1200 * 1000;
 
             {

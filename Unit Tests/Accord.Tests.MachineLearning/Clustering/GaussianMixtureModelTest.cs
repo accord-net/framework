@@ -380,7 +380,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [Test, Ignore]
+        [Test, Ignore("Intensive, random")]
         public void LargeSampleTest()
         {
             Accord.Math.Tools.SetupGenerator(0);

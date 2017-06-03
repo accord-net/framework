@@ -1003,7 +1003,6 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void new_method_null_test()
         {
             double[][] inputs =
@@ -1017,7 +1016,7 @@ namespace Accord.Tests.MachineLearning
             int[] or = { 0, 0, 0, +1 };
 
             var smo = new SequentialMinimalOptimization<Gaussian>();
-            smo.Learn(inputs, or);
+            Assert.Throws<ArgumentException>(() => smo.Learn(inputs, or));
         }
 
         [Test]

@@ -28,6 +28,7 @@ namespace Accord.Tests.Statistics
     using NUnit.Framework;
     using System;
     using System.Data;
+    using System.IO;
 
     [TestFixture]
     public class CodificationFilterTest
@@ -148,7 +149,7 @@ namespace Accord.Tests.Statistics
         [Category("Office")]
         public void ApplyTest4()
         {
-            string path = @"Resources\intrusion.xls";
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "intrusion.xls");
 
             ExcelReader db = new ExcelReader(path, false, true);
 

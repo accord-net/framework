@@ -35,7 +35,7 @@ namespace Accord.Tests.IO
         [Category("Office")]
         public void TestExcel8_Data1()
         {
-            string path = Path.Combine("Resources", "excel", "data1.xls");
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "excel", "data1.xls");
 
             ExcelReader withHeader = new ExcelReader(path, true);
             ExcelReader sansHeader = new ExcelReader(path, false);
@@ -48,7 +48,7 @@ namespace Accord.Tests.IO
         [Category("Office")]
         public void TestExcel12_Data1()
         {
-            string path = Path.Combine("Resources", "excel", "data1.xlsx");
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "excel", "data1.xlsx");
 
             ExcelReader withHeader = new ExcelReader(path, true);
             ExcelReader sansHeader = new ExcelReader(path, false);
@@ -98,7 +98,7 @@ namespace Accord.Tests.IO
         [Category("Office")]
         public void TestExcel8_Data2()
         {
-            string path = Path.Combine("Resources", "excel", "data2.xls");
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "excel", "data2.xls");
 
             ExcelReader withHeader = new ExcelReader(path, true);
             ExcelReader sansHeader = new ExcelReader(path, false);
@@ -111,7 +111,7 @@ namespace Accord.Tests.IO
         [Category("Office")]
         public void TestExcel12_Data2()
         {
-            string path = Path.Combine("Resources", "excel", "data2.xlsx");
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "excel", "data2.xlsx");
 
             ExcelReader withHeader = new ExcelReader(path, true);
             ExcelReader sansHeader = new ExcelReader(path, false);
@@ -159,7 +159,7 @@ namespace Accord.Tests.IO
         [Category("Office")]
         public void TestExcel8_Data3()
         {
-            string path = Path.Combine("Resources", "excel", "data3.xls");
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "excel", "data3.xls");
 
             ExcelReader withHeader = new ExcelReader(path, true);
             ExcelReader sansHeader = new ExcelReader(path, false);
@@ -172,7 +172,7 @@ namespace Accord.Tests.IO
         [Category("Office")]
         public void TestExcel12_Data3()
         {
-            string path = Path.Combine("Resources", "excel", "data3.xlsx");
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "excel", "data3.xlsx");
 
             ExcelReader withHeader = new ExcelReader(path, true);
             ExcelReader sansHeader = new ExcelReader(path, false);
@@ -220,7 +220,7 @@ namespace Accord.Tests.IO
         [Category("Office")]
         public void ExcelReaderConstructorTest()
         {
-            string path = Path.Combine("Resources", "sample.xls");
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "sample.xls");
 
             // Create a new reader, opening a given path
             ExcelReader reader = new ExcelReader(path);
@@ -249,7 +249,7 @@ namespace Accord.Tests.IO
         [Category("Office")]
         public void ConstructorExcel8Test()
         {
-            string path = Path.Combine("Resources", "sample.xls");
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "sample.xls");
             ExcelReader target = new ExcelReader(path);
 
             testWorksheets(target);
@@ -266,7 +266,7 @@ namespace Accord.Tests.IO
             // If a 64-bit ACE is installed, this test requires a 64-bit process to run correctly.
             // You also need to configure the test runner to use x64 instead of x86:
             // https://msdn.microsoft.com/library/ee782531(VS.110).aspx
-            string path = Path.Combine("Resources", "sample.xlsx");
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "sample.xlsx");
             ExcelReader target = new ExcelReader(path);
 
             testWorksheets(target);
@@ -334,7 +334,7 @@ namespace Accord.Tests.IO
         [Category("Office")]
         public void SpreadsheetNames_Success()
         {
-            string path = Path.Combine("Resources", "excel", "spreadsheet_names.xls");
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "excel", "spreadsheet_names.xls");
 
             // Create a new reader, opening a given path
             ExcelReader reader = new ExcelReader(path);

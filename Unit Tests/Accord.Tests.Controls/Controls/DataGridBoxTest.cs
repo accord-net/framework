@@ -30,7 +30,7 @@ namespace Accord.Tests.Statistics
     public class DataGridBoxText
     {
 
-        [Test, Ignore]
+        [Test, Ignore("Requires interaction with Windows Forms")]
         public void DataGridBox_ShowTest1()
         {
             double[,] data = Matrix.Identity(5);

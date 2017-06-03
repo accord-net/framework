@@ -41,48 +41,6 @@ namespace Accord.Tests.MachineLearning
     public class RandomForestTest
     {
 
-        [Test, Ignore]
-        public void constructor_test()
-        {
-            var times = ReadCSV(Properties.Resources.times);
-            var features = ReadCSV(Properties.Resources.features);
-            var didSolve = times.Select(list => list.Select(d => d < 5000).ToList()).ToList();
-            var foldCount = 10;
-            for (int i = 0; i < foldCount; i++)
-            {
-                var elementsPerFold = didSolve.Count / foldCount;
-                var y_test = didSolve.Skip(i * elementsPerFold).Take(elementsPerFold);
-                var y_train = didSolve.Except(y_test).ToList();
-                var x_test = features.Skip(i * elementsPerFold).Take(elementsPerFold);
-                var x_train = features.Except(x_test);
-
-                var allSolverPredictions = new List<bool[]>();
-                for (int j = 0; j < y_train.First().Count; j++)
-                {
-                    var y_train_current_solver = y_train.Select(list => list.Skip(j).First()).Select(b => b ? 1 : 0);
-                    var randomForestLearning = new RandomForestLearning()
-                    {
-                        Trees = 10
-                    };
-                    var currentSolverPredictions = new List<bool>();
-
-                    var randomForest = randomForestLearning.Learn(x_train.Select(list => list.ToArray()).ToArray(),
-                        y_train_current_solver.ToArray());
-
-                    foreach (var test_instance in x_test)
-                    {
-                        var compute = randomForest.Compute(test_instance.ToArray());
-                        currentSolverPredictions.Add(compute != 0);
-                    }
-                    allSolverPredictions.Add(currentSolverPredictions.ToArray());
-                }
-
-                Assert.AreEqual(allSolverPredictions.Count, 29);
-                foreach (var p in allSolverPredictions)
-                    Assert.AreEqual(p.Length, 424);
-            }
-        }
-
         private static List<List<double>> ReadCSV(string text)
         {
             CsvReader reader = CsvReader.FromText(text, hasHeaders: true);

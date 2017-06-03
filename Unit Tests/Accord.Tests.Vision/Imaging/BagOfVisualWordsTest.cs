@@ -453,7 +453,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(error, 0);
         }
 
-        [Test, Ignore]
+        [Test, Ignore("Haralick does not extract good features in this dataset")]
         public void custom_feature_test_haralick()
         {
             #region doc_feature_haralick
@@ -759,7 +759,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [Test, Ignore]
+        [Test, Ignore("Test writing has not been finished")]
         public void LargeTest()
         {
             // Requires data from the National Data Science bowl
