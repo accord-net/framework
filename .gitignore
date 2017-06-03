@@ -36,3 +36,5 @@ obj
 /config.log
 *.m4
 /accord.pc
+
+html
