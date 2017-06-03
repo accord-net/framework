@@ -25,4 +25,8 @@
     <Folder Include="Properties\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Sources\Accord.Core\Accord.Core (NETStandard).csproj" />
+  </ItemGroup>
+
 </Project>

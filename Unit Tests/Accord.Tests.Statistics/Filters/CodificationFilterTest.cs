@@ -145,6 +145,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("elder", labelc);
         }
 
+#if !NETSTANDARD2_0
         [Test]
         [Category("Office")]
         public void ApplyTest4()
@@ -166,6 +167,7 @@ namespace Accord.Tests.Statistics
 
             Assert.IsTrue(result.Rows.Count > 0);
         }
+#endif
 
         /// <summary>
         ///   Testing Codification.Translate(string, string)

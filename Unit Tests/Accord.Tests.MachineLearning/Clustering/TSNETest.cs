@@ -63,11 +63,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [Test,
-#if !DEBUG
-            Ignore
-#endif
-        ]
+        [Test, Ignore("Test was not finished being written")]
         public void learn_test()
         {
             #region doc_learn

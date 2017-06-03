@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk"> 
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <AssemblyName>Accord.Statistics</AssemblyName>
@@ -8,9 +8,9 @@
   <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
 
 
-<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
-	<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
@@ -18,11 +18,11 @@
     <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
 
-  
+
   <ItemGroup>
     <ProjectReference Include="..\Accord.Core\Accord.Core (NETStandard).csproj" />
     <ProjectReference Include="..\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
     <ProjectReference Include="..\Accord.Math\Accord.Math (NETStandard).csproj" />
   </ItemGroup>
-  
+
 </Project>

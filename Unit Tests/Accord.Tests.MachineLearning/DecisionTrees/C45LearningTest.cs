@@ -571,7 +571,7 @@ Iris-virginica =: (petal length > 2.45) && (petal width > 1.75) && (sepal length
             Assert.AreEqual(expected, ruleText);
         }
 
-        [Test, Timeout(30 * 1000)]
+        [Test]
         public void iris_new_method_create_tree()
         {
             string[][] text = Resources.iris_data.Split(new[] { "\r\n" },
