@@ -267,7 +267,7 @@ namespace Accord.MachineLearning
         ///   
         public double[] Scores(TInput input, ref int[] decision, double[] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             var mask = new bool[NumberOfOutputs];
             Scores(input, ref mask, result);
             Vector.KHot<int>(mask, decision);
@@ -287,7 +287,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[] Scores(TInput input, ref double[] decision, double[] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             var mask = new bool[NumberOfOutputs];
             Scores(input, ref mask, result);
             Vector.KHot<double>(mask, decision);
@@ -358,7 +358,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] Scores(TInput[] input, ref bool[][] decision, double[][] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             for (int i = 0; i < input.Length; i++)
                 Scores(input[i], ref decision[i], result[i]);
             return result;
@@ -377,7 +377,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] Scores(TInput[] input, ref int[][] decision, double[][] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             var mask = new bool[NumberOfOutputs];
             for (int i = 0; i < input.Length; i++)
             {
@@ -400,7 +400,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] Scores(TInput[] input, ref double[][] decision, double[][] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             var mask = new bool[NumberOfOutputs];
             for (int i = 0; i < input.Length; i++)
             {
@@ -512,7 +512,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] Scores(TInput[] input, ref int[] decision, double[][] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             for (int i = 0; i < input.Length; i++)
                 Scores(input[i], out decision[i], result[i]);
             return result;
@@ -615,7 +615,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] Scores(TInput[] input, ref double[] decision, double[][] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             for (int i = 0; i < input.Length; i++)
                 Scores(input[i], out decision[i], result[i]);
             return result;

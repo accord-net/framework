@@ -83,7 +83,6 @@ namespace Accord.Statistics.Models.Regression
         {
             this.linear = new MultipleLinearRegression();
             this.linkFunction = function;
-            this.NumberOfOutputs = 1;
             this.NumberOfInputs = 1;
         }
 
@@ -281,10 +280,10 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <returns>The output value.</returns>
         /// 
-        [Obsolete("Please use the Score method instead.")]
+        [Obsolete("Please use the Probability method instead.")]
         public double Compute(double[] input)
         {
-            return Score(input);
+            return Probability(input);
         }
 
         /// <summary>
@@ -295,10 +294,10 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <returns>The array of output values.</returns>
         /// 
-        [Obsolete("Please use the Score method instead.")]
+        [Obsolete("Please use the Probability method instead.")]
         public double[] Compute(double[][] input)
         {
-            return Score(input);
+            return Probability(input);
         }
 
 
@@ -344,7 +343,7 @@ namespace Accord.Statistics.Models.Regression
 
             for (int i = 0; i < input.Length; i++)
             {
-                double actualOutput = Score(input[i]);
+                double actualOutput = Probability(input[i]);
                 double expectedOutput = output[i];
 
                 if (actualOutput != 0)
@@ -379,7 +378,7 @@ namespace Accord.Statistics.Models.Regression
             for (int i = 0; i < input.Length; i++)
             {
                 double w = weights[i];
-                double actualOutput = Score(input[i]);
+                double actualOutput = Probability(input[i]);
                 double expectedOutput = output[i];
 
                 if (actualOutput != 0)
@@ -685,8 +684,7 @@ namespace Accord.Statistics.Models.Regression
         /// given <see cref="LogisticRegression"/>.</returns>
         /// 
         [Obsolete("Simply cast the logistic regression to a GeneralizedLinearRegression instead, using Clone() if necessary.")]
-        public static GeneralizedLinearRegression FromLogisticRegression(
-            LogisticRegression regression, bool makeCopy)
+        public static GeneralizedLinearRegression FromLogisticRegression(LogisticRegression regression, bool makeCopy)
         {
 #pragma warning disable 612, 618
             if (makeCopy)
@@ -706,60 +704,54 @@ namespace Accord.Statistics.Models.Regression
 
 
         /// <summary>
-        /// Predicts a class label vector for the given input vector, returning the
-        /// log-likelihood that the input vector belongs to its predicted class.
-        /// </summary>
-        /// <param name="input">The input vector.</param>
-        /// <param name="decision">The class label predicted by the classifier.</param>
-        /// <returns></returns>
-        public override double LogLikelihood(double[] input, out bool decision)
-        {
-            double sum = linear.Transform(input);
-            double z = linkFunction.Inverse(sum);
-            decision = Classes.Decide(z - 0.5);
-            return Math.Log(z);
-        }
-
-        /// <summary>
-        /// Predicts a class label vector for the given input vector, returning the
-        /// log-likelihood that the input vector belongs to its predicted class.
-        /// </summary>
-        /// <param name="input">The input vector.</param>
-        /// <returns></returns>
-        public override double LogLikelihood(double[] input)
-        {
-            double sum = linear.Transform(input);
-            return linkFunction.Log(sum);
-        }
-
-        /// <summary>
         /// Computes a numerical score measuring the association between
-        /// the given <paramref name="input" /> vector and its most strongly
-        /// associated class (as predicted by the classifier).
+        /// the given <paramref name="input" /> vector and each class.
         /// </summary>
         /// <param name="input">The input vector.</param>
-        /// <returns></returns>
-        public override double Score(double[] input)
+        /// <param name="result">An array where the result will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public override double[] Score(double[][] input, double[] result)
         {
-            double sum = linear.Transform(input);
-            return linkFunction.Inverse(sum);
+            linear.Transform(input, result: result);
+            //for (int i = 0; i < input.Length; i++)
+            //    result[i] = linkFunction.Inverse(result[i]);
+            //return result.Subtract(0.5, result: result);
+            return result;
         }
 
         /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// Predicts a class label vector for the given input vectors, returning the
+        /// log-likelihood that the input vector belongs to its predicted class.
         /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
-        public override bool Decide(double[] input)
+        /// <param name="input">The input vector.</param>
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public override double[] LogLikelihood(double[][] input, double[] result)
         {
-            double sum = linear.Transform(input);
-            double z = linkFunction.Inverse(sum);
-            return Classes.Decide(z - 0.5);
+            linear.Transform(input, result: result);
+            for (int i = 0; i < input.Length; i++)
+                result[i] = linkFunction.Inverse(result[i]);
+            return Elementwise.Log(result, result: result);
         }
+
+        /// <summary>
+        /// Predicts a class label for the given input vector, returning the
+        /// probability that the input vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="result">An array where the probabilities will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public override double[] Probability(double[][] input, double[] result)
+        {
+            linear.Transform(input, result: result);
+            for (int i = 0; i < input.Length; i++)
+                result[i] = linkFunction.Inverse(result[i]);
+            return result;
+        }
+
 
         [OnDeserialized]
         private void SetValuesOnDeserialized(StreamingContext context)

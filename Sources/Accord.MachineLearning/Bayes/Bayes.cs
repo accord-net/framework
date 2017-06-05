@@ -129,6 +129,7 @@ namespace Accord.MachineLearning.Bayes
                 throw new ArgumentOutOfRangeException("inputs");
 
             this.NumberOfOutputs = classes;
+            this.NumberOfClasses = classes;
             this.NumberOfInputs = inputs;
 
             this.distributions = new TDistribution[classes];

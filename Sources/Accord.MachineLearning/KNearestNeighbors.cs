@@ -156,6 +156,7 @@ namespace Accord.MachineLearning
             knn.Outputs = outputs;
             knn.NumberOfInputs = inputs.Columns();
             knn.NumberOfOutputs = outputs.DistinctCount();
+            knn.NumberOfClasses = knn.NumberOfOutputs;
             knn.tree = tree;
 
             return knn;
@@ -176,10 +177,12 @@ namespace Accord.MachineLearning
         {
             CheckArgs(K, x, y, Distance, weights);
 
+            this.NumberOfInputs = GetNumberOfInputs(x);
             this.Inputs = x;
             this.Outputs = y;
 
             this.NumberOfOutputs = y.DistinctCount();
+            this.NumberOfClasses = this.NumberOfOutputs;
 
             this.tree = KDTree.FromData(points: x, values: y, distance: Distance);
 

@@ -60,6 +60,9 @@ namespace Accord.Tests.MachineLearning
             int[] labels = output.Apply(x => x > 0 ? +1 : -1);
 
             var svm = new SupportVectorMachine(inputs: 2);
+            Assert.AreEqual(2, svm.NumberOfInputs);
+            Assert.AreEqual(1, svm.NumberOfOutputs);
+            Assert.AreEqual(2, svm.NumberOfClasses);
             var teacher = new ProbabilisticCoordinateDescent(svm, input, labels);
 
             teacher.Tolerance = 1e-10;
@@ -228,7 +231,7 @@ namespace Accord.Tests.MachineLearning
             bool[] predicted = regression.Decide(input);
 
             // Compute log-likelihood scores for the outputs
-            double[] scores = regression.LogLikelihood(input);
+            double[] scores = regression.Score(input);
 
             // Compute odds-ratio as in the LogisticRegression example
             double ageOdds = regression.GetOddsRatio(1);   // 1.0208597029158772
@@ -238,9 +241,15 @@ namespace Accord.Tests.MachineLearning
             double error = new ZeroOneLoss(output).Loss(predicted);
             #endregion
 
+            Assert.AreEqual(2, regression.NumberOfInputs);
+            Assert.AreEqual(1, regression.NumberOfOutputs); 
+            Assert.AreEqual(2, regression.NumberOfClasses); 
+
             var rsvm = (SupportVectorMachine)regression;
             Assert.AreEqual(2, rsvm.NumberOfInputs);
-            Assert.AreEqual(2, rsvm.NumberOfOutputs); // TODO: Maybe should 1 rather than 2
+            Assert.AreEqual(1, rsvm.NumberOfOutputs);
+            Assert.AreEqual(2, rsvm.NumberOfClasses);
+
             double[] svmpred = svm.Score(input);
             Assert.IsTrue(scores.IsEqual(svmpred, 1e-10));
 
@@ -306,7 +315,7 @@ namespace Accord.Tests.MachineLearning
             bool[] predicted = regression.Decide(input.ToDense(regression.NumberOfInputs));
 
             // Compute log-likelihood scores for the outputs
-            double[] scores = regression.LogLikelihood(input.ToDense(regression.NumberOfInputs));
+            double[] scores = regression.Score(input.ToDense(regression.NumberOfInputs));
 
             // Compute odds-ratio as in the LogisticRegression example
             double ageOdds = regression.GetOddsRatio(1);   // 1.0208597029158772
@@ -318,7 +327,8 @@ namespace Accord.Tests.MachineLearning
 
             var rsvm = (SupportVectorMachine)regression;
             Assert.AreEqual(2, rsvm.NumberOfInputs);
-            Assert.AreEqual(2, rsvm.NumberOfOutputs); // TODO: Maybe should 1 rather than 2
+            Assert.AreEqual(1, rsvm.NumberOfOutputs); 
+            Assert.AreEqual(2, rsvm.NumberOfClasses); 
             double[] svmpred = svm.Score(input);
             Assert.IsTrue(scores.IsEqual(svmpred, 1e-10));
 

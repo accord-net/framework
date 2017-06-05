@@ -70,7 +70,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
-        public void logistic_regression_test()
+        public void logistic_regression_test2()
         {
             Accord.Math.Random.Generator.Seed = 0;
 
@@ -123,7 +123,7 @@ namespace Accord.Tests.MachineLearning
             bool[] predicted = regression.Decide(input);
 
             // Compute probability scores for the outputs
-            double[] scores = regression.Score(input);
+            double[] scores = regression.Probability(input);
 
             // Compute odds-ratio as in the LogisticRegression example
             double ageOdds = regression.GetOddsRatio(1);   // 1.0430443799578411
@@ -135,7 +135,8 @@ namespace Accord.Tests.MachineLearning
 
             var rsvm = (SupportVectorMachine)regression;
             Assert.AreEqual(2, rsvm.NumberOfInputs);
-            Assert.AreEqual(2, rsvm.NumberOfOutputs);
+            Assert.AreEqual(1, rsvm.NumberOfOutputs);
+            Assert.AreEqual(2, rsvm.NumberOfClasses);
             double[] svmpred = svm.Probability(input);
             Assert.IsTrue(scores.IsEqual(svmpred, 1e-10));
 
@@ -203,7 +204,7 @@ namespace Accord.Tests.MachineLearning
             bool[] predicted = regression.Decide(input.ToDense(regression.NumberOfInputs));
 
             // Compute probability scores for the outputs
-            double[] scores = regression.Score(input.ToDense(regression.NumberOfInputs));
+            double[] scores = regression.Probability(input.ToDense(regression.NumberOfInputs));
 
             // Compute odds-ratio as in the LogisticRegression example
             double ageOdds = regression.GetOddsRatio(1);   // 1.0430443799578411
@@ -215,7 +216,8 @@ namespace Accord.Tests.MachineLearning
 
             var rsvm = (SupportVectorMachine)regression;
             Assert.AreEqual(2, rsvm.NumberOfInputs);
-            Assert.AreEqual(2, rsvm.NumberOfOutputs);
+            Assert.AreEqual(1, rsvm.NumberOfOutputs);
+            Assert.AreEqual(2, rsvm.NumberOfClasses);
             double[] svmpred = svm.Probability(input);
             Assert.IsTrue(scores.IsEqual(svmpred, 1e-10));
 

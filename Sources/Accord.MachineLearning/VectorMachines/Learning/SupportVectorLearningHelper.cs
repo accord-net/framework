@@ -76,7 +76,11 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             var first = x[0] as IList;
             if (first == null)
+            {
+                if (x[0] is int || x[0] is double)
+                    return 1;
                 return 0;
+            }
 
             int length = first.Count;
 

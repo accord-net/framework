@@ -90,6 +90,7 @@ namespace Accord.Statistics.Models.Regression
                 throw new ArgumentOutOfRangeException("categories");
 
             this.NumberOfOutputs = categories;
+            this.NumberOfClasses = categories;
             this.NumberOfInputs = inputs;
             this.coefficients = new double[categories - 1][];
             this.standardErrors = new double[categories - 1][];

@@ -96,7 +96,6 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void BootstrapConstructorTest3()
         {
-
             Accord.Math.Tools.SetupGenerator(0);
 
             // This is a sample code on how to use 0.632 Bootstrap
@@ -154,6 +153,8 @@ namespace Accord.Tests.MachineLearning
 
                 // Create a Kernel Support Vector Machine to operate on the set
                 var svm = new KernelSupportVectorMachine(new Polynomial(2), 2);
+                Assert.AreEqual(2, svm.NumberOfClasses);
+                Assert.AreEqual(1, svm.NumberOfOutputs);
 
                 // Create a training algorithm and learn the training data
                 var smo = new SequentialMinimalOptimization(svm, trainingInputs, trainingOutputs);

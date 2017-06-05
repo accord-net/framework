@@ -245,7 +245,8 @@ namespace Accord.Tests.MachineLearning
             double error = new ZeroOneLoss(outputs).Loss(predicted);
 
             Assert.AreEqual(3, svm.NumberOfInputs);
-            Assert.AreEqual(2, svm.NumberOfOutputs);
+            Assert.AreEqual(1, svm.NumberOfOutputs);
+            Assert.AreEqual(2, svm.NumberOfClasses);
 
             Assert.AreEqual(1, svm.Weights.Length);
             Assert.AreEqual(1, svm.SupportVectors.Length);

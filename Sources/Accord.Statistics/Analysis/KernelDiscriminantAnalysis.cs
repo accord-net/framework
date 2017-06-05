@@ -327,6 +327,7 @@ namespace Accord.Statistics.Analysis
             base.ScatterBetweenClass = Sb.ToJagged();
             base.ScatterWithinClass = Sw.ToJagged();
             this.NumberOfOutputs = eigs.Columns();
+            this.NumberOfClasses = Classes.Count;
 
             // Project into the kernel discriminant space
             this.Result = Matrix.Dot(K, eigs);
@@ -353,6 +354,8 @@ namespace Accord.Statistics.Analysis
             {
                 NumberOfInputs = NumberOfInputs,
                 NumberOfOutputs = NumberOfClasses,
+                NumberOfClasses = NumberOfClasses,
+
                 First = new MultivariateKernelRegression()
                 {
                     Weights = eig,
@@ -366,6 +369,7 @@ namespace Accord.Statistics.Analysis
                     Means = projectedMeans,
                     NumberOfInputs = NumberOfOutputs,
                     NumberOfOutputs = NumberOfClasses,
+                    NumberOfClasses = NumberOfClasses,
                 }
             };
         }

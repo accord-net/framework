@@ -27,6 +27,58 @@ namespace Accord.Math.Optimization.Losses
     using System;
 
     /// <summary>
+    ///   Accuracy loss, also known as zero-one-loss. This class
+    ///   provides exactly the same functionality as <see cref="ZeroOneLoss"/>
+    ///   but has a more intuitive name. Both classes are interchangeable.
+    /// </summary>
+    /// 
+    [Serializable]
+    public class AccuracyLoss : ZeroOneLoss
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccuracyLoss"/> class.
+        /// </summary>
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        public AccuracyLoss(double[][] expected)
+            : base(expected)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccuracyLoss"/> class.
+        /// </summary>
+        /// 
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
+        public AccuracyLoss(double[] expected)
+            : base(expected)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccuracyLoss"/> class.
+        /// </summary>
+        /// 
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
+        public AccuracyLoss(int[] expected)
+            : base(expected)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ZeroOneLoss"/> class.
+        /// </summary>
+        /// 
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
+        public AccuracyLoss(bool[] expected)
+            : base(expected)
+        {
+        }
+    }
+
+    /// <summary>
     ///   Accuracy loss, also known as zero-one-loss.
     /// </summary>
     /// 

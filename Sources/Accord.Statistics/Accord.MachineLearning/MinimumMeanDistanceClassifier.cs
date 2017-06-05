@@ -206,6 +206,7 @@ namespace Accord.MachineLearning
         {
             NumberOfInputs = x.Columns();
             NumberOfOutputs = y.Max() + 1;
+            NumberOfClasses = y.Max() + 1;
             means = Jagged.Zeros(NumberOfOutputs, NumberOfInputs);
 
             int[] counts = new int[NumberOfOutputs];

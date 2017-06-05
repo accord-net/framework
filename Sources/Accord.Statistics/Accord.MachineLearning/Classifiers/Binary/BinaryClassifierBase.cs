@@ -36,6 +36,14 @@ namespace Accord.MachineLearning
         IBinaryClassifier<TInput>
     {
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BinaryClassifierBase{TInput}"/> class.
+        /// </summary>
+        public BinaryClassifierBase()
+        {
+            this.NumberOfOutputs = 1;
+            this.NumberOfClasses = 2;
+        }
 
         // Input
 

@@ -346,7 +346,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
                     for (int j = 0; j < x.Length; j++)
                     {
                         // 1. Compute local gradient estimate
-                        double actual = regression.Score(x[j]);
+                        double z = regression.Linear.Transform(x[j]);
+                        double actual = regression.Link.Inverse(z);
                         double error = y[j] - actual;
 
                         gradient[0] = error;
@@ -366,7 +367,9 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
                     for (int i = 0; i < x.Length; i++)
                     {
-                        double actual = regression.Score(x[i]);
+                        // 1. Compute local gradient estimate
+                        double z = regression.Linear.Transform(x[i]);
+                        double actual = regression.Link.Inverse(z);
                         double error = y[i] - actual;
 
                         gradient[0] += error;

@@ -155,10 +155,10 @@ namespace Accord.MachineLearning.VectorMachines
         public SupportVectorMachine(int inputs, TKernel kernel)
         {
             this.NumberOfInputs = inputs;
-            this.NumberOfOutputs = 2;
+            this.NumberOfOutputs = 1;
+            this.NumberOfClasses = 2;
             this.Kernel = kernel;
         }
-
 
         /// <summary>
         /// Computes a class-label decision for a given <paramref name="input" />.
@@ -179,45 +179,47 @@ namespace Accord.MachineLearning.VectorMachines
 
         /// <summary>
         /// Computes a numerical score measuring the association between
-        /// the given <paramref name="input" /> vector and its most strongly
-        /// associated class (as predicted by the classifier).
+        /// the given <paramref name="input" /> vector and each class.
         /// </summary>
         /// <param name="input">The input vector.</param>
-        public override double Score(TInput input)
+        /// <param name="result">An array where the result will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public override double[] Score(TInput[] input, double[] result)
         {
-            double sum = threshold;
-            for (int j = 0; j < supportVectors.Length; j++)
-                sum += weights[j] * kernel.Function(supportVectors[j], input);
-            return sum;
+            for (int i = 0; i < input.Length; i++)
+            {
+                double sum = threshold;
+                for (int j = 0; j < supportVectors.Length; j++)
+                    sum += weights[j] * kernel.Function(supportVectors[j], input[i]);
+                result[i] = sum;
+            }
+
+            return result;
         }
 
         /// <summary>
-        /// Predicts a class label vector for the given input vector, returning the
+        /// Predicts a class label vector for the given input vectors, returning the
         /// log-likelihood that the input vector belongs to its predicted class.
         /// </summary>
         /// <param name="input">The input vector.</param>
-        public override double LogLikelihood(TInput input)
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public override double[] LogLikelihood(TInput[] input, double[] result)
         {
-            double sum = threshold;
-            for (int j = 0; j < supportVectors.Length; j++)
-                sum += weights[j] * kernel.Function(supportVectors[j], input);
-            return -Special.Log1pexp(-sum);
+            for (int i = 0; i < input.Length; i++)
+            {
+                double sum = threshold;
+                for (int j = 0; j < supportVectors.Length; j++)
+                    sum += weights[j] * kernel.Function(supportVectors[j], input[i]);
+                result[i] = -Special.Log1pexp(-sum);
+            }
+
+            return result;
         }
 
-        /// <summary>
-        /// Predicts a class label vector for the given input vector, returning the
-        /// log-likelihood that the input vector belongs to its predicted class.
-        /// </summary>
-        /// <param name="input">The input vector.</param>
-        /// <param name="decision">The class label predicted by the classifier.</param>
-        public override double LogLikelihood(TInput input, out bool decision)
-        {
-            double sum = threshold;
-            for (int j = 0; j < supportVectors.Length; j++)
-                sum += weights[j] * kernel.Function(supportVectors[j], input);
-            decision = Classes.Decide(sum);
-            return -Special.Log1pexp(-sum);
-        }
+
 
         /// <summary>
         ///   If this machine has a linear kernel, compresses all

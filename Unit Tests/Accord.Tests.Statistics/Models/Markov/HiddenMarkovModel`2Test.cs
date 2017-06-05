@@ -353,37 +353,6 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-11.206778379787982, logLikelihood);
         }
 
-        //[Test]
-        //public void InitializeTest1()
-        //{
-        //    double[][] sequences = new double[][] 
-        //    {
-        //        new double[] { 0,1,1,1,1,0,1,1,1,1 },
-        //        new double[] { 0,1,1,1,0,1,1,1,1,1 },
-        //        new double[] { 0,1,1,1,1,1,1,1,1,1 },
-        //        new double[] { 0,1,1,1,1,1         },
-        //        new double[] { 0,1,1,1,1,1,1       },
-        //        new double[] { 0,1,1,1,1,1,1,1,1,1 },
-        //        new double[] { 0,1,1,1,1,1,1,1,1,1 },
-        //    };
-
-        //    // Creates a new Hidden Markov Model with 3 states
-        //    var hmm = CreateDiscrete(3, 2);
-
-        //    // Try to fit the model to the data until the difference in
-        //    //  the average log-likelihood changes only by as little as 0.0001
-        //    var teacher = new BaumWelchLearning<GeneralDiscreteDistribution, double>()
-        //    {
-        //        Topology = new Ergodic(3),
-        //        Tolerance = 0.0001
-        //    };
-
-        //    var target = teacher.CreateModel(sequences);
-
-        //    Assert.AreEqual(hmm.States, target.States);
-        //    Assert.IsTrue(hmm.LogTransitions.IsEqual(target.LogTransitions));
-        //}
-
         [Test]
         public void LearnTest3()
         {

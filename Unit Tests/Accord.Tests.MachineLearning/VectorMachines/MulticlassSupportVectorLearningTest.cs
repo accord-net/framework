@@ -70,6 +70,9 @@ namespace Accord.Tests.MachineLearning
             // Create a new Multi-class Support Vector Machine for one input,
             //  using the linear kernel and four disjoint classes.
             var machine = new MulticlassSupportVectorMachine(1, kernel, 4);
+            Assert.AreEqual(1, machine.NumberOfInputs);
+            Assert.AreEqual(4, machine.NumberOfOutputs);
+            Assert.AreEqual(4, machine.NumberOfClasses);
 
             // Create the Multi-class learning algorithm for the machine
             var teacher = new MulticlassSupportVectorLearning(machine, inputs, outputs);
@@ -82,6 +85,9 @@ namespace Accord.Tests.MachineLearning
             // Run the learning algorithm
             double error = teacher.Run();
 
+            Assert.AreEqual(1, machine.NumberOfInputs);
+            Assert.AreEqual(4, machine.NumberOfOutputs);
+            Assert.AreEqual(4, machine.NumberOfClasses);
             Assert.AreEqual(0, error);
             Assert.AreEqual(0, machine.Compute(inputs[0]));
             Assert.AreEqual(3, machine.Compute(inputs[1]));
@@ -138,6 +144,10 @@ namespace Accord.Tests.MachineLearning
             double error = new ZeroOneLoss(outputs).Loss(predicted);
             #endregion
 
+            Assert.AreEqual(3, ovo.NumberOfInputs);
+            Assert.AreEqual(4, ovo.NumberOfOutputs);
+            Assert.AreEqual(4, ovo.NumberOfClasses);
+
             Assert.AreEqual(0, error);
             Assert.IsTrue(predicted.IsEqual(outputs));
             Assert.IsTrue(ovo.Scores(inputs[0]).IsEqual(new double[] { 0.62, -0.25, -0.59, -0.62 }, 1e-2));
@@ -193,6 +203,10 @@ namespace Accord.Tests.MachineLearning
             double error = new ZeroOneLoss(outputs).Loss(predicted);
             #endregion
 
+            Assert.AreEqual(3, ovo.NumberOfInputs);
+            Assert.AreEqual(4, ovo.NumberOfOutputs);
+            Assert.AreEqual(4, ovo.NumberOfClasses);
+
             Assert.AreEqual(0, error);
             Assert.IsTrue(predicted.IsEqual(outputs));
             var s0 = ovo.Scores(inputs[0]);
@@ -235,6 +249,10 @@ namespace Accord.Tests.MachineLearning
 
             IKernel kernel = new Linear();
             var machine = new MulticlassSupportVectorMachine(4, kernel, 3);
+            Assert.AreEqual(4, machine.NumberOfInputs);
+            Assert.AreEqual(3, machine.NumberOfOutputs);
+            Assert.AreEqual(3, machine.NumberOfClasses);
+
             var target = new MulticlassSupportVectorLearning(machine, inputs, outputs);
 
             target.Algorithm = (svm, classInputs, classOutputs, i, j) =>
@@ -317,6 +335,10 @@ namespace Accord.Tests.MachineLearning
                 int imax; Matrix.Max(answersWeights, out imax);
                 Assert.AreEqual(answer, imax);
             }
+
+            Assert.AreEqual(5, machine.NumberOfInputs);
+            Assert.AreEqual(4, machine.NumberOfOutputs);
+            Assert.AreEqual(4, machine.NumberOfClasses);
         }
 
         [Test]
@@ -440,6 +462,10 @@ namespace Accord.Tests.MachineLearning
             // Compute classification error
             double error = new ZeroOneLoss(outputs).Loss(predicted);
             #endregion
+
+            Assert.AreEqual(4, machine.NumberOfInputs);
+            Assert.AreEqual(3, machine.NumberOfOutputs);
+            Assert.AreEqual(3, machine.NumberOfClasses);
 
             Assert.AreEqual(0, error);
             Assert.IsTrue(predicted.IsEqual(outputs));
@@ -836,7 +862,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.5, ((Gaussian)machine[0].Value.Kernel).Gamma);
             Assert.AreEqual(0.5, ((Gaussian)machine[1].Value.Kernel).Gamma);
             Assert.AreEqual(0.5, ((Gaussian)machine[2].Value.Kernel).Gamma);
-            Assert.AreEqual(1.0231652126930515, loss);
+            Assert.AreEqual(1.0231652126930515, loss, 1e-8);
             Assert.IsTrue(predicted.IsEqual(outputs));
             Assert.IsTrue(expectedScores.IsEqual(scores, 1e-10));
             Assert.IsTrue(expectedLogL.IsEqual(logl, 1e-10));
@@ -1014,7 +1040,7 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(4, expected.NumberOfInputs);
             Assert.AreEqual(3, expected.NumberOfOutputs);
-            Assert.AreEqual(0, machine.NumberOfInputs);
+            Assert.AreEqual(1, machine.NumberOfInputs);
             Assert.AreEqual(3, machine.NumberOfOutputs);
 
             var machines = Enumerable.Zip(machine, expected, (a, b) => Tuple.Create(a.Value, b.Value));
@@ -1024,11 +1050,13 @@ namespace Accord.Tests.MachineLearning
                 var a = pair.Item1;
                 var e = pair.Item2;
 
-                Assert.AreEqual(0, a.NumberOfInputs);
-                Assert.AreEqual(2, a.NumberOfOutputs);
+                Assert.AreEqual(1, a.NumberOfInputs);
+                Assert.AreEqual(2, a.NumberOfClasses);
+                Assert.AreEqual(1, a.NumberOfOutputs);
 
                 Assert.AreEqual(4, e.NumberOfInputs);
-                Assert.AreEqual(2, e.NumberOfOutputs);
+                Assert.AreEqual(2, e.NumberOfClasses);
+                Assert.AreEqual(1, e.NumberOfOutputs);
 
                 Assert.IsTrue(a.Weights.IsEqual(e.Weights));
             }
@@ -1131,7 +1159,7 @@ namespace Accord.Tests.MachineLearning
 
             var cm = new ConfusionMatrix(actual, y);
 
-            Assert.AreEqual(cm.Accuracy, 0.99721059972106, 1e-5);
+            Assert.AreEqual(1.0, cm.Accuracy, 1e-3);
         }
     }
 }

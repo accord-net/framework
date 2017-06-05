@@ -461,7 +461,11 @@ namespace Accord.Tests.MachineLearning
             // Predict cluster labels for each sample
             int[] predicted = clusters.Decide(samples);
 
-#endregion
+            #endregion
+
+            Assert.AreEqual(2, clusters.NumberOfClasses);
+            Assert.AreEqual(2, clusters.NumberOfOutputs);
+            Assert.AreEqual(2, clusters.NumberOfInputs);
 
             Assert.AreEqual(-35.930732550698494, gmm.LogLikelihood, 1e-10);
 
@@ -585,7 +589,7 @@ namespace Accord.Tests.MachineLearning
 
 #endregion
 
-            Assert.AreEqual(-38.935822773153589, gmm.LogLikelihood, 1e-8);
+            Assert.AreEqual(-38.935822773153589, gmm.LogLikelihood, 1e-5);
 
             Assert.AreEqual(2, clusters.Count);
 
