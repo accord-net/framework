@@ -124,6 +124,7 @@ namespace Accord.MachineLearning.DecisionTrees
         {
             this.trees = new DecisionTree[trees];
             this.NumberOfOutputs = classes;
+            this.NumberOfClasses = classes;
             this.ParallelOptions = new ParallelOptions();
         }
 

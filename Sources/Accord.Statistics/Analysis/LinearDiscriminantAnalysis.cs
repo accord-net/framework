@@ -277,6 +277,7 @@ namespace Accord.Statistics.Analysis
             {
                 NumberOfInputs = NumberOfInputs,
                 NumberOfOutputs = NumberOfClasses,
+                NumberOfClasses = NumberOfClasses,
                 First = new MultivariateLinearRegression()
                 {
                     Weights = eig,
@@ -288,6 +289,7 @@ namespace Accord.Statistics.Analysis
                     Means = projectedMeans.Get(null, 0, NumberOfOutputs),
                     NumberOfInputs = NumberOfOutputs,
                     NumberOfOutputs = NumberOfClasses,
+                    NumberOfClasses = NumberOfClasses
                 },
             };
         }

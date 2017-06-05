@@ -246,6 +246,7 @@ namespace Accord.Statistics.Analysis
         public LogisticRegressionAnalysis()
         {
             this.NumberOfOutputs = 1;
+            // this.NumberOfClasses = 2; // TODO: Uncomment this line after changing to LogLikelihoodClassifierBase
         }
 
         private void initialize(double[][] inputs, double[] outputs)

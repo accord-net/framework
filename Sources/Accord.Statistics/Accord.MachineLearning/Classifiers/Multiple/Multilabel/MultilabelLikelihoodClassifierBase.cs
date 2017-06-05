@@ -453,7 +453,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[] LogLikelihoods(TInput input, ref int[] decision, double[] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             var mask = new bool[NumberOfOutputs];
             LogLikelihoods(input, ref mask, result);
             Vector.KHot<int>(mask, decision);
@@ -470,7 +470,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[] LogLikelihoods(TInput input, ref double[] decision, double[] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             var mask = new bool[NumberOfOutputs];
             LogLikelihoods(input, ref mask, result);
             Vector.KHot<double>(mask, decision);
@@ -551,7 +551,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] LogLikelihoods(TInput[] input, ref double[] decision, double[][] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             for (int i = 0; i < input.Length; i++)
                 LogLikelihoods(input[i], out decision[i], result[i]);
             return result;
@@ -582,7 +582,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] LogLikelihoods(TInput[] input, ref bool[][] decision, double[][] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             for (int i = 0; i < input.Length; i++)
                 LogLikelihoods(input[i], ref decision[i], result[i]);
             return result;
@@ -598,7 +598,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] LogLikelihoods(TInput[] input, ref int[][] decision, double[][] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             var mask = new bool[NumberOfOutputs];
             for (int i = 0; i < input.Length; i++)
             {
@@ -618,7 +618,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] LogLikelihoods(TInput[] input, ref double[][] decision, double[][] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             var mask = new bool[NumberOfOutputs];
             for (int i = 0; i < input.Length; i++)
             {
@@ -747,7 +747,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[] Probabilities(TInput input, ref int[] decision, double[] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             var mask = new bool[NumberOfOutputs];
             Probabilities(input, ref mask, result);
             Vector.KHot<int>(mask, decision);
@@ -764,7 +764,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[] Probabilities(TInput input, ref double[] decision, double[] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             var mask = new bool[NumberOfOutputs];
             Probabilities(input, ref mask, result);
             Vector.KHot<double>(mask, decision);
@@ -845,7 +845,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] Probabilities(TInput[] input, ref double[] decision, double[][] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             for (int i = 0; i < input.Length; i++)
                 Probabilities(input[i], out decision[i], result[i]);
             return result;
@@ -876,7 +876,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] Probabilities(TInput[] input, ref bool[][] decision, double[][] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             for (int i = 0; i < input.Length; i++)
                 Probabilities(input[i], ref decision[i], result[i]);
             return result;
@@ -892,7 +892,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] Probabilities(TInput[] input, ref int[][] decision, double[][] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             var mask = new bool[NumberOfOutputs];
             for (int i = 0; i < input.Length; i++)
             {
@@ -912,7 +912,7 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] Probabilities(TInput[] input, ref double[][] decision, double[][] result)
         {
-            decision = create(input, decision);
+            decision = createOrReuse(input, decision);
             var mask = new bool[NumberOfOutputs];
             for (int i = 0; i < input.Length; i++)
             {

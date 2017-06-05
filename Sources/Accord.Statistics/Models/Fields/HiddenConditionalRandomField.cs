@@ -276,6 +276,7 @@ namespace Accord.Statistics.Models.Fields
         {
             this.Function = function;
             this.NumberOfOutputs = function.Outputs;
+            this.NumberOfClasses = function.Outputs;
         }
 
         /// <summary>

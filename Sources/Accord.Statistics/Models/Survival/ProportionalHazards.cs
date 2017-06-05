@@ -537,45 +537,28 @@ namespace Accord.Statistics.Models.Regression
             return Math.Exp(Coefficients[index]);
         }
 
-        /// <summary>
-        /// Computes a class-label decision for a given <paramref name="input" />.
-        /// </summary>
-        /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
-        /// <returns>
-        /// A class-label that best described <paramref name="input" /> according
-        /// to this classifier.
-        /// </returns>
-        public override bool Decide(Tuple<double[], double> input)
-        {
-            return Probability(input) >= 0.5;
-        }
+
+
 
         /// <summary>
-        /// Predicts a class label vector for the given input vector, returning the
+        /// Predicts a class label vector for the given input vectors, returning the
         /// log-likelihood that the input vector belongs to its predicted class.
         /// </summary>
         /// <param name="input">The input vector.</param>
-        /// <param name="decision">The class label predicted by the classifier.</param>
-        public override double LogLikelihood(Tuple<double[], double> input, out bool decision)
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public override double[] LogLikelihood(Tuple<double[], double>[] input, double[] result)
         {
-            var r = LogLikelihood(input);
-            decision = r >= 0.5;
-            return r;
-        }
-
-        /// <summary>
-        /// Predicts a class label vector for the given input vector, returning the
-        /// log-likelihood that the input vector belongs to its predicted class.
-        /// </summary>
-        /// <param name="input">The input vector.</param>
-        public override double LogLikelihood(Tuple<double[], double> input)
-        {
-            double sum = Intercept;
-            for (int i = 0; i < Coefficients.Length; i++)
-                sum += Coefficients[i] * input.Item1[i];
-            double h0 = BaselineHazard.LogCumulativeHazardFunction(input.Item2);
-            return h0 + sum;
+            for (int j = 0; j < input.Length; j++)
+            {
+                double sum = Intercept;
+                for (int i = 0; i < Coefficients.Length; i++)
+                    sum += Coefficients[i] * input[j].Item1[i];
+                double h0 = BaselineHazard.LogCumulativeHazardFunction(input[j].Item2);
+                result[j] = h0 + sum;
+            }
+            return result;
         }
     }
 }

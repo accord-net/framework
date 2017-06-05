@@ -24,7 +24,9 @@ namespace Accord.Tests.Statistics
 {
     using Accord.IO;
     using Accord.Math;
+    using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Analysis;
+    using Accord.Statistics.Links;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
     using Accord.Tests.Statistics.Properties;
@@ -110,7 +112,7 @@ namespace Accord.Tests.Statistics
             for (int i = 0; i < input.Length; i++)
                 actual[i] = regression.Compute(input[i]);
 
-            double[] expected = 
+            double[] expected =
             {
                 0.21044171560168326,
                 0.13242527535212373,
@@ -125,7 +127,7 @@ namespace Accord.Tests.Statistics
             };
 
             for (int i = 0; i < actual.Length; i++)
-                Assert.AreEqual(expected[i], actual[i]);
+                Assert.AreEqual(expected[i], actual[i], 1e-8);
 
             Assert.AreEqual(1.0208597028836701, ageOdds, 1e-10);
             Assert.AreEqual(5.8584748789881331, smokeOdds, 1e-8);
@@ -229,10 +231,7 @@ namespace Accord.Tests.Statistics
 
             double[] expected =
             {
-                0.26653094409723, 0.152638465629209, 1.91952079193046,
-                0.221336525913065, 2.96128427776555, 1.59403653839456,
-                0.495141657849358, 0.169236601885844, 0.773902301904016,
-                1.1939150275367
+                0.21044171509541, 0.132425274863516, 0.657478034489772, 0.181224847711481, 0.747556618035989, 0.614500418479497, 0.331167053803838, 0.144741108525755, 0.436271096256738, 0.544193832738005
             };
 
             string str = scores.ToCSharp();
@@ -392,13 +391,13 @@ namespace Accord.Tests.Statistics
             double[] output =
             {
                 0, 0, 0, 1,
-                1, 1, 1, 0, 
+                1, 1, 1, 0,
                 0, 0, 1
             };
 
             double[] weights =
             {
-                1.0, 1.0, 1.0, 1.0, 
+                1.0, 1.0, 1.0, 1.0,
                 0.5, 0.5, 1.0, 1.0,
                 1.0, 1.0, 1.0
             };
@@ -424,14 +423,157 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(1.0208597028836701, ageOdds, 1e-10);
             Assert.AreEqual(5.8584748789881331, smokeOdds, 1e-8);
-            Assert.IsFalse(double.IsNaN(ageOdds));
-            Assert.IsFalse(double.IsNaN(smokeOdds));
-
-
             Assert.AreEqual(-2.4577464307294092, regression.Intercept, 1e-8);
             Assert.AreEqual(-2.4577464307294092, regression.Coefficients[0], 1e-8);
             Assert.AreEqual(0.020645118265359252, regression.Coefficients[1], 1e-8);
             Assert.AreEqual(1.7678893101571855, regression.Coefficients[2], 1e-8);
+        }
+
+        [Test]
+        public void scores_probabilities_test()
+        {
+            double[][] input =
+            {
+                new double[] { 55, 0 }, // 0 - no cancer
+                new double[] { 28, 0 }, // 0
+                new double[] { 65, 1 }, // 0
+                new double[] { 46, 0 }, // 1 - have cancer
+
+                new double[] { 86, 1 }, // 1
+                new double[] { 86, 1 }, // 1
+                new double[] { 56, 1 }, // 1
+                new double[] { 85, 0 }, // 0
+
+                new double[] { 33, 0 }, // 0
+                new double[] { 21, 1 }, // 0
+                new double[] { 42, 1 }, // 1
+            };
+
+            double[] output =
+            {
+                0, 0, 0, 1,
+                1, 1, 1, 0,
+                0, 0, 1
+            };
+
+            double[] weights =
+            {
+                1.0, 1.0, 1.0, 1.0,
+                0.5, 0.5, 1.0, 1.0,
+                1.0, 1.0, 1.0
+            };
+
+
+            var teacher = new IterativeReweightedLeastSquares<LogisticRegression>()
+            {
+                Regularization = 0
+            };
+
+            var target = teacher.Learn(input, output, weights);
+
+            LogitLinkFunction link = (LogitLinkFunction)target.Link;
+            Assert.AreEqual(0, link.A);
+            Assert.AreEqual(1, link.B);
+
+            Assert.AreEqual(-2.4577464307294092, target.Intercept, 1e-8);
+            Assert.AreEqual(-2.4577464307294092, target.Coefficients[0], 1e-8);
+            Assert.AreEqual(0.020645118265359252, target.Coefficients[1], 1e-8);
+            Assert.AreEqual(1.7678893101571855, target.Coefficients[2], 1e-8);
+
+            // Test Scores, LogLikelihoods and Probability functions 
+            // https://github.com/accord-net/framework/issues/570
+
+            double[][] scoresAllSamples = target.Scores(input);
+            double[][] logLikelihoodsAllSamples = target.LogLikelihoods(input);
+            double[][] probabilitiesAllSamples = target.Probabilities(input);
+            Assert.IsTrue(scoresAllSamples.IsEqual(Matrix.Apply(probabilitiesAllSamples, link.Function), rtol: 1e-5));
+
+            Assert.IsTrue(probabilitiesAllSamples.IsEqual(logLikelihoodsAllSamples.Exp()));
+            Assert.IsTrue(probabilitiesAllSamples.Sum(dimension: 1).IsEqual(Vector.Ones(11), rtol: 1e-6));
+
+
+            bool[] decideAllSamples = target.Decide(input);
+            double err = new AccuracyLoss(output).Loss(decideAllSamples);
+            Assert.AreEqual(0.18181818181818182, err, 1e-5);
+            Assert.AreEqual(decideAllSamples, scoresAllSamples.ArgMax(dimension: 1).ToBoolean());
+            Assert.AreEqual(decideAllSamples.ToInt32(), logLikelihoodsAllSamples.ArgMax(dimension: 1));
+            Assert.AreEqual(decideAllSamples, probabilitiesAllSamples.ArgMax(dimension: 1).ToBoolean());
+
+            double[] scoreAllSamples = target.Score(input);
+            Assert.AreEqual(scoreAllSamples, scoresAllSamples.GetColumn(1));
+            double[] logLikelihoodAllSamples = target.LogLikelihood(input);
+            Assert.AreEqual(logLikelihoodAllSamples, logLikelihoodsAllSamples.GetColumn(1));
+            double[] probabilityAllSamples = target.Probability(input);
+            Assert.AreEqual(probabilityAllSamples, probabilitiesAllSamples.GetColumn(1));
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                double[] scoresOneSample = target.Scores(input[i]);
+                Assert.AreEqual(scoresOneSample, scoresAllSamples[i]);
+
+                double[] logLikelihoodsOneSample = target.LogLikelihoods(input[i]);
+                Assert.AreEqual(logLikelihoodsOneSample, logLikelihoodsAllSamples[i]);
+
+                double[] probabilitiesOneSample = target.Probabilities(input[i]);
+                Assert.AreEqual(probabilitiesOneSample, probabilitiesAllSamples[i]);
+
+                bool decideOneSample = target.Decide(input[i]);
+                Assert.AreEqual(decideOneSample, decideAllSamples[i]);
+
+                double scoreOneSample = target.Score(input[i]);
+                Assert.AreEqual(scoreOneSample, scoreAllSamples[i]);
+
+                double logLikelihoodOneSample = target.LogLikelihood(input[i]);
+                Assert.AreEqual(logLikelihoodOneSample, logLikelihoodAllSamples[i]);
+
+                double probabilityOneSample = target.Probability(input[i]);
+                Assert.AreEqual(probabilityOneSample, probabilityAllSamples[i]);
+            }
+
+            bool[] decideScoresAllSamples = null; target.Scores(input, ref decideScoresAllSamples);
+            bool[] decideLogLikelihoodsAllSamples = null; target.LogLikelihoods(input, ref decideLogLikelihoodsAllSamples);
+            Assert.AreEqual(decideScoresAllSamples, decideLogLikelihoodsAllSamples);
+            bool[] decideProbabilitiesAllSamples = null; target.Probabilities(input, ref decideProbabilitiesAllSamples);
+            Assert.AreEqual(decideScoresAllSamples, decideProbabilitiesAllSamples);
+
+            bool[] decideScoreAllSamples = null; target.Score(input, ref decideScoreAllSamples);
+            Assert.AreEqual(decideScoreAllSamples, decideScoresAllSamples);
+            bool[] decideLogLikelihoodAllSamples = null; target.LogLikelihood(input, ref decideLogLikelihoodAllSamples);
+            Assert.AreEqual(decideScoreAllSamples, decideLogLikelihoodAllSamples);
+            bool[] decideProbabilityAllSamples = null; target.Probability(input, ref decideProbabilityAllSamples);
+            Assert.AreEqual(decideScoreAllSamples, decideProbabilityAllSamples);
+
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                bool decideScoresOneSample; target.Scores(input[i], out decideScoresOneSample);
+                Assert.AreEqual(decideScoresOneSample, decideScoresAllSamples[i]);
+
+                bool decideLogLikelihoodsOneSample; target.LogLikelihoods(input[i], out decideLogLikelihoodsOneSample);
+                Assert.AreEqual(decideLogLikelihoodsOneSample, decideLogLikelihoodsAllSamples[i]);
+
+                bool decideProbabilitiesOneSample; target.Probabilities(input[i], out decideProbabilitiesOneSample);
+                Assert.AreEqual(decideProbabilitiesOneSample, decideProbabilitiesAllSamples[i]);
+
+                bool decideScoreOneSample; target.Score(input[i], out decideScoreOneSample);
+                Assert.AreEqual(decideScoreOneSample, decideScoreAllSamples[i]);
+
+                bool decideLogLikelihoodOneSample; target.LogLikelihood(input[i], out decideLogLikelihoodOneSample);
+                Assert.AreEqual(decideLogLikelihoodOneSample, decideLogLikelihoodAllSamples[i]);
+
+                bool decideProbabilityOneSample; target.Probability(input: input[i], decision: out decideProbabilityOneSample);
+                Assert.AreEqual(decideProbabilityOneSample, decideProbabilityAllSamples[i]);
+            }
+
+
+            //bool[][] decidesScoresAllSamples = null; target.Scores(input, ref decidesScoresAllSamples);
+            //bool[][] decidesLogLikelihoodsAllSamples = null; target.LogLikelihoods(input, ref decidesLogLikelihoodsAllSamples);
+            //bool[][] decidesProbabilitiesAllSamples = null; target.Probabilities(input, ref decidesProbabilitiesAllSamples);
+
+
+            //bool[][] decidesScoreAllSamples = null; target.Score(input, ref decidesScoreAllSamples);
+            //bool[][] decidesLogLikelihoodAllSamples = null; target.LogLikelihood(input, ref decidesLogLikelihoodAllSamples);
+            //bool[][] decidesProbabilityAllSamples = null; target.Probability(input, ref decidesProbabilityAllSamples);
         }
 
         [Test]
@@ -517,7 +659,7 @@ namespace Accord.Tests.Statistics
                 { 46, 1, 5.52, 0 },
                 { 48, 0, 3.25, 0 },
                 { 58, 1, 4.71, 0 },
-                { 44, 1, 2.52, 0 }, 
+                { 44, 1, 2.52, 0 },
                 { 68, 0, 8.38, 1 },
             };
 

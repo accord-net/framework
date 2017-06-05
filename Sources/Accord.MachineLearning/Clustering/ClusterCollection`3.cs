@@ -143,6 +143,7 @@ namespace Accord.MachineLearning
             this.clusters = new TCluster[k];
             this.Distance = distance;
             this.NumberOfOutputs = k;
+            this.NumberOfClasses = k;
         }
 
         /// <summary>

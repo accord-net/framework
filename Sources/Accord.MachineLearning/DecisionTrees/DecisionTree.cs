@@ -122,6 +122,7 @@ namespace Accord.MachineLearning.DecisionTrees
             this.attributes = new DecisionVariableCollection(inputs);
             this.NumberOfInputs = inputs.Count;
             this.NumberOfOutputs = classes;
+            this.NumberOfClasses = classes;
         }
 
 

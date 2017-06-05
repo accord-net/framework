@@ -337,6 +337,8 @@ namespace Accord.MachineLearning
             if (kmeans.K != Count)
                 throw new ArgumentException("The number of clusters does not match.", "kmeans");
 
+            this.NumberOfInputs = kmeans.Dimension;
+
             // Initialize the Mixture Model with data from K-Means
             var proportions = kmeans.Clusters.Proportions;
             var distributions = new MultivariateNormalDistribution[Count];

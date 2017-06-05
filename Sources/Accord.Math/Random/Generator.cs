@@ -179,7 +179,7 @@ namespace Accord.Math.Random
                     return threadRandom;
 
                 // No possibility of race condition here since its thread static
-                if (Generator.threadRandom == null || Generator.threadLastUpdateTicks <= Generator.sourceLastUpdateTicks)
+                if (Generator.threadRandom == null || Generator.threadLastUpdateTicks < Generator.sourceLastUpdateTicks)
                 {
                     Generator.threadSeed = GetRandomSeed();
                     Generator.threadLastUpdateTicks = Generator.sourceLastUpdateTicks;

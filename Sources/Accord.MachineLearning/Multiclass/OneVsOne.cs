@@ -235,6 +235,7 @@ namespace Accord.MachineLearning
                 throw new ArgumentException("Number of classes must be higher than 1.", "classes");
 
             this.NumberOfOutputs = classes;
+            this.NumberOfClasses = classes;
             int total = (classes * (classes - 1)) / 2;
 
             models = new TBinary[classes - 1][];

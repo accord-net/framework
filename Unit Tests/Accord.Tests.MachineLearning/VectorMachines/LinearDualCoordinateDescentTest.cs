@@ -136,7 +136,8 @@ namespace Accord.Tests.MachineLearning
 
             var rsvm = (SupportVectorMachine)regression;
             Assert.AreEqual(2, rsvm.NumberOfInputs);
-            Assert.AreEqual(2, rsvm.NumberOfOutputs);
+            Assert.AreEqual(2, rsvm.NumberOfClasses);
+            Assert.AreEqual(1, rsvm.NumberOfOutputs);
             double[] svmpred = svm.Score(inputs);
             Assert.IsTrue(predicted.IsEqual(svmpred));
 
@@ -187,7 +188,8 @@ namespace Accord.Tests.MachineLearning
             double error = new ZeroOneLoss(outputs).Loss(predicted);
 
             Assert.AreEqual(3, svm.NumberOfInputs);
-            Assert.AreEqual(2, svm.NumberOfOutputs);
+            Assert.AreEqual(1, svm.NumberOfOutputs);
+            Assert.AreEqual(2, svm.NumberOfClasses);
 
             Assert.AreEqual(1, svm.Weights.Length);
             Assert.AreEqual(1, svm.SupportVectors.Length);

@@ -148,6 +148,37 @@ namespace Accord.MachineLearning
             return result;
         }
 
+        /// <summary>
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and each class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="result">An array where the scores will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[][].</returns>
+        public override double[][] Scores(TInput[] input, double[][] result)
+        {
+            for (int k = 0; k < input.Length; k++)
+            {
+                double[] distances;
+                int[] idx = GetNearestIndices(input[k], out distances);
+
+                // Compute the scores for these points
+                for (int i = 0; i < idx.Length; i++)
+                {
+                    int j = idx[i];
+
+                    int label = Outputs[j];
+                    double d = distances[i];
+
+                    // Convert to similarity measure
+                    result[k][label] += 1.0 / (1.0 + d);
+                }
+            }
+
+            return result;
+        }
+
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -217,7 +248,9 @@ namespace Accord.MachineLearning
             this.Inputs = x;
             this.Outputs = y;
 
+            this.NumberOfInputs = GetNumberOfInputs(x);
             this.NumberOfOutputs = y.DistinctCount();
+            this.NumberOfClasses = this.NumberOfOutputs;
             this.distances.Value = new double[x.Length];
 
             return this;

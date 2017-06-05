@@ -58,6 +58,7 @@ namespace Accord.Statistics.Models.Markov
         protected BaseHiddenMarkovClassifier(int classes)
         {
             this.NumberOfOutputs = classes;
+            this.NumberOfClasses = classes;
             models = new TModel[classes];
 
             classPriors = new double[classes];

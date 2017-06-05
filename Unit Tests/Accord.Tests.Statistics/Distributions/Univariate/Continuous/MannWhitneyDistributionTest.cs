@@ -239,7 +239,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.038549935871770913, p2, 1e-5);
         }
 
-        [Test]
+        [Test, Ignore("This test can only be run in 64-bits")]
         public void ApproximationTest()
         {
             int t = 14;

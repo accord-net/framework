@@ -136,7 +136,8 @@ namespace Accord.Tests.MachineLearning
 
             var rsvm = (SupportVectorMachine)regression;
             Assert.AreEqual(2, rsvm.NumberOfInputs);
-            Assert.AreEqual(2, rsvm.NumberOfOutputs);
+            Assert.AreEqual(2, rsvm.NumberOfClasses);
+            Assert.AreEqual(1, rsvm.NumberOfOutputs);
 
             Assert.AreEqual(2, regression.NumberOfInputs);
             Assert.AreEqual(1, regression.NumberOfOutputs);
@@ -153,49 +154,6 @@ namespace Accord.Tests.MachineLearning
             double r = regression.CoefficientOfDetermination(inputs, outputs);
             Assert.AreEqual(1.0, r);
         }
-
-        //[Test]
-        //public void sparse_zero_vector_test()
-        //{
-        //    // Create a linear-SVM learning method
-        //    var teacher = new LinearCoordinateDescent<Linear, Sparse<double>>()
-        //    {
-        //        Tolerance = 1e-10,
-        //        Complexity = 1e+10, // learn a hard-margin model
-        //    };
-        //
-        //    // Now suppose you have some points
-        //    Sparse<double>[] inputs = Sparse.FromDense(new[]
-        //    {
-        //        new double[] { 1, 1, 2 },
-        //        new double[] { 0, 1, 6 },
-        //        new double[] { 1, 0, 8 },
-        //        new double[] { 0, 0, 0 },
-        //    });
-        //
-        //    int[] outputs = { 1, -1, 1, -1 };
-        //
-        //    // Learn the support vector machine
-        //    var svm = teacher.Learn(inputs, outputs);
-        //
-        //    // Compute the predicted points 
-        //    bool[] predicted = svm.Decide(inputs);
-        //
-        //    // And the squared error loss using 
-        //    double error = new ZeroOneLoss(outputs).Loss(predicted);
-        //
-        //    Assert.AreEqual(3, svm.NumberOfInputs);
-        //    Assert.AreEqual(2, svm.NumberOfOutputs);
-        //
-        //    Assert.AreEqual(1, svm.Weights.Length);
-        //    Assert.AreEqual(1, svm.SupportVectors.Length);
-        //
-        //    Assert.AreEqual(1.0, svm.Weights[0], 1e-6);
-        //    Assert.AreEqual(2.0056922148257597, svm.SupportVectors[0][0], 1e-6);
-        //    Assert.AreEqual(-0.0085361347231909836, svm.SupportVectors[0][1], 1e-6);
-        //    Assert.AreEqual(0.0014225721169379331, svm.SupportVectors[0][2], 1e-6);
-        //    Assert.AreEqual(0.0, error);
-        //}
 
         [Test]
         public void ComputeTest5()
@@ -230,28 +188,6 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(44, matrix.TruePositives);
             Assert.AreEqual(43, matrix.TrueNegatives);
         }
-
-        // TODO: Re-enable this test
-        //[Test]
-        //public void SparseLinearTest()
-        //{
-        //    MemoryStream file = new MemoryStream(
-        //        Encoding.Default.GetBytes(Resources.iris_scale));
-        //
-        //    // Create a new Sparse Sample Reader to read any given file,
-        //    //  passing the correct dense sample size in the constructor
-        //    SparseReader reader = new SparseReader(file, Encoding.Default);
-        //
-        //    var samples = reader.ReadSparseToEnd();
-        //
-        //    Sparse<double>[] x = samples.Item1;
-        //    int[] y = samples.Item2.ToInt32();
-        //
-        //    var learner = new LinearCoordinateDescent<Linear, Sparse<double>>();
-        //    SupportVectorMachine<Linear, Sparse<double>> svm = learner.Learn(x, y);
-        //
-        //}
-
 
         [Test]
         public void multithread_test()

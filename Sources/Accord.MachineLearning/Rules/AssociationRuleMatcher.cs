@@ -71,6 +71,15 @@ namespace Accord.MachineLearning.Rules
         /// </summary>
         public int NumberOfOutputs
         {
+            get { return NumberOfClasses; }
+        }
+
+        /// <summary>
+        /// Gets the number of classes expected and recognized by the classifier.
+        /// </summary>
+        /// <value>The number of classes.</value>
+        public int NumberOfClasses
+        {
             get { return rules.Length; }
         }
 

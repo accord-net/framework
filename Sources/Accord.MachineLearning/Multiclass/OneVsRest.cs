@@ -59,6 +59,7 @@ namespace Accord.MachineLearning
         protected OneVsRest(int classes, Func<TModel> initializer)
         {
             this.NumberOfOutputs = classes;
+            this.NumberOfClasses = classes;
             this.Models = new TModel[classes];
             for (int i = 0; i < Models.Length; i++)
             {

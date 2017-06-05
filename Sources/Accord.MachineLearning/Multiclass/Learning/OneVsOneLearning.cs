@@ -153,7 +153,7 @@ namespace Accord.MachineLearning
                 Model = Create(numberOfInputs, numberOfClasses);
             }
 
-            int classes = Model.NumberOfOutputs;
+            int classes = Model.NumberOfClasses;
             int total = (classes * (classes - 1)) / 2;
             int progress = 0;
 

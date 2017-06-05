@@ -36,6 +36,12 @@ namespace Accord.MachineLearning
         ITransform<TInput, TClasses>
     {
         /// <summary>
+        ///   Gets the number of classes expected and recognized by the classifier.
+        /// </summary>
+        /// 
+        int NumberOfClasses { get; }
+
+        /// <summary>
         ///   Computes a class-label decision for a given <paramref name="input"/>.
         /// </summary>
         /// 
