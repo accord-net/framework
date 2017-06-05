@@ -59,8 +59,18 @@ namespace Accord.Statistics
         ///   Gets the rank of a sample, often used with order statistics.
         /// </summary>
         /// 
-        public static double[] Rank(this double[] samples, bool alreadySorted = false,
-            bool adjustForTies = true)
+        public static double[] Rank(this double[] samples, bool alreadySorted = false, bool adjustForTies = true)
+        {
+            bool hasTies;
+            return Rank(samples, hasTies: out hasTies, alreadySorted: alreadySorted, adjustForTies: adjustForTies);
+        }
+
+        /// <summary>
+        ///   Gets the rank of a sample, often used with order statistics.
+        /// </summary>
+        /// 
+        public static double[] Rank(this double[] samples, out bool hasTies,
+            bool alreadySorted = false, bool adjustForTies = true)
         {
             int[] idx = Vector.Range(0, samples.Length);
 
@@ -74,6 +84,7 @@ namespace Accord.Statistics
 
             double tieSum = 0;
             int tieSize = 0;
+            hasTies = false;
 
             int start = 0;
             while (samples[start] == 0)
@@ -82,7 +93,8 @@ namespace Accord.Statistics
             ranks[start] = 1;
             if (adjustForTies)
             {
-                for (int i = start + 1, r = 1; i < ranks.Length; i++)
+                int r = 1;
+                for (int i = start + 1; i < ranks.Length; i++)
                 {
                     // Check if we have a tie
                     if (samples[i] != samples[i - 1])
@@ -95,7 +107,10 @@ namespace Accord.Statistics
                             // elements with the average.
 
                             for (int j = 0; j < tieSize + 1; j++)
-                                ranks[i - j - 1] = (r + tieSum) / (tieSize + 1);
+                            {
+                                int k = i - j - 1;
+                                ranks[k] = (r + tieSum) / (tieSize + 1.0);
+                            }
 
                             tieSize = 0;
                             tieSum = 0;
@@ -109,6 +124,18 @@ namespace Accord.Statistics
                         // long we have been in a tie.
                         tieSize++;
                         tieSum += r++;
+                        hasTies = true;
+                    }
+                }
+
+                // Handle the last ties
+                if (tieSize > 0)
+                {
+                    // We were still in the middle of a tie
+                    for (int j = 0; j < tieSize + 1; j++)
+                    {
+                        int k = samples.Length - j - 1;
+                        ranks[k] = (r + tieSum) / (tieSize + 1.0);
                     }
                 }
             }

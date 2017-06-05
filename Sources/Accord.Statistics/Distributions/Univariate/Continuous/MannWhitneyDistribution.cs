@@ -113,7 +113,7 @@ namespace Accord.Statistics.Distributions.Univariate
     /// </example>
     /// 
     /// <seealso cref="MannWhitneyWilcoxonTest"/>
-    /// <seealso cref="Accord.Statistics.Tools.Rank"/>
+    /// <seealso cref="Accord.Statistics.Tools.Rank(Double[], bool, bool)"/>
     /// <seealso cref="WilcoxonDistribution"/>
     /// 
     [Serializable]
@@ -239,7 +239,9 @@ namespace Accord.Statistics.Distributions.Univariate
             {
                 // Apply correction to the variance
                 double correction = MannWhitneyDistribution.correction(ranks);
-                stdDev = Math.Sqrt((n1 * n2 * ((n + 1.0) - correction)) / 12.0);
+                double a = (n1 * n2) / 12.0;
+                double b = (n + 1.0) - correction;
+                stdDev = Math.Sqrt(a * b);
 
                 if (this.exact)
                     initExactMethod(ranks);
