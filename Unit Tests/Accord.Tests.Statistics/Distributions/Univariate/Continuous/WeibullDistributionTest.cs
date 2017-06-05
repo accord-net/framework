@@ -33,30 +33,14 @@ namespace Accord.Tests.Statistics
     public class WeibullDistributionTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ConstructorTest()
         {
             WeibullDistribution n = new WeibullDistribution(0.807602, 12.5);
             Assert.AreEqual(14.067993598321863, n.Mean);
             Assert.AreEqual(17.552908226174811, n.StandardDeviation);
-            Assert.IsFalse(Double.IsNaN(n.Mean));
-            Assert.IsFalse(Double.IsNaN(n.Variance));
+            Assert.AreEqual(12.5, n.Scale);
+            Assert.AreEqual(0.807602, n.Shape);
         }
 
         [Test]

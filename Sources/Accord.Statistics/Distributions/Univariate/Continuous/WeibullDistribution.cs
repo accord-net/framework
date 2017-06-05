@@ -137,6 +137,28 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        /// Gets the shape parameter k.
+        /// </summary>
+        /// 
+        /// <value>The value for this distribution's shape parameter k.</value>
+        /// 
+        public double Shape
+        {
+            get { return k; }
+        }
+
+        /// <summary>
+        /// Gets the scale parameter  λ (lambda).
+        /// </summary>
+        /// 
+        /// <value>The value for this distribution's scale parameter λ (lambda).</value>
+        /// 
+        public double Scale
+        {
+            get { return lambda; }
+        }
+
+        /// <summary>
         ///   Gets the mean for this distribution.
         /// </summary>
         /// 
