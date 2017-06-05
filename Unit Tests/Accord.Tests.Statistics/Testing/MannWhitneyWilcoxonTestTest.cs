@@ -440,6 +440,53 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        public void RCompatibilityTest2()
+        {
+            // Test case from https://github.com/accord-net/framework/issues/389
+
+            /*
+                 // Test against R:
+                 c <- c(45,45,15,50,30,15,30,35,25)
+                 d <- c(45,55,20,55,20,25,35,45,20)
+                 wilcox.test(c,d, paired=FALSE, alternative="two.sided", conf.level=0.95, exact=TRUE) # W=49.5, p-value=0.6557
+                 wilcox.test(c,d, paired=FALSE, alternative="less", conf.level=0.95, exact=TRUE)      # W=49.5, p-value=0.3278
+                 wilcox.test(c,d, paired=FALSE, alternative="greater", conf.level=0.95, exact=TRUE)   # W=35, p-value=0.7037
+            */
+
+            var s1 = new double[] { 45, 45, 15, 50, 30, 15, 30, 35, 25 };
+            var s2 = new double[] { 45, 55, 20, 55, 20, 25, 35, 45, 20 };
+
+            var mannWhitneyWilcoxonTest = new MannWhitneyWilcoxonTest(s1, s2,
+                TwoSampleHypothesis.FirstValueIsGreaterThanSecond, exact: false);
+            Assert.AreEqual(0.7037, mannWhitneyWilcoxonTest.PValue, 1e-4);
+            // Assert.AreEqual(49.5, mannWhitneyWilcoxonTest.Statistic);
+            Assert.AreEqual(35, mannWhitneyWilcoxonTest.Statistic1);
+            Assert.AreEqual(46, mannWhitneyWilcoxonTest.Statistic2);
+            Assert.AreEqual(false, mannWhitneyWilcoxonTest.Significant);
+            Assert.AreEqual(DistributionTail.OneUpper, mannWhitneyWilcoxonTest.Tail);
+            Assert.AreEqual(TwoSampleHypothesis.FirstValueIsGreaterThanSecond, mannWhitneyWilcoxonTest.Hypothesis);
+
+            mannWhitneyWilcoxonTest = new MannWhitneyWilcoxonTest(s1, s2,
+                TwoSampleHypothesis.ValuesAreDifferent, exact: false);
+            Assert.AreEqual(0.6557, mannWhitneyWilcoxonTest.PValue, 1e-4);
+            // Assert.AreEqual(49.5, mannWhitneyWilcoxonTest.Statistic);
+            Assert.AreEqual(35, mannWhitneyWilcoxonTest.Statistic1);
+            Assert.AreEqual(46, mannWhitneyWilcoxonTest.Statistic2);
+            Assert.AreEqual(false, mannWhitneyWilcoxonTest.Significant);
+            Assert.AreEqual(TwoSampleHypothesis.ValuesAreDifferent, mannWhitneyWilcoxonTest.Hypothesis);
+
+            mannWhitneyWilcoxonTest = new MannWhitneyWilcoxonTest(s1, s2,
+                TwoSampleHypothesis.FirstValueIsSmallerThanSecond, exact: false);
+            Assert.AreEqual(0.3278, mannWhitneyWilcoxonTest.PValue, 1e-4);
+            //Assert.AreEqual(49.5, mannWhitneyWilcoxonTest.Statistic);
+            Assert.AreEqual(35, mannWhitneyWilcoxonTest.Statistic1);
+            Assert.AreEqual(46, mannWhitneyWilcoxonTest.Statistic2);
+            Assert.AreEqual(false, mannWhitneyWilcoxonTest.Significant);
+            Assert.AreEqual(TwoSampleHypothesis.FirstValueIsSmallerThanSecond, mannWhitneyWilcoxonTest.Hypothesis);
+        }
+
+
+        [Test]
         public void symmetry_test()
         {
             // Example from https://www.r-bloggers.com/wilcoxon-mann-whitney-rank-sum-test-or-test-u/

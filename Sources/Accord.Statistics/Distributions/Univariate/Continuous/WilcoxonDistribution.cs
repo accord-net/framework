@@ -91,7 +91,7 @@ namespace Accord.Statistics.Distributions.Univariate
     /// <para>
     ///   The following example shows how to compute the W+ statistic
     ///   given a sample. The Statsstics is given as the sum of all
-    ///   positive <see cref="Accord.Statistics.Tools.Rank">signed ranks 
+    ///   positive <see cref="Accord.Statistics.Tools.Rank(double[], bool, bool)">signed ranks 
     ///   </see> in a sample.</para>
     ///   
     /// <code>
