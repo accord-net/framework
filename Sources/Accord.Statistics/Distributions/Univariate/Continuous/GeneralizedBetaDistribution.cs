@@ -72,67 +72,35 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   Note: Simpler examples are also available at the <see cref="BetaDistribution"/> page.</para>
     /// 
     /// <para>
-    ///   The following example shows how to create a 4-parameter Beta distribution and
-    ///   compute some of its properties and measures.</para>
+    ///   The following example shows how to create a simpler 2-parameter Beta 
+    ///   distribution and compute some of its properties and measures.</para>
     ///   
-    /// <code>
-    /// // Create a 4-parameter Beta distribution with the following parameters (α, β, a, b):
-    /// var beta = new GeneralizedBetaDistribution(alpha: 1.42, beta: 1.57, min: 1, max: 4.2);
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\GeneralizedBetaDistributionTest.cs" region="doc_create2" />
     /// 
-    /// double mean = beta.Mean;     // 2.5197324414715716
-    /// double median = beta.Median; // 2.4997705845160225
-    /// double var = beta.Variance;  // 0.19999664152943961
-    /// double mode = beta.Mode;     // 2.3575757575757574
-    /// double h = beta.Entropy;     // -0.050654548091478513
-    /// 
-    /// double cdf = beta.DistributionFunction(x: 2.27);           // 0.40828630817664596
-    /// double pdf = beta.ProbabilityDensityFunction(x: 2.27);     // 1.2766172921464953
-    /// double lpdf = beta.LogProbabilityDensityFunction(x: 2.27); // 0.2442138392176838
-    /// 
-    /// double chf = beta.CumulativeHazardFunction(x: 2.27);       // 0.5247323897609667
-    /// double hf = beta.HazardFunction(x: 2.27);                  // 2.1574915534109484
-    /// 
-    /// double ccdf = beta.ComplementaryDistributionFunction(x: 2.27); // 0.59171369182335409
-    /// double icdf = beta.InverseDistributionFunction(p: cdf);        // 2.27
-    ///
-    /// string str = beta.ToString(); // B(x; α = 1.42, β = 1.57, min = 1, max = 4.2)
-    /// </code>
+    /// <para>
+    ///   The following example shows how to create a 4-parameter (Generalized) Beta 
+    ///   distribution and compute some of its properties and measures.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\GeneralizedBetaDistributionTest.cs" region="doc_create" />
     /// 
     /// <para>
     ///   The following example shows how to create a 4-parameter Beta distribution
     ///   with a three-point estimate using PERT.</para>
     ///   
-    /// <code>
-    /// // Create a Beta from a minimum, maximum and most likely value
-    /// var b = GeneralizedBetaDistribution.Pert(min: 1, max: 3, mode: 2);
-    /// 
-    /// double mean = b.Mean;     // 2.5197324414715716
-    /// double median = b.Median; // 2.4997705845160225
-    /// double var = b.Variance;  // 0.19999664152943961
-    /// double mode = b.Mode;     // 2.3575757575757574
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\GeneralizedBetaDistributionTest.cs" region="doc_pert" />
     /// 
     /// <para>
     ///   The following example shows how to create a 4-parameter Beta distribution
     ///   with a three-point estimate using Vose's modification for PERT.</para>
     ///   
-    /// <code>
-    /// // Create a Beta from a minimum, maximum and most likely value
-    /// var b = GeneralizedBetaDistribution.Vose(min: 1, max: 3, mode: 1.42);
-    /// 
-    /// double mean = b.Mean;     // 1.6133333333333333
-    /// double median = b.Median; // 1.5727889200146494
-    /// double mode = b.Mode;     // 1.4471823077804513
-    /// double var = b.Variance;  // 0.055555555555555546
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\GeneralizedBetaDistributionTest.cs" region="doc_pert2" />
     /// 
     /// <para>
     ///   The next example shows how to generate 1000 new samples from a Beta distribution:</para>
     /// 
     /// <code>
     ///   // Using the distribution's parameters
-    ///   double[] samples = GeneralizedBetaDistribution
-    ///     .Random(alpha: 2, beta: 3, min: 0, max: 1, samples: 1000);
+    ///   double[] samples = GeneralizedBetaDistribution.Random(alpha: 2, beta: 3, min: 0, max: 1, samples: 1000);
     ///     
     ///   // Using an existing distribution
     ///   var b = new GeneralizedBetaDistribution(alpha: 1, beta: 2);
@@ -148,8 +116,7 @@ namespace Accord.Statistics.Distributions.Univariate
     /// // First we will be drawing 100000 observations from a 4-parameter 
     /// //   Beta distribution with α = 2, β = 3, min = 10 and max = 15:
     /// 
-    /// double[] samples = GeneralizedBetaDistribution
-    ///     .Random(alpha: 2, beta: 3, min: 10, max: 15, samples: 100000);
+    /// double[] samples = GeneralizedBetaDistribution.Random(alpha: 2, beta: 3, min: 10, max: 15, samples: 100000);
     /// 
     /// // We can estimate a distribution with the known max and min
     /// var B = GeneralizedBetaDistribution.Estimate(samples, 10, 15);
@@ -535,9 +502,12 @@ namespace Accord.Statistics.Distributions.Univariate
             if (x <= min || x >= max)
                 return 0;
 
-            double z = (x - min) / (max - min);
+            double length = (max - min);
+            double z = (x - min) / length;
 
-            return constant * Math.Pow(z, alpha - 1) * Math.Pow(1 - z, beta - 1);
+            double a = Math.Pow(z, alpha - 1);
+            double b = Math.Pow(1 - z, beta - 1);
+            return constant * a * b / length;
         }
 
         /// <summary>
@@ -565,9 +535,12 @@ namespace Accord.Statistics.Distributions.Univariate
             if (x <= min || x >= max)
                 return Double.NegativeInfinity;
 
-            double z = (x - min) / (max - min);
+            double length = (max - min);
+            double z = (x - min) / length;
 
-            return Math.Log(constant) + (alpha - 1) * Math.Log(z) + (beta - 1) * Math.Log(1 - z);
+            double a = (alpha - 1) * Math.Log(z);
+            double b = (beta - 1) * Math.Log(1 - z);
+            return Math.Log(constant) + a + b - Math.Log(length);
         }
 
 

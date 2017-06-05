@@ -81,6 +81,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void BetaMeanTest()
         {
+            #region doc_create2
             double alpha = 0.42;
             double beta = 1.57;
 
@@ -100,6 +101,7 @@ namespace Accord.Tests.Statistics
             double icdf = betaDistribution.InverseDistributionFunction(p: cdf); // 0.26999999068687469
 
             string str = betaDistribution.ToString(System.Globalization.CultureInfo.InvariantCulture); // "B(x; α = 0.42, β = 1.57)
+            #endregion
 
             Assert.AreEqual(0.21105527638190955, mean);
             Assert.AreEqual(0.11577706212908731, median);
@@ -131,6 +133,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void NoncentralBetaMeanTest()
         {
+            #region doc_create
             // Create a 4-parameter Beta distribution with the following parameters (α, β, a, b):
             var beta = new GeneralizedBetaDistribution(alpha: 1.42, beta: 1.57, min: 1, max: 4.2);
 
@@ -151,6 +154,7 @@ namespace Accord.Tests.Statistics
             double icdf = beta.InverseDistributionFunction(p: cdf);        // 2.27
 
             string str = beta.ToString(System.Globalization.CultureInfo.InvariantCulture); // "B(x; α = 1.42, β = 1.57, min = 1, max = 4.2)"
+            #endregion
 
             Assert.AreEqual(2.5197324414715716, mean);
             Assert.AreEqual(2.4997705845160225, median);
@@ -159,9 +163,9 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.19999664152943961, var);
             Assert.AreEqual(0.5247323897609667, chf);
             Assert.AreEqual(0.40828630817664596, cdf);
-            Assert.AreEqual(1.2766172921464953, pdf);
-            Assert.AreEqual(0.2442138392176838, lpdf);
-            Assert.AreEqual(2.1574915534109484, hf);
+            Assert.AreEqual(0.39894290379577979, pdf);
+            Assert.AreEqual(-0.91893697058799706, lpdf);
+            Assert.AreEqual(0.67421611044092133, hf);
             Assert.AreEqual(0.59171369182335409, ccdf);
             Assert.AreEqual(2.27, icdf, 1e-10);
             Assert.AreEqual("B(x; α = 1.42, β = 1.57, min = 1, max = 4.2)", str);
@@ -183,6 +187,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void BetaPERTTest()
         {
+            #region doc_pert
             // Create a Beta from a minimum, maximum and most likely value
             var b = GeneralizedBetaDistribution.Pert(min: 1, max: 3, mode: 2);
 
@@ -190,6 +195,7 @@ namespace Accord.Tests.Statistics
             double median = b.Median; // 2
             double mode = b.Mode;     // 2
             double var = b.Variance;  // 0.071428571428571425
+            #endregion
 
             double min = b.Min;
             double max = b.Max;
@@ -239,6 +245,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void BetaVosePERTTest()
         {
+            #region doc_pert2
             // Create a Beta from a minimum, maximum and most likely value
             var b = GeneralizedBetaDistribution.Vose(min: 1, max: 3, mode: 1.42);
 
@@ -246,6 +253,7 @@ namespace Accord.Tests.Statistics
             double median = b.Median; // 1.5727889200146494
             double mode = b.Mode;     // 1.4471823077804513
             double var = b.Variance;  // 0.055555555555555546
+            #endregion
 
             double min = b.Min;
             double max = b.Max;
