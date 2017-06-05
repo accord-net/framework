@@ -26,7 +26,7 @@ namespace Accord.Math.Random
     using System.Collections.Generic;
 
     /// <summary>
-    /// Interface for random numbers generators.
+    /// Interface for random number generators.
     /// </summary>
     /// 
     /// <remarks><para>The interface defines set of methods and properties, which should
