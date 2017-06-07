@@ -289,6 +289,7 @@ namespace Accord.Math.Optimization
                     LineSearch = Optimization.LineSearch.BacktrackingArmijo,
                     Corrections = 10,
                     Epsilon = 1e-10,
+                    MaxIterations = 100000
                 };
             }
 

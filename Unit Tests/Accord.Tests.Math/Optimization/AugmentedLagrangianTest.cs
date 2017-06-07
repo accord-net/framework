@@ -48,7 +48,7 @@ namespace Accord.Tests.Math
 
                 function: (x) => 100 * Math.Pow(x[1] - x[0] * x[0], 2) + Math.Pow(1 - x[0], 2),
 
-                gradient: (x) => new[] 
+                gradient: (x) => new[]
                 {
                     2.0 * (200.0 * x[0]*x[0]*x[0] - 200.0 * x[0] * x[1] + x[0] - 1), // df/dx
                     200 * (x[1] - x[0]*x[0])                                         // df/dy
@@ -100,7 +100,7 @@ namespace Accord.Tests.Math
 
                 function: (x) => 100 * Math.Pow(x[1] - x[0] * x[0], 2) + Math.Pow(1 - x[0], 2),
 
-                gradient: (x) => new[] 
+                gradient: (x) => new[]
                 {
                     2.0 * (200.0 * Math.Pow(x[0], 3) - 200.0 * x[0] * x[1] + x[0] - 1), // df/dx
                     200 * (x[1] - x[0]*x[0])                                            // df/dy
@@ -157,7 +157,7 @@ namespace Accord.Tests.Math
 
                 function: () => x * y + y * z,
 
-                gradient: () => new[] 
+                gradient: () => new[]
                 {
                     y,     // df/dx
                     x + z, // df/dy
@@ -223,7 +223,7 @@ namespace Accord.Tests.Math
 
                 function: () => x * y + y * z,
 
-                gradient: () => new[] 
+                gradient: () => new[]
                 {
                     y,     // df/dx
                     x + z, // df/dy
@@ -303,7 +303,7 @@ namespace Accord.Tests.Math
                 function: () => 100 * Math.Pow(y - x * x, 2) + Math.Pow(1 - x, 2),
 
                 // And this is the vector gradient for the same function:
-                gradient: () => new[] 
+                gradient: () => new[]
                 {
                     2 * (200 * Math.Pow(x, 3) - 200 * x * y + x - 1), // df/dx = 2(200x³-200xy+x-1)
                     200 * (y - x*x)                                   // df/dy = 200(y-x²)
@@ -317,7 +317,7 @@ namespace Accord.Tests.Math
                 new NonlinearConstraint(f,
                     // 1st constraint: x should be greater than or equal to 0
                     function: () => x,
-                    shouldBe: ConstraintType.GreaterThanOrEqualTo, 
+                    shouldBe: ConstraintType.GreaterThanOrEqualTo,
                     value: 0,
                     gradient: () => new[] { 1.0, 0.0 }
                 ),
@@ -325,8 +325,8 @@ namespace Accord.Tests.Math
                 // Add the non-negativity constraint for y
                 new NonlinearConstraint(f,
                     // 2nd constraint: y should be greater than or equal to 0
-                    function: () => y, 
-                    shouldBe: ConstraintType.GreaterThanOrEqualTo, 
+                    function: () => y,
+                    shouldBe: ConstraintType.GreaterThanOrEqualTo,
                     value: 0,
                     gradient: () => new[] { 0.0, 1.0 }
                 )
@@ -376,7 +376,7 @@ namespace Accord.Tests.Math
                 function: (x) => 100 * Math.Pow(x[1] - x[0] * x[0], 2) + Math.Pow(1 - x[0], 2),
 
                 // And this is the vector gradient for the same function:
-                gradient: (x) => new[] 
+                gradient: (x) => new[]
                 {
                     2 * (200 * Math.Pow(x[0], 3) - 200 * x[0] * x[1] + x[0] - 1), // df/dx = 2(200x³-200xy+x-1)
                     200 * (x[1] - x[0]*x[0])                                   // df/dy = 200(y-x²)
@@ -390,7 +390,7 @@ namespace Accord.Tests.Math
                 new NonlinearConstraint(f,
                     // 1st constraint: x should be greater than or equal to 0
                     function: (x) => x[0], // x
-                    shouldBe: ConstraintType.GreaterThanOrEqualTo, 
+                    shouldBe: ConstraintType.GreaterThanOrEqualTo,
                     value: 0,
                     gradient: (x) => new[] { 1.0, 0.0 }
                 ),
@@ -399,7 +399,7 @@ namespace Accord.Tests.Math
                 new NonlinearConstraint(f,
                     // 2nd constraint: y should be greater than or equal to 0
                     function: (x) => x[1], // y 
-                    shouldBe: ConstraintType.GreaterThanOrEqualTo, 
+                    shouldBe: ConstraintType.GreaterThanOrEqualTo,
                     value: 0,
                     gradient: (x) => new[] { 0.0, 1.0 }
                 )
@@ -618,7 +618,7 @@ namespace Accord.Tests.Math
                 function: x => x[0] * x[1],
                 gradient: x => new[] { x[1], x[0] });
 
-            NonlinearConstraint[] constraints = 
+            NonlinearConstraint[] constraints =
             {
                 new NonlinearConstraint(function,
                     function: x => 1.0 - x[0] * x[0] - x[1] * x[1],
@@ -663,7 +663,7 @@ namespace Accord.Tests.Math
                 function: x => x[0] * x[1] * x[2],
                 gradient: x => new[] { x[1] * x[2], x[0] * x[2], x[0] * x[1] });
 
-            NonlinearConstraint[] constraints = 
+            NonlinearConstraint[] constraints =
             {
                 new NonlinearConstraint(3,
                     function: x =>  1.0 - x[0] * x[0] - 2.0 * x[1] * x[1] - 3.0 * x[2] * x[2],
@@ -697,7 +697,7 @@ namespace Accord.Tests.Math
             double minimum = solver.Value;
             double[] solution = solver.Solution;
 
-            double[] expected = 
+            double[] expected =
             {
                 1.0 / Math.Sqrt(3.0), 1.0 / Math.Sqrt(6.0), -1.0 / 3.0
             };
@@ -868,6 +868,64 @@ namespace Accord.Tests.Math
             // According to the example, the solution is $(1.4, 1.7)$.
             Assert.AreEqual(1.4, solver.Solution[0], 1e-5);
             Assert.AreEqual(1.7, solver.Solution[1], 1e-5);
+        }
+
+
+        [Test]
+        public void AugmentedLagrangianSolverTest03()
+        {
+
+            // Ensure that the Accord.NET random generator starts from a particular fixed seed.
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // This problem is about minimizing $3x_0 - 4x_1$ over the elements of $[0, 1] \times[0, 1]$ summing to one.
+
+            var f = new NonlinearObjectiveFunction(2,
+                function: (x) => 3.0 * x[0] - 4.0 * x[1],
+                gradient: (x) => new[] { 3.0, -4.0 });
+
+            var constraints = new List<NonlinearConstraint>();
+
+            // Add the constraint $x_0 \ge 0$.
+            constraints.Add(new NonlinearConstraint(f,
+                function: (x) => x[0],
+                gradient: (x) => new[] { 1.0, 0.0 },
+                shouldBe: ConstraintType.GreaterThanOrEqualTo, value: 0));
+
+            // Add the constraint $x_0 \le 1$.
+            constraints.Add(new NonlinearConstraint(f,
+                function: (x) => x[0],
+                gradient: (x) => new[] { 1.0, 0.0 },
+                shouldBe: ConstraintType.LesserThanOrEqualTo, value: 1));
+
+            // Add the constraint $x_1 \ge 0$.
+            constraints.Add(new NonlinearConstraint(f,
+                function: (x) => x[1],
+                gradient: (x) => new[] { 0.0, 1.0 },
+                shouldBe: ConstraintType.GreaterThanOrEqualTo, value: 0));
+
+            // Add the constraint $x_1 \le 1$.
+            constraints.Add(new NonlinearConstraint(f,
+                function: (x) => x[1],
+                gradient: (x) => new[] { 0.0, 1.0 },
+                shouldBe: ConstraintType.LesserThanOrEqualTo, value: 1));
+
+            // Add the constraint $x_0 + x_1 = 1$.
+            constraints.Add(new NonlinearConstraint(f,
+                function: (x) => x[0] + x[1],
+                gradient: (x) => new[] { 1.0, 1.0 },
+                shouldBe: ConstraintType.EqualTo, value: 1));
+
+            var solver = new AugmentedLagrangian(f, constraints);
+
+            Assert.IsTrue(solver.Minimize());
+            double minValue = solver.Value;
+
+            Assert.IsFalse(Double.IsNaN(minValue));
+
+            // The solution is $(0.0, 1.0)$.
+            Assert.AreEqual(0.0, solver.Solution[0], 1e-5);
+            Assert.AreEqual(1.0, solver.Solution[1], 1e-5);
         }
     }
 }
