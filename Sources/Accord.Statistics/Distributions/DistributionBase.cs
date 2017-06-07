@@ -22,7 +22,9 @@
 
 namespace Accord.Statistics.Distributions
 {
+    using Accord.Math.Random;
     using System;
+    using System.Threading;
 
     /// <summary>
     ///   Base class for statistical distribution implementations.
@@ -31,6 +33,34 @@ namespace Accord.Statistics.Distributions
     [Serializable]
     public abstract class DistributionBase : IFormattable
     {
+        /*
+        public DistributionBase()
+        {
+            RandomSource = () => Accord.Math.Random.Generator.Random;
+        }
+
+        /// <summary>
+        ///   Gets or sets a factory method to create random number generators used
+        ///   within the distribution.
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// <para>
+        ///   As a recommendation, any provided factory method should create a new generator
+        ///   on each call instead of reusing the same one. The reason is that not all
+        ///   generators can be used across multiple threads, and some distributions will
+        ///   call this method from different threads expecting different objects. Ignore
+        ///   this remark only if your generators are thread safe or thread local.</para>
+        ///   
+        /// <para>
+        ///   By default, this method will return instances of the framework's main random generator.
+        ///   The property that gives access to the framework's main random generator 
+        ///   (<see cref="Accord.Math.Random.Generator.Random"/>) provides a different generator for 
+        ///   each thread (as it uses ThreadLocal).</para>
+        /// </remarks>
+        /// 
+        public Func<Random> RandomSource { get; set; }
+        */
 
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.

@@ -442,18 +442,23 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <summary>
         /// Generates a random vector of observations from the current distribution.
         /// </summary>
+        /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
         /// <returns>
         /// A random vector of observations drawn from this distribution.
         /// </returns>
-        public override double[][] Generate(int samples, double[][] result)
+        /// 
+        public override double[][] Generate(int samples, double[][] result, Random source)
         {
             var gen = components.Apply(x => (ISampleableDistribution<double>)x);
 
             for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < gen.Length; j++)
-                    result[i][j] = gen[j].Generate();
+                    result[i][j] = gen[j].Generate(source);
 
             return result;
         }

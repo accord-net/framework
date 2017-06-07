@@ -1159,7 +1159,7 @@ namespace Accord.Tests.MachineLearning
 
             var cm = new ConfusionMatrix(actual, y);
 
-            Assert.AreEqual(1.0, cm.Accuracy, 1e-3);
+            Assert.AreEqual(1.0, cm.Accuracy, 5e-3);
         }
     }
 }

@@ -70,7 +70,7 @@ namespace Accord.Statistics.Distributions.Univariate
     [Serializable]
     public abstract class UnivariateContinuousDistribution : DistributionBase,
         IDistribution, IUnivariateDistribution, IUnivariateDistribution<double>,
-        ISampleableDistribution<double>, 
+        ISampleableDistribution<double>,
         IFormattable
     {
         [NonSerialized]
@@ -1012,6 +1012,7 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
 
+
         /// <summary>
         ///   Generates a random vector of observations from the current distribution.
         /// </summary>
@@ -1021,7 +1022,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public double[] Generate(int samples)
         {
-            return Generate(samples, new double[samples]);
+            return Generate(samples, new double[samples], Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -1033,11 +1034,54 @@ namespace Accord.Statistics.Distributions.Univariate
         ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public virtual double[] Generate(int samples, double[] result)
+        public double[] Generate(int samples, double[] result)
         {
-            var random = Accord.Math.Random.Generator.Random;
+            return Generate(samples, result, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <returns>A random observations drawn from this distribution.</returns>
+        /// 
+        public double Generate()
+        {
+            return Generate(Accord.Math.Random.Generator.Random);
+        }
+
+
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public double[] Generate(int samples, Random source)
+        {
+            return Generate(samples, new double[samples],  source);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public virtual double[] Generate(int samples, double[] result, Random source)
+        {
             for (int i = 0; i < samples; i++)
-                result[i] = InverseDistributionFunction(random.NextDouble());
+                result[i] = InverseDistributionFunction(source.NextDouble());
             return result;
         }
 
@@ -1047,14 +1091,20 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public virtual double Generate()
+        public virtual double Generate(Random source)
         {
-            return InverseDistributionFunction(Generator.Random.NextDouble());
+            return InverseDistributionFunction(source.NextDouble());
         }
+
 
         double ISampleableDistribution<double>.Generate(double result)
         {
             return Generate();
+        }
+
+        double ISampleableDistribution<double>.Generate(double result, Random source)
+        {
+            return Generate(source);
         }
 
 

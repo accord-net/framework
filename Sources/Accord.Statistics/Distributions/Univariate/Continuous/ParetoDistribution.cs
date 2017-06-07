@@ -387,12 +387,14 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
         ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            UniformContinuousDistribution.Random(samples, result);
+            UniformContinuousDistribution.Random(samples, result, source);
             for (int i = 0; i < samples; i++)
                 result[i] = xm / Math.Pow(result[i], 1.0 / alpha);
             return result;
@@ -404,9 +406,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
-            double u = UniformContinuousDistribution.Standard.Generate();
+            double u = UniformContinuousDistribution.Random(source);
             return xm / Math.Pow(u, 1.0 / alpha);
         }
     }

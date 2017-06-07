@@ -183,46 +183,60 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <summary>
         /// Generates a random observation from the current distribution.
         /// </summary>
+        /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>
         /// A random observations drawn from this distribution.
         /// </returns>
-        public override int Generate()
+        /// 
+        public override int Generate(Random source)
         {
-            double u = Accord.Math.Random.Generator.Random.NextDouble();
-            return Math.Sign(u - 0.5) * (int)GeometricDistribution.Random(p);
+            double u = source.NextDouble();
+            return Math.Sign(u - 0.5) * (int)GeometricDistribution.Random(p, source);
         }
 
         /// <summary>
         /// Generates a random vector of observations from the current distribution.
         /// </summary>
+        /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
+        /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>
         /// A random vector of observations drawn from this distribution.
         /// </returns>
-        public override double[] Generate(int samples, double[] result)
+        /// 
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            GeometricDistribution.Random(p, samples, result);
-            var rand = Accord.Math.Random.Generator.Random;
+            GeometricDistribution.Random(p, samples, result, source);
             for (int i = 0; i < samples; i++)
-                result[i] *= Math.Sign(rand.NextDouble() - 0.5);
+                result[i] *= Math.Sign(source.NextDouble() - 0.5);
             return result;
         }
 
         /// <summary>
         /// Generates a random vector of observations from the current distribution.
         /// </summary>
+        /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>
         /// A random vector of observations drawn from this distribution.
         /// </returns>
-        public override int[] Generate(int samples, int[] result)
+        /// 
+        public override int[] Generate(int samples, int[] result, Random source)
         {
-            GeometricDistribution.Random(p, samples, result);
-            var rand = Accord.Math.Random.Generator.Random;
+            GeometricDistribution.Random(p, samples, result, source);
             for (int i = 0; i < samples; i++)
-                result[i] *= Math.Sign(rand.NextDouble() - 0.5);
+                result[i] *= Math.Sign(source.NextDouble() - 0.5);
             return result;
         }
 

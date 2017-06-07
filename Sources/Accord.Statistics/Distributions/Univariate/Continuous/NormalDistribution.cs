@@ -677,23 +677,28 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            return Random(mean, stdDev, samples, result);
+            return Random(mean, stdDev, samples, result, source);
         }
 
         /// <summary>
         ///   Generates a random observation from the current distribution.
         /// </summary>
-        /// 
+        ///
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>A observation drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
-            return Random(mean, stdDev);
+            return Random(mean, stdDev, source);
         }
 
         /// <summary>
@@ -708,7 +713,24 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double mean, double stdDev)
         {
-            return Random() * stdDev + mean;
+            return Random(mean, stdDev, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Generates a single random observation from the 
+        ///   Normal distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="mean">The mean value μ (mu).</param>
+        /// <param name="stdDev">The standard deviation σ (sigma).</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An double value sampled from the specified Normal distribution.</returns>
+        /// 
+        public static double Random(double mean, double stdDev, Random source)
+        {
+            return Random(source) * stdDev + mean;
         }
 
         /// <summary>
@@ -724,7 +746,25 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double mean, double stdDev, int samples)
         {
-            return Random(mean, stdDev, samples, new double[samples]);
+            return Random(mean, stdDev, samples, new double[samples], Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Normal distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="mean">The mean value μ (mu).</param>
+        /// <param name="stdDev">The standard deviation σ (sigma).</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
+        /// <returns>An array of double values sampled from the specified Normal distribution.</returns>
+        /// 
+        public static double[] Random(double mean, double stdDev, int samples, Random source)
+        {
+            return Random(mean, stdDev, samples, new double[samples], source);
         }
 
         /// <summary>
@@ -741,7 +781,26 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double mean, double stdDev, int samples, double[] result)
         {
-            Random(samples, result);
+            return Random(mean, stdDev, samples, new double[samples], Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Normal distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="mean">The mean value μ (mu).</param>
+        /// <param name="stdDev">The standard deviation σ (sigma).</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Normal distribution.</returns>
+        /// 
+        public static double[] Random(double mean, double stdDev, int samples, double[] result, Random source)
+        {
+            Random(samples, result, source);
             for (int i = 0; i < samples; i++)
                 result[i] = result[i] * stdDev + mean;
             return result;
@@ -767,8 +826,23 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(int samples, double[] result)
         {
-            var rand = Accord.Math.Random.Generator.Random;
+            return Random(samples, result, Accord.Math.Random.Generator.Random);
+        }
 
+        /// <summary>
+        ///   Generates a random vector of observations from the standard
+        ///   Normal distribution (zero mean and unit standard deviation).
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Normal distribution.</returns>
+        /// 
+        public static double[] Random(int samples, double[] result, Random source)
+        {
             bool useSecond = NormalDistribution.useSecond;
             double secondValue = NormalDistribution.secondValue;
 
@@ -791,8 +865,8 @@ namespace Accord.Statistics.Distributions.Univariate
                 // generate new numbers
                 do
                 {
-                    x1 = rand.NextDouble() * 2.0 - 1.0;
-                    x2 = rand.NextDouble() * 2.0 - 1.0;
+                    x1 = source.NextDouble() * 2.0 - 1.0;
+                    x2 = source.NextDouble() * 2.0 - 1.0;
                     w = x1 * x1 + x2 * x2;
                 }
                 while (w >= 1.0);
@@ -822,8 +896,16 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random()
         {
-            var rand = Accord.Math.Random.Generator.Random;
+            return Random(Accord.Math.Random.Generator.Random);
+        }
 
+        /// <summary>
+        ///   Generates a random value from a standard Normal 
+        ///   distribution (zero mean and unit standard deviation).
+        /// </summary>
+        /// 
+        public static double Random(Random source)
+        {
             // check if we can use second value
             if (useSecond)
             {
@@ -837,8 +919,8 @@ namespace Accord.Statistics.Distributions.Univariate
             // generate new numbers
             do
             {
-                x1 = rand.NextDouble() * 2.0 - 1.0;
-                x2 = rand.NextDouble() * 2.0 - 1.0;
+                x1 = source.NextDouble() * 2.0 - 1.0;
+                x2 = source.NextDouble() * 2.0 - 1.0;
                 w = x1 * x1 + x2 * x2;
             }
             while (w >= 1.0);
