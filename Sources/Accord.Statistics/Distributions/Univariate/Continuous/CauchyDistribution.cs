@@ -559,23 +559,28 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
         ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            return Random(location, scale, samples, result);
+            return Random(location, scale, samples, result, source);
         }
 
         /// <summary>
         ///   Generates a random observation from the current distribution.
         /// </summary>
         /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
-            return Random(location, scale);
+            return Random(location, scale, source);
         }
 
         /// <summary>
@@ -590,9 +595,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double location, double scale)
         {
-            // Generate uniform U on [-PI/2, +PI/2]
-            double x = UniformContinuousDistribution.Random(-Math.PI / 2.0, +Math.PI / 2.0);
-            return Math.Tan(x) * scale + location;
+            return Random(location, scale, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -608,7 +611,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double location, double scale, int samples)
         {
-            return Random(location, scale, samples, new double[samples]);
+            return Random(location, scale, samples, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -625,8 +628,67 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double location, double scale, int samples, double[] result)
         {
+            return Random(location, scale, samples, result, Accord.Math.Random.Generator.Random);
+        }
+
+
+
+
+        /// <summary>
+        ///   Generates a random observation from the 
+        ///   Cauchy distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="location">The location parameter x0.</param>
+        /// <param name="scale">The scale parameter gamma.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random double value sampled from the specified Cauchy distribution.</returns>
+        /// 
+        public static double Random(double location, double scale, Random source)
+        {
             // Generate uniform U on [-PI/2, +PI/2]
-            UniformContinuousDistribution.Random(-Math.PI / 2.0, +Math.PI / 2.0, samples, result);
+            double x = UniformContinuousDistribution.Random(-Math.PI / 2.0, +Math.PI / 2.0, source);
+            return Math.Tan(x) * scale + location;
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Cauchy distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="location">The location parameter x0.</param>
+        /// <param name="scale">The scale parameter gamma.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>An array of double values sampled from the specified Cauchy distribution.</returns>
+        /// 
+        public static double[] Random(double location, double scale, int samples, Random source)
+        {
+            return Random(location, scale, samples, new double[samples], source);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Cauchy distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="location">The location parameter x0.</param>
+        /// <param name="scale">The scale parameter gamma.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Cauchy distribution.</returns>
+        /// 
+        public static double[] Random(double location, double scale, int samples, double[] result, Random source)
+        {
+            // Generate uniform U on [-PI/2, +PI/2]
+            UniformContinuousDistribution.Random(-Math.PI / 2.0, +Math.PI / 2.0, samples, result, source);
             for (int i = 0; i < result.Length; i++)
                 result[i] = Math.Tan(result[i]) * scale + location;
             return result;

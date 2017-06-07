@@ -951,12 +951,14 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
         ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            return Random(alpha, beta, min, max, samples, result);
+            return Random(alpha, beta, min, max, samples, result, source);
         }
 
         /// <summary>
@@ -965,9 +967,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
-            return Random(alpha, beta, min, max);
+            return Random(alpha, beta, min, max, source);
         }
 
         /// <summary>
@@ -985,7 +987,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double alpha, double beta, double min, double max, int samples)
         {
-            return Random(alpha, beta, min, max, samples, new double[samples]);
+            return Random(alpha, beta, min, max, samples, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -1004,7 +1006,70 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double alpha, double beta, double min, double max, int samples, double[] result)
         {
-            BetaDistribution.Random(alpha, beta, samples, result);
+            return Random(alpha, beta, min, max, samples, result, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Generates a random observation from a 
+        ///   Beta distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="alpha">The shape parameter α (alpha).</param>
+        /// <param name="beta">The shape parameter β (beta).</param>
+        /// <param name="min">The minimum possible value a.</param>
+        /// <param name="max">The maximum possible value b.</param>
+        /// 
+        /// <returns>A random double value sampled from the specified Beta distribution.</returns>
+        /// 
+        public static double Random(double alpha, double beta, double min, double max)
+        {
+            return Random(alpha, beta, min, max, Accord.Math.Random.Generator.Random);
+        }
+
+
+
+
+
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Beta distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="alpha">The shape parameter α (alpha).</param>
+        /// <param name="beta">The shape parameter β (beta).</param>
+        /// <param name="min">The minimum possible value a.</param>
+        /// <param name="max">The maximum possible value b.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Beta distribution.</returns>
+        /// 
+        public static double[] Random(double alpha, double beta, double min, double max, int samples, Random source)
+        {
+            return Random(alpha, beta, min, max, samples, new double[samples], source);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Beta distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="alpha">The shape parameter α (alpha).</param>
+        /// <param name="beta">The shape parameter β (beta).</param>
+        /// <param name="min">The minimum possible value a.</param>
+        /// <param name="max">The maximum possible value b.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Beta distribution.</returns>
+        /// 
+        public static double[] Random(double alpha, double beta, double min, double max, int samples, double[] result, Random source)
+        {
+            BetaDistribution.Random(alpha, beta, samples, result, source);
 
             if (min != 0 || max != 1)
             {
@@ -1024,12 +1089,14 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="beta">The shape parameter β (beta).</param>
         /// <param name="min">The minimum possible value a.</param>
         /// <param name="max">The maximum possible value b.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
         /// 
         /// <returns>A random double value sampled from the specified Beta distribution.</returns>
         /// 
-        public static double Random(double alpha, double beta, double min, double max)
+        public static double Random(double alpha, double beta, double min, double max, Random source)
         {
-            double r = BetaDistribution.Random(alpha, beta);
+            double r = BetaDistribution.Random(alpha, beta, source);
 
             return r * (max - min) + min;
         }

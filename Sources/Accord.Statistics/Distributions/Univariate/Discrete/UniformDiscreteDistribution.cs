@@ -306,9 +306,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///
         /// <returns>An array of double values sampled from the specified Uniform distribution.</returns>
         /// 
-        public static int [] Random(int a, int b, int samples)
+        public static int[] Random(int a, int b, int samples)
         {
-            return Random(a, b, samples, new int[samples]);
+            return Random(a, b, samples, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -323,12 +323,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///
         /// <returns>An array of double values sampled from the specified Uniform distribution.</returns>
         /// 
-        public static int[] Random(int a, int b, int samples, int [] result)
+        public static int[] Random(int a, int b, int samples, int[] result)
         {
-            var rand = Accord.Math.Random.Generator.Random;
-            for (int i = 0; i < samples; i++)
-                result[i] = rand.Next(a, b);
-            return result;
+            return Random(a, b, samples, result, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -342,7 +339,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static int[] Random(int samples)
         {
-            return Random(samples, new int[samples]);
+            return Random(samples, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -357,10 +354,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static int[] Random(int samples, int[] result)
         {
-            var random = Accord.Math.Random.Generator.Random;
-            for (int i = 0; i < samples; i++)
-                result[i] = random.Next();
-            return result;
+            return Random(samples, result, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -372,7 +366,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static int Random()
         {
-            return Accord.Math.Random.Generator.Random.Next();
+            return Random(Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -387,7 +381,110 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static int Random(int a, int b)
         {
-            return Accord.Math.Random.Generator.Random.Next(a, b);
+            return Random(a, b, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Uniform distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="a">The starting number a.</param>
+        /// <param name="b">The ending number b.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Uniform distribution.</returns>
+        /// 
+        public static int [] Random(int a, int b, int samples, Random source)
+        {
+            return Random(a, b, samples, new int[samples], source);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Uniform distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="a">The starting number a.</param>
+        /// <param name="b">The ending number b.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Uniform distribution.</returns>
+        /// 
+        public static int[] Random(int a, int b, int samples, int [] result, Random source)
+        {
+            for (int i = 0; i < samples; i++)
+                result[i] = source.Next(a, b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the Uniform 
+        ///   distribution defined in the interval 0 and MAXVALUE.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Uniform distribution.</returns>
+        /// 
+        public static int[] Random(int samples, Random source)
+        {
+            return Random(samples, new int[samples], source);
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the Uniform 
+        ///   distribution defined in the interval 0 and MAXVALUE.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Uniform distribution.</returns>
+        /// 
+        public static int[] Random(int samples, int[] result, Random source)
+        {
+            for (int i = 0; i < samples; i++)
+                result[i] = source.Next();
+            return result;
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the Uniform 
+        ///   distribution defined in the interval 0 and MAXVALUE.
+        /// </summary>
+        /// 
+        /// <returns>A random double value sampled from the specified Uniform distribution.</returns>
+        /// 
+        public static int Random(Random source)
+        {
+            return source.Next();
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the 
+        ///   Uniform distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="a">The starting number a.</param>
+        /// <param name="b">The ending number b.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random double value sampled from the specified Uniform distribution.</returns>
+        /// 
+        public static int Random(int a, int b, Random source)
+        {
+            return source.Next(a, b);
         }
 
 
@@ -410,11 +507,14 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Generates a random observation from the current distribution.
         /// </summary>
         /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override int Generate()
+        public override int Generate(Random source)
         {
-            return Accord.Math.Random.Generator.Random.Next(a, b);
+            return source.Next(a, b);
         }
 
         /// <summary>
@@ -423,15 +523,15 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
         ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override int[] Generate(int samples, int[] result)
+        public override int[] Generate(int samples, int[] result, Random source)
         {
-            var random = Accord.Math.Random.Generator.Random;
             for (int i = 0; i < samples; i++)
-                result[i] = random.Next(a, b);
-
+                result[i] = source.Next(a, b);
             return result;
         }
     }

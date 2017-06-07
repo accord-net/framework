@@ -369,15 +369,34 @@ namespace Accord.Statistics.Distributions.Multivariate
             return new Independent<TDistribution, TObservation>(clone);
         }
 
+
         /// <summary>
         /// Generates a random observation from the current distribution.
         /// </summary>
+        /// 
         /// <param name="result">The location where to store the sample.</param>
+        ///   
         /// <returns>A random observation drawn from this distribution.</returns>
+        /// 
         public TObservation[] Generate(TObservation[] result)
         {
+            return Generate(result, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        /// Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="result">The location where to store the sample.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
+        /// <returns>A random observation drawn from this distribution.</returns>
+        /// 
+        public TObservation[] Generate(TObservation[] result, Random source)
+        {
             for (int i = 0; i < Components.Length; i++)
-                result[i] = ((ISampleableDistribution<TObservation>)Components[i]).Generate();
+                result[i] = ((ISampleableDistribution<TObservation>)Components[i]).Generate(source);
             return result;
         }
 
@@ -389,8 +408,24 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         public TObservation[][] Generate(int samples, TObservation[][] result)
         {
+            return Generate(samples, result, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public TObservation[][] Generate(int samples, TObservation[][] result, Random source)
+        {
             for (int i = 0; i < Components.Length; i++)
-                result.SetColumn(i, ((ISampleableDistribution<TObservation>)Components[i]).Generate(samples));
+                result.SetColumn(i, ((ISampleableDistribution<TObservation>)Components[i]).Generate(samples, source));
             return result;
         }
 
@@ -403,6 +438,17 @@ namespace Accord.Statistics.Distributions.Multivariate
         {
             return Generate(new TObservation[Components.Length]);
         }
-    }
 
+
+        TObservation[][] ISampleableDistribution<TObservation[]>.Generate(int samples, Random source)
+        {
+            return Generate(samples, Jagged.Zeros<TObservation>(samples, Components.Length), source);
+        }
+
+        TObservation[] ISampleableDistribution<TObservation[]>.Generate(Random source)
+        {
+            return Generate(new TObservation[Components.Length], source);
+        }
+
+    }
 }

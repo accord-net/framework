@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Distributions
 {
     using Accord.Math.Random;
+    using System;
 
     /// <summary>
     ///   Common interface for sampleable distributions (i.e. distributions that
@@ -44,5 +45,50 @@ namespace Accord.Statistics.Distributions
         /// <returns>A random observation drawn from this distribution.</returns>
         /// 
         TObservations Generate(TObservations result);
+
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="result">The location where to store the sample.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random observation drawn from this distribution.</returns>
+        /// 
+        TObservations Generate(TObservations result, Random source);
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        TObservations[] Generate(int samples, Random source);
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        TObservations[] Generate(int samples, TObservations[] result, Random source);
+
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <returns>A random observations drawn from this distribution.</returns>
+        /// 
+        TObservations Generate(Random source);
     }
 }

@@ -432,23 +432,28 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
-        /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            return Random(mu, omega, samples, result);
+            return Random(mu, omega, samples, result, source);
         }
 
         /// <summary>
         ///   Generates a random observation from the current distribution.
         /// </summary>
         /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
-            return Random(mu, omega);
+            return Random(mu, omega, source);
         }
 
         /// <summary>
@@ -464,7 +469,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double shape, double spread, int samples)
         {
-            return Random(shape, spread, samples, new double[samples]);
+            return Random(shape, spread, samples, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -481,10 +486,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double shape, double spread, int samples, double[] result)
         {
-            GammaDistribution.Random(shape, spread / shape, samples, result);
-            for (int i = 0; i < result.Length; i++)
-                result[i] = Math.Sqrt(result[i]);
-            return result;
+            return Random(shape, spread, samples, result, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -499,7 +501,64 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double shape, double spread)
         {
-            return Math.Sqrt(GammaDistribution.Random(shape: shape, scale: spread / shape));
+            return Random(shape, spread, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Nakagami distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="shape">The shape parameter μ.</param>
+        /// <param name="spread">The spread parameter ω.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Nakagami distribution.</returns>
+        /// 
+        public static double[] Random(double shape, double spread, int samples, Random source)
+        {
+            return Random(shape, spread, samples, new double[samples], source);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Nakagami distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="shape">The shape parameter μ.</param>
+        /// <param name="spread">The spread parameter ω.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Nakagami distribution.</returns>
+        /// 
+        public static double[] Random(double shape, double spread, int samples, double[] result, Random source)
+        {
+            GammaDistribution.Random(shape, spread / shape, samples, result, source: source);
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Math.Sqrt(result[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the 
+        ///   Nakagami distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="shape">The shape parameter μ.</param>
+        /// <param name="spread">The spread parameter ω.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random double value sampled from the specified Nakagami distribution.</returns>
+        /// 
+        public static double Random(double shape, double spread, Random source)
+        {
+            return Math.Sqrt(GammaDistribution.Random(shape: shape, scale: spread / shape, source: source));
         }
 
         #endregion

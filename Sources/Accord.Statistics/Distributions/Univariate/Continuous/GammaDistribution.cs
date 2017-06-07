@@ -517,12 +517,14 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            return Random(k, theta, samples);
+            return Random(k, theta, samples, source);
         }
 
         /// <summary>
@@ -531,9 +533,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
-            return Random(k, theta);
+            return Random(k, theta, source);
         }
 
         /// <summary>
@@ -549,7 +551,25 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double shape, double scale, int samples)
         {
-            return Random(shape, scale, samples, new double[samples]);
+            return Random(shape, scale, samples, new double[samples], Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Gamma distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="scale">The scale parameter theta (or inverse beta).</param>
+        /// <param name="shape">The shape parameter k (or alpha).</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Gamma distribution.</returns>
+        /// 
+        public static double[] Random(double shape, double scale, int samples, Random source)
+        {
+            return Random(shape, scale, samples, new double[samples], source);
         }
 
         /// <summary>
@@ -566,15 +586,32 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double shape, double scale, int samples, double[] result)
         {
-            var rand = Accord.Math.Random.Generator.Random;
+            return Random(shape, scale, samples, result, Accord.Math.Random.Generator.Random);
+        }
 
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Gamma distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="scale">The scale parameter theta (or inverse beta).</param>
+        /// <param name="shape">The shape parameter k (or alpha).</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Gamma distribution.</returns>
+        /// 
+        public static double[] Random(double shape, double scale, int samples, double[] result, Random source)
+        {
             if (shape < 1)
             {
                 double d = shape + 1.0 - 1.0 / 3.0;
                 double c = (1.0 / 3.0) / Math.Sqrt(d);
 
                 for (int i = 0; i < samples; i++)
-                    result[i] = scale * Marsaglia(d, c) * Math.Pow(rand.NextDouble(), 1.0 / shape);
+                    result[i] = scale * Marsaglia(d, c) * Math.Pow(source.NextDouble(), 1.0 / shape);
             }
             else
             {
@@ -600,12 +637,29 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double shape, double scale)
         {
+            return Random(shape, scale, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the 
+        ///   Gamma distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="scale">The scale parameter theta (or inverse beta).</param>
+        /// <param name="shape">The shape parameter k (or alpha).</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random double value sampled from the specified Gamma distribution.</returns>
+        /// 
+        public static double Random(double shape, double scale, Random source)
+        {
             if (shape < 1)
             {
                 double d = shape + 1.0 - 1.0 / 3.0;
                 double c = (1.0 / 3.0) / Math.Sqrt(d);
 
-                double u = Accord.Math.Random.Generator.Random.NextDouble();
+                double u = source.NextDouble();
                 return scale * Marsaglia(d, c) * Math.Pow(u, 1.0 / shape);
             }
             else
@@ -624,8 +678,16 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Marsaglia(double d, double c)
         {
-            var rand = Accord.Math.Random.Generator.Random;
+            return Marsaglia(d, c, Accord.Math.Random.Generator.Random);
+        }
 
+        /// <summary>
+        ///   Random Gamma-distribution number generation 
+        ///   based on Marsaglia's Simple Method (2000).
+        /// </summary>
+        /// 
+        public static double Marsaglia(double d, double c, Random source)
+        {
             // References:
             //
             // - Marsaglia, G. A Simple Method for Generating Gamma Variables, 2000
@@ -645,7 +707,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
 
                 // 3. Generate uniform U
-                double U = rand.NextDouble();
+                double U = source.NextDouble();
 
                 // 4. If U < 1-0.0331*x^4 return d*v.
                 double x2 = x * x;

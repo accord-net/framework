@@ -27,7 +27,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions.Fitting;
     using System.Globalization;
     using Accord.Statistics.Distributions.Sampling;
-using Accord.Math.Random;
+    using Accord.Math.Random;
 
     /// <summary>
     ///   Abstract class for Multivariate Probability Distributions.
@@ -63,7 +63,7 @@ using Accord.Math.Random;
     /// 
     [Serializable]
     public abstract class MultivariateContinuousDistribution : DistributionBase,
-        IMultivariateDistribution, 
+        IMultivariateDistribution,
         IMultivariateDistribution<double[]>,
         IFittableDistribution<double[]>,
         ISampleableDistribution<double[]>,
@@ -73,7 +73,7 @@ using Accord.Math.Random;
         private int dimension;
 
         [NonSerialized]
-        private IRandomNumberGenerator<double[]> generator;
+        private MetropolisHasting<double> generator;
 
 
         /// <summary>
@@ -399,6 +399,8 @@ using Accord.Math.Random;
         }
 
 
+
+
         /// <summary>
         ///   Generates a random vector of observations from the current distribution.
         /// </summary>
@@ -408,7 +410,7 @@ using Accord.Math.Random;
         /// 
         public double[][] Generate(int samples)
         {
-            return Generate(samples, Jagged.Create<double>(samples, dimension));
+            return Generate(samples, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -420,11 +422,9 @@ using Accord.Math.Random;
         ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public virtual double[][] Generate(int samples, double[][] result)
+        public double[][] Generate(int samples, double[][] result)
         {
-            if (generator == null)
-                generator = new MetropolisHasting(Dimension, LogProbabilityDensityFunction);
-            return generator.Generate(samples, result);
+            return Generate(samples, result, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -435,7 +435,7 @@ using Accord.Math.Random;
         /// 
         public double[] Generate()
         {
-            return Generate(1)[0];
+            return Generate(Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -446,9 +446,7 @@ using Accord.Math.Random;
         /// 
         public double[] Generate(double[] result)
         {
-            double[][] c = { result };
-            Generate(1, result: c);
-            return c[0];
+            return Generate(result, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -463,7 +461,7 @@ using Accord.Math.Random;
         /// 
         public int[] Generate(int[] result)
         {
-            return Elementwise.Round(Generate(), result: result);
+            return Generate(result, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -479,7 +477,105 @@ using Accord.Math.Random;
         /// 
         public int[][] Generate(int samples, int[][] result)
         {
+            return Generate(samples, result, Accord.Math.Random.Generator.Random);
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public double[][] Generate(int samples, Random source)
+        {
+            return Generate(samples, Jagged.Create<double>(samples, dimension), source);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public virtual double[][] Generate(int samples, double[][] result, Random source)
+        {
+            if (generator == null)
+                generator = new MetropolisHasting(Dimension, LogProbabilityDensityFunction);
+
+            if (generator.RandomSource != source)
+                generator.RandomSource = source;
+
             return Elementwise.Round(Generate(samples), result: result);
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <returns>A random observations drawn from this distribution.</returns>
+        /// 
+        public double[] Generate(Random source)
+        {
+            return Generate(1, source)[0];
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <returns>A random observations drawn from this distribution.</returns>
+        /// 
+        public double[] Generate(double[] result, Random source)
+        {
+            return Generate(1, result: new[] { result }, source: source)[0];
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="result">The location where to store the sample.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>
+        ///   A random observation drawn from this distribution.
+        /// </returns>
+        /// 
+        public int[] Generate(int[] result, Random source)
+        {
+            return Elementwise.Round(Generate(source), result: result);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the observations.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>
+        ///   A random vector of observations drawn from this distribution.
+        /// </returns>
+        /// 
+        public int[][] Generate(int samples, int[][] result, Random source)
+        {
+            return Elementwise.Round(Generate(samples, source), result: result);
         }
 
 
@@ -494,14 +590,5 @@ using Accord.Math.Random;
             return LogProbabilityDensityFunction(x);
         }
 
-        //int[][] IRandomNumberGenerator<int[]>.Generate(int samples)
-        //{
-        //    return Generate(samples, Jagged.Create<int>(samples, dimension));
-        //}
-
-        //int[] IRandomNumberGenerator<int[]>.Generate()
-        //{
-        //    return Generate(new int[dimension]);
-        //}
     }
 }

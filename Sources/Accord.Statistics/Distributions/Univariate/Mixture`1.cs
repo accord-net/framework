@@ -673,10 +673,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
-        /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
             if (sampleable == null)
             {
@@ -688,7 +690,7 @@ namespace Accord.Statistics.Distributions.Univariate
             for (int i = 0; i < samples; i++)
             {
                 // Choose one coefficient at random
-                int j = GeneralDiscreteDistribution.Random(coefficients);
+                int j = GeneralDiscreteDistribution.Random(coefficients, source);
 
                 // Sample from the chosen coefficient
                 result[i] = sampleable[j].Generate();
@@ -703,7 +705,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
             if (sampleable == null)
             {
@@ -713,7 +715,7 @@ namespace Accord.Statistics.Distributions.Univariate
             }
 
             // Choose one coefficient at random
-            int j = GeneralDiscreteDistribution.Random(coefficients);
+            int j = GeneralDiscreteDistribution.Random(coefficients, source);
 
             // Sample from the chosen coefficient
             return sampleable[j].Generate();

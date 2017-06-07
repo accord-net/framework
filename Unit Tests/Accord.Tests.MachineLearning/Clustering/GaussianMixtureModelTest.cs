@@ -660,12 +660,14 @@ namespace Accord.Tests.MachineLearning
                 MaxIterations = 10
             };
 
+            gmm.ParallelOptions.MaxDegreeOfParallelism = 1;
+
             Assert.AreEqual(0, gmm.Iterations);
             Assert.AreEqual(10, gmm.MaxIterations);
 
             // Estimate the Gaussian Mixture
             var clusters = gmm.Learn(samples);
-            Assert.IsTrue(gmm.Iterations == 4 || gmm.Iterations == 3);
+            Assert.AreEqual(3, gmm.Iterations);
             Assert.AreEqual(10, gmm.MaxIterations);
 
             // Predict cluster labels for each sample

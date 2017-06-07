@@ -67,6 +67,12 @@ namespace Accord.Statistics.Distributions.Sampling
         public T[] Current { get { return current; } }
 
         /// <summary>
+        ///   Gets or sets a factory method to create random number generators used in this instance.
+        /// </summary>
+        /// 
+        public Random RandomSource { get; set; }
+
+        /// <summary>
         ///   Gets the log-probability of the <see cref="Current">last successfully
         ///   generated sample</see>.
         /// </summary>
@@ -153,6 +159,7 @@ namespace Accord.Statistics.Distributions.Sampling
             this.next = new T[dimensions];
             this.logPdf = logDensity;
             this.proposal = proposal;
+            this.RandomSource = Accord.Math.Random.Generator.Random;
         }
 
 
@@ -190,7 +197,7 @@ namespace Accord.Statistics.Distributions.Sampling
         /// 
         public bool TryGenerate()
         {
-            var random = Accord.Math.Random.Generator.Random;
+            Random source = RandomSource;
 
             next = proposal(current, next);
 
@@ -198,7 +205,7 @@ namespace Accord.Statistics.Distributions.Sampling
             double logRatio = pNext - currentLogProb;
             steps++;
 
-            if (Math.Log(random.NextDouble()) < logRatio)
+            if (Math.Log(source.NextDouble()) < logRatio)
             {
                 var aux = current;
                 current = next;
