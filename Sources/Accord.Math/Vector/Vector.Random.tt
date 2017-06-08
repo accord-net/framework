@@ -62,6 +62,33 @@ namespace Accord.Math
             int[] idx = Vector.Sample(size);
             return values.Get(idx);
         }
+        
+        //Random Sampling
+		 public static T[] randomSample<T>(T[] values, int size)
+        {
+			
+           // int[] idx = Vector.Sample(size);
+		   int[] idx = new int[size];
+		   
+		   for(int i=0;i<idx.Length;i++)
+		   idx[i]=9999;
+
+		   var Rand=new System.Random();
+		   var rIdx=0;
+		   for(int i=0;i<idx.Length;i++){
+			
+				
+				do{
+					rIdx= Rand.Next(0,values.Length);
+				
+
+				}while(Array.IndexOf(idx,rIdx)!=-1);
+				Console.WriteLine(rIdx);
+				idx[i]=rIdx;
+			}
+
+            return values.Submatrix(idx);
+        }
 
 <# 
     foreach (string i in new[] { "int", "float", "double", "short", "byte", "sbyte", "long", "decimal", "ulong", "ushort" })
