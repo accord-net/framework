@@ -931,13 +931,14 @@ namespace Accord.Math.Decompositions
             //(V x L* x Ut) x Y
             int vrows = v.Rows();
             int urows = u.Rows();
-            var VLU = new Decimal[vrows, scols];
+            int ucols = u.Columns();
+            var VLU = new Decimal[vrows, urows];
             for (int i = 0; i < vrows; i++)
             {
                 for (int j = 0; j < urows; j++)
                 {
                     Decimal sum = 0;
-                    for (int k = 0; k < urows; k++)
+                    for (int k = 0; k < ucols; k++)
                         sum += VL[i, k] * u[j, k];
                     VLU[i, j] = sum;
                 }

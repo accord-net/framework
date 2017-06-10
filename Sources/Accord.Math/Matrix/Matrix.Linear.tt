@@ -350,7 +350,7 @@ namespace Accord.Math
         /// 
         public static <#=type#>[][] Solve(this <#=type#>[][] matrix, <#=type#>[][] rightSide, bool leastSquares = false)
         {
-            if (matrix.Length != rightSide[0].Length)
+            if (matrix.Length != rightSide.Length)
             {
                 throw new DimensionMismatchException("rightSide",
                     "The number of rows in the right hand side matrix must be "

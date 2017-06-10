@@ -990,17 +990,16 @@ namespace Accord.Math.Decompositions
             var VL = Matrix.Dot(v, Ls);
 
             //(V x L* x Ut) x Y
-            int vrows = v.Length;
-            int urows = u.Length;
-            var VLU = new <#=T#>[vrows][];
+            int vrows = v.Rows();
+            int urows = u.Rows();
+            int ucols = u.Columns();
+            var VLU = Jagged.Create<<#=T#>>(vrows, urows);
             for (int i = 0; i < vrows; i++)
             {
-                VLU[i] = new <#=T#>[scols];
-
                 for (int j = 0; j < urows; j++)
                 {
                     <#=T#> sum = 0;
-                    for (int k = 0; k < urows; k++)
+                    for (int k = 0; k < ucols; k++)
                         sum += VL[i][k] * u[j][k];
                     VLU[i][j] = sum;
                 }
