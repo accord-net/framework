@@ -40,5 +40,15 @@
     <file src="..\..\Release\net46\Accord.Math.xml"      target="lib\net46\Accord.Math.xml" />
     <file src="..\..\Release\net46\Accord.Math.Core.dll" target="lib\net46\Accord.Math.Core.dll" />
     <file src="..\..\Release\net46\Accord.Math.Core.xml" target="lib\net46\Accord.Math.Core.xml" />
+	
+	<file src="..\..\Release\net462\Accord.Math.dll"      target="lib\net462\Accord.Math.dll" />
+    <file src="..\..\Release\net462\Accord.Math.xml"      target="lib\net462\Accord.Math.xml" />
+    <file src="..\..\Release\net462\Accord.Math.Core.dll" target="lib\net462\Accord.Math.Core.dll" />
+    <file src="..\..\Release\net462\Accord.Math.Core.xml" target="lib\net462\Accord.Math.Core.xml" />
+	
+	<file src="..\..\Release\netstandard2.0\Accord.Math.dll"      target="lib\netstandard2.0\Accord.Math.dll" />
+    <file src="..\..\Release\netstandard2.0\Accord.Math.xml"      target="lib\netstandard2.0\Accord.Math.xml" />
+    <file src="..\..\Release\netstandard2.0\Accord.Math.Core.dll" target="lib\netstandard2.0\Accord.Math.Core.dll" />
+    <file src="..\..\Release\netstandard2.0\Accord.Math.Core.xml" target="lib\netstandard2.0\Accord.Math.Core.xml" />
   </files>
 </package>

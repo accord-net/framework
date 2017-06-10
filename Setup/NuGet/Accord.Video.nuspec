@@ -32,5 +32,11 @@
 	
 	<file src="..\..\Release\net46\Accord.Video.dll" target="lib\net46\Accord.Video.dll" />
     <file src="..\..\Release\net46\Accord.Video.xml" target="lib\net46\Accord.Video.xml" />
+	
+	<file src="..\..\Release\net462\Accord.Video.dll" target="lib\net462\Accord.Video.dll" />
+    <file src="..\..\Release\net462\Accord.Video.xml" target="lib\net462\Accord.Video.xml" />
+	
+	<file src="..\..\Release\netstandard2.0\Accord.Video.dll" target="lib\netstandard2.0\Accord.Video.dll" />
+    <file src="..\..\Release\netstandard2.0\Accord.Video.xml" target="lib\netstandard2.0\Accord.Video.xml" />
   </files>
 </package>
