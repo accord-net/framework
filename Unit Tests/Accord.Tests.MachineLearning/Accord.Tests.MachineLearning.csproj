@@ -235,6 +235,7 @@
     <None Include="Resources\nursery.data">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\Shapes.csv" />
     <None Include="Resources\svm2.svm" />
     <None Include="Resources\rforest\times.csv" />
     <None Include="Resources\trainingsample.csv" />

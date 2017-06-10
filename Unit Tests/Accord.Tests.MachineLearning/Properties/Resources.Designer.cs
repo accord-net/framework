@@ -19,7 +19,7 @@ namespace Accord.Tests.MachineLearning.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -504,6 +504,41 @@ namespace Accord.Tests.MachineLearning.Properties {
             get {
                 object obj = ResourceManager.GetObject("pca_mnist_v3_1", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0,0,Circle,205,84
+        ///0,0,Circle,204,84
+        ///0,0,Circle,201,84
+        ///0,0,Circle,199,84
+        ///0,0,Circle,198,84
+        ///0,0,Circle,196,84
+        ///0,0,Circle,194,84
+        ///0,0,Circle,191,84
+        ///0,0,Circle,187,84
+        ///0,0,Circle,184,84
+        ///0,0,Circle,181,85
+        ///0,0,Circle,175,87
+        ///0,0,Circle,172,89
+        ///0,0,Circle,163,94
+        ///0,0,Circle,158,96
+        ///0,0,Circle,147,104
+        ///0,0,Circle,142,109
+        ///0,0,Circle,135,114
+        ///0,0,Circle,119,127
+        ///0,0,Circle,116,132
+        ///0,0,Circle,107,142
+        ///0,0,Circle,102,150
+        ///0,0,Circle,95,162
+        ///0,0,Circle,94,165
+        ///0,0,Circle,93,170
+        ///0,0,Circle,92,174
+        ///0,0,Circle, [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Shapes {
+            get {
+                return ResourceManager.GetString("Shapes", resourceCulture);
             }
         }
         

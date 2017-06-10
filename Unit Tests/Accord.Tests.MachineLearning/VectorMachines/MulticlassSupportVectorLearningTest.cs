@@ -36,6 +36,9 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Filters;
     using System.IO;
     using Accord.Statistics.Analysis;
+    using Accord.IO;
+    using Accord.Tests.MachineLearning.Properties;
+    using System.Data;
 
     [TestFixture]
     public class MulticlassSupportVectorLearningTest
@@ -1160,6 +1163,61 @@ namespace Accord.Tests.MachineLearning
             var cm = new ConfusionMatrix(actual, y);
 
             Assert.AreEqual(1.0, cm.Accuracy, 5e-3);
+        }
+
+        [Test]
+        public void dynamic_time_warp_issue_470()
+        {
+            var instances = CsvReader.FromText(Resources.Shapes, hasHeaders: false).Select(x => new
+            {
+                InstanceId = int.Parse(x[0]),
+                ClassId = int.Parse(x[1]),
+                X = Double.Parse(x[3]),
+                Y = Double.Parse(x[4])
+            });
+
+            var Sequences = (from a in instances
+                             group a by a.InstanceId into g
+                             select new
+                             {
+                                 InstanceId = g.Key,
+                                 ClassID = g.First().ClassId,
+                                 Values = Enumerable.Zip(g.Select(x => x.X), g.Select(x => x.Y),
+                                     (a, b) => new double[] { a, b }).ToArray()
+                             }).ToList();
+
+
+
+            double[][][] inputs = Sequences.Select(x=>x.Values).ToArray(); // X,Y values sequences from attached file.
+            int[] outputs = Sequences.Select(x=>x.ClassID).ToArray();      // Class 0,1,2
+
+
+            // Create the learning algorithm to teach the multiple class classifier
+            var teacher = new MulticlassSupportVectorLearning<DynamicTimeWarping, double[][]>()
+            {
+                Learner = (param) => new SequentialMinimalOptimization<DynamicTimeWarping, double[][]>()
+                {
+                    Kernel = new DynamicTimeWarping(length: 2), // (x, y) pairs
+                }
+            };
+
+            // Learn the SVM using the SMO algorithm
+            var svm = teacher.Learn(inputs, outputs);
+
+            // Compute predicted values (at once)
+            int[] predicted = svm.Decide(inputs);  
+
+            // Compute individual values and compare
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                int outClass = svm.Decide(inputs[i]); 
+                Assert.AreEqual(predicted[i], outClass);
+            }
+
+
+            Assert.AreEqual(3, svm.NumberOfClasses);
+            Assert.AreEqual(0, svm.NumberOfInputs);
+            Assert.AreEqual(3, svm.NumberOfOutputs);
         }
     }
 }
