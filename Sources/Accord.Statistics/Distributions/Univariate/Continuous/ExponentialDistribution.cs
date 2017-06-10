@@ -272,6 +272,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
+            if (x <= 0)
+                return 0;
             return 1.0 - Math.Exp(-lambda * x);
         }
 
@@ -298,6 +300,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityDensityFunction(double x)
         {
+            if (x < 0)
+                return 0;
             return lambda * Math.Exp(-lambda * x);
         }
 
@@ -322,6 +326,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double LogProbabilityDensityFunction(double x)
         {
+            if (x < 0)
+                return Double.NegativeInfinity;
             return lnlambda - lambda * x;
         }
 
@@ -343,7 +349,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double InverseDistributionFunction(double p)
         {
-            double icdf = -Math.Log(1 - p) / lambda;
+            double icdf = -Math.Log(1.0 - p) / lambda;
             Accord.Diagnostics.Debug.Assert(icdf.IsEqual(base.InverseDistributionFunction(p), 1e-6));
             return icdf;
         }
