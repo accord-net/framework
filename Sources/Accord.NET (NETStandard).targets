@@ -17,9 +17,9 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <CodeAnalysisRuleSet>$(SolutionDir)\Accord.NET.ruleset</CodeAnalysisRuleSet>
 
-    <Configurations>Debug;netstandard</Configurations>
+    <Configurations>Debug;netstandard2.0</Configurations>
 
-    <OutputPath>$(SolutionDir)..\Release\$(Configuration)</OutputPath>
+    <OutDir>$(SolutionDir)..\Release\$(Configuration)</OutDir>
     <DocumentationFile>$(SolutionDir)..\Release\$(Configuration)\$(AssemblyName).XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\$(Configuration)\$(AssemblyName).dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>

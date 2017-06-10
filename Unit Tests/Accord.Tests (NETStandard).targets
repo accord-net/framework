@@ -3,7 +3,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-    <Configurations>Debug;netstandard</Configurations>
+    <Configurations>Debug;netstandard2.0</Configurations>
     <NoWarn>1701;1702;1705;0618;0612</NoWarn>
     <DebugType>Full</DebugType>
   </PropertyGroup>

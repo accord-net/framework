@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
+
+  <PropertyGroup>
+    <AssemblyName>Accord.MachineLearning.GPL</AssemblyName>
+    <RootNamespace>Accord.MachineLearning</RootNamespace>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <OutDir>$(SolutionDir)..\Debug\GPL</OutDir>
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='netstandard2.0|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
+    <OutDir>$(SolutionDir)..\Release\$(Configuration)\GPL</OutDir>
+    <DocumentationFile>$(SolutionDir)..\Release\$(Configuration)\GPL\$(AssemblyName).XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\$(Configuration)\GPL\$(AssemblyName).dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Accord.Core\Accord.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Accord.MachineLearning\Accord.MachineLearning (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Accord.Math\Accord.Math (NETStandard).csproj" />
+  </ItemGroup>
+
+</Project>

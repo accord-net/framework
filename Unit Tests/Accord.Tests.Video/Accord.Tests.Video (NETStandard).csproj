@@ -1,27 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Configurations>Debug;netstandard</Configurations>
-  </PropertyGroup>
+  <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
 
+    <PropertyGroup>
+    <RootNamespace>Accord.Tests.Video</RootNamespace>
+    <AssemblyName>Accord.Tests.Video</AssemblyName>
+  </PropertyGroup>
+  
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='netstandard|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='netstandard2.0|AnyCPU'">
     <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
   
-  <ItemGroup>
-    <Compile Remove="Properties\AssemblyInfo.cs" />
-    <Compile Remove="Properties\VersionInfo.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="NUnit" Version="3.7.0" />
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\Accord.Video.DirectShow\Accord.Video.DirectShow (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.Video\Accord.Video (NETStandard).csproj" />
