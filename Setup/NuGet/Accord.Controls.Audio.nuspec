@@ -36,5 +36,11 @@
 	
 	<file src="..\..\Release\net46\Accord.Controls.Audio.dll" target="lib\net46\Accord.Controls.Audio.dll" />
     <file src="..\..\Release\net46\Accord.Controls.Audio.xml" target="lib\net46\Accord.Controls.Audio.xml" />
+	
+	<file src="..\..\Release\net462\Accord.Controls.Audio.dll" target="lib\net462\Accord.Controls.Audio.dll" />
+    <file src="..\..\Release\net462\Accord.Controls.Audio.xml" target="lib\net462\Accord.Controls.Audio.xml" />
+	
+	<!-- <file src="..\..\Release\netstandard2.0\Accord.Controls.Audio.dll" target="lib\netstandard2.0\Accord.Controls.Audio.dll" /> -->
+    <!-- <file src="..\..\Release\netstandard2.0\Accord.Controls.Audio.xml" target="lib\netstandard2.0\Accord.Controls.Audio.xml" /> -->
   </files>
 </package>

@@ -30,6 +30,12 @@
     
     <file src="..\..\Release\net46\Accord.Video.Kinect.dll"     target="lib\net46\Accord.Video.Kinect.dll" />
     <file src="..\..\Release\net46\Accord.Video.Kinect.xml"     target="lib\net46\Accord.Video.Kinect.xml" />
+	
+	<file src="..\..\Release\net462\Accord.Video.Kinect.dll"     target="lib\net462\Accord.Video.Kinect.dll" />
+    <file src="..\..\Release\net462\Accord.Video.Kinect.xml"     target="lib\net462\Accord.Video.Kinect.xml" />
+	
+	<file src="..\..\Release\netstandard2.0\Accord.Video.Kinect.dll"     target="lib\netstandard2.0\Accord.Video.Kinect.dll" />
+    <file src="..\..\Release\netstandard2.0\Accord.Video.Kinect.xml"     target="lib\netstandard2.0\Accord.Video.Kinect.xml" />
 
     <file src="..\..\Externals\libfreenect\freenect.dll"        target="build\x86\freenect.dll" />
     <file src="..\..\Externals\libfreenect\APACHE20"            target="build\x86\FREENECT-LICENSE.txt" />

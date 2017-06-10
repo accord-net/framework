@@ -35,5 +35,11 @@
 
     <file src="..\..\Release\net46\Accord.Imaging.dll" target="lib\net46\Accord.Imaging.dll" />
     <file src="..\..\Release\net46\Accord.Imaging.xml" target="lib\net46\Accord.Imaging.xml" />
+	
+	<file src="..\..\Release\net462\Accord.Imaging.dll" target="lib\net462\Accord.Imaging.dll" />
+    <file src="..\..\Release\net462\Accord.Imaging.xml" target="lib\net462\Accord.Imaging.xml" />
+	
+	<file src="..\..\Release\netstandard2.0\Accord.Imaging.dll" target="lib\netstandard2.0\Accord.Imaging.dll" />
+    <file src="..\..\Release\netstandard2.0\Accord.Imaging.xml" target="lib\netstandard2.0\Accord.Imaging.xml" />
   </files>
 </package>
