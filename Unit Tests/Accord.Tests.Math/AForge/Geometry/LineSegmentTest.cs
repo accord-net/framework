@@ -194,5 +194,15 @@ namespace Accord.Tests.Math
             Assert.Throws<InvalidOperationException>(() => segB.GetIntersectionWith(segA));
             Assert.Throws<InvalidOperationException>(() => segA.GetIntersectionWith(segB));
         }
+
+        [Test]
+        public void issue_359()
+        {
+            LineSegment segA = new LineSegment(new Point(32.0951f, 36.0828f), new Point(32.0863f, 36.1038f));
+            LineSegment segB = new LineSegment(new Point(32.0861f, 36.2358f), new Point(32.0859f, 36.0889f));
+
+            Point? result = segA.GetIntersectionWith(segB);
+            Assert.IsNull(result);
+        }
     }
 }
