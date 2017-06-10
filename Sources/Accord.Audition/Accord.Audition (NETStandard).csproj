@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
-  
   <PropertyGroup>
     <AssemblyName>Accord.Audition</AssemblyName>
     <RootNamespace>Accord.Audition</RootNamespace>
   </PropertyGroup>
-
+  
+  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
+  
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
