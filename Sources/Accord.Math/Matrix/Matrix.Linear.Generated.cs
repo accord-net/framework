@@ -333,7 +333,7 @@ namespace Accord.Math
         /// 
         public static Double[][] Solve(this Double[][] matrix, Double[][] rightSide, bool leastSquares = false)
         {
-            if (matrix.Length != rightSide[0].Length)
+            if (matrix.Length != rightSide.Length)
             {
                 throw new DimensionMismatchException("rightSide",
                     "The number of rows in the right hand side matrix must be "
@@ -1030,7 +1030,7 @@ namespace Accord.Math
         /// 
         public static Single[][] Solve(this Single[][] matrix, Single[][] rightSide, bool leastSquares = false)
         {
-            if (matrix.Length != rightSide[0].Length)
+            if (matrix.Length != rightSide.Length)
             {
                 throw new DimensionMismatchException("rightSide",
                     "The number of rows in the right hand side matrix must be "
@@ -1727,7 +1727,7 @@ namespace Accord.Math
         /// 
         public static Decimal[][] Solve(this Decimal[][] matrix, Decimal[][] rightSide, bool leastSquares = false)
         {
-            if (matrix.Length != rightSide[0].Length)
+            if (matrix.Length != rightSide.Length)
             {
                 throw new DimensionMismatchException("rightSide",
                     "The number of rows in the right hand side matrix must be "

@@ -34,7 +34,7 @@ namespace Accord.Tests.Math
         public void InverseTest()
         {
             double[,] value = new double[,]
-            { 
+            {
                   { 1.0, 1.0 },
                   { 2.0, 2.0 }
             };
@@ -119,7 +119,7 @@ namespace Accord.Tests.Math
             // routine was not meant to be used in this case.
 
             double[,] value = new double[,]
-             { 
+             {
                  { 1, 2 },
                  { 3, 4 },
                  { 5, 6 },
@@ -158,14 +158,14 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(target.RightSingularVectors.Submatrix(0, 3, 0, 1), V, 0.0001));
 
 
-            double[,] S = 
+            double[,] S =
             {
                 { 14.2690954992615, 0.000000000000000 },
-                {  0.0000000000000,	0.626828232417543 },
+                {  0.0000000000000, 0.626828232417543 },
             };
 
             // The diagonal values should be equal
-            Assert.IsTrue(Matrix.IsEqual(target.Diagonal.First(2), 
+            Assert.IsTrue(Matrix.IsEqual(target.Diagonal.First(2),
                 Matrix.Diagonal(S), 0.001));
         }
 
@@ -179,7 +179,7 @@ namespace Accord.Tests.Math
             // routine was not meant to be used in this case.
 
             double[,] value = new double[,]
-             { 
+             {
                  { 1, 2 },
                  { 3, 4 },
                  { 5, 6 },
@@ -188,13 +188,13 @@ namespace Accord.Tests.Math
 
             var target = new SingularValueDecomposition(value, true, true, true);
 
-            double[,] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors, 
+            double[,] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors,
                 Matrix.Diagonal(target.Diagonal)), target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
             Assert.IsTrue(Matrix.IsEqual(actual, value, 0.01));
             Assert.IsTrue(Matrix.IsEqual(target.Reverse(), value, 1e-2));
-            
+
             // Checking values
             double[,] U =
             {
@@ -218,10 +218,10 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(target.RightSingularVectors, V, 0.0001));
 
 
-            double[,] S = 
+            double[,] S =
             {
                 { 14.2690954992615, 0.000000000000000 },
-                {  0.0000000000000,	0.626828232417543 },
+                {  0.0000000000000, 0.626828232417543 },
             };
 
             // The diagonal values should be equal
@@ -235,7 +235,7 @@ namespace Accord.Tests.Math
             // test for m-x-n matrices where m > n (4 > 2)
 
             double[,] value = new double[,]
-             { 
+             {
                  { 1, 2 },
                  { 3, 4 },
                  { 5, 6 },
@@ -276,10 +276,10 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(target.RightSingularVectors, V, 0.0001));
 
 
-            double[,] S = 
+            double[,] S =
             {
                 { 14.2690954992615, 0.000000000000000 },
-                {  0.0000000000000,	0.626828232417543 },
+                {  0.0000000000000, 0.626828232417543 },
             };
 
             // The diagonal values should be equal
@@ -294,7 +294,7 @@ namespace Accord.Tests.Math
             // without computing the right singular vectors.
 
             double[,] value = new double[,]
-             { 
+             {
                  { 1, 2 },
                  { 3, 4 },
                  { 5, 6 },
@@ -328,10 +328,10 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(target.RightSingularVectors, V));
 
 
-            double[,] S = 
+            double[,] S =
             {
                 { 14.2690954992615, 0.000000000000000 },
-                {  0.0000000000000,	0.626828232417543 },
+                {  0.0000000000000, 0.626828232417543 },
             };
 
             // The diagonal values should be equal
@@ -345,7 +345,7 @@ namespace Accord.Tests.Math
             // without computing the left singular vectors.
 
             double[,] value = new double[,]
-             { 
+             {
                  { 1, 2 },
                  { 3, 4 },
                  { 5, 6 },
@@ -379,10 +379,10 @@ namespace Accord.Tests.Math
 
 
 
-            double[,] S = 
+            double[,] S =
             {
                 { 14.2690954992615, 0.000000000000000 },
-                {  0.0000000000000,	0.626828232417543 },
+                {  0.0000000000000, 0.626828232417543 },
             };
 
             // The diagonal values should be equal
@@ -453,7 +453,7 @@ namespace Accord.Tests.Math
 
             {
                 double[,] expected = value;
-                double[,] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors, 
+                double[,] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors,
                     Matrix.Diagonal(target.Diagonal)), target.RightSingularVectors.Transpose());
 
                 // Checking the decomposition
@@ -464,11 +464,44 @@ namespace Accord.Tests.Math
             {
                 double[] solution = target.Solve(output);
 
-                double[] expected= output;
+                double[] expected = output;
                 double[] actual = value.Multiply(solution);
 
                 Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-8));
             }
         }
+
+        [Test]
+        public void issue_614()
+        {
+            // https://github.com/accord-net/framework/issues/614
+
+            double[,] A =
+            {
+                { 1 },
+                { 0 }
+            };
+
+            double[,] B =
+            {
+                { 1 },
+                { 0 }
+            };
+
+
+            double[,] X = Accord.Math.Matrix.Solve(A, B, true);
+
+            double[,] expected =
+            {
+                { 1 }
+            };
+
+            Assert.IsTrue(expected.IsEqual(X));
+
+            X = new SingularValueDecomposition(A).Solve(B);
+
+            Assert.IsTrue(expected.IsEqual(X));
+        }
+
     }
 }
