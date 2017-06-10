@@ -19,7 +19,7 @@ namespace Accord.Tests.Math.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -651,6 +651,50 @@ namespace Accord.Tests.Math.Properties {
             get {
                 object obj = ResourceManager.GetObject("uint8", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string unf_1_constraintMat {
+            get {
+                return ResourceManager.GetString("unf_1_constraintMat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0,0,0,0,0,0,0,0,0,0,465669.432265165,-40000000
+        ///.
+        /// </summary>
+        internal static string unf_1_constraintValues {
+            get {
+                return ResourceManager.GetString("unf_1_constraintValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -842.518391849212,-488.219381897471,-190.491736876565,-186.907180907253,-88.573727999289,-72.8163617663375,-56.0230847324956,-39.7430339089597,-27.0855686809237,-21.4647055129153,-0.115540704378476,-0.349068317072662,-0.577422801256726,-0.804382016952285,-1.02956006691747,-4.87311899182541,-5.67624053425528,-6.47041221362809,-7.24022664271635,-7.99801332612495,-0.441400863323973,-0.909270405717938,-1.40164941495127,-1.91514568013197,-2.44974982103197,-8.08364585878164,-9.61279495811294,-11.2052253164321,-12 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string unf_1_linTerms {
+            get {
+                return ResourceManager.GetString("unf_1_linTerms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0.000425982528487717,-1.30859921184782E-05,3.540886544383E-07,3.19408906899178E-05,4.99246203983784E-08,1.15225834218077E-07,4.19040197567661E-08,2.38160563285809E-08,1.129338173272E-08,1.5384045991757E-08,-6.89318827239171E-09,-2.0825505976031E-08,-3.44491934963131E-08,-4.79896389381127E-08,-6.14238195722856E-08,1.00789083786742E-08,1.06117549160358E-08,1.11387348781526E-08,1.1655341183062E-08,1.21691807261004E-08,2.1523266102491E-10,4.43371785773401E-10,6.83462037505227E-10,9.33849331152353E-10,1.19452909 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string unf_1_quadTerms {
+            get {
+                return ResourceManager.GetString("unf_1_quadTerms", resourceCulture);
             }
         }
     }

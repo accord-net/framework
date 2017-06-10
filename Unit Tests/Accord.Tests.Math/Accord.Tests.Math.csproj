@@ -229,6 +229,10 @@
     <None Include="Resources\mat\uint64.mat" />
     <None Include="Resources\mat\uint8.mat" />
     <None Include="Resources\pseudoInverse1.csv" />
+    <None Include="Resources\unfeasible_qp_1\unf_1_constraintMat.csv" />
+    <None Include="Resources\unfeasible_qp_1\unf_1_constraintValues.csv" />
+    <None Include="Resources\unfeasible_qp_1\unf_1_linTerms.csv" />
+    <None Include="Resources\unfeasible_qp_1\unf_1_quadTerms.csv" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
