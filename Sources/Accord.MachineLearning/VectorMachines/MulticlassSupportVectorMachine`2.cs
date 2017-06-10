@@ -22,6 +22,7 @@
 
 namespace Accord.MachineLearning.VectorMachines
 {
+    using Accord.Diagnostics;
     using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Statistics;
@@ -295,6 +296,8 @@ namespace Accord.MachineLearning.VectorMachines
             double sum = machine.Threshold;
 
             SpinLock[] locks = cache.SyncObjects;
+
+            Debug.Assert(sharedVectors.Length == machine.SupportVectors.Length);
 
             // For each support vector in the machine
             Parallel.For(0, sharedVectors.Length, ParallelOptions,
@@ -794,7 +797,8 @@ namespace Accord.MachineLearning.VectorMachines
             var indices = new Dictionary<TInput, int>();
             foreach (KeyValuePair<TInput, List<Tuple<int, int, int>>> sv in shared)
             {
-                indices[sv.Key] = idx++;
+                if (sv.Value.Count > 1)
+                    indices[sv.Key] = idx++;
             }
 
             // Create a lookup table for the machines
