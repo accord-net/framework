@@ -163,7 +163,7 @@ namespace Accord.Tests.MachineLearning
             //   making DEX (M. Bohanec, V. Rajkovic: Expert system for decision
             //   making. Sistemica 1(1), pp. 145-157, 1990.).
             //
- 
+
             // Let's begin by loading the raw data. This string variable contains
             // the contents of the nursery.data file as a single, continuous text.
             //
@@ -171,7 +171,7 @@ namespace Accord.Tests.MachineLearning
 
             // Those are the input columns available in the data
             //
-            string[] inputColumns = 
+            string[] inputColumns =
             {
                 "parents", "has_nurs", "form", "children",
                 "housing", "finance", "social", "health"
@@ -438,9 +438,9 @@ namespace Accord.Tests.MachineLearning
 
             DecisionVariable[] features =
             {
-                new DecisionVariable("Outlook", DecisionVariableKind.Continuous), 
-                new DecisionVariable("Temperature", DecisionVariableKind.Continuous), 
-                new DecisionVariable("Humidity", DecisionVariableKind.Continuous), 
+                new DecisionVariable("Outlook", DecisionVariableKind.Continuous),
+                new DecisionVariable("Temperature", DecisionVariableKind.Continuous),
+                new DecisionVariable("Humidity", DecisionVariableKind.Continuous),
             };
 
 
@@ -469,7 +469,7 @@ namespace Accord.Tests.MachineLearning
                 new [] { 1, 5, 6.0 },
             };
 
-            int[] outputs = 
+            int[] outputs =
             {
                 1, 1, 0, 0
             };
@@ -522,10 +522,10 @@ namespace Accord.Tests.MachineLearning
             // Let's declare the names of our input variables:
             DecisionVariable[] features =
             {
-                new DecisionVariable("sepal length", DecisionVariableKind.Continuous), 
-                new DecisionVariable("sepal width", DecisionVariableKind.Continuous), 
-                new DecisionVariable("petal length", DecisionVariableKind.Continuous), 
-                new DecisionVariable("petal width", DecisionVariableKind.Continuous), 
+                new DecisionVariable("sepal length", DecisionVariableKind.Continuous),
+                new DecisionVariable("sepal width", DecisionVariableKind.Continuous),
+                new DecisionVariable("petal length", DecisionVariableKind.Continuous),
+                new DecisionVariable("petal width", DecisionVariableKind.Continuous),
             };
 
             // Now, we can finally create our tree for the 3 classes:
@@ -587,10 +587,10 @@ Iris-virginica =: (petal length > 2.45) && (petal width > 1.75) && (sepal length
 
             DecisionVariable[] features =
             {
-                new DecisionVariable("sepal length", DecisionVariableKind.Continuous), 
-                new DecisionVariable("sepal width", DecisionVariableKind.Continuous), 
-                new DecisionVariable("petal length", DecisionVariableKind.Continuous), 
-                new DecisionVariable("petal width", DecisionVariableKind.Continuous), 
+                new DecisionVariable("sepal length", DecisionVariableKind.Continuous),
+                new DecisionVariable("sepal width", DecisionVariableKind.Continuous),
+                new DecisionVariable("petal length", DecisionVariableKind.Continuous),
+                new DecisionVariable("petal width", DecisionVariableKind.Continuous),
             };
 
             var teacher = new C45Learning(features);
@@ -729,10 +729,10 @@ Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 <= 5.95) && (1 <= 3.05)
 
             DecisionVariable[] features =
             {
-                new DecisionVariable("sepal length", DecisionVariableKind.Continuous), 
-                new DecisionVariable("sepal width", DecisionVariableKind.Continuous), 
-                new DecisionVariable("petal length", DecisionVariableKind.Continuous), 
-                new DecisionVariable("petal width", DecisionVariableKind.Continuous), 
+                new DecisionVariable("sepal length", DecisionVariableKind.Continuous),
+                new DecisionVariable("sepal width", DecisionVariableKind.Continuous),
+                new DecisionVariable("petal length", DecisionVariableKind.Continuous),
+                new DecisionVariable("petal width", DecisionVariableKind.Continuous),
             };
 
 
@@ -838,6 +838,31 @@ Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 <= 5.95) && (1 <= 3.05)
             Assert.AreEqual(22, actual[2]);
             Assert.AreEqual(33, actual[3]);
             Assert.AreEqual(00, actual[4]);
+        }
+
+        [Test]
+        public void weighted_learn()
+        {
+            double[][] inputs =
+            {
+                new double[] { 1, 4 },
+                new double[] { 0, 2 },
+                new double[] { 2, 1 },
+                new double[] { 3, 7 },
+                new double[] { 0, 1 },
+            };
+
+            int[] outputs = { 1, 1, 2, 3, 1 };
+
+            double[] weights = { 0, 0, 0, 0, 1 };
+
+
+            C45Learning c45Learning = new C45Learning(new[] {
+                new DecisionVariable("x", DecisionVariableKind.Continuous),
+                new DecisionVariable("y", DecisionVariableKind.Continuous)
+            });
+
+            Assert.Throws<ArgumentException>(() => c45Learning.Learn(inputs, outputs, weights));
         }
     }
 }

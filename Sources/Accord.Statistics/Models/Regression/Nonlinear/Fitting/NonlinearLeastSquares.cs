@@ -24,7 +24,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
 {
     using System;
     using Accord.Math.Optimization;
-using Accord.MachineLearning;
+    using Accord.MachineLearning;
     using System.Threading;
 
     /// <summary>
@@ -85,7 +85,7 @@ using Accord.MachineLearning;
     /// </code>
     /// </example>
 #pragma warning disable 612, 618
-    public class NonlinearLeastSquares : 
+    public class NonlinearLeastSquares :
         ISupervisedLearning<NonlinearRegression, double[], double>,
         IRegressionFitting
 #pragma warning restore 612, 618
@@ -196,12 +196,15 @@ using Accord.MachineLearning;
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
         public NonlinearRegression Learn(double[][] x, double[] y, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             solver.Token = Token;
 #if DEBUG
             double error = solver.Minimize(x, y);
