@@ -57,7 +57,7 @@ Then navigate to the Sources directory, and open the *Accord.NET.sln* solution f
 #### With Mono (Linux/xbuild)
 
     # Install Mono
-    sudo apt-get install mono-complete monodevelop monodevelop-nunit
+    sudo apt-get install mono-complete monodevelop monodevelop-nunit git autoconf make
 
     # Clone the repository
     git clone https://github.com/accord-net/framework.git
