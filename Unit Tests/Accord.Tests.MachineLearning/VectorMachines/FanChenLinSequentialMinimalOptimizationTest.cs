@@ -1149,6 +1149,8 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void FixedWeightsTest()
         {
+            Accord.Math.Random.Generator.Seed = 0;
+
             var dataset = KernelSupportVectorMachineTest.training;
             var inputs = dataset.Submatrix(null, 0, 3);
             var labels = Accord.Math.Tools.Scale(0, 1, -1, 1, dataset.GetColumn(4)).ToInt32();
