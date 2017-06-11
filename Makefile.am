@@ -7,7 +7,7 @@ LIBDIR = $(srcdir)/Release/mono
 
 ACCORD_ASSEMBLY_PC = $(srcdir)/$(PACKAGE_NAME).pc
 
-DIR_TEST = "$(srcdir)/Unit Tests/bin/Release/mono"
+DIR_TEST = "$(srcdir)/Unit Tests/bin/mono/AnyCPU"
 NUNIT    = "$(srcdir)/Externals/NUnit/nunit-console-x86.exe"
 
 LIBFILES = \

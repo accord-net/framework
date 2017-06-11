@@ -33,7 +33,10 @@ namespace Accord.Tests.Math
     using System.Linq;
     using System.ComponentModel;
 
-    [TestFixture, SingleThreaded]
+    [TestFixture]
+#if !MONO
+    [SingleThreaded]
+#endif
     public class GeneratorTest
     {
 

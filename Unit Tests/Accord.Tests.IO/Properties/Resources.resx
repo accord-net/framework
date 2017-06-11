@@ -182,18 +182,18 @@
     <value>..\Resources\excel\spreadsheet_names.xls;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="npy_integer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\numpy\npy_integer.npy;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\numpy\npy_integer.npy;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="npy_byte" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\numpy\npy_byte.npy;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\numpy\npy_byte.npy;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="npy_strings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\numpy\npy_strings.npy;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\numpy\npy_strings.npy;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="npy_bool" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\numpy\npy_bool.npy;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\numpy\npy_bool.npy;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="npy_strings_var" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\numpy\npy_strings_var.npy;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\numpy\npy_strings_var.npy;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>
