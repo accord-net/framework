@@ -350,7 +350,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// 
         /// <param name="inputs">The model inputs.</param>
         /// <param name="outputs">The desired outputs associated with each <paramref name="inputs">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// 
         /// <returns>A model that has learned how to produce <paramref name="outputs"/> given <paramref name="inputs"/>.</returns>
         /// 
