@@ -29,7 +29,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'mono|AnyCPU' ">
     <DefineConstants>TRACE;MONO</DefineConstants>
-<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup>
@@ -71,7 +71,7 @@
     <Compile Include="Text\GermanTest.cs" />
     <Compile Include="Text\HungarianTest.cs" />
     <Compile Include="Text\ItalianTest.cs" />
-    <Compile Include="Text\KraaijPohlmannTest .cs" />
+    <Compile Include="Text\KraaijPohlmannTest.cs" />
     <Compile Include="Text\LovinsTest.cs" />
     <Compile Include="Text\NorwegianTest.cs" />
     <Compile Include="Text\PorterTest.cs" />
