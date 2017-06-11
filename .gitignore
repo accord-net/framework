@@ -38,3 +38,6 @@ obj
 /accord.pc
 
 html
+
+/install-sh
+/missing
