@@ -93,7 +93,7 @@ namespace SampleApp
                         this.dgvAnalysisSource.DataSource = tableSource;
                         this.dgvProjectionSource.DataSource = tableSource.Copy();
 
-                        double[][] graph = tableSource.ToArray(out columnNames); // TODO: Rename this ToArray to ToJagged
+                        double[][] graph = tableSource.ToJagged(out columnNames); 
                         inputScatterplot.DataSource = graph;
                         createMappingScatterplot(graphMapInput, graph);
 
@@ -120,7 +120,7 @@ namespace SampleApp
             }
 
             // Creates a matrix from the source data table
-            double[][] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToArray(out columnNames);
+            double[][] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToJagged(out columnNames);
 
 
             // Create and compute a new Simple Descriptive Analysis
@@ -206,7 +206,7 @@ namespace SampleApp
             dgvProjectionSource.EndEdit();
 
             // Creates a matrix from the source data table
-            double[][] sourceMatrix = (dgvProjectionSource.DataSource as DataTable).ToArray(out columnNames);
+            double[][] sourceMatrix = (dgvProjectionSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Gets only the X and Y
             double[][] data = sourceMatrix.GetColumns(0, 1);

@@ -140,7 +140,7 @@ namespace Regression.Linear
 
 
             // Creates the input and output matrices from the source data table
-            this.inputs = independent.ToArray();
+            this.inputs = independent.ToJagged();
             this.outputs = dependent.Columns[dependentName].ToArray();
 
             // Creates the Simple Descriptive Analysis of the given source
@@ -228,7 +228,7 @@ namespace Regression.Linear
             DataTable independent = source.DefaultView.ToTable(false, lra.Inputs);
             DataTable dependent = source.DefaultView.ToTable(false, lra.Output);
 
-            double[][] input = independent.ToArray();
+            double[][] input = independent.ToJagged();
             double[] output;
 
             if (comboBox2.SelectedItem as string == "Logistic")

@@ -141,12 +141,12 @@ namespace Survival.Cox
             else
             {
                 DataTable independent = sourceTable.DefaultView.ToTable(false, independentNames);
-                this.inputs = independent.ToArray();
+                this.inputs = independent.ToJagged();
             }
 
 
             String[] sourceColumns;
-            this.sourceMatrix = sourceTable.ToArray(out sourceColumns);
+            this.sourceMatrix = sourceTable.ToJagged(out sourceColumns);
 
             // Creates the Simple Descriptive Analysis of the given source
             var sda = new DescriptiveAnalysis(sourceColumns).Learn(sourceMatrix);
@@ -215,7 +215,7 @@ namespace Survival.Cox
             else
             {
                 DataTable independent = sourceTable.DefaultView.ToTable(false, pha.InputNames);
-                input = independent.ToArray();
+                input = independent.ToJagged();
             }
 
 
