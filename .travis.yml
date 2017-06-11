@@ -1,9 +1,12 @@
 language: csharp
 install:
   - nuget restore Sources/Accord.NET.sln
+  - nuget restore Samples/Accord.Samples.sln
 script:
   - ./autogen.sh
   - make
-  - make samples
+  #- make samples  # not working with current Mono since MSBuild NuGet
+                   # PackageRestore was deprecated in favor of VS2017 
+                   # integrated package restore
   - make test
   - make check
