@@ -144,7 +144,7 @@ namespace Sequences.HMMs
             {
                 return new BaumWelchLearning(hmmc.Models[i])
                 {
-                    Iterations = iterations,
+                    MaxIterations = iterations,
                     Tolerance = limit
                 };
             });

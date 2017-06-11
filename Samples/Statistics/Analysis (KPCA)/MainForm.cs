@@ -114,7 +114,7 @@ namespace Analysis.KPCA
                         this.dgvAnalysisSource.DataSource = tableSource;
                         this.dgvProjectionSource.DataSource = tableSource.Copy();
 
-                        double[][] graph = tableSource.ToArray(out columnNames);
+                        double[][] graph = tableSource.ToJagged(out columnNames);
                         inputScatterplot.DataSource = graph;
                         CreateScatterplot(graphMapInput, graph);
 
@@ -140,7 +140,7 @@ namespace Analysis.KPCA
             }
 
             // Create a matrix from the source data table
-            double[][] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToArray(out columnNames);
+            double[][] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Create and compute a new Simple Descriptive Analysis
             sda = new DescriptiveAnalysis()
@@ -231,7 +231,7 @@ namespace Analysis.KPCA
             dgvProjectionSource.EndEdit();
 
             // Creates a matrix from the source data table
-            double[][] sourceMatrix = (dgvProjectionSource.DataSource as DataTable).ToArray(out columnNames);
+            double[][] sourceMatrix = (dgvProjectionSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Gets only the X and Y
             double[][] data = sourceMatrix.Get(null, 0, 2);
@@ -258,7 +258,7 @@ namespace Analysis.KPCA
             dgvReversionResult.DataSource = new ArrayDataView(m);
 
             // Creates a matrix from the source data table
-            double[][] sourceMatrix = (dgvProjectionSource.DataSource as DataTable).ToArray();
+            double[][] sourceMatrix = (dgvProjectionSource.DataSource as DataTable).ToJagged();
 
             // Create a new plot with the original Z column
             double[][] graph = sourceMatrix.InsertColumn(sourceMatrix.GetColumn(2));
@@ -374,7 +374,7 @@ namespace Analysis.KPCA
         private void button2_Click(object sender, EventArgs e)
         {
             // Create a matrix from the source data table
-            double[][] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToArray(out columnNames);
+            double[][] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Get the input values (the two first columns)
             double[][] inputs = sourceMatrix.GetColumns(0, 1);

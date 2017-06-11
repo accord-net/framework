@@ -150,7 +150,7 @@ namespace SampleApp
 
 
             // Creates a matrix from the entire source data table
-            double[][] table = (dgvLearningSource.DataSource as DataTable).ToArray(out columnNames);
+            double[][] table = (dgvLearningSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Get only the input vector values (first two columns)
             double[][] inputs = table.GetColumns(0, 1);

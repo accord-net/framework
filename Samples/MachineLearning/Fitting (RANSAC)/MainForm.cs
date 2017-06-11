@@ -65,7 +65,7 @@ namespace SampleApp
                 return;
 
             // Gather the available data
-            double[][] data = dataTable.ToArray();
+            double[][] data = dataTable.ToJagged();
 
             // First, fit simple linear regression directly for comparison reasons.
             double[] x = data.GetColumn(0); // Extract the independent variable

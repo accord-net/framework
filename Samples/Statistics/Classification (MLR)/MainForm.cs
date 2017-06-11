@@ -88,7 +88,7 @@ namespace Classification.MLR
             dgvLearningSource.EndEdit();
 
             // Creates a matrix from the entire source data table
-            double[][] table = (dgvLearningSource.DataSource as DataTable).ToArray(out columnNames);
+            double[][] table = (dgvLearningSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Get the input values (the two first columns)
             this.inputs = table.GetColumns(0, 1);
@@ -168,7 +168,7 @@ namespace Classification.MLR
 
 
             // Creates a matrix from the source data table
-            double[][] table = (dgvTestingSource.DataSource as DataTable).ToArray();
+            double[][] table = (dgvTestingSource.DataSource as DataTable).ToJagged();
 
 
             // Extract the first and second columns (X and Y)
