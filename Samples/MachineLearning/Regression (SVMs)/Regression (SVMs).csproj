@@ -77,9 +77,8 @@
     <Reference Include="Accord.MachineLearning, Version=3.5.1.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Accord.MachineLearning.3.5.1-alpha\lib\net46\Accord.MachineLearning.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.MachineLearning.GPL, Version=3.4.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Accord.MachineLearning.GPL.3.4.2-alpha\lib\net46\Accord.MachineLearning.GPL.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Accord.MachineLearning.GPL, Version=3.5.1.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Accord.MachineLearning.GPL.3.5.1-alpha\lib\net46\Accord.MachineLearning.GPL.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Math, Version=3.5.1.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Accord.Math.3.5.1-alpha\lib\net46\Accord.Math.dll</HintPath>

@@ -58,9 +58,8 @@
     <Reference Include="Accord.Math.Core, Version=3.5.1.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Accord.Math.3.5.1-alpha\lib\net46\Accord.Math.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Neuro, Version=3.4.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Accord.Neuro.3.4.2-alpha\lib\net46\Accord.Neuro.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Accord.Neuro, Version=3.5.1.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Accord.Neuro.3.5.1-alpha\lib\net46\Accord.Neuro.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Statistics, Version=3.5.1.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Accord.Statistics.3.5.1-alpha\lib\net46\Accord.Statistics.dll</HintPath>

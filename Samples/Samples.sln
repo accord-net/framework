@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26606.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Neuro", "Neuro", "{BE29F5CB-80FB-4CF1-9135-800534B264D3}"
 EndProject
@@ -109,13 +109,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deep Learning", "Neuro\Deep
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liblinear (Linear SVMs)", "MachineLearning\Liblinear (SVMs)\Liblinear (Linear SVMs).csproj", "{1E055676-77A0-4C5B-B449-FF58CA5066E0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9ED3BF2A-3434-4C0F-B6BF-F616EED59DA4}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feature Selection (SVMs)", "MachineLearning\Feature Selection (SVMs)\Feature Selection (SVMs).csproj", "{19906CFC-8E1C-4F11-98E6-92A73C4F097E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classification (MLR)", "Statistics\Classification (MLR)\Classification (MLR).csproj", "{E0E753EE-4A27-491C-A914-6942A772AAF2}"
@@ -175,6 +168,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Detection (Shape)", "Imaging\Detection (Shape)\Detection (Shape).csproj", "{722FD1AB-4193-45B1-A94E-10B6E5C9AA05}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clustering 2D (K-Means, MeanShift, GMM)", "MachineLearning\Clustering 2D (K-Means, MeanShift, GMM)\Clustering 2D (K-Means, MeanShift, GMM).csproj", "{A8AD00C6-19D5-4BF4-81D6-E9ECE047F48D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1.1. Introduction", "Tutorials\Classification\0. Introduction\1.1. Introduction.csproj", "{15A29255-C03A-4757-8093-7873388CE4B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Classification", "1. Classification", "{ED51B5DD-6A2B-4D4C-B545-8B89E5EE2908}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1.2 Linear SVMs", "Tutorials\Classification\1. Linear SVMs\1.2 Linear SVMs.csproj", "{FA8AEE8F-2478-4342-B628-C09A2D5A6230}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Tutorials", "0. Tutorials", "{C7695817-57CC-484A-A0CF-29371453BDF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "0. Getting Started", "Tutorials\Getting Started\0. Getting Started.csproj", "{1752D1BA-9ECD-422F-9E2F-BB1183D91642}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -613,6 +616,24 @@ Global
 		{A8AD00C6-19D5-4BF4-81D6-E9ECE047F48D}.Mono|x86.Build.0 = Release|x86
 		{A8AD00C6-19D5-4BF4-81D6-E9ECE047F48D}.Release|x86.ActiveCfg = Release|x86
 		{A8AD00C6-19D5-4BF4-81D6-E9ECE047F48D}.Release|x86.Build.0 = Release|x86
+		{15A29255-C03A-4757-8093-7873388CE4B9}.Debug|x86.ActiveCfg = Debug|x86
+		{15A29255-C03A-4757-8093-7873388CE4B9}.Debug|x86.Build.0 = Debug|x86
+		{15A29255-C03A-4757-8093-7873388CE4B9}.Mono|x86.ActiveCfg = Release|x86
+		{15A29255-C03A-4757-8093-7873388CE4B9}.Mono|x86.Build.0 = Release|x86
+		{15A29255-C03A-4757-8093-7873388CE4B9}.Release|x86.ActiveCfg = Release|x86
+		{15A29255-C03A-4757-8093-7873388CE4B9}.Release|x86.Build.0 = Release|x86
+		{FA8AEE8F-2478-4342-B628-C09A2D5A6230}.Debug|x86.ActiveCfg = Debug|x86
+		{FA8AEE8F-2478-4342-B628-C09A2D5A6230}.Debug|x86.Build.0 = Debug|x86
+		{FA8AEE8F-2478-4342-B628-C09A2D5A6230}.Mono|x86.ActiveCfg = Release|x86
+		{FA8AEE8F-2478-4342-B628-C09A2D5A6230}.Mono|x86.Build.0 = Release|x86
+		{FA8AEE8F-2478-4342-B628-C09A2D5A6230}.Release|x86.ActiveCfg = Release|x86
+		{FA8AEE8F-2478-4342-B628-C09A2D5A6230}.Release|x86.Build.0 = Release|x86
+		{1752D1BA-9ECD-422F-9E2F-BB1183D91642}.Debug|x86.ActiveCfg = Debug|x86
+		{1752D1BA-9ECD-422F-9E2F-BB1183D91642}.Debug|x86.Build.0 = Debug|x86
+		{1752D1BA-9ECD-422F-9E2F-BB1183D91642}.Mono|x86.ActiveCfg = Release|x86
+		{1752D1BA-9ECD-422F-9E2F-BB1183D91642}.Mono|x86.Build.0 = Release|x86
+		{1752D1BA-9ECD-422F-9E2F-BB1183D91642}.Release|x86.ActiveCfg = Release|x86
+		{1752D1BA-9ECD-422F-9E2F-BB1183D91642}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -691,6 +712,10 @@ Global
 		{6449C3DE-E27F-45A6-AAED-BF7E3028CD0B} = {473A7C08-02A2-473A-BEC6-891F035674FD}
 		{722FD1AB-4193-45B1-A94E-10B6E5C9AA05} = {B0536923-080A-43F7-8C8A-C7D579AB0DB5}
 		{A8AD00C6-19D5-4BF4-81D6-E9ECE047F48D} = {A0409E80-C6CE-4DEA-9825-92A2A6BDDC45}
+		{15A29255-C03A-4757-8093-7873388CE4B9} = {ED51B5DD-6A2B-4D4C-B545-8B89E5EE2908}
+		{ED51B5DD-6A2B-4D4C-B545-8B89E5EE2908} = {C7695817-57CC-484A-A0CF-29371453BDF6}
+		{FA8AEE8F-2478-4342-B628-C09A2D5A6230} = {ED51B5DD-6A2B-4D4C-B545-8B89E5EE2908}
+		{1752D1BA-9ECD-422F-9E2F-BB1183D91642} = {C7695817-57CC-484A-A0CF-29371453BDF6}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Accord.NET.vsmdi
