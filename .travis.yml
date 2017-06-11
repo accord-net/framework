@@ -1,7 +1,7 @@
 language: csharp
 install:
   - nuget restore Sources/Accord.NET.sln
-  - nuget restore Samples/Accord.Samples.sln
+  - nuget restore Samples/Samples.sln
 script:
   - ./autogen.sh
   - make
