@@ -94,7 +94,7 @@ namespace Accord.Math
         public int Iterations
         {
             get { return MaxIterations; }
-            set {MaxIterations = value; }
+            set { MaxIterations = value; }
         }
 
         /// <summary>
@@ -134,11 +134,14 @@ namespace Accord.Math
         /// <param name="tolerance">The maximum change in the watched value
         ///   after an iteration of the algorithm used to detect convergence.
         ///   Default is 0.</param>
+        /// <param name="startValue">The initial value for the <see cref="NewValue"/> and
+        ///   <see cref="OldValue"/> properties.</param>
         /// 
-        public AbsoluteConvergence(int iterations, double tolerance)
+        public AbsoluteConvergence(int iterations = 100, double tolerance = 0, double startValue = 0)
         {
             this.MaxIterations = iterations;
             this.tolerance = tolerance;
+            this.newValue = startValue;
         }
 
         /// <summary>
@@ -166,7 +169,7 @@ namespace Accord.Math
         ///   Gets or sets the current iteration number.
         /// </summary>
         /// 
-        public int CurrentIteration { get; private set; }
+        public int CurrentIteration { get; set; }
 
         /// <summary>
         ///   Gets whether the algorithm has converged.

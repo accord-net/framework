@@ -37,7 +37,8 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class GenericSequenceClassifierTest2
     {
-
+        const double EXPECTED_LOGLIKELIHOOD_1 = -13.275229544352495;
+        const double EXPECTED_LOGLIKELIHOOD_2 = -24.563151414305928;
 
         [Test]
         public void LearnTest1()
@@ -93,9 +94,9 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1, c2);
 
 
-            Assert.AreEqual(-13.271981026832929, logLikelihood, 1e-10);
-            Assert.AreEqual(0.99999791320102149, likelihood1, 1e-10);
-            Assert.AreEqual(0.99999791320102149, likelihood2, 1e-10);
+            Assert.AreEqual(EXPECTED_LOGLIKELIHOOD_1, logLikelihood, 1e-10);
+            Assert.AreEqual(0.999997742564007, likelihood1, 1e-10);
+            Assert.AreEqual(0.999997742564007, likelihood2, 1e-10);
         }
 
         [Test]
@@ -193,9 +194,9 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, c1);
             Assert.AreEqual(1, c2);
 
-            Assert.AreEqual(-13.271981026832929, logLikelihood, 1e-14);
-            Assert.AreEqual(0.99999791320102149, likelihood1, 1e-15);
-            Assert.AreEqual(0.99999791320102149, likelihood2, 1e-15);
+            Assert.AreEqual(EXPECTED_LOGLIKELIHOOD_1, logLikelihood, 1e-14);
+            Assert.AreEqual(0.999997742564007, likelihood1, 1e-10);
+            Assert.AreEqual(0.999997742564007, likelihood2, 1e-10);
         }
 
         [Test]
@@ -272,9 +273,9 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, c1);
             Assert.AreEqual(1, c2);
 
-            Assert.AreEqual(-13.271981026832933, logLikelihood, 1e-10);
-            Assert.AreEqual(0.99999791320102149, likelihood1, 1e-10);
-            Assert.AreEqual(0.99999791320102149, likelihood2, 1e-10);
+            Assert.AreEqual(EXPECTED_LOGLIKELIHOOD_1, logLikelihood, 1e-10);
+            Assert.AreEqual(0.999997742564007, likelihood1, 1e-10);
+            Assert.AreEqual(0.999997742564007, likelihood2, 1e-10);
         }
 
         [Test]
@@ -351,7 +352,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, c1);
             Assert.AreEqual(1, c2);
 
-            Assert.AreEqual(-24.560599651649841, logLikelihood, 1e-10);
+            Assert.AreEqual(EXPECTED_LOGLIKELIHOOD_2, logLikelihood, 1e-10);
             Assert.AreEqual(0.99999999998806466, logLikelihood1, 1e-10);
             Assert.AreEqual(0.99999999998806466, logLikelihood2, 1e-10);
         }
@@ -528,13 +529,9 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, c1);
             Assert.AreEqual(1, c2);
 
-            Assert.AreEqual(-24.560663315259973, logLikelihood, 1e-10);
-            Assert.AreEqual(0.99999999998805045, likelihood, 1e-10);
-            Assert.AreEqual(0.99999999998805045, likelihood2, 1e-10);
-
-            Assert.IsFalse(double.IsNaN(logLikelihood));
-            Assert.IsFalse(double.IsNaN(likelihood));
-            Assert.IsFalse(double.IsNaN(likelihood2));
+            Assert.AreEqual(-24.562624367319174, logLikelihood, 1e-10);
+            Assert.AreEqual(0.99999999998761879, likelihood, 1e-10);
+            Assert.AreEqual(0.99999999998761879, likelihood2, 1e-10);
         }
 
         [Test]
@@ -590,12 +587,11 @@ namespace Accord.Tests.Statistics
 
             // Train the sequence classifier using the algorithm
             teacher.Learn(inputs, outputs);
-            double likelihood = teacher.LogLikelihood;
+            double logLikelihood = teacher.LogLikelihood;
+            Assert.AreEqual(-24.810847398117549, logLikelihood);
 
-
-            //Assert.AreEqual(-0.84036002169162149, likelihood);
-
-            likelihood = testThresholdModel(inputs, outputs, classifier, likelihood);
+            double newLogLikelihood = testThresholdModel(inputs, outputs, classifier, logLikelihood);
+            Assert.AreEqual(0.80319341329878269, newLogLikelihood);
         }
 
         private static double testThresholdModel(int[][] inputs, int[] outputs, HiddenMarkovClassifier<GeneralDiscreteDistribution, int> classifier, double likelihood)
@@ -641,15 +637,13 @@ namespace Accord.Tests.Statistics
             logRejection = classifier.Probability(r0);
 
             Assert.AreEqual(-1, c);
-            Assert.AreEqual(0.99993993054384978, logRejection);
+            Assert.AreEqual(0.99999100266748164, logRejection, 1e-8);
 
             logRejection = threshold.LogLikelihood(r0);
-            Assert.AreEqual(-5.6367018741984483, logRejection);
-            Assert.IsFalse(double.IsNaN(logRejection));
+            Assert.AreEqual(-5.5816125924890745, logRejection, 1e-8);
 
             threshold.Decode(r0, out logRejection);
-            Assert.AreEqual(-8.1618027917853073, logRejection);
-            Assert.IsFalse(double.IsNaN(logRejection));
+            Assert.AreEqual(-8.1581260482817211, logRejection, 1e-8);
 
             foreach (var model in classifier.Models)
             {

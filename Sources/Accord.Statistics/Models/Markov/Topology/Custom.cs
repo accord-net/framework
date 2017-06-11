@@ -72,8 +72,32 @@ namespace Accord.Statistics.Models.Markov.Topology
         /// <param name="initial">The initial probabilities for the model.</param>
         /// <param name="transitions">The transition probabilities for the model.</param>
         /// 
-        public Custom(double[,] transitions, double[] initial)
+        public Custom(double[][] transitions, double[] initial)
             : this(transitions, initial, false) { }
+
+        /// <summary>
+        ///   Creates a new custom topology with user-defined
+        ///   transition matrix and initial state probabilities.
+        /// </summary>
+        /// 
+        /// <param name="initial">The initial probabilities for the model.</param>
+        /// <param name="transitions">The transition probabilities for the model.</param>
+        /// <param name="logarithm">Set to true if the passed transitions are given 
+        ///   in log-probabilities. Default is false (given values are probabilities).</param>
+        /// 
+        public Custom(double[][] transitions, double[] initial, bool logarithm)
+            : this(transitions.ToMatrix(), initial, logarithm) { }
+
+        /// <summary>
+        ///   Creates a new custom topology with user-defined
+        ///   transition matrix and initial state probabilities.
+        /// </summary>
+        /// 
+        /// <param name="initial">The initial probabilities for the model.</param>
+        /// <param name="transitions">The transition probabilities for the model.</param>
+        /// 
+        public Custom(double[,] transitions, double[] initial)
+        : this(transitions, initial, false) { }
 
         /// <summary>
         ///   Creates a new custom topology with user-defined
