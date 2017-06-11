@@ -551,7 +551,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
                 actual = model.LogLikelihood(x, c);
                 expected = hcrf.LogLikelihood(x, c);
-                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(expected, actual, 1e-8);
                 Assert.IsFalse(double.IsNaN(actual));
             }
         }

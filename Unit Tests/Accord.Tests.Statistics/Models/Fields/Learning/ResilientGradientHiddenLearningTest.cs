@@ -71,11 +71,9 @@ namespace Accord.Tests.Statistics.Models.Fields
                 expected[i] = outputs[i];
             }
 
-            Assert.AreEqual(-0.0019419916698781847, ll0, 1e-10);
+            Assert.AreEqual(-0.077174917149895883, ll0, 1e-10);
             Assert.AreEqual(0, error, 1e-10);
             Assert.AreEqual(error, ll1);
-            Assert.IsFalse(Double.IsNaN(ll0));
-            Assert.IsFalse(Double.IsNaN(error));
 
             for (int i = 0; i < inputs.Length; i++)
                 Assert.AreEqual(expected[i], actual[i]);
@@ -121,11 +119,9 @@ namespace Accord.Tests.Statistics.Models.Fields
                 expected[i] = outputs[i];
             }
 
-            Assert.AreEqual(-0.0019419916698781847, ll0, 1e-10);
+            Assert.AreEqual(-0.077174917149895883, ll0, 1e-10);
             Assert.AreEqual(0, error, 1e-10);
             Assert.AreEqual(error, ll1);
-            Assert.IsFalse(Double.IsNaN(ll0));
-            Assert.IsFalse(Double.IsNaN(error));
 
             for (int i = 0; i < inputs.Length; i++)
                 Assert.AreEqual(expected[i], actual[i]);

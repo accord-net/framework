@@ -81,7 +81,9 @@ namespace Accord.Statistics.Models.Markov.Learning
         where TDistribution : IFittableDistribution<TObservation>
     {
 
-        private AbsoluteConvergence convergence = new AbsoluteConvergence(); // TODO: change to relative
+        private RelativeConvergence convergence = new RelativeConvergence(
+            iterations: 0, tolerance: 1e-5,
+            startValue: double.NegativeInfinity);
 
         private TObservation[][] vectorObservations;
         private TObservation[] samples;
@@ -99,7 +101,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// Gets or sets convergence parameters.
         /// </summary>
         /// <value>The convergence parameters.</value>
-        public IConvergence Convergence {  get { return convergence; } }
+        public IConvergence Convergence { get { return convergence; } }
 
         /// <summary>
         ///   Gets or sets the distribution fitting options
@@ -307,7 +309,6 @@ namespace Accord.Statistics.Models.Markov.Learning
             var logA = Model.LogTransitions;
             var logP = Model.LogInitial;
 
-
             // Initialize the algorithm
             int N = x.Length;
             double logN = Math.Log(N);
@@ -316,7 +317,6 @@ namespace Accord.Statistics.Models.Markov.Learning
             LogWeights = new double[N];
             if (weights != null)
                 weights.Log(result: LogWeights);
-
 
             for (int i = 0; i < x.Length; i++)
             {
@@ -329,74 +329,30 @@ namespace Accord.Statistics.Models.Markov.Learning
                     LogKsi[i][t] = new double[states, states];
             }
 
-
             int TMax = x.Apply(x_i => x_i.Length).Max();
             double[,] lnFwd = new double[TMax, states];
             double[,] lnBwd = new double[TMax, states];
 
-            // Initialize the model log-likelihoods
-            double newLogLikelihood = Double.NegativeInfinity;
-            convergence.NewValue = Double.NegativeInfinity;
+            convergence.CurrentIteration--;
+            bool hasUpdated = false;
 
-
-            while (true) // Until convergence or max iterations is reached
+            do
             {
-                // For each sequence in the observations input
-                for (int i = 0; i < x.Length; i++)
-                {
-                    int T = x[i].Length;
-                    double[,] logGamma = LogGamma[i];
-                    double w = LogWeights[i];
+                if (Token.IsCancellationRequested)
+                    break;
 
-
-                    // 1st step - Calculating the forward probability and the
-                    //            backward probability for each HMM state.
-                    ComputeForwardBackward(i, lnFwd, lnBwd);
-
-
-                    // 2nd step - Determining the frequency of the transition-emission pair values
-                    //            and dividing it by the probability of the entire string.
-
-                    // Calculate gamma values for next computations
-                    // TODO: Use parallel-for
-                    for (int t = 0; t < T; t++)
-                    {
-                        double lnsum = Double.NegativeInfinity;
-                        for (int k = 0; k < states; k++)
-                        {
-                            logGamma[t, k] = lnFwd[t, k] + lnBwd[t, k] + w;
-                            lnsum = Special.LogSum(lnsum, logGamma[t, k]);
-                        }
-
-                        Accord.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
-
-                        // Normalize if different from zero
-                        if (lnsum != Double.NegativeInfinity)
-                            for (int k = 0; k < states; k++)
-                                logGamma[t, k] = logGamma[t, k] - lnsum;
-                    }
-
-                    // Calculate ksi values for next computations
-                    ComputeKsi(i, lnFwd, lnBwd);
-
-                    // Compute log-likelihood for the given sequence
-                    for (int j = 0; j < states; j++)
-                        newLogLikelihood = Special.LogSum(newLogLikelihood, lnFwd[T - 1, j]);
-                }
-
-
-                // Average the likelihood for all sequences
-                newLogLikelihood /= x.Length;
-                convergence.NewValue = newLogLikelihood;
-                LogLikelihood = newLogLikelihood;
+                // Initialize the model log-likelihood
+                LogLikelihood = Expectation(x, states, lnFwd, lnBwd);
+                convergence.NewValue = LogLikelihood;
 
                 // Check for convergence
-                if (convergence.HasConverged || Token.IsCancellationRequested)
+                if (hasUpdated && convergence.HasConverged)
+                    break;
+
+                if (Token.IsCancellationRequested)
                     break;
 
                 // 3. Continue with parameter re-estimation
-                newLogLikelihood = Double.NegativeInfinity;
-
                 // 3.1 Re-estimation of initial state probabilities 
                 // TODO: Use parallel-for
                 for (int i = 0; i < logP.Length; i++)
@@ -428,17 +384,77 @@ namespace Accord.Statistics.Models.Markov.Learning
                         }
 
                         logA[i][j] = (lnnum == lnden) ? 0 : lnnum - lnden;
-
                         Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logA[i][j]));
                     }
                 }
 
                 // 3.3 Re-estimation of emission probabilities
                 UpdateEmissions(); // discrete and continuous
+                hasUpdated = true;
+
+            } while (true);
+
+            return Model;
+        }
+
+        private double Expectation(TObservation[][] x, int states, double[,] lnFwd, double[,] lnBwd)
+        {
+            // For each sequence in the observations input
+            for (int i = 0; i < x.Length; i++)
+            {
+                int T = x[i].Length;
+                double[,] logGamma = LogGamma[i];
+                double w = LogWeights[i];
+
+                // 1st step - Calculating the forward probability and the
+                //            backward probability for each HMM state.
+                ComputeForwardBackward(i, lnFwd, lnBwd);
+
+
+                // 2nd step - Determining the frequency of the transition-emission pair values
+                //            and dividing it by the probability of the entire string.
+
+                // Calculate gamma values for next computations
+                // TODO: Use parallel-for
+                for (int t = 0; t < T; t++)
+                {
+                    double lnsum = Double.NegativeInfinity;
+                    for (int k = 0; k < states; k++)
+                    {
+                        logGamma[t, k] = lnFwd[t, k] + lnBwd[t, k] + w;
+                        lnsum = Special.LogSum(lnsum, logGamma[t, k]);
+                    }
+
+                    Accord.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
+
+                    // Normalize if different from zero
+                    if (lnsum != Double.NegativeInfinity)
+                        for (int k = 0; k < states; k++)
+                            logGamma[t, k] = logGamma[t, k] - lnsum;
+                }
+
+                // Calculate ksi values for next computations
+                ComputeKsi(i, lnFwd, lnBwd);
             }
 
-            // Returns the model average log-likelihood
-            return Model;
+            double newLogLikelihood = ComputeLogLikelihood(x, states, lnFwd);
+            return newLogLikelihood;
+        }
+
+        private static double ComputeLogLikelihood(TObservation[][] x, int states, double[,] lnFwd)
+        {
+            // For each sequence in the observations input
+            double newLogLikelihood = Double.NegativeInfinity;
+            for (int i = 0; i < x.Length; i++)
+            {
+                int T = x[i].Length;
+                for (int j = 0; j < states; j++)
+                    newLogLikelihood = Special.LogSum(newLogLikelihood, lnFwd[T - 1, j]);
+            }
+
+            // Average the likelihood for all sequences
+            newLogLikelihood /= x.Length;
+            return newLogLikelihood;
         }
 
         private static void CheckArgs(TObservation[][] observations, double[] weights)

@@ -378,7 +378,11 @@ namespace Accord.Tests.Statistics
                 Tolerance = 0.0001
             };
 
+            Assert.AreEqual(0, teacher.CurrentIteration);
             var hmm2 = teacher.Learn(sequences.ToInt32());
+            Assert.AreEqual(14, teacher.CurrentIteration);
+            Assert.AreEqual(0, teacher.MaxIterations);
+
             double ll = teacher.LogLikelihood;
 
             // Calculate the probability that the given
@@ -401,13 +405,13 @@ namespace Accord.Tests.Statistics
             l5 = System.Math.Exp(l5);
             l6 = System.Math.Exp(l6);
 
-            Assert.AreEqual(1.2114235662225716, ll, 1e-4);
-            Assert.AreEqual(0.4999419764097881, l1, 1e-4);
-            Assert.AreEqual(0.1145702973735144, l2, 1e-4);
-            Assert.AreEqual(0.0000529972606821, l3, 1e-4);
-            Assert.AreEqual(0.0000000000000001, l4, 1e-4);
-            Assert.AreEqual(0.0002674509390361, l5, 1e-4);
-            Assert.AreEqual(0.0002674509390361, l6, 1e-4);
+            Assert.AreEqual(1.2647275861578728, ll, 1e-4);
+            Assert.AreEqual(0.49999423004041477, l1, 1e-4);
+            Assert.AreEqual(0.114586850458029, l2, 1e-4);
+            Assert.AreEqual(2.5713496109015777E-06, l3, 1e-4);
+            Assert.AreEqual(2.2386106829023717E-18, l4, 1e-4);
+            Assert.AreEqual(0.00026743534097025686, l5, 1e-4);
+            Assert.AreEqual(0.00026743534097025686, l6, 1e-4);
 
             Assert.IsTrue(l1 > l3 && l1 > l4);
             Assert.IsTrue(l2 > l3 && l2 > l4);
@@ -473,21 +477,13 @@ namespace Accord.Tests.Statistics
 
             //Assert.AreSame(hmm, same);
 
-            Assert.AreEqual(1.2114235662225716, ll, 1e-4);
-            Assert.AreEqual(0.99996863060890995, l1, 1e-4);
-            Assert.AreEqual(0.91667240076011669, l2, 1e-4);
-            Assert.AreEqual(0.00002335133758386, l3, 1e-4);
-            Assert.AreEqual(0.00000000000000012, l4, 1e-4);
-            Assert.AreEqual(0.03423723144322685, l5, 1e-4);
-            Assert.AreEqual(0.03423719592053246, l6, 1e-4);
-
-            Assert.IsFalse(Double.IsNaN(ll));
-            Assert.IsFalse(Double.IsNaN(l1));
-            Assert.IsFalse(Double.IsNaN(l2));
-            Assert.IsFalse(Double.IsNaN(l3));
-            Assert.IsFalse(Double.IsNaN(l4));
-            Assert.IsFalse(Double.IsNaN(l5));
-            Assert.IsFalse(Double.IsNaN(l6));
+            Assert.AreEqual(1.2647275861578728, ll, 1e-4);
+            Assert.AreEqual(0.99998846008082953, l1, 1e-4);
+            Assert.AreEqual(0.91669523195813685, l2, 1e-4);
+            Assert.AreEqual(5.1426992218031553E-06, l3, 1e-4);
+            Assert.AreEqual(1.7529139078386114E-17, l4, 1e-4);
+            Assert.AreEqual(0.034236482540284281, l5, 1e-4);
+            Assert.AreEqual(0.03423647471730052, l6, 1e-4);
 
             Assert.IsTrue(l1 > l3 && l1 > l4);
             Assert.IsTrue(l2 > l3 && l2 > l4);
@@ -547,11 +543,12 @@ namespace Accord.Tests.Statistics
             int[] states = model.Decide(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 });
             #endregion
 
+            Assert.AreEqual(7, teacher.CurrentIteration);
             Assert.IsTrue(states.IsEqual(new[] { 0, 1, 0, 1, 0, 1 }));
 
-            Assert.AreEqual(1.496360383340358, likelihood, 1e-10);
-            Assert.AreEqual(0.8798587580029778, a1, 1e-10);
-            Assert.AreEqual(1.0117804233450216, a2, 1e-10);
+            Assert.AreEqual(1.6357273904840766, likelihood, 1e-10);
+            Assert.AreEqual(0.87985875800297753, a1, 1e-10);
+            Assert.AreEqual(1.0117804233450221, a2, 1e-10);
             Assert.AreEqual(1.8031545195073828E-130, a3, 1e-10);
 
             Assert.AreEqual(2, model.Emissions.Length);
@@ -1280,8 +1277,7 @@ namespace Accord.Tests.Statistics
             double logLikelihood = teacher.LogLikelihood;
             double likelihood = Math.Exp(logLikelihood);
 
-            Assert.AreEqual(5.3782215178437722, logLikelihood, 1e-15);
-            Assert.IsFalse(double.IsNaN(logLikelihood));
+            Assert.AreEqual(5.4474421582531134, logLikelihood, 1e-10);
 
             Assert.AreEqual(0.0001, (teacher.FittingOptions as NormalOptions).Regularization);
 

@@ -166,8 +166,8 @@ namespace Accord.Tests.Statistics
             double[] lls = classifier.LogLikelihood(inputs);
             #endregion
 
-            //likelihood = new LogLikelihoodLoss(outputs).Loss(prediction);
             double likelihood = teacher.LogLikelihood;
+            Assert.AreEqual(-24.810847398117538, likelihood);
 
             likelihood = testThresholdModel(inputs, outputs, classifier, likelihood);
         }
@@ -214,13 +214,13 @@ namespace Accord.Tests.Statistics
             int c = classifier.Compute(r0, out logRejection);
 
             Assert.AreEqual(-1, c);
-            Assert.AreEqual(0.99994164708402866, logRejection);
+            Assert.AreEqual(0.99999096610252181, logRejection, 1e-10);
 
             logRejection = threshold.Evaluate(r0);
-            Assert.AreEqual(-5.6077079936209504, logRejection, 1e-10);
+            Assert.AreEqual(-5.58566837123186, logRejection, 1e-10);
 
             threshold.Decode(r0, out logRejection);
-            Assert.AreEqual(-9.3103554170761686, logRejection, 1e-10);
+            Assert.AreEqual(-9.3108640030011962, logRejection, 1e-10);
 
             foreach (var model in classifier.Models)
             {

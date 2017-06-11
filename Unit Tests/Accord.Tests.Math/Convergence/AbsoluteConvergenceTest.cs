@@ -59,5 +59,56 @@ namespace Accord.Tests.Math
             Assert.AreEqual(10, criteria.CurrentIteration);
             Assert.AreEqual(1371.7333333333333, criteria.OldValue);
         }
+
+        [Test]
+        public void AbsoluteConvergenceConstructorTest2()
+        {
+            var criteria = new AbsoluteConvergence(iterations: 10, tolerance: 1e-5, startValue: 1);
+            criteria.CurrentIteration = -2;
+            do
+            {
+                criteria.NewValue /= 10.0;
+            } while (!criteria.HasConverged);
+
+            Assert.AreEqual(4, criteria.CurrentIteration);
+            Assert.AreEqual(-5, Math.Log10(criteria.OldValue));
+            Assert.AreEqual(-6, Math.Log10(criteria.NewValue));
+        }
+
+        [Test]
+        public void AbsoluteConvergenceConstructorTest3()
+        {
+            var criteria = new AbsoluteConvergence(iterations: 1, tolerance: 1e-5, startValue: 1);
+            criteria.CurrentIteration = -2;
+            do
+            {
+                criteria.NewValue /= 10.0;
+            } while (!criteria.HasConverged);
+
+            Assert.AreEqual(1, criteria.CurrentIteration);
+            Assert.AreEqual(-2, Math.Log10(criteria.OldValue));
+            Assert.AreEqual(-3, Math.Log10(criteria.NewValue));
+        }
+
+        [Test]
+        public void AbsoluteConvergenceConstructorTest4()
+        {
+            var criteria = new AbsoluteConvergence(iterations: 0, tolerance: 1e-5, startValue: 1);
+            criteria.CurrentIteration = -2;
+            do
+            {
+                criteria.NewValue /= 10.0;
+            } while (!criteria.HasConverged);
+
+            Assert.AreEqual(4, criteria.CurrentIteration);
+            Assert.AreEqual(-5, Math.Log10(criteria.OldValue));
+            Assert.AreEqual(-6, Math.Log10(criteria.NewValue));
+        }
+
+        [Test]
+        public void AbsoluteConvergenceConstructorTest5()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => new AbsoluteConvergence(iterations: -10, tolerance: 1e-10, startValue: 1));
+        }
     }
 }
