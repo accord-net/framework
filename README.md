@@ -37,7 +37,7 @@ Please download and install the following dependencies:
 
 - [T4 Toolbox for Visual Studio 2013](https://visualstudiogallery.msdn.microsoft.com/791817a4-eb9a-4000-9c85-972cc60fd5aa)
 - [Sandcastle Help File Builder (with VS2013 extension)](https://github.com/EWSoftware/SHFB/releases)
-- [NUnit Test Adapter](https://visualstudiogallery.msdn.microsoft.com/6ab922d0-21c0-4f06-ab5f-4ecd1fe7175d)
+- [NUnit 3 Test Adapter](https://marketplace.visualstudio.com/items?itemName=NUnitDevelopers.NUnit3TestAdapter)
 
 Then navigate to the Sources directory, and open the *Accord.NET.sln* solution file.
 
@@ -49,10 +49,20 @@ Please download and install the following dependencies:
 - [VS2013 C++ platform toolset (for compiling some unit tests only)](https://www.microsoft.com/en-us/download/details.aspx?id=44914)
 - [T4 Toolbox for Visual Studio 2015](https://visualstudiogallery.msdn.microsoft.com/34b6d489-afbc-4d7b-82c3-dded2b726dbc)
 - [Sandcastle Help File Builder (with VS2015 extension)](https://github.com/EWSoftware/SHFB/releases)
-- [NUnit Test Adapter](https://visualstudiogallery.msdn.microsoft.com/6ab922d0-21c0-4f06-ab5f-4ecd1fe7175d)
+- [NUnit 3 Test Adapter](https://marketplace.visualstudio.com/items?itemName=NUnitDevelopers.NUnit3TestAdapter)
 
 Then navigate to the Sources directory, and open the *Accord.NET.sln* solution file.
 
+
+#### With Visual Studio 2017
+
+Please download and install the following dependencies:
+
+- [T4 Toolbox for Visual Studio 2017](https://github.com/hagronnestad/T4Toolbox/releases/tag/vs2017-b1)
+- [Sandcastle Help File Builder (with VS2017 extension)](https://github.com/EWSoftware/SHFB/releases)
+- [NUnit 3 Test Adapter](https://marketplace.visualstudio.com/items?itemName=NUnitDevelopers.NUnit3TestAdapter)
+
+Then navigate to the Sources directory, and open the *Accord.NET.sln* solution file.
 
 #### With Mono (Linux/xbuild)
 
