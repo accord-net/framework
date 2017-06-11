@@ -130,6 +130,7 @@ namespace Accord.Tests.IO
 1 1:6 3:4 4:2
 -1 
 ";
+            expected = expected.Replace("\r\n", Environment.NewLine);
 
             Assert.AreEqual(expected, actual);
         }
@@ -160,6 +161,7 @@ namespace Accord.Tests.IO
 1 1:6 3:4 4:2
 -1 
 ";
+            expected = expected.Replace("\r\n", Environment.NewLine);
 
             Assert.AreEqual(expected, actual);
         }
