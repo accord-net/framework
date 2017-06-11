@@ -49,7 +49,11 @@ namespace ClassificationSample
 
             network(inputs, outputs);
 
-            multilabelsvm();
+
+            // Multi-class, multi-label or sequence examples
+            multiClassSvm();
+
+            multiLabelSvm();
 
             sequenceClassification();
 
@@ -60,11 +64,6 @@ namespace ClassificationSample
         {
             // In our problem, we have 2 classes (samples can be either
             // positive or negative), and 2 inputs (x and y coordinates).
-
-            // The Naive Bayes expects the class labels to 
-            // range from 0 to k, so we convert -1 to be 0:
-            //
-            outputs = outputs.Apply(x => x < 0 ? 0 : x);
 
             // Create a Naive Bayes learning algorithm
             var teacher = new NaiveBayesLearning<NormalDistribution>();
@@ -95,11 +94,6 @@ namespace ClassificationSample
                 DecisionVariable.Continuous("X"),
                 DecisionVariable.Continuous("Y")
             });
-
-            // The C4.5 algorithm expects the class labels to
-            // range from 0 to k, so we convert -1 to be zero:
-            //
-            outputs = outputs.Apply(x => x < 0 ? 0 : x);
 
             // Use the learning algorithm to induce the tree
             DecisionTree tree = teacher.Learn(inputs, outputs);
@@ -152,6 +146,7 @@ namespace ClassificationSample
             var teacher = new SequentialMinimalOptimization<Gaussian>()
             {
                 UseComplexityHeuristic = true,
+                UseKernelEstimation = true // estimate the kernel from the data
             };
 
             // Teach the vector machine
@@ -248,12 +243,49 @@ namespace ClassificationSample
                 .Hold();
         }
 
-        private static void multilabelsvm()
+        private static void multiClassSvm()
         {
-            // Sample data
-            // The following is simple auto association function
-            // where each input correspond to its own class. This
-            // problem should be easily solved by a Linear kernel.
+            // The following is simple auto association function where each input correspond 
+            // to its own class. This problem should be easily solved by a Linear kernel.
+
+            // Sample input data
+            double[][] inputs =
+            {
+                new double[] { 0 },
+                new double[] { 3 },
+                new double[] { 1 },
+                new double[] { 2 },
+            };
+
+            // Outputs for each of the inputs
+            int[] outputs =
+            {
+                0,
+                3,
+                1,
+                2,
+            };
+
+            // Create the Multi-label learning algorithm for the machine
+            var teacher = new MulticlassSupportVectorLearning<Linear>()
+            {
+                Learner = (p) => new SequentialMinimalOptimization<Linear>()
+                {
+                    Complexity = 10000.0 // Create a hard SVM
+                }
+            };
+
+            // Learn a multi-label SVM using the teacher
+            var svm = teacher.Learn(inputs, outputs);
+
+            // Compute the machine answers for the inputs
+            int[] answers = svm.Decide(inputs);
+        }
+
+        private static void multiLabelSvm()
+        {
+            // The following is simple auto association function where each input correspond 
+            // to its own class. This problem should be easily solved by a Linear kernel.
 
             // Sample input data
             double[][] inputs =
@@ -272,7 +304,6 @@ namespace ClassificationSample
                 new[] {  1,  1, -1 },
                 new[] { -1, -1, -1 },
             };
-
 
             // Create the Multi-label learning algorithm for the machine
             var teacher = new MultilabelSupportVectorLearning<Linear>()
