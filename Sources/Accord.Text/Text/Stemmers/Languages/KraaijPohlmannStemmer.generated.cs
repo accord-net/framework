@@ -1,5 +1,6 @@
 // This file was generated automatically by the Snowball to C# compiler
 
+#if !MONO
 #pragma warning disable 0164
 #pragma warning disable 0162
 
@@ -2439,4 +2440,6 @@ namespace Accord.MachineLearning.Text.Stemmers
 
     }
 }
+
+#endif
 

@@ -25,7 +25,7 @@ namespace Accord.Tests.MachineLearning
     using System;
     using NUnit.Framework;
     using Accord.MachineLearning.Text.Stemmers;
-
+#if !MONO
     [TestFixture]
     public class KraaijPohlmannTest
     {
@@ -35,4 +35,5 @@ namespace Accord.Tests.MachineLearning
             Tools.Test(new KraaijPohlmannStemmer(), "kraaij_pohlmann");
         }
     }
+#endif
 }
