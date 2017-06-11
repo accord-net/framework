@@ -1147,6 +1147,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        [Category("Random")]
         public void FixedWeightsTest()
         {
             Accord.Math.Random.Generator.Seed = 0;
