@@ -60,28 +60,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
     /// </remarks>
     ///
     /// <example>
-    ///   <code>
-    ///   // Create a new Multinomial Logistic Regression for 3 categories
-    ///   var mlr = new MultinomialLogisticRegression(inputs: 2, categories: 3);
-    ///   
-    ///   // Create a estimation algorithm to estimate the regression
-    ///   LowerBoundNewtonRaphson lbnr = new LowerBoundNewtonRaphson(mlr);
-    ///   
-    ///   // Now, we will iteratively estimate our model. The Run method returns
-    ///   // the maximum relative change in the model parameters and we will use
-    ///   // it as the convergence criteria.
-    ///   
-    ///   double delta;
-    ///   int iteration = 0;
-    ///   
-    ///   do
-    ///   {
-    ///       // Perform an iteration
-    ///       delta = lbnr.Run(inputs, outputs);
-    ///       iteration++;
-    ///   
-    ///   } while (iteration &lt; 100 &amp;&amp; delta > 1e-6);
-    ///   </code>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultinomialLogisticRegressionTest.cs" region="doc_learn" />
     /// </example>
     ///
 #pragma warning disable 612, 618
@@ -429,6 +408,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
             //   - http://www.lx.it.pt/~mtf/Krishnapuram_Carin_Figueiredo_Hartemink_2005.pdf
             //
 
+            if (regression == null)
+                init(new MultinomialLogisticRegression(x.Columns(), y.Columns()));
 
             // Initial definitions and memory allocations
             int N = x.Length;

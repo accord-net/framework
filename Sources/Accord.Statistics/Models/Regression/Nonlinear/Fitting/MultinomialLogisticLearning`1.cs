@@ -33,6 +33,23 @@ namespace Accord.Statistics.Models.Regression.Fitting
     ///   Gradient optimization for Multinomial logistic regression fitting.
     /// </summary>
     /// 
+    /// <examples>
+    ///   <para>
+    ///     The gradient optimization class allows multinomial logistic regression models to be learnt
+    ///     using any mathematical optimization algorithm that implements the <see cref="IFunctionOptimizationMethod{TInput, TOutput}"/>
+    ///     interface. </para>
+    ///   <code source = "Unit Tests\Accord.Tests.Statistics\Models\Regression\MultinomialLogisticGradientDescentTest.cs" region="doc_learn_0" />
+    ///   
+    /// <para>Using Conjugate Gradient:</para>
+    ///   <code source = "Unit Tests\Accord.Tests.Statistics\Models\Regression\MultinomialLogisticGradientDescentTest.cs" region="doc_learn_cg" />
+    ///   
+    /// <para>Using Gradient Descent:</para>
+    ///   <code source = "Unit Tests\Accord.Tests.Statistics\Models\Regression\MultinomialLogisticGradientDescentTest.cs" region="doc_learn_gd" />
+    ///   
+    /// <para>Using BFGS:</para>
+    ///   <code source = "Unit Tests\Accord.Tests.Statistics\Models\Regression\MultinomialLogisticGradientDescentTest.cs" region="doc_learn_bfgs" />
+    /// </examples>
+    /// 
     public class MultinomialLogisticLearning<TMethod> :
         ISupervisedLearning<MultinomialLogisticRegression, double[], int>,
         ISupervisedLearning<MultinomialLogisticRegression, double[], int[]>,
