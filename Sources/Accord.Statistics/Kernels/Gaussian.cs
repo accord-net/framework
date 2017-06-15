@@ -380,18 +380,7 @@ namespace Accord.Statistics.Kernels
         /// 
         public static Gaussian Estimate(double[][] inputs, int samples, out DoubleRange range)
         {
-            if (samples > inputs.Length)
-                throw new ArgumentOutOfRangeException("samples");
-
-            double[] distances = Distances(inputs, samples);
-
-            double q1 = Math.Sqrt(distances[(int)Math.Ceiling(0.15 * distances.Length)] / 2.0);
-            double q9 = Math.Sqrt(distances[(int)Math.Ceiling(0.85 * distances.Length)] / 2.0);
-            double qm = Math.Sqrt(Measures.Median(distances, alreadySorted: true) / 2.0);
-
-            range = new DoubleRange(q1, q9);
-
-            return new Gaussian(sigma: qm);
+            return Estimate(inputs, samples, new SquareEuclidean(), out range);
         }
 
         /// <summary>
@@ -477,10 +466,104 @@ namespace Accord.Statistics.Kernels
         /// 
         public static Gaussian Estimate(Sparse<double>[] inputs, int samples, out DoubleRange range)
         {
+            return Estimate(inputs, samples, new SquareEuclidean(), out range);
+        }
+
+        /// <summary>
+        ///   Estimate appropriate values for sigma given a data set.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This method uses a simple heuristic to obtain appropriate values
+        ///   for sigma in a radial basis function kernel. The heuristic is shown
+        ///   by Caputo, Sim, Furesjo and Smola, "Appearance-based object
+        ///   recognition using SVMs: which kernel should I use?", 2002.
+        /// </remarks>
+        /// 
+        /// <param name="inputs">The data set.</param>
+        /// <param name="distance">The distance function to be used in the Gaussian kernel. Default is <see cref="SquareEuclidean"/>.</param>
+        /// 
+        /// <returns>A Gaussian kernel initialized with an appropriate sigma value.</returns>
+        /// 
+        public static Gaussian Estimate<TInput, TDistance>(TInput[] inputs, TDistance distance)
+            where TDistance : IDistance<TInput>
+        {
+            DoubleRange range;
+            return Estimate(inputs, inputs.Length, distance, out range);
+        }
+
+        /// <summary>
+        ///   Estimate appropriate values for sigma given a data set.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This method uses a simple heuristic to obtain appropriate values
+        ///   for sigma in a radial basis function kernel. The heuristic is shown
+        ///   by Caputo, Sim, Furesjo and Smola, "Appearance-based object
+        ///   recognition using SVMs: which kernel should I use?", 2002.
+        /// </remarks>
+        /// 
+        /// <param name="inputs">The data set.</param>
+        /// <param name="range">The range of suitable values for sigma.</param>
+        /// <param name="distance">The distance function to be used in the Gaussian kernel. Default is <see cref="SquareEuclidean"/>.</param>
+        /// 
+        /// <returns>A Gaussian kernel initialized with an appropriate sigma value.</returns>
+        /// 
+        public static Gaussian Estimate<TInput, TDistance>(TInput[] inputs, TDistance distance, out DoubleRange range)
+            where TDistance : IDistance<TInput>
+        {
+            return Estimate(inputs, inputs.Length, distance, out range);
+        }
+
+        /// <summary>
+        ///   Estimates appropriate values for sigma given a data set.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This method uses a simple heuristic to obtain appropriate values
+        ///   for sigma in a radial basis function kernel. The heuristic is shown
+        ///   by Caputo, Sim, Furesjo and Smola, "Appearance-based object
+        ///   recognition using SVMs: which kernel should I use?", 2002.
+        /// </remarks>
+        /// 
+        /// <param name="inputs">The data set.</param>
+        /// <param name="samples">The number of random samples to analyze.</param>
+        /// <param name="distance">The distance function to be used in the Gaussian kernel. Default is <see cref="SquareEuclidean"/>.</param>
+        /// 
+        /// <returns>A Gaussian kernel initialized with an appropriate sigma value.</returns>
+        /// 
+        public static Gaussian Estimate<TInput, TDistance>(TInput[] inputs, int samples, TDistance distance)
+            where TDistance : IDistance<TInput>
+        {
+            DoubleRange range;
+            return Estimate(inputs, samples, distance, out range);
+        }
+
+        /// <summary>
+        ///   Estimates appropriate values for sigma given a data set.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This method uses a simple heuristic to obtain appropriate values
+        ///   for sigma in a radial basis function kernel. The heuristic is shown
+        ///   by Caputo, Sim, Furesjo and Smola, "Appearance-based object
+        ///   recognition using SVMs: which kernel should I use?", 2002.
+        /// </remarks>
+        /// 
+        /// <param name="inputs">The data set.</param>
+        /// <param name="samples">The number of random samples to analyze.</param>
+        /// <param name="range">The range of suitable values for sigma.</param>
+        /// <param name="distance">The distance function to be used in the Gaussian kernel. Default is <see cref="SquareEuclidean"/>.</param>
+        /// 
+        /// <returns>A Gaussian kernel initialized with an appropriate sigma value.</returns>
+        /// 
+        public static Gaussian Estimate<TInput, TDistance>(TInput[] inputs, int samples, TDistance distance, out DoubleRange range)
+            where TDistance : IDistance<TInput>
+        {
             if (samples > inputs.Length)
                 throw new ArgumentOutOfRangeException("samples");
 
-            double[] distances = Distances(inputs, samples);
+            double[] distances = Distances(inputs, samples, distance);
 
             double q1 = Math.Sqrt(distances[(int)Math.Ceiling(0.15 * distances.Length)] / 2.0);
             double q9 = Math.Sqrt(distances[(int)Math.Ceiling(0.85 * distances.Length)] / 2.0);
@@ -501,17 +584,7 @@ namespace Accord.Statistics.Kernels
         /// 
         public static double[] Distances(double[][] inputs, int samples)
         {
-            int[] idx = Vector.Sample(samples, inputs.Length);
-            int[] idy = Vector.Sample(samples, inputs.Length);
-
-            var distances = new double[samples * samples];
-            for (int i = 0; i < idx.Length; i++)
-                for (int j = 0; j < idy.Length; j++)
-                    distances[i * samples + j] = Accord.Math.Distance.SquareEuclidean(inputs[idx[i]], inputs[idy[j]]);
-
-            Array.Sort(distances);
-
-            return distances;
+            return Distances<SquareEuclidean, double[]>(inputs, samples, new SquareEuclidean());
         }
 
         /// <summary>
@@ -524,13 +597,28 @@ namespace Accord.Statistics.Kernels
         /// 
         public static double[] Distances(Sparse<double>[] inputs, int samples)
         {
+            return Distances<SquareEuclidean, Sparse<double>>(inputs, samples, new SquareEuclidean());
+        }
+
+        /// <summary>
+        ///   Computes the set of all distances between 
+        ///   all points in a random subset of the data.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The inputs points.</param>
+        /// <param name="samples">The number of samples.</param>
+        /// <param name="distance">The distance function to be used in the Gaussian kernel. Default is <see cref="SquareEuclidean"/>.</param>
+        /// 
+        public static double[] Distances<TDistance, TInput>(TInput[] inputs, int samples, TDistance distance)
+            where TDistance : IDistance<TInput>
+        {
             int[] idx = Vector.Sample(samples, inputs.Length);
             int[] idy = Vector.Sample(samples, inputs.Length);
 
             var distances = new double[samples * samples];
             for (int i = 0; i < idx.Length; i++)
                 for (int j = 0; j < idy.Length; j++)
-                    distances[i * samples + j] = Accord.Math.Distance.SquareEuclidean(inputs[idx[i]], inputs[idy[j]]);
+                    distances[i * samples + j] = distance.Distance(inputs[idx[i]], inputs[idy[j]]);
 
             Array.Sort(distances);
 
@@ -585,7 +673,7 @@ namespace Accord.Statistics.Kernels
         /// <returns>A Gaussian kernel initialized with an appropriate sigma value.</returns>
         /// 
         public static Gaussian<T> Estimate<T>(T kernel, double[][] inputs)
-            where T : IDistance, IKernel, ICloneable
+            where T : IDistance, ICloneable
         {
             DoubleRange range;
             return Estimate(kernel, inputs, inputs.Length, out range);
@@ -657,7 +745,7 @@ namespace Accord.Statistics.Kernels
         /// <returns>A Gaussian kernel initialized with an appropriate sigma value.</returns>
         /// 
         public static Gaussian<T> Estimate<T>(T kernel, double[][] inputs, int samples, out DoubleRange range)
-            where T : IDistance, IKernel, ICloneable
+            where T : IDistance, ICloneable
         {
             if (samples > inputs.Length)
                 throw new ArgumentOutOfRangeException("samples");

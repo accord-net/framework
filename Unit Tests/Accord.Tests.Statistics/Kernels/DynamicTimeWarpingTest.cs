@@ -22,6 +22,8 @@
 
 namespace Accord.Tests.Statistics
 {
+    using Accord.Math;
+    using Accord.Math.Distances;
     using Accord.Statistics.Kernels;
     using NUnit.Framework;
 
@@ -221,5 +223,59 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
+        [Test]
+        public void generic_test()
+        {
+            var x = new int[] { 0, 4, 2, 1 };
+            var y = new int[] { 3, 2, };
+
+            double expected, actual;
+
+
+            var target = new DynamicTimeWarping<Dirac<int>, int>();
+
+            expected = 1;
+            actual = target.Function(x, x);
+            Assert.AreEqual(expected, actual, 1e-6);
+
+            expected = 1;
+            actual = target.Function(y, y);
+            Assert.AreEqual(expected, actual, 1e-6);
+
+            expected = 1;
+            actual = target.Function(x, y);
+            Assert.AreEqual(expected, actual, 1e-6);
+            actual = target.Function(y, x);
+            Assert.AreEqual(expected, actual, 1e-6);
+
+
+            target = new DynamicTimeWarping<Dirac<int>, int>(sigma: 1.42);
+
+            var z = new int[] { 3, 2, 1, 5, 7, 8 };
+
+            expected = 1;
+            actual = target.Function(x, x);
+            Assert.AreEqual(expected, actual, 1e-6);
+
+            expected = 1;
+            actual = target.Function(y, y);
+            Assert.AreEqual(expected, actual, 1e-6);
+
+            expected = 1;
+            actual = target.Function(z, z);
+            Assert.AreEqual(expected, actual, 1e-6);
+
+            expected = 0.28943244309220884;
+            actual = target.Function(x, z);
+            Assert.AreEqual(expected, actual, 1e-6);
+            actual = target.Function(z, x);
+            Assert.AreEqual(expected, actual, 1e-6);
+
+            expected = 0.475256785561611;
+            actual = target.Function(x, y);
+            Assert.AreEqual(expected, actual, 1e-6);
+            actual = target.Function(y, x);
+            Assert.AreEqual(expected, actual, 1e-6);
+        }
     }
 }
