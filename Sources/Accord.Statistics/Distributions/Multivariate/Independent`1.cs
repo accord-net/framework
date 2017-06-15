@@ -144,6 +144,29 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// </summary>
         /// 
         /// <param name="dimensions">The number of independent component distributions.</param>
+        /// 
+        public Independent(int dimensions)
+            : base(dimensions)
+        {
+            try
+            {
+                this.components = new TDistribution[dimensions];
+                for (int i = 0; i < components.Length; i++)
+                    components[i] = Activator.CreateInstance<TDistribution>();
+            }
+            catch
+            {
+                throw new ArgumentException("The component distribution needs specific parameters that need to be" +
+                    "given to its constructor. Please specify in the 'initializer' argument of this constructor" +
+                    "how the component distributions should be created.");
+            }
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="Independent&lt;TDistribution&gt;"/> class.
+        /// </summary>
+        /// 
+        /// <param name="dimensions">The number of independent component distributions.</param>
         /// <param name="initializer">A function that creates a new distribution for each component index.</param>
         /// 
         public Independent(int dimensions, Func<TDistribution> initializer)

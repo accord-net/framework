@@ -23,6 +23,7 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Math;
+    using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Multivariate;
     using NUnit.Framework;
 
@@ -48,9 +49,9 @@ namespace Accord.Tests.Statistics
             );
 
             // Common measures
-            double[] var = invWishart.Variance;  // { -3.4, -10.6 }
+            double[] var = invWishart.Variance;      // { -3.4, -10.6 }
             double[,] cov = invWishart.Covariance;  // see below
-            double[,] mmean = invWishart.MeanMatrix; // see below
+            double[,] mmean = invWishart.Mean;      // see below
             
             //        cov                mean
             //   -5.78   -4.56        1.7  -0.2 
@@ -61,7 +62,7 @@ namespace Accord.Tests.Statistics
             // string smean = mmean.ToString(DefaultMatrixFormatProvider.InvariantCulture);
 
             // For compatibility reasons, .Mean stores a flattened mean matrix
-            double[] mean = invWishart.Mean; // { 1.7, -0.2, -0.2, 5.3 }
+            double[] mean = ((IMultivariateDistribution)invWishart).Mean; // { 1.7, -0.2, -0.2, 5.3 }
 
 
             // Probability density functions
