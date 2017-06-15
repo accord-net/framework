@@ -76,12 +76,23 @@ namespace Accord.Statistics.Models.Markov.Learning
     {
 
         /// <summary>
+        ///   Gets or sets the number of symbols that should be used whenever 
+        ///   this learning algorithm needs to create a new model. This property
+        ///   must be set before learning.
+        /// </summary>
+        /// 
+        /// <value>The number of symbols.</value>
+        /// 
+        public int NumberOfSymbols { get; set; }
+
+        /// <summary>
         ///   Creates a new instance of the Baum-Welch learning algorithm.
         /// </summary>
         /// 
         public BaumWelchLearning(HiddenMarkovModel model)
             : base(model)
         {
+            NumberOfSymbols = model.NumberOfSymbols;
         }
 
         /// <summary>
@@ -143,6 +154,16 @@ namespace Accord.Statistics.Models.Markov.Learning
             {
                 FittingOptions = mixOptions
             };
+        }
+
+        /// <summary>
+        ///   Creates an instance of the model to be learned. Inheritors of this abstract 
+        ///   class must define this method so new models can be created from the training data.
+        /// </summary>
+        /// 
+        protected override HiddenMarkovModel Create()
+        {
+            return new HiddenMarkovModel(Topology, NumberOfSymbols);
         }
 
         // TODO: Uncomment the following lines

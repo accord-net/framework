@@ -134,6 +134,16 @@ namespace Accord.Statistics.Models.Markov.Learning
 
 
         /// <summary>
+        ///   Creates an instance of the model to be learned. Inheritors of this abstract 
+        ///   class must define this method so new models can be created from the training data.
+        /// </summary>
+        /// 
+        protected override HiddenMarkovClassifier Create(int numberOfClasses)
+        {
+            return new HiddenMarkovClassifier(numberOfClasses);
+        }
+
+        /// <summary>
         ///   Trains each model to recognize each of the output labels.
         /// </summary>
         /// 

@@ -33,22 +33,6 @@ namespace Accord.Statistics.Models.Markov
     using Accord.Statistics.Models.Markov.Topology;
     using Accord.MachineLearning;
 
-    //public enum HiddenMarkovModelDecoding
-    //{
-    //    /// <summary>
-    //    ///   Computes the most likely sequence of states using the Viterbi algorithm (default).
-    //    /// </summary>
-    //    /// 
-    //    Viterbi,
-
-    //    /// <summary>
-    //    ///   Computes the most likely sequence of states by maximizing
-    //    ///   the posterior (using the forward and backward matrices).
-    //    /// </summary>
-    //    /// 
-    //    Posterior
-    //}
-
     /// <summary>
     ///   Algorithms for solving <see cref="HiddenMarkovModel"/>-related
     ///   problems, such as sequence decoding and likelihood evaluation.
@@ -279,7 +263,7 @@ namespace Accord.Statistics.Models.Markov
         ///   initial probability distribution will be cloned across all states.
         /// </param>
         /// 
-        public HiddenMarkovModel(ITopology topology, TDistribution emissions)
+        public HiddenMarkovModel(ITopology topology, Func<int, TDistribution> emissions)
             : this(topology)
         {
             if (emissions == null)
@@ -287,13 +271,30 @@ namespace Accord.Statistics.Models.Markov
 
             // Initialize B using the initial distribution
             B = new TDistribution[this.states];
-
             for (int i = 0; i < B.Length; i++)
-                B[i] = (TDistribution)emissions.Clone();
+                B[i] = (TDistribution)emissions(i);
 
 
-            if (emissions is IMultivariateDistribution)
+            if (B[0] is IMultivariateDistribution)
                 NumberOfInputs = ((IMultivariateDistribution)B[0]).Dimension;
+        }
+
+        /// <summary>
+        ///   Constructs a new Hidden Markov Model with arbitrary-density state probabilities.
+        /// </summary>
+        /// 
+        /// <param name="topology">
+        ///   A <see cref="Topology"/> object specifying the initial values of the matrix of transition 
+        ///   probabilities <c>A</c> and initial state probabilities <c>pi</c> to be used by this model.
+        /// </param>
+        /// <param name="emissions">
+        ///   The initial emission probability distribution to be used by each of the states. This
+        ///   initial probability distribution will be cloned across all states.
+        /// </param>
+        /// 
+        public HiddenMarkovModel(ITopology topology, TDistribution emissions)
+            : this(topology, (i) => (TDistribution)emissions.Clone())
+        {
         }
 
 
@@ -310,23 +311,8 @@ namespace Accord.Statistics.Models.Markov
         /// </param>
         /// 
         public HiddenMarkovModel(ITopology topology, TDistribution[] emissions)
-            : this(topology)
+            : this(topology, (i) => emissions[i])
         {
-            if (emissions == null)
-                throw new ArgumentNullException("emissions");
-
-            if (emissions.Length != this.states)
-            {
-                throw new ArgumentException(
-                    "The emission matrix should have the same number of rows as the number of states in the model.",
-                    "emissions");
-            }
-
-            B = emissions;
-
-            // Assume all emissions have same form
-            if (B[0] is IMultivariateDistribution)
-                NumberOfInputs = ((IMultivariateDistribution)B[0]).Dimension;
         }
 
 
@@ -365,7 +351,21 @@ namespace Accord.Statistics.Models.Markov
         /// <param name="emissions">A initial distribution to be copied to all states in the model.</param>
         /// 
         public HiddenMarkovModel(int states, TDistribution emissions)
-            : this(new Topology.Ergodic(states), emissions) { }
+            : this(new Topology.Ergodic(states), emissions)
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a new Hidden Markov Model with arbitrary-density state probabilities.
+        /// </summary>
+        /// 
+        /// <param name="states">The number of states for the model.</param>
+        /// <param name="emissions">A initial distribution to be copied to all states in the model.</param>
+        /// 
+        public HiddenMarkovModel(int states, Func<int, TDistribution> emissions)
+            : this(new Topology.Ergodic(states), (i) => (TDistribution)emissions.Clone())
+        {
+        }
 
 
 
@@ -1215,7 +1215,7 @@ namespace Accord.Statistics.Models.Markov
             var lnFwd = new double[T, states];
             double logLikelihood;
             var s = new int[T, states];
-            viterbiDecode(sequence, out logLikelihood, lnFwd, s, ref  decision);
+            viterbiDecode(sequence, out logLikelihood, lnFwd, s, ref decision);
 
             if (Algorithm == HiddenMarkovModelAlgorithm.Forward)
             {
@@ -1243,13 +1243,14 @@ namespace Accord.Statistics.Models.Markov
         /// </returns>
         public override int[][] Decide(TObservation[][] input, int[][] result)
         {
+            // TODO: Use parallel for with thread-local storage
             int T = input.Columns(max: true);
             var lnFwd = new double[T, states];
             var s = new int[T, states];
             double logLikelihood;
 
             for (int i = 0; i < input.Length; i++)
-                viterbiDecode(input[i], out logLikelihood, lnFwd, s, ref  result[i]);
+                viterbiDecode(input[i], out logLikelihood, lnFwd, s, ref result[i]);
 
             return result;
         }

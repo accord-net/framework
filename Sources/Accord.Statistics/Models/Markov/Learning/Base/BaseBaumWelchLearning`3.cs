@@ -20,6 +20,8 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+#define SERIAL
+
 namespace Accord.Statistics.Models.Markov.Learning
 {
     using System;
@@ -32,6 +34,8 @@ namespace Accord.Statistics.Models.Markov.Learning
     using Accord.MachineLearning;
     using Accord.Statistics.Models.Markov.Topology;
     using System.Threading;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Base class for implementations of the Baum-Welch learning algorithm.
@@ -87,9 +91,12 @@ namespace Accord.Statistics.Models.Markov.Learning
 
         private TObservation[][] vectorObservations;
         private TObservation[] samples;
-        private double[] sampleWeights;
 
-        private ITopology topology;
+#if SERIAL
+        double[,] lnFwd;
+        double[,] lnBwd;
+        double[] sampleWeights;
+#endif
 
         /// <summary>
         ///   Gets all observations as a single vector.
@@ -112,13 +119,6 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         public TOptions FittingOptions { get; set; }
 
-        ///// <summary>
-        /////   Gets or sets the function that initializes the emission
-        /////   distributions in the hidden Markov Models.
-        ///// </summary>
-        ///// 
-        //public Func<int, TDistribution> Emissions { get; set; }
-
         /// <summary>
         ///   Gets the log-likelihood of the model at the last iteration.
         /// </summary>
@@ -126,36 +126,11 @@ namespace Accord.Statistics.Models.Markov.Learning
         public double LogLikelihood { get; set; }
 
         /// <summary>
-        ///   Gets or sets the state-transition topology to be used.
-        ///   Default is <see cref="Ergodic"/>.
+        ///   Gets or sets the function that initializes the emission
+        ///   distributions in the hidden Markov Models.
         /// </summary>
         /// 
-        public ITopology Topology
-        {
-            get { return topology; }
-            set { topology = value; }
-        }
-
-        /// <summary>
-        ///   Gets or sets the number of states in the models to be learned.
-        /// </summary>
-        /// 
-        public int NumberOfStates
-        {
-            get { return topology.States; }
-            set { topology.States = value; }
-        }
-
-        //protected TDistribution[] CreateEmissions()
-        //{
-        //    var emissions = new TDistribution[NumberOfStates];
-        //    for (int i = 0; i < emissions.Length; i++)
-        //    {
-        //        emissions[i] = Emissions(i);
-        //        emissions[i].Fit(samples);
-        //    }
-        //    return emissions;
-        //}
+        public Func<int, TDistribution> Emissions { get; set; }
 
         /// <summary>
         ///   Creates a new instance of the Baum-Welch learning algorithm.
@@ -164,17 +139,25 @@ namespace Accord.Statistics.Models.Markov.Learning
         public BaseBaumWelchLearning(TModel model)
             : base(model)
         {
-            init();
         }
 
-        //public BaseBaumWelchLearning()
-        //{
-        //    init();
-        //}
-
-        private void init()
+        /// <summary>
+        ///   Creates a new instance of the Baum-Welch learning algorithm.
+        /// </summary>
+        /// 
+        public BaseBaumWelchLearning()
         {
-            Topology = new Ergodic(5);
+            this.Emissions = (stateIndex) =>
+            {
+                try
+                {
+                    return Activator.CreateInstance<TDistribution>();
+                }
+                catch
+                {
+                    throw new InvalidOperationException("Please set the Emissions property to specify how the initial distributions should be created.");
+                }
+            };
         }
 
         /// <summary>
@@ -296,13 +279,11 @@ namespace Accord.Statistics.Models.Markov.Learning
             //    of the entire string goes up, and this value can then be made the new value of the transition.
 
 
-            samples = x.Concatenate();
-            vectorObservations = x;
-            sampleWeights = new double[samples.Length];
+            this.samples = x.Concatenate();
+            this.vectorObservations = x;
 
             if (Model == null)
-                throw new InvalidOperationException("The model must have been created first.");
-            //Model = CreateModel(observations);
+                Model = Create();
 
             // Grab model information
             int states = Model.NumberOfStates;
@@ -329,9 +310,12 @@ namespace Accord.Statistics.Models.Markov.Learning
                     LogKsi[i][t] = new double[states, states];
             }
 
-            int TMax = x.Apply(x_i => x_i.Length).Max();
-            double[,] lnFwd = new double[TMax, states];
-            double[,] lnBwd = new double[TMax, states];
+            int TMax = x.Max(x_i => x_i.Length);
+#if SERIAL
+            lnFwd = new double[TMax, states];
+            lnBwd = new double[TMax, states];
+            sampleWeights = new double[samples.Length];
+#endif
 
             convergence.CurrentIteration--;
             bool hasUpdated = false;
@@ -342,7 +326,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                     break;
 
                 // Initialize the model log-likelihood
-                LogLikelihood = Expectation(x, states, lnFwd, lnBwd);
+                LogLikelihood = Expectation(x, TMax);
                 convergence.NewValue = LogLikelihood;
 
                 // Check for convergence
@@ -354,18 +338,27 @@ namespace Accord.Statistics.Models.Markov.Learning
 
                 // 3. Continue with parameter re-estimation
                 // 3.1 Re-estimation of initial state probabilities 
-                // TODO: Use parallel-for
+#if SERIAL
                 for (int i = 0; i < logP.Length; i++)
+#else
+                Parallel.For(0, logP.Length, ParallelOptions, i =>
+#endif
                 {
                     double lnsum = Double.NegativeInfinity;
                     for (int k = 0; k < LogGamma.Length; k++)
                         lnsum = Special.LogSum(lnsum, LogGamma[k][0, i]);
                     logP[i] = lnsum - logN;
                 }
+#if !SERIAL
+                );
+#endif
 
                 // 3.2 Re-estimation of transition probabilities 
-                // TODO: Use parallel-for
+#if SERIAL
                 for (int i = 0; i < states; i++)
+#else
+                Parallel.For(0, states, ParallelOptions, i =>
+#endif
                 {
                     for (int j = 0; j < states; j++)
                     {
@@ -387,6 +380,9 @@ namespace Accord.Statistics.Models.Markov.Learning
                         Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logA[i][j]));
                     }
                 }
+#if !SERIAL
+                );
+#endif
 
                 // 3.3 Re-estimation of emission probabilities
                 UpdateEmissions(); // discrete and continuous
@@ -397,14 +393,36 @@ namespace Accord.Statistics.Models.Markov.Learning
             return Model;
         }
 
-        private double Expectation(TObservation[][] x, int states, double[,] lnFwd, double[,] lnBwd)
+        private double Expectation(TObservation[][] x, int maxLength)
         {
+            int states = Model.NumberOfStates;
+            double logLikelihood = 0;
+
             // For each sequence in the observations input
+#if SERIAL
             for (int i = 0; i < x.Length; i++)
             {
+#else
+            object lockObj = new object();
+
+            Parallel.For(0, x.Length, ParallelOptions,
+                () => new
+                {
+                    lnFwd = new double[maxLength, states],
+                    lnBwd = new double[maxLength, states],
+                    partialSum = new[] { 0.0 }
+                },
+
+                (i, loopState, local) =>
+                {
+                    double[,] lnFwd = local.lnFwd;
+                    double[,] lnBwd = local.lnBwd;
+                    double[] partialSum = local.partialSum;
+#endif
                 int T = x[i].Length;
                 double[,] logGamma = LogGamma[i];
                 double w = LogWeights[i];
+
 
                 // 1st step - Calculating the forward probability and the
                 //            backward probability for each HMM state.
@@ -415,8 +433,11 @@ namespace Accord.Statistics.Models.Markov.Learning
                 //            and dividing it by the probability of the entire string.
 
                 // Calculate gamma values for next computations
-                // TODO: Use parallel-for
+#if SERIAL
                 for (int t = 0; t < T; t++)
+#else
+                Parallel.For(0, T, ParallelOptions, t =>
+#endif
                 {
                     double lnsum = Double.NegativeInfinity;
                     for (int k = 0; k < states; k++)
@@ -432,29 +453,32 @@ namespace Accord.Statistics.Models.Markov.Learning
                         for (int k = 0; k < states; k++)
                             logGamma[t, k] = logGamma[t, k] - lnsum;
                 }
-
+#if !SERIAL
+);
+#endif
                 // Calculate ksi values for next computations
                 ComputeKsi(i, lnFwd, lnBwd);
-            }
 
-            double newLogLikelihood = ComputeLogLikelihood(x, states, lnFwd);
-            return newLogLikelihood;
-        }
-
-        private static double ComputeLogLikelihood(TObservation[][] x, int states, double[,] lnFwd)
-        {
-            // For each sequence in the observations input
-            double newLogLikelihood = Double.NegativeInfinity;
-            for (int i = 0; i < x.Length; i++)
-            {
-                int T = x[i].Length;
+                double ll = Double.NegativeInfinity;
                 for (int j = 0; j < states; j++)
-                    newLogLikelihood = Special.LogSum(newLogLikelihood, lnFwd[T - 1, j]);
-            }
+                    ll = Special.LogSum(ll, lnFwd[T - 1, j]);
 
-            // Average the likelihood for all sequences
-            newLogLikelihood /= x.Length;
-            return newLogLikelihood;
+#if !SERIAL
+                    partialSum[0] += ll;
+                    return local;
+                },
+
+                (local) =>
+                {
+                    lock (lockObj)
+                        logLikelihood += local.partialSum[0];
+                });
+#else
+                logLikelihood += ll;
+            }
+#endif
+
+            return logLikelihood / (double)x.Length;
         }
 
         private static void CheckArgs(TObservation[][] observations, double[] weights)
@@ -489,7 +513,8 @@ namespace Accord.Statistics.Models.Markov.Learning
             var logKsi = LogKsi[index];
             var w = LogWeights[index];
 
-            // TODO: Use parallel-for
+            // Note: cannot be parallelized due to 
+            // dependency on previous values of t
             for (int t = 0; t < T - 1; t++)
             {
                 double lnsum = Double.NegativeInfinity;
@@ -529,15 +554,20 @@ namespace Accord.Statistics.Models.Markov.Learning
             var B = Model.Emissions;
 
             // For each state i in the model
-            // TODO: Use parallel-for
+#if SERIAL
             for (int i = 0; i < B.Length; i++)
+#else
+            Parallel.For(0, B.Length, ParallelOptions,
+                () => new double[this.samples.Length],
+                (i, loopState, sampleWeights) =>
+#endif
             {
                 double lnsum = Double.NegativeInfinity;
 
                 // For each observation sequence k
-                for (int k = 0, w = 0; k < vectorObservations.Length; k++)
+                for (int k = 0, w = 0; k < this.vectorObservations.Length; k++)
                 {
-                    int T = vectorObservations[k].Length;
+                    int T = this.vectorObservations[k].Length;
 
                     // For each observation t in k
                     for (int t = 0; t < T; t++, w++)
@@ -564,7 +594,15 @@ namespace Accord.Statistics.Models.Markov.Learning
                     // Estimate the distribution for state i
                     Fit(i, samples, sampleWeights);
                 }
+#if SERIAL
             }
+#else
+                return weights;
+        },
+
+                (weights) => { }
+            );
+#endif
         }
 
         /// <summary>
@@ -574,10 +612,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         protected virtual void Fit(int index, TObservation[] values, double[] weights)
         {
-            if (FittingOptions == null)
-                Model.Emissions[index].Fit(values, weights);
-            else
-                Model.Emissions[index].Fit(values, weights, FittingOptions);
+            Model.Emissions[index].Fit(values, weights, FittingOptions);
         }
 
 

@@ -22,8 +22,11 @@
 
 namespace Accord.Tests.Statistics
 {
+    using Accord.DataSets;
     using Accord.Math;
     using Accord.Math.Optimization.Losses;
+    using Accord.Statistics;
+    using Accord.Statistics.Analysis;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
@@ -32,7 +35,8 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Models.Markov.Topology;
     using NUnit.Framework;
     using System;
-
+    using System.IO;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class GenericSequenceClassifierTest2
@@ -46,7 +50,7 @@ namespace Accord.Tests.Statistics
             #region doc_learn
             // Create a Continuous density Hidden Markov Model Sequence Classifier
             // to detect a univariate sequence and the same sequence backwards.
-            double[][] sequences = new double[][] 
+            double[][] sequences = new double[][]
             {
                 new double[] { 0,1,2,3,4 }, // This is the first  sequence with label = 0
                 new double[] { 4,3,2,1,0 }, // This is the second sequence with label = 1
@@ -134,7 +138,7 @@ namespace Accord.Tests.Statistics
             // to detect a multivariate sequence and the same sequence backwards.
             double[][][] sequences = new double[][][]
             {
-                new double[][] 
+                new double[][]
                 { 
                     // This is the first  sequence with label = 0
                     new double[] { 0 },
@@ -142,7 +146,7 @@ namespace Accord.Tests.Statistics
                     new double[] { 2 },
                     new double[] { 3 },
                     new double[] { 4 },
-                }, 
+                },
 
                 new double[][]
                 {
@@ -206,7 +210,7 @@ namespace Accord.Tests.Statistics
             // to detect a multivariate sequence and the same sequence backwards.
             double[][][] sequences = new double[][][]
             {
-                new double[][] 
+                new double[][]
                 { 
                     // This is the first  sequence with label = 0
                     new double[] { 0 },
@@ -214,7 +218,7 @@ namespace Accord.Tests.Statistics
                     new double[] { 2 },
                     new double[] { 3 },
                     new double[] { 4 },
-                }, 
+                },
 
                 new double[][]
                 {
@@ -286,7 +290,7 @@ namespace Accord.Tests.Statistics
             // to detect a multivariate sequence and the same sequence backwards.
             double[][][] sequences = new double[][][]
             {
-                new double[][] 
+                new double[][]
                 { 
                     // This is the first  sequence with label = 0
                     new double[] { 0, 1 },
@@ -294,7 +298,7 @@ namespace Accord.Tests.Statistics
                     new double[] { 2, 3 },
                     new double[] { 3, 4 },
                     new double[] { 4, 5 },
-                }, 
+                },
 
                 new double[][]
                 {
@@ -364,7 +368,7 @@ namespace Accord.Tests.Statistics
             // to detect a multivariate sequence and the same sequence backwards.
             double[][][] sequences = new double[][][]
             {
-                new double[][] 
+                new double[][]
                 { 
                     // This is the first  sequence with label = 0
                     new double[] { 0, 1 },
@@ -372,7 +376,7 @@ namespace Accord.Tests.Statistics
                     new double[] { 2, 3 },
                     new double[] { 3, 4 },
                     new double[] { 4, 5 },
-                }, 
+                },
 
                 new double[][]
                 {
@@ -459,7 +463,7 @@ namespace Accord.Tests.Statistics
 
             double[][][] sequences = new double[][][]
             {
-                new double[][] 
+                new double[][]
                 { 
                     // This is the first  sequence with label = 0
                     new double[] { 0, 1 },
@@ -467,7 +471,7 @@ namespace Accord.Tests.Statistics
                     new double[] { 2, 3 },
                     new double[] { 3, 4 },
                     new double[] { 4, 5 },
-                }, 
+                },
 
                 new double[][]
                 {
@@ -588,10 +592,10 @@ namespace Accord.Tests.Statistics
             // Train the sequence classifier using the algorithm
             teacher.Learn(inputs, outputs);
             double logLikelihood = teacher.LogLikelihood;
-            Assert.AreEqual(-24.810847398117549, logLikelihood);
+            Assert.AreEqual(-24.857860924867822, logLikelihood);
 
             double newLogLikelihood = testThresholdModel(inputs, outputs, classifier, logLikelihood);
-            Assert.AreEqual(0.80319341329878269, newLogLikelihood);
+            Assert.AreEqual(0.80018252199044093, newLogLikelihood);
         }
 
         private static double testThresholdModel(int[][] inputs, int[] outputs, HiddenMarkovClassifier<GeneralDiscreteDistribution, int> classifier, double likelihood)
@@ -637,13 +641,13 @@ namespace Accord.Tests.Statistics
             logRejection = classifier.Probability(r0);
 
             Assert.AreEqual(-1, c);
-            Assert.AreEqual(0.99999100266748164, logRejection, 1e-8);
+            Assert.AreEqual(0.99996184856490966, logRejection, 1e-8);
 
             logRejection = threshold.LogLikelihood(r0);
-            Assert.AreEqual(-5.5816125924890745, logRejection, 1e-8);
+            Assert.AreEqual(-5.6143520098410855, logRejection, 1e-8);
 
             threshold.Decode(r0, out logRejection);
-            Assert.AreEqual(-8.1581260482817211, logRejection, 1e-8);
+            Assert.AreEqual(-8.1618027917853073, logRejection, 1e-8);
 
             foreach (var model in classifier.Models)
             {
@@ -721,6 +725,118 @@ namespace Accord.Tests.Statistics
             }
         }
 
+        [Test]
+        public void learn_pendigits()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+
+            var pendigits = new Pendigits(path: Path.Combine(Path.GetTempPath(), "learn_pendigits"));
+
+            double[][][] inputs = pendigits.Training.Item1;
+            int[] outputs = pendigits.Training.Item2;
+
+            var teacher = new HiddenMarkovClassifierLearning<MultivariateNormalDistribution, double[]>()
+            {
+                Learner = (i) => new BaumWelchLearning<MultivariateNormalDistribution, double[]>()
+                {
+                    Topology = new Forward(5),
+                    Emissions = (j) => new MultivariateNormalDistribution(dimension: 2),
+
+                    Tolerance = 1e-6,
+                    MaxIterations = 1000,
+
+                    FittingOptions = new NormalOptions()
+                    {
+                        Regularization = 1e-5
+                    }
+                }
+            };
+
+            var hmmc = teacher.Learn(inputs, outputs);
+
+            int[] predicted = hmmc.Decide(inputs);
+
+            var cm = new ConfusionMatrix(predicted: predicted, expected: outputs);
+
+            double acc = cm.Accuracy;
+
+            Assert.AreEqual(0.90937678673527733, acc);
+        }
+
+        [Test]
+        public void learn_pendigits_normalization()
+        {
+            #region doc_learn_pendigits
+            // Ensure we get reproducible results
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Download the PENDIGITS dataset from UCI ML repository
+            var pendigits = new Pendigits(path: Path.GetTempPath());
+
+            // Get and pre-process the training set
+            double[][][] trainInputs = pendigits.Training.Item1;
+            int[] trainOutputs = pendigits.Training.Item2;
+
+            // Pre-process the digits so each of them is centered and scaled
+            trainInputs = trainInputs.Apply(Accord.Statistics.Tools.ZScores);
+
+            // Create some prior distributions to help initialize our parameters
+            var priorC = new WishartDistribution(dimension: 2, degreesOfFreedom: 5);
+            var priorM = new MultivariateNormalDistribution(dimension: 2);
+
+            // Create a new learning algorithm for creating continuous hidden Markov model classifiers
+            var teacher = new HiddenMarkovClassifierLearning<MultivariateNormalDistribution, double[]>()
+            {
+                // This tells the generative algorithm how to train each of the component models
+                Learner = (i) => new BaumWelchLearning<MultivariateNormalDistribution, double[]>()
+                {
+                    Topology = new Forward(5), // Each model will have a forward topology with 5 states
+
+                    // Their emissions will be multivariate Normal distributions initialized using the prior distributions
+                    Emissions = (j) => new MultivariateNormalDistribution(mean: priorM.Generate(), covariance: priorC.Generate()),
+
+                    // We will train until the relative change in the average log-likelihood is less than 1e-6 between iterations
+                    Tolerance = 1e-6,
+                    MaxIterations = 1000, // or until we perform 1000 iterations (which is unlikely for this dataset)
+
+                    // We will prevent our covariance matrices from becoming degenerate by adding a small 
+                    // regularization value to their diagonal until they become positive-definite again:
+                    FittingOptions = new NormalOptions()
+                    {
+                        Regularization = 1e-6
+                    }
+                }
+            };
+
+            // Use the learning algorithm to create a classifier
+            var hmmc = teacher.Learn(trainInputs, trainOutputs);
+
+            // Compute predictions for the training set
+            int[] trainPredicted = hmmc.Decide(trainInputs);
+
+            // Check the performance of the classifier by comparing with the ground-truth:
+            var m1 = new ConfusionMatrix(predicted: trainPredicted, expected: trainOutputs);
+            double trainAcc = m1.Accuracy; // should be 0.971
+
+
+            // Prepare the testing set
+            double[][][] testInputs = pendigits.Testing.Item1;
+            int[] testOutputs = pendigits.Testing.Item2;
+
+            // Apply the same normalizations
+            testInputs = testInputs.Apply(Accord.Statistics.Tools.ZScores);
+
+            // Compute predictions for the test set
+            int[] testPredicted = hmmc.Decide(testInputs);
+
+            // Check the performance of the classifier by comparing with the ground-truth:
+            var m2 = new ConfusionMatrix(predicted: testPredicted, expected: testOutputs);
+            double testAcc = m2.Accuracy; // should be 0.969
+            #endregion
+
+            Assert.AreEqual(0.97141223556317891, trainAcc, 1e-10);
+            Assert.AreEqual(0.96917534027221774, testAcc, 1e-10);
+        }
 
 
         int[] large_outputs = { 0, 0, 0, 0, 1, 1, 1 };

@@ -58,10 +58,15 @@ namespace Accord.Statistics.Models.Markov.Learning
         {
         }
 
-        //protected internal override HiddenMarkovModel<TDistribution, TObservation> CreateModel(TObservation[][] inputs)
-        //{
-        //    return new HiddenMarkovModel<TDistribution, TObservation>(Topology, CreateEmissions());
-        //}
+        /// <summary>
+        ///   Creates an instance of the model to be learned. Inheritors of this abstract 
+        ///   class must define this method so new models can be created from the training data.
+        /// </summary>
+        /// 
+        protected override HiddenMarkovModel<TDistribution, TObservation> Create()
+        {
+            return new HiddenMarkovModel<TDistribution, TObservation>(Topology, Emissions);
+        }
 
     }
 
@@ -193,10 +198,23 @@ namespace Accord.Statistics.Models.Markov.Learning
         {
         }
 
-        //protected internal override HiddenMarkovModel<TDistribution, TObservation> CreateModel(TObservation[][] inputs)
-        //{
-        //    return new HiddenMarkovModel<TDistribution, TObservation>(Topology, CreateEmissions());
-        //}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaumWelchLearning{TDistribution, TObservation}"/> class.
+        /// </summary>
+        /// 
+        public BaumWelchLearning()
+        {
+        }
+
+        /// <summary>
+        ///   Creates an instance of the model to be learned. Inheritors of this abstract 
+        ///   class must define this method so new models can be created from the training data.
+        /// </summary>
+        /// 
+        protected override HiddenMarkovModel<TDistribution, TObservation> Create()
+        {
+            return new HiddenMarkovModel<TDistribution, TObservation>(Topology, Emissions);
+        }
 
     }
 }

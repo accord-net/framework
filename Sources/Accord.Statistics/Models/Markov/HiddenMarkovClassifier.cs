@@ -94,6 +94,17 @@ namespace Accord.Statistics.Models.Markov
         /// </summary>
         /// 
         /// <param name="classes">The number of classes in the classifier.</param>
+        /// 
+        public HiddenMarkovClassifier(int classes)
+            : base(classes)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new Sequence Classifier with the given number of classes.
+        /// </summary>
+        /// 
+        /// <param name="classes">The number of classes in the classifier.</param>
         /// <param name="topology">The topology of the hidden states. A forward-only topology
         /// is indicated to sequence classification problems, such as speech recognition.</param>
         /// <param name="symbols">The number of symbols in the models' discrete alphabet.</param>

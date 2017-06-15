@@ -151,10 +151,10 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(14 / 20.0, A[1][0], 1e-5);
             Assert.AreEqual(6 / 20.0, A[1][1], 1e-5);
 
-            Assert.AreEqual(17 / 25.0, B[0][0]);
-            Assert.AreEqual(8 / 25.0, B[0][1]);
-            Assert.AreEqual(19 / 23.0, B[1][0]);
-            Assert.AreEqual(4 / 23.0, B[1][1]);
+            Assert.AreEqual(17 / 25.0, B[0][0], 1e-5);
+            Assert.AreEqual(8 / 25.0, B[0][1], 1e-5);
+            Assert.AreEqual(19 / 23.0, B[1][0], 1e-5);
+            Assert.AreEqual(4 / 23.0, B[1][1], 1e-5);
         }
 
     }
