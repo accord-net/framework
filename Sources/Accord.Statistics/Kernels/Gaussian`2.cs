@@ -32,9 +32,10 @@ namespace Accord.Statistics.Kernels
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Gaussian<TDistance> : KernelBase, IKernel, 
-        IEstimable, ICloneable 
-        where TDistance : IDistance, ICloneable
+    public struct Gaussian<TDistance, TInput> :
+        IKernel<TInput>, IDistance<TInput>, IEstimable<TInput>, ICloneable
+        where TInput : class
+        where TDistance : IDistance<TInput>, ICloneable
     {
         private double sigma;
         private double gamma;
@@ -119,7 +120,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public override double Function(double[] x, double[] y)
+        public double Function(TInput x, TInput y)
         {
             if (x == y)
                 return 1.0;
@@ -129,11 +130,27 @@ namespace Accord.Statistics.Kernels
             return Math.Exp(-gamma * distance);
         }
 
-
-
-        void IEstimable<double[]>.Estimate(double[][] inputs)
+        /// <summary>
+        ///   Computes the squared distance in feature space
+        ///   between two points given in input space.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
+        /// <returns>
+        ///   Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.
+        /// </returns>
+        /// 
+        public double Distance(TInput x, TInput y)
         {
-            this.Gamma = Gaussian.Estimate(distance, inputs).Gamma;
+            return Function(x, x) + Function(y, y) - 2 * Function(x, y);
+        }
+
+
+        void IEstimable<TInput>.Estimate(TInput[] inputs)
+        {
+            this.Gamma = Gaussian.Estimate<TInput, TDistance>(inputs, distance).Gamma;
         }
 
         /// <summary>
@@ -146,7 +163,7 @@ namespace Accord.Statistics.Kernels
         /// 
         public object Clone()
         {
-            Gaussian<TDistance> clone = (Gaussian<TDistance>)MemberwiseClone();
+            Gaussian<TDistance, TInput> clone = (Gaussian<TDistance, TInput>)MemberwiseClone();
             clone.distance = (TDistance)distance.Clone();
             return clone;
         }

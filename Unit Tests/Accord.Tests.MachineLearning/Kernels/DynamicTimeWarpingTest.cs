@@ -25,6 +25,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
+    using Accord.Math.Distances;
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Kernels;
     using NUnit.Framework;
@@ -37,7 +38,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void DynamicalTimeWarpingConstructorTest()
         {
-            double[][] sequences = 
+            double[][] sequences =
             {
                 new double[] // -1
                 {
@@ -62,8 +63,8 @@ namespace Accord.Tests.MachineLearning
 
                 new double[] // +1
                 {
-                     0, 0, 1, 
-                     0, 0, 2, 
+                     0, 0, 1,
+                     0, 0, 2,
                      0, 1, 3,
                 },
             };
@@ -96,7 +97,7 @@ namespace Accord.Tests.MachineLearning
             var a2 = svm.Compute(sequences[2]);
             var a3 = svm.Compute(sequences[3]);
 
-            Assert.AreEqual(-1, System.Math.Sign(a0)); 
+            Assert.AreEqual(-1, System.Math.Sign(a0));
             Assert.AreEqual(-1, System.Math.Sign(a1));
             Assert.AreEqual(+1, System.Math.Sign(a2));
             Assert.AreEqual(+1, System.Math.Sign(a3));
@@ -116,10 +117,11 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(+1, System.Math.Sign(a4));
         }
 
+
         [Test]
         public void GaussianDynamicalTimeWarpingConstructorTest()
         {
-            double[][] sequences = 
+            double[][] sequences =
             {
                 new double[] // -1
                 {
@@ -144,8 +146,8 @@ namespace Accord.Tests.MachineLearning
 
                 new double[] // +1
                 {
-                     0, 0, 1, 
-                     0, 0, 2, 
+                     0, 0, 1,
+                     0, 0, 2,
                      0, 1, 3,
                 },
             };
@@ -185,11 +187,11 @@ namespace Accord.Tests.MachineLearning
 
             // Computing a new testing value
             double[] test =
-                {
-                     1, 0, 1,
-                     0, 0, 2,
-                     0, 1, 3,
-                };
+            {
+                1, 0, 1,
+                0, 0, 2,
+                0, 1, 3,
+            };
 
             var a4 = svm.Compute(test);
 
@@ -204,16 +206,16 @@ namespace Accord.Tests.MachineLearning
             {
                 // Class -1
                 new double[] { 0,1,1,0 },
-                new double[] { 0,0,1,0 },  
-                new double[] { 0,1,1,1,0 }, 
+                new double[] { 0,0,1,0 },
+                new double[] { 0,1,1,1,0 },
                 new double[] { 0,1,0 },    
 
                 // Class +1
-                new double[] { 1,0,0,1 },   
-                new double[] { 1,1,0,1 }, 
+                new double[] { 1,0,0,1 },
+                new double[] { 1,1,0,1 },
                 new double[] { 1,0,0,0,1 },
-                new double[] { 1,0,1 },   
-                new double[] { 1,0,0,0,1,1 } 
+                new double[] { 1,0,1 },
+                new double[] { 1,0,0,0,1,1 }
             };
 
             int[] outputs =
@@ -250,8 +252,8 @@ namespace Accord.Tests.MachineLearning
             }
 
             // Testing new sequences
-            Assert.AreEqual(-1,System.Math.Sign(svm.Compute(new double[] { 0, 1, 1, 0, 0 })));
-            Assert.AreEqual(+1,System.Math.Sign(svm.Compute(new double[] { 1, 1, 0, 0, 1, 1 })));
+            Assert.AreEqual(-1, System.Math.Sign(svm.Compute(new double[] { 0, 1, 1, 0, 0 })));
+            Assert.AreEqual(+1, System.Math.Sign(svm.Compute(new double[] { 1, 1, 0, 0, 1, 1 })));
         }
 
         [Test]
@@ -340,8 +342,8 @@ namespace Accord.Tests.MachineLearning
             // At this point, we should have obtained an useful machine. Let's
             // see if it can understand a few examples it hasn't seem before:
 
-            double[][] a = 
-            { 
+            double[][] a =
+            {
                 new double[] { 1, 1, 1 },
                 new double[] { 7, 2, 5 },
                 new double[] { 2, 5, 1 },
@@ -379,16 +381,16 @@ namespace Accord.Tests.MachineLearning
             {
                 // Class -1
                 new double[] { 0,1,1,0 },
-                new double[] { 0,0,1,0 },  
-                new double[] { 0,1,1,1,0 }, 
+                new double[] { 0,0,1,0 },
+                new double[] { 0,1,1,1,0 },
                 new double[] { 0,1,0 },    
 
                 // Class +1
-                new double[] { 1,0,0,1 },   
-                new double[] { 1,1,0,1 }, 
+                new double[] { 1,0,0,1 },
+                new double[] { 1,1,0,1 },
                 new double[] { 1,0,0,0,1 },
-                new double[] { 1,0,1 },   
-                new double[] { 1,0,0,0,1,1 } 
+                new double[] { 1,0,1 },
+                new double[] { 1,0,0,0,1,1 }
             };
 
             int[] outputs =
@@ -421,6 +423,62 @@ namespace Accord.Tests.MachineLearning
             // Testing new sequences
             Assert.AreEqual(-1, System.Math.Sign(svm.Compute(new double[] { 0, 1, 1, 0, 0 })));
             Assert.AreEqual(+1, System.Math.Sign(svm.Compute(new double[] { 1, 1, 0, 0, 1, 1 })));
+        }
+
+        [Test]
+        public void learn_generic()
+        {
+            #region doc_learn_generic
+
+            // Suppose you have sequences of univariate observations, 
+            // and that those sequences could be of arbitrary length.
+            // In this example, we have sequences binary numbers:
+
+            int[][] inputs =
+            {
+                // Class -1
+                new int[] { 0,1,1,0 },
+                new int[] { 0,0,1,0 },
+                new int[] { 0,1,1,1,0 },
+                new int[] { 0,1,0 },    
+
+                // Class +1
+                new int[] { 1,0,0,1 },
+                new int[] { 1,1,0,1 },
+                new int[] { 1,0,0,0,1 },
+                new int[] { 1,0,1 },
+                new int[] { 1,0,0,0,1,1 }
+            };
+
+            int[] outputs =
+            {
+                0, 0, 0, 0,  // First four sequences are of class 0
+                1, 1, 1, 1, 1 // Last five sequences are of class 1
+            };
+
+            // Create the Sequential Minimal Optimization learning algorithm
+            var smo = new SequentialMinimalOptimization<DynamicTimeWarping<Dirac<int>, int>, int[]>()
+            {
+                Complexity = 10000,
+                Kernel = new DynamicTimeWarping<Dirac<int>, int>(0.5)
+            };
+
+            // And use it to learn a machine!
+            var svm = smo.Learn(inputs, outputs);
+
+            // Now we can compute predicted values
+            bool[] predicted = svm.Decide(inputs);
+
+            // And check how far we are from the expected values
+            double error = new ZeroOneLoss(outputs).Loss(predicted); // error will be 0.0
+            #endregion
+
+            Assert.AreEqual(0, error);
+            Assert.IsTrue(outputs.IsEqual(predicted));
+
+            // Testing new sequences
+            Assert.AreEqual(-1, System.Math.Sign(svm.Compute(new int[] { 0, 1, 1, 0, 0 })));
+            Assert.AreEqual(+1, System.Math.Sign(svm.Compute(new int[] { 1, 1, 0, 0, 1, 1 })));
         }
 
         [Test]
@@ -484,8 +542,8 @@ namespace Accord.Tests.MachineLearning
             };
 
             // And use it to learn a machine!
-            var svm = smo.Learn(sequences, outputs); 
-            
+            var svm = smo.Learn(sequences, outputs);
+
             // Now we can compute predicted values
             bool[] predicted = svm.Decide(sequences);
 
@@ -496,8 +554,8 @@ namespace Accord.Tests.MachineLearning
             // At this point, we should have obtained an useful machine. Let's
             // see if it can understand a few examples it hasn't seem before:
 
-            double[][] a = 
-            { 
+            double[][] a =
+            {
                 new double[] { 1, 1, 1 },
                 new double[] { 7, 2, 5 },
                 new double[] { 2, 5, 1 },
@@ -604,8 +662,8 @@ namespace Accord.Tests.MachineLearning
             // At this point, we should have obtained an useful machine. Let's
             // see if it can understand a few examples it hasn't seem before:
 
-            double[][] a = 
-            { 
+            double[][] a =
+            {
                 new double[] { 1, 1, 1 },
                 new double[] { 7, 2, 5 },
                 new double[] { 2, 5, 1 },

@@ -325,6 +325,8 @@ namespace Accord.Statistics.Kernels
 
             // Compute the cosine of the global distance
             double distance = D(m, sx, sy);
+
+            // https://www.researchgate.net/publication/221478420_Polynomial_dynamic_time_warping_kernel_support_vector_machines_for_dysarthric_speech_recognition_with_sparse_training_data
             return System.Math.Cos(distance);
         }
 
