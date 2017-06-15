@@ -33,7 +33,8 @@ namespace Accord.Math.Distances
     /// <seealso cref="Euclidean"/>
     ///
     [Serializable]
-    public struct SquareEuclidean : IDistance<double[]>, ISimilarity<double[]>
+    public struct SquareEuclidean : IDistance<double[]>, ISimilarity<double[]>,
+        IDistance<Sparse<double>>, ISimilarity<Sparse<double>>
     {
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
@@ -66,6 +67,28 @@ namespace Accord.Math.Distances
         }
 
         /// <summary>
+        ///   Computes the distance <c>d(x,y)</c> between points
+        ///   <paramref name="x"/> and <paramref name="y"/>.
+        /// </summary>
+        /// 
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
+        /// 
+        /// <returns>
+        ///   A double-precision value representing the distance <c>d(x,y)</c>
+        ///   between <paramref name="x"/> and <paramref name="y"/> according 
+        ///   to the distance function implemented by this class.
+        /// </returns>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public double Distance(Sparse<double> x, Sparse<double> y)
+        {
+            return Accord.Math.Distance.SquareEuclidean(x, y);
+        }
+
+        /// <summary>
         ///   Gets the Square Euclidean distance between two points.
         /// </summary>
         /// 
@@ -86,6 +109,8 @@ namespace Accord.Math.Distances
             return dx * dx + dy * dy;
         }
 
+
+
         /// <summary>
         ///   Gets a similarity measure between two points.
         /// </summary>
@@ -100,16 +125,24 @@ namespace Accord.Math.Distances
 #endif
         public double Similarity(double[] x, double[] y)
         {
-            double sum = 0.0;
-
-            for (int i = 0; i < x.Length; i++)
-            {
-                double u = x[i] - y[i];
-                sum += u * u;
-            }
-
-            return 1.0 / (1.0 + sum);
+            return 1.0 / (1.0 + Distance(x, y));
         }
 
+        /// <summary>
+        ///   Gets a similarity measure between two points.
+        /// </summary>
+        /// 
+        /// <param name="x">The first point to be compared.</param>
+        /// <param name="y">The second point to be compared.</param>
+        /// 
+        /// <returns>A similarity measure between x and y.</returns>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public double Similarity(Sparse<double> x, Sparse<double> y)
+        {
+            return 1.0 / (1.0 + Distance(x, y));
+        }
     }
 }
