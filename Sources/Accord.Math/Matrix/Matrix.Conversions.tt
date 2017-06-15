@@ -51,6 +51,7 @@ namespace Accord.Math
         new string[] { "sbyte", "SByte", "signed 7-bit byte" },
         new string[] { "decimal", "Decimal", "decimal fixed-point" },
         new string[] { "bool", "Boolean", "boolean" },
+		new string[] { "object", "Object", "object" },
     };
 
     foreach (string[] a in types)
@@ -67,6 +68,9 @@ namespace Accord.Math
             string b_name = b[1];
             string b_desc = b[2];
 
+			bool a_blittable = a_type != "object";
+			bool b_blittable = b_type != "object";
+
             string begin = String.Format("({0})", b_name);
             string end = "";
 
@@ -77,9 +81,24 @@ namespace Accord.Math
             }
             else if (b_type == "bool")
             {
-                begin = "";
-                end = " != 0";
+				if (a_type == "object")
+				{
+					begin = "Object.Equals(";
+					end = ", 0)";
+				}
+				else
+				{
+					begin = "";
+					end = " != 0";
+				}
             }
+
+			if (a_type == "object")
+            {
+                begin = String.Format("({0})System.Convert.ChangeType(", b_name);
+                end = String.Format(", typeof({0}))", b_name);
+            }
+            
 
 #>
         /// <summary>
@@ -156,15 +175,30 @@ namespace Accord.Math
 #endif
         public static <#=b_type#>[,] To<#=b_name#>(this <#=a_type#>[,] value, <#=b_type#>[,] result)
         {
-            unsafe
-            {
-                fixed (<#=a_type#>* src = value)
-                fixed (<#=b_type#>* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = <#=begin#>src[i]<#=end#>;
-                }
-            }
+		<#
+			if (a_blittable && b_blittable)
+			{
+		#>
+			unsafe
+			{
+				fixed (<#=a_type#>* src = value)
+				fixed (<#=b_type#>* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = <#=begin#>src[i]<#=end#>;
+				}
+			}
+		<#
+			}
+			else
+			{
+		#>
+			for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = <#=begin#>value[i, j]<#=end#>;
+		<#
+			}
+		#>
 
             return result;
         }

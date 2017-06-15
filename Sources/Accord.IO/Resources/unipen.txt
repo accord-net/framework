@@ -1,0 +1,393 @@
+
+.COMMENT 	####################################
+		#   UNIPEN 1.0 FORMAT DEFINITION   #
+		####################################
+
+# ----- Copyright (c) 1994, Isabelle Guyon, AT&T Bell Laboratories ------ #
+#									  #
+#  DISCLAIMER:                                                            #
+#                                                                         #
+#    USER SHALL BE FREE TO USE AND COPY THIS SOFTWARE FREE OF CHARGE OR   #
+#    FURTHER OBLIGATION.                                                  #
+#                                                                         #
+#    THIS SOFTWARE IS NOT OF PRODUCT QUALITY AND MAY HAVE ERRORS OR       #
+#    DEFECTS.                                                             #
+#                                                                         #
+#    PROVIDER GIVES NO EXPRESS OR IMPLIED WARRANTY OF ANY KIND AND ANY    #
+#    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR PURPOSE ARE    #
+#    DISCLAIMED.                                                          #
+#                                                                         #
+#    PROVIDER SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL,      #
+#    INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF ANY USE OF THIS   #
+#    SOFTWARE.                                                            #
+#                                                                         #
+
+The format is self-defined from 3 basic keywords: 
+.COMMENT, .RESERVE and .KEYWORD
+
+
+			A - DATA TYPES
+			    ----------
+
+.RESERVE [N] Integer or decimal number represented by digits separated by a 
+	     dot; may start with a sign; no commas allowed.
+.RESERVE [S] String: any combination of keyboard ASCII symbols, except space,
+	     new-line, tabulations and words starting by a dot in the first 
+	     column.
+.RESERVE [F] Free text: a succession of strings separated by space,
+             new-line and tab.
+.RESERVE [R] Reserved string: a string which has a special meaning for the 
+	     UNIPEN format, as defined in the reserved string glossary.
+.RESERVE [L] Label: a string enclosed between double quotes which may contain
+	     spaces new-lines or tabulations, all counted as spaces; the 
+	     escape character is backslash; inside a label, double quotes 
+	     should be replaced by \", backslash by \\, tabulations by \t and
+	     new-lines by \n.
+.RESERVE [.] Repeat the last type until a new type is indicated.
+.RESERVE [+] Repeat all preceding types any number of times.
+
+
+.COMMENT		B - KEYWORDS  
+			    --------
+
+.KEYWORD .KEYWORD [S] [R] [.] [F] 	Define a new keyword:
+					keyword, argument types, documentation.
+.KEYWORD .RESERVE [S] [F]		Define a new reserved string:
+					reserved string, documentation.
+.KEYWORD .COMMENT [F]			Comments for human reading, to be
+					ignored by the machine parser.
+.KEYWORD .INCLUDE [S]			Name of file to be included as header
+					(e.g. documentation or lexicon file).
+					** Do no put the PATH.
+					** No include file should contain
+					another include file.
+.COMMENT ---------  Mandatory declarations ------------------------------------
+.KEYWORD .VERSION [N]			MANDATORY version number of the format
+					(current version 1.0).
+.KEYWORD .DATA_SOURCE [S]		MANDATORY name of institution or
+					person where the data came from.
+.KEYWORD .DATA_ID [S]			Name of this database.
+.KEYWORD .COORD [R] [.]			Declaration of the coordinates used in 
+					.PEN_DOWN and .PEN_UP components, a
+					subset of: X, Y, T, P, Z, B, RHO, 
+					THETA, PHI, including at least X and Y.
+.KEYWORD .HIERARCHY [S] [.]		Declaration of segmentation hierarchy 
+					used by .SEGMENT. Examples of arguments
+					may be: 0, 1, 2, ..., DOCUMENT, TEXT,
+					PARAGRAPH, PAGE, LINE, SENTENCE, WORD,
+					FORMULA, CHARACTER, STROKE, SHEET,
+					GLYPH, DIACRITICAL, GESTURE, KEY, etc.
+					This list is not limitative. 
+					A typical hierarchy is: 
+					.HIERARCHY SENTENCE WORD CHARACTER.
+.COMMENT ---------  Data documentation ----------------------------------------
+.KEYWORD .DATA_CONTACT [F]	        Where to reach the person responsible
+					to answer questions about the database.
+.KEYWORD .DATA_INFO [F]			Nature and structure of the data.
+.KEYWORD .SETUP [F]			Data collection recording conditions.
+.KEYWORD .PAD [F]			Data collection device.
+.COMMENT ---------  Alphabet  -------------------------------------------------
+.KEYWORD .ALPHABET [L] [.]		Declaration of all characters used in
+					data labels. In this version of the
+					UNIPEN format, characters are
+					restricted to English keyboard ASCII.
+					"0" "1" "2" "3" "4" "5" "6" "7" "8"
+					"9" "A" "B" "C" "D" "E" "F" "G" "H"
+					"I" "J" "K" "L" "M" "N" "O" "P" "Q" 
+					"R" "S" "T" "U" "V" "W" "X" "Y" "Z" 
+					"a" "b" "c" "d" "e" "f" "g" "h" "i"
+					"j" "k" "l" "m" "n" "o" "p" "q" "r"
+					"s" "t" "u" "v" "w" "x" "y" "z" "~"
+					"!" "@" "#" "$" "%" "^" "&" "*" "("
+					")" "-" "+" "=" "|" "\\" "/" "{" "}"
+					"?" "[" "]" "\"" ":" "<" ">" "," "."
+					";" "'" "`" "_" "\ "
+					A broader set of characters will be
+					allowed in the next versions.
+.KEYWORD .ALPHABET_FREQ [N] [.]		Natural frequencies of characters in
+					the data (need not add up to one).
+.COMMENT ---------  Lexicon  ---------------------------------------------------
+.KEYWORD .LEXICON_SOURCE [S]	       	Name of institution or person where 
+					the lexicon came from.
+.KEYWORD .LEXICON_ID [S]		Name of the lexicon.
+.KEYWORD .LEXICON_CONTACT [F]	        Where to reach the person responsible
+					to answer questions about the lexicon.
+.KEYWORD .LEXICON_INFO [F]		Informations about the lexicon.
+.KEYWORD .LEXICON [L] [.]		Representative set of class labels 
+					found in the database, generally at 
+					the word or character segmentation
+					level.
+.KEYWORD .LEXICON_FREQ [N] [.]		Frequencies of lexical entries defined
+					by .LEXICON. Lexical frequencies 
+					characterize the distribution
+					from which data samples were drawn 
+					at random. Therefore, the number of
+					times a lexical entry appears in the 
+					database should be approximately
+					proportional to the lexical 
+					frequencies. Normalizing such that
+					all numbers add-up to one is not 
+					necessary.
+.COMMENT ---------  Data layout -----------------------------------------------
+.KEYWORD .X_DIM [N]               	Width of the bounding box, in pixels
+					(using the resolution of the input 
+					device, not that of the display).
+.KEYWORD .Y_DIM [N]			Height of the bounding box, in pixels.
+.KEYWORD .H_LINE [N] [.]		Distance in pixels between the bottom
+					of the bounding box and horizontal 
+					guidelines, such as a baseline.
+.KEYWORD .V_LINE [N] [.]		Distance in pixels between the left 
+					edge of the bounding box and vertical
+					guidelines.
+.COMMENT ---------  Unit system   ---------------------------------------------
+.KEYWORD .X_POINTS_PER_INCH [N]	  	x resolution of the data collection
+					device (1 inch ~ 2.5 cm).
+.KEYWORD .Y_POINTS_PER_INCH [N]		y resolution of the data collection
+					device.
+.KEYWORD .Z_POINTS_PER_INCH [N]		z (altitude) resolution of the data
+					collection device.
+.KEYWORD .X_POINTS_PER_MM [N]	  	x resolution of the data collection
+					device (in SI units).
+.KEYWORD .Y_POINTS_PER_MM [N]		y resolution of the data collection
+					device.
+.KEYWORD .Z_POINTS_PER_MM [N]		z (altitude) resolution of the data
+					collection device.
+.KEYWORD .POINTS_PER_GRAM [N]		Pressure resolution of the data
+					collection device.
+.KEYWORD .POINTS_PER_SECOND [N]		Sampling rate, MANDATORY if T not in 
+					.COORD.
+.COMMENT -------  Pen trajectory ----------------------------------------------
+.KEYWORD .PEN_DOWN [N] [.]	 	Pen down component: repeated sequences
+					of coordinates as defined by .COORD, 
+					pen touching the pad surface.
+.KEYWORD .PEN_UP [N] [.]		Pen up component: same as .PEN_DOWN, 
+					but with the pen not touching the pad
+					surface.
+.KEYWORD .DT [N]			Elapsed time measured when pen 
+					coordinates are elided because the pen
+					was immobile or out of proximity of 
+					the pad sensors.
+.COMMENT --------  Data annotations -------------------------------------------
+.KEYWORD .DATE [N] [N] [N]	    	Date stamp: month, day, year.
+.KEYWORD .STYLE [R]			PRINTED, CURSIVE or MIXED.
+.KEYWORD .WRITER_ID [S]			MANDATORY unique writer identification.
+.KEYWORD .COUNTRY [S]			Country of origin.
+.KEYWORD .HAND [R]			Writer hand: L for left, R for right.
+.KEYWORD .AGE [N]			Writer age, in years.
+.KEYWORD .SEX [R]			Writer sex: M for male, F for female.
+.KEYWORD .SKILL [R]			Skill of writer, familiarity with 
+					input device: BAD, OK or GOOD.
+.KEYWORD .WRITER_INFO [F]		Misc. information about writer.
+.KEYWORD .SEGMENT [S] [R] [R] [L]	Type of segment, its delineation, 
+					quality and label.
+					 -> First argument: type of segment, 
+					such as the ones declared in
+					.HIERARCHY (e. g. SENTENCE, WORD, 
+					CHARACTER, etc.).
+					 -> Second argument: segment 
+					delineation by a A[:M]]-[B[:N]],[C]
+					expression (see reserved string 
+					glossary). Components are numbered in 
+					order of apparition in the present 
+					data set, starting from zero.
+					The component counter is reset to zero
+					at each beginning of new file and 
+					each .START_SET. Empty segments or 
+					components are NOT counted. If the 
+					segment delineation is NON ambiguous,
+					the second argument may be either 
+					replaced by ? or omitted,
+					if ALL following arguments are omitted.
+					 -> Third argument: quality level, 
+					BAD for illegible, OK for regular, 
+					GOOD for superior, ? for unknown. 
+					The quality may be omitted only if the
+					fourth argument is also omitted.
+					 -> Fourth argument: label (Sentence,
+					word, character, etc.)
+					The label may be omitted.
+.KEYWORD .START_SET [S]			Start a new set; the argument is 
+					the set name.
+					The component counter is reset to zero.
+					In the absence of .START_SET, the
+					component counter is automatically 
+					reset to zero at the beginning of each
+					file and the set name is the file name.
+.KEYWORD .START_BOX [.]			Erase all components from the previous
+					data bounding box, and start a new
+					one (useful for browsing). No argument.
+					In the absence of .START_BOX, 
+					segmentation points of highest
+					hierarchy level will be used.
+.COMMENT --------  Recognizer documentation -----------------------------------
+.KEYWORD .REC_SOURCE [S]		MANDATORY name of institution or 
+					person where the recognizer came from.
+.KEYWORD .REC_ID [S]			MANDATORY recognizer name.
+.KEYWORD .REC_CONTACT [F]		Where to reach the person responsible
+					to answer questions about the 
+					recognizer.
+.KEYWORD .REC_INFO [F]			Nature and structure of the recognizer,
+					number of free parameters, number of
+					training examples.
+.KEYWORD .IMPLEMENT [F]			Recognizer implementation, software
+					and hardware.
+.COMMENT --------  Recognizer declarations ------------------------------------
+.KEYWORD .TRAINING_SET [S] [S] [S] [R] [+] Training data set.
+					 -> First argument: data source,
+					from .DATA_SOURCE.
+	 				 -> Second argument: database name,
+					from .DATA_ID.
+					 -> Third argument: data set name,
+					from .START_SET or the file name.
+					 -> Fourth argument: segment of data 
+					delineated by a [A[:M]]-[B[:N]],[C] 
+					expression (see reserved string 
+					glossary).
+					The four arguments types may be 
+					repeated any number of times.
+.KEYWORD .TEST_SET [S] [S] [S] [R] [+]	MANDATORY test set.
+					Always disjoint from the training set.
+					Same argument types as for
+					.TRAINING_SET.
+.KEYWORD .ADAPT_SET [S] [S] [S] [R] [+]	Writer adaptation set on which the 
+					recognizer was fine tuned to perform
+					best on a particular writer.
+					Same argument types as for
+                                        .TRAINING_SET.
+.KEYWORD .LEXICON_SET [S] [S] [R] [+]	Lexicon used by the recognizer. 
+					 -> First argument: lexicon source,
+					from .LEXICON_SOURCE.
+					 -> Second argument: lexicon name,
+					from .LEXICON_ID.
+					 -> Third argument: a [N]-[N],[N]
+					expression (see reserved string 
+					glossary) defining the subset of
+					lexical entries used. The second 
+					argument may be	omitted if only one 
+					lexicon is used.
+.COMMENT --------  Recognition results ----------------------------------------
+.KEYWORD .REC_TIME [R] [N]		Delineation of a data segment, and 
+					recognition time.
+					 -> First argument: segment of data 
+					delineated by a [A[:M]]-[B[:N]],[C]
+					expression (see reserved string 
+					glossary). 
+					 -> Second argument: REAL recognition
+					time (in seconds) it took with the 
+					implementation described in .IMPLEMENT.
+.KEYWORD .REC_LABELS [S] [R] [R] [L] [.] Segment type, its delineation, its 
+					acceptance decision and its 
+					recognition labels.
+					 -> First argument: type of segment, 
+					such as the ones declared in
+					.HIERARCHY (e. g. SENTENCE, WORD, 
+					CHARACTER, etc.).
+					 -> Second argument: segment 
+					delineation, as in .SEGMENT.
+					 -> Third argument: ACCEPT, REJECT 
+					or ? for unknown. 
+					 -> Following arguments: labels 
+					(Characters, words, sentences, etc.)
+					in order of decreasing likelihood 
+					(best guess first).
+					Labels may be omitted if the second 
+					argument is REJECT.
+.KEYWORD .REC_SCORES [S] [R] [N] [N] [.] Segment type, its delineation, its 
+					acceptance score and its recognition 
+					scores.
+					 -> First argument: type of segment, 
+					such as the ones declared in
+					.HIERARCHY (e. g. SENTENCE, WORD, 
+					CHARACTER, etc.).
+					 -> Second argument: segment delineation
+					as in .SEGMENT.
+					 -> Third argument: acceptance score,
+					high => ACCEPT, low => REJECT, 
+					0 if unknown.
+					 -> Following arguments: scores for 
+					the labels given in .REC_LABELS in 
+					order of decreasing values
+					(highest score = best guess, first).
+
+
+.COMMENT		C - RESERVED STRING GLOSSARY
+			    ------------------------
+(data types are also reserved, see section I)
+
+.RESERVE [N]-[N],[N]	      		Compact representation of a list of 
+					numbers, used by .LEXICON_SET, 
+					.SEGMENT, .REC_TIME, .REC_LABELS, 
+					.REC_SCORES. The list:
+ 					2, 3, 4, 5, 15, 9, 50, 51, 52 ,53,
+					54, 55 would be represented as:
+					2-5,15,9,50-55.
+					Commas allow non contiguous numbers
+					(useful for segmentation of delayed
+					strokes, i dots and t bars). 
+					NO SPACES are allowed in the notation.
+.RESERVE [A[:M]]-[B[:N]],[C]		More flexible representation to 
+					delineate segments of data
+					by breaking components. A,B and C are 
+					component numbers, M and N are point 
+					numbers in the component. 
+					Both components and points are 0-base.
+					L defaults to zero and M to the last 
+					point in the component. Thus the
+					[N]-[N],[N] expressions are special 
+					cases of a [A[:M]]-[B[:N]],[C] 
+					expression. The example
+					1:40-3,5,6:0-6:12 delineates component 
+					1 from point 40 to the end,
+					all of component 2, 3 and 5 and
+					component 6 from the beginning to
+					point 12.
+					NO SPACES are allowed in the notation.
+.RESERVE X				X position of the pen on the pad 
+					surface, in units of X given by 
+					.X_POINTS_PER_INCH
+.RESERVE Y				Y position of the pen on the pad 
+					surface, in units of Y given by 
+					.Y_POINTS_PER_INCH
+.RESERVE T				Time in MILLISECONDS.
+.RESERVE P				Pressure in units of P given by 
+					.UNITS_PER_GRAM. Use preferably a 
+					linearized pressure in 1000 units 
+					per gram of force and calibrate the
+					zero as the threshold of pen reaching
+					the pad surface. Negative pressures
+					can account for remaining non-
+					linearities and hysteresis.
+.RESERVE Z				Altitude above the pad surface, in 
+					units of Z given by .Z_POINTS_PER_INCH.
+.RESERVE BUTTON				Barrel button states: 0, 1, ...
+.RESERVE RHO				Rotational angle of the stylus, 
+					measured in degrees from some
+					nominal orientation of the stylus 
+					(e. g. barrel button on top).
+					The angle increases with clockwise 
+					rotation as seen from the rear 
+					end of the stylus.
+.RESERVE THETA				XY angle of the stylus, measured in 
+					degrees, increasing from the X axis
+					in the counter-clockwise direction.
+.RESERVE PHI				Z angle of the stylus, increasing 
+					from the pad surface,
+					in the positive Z direction.
+.RESERVE L				Left handed.
+.RESERVE R				Right handed.
+.RESERVE M				Male.
+.RESERVE F				Female.         
+.RESERVE BAD				Unskilled writer, illegible writing.
+.RESERVE OK				Average quality writing, unambiguously
+					legible.
+.RESERVE GOOD				Superior quality writing, most 
+					recognizers should get it.
+.RESERVE ?				Unknown.
+.RESERVE PRINTED			Printed handwriting style.
+.RESERVE CURSIVE			Cursive handwriting style.
+.RESERVE MIXED				Mixed printed and cursive handwriting
+					style.
+.RESERVE ACCEPT				Accepted by recognizer.
+.RESERVE REJECT				Rejected by recognizer.
+
+
