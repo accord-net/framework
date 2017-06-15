@@ -123,10 +123,10 @@ namespace Accord.Tests.Statistics
 
 
             Assert.AreEqual(86.138421225296526, y1);
-            Assert.AreEqual(0.00072281400325299814, y2);
+            Assert.AreEqual(0.00072281400325299814, y2, 1e-10);
 
-            Assert.AreEqual(0.17989138010770425, p1);
-            Assert.AreEqual(15.950244161356357, p2);
+            Assert.AreEqual(0.17989138010770425, p1, 1e-10);
+            Assert.AreEqual(15.950244161356357, p2, 1e-10);
 
             Assert.AreEqual(1, coef.Length);
             Assert.AreEqual(0.37704239281490765, coef[0]);
@@ -237,10 +237,10 @@ namespace Accord.Tests.Statistics
             #endregion
 
             Assert.AreEqual(86.138421225296526, y1);
-            Assert.AreEqual(0.00072281400325299814, y2);
+            Assert.AreEqual(0.00072281400325299814, y2, 1e-10);
 
-            Assert.AreEqual(0.17989138010770425, p1);
-            Assert.AreEqual(15.950244161356357, p2);
+            Assert.AreEqual(0.17989138010770425, p1, 1e-10);
+            Assert.AreEqual(15.950244161356357, p2, 1e-10);
 
             Assert.AreEqual(1, coef.Length);
             Assert.AreEqual(0.37704239281490765, coef[0]);
@@ -348,10 +348,10 @@ namespace Accord.Tests.Statistics
 
 
             Assert.AreEqual(86.138421225296526, y1);
-            Assert.AreEqual(0.00072281400325299814, y2);
+            Assert.AreEqual(0.00072281400325299814, y2, 1e-10);
 
-            Assert.AreEqual(0.17989138010770425, p1);
-            Assert.AreEqual(15.950244161356357, p2);
+            Assert.AreEqual(0.17989138010770425, p1, 1e-10);
+            Assert.AreEqual(15.950244161356357, p2, 1e-10);
 
             Assert.AreEqual(1, coef.Length);
             Assert.AreEqual(0.37704239281490765, coef[0]);
