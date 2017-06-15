@@ -30,7 +30,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'mono|AnyCPU' ">
     <DefineConstants>TRACE;MONO</DefineConstants>
-<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -58,6 +58,7 @@
  -->
   <ItemGroup>
     <Compile Include="CsvReaderTest.cs" />
+    <Compile Include="UnipenReaderTest.cs" />
     <Compile Include="IdxReaderTest.cs" />
     <Compile Include="ExcelReaderTest.cs" />
     <Compile Include="NumPyWriterTest.cs" />
@@ -161,6 +162,7 @@
     <None Include="Resources\numpy\npy_integer.npy" />
     <None Include="Resources\numpy\npy_strings.npy" />
     <None Include="Resources\numpy\npy_strings_var.npy" />
+    <None Include="Resources\pendigits-orig.tes.Z" />
     <None Include="Resources\sample.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
