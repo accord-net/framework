@@ -109,16 +109,16 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this int[,] value, short[,] result)
         {
-            unsafe
-            {
-                fixed (int* src = value)
-                fixed (short* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int16)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int16)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -256,16 +256,16 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this int[,] value, float[,] result)
         {
-            unsafe
-            {
-                fixed (int* src = value)
-                fixed (float* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Single)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Single)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -403,16 +403,16 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this int[,] value, double[,] result)
         {
-            unsafe
-            {
-                fixed (int* src = value)
-                fixed (double* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Double)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Double)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -550,16 +550,16 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this int[,] value, long[,] result)
         {
-            unsafe
-            {
-                fixed (int* src = value)
-                fixed (long* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int64)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int64)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -697,16 +697,16 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this int[,] value, byte[,] result)
         {
-            unsafe
-            {
-                fixed (int* src = value)
-                fixed (byte* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Byte)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Byte)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -844,16 +844,16 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this int[,] value, sbyte[,] result)
         {
-            unsafe
-            {
-                fixed (int* src = value)
-                fixed (sbyte* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (SByte)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (SByte)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -991,16 +991,16 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this int[,] value, decimal[,] result)
         {
-            unsafe
-            {
-                fixed (int* src = value)
-                fixed (decimal* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Decimal)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Decimal)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -1138,16 +1138,16 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this int[,] value, bool[,] result)
         {
-            unsafe
-            {
-                fixed (int* src = value)
-                fixed (bool* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = src[i] != 0;
-                }
-            }
-
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] != 0;
+				}
+			}
+		
             return result;
         }
 
@@ -1209,6 +1209,147 @@ namespace Accord.Math
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] != 0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a integer to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this int[] value)
+        {
+            return ToObject(value, new object[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a integer to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this int[,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<int, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a integer to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this int[][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<int, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a integer to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this int[][][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<int, object>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a integer array to a object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this int[] value, object[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Object)value[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional integer array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this int[,] value, object[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (Object)value[i, j];
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional integer array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this int[,] value, object[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Object)value[i, j];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged integer array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this int[][] value, object[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Object)value[i][j];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged integer array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this int[][][] value, object[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Object)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged integer array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this int[][] value, object[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Object)value[i][j];
             return result;            
         }
         /// <summary>
@@ -1285,16 +1426,16 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this short[,] value, int[,] result)
         {
-            unsafe
-            {
-                fixed (short* src = value)
-                fixed (int* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int32)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int32)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -1432,16 +1573,16 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this short[,] value, float[,] result)
         {
-            unsafe
-            {
-                fixed (short* src = value)
-                fixed (float* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Single)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Single)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -1579,16 +1720,16 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this short[,] value, double[,] result)
         {
-            unsafe
-            {
-                fixed (short* src = value)
-                fixed (double* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Double)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Double)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -1726,16 +1867,16 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this short[,] value, long[,] result)
         {
-            unsafe
-            {
-                fixed (short* src = value)
-                fixed (long* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int64)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int64)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -1873,16 +2014,16 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this short[,] value, byte[,] result)
         {
-            unsafe
-            {
-                fixed (short* src = value)
-                fixed (byte* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Byte)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Byte)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -2020,16 +2161,16 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this short[,] value, sbyte[,] result)
         {
-            unsafe
-            {
-                fixed (short* src = value)
-                fixed (sbyte* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (SByte)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (SByte)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -2167,16 +2308,16 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this short[,] value, decimal[,] result)
         {
-            unsafe
-            {
-                fixed (short* src = value)
-                fixed (decimal* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Decimal)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Decimal)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -2314,16 +2455,16 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this short[,] value, bool[,] result)
         {
-            unsafe
-            {
-                fixed (short* src = value)
-                fixed (bool* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = src[i] != 0;
-                }
-            }
-
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] != 0;
+				}
+			}
+		
             return result;
         }
 
@@ -2385,6 +2526,147 @@ namespace Accord.Math
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] != 0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a short integer to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this short[] value)
+        {
+            return ToObject(value, new object[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a short integer to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this short[,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<short, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a short integer to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this short[][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<short, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a short integer to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this short[][][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<short, object>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a short integer array to a object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this short[] value, object[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Object)value[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional short integer array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this short[,] value, object[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (Object)value[i, j];
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional short integer array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this short[,] value, object[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Object)value[i, j];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged short integer array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this short[][] value, object[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Object)value[i][j];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged short integer array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this short[][][] value, object[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Object)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged short integer array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this short[][] value, object[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Object)value[i][j];
             return result;            
         }
         /// <summary>
@@ -2461,16 +2743,16 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this float[,] value, int[,] result)
         {
-            unsafe
-            {
-                fixed (float* src = value)
-                fixed (int* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int32)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int32)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -2608,16 +2890,16 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this float[,] value, short[,] result)
         {
-            unsafe
-            {
-                fixed (float* src = value)
-                fixed (short* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int16)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int16)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -2755,16 +3037,16 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this float[,] value, double[,] result)
         {
-            unsafe
-            {
-                fixed (float* src = value)
-                fixed (double* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Double)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Double)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -2902,16 +3184,16 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this float[,] value, long[,] result)
         {
-            unsafe
-            {
-                fixed (float* src = value)
-                fixed (long* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int64)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int64)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -3049,16 +3331,16 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this float[,] value, byte[,] result)
         {
-            unsafe
-            {
-                fixed (float* src = value)
-                fixed (byte* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Byte)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Byte)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -3196,16 +3478,16 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this float[,] value, sbyte[,] result)
         {
-            unsafe
-            {
-                fixed (float* src = value)
-                fixed (sbyte* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (SByte)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (SByte)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -3343,16 +3625,16 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this float[,] value, decimal[,] result)
         {
-            unsafe
-            {
-                fixed (float* src = value)
-                fixed (decimal* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Decimal)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Decimal)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -3490,16 +3772,16 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this float[,] value, bool[,] result)
         {
-            unsafe
-            {
-                fixed (float* src = value)
-                fixed (bool* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = src[i] != 0;
-                }
-            }
-
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] != 0;
+				}
+			}
+		
             return result;
         }
 
@@ -3561,6 +3843,147 @@ namespace Accord.Math
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] != 0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a single-precision floating point to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this float[] value)
+        {
+            return ToObject(value, new object[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a single-precision floating point to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this float[,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<float, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a single-precision floating point to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this float[][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<float, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a single-precision floating point to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this float[][][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<float, object>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a single-precision floating point array to a object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this float[] value, object[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Object)value[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this float[,] value, object[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (Object)value[i, j];
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this float[,] value, object[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Object)value[i, j];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged single-precision floating point array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this float[][] value, object[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Object)value[i][j];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged single-precision floating point array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this float[][][] value, object[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Object)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged single-precision floating point array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this float[][] value, object[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Object)value[i][j];
             return result;            
         }
         /// <summary>
@@ -3637,16 +4060,16 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this double[,] value, int[,] result)
         {
-            unsafe
-            {
-                fixed (double* src = value)
-                fixed (int* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int32)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int32)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -3784,16 +4207,16 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this double[,] value, short[,] result)
         {
-            unsafe
-            {
-                fixed (double* src = value)
-                fixed (short* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int16)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int16)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -3931,16 +4354,16 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this double[,] value, float[,] result)
         {
-            unsafe
-            {
-                fixed (double* src = value)
-                fixed (float* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Single)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Single)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -4078,16 +4501,16 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this double[,] value, long[,] result)
         {
-            unsafe
-            {
-                fixed (double* src = value)
-                fixed (long* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int64)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int64)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -4225,16 +4648,16 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this double[,] value, byte[,] result)
         {
-            unsafe
-            {
-                fixed (double* src = value)
-                fixed (byte* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Byte)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Byte)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -4372,16 +4795,16 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this double[,] value, sbyte[,] result)
         {
-            unsafe
-            {
-                fixed (double* src = value)
-                fixed (sbyte* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (SByte)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (SByte)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -4519,16 +4942,16 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this double[,] value, decimal[,] result)
         {
-            unsafe
-            {
-                fixed (double* src = value)
-                fixed (decimal* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Decimal)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Decimal)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -4666,16 +5089,16 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this double[,] value, bool[,] result)
         {
-            unsafe
-            {
-                fixed (double* src = value)
-                fixed (bool* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = src[i] != 0;
-                }
-            }
-
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] != 0;
+				}
+			}
+		
             return result;
         }
 
@@ -4737,6 +5160,147 @@ namespace Accord.Math
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] != 0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a double-precision floating point to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this double[] value)
+        {
+            return ToObject(value, new object[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a double-precision floating point to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this double[,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<double, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a double-precision floating point to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this double[][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<double, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a double-precision floating point to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this double[][][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<double, object>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a double-precision floating point array to a object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this double[] value, object[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Object)value[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this double[,] value, object[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (Object)value[i, j];
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this double[,] value, object[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Object)value[i, j];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged double-precision floating point array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this double[][] value, object[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Object)value[i][j];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged double-precision floating point array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this double[][][] value, object[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Object)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged double-precision floating point array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this double[][] value, object[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Object)value[i][j];
             return result;            
         }
         /// <summary>
@@ -4813,16 +5377,16 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this long[,] value, int[,] result)
         {
-            unsafe
-            {
-                fixed (long* src = value)
-                fixed (int* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int32)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int32)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -4960,16 +5524,16 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this long[,] value, short[,] result)
         {
-            unsafe
-            {
-                fixed (long* src = value)
-                fixed (short* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int16)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int16)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -5107,16 +5671,16 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this long[,] value, float[,] result)
         {
-            unsafe
-            {
-                fixed (long* src = value)
-                fixed (float* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Single)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Single)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -5254,16 +5818,16 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this long[,] value, double[,] result)
         {
-            unsafe
-            {
-                fixed (long* src = value)
-                fixed (double* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Double)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Double)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -5401,16 +5965,16 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this long[,] value, byte[,] result)
         {
-            unsafe
-            {
-                fixed (long* src = value)
-                fixed (byte* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Byte)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Byte)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -5548,16 +6112,16 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this long[,] value, sbyte[,] result)
         {
-            unsafe
-            {
-                fixed (long* src = value)
-                fixed (sbyte* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (SByte)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (SByte)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -5695,16 +6259,16 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this long[,] value, decimal[,] result)
         {
-            unsafe
-            {
-                fixed (long* src = value)
-                fixed (decimal* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Decimal)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Decimal)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -5842,16 +6406,16 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this long[,] value, bool[,] result)
         {
-            unsafe
-            {
-                fixed (long* src = value)
-                fixed (bool* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = src[i] != 0;
-                }
-            }
-
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] != 0;
+				}
+			}
+		
             return result;
         }
 
@@ -5913,6 +6477,147 @@ namespace Accord.Math
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] != 0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a long integer to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this long[] value)
+        {
+            return ToObject(value, new object[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a long integer to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this long[,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<long, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a long integer to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this long[][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<long, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a long integer to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this long[][][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<long, object>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a long integer array to a object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this long[] value, object[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Object)value[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional long integer array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this long[,] value, object[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (Object)value[i, j];
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional long integer array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this long[,] value, object[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Object)value[i, j];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged long integer array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this long[][] value, object[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Object)value[i][j];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged long integer array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this long[][][] value, object[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Object)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged long integer array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this long[][] value, object[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Object)value[i][j];
             return result;            
         }
         /// <summary>
@@ -5989,16 +6694,16 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this byte[,] value, int[,] result)
         {
-            unsafe
-            {
-                fixed (byte* src = value)
-                fixed (int* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int32)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int32)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -6136,16 +6841,16 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this byte[,] value, short[,] result)
         {
-            unsafe
-            {
-                fixed (byte* src = value)
-                fixed (short* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int16)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int16)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -6283,16 +6988,16 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this byte[,] value, float[,] result)
         {
-            unsafe
-            {
-                fixed (byte* src = value)
-                fixed (float* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Single)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Single)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -6430,16 +7135,16 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this byte[,] value, double[,] result)
         {
-            unsafe
-            {
-                fixed (byte* src = value)
-                fixed (double* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Double)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Double)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -6577,16 +7282,16 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this byte[,] value, long[,] result)
         {
-            unsafe
-            {
-                fixed (byte* src = value)
-                fixed (long* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int64)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int64)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -6724,16 +7429,16 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this byte[,] value, sbyte[,] result)
         {
-            unsafe
-            {
-                fixed (byte* src = value)
-                fixed (sbyte* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (SByte)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (SByte)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -6871,16 +7576,16 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this byte[,] value, decimal[,] result)
         {
-            unsafe
-            {
-                fixed (byte* src = value)
-                fixed (decimal* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Decimal)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Decimal)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -7018,16 +7723,16 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this byte[,] value, bool[,] result)
         {
-            unsafe
-            {
-                fixed (byte* src = value)
-                fixed (bool* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = src[i] != 0;
-                }
-            }
-
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] != 0;
+				}
+			}
+		
             return result;
         }
 
@@ -7089,6 +7794,147 @@ namespace Accord.Math
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] != 0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a 8-bit byte to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this byte[] value)
+        {
+            return ToObject(value, new object[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a 8-bit byte to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this byte[,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<byte, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 8-bit byte to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this byte[][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<byte, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 8-bit byte to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this byte[][][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<byte, object>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a 8-bit byte array to a object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this byte[] value, object[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Object)value[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this byte[,] value, object[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (Object)value[i, j];
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this byte[,] value, object[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Object)value[i, j];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged 8-bit byte array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this byte[][] value, object[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Object)value[i][j];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 8-bit byte array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this byte[][][] value, object[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Object)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 8-bit byte array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this byte[][] value, object[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Object)value[i][j];
             return result;            
         }
         /// <summary>
@@ -7165,16 +8011,16 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this sbyte[,] value, int[,] result)
         {
-            unsafe
-            {
-                fixed (sbyte* src = value)
-                fixed (int* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int32)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int32)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -7312,16 +8158,16 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this sbyte[,] value, short[,] result)
         {
-            unsafe
-            {
-                fixed (sbyte* src = value)
-                fixed (short* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int16)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int16)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -7459,16 +8305,16 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this sbyte[,] value, float[,] result)
         {
-            unsafe
-            {
-                fixed (sbyte* src = value)
-                fixed (float* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Single)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Single)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -7606,16 +8452,16 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this sbyte[,] value, double[,] result)
         {
-            unsafe
-            {
-                fixed (sbyte* src = value)
-                fixed (double* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Double)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Double)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -7753,16 +8599,16 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this sbyte[,] value, long[,] result)
         {
-            unsafe
-            {
-                fixed (sbyte* src = value)
-                fixed (long* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int64)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int64)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -7900,16 +8746,16 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this sbyte[,] value, byte[,] result)
         {
-            unsafe
-            {
-                fixed (sbyte* src = value)
-                fixed (byte* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Byte)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Byte)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -8047,16 +8893,16 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this sbyte[,] value, decimal[,] result)
         {
-            unsafe
-            {
-                fixed (sbyte* src = value)
-                fixed (decimal* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Decimal)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Decimal)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -8194,16 +9040,16 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this sbyte[,] value, bool[,] result)
         {
-            unsafe
-            {
-                fixed (sbyte* src = value)
-                fixed (bool* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = src[i] != 0;
-                }
-            }
-
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] != 0;
+				}
+			}
+		
             return result;
         }
 
@@ -8265,6 +9111,147 @@ namespace Accord.Math
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] != 0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this sbyte[] value)
+        {
+            return ToObject(value, new object[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this sbyte[,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<sbyte, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this sbyte[][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<sbyte, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this sbyte[][][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<sbyte, object>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a signed 7-bit byte array to a object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this sbyte[] value, object[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Object)value[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this sbyte[,] value, object[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (Object)value[i, j];
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this sbyte[,] value, object[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Object)value[i, j];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this sbyte[][] value, object[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Object)value[i][j];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this sbyte[][][] value, object[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Object)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this sbyte[][] value, object[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Object)value[i][j];
             return result;            
         }
         /// <summary>
@@ -8341,16 +9328,16 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this decimal[,] value, int[,] result)
         {
-            unsafe
-            {
-                fixed (decimal* src = value)
-                fixed (int* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int32)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int32)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -8488,16 +9475,16 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this decimal[,] value, short[,] result)
         {
-            unsafe
-            {
-                fixed (decimal* src = value)
-                fixed (short* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int16)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int16)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -8635,16 +9622,16 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this decimal[,] value, float[,] result)
         {
-            unsafe
-            {
-                fixed (decimal* src = value)
-                fixed (float* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Single)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Single)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -8782,16 +9769,16 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this decimal[,] value, double[,] result)
         {
-            unsafe
-            {
-                fixed (decimal* src = value)
-                fixed (double* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Double)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Double)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -8929,16 +9916,16 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this decimal[,] value, long[,] result)
         {
-            unsafe
-            {
-                fixed (decimal* src = value)
-                fixed (long* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Int64)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int64)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -9076,16 +10063,16 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this decimal[,] value, byte[,] result)
         {
-            unsafe
-            {
-                fixed (decimal* src = value)
-                fixed (byte* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (Byte)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Byte)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -9223,16 +10210,16 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this decimal[,] value, sbyte[,] result)
         {
-            unsafe
-            {
-                fixed (decimal* src = value)
-                fixed (sbyte* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = (SByte)src[i];
-                }
-            }
-
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (SByte)src[i];
+				}
+			}
+		
             return result;
         }
 
@@ -9370,16 +10357,16 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this decimal[,] value, bool[,] result)
         {
-            unsafe
-            {
-                fixed (decimal* src = value)
-                fixed (bool* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = src[i] != 0;
-                }
-            }
-
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] != 0;
+				}
+			}
+		
             return result;
         }
 
@@ -9441,6 +10428,147 @@ namespace Accord.Math
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] != 0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a decimal fixed-point to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this decimal[] value)
+        {
+            return ToObject(value, new object[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a decimal fixed-point to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this decimal[,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<decimal, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a decimal fixed-point to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this decimal[][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<decimal, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a decimal fixed-point to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this decimal[][][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<decimal, object>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a decimal fixed-point array to a object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this decimal[] value, object[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Object)value[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this decimal[,] value, object[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (Object)value[i, j];
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this decimal[,] value, object[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Object)value[i, j];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this decimal[][] value, object[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Object)value[i][j];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this decimal[][][] value, object[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Object)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this decimal[][] value, object[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Object)value[i][j];
             return result;            
         }
         /// <summary>
@@ -9517,16 +10645,16 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this bool[,] value, int[,] result)
         {
-            unsafe
-            {
-                fixed (bool* src = value)
-                fixed (int* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = src[i] ? (Int32)1 : (Int32)0;
-                }
-            }
-
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (Int32)1 : (Int32)0;
+				}
+			}
+		
             return result;
         }
 
@@ -9664,16 +10792,16 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this bool[,] value, short[,] result)
         {
-            unsafe
-            {
-                fixed (bool* src = value)
-                fixed (short* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = src[i] ? (Int16)1 : (Int16)0;
-                }
-            }
-
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (Int16)1 : (Int16)0;
+				}
+			}
+		
             return result;
         }
 
@@ -9811,16 +10939,16 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this bool[,] value, float[,] result)
         {
-            unsafe
-            {
-                fixed (bool* src = value)
-                fixed (float* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = src[i] ? (Single)1 : (Single)0;
-                }
-            }
-
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (Single)1 : (Single)0;
+				}
+			}
+		
             return result;
         }
 
@@ -9958,16 +11086,16 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this bool[,] value, double[,] result)
         {
-            unsafe
-            {
-                fixed (bool* src = value)
-                fixed (double* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = src[i] ? (Double)1 : (Double)0;
-                }
-            }
-
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (Double)1 : (Double)0;
+				}
+			}
+		
             return result;
         }
 
@@ -10105,16 +11233,16 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this bool[,] value, long[,] result)
         {
-            unsafe
-            {
-                fixed (bool* src = value)
-                fixed (long* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = src[i] ? (Int64)1 : (Int64)0;
-                }
-            }
-
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (Int64)1 : (Int64)0;
+				}
+			}
+		
             return result;
         }
 
@@ -10252,16 +11380,16 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this bool[,] value, byte[,] result)
         {
-            unsafe
-            {
-                fixed (bool* src = value)
-                fixed (byte* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = src[i] ? (Byte)1 : (Byte)0;
-                }
-            }
-
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (Byte)1 : (Byte)0;
+				}
+			}
+		
             return result;
         }
 
@@ -10399,16 +11527,16 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this bool[,] value, sbyte[,] result)
         {
-            unsafe
-            {
-                fixed (bool* src = value)
-                fixed (sbyte* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = src[i] ? (SByte)1 : (SByte)0;
-                }
-            }
-
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (SByte)1 : (SByte)0;
+				}
+			}
+		
             return result;
         }
 
@@ -10546,16 +11674,16 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this bool[,] value, decimal[,] result)
         {
-            unsafe
-            {
-                fixed (bool* src = value)
-                fixed (decimal* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = src[i] ? (Decimal)1 : (Decimal)0;
-                }
-            }
-
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (Decimal)1 : (Decimal)0;
+				}
+			}
+		
             return result;
         }
 
@@ -10617,6 +11745,1416 @@ namespace Accord.Math
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = value[i][j] ? (Decimal)1 : (Decimal)0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a boolean to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this bool[] value)
+        {
+            return ToObject(value, new object[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this bool[,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<bool, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this bool[][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<bool, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this bool[][][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<bool, object>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a boolean array to a object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this bool[] value, object[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] ? (Object)1 : (Object)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this bool[,] value, object[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = value[i, j] ? (Object)1 : (Object)0;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this bool[,] value, object[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] ? (Object)1 : (Object)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this bool[][] value, object[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] ? (Object)1 : (Object)0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this bool[][][] value, object[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] ? (Object)1 : (Object)0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this bool[][] value, object[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] ? (Object)1 : (Object)0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a object to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] ToInt32(this object[] value)
+        {
+            return ToInt32(value, new int[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a object to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] ToInt32(this object[,] value)
+        {
+            return ToInt32(value, Matrix.CreateAs<object, int>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] ToInt32(this object[][] value)
+        {
+            return ToInt32(value, Jagged.CreateAs<object, int>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this object[][][] value)
+        {
+            return ToInt32(value, Jagged.CreateAs<object, int>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a object array to a integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] ToInt32(this object[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Int32)System.Convert.ChangeType(value[i], typeof(Int32));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] ToInt32(this object[,] value, int[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (Int32)System.Convert.ChangeType(value[i, j], typeof(Int32));
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] ToInt32(this object[,] value, int[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Int32)System.Convert.ChangeType(value[i, j], typeof(Int32));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] ToInt32(this object[][] value, int[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Int32)System.Convert.ChangeType(value[i][j], typeof(Int32));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this object[][][] value, int[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int32)System.Convert.ChangeType(value[i][j][k], typeof(Int32));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] ToInt32(this object[][] value, int[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Int32)System.Convert.ChangeType(value[i][j], typeof(Int32));
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a object to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] ToInt16(this object[] value)
+        {
+            return ToInt16(value, new short[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a object to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] ToInt16(this object[,] value)
+        {
+            return ToInt16(value, Matrix.CreateAs<object, short>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] ToInt16(this object[][] value)
+        {
+            return ToInt16(value, Jagged.CreateAs<object, short>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this object[][][] value)
+        {
+            return ToInt16(value, Jagged.CreateAs<object, short>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a object array to a short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] ToInt16(this object[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Int16)System.Convert.ChangeType(value[i], typeof(Int16));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] ToInt16(this object[,] value, short[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (Int16)System.Convert.ChangeType(value[i, j], typeof(Int16));
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] ToInt16(this object[,] value, short[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Int16)System.Convert.ChangeType(value[i, j], typeof(Int16));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] ToInt16(this object[][] value, short[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Int16)System.Convert.ChangeType(value[i][j], typeof(Int16));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this object[][][] value, short[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int16)System.Convert.ChangeType(value[i][j][k], typeof(Int16));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] ToInt16(this object[][] value, short[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Int16)System.Convert.ChangeType(value[i][j], typeof(Int16));
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a object to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] ToSingle(this object[] value)
+        {
+            return ToSingle(value, new float[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a object to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] ToSingle(this object[,] value)
+        {
+            return ToSingle(value, Matrix.CreateAs<object, float>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] ToSingle(this object[][] value)
+        {
+            return ToSingle(value, Jagged.CreateAs<object, float>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this object[][][] value)
+        {
+            return ToSingle(value, Jagged.CreateAs<object, float>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a object array to a single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] ToSingle(this object[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Single)System.Convert.ChangeType(value[i], typeof(Single));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] ToSingle(this object[,] value, float[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (Single)System.Convert.ChangeType(value[i, j], typeof(Single));
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] ToSingle(this object[,] value, float[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Single)System.Convert.ChangeType(value[i, j], typeof(Single));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] ToSingle(this object[][] value, float[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Single)System.Convert.ChangeType(value[i][j], typeof(Single));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this object[][][] value, float[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Single)System.Convert.ChangeType(value[i][j][k], typeof(Single));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] ToSingle(this object[][] value, float[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Single)System.Convert.ChangeType(value[i][j], typeof(Single));
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a object to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] ToDouble(this object[] value)
+        {
+            return ToDouble(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a object to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] ToDouble(this object[,] value)
+        {
+            return ToDouble(value, Matrix.CreateAs<object, double>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] ToDouble(this object[][] value)
+        {
+            return ToDouble(value, Jagged.CreateAs<object, double>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this object[][][] value)
+        {
+            return ToDouble(value, Jagged.CreateAs<object, double>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a object array to a double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] ToDouble(this object[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Double)System.Convert.ChangeType(value[i], typeof(Double));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] ToDouble(this object[,] value, double[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (Double)System.Convert.ChangeType(value[i, j], typeof(Double));
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] ToDouble(this object[,] value, double[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Double)System.Convert.ChangeType(value[i, j], typeof(Double));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] ToDouble(this object[][] value, double[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Double)System.Convert.ChangeType(value[i][j], typeof(Double));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this object[][][] value, double[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Double)System.Convert.ChangeType(value[i][j][k], typeof(Double));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] ToDouble(this object[][] value, double[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Double)System.Convert.ChangeType(value[i][j], typeof(Double));
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a object to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] ToInt64(this object[] value)
+        {
+            return ToInt64(value, new long[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a object to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] ToInt64(this object[,] value)
+        {
+            return ToInt64(value, Matrix.CreateAs<object, long>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] ToInt64(this object[][] value)
+        {
+            return ToInt64(value, Jagged.CreateAs<object, long>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this object[][][] value)
+        {
+            return ToInt64(value, Jagged.CreateAs<object, long>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a object array to a long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] ToInt64(this object[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Int64)System.Convert.ChangeType(value[i], typeof(Int64));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] ToInt64(this object[,] value, long[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (Int64)System.Convert.ChangeType(value[i, j], typeof(Int64));
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] ToInt64(this object[,] value, long[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Int64)System.Convert.ChangeType(value[i, j], typeof(Int64));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] ToInt64(this object[][] value, long[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Int64)System.Convert.ChangeType(value[i][j], typeof(Int64));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this object[][][] value, long[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int64)System.Convert.ChangeType(value[i][j][k], typeof(Int64));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] ToInt64(this object[][] value, long[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Int64)System.Convert.ChangeType(value[i][j], typeof(Int64));
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a object to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[] ToByte(this object[] value)
+        {
+            return ToByte(value, new byte[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a object to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] ToByte(this object[,] value)
+        {
+            return ToByte(value, Matrix.CreateAs<object, byte>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] ToByte(this object[][] value)
+        {
+            return ToByte(value, Jagged.CreateAs<object, byte>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this object[][][] value)
+        {
+            return ToByte(value, Jagged.CreateAs<object, byte>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a object array to a 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[] ToByte(this object[] value, byte[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Byte)System.Convert.ChangeType(value[i], typeof(Byte));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] ToByte(this object[,] value, byte[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (Byte)System.Convert.ChangeType(value[i, j], typeof(Byte));
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] ToByte(this object[,] value, byte[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Byte)System.Convert.ChangeType(value[i, j], typeof(Byte));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] ToByte(this object[][] value, byte[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Byte)System.Convert.ChangeType(value[i][j], typeof(Byte));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this object[][][] value, byte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Byte)System.Convert.ChangeType(value[i][j][k], typeof(Byte));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] ToByte(this object[][] value, byte[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Byte)System.Convert.ChangeType(value[i][j], typeof(Byte));
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a object to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[] ToSByte(this object[] value)
+        {
+            return ToSByte(value, new sbyte[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a object to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,] ToSByte(this object[,] value)
+        {
+            return ToSByte(value, Matrix.CreateAs<object, sbyte>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][] ToSByte(this object[][] value)
+        {
+            return ToSByte(value, Jagged.CreateAs<object, sbyte>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this object[][][] value)
+        {
+            return ToSByte(value, Jagged.CreateAs<object, sbyte>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a object array to a signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[] ToSByte(this object[] value, sbyte[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (SByte)System.Convert.ChangeType(value[i], typeof(SByte));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,] ToSByte(this object[,] value, sbyte[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (SByte)System.Convert.ChangeType(value[i, j], typeof(SByte));
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][] ToSByte(this object[,] value, sbyte[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (SByte)System.Convert.ChangeType(value[i, j], typeof(SByte));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][] ToSByte(this object[][] value, sbyte[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (SByte)System.Convert.ChangeType(value[i][j], typeof(SByte));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this object[][][] value, sbyte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (SByte)System.Convert.ChangeType(value[i][j][k], typeof(SByte));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,] ToSByte(this object[][] value, sbyte[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (SByte)System.Convert.ChangeType(value[i][j], typeof(SByte));
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a object to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] ToDecimal(this object[] value)
+        {
+            return ToDecimal(value, new decimal[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a object to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] ToDecimal(this object[,] value)
+        {
+            return ToDecimal(value, Matrix.CreateAs<object, decimal>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] ToDecimal(this object[][] value)
+        {
+            return ToDecimal(value, Jagged.CreateAs<object, decimal>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this object[][][] value)
+        {
+            return ToDecimal(value, Jagged.CreateAs<object, decimal>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a object array to a decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] ToDecimal(this object[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Decimal)System.Convert.ChangeType(value[i], typeof(Decimal));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] ToDecimal(this object[,] value, decimal[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (Decimal)System.Convert.ChangeType(value[i, j], typeof(Decimal));
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] ToDecimal(this object[,] value, decimal[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Decimal)System.Convert.ChangeType(value[i, j], typeof(Decimal));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] ToDecimal(this object[][] value, decimal[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Decimal)System.Convert.ChangeType(value[i][j], typeof(Decimal));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this object[][][] value, decimal[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Decimal)System.Convert.ChangeType(value[i][j][k], typeof(Decimal));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] ToDecimal(this object[][] value, decimal[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Decimal)System.Convert.ChangeType(value[i][j], typeof(Decimal));
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a object to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this object[] value)
+        {
+            return ToBoolean(value, new bool[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a object to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this object[,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<object, bool>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this object[][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<object, bool>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this object[][][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<object, bool>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a object array to a boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this object[] value, bool[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Boolean)System.Convert.ChangeType(value[i], typeof(Boolean));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this object[,] value, bool[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (Boolean)System.Convert.ChangeType(value[i, j], typeof(Boolean));
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this object[,] value, bool[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Boolean)System.Convert.ChangeType(value[i, j], typeof(Boolean));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this object[][] value, bool[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Boolean)System.Convert.ChangeType(value[i][j], typeof(Boolean));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this object[][][] value, bool[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Boolean)System.Convert.ChangeType(value[i][j][k], typeof(Boolean));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this object[][] value, bool[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Boolean)System.Convert.ChangeType(value[i][j], typeof(Boolean));
             return result;            
         }
     }
