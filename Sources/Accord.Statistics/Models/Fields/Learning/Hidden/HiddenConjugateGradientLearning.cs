@@ -42,33 +42,14 @@ namespace Accord.Statistics.Models.Fields.Learning
     ///   page. All learning algorithms can be utilized in a similar manner.</para>
     /// </example>
     /// 
-    public class HiddenConjugateGradientLearning<T> : 
+    public class HiddenConjugateGradientLearning<T> : BaseHiddenConditionalRandomFieldLearning<T>,
         ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>,
         IHiddenConditionalRandomFieldLearning<T>,
         IConvergenceLearning, IDisposable
     {
-        [NonSerialized]
-        CancellationToken token = new CancellationToken();
-
         private ForwardBackwardGradient<T> calculator;
         private ConjugateGradient optimizer;
 
-        /// <summary>
-        /// Gets or sets a cancellation token that can be used to
-        /// stop the learning algorithm while it is running.
-        /// </summary>
-        /// 
-        public CancellationToken Token
-        {
-            get { return token; }
-            set { token = value; }
-        }
-
-        /// <summary>
-        ///   Gets or sets the model being trained.
-        /// </summary>
-        /// 
-        public HiddenConditionalRandomField<T> Model { get; private set; }
 
         /// <summary>
         ///   Gets or sets the amount of the parameter weights
@@ -214,10 +195,14 @@ namespace Accord.Statistics.Models.Fields.Learning
         [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(T[][] observations, int[] outputs)
         {
-            return run(observations, outputs);
+            return InnerRun(observations, outputs);
         }
 
-        private double run(T[][] observations, int[] outputs)
+        /// <summary>
+        ///   Runs the learning algorithm.
+        /// </summary>
+        /// 
+        protected override double InnerRun(T[][] observations, int[] outputs)
         {
             calculator.Inputs = observations;
             calculator.Outputs = outputs;
@@ -263,23 +248,6 @@ namespace Accord.Statistics.Models.Fields.Learning
             throw new NotSupportedException();
         }
 
-        /// <summary>
-        /// Learns a model that can map the given inputs to the given outputs.
-        /// </summary>
-        /// <param name="x">The model inputs.</param>
-        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
-        /// <returns>
-        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
-        /// </returns>
-        public HiddenConditionalRandomField<T> Learn(T[][] x, int[] y, double[] weights = null)
-        {
-            if (weights != null)
-                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
-
-            run(x, y);
-            return Model;
-        }
 
         #region IDisposable Members
 

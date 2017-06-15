@@ -37,7 +37,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
     <DefineConstants>TRACE;MONO</DefineConstants>
-<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
@@ -132,6 +132,7 @@
     <Compile Include="Distributions\Density Kernels\UniformKernel.cs" />
     <Compile Include="Distributions\Multivariate\Accord.Statistics.Distributions.Multivariate.cs" />
     <Compile Include="Distributions\Multivariate\Base\IMultivariateDistribution.cs" />
+    <Compile Include="Distributions\Multivariate\Base\MatrixContinuousDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\MultivariateEmpiricalDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\InverseWishartDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\UniformBallDistribution.cs" />
@@ -271,6 +272,8 @@
     <Compile Include="Kernels\Cauchy.cs" />
     <Compile Include="Kernels\ChiSquare.cs" />
     <Compile Include="Kernels\Circular.cs" />
+    <Compile Include="Kernels\DynamicTimeWarping`1.cs" />
+    <Compile Include="Kernels\Gaussian`2.cs" />
     <Compile Include="Kernels\Gaussian`1.cs" />
     <Compile Include="Kernels\Hellinger.cs" />
     <Compile Include="Kernels\Pearson.cs" />
@@ -334,7 +337,9 @@
     <Compile Include="Measures\Tools.Misc.cs" />
     <Compile Include="Models\Accord.Statistics.Models.cs" />
     <Compile Include="Models\Fields\Accord.Statistics.Models.Fields.cs" />
+    <Compile Include="Models\Fields\HiddenConditionalRandomField.cs" />
     <Compile Include="Models\Fields\Learning\Accord.Statistics.Models.Fields.Learning.cs" />
+    <Compile Include="Models\Fields\Learning\Hidden\BaseHiddenConditionalRandomFieldLearning.cs" />
     <Compile Include="Models\Fields\Potential Functions\Clique Factor Potentials\Specialized\MarkovIndependentFactor.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -351,6 +356,7 @@
     <Compile Include="Models\Markov\Learning\Base\BaseBaumWelchLearning`3.cs" />
     <Compile Include="Models\Markov\Learning\BaumWelchLearning`2.cs" />
     <Compile Include="Models\Markov\Learning\HiddenMarkovClassifierLearning`2.cs" />
+    <Compile Include="Models\Markov\Learning\Base\BaseMaximumLikelihoodLearning`2.cs" />
     <Compile Include="Models\Markov\Learning\MaximumLikelihoodLearning`2.cs" />
     <Compile Include="Models\Markov\Learning\ViterbiLearning`2.cs" />
     <Compile Include="Models\Regression\Linear\Fitting\PolynomialLeastSquares.cs" />
@@ -400,7 +406,7 @@
     </Compile>
     <Compile Include="Models\Fields\Potential Functions\Base\IPotentialFunction.cs" />
     <Compile Include="Models\Fields\Potential Functions\Base\PotentialFunctionBase.cs" />
-    <Compile Include="Models\Fields\HiddenConditionalRandomField.cs" />
+    <Compile Include="Models\Fields\HiddenConditionalRandomField`1.cs" />
     <Compile Include="Models\IConvergenceLearning.cs" />
     <Compile Include="Models\Fields\Gradient\ForwardBackwardGradient.cs" />
     <Compile Include="Models\Fields\Learning\Hidden\IHiddenConditionalRandomFieldLearning.cs" />
