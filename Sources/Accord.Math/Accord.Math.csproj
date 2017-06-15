@@ -37,7 +37,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
     <DefineConstants>TRACE;MONO</DefineConstants>
-<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
@@ -120,6 +120,7 @@
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
     </Compile>
     <Compile Include="Distances\Angular.cs" />
+    <Compile Include="Distances\Dirac.cs" />
     <Compile Include="IO\NumPy\NpzDictionary`1.cs" />
     <Compile Include="IO\NumPy\NpzDictionary.cs" />
     <Compile Include="IO\NumPy\NpzFormat.Reader.cs" />
@@ -229,6 +230,7 @@
     <Compile Include="Optimization\Unconstrained\TrustRegionNewtonMethod.cs" />
     <Compile Include="Random\IRandomNumberGenerator.cs" />
     <Compile Include="Random\ZigguratExponentialGenerator.cs" />
+    <Compile Include="Random\ConstantGenerator.cs" />
     <Compile Include="Random\ZigguratUniformGenerator.cs" />
     <Compile Include="Random\ZigguratUniformOneGenerator.cs" />
     <Compile Include="Random\ZigguratNormalGenerator.cs" />

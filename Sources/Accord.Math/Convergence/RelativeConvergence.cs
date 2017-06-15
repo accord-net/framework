@@ -299,5 +299,18 @@ namespace Accord.Math
             CurrentIteration = 0;
             checks = 0;
         }
+
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public override string ToString()
+        {
+            if (HasConverged)
+                return String.Format("Converged: {0} < {1}", RelativeDelta, tolerance);
+            return String.Format("Running: {0} > {1}", RelativeDelta, Tolerance);
+        }
+
     }
 }

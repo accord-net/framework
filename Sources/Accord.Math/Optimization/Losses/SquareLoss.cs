@@ -29,14 +29,47 @@ namespace Accord.Math.Optimization.Losses
     using System.Threading.Tasks;
 
     /// <summary>
-    ///   Square loss, also known as L2-loss.
+    ///   Euclidean loss, also known as zero-one-loss. This class
+    ///   provides exactly the same functionality as <see cref="SquareLoss"/>
+    ///   but has a more intuitive name. Both classes are interchangeable.
+    /// </summary>
+    /// 
+    [Serializable]
+    public class EuclideanLoss : SquareLoss
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EuclideanLoss"/> class.
+        /// </summary>
+        /// 
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
+        public EuclideanLoss(double[][] expected)
+            : base(expected)
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EuclideanLoss"/> class.
+        /// </summary>
+        /// 
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
+        public EuclideanLoss(double[] expected)
+            : base(expected)
+        {
+        }
+    }
+
+    /// <summary>
+    ///   Square loss, also known as L2-loss or Euclidean loss.
     /// </summary>
     /// 
     [Serializable]
     public class SquareLoss : LossBase<double[][]>
     {
         private bool mean = true;
-        private bool root;
+        private bool root = false;
 
         /// <summary>
         ///   Gets or sets a value indicating whether the
