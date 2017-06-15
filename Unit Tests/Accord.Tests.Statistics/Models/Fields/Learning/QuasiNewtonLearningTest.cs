@@ -30,25 +30,12 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Models.Fields.Functions;
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Math;
+    using Accord.Statistics.Analysis;
+    using Accord.Statistics.Distributions.Univariate;
 
     [TestFixture]
     public class QuasiNewtonLearningTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
 
 
         private static HiddenMarkovModel trainHMM()
@@ -56,7 +43,7 @@ namespace Accord.Tests.Statistics
             int states = 3;
             int symbols = 3;
 
-            int[][] sequences = new int[][] 
+            int[][] sequences = new int[][]
             {
                 new int[] { 0, 1, 1, 1, 2 },
                 new int[] { 0, 1, 1, 1, 2, 2, 2 },
@@ -84,7 +71,7 @@ namespace Accord.Tests.Statistics
             int nstates = 3;
             int symbols = 3;
 
-            int[][] sequences = new int[][] 
+            int[][] sequences = new int[][]
             {
                 new int[] { 0, 1, 1, 1, 2 },
                 new int[] { 0, 1, 1, 1, 2, 2, 2 },
@@ -110,7 +97,7 @@ namespace Accord.Tests.Statistics
                 Assert.IsFalse(s.IsEqual(r));
             }
 
-            var target = new QuasiNewtonLearning<int>(model); 
+            var target = new QuasiNewtonLearning<int>(model);
 
             int[][] labels = sequences;
             int[][] observations = sequences;
@@ -124,7 +111,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(ll1 > ll0);
 
 
-            Assert.AreEqual(0, actual, 1e-8);
+            Assert.AreEqual(0.0, actual, 1e-6);
 
             for (int i = 0; i < sequences.Length; i++)
             {
@@ -133,7 +120,57 @@ namespace Accord.Tests.Statistics
                 int[] r = model.Compute(s, out p);
                 Assert.IsTrue(s.IsEqual(r));
             }
-            
+
+        }
+
+
+        [Test]
+        public void learn_test()
+        {
+            #region doc_learn
+            Accord.Math.Random.Generator.Seed = 0;
+
+            int[][] input =
+            {
+                new int[] { 0,1,1,1,0,0 },
+                new int[] { 0,1,1,0 },
+                new int[] { 0,1,1,0,0,0 },
+                new int[] { 0,1,1,1,1,0 },
+                new int[] { 0,1,1,1,0,0,0,0 },
+                new int[] { 0,1,1,1,0,0 },
+                new int[] { 0,1,1,0 },
+                new int[] { 0,1,1,1,0 },
+            };
+
+            int[][] output =
+            {
+                new int[] { 0,0,1,1,1,2 },
+                new int[] { 0,0,1,2 },
+                new int[] { 0,0,1,1,1,2 },
+                new int[] { 0,0,1,1,1,2 },
+                new int[] { 0,0,1,1,1,1,2,2 },
+                new int[] { 0,0,1,1,1,2 },
+                new int[] { 0,0,1,2 },
+                new int[] { 0,1,1,1,2 },
+            };
+
+            // Create a new L-BFGS learning algorithm
+            var teacher = new QuasiNewtonLearning<int>()
+            {
+                Function = new MarkovDiscreteFunction(states: 3, symbols: 2, initialization: new NormalDistribution())
+            };
+
+            // Learn the Conditional Random Field model
+            ConditionalRandomField<int> crf = teacher.Learn(input, output);
+
+            // Use the model to classify the samples
+            int[][] prediction = crf.Decide(input);
+
+            var cm = new ConfusionMatrix(predicted: prediction.Reshape(), expected: output.Reshape());
+            double acc = cm.Accuracy;
+            #endregion
+
+            Assert.AreEqual(0.77777777777777779, acc, 1e-8);
         }
 
     }

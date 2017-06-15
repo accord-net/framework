@@ -69,8 +69,8 @@ namespace Accord.Tests.Statistics.Models.Fields
                 expected[i] = outputs[i];
             }
 
-            Assert.AreEqual(-0.077174917149895883, ll0, 1e-10);
-            Assert.AreEqual(0.014237751418113676, error, 1e-6);
+            Assert.AreEqual(-0.00046872579975998363, ll0, 1e-10);
+            Assert.AreEqual(0.00010366288460605944, error, 1e-6);
             Assert.AreEqual(error, -ll1);
 
             for (int i = 0; i < inputs.Length; i++)
