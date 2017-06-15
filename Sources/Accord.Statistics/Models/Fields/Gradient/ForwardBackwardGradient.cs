@@ -20,6 +20,8 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+// #define SERIAL
+
 namespace Accord.Statistics.Models.Fields.Learning
 {
     using System;
@@ -67,8 +69,8 @@ namespace Accord.Statistics.Models.Fields.Learning
                     inputs.Value = value;
 
                     gradient.Value = new double[model.Function.Weights.Length];
-                    lnZx.Value = new double[model.Function.Weights.Length];
-                    lnZxy.Value = new double[model.Function.Weights.Length];
+                    lnZx.Value = new double[value.Length];
+                    lnZxy.Value = new double[value.Length];
                 }
             }
         }

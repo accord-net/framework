@@ -37,40 +37,28 @@ namespace Accord.Statistics.Models.Fields.Learning
     /// <typeparam name="T">The type of the observations.</typeparam>
     /// 
     /// <example>
-    /// <para>
-    ///   For an example on how to learn Hidden Conditional Random Fields, please see the
-    ///   <see cref="HiddenResilientGradientLearning{T}">Hidden Resilient Gradient Learning</see>
-    ///   page. All learning algorithms can be utilized in a similar manner.</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Fields\HiddenConditionalRandomFieldTest.cs" region="doc_learn_1" />
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Fields\HiddenConditionalRandomFieldTest.cs" region="doc_learn_2" />
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Fields\HiddenConditionalRandomFieldTest.cs" region="doc_learn_3" />
+    ///   
+    ///   <para>
+    ///   The next example shows how to use the learning algorithms in a real-world dataset,
+    ///   including training and testing in separate sets and evaluating its performance:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Fields\Learning\NormalQuasiNewtonHiddenLearningTest.cs" region="doc_learn_pendigits" />
     /// </example>
     /// 
+    /// <seealso cref="HiddenGradientDescentLearning{T}"/>
     /// <seealso cref="HiddenResilientGradientLearning{T}"/>
     /// 
-    public class HiddenQuasiNewtonLearning<T> :
+    public class HiddenQuasiNewtonLearning<T> : BaseHiddenConditionalRandomFieldLearning<T>,
         ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>,
         IHiddenConditionalRandomFieldLearning<T>,
+        IConvergenceLearning,
         IDisposable
     {
-        [NonSerialized]
-        CancellationToken token = new CancellationToken();
 
         private BoundedBroydenFletcherGoldfarbShanno lbfgs;
         private ForwardBackwardGradient<T> calculator;
-
-        /// <summary>
-        ///   Gets or sets the model being trained.
-        /// </summary>
-        /// 
-        public HiddenConditionalRandomField<T> Model { get; set; }
-
-        /// <summary>
-        /// Gets or sets a cancellation token that can be used to
-        /// stop the learning algorithm while it is running.
-        /// </summary>
-        public CancellationToken Token
-        {
-            get { return token; }
-            set { token = value; }
-        }
 
 
         /// <summary>
@@ -86,17 +74,77 @@ namespace Accord.Statistics.Models.Fields.Learning
         }
 
         /// <summary>
+        /// Gets or sets the tolerance value used to determine
+        /// whether the algorithm has converged.
+        /// </summary>
+        /// <value>The tolerance.</value>
+        public double Tolerance { get; set; }
+
+        int IConvergenceLearning.Iterations
+        {
+            get { return lbfgs.Iterations; }
+            set { throw new NotImplementedException(); }
+        }
+
+        /// <summary>
+        /// Gets or sets the maximum number of iterations
+        /// performed by the learning algorithm.
+        /// </summary>
+        /// <value>The maximum iterations.</value>
+        public int MaxIterations { get; set; }
+
+        /// <summary>
+        /// Gets the current iteration number.
+        /// </summary>
+        /// <value>The current iteration.</value>
+        public int CurrentIteration
+        {
+            get
+            {
+                if (lbfgs != null)
+                    return lbfgs.Iterations;
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the algorithm has converged.
+        /// </summary>
+        /// <value><c>true</c> if this instance has converged; otherwise, <c>false</c>.</value>
+        public bool HasConverged
+        {
+            get
+            {
+                return lbfgs.Status == BoundedBroydenFletcherGoldfarbShannoStatus.FunctionConvergence
+                    || lbfgs.Status == BoundedBroydenFletcherGoldfarbShannoStatus.GradientConvergence;
+            }
+        }
+
+        /// <summary>
+        ///   Constructs a new L-BFGS learning algorithm.
+        /// </summary>
+        /// 
+        public HiddenQuasiNewtonLearning()
+        {
+        }
+
+        /// <summary>
         ///   Constructs a new L-BFGS learning algorithm.
         /// </summary>
         /// 
         public HiddenQuasiNewtonLearning(HiddenConditionalRandomField<T> model)
         {
             Model = model;
+            init();
+        }
 
-            calculator = new ForwardBackwardGradient<T>(model);
+        private void init()
+        {
+            calculator = new ForwardBackwardGradient<T>(Model);
 
-            lbfgs = new BoundedBroydenFletcherGoldfarbShanno(model.Function.Weights.Length);
-            lbfgs.FunctionTolerance = 1e-3;
+            lbfgs = new BoundedBroydenFletcherGoldfarbShanno(Model.Function.Weights.Length);
+            lbfgs.FunctionTolerance = Tolerance;
+            lbfgs.MaxIterations = MaxIterations;
             lbfgs.Function = calculator.Objective;
             lbfgs.Gradient = calculator.Gradient;
 
@@ -118,11 +166,17 @@ namespace Accord.Statistics.Models.Fields.Learning
         [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(T[][] observations, int[] outputs)
         {
-            return run(observations, outputs);
+            return InnerRun(observations, outputs);
         }
 
-        private double run(T[][] observations, int[] outputs)
+        /// <summary>
+        ///   Runs the learning algorithm.
+        /// </summary>
+        /// 
+        protected override double InnerRun(T[][] observations, int[] outputs)
         {
+            init();
+
             calculator.Inputs = observations;
             calculator.Outputs = outputs;
 
@@ -154,23 +208,6 @@ namespace Accord.Statistics.Models.Fields.Learning
             throw new NotSupportedException();
         }
 
-        /// <summary>
-        /// Learns a model that can map the given inputs to the given outputs.
-        /// </summary>
-        /// <param name="x">The model inputs.</param>
-        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
-        /// <returns>
-        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
-        /// </returns>
-        public HiddenConditionalRandomField<T> Learn(T[][] x, int[] y, double[] weights = null)
-        {
-            if (weights != null)
-                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
-
-            run(x, y);
-            return Model;
-        }
 
         #region IDisposable Members
 
