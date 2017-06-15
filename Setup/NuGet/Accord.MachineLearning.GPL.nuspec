@@ -17,9 +17,10 @@
     <summary>Extra non-LGPL machine learning libraries from the Accord.NET framework, containing Sequential Minimal Optimization for Regression (SMOreg).</summary>
     <tags>accord.net aforge.net aforge.net machine learning artificial intelligence smo svm gpl kernel</tags>
     <dependencies>
-      <dependency id="Accord"            version="$version$" />
-      <dependency id="Accord.Math"       version="$version$" />
-      <dependency id="Accord.Statistics" version="$version$" />
+      <dependency id="Accord"                 version="$version$" />
+      <dependency id="Accord.Math"            version="$version$" />
+      <dependency id="Accord.Statistics"      version="$version$" />
+	  <dependency id="Accord.MachineLearning" version="$version$" />
     </dependencies>
   </metadata>
   <files>
