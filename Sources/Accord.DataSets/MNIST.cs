@@ -67,11 +67,13 @@ namespace Accord.DataSets
         /// <summary>
         /// Gets the training set of the MNIST dataset.
         /// </summary>
+        /// 
         public Tuple<Sparse<double>[], double[]> Training { get; private set; }
 
         /// <summary>
         /// Gets the testing set of the MNIST dataset.
         /// </summary>
+        /// 
         public Tuple<Sparse<double>[], double[]> Testing { get; private set; }
 
         /// <summary>
