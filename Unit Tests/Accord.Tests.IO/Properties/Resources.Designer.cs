@@ -19,7 +19,7 @@ namespace Accord.Tests.IO.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -348,6 +348,16 @@ namespace Accord.Tests.IO.Properties {
         internal static byte[] npy_strings_var {
             get {
                 object obj = ResourceManager.GetObject("npy_strings_var", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] pendigits_orig_tes {
+            get {
+                object obj = ResourceManager.GetObject("pendigits_orig_tes", resourceCulture);
                 return ((byte[])(obj));
             }
         }
