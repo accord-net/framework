@@ -40,8 +40,8 @@ namespace Accord.MachineLearning
         IBinaryLikelihoodClassifier<TInput>
     {
 
-        const double PROBABILITY_DECISION_THRESHOLD = 0.5;
-        readonly double LOGLIKELIHOOD_DECISION_THRESHOLD = Math.Log(0.5);
+        internal const double PROBABILITY_DECISION_THRESHOLD = 0.5;
+        internal readonly double LOGLIKELIHOOD_DECISION_THRESHOLD = Math.Log(0.5);
 
 
 

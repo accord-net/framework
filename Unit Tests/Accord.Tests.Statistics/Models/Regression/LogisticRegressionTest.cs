@@ -493,7 +493,7 @@ namespace Accord.Tests.Statistics
 
 
             bool[] decideAllSamples = target.Decide(input);
-            double err = new AccuracyLoss(output).Loss(decideAllSamples);
+            double err = new ZeroOneLoss(output).Loss(decideAllSamples);
             Assert.AreEqual(0.18181818181818182, err, 1e-5);
             Assert.AreEqual(decideAllSamples, scoresAllSamples.ArgMax(dimension: 1).ToBoolean());
             Assert.AreEqual(decideAllSamples.ToInt32(), logLikelihoodsAllSamples.ArgMax(dimension: 1));

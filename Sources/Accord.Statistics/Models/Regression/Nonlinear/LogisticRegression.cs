@@ -182,7 +182,6 @@ namespace Accord.Statistics.Models.Regression
         ///   the same as in the given <paramref name="weights"/> array.
         /// </returns>
         /// 
-        [Obsolete("Please also pass the intercept as the last argument of this function.")]
         public static LogisticRegression FromWeights(double[] weights)
         {
             return new LogisticRegression()
@@ -207,7 +206,6 @@ namespace Accord.Statistics.Models.Regression
         ///   the same as in the given <paramref name="weights"/> array.
         /// </returns>
         /// 
-        [Obsolete("Please also pass the intercept as the last argument of this function.")]
         public static LogisticRegression FromWeights(double[] weights, double intercept)
         {
             return new LogisticRegression()
