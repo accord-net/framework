@@ -36,23 +36,6 @@ namespace Accord.Tests.Statistics.Models.Fields
     public class ConditionalRandomFieldTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ConditionalRandomFieldConstructorTest()
         {
