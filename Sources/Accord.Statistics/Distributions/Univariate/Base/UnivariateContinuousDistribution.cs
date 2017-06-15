@@ -860,7 +860,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public virtual double LogCumulativeHazardFunction(double x)
         {
-            return Math.Log(-Math.Log(ComplementaryDistributionFunction(x)));
+            double result = Math.Log(-Math.Log(ComplementaryDistributionFunction(x)));
+#if DEBUG
+            double expected = Math.Log(CumulativeHazardFunction(x));
+            if (!expected.IsEqual(result, rtol: 1e-8))
+                throw new Exception();
+#endif
+            return result;
         }
 
         /// <summary>
