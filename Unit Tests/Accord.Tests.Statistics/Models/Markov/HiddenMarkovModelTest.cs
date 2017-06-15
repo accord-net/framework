@@ -30,6 +30,7 @@ namespace Accord.Tests.Statistics
     using NUnit.Framework;
     using Accord.Statistics.Filters;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.DataSets;
 
     [TestFixture]
     public class HiddenMarkovModelTest
@@ -188,7 +189,7 @@ namespace Accord.Tests.Statistics
             double p1 = System.Math.Exp(l1);
             double p2 = System.Math.Exp(l2);
 
-            Assert.AreEqual(0.93679455706154657, pl, 1e-10);
+            Assert.AreEqual(0.013521513735419998, pl, 1e-10);
             Assert.AreEqual(0.014012065043262269, p0, 1e-10);
             Assert.AreEqual(0.016930905415294066, p1, 1e-10);
             Assert.AreEqual(0.0019365959189660672, p2, 1e-10);
@@ -339,20 +340,20 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(-0.69317855044301457, vl1, 1e-4);
             Assert.AreEqual(-2.166448784882073, vl2, 1e-4);
-            Assert.AreEqual(-12.871079656466497, vl3, 1e-4);
-            Assert.AreEqual(-40.64067623129575, vl4, 1e-4);
-            Assert.AreEqual(-8.2266327368452732, vl5, 1e-4);
-            Assert.AreEqual(-8.2266327368452732, vl6, 1e-4);
+            Assert.AreEqual(-11.358003471944887, vl3, 1e-4);
+            Assert.AreEqual(-38.675913006221506, vl4, 1e-4);
+            Assert.AreEqual(-8.22664996599565, vl5, 1e-4);
+            Assert.AreEqual(-8.2266499659956516, vl6, 1e-4);
 
             Assert.IsTrue(vl1 > vl3 && vl1 > vl4);
             Assert.IsTrue(vl2 > vl3 && vl2 > vl4);
 
             Assert.AreEqual(-1.1539985755870674E-05, fl1, 1e-4);
             Assert.AreEqual(-0.086980215339009792, fl2, 1e-4);
-            Assert.AreEqual(-12.177932475906552, fl3, 1e-4);
-            Assert.AreEqual(-38.582667087495622, fl4, 1e-4);
-            Assert.AreEqual(-3.3744634625334093, fl5, 1e-4);
-            Assert.AreEqual(-3.3744636910319019, fl6, 1e-4);
+            Assert.AreEqual(-10.664856291384941, fl3, 1e-4);
+            Assert.AreEqual(-36.617886878165528, fl4, 1e-4);
+            Assert.AreEqual(-3.3744415883604058, fl5, 1e-4);
+            Assert.AreEqual(-3.3744426259067066, fl6, 1e-4);
         }
 
         [Test]
@@ -404,16 +405,16 @@ namespace Accord.Tests.Statistics
             double p5 = System.Math.Exp(l5);
             double p6 = System.Math.Exp(l6);
 
-            Assert.AreEqual(14, teacher.CurrentIteration);
+            Assert.AreEqual(13, teacher.CurrentIteration);
             Assert.AreEqual(0, teacher.MaxIterations);
 
-            Assert.AreEqual(1.2647275861578728, pl, 1e-6);
-            Assert.AreEqual(0.99998846008082953, p1, 1e-6);
-            Assert.AreEqual(0.91669523195813685, p2, 1e-6);
-            Assert.AreEqual(5.1426992218031553E-06, p3, 1e-6);
-            Assert.AreEqual(1.7529139078386114E-17, p4, 1e-6);
-            Assert.AreEqual(0.034236482540284281, p5, 1e-6);
-            Assert.AreEqual(0.03423647471730052, p6, 1e-6);
+            Assert.AreEqual(0.30679264538040718, pl, 1e-6);
+            Assert.AreEqual(0.99996863060896035, p1, 1e-6);
+            Assert.AreEqual(0.91667240076013978, p2, 1e-6);
+            Assert.AreEqual(2.335133758385404E-05, p3, 1e-6);
+            Assert.AreEqual(1.2504138915386015E-16, p4, 1e-6);
+            Assert.AreEqual(0.034237231443217185, p5, 1e-6);
+            Assert.AreEqual(0.034237195920522774, p6, 1e-6);
 
             Assert.IsTrue(l1 > l3 && l1 > l4);
             Assert.IsTrue(l2 > l3 && l2 > l4);
@@ -790,7 +791,7 @@ namespace Accord.Tests.Statistics
             {
                 var teacher = new BaumWelchLearning(hmm0) { Tolerance = 0.0001, Iterations = 0 };
                 teacher.Learn(sequences);
-                Assert.AreEqual(14, teacher.CurrentIteration);
+                Assert.AreEqual(13, teacher.CurrentIteration);
             }
 
             compare(hmm1, hmm2);
@@ -804,5 +805,6 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(hmm1.LogEmissions.IsEqual(hmm2.LogEmissions));
             Assert.IsTrue(hmm1.LogTransitions.IsEqual(hmm2.LogTransitions));
         }
+      
     }
 }

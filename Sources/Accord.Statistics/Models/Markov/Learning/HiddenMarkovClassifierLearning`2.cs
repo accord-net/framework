@@ -74,8 +74,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   <para>
     ///   The following example creates a continuous-density hidden Markov model sequence
     ///   classifier to recognize two classes of univariate observation sequences.</para>
-    ///   
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovClassifier`2Test.cs" region="doc_learn" />
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovClassifier`2Test.cs" region="doc_learn" />
     /// 
     ///   <para>
     ///   The following example creates a continuous-density hidden Markov model sequence
@@ -88,8 +87,12 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   positive-definite". In this case, it is possible to sidestep this issue by
     ///   specifying a small regularization constant to be added to the diagonal elements
     ///   of the covariance matrix. </para>
-    ///   
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovClassifier`2Test.cs" region="doc_learn_regularization" />
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovClassifier`2Test.cs" region="doc_learn_regularization" />
+    /// 
+    ///   <para>
+    ///   The next example shows how to use the learning algorithms in a real-world dataset,
+    ///   including training and testing in separate sets and evaluating its performance:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovClassifier`2Test.cs" region="doc_learn_pendigits" />
     /// </example>
     /// 
     /// <seealso cref="HiddenMarkovClassifier{TDistribution, TObservation}"/>
@@ -101,7 +104,6 @@ namespace Accord.Statistics.Models.Markov.Learning
         HiddenMarkovModel<TDistribution, TObservation>, TDistribution, TObservation>
         where TDistribution : IDistribution<TObservation>
     {
-
 
         /// <summary>
         ///   Creates a new instance of the learning algorithm for a given 
@@ -124,6 +126,25 @@ namespace Accord.Statistics.Models.Markov.Learning
         public HiddenMarkovClassifierLearning(HiddenMarkovClassifier<TDistribution, TObservation> classifier)
             : base(classifier)
         {
+        }
+
+        /// <summary>
+        ///   Creates a new instance of the learning algorithm for a given 
+        ///   Markov sequence classifier.
+        /// </summary>
+        /// 
+        public HiddenMarkovClassifierLearning()
+        {
+        }
+
+        /// <summary>
+        ///   Creates an instance of the model to be learned. Inheritors of this abstract 
+        ///   class must define this method so new models can be created from the training data.
+        /// </summary>
+        /// 
+        protected override HiddenMarkovClassifier<TDistribution, TObservation> Create(int numberOfClasses)
+        {
+            return new HiddenMarkovClassifier<TDistribution, TObservation>(numberOfClasses);
         }
 
         /// <summary>

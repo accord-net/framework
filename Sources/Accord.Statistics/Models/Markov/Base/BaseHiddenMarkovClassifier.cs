@@ -33,6 +33,7 @@ namespace Accord.Statistics.Models.Markov
     ///   This class cannot be instantiated.
     /// </summary>
     /// 
+    [Obsolete("This class will be removed.")]
     [Serializable]
     public abstract class BaseHiddenMarkovClassifier<TModel> : IEnumerable<TModel>
         where TModel : IHiddenMarkovModel

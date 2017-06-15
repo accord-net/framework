@@ -34,7 +34,7 @@ namespace Accord.Statistics.Models.Markov.Learning
 #pragma warning disable 612, 618
 
     /// <summary>
-    ///   Abstract base class for Sequence Classifier learning algorithms.
+    ///   Abstract base class for hidden Markov model learning algorithms.
     /// </summary>
     /// 
     public abstract class BaseHiddenMarkovClassifierLearning<TClassifier, TModel, TDistribution, TObservation>
@@ -43,6 +43,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         where TModel : HiddenMarkovModel<TDistribution, TObservation>
         where TDistribution : IDistribution<TObservation>
     {
+
         /// <summary>
         ///   Gets or sets the parallelization options for this algorithm.
         /// </summary>
@@ -149,10 +150,21 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   function.
         /// </summary>
         /// 
+        protected BaseHiddenMarkovClassifierLearning()
+        {
+            this.ParallelOptions = new ParallelOptions();
+        }
+
+        /// <summary>
+        ///   Creates a new instance of the learning algorithm for a given 
+        ///   Markov sequence classifier using the specified configuration
+        ///   function.
+        /// </summary>
+        /// 
         protected BaseHiddenMarkovClassifierLearning(TClassifier classifier)
+            : this()
         {
             this.Classifier = classifier;
-            this.ParallelOptions = new ParallelOptions();
         }
 
         /// <summary>
@@ -354,6 +366,9 @@ namespace Accord.Statistics.Models.Markov.Learning
                 throw new DimensionMismatchException("outputs",
                     "The number of inputs and outputs does not match.");
 
+            if (Classifier == null)
+                Classifier = Create(numberOfClasses: y.Max() + 1); // create a new classifier given the number of classes
+
             for (int i = 0; i < y.Length; i++)
                 if (y[i] < 0 || y[i] >= Classifier.Classes)
                     throw new ArgumentOutOfRangeException("outputs");
@@ -363,32 +378,18 @@ namespace Accord.Statistics.Models.Markov.Learning
             double[] logLikelihood = new double[classes];
             int[] classCounts = new int[classes];
 
-
-            // For each model,
-            Parallel.For(0, classes, ParallelOptions, i =>
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                // We will start the class model learning problem
-                var args = new GenerativeLearningEventArgs(i, classes);
-                OnGenerativeClassModelLearningStarted(args);
+                for (int i = 0; i < classes; i++)
+                    LearnInner(x, y, i, classes, logLikelihood, classCounts);
+            }
+            else
+            {
+                // For each model,
+                Parallel.For(0, classes, ParallelOptions, i =>
+                    LearnInner(x, y, i, classes, logLikelihood, classCounts));
+            }
 
-                // Select the input/output set corresponding
-                //  to the model's specialization class
-                int[] inx = y.Find(y_j => y_j == i);
-                TObservation[][] observations = x.Get(inx);
-
-                classCounts[i] = observations.Length;
-
-                if (observations.Length > 0)
-                {
-                    // Create and configure the learning algorithm
-                    var teacher = Learner(i);
-                    var model = teacher.Learn(observations);
-                    logLikelihood[i] = model.LogLikelihood(observations).Sum();
-                }
-
-                // Update and report progress
-                OnGenerativeClassModelLearningFinished(args);
-            });
 
             if (Empirical)
             {
@@ -405,5 +406,40 @@ namespace Accord.Statistics.Models.Markov.Learning
 
             return Classifier;
         }
+
+        private void LearnInner(TObservation[][] x, int[] y, int i, int classes, double[] logLikelihood, int[] classCounts)
+        {
+            // We will start the class model learning problem
+            Trace.WriteLine(String.Format("Starting: {0}", i));
+            var args = new GenerativeLearningEventArgs(i, classes);
+            OnGenerativeClassModelLearningStarted(args);
+
+            // Select the input/output set corresponding
+            //  to the model's specialization class
+            int[] idx = y.Find(y_j => y_j == i);
+            TObservation[][] observations = x.Get(idx);
+
+            classCounts[i] = observations.Length;
+
+            if (observations.Length > 0)
+            {
+                // Create and configure the learning algorithm
+                var innerModelTeacher = Learner(i);
+                var innerModel = innerModelTeacher.Learn(observations);
+                Classifier.Models[i] = innerModel;
+                logLikelihood[i] = innerModel.LogLikelihood(observations).Sum();
+            }
+
+            // Update and report progress
+            Trace.WriteLine(String.Format("Done: {0} ", i));
+            OnGenerativeClassModelLearningFinished(args);
+        }
+
+        /// <summary>
+        ///   Creates an instance of the model to be learned. Inheritors of this abstract 
+        ///   class must define this method so new models can be created from the training data.
+        /// </summary>
+        /// 
+        protected abstract TClassifier Create(int numberOfClasses);
     }
 }

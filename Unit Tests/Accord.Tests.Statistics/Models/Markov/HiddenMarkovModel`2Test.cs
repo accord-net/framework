@@ -380,7 +380,7 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(0, teacher.CurrentIteration);
             var hmm2 = teacher.Learn(sequences.ToInt32());
-            Assert.AreEqual(14, teacher.CurrentIteration);
+            Assert.AreEqual(13, teacher.CurrentIteration);
             Assert.AreEqual(0, teacher.MaxIterations);
 
             double ll = teacher.LogLikelihood;
@@ -405,7 +405,7 @@ namespace Accord.Tests.Statistics
             l5 = System.Math.Exp(l5);
             l6 = System.Math.Exp(l6);
 
-            Assert.AreEqual(1.2647275861578728, ll, 1e-4);
+            Assert.AreEqual(0.30679264538040718, ll, 1e-4);
             Assert.AreEqual(0.49999423004041477, l1, 1e-4);
             Assert.AreEqual(0.114586850458029, l2, 1e-4);
             Assert.AreEqual(2.5713496109015777E-06, l3, 1e-4);
@@ -461,23 +461,23 @@ namespace Accord.Tests.Statistics
 
             // Calculate the probability that the given
             //  sequences originated from the model
-            double l1 = Math.Exp(hmm.LogLikelihood(new int[] { 0, 1 }));       // 0.999
-            double l2 = Math.Exp(hmm.LogLikelihood(new int[] { 0, 1, 1, 1 })); // 0.916
+            double l1 = hmm.Probability(new int[] { 0, 1 });       // 0.999
+            double l2 = hmm.Probability(new int[] { 0, 1, 1, 1 }); // 0.916
 
             // Sequences which do not start with zero have much lesser probability.
-            double l3 = Math.Exp(hmm.LogLikelihood(new int[] { 1, 1 }));       // 0.000
-            double l4 = Math.Exp(hmm.LogLikelihood(new int[] { 1, 0, 0, 0 })); // 0.000
+            double l3 = hmm.Probability(new int[] { 1, 1 });       // 0.000
+            double l4 = hmm.Probability(new int[] { 1, 0, 0, 0 }); // 0.000
 
             // Sequences which contains few errors have higher probability
             //  than the ones which do not start with zero. This shows some
             //  of the temporal elasticity and error tolerance of the HMMs.
-            double l5 = Math.Exp(hmm.LogLikelihood(new int[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 })); // 0.034
-            double l6 = Math.Exp(hmm.LogLikelihood(new int[] { 0, 1, 1, 1, 1, 1, 1, 0, 1 })); // 0.034
+            double l5 = hmm.Probability(new int[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 }); // 0.034
+            double l6 = hmm.Probability(new int[] { 0, 1, 1, 1, 1, 1, 1, 0, 1 }); // 0.034
             #endregion
 
             //Assert.AreSame(hmm, same);
 
-            Assert.AreEqual(1.2647275861578728, ll, 1e-4);
+            Assert.AreEqual(0.30679264538040718, ll, 1e-4);
             Assert.AreEqual(0.99998846008082953, l1, 1e-4);
             Assert.AreEqual(0.91669523195813685, l2, 1e-4);
             Assert.AreEqual(5.1426992218031553E-06, l3, 1e-4);
@@ -546,7 +546,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(7, teacher.CurrentIteration);
             Assert.IsTrue(states.IsEqual(new[] { 0, 1, 0, 1, 0, 1 }));
 
-            Assert.AreEqual(1.6357273904840766, likelihood, 1e-10);
+            Assert.AreEqual(1.091030568847944, likelihood, 1e-10);
             Assert.AreEqual(0.87985875800297753, a1, 1e-10);
             Assert.AreEqual(1.0117804233450221, a2, 1e-10);
             Assert.AreEqual(1.8031545195073828E-130, a3, 1e-10);
@@ -1277,7 +1277,7 @@ namespace Accord.Tests.Statistics
             double logLikelihood = teacher.LogLikelihood;
             double likelihood = Math.Exp(logLikelihood);
 
-            Assert.AreEqual(5.4474421582531134, logLikelihood, 1e-10);
+            Assert.AreEqual(31.954060476891243, logLikelihood, 1e-10);
 
             Assert.AreEqual(0.0001, (teacher.FittingOptions as NormalOptions).Regularization);
 
