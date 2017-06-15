@@ -38,7 +38,7 @@ namespace Accord.DataSets
     /// </remarks>
     /// 
     /// <seealso cref="Accord.DataSets.MNIST" />
-    /// <seealso cref="Accord.DataSets.Iris" />
+    /// <seealso cref="Accord.DataSets.SparseIris" />
     /// <seealso cref="Accord.DataSets.Base.SparseDataSet" />
     /// 
     public class News20 : SparseDataSet
