@@ -56,8 +56,8 @@ namespace Accord.Statistics.Models.Fields.Functions
         /// <param name="classifier">A hidden Markov sequence classifier.</param>
         /// <param name="includePriors">True to include class features (priors), false otherwise.</param>
         /// 
-        public MarkovMultivariateFunction(
-            HiddenMarkovClassifier<MultivariateNormalDistribution> classifier, bool includePriors = true)
+        [Obsolete("Obsolete due the use of HiddenMarkovClassifier<MultivariateNormalDistribution>. Please use HiddenMarkovClassifier<MultivariateNormalDistribution, double[]> instead.")]
+        public MarkovMultivariateFunction(HiddenMarkovClassifier<MultivariateNormalDistribution> classifier, bool includePriors = true)
         {
             // TODO: Mark this function as obsolete
 
@@ -188,8 +188,7 @@ namespace Accord.Statistics.Models.Fields.Functions
         /// <param name="classifier">A hidden Markov sequence classifier.</param>
         /// <param name="includePriors">True to include class features (priors), false otherwise.</param>
         /// 
-        public MarkovMultivariateFunction(
-            HiddenMarkovClassifier<MultivariateNormalDistribution, double[]> classifier, bool includePriors = true)
+        public MarkovMultivariateFunction(HiddenMarkovClassifier<MultivariateNormalDistribution, double[]> classifier, bool includePriors = true)
         {
             this.Outputs = classifier.Classes;
             this.Dimensions = classifier.Models[0].NumberOfInputs;
@@ -318,8 +317,8 @@ namespace Accord.Statistics.Models.Fields.Functions
         /// <param name="classifier">A hidden Markov sequence classifier.</param>
         /// <param name="includePriors">True to include class features (priors), false otherwise.</param>
         /// 
-        public MarkovMultivariateFunction(
-            HiddenMarkovClassifier<Independent<NormalDistribution>> classifier, bool includePriors = true)
+        [Obsolete("Obsolete due the use of HiddenMarkovClassifier<Independent<NormalDistribution>>. Please use HiddenMarkovClassifier<Independent<NormalDistribution, double>, double[]> instead.")]
+        public MarkovMultivariateFunction(HiddenMarkovClassifier<Independent<NormalDistribution>> classifier, bool includePriors = true)
         {
             this.Outputs = classifier.Classes;
             this.Dimensions = classifier.Models[0].Dimension;
@@ -409,7 +408,7 @@ namespace Accord.Statistics.Models.Fields.Functions
                 endClassIndex[c] = classParams.Count;
                 endEdgeIndex[c] = edgeParams.Count;
                 endStateIndex[c] = stateParams.Count;
-              
+
 
                 // 1. classes
                 factorFeatures.AddRange(classFeatures);
@@ -445,10 +444,271 @@ namespace Accord.Statistics.Models.Fields.Functions
         ///   Constructs a new potential function modeling Hidden Markov Models.
         /// </summary>
         /// 
+        /// <param name="classifier">A hidden Markov sequence classifier.</param>
+        /// <param name="includePriors">True to include class features (priors), false otherwise.</param>
+        /// 
+        public MarkovMultivariateFunction(HiddenMarkovClassifier<Independent<NormalDistribution, double>, double[]> classifier, bool includePriors = true)
+        {
+            this.Outputs = classifier.Classes;
+            this.Dimensions = classifier.Models[0].NumberOfInputs;
+
+            int factorIndex = 0;
+            var factorParams = new List<double>();
+            var factorFeatures = new List<IFeature<double[]>>();
+
+            this.Factors = new FactorPotential<double[]>[Outputs];
+
+            int[] startClassIndex = new int[classifier.Classes];
+            int[] startEdgeIndex = new int[classifier.Classes];
+            int[] startStateIndex = new int[classifier.Classes];
+            int[] endClassIndex = new int[classifier.Classes];
+            int[] endEdgeIndex = new int[classifier.Classes];
+            int[] endStateIndex = new int[classifier.Classes];
+
+
+            // Create features for initial class probabilities
+            for (int c = 0; c < classifier.Classes; c++)
+            {
+                var stateParams = new List<double>();
+                var stateFeatures = new List<IFeature<double[]>>();
+
+                var edgeParams = new List<double>();
+                var edgeFeatures = new List<IFeature<double[]>>();
+
+                var classParams = new List<double>();
+                var classFeatures = new List<IFeature<double[]>>();
+
+                var model = classifier[c];
+
+                if (includePriors)
+                {
+                    // Create features for class labels
+                    classParams.Add(Math.Log(classifier.Priors[c]));
+                    classFeatures.Add(new OutputFeature<double[]>(this, c, c));
+                }
+
+                // Create features for initial state probabilities
+                for (int i = 0; i < model.States; i++)
+                {
+                    edgeParams.Add(model.LogInitial[i]);
+                    edgeFeatures.Add(new InitialFeature<double[]>(this, c, i));
+                }
+
+                // Create features for state transition probabilities
+                for (int i = 0; i < model.States; i++)
+                {
+                    for (int j = 0; j < model.States; j++)
+                    {
+                        edgeParams.Add(model.LogTransitions[i][j]);
+                        edgeFeatures.Add(new TransitionFeature<double[]>(this, c, i, j));
+                    }
+                }
+
+                // Create features emission probabilities
+                for (int i = 0; i < model.States; i++)
+                {
+                    for (int d = 0; d < model.Emissions[i].Mean.Length; d++)
+                    {
+                        double mean = model.Emissions[i].Mean[d];
+                        double var = model.Emissions[i].Variance[d];
+
+                        double u = -0.5 * (Math.Log(2.0 * Math.PI * var) + (mean * mean) / var);
+                        double m1 = mean / var;
+                        double m2 = -1.0 / (2.0 * var);
+
+                        // Occupancy
+                        stateParams.Add(u);
+                        stateFeatures.Add(new OccupancyFeature<double[]>(this, c, i));
+
+                        // 1st Moment (x)
+                        stateParams.Add(m1);
+                        stateFeatures.Add(new MultivariateFirstMomentFeature(this, c, i, d));
+
+                        // 2nd Moment (x²)
+                        stateParams.Add(m2);
+                        stateFeatures.Add(new MultivariateSecondMomentFeature(this, c, i, d));
+                    }
+                }
+
+                startClassIndex[c] = factorIndex;
+                startEdgeIndex[c] = factorIndex + classParams.Count;
+                startStateIndex[c] = factorIndex + classParams.Count + edgeParams.Count;
+
+                endClassIndex[c] = classParams.Count;
+                endEdgeIndex[c] = edgeParams.Count;
+                endStateIndex[c] = stateParams.Count;
+
+
+                // 1. classes
+                factorFeatures.AddRange(classFeatures);
+                factorParams.AddRange(classParams);
+
+                // 2. edges
+                factorFeatures.AddRange(edgeFeatures);
+                factorParams.AddRange(edgeParams);
+
+                // 3. states
+                factorFeatures.AddRange(stateFeatures);
+                factorParams.AddRange(stateParams);
+
+                factorIndex += classParams.Count + stateParams.Count + edgeParams.Count;
+            }
+
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorParams.Count);
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorFeatures.Count);
+
+            this.Weights = factorParams.ToArray();
+            this.Features = factorFeatures.ToArray();
+
+            for (int c = 0; c < classifier.Classes; c++)
+            {
+                Factors[c] = new MarkovMultivariateNormalFactor(this, classifier.Models[c].States, c, Dimensions,
+                    classIndex: startClassIndex[c], classCount: endClassIndex[c],  // 1. classes
+                    edgeIndex: startEdgeIndex[c], edgeCount: endEdgeIndex[c],      // 2. edges
+                    stateIndex: startStateIndex[c], stateCount: endStateIndex[c]); // 3. states
+            }
+        }
+
+        /// <summary>
+        ///   Constructs a new potential function modeling Hidden Markov Models.
+        /// </summary>
+        /// 
+        /// <param name="classifier">A hidden Markov sequence classifier.</param>
+        /// <param name="includePriors">True to include class features (priors), false otherwise.</param>
+        /// 
+        public MarkovMultivariateFunction(HiddenMarkovClassifier<Independent<NormalDistribution>, double[]> classifier, bool includePriors = true)
+        {
+            // TODO: Unify the contents of this method with the method above
+
+            this.Outputs = classifier.Classes;
+            this.Dimensions = classifier.Models[0].NumberOfInputs;
+
+            int factorIndex = 0;
+            var factorParams = new List<double>();
+            var factorFeatures = new List<IFeature<double[]>>();
+
+            this.Factors = new FactorPotential<double[]>[Outputs];
+
+            int[] startClassIndex = new int[classifier.Classes];
+            int[] startEdgeIndex = new int[classifier.Classes];
+            int[] startStateIndex = new int[classifier.Classes];
+            int[] endClassIndex = new int[classifier.Classes];
+            int[] endEdgeIndex = new int[classifier.Classes];
+            int[] endStateIndex = new int[classifier.Classes];
+
+
+            // Create features for initial class probabilities
+            for (int c = 0; c < classifier.Classes; c++)
+            {
+                var stateParams = new List<double>();
+                var stateFeatures = new List<IFeature<double[]>>();
+
+                var edgeParams = new List<double>();
+                var edgeFeatures = new List<IFeature<double[]>>();
+
+                var classParams = new List<double>();
+                var classFeatures = new List<IFeature<double[]>>();
+
+                var model = classifier[c];
+
+                if (includePriors)
+                {
+                    // Create features for class labels
+                    classParams.Add(Math.Log(classifier.Priors[c]));
+                    classFeatures.Add(new OutputFeature<double[]>(this, c, c));
+                }
+
+                // Create features for initial state probabilities
+                for (int i = 0; i < model.States; i++)
+                {
+                    edgeParams.Add(model.LogInitial[i]);
+                    edgeFeatures.Add(new InitialFeature<double[]>(this, c, i));
+                }
+
+                // Create features for state transition probabilities
+                for (int i = 0; i < model.States; i++)
+                {
+                    for (int j = 0; j < model.States; j++)
+                    {
+                        edgeParams.Add(model.LogTransitions[i][j]);
+                        edgeFeatures.Add(new TransitionFeature<double[]>(this, c, i, j));
+                    }
+                }
+
+                // Create features emission probabilities
+                for (int i = 0; i < model.States; i++)
+                {
+                    for (int d = 0; d < model.Emissions[i].Mean.Length; d++)
+                    {
+                        double mean = model.Emissions[i].Mean[d];
+                        double var = model.Emissions[i].Variance[d];
+
+                        double u = -0.5 * (Math.Log(2.0 * Math.PI * var) + (mean * mean) / var);
+                        double m1 = mean / var;
+                        double m2 = -1.0 / (2.0 * var);
+
+                        // Occupancy
+                        stateParams.Add(u);
+                        stateFeatures.Add(new OccupancyFeature<double[]>(this, c, i));
+
+                        // 1st Moment (x)
+                        stateParams.Add(m1);
+                        stateFeatures.Add(new MultivariateFirstMomentFeature(this, c, i, d));
+
+                        // 2nd Moment (x²)
+                        stateParams.Add(m2);
+                        stateFeatures.Add(new MultivariateSecondMomentFeature(this, c, i, d));
+                    }
+                }
+
+                startClassIndex[c] = factorIndex;
+                startEdgeIndex[c] = factorIndex + classParams.Count;
+                startStateIndex[c] = factorIndex + classParams.Count + edgeParams.Count;
+
+                endClassIndex[c] = classParams.Count;
+                endEdgeIndex[c] = edgeParams.Count;
+                endStateIndex[c] = stateParams.Count;
+
+
+                // 1. classes
+                factorFeatures.AddRange(classFeatures);
+                factorParams.AddRange(classParams);
+
+                // 2. edges
+                factorFeatures.AddRange(edgeFeatures);
+                factorParams.AddRange(edgeParams);
+
+                // 3. states
+                factorFeatures.AddRange(stateFeatures);
+                factorParams.AddRange(stateParams);
+
+                factorIndex += classParams.Count + stateParams.Count + edgeParams.Count;
+            }
+
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorParams.Count);
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorFeatures.Count);
+
+            this.Weights = factorParams.ToArray();
+            this.Features = factorFeatures.ToArray();
+
+            for (int c = 0; c < classifier.Classes; c++)
+            {
+                Factors[c] = new MarkovMultivariateNormalFactor(this, classifier.Models[c].States, c, Dimensions,
+                    classIndex: startClassIndex[c], classCount: endClassIndex[c],  // 1. classes
+                    edgeIndex: startEdgeIndex[c], edgeCount: endEdgeIndex[c],      // 2. edges
+                    stateIndex: startStateIndex[c], stateCount: endStateIndex[c]); // 3. states
+            }
+        }
+
+
+        /// <summary>
+        ///   Constructs a new potential function modeling Hidden Markov Models.
+        /// </summary>
+        /// 
         /// <param name="model">A normal density hidden Markov.</param>
         /// 
-        public MarkovMultivariateFunction(
-            HiddenMarkovModel<MultivariateNormalDistribution> model)
+        [Obsolete("Obsolete due the use of HiddenMarkovModel<MultivariateNormalDistribution>. Please use HiddenMarkovModel<MultivariateNormalDistribution, double[]> instead.")]
+        public MarkovMultivariateFunction(HiddenMarkovModel<MultivariateNormalDistribution> model)
         {
             this.Dimensions = model.Dimension;
 
@@ -529,9 +789,93 @@ namespace Accord.Statistics.Models.Fields.Functions
         ///   Constructs a new potential function modeling Hidden Markov Models.
         /// </summary>
         /// 
+        /// <param name="model">A normal density hidden Markov.</param>
+        /// 
+        public MarkovMultivariateFunction(HiddenMarkovModel<MultivariateNormalDistribution, double[]> model)
+        {
+            this.Dimensions = model.NumberOfInputs;
+
+            var factorParams = new List<double>();
+            var factorFeatures = new List<IFeature<double[]>>();
+
+
+            var stateParams = new List<double>();
+            var stateFeatures = new List<IFeature<double[]>>();
+
+            var edgeParams = new List<double>();
+            var edgeFeatures = new List<IFeature<double[]>>();
+
+
+
+            // Create features for initial state probabilities
+            for (int i = 0; i < model.States; i++)
+            {
+                edgeParams.Add(model.LogInitial[i]);
+                edgeFeatures.Add(new InitialFeature<double[]>(this, 0, i));
+            }
+
+            // Create features for state transition probabilities
+            for (int i = 0; i < model.States; i++)
+            {
+                for (int j = 0; j < model.States; j++)
+                {
+                    edgeParams.Add(model.LogTransitions[i][j]);
+                    edgeFeatures.Add(new TransitionFeature<double[]>(this, 0, i, j));
+                }
+            }
+
+            // Create features emission probabilities
+            for (int i = 0; i < model.States; i++)
+            {
+                for (int d = 0; d < model.Emissions[i].Mean.Length; d++)
+                {
+                    double mean = model.Emissions[i].Mean[d];
+                    double var = model.Emissions[i].Variance[d];
+
+                    // Occupancy
+                    stateParams.Add(-0.5 * (Math.Log(2.0 * Math.PI * var) + (mean * mean) / var));
+                    stateFeatures.Add(new OccupancyFeature<double[]>(this, 0, i));
+
+                    // 1st Moment (x)
+                    stateParams.Add(mean / var);
+                    stateFeatures.Add(new MultivariateFirstMomentFeature(this, 0, i, d));
+
+                    // 2nd Moment (x²)
+                    stateParams.Add(-1.0 / (2.0 * var));
+                    stateFeatures.Add(new MultivariateSecondMomentFeature(this, 0, i, d));
+                }
+            }
+
+
+            // 1. edges
+            factorFeatures.AddRange(edgeFeatures);
+            factorParams.AddRange(edgeParams);
+
+            // 2. states
+            factorFeatures.AddRange(stateFeatures);
+            factorParams.AddRange(stateParams);
+
+            this.Weights = factorParams.ToArray();
+            this.Features = factorFeatures.ToArray();
+
+
+
+            Factors = new[] // First features and parameters are always belonging to edges
+            {
+                new MarkovMultivariateNormalFactor(this, model.States, 0, Dimensions,
+                  edgeIndex: 0, edgeCount: edgeParams.Count,      // 1. edges
+                  stateIndex: edgeParams.Count, stateCount: stateParams.Count)  // 2. states
+            };
+        }
+
+        /// <summary>
+        ///   Constructs a new potential function modeling Hidden Markov Models.
+        /// </summary>
+        /// 
         /// <param name="classifier">A hidden Markov sequence classifier.</param>
         /// <param name="includePriors">True to include class features (priors), false otherwise.</param>
         /// 
+        [Obsolete("Obsolete due the use of HiddenMarkovClassifier<Independent>. Please use HiddenMarkovClassifier<Independent, double[]> instead.")]
         public MarkovMultivariateFunction(HiddenMarkovClassifier<Independent> classifier, bool includePriors = true)
         {
             // TODO: Mark this function as obsolete
