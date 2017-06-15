@@ -36,6 +36,13 @@ namespace Accord.Statistics.Models.Regression.Fitting
     ///   Newton-Raphson learning updates for Cox's Proportional Hazards models.
     /// </summary>
     /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\CoxProportionalHazardsTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
+    /// <seealso cref="ProportionalHazards"/>
+    /// <seealso cref="Accord.Statistics.Analysis.ProportionalHazardsAnalysis"/>
+    /// 
 #pragma warning disable 612, 618
     public class ProportionalHazardsNewtonRaphson :
         ISupervisedLearning<ProportionalHazards, Tuple<double[], double>, int>,
@@ -335,7 +342,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(double[][] inputs, double[] time, SurvivalOutcome[] censor)
         {
-            Learn(inputs, time, censor, null);
+            innerLearn(inputs, time, censor, null);
             return regression.GetPartialLogLikelihood(inputs, time, censor);
         }
 
@@ -488,6 +495,16 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// </returns>
         public ProportionalHazards Learn(double[][] inputs, double[] time, SurvivalOutcome[] censor, double[] weights = null)
         {
+            var regression = innerLearn(inputs, time, censor, weights);
+
+            // Disable deprecated mechanism
+            regression.Intercept = -regression.Coefficients.Dot(regression.Offsets);
+            regression.Offsets.Clear();
+            return regression;
+        }
+
+        private ProportionalHazards innerLearn(double[][] inputs, double[] time, SurvivalOutcome[] censor, double[] weights)
+        {
             if (weights != null)
                 throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
 
@@ -504,8 +521,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
             EmpiricalHazardDistribution.Sort(ref time, ref censor, ref inputs);
 
 
-            double[] means = new double[parameterCount];
-            double[] sdev = new double[parameterCount];
+            var means = new double[parameterCount];
+            var sdev = new double[parameterCount];
             for (int i = 0; i < sdev.Length; i++)
                 sdev[i] = 1;
 
@@ -525,7 +542,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
             }
 
             // Compute actual outputs
-            double[] output = new double[inputs.Length];
+            var output = new double[inputs.Length];
             for (int i = 0; i < output.Length; i++)
             {
                 double sum = 0;

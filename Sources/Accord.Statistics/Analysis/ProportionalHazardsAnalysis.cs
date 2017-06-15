@@ -75,6 +75,9 @@ namespace Accord.Statistics.Analysis
     /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\ProportionalHazardsAnalysisTest.cs" region="doc_learn_part2" />
     /// </example>
     /// 
+    /// <seealso cref="ProportionalHazards"/>
+    /// <seealso cref="ProportionalHazardsNewtonRaphson"/>
+    /// 
     [Serializable]
     public class ProportionalHazardsAnalysis : IRegressionAnalysis,
         ISupervisedLearning<ProportionalHazards, Tuple<double[], double>, int>
