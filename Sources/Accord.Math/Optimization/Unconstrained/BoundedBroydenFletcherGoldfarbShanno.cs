@@ -165,11 +165,10 @@ namespace Accord.Math.Optimization
     /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
     /// <seealso cref="TrustRegionNewtonMethod"/>
     /// 
-    public partial class BoundedBroydenFletcherGoldfarbShanno
-        : BaseGradientOptimizationMethod, IGradientOptimizationMethod,
-        IOptimizationMethod<BoundedBroydenFletcherGoldfarbShannoStatus>
+    public partial class BoundedBroydenFletcherGoldfarbShanno : BaseGradientOptimizationMethod, 
+        IGradientOptimizationMethod, IOptimizationMethod<BoundedBroydenFletcherGoldfarbShannoStatus>,
+        Accord.MachineLearning.ISupportsCancellation
     {
-
 
         // those values need not be modified
         private const double stpmin = 1e-20;

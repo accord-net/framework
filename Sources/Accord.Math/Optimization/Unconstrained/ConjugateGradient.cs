@@ -164,7 +164,8 @@ namespace Accord.Math.Optimization
     /// <seealso cref="TrustRegionNewtonMethod"/>
     /// 
     public class ConjugateGradient : BaseGradientOptimizationMethod,
-        IGradientOptimizationMethod, IOptimizationMethod<ConjugateGradientCode>
+        IGradientOptimizationMethod, IOptimizationMethod<ConjugateGradientCode>, 
+        Accord.MachineLearning.ISupportsCancellation
     {
 
         private double[] g; // gradient at current solution
