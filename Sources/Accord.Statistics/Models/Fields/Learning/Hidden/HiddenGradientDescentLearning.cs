@@ -46,9 +46,8 @@ namespace Accord.Statistics.Models.Fields.Learning
     /// <seealso cref="HiddenResilientGradientLearning{T}"/>
     /// 
     public class HiddenGradientDescentLearning<T> : BaseHiddenConditionalRandomFieldLearning<T>,
-        ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>,
-        IHiddenConditionalRandomFieldLearning<T>,
-        IConvergenceLearning, IDisposable
+        ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>, IParallel,
+        IHiddenConditionalRandomFieldLearning<T>, IConvergenceLearning, IDisposable
     {
 
         private double learningRate = 100;
@@ -61,7 +60,7 @@ namespace Accord.Statistics.Models.Fields.Learning
         private bool stochastic = true;
         private double[] gradient;
 
-        private ForwardBackwardGradient<T> calculator;
+        private ForwardBackwardGradient<T> calculator = new ForwardBackwardGradient<T>();
 
 
         private Object lockObj = new Object();
@@ -155,6 +154,16 @@ namespace Accord.Statistics.Models.Fields.Learning
             set { calculator.Regularization = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the parallelization options for this algorithm.
+        /// </summary>
+        /// <value>The parallel options.</value>
+        public ParallelOptions ParallelOptions
+        {
+            get { return ((IParallel)calculator).ParallelOptions; }
+            set { ((IParallel)calculator).ParallelOptions = value; }
+        }
+
 
 
         /// <summary>
@@ -183,13 +192,12 @@ namespace Accord.Statistics.Models.Fields.Learning
             : this()
         {
             Model = model;
-
             init();
         }
 
         private void init()
         {
-            calculator = new ForwardBackwardGradient<T>(Model);
+            calculator.Model = Model;
             gradient = new double[Model.Function.Weights.Length];
         }
 
@@ -227,35 +235,16 @@ namespace Accord.Statistics.Models.Fields.Learning
                 int progress = 0;
 
                 // For each training point
-#if SERIAL
-                for (int i = 0; i < observations.Length; i++)
-#else
-                Parallel.For(0, observations.Length, i =>
-#endif
+                if (ParallelOptions.MaxDegreeOfParallelism == 1)
                 {
-                    calculator.Inputs = new[] { observations[i] };
-                    calculator.Outputs = new[] { outputs[i] };
-
-                    // Compute the estimated gradient
-                    double[] estimate = calculator.Gradient();
-
-                    lock (lockObj)
-                    {
-                        // Accumulate
-                        for (int j = 0; j < estimate.Length; j++)
-                            gradient[j] += estimate[j];
-                        error += calculator.LastError;
-                    }
-
-                    int current = Interlocked.Increment(ref progress);
-                    double percent = current / (double)observations.Length * 100.0;
-                    OnProgressChanged(new ProgressChangedEventArgs((int)percent, i));
-
-                    Accord.Diagnostics.Debug.Assert(!gradient.HasNaN());
+                    for (int i = 0; i < observations.Length; i++)
+                        iterate(observations, outputs, i, ref error, ref progress);
                 }
-#if !SERIAL
-);
-#endif
+                else
+                {
+                    Parallel.For(0, observations.Length, ParallelOptions, i =>
+                        iterate(observations, outputs, i, ref error, ref progress));
+                }
 
                 // Compute the average gradient
                 for (int i = 0; i < gradient.Length; i++)
@@ -288,6 +277,29 @@ namespace Accord.Statistics.Models.Fields.Learning
 
 
             return convergence.NewValue = error;
+        }
+
+        private void iterate(T[][] observations, int[] outputs, int i, ref double error, ref int progress)
+        {
+            calculator.Inputs = new[] { observations[i] };
+            calculator.Outputs = new[] { outputs[i] };
+
+            // Compute the estimated gradient
+            double[] estimate = calculator.Gradient();
+
+            lock (lockObj)
+            {
+                // Accumulate
+                for (int j = 0; j < estimate.Length; j++)
+                    gradient[j] += estimate[j];
+                error += calculator.LastError;
+            }
+
+            int current = Interlocked.Increment(ref progress);
+            double percent = current / (double)observations.Length * 100.0;
+            OnProgressChanged(new ProgressChangedEventArgs((int)percent, i));
+
+            Accord.Diagnostics.Debug.Assert(!gradient.HasNaN());
         }
 
 

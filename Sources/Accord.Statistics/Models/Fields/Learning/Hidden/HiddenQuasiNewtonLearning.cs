@@ -28,6 +28,7 @@ namespace Accord.Statistics.Models.Fields.Learning
     using Accord.Math.Optimization;
     using Accord.MachineLearning;
     using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Quasi-Newton (L-BFGS) learning algorithm for <see cref="HiddenConditionalRandomField{T}">
@@ -50,48 +51,20 @@ namespace Accord.Statistics.Models.Fields.Learning
     /// <seealso cref="HiddenGradientDescentLearning{T}"/>
     /// <seealso cref="HiddenResilientGradientLearning{T}"/>
     /// 
-    public class HiddenQuasiNewtonLearning<T> : BaseHiddenConditionalRandomFieldLearning<T>,
-        ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>,
-        IHiddenConditionalRandomFieldLearning<T>,
-        IConvergenceLearning,
-        IDisposable
+    public class HiddenQuasiNewtonLearning<T> : BaseHiddenGradientOptimizationLearning<T, BoundedBroydenFletcherGoldfarbShanno>,
+        ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>, IParallel,
+        IHiddenConditionalRandomFieldLearning<T>, IConvergenceLearning, IDisposable
     {
-
-        private BoundedBroydenFletcherGoldfarbShanno lbfgs;
-        private ForwardBackwardGradient<T> calculator;
-
-
-        /// <summary>
-        ///   Gets or sets the amount of the parameter weights
-        ///   which should be included in the objective function.
-        ///   Default is 0 (do not include regularization).
-        /// </summary>
-        /// 
-        public double Regularization
-        {
-            get { return calculator.Regularization; }
-            set { calculator.Regularization = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the tolerance value used to determine
-        /// whether the algorithm has converged.
-        /// </summary>
-        /// <value>The tolerance.</value>
-        public double Tolerance { get; set; }
-
         int IConvergenceLearning.Iterations
         {
-            get { return lbfgs.Iterations; }
+            get
+            {
+                if (Optimizer == null)
+                    return 0;
+                return Optimizer.Iterations;
+            }
             set { throw new NotImplementedException(); }
         }
-
-        /// <summary>
-        /// Gets or sets the maximum number of iterations
-        /// performed by the learning algorithm.
-        /// </summary>
-        /// <value>The maximum iterations.</value>
-        public int MaxIterations { get; set; }
 
         /// <summary>
         /// Gets the current iteration number.
@@ -101,22 +74,9 @@ namespace Accord.Statistics.Models.Fields.Learning
         {
             get
             {
-                if (lbfgs != null)
-                    return lbfgs.Iterations;
+                if (Optimizer != null)
+                    return Optimizer.Iterations;
                 return 0;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets whether the algorithm has converged.
-        /// </summary>
-        /// <value><c>true</c> if this instance has converged; otherwise, <c>false</c>.</value>
-        public bool HasConverged
-        {
-            get
-            {
-                return lbfgs.Status == BoundedBroydenFletcherGoldfarbShannoStatus.FunctionConvergence
-                    || lbfgs.Status == BoundedBroydenFletcherGoldfarbShannoStatus.GradientConvergence;
             }
         }
 
@@ -135,126 +95,30 @@ namespace Accord.Statistics.Models.Fields.Learning
         public HiddenQuasiNewtonLearning(HiddenConditionalRandomField<T> model)
         {
             Model = model;
-            init();
         }
 
-        private void init()
+        /// <summary>
+        /// Inheritors of this class should create the optimization algorithm in this
+        /// method, using the current <see cref="P:Accord.Statistics.Models.Fields.Learning.BaseHiddenGradientOptimizationLearning`2.MaxIterations" /> and <see cref="P:Accord.Statistics.Models.Fields.Learning.BaseHiddenGradientOptimizationLearning`2.Tolerance" />
+        /// settings.
+        /// </summary>
+        /// <returns>BoundedBroydenFletcherGoldfarbShanno.</returns>
+        protected override BoundedBroydenFletcherGoldfarbShanno CreateOptimizer()
         {
-            calculator = new ForwardBackwardGradient<T>(Model);
-
-            lbfgs = new BoundedBroydenFletcherGoldfarbShanno(Model.Function.Weights.Length);
-            lbfgs.FunctionTolerance = Tolerance;
-            lbfgs.MaxIterations = MaxIterations;
-            lbfgs.Function = calculator.Objective;
-            lbfgs.Gradient = calculator.Gradient;
+            var lbfgs = new BoundedBroydenFletcherGoldfarbShanno(Model.Function.Weights.Length)
+            {
+                FunctionTolerance = Tolerance,
+                MaxIterations = MaxIterations,
+            };
 
             for (int i = 0; i < lbfgs.UpperBounds.Length; i++)
             {
                 lbfgs.UpperBounds[i] = 1e10;
                 lbfgs.LowerBounds[i] = -1e100;
             }
+
+            return lbfgs;
         }
-
-        /// <summary>
-        ///   Runs the learning algorithm with the specified input
-        ///   training observations and corresponding output labels.
-        /// </summary>
-        /// 
-        /// <param name="observations">The training observations.</param>
-        /// <param name="outputs">The observation's labels.</param>
-        /// 
-        [Obsolete("Please use Learn(x, y) instead.")]
-        public double Run(T[][] observations, int[] outputs)
-        {
-            return InnerRun(observations, outputs);
-        }
-
-        /// <summary>
-        ///   Runs the learning algorithm.
-        /// </summary>
-        /// 
-        protected override double InnerRun(T[][] observations, int[] outputs)
-        {
-            init();
-
-            calculator.Inputs = observations;
-            calculator.Outputs = outputs;
-
-            lbfgs.Token = Token;
-            lbfgs.Minimize(Model.Function.Weights);
-
-            Model.Function.Weights = lbfgs.Solution;
-
-            // Return negative log-likelihood as error function
-            return -Model.LogLikelihood(observations, outputs);
-        }
-
-        /// <summary>
-        ///   Online learning is not supported.
-        /// </summary>
-        ///   
-        public double Run(T[] observations, int output)
-        {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        ///   Online learning is not supported.
-        /// </summary>
-        ///   
-        [Obsolete("Use Run(T[][], int[]) instead.")]
-        public double RunEpoch(T[][] observations, int[] output)
-        {
-            throw new NotSupportedException();
-        }
-
-
-        #region IDisposable Members
-
-        /// <summary>
-        ///   Performs application-defined tasks associated with freeing,
-        ///   releasing, or resetting unmanaged resources.
-        /// </summary>
-        /// 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        ///   Releases unmanaged resources and performs other cleanup operations before
-        ///   the <see cref="HiddenQuasiNewtonLearning{T}"/> is reclaimed by garbage
-        ///   collection.
-        /// </summary>
-        /// 
-        ~HiddenQuasiNewtonLearning()
-        {
-            Dispose(false);
-        }
-
-        /// <summary>
-        ///   Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// 
-        /// <param name="disposing"><c>true</c> to release both managed 
-        /// and unmanaged resources; <c>false</c> to release only unmanaged
-        /// resources.</param>
-        /// 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // free managed resources
-                if (calculator != null)
-                {
-                    calculator.Dispose();
-                    calculator = null;
-                }
-            }
-        }
-
-        #endregion
 
     }
 }

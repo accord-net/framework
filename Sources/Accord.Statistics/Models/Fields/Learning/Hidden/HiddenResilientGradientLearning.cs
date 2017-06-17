@@ -53,12 +53,11 @@ namespace Accord.Statistics.Models.Fields.Learning
     /// <seealso cref="HiddenGradientDescentLearning{T}"/>
     /// 
     public class HiddenResilientGradientLearning<T> : BaseHiddenConditionalRandomFieldLearning<T>,
-        ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>,
-        IHiddenConditionalRandomFieldLearning<T>,
-        IConvergenceLearning, IDisposable
+        ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>, IParallel,
+        IHiddenConditionalRandomFieldLearning<T>, IConvergenceLearning, IDisposable
     {
 
-        private ForwardBackwardGradient<T> calculator;
+        private ForwardBackwardGradient<T> calculator = new ForwardBackwardGradient<T>();
         private ISingleValueConvergence convergence;
 
         private double initialStep = 0.0125;
@@ -216,6 +215,16 @@ namespace Accord.Statistics.Models.Fields.Learning
         }
 
         /// <summary>
+        /// Gets or sets the parallelization options for this algorithm.
+        /// </summary>
+        /// <value>The parallel options.</value>
+        public ParallelOptions ParallelOptions
+        {
+            get { return ((IParallel)calculator).ParallelOptions; }
+            set { ((IParallel)calculator).ParallelOptions = value; }
+        }
+
+        /// <summary>
         ///   Initializes a new instance of the <see cref="HiddenResilientGradientLearning{T}"/> class.
         /// </summary>
         /// 
@@ -239,7 +248,7 @@ namespace Accord.Statistics.Models.Fields.Learning
 
         private void init()
         {
-            calculator = new ForwardBackwardGradient<T>(Model);
+            calculator.Model = Model;
             int parameters = Model.Function.Weights.Length;
             gradient = new double[parameters];
             previousGradient = new double[parameters];
@@ -313,7 +322,7 @@ namespace Accord.Statistics.Models.Fields.Learning
 #if SERIAL      // For each training point
                 for (int i = 0; i < observations.Length; i++)
 #else
-                Parallel.For(0, observations.Length, i =>
+                Parallel.For(0, observations.Length, ParallelOptions, i =>
 #endif
                 {
                     calculator.Inputs = new[] { observations[i] };
@@ -339,7 +348,6 @@ namespace Accord.Statistics.Models.Fields.Learning
 #if !SERIAL
 );
 #endif
-
                 // Compute the average gradient
                 for (int i = 0; i < gradient.Length; i++)
                     gradient[i] /= observations.Length;
