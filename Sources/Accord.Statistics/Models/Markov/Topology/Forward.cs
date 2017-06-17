@@ -221,10 +221,12 @@ namespace Accord.Statistics.Models.Markov.Topology
 
             if (random)
             {
+                var rand = Accord.Math.Random.Generator.Random;
+
                 // Create pi
                 double sum = 0;
                 for (int i = 0; i < states; i++)
-                    sum += pi[i] = Accord.Math.Random.Generator.Random.NextDouble();
+                    sum += pi[i] = rand.NextDouble();
 
                 for (int i = 0; i < states; i++)
                     pi[i] /= sum;
@@ -235,7 +237,7 @@ namespace Accord.Statistics.Models.Markov.Topology
                 {
                     sum = 0.0;
                     for (int j = i; j < m; j++)
-                        sum += A[i, j] = Accord.Math.Random.Generator.Random.NextDouble();
+                        sum += A[i, j] = rand.NextDouble();
 
                     for (int j = i; j < m; j++)
                         A[i, j] /= sum;

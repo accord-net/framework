@@ -72,7 +72,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <seealso cref="HiddenMarkovModel{TDistribution}"/>
     /// <seealso cref="BaumWelchLearning{TDistribution}"/>
     /// 
-    public class BaumWelchLearning : BaseBaumWelchLearning<HiddenMarkovModel, GeneralDiscreteDistribution, int, GeneralDiscreteOptions>
+    public class BaumWelchLearning : BaseBaumWelchLearningOptions<HiddenMarkovModel, GeneralDiscreteDistribution, int, GeneralDiscreteOptions>
     {
 
         /// <summary>
