@@ -333,13 +333,13 @@
     <Compile Include="Accord.MachineLearning\Learning\MulticlassLearningBase.cs" />
     <Compile Include="Accord.MachineLearning\Learning\ParallelMulticlassLearningBase.cs" />
     <Compile Include="Accord.MachineLearning\Learning\ParallelLearningBase.cs" />
-    <Compile Include="Accord.MachineLearning\Learning\IParallel.cs" />
     <Compile Include="Measures\Tools.Misc.cs" />
     <Compile Include="Models\Accord.Statistics.Models.cs" />
     <Compile Include="Models\Fields\Accord.Statistics.Models.Fields.cs" />
     <Compile Include="Models\Fields\HiddenConditionalRandomField.cs" />
     <Compile Include="Models\Fields\Learning\Accord.Statistics.Models.Fields.Learning.cs" />
     <Compile Include="Models\Fields\Learning\Hidden\BaseHiddenConditionalRandomFieldLearning.cs" />
+    <Compile Include="Models\Fields\Learning\Hidden\BaseHiddenOptimizerLearning.cs" />
     <Compile Include="Models\Fields\Potential Functions\Clique Factor Potentials\Specialized\MarkovIndependentFactor.cs">
       <SubType>Code</SubType>
     </Compile>

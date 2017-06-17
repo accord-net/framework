@@ -40,8 +40,7 @@ namespace Accord.Statistics.Models.Fields.Learning
     /// 
     public class QuasiNewtonLearning<T> : ParallelLearningBase,
         ISupervisedLearning<ConditionalRandomField<T>, T[], int[]>,
-        IConditionalRandomFieldLearning<T>,
-        IConvergenceLearning
+        IConditionalRandomFieldLearning<T>, IConvergenceLearning
     {
 
         private BoundedBroydenFletcherGoldfarbShanno lbfgs;
