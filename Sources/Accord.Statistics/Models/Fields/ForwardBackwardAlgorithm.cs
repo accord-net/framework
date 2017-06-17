@@ -112,6 +112,7 @@ namespace Accord.Statistics.Models.Fields
         {
             int states = function.States;
             int T = observations.Length;
+            Array.Clear(fwd, 0, fwd.Length);
 
             // 1. Initialization
             for (int i = 0; i < states; i++)
@@ -247,6 +248,7 @@ namespace Accord.Statistics.Models.Fields
         {
             int states = function.States;
             int T = observations.Length;
+            Array.Clear(bwd, 0, bwd.Length);
 
             // 1. Initialization
             for (int i = 0; i < states; i++)
