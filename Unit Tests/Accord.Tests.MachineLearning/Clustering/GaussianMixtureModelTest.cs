@@ -795,5 +795,6 @@ namespace Accord.Tests.MachineLearning
 
             Assert.IsTrue(clusters.Covariance[0].IsEqual(clusters.Covariance[1]));
         }
+
     }
 }

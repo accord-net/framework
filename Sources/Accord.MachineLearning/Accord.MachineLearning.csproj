@@ -59,6 +59,7 @@
     <Compile Include="Clustering\KMeans\BalancedKMeans.cs" />
     <Compile Include="DecisionTrees\DecisionTreeHelper.cs" />
     <Compile Include="BaseKNearestNeighbors`2.cs" />
+    <Compile Include="Representations\BagOfWords`1.cs" />
     <Compile Include="Representations\BagOfWords`2.cs" />
     <Compile Include="Representations\BaseBagOfWords`3.cs" />
     <Compile Include="Representations\TFIDF.cs" />

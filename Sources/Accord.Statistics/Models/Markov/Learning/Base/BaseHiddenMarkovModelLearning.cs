@@ -76,7 +76,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                 if (numberOfStates == 0)
                     throw new InvalidOperationException("No topology has been set and no NumberOfStates has been set. Please set at least one of those properties before continuing.");
 
-                this.topology = new Forward(numberOfStates);
+                this.topology = new Ergodic(numberOfStates);
                 return this.topology;
             }
             set

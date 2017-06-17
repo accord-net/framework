@@ -89,6 +89,14 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   Creates a new instance of the Baum-Welch learning algorithm.
         /// </summary>
         /// 
+        public BaumWelchLearning()
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new instance of the Baum-Welch learning algorithm.
+        /// </summary>
+        /// 
         public BaumWelchLearning(HiddenMarkovModel model)
             : base(model)
         {

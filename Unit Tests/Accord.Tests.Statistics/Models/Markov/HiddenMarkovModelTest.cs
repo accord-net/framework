@@ -289,20 +289,17 @@ namespace Accord.Tests.Statistics
                 new int[] { 0,1,1,1,1,1,1,1,1,1 },
             };
 
-            // Create a new Hidden Markov Model with 3 states for
-            //  an output alphabet of two characters (zero and one)
-            var hmm = new HiddenMarkovModel(states: 3, symbols: 2);
-
             // Create the learning algorithm
-            var teacher = new BaumWelchLearning(hmm)
+            var teacher = new BaumWelchLearning()
             {
-                Tolerance = 0.0001, // until log-likelihood changes less than 0.0001
-                Iterations = 0      // and use as many iterations as needed
+                Topology = new Ergodic(3), // Create a new Hidden Markov Model with 3 states for
+                NumberOfSymbols = 2,       // an output alphabet of two characters (zero and one)
+                Tolerance = 0.0001,        // train until log-likelihood changes less than 0.0001
+                Iterations = 0             // and use as many iterations as needed
             };
 
             // Estimate the model
-            teacher.Learn(sequences);
-
+            var hmm = teacher.Learn(sequences);
 
             // Now we can calculate the probability that the given
             // sequences originated from the model. We can compute
