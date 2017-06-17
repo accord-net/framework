@@ -179,8 +179,11 @@ namespace Accord.MachineLearning
     ///
     [Serializable]
     [SerializationBinder(typeof(KMeans.KMeansBinder))]
-    public class KMeans : ParallelLearningBase, IClusteringAlgorithm<double[], double>,
-        IUnsupervisedLearning<KMeansClusterCollection, double[], int>
+    public class KMeans : ParallelLearningBase,
+        IUnsupervisedLearning<KMeansClusterCollection, double[], int>,
+#pragma warning disable 0618
+        IClusteringAlgorithm<double[], double>
+#pragma warning restore 0618
     {
 
         private KMeansClusterCollection clusters;
@@ -195,9 +198,7 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
-        ///   Gets or sets the cluster centroids. Setting this property is equivalent
-        ///   to setting <see cref="ClusterCollection{TData, TCentroids, TCluster}.Centroids">
-        ///   KMeans.Clusters.Centroids</see>.
+        ///   Gets or sets the cluster centroids. 
         /// </summary>
         /// 
         public double[][] Centroids
@@ -221,7 +222,7 @@ namespace Accord.MachineLearning
         /// 
         public int Dimension
         {
-            get { return clusters.Dimension; }
+            get { return clusters.NumberOfInputs; }
         }
 
         /// <summary>
@@ -349,6 +350,8 @@ namespace Accord.MachineLearning
         public void Randomize(double[][] points)
         {
             clusters.Randomize(points, UseSeeding);
+
+            Accord.Diagnostics.Debug.Assert(clusters.NumberOfInputs == points[0].Length);
         }
 
         /// <summary>
@@ -366,7 +369,7 @@ namespace Accord.MachineLearning
 
             if (x.Length < K)
                 throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.", "x");
-             
+
             if (weights == null)
                 weights = Vector.Ones(x.Length);
 
@@ -381,8 +384,13 @@ namespace Accord.MachineLearning
             for (int i = 0; i < x.Length; i++)
                 if (x[i].Length != cols)
                     throw new DimensionMismatchException("x", "The points matrix should be rectangular. The vector at position {} has a different length than previous ones.");
-            
+
             compute(x, weights, weightSum);
+
+            Accord.Diagnostics.Debug.Assert(clusters.NumberOfClasses == K);
+            Accord.Diagnostics.Debug.Assert(clusters.NumberOfOutputs == K);
+            Accord.Diagnostics.Debug.Assert(clusters.NumberOfInputs == x[0].Length);
+
             return clusters;
         }
 
@@ -602,15 +610,17 @@ namespace Accord.MachineLearning
             return true;
         }
 
+#pragma warning disable 0618
         IClusterCollection<double[]> IClusteringAlgorithm<double[]>.Clusters
         {
-            get { return clusters; }
+            get { return (IClusterCollection<double[]>)clusters; }
         }
 
         IClusterCollection<double[]> IUnsupervisedLearning<IClusterCollection<double[]>, double[], int>.Learn(double[][] x, double[] weights)
         {
-            return Learn(x);
+            return (IClusterCollection<double[]>)Learn(x);
         }
+#pragma warning restore 0618
 
         [OnDeserialized]
         private void OnDeserializedMethod(StreamingContext context)

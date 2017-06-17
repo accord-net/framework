@@ -37,6 +37,7 @@ namespace Accord.MachineLearning
     /// <seealso cref="BinarySplit"/>
     /// <seealso cref="GaussianMixtureModel"/>
     /// 
+    [Obsolete("This class will be removed")]
     public interface IClusteringAlgorithm<TData>
         : IUnsupervisedLearning<IClusterCollection<TData>, TData, int>
     {
@@ -72,6 +73,7 @@ namespace Accord.MachineLearning
     /// <seealso cref="BinarySplit"/>
     /// <seealso cref="GaussianMixtureModel"/>
     /// 
+    [Obsolete("This class will be removed")]
     public interface IClusteringAlgorithm<TData, TWeights>
         : IClusteringAlgorithm<TData>
     {
@@ -97,26 +99,14 @@ namespace Accord.MachineLearning
     /// 
     /// <typeparam name="TData">The type of the data being clustered, such as <see cref="T:double[]"/>.</typeparam>
     /// 
-    public interface IClusterCollection<TData> : IEnumerable, 
-        IMulticlassScoreClassifier<TData, int>
+    [Obsolete("Please use IClusterCollectionEx")]
+    public interface IClusterCollection<TData> : IEnumerable, IMulticlassClassifier<TData, int>
     {
         /// <summary>
         ///   Gets the number of clusters in the collection.
         /// </summary>
         /// 
         int Count { get; }
-
-        /// <summary>
-        ///   Returns the closest cluster to an input point.
-        /// </summary>
-        /// 
-        /// <param name="point">The input vector.</param>
-        /// <returns>
-        ///   The index of the nearest cluster
-        ///   to the given data point. </returns>
-        ///   
-        [Obsolete("Please use Decide() instead.")]
-        int Nearest(TData point);
     }
 
     /// <summary>
@@ -126,6 +116,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TData">The type of the data being clustered, such as <see cref="T:double[]"/>.</typeparam>
     /// <typeparam name="TCluster">The type of the clusters considered by a clustering algorithm.</typeparam>
     /// 
+    [Obsolete("Please use IClusterCollectionEx")]
     public interface IClusterCollection<TData,
 #if !NET35
  out

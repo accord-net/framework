@@ -83,7 +83,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreNotEqual(labels[0], labels[6]);
 
 
-            int[] labels2 = kmeans.Clusters.Nearest(observations);
+            int[] labels2 = kmeans.Clusters.Decide(observations);
             Assert.IsTrue(labels.IsEqual(labels2));
 
             // the data must not have changed!
@@ -112,18 +112,14 @@ namespace Accord.Tests.MachineLearning
 
             double[][] orig = observations.MemberwiseClone();
 
-            // Create a new K-Means algorithm with 3 clusters 
-            KMeans kmeans = new KMeans(3);
+            // Create a new K-Means algorithm
+            KMeans kmeans = new KMeans(k: 3);
 
-            // Compute the algorithm, retrieving an integer array
-            //  containing the labels for each of the observations
-            KMeansClusterCollection clusters = kmeans.Learn(observations);
+            // Compute and retrieve the data centroids
+            var clusters = kmeans.Learn(observations);
 
-            // As a result, the first two observations should belong to the
-            //  same cluster (thus having the same label). The same should
-            //  happen to the next four observations and to the last three.
+            // Use the centroids to parition all the data
             int[] labels = clusters.Decide(observations);
-
             #endregion
 
             Assert.AreEqual(labels[0], labels[1]);
@@ -139,7 +135,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreNotEqual(labels[2], labels[6]);
             Assert.AreNotEqual(labels[0], labels[6]);
 
-            int[] labels2 = kmeans.Clusters.Nearest(observations);
+            int[] labels2 = kmeans.Clusters.Decide(observations);
             Assert.IsTrue(labels.IsEqual(labels2));
 
             // the data must not have changed!

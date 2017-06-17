@@ -80,7 +80,7 @@ namespace Accord.Imaging
         BaseBagOfVisualWords<BagOfVisualWords<TPoint, TFeature, TClustering, TDetector>, 
             TPoint, TFeature, TClustering, TDetector>
         where TPoint : IFeatureDescriptor<TFeature>
-        where TClustering : IClusteringAlgorithm<TFeature>
+        where TClustering : IUnsupervisedLearning<IClassifier<TFeature, int>, TFeature, int>
         where TDetector : IFeatureDetector<TPoint, TFeature>
     {
         /// <summary>

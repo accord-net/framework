@@ -33,11 +33,11 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
     <DefineConstants>TRACE;NET462</DefineConstants>
-	<TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
     <DefineConstants>TRACE;MONO</DefineConstants>
-<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -53,9 +53,14 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Clustering\CentroidCluster`3.cs" />
+    <Compile Include="Clustering\CentroidCluster`4.cs" />
+    <Compile Include="Clustering\IClusterCollection`3.cs" />
     <Compile Include="Clustering\KMeans\BalancedKMeans.cs" />
     <Compile Include="DecisionTrees\DecisionTreeHelper.cs" />
     <Compile Include="BaseKNearestNeighbors`2.cs" />
+    <Compile Include="Representations\BagOfWords`2.cs" />
+    <Compile Include="Representations\BaseBagOfWords`3.cs" />
     <Compile Include="Representations\TFIDF.cs" />
     <Compile Include="Representations\BagOfWords.cs" />
     <Compile Include="Rules\AssociationRule.cs" />
@@ -75,10 +80,9 @@
     <Compile Include="Boosting\Learners\Weak.cs" />
     <Compile Include="Boosting\Learners\IWeakClassifier.cs" />
     <Compile Include="Boosting\Learners\DecisionStump.cs" />
-    <Compile Include="Clustering\ClusterCollection`3.cs" />
+    <Compile Include="Clustering\BaseCluster`3.cs" />
     <Compile Include="Clustering\KMeans\BinarySplit.cs" />
     <Compile Include="Clustering\Gaussian\GaussianCluster.cs" />
-    <Compile Include="Clustering\ClusterCollection`2.cs" />
     <Compile Include="Clustering\MeanShift\MeanShiftCluster.cs" />
     <Compile Include="Clustering\KMeans\KMeansCluster.cs" />
     <Compile Include="Clustering\IClusteringAlgorithm.cs" />

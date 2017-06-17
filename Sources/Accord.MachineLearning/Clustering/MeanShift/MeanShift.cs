@@ -139,11 +139,13 @@ namespace Accord.MachineLearning
     /// <see cref="GaussianMixtureModel"/>
     /// 
     [Serializable]
-    public class MeanShift : ParallelLearningBase, IClusteringAlgorithm<double[]>,
-        IUnsupervisedLearning<MeanShiftClusterCollection, double[], int>
+    public class MeanShift : ParallelLearningBase,
+        IUnsupervisedLearning<MeanShiftClusterCollection, double[], int>,
+#pragma warning disable 0618
+        IClusteringAlgorithm<double[]>
+#pragma warning restore 0618
     {
 
-        private int dimension;
         private double bandwidth;
         private int maximum;
         private bool cut = true;
@@ -259,7 +261,12 @@ namespace Accord.MachineLearning
         /// 
         public int Dimension
         {
-            get { return dimension; }
+            get
+            {
+                if (clusters == null)
+                    return 0;
+                return clusters.NumberOfInputs;
+            }
         }
 
         /// <summary>
@@ -272,10 +279,56 @@ namespace Accord.MachineLearning
 
         /// <summary>
         ///   Gets or sets the relative convergence threshold
-        ///   for stopping the algorithm. Default is 1e-5.
+        ///   for stopping the algorithm. Default is 1e-3.
         /// </summary>
         /// 
         public double Tolerance { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the density kernel to be used in the algorithm.
+        ///   Default is to use the <see cref="UniformKernel"/>.
+        /// </summary>
+        /// 
+        public IRadiallySymmetricKernel Kernel
+        {
+            get { return kernel; }
+            set { kernel = value; }
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="MeanShift"/> algorithm.
+        /// </summary>
+        /// 
+        public MeanShift()
+        {
+            this.kernel = new UniformKernel();
+            this.Bandwidth = 1.0;
+            this.Distance = new Accord.Math.Distances.Euclidean();
+            this.ParallelOptions = new ParallelOptions();
+            this.MaxIterations = 100;
+            this.Tolerance = 1e-3;
+            this.ComputeLabels = true;
+            this.ComputeProportions = true;
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="MeanShift"/> algorithm.
+        /// </summary>
+        /// 
+        /// <param name="bandwidth">The bandwidth (also known as radius) to consider around samples.</param>
+        /// <param name="kernel">The density kernel function to use.</param>
+        /// 
+        public MeanShift(IRadiallySymmetricKernel kernel, double bandwidth)
+        {
+            this.kernel = kernel;
+            this.Bandwidth = bandwidth;
+            this.Distance = new Accord.Math.Distances.Euclidean();
+            this.ParallelOptions = new ParallelOptions();
+            this.MaxIterations = 100;
+            this.Tolerance = 1e-3;
+            this.ComputeLabels = true;
+            this.ComputeProportions = true;
+        }
 
         /// <summary>
         ///   Creates a new <see cref="MeanShift"/> algorithm.
@@ -285,17 +338,10 @@ namespace Accord.MachineLearning
         /// <param name="bandwidth">The bandwidth (also known as radius) to consider around samples.</param>
         /// <param name="kernel">The density kernel function to use.</param>
         /// 
+        [Obsolete("It is not necessary to specify a value for the dimension parameter anymore.")]
         public MeanShift(int dimension, IRadiallySymmetricKernel kernel, double bandwidth)
+            : this(kernel, bandwidth)
         {
-            this.dimension = dimension;
-            this.kernel = kernel;
-            this.Bandwidth = bandwidth;
-            this.Distance = new Accord.Math.Distances.Euclidean();
-            this.ParallelOptions = new ParallelOptions();
-            this.MaxIterations = 100;
-            this.Tolerance = 1e-3;
-            this.ComputeLabels = true;
-            this.ComputeProportions = true;
         }
 
         /// <summary>
@@ -355,12 +401,14 @@ namespace Accord.MachineLearning
                     "The weights and points vector must have the same dimension.");
             }
 
+            int dimension = x.Columns();
+
             // First of all, construct map of the original points. We will
             // be saving the weight of every point in the node of the tree.
             KDTree<int> tree = KDTree.FromData(x, weights, Distance);
 
             // Let's sample some points in the problem surface
-            double[][] seeds = createSeeds(x, 2 * Bandwidth);
+            double[][] seeds = createSeeds(x, 2 * Bandwidth, dimension);
 
             // Now, we will duplicate those points and make them "move" 
             // into this surface in the direction of the surface modes.
@@ -404,6 +452,9 @@ namespace Accord.MachineLearning
 
 
             clusters = new MeanShiftClusterCollection(this, modes.Length, tree, modes);
+            clusters.NumberOfInputs = x[0].Length;
+            clusters.NumberOfClasses = modes.Length;
+            clusters.NumberOfOutputs = modes.Length;
 
             if (ComputeLabels || ComputeProportions)
             {
@@ -421,6 +472,11 @@ namespace Accord.MachineLearning
                 for (int i = 0; i < counts.Length; i++)
                     clusters.Proportions[i] = counts[i] / (double)sum;
             }
+
+
+            Accord.Diagnostics.Debug.Assert(clusters.NumberOfClasses == modes.Length);
+            Accord.Diagnostics.Debug.Assert(clusters.NumberOfOutputs == modes.Length);
+            Accord.Diagnostics.Debug.Assert(clusters.NumberOfInputs == x[0].Length);
 
             return clusters;
         }
@@ -563,14 +619,14 @@ namespace Accord.MachineLearning
             }
         }
 
-        private double[][] createSeeds(double[][] points, double binSize)
+        private double[][] createSeeds(double[][] points, double binSize, int dimension)
         {
             if (binSize == 0)
             {
                 double[][] seeds = new double[points.Length][];
                 for (int i = 0; i < seeds.Length; i++)
                 {
-                    seeds[i] = new double[Dimension];
+                    seeds[i] = new double[dimension];
                     for (int j = 0; j < seeds[i].Length; j++)
                         seeds[i][j] = points[i][j];
                 }
@@ -594,7 +650,7 @@ namespace Accord.MachineLearning
                 foreach (var point in points)
                 {
                     // create a indexing key
-                    int[] key = new int[Dimension];
+                    int[] key = new int[dimension];
                     for (int j = 0; j < point.Length; j++)
                         key[j] = (int)(point[j] / binSize);
 
@@ -618,7 +674,7 @@ namespace Accord.MachineLearning
                         // recreate the point
                         int[] bin = pair.Key;
 
-                        double[] point = new double[Dimension];
+                        double[] point = new double[dimension];
                         for (int i = 0; i < point.Length; i++)
                             point[i] = bin[i] * binSize;
 
@@ -664,15 +720,16 @@ namespace Accord.MachineLearning
         }
 
 
-
+#pragma warning disable 0618
         IClusterCollection<double[]> IClusteringAlgorithm<double[]>.Clusters
         {
-            get { throw new NotImplementedException(); }
+            get { return (IClusterCollection<double[]>)clusters; }
         }
 
         IClusterCollection<double[]> IUnsupervisedLearning<IClusterCollection<double[]>, double[], int>.Learn(double[][] x, double[] weights)
         {
-            return Learn(x);
+            return (IClusterCollection<double[]>)Learn(x);
         }
+#pragma warning restore 0618
     }
 }
