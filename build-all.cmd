@@ -46,4 +46,5 @@ set PLATFORM=%~3
 echo.
 echo  - Building %SOLUTION% in %CONFIGURATION% / %PLATFORM% configuration...
 %MSBUILD% "%SOLUTION%" /t:Rebuild /p:Configuration=%CONFIGURATION% /p:Platform="%PLATFORM%" /fl /flp:logfile="Setup\bin\Build.%CONFIGURATION%.%PLATFORM%.log";verbosity=normal /consoleloggerparameters:ErrorsOnly;Summary /verbosity:minimal /nologo
+if %errorlevel% neq 0 exit /b %errorlevel%
 goto:eof
