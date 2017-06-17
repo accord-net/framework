@@ -83,8 +83,11 @@ namespace Accord.Tests.MachineLearning
                 expected: testY.Concatenate());
 
             double acc = cm.Accuracy;
-
+#if NET35
+            Assert.AreEqual(0.93904215125482826d, acc, 1e-10);
+#else
             Assert.AreEqual(0.99983114169322662, acc, 1e-10);
+#endif
         }
 
 

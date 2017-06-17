@@ -328,9 +328,13 @@ namespace Accord.Tests.Statistics.Models.Fields
             var m2 = new ConfusionMatrix(predicted: testPredicted, expected: testOutputs);
             double testAcc = m2.Accuracy; // should be 0.81932212436615959
             #endregion
-
+#if NET35
+            Assert.AreEqual(0.89594053744997137d, trainAcc, 1e-10);
+            Assert.AreEqual(0.89605017347211102d, testAcc, 1e-10);
+#else
             Assert.AreEqual(0.83476272155517439, trainAcc, 1e-10);
             Assert.AreEqual(0.81932212436615959, testAcc, 1e-10);
+#endif
         }
     }
 }

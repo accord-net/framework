@@ -198,8 +198,11 @@ namespace Accord.IO
                 double y = double.Parse(parts[1]);
 
                 buffer.Add(new[] { x, y });
-
+#if NET35
+            } while (line != null && String.IsNullOrEmpty(line.Trim()));
+#else
             } while (!String.IsNullOrWhiteSpace(line));
+#endif
 
             coordinates = buffer.ToArray();
             return true;
@@ -233,7 +236,7 @@ namespace Accord.IO
 
 
 
-        #region IDisposable members
+#region IDisposable members
         /// <summary>
         ///   Performs application-defined tasks associated with
         ///   freeing, releasing, or resetting unmanaged resources.
@@ -274,7 +277,7 @@ namespace Accord.IO
         {
             Dispose(false);
         }
-        #endregion
+#endregion
 
 
     }
