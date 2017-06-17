@@ -534,10 +534,10 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double LogDiff(double lna, double lnc)
+        public static double LogDiff(double lnx, double lny)
         {
-            if (lna > lnc)
-                return lna + Math.Exp(1.0 - Math.Exp(lnc - lna));
+            if (lnx > lny)
+                return lnx + Math.Exp(1.0 - Math.Exp(lny - lnx));
 
             return Double.NegativeInfinity;
         }
@@ -549,17 +549,17 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double LogSum(double lna, double lnc)
+        public static double LogSum(double lnx, double lny)
         {
-            if (lna == Double.NegativeInfinity)
-                return lnc;
-            if (lnc == Double.NegativeInfinity)
-                return lna;
+            if (lnx == Double.NegativeInfinity)
+                return lny;
+            if (lny == Double.NegativeInfinity)
+                return lnx;
 
-            if (lna > lnc)
-                return lna + Special.Log1p(Math.Exp(lnc - lna));
+            if (lnx > lny)
+                return lnx + Special.Log1p(Math.Exp(lny - lnx));
 
-            return lnc + Special.Log1p(Math.Exp(lna - lnc));
+            return lny + Special.Log1p(Math.Exp(lnx - lny));
         }
 
         /// <summary>
@@ -569,17 +569,17 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double LogSum(float lna, float lnc)
+        public static double LogSum(float lnx, float lny)
         {
-            if (lna == Single.NegativeInfinity)
-                return lnc;
-            if (lnc == Single.NegativeInfinity)
-                return lna;
+            if (lnx == Single.NegativeInfinity)
+                return lny;
+            if (lny == Single.NegativeInfinity)
+                return lnx;
 
-            if (lna > lnc)
-                return lna + Special.Log1p(Math.Exp(lnc - lna));
+            if (lnx > lny)
+                return lnx + Special.Log1p(Math.Exp(lny - lnx));
 
-            return lnc + Special.Log1p(Math.Exp(lna - lnc));
+            return lny + Special.Log1p(Math.Exp(lnx - lny));
         }
 
         /// <summary>
