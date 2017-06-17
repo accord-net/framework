@@ -117,8 +117,13 @@ namespace Accord.MachineLearning
     /// </remarks>
     /// 
     /// <example>
-    ///   How to perform clustering with K-Means.
+    /// <para>
+    ///   How to perform clustering with K-Means.</para>
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KMeansTest.cs" region="doc_learn" />
+    ///   
+    /// <para>
+    ///   How to perform clustering with K-Means applying different weights to different columns (dimensions) in the data.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KMeansTest.cs" region="doc_learn_weighted" />
     ///   
     /// <para>
     ///   The following example demonstrates how to use the K-Means algorithm

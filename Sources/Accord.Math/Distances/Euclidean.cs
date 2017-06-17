@@ -30,6 +30,8 @@ namespace Accord.Math.Distances
     /// </summary>
     /// 
     /// <seealso cref="SquareEuclidean"/>
+    /// <seealso cref="WeightedSquareEuclidean"/>
+    /// <seealso cref="WeightedEuclidean"/>
     /// 
     [Serializable]
     public struct Euclidean :
