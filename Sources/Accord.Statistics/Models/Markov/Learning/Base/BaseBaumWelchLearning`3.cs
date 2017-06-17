@@ -51,6 +51,13 @@ namespace Accord.Statistics.Models.Markov.Learning
         where TOptions : class, IFittingOptions
     {
 
+        /// <summary>
+        ///   Creates a new instance of the Baum-Welch learning algorithm.
+        /// </summary>
+        /// 
+        public BaseBaumWelchLearningOptions()
+        {
+        }
 
         /// <summary>
         ///   Creates a new instance of the Baum-Welch learning algorithm.
@@ -612,7 +619,15 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         protected virtual void Fit(int index, TObservation[] values, double[] weights)
         {
-            Model.Emissions[index].Fit(values, weights, FittingOptions);
+#if DEBUG
+            if (Model.Emissions[index] is IFittableDistribution<TObservation, TOptions>)
+                throw new Exception("A more specialized method should have been called.");
+#endif
+            IFittableDistribution<TObservation> dist = Model.Emissions[index];
+            if (FittingOptions == null)
+                dist.Fit(values, weights);
+            else
+                dist.Fit(values, weights, FittingOptions);
         }
 
 

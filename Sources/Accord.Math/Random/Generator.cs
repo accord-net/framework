@@ -235,6 +235,7 @@ namespace Accord.Math.Random
                             Generator.sourceRandom = new Random(s);
                         }
 
+                        Generator.threadRandom = null;
                         Thread.Sleep(100); // Make sure the tick count has incremented before returning
                     }
                 }

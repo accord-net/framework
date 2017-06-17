@@ -51,6 +51,14 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// Initializes a new instance of the <see cref="BaumWelchLearning{TDistribution, TObservation, TOptions}"/> class.
         /// </summary>
         /// 
+        public BaumWelchLearning()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaumWelchLearning{TDistribution, TObservation, TOptions}"/> class.
+        /// </summary>
+        /// 
         /// <param name="model">The model to be learned.</param>
         /// 
         public BaumWelchLearning(HiddenMarkovModel<TDistribution, TObservation> model)
