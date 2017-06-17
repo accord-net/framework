@@ -24,26 +24,11 @@ namespace Accord.Tests.Math
 {
     using Accord.Math;
     using NUnit.Framework;
+    using System;
 
     [TestFixture]
     public class SpecialTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [Test]
@@ -182,6 +167,53 @@ namespace Accord.Tests.Math
                 Assert.IsFalse(double.IsNaN(expected));
                 Assert.IsFalse(double.IsNaN(actual));
             }
+        }
+
+        [Test]
+        public void LogSumTest()
+        {
+            double a, e;
+
+            a = Math.Exp(Special.LogSum(Math.Log(0.1), Math.Log(0.001)));
+            e = 0.101;
+            Assert.AreEqual(a, e, 1e-10);
+
+            a = Math.Exp(Special.LogSum(Math.Log(10), Math.Log(1000)));
+            e = 1010;
+            Assert.AreEqual(a, e, 1e-10);
+
+            a = Math.Exp(Special.LogSum(Math.Log(5), Math.Log(42)));
+            e = 47;
+            Assert.AreEqual(a, e, 1e-10);
+
+            a = Math.Exp(Special.LogSum(Math.Log(1), Math.Log(1)));
+            e = 2;
+            Assert.AreEqual(a, e, 1e-10);
+
+            double direct = Math.Exp(1.6793491276384929E-12) + Math.Exp(0.014072312433917435);
+            a = Math.Exp(Special.LogSum(1.6793491276384929E-12, 0.014072312433917435));
+            e = 2.0141717935194383;
+            Assert.AreEqual(a, e, 1e-10);
+
+            double diff = Math.Abs(direct - e);
+            Assert.AreEqual(4.4408920985006262E-16, diff);
+        }
+
+        [Test]
+        public void SoftmaxTest()
+        {
+            Func<double, double> e = (z) => System.Math.Exp(z);
+
+            double[] x = { 1.6793491276384929E-12, 0.014072312433917435 };
+            double[] expected = new[]
+            {
+                e(x[0] - Special.LogSum(x[0], x[1])),
+                e(x[1] - Special.LogSum(x[0], x[1]))
+            };
+
+            double[] actual = Special.Softmax(x);
+
+            Assert.IsTrue(expected.IsEqual(actual, 1e-10));
         }
     }
 }

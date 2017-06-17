@@ -763,7 +763,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.90937678673527733, acc);
         }
 
-        [Test]
+        [Test, Ignore("Intensive")]
         public void learn_pendigits_normalization()
         {
             #region doc_learn_pendigits
@@ -807,6 +807,9 @@ namespace Accord.Tests.Statistics
                     }
                 }
             };
+
+            // The following line is only needed to ensure reproducible results. Please remove it to enable full parallelization
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1; // (Remove, comment, or change this line to enable full parallelism)
 
             // Use the learning algorithm to create a classifier
             var hmmc = teacher.Learn(trainInputs, trainOutputs);
