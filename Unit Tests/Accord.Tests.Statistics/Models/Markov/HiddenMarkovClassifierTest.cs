@@ -167,7 +167,7 @@ namespace Accord.Tests.Statistics
             #endregion
 
             double likelihood = teacher.LogLikelihood;
-            Assert.AreEqual(-24.857860924867815, likelihood);
+            Assert.AreEqual(-24.857860924867815, likelihood, 1e-8);
 
             likelihood = testThresholdModel(inputs, outputs, classifier, likelihood);
         }

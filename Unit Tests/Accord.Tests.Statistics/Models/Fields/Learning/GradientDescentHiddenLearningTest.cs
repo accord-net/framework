@@ -44,6 +44,11 @@ namespace Accord.Tests.Statistics.Models.Fields
 
             var model = new HiddenConditionalRandomField<int>(function);
             var target = new HiddenGradientDescentLearning<int>(model);
+
+#if DEBUG
+            target.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
+
             target.LearningRate = 1000;
 
             double[] actual = new double[inputs.Length];
