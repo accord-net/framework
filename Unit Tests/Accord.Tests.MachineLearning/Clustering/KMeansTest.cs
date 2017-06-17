@@ -31,6 +31,7 @@ namespace Accord.Tests.MachineLearning
     using System.Reflection;
     using System.Runtime.Serialization.Formatters.Binary;
     using Accord.IO;
+    using Accord.Math.Distances;
 
     [TestFixture]
     public class KMeansTest
@@ -140,6 +141,71 @@ namespace Accord.Tests.MachineLearning
 
             // the data must not have changed!
             Assert.IsTrue(orig.IsEqual(observations));
+
+            var c = new KMeansClusterCollection.KMeansCluster[clusters.Count];
+            int i = 0;
+            foreach (var cluster in clusters)
+                c[i++] = cluster;
+
+            for (i = 0; i < c.Length; i++)
+                Assert.AreSame(c[i], clusters[i]);
+        }
+
+        [Test]
+        public void learn_test_weights()
+        {
+            #region doc_learn_weights
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // A common desire when doing clustering is to attempt to find how to 
+            // weight the different components / columns of a dataset, giving them 
+            // different importances depending on the end goal of the clustering task.
+
+            // Declare some observations
+            double[][] observations =
+            {
+                new double[] { -5, -2, -1 },
+                new double[] { -5, -5, -6 },
+                new double[] {  2,  1,  1 },
+                new double[] {  1,  1,  2 },
+                new double[] {  1,  2,  2 },
+                new double[] {  3,  1,  2 },
+                new double[] { 11,  5,  4 },
+                new double[] { 15,  5,  6 },
+                new double[] { 10,  5,  6 },
+            };
+
+            // Create a new K-Means algorithm
+            KMeans kmeans = new KMeans(k: 3)
+            {
+                // For example, let's say we would like to consider the importance of 
+                // the first column as 0.1, the second column as 0.7 and the third 0.9
+                Distance = new WeightedSquareEuclidean(new double[] { 0.1, 0.7, 1.1 })
+            };
+
+            // Compute and retrieve the data centroids
+            var clusters = kmeans.Learn(observations);
+
+            // Use the centroids to parition all the data
+            int[] labels = clusters.Decide(observations);
+            #endregion
+
+            Assert.AreEqual(labels[0], labels[2]);
+
+            Assert.AreEqual(labels[0], labels[2]);
+            Assert.AreEqual(labels[0], labels[3]);
+            Assert.AreEqual(labels[0], labels[4]);
+            Assert.AreEqual(labels[0], labels[4]);
+
+            Assert.AreEqual(labels[6], labels[7]);
+            Assert.AreEqual(labels[6], labels[8]);
+
+            Assert.AreNotEqual(labels[0], labels[1]);
+            Assert.AreNotEqual(labels[2], labels[6]);
+            Assert.AreNotEqual(labels[0], labels[6]);
+
+            int[] labels2 = kmeans.Clusters.Decide(observations);
+            Assert.IsTrue(labels.IsEqual(labels2));
 
             var c = new KMeansClusterCollection.KMeansCluster[clusters.Count];
             int i = 0;

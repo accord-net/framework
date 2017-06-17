@@ -121,6 +121,8 @@
     </Compile>
     <Compile Include="Distances\Angular.cs" />
     <Compile Include="Distances\Dirac.cs" />
+    <Compile Include="Distances\WeightedSquareEuclidean.cs" />
+    <Compile Include="Distances\WeightedEuclidean.cs" />
     <Compile Include="IO\NumPy\NpzDictionary`1.cs" />
     <Compile Include="IO\NumPy\NpzDictionary.cs" />
     <Compile Include="IO\NumPy\NpzFormat.Reader.cs" />
