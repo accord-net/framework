@@ -101,7 +101,7 @@ namespace Accord.Statistics.Models.Fields.Learning
         {
             get
             {
-                return lbfgs.Status == BoundedBroydenFletcherGoldfarbShannoStatus.FunctionConvergence 
+                return lbfgs.Status == BoundedBroydenFletcherGoldfarbShannoStatus.FunctionConvergence
                     || lbfgs.Status == BoundedBroydenFletcherGoldfarbShannoStatus.GradientConvergence;
             }
         }
@@ -160,27 +160,14 @@ namespace Accord.Statistics.Models.Fields.Learning
             int numberOfParameters = Model.Function.Weights.Length;
             int states = Model.States;
 
-            double f;
             double[] g = new double[numberOfParameters];
-
-            int Tmax = observations.Max(x => x.Length);
-            double[,] bwd = new double[states, Tmax];
-            double[,] fwd = new double[states, Tmax];
-
-            double[] sum1 = new double[numberOfParameters];
-            double[] sum2 = new double[numberOfParameters];
-            var work = new double[states + 1, states][];
-            for (int j = 0; j < states + 1; j++)
-                for (int k = 0; k < states; k++)
-                    work[j, k] = new double[Tmax];
 
             var model = Model;
 
             lbfgs.Function = parameters =>
             {
                 model.Function.Weights = parameters;
-                f = -model.LogLikelihood(observations, labels);
-                return f;
+                return -model.LogLikelihood(observations, labels);
             };
 
             lbfgs.Gradient = parameters =>
@@ -208,8 +195,10 @@ namespace Accord.Statistics.Models.Fields.Learning
             int n = observations.Length;
             int d = Model.Function.Weights.Length;
             int Tmax = observations.Max(x => x.Length);
-
             int progress = 0;
+
+            g.Clear();
+
 
             // Compute sequence probabilities
             Parallel.For(0, observations.Length, ParallelOptions,
@@ -241,8 +230,8 @@ namespace Accord.Statistics.Models.Fields.Learning
                     var sum1 = local.sum1;
                     var sum2 = local.sum2;
                     var work = local.work;
-                    ForwardBackwardAlgorithm.Forward(function.Factors[0], x, fwd, 0);
-                    ForwardBackwardAlgorithm.Backward(function.Factors[0], x, bwd, 0);
+                    ForwardBackwardAlgorithm.Forward(function.Factors[0], x, fwd);
+                    ForwardBackwardAlgorithm.Backward(function.Factors[0], x, bwd);
                     double z = partition(fwd, x);
 
                     for (int prev = -1; prev < states; prev++)
@@ -290,7 +279,7 @@ namespace Accord.Statistics.Models.Fields.Learning
                     lock (g)
                     {
                         for (int k = 0; k < g.Length; k++)
-                            g[k] = -(local.sum1[k] - local.sum2[k]);
+                            g[k] -= (local.sum1[k] - local.sum2[k]);
                         progress += local.count[0];
                     }
                 }
