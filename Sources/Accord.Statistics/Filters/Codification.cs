@@ -1067,7 +1067,7 @@ namespace Accord.Statistics.Filters
         /// 
         [Serializable]
         public class Options : ColumnOptionsBase,
-            ITransform<T, int>,
+            ITransform<T, int>, IClassifier<T, int>,
             IUnsupervisedLearning<Options, T, int>
         {
             [NonSerialized]
@@ -1141,6 +1141,17 @@ namespace Accord.Statistics.Filters
                         values[i] = Mapping.Reverse[i];
                     return values;
                 }
+            }
+
+            /// <summary>
+            /// Gets or sets the number of classes expected and recognized by the classifier.
+            /// </summary>
+            /// <value>The number of classes.</value>
+            /// <exception cref="System.NotImplementedException"></exception>
+            public int NumberOfClasses
+            {
+                get { return NumberOfSymbols; }
+                set { throw new NotImplementedException(); }
             }
 
 
@@ -1343,6 +1354,43 @@ namespace Accord.Statistics.Filters
             public Options Learn(DataRow[] x, double[] weights = null)
             {
                 return Learn(x.Apply(xx => (T)xx[ColumnName]), weights);
+            }
+
+            /// <summary>
+            /// Computes a class-label decision for a given <paramref name="input" />.
+            /// </summary>
+            /// <param name="input">The input vector that should be classified into
+            /// one of the <see cref="P:Accord.MachineLearning.ITransform.NumberOfOutputs" /> possible classes.</param>
+            /// <returns>A class-label that best described <paramref name="input" /> according
+            /// to this classifier.</returns>
+            public int Decide(T input)
+            {
+                return Transform(input);
+            }
+
+            /// <summary>
+            /// Computes class-label decisions for each vector in the given <paramref name="input" />.
+            /// </summary>
+            /// <param name="input">The input vectors that should be classified into
+            /// one of the <see cref="P:Accord.MachineLearning.ITransform.NumberOfOutputs" /> possible classes.</param>
+            /// <returns>The class-labels that best describe each <paramref name="input" />
+            /// vectors according to this classifier.</returns>
+            public int[] Decide(T[] input)
+            {
+                return Transform(input);
+            }
+
+            /// <summary>
+            /// Computes class-label decisions for each vector in the given <paramref name="input" />.
+            /// </summary>
+            /// <param name="input">The input vectors that should be classified into
+            /// one of the <see cref="P:Accord.MachineLearning.ITransform.NumberOfOutputs" /> possible classes.</param>
+            /// <param name="result">The location where to store the class-labels.</param>
+            /// <returns>The class-labels that best describe each <paramref name="input" />
+            /// vectors according to this classifier.</returns>
+            public int[] Decide(T[] input, int[] result)
+            {
+                return Transform(input, result);
             }
 
             /// <summary>

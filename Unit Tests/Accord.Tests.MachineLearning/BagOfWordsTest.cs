@@ -34,6 +34,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Statistics.Kernels;
     using Accord.Statistics.Analysis;
+    using Accord.Math.Distances;
 
     [TestFixture]
     public class BagOfWordsTest
@@ -287,6 +288,59 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.94110920526014863, trainAcc, 1e-10);
             Assert.AreEqual(0.92127034961302379, testAcc, 1e-10);
 #endif
+        }
+
+        [Test]
+        public void learn_generic1()
+        {
+            // Declare some testing data
+            int[][] sequences = new int[][]
+            {
+                new int[] { 0,0,1,2 },     // Class 0
+                new int[] { 0,1,1,2 },     // Class 0
+                new int[] { 0,0,0,1,2 },   // Class 0
+                new int[] { 0,1,2,2,2 },   // Class 0
+
+                new int[] { 2,2,1,0 },     // Class 1
+                new int[] { 2,2,2,1,0 },   // Class 1
+                new int[] { 2,2,2,1,0 },   // Class 1
+                new int[] { 2,2,2,2,1 },   // Class 1
+            };
+
+            int[] outputs = new int[]
+            {
+                0,0,0,0, // First four sequences are of class 0
+                1,1,1,1, // Last four sequences are of class 1
+            };
+
+            // Create a Bag-of-Words learning algorithm
+            var bow = new BagOfWords<int>();
+
+            // Use the BoW to create a quantizer
+            var quantizer = bow.Learn(sequences);
+
+            // Extract vector representations from the integer sequences
+            double[][] representations = quantizer.Transform(sequences);
+
+            // Create a new learning algorithm for support vector machines
+            var teacher = new MulticlassSupportVectorLearning<ChiSquare, double[]>
+            {
+                Learner = (p) => new SequentialMinimalOptimization<ChiSquare, double[]>()
+                {
+                    Complexity = 100000 
+                }
+            };
+
+            // Use the learning algorithm to create a classifier
+            var svm = teacher.Learn(representations, outputs);
+
+            // Compute predictions for the training set
+            int[] predicted = svm.Decide(representations);
+
+            var cm = new ConfusionMatrix(predicted: predicted, expected: outputs);
+            double acc = cm.Accuracy;
+
+            Assert.AreEqual(0.75, acc);
         }
 
     }

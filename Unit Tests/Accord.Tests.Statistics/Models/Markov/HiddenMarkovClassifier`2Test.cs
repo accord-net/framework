@@ -599,6 +599,73 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.80018252199044093, newLogLikelihood, 1e-8);
         }
 
+        [Test]
+        public void LearnTest8_options()
+        {
+            // Declare some testing data
+            int[][] inputs = new double[][]
+            {
+                new double[] { 0,0,1,2 },     // Class 0
+                new double[] { 0,1,1,2 },     // Class 0
+                new double[] { 0,0,0,1,2 },   // Class 0
+                new double[] { 0,1,2,2,2 },   // Class 0
+
+                new double[] { 2,2,1,0 },     // Class 1
+                new double[] { 2,2,2,1,0 },   // Class 1
+                new double[] { 2,2,2,1,0 },   // Class 1
+                new double[] { 2,2,2,2,1 },   // Class 1
+            }.ToInt32();
+
+            int[] outputs = new int[]
+            {
+                0,0,0,0, // First four sequences are of class 0
+                1,1,1,1, // Last four sequences are of class 1
+            };
+
+            // Each sequence may have up to 3 symbols (0,1,2)
+            int symbols = 3;
+
+            // Nested models will have 3 states each
+            int[] states = new int[] { 3, 3 };
+
+            HiddenMarkovClassifier<GeneralDiscreteDistribution, int> baseline = HiddenMarkovClassifier.CreateGeneric2(2, states, symbols);
+
+            // Create a new learning algorithm to train the sequence classifier
+            var teacher = new HiddenMarkovClassifierLearning<GeneralDiscreteDistribution, int>()
+            {
+                // Train each model until the log-likelihood changes less than 0.001
+                Learner = i => new BaumWelchLearning<GeneralDiscreteDistribution, int, GeneralDiscreteOptions>()
+                {
+                    NumberOfStates = states[i],
+                    Emissions = (j) => new GeneralDiscreteDistribution(symbols: symbols),
+                    Tolerance = 0,
+                    MaxIterations = 10,
+                    CurrentIteration = 100
+                }
+            };
+
+
+            HiddenMarkovClassifier<GeneralDiscreteDistribution, int> result = teacher.Learn(inputs, outputs);
+
+            Assert.AreEqual(baseline.NumberOfClasses, result.NumberOfClasses);
+            Assert.AreEqual(baseline.NumberOfInputs, result.NumberOfInputs);
+            Assert.AreEqual(baseline.NumberOfOutputs, result.NumberOfOutputs);
+
+            for (int i = 0; i < baseline.NumberOfClasses; i++)
+            {
+                Assert.AreEqual(baseline[i].NumberOfOutputs, result[i].NumberOfOutputs);
+                Assert.AreEqual(baseline[i].NumberOfInputs, result[i].NumberOfInputs);
+                Assert.AreEqual(baseline[i].NumberOfClasses, result[i].NumberOfClasses);
+                Assert.AreEqual(baseline[i].NumberOfStates, result[i].NumberOfStates);
+
+                Assert.IsTrue(baseline[i].LogInitial.IsEqual(result[i].LogInitial));
+                Assert.IsTrue(baseline[i].LogTransitions.IsEqual(result[i].LogTransitions, 1e-8));
+
+                for (int j = 0; j < baseline[i].Emissions.Length; j++)
+                    Assert.IsTrue(baseline[i].Emissions[j].Frequencies.IsEqual(result[i].Emissions[j].Frequencies, rtol: 1e-8));
+            }
+        }
+
         private static double testThresholdModel(int[][] inputs, int[] outputs, HiddenMarkovClassifier<GeneralDiscreteDistribution, int> classifier, double likelihood)
         {
             var threshold = classifier.Threshold;
@@ -727,6 +794,9 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+#if DEBUG
+        [Ignore("Intensive")]
+#endif
         public void learn_pendigits()
         {
             Accord.Math.Random.Generator.Seed = 0;
@@ -768,9 +838,12 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+#if DEBUG
+        [Ignore("Intensive")]
+#endif
         public void learn_pendigits_normalization()
         {
-            #region doc_learn_pendigits
+#region doc_learn_pendigits
             // Ensure we get reproducible results
             Accord.Math.Random.Generator.Seed = 0;
 
@@ -840,7 +913,7 @@ namespace Accord.Tests.Statistics
             // Check the performance of the classifier by comparing with the ground-truth:
             var m2 = new ConfusionMatrix(predicted: testPredicted, expected: testOutputs);
             double testAcc = m2.Accuracy; // should be 0.969
-            #endregion
+#endregion
 
 #if NET35
             Assert.AreEqual(0.89594053744997137d, trainAcc, 1.5e-2);

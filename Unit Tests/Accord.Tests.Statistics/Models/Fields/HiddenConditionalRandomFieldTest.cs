@@ -290,6 +290,8 @@ namespace Accord.Tests.Statistics.Models.Fields
         [Test]
         public void learn_test()
         {
+            Accord.Math.Random.Generator.Seed = 0;
+
             #region doc_learn_1
             // Let's say we would like to do a very simple mechanism for gesture recognition. 
             // In this example, we will be trying to create a classifier that can distinguish 
@@ -351,7 +353,7 @@ namespace Accord.Tests.Statistics.Models.Fields
                 // Train each model until the log-likelihood changes less than 0.001
                 Learner = (i) => new BaumWelchLearning<Independent<NormalDistribution>, double[]>()
                 {
-                    NumberOfStates = 5, // this value can be found by trial-and-error
+                    Topology = new Forward(5), // this value can be found by trial-and-error
 
                     // We will create our classifiers assuming an independent Gaussian distribution 
                     // for each component in our feature vectors (assuming a Naive Bayes assumption).
@@ -424,6 +426,8 @@ namespace Accord.Tests.Statistics.Models.Fields
                 Assert.IsTrue(h1.IsRelativelyEqual(c1, 1e-10));
                 Assert.IsTrue(h2.IsRelativelyEqual(c2, 1e-10));
             }
+
+            Accord.Math.Random.Generator.Seed = 0;
 
             #region doc_learn_3
             // Now we can learn the HCRF using one of the best learning

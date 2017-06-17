@@ -222,6 +222,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         public int CurrentIteration
         {
             get { return convergence.CurrentIteration; }
+            set { convergence.CurrentIteration = value; }
         }
 
         /// <summary>
@@ -291,6 +292,9 @@ namespace Accord.Statistics.Models.Markov.Learning
 
             if (Model == null)
                 Model = Create();
+
+            if (MaxIterations > 0 && CurrentIteration >= MaxIterations)
+                return Model;
 
             // Grab model information
             int states = Model.NumberOfStates;
