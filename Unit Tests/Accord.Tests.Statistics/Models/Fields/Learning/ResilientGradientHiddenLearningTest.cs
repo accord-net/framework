@@ -299,6 +299,9 @@ namespace Accord.Tests.Statistics.Models.Fields
                 MaxIterations = 10
             };
 
+            // The following line is only needed to ensure reproducible results. Please remove it to enable full parallelization
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1; // (Remove, comment, or change this line to enable full parallelism)
+
             // Use the learning algorithm to create a classifier
             var hcrf = teacher.Learn(trainInputs, trainOutputs);
 
