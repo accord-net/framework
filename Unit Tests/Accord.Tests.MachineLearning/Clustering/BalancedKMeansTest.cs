@@ -88,7 +88,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreNotEqual(labels[2], labels[6]);
             Assert.AreNotEqual(labels[0], labels[6]);
 
-            int[] labels2 = kmeans.Clusters.Nearest(observations);
+            int[] labels2 = kmeans.Clusters.Decide(observations);
             Assert.IsTrue(labels.IsEqual(labels2));
 
             // the data must not have changed!
@@ -176,7 +176,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreNotEqual(balanced[3], balanced[6]);
             Assert.AreNotEqual(balanced[0], balanced[6]);
 
-            int[] labels2 = kmeans.Clusters.Nearest(observations);
+            int[] labels2 = kmeans.Clusters.Decide(observations);
             Assert.IsTrue(labels.IsEqual(labels2));
 
             // the data must not have changed!
@@ -240,7 +240,7 @@ namespace Accord.Tests.MachineLearning
                 MaxIterations = 10
             };
 
-            Assert.Throws<ArgumentException>(() => kmeans.Compute(observations), 
+            Assert.Throws<ArgumentException>(() => kmeans.Compute(observations),
                 "Not enough points. There should be more points than the number K of clusters.");
         }
 

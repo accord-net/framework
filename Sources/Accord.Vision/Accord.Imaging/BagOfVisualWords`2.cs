@@ -70,7 +70,10 @@ namespace Accord.Imaging
     [Serializable]
     public class BagOfVisualWords<TPoint, TFeature> : 
         BaseBagOfVisualWords<BagOfVisualWords<TPoint, TFeature>,
-            TPoint, TFeature, IClusteringAlgorithm<TFeature>, IFeatureDetector<TPoint, TFeature>>
+            TPoint, TFeature,
+            //IClusteringAlgorithm<TFeature>, 
+            IUnsupervisedLearning<IClassifier<TFeature, int>, TFeature, int>,
+            IFeatureDetector<TPoint, TFeature>>
         where TPoint : IFeatureDescriptor<TFeature>
     {
 
@@ -81,7 +84,9 @@ namespace Accord.Imaging
         /// <param name="detector">The feature detector to use.</param>
         /// <param name="algorithm">The clustering algorithm to use.</param>
         /// 
-        public BagOfVisualWords(IFeatureDetector<TPoint, TFeature> detector, IClusteringAlgorithm<TFeature> algorithm)
+        public BagOfVisualWords(IFeatureDetector<TPoint, TFeature> detector, 
+            //IClusteringAlgorithm<TFeature> 
+            IUnsupervisedLearning<IClassifier<TFeature, int>, TFeature, int> algorithm)
         {
             Init(detector, algorithm);
         }

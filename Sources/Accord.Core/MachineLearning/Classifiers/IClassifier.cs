@@ -32,14 +32,18 @@ namespace Accord.MachineLearning
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// <typeparam name="TClasses">The data type for the class labels. Default is int.</typeparam>
     /// 
-    public interface IClassifier<in TInput, TClasses> : 
+    public interface IClassifier<in TInput, TClasses> :
         ITransform<TInput, TClasses>
     {
         /// <summary>
-        ///   Gets the number of classes expected and recognized by the classifier.
+        ///   Gets or sets the number of classes expected and recognized by the classifier.
         /// </summary>
         /// 
-        int NumberOfClasses { get; }
+        int NumberOfClasses
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///   Computes a class-label decision for a given <paramref name="input"/>.
@@ -89,5 +93,5 @@ namespace Accord.MachineLearning
     {
         TLearning Fit(TInput[] input, TClasses[] outputs, double[] weights = null, TLearning teacher = null);
     }
-     */ 
+     */
 }

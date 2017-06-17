@@ -45,7 +45,7 @@ namespace Accord.MachineLearning
         /// Gets the number of classes expected and recognized by the classifier.
         /// </summary>
         /// <value>The number of classes.</value>
-        public int NumberOfClasses { get; set; }
+        public virtual int NumberOfClasses { get; set; }
 
         /// <summary>
         ///   Computes a class-label decision for a given <paramref name="input"/>.

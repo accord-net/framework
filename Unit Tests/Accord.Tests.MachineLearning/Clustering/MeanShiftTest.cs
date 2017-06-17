@@ -40,7 +40,7 @@ namespace Accord.Tests.MachineLearning
             double[][] samples =
             {
                 new double[] { 0, 1 },
-                new double[] { 1, 2 }, 
+                new double[] { 1, 2 },
                 new double[] { 1, 1 },
                 new double[] { 0, 7 },
                 new double[] { 1, 1 },
@@ -87,7 +87,7 @@ namespace Accord.Tests.MachineLearning
             Accord.Math.Tools.SetupGenerator(1);
 
             // Declare some observations
-            double[][] observations = 
+            double[][] observations =
             {
                 new double[] { -5, -2, -4 },
                 new double[] { -5, -5, -6 },
@@ -130,7 +130,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreNotEqual(labels[0], labels[6]);
 
 
-            int[] labels2 = meanShift.Clusters.Nearest(observations);
+            int[] labels2 = meanShift.Clusters.Decide(observations);
             Assert.IsTrue(labels.IsEqual(labels2));
 
             // the data must not have changed!
@@ -144,12 +144,11 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void meanshift_new_method()
         {
-            #region doc_sample1
             // Use a fixed seed for reproducibility
             Accord.Math.Random.Generator.Seed = 0;
 
             // Declare some data to be clustered
-            double[][] input = 
+            double[][] input =
             {
                 new double[] { -5, -2, -4 },
                 new double[] { -5, -5, -6 },
@@ -177,6 +176,68 @@ namespace Accord.Tests.MachineLearning
             // As a result, the first two observations should belong to the
             //  same cluster (thus having the same label). The same should
             //  happen to the next four observations and to the last three.
+
+            Assert.AreEqual(labels[0], labels[1]);
+
+            Assert.AreEqual(labels[2], labels[3]);
+            Assert.AreEqual(labels[2], labels[4]);
+            Assert.AreEqual(labels[2], labels[5]);
+
+            Assert.AreEqual(labels[6], labels[7]);
+            Assert.AreEqual(labels[6], labels[8]);
+
+            Assert.AreNotEqual(labels[0], labels[2]);
+            Assert.AreNotEqual(labels[2], labels[6]);
+            Assert.AreNotEqual(labels[0], labels[6]);
+
+
+            int[] labels2 = meanShift.Clusters.Decide(input);
+            Assert.IsTrue(labels.IsEqual(labels2));
+
+            Assert.AreEqual(3 / 9.0, meanShift.Clusters.Proportions[labels[6]], 1e-6);
+            Assert.AreEqual(2 / 9.0, meanShift.Clusters.Proportions[labels[0]], 1e-6);
+            Assert.AreEqual(4 / 9.0, meanShift.Clusters.Proportions[labels[2]], 1e-6);
+        }
+
+
+        [Test]
+        public void meanshift_new_method_no_ctor_args()
+        {
+            #region doc_sample1
+            // Use a fixed seed for reproducibility
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Declare some data to be clustered
+            double[][] input =
+            {
+                new double[] { -5, -2, -4 },
+                new double[] { -5, -5, -6 },
+                new double[] {  2,  1,  1 },
+                new double[] {  1,  1,  2 },
+                new double[] {  1,  2,  2 },
+                new double[] {  3,  1,  2 },
+                new double[] { 11,  5,  4 },
+                new double[] { 15,  5,  6 },
+                new double[] { 10,  5,  6 },
+            };
+
+            // Create a new Mean-Shift algorithm for 3 dimensional samples
+            MeanShift meanShift = new MeanShift()
+            {
+                // Use a uniform kernel density
+                Kernel = new UniformKernel(),
+                Bandwidth = 2.0
+            };
+
+            // Learn a data partitioning using the Mean Shift algorithm
+            MeanShiftClusterCollection clustering = meanShift.Learn(input);
+
+            // Predict group labels for each point
+            int[] labels = clustering.Decide(input);
+
+            // As a result, the first two observations should belong to the
+            //  same cluster (thus having the same label). The same should
+            //  happen to the next four observations and to the last three.
             #endregion
 
             Assert.AreEqual(labels[0], labels[1]);
@@ -193,7 +254,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreNotEqual(labels[0], labels[6]);
 
 
-            int[] labels2 = meanShift.Clusters.Nearest(input);
+            int[] labels2 = meanShift.Clusters.Decide(input);
             Assert.IsTrue(labels.IsEqual(labels2));
 
             Assert.AreEqual(3 / 9.0, meanShift.Clusters.Proportions[labels[6]], 1e-6);
@@ -212,7 +273,7 @@ namespace Accord.Tests.MachineLearning
             double[][] samples1 =
             {
                 new double[] { 0, 1 },
-                new double[] { 1, 2 }, 
+                new double[] { 1, 2 },
                 new double[] { 1, 1 },
                 new double[] { 0, 1 },
                 new double[] { 1, 1 },
@@ -234,7 +295,7 @@ namespace Accord.Tests.MachineLearning
             double[][] samples2 =
             {
                 new double[] { 0, 1 },
-                new double[] { 1, 2 }, 
+                new double[] { 1, 2 },
                 new double[] { 1, 1 },
                 new double[] { 0, 1 },
                 new double[] { 6, 2 },
@@ -252,9 +313,9 @@ namespace Accord.Tests.MachineLearning
             ms3.Compute(samples2);
 
 
-            int[] labels1 = ms1.Clusters.Nearest(samples1);
-            int[] labels2 = ms2.Clusters.Nearest(samples1);
-            int[] labels3 = ms3.Clusters.Nearest(samples1);
+            int[] labels1 = ms1.Clusters.Decide(samples1);
+            int[] labels2 = ms2.Clusters.Decide(samples1);
+            int[] labels3 = ms3.Clusters.Decide(samples1);
 
             Assert.IsTrue(Matrix.IsEqual(labels1, labels2));
 
@@ -275,7 +336,7 @@ namespace Accord.Tests.MachineLearning
             Accord.Math.Tools.SetupGenerator(1);
 
             // Declare some observations
-            double[][] observations1 = 
+            double[][] observations1 =
             {
                 new double[] { -5, -2, -4 },
                 new double[] { -5, -5, -6 },
@@ -291,7 +352,7 @@ namespace Accord.Tests.MachineLearning
             int[] weights1 = { 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
             // Declare some observations
-            double[][] observations2 = 
+            double[][] observations2 =
             {
                 new double[] { -5, -2, -4 },
                 new double[] { -5, -5, -6 },
@@ -322,9 +383,9 @@ namespace Accord.Tests.MachineLearning
             ms3.UseParallelProcessing = false;
             ms3.Compute(observations2, weights2);
 
-            int[] labels1 = ms1.Clusters.Nearest(observations1);
-            int[] labels2 = ms2.Clusters.Nearest(observations1);
-            int[] labels3 = ms3.Clusters.Nearest(observations1);
+            int[] labels1 = ms1.Clusters.Decide(observations1);
+            int[] labels2 = ms2.Clusters.Decide(observations1);
+            int[] labels3 = ms3.Clusters.Decide(observations1);
 
             Assert.IsTrue(Matrix.IsEqual(labels1, labels2));
             Assert.IsTrue(Matrix.IsEqual(labels1, labels3));

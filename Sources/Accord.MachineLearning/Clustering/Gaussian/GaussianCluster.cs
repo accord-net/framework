@@ -30,6 +30,9 @@ namespace Accord.MachineLearning
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Math.Distances;
     using Accord.Statistics.Distributions.Univariate;
+    using System.Collections;
+
+    using Centroid = Statistics.Distributions.Multivariate.IMixtureComponent<Statistics.Distributions.Multivariate.MultivariateNormalDistribution>;
 
     /// <summary>
     ///   Gaussian Mixture Model Cluster Collection.
@@ -49,9 +52,14 @@ namespace Accord.MachineLearning
     /// <seealso cref="GaussianCluster"/>
     /// 
     [Serializable]
-    public class GaussianClusterCollection
-        : ClusterCollection<double[], IMixtureComponent<MultivariateNormalDistribution>, GaussianClusterCollection.GaussianCluster>
+    public class GaussianClusterCollection : MulticlassLikelihoodClassifierBase<double[]>,
+        ICentroidClusterCollection<double[], Centroid, GaussianClusterCollection.GaussianCluster>,
+#pragma warning disable 0618
+        IClusterCollection<double[]>
+#pragma warning restore 0618
     {
+        GaussianCluster.ClusterCollection collection;
+
         MultivariateMixture<MultivariateNormalDistribution> model;
 
 
@@ -69,18 +77,8 @@ namespace Accord.MachineLearning
         /// <seealso cref="GaussianClusterCollection"/>
         /// 
         [Serializable]
-        public class GaussianCluster : Cluster<GaussianClusterCollection>, IMixtureComponent<MultivariateNormalDistribution>
+        public class GaussianCluster : CentroidCluster<GaussianClusterCollection, double[], Centroid, GaussianCluster>, Centroid
         {
-            /// <summary>
-            /// Initializes a new instance of the <see cref="GaussianCluster"/> class.
-            /// </summary>
-            /// <param name="owner">The owner collection.</param>
-            /// <param name="index">The cluster index.</param>
-            public GaussianCluster(GaussianClusterCollection owner, int index)
-                : base(owner, index)
-            {
-            }
-
             /// <summary>
             ///   Gets the probability density function of the
             ///   underlying Gaussian probability distribution 
@@ -214,10 +212,21 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
+        ///   Initializes a new instance of the <see cref="GaussianClusterCollection"/> class.
+        /// </summary>
+        /// 
+        /// <param name="components">The number of components in the mixture.</param>
+        /// 
+        public GaussianClusterCollection(int components)
+        {
+            this.collection = new GaussianCluster.ClusterCollection(this, components, new LogLikelihood<MultivariateNormalDistribution>());
+        }
+
+        /// <summary>
         /// Gets the proportion of samples in each cluster.
         /// </summary>
         /// 
-        public override double[] Proportions
+        public double[] Proportions
         {
             get
             {
@@ -278,31 +287,34 @@ namespace Accord.MachineLearning
             get { return model; }
         }
 
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="GaussianClusterCollection"/> class.
-        /// </summary>
-        /// 
-        /// <param name="components">The number of components in the mixture.</param>
-        /// 
-        public GaussianClusterCollection(int components)
-            : base(components, new LogLikelihood<MultivariateNormalDistribution>())
+
+#if DEBUG
+        public override double Score(double[] input, int classIndex)
         {
-            for (int i = 0; i < components; i++)
-                Clusters[i] = new GaussianCluster(this, i);
+            double score = base.Score(input, classIndex);
+            double dist = Distance.Distance(input, Centroids[classIndex]);
+            if (!score.IsEqual(-dist, rtol: 1e-5))
+                throw new Exception();
+            return score;
         }
-
+#endif
 
         /// <summary>
-        /// Computes a numerical score measuring the association between
-        /// the given <paramref name="input" /> vector and a given
-        /// <paramref name="classIndex" />.
+        /// Computes the log-likelihood that the given input vector
+        /// belongs to the specified <paramref name="classIndex" />.
         /// </summary>
         /// <param name="input">The input vector.</param>
         /// <param name="classIndex">The index of the class whose score will be computed.</param>
         /// <returns>System.Double.</returns>
-        public override double Score(double[] input, int classIndex)
+        public override double LogLikelihood(double[] input, int classIndex)
         {
-            return model.LogProbabilityDensityFunction(classIndex, input);
+            double log = model.LogProbabilityDensityFunction(classIndex, input);
+#if DEBUG
+            double dist = Distance.Distance(input, Centroids[classIndex]);
+            if (!log.IsEqual(-dist, rtol: 1e-5))
+                throw new Exception();
+#endif
+            return log;
         }
 
         /// <summary>
@@ -337,7 +349,7 @@ namespace Accord.MachineLearning
             if (kmeans.K != Count)
                 throw new ArgumentException("The number of clusters does not match.", "kmeans");
 
-            this.NumberOfInputs = kmeans.Dimension;
+            this.NumberOfInputs = kmeans.Clusters.NumberOfInputs;
 
             // Initialize the Mixture Model with data from K-Means
             var proportions = kmeans.Clusters.Proportions;
@@ -435,5 +447,118 @@ namespace Accord.MachineLearning
             Initialize(mixture.Coefficients, normals);
         }
 
+
+
+        // Using composition over inheritance to achieve the closest as possible effect to a Mixin
+        // in C# - unfortunately needs a lot a boilerplate code to rewrire the interface methods to
+        // where their actual implementation is
+
+        /// <summary>
+        /// Gets or sets the clusters' centroids.
+        /// </summary>
+        /// <value>The clusters' centroids.</value>
+        public IMixtureComponent<MultivariateNormalDistribution>[] Centroids
+        {
+            get { return collection.Centroids; }
+            set { collection.Centroids = value; }
+        }
+
+        /// <summary>
+        /// Gets the collection of clusters currently modeled by the clustering algorithm.
+        /// </summary>
+        /// <value>The clusters.</value>
+        public GaussianCluster[] Clusters
+        {
+            get { return collection.Clusters; }
+        }
+
+        /// <summary>
+        /// Gets or sets the distance function used to measure the distance
+        /// between a point and the cluster centroid in this clustering definition.
+        /// </summary>
+        /// <value>The distance.</value>
+        public IDistance<double[], Centroid> Distance
+        {
+            get { return collection.Distance; }
+            set { collection.Distance = value; }
+        }
+
+        /// <summary>
+        /// Gets the number of clusters in the collection.
+        /// </summary>
+        /// <value>The count.</value>
+        public int Count { get { return collection.Count; } }
+
+        /// <summary>
+        /// Gets the <see cref="GaussianCluster"/> at the specified index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>GaussianCluster.</returns>
+        public GaussianCluster this[int index]
+        {
+            get { return collection[index]; }
+        }
+
+        /// <summary>
+        /// Calculates the average square distance from the data points
+        /// to the nearest clusters' centroids.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="labels">The labels.</param>
+        /// <param name="weights">The weights.</param>
+        /// <returns>The average square distance from the data points to the nearest
+        /// clusters' centroids.</returns>
+        /// <remarks>The average distance from centroids can be used as a measure
+        /// of the "goodness" of the clustering. The more the data are
+        /// aggregated around the centroids, the less the average distance.</remarks>
+        public double Distortion(double[][] data, int[] labels = null, double[] weights = null)
+        {
+            return collection.Distortion(data, labels, weights);
+        }
+
+        /// <summary>
+        /// Transform data points into feature vectors containing the
+        /// distance between each point and each of the clusters.
+        /// </summary>
+        /// <param name="points">The input points.</param>
+        /// <param name="weights">The weight associated with each point.</param>
+        /// <param name="result">An optional matrix to store the computed transformation.</param>
+        /// <returns>A vector containing the distance between the input points and the clusters.</returns>
+        public double[][] Transform(double[][] points, double[] weights = null, double[][] result = null)
+        {
+            return collection.Transform(points, weights, result);
+        }
+
+        /// <summary>
+        /// Transform data points into feature vectors containing the
+        /// distance between each point and each of the clusters.
+        /// </summary>
+        /// <param name="points">The input points.</param>
+        /// <param name="labels">The label of each input point.</param>
+        /// <param name="weights">The weight associated with each point.</param>
+        /// <param name="result">An optional matrix to store the computed transformation.</param>
+        /// <returns>A vector containing the distance between the input points and the clusters.</returns>
+        public double[] Transform(double[][] points, int[] labels, double[] weights = null, double[] result = null)
+        {
+            return collection.Transform(points, labels, weights, result);
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
+        public IEnumerator<GaussianCluster> GetEnumerator()
+        {
+            return collection.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return collection.GetEnumerator();
+        }
     }
 }

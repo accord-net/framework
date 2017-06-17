@@ -41,6 +41,7 @@ namespace Accord.Imaging
     /// 
     [Serializable]
     public class BaseBagOfVisualWords<TModel, TPoint, TFeature, TClustering, TDetector> :
+        // TODO: Unify with Accord.MachineLearning.BaseBagOfWords
         ParallelLearningBase,
         IBagOfWords<Bitmap>,
         IBagOfWords<UnmanagedImage>,
@@ -50,9 +51,12 @@ namespace Accord.Imaging
         IUnsupervisedLearning<TModel, UnmanagedImage, double[]>
         where TPoint : IFeatureDescriptor<TFeature>
         where TModel : BaseBagOfVisualWords<TModel, TPoint, TFeature, TClustering, TDetector>
-        where TClustering : IClusteringAlgorithm<TFeature>
+        //where TClustering : IClusteringAlgorithm<TFeature>
+        where TClustering : IUnsupervisedLearning<IClassifier<TFeature, int>, TFeature, int>
         where TDetector : IFeatureDetector<TPoint, TFeature>
     {
+
+        private IClassifier<TFeature, int> classifier;
 
         /// <summary>
         ///   Gets the number of words in this codebook.
@@ -80,6 +84,7 @@ namespace Accord.Imaging
         public int NumberOfInputs
         {
             get { return -1; }
+            set { throw new InvalidOperationException("This property is read-only."); }
         }
 
         /// <summary>
@@ -89,6 +94,7 @@ namespace Accord.Imaging
         public int NumberOfOutputs
         {
             get { return NumberOfWords; }
+            set { throw new InvalidOperationException("This property is read-only."); }
         }
 
         /// <summary>
@@ -105,7 +111,6 @@ namespace Accord.Imaging
         /// 
         protected void Init(TDetector detector, TClustering algorithm)
         {
-            this.NumberOfWords = algorithm.Clusters.Count;
             this.Clustering = algorithm;
             this.Detector = detector;
         }
@@ -284,7 +289,7 @@ namespace Accord.Imaging
             Parallel.For(0, input.Count, ParallelOptions, i =>
             {
                 TFeature x = input[i].Descriptor;
-                int j = Clustering.Clusters.Decide(x);
+                int j = classifier.Decide(x);
                 Interlocked.Increment(ref result[j]);
             });
 
@@ -307,7 +312,7 @@ namespace Accord.Imaging
             Parallel.For(0, input.Count, ParallelOptions, i =>
             {
                 TFeature x = input[i].Descriptor;
-                int j = Clustering.Clusters.Decide(x);
+                int j = classifier.Decide(x);
                 InterlockedEx.Increment(ref result[j]);
             });
 
@@ -622,7 +627,9 @@ namespace Accord.Imaging
                     + "to adjust the feature extraction algorithm to generate more points.");
             }
 
-            this.Clustering.Learn(x, weights);
+            this.classifier = this.Clustering.Learn(x, weights);
+            this.NumberOfWords = this.classifier.NumberOfClasses;
+
             return (TModel)this;
         }
 

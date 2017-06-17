@@ -64,6 +64,7 @@ namespace Accord.MachineLearning.Rules
         public int NumberOfInputs
         {
             get { return items; }
+            set { throw new InvalidOperationException("This property is read-only."); }
         }
 
         /// <summary>
@@ -72,6 +73,7 @@ namespace Accord.MachineLearning.Rules
         public int NumberOfOutputs
         {
             get { return NumberOfClasses; }
+            set { throw new InvalidOperationException("This property is read-only."); }
         }
 
         /// <summary>
@@ -81,6 +83,7 @@ namespace Accord.MachineLearning.Rules
         public int NumberOfClasses
         {
             get { return rules.Length; }
+            set { throw new InvalidOperationException("This property is read-only."); }
         }
 
         /// <summary>

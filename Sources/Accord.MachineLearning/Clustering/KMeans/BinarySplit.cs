@@ -93,12 +93,11 @@ namespace Accord.MachineLearning
             if (weightSum <= 0)
                 throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.");
 
-            int cols = x[0].Length;
+            int cols = x.Columns();
             for (int i = 0; i < x.Length; i++)
                 if (x[i].Length != cols)
                     throw new DimensionMismatchException("data", "The points matrix should be rectangular. The vector at position {} has a different length than previous ones.");
             
-
             int k = Clusters.Count;
 
             KMeans kmeans = new KMeans(2)
@@ -111,9 +110,9 @@ namespace Accord.MachineLearning
                 MaxIterations = MaxIterations,
             };
 
-            double[][] centroids = Clusters.Centroids;
-            double[][][] clusters = new double[k][][];
-            double[] distortions = new double[k];
+            var centroids = Clusters.Centroids;
+            var clusters = new double[k][][];
+            var distortions = new double[k];
 
             // 1. Start with all data points in one cluster
             clusters[0] = x;
@@ -141,6 +140,11 @@ namespace Accord.MachineLearning
                 // 6. Increment cluster count (current = current + 1)
             }
 
+            Clusters.NumberOfInputs = cols;
+
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfClasses == K);
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfOutputs == K);
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfInputs == x[0].Length);
 
             return Clusters;
         }
@@ -151,8 +155,8 @@ namespace Accord.MachineLearning
 
             int[] idx = kmeans.Learn(cluster).Decide(cluster);
 
-            List<double[]> a = new List<double[]>();
-            List<double[]> b = new List<double[]>();
+            var a = new List<double[]>();
+            var b = new List<double[]>();
 
             for (int i = 0; i < idx.Length; i++)
             {
