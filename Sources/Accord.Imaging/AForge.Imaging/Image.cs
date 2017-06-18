@@ -450,7 +450,11 @@ namespace Accord.Imaging
 
             if (!File.Exists(downloadedFileName))
             {
+#if NET35
+                if (localPath == null || String.IsNullOrEmpty(localPath.Trim()))
+#else
                 if (!String.IsNullOrWhiteSpace(localPath))
+#endif
                     Directory.CreateDirectory(localPath);
 
                 using (var client = new WebClient())
