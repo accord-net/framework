@@ -101,6 +101,7 @@ namespace Accord.Tests.Math
         [Test]
         public void FromJaggedToMultidimensional()
         {
+            // Declare a jagged matrix that we would like to convert to multi-dimensional
             int[][][] jagged = new[]
             {
                 new[]
@@ -128,14 +129,27 @@ namespace Accord.Tests.Math
                 }
             };
 
+            // Test #1: Transform jagged matrix to a unidimensional vector. The extension method called DeepFlatten is available at:
+            // https://github.com/accord-net/framework/blob/a195ce7afbd2fd2ae143a82f5214a08e2a1a2a07/Sources/Accord.Math/Matrix/Matrix.Common.cs#L1636
             Array values = jagged.DeepFlatten();
+
+            // As a result, the resulting array is a simple int[] vector:
             Assert.AreEqual(values.GetType(), typeof(int[]));
+
+            // Some more checks
             int[] innerValues = values as int[];
             Assert.AreEqual(24, innerValues.Length);
             Assert.AreEqual(new[] { 24 }, innerValues.GetLength());
 
+
+            // Test #2: Transform the jagged matrix to a multidimensional matrix. The extension method called DeepToMatrix is available at:
+            // https://github.com/accord-net/framework/blob/a195ce7afbd2fd2ae143a82f5214a08e2a1a2a07/Sources/Accord.Math/Matrix/Matrix.Conversions.cs#L39
             Array matrix = jagged.DeepToMatrix();
+
+            // As a result, the resulting array is a multidimensional int[,,] array:
             Assert.AreEqual(matrix.GetType(), typeof(int[,,]));
+
+            // Some more checks
             int[,,] innerMatrix = matrix as int[,,];
             int[] shape = innerMatrix.GetLength();
             Assert.AreEqual(new[] { 4, 2, 3 }, shape);
