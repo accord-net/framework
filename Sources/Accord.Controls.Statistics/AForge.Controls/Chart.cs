@@ -21,26 +21,18 @@ namespace Accord.Controls
     /// Chart control.
     /// </summary>
     /// 
-    /// <remarks><para>The chart control allows to display multiple charts at time
-    /// of different types: dots, lines, connected dots.</para>
-    /// 
-    /// <para>Sample usage:</para>
-    /// <code>
-    /// // create data series array
-    /// double[,] testValues = new double[10, 2];
-    /// // fill data series
-    /// for ( int i = 0; i &lt; 10; i++ )
-    /// {
-    ///     testValues[i, 0] = i; // X values
-    ///     testValues[i, 1] = Math.Sin( i / 18.0 * Math.PI ); // Y values
-    /// }
-    /// // add new data series to the chart
-    /// chart.AddDataSeries( "Test", Color.DarkGreen, Chart.SeriesType.ConnectedDots, 3 );
-    /// // set X range to display
-    /// chart.RangeX = new Range( 0, 9 );
-    /// // update the chart
-    /// chart.UpdateDataSeries( "Test", testValues );
-    /// </code>
+    /// <remarks>
+    /// <para>
+    ///   Note: The Chart class came from the AForge.NET Framework, from a time when better charting
+    ///   solutions were not really available for the .NET Framework. This class is mainly intended to 
+    ///   support applications that had already been written using AForge.NET and that would benefit from 
+    ///   porting over to Accord.NET.</para>
+    /// <para>
+    ///   At this time, if you need support for advanced charts in your application, it is recommended 
+    ///   to use a more complete charting solution for .NET such as <a href="https://www.nuget.org/packages/ZedGraph/">
+    ///   ZedGraph</a> or <a href="https://code.msdn.microsoft.com/Samples-Environments-for-b01e9c61">Microsoft's
+    ///   own charting controls</a>.
+    /// </para>
     /// </remarks>
     /// 
     public class Chart : System.Windows.Forms.Control
