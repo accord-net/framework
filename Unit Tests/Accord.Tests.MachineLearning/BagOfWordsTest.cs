@@ -291,6 +291,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        [Category("MonoNotSupported")]
         public void learn_generic1()
         {
             // Declare some testing data
