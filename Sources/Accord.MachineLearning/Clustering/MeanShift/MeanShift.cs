@@ -81,45 +81,11 @@ namespace Accord.MachineLearning
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\MeanShiftTest.cs" region="doc_sample1" />
     /// 
     /// <para>
-    ///   The following example demonstrates how to use the Mean Shift algorithm
-    ///   for color clustering. It is the same code which can be found in the
-    ///   <a href="">color clustering sample application</a>.</para>
+    ///   The following example demonstrates how to use the Mean Shift algorithm for color clustering. It is the same code which can be
+    ///   found in the <a href="https://github.com/accord-net/framework/wiki/Sample-applications#clustering-k-means-and-meanshift">
+    ///   color clustering sample application</a>.</para>
     ///   
-    /// <code>
-    ///  int pixelSize = 3;   // RGB color pixel
-    ///  double sigma = 0.06; // kernel bandwidth
-    /// 
-    ///  // Load a test image (shown below)
-    ///  Bitmap image = ...
-    /// 
-    ///  // Create converters
-    ///  ImageToArray imageToArray = new ImageToArray(min: -1, max: +1);
-    ///  ArrayToImage arrayToImage = new ArrayToImage(image.Width, image.Height, min: -1, max: +1);
-    /// 
-    ///  // Transform the image into an array of pixel values
-    ///  double[][] pixels; imageToArray.Convert(image, out pixels);
-    ///  
-    ///  // Create a MeanShift algorithm using given bandwidth
-    ///  //   and a Gaussian density kernel as kernel function.
-    ///  MeanShift meanShift = new MeanShift(pixelSize, new GaussianKernel(3), sigma);
-    /// 
-    ///  // We will compute the mean-shift algorithm until the means
-    ///  // change less than 0.5 between two iterations of the algorithm
-    ///  meanShift.Tolerance = 0.05;
-    ///  meanShift.MaxIterations = 10;
-    ///  
-    /// // Learn the clusters in the data
-    ///  var clustering = meanShift.Learn(pixels);
-    ///  
-    ///  // Use clusters to decide class labels
-    ///  int[] idx = clustering.Decide(pixels);
-    /// 
-    ///  // Replace every pixel with its corresponding centroid
-    ///  pixels.ApplyInPlace((x, i) => meanShift.Clusters.Modes[idx[i]]);
-    /// 
-    ///  // Retrieve the resulting image in a picture box
-    ///  Bitmap result; arrayToImage.Convert(pixels, out result);
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Vision\ColorClusteringTest.cs" region="doc_meanshift" />
     /// 
     /// <para>
     ///   The original image is shown below:</para>
