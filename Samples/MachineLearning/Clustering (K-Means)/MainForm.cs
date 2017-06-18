@@ -134,10 +134,10 @@ namespace SampleApp
             // Create a MeanShift algorithm using the given bandwidth
             // and a Gaussian density kernel as the kernel function:
 
-            IRadiallySymmetricKernel kernel = new GaussianKernel(pixelSize);
-            
-            var meanShift = new MeanShift(pixelSize, kernel, sigma)
+            var meanShift = new MeanShift()
             {
+                Kernel = new GaussianKernel(pixelSize),
+                Bandwidth = sigma,
                 //Tolerance = 0.05,
                 //MaxIterations = 10
             };

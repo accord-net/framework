@@ -193,7 +193,7 @@ namespace Sequences.HMMs
 
 
             // Use confusion matrix to compute some performance metrics
-            dgvPerformance.DataSource = new[] { new GeneralConfusionMatrix(hmmc.Classes, actual, expected) };
+            dgvPerformance.DataSource = new[] { new GeneralConfusionMatrix(hmmc.NumberOfClasses, actual, expected) };
         }
 
         /// <summary>
