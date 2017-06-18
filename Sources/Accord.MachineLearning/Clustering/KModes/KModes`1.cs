@@ -49,7 +49,7 @@ namespace Accord.MachineLearning
     /// <seealso cref="MeanShift"/>
     /// 
     /// <example>
-    ///   How to perform clustering with K-Means.
+    ///   How to perform clustering with K-Modes.
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KModesTest.cs" region="doc_learn" />
     /// </example>
     /// 

@@ -139,7 +139,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -157,6 +159,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Sources\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
+      <Project>{e1089999-eaed-4e55-ac47-b6a196df84fc}</Project>
+      <Name>Accord.Controls.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Sources\Accord.Controls.Statistics\Accord.Controls.csproj">
+      <Project>{0ab27a20-925c-4556-9fa4-6e2c109e448e}</Project>
+      <Name>Accord.Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Sources\Accord.Core\Accord.Core.csproj">
       <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>
       <Name>Accord.Core</Name>
@@ -164,6 +174,10 @@
     <ProjectReference Include="..\..\..\Sources\Accord.DataSets\Accord.DataSets.csproj">
       <Project>{f11a77c5-00b3-4921-acf5-4728f6576efd}</Project>
       <Name>Accord.DataSets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Sources\Accord.Imaging\Accord.Imaging.csproj">
+      <Project>{4959A83D-F78F-439E-80A5-41583ECEAAC6}</Project>
+      <Name>Accord.Imaging</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Sources\Accord.IO\Accord.IO.csproj">
       <Project>{63184ebd-6b28-4066-aaee-5b99431e31f4}</Project>

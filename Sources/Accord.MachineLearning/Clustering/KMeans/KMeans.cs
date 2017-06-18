@@ -126,45 +126,11 @@ namespace Accord.MachineLearning
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KMeansTest.cs" region="doc_learn_weighted" />
     ///   
     /// <para>
-    ///   The following example demonstrates how to use the K-Means algorithm
-    ///   for color clustering. It is the same code which can be found in the
-    ///   <a href="https://github.com/accord-net/framework/wiki/Sample-applications#clustering-k-means-and-meanshift">
+    ///   The following example demonstrates how to use the K-Means algorithm for color clustering. It is the same code which can be 
+    ///   found in the <a href="https://github.com/accord-net/framework/wiki/Sample-applications#clustering-k-means-and-meanshift">
     ///   color clustering sample application</a>.</para>
     ///   
-    /// <code>
-    ///  int k = 5; 
-    ///  
-    ///  // Load a test image (shown below)
-    ///  Bitmap image = ...
-    ///  
-    ///  // Create converters
-    ///  ImageToArray imageToArray = new ImageToArray(min: -1, max: +1);
-    ///  ArrayToImage arrayToImage = new ArrayToImage(image.Width, image.Height, min: -1, max: +1);
-    ///  
-    ///  // Transform the image into an array of pixel values
-    ///  double[][] pixels; imageToArray.Convert(image, out pixels);
-    ///  
-    ///  
-    ///  // Create a K-Means algorithm using given k and a
-    ///  //  square Euclidean distance as distance metric.
-    ///  KMeans kmeans = new KMeans(k, Distance.SquareEuclidean);
-    ///  
-    ///  // We will compute the K-Means algorithm until cluster centroids
-    ///  // change less than 0.5 between two iterations of the algorithm
-    ///  kmeans.Tolerance = 0.05;
-    ///  
-    /// // Learn the clusters in the data
-    ///  var clustering = kmeans.Learn(pixels);
-    ///  
-    ///  // Use clusters to decide class labels
-    ///  int[] idx = clustering.Decide(pixels);
-    ///  
-    ///  // Replace every pixel with its corresponding centroid
-    ///  pixels.ApplyInPlace((x, i) => kmeans.Clusters.Centroids[idx[i]]);
-    ///  
-    ///  // Retrieve the resulting image in a picture box
-    ///  Bitmap result; arrayToImage.Convert(pixels, out result);
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Vision\ColorClusteringTest.cs" region="doc_kmeans" />
     /// 
     /// <para>
     ///   The original image is shown below:</para>

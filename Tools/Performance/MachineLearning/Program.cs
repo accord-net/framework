@@ -14,11 +14,17 @@ using Accord.Statistics.Analysis;
 using System.IO;
 using Accord.IO;
 using Accord.DataSets;
+using Accord.Imaging.Converters;
+using Accord.Controls;
+using Accord.Math.Distances;
+using System.Drawing;
+using Accord.Statistics.Distributions.DensityKernels;
 
 namespace Accord.Performance.MachineLearning
 {
     class Program
     {
+
         static void Main(string[] args)
         {
             Trace.Listeners.Add(new ConsoleTraceListener());
@@ -30,7 +36,8 @@ namespace Accord.Performance.MachineLearning
             //TestSparseSVMComplete();
             //TestPredictSparseMulticlassSVM();
             //TestLinearASGD();
-            TestSMO();
+            //TestSMO();
+            TestMeanShift();
         }
 
         private static void TestSparseKernelSVM()
@@ -339,6 +346,48 @@ namespace Accord.Performance.MachineLearning
 
             var test = new ConfusionMatrix(predicted, outputs);
             Console.WriteLine("Test acc: " + test.Accuracy);
+        }
+
+        static void TestMeanShift()
+        {
+            Bitmap image = Accord.Imaging.Image.FromUrl("https://c1.staticflickr.com/4/3209/2527630511_fae07530c2_b.jpg");
+
+            ImageBox.Show("Original", image).Hold();
+
+            // Create converters to convert between Bitmap images and double[] arrays
+            var imageToArray = new ImageToArray(min: -1, max: +1);
+            var arrayToImage = new ArrayToImage(image.Width, image.Height, min: -1, max: +1);
+
+            // Transform the image into an array of pixel values
+            double[][] pixels; imageToArray.Convert(image, out pixels);
+
+
+            // Create a MeanShift algorithm using given bandwidth
+            //   and a Gaussian density kernel as kernel function.
+            MeanShift meanShift = new MeanShift()
+            {
+                Kernel = new EpanechnikovKernel(),
+                Bandwidth = 0.1,
+
+                // We will compute the mean-shift algorithm until the means
+                // change less than 0.05 between two iterations of the algorithm
+                Tolerance = 0.05,
+                MaxIterations = 10
+            };
+
+            // Learn the clusters from the data
+            var clusters = meanShift.Learn(pixels);
+
+            // Use clusters to decide class labels
+            int[] labels = clusters.Decide(pixels);
+
+            // Replace every pixel with its corresponding centroid
+            double[][] replaced = pixels.Apply((x, i) => clusters.Modes[labels[i]]);
+
+            // Retrieve the resulting image (shown in a picture box)
+            Bitmap result; arrayToImage.Convert(replaced, out result);
+
+            ImageBox.Show("Mean-Shift clustering", result).Hold();
         }
     }
 }
