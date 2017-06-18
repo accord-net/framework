@@ -32,6 +32,8 @@ namespace Accord.Tests.Vision
     using Accord.Math;
     using Accord.Statistics.Distributions.DensityKernels;
     using Accord.Controls;
+    using System.IO;
+    using Accord.DataSets;
 
     [TestFixture]
     public class ColorClusteringTest
@@ -42,7 +44,7 @@ namespace Accord.Tests.Vision
         {
             #region doc_kmeans
             // Load a test image (shown in a picture box below)
-            var sampleImages = new Accord.DataSets.TestImages();
+            var sampleImages = new TestImages(path: Path.GetTempPath());
             Bitmap image = sampleImages.GetImage("airplane.png");
 
             // ImageBox.Show("Original", image).Hold();
@@ -89,7 +91,7 @@ namespace Accord.Tests.Vision
         {
             #region doc_meanshift
             // Load a test image (shown in a picture box below)
-            var sampleImages = new Accord.DataSets.TestImages();
+            var sampleImages = new TestImages(path: Path.GetTempPath());
             Bitmap image = sampleImages.GetImage("airplane.png");
 
             // ImageBox.Show("Original", image).Hold();
