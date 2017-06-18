@@ -180,7 +180,7 @@ namespace Accord.Math
                 {
                     var elemA = objA[i][j];
                     var elemB = objB[i][j];
-                    
+
                     if (!Object.Equals(elemA, elemB))
                         return false;
                 }
@@ -1626,6 +1626,24 @@ namespace Accord.Math
 
 
         #region Morphological operations
+
+        /// <summary>
+        ///   Transforms a jagged array matrix into a single vector.
+        /// </summary>
+        /// 
+        /// <param name="array">A jagged array.</param>
+        /// 
+        public static Array DeepFlatten(this Array array)
+        {
+            int totalLength = array.GetTotalLength(deep: true);
+            var elementType = array.GetInnerMostType();
+            Array result = Array.CreateInstance(elementType, totalLength);
+
+            int k = 0;
+            foreach (object v in array.Enumerate())
+                result.SetValue(v, k++);
+            return result;
+        }
 
         /// <summary>
         ///   Transforms a matrix into a single vector.
