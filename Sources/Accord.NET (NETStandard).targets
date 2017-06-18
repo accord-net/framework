@@ -24,7 +24,10 @@
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\$(Configuration)\$(AssemblyName).dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
 
-
+  <Target Name="SpicNSpan"  AfterTargets="Clean">
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
+    <RemoveDir Directories="$(BaseOutputPath)" />
+  </Target>
 
   <ItemGroup>
     <Compile Remove="Properties\AssemblyInfo.cs" />
