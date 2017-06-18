@@ -1,5 +1,15 @@
 @echo off
 
+:: (enable termination from subroutine)
+SETLOCAL
+set ERROR_CODE=0
+if "%selfWrapped%"=="" (
+  set selfWrapped=true
+  %ComSpec% /s /c ""%~0" %*"
+  goto :eof
+)
+
+
 echo.
 echo Accord.NET Framework - all project configurations builder
 echo =========================================================
@@ -33,8 +43,10 @@ call:BUILD "Sources\Accord.NET.sln","NET46","x64"
 call:BUILD "Sources\Accord.NET.sln","NET46","Any CPU"
 call:BUILD "Sources\Accord.NET.sln","NET462","x64"
 call:BUILD "Sources\Accord.NET.sln","NET462","Any CPU"
-call:BUILD "Sources\Accord.NET (NETStandard).sln","netstandard","Any CPU"
+call:BUILD "Sources\Accord.NET (NETStandard).sln","netstandard2.0","Any CPU"
 call:BUILD "Samples\Samples.sln","Release","x86"
+
+exit /b %ERROR_CODE%
 goto:eof
 
 
@@ -45,6 +57,10 @@ set CONFIGURATION=%~2
 set PLATFORM=%~3
 echo.
 echo  - Building %SOLUTION% in %CONFIGURATION% / %PLATFORM% configuration...
-%MSBUILD% "%SOLUTION%" /t:Rebuild /p:Configuration=%CONFIGURATION% /p:Platform="%PLATFORM%" /fl /flp:logfile="Setup\bin\Build.%CONFIGURATION%.%PLATFORM%.log";verbosity=normal /consoleloggerparameters:ErrorsOnly;Summary /verbosity:minimal /nologo
-if %errorlevel% neq 0 exit /b %errorlevel%
+%MSBUILD% /m "%SOLUTION%" /t:Rebuild /p:Configuration=%CONFIGURATION% /p:Platform="%PLATFORM%" /fl /flp:logfile="Setup\bin\Build.%CONFIGURATION%.%PLATFORM%.log";verbosity=normal /consoleloggerparameters:ErrorsOnly;Summary /verbosity:minimal /nologo
+set ERROR_CODE=%errorlevel%
+if %ERROR_CODE% neq 0 (
+	echo Exiting with %ERROR_CODE%
+	exit /b %ERROR_CODE%
+)
 goto:eof
