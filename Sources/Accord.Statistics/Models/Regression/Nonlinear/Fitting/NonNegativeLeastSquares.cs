@@ -30,11 +30,11 @@ namespace Accord.Statistics.Models.Regression.Fitting
     using System.Threading;
     using Accord.Math;
     using Accord.Statistics.Models.Regression.Linear;
-    using MachineLearning;
+    using Accord.MachineLearning;
     using Accord.Math.Optimization.Losses;
 
     /// <summary>
-    ///   Non-negative Least Squares for <see cref="NonlinearRegression"/> optimization.
+    ///   Non-negative Least Squares for <see cref="MultipleLinearRegression"/> optimization.
     /// </summary>
     /// 
     /// <remarks>
@@ -47,8 +47,21 @@ namespace Accord.Statistics.Models.Regression.Fitting
     ///   </list></para>
     /// </remarks>
     /// 
+    /// <example>
+    ///  <para>
+    ///   The following example shows how to fit a multiple linear regression model with the 
+    ///   additional constraint that none of its coefficients should be negative. For this
+    ///   we can use the <see cref="NonNegativeLeastSquares"/> learning algorithm instead of
+    ///   the <see cref="OrdinaryLeastSquares"/> used above.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\NonLinear\Fitting\NonNegativeLeastSquaresTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
+    /// <seealso cref="OrdinaryLeastSquares"/>
+    /// <seealso cref="MultipleLinearRegression"/>
+    /// 
 #pragma warning disable 612, 618
-    public class NonNegativeLeastSquares : IRegressionFitting, 
+    public class NonNegativeLeastSquares : IRegressionFitting,
         ISupervisedLearning<MultipleLinearRegression, double[], double>
 #pragma warning restore 612, 618
     {
@@ -109,9 +122,22 @@ namespace Accord.Statistics.Models.Regression.Fitting
         ///   Initializes a new instance of the <see cref="NonNegativeLeastSquares"/> class.
         /// </summary>
         /// 
+        public NonNegativeLeastSquares()
+        {
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="NonNegativeLeastSquares"/> class.
+        /// </summary>
+        /// 
         /// <param name="regression">The regression to be fitted.</param>
         /// 
         public NonNegativeLeastSquares(MultipleLinearRegression regression)
+        {
+            init(regression);
+        }
+
+        private void init(MultipleLinearRegression regression)
         {
             this.regression = regression;
             this.cols = regression.Weights.Length;
@@ -151,6 +177,9 @@ namespace Accord.Statistics.Models.Regression.Fitting
         {
             if (weights != null)
                 throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
+            if (this.regression == null)
+                init(new MultipleLinearRegression { NumberOfInputs = x.Columns() });
 
             this.X = x;
             this.scatter = X.TransposeAndDot(X);
@@ -219,7 +248,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
             x = (s.Subtract(x)).Multiply(alpha).Add(x);
 
             // 4.4 Update R and P
-            for (var i = 0; i < p.Count; )
+            for (var i = 0; i < p.Count;)
             {
                 int pItem = p[i];
                 if (System.Math.Abs(x[pItem]) < double.Epsilon)

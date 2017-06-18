@@ -51,9 +51,18 @@ namespace Accord.Statistics.Models.Regression.Linear
     ///   to model a plane as an equation in the form ax + by + c = z. </para>
     ///   
     /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultipleLinearRegressionTest.cs" region="doc_learn" />
+    /// 
+    ///  <para>
+    ///   The next example shows how to fit a multiple linear regression model with the 
+    ///   additional constraint that none of its coefficients should be negative. For this
+    ///   we can use the <see cref="NonNegativeLeastSquares"/> learning algorithm instead of
+    ///   the <see cref="OrdinaryLeastSquares"/> used above.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\NonLinear\Fitting\NonNegativeLeastSquaresTest.cs" region="doc_learn" />
     /// </example>
     /// 
     /// <seealso cref="OrdinaryLeastSquares"/>
+    /// <seealso cref="NonNegativeLeastSquares"/>
     /// <seealso cref="SimpleLinearRegression"/>
     /// <seealso cref="MultivariateLinearRegression"/>
     /// <seealso cref="MultipleLinearRegressionAnalysis"/>
