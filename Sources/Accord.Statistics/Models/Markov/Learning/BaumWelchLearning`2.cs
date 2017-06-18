@@ -33,52 +33,6 @@ namespace Accord.Statistics.Models.Markov.Learning
     using Accord.Statistics.Models.Markov.Topology;
 
     /// <summary>
-    ///   Baum-Welch learning algorithms for learning Hidden Markov Models.
-    /// </summary>
-    /// 
-    /// <typeparam name="TDistribution">The type of the emission distributions in the model.</typeparam>
-    /// <typeparam name="TObservation">The type of the observations (i.e. int for a discrete model).</typeparam>
-    /// <typeparam name="TOptions">The type of fitting options accepted by this distribution.</typeparam>
-    /// 
-    public class BaumWelchLearning<TDistribution, TObservation, TOptions> :
-        BaseBaumWelchLearningOptions<HiddenMarkovModel<TDistribution, TObservation>, TDistribution, TObservation, TOptions>,
-        IConvergenceLearning
-        where TDistribution : IFittableDistribution<TObservation, TOptions>
-        where TOptions : class, IFittingOptions, new()
-    {
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BaumWelchLearning{TDistribution, TObservation, TOptions}"/> class.
-        /// </summary>
-        /// 
-        public BaumWelchLearning()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BaumWelchLearning{TDistribution, TObservation, TOptions}"/> class.
-        /// </summary>
-        /// 
-        /// <param name="model">The model to be learned.</param>
-        /// 
-        public BaumWelchLearning(HiddenMarkovModel<TDistribution, TObservation> model)
-            : base(model)
-        {
-        }
-
-        /// <summary>
-        ///   Creates an instance of the model to be learned. Inheritors of this abstract 
-        ///   class must define this method so new models can be created from the training data.
-        /// </summary>
-        /// 
-        protected override HiddenMarkovModel<TDistribution, TObservation> Create()
-        {
-            return new HiddenMarkovModel<TDistribution, TObservation>(Topology, Emissions);
-        }
-
-    }
-
-    /// <summary>
     ///   Baum-Welch learning algorithm for <see cref="HiddenMarkovModel{TDistribution}">
     ///   arbitrary-density (generic) Hidden Markov Models</see>.
     /// </summary>
@@ -184,7 +138,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <seealso cref="HiddenMarkovModel"/>
     /// <seealso cref="HiddenMarkovModel{TDistribution, TObservation}"/>
     /// <seealso cref="BaumWelchLearning"/>
-    /// <seealso cref="BaumWelchLearning{TDistribution, TObservation}"/>
+    /// <seealso cref="BaumWelchLearning{TDistribution, TObservation, TOptions}"/>
     /// 
     /// <typeparam name="TDistribution">The type of the emission distributions in the model.</typeparam>
     /// <typeparam name="TObservation">The type of the observations (i.e. int for a discrete model).</typeparam>
