@@ -28,6 +28,8 @@ namespace Accord.Statistics
     using Accord.Math.Decompositions;
     using Accord.Statistics.Kernels;
     using AForge;
+    using Accord.Statistics.Distributions;
+    using Accord.Statistics.Distributions.Fitting;
 
     /// <summary>
     ///   Set of statistics functions.
@@ -439,6 +441,121 @@ namespace Accord.Statistics
 
             // Return the transformed data
             return Matrix.Dot(value, transformMatrix);
+        }
+
+        /// <summary>
+        ///   Creates a new distribution that has been fit to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        ///   
+        public static TDistribution Fit<TDistribution>(this double[] observations, double[] weights = null)
+            where TDistribution : IFittable<double>, new()
+        {
+            var dist = new TDistribution();
+            dist.Fit(observations, weights);
+            return dist;
+        }
+
+        /// <summary>
+        ///   Creates a new distribution that has been fit to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        ///   
+        public static TDistribution Fit<TDistribution>(this double[][] observations, double[] weights = null)
+            where TDistribution : IFittable<double[]>, new()
+        {
+            var dist = new TDistribution();
+            dist.Fit(observations, weights);
+            return dist;
+        }
+
+        /// <summary>
+        ///   Creates a new distribution that has been fit to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public static TDistribution Fit<TDistribution, TOptions>(this double[] observations, TOptions options, double[] weights = null)
+            where TDistribution : IFittable<double, TOptions>, new()
+            where TOptions : class, IFittingOptions
+        {
+            var dist = new TDistribution();
+            dist.Fit(observations, weights, options);
+            return dist;
+        }
+
+        /// <summary>
+        ///   Creates a new distribution that has been fit to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public static TDistribution Fit<TDistribution, TOptions>(this double[][] observations, TOptions options, double[] weights = null)
+            where TDistribution : IFittable<double[], TOptions>, new()
+            where TOptions : class, IFittingOptions
+        {
+            var dist = new TDistribution();
+            dist.Fit(observations, weights, options);
+            return dist;
+        }
+
+        /// <summary>
+        ///   Creates a new distribution that has been fit to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="distribution">The distribution whose parameters should be fitted to the samples.</param>
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        ///   
+        public static TDistribution FitNew<TDistribution, TObservations>(
+            this TDistribution distribution, TObservations[] observations, double[] weights = null)
+            where TDistribution : IFittable<TObservations>, ICloneable
+        {
+            var clone = (TDistribution)distribution.Clone();
+            clone.Fit(observations, weights);
+            return clone;
+        }
+
+        /// <summary>
+        ///   Creates a new distribution that has been fit to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="distribution">The distribution whose parameters should be fitted to the samples.</param>
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public static TDistribution FitNew<TDistribution, TObservations, TOptions>(
+            this TDistribution distribution, TObservations[] observations, TOptions options, double[] weights = null)
+            where TDistribution : IFittable<TObservations, TOptions>, ICloneable
+            where TOptions : class, IFittingOptions
+        {
+            var clone = (TDistribution)distribution.Clone();
+            clone.Fit(observations, weights, options);
+            return clone;
         }
 
     }

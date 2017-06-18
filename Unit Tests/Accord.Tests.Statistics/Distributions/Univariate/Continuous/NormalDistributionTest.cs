@@ -28,6 +28,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using NUnit.Framework;
+    using Accord.Statistics.Distributions.Fitting;
 
     [TestFixture]
     public class NormalDistributionTest
@@ -108,6 +109,63 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(expectedMean, target.Mean);
         }
+
+
+        [Test]
+        public void FitExtensionTest_options()
+        {
+            NormalDistribution target = new NormalDistribution();
+            double[] observations = { 0.10, 0.40, 2.00, 2.00 };
+            double[] weights = { 0.25, 0.25, 0.25, 0.25 };
+            target.Fit(observations, weights);
+            NormalDistribution same = observations.Fit<NormalDistribution, NormalOptions>(new NormalOptions()
+            {
+                Regularization = 10
+            }, weights);
+            Assert.AreNotSame(same, target);
+            Assert.AreEqual(same.ToString(), target.ToString());
+
+            NormalDistribution copy = target.FitNew(observations, new NormalOptions()
+            {
+                Regularization = 10
+            }, weights);
+            Assert.AreNotSame(copy, target);
+            Assert.AreEqual(copy.ToString(), target.ToString());
+        }
+
+
+        [Test]
+        public void FitExtensionTest_weights()
+        {
+            NormalDistribution target = new NormalDistribution();
+            double[] observations = { 0.10, 0.40, 2.00, 2.00 };
+            double[] weights = { 0.25, 0.25, 0.25, 0.25 };
+            target.Fit(observations, weights);
+            NormalDistribution same = observations.Fit<NormalDistribution>(weights);
+            Assert.AreNotSame(same, target);
+            Assert.AreEqual(same.ToString(), target.ToString());
+
+            NormalDistribution copy = target.FitNew(observations, weights);
+            Assert.AreNotSame(copy, target);
+            Assert.AreEqual(copy.ToString(), target.ToString());
+        }
+
+        [Test]
+        public void FitExtensionTest()
+        {
+            NormalDistribution target = new NormalDistribution();
+            double[] observations = { 0.10, 0.40, 2.00, 2.00 };
+            target.Fit(observations);
+            NormalDistribution same = observations.Fit<NormalDistribution>();
+            Assert.AreNotSame(same, target);
+            Assert.AreEqual(same.ToString(), target.ToString());
+
+            NormalDistribution copy = target.FitNew(observations);
+            Assert.AreNotSame(copy, target);
+            Assert.AreEqual(copy.ToString(), target.ToString());
+        }
+
+
 
         [Test]
         public void FitTest2()
