@@ -354,6 +354,7 @@
     <Compile Include="Models\Markov\Learning\Base\BaseHiddenMarkovModelLearning.cs" />
     <Compile Include="Models\Markov\Learning\Base\BaseViterbiLearning`1.cs" />
     <Compile Include="Models\Markov\Learning\Base\BaseBaumWelchLearning`3.cs" />
+    <Compile Include="Models\Markov\Learning\BaumWelchLearning`3.cs" />
     <Compile Include="Models\Markov\Learning\BaumWelchLearning`2.cs" />
     <Compile Include="Models\Markov\Learning\HiddenMarkovClassifierLearning`2.cs" />
     <Compile Include="Models\Markov\Learning\Base\BaseMaximumLikelihoodLearning`2.cs" />
