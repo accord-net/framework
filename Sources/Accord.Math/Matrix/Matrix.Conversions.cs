@@ -31,7 +31,24 @@ namespace Accord.Math
 
     public static partial class Matrix
     {
-       
+
+        /// <summary>
+        ///   Converts a jagged-array into a multidimensional array.
+        /// </summary>
+        /// 
+        public static Array DeepToMatrix(this Array array)
+        {
+            int[] shape = array.GetLength();
+            int totalLength = array.GetTotalLength();
+            Type elementType = array.GetInnerMostType();
+
+            Array flat = array.DeepFlatten();
+
+            Array result = Array.CreateInstance(elementType, shape);
+            Buffer.BlockCopy(flat, 0, result, 0, totalLength);
+            return result;
+        }
+
         /// <summary>
         ///   Converts a jagged-array into a multidimensional array.
         /// </summary>
