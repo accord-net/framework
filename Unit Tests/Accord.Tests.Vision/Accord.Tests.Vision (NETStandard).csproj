@@ -14,6 +14,9 @@
     <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="ColorClusteringTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Remove="Properties\Resources.resx" />
   </ItemGroup>
 
