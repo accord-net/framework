@@ -31,6 +31,7 @@ namespace Accord.Tests.Statistics.Models.Regression
     using NUnit.Framework;
     using Accord.Statistics.Models.Regression.Fitting;
     using Accord.Statistics.Models.Regression.Linear;
+    using Accord.Math.Optimization.Losses;
 
     [TestFixture]
     public class NonNegativeLeastSquaresTests
@@ -38,8 +39,6 @@ namespace Accord.Tests.Statistics.Models.Regression
         [Test]
         public void ExampleTest()
         {
-            // Suppose we would like to map the continuous values in the
-            // second column to the integer values in the first column.
             var inputs = new[]
             {
                 new[] { 1.0, 1.0 },
@@ -64,8 +63,6 @@ namespace Accord.Tests.Statistics.Models.Regression
         [Test]
         public void ExampleTest2()
         {
-            // Suppose we would like to map the continuous values in the
-            // second column to the integer values in the first column.
             var inputs = new[]
             {
                 new[] { 1.0, 1.0, 1.0 },
@@ -86,13 +83,15 @@ namespace Accord.Tests.Statistics.Models.Regression
             Assert.AreEqual(0.1, nnls.Coefficients[0], 1e-3);
             Assert.AreEqual(0.5, nnls.Coefficients[1], 1e-3);
             Assert.AreEqual(0.13, nnls.Coefficients[2], 1e-3);
+
+            Assert.AreEqual(0.1, regression.Coefficients[0], 1e-3);
+            Assert.AreEqual(0.5, regression.Coefficients[1], 1e-3);
+            Assert.AreEqual(0.13, regression.Coefficients[2], 1e-3);
         }
 
         [Test]
         public void ExampleTest3()
         {
-            // Suppose we would like to map the continuous values in the
-            // second column to the integer values in the first column.
             var inputs = new[]
             {
                 new[] { 1.0, 1.0, 1.0, 1.0 },
@@ -114,13 +113,15 @@ namespace Accord.Tests.Statistics.Models.Regression
             Assert.AreEqual(0.5, nnls.Coefficients[1], 1e-3);
             Assert.AreEqual(0.13, nnls.Coefficients[2], 1e-3);
             Assert.AreEqual(0, nnls.Coefficients[3], 1e-3);
+
+            Assert.AreEqual(0.1, regression.Coefficients[0], 1e-3);
+            Assert.AreEqual(0.5, regression.Coefficients[1], 1e-3);
+            Assert.AreEqual(0.13, regression.Coefficients[2], 1e-3);
         }
 
         [Test]
         public void ExampleTest4()
         {
-            // Suppose we would like to map the continuous values in the
-            // second column to the integer values in the first column.
             var inputs = new[]
             {
                 new[] { 1.0, 1.0, 1.0 },
@@ -141,6 +142,56 @@ namespace Accord.Tests.Statistics.Models.Regression
             Assert.AreEqual(0.1, nnls.Coefficients[0], 1e-3);
             Assert.AreEqual(0, nnls.Coefficients[1], 1e-3);
             Assert.AreEqual(0.13, nnls.Coefficients[2], 1e-3);
+
+            Assert.AreEqual(0.1, regression.Coefficients[0], 1e-3);
+            Assert.AreEqual(0, regression.Coefficients[1], 1e-3);
+            Assert.AreEqual(0.13, regression.Coefficients[2], 1e-3);
+        }
+
+        [Test]
+        public void learn_test()
+        {
+            #region doc_learn
+            // Declare training samples
+            var inputs = new double[][]
+            {
+                new[] { 1.0, 1.0, 1.0 },
+                new[] { 2.0, 4.0, 8.0 },
+                new[] { 3.0, 9.0, 27.0 },
+                new[] { 4.0, 16.0, 64.0 },
+            };
+
+            var outputs = new double[] { 0.23, 1.24, 3.81, 8.72 };
+
+            // Create a NN LS learning algorithm
+            var nnls = new NonNegativeLeastSquares()
+            {
+                MaxIterations = 100
+            };
+
+            // Use the algorithm to learn a multiple linear regression
+            MultipleLinearRegression regression = nnls.Learn(inputs, outputs);
+
+            // None of the regression coefficients should be negative:
+            double[] coefficients = regression.Weights; // should be
+
+            // Check the quality of the regression:
+            double[] prediction = regression.Transform(inputs);
+
+            double error = new SquareLoss(expected: outputs)
+                .Loss(actual: prediction); // should be
+
+            #endregion
+
+            Assert.AreEqual(0, error, 1e-10);
+
+            Assert.AreEqual(0.1, nnls.Coefficients[0], 1e-3);
+            Assert.AreEqual(0, nnls.Coefficients[1], 1e-3);
+            Assert.AreEqual(0.13, nnls.Coefficients[2], 1e-3);
+
+            Assert.AreEqual(0.1, regression.Coefficients[0], 1e-3);
+            Assert.AreEqual(0, regression.Coefficients[1], 1e-3);
+            Assert.AreEqual(0.13, regression.Coefficients[2], 1e-3);
         }
     }
 }
