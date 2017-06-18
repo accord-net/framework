@@ -22,21 +22,9 @@
 
 namespace Accord.MachineLearning
 {
-    using Accord.Math;
-    using System;
-    using System.Collections.Generic;
-    using System.Runtime.Serialization;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Accord.MachineLearning.VectorMachines;
-
-#if !NET35 && !NET40
-    using System.Collections.ObjectModel;
-    using System.Text.RegularExpressions;
     using Accord.Statistics.Filters;
-#else
-    using Accord.Collections;
-#endif
+    using System;
 
     /// <summary>
     ///   Bag of words.
