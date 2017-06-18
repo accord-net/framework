@@ -232,23 +232,6 @@ namespace Accord.Math
         ///   used to convert generic types to numeric types during runtime.
         /// </summary>
         /// 
-        /// <typeparam name="T">The destination type.</typeparam>
-        /// 
-        /// <param name="value">The value to be converted.</param>
-        /// 
-        /// <returns>The result of the conversion.</returns>
-        /// 
-        public static T To<T>(this object value)
-        {
-            return (T)System.Convert.ChangeType(value, typeof(T));
-        }
-
-        /// <summary>
-        ///   Converts an object into another type, irrespective of whether
-        ///   the conversion can be done at compile time or not. This can be
-        ///   used to convert generic types to numeric types during runtime.
-        /// </summary>
-        /// 
         /// <typeparam name="TOutput">The type of the output.</typeparam>
         /// 
         /// <param name="array">The vector or array to be converted.</param>
