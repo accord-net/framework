@@ -16,6 +16,11 @@
     <PackageReference Include="NUnit.Console" Version="3.6.1" />
   </ItemGroup>
 
+  <Target Name="SpicNSpan"  AfterTargets="Clean">
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
+    <RemoveDir Directories="$(BaseOutputPath)" />
+  </Target>
+
   <ItemGroup>
     <Compile Remove="Properties\AssemblyInfo.cs" />
     <Compile Remove="Properties\VersionInfo.cs" />
