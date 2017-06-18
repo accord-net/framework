@@ -305,7 +305,7 @@ namespace Liblinear
 
             return new Problem()
             {
-                Dimensions = reader.Dimensions,
+                Dimensions = reader.NumberOfInputs,
                 Inputs = x,
                 Outputs = y,
             };
