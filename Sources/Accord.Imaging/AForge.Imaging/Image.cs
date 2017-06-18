@@ -13,6 +13,7 @@ namespace Accord.Imaging
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge;
+    using System.Net;
 
     /// <summary>
     /// Core image relatad methods.
@@ -418,6 +419,45 @@ namespace Accord.Imaging
             newImage.UnlockBits(newData);
 
             return newImage;
+        }
+
+        /// <summary>
+        /// Load bitmap from URL.
+        /// </summary>
+        /// 
+        /// <param name="url">URL to load bitmap from.</param>
+        /// 
+        /// <returns>Returns loaded bitmap.</returns>
+        /// 
+        public static Bitmap FromUrl(string url)
+        {
+            return FromUrl(url, String.Empty);
+        }
+
+        /// <summary>
+        /// Load bitmap from URL.
+        /// </summary>
+        /// 
+        /// <param name="url">URL to load bitmap from.</param>
+        /// <param name="localPath">The local directory where the file should be stored.</param>
+        /// 
+        /// <returns>Returns loaded bitmap.</returns>
+        /// 
+        public static Bitmap FromUrl(string url, string localPath)
+        {
+            string name = System.IO.Path.GetFileName(url);
+            string downloadedFileName = System.IO.Path.Combine(localPath, name);
+
+            if (!File.Exists(downloadedFileName))
+            {
+                if (!String.IsNullOrWhiteSpace(localPath))
+                    Directory.CreateDirectory(localPath);
+
+                using (var client = new WebClient())
+                    client.DownloadFile(url, downloadedFileName);
+            }
+
+            return Image.FromFile(downloadedFileName);
         }
 
         /// <summary>
