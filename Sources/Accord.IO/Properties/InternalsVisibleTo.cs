@@ -3,7 +3,6 @@
 [assembly: InternalsVisibleTo("Accord.Math")]
 [assembly: InternalsVisibleTo("Accord.Statistics")]
 [assembly: InternalsVisibleTo("Accord.DataSets")]
-[assembly: InternalsVisibleTo("Accord.MachineLearning")]
 
 [assembly: InternalsVisibleTo("Accord.Tests.Math")]
 [assembly: InternalsVisibleTo("Accord.Tests.MachineLearning")]

@@ -15,6 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Accord.DataSets\Accord.DataSets (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.IO\Accord.IO (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.Statistics\Accord.Statistics (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
