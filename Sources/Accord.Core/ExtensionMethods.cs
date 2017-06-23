@@ -44,25 +44,6 @@ namespace Accord
     {
 
         /// <summary>
-        ///   Copies a collection by calling the ICloneable.Clone method for each element inside it.
-        /// </summary>
-        /// 
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list">The collection to be cloned.</param>
-        /// 
-        /// <returns>A copy of the collection where each element has also been copied.</returns>
-        /// 
-        [Obsolete("Please use Matrix.Copy() instead.")]
-        public static T DeepClone<T>(this T list)
-            where T : IList<ICloneable>, ICloneable
-        {
-            T clone = (T)list.Clone();
-            for (int i = 0; i < clone.Count; i++)
-                clone[i] = (ICloneable)list[i].Clone();
-            return clone;
-        }
-
-        /// <summary>
         ///   Creates and adds multiple <see cref="System.Data.DataColumn"/>
         ///   objects with the given names at once.
         /// </summary>
