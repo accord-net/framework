@@ -30,7 +30,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'mono|AnyCPU' ">
     <DefineConstants>TRACE;MONO</DefineConstants>
-<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -64,6 +64,7 @@
     <Compile Include="ConvexityDefectsTest.cs" />
     <Compile Include="BorderFollowingTest.cs" />
     <Compile Include="CentralMomentsTest.cs" />
+    <Compile Include="Filters\DistanceTransformTest.cs" />
     <Compile Include="Filters\WhitePatchTest.cs" />
     <Compile Include="Filters\GrayWorldTest.cs" />
     <Compile Include="Filters\DifferenceOfGaussiansTest.cs" />
@@ -155,6 +156,7 @@
     <None Include="Resources\noise-line.png" />
     <None Include="Resources\blend_net35.png" />
     <None Include="Resources\blend_net45.png" />
+    <Content Include="Resources\cards.png" />
     <Content Include="Resources\SURF\surf-bug-1.bmp" />
     <None Include="Resources\wiki-flower.png" />
     <None Include="Resources\tt4.png" />
