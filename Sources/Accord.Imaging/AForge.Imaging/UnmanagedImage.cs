@@ -65,14 +65,19 @@ namespace Accord.Imaging
     {
         // pointer to image data in unmanaged memory
         private IntPtr imageData;
+
         // image size
         private int width, height;
+
         // image stride (line size)
         private int stride;
+
         // image pixel format
         private PixelFormat pixelFormat;
+
         // flag which indicates if the image should be disposed or not
         private bool mustBeDisposed = false;
+
 
         /// <summary>
         /// Pointer to image data in unmanaged memory.
@@ -112,6 +117,15 @@ namespace Accord.Imaging
         public PixelFormat PixelFormat
         {
             get { return pixelFormat; }
+        }
+
+        /// <summary>
+        /// Gets the image size, in bytes.
+        /// </summary>
+        /// 
+        public int Bytes
+        {
+            get { return stride * height; }
         }
 
         /// <summary>
@@ -1111,6 +1125,23 @@ namespace Accord.Imaging
             }
 
             return pixelValues;
+        }
+
+        /// <summary>
+        ///   Converts the image into a sequence of bytes.
+        /// </summary>
+        /// 
+        public byte[] ToByteArray()
+        {
+            byte[] bytes = new byte[Bytes];
+            unsafe
+            {
+                fixed (byte* dst = bytes)
+                {
+                    Buffer.MemoryCopy(this.imageData.ToPointer(), dst, bytes.Length, bytes.Length);
+                }
+            }
+            return bytes;
         }
     }
 }
