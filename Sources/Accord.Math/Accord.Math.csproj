@@ -134,6 +134,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Jagged.Product.tt</DependentUpon>
     </Compile>
+    <Compile Include="Matrix\Matrix.Set.cs" />
     <Compile Include="Matrix\Matrix.Linear.Generated.cs">
       <DependentUpon>Matrix.Linear.tt</DependentUpon>
       <AutoGen>True</AutoGen>
