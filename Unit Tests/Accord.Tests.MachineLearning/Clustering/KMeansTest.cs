@@ -111,8 +111,6 @@ namespace Accord.Tests.MachineLearning
                 new double[] { 10,  5,  6 },
             };
 
-            double[][] orig = observations.MemberwiseClone();
-
             // Create a new K-Means algorithm
             KMeans kmeans = new KMeans(k: 3);
 
@@ -140,6 +138,19 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(labels.IsEqual(labels2));
 
             // the data must not have changed!
+            double[][] orig =
+            {
+                new double[] { -5, -2, -1 },
+                new double[] { -5, -5, -6 },
+                new double[] {  2,  1,  1 },
+                new double[] {  1,  1,  2 },
+                new double[] {  1,  2,  2 },
+                new double[] {  3,  1,  2 },
+                new double[] { 11,  5,  4 },
+                new double[] { 15,  5,  6 },
+                new double[] { 10,  5,  6 },
+            };
+
             Assert.IsTrue(orig.IsEqual(observations));
 
             var c = new KMeansClusterCollection.KMeansCluster[clusters.Count];
@@ -149,6 +160,55 @@ namespace Accord.Tests.MachineLearning
 
             for (i = 0; i < c.Length; i++)
                 Assert.AreSame(c[i], clusters[i]);
+        }
+
+        [Test]
+        public void uniform_sampling_test()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Declare some observations
+            double[][] observations =
+            {
+                new double[] { -5, -2, -1 },
+                new double[] { -5, -5, -6 },
+                new double[] {  2,  1,  1 },
+                new double[] {  1,  1,  2 },
+                new double[] {  1,  2,  2 },
+                new double[] {  3,  1,  2 },
+                new double[] { 11,  5,  4 },
+                new double[] { 15,  5,  6 },
+                new double[] { 10,  5,  6 },
+            };
+
+            // Create a new K-Means algorithm
+            KMeans kmeans = new KMeans(k: 3)
+            {
+                UseSeeding = Seeding.Uniform
+            };
+
+            // Compute and retrieve the data centroids
+            var clusters = kmeans.Learn(observations);
+
+            int[] labels = clusters.Decide(observations);
+
+            int[] labels2 = kmeans.Clusters.Decide(observations);
+
+            // the data must not have changed!
+            double[][] orig =
+            {
+                new double[] { -5, -2, -1 },
+                new double[] { -5, -5, -6 },
+                new double[] {  2,  1,  1 },
+                new double[] {  1,  1,  2 },
+                new double[] {  1,  2,  2 },
+                new double[] {  3,  1,  2 },
+                new double[] { 11,  5,  4 },
+                new double[] { 15,  5,  6 },
+                new double[] { 10,  5,  6 },
+            };
+
+            Assert.IsTrue(orig.IsEqual(observations));
         }
 
         [Test]

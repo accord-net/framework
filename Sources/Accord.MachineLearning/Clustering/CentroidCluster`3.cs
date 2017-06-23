@@ -22,6 +22,7 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.IO;
     using Accord.Math;
     using Accord.Math.Distances;
     using Accord.Statistics.Distributions.Univariate;
@@ -82,6 +83,8 @@ namespace Accord.MachineLearning
                 else if (strategy == Seeding.Uniform)
                 {
                     Centroids = Vector.Sample(points, Centroids.Length);
+                    for (int i = 0; i < Centroids.Length; i++)
+                        Centroids[i] = (TData)Centroids[i].Clone();
                 }
                 else if (strategy == Seeding.KMeansPlusPlus)
                 {
@@ -142,6 +145,14 @@ namespace Accord.MachineLearning
                         //    proportional to D(x)^2.					
                         Centroids[c] = (TData)points[idx].Clone();
                     }
+
+#if DEBUG
+                    // Make sure that centroids are not datapoints
+                    for (int i = 0; i < Centroids.Length; i++)
+                        for (int j = 0; j < points.Length; j++)
+                            if (Object.Equals(Centroids[i], points[j]))
+                                throw new Exception();
+#endif
                 }
 
                 this.Owner.NumberOfInputs = Tools.GetNumberOfInputs(points);
