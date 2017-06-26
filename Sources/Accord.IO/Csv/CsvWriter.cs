@@ -32,6 +32,16 @@ namespace Accord.IO
     ///   Writer for CSV data.
     /// </summary>
     /// 
+    /// <example>
+    /// <para>
+    ///   The following example shows how to use <see cref="CsvWriter"/> to write a matrix in .csv format.</para>
+    ///   <code source="Unit Tests\Accord.Tests.IO\CsvWriterTest.cs" region="doc_matrix" />
+    ///   
+    /// <para>
+    ///   The following example shows how to use <see cref="CsvWriter"/> to write a DataTable in .csv format.</para>
+    ///   <code source="Unit Tests\Accord.Tests.IO\CsvWriterTest.cs" region="doc_table" />
+    /// </example>
+    /// 
     public class CsvWriter : IDisposable
     {
         /// <summary>
@@ -103,6 +113,17 @@ namespace Accord.IO
         ///   Initializes a new instance of the <see cref="CsvWriter"/> class.
         /// </summary>
         /// 
+        /// <param name="path">The path to the file to be written.</param>
+        /// 
+        public CsvWriter(String path)
+            : this(new StreamWriter(path), CsvReader.DefaultDelimiter)
+        {
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="CsvWriter"/> class.
+        /// </summary>
+        /// 
         /// <param name="writer">A <see cref="T:TextWriter"/> pointing to the CSV file.</param>
         /// <param name="delimiter">The field delimiter character to separate values in the CSV file.
         ///   If set to zero, will use the system's default text separator. Default is '\0' (zero).</param>
@@ -145,6 +166,21 @@ namespace Accord.IO
         public static CsvWriter ToText(StringBuilder builder, char delimiter)
         {
             return new CsvWriter(new StringWriter(builder), delimiter);
+        }
+
+        /// <summary>
+        ///   Writes the column names of a data table as the headers of the CSV file.
+        /// </summary>
+        /// 
+        /// <param name="columnNames">A list of column names to use.</param>
+        /// 
+        public void WriteHeaders(params string[] columnNames)
+        {
+            var headers = new string[columnNames.Length];
+            for (int i = 0; i < headers.Length; i++)
+                headers[i] = quote(columnNames[i]);
+
+            write(headers, String.Empty);
         }
 
         /// <summary>
