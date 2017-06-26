@@ -22,18 +22,17 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.MachineLearning.Performance;
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
 
     /// <summary>
-    ///   Class for representing results acquired through
-    ///   a k-fold cross-validation analysis.
+    ///   Obsolete. Please refer to <see cref="CrossValidation{TModel, TInput}"/> instead.
     /// </summary>
     /// 
-    /// <typeparam name="TModel">The type of the model being analyzed.</typeparam>
-    /// 
     [Serializable]
+    [Obsolete("Please use CrossValidationResult<TModel, TInput, TOutput> instead.")]
     public class CrossValidationResult<TModel> where TModel : class
     {
         /// <summary>
@@ -152,5 +151,4 @@ namespace Accord.MachineLearning
                 return Load(stream);
         }
     }
-
 }

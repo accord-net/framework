@@ -24,6 +24,8 @@ namespace Accord.MachineLearning
 {
     using Accord.Statistics;
     using System;
+    using Accord.MachineLearning.Performance;
+    using System.Collections.Generic;
 
     /// <summary>
     ///   Summary statistics for a cross-validation trial.
@@ -32,7 +34,6 @@ namespace Accord.MachineLearning
     [Serializable]
     public class CrossValidationStatistics
     {
-
         /// <summary>
         ///   Gets the values acquired during the cross-validation.
         ///   Most often those will be the errors for each folding.

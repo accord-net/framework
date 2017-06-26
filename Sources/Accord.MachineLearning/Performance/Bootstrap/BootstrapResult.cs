@@ -22,15 +22,16 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.MachineLearning.Performance;
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
 
     /// <summary>
-    ///   Bootstrap validation analysis results.
+    ///   Obsolete. Please refer to <see cref="Bootstrap{TModel, TInput, TOutput}"/> instead.
     /// </summary>
     /// 
-    [Serializable]
+    [Obsolete("Please refer to Bootstrap<TModel, TInput, TOutput> instead.")]
     public class BootstrapResult
     {
         /// <summary>
