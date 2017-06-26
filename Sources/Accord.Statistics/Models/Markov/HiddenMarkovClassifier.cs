@@ -73,7 +73,7 @@ namespace Accord.Statistics.Models.Markov
         [Obsolete("Please use NumberOfSymbols instead.")]
         public int Symbols
         {
-            get { return this[0].NumberOfSymbols; }
+            get { return NumberOfSymbols; }
         }
 
         /// <summary>

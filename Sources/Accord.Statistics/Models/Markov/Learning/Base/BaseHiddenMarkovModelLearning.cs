@@ -120,7 +120,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   class must define this method so new models can be created from the training data.
         /// </summary>
         /// 
-        protected abstract TModel Create();
+        protected abstract TModel Create(TObservation[][] x);
 
     }
 }

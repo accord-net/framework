@@ -125,6 +125,17 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   function.
         /// </summary>
         /// 
+        public HiddenMarkovClassifierLearning()
+        {
+            createSmoothingKernel();
+        }
+
+        /// <summary>
+        ///   Creates a new instance of the learning algorithm for a given 
+        ///   Markov sequence classifier using the specified configuration
+        ///   function.
+        /// </summary>
+        /// 
         public HiddenMarkovClassifierLearning(HiddenMarkovClassifier classifier,
             Func<int, Accord.MachineLearning.IUnsupervisedLearning<HiddenMarkovModel, int[], int[]>> learner)
             : base(classifier, learner)
@@ -138,7 +149,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   class must define this method so new models can be created from the training data.
         /// </summary>
         /// 
-        protected override HiddenMarkovClassifier Create(int numberOfClasses)
+        protected override HiddenMarkovClassifier Create(int[][] x, int[] y, int numberOfClasses)
         {
             return new HiddenMarkovClassifier(numberOfClasses);
         }

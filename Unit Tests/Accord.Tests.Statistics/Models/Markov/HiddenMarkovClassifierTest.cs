@@ -42,6 +42,75 @@ namespace Accord.Tests.Statistics
             // Declare some testing data
             int[][] inputs = new int[][]
             {
+                new int[] { 0,1,2,0 },   // Class 0
+                new int[] { 0,0,2,0 },   // Class 0
+                new int[] { 0,1,2,1,0 }, // Class 0
+                new int[] { 0,1,2,0 },     // Class 0
+
+                new int[] { 1,0,2,1 },   // Class 1
+                new int[] { 1,1,2,1 },   // Class 1
+                new int[] { 1,0,2,0,1 }, // Class 1
+                new int[] { 1,0,2,1 },     // Class 1
+            };
+
+            int[] outputs = new int[]
+            {
+                0,0,0,0, // First four sequences are of class 0
+                1,1,1,1, // Last four sequences are of class 1
+            };
+
+            // Create a new learning algorithm to train the sequence classifier
+            var teacher = new HiddenMarkovClassifierLearning()
+            {
+                // Train each model until the log-likelihood changes less than 0.001
+                Learner = (i) => new BaumWelchLearning()
+                {
+                    Tolerance = 0.001,
+                    Iterations = 0,
+                    NumberOfStates = 2,
+                }
+            };
+
+            // Train the sequence classifier 
+            HiddenMarkovClassifier classifier = teacher.Learn(inputs, outputs);
+
+            // Obtain classification labels for the output
+            int[] predicted = classifier.Decide(inputs);
+
+            // Obtain prediction scores for the outputs
+            double[] lls = classifier.LogLikelihood(inputs);
+            #endregion
+
+            Assert.AreEqual(0, classifier.NumberOfInputs);
+            Assert.AreEqual(2, classifier.NumberOfOutputs);
+            Assert.AreEqual(2, classifier.NumberOfClasses);
+            Assert.AreEqual(3, classifier.NumberOfSymbols);
+
+            for (int i = 0; i < classifier.NumberOfClasses; i++)
+            {
+                Assert.AreEqual(2, classifier[i].NumberOfStates);
+                Assert.AreEqual(3, classifier[i].NumberOfSymbols);
+                Assert.AreEqual(1, classifier[i].NumberOfInputs);
+                Assert.AreEqual(2, classifier[i].NumberOfOutputs);
+            }
+
+            Assert.AreEqual(0.5, classifier.Priors[0]);
+            Assert.AreEqual(0.5, classifier.Priors[1]);
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                int expected = outputs[i];
+                int actual = predicted[i];
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [Test]
+        public void LearnTest_old()
+        {
+            // Declare some testing data
+            int[][] inputs = new int[][]
+            {
                 new int[] { 0,1,1,0 },   // Class 0
                 new int[] { 0,0,1,0 },   // Class 0
                 new int[] { 0,1,1,1,0 }, // Class 0
@@ -92,7 +161,6 @@ namespace Accord.Tests.Statistics
 
             // Obtain prediction scores for the outputs
             double[] lls = classifier.LogLikelihood(inputs);
-            #endregion
 
             // Will assert the models have learned the sequences correctly.
             for (int i = 0; i < inputs.Length; i++)
@@ -108,6 +176,76 @@ namespace Accord.Tests.Statistics
         public void LearnTest2()
         {
             #region doc_rejection
+            // Declare some testing data
+            int[][] inputs = new int[][]
+            {
+                new int[] { 0,0,1,2 },     // Class 0
+                new int[] { 0,1,1,2 },     // Class 0
+                new int[] { 0,0,0,1,2 },   // Class 0
+                new int[] { 0,1,2,2,2 },   // Class 0
+
+                new int[] { 2,2,1,0 },     // Class 1
+                new int[] { 2,2,2,1,0 },   // Class 1
+                new int[] { 2,2,2,1,0 },   // Class 1
+                new int[] { 2,2,2,2,1 },   // Class 1
+            };
+
+            int[] outputs = new int[]
+            {
+                0,0,0,0, // First four sequences are of class 0
+                1,1,1,1, // Last four sequences are of class 1
+            };
+
+
+            // Create a new learning algorithm to train the sequence classifier
+            var teacher = new HiddenMarkovClassifierLearning()
+            {
+                Learner = (i) => new BaumWelchLearning()
+                {
+                    NumberOfStates = 3,
+                    Tolerance = 0.001,
+                    Iterations = 0,
+                },
+
+                Rejection = true // Enable support for sequence rejection
+            };
+
+            // Train the sequence classifier 
+            var classifier = teacher.Learn(inputs, outputs);
+
+            // Obtain prediction classes for the outputs
+            int[] prediction = classifier.Decide(inputs);
+
+            // Obtain prediction scores for the outputs
+            double[] lls = classifier.LogLikelihood(inputs);
+            #endregion
+
+            double likelihood = teacher.LogLikelihood;
+            Assert.AreEqual(-24.857860924867815, likelihood, 1e-8);
+
+            Assert.AreEqual(0, classifier.NumberOfInputs);
+            Assert.AreEqual(2, classifier.NumberOfOutputs);
+            Assert.AreEqual(2, classifier.NumberOfClasses);
+            Assert.AreEqual(3, classifier.NumberOfSymbols);
+
+            for (int i = 0; i < classifier.NumberOfClasses; i++)
+            {
+                Assert.AreEqual(3, classifier[i].NumberOfStates);
+                Assert.AreEqual(3, classifier[i].NumberOfSymbols);
+                Assert.AreEqual(1, classifier[i].NumberOfInputs);
+                Assert.AreEqual(3, classifier[i].NumberOfOutputs);
+            }
+
+            Assert.AreEqual(0.5, classifier.Priors[0]);
+            Assert.AreEqual(0.5, classifier.Priors[1]);
+
+            likelihood = testThresholdModel(inputs, outputs, classifier, likelihood);
+        }
+
+        [Test]
+        public void LearnTest2_old()
+        {
+            #region doc_rejection_old
             // Declare some testing data
             int[][] inputs = new int[][]
             {
