@@ -291,7 +291,7 @@ namespace Accord.Statistics.Models.Markov.Learning
             this.vectorObservations = x;
 
             if (Model == null)
-                Model = Create();
+                Model = Create(x);
 
             if (MaxIterations > 0 && CurrentIteration >= MaxIterations)
                 return Model;

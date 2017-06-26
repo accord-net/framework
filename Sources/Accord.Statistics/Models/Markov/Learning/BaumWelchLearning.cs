@@ -169,8 +169,13 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   class must define this method so new models can be created from the training data.
         /// </summary>
         /// 
-        protected override HiddenMarkovModel Create()
+        protected override HiddenMarkovModel Create(int[][] x)
         {
+            if (Topology == null)
+                throw new InvalidOperationException("Please set the Topology property before trying to learn a new hidden Markov model.");
+
+            this.NumberOfSymbols = x.Concatenate().DistinctCount();
+
             return new HiddenMarkovModel(Topology, NumberOfSymbols);
         }
 

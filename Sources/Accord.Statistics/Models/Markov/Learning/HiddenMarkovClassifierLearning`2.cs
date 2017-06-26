@@ -142,7 +142,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   class must define this method so new models can be created from the training data.
         /// </summary>
         /// 
-        protected override HiddenMarkovClassifier<TDistribution, TObservation> Create(int numberOfClasses)
+        protected override HiddenMarkovClassifier<TDistribution, TObservation> Create(TObservation[][] x, int[] y, int numberOfClasses)
         {
             return new HiddenMarkovClassifier<TDistribution, TObservation>(numberOfClasses);
         }

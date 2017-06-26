@@ -25,6 +25,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
+    using System;
 
     /// <summary>
     ///   Baum-Welch learning algorithms for learning Hidden Markov Models.
@@ -70,8 +71,12 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   class must define this method so new models can be created from the training data.
         /// </summary>
         /// 
-        protected override HiddenMarkovModel<TDistribution, TObservation> Create()
+        protected override HiddenMarkovModel<TDistribution, TObservation> Create(TObservation[][] x)
         {
+            if (Topology == null)
+                throw new InvalidOperationException("Please set the Topology property before trying to learn a new hidden Markov model.");
+            if (Emissions == null)
+                throw new InvalidOperationException("Please set the Emissions property before trying to learn a new hidden Markov model.");
             return new HiddenMarkovModel<TDistribution, TObservation>(Topology, Emissions);
         }
 

@@ -367,7 +367,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                     "The number of inputs and outputs does not match.");
 
             if (Classifier == null)
-                Classifier = Create(numberOfClasses: y.Max() + 1); // create a new classifier given the number of classes
+                Classifier = Create(x, y, numberOfClasses: y.Max() + 1); // create a new classifier given the number of classes
 
             for (int i = 0; i < y.Length; i++)
                 if (y[i] < 0 || y[i] >= Classifier.Classes)
@@ -440,6 +440,6 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   class must define this method so new models can be created from the training data.
         /// </summary>
         /// 
-        protected abstract TClassifier Create(int numberOfClasses);
+        protected abstract TClassifier Create(TObservation[][] x, int[] y, int numberOfClasses);
     }
 }
