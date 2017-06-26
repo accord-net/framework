@@ -266,7 +266,13 @@ namespace Accord.Statistics.Distributions.Multivariate
             double p = 0;
             for (int i = 0; i < Components.Length; i++)
                 p += Components[i].LogProbabilityFunction(x[i]);
+//#if DEBUG
+//            double expected = Math.Log(ProbabilityFunction(x));
+//            if (!expected.IsEqual(p, rtol: 1e-3))
+//                throw new Exception();
+//#endif
             return p;
+
         }
 
 
@@ -333,12 +339,18 @@ namespace Accord.Statistics.Distributions.Multivariate
                 if (options.InnerOptions != null)
                 {
                     for (int i = 0; i < Components.Length; i++)
-                        ((IFittableDistribution<TObservation>)Components[i]).Fit(observations[i], weights, options.InnerOptions[i]);
+                    {
+                        var c = ((IFittableDistribution<TObservation>)Components[i]);
+                        c.Fit(observations[i], weights, options.InnerOptions[i]);
+                    }
                 }
                 else
                 {
                     for (int i = 0; i < Components.Length; i++)
-                        ((IFittableDistribution<TObservation>)Components[i]).Fit(observations[i], weights, options.InnerOption);
+                    {
+                        var c = ((IFittableDistribution<TObservation>)Components[i]);
+                        c.Fit(observations[i], weights, options.InnerOption);
+                    }
                 }
             }
             else
