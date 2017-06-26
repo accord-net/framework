@@ -29,6 +29,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
     using Accord.Math.Random;
+    using System.Diagnostics;
 
     /// <summary>
     ///   Univariate general discrete distribution, also referred as the
@@ -129,6 +130,9 @@ namespace Accord.Statistics.Distributions.Univariate
             if (probabilities == null)
                 throw new ArgumentNullException("probabilities");
 
+            if (probabilities.Length < 2)
+                Trace.TraceWarning("Creating a discrete distribution that is actually constant.");
+
             initialize(0, probabilities, logarithm);
         }
 
@@ -148,6 +152,9 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             if (probabilities == null)
                 throw new ArgumentNullException("probabilities");
+
+            if (probabilities.Length < 2)
+                Trace.TraceWarning("Creating a discrete distribution that is actually constant.");
 
             initialize(start, probabilities, false);
         }
@@ -169,6 +176,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   
         public GeneralDiscreteDistribution(int start, int symbols, bool logarithm = false)
         {
+            if (symbols < 2)
+                Trace.TraceWarning("Creating a discrete distribution that is actually constant.");
+
             initialize(start, symbols, logarithm);
         }
 
@@ -907,7 +917,10 @@ namespace Accord.Statistics.Distributions.Univariate
             if (weights == null)
             {
                 for (int i = 0; i < observations.Length; i++)
-                    p[observations[i] - start]++;
+                {
+                    int j = observations[i] - start;
+                    p[j]++;
+                }
             }
             else
             {
@@ -916,7 +929,10 @@ namespace Accord.Statistics.Distributions.Univariate
                         "weights");
 
                 for (int i = 0; i < observations.Length; i++)
-                    p[observations[i] - start] += weights[i] * observations.Length;
+                {
+                    int j = observations[i] - start;
+                    p[j] += weights[i] * observations.Length;
+                }
             }
 
             if (regularization > 0)

@@ -602,6 +602,18 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        ///   Accuracy. This is the same value as <see cref="OverallAgreement"/>.
+        /// </summary>
+        /// 
+        /// <value>The accuracy, or <see cref="OverallAgreement"/>.</value>
+        /// 
+        [DisplayName("Accuracy")]
+        public double Accuracy
+        {
+            get { return OverallAgreement; }
+        }
+
+        /// <summary>
         ///   Geometric agreement.
         /// </summary>
         /// 
