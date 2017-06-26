@@ -25,6 +25,7 @@ namespace Accord.Statistics
     using Accord.Math;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.CompilerServices;
 
     /// <summary>
@@ -354,6 +355,57 @@ namespace Accord.Statistics
                     splittings[index.Item1] = i;
 
             return splittings;
+        }
+
+        /// <summary>
+        ///   Returns a random group assignment for a sample, making
+        ///   sure different class labels are distributed evenly among
+        ///   the groups.
+        /// </summary>
+        /// 
+        /// <param name="labels">A vector containing class labels.</param>
+        /// <param name="proportion">The proportion of positive and negative samples.</param>
+        /// 
+        public static int[] Random(int[] labels, double proportion)
+        {
+            if (labels.DistinctCount() != 2)
+                throw new ArgumentException("Only two classes are supported.", "labels");
+
+            int negative = labels.Min();
+            int positive = labels.Max();
+
+            var negativeIndices = labels.Find(i => i == negative).ToList();
+            var positiveIndices = labels.Find(i => i == positive).ToList();
+
+            int positiveCount = positiveIndices.Count;
+            int negativeCount = negativeIndices.Count;
+
+            int firstGroupPositives = (int)((positiveCount / 2.0) * proportion);
+            int firstGroupNegatives = (int)((negativeCount / 2.0) * proportion);
+
+            List<int> training = new List<int>();
+            List<int> testing = new List<int>();
+
+            // Put positives and negatives into training
+            for (int j = 0; j < firstGroupNegatives; j++)
+            {
+                training.Add(negativeIndices[0]);
+                negativeIndices.RemoveAt(0);
+            }
+
+            for (int j = 0; j < firstGroupPositives; j++)
+            {
+                training.Add(positiveIndices[0]);
+                positiveIndices.RemoveAt(0);
+            }
+
+            testing.AddRange(negativeIndices);
+            testing.AddRange(positiveIndices);
+
+            int[] indices = new int[labels.Length];
+            for (int i = 0; i < testing.Count; i++)
+                indices[testing[i]] = 1;
+            return indices;
         }
 
         /// <summary>
