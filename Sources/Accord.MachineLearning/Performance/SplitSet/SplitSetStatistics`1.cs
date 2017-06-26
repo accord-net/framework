@@ -22,6 +22,7 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.MachineLearning.Performance;
     using System;
 
     /// <summary>
@@ -29,7 +30,8 @@ namespace Accord.MachineLearning
     /// </summary>
     /// 
     [Serializable]
-    public class SplitSetStatistics<TModel> where TModel : class
+    public class SplitSetStatistics<TModel> 
+        where TModel : class
     {
 
         /// <summary>
@@ -90,9 +92,10 @@ namespace Accord.MachineLearning
     }
 
     /// <summary>
-    ///   Summary statistics for a Split-set validation trial.
+    ///   Obsolete. Please refer to <see cref="SplitSetValidation{TModel, TInput, TOutput}"/> instead.
     /// </summary>
     /// 
+    [Obsolete("Please refer to SplitSetValidation<TModel, TInput> instead.")]
     public class SplitSetStatistics : SplitSetStatistics<object>
     {
         /// <summary>

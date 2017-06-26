@@ -26,21 +26,14 @@ namespace Accord.MachineLearning
     using System.Collections.Generic;
     using System.Linq;
     using Accord.Math;
+    using Accord.MachineLearning.Performance;
 
     /// <summary>
-    ///   Split-Set Validation.
+    ///   Obsolete. Please refer to <see cref="SplitSetValidation{TModel, TInput, TOutput}"/> instead.
     /// </summary>
     /// 
-    /// <remarks>
-    ///   This is the non-generic version of the <see cref="SplitSetValidation"/>. For
-    ///   greater flexibility, consider using <see cref="SplitSetValidation{T}"/>.
-    /// </remarks>
-    /// 
-    /// <seealso cref="Bootstrap"/>
-    /// <seealso cref="CrossValidation{T}"/>
-    /// <seealso cref="SplitSetValidation{T}"/>
-    /// 
     [Serializable]
+    [Obsolete("Please use SplitSetValidation<TModel, TInput> instead.")]
     public class SplitSetValidation : SplitSetValidation<object>
     {
 
