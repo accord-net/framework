@@ -57,6 +57,7 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="CsvWriterTest.cs" />
     <Compile Include="CsvReaderTest.cs" />
     <Compile Include="UnipenReaderTest.cs" />
     <Compile Include="IdxReaderTest.cs" />
