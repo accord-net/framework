@@ -20,9 +20,10 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+#if !MONO
+
 namespace Accord.Tests.MachineLearning
 {
-#if !MONO
     using Accord;
     using Accord.IO;
     using Accord.MachineLearning;
@@ -167,7 +168,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void ComputeTest()
         {
-#region doc_mitchell
+            #region doc_mitchell
             DataTable data = new DataTable("Mitchell's Tennis Example");
 
             data.Columns.Add("Day", "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
@@ -186,9 +187,9 @@ namespace Accord.Tests.MachineLearning
             data.Rows.Add("D12", "Overcast", "Mild", "High", "Strong", "Yes");
             data.Rows.Add("D13", "Overcast", "Hot", "Normal", "Weak", "Yes");
             data.Rows.Add("D14", "Rain", "Mild", "High", "Strong", "No");
-#endregion
+            #endregion
 
-#region doc_codebook
+            #region doc_codebook
             // Create a new codification codebook to
             // convert strings into discrete symbols
             Codification codebook = new Codification(data,
@@ -198,18 +199,18 @@ namespace Accord.Tests.MachineLearning
             DataTable symbols = codebook.Apply(data);
             int[][] inputs = symbols.ToArray<int>("Outlook", "Temperature", "Humidity", "Wind");
             int[] outputs = symbols.ToArray<int>("PlayTennis");
-#endregion
+            #endregion
 
-#region doc_learn
+            #region doc_learn
             // Create a new Naive Bayes learning
             var learner = new NaiveBayesLearning();
 
             // Learn a Naive Bayes model from the examples
             NaiveBayes nb = learner.Learn(inputs, outputs);
-#endregion
+            #endregion
 
 
-#region doc_test
+            #region doc_test
             // Consider we would like to know whether one should play tennis at a
             // sunny, cool, humid and windy day. Let us first encode this instance
             int[] instance = codebook.Translate("Sunny", "Cool", "High", "Strong");
@@ -222,7 +223,7 @@ namespace Accord.Tests.MachineLearning
 
             // We can also extract the probabilities for each possible answer
             double[] probs = nb.Probabilities(instance); // { 0.795, 0.205 }
-#endregion
+            #endregion
 
             Assert.AreEqual("No", result);
             Assert.AreEqual(0, c);
@@ -380,7 +381,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void laplace_smoothing_missing_sample()
         {
-#region doc_laplace
+            #region doc_laplace
             // To test the effectiveness of the Laplace rule for when
             // an example of a symbol is not present in the training set,
             // lets create dataset where the second column could contain
@@ -403,7 +404,7 @@ namespace Accord.Tests.MachineLearning
 
             int[] outputs = // those are the class labels
             {
-                0, 0, 0, 1, 1, 1, 2, 2, 2, 
+                0, 0, 0, 1, 1, 1, 2, 2, 2,
             };
 
             // Since the data is not enough to determine which symbols we are
@@ -426,7 +427,7 @@ namespace Accord.Tests.MachineLearning
 
             // Estimate a sample with 0 in the second col
             int answer = bayes.Decide(new int[] { 0, 1 });
-#endregion
+            #endregion
 
             Assert.AreEqual(0, answer);
 
@@ -445,7 +446,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void ComputeTest3()
         {
-#region doc_multiclass
+            #region doc_multiclass
             // Let's say we have the following data to be classified
             // into three possible classes. Those are the samples:
             //
@@ -484,7 +485,7 @@ namespace Accord.Tests.MachineLearning
 
             // Now, let's test  the model output for the first input sample:
             int answer = nb.Decide(new int[] { 0, 1, 1, 0 }); // should be 1
-#endregion
+            #endregion
 
             double error = new ZeroOneLoss(outputs).Loss(nb.Decide(inputs));
             Assert.AreEqual(0, error);
@@ -539,7 +540,7 @@ namespace Accord.Tests.MachineLearning
         public void no_sample_test()
         {
             // Declare some boolean data
-            bool[,] source = 
+            bool[,] source =
             {
                 // v1,v2,v3,v4,v5,v6,v7,v8,result
                 { true,  true,  false, true,  true,  false, false, false, false },
@@ -630,6 +631,125 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(0.IsEqual(others));
         }
 
+        [Test]
+        public void issue_168()
+        {
+            // Text naive bayes classification gives wrong results #168
+            // https://github.com/accord-net/framework/issues/168
+            // Some sample texts
+            string[] spamTokens = Tokenize(@"I decided to sign up for the Disney Half Marathon. Half of a marathon is 13.1 miles. A full marathon is 26.2 miles. You may wonder why the strange number of miles. “26.2” is certainly not an even number. And after running 26 miles who cares about the point two? You might think that 26.2 miles is a whole number of kilometers. It isn’t. In fact, it is even worse in kilometers – 42.1648128. I bet you don’t see many t-shirts in England with that number printed on the front.");
+            string[] loremTokens = Tokenize(@"Lorem ipsum dolor sit amet,  Nulla nec tortor. Donec id elit quis purus consectetur consequat. Nam congue semper tellus. Sed erat dolor, dapibus sit amet, venenatis ornare, ultrices ut, nisi. Aliquam ante. Suspendisse scelerisque dui nec velit. Duis augue augue, gravida euismod, vulputate ac, facilisis id, sem. Morbi in orci. Nulla purus lacus, pulvinar vel, malesuada ac, mattis nec, quam. Nam molestie scelerisque quam. Nullam feugiat cursus lacus.orem ipsum dolor sit amet.");
+
+            // Their respective classes
+            string[] classes = { "spam", "lorem" };
+
+
+            // Create a new Bag-of-Words for the texts
+            BagOfWords bow = new BagOfWords()
+            {
+                // Limit the maximum number of occurences in 
+                // the feature vector to a single instance
+                MaximumOccurance = 1
+            };
+
+            bow.Learn(new[] { spamTokens, loremTokens });
+
+            string word = bow.CodeToString[52];
+            Assert.AreEqual("in", word);
+
+            // Create input and outputs for training
+            int[][] inputs =
+            {
+                bow.GetFeatureVector(spamTokens),
+                bow.GetFeatureVector(loremTokens)
+            };
+
+            int[] outputs =
+            {
+                0, // spam
+                1, // lorem
+            };
+
+            // Create the naïve bayes model
+            var teacher = new NaiveBayesLearning()
+            {
+                Empirical = true,
+                Options = new IndependentOptions<GeneralDiscreteOptions>()
+                {
+                    InnerOption = new GeneralDiscreteOptions()
+                    {
+                        //UseLaplaceRule = true
+                    }
+                }
+            };
+
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+
+            // Estimate the model
+            var nb = teacher.Learn(inputs, outputs);
+
+
+            double[][] spamDist = nb.Distributions.GetRow(0);
+            double[][] loremDist = nb.Distributions.GetRow(1);
+
+            for (int i = 0; i < spamDist.Length; i++)
+            {
+                if (i == 52)
+                {
+                    Assert.AreEqual(spamDist[i][0], 0.0, 1e-8);
+                    Assert.AreEqual(spamDist[i][1], 1.0, 1e-8);
+                    Assert.AreEqual(loremDist[i][0], 0.0, 1e-8);
+                    Assert.AreEqual(loremDist[i][1], 1.0, 1e-8);
+                }
+                else
+                {
+                    if (i < 68)
+                    {
+                        Assert.AreEqual(spamDist[i][0], 0.0, 1e-8);
+                        Assert.AreEqual(spamDist[i][1], 1.0, 1e-8);
+                        Assert.AreEqual(loremDist[i][0], 1.0, 1e-8);
+                        Assert.AreEqual(loremDist[i][1], 0.0, 1e-8);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(spamDist[i][0], 1.0, 1e-8);
+                        Assert.AreEqual(spamDist[i][1], 0.0, 1e-8);
+                        Assert.AreEqual(loremDist[i][0], 0.0, 1e-8);
+                        Assert.AreEqual(loremDist[i][1], 1.0, 1e-8);
+                    }
+                }
+            }
+
+            // Consume the model
+            {
+                // This classifies as spam
+                string text = @"I decided to sign up for";
+                int[] input = bow.GetFeatureVector(Tokenize(text));
+                int answer = nb.Decide(input);
+                string result = classes[answer];
+                Assert.AreEqual("lorem", result);
+            }
+
+            {
+                // This classifies as spam
+                string text = @"I decided to sign up for the";
+                int[] input = bow.GetFeatureVector(Tokenize(text));
+                int answer = nb.Decide(input);
+                string result = classes[answer];
+                Assert.AreEqual("spam", result);
+            }
+
+            {
+                // This classifies as lorem
+                string text = @"I decided to lorem ipsum nulla nec tortor purus sit amet";
+                int[] input = bow.GetFeatureVector(Tokenize(text));
+                int answer = nb.Decide(input);
+                string result = classes[answer];
+                Assert.AreEqual("lorem", result);
+            }
+        }
+
     }
-#endif
 }
+#endif
