@@ -21,6 +21,7 @@
 //
 
 using Accord.Imaging;
+using Accord.Imaging.Converters;
 using Accord.Imaging.Filters;
 using Accord.Math;
 using Accord.Math.Wavelets;
@@ -47,9 +48,9 @@ namespace Accord.Tests.Imaging
             // Show on the screen
             //ImageBox.Show(result);
             Assert.IsNotNull(result);
-            
+
             // Extract only one of the resulting images
-            var crop = new Crop(new Rectangle(0, 0, 
+            var crop = new Crop(new Rectangle(0, 0,
                 image.Width / 2, image.Height / 2));
 
             Bitmap quarter = crop.Apply(result);
@@ -76,10 +77,8 @@ namespace Accord.Tests.Imaging
             target.Backward = true;
             Bitmap org = target.Apply(dst);
 
-#pragma warning disable 0618
-            double[,] actual = org.ToDoubleMatrix(0);
-            double[,] expected = src.ToDoubleMatrix(0);
-#pragma warning restore 0618
+            double[,] actual; new ImageToMatrix().Convert(org, out actual);
+            double[,] expected; new ImageToMatrix().Convert(src, out expected);
 
             Assert.IsTrue(actual.IsEqual(expected, atol: 0.102));
         }
