@@ -142,13 +142,47 @@ namespace Accord.Tests.IO
             #endregion 
 
             string text = new StreamReader(filename).ReadToEnd();
-            Assert.AreEqual(text,
-"\"Name\",\"Age\",\"City\"\r\n" +
-"\"John\",\"42\",\"New York\"\r\n" +
-"\"Josephine\",\"25\",\"Grenoble\"\r\n" +
-"\"João\",\"22\",\"Valinhos\"\r\n");
+            
+            string expected = 
+                "\"Name\",\"Age\",\"City\"\r\n" +
+                "\"John\",\"42\",\"New York\"\r\n" +
+                "\"Josephine\",\"25\",\"Grenoble\"\r\n" +
+                "\"João\",\"22\",\"Valinhos\"\r\n";
+
+            Assert.AreEqual(text, expected.Replace("\r\n", Environment.NewLine));
 
             Assert.IsTrue(table.ToMatrix<string>().IsEqual(sameTable.ToMatrix<string>()));
+        }
+
+        [Test]
+        public void write_objects()
+        {
+            #region doc_objects
+            // Tell where to store the matrix (adjust to your own liking)
+            string filename = Path.Combine(Path.GetTempPath(), "objects.csv");
+
+            // Let's say we want to store a jagged array of mixed types
+            object[][] values =
+            {
+                new object[] { "a",    2,    3,   4 },
+                new object[] {   5,  "b",    7,   8 },
+                new object[] {   9,   10,  "c",  12 },
+            };
+
+            // Create a new writer and write the values to disk
+            using (CsvWriter writer = new CsvWriter(filename))
+            {
+                writer.WriteHeaders("a", "b", "c", "d"); // this is optional
+                writer.Write(values);
+            }
+
+            // Later, we could read it back from the disk using
+            var reader = new CsvReader(filename, hasHeaders: true);
+            object[][] sameMatrix = reader.ToJagged<object>();
+            #endregion
+
+            string[][] expected = values.Apply((x, i, j) => x.ToString());
+            Assert.IsTrue(expected.IsEqual(sameMatrix));
         }
     }
 
