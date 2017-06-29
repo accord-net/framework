@@ -239,13 +239,17 @@ namespace Accord.Tests.MachineLearning
             var crossvalidation = new CrossValidation<SupportVectorMachine<Linear, double[]>, double[]>()
             {
                 K = 3, // Use 3 folds in cross-validation
+
+                // Indicate how learning algorithms for the models should be created
                 Learner = (s) => new SequentialMinimalOptimization<Linear, double[]>()
                 {
                     Complexity = 100
                 },
 
+                // Indicate how the performance of those models will be measured
                 Loss = (expected, actual, p) => new ZeroOneLoss(expected).Loss(actual),
-                Stratify = false,
+
+                Stratify = false, // do not force balancing of classes
             };
 
             crossvalidation.ParallelOptions.MaxDegreeOfParallelism = 1;
@@ -354,7 +358,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(15, result.NumberOfSamples);
 
             Assert.AreEqual(0, result.NumberOfInputs);
-            Assert.AreEqual(0, result.NumberOfOutputs);
+            Assert.AreEqual(3, result.NumberOfOutputs);
             Assert.AreEqual(3, result.Models.Length);
 
             for (int i = 0; i < 3; i++)

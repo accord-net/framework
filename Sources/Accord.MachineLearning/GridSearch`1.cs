@@ -28,6 +28,8 @@ namespace Accord.MachineLearning
     using System.Threading.Tasks;
     using Accord.Math;
     using System.Threading;
+    using Accord.MachineLearning.VectorMachines.Learning;
+    using Accord.Statistics.Kernels;
 
     /// <summary>
     ///   Delegate for grid search fitting functions.
@@ -115,6 +117,7 @@ namespace Accord.MachineLearning
     ///   </code>
     /// </example>
     /// 
+    [Obsolete("Please use GridSearch<TModel, TInput, TOutput> instead.")]
     [Serializable]
     public class GridSearch<TModel> : IParallel
         // TODO: Inherit from ISupervisedLearning<TModel>
@@ -241,6 +244,10 @@ namespace Accord.MachineLearning
                 parameters, models, errors, best);
         }
 
+        internal object Create(object ranges, Func<object, SequentialMinimalOptimization<Polynomial>> learner, Func<object, object, object, double> loss)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>

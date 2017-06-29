@@ -59,6 +59,14 @@
     <Compile Include="Clustering\KMeans\BalancedKMeans.cs" />
     <Compile Include="DecisionTrees\DecisionTreeHelper.cs" />
     <Compile Include="BaseKNearestNeighbors`2.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearchRange.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearch`2.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearch`3.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearch`5.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearch.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearch`4.cs" />
+    <Compile Include="Performance\GridSearch\New\BaseGridSearch`5.cs" />
+    <Compile Include="Performance\Base\BaseSplitSetValidation`4.cs" />
     <Compile Include="Performance\Bootstrap\New\BootstrapResult`3.cs" />
     <Compile Include="Performance\Bootstrap\New\Bootstrap`2.cs" />
     <Compile Include="Performance\Bootstrap\New\Bootstrap`3.cs" />
@@ -67,6 +75,8 @@
     <Compile Include="Performance\Data Splits\Base\IDataSplit.cs" />
     <Compile Include="Performance\Data Splits\TrainValTestDataSplit.cs" />
     <Compile Include="Performance\Data Splits\TrainTestDataSplit.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearchResult`4.cs" />
+    <Compile Include="Performance\GridSearch\New\IGridSearchRange.cs" />
     <Compile Include="Performance\SetResult.cs" />
     <Compile Include="Performance\SplitResult.cs" />
     <Compile Include="Performance\CrossValidation\New\CrossValidation`2.cs" />
@@ -170,7 +180,7 @@
     <Compile Include="Performance\SplitSet\SplitSetStatistics`1.cs" />
     <Compile Include="Performance\SplitSet\SplitSetResult`1.cs" />
     <Compile Include="Performance\SplitSet\SplitSetValidation`1.cs" />
-    <Compile Include="GridSearch.cs" />
+    <Compile Include="GridSearch`1.cs" />
     <Compile Include="Clustering\KMeans\KMeans.cs" />
     <Compile Include="QLearning.cs" />
     <Compile Include="Ransac.cs" />
