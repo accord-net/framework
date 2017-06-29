@@ -845,30 +845,27 @@ namespace Accord.Tests.MachineLearning
             int[][] inputs = symbols.ToArray<int>("Outlook", "Temperature", "Humidity", "Wind");
             int[] outputs = symbols.ToArray<int>("PlayTennis");
 
-            // Now that we already have our learning input/ouput pairs, we should specify our
-            // decision tree. We will be trying to build a tree to predict the last column, entitled
-            // “PlayTennis”. For this, we will be using the “Outlook”, “Temperature”, “Humidity” and
-            // “Wind” as predictors (variables which will we will use for our decision). Since those
-            // are categorical, we must specify, at the moment of creation of our tree, the
-            // characteristics of each of those variables. So:
+            // For this task, in which we have only categorical variables, the simplest choice 
+            // to induce a decision tree is to use the ID3 algorithm by Quinlan. Let’s do it:
 
-            // Gather information about decision variables
-            DecisionVariable[] attributes =
+            // Create a teacher ID3 algorithm
+            var id3learning = new ID3Learning()
             {
+                // Now that we already have our learning input/ouput pairs, we should specify our
+                // decision tree. We will be trying to build a tree to predict the last column, entitled
+                // “PlayTennis”. For this, we will be using the “Outlook”, “Temperature”, “Humidity” and
+                // “Wind” as predictors (variables which will we will use for our decision). Since those
+                // are categorical, we must specify, at the moment of creation of our tree, the
+                // characteristics of each of those variables. So:
+
                 new DecisionVariable("Outlook",     3), // 3 possible values (Sunny, overcast, rain)
                 new DecisionVariable("Temperature", 3), // 3 possible values (Hot, mild, cool)  
                 new DecisionVariable("Humidity",    2), // 2 possible values (High, normal)    
                 new DecisionVariable("Wind",        2)  // 2 possible values (Weak, strong) 
+
+                // Note: It is also possible to create a DecisionVariable[] from a codebook:
+                // DecisionVariable[] attributes = DecisionVariable.FromCodebook(codebook);
             };
-
-            // Note: It is also possible to create a DecisionVariable[] from a codebook:
-            // DecisionVariable[] attributes = DecisionVariable.FromCodebook(codebook);
-
-            // For this task, in which we have only categorical variables, the simplest choice 
-            // to induce a decision tree is to use the ID3 algorithm by Quinlan. Let’s do it:
-
-            // Create a new instance of the ID3 algorithm
-            var id3learning = new ID3Learning(attributes);
 
             // Learn the training instances!
             DecisionTree tree = id3learning.Learn(inputs, outputs);

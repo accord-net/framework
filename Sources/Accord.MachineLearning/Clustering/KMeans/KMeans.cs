@@ -126,6 +126,10 @@ namespace Accord.MachineLearning
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KMeansTest.cs" region="doc_learn_weighted" />
     ///   
     /// <para>
+    ///   How to perform clustering with K-Means with mixed discrete, continuous and categorical data.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KMeansTest.cs" region="doc_learn_mixed" />
+    ///   
+    /// <para>
     ///   The following example demonstrates how to use the K-Means algorithm for color clustering. It is the same code which can be 
     ///   found in the <a href="https://github.com/accord-net/framework/wiki/Sample-applications#clustering-k-means-and-meanshift">
     ///   color clustering sample application</a>.</para>

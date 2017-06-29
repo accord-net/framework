@@ -309,8 +309,8 @@ namespace Accord.Tests.MachineLearning
             DecisionVariable[] attributes =
             {
                new DecisionVariable("Outlook",     codebook["Outlook"].Symbols),      // 3 possible values (Sunny, overcast, rain)
-               new DecisionVariable("Temperature", DecisionVariableKind.Continuous), // constant continuous value
-               new DecisionVariable("Humidity",    DecisionVariableKind.Continuous), // continuous values
+               new DecisionVariable("Temperature", DecisionVariableKind.Continuous),  // constant continuous value
+               new DecisionVariable("Humidity",    DecisionVariableKind.Continuous),  // continuous values
                new DecisionVariable("Wind",        codebook["Wind"].Symbols + 1)      // 1 possible value (Weak)
             };
 
@@ -519,8 +519,8 @@ namespace Accord.Tests.MachineLearning
             // With the codebook, we can convert the labels:
             int[] outputs = codebook.Translate("Output", labels);
 
-            // Let's declare the names of our input variables:
-            DecisionVariable[] features =
+            // Create a teaching algorithm:
+            var teacher = new C45Learning()
             {
                 new DecisionVariable("sepal length", DecisionVariableKind.Continuous),
                 new DecisionVariable("sepal width", DecisionVariableKind.Continuous),
@@ -528,14 +528,8 @@ namespace Accord.Tests.MachineLearning
                 new DecisionVariable("petal width", DecisionVariableKind.Continuous),
             };
 
-            // Now, we can finally create our tree for the 3 classes:
-            var tree = new DecisionTree(inputs: features, classes: 3);
-
-            // And we can use the C4.5 for learning:
-            var teacher = new C45Learning(tree);
-
-            // And finally induce the tree:
-            teacher.Learn(inputs, outputs);
+            // Use the learning algorithm to induce a new tree:
+            DecisionTree tree = teacher.Learn(inputs, outputs);
 
             // To get the estimated class labels, we can use
             int[] predicted = tree.Decide(inputs);
