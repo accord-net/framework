@@ -861,10 +861,13 @@ namespace Accord.Statistics.Distributions.Univariate
                 }
             }
 
-            if (cumulativeSum == 0)
+            if (cumulativeSum < 1e-100)
                 throw new ArgumentException("probabilities", "All probabilities are zero.");
 
-            throw new InvalidOperationException("Generated value is not between 0 and 1.");
+            throw new InvalidOperationException("The given probabilities do not sum up to one. Please normalize them by " +
+                "dividing the probabilities by their sum. If the probabilities have already been normalized, this can be due " +
+                "a numerical inaccuracy. If this is the case, try transforming the probabilities to logarithms and including " +
+                "'log = true' in the arguments of the GeneralDiscreteDistribution.Random(double[] probabilities, bool log) function.");
         }
 
 
