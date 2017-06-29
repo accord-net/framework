@@ -26,6 +26,7 @@ namespace Accord.Tests.Statistics
     using NUnit.Framework;
     using Accord.Math;
     using System.Globalization;
+    using System;
 
     [TestFixture]
     public class DiscreteDistributionTest
@@ -225,7 +226,7 @@ namespace Accord.Tests.Statistics
 
             // --
 
-            double[][] values2 = 
+            double[][] values2 =
             {
                 new[] { 1.00, 0.00, 0.00, 0.00 },
                 new[] { 0.00, 0.00, 0.00, 0.00 },
@@ -241,7 +242,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(expected, actual2));
 
 
-            double[][] values3 = 
+            double[][] values3 =
             {
                 new[] { 1.00, 0.00, 0.00, 0.00 },
                 new[] { 0.00, 1.00, 0.00, 0.00 },
@@ -257,7 +258,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(expected, actual3));
 
 
-            double[][] values4 = 
+            double[][] values4 =
             {
                 new[] { 0.50, 0.00, 0.00, 0.00 },
                 new[] { 0.00, 0.00, 0.00, 0.00 },
@@ -459,6 +460,14 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(0.5, target.Frequencies[1], 0.01);
                 Assert.AreEqual(0.3, target.Frequencies[2], 0.01);
             }
+        }
+
+
+        [Test]
+        public void RandomTest()
+        {
+            Assert.Throws<InvalidOperationException>(() => GeneralDiscreteDistribution.Random(new[] { 1e-14, 1e-15 }));
+            Assert.Throws<ArgumentException>(() => GeneralDiscreteDistribution.Random(new[] { 0.0, 0.0 }));
         }
     }
 }

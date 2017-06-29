@@ -407,29 +407,44 @@ namespace Accord.MachineLearning
             if (ComputeCovariances)
             {
                 // Compute cluster information (optional)
-                Parallel.For(0, clusters.Count, ParallelOptions, i =>
+                // Note: If you get OutOfMemoryExceptions here, just disable the 
+                // computation of variances by setting ComputeCovariances = false
+                if (ParallelOptions.MaxDegreeOfParallelism == 1)
                 {
-                    double[][] centroids = clusters.Centroids;
-
-                    // Extract the data for the current cluster
-                    double[][] sub = data.Get(labels.Find(x => x == i));
-
-                    if (sub.Length > 0)
+                    for (int i = 0; i < clusters.Count; i++)
+                        innerComputeCovariance(data, labels, i);
+                }
+                else
+                {
+                    Parallel.For(0, clusters.Count, ParallelOptions, i =>
                     {
-                        // Compute the current cluster variance
-                        clusters.Covariances[i] = sub.Covariance(centroids[i]);
-                    }
-                    else
-                    {
-                        // The cluster doesn't have any samples
-                        clusters.Covariances[i] = Jagged.Zeros(Dimension, Dimension);
-                    }
-                });
+                        innerComputeCovariance(data, labels, i);
+                    });
+                }
             }
 
             if (ComputeError)
             {
                 Error = clusters.Distortion(data);
+            }
+        }
+
+        private void innerComputeCovariance(double[][] data, int[] labels, int i)
+        {
+            double[][] centroids = clusters.Centroids;
+
+            // Extract the data for the current cluster
+            double[][] sub = data.Get(labels.Find(x => x == i));
+
+            if (sub.Length > 0)
+            {
+                // Compute the current cluster variance
+                clusters.Covariances[i] = sub.Covariance(centroids[i]);
+            }
+            else
+            {
+                // The cluster doesn't have any samples
+                clusters.Covariances[i] = Jagged.Zeros(Dimension, Dimension);
             }
         }
 

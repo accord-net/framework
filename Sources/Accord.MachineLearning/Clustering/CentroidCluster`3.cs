@@ -136,8 +136,17 @@ namespace Accord.MachineLearning
                             for (int i = 0; i < D.Length; i++)
                                 D[i] /= sum;
 
-                            // Sample randomly using the probabilities
-                            idx = GeneralDiscreteDistribution.Random(D);
+                            try
+                            {
+                                // Sample randomly using the probabilities
+                                idx = GeneralDiscreteDistribution.Random(D);
+                            }
+                            catch (InvalidOperationException)
+                            {
+                                // Degenerate case: numerical inaccuracy when normalizing 
+                                // the point-centroid distances to become probabilities
+                                idx = r.Next(0, points.Length);
+                            }
                         }
 
                         // 3. Choose one new data point at random as a new center, using a weighted
