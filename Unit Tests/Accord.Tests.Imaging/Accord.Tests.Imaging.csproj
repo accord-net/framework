@@ -64,6 +64,7 @@
     <Compile Include="ConvexityDefectsTest.cs" />
     <Compile Include="BorderFollowingTest.cs" />
     <Compile Include="CentralMomentsTest.cs" />
+    <Compile Include="Filters\BinaryWatershedTest.cs" />
     <Compile Include="Filters\DistanceTransformTest.cs" />
     <Compile Include="Filters\WhitePatchTest.cs" />
     <Compile Include="Filters\GrayWorldTest.cs" />
@@ -153,6 +154,7 @@
     <None Include="Resources\image1.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\water.bmp" />
     <None Include="Resources\noise-line.png" />
     <None Include="Resources\blend_net35.png" />
     <None Include="Resources\blend_net45.png" />

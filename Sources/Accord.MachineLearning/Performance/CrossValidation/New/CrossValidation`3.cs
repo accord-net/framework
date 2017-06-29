@@ -108,7 +108,6 @@ namespace Accord.MachineLearning.Performance
             }
         }
 
-
         /// <summary>
         ///   Initializes a new instance of the <see cref="CrossValidation" /> class.
         /// </summary>
@@ -160,7 +159,7 @@ namespace Accord.MachineLearning.Performance
             }
             else
             {
-                Parallel.For(0, K, i =>
+                Parallel.For(0, K, ParallelOptions, i =>
                 {
                     foldResults[i] = LearnSubset(GetFold(i, x, y, weights), i);
                 });

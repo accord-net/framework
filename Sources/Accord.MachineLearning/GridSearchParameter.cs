@@ -22,6 +22,7 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.MachineLearning.Performance;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -29,6 +30,8 @@ namespace Accord.MachineLearning
     /// <summary>
     ///   Contains the name and value of a parameter that should be used during fitting.
     /// </summary>
+    /// 
+    /// <seealso cref="GridSearch"/>
     /// 
     [Serializable]
     public struct GridSearchParameter
@@ -106,20 +109,37 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
+        ///   Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
+        /// 
         /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
+        ///   A <see cref="System.String" /> that represents this instance.
         /// </returns>
+        /// 
         public override string ToString()
         {
             return String.Format("{0}: {1}", name, value);
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="GridSearchParameter"/> to <see cref="System.Double"/>.
+        /// </summary>
+        /// 
+        /// <param name="param">The parameter to be converted.</param>
+        /// 
+        /// <returns>The value of the parameter's <see cref="GridSearchParameter.Value"/>.</returns>
+        /// 
+        public static implicit operator double(GridSearchParameter param)
+        {
+            return param.Value;
         }
     }
 
     /// <summary>
     ///   Grid search parameter collection.
     /// </summary>
+    /// 
+    /// <seealso cref="GridSearch"/>
     /// 
     [Serializable]
     public class GridSearchParameterCollection : KeyedCollection<string, GridSearchParameter>
