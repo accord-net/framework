@@ -44,6 +44,11 @@ namespace Accord.IO
     /// <para>
     ///   The following example shows how to use <see cref="CsvWriter"/> to write a DataTable in .csv format.</para>
     ///   <code source="Unit Tests\Accord.Tests.IO\CsvWriterTest.cs" region="doc_table" />
+    ///   
+    /// <para>
+    ///   It is also possible to use <see cref="CsvWriter"/> to write matrices (or jagged arrays) 
+    ///   containing objects with mixed types:</para>
+    ///   <code source="Unit Tests\Accord.Tests.IO\CsvWriterTest.cs" region="doc_objects" />
     /// </example>
     /// 
     public class CsvWriter : IDisposable
