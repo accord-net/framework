@@ -32,6 +32,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     using System.Threading.Tasks;
     using Accord.MachineLearning;
     using Accord.Math.Optimization.Losses;
+    using System.Collections;
 
     /// <summary>
     ///   C4.5 Learning algorithm for <see cref="DecisionTree">Decision Trees</see>.
@@ -83,7 +84,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     ///
     [Serializable]
     public class C45Learning : ParallelLearningBase,
-        ISupervisedLearning<DecisionTree, double[], int>
+        ISupervisedLearning<DecisionTree, double[], int>,
+        IEnumerable<DecisionVariable>
     {
 
         private DecisionTree tree;
@@ -202,6 +204,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         {
             this.splitStep = 1;
             this.ParallelOptions = new ParallelOptions();
+            this.attributes = new List<DecisionVariable>();
         }
 
         /// <summary>
@@ -247,6 +250,15 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         }
 
         /// <summary>
+        ///   Adds the specified variable to the list of <see cref="Attribute"/>s.
+        /// </summary>
+        /// 
+        public void Add(DecisionVariable variable)
+        {
+            this.attributes.Add(variable);
+        }
+
+        /// <summary>
         ///   Learns a model that can map the given inputs to the given outputs.
         /// </summary>
         /// 
@@ -262,16 +274,12 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
 
             if (tree == null)
-            {
-                if (this.attributes == null)
-                    this.attributes = DecisionVariable.FromData(x);
-                int classes = y.Max() + 1;
-                init(new DecisionTree(this.attributes, classes));
-            }
+                init(DecisionTreeHelper.Create(x, y, this.attributes));
 
             this.run(x, y);
             return tree;
         }
+
 
         /// <summary>
         ///   Learns a model that can map the given inputs to the given outputs.
@@ -289,11 +297,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
 
             if (tree == null)
-            {
-                var variables = DecisionVariable.FromData(x);
-                int classes = y.Max() + 1;
-                init(new DecisionTree(variables, classes));
-            }
+                init(DecisionTreeHelper.Create(x, y, this.attributes));
 
             this.run(x.ToDouble(), y);
             return tree;
@@ -675,5 +679,22 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             }.Loss(tree.Decide(inputs));
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
+        public IEnumerator<DecisionVariable> GetEnumerator()
+        {
+            return attributes.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return attributes.GetEnumerator();
+        }
     }
 }

@@ -710,26 +710,46 @@ namespace Accord.Statistics.Filters
             return this;
         }
 
+        /// <summary>
+        ///   Converts this instance into a transform that can generate double[].
+        /// </summary>
+        /// 
         public ITransform<T[], double[]> ToDouble()
         {
             return (ITransform<T[], double[]>)this;
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<Options> GetEnumerator()
         {
             return Columns.GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return Columns.GetEnumerator();
         }
 
+        /// <summary>
+        ///   Add a new column options definition to the collection.
+        /// </summary>
+        /// 
         public void Add(Options options)
         {
             this.Columns.Add(options);
         }
 
+        /// <summary>
+        ///   Add a new column options definition with the given variable type to the collection.
+        /// </summary>
+        /// 
         public void Add(CodificationVariable variableType)
         {
             this.Add(new Options(this.Columns.Count.ToString(), variableType));

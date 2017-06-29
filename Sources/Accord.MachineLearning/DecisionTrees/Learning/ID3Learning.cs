@@ -31,6 +31,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     using System.Linq;
     using System.Collections.Generic;
     using Statistics.Filters;
+    using System.Collections;
 
     /// <summary>
     ///   ID3 (Iterative Dichotomizer 3) learning algorithm
@@ -69,7 +70,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     /// <see cref="RandomForestLearning"/>
     /// 
     [Serializable]
-    public class ID3Learning : ParallelLearningBase, ISupervisedLearning<DecisionTree, int[], int>
+    public class ID3Learning : ParallelLearningBase, ISupervisedLearning<DecisionTree, int[], int>,
+        IEnumerable<DecisionVariable>
     {
 
         private DecisionTree tree;
@@ -164,6 +166,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         public ID3Learning()
         {
             this.Rejection = true;
+            this.attributes = new List<DecisionVariable>();
         }
 
         /// <summary>
@@ -212,6 +215,15 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         }
 
         /// <summary>
+        ///   Adds the specified variable to the list of <see cref="Attribute"/>s.
+        /// </summary>
+        /// 
+        public void Add(DecisionVariable variable)
+        {
+            this.attributes.Add(variable);
+        }
+
+        /// <summary>
         ///   Learns a model that can map the given inputs to the given outputs.
         /// </summary>
         /// 
@@ -227,12 +239,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
 
             if (tree == null)
-            {
-                if (this.attributes == null)
-                    this.attributes = DecisionVariable.FromData(x);
-                int classes = y.Max() + 1;
-                init(new DecisionTree(this.attributes, classes));
-            }
+                init(DecisionTreeHelper.Create(x, y, this.attributes));
 
             run(x, y);
 
@@ -449,5 +456,22 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             return infoGain == 0 ? 0 : infoGain / splitInfo;
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
+        public IEnumerator<DecisionVariable> GetEnumerator()
+        {
+            return attributes.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return attributes.GetEnumerator();
+        }
     }
 }
