@@ -51,9 +51,34 @@ namespace Accord.Tests.Imaging
             Bitmap result = dt.Apply(binaryCards);
             Assert.AreEqual(35.805027, dt.MaximumDistance, 1e-5);
             Assert.AreEqual(new IntPoint(254, 129), dt.UltimateErodedPoint);
-            result.Save(@"c:\Temp\result.jpg");
+            result.Save(@"c:\Temp\distance_transform.jpg");
 
             Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void water_test()
+        {
+            Bitmap water = Properties.Resources.water;
+
+            var dt = new DistanceTransform();
+            Bitmap result = dt.Apply(water);
+            Assert.AreEqual(111.364265, dt.MaximumDistance, 1e-5);
+            Assert.AreEqual(new IntPoint(436, 310), dt.UltimateErodedPoint);
+            Assert.IsNotNull(result);
+
+            float[] distance1D;
+            new ImageToArray().Convert(result, out distance1D);
+
+            float[][] distance;
+            new ImageToMatrix().Convert(result, out distance);
+
+            Assert.AreEqual(distance1D.Sum(), distance.Sum());
+
+            float[][] distances2 = Jagged.Reshape(dt.Pixels, result.Height, result.Width);
+            float actual = distances2[84][533];
+            float expected = 1.4142135f;
+            Assert.AreEqual(expected, actual);
         }
 
     }

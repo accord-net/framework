@@ -32,6 +32,7 @@ namespace Accord.Imaging.Filters
     using Accord.Imaging.Filters;
     using Accord.Math;
     using Accord.Diagnostics;
+    using Accord.Math.Distances;
 
     /// <summary>
     ///   Distance functions that can be used with <see cref="DistanceTransform"/>.
@@ -48,11 +49,13 @@ namespace Accord.Imaging.Filters
         /// <summary>
         ///   Euclidean distance.
         /// </summary>
+        /// 
         Euclidean,
 
         /// <summary>
         ///   Manhattan distance.
         /// </summary>
+        /// 
         Manhattan,
 
         /// <summary>
@@ -67,10 +70,35 @@ namespace Accord.Imaging.Filters
     /// </summary>
     /// 
     /// <remarks>
-    ///   Simple exp image filter. Applies the <see cref="System.Math.Exp"/>
-    ///   function for each pixel in the image, clipping values as needed.
-    ///   The resultant image can be converted back using the <see cref="Logarithm"/>
-    ///   filter.
+    /// <para>
+    ///   A distance transform, also known as distance map or distance field, is a derived
+    ///   representation of a digital image.The choice of the term depends on the point of 
+    ///   view on the object in question: whether the initial image is transformed into another 
+    ///   representation, or it is simply endowed with an additional map or field.</para>
+    /// <para>
+    ///   Distance fields can also be signed, in the case where it is important to distinguish whether
+    ///   the point is inside or outside of the shape. The map labels each pixel of the image with 
+    ///   the distance to the nearest obstacle pixel. A most common type of obstacle pixel is a boundary 
+    ///   pixel in a binary image.See the image for an example of a chessboard distance transform 
+    ///   on a binary image.</para>
+    ///   
+    /// <para>
+    ///   Usually the transform/map is qualified with the chosen metric.For example, one may 
+    ///   speak of <see cref="DistanceTransformMethod.Manhattan"/>distance transform, if the 
+    ///   underlying metric is <see cref="Manhattan">Manhattan distance</see>. Common metrics are:
+    ///   The <see cref="DistanceTransformMethod.Euclidean">Euclidean distance</see>; the Taxicab 
+    ///   geometry, also known as City block distance or <see cref="DistanceTransformMethod.Manhattan">Manhattan 
+    ///   distance</see>; and the <see cref="DistanceTransformMethod.Chessboard">Chessboard distance</see>.
+    ///   </para>
+    ///   
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description><a href="https://en.wikipedia.org/wiki/Distance_transform">
+    ///       Wikipedia contributors. "Distance transform." Wikipedia, The Free Encyclopedia. 
+    ///       Available on: https://en.wikipedia.org/wiki/Distance_transform </a>
+    ///       </description></item>
+    ///    </list></para>
     /// </remarks>
     /// 
     /// <example>
@@ -84,7 +112,6 @@ namespace Accord.Imaging.Filters
     ///   // Show results on screen
     ///   ImageBox.Show("input", input);
     ///   ImageBox.Show("output", output);
-    ///   ImageBox.Show("reconstruction", reconstruction);
     /// </code>
     /// </example>
     /// 
@@ -95,6 +122,8 @@ namespace Accord.Imaging.Filters
         private DistanceTransformMethod distance = DistanceTransformMethod.Euclidean;
         private Dictionary<PixelFormat, PixelFormat> formatTranslations;
 
+        float[] fPixels;
+
         /// <summary>
         ///   Format translations dictionary.
         /// </summary>
@@ -102,6 +131,15 @@ namespace Accord.Imaging.Filters
         public override Dictionary<PixelFormat, PixelFormat> FormatTranslations
         {
             get { return formatTranslations; }
+        }
+
+        /// <summary>
+        ///   Gets the resulting pixels of the last transfomed image as a float[] array.
+        /// </summary>
+        /// 
+        public float[] Pixels
+        {
+            get { return fPixels; }
         }
 
         /// <summary>
@@ -114,6 +152,15 @@ namespace Accord.Imaging.Filters
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DistanceTransform"/> class.
+        /// </summary>
+        /// 
+        public DistanceTransform(DistanceTransformMethod method)
+            : this()
+        {
+            this.distance = method;
+        }
 
         /// <summary>
         ///   Gets the maximum distance from the transform.
@@ -148,12 +195,12 @@ namespace Accord.Imaging.Filters
             int pixelSize = System.Drawing.Bitmap.GetPixelFormatSize(format) / 8;
 
             Debug.Assert(pixelSize == 1);
-            Debug.Assert(image.Stride == width);
+            // Debug.Assert(image.Stride == width);
 
             byte[] bPixels = image.ToByteArray();
-            float[] fPixels = new float[bPixels.Length];
+            this.fPixels = new float[bPixels.Length];
 
-            for (int i = 0; i < bPixels.Length; i++)
+            for (int i = 0; i < fPixels.Length; i++)
             {
                 if (bPixels[i] != 0)
                     fPixels[i] = float.MaxValue;
@@ -218,11 +265,15 @@ namespace Accord.Imaging.Filters
             // Normalize and store
             fixed (float* srcPtr = fPixels)
             {
+                int offset = image.Offset;
                 byte* dst = (byte*)image.ImageData.ToPointer();
                 float* src = srcPtr;
                 for (int i = 0; i < height; i++)
+                {
                     for (int j = 0; j < width; j++, src++, dst++)
                         (*dst) = (byte)Vector.Scale(*src, 0, max, 0, 255);
+                    dst += offset;
+                }
             }
         }
 
