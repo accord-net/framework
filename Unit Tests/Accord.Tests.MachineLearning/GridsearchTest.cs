@@ -644,7 +644,9 @@ namespace Accord.Tests.MachineLearning
                         lossModels.Add(m);
                     }
 
-                    return Math.Abs(m.Parameter1.GetHashCode() + 7 * m.Parameter2.GetHashCode() + 13 * m.Parameter3.GetHashCode());
+                    return Math.Abs(int.Parse(m.Parameter1.Replace("parameter ", ""))
+                        + 100 * int.Parse(m.Parameter2.Replace("parameter ", ""))
+                        + 10000 * int.Parse(m.Parameter3.Replace("parameter ", "")));
                 },
 
                 x: inputs,
@@ -676,8 +678,8 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(8, result.Count);
             Assert.AreEqual(result.Errors, new double[] {
-                1052821525, 814233579, 1623537643, 804374549,
-                -42, Double.PositiveInfinity, 49559531, 1916614635 });
+                312111, 312211, 312311, 312411,
+                -42, Double.PositiveInfinity, 312312, 312412 });
 
             Exception[] exceptions = result.Exceptions;
             for (int i = 0; i < exceptions.Length; i++)
