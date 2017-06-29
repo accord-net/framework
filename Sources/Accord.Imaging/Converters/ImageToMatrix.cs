@@ -91,13 +91,21 @@ namespace Accord.Imaging.Converters
     /// 
     public class ImageToMatrix :
         IConverter<Bitmap, double[,]>,
+        IConverter<Bitmap, double[][]>,
         IConverter<UnmanagedImage, double[,]>,
+        IConverter<UnmanagedImage, double[][]>,
         IConverter<Bitmap, float[,]>,
+        IConverter<Bitmap, float[][]>,
         IConverter<UnmanagedImage, float[,]>,
+        IConverter<UnmanagedImage, float[][]>,
         IConverter<Bitmap, byte[,]>,
+        IConverter<Bitmap, byte[][]>,
         IConverter<UnmanagedImage, byte[,]>,
+        IConverter<UnmanagedImage, byte[][]>,
         IConverter<Bitmap, Color[,]>,
-        IConverter<UnmanagedImage, Color[,]>
+        IConverter<Bitmap, Color[][]>,
+        IConverter<UnmanagedImage, Color[,]>,
+        IConverter<UnmanagedImage, Color[][]>
     {
 
         /// <summary>
@@ -147,7 +155,9 @@ namespace Accord.Imaging.Converters
         /// </summary>
         /// 
         public ImageToMatrix()
-            : this(0, 1) { }
+            : this(0, 1)
+        {
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="ImageToMatrix"/> class.
@@ -174,8 +184,23 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(Bitmap input, out double[,] output)
         {
-            BitmapData bitmapData = input.LockBits(new Rectangle(0, 0, input.Width, input.Height),
-                ImageLockMode.ReadOnly, input.PixelFormat);
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
+
+            Convert(new UnmanagedImage(bitmapData), out output);
+
+            input.UnlockBits(bitmapData);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(Bitmap input, out double[][] output)
+        {
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
 
             Convert(new UnmanagedImage(bitmapData), out output);
 
@@ -191,8 +216,23 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(Bitmap input, out float[,] output)
         {
-            BitmapData bitmapData = input.LockBits(new Rectangle(0, 0, input.Width, input.Height),
-                ImageLockMode.ReadOnly, input.PixelFormat);
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
+
+            Convert(new UnmanagedImage(bitmapData), out output);
+
+            input.UnlockBits(bitmapData);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(Bitmap input, out float[][] output)
+        {
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
 
             Convert(new UnmanagedImage(bitmapData), out output);
 
@@ -208,8 +248,23 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(Bitmap input, out byte[,] output)
         {
-            BitmapData bitmapData = input.LockBits(new Rectangle(0, 0, input.Width, input.Height),
-                ImageLockMode.ReadOnly, input.PixelFormat);
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
+
+            Convert(new UnmanagedImage(bitmapData), out output);
+
+            input.UnlockBits(bitmapData);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(Bitmap input, out byte[][] output)
+        {
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
 
             Convert(new UnmanagedImage(bitmapData), out output);
 
@@ -225,8 +280,23 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(Bitmap input, out Color[,] output)
         {
-            BitmapData bitmapData = input.LockBits(new Rectangle(0, 0, input.Width, input.Height),
-                ImageLockMode.ReadOnly, input.PixelFormat);
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
+
+            Convert(new UnmanagedImage(bitmapData), out output);
+
+            input.UnlockBits(bitmapData);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(Bitmap input, out Color[][] output)
+        {
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
 
             Convert(new UnmanagedImage(bitmapData), out output);
 
@@ -244,8 +314,8 @@ namespace Accord.Imaging.Converters
         {
             int width = input.Width;
             int height = input.Height;
-            int pixelSize = Bitmap.GetPixelFormatSize(input.PixelFormat) / 8;
-            int offset = input.Stride - input.Width * pixelSize;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
 
             output = new double[height, width];
 
@@ -273,12 +343,41 @@ namespace Accord.Imaging.Converters
         /// <param name="input">The input image to be converted.</param>
         /// <param name="output">The converted image.</param>
         /// 
+        public void Convert(UnmanagedImage input, out double[][] output)
+        {
+            int width = input.Width;
+            int height = input.Height;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
+
+            output = Jagged.Zeros(height, width);
+
+            unsafe
+            {
+                byte* src = (byte*)input.ImageData.ToPointer() + Channel;
+
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++, src += pixelSize)
+                        output[y][x] = Vector.Scale(*src, (byte)0, (byte)255, Min, Max);
+                    src += offset;
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
         public void Convert(UnmanagedImage input, out float[,] output)
         {
             int width = input.Width;
             int height = input.Height;
-            int pixelSize = Bitmap.GetPixelFormatSize(input.PixelFormat) / 8;
-            int offset = input.Stride - input.Width * pixelSize;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
 
             output = new float[height, width];
 
@@ -303,6 +402,38 @@ namespace Accord.Imaging.Converters
         }
 
         /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(UnmanagedImage input, out float[][] output)
+        {
+            int width = input.Width;
+            int height = input.Height;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
+
+            output = Jagged.Create<float>(height, width);
+
+            float min = (float)Min;
+            float max = (float)Max;
+
+            unsafe
+            {
+                byte* src = (byte*)input.ImageData.ToPointer() + Channel;
+
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++, src += pixelSize)
+                        output[y][x] = Vector.Scale(*src, (byte)0, (byte)255, min, max);
+                    src += offset;
+                }
+            }
+        }
+
+        /// <summary>
         ///   Converts an image from one representation to another. When
         ///   converting to byte, the <see cref="Max"/> and <see cref="Min"/>
         ///   are ignored.
@@ -315,8 +446,8 @@ namespace Accord.Imaging.Converters
         {
             int width = input.Width;
             int height = input.Height;
-            int pixelSize = Bitmap.GetPixelFormatSize(input.PixelFormat) / 8;
-            int offset = input.Stride - input.Width * pixelSize;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
 
             output = new byte[height, width];
 
@@ -346,13 +477,43 @@ namespace Accord.Imaging.Converters
         /// <param name="input">The input image to be converted.</param>
         /// <param name="output">The converted image.</param>
         /// 
+        public void Convert(UnmanagedImage input, out byte[][] output)
+        {
+            int width = input.Width;
+            int height = input.Height;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
+
+            output = Jagged.Zeros<byte>(height, width);
+
+            unsafe
+            {
+                byte* src = (byte*)input.ImageData.ToPointer() + Channel;
+
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++, src += pixelSize)
+                        output[y][x] = *src;
+                    src += offset;
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another. When
+        ///   converting to byte, the <see cref="Max"/> and <see cref="Min"/>
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
         public void Convert(UnmanagedImage input, out Color[,] output)
         {
             int width = input.Width;
             int height = input.Height;
-
-            int pixelSize = Bitmap.GetPixelFormatSize(input.PixelFormat) / 8;
-            int offset = input.Stride - input.Width * pixelSize;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
 
             output = new Color[input.Height, input.Width];
 
@@ -389,6 +550,67 @@ namespace Accord.Imaging.Converters
                     {
                         for (int x = 0; x < width; x++, src += pixelSize)
                             output[y, x] = Color.FromArgb(src[RGB.A], src[RGB.R], src[RGB.G], src[RGB.B]);
+                        src += offset;
+                    }
+                }
+                else
+                {
+                    throw new UnsupportedImageFormatException("Pixel format is not supported.");
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another. When
+        ///   converting to byte, the <see cref="Max"/> and <see cref="Min"/>
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(UnmanagedImage input, out Color[][] output)
+        {
+            int width = input.Width;
+            int height = input.Height;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
+
+            output = Jagged.Zeros<Color>(input.Height, input.Width);
+
+            unsafe
+            {
+                if (input.PixelFormat == PixelFormat.Format8bppIndexed)
+                {
+                    byte* src = (byte*)input.ImageData.ToPointer();
+
+                    for (int y = 0; y < height; y++)
+                    {
+                        for (int x = 0; x < width; x++, src += pixelSize)
+                            output[y][x] = Color.FromArgb(*src, *src, *src);
+                        src += offset;
+                    }
+                }
+                else if (input.PixelFormat == PixelFormat.Format24bppRgb
+                      || input.PixelFormat == PixelFormat.Format32bppRgb)
+                {
+                    byte* src = (byte*)input.ImageData.ToPointer();
+
+                    for (int y = 0; y < height; y++)
+                    {
+                        for (int x = 0; x < width; x++, src += pixelSize)
+                            output[y][x] = Color.FromArgb(src[RGB.R], src[RGB.G], src[RGB.B]);
+                        src += offset;
+                    }
+                }
+                else if (input.PixelFormat == PixelFormat.Format32bppArgb)
+                {
+                    byte* src = (byte*)input.ImageData.ToPointer();
+
+                    for (int y = 0; y < height; y++)
+                    {
+                        for (int x = 0; x < width; x++, src += pixelSize)
+                            output[y][x] = Color.FromArgb(src[RGB.A], src[RGB.R], src[RGB.G], src[RGB.B]);
                         src += offset;
                     }
                 }

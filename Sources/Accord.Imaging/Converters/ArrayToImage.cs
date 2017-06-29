@@ -175,8 +175,7 @@ namespace Accord.Imaging.Converters
         {
             output = Accord.Imaging.Image.CreateGrayscaleImage(Width, Height);
 
-            BitmapData data = output.LockBits(new Rectangle(0, 0, Width, Height),
-                ImageLockMode.WriteOnly, output.PixelFormat);
+            BitmapData data = output.LockBits(ImageLockMode.WriteOnly);
 
             int offset = data.Stride - Width;
             int src = 0;
@@ -209,8 +208,7 @@ namespace Accord.Imaging.Converters
         {
             output = Accord.Imaging.Image.CreateGrayscaleImage(Width, Height);
 
-            BitmapData data = output.LockBits(new Rectangle(0, 0, Width, Height),
-                ImageLockMode.WriteOnly, output.PixelFormat);
+            BitmapData data = output.LockBits(ImageLockMode.WriteOnly);
 
             int offset = data.Stride - Width;
             int src = 0;
@@ -248,8 +246,7 @@ namespace Accord.Imaging.Converters
         {
             output = Accord.Imaging.Image.CreateGrayscaleImage(Width, Height);
 
-            BitmapData data = output.LockBits(new Rectangle(0, 0, Width, Height),
-                ImageLockMode.WriteOnly, output.PixelFormat);
+            BitmapData data = output.LockBits(ImageLockMode.WriteOnly);
 
             int offset = data.Stride - Width;
             int src = 0;
@@ -348,8 +345,7 @@ namespace Accord.Imaging.Converters
 
             output = new Bitmap(Width, Height, format);
 
-            BitmapData data = output.LockBits(new Rectangle(0, 0, Width, Height),
-                ImageLockMode.WriteOnly, format);
+            BitmapData data = output.LockBits(ImageLockMode.WriteOnly);
 
             int pixelSize = System.Drawing.Image.GetPixelFormatSize(format) / 8;
             int offset = data.Stride - Width * pixelSize;
@@ -408,8 +404,7 @@ namespace Accord.Imaging.Converters
 
             output = new Bitmap(Width, Height, format);
 
-            BitmapData data = output.LockBits(new Rectangle(0, 0, Width, Height),
-                ImageLockMode.WriteOnly, format);
+            BitmapData data = output.LockBits(ImageLockMode.WriteOnly);
 
             int pixelSize = System.Drawing.Image.GetPixelFormatSize(format) / 8;
             int offset = data.Stride - Width * pixelSize;
@@ -473,8 +468,7 @@ namespace Accord.Imaging.Converters
 
             output = new Bitmap(Width, Height, format);
 
-            BitmapData data = output.LockBits(new Rectangle(0, 0, Width, Height),
-                ImageLockMode.WriteOnly, format);
+            BitmapData data = output.LockBits(ImageLockMode.WriteOnly);
 
             int pixelSize = System.Drawing.Image.GetPixelFormatSize(format) / 8;
             int offset = data.Stride - Width * pixelSize;
@@ -515,8 +509,7 @@ namespace Accord.Imaging.Converters
             PixelFormat format = PixelFormat.Format32bppArgb;
             output = new Bitmap(Width, Height, format);
 
-            BitmapData data = output.LockBits(new Rectangle(0, 0, Width, Height),
-                ImageLockMode.WriteOnly, format);
+            BitmapData data = output.LockBits(ImageLockMode.WriteOnly);
 
             int pixelSize = System.Drawing.Image.GetPixelFormatSize(format) / 8;
             int offset = data.Stride - Width * pixelSize;
