@@ -181,6 +181,7 @@
     <Compile Include="AForge.Imaging\Filters\Normalized RGB\ExtractNormalizedRGBChannel.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\ApplyMask.cs" />
     <Compile Include="Blob Processing\IBlobsFilter.cs" />
+    <Compile Include="Filters\BinaryWatershed.cs" />
     <Compile Include="Filters\DistanceTransform.cs" />
     <Compile Include="Filters\Other\BlobsFiltering.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\CanvasCrop.cs" />
