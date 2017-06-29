@@ -40,8 +40,10 @@ namespace Accord.Tests.IO
             // https://github.com/accord-net/framework/issues/663
 
             #region doc_matrix
+            // Tell where to store the matrix (adjust to your own liking)
             string filename = Path.Combine(Path.GetTempPath(), "matrix.csv");
 
+            // Let's say we want to store a multidimensional array
             double[,] values =
             {
                 { 1,  2,  3,  4 },
@@ -49,17 +51,62 @@ namespace Accord.Tests.IO
                 { 9, 10, 11, 12 },
             };
 
+            // Create a new writer and write the values to disk
             using (CsvWriter writer = new CsvWriter(filename))
             {
-
-                writer.WriteHeaders("a", "b", "c", "d");
+                writer.WriteHeaders("a", "b", "c", "d"); // this is optional
                 writer.Write(values);
             }
-            #endregion doc_matrix
 
-            CsvReader reader = new CsvReader(filename, hasHeaders: true);
-            double[,] actual = reader.ToMatrix();
-            Assert.IsTrue(values.IsEqual(actual));
+            // Afterwards, we could read them back using
+            var reader = new CsvReader(filename, hasHeaders: true);
+            double[,] sameMatrix = reader.ToMatrix();
+            #endregion
+
+            Assert.IsTrue(values.IsEqual(sameMatrix));
+        }
+
+        [Test]
+        public void write_jagged()
+        {
+            // GH-663: Please add an example CsvWriter Class
+            // https://github.com/accord-net/framework/issues/663
+
+            #region doc_jagged
+            // Tell where to store the matrix (adjust to your own liking)
+            string filename = Path.Combine(Path.GetTempPath(), "jagged.csv");
+
+            // Let's say we want to store a jagged array
+            double[][] values =
+            {
+                new double[] { 1,  2,  3,  4 },
+                new double[] { 5,  6,  7,  8 },
+                new double[] { 9, 10, 11, 12 },
+            };
+
+            // Create a new writer and write the values to disk
+            using (CsvWriter writer = new CsvWriter(filename))
+            {
+                writer.WriteHeaders("a", "b", "c", "d"); // this is optional
+                writer.Write(values);
+            }
+
+            // Afterwards, we could read them back using
+            var reader = new CsvReader(filename, hasHeaders: true); 
+            double[][] sameMatrix = reader.ToJagged();
+            #endregion
+
+            Assert.IsTrue(values.IsEqual(sameMatrix));
+
+            double[] lastColumn = sameMatrix.GetColumn(-1);
+            double[][] firstColumns = sameMatrix.Get(null, 0, -1);
+            Assert.AreEqual(lastColumn, new[] { 4.0, 8.0, 12 });
+            Assert.IsTrue(firstColumns.IsEqual(new []
+                {
+                    new[] { 1, 2, 3.0   },
+                    new[] { 5, 6, 7.0   },
+                    new[] { 9, 10, 11.0 },
+                }));
         }
 
         [Test]
@@ -68,23 +115,31 @@ namespace Accord.Tests.IO
             // GH-663: Please add an example CsvWriter Class
             // https://github.com/accord-net/framework/issues/663
 
-            #region doc_matrix
+            #region doc_table
+            // Tell where to store the data table (adjust to your own liking)
             string filename = Path.Combine(Path.GetTempPath(), "table.csv");
 
+            // Let's say we have the following data table
             DataTable table = new DataTable("My table");
             table.Columns.Add("Name");
             table.Columns.Add("Age");
             table.Columns.Add("City");
 
+            // Let's add some rows for these columns
             table.Rows.Add("John", 42, "New York");
             table.Rows.Add("Josephine", 25, "Grenoble");
             table.Rows.Add("João", 22, "Valinhos");
 
+            // Create a new writer and write the values to disk
             using (CsvWriter writer = new CsvWriter(filename))
             {
                 writer.Write(table);
             }
-            #endregion doc_table
+
+            // Later, we could read it back from the disk using
+            var reader = new CsvReader(filename, hasHeaders: true);
+            DataTable sameTable = reader.ToTable();
+            #endregion 
 
             string text = new StreamReader(filename).ReadToEnd();
             Assert.AreEqual(text,
@@ -93,9 +148,7 @@ namespace Accord.Tests.IO
 "\"Josephine\",\"25\",\"Grenoble\"\r\n" +
 "\"João\",\"22\",\"Valinhos\"\r\n");
 
-            CsvReader reader = new CsvReader(filename, hasHeaders: true);
-            DataTable actual = reader.ToTable();
-            Assert.IsTrue(table.ToMatrix<string>().IsEqual(actual.ToMatrix<string>()));
+            Assert.IsTrue(table.ToMatrix<string>().IsEqual(sameTable.ToMatrix<string>()));
         }
     }
 

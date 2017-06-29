@@ -38,6 +38,10 @@ namespace Accord.IO
     ///   <code source="Unit Tests\Accord.Tests.IO\CsvWriterTest.cs" region="doc_matrix" />
     ///   
     /// <para>
+    ///   The following example shows how to use <see cref="CsvWriter"/> to write a jagged array in .csv format.</para>
+    ///   <code source="Unit Tests\Accord.Tests.IO\CsvWriterTest.cs" region="doc_jagged" />
+    ///   
+    /// <para>
     ///   The following example shows how to use <see cref="CsvWriter"/> to write a DataTable in .csv format.</para>
     ///   <code source="Unit Tests\Accord.Tests.IO\CsvWriterTest.cs" region="doc_table" />
     /// </example>
