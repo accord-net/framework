@@ -34,22 +34,6 @@ namespace Accord.Tests.Imaging
     public class ImageToArrayTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ImageToArrayConstructorTest()
         {
