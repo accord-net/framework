@@ -239,6 +239,8 @@
     <Compile Include="Filters\Base\IAutoConfigurableColumn.cs" />
     <Compile Include="Filters\Base\IAutoConfigurableFilter.cs" />
     <Compile Include="Filters\Branching.cs" />
+    <Compile Include="Filters\Codification`1.cs" />
+    <Compile Include="Filters\Codification`1.Options.cs" />
     <Compile Include="Filters\Identification.cs" />
     <Compile Include="Filters\Randomization.cs" />
     <Compile Include="Filters\Imputation.cs" />
