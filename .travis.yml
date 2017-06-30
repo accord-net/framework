@@ -1,7 +1,18 @@
 language: csharp
+
+os:
+  - linux
+  - osx
+
+mono:
+  - latest
+  - 4.8.0
+  - 4.4.2
+  
 install:
   - nuget restore Sources/Accord.NET.sln
   - nuget restore Samples/Samples.sln
+  
 script:
   - ./autogen.sh
   - make
@@ -10,3 +21,15 @@ script:
                    # integrated package restore
   - make test
   - make check
+  
+  
+ matrix:
+  exclude:
+  - os: osx
+    mono: 4.4.2
+  - os: osx
+    mono: 4.8.0
+    
+#  allow_failures:
+#    - os: osx
+#      mono: latest
