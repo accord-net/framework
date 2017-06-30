@@ -123,7 +123,7 @@ namespace Accord.MachineLearning
     ///   
     /// <para>
     ///   How to perform clustering with K-Means applying different weights to different columns (dimensions) in the data.</para>
-    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KMeansTest.cs" region="doc_learn_weighted" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KMeansTest.cs" region="doc_learn_weights" />
     ///   
     /// <para>
     ///   How to perform clustering with K-Means with mixed discrete, continuous and categorical data.</para>

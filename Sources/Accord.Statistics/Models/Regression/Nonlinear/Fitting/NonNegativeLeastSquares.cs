@@ -54,7 +54,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
     ///   we can use the <see cref="NonNegativeLeastSquares"/> learning algorithm instead of
     ///   the <see cref="OrdinaryLeastSquares"/> used above.</para>
     ///   
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\NonLinear\Fitting\NonNegativeLeastSquaresTest.cs" region="doc_learn" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\NonNegativeLeastSquaresTest.cs" region="doc_learn" />
     /// </example>
     /// 
     /// <seealso cref="OrdinaryLeastSquares"/>

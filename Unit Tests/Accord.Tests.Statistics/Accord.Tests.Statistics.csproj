@@ -107,7 +107,7 @@
     <Compile Include="Models\Regression\LogarithmRegressionTest.cs" />
     <Compile Include="Models\Regression\MultinomialLogisticGradientDescentTest.cs" />
     <Compile Include="Models\Regression\NonlinearLeastSquaresTest.cs" />
-    <Compile Include="Models\Regression\NonNegativeLeastSquaresTests.cs" />
+    <Compile Include="Models\Regression\NonNegativeLeastSquaresTest.cs" />
     <Compile Include="MovingCircularStatisticsTest.cs" />
     <Compile Include="RunningMarkovClassifierTest.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\MultivariateEmpiricalDistributionTest.cs" />
