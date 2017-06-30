@@ -46,7 +46,7 @@ namespace Accord.Statistics.Models.Fields.Learning
     ///   <para>
     ///   The next example shows how to use the learning algorithms in a real-world dataset,
     ///   including training and testing in separate sets and evaluating its performance:</para>
-    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Fields\Learning\ResilientGradientHiddenHiddenLearningTest.cs" region="doc_learn_pendigits" />
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Fields\Learning\ResilientGradientHiddenLearningTest.cs" region="doc_learn_pendigits" />
     /// </example>
     /// 
     /// <seealso cref="HiddenQuasiNewtonLearning{T}"/>

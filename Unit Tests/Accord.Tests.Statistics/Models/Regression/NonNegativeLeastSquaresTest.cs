@@ -34,7 +34,7 @@ namespace Accord.Tests.Statistics.Models.Regression
     using Accord.Math.Optimization.Losses;
 
     [TestFixture]
-    public class NonNegativeLeastSquaresTests
+    public class NonNegativeLeastSquaresTest
     {
         [Test]
         public void ExampleTest()
