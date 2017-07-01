@@ -58,7 +58,7 @@ namespace Accord.Statistics.Analysis
     /// </example>
     /// 
     [Serializable]
-    public class ConfusionMatrix
+    public class ConfusionMatrix // TODO: Rename ConfusionMatrix to BinaryConfusionMatrix to make explicit it is only valid for binary problems
     {
 
         //  2x2 confusion matrix

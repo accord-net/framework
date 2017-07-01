@@ -98,7 +98,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="shape">The shape parameter μ (mu).</param>
         /// <param name="spread">The spread parameter ω (omega).</param>
         /// 
-        public NakagamiDistribution([Positive, DefaultValue(0.5)] double shape, 
+        public NakagamiDistribution([Positive(minimum: 0.5), DefaultValue(0.5)] double shape,
             [Positive] double spread)
         {
             if (shape < 0.5)

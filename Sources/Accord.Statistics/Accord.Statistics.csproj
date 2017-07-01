@@ -130,6 +130,10 @@
     <Compile Include="Distributions\Density Kernels\GaussianKernel.cs" />
     <Compile Include="Distributions\Density Kernels\IRadiallySymmetricKernel.cs" />
     <Compile Include="Distributions\Density Kernels\UniformKernel.cs" />
+    <Compile Include="Distributions\Reflection\DistributionConstructorInfo.cs" />
+    <Compile Include="Distributions\Reflection\DistributionInfo.cs" />
+    <Compile Include="Distributions\Reflection\UnivariateDistributionInfo.cs" />
+    <Compile Include="Distributions\Reflection\DistributionParameterInfo.cs" />
     <Compile Include="Distributions\Multivariate\Accord.Statistics.Distributions.Multivariate.cs" />
     <Compile Include="Distributions\Multivariate\Base\IMultivariateDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Base\MatrixContinuousDistribution.cs" />

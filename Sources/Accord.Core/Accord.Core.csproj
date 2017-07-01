@@ -127,7 +127,7 @@
     <Compile Include="Exceptions\SingularMatrixException.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Collections\ReadOnlyOrderedDictionary.cs" />
+    <Compile Include="Collections\ReadOnlyKeyedCollection.cs" />
     <Compile Include="Collections\ReadOnlyDictionary.cs" />
     <Compile Include="Collections\RedBlackTreeDictionary`2.cs" />
     <Compile Include="Collections\RedBlackTreeNode.cs" />

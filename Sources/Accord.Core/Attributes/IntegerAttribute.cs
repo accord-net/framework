@@ -37,15 +37,12 @@ namespace Accord
         ///   Initializes a new instance of the <see cref="PositiveIntegerAttribute"/> class.
         /// </summary>
         /// 
-        public PositiveIntegerAttribute()
-            : base(1, int.MaxValue) { }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="PositiveIntegerAttribute"/> class.
-        /// </summary>
-        /// 
-        public PositiveIntegerAttribute(int minimum)
-            : base(minimum, int.MaxValue) { }
+        public PositiveIntegerAttribute(int minimum = 1, int maximum = int.MaxValue)
+            : base(minimum, maximum)
+        {
+            if (minimum <= 0)
+                throw new ArgumentOutOfRangeException("minimum");
+        }
     }
 
     /// <summary>
@@ -60,15 +57,12 @@ namespace Accord
         ///   Initializes a new instance of the <see cref="NegativeIntegerAttribute"/> class.
         /// </summary>
         /// 
-        public NegativeIntegerAttribute()
-            : base(int.MinValue, -1) { }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="NegativeIntegerAttribute"/> class.
-        /// </summary>
-        /// 
-        public NegativeIntegerAttribute(int maximum)
-            : base(int.MinValue, maximum) { }
+        public NegativeIntegerAttribute(int minimum = int.MinValue, int maximum = int.MaxValue)
+            : base(minimum, maximum)
+        {
+            if (maximum >= 0)
+                throw new ArgumentOutOfRangeException("maximum");
+        }
     }
 
     /// <summary>
@@ -83,8 +77,12 @@ namespace Accord
         ///   Initializes a new instance of the <see cref="NonpositiveIntegerAttribute"/> class.
         /// </summary>
         /// 
-        public NonpositiveIntegerAttribute()
-            : base(int.MinValue, 0) { }
+        public NonpositiveIntegerAttribute(int minimum = int.MinValue, int maximum = 0)
+            : base(minimum, maximum)
+        {
+            if (maximum > 0)
+                throw new ArgumentOutOfRangeException("minimum");
+        }
     }
 
     /// <summary>
@@ -99,8 +97,12 @@ namespace Accord
         ///   Initializes a new instance of the <see cref="NonnegativeIntegerAttribute"/> class.
         /// </summary>
         /// 
-        public NonnegativeIntegerAttribute()
-            : base(0, int.MaxValue) { }
+        public NonnegativeIntegerAttribute(int minimum = 0, int maximum = int.MaxValue)
+            : base(minimum, maximum)
+        {
+            if (maximum < 0)
+                throw new ArgumentOutOfRangeException("minimum");
+        }
     }
 
     /// <summary>
@@ -111,18 +113,12 @@ namespace Accord
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
     public class IntegerAttribute : RangeAttribute
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="IntegerAttribute"/> class.
-        /// </summary>
-        /// 
-        public IntegerAttribute()
-            : base(int.MinValue, int.MaxValue) { }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="IntegerAttribute"/> class.
         /// </summary>
         /// 
-        public IntegerAttribute(int minimum, int maximum)
+        public IntegerAttribute(int minimum = int.MinValue, int maximum = int.MaxValue)
             : base(minimum, maximum) { }
 
         /// <summary>

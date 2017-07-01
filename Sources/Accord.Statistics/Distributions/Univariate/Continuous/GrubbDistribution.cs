@@ -90,10 +90,10 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples.</param>
         /// 
-        public GrubbDistribution([PositiveInteger] int samples)
+        public GrubbDistribution([PositiveInteger(minimum: 3)] int samples)
         {
-            if (samples <= 0)
-                throw new ArgumentOutOfRangeException("samples", "Number of samples must be greater than zero.");
+            if (samples <= 2)
+                throw new ArgumentOutOfRangeException("samples", "Number of samples must be greater than two.");
 
             this.NumberOfSamples = samples;
             this.tDistribution = new TDistribution(samples - 2);

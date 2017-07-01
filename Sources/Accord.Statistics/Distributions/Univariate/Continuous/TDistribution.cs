@@ -120,7 +120,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="degreesOfFreedom">The degrees of freedom.</param>
         /// 
-        public TDistribution([Positive] double degreesOfFreedom)
+        public TDistribution([Positive(minimum: 1)] double degreesOfFreedom)
         {
             if (degreesOfFreedom < 1)
                 throw new ArgumentOutOfRangeException("degreesOfFreedom");
@@ -332,7 +332,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("T(x; df = {0})", 
+            return String.Format("T(x; df = {0})",
                 DegreesOfFreedom.ToString(format, formatProvider));
         }
 
