@@ -44,7 +44,7 @@ namespace Accord.Collections
     [Serializable]
     public abstract class ReadOnlyKeyedCollection<TKey, TValue> 
         : ReadOnlyCollection<TValue>, IDictionary<TKey, TValue>, IList<TValue>
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+#if !MONO && !NET35
         , IReadOnlyCollection<TValue>
 #endif
     {
