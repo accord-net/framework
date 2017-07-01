@@ -160,6 +160,17 @@ namespace Accord.Tests.Statistics
 
         }
 
+        [Test]
+        public void GetFittingOptionsTest()
+        {
+            NormalOptions options = (NormalOptions)DistributionInfo.GetFittingOptions<NormalDistribution>();
+            Assert.AreEqual(0, options.Regularization);
+            Assert.IsNull(options.Postprocessing);
+            Assert.AreEqual(false, options.Diagonal);
+            Assert.AreEqual(false, options.Robust);
+            Assert.AreEqual(false, options.Shared);
+        }
+
         private static bool cmp(string dist, string paramName, string propName)
         {
             if (dist.Contains("AndersonDarlingDistribution"))

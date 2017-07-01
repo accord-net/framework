@@ -137,7 +137,7 @@ namespace Accord.Statistics.Distributions.Reflection
 
         /// <summary>
         ///   Gets the fitting options object that are expected by one distribution, if any. An
-        ///   Accord.NET distribution object can be fitted to a set of observed values. However,
+        ///   Accord.NET distribution object can be fit to a set of observed values. However,
         ///   some distributions have different settings on how this fitting can be done. This
         ///   function creates an object that contains those possible settings that can be configured
         ///   for a given distribution type.
@@ -149,15 +149,13 @@ namespace Accord.Statistics.Distributions.Reflection
             var interfaces = type.GetInterfaces()
                 .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IFittableDistribution<,>));
 
-            foreach (var i in interfaces)
+            foreach (Type i in interfaces)
             {
-                foreach (var arg in i.GetGenericArguments())
+                foreach (Type arg in i.GetGenericArguments())
                 {
-                    var argType = arg.GetTypeInfo();
-
-                    if (typeof(IFittingOptions).IsAssignableFrom(argType) && argType != typeof(IFittingOptions))
+                    if (typeof(IFittingOptions).IsAssignableFrom(arg) && arg != typeof(IFittingOptions))
                     {
-                        return (IFittingOptions)Activator.CreateInstance(argType);
+                        return (IFittingOptions)Activator.CreateInstance(arg);
                     }
                 }
             }
@@ -165,7 +163,18 @@ namespace Accord.Statistics.Distributions.Reflection
             return null;
         }
 
-
+        /// <summary>
+        ///   Gets the fitting options object that are expected by one distribution, if any. An
+        ///   Accord.NET distribution object can be fit to a set of observed values. However,
+        ///   some distributions have different settings on how this fitting can be done. This
+        ///   function creates an object that contains those possible settings that can be configured
+        ///   for a given distribution type.
+        /// </summary>
+        /// 
+        public static IFittingOptions GetFittingOptions<T>()
+        {
+            return GetFittingOptions(typeof(T));
+        }
 
         internal static Type[] GetDistributionsInheritingFromBaseType(Type baseType)
         {
