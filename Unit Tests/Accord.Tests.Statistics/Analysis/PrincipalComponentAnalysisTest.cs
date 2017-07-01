@@ -431,6 +431,70 @@ namespace Accord.Tests.Statistics
 
 
         [Test]
+        public void learn_standardize()
+        {
+            double[][] data =
+            {
+                new double[] { 2.5,  2.4 },
+                new double[] { 0.5,  0.7 },
+                new double[] { 2.2,  2.9 },
+                new double[] { 1.9,  2.2 },
+                new double[] { 3.1,  3.0 },
+                new double[] { 2.3,  2.7 },
+                new double[] { 2.0,  1.6 },
+                new double[] { 1.0,  1.1 },
+                new double[] { 1.5,  1.6 },
+                new double[] { 1.1,  0.9 }
+            };
+
+            var pca = new PrincipalComponentAnalysis()
+            {
+                Method = PrincipalComponentMethod.Standardize,
+                Whiten = false
+            };
+
+            MultivariateLinearRegression transform = pca.Learn(data);
+
+            double[][] output1 = pca.Transform(data);
+
+            double[] eigenvalues = { 1.925929272692245, 0.074070727307754519 };
+            double[] proportion = eigenvalues.Divide(eigenvalues.Sum());
+            double[,] eigenvectors =
+            {
+                { 0.70710678118654791, -0.70710678118654791 },
+                { 0.70710678118654791,  0.70710678118654791 }
+            };
+
+            Assert.IsTrue(eigenvectors.IsEqual(pca.ComponentMatrix, rtol: 1e-9));
+            Assert.IsTrue(proportion.IsEqual(pca.ComponentProportions, rtol: 1e-9));
+            Assert.IsTrue(eigenvalues.IsEqual(pca.Eigenvalues, rtol: 1e-5));
+
+            pca.ExplainedVariance = 1.0;
+            double[][] actual = pca.Transform(data);
+      //      var str = actual.ToCSharp();
+            double[][] expected =
+           {
+                new double[] { 1.03068028963519, -0.212053139513466 },
+                new double[] { -2.19045015647317, 0.168942295968493 },
+                new double[] { 1.17818776184333, 0.47577321493322 },
+                new double[] { 0.323294642065681, 0.161198977394117 },
+                new double[] { 2.07219946786664, -0.251171725759119 },
+                new double[] { 1.10117414355213, 0.218653302562498 },
+                new double[] { -0.0878525068874546, -0.430054465638535 },
+                new double[] { -1.40605089061245, 0.0528100914316325 },
+                new double[] { -0.538118242086245, 0.0202112695602547 },
+                new double[] { -1.48306450890365, -0.204309820939091 }
+            };
+
+            Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
+            Assert.IsTrue(expected.IsEqual(output1, atol: 1e-8));
+
+            actual = transform.Transform(data);
+            Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
+        }
+
+
+        [Test]
         public void ConstructorTest2()
         {
             // Reproducing Lindsay Smith's "Tutorial on Principal Component Analysis"
