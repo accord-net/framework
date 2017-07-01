@@ -1,3 +1,119 @@
+Accord.NET Framework 3.6.0 release notes
+-----------------------------------------
+03.07.2017.
+
+Version updates and fixes:
+  - GH-168: Text naive bayes classification gives wrong results;
+  - GH-259: K-means clustering exception;
+  - GH-318: Adding support for .NET Standard 2.0;
+  - GH-389: Wilcoxon Signed Rank Test / Mann-Whitney-Wilcoxon Test - differences to R;
+  - GH-407: Upgrade to NUnit 3;
+  - GH-470: Multiclass SVM and DTW System.AggregateException;
+  - GH-499: Add an example for K-means with mixed categorical and continuous data;
+  - GH-540: Add an example for BaumWelchLearning(TDistribution, TObservation, TOptions) Class;
+  - GH-571: Accord.Controls is referencing wrong version of ZedGraph on NuGet;
+  - GH-602: Robust multivariate regression causes IndexOutOfRangeException;
+  - GH-605: Renaming AudioCodec.M4A to AudioCodec.MP4ALS;
+  - GH-604: ColorSlider component resource path's fix;
+  - GH-606: LowerBoundNewtonRaphson: how to check if converged;
+  - GH-607: from perezale/aleperez-development;
+  - GH-611: Framerate issues when transcoding video;
+  - GH-614: Index out of bounds error in SingularValueDecomposition.Solve;
+  - GH-619: AugmentedLagrangian hangs on linear problem;
+  - GH-621: How to calculate the cache size in respect of the available ram;
+  - GH-624: Add an Example for Chart Class;
+  - GH-627: Exposing more distribution fields as public properties;
+  - GH-628: Inject other Random.Generators (like Mersenne Twister);
+  - GH-630: GeneralizedBetaDistribution.ProbabilityDensityFunction does not have an area of 1;
+  - GH-631: Adding test case for  GoldfarbIdnaniStatus is Success even when Solution violates constraints;
+  - GH-632: ExponentialDistribution.DistributionFunction return values outside [0,1];
+  - GH-647: Adding weighted versions of the Euclidean and Square Euclidean distances;
+  - GH-649: Add an example for NonNegativeLeastSquares Class;
+  - GH-654: Adding the Distance Transform and Watershed algorithms;
+  - GH-663: Adding examples for the CsvWriter Class.
+
+* General
+  - Adding support for targetting .NET 4.6.2 and NET Standard 2.0;
+  - Improving documentation and expanding number of examples.
+
+* Core
+  - Moving IParallel and ISupportsCancellation interfaces to Accord.Core.
+  
+* IO
+  - Adding a parser for the UNIPEN file format used by the pendigits dataset.
+  - Whitespace as a candidate delimiter in CSV parser;
+  - Adding more overloads to SparseReader's Read method.
+
+* DataSets
+  - Renaming the previous Iris dataset to SparseIris since it was a LibSVM dataset;
+  - Adding the original Iris, Wine, Pendigits, Chunking and Test Images datasets.
+
+* MachineLearning
+  - Updating Learn() methods now throw exceptions when weights are 
+    passed to learning algorithms which does not yet support them;
+  - Updating CrossValidation, Bootstrap, Split Set Validation and 
+    Grid-Search to use the new Learn() API;
+  - Adding support for creating decision trees using collection 
+    initializers for the attribute/decision variables;
+  - Mitigating the impact of a numerical precision issue when normalizing 
+    distances to probabilities in the K-Means++ initialization;
+  - Fixing issue with K-Means in which the input observations would be 
+    changed by the randomization algorithm when using uniform seeding;
+  - Correcting the design of the framelet for cluster algorithms so clusterings that are 
+    not based on distance proximity to centroids are not forced to implement those methods;
+  - Changing the default caching mechanism for Support Vector Machines 
+    to keep rows of the kernel matrix instead of individual elements;
+  - Adding methods to calculate the cache size given a number of bytes;
+  - Adding cache support for Fan Chen Lin's QP (SMO's SecondOrder strategy);
+  - Updating IClassifier interface to offer a NumberOfClasses property besides NumberOfOutputs;
+  - Updating the base classes for IClassifier such that the Score, Probability 
+    and LogLikelihood functions only have to be defined once;
+  - Correcting the Score, Probability and LogLikelihood functions of GeneralizedLinearRegression;
+  - Updating ITransform and IClassifier's NumberOfInputs, NumberOfOutputs and 
+    NumberOfClasses properties to be read-and-write rather than read-only.
+
+* Imaging
+  - Adding the Zhang-Suen Thinning Algorithm by Hashem Zawary (thanks!);
+  - Adding a FromUrl method to the Image class to download images directly from the web;
+  - Adding support for jagged matrices in the ImageToMatrix and MatrixToImage converters;
+  - Adding convenience methods PixelSize and Offset to UnmanagedImage;
+  - Adding a constructor method in UnmanagedImage to construct from byte arrays.
+
+* Statistics
+  - Marking Sparse kernel classes as deprecated;
+  - Adding Dirac's Delta as a (non-metric) Distance function;
+  - Updating the SquareEuclidean distance to support also Sparse<T> arrays;
+  - Adding a dummy random number generator that generates always the same constant;
+  - Fixing the implementation of the new API for Cox's Proportional Hazards;
+  - Updating HMM, CRF, and HCRF learning algorithms to support creating HMMs, HMM-based classifiers, 
+    CRFs and HCRFs directly from the data samples instead of requiring them to be defined by hand;
+  - Adding a new MatrixContinuousDistribution base class for Wishart and Inverse-Wishart distributions;
+  - Adding a RBF version of the Dynamic Time Warping kernel
+    that can be used with any distance metric/cost function;
+  - Updating Hidden Markov Model learning classes to use RelativeConvergence;
+  - Improving discrete hidden Markov models performance;
+  - Adding a base class for HCRF learning algorithms based on 
+    the available IGradientOptimizationMethod optimizers;
+  - Adding extension methods to simplify how distributions can be estimated 
+    from the data (without requiring the distribution to be created first);
+  - Fixing gradient computation in CRF learning.
+  
+* Math
+  - Fixing an issue with Bounded L-BFGS in which the optimization algorithm 
+    would not respect the maximum number of iterations determined by the user;
+  - Adding HasConverged, MaxIterations and CurrentIteration properties 
+    as required members in IConvergenceLearning interface;
+  - Adding parsing methods for Vector class;
+  - Fixing Sparse SquareEuclidean distance;
+  - Removing duplicated extension method To<T>() from Matrix.Conversions.cs
+  - Marking Conjugate Gradient and BFGS as supporting execution cancellation;
+
+* Controls
+  - Updating ImageBox to support the fluent syntax and .Hold() methods.
+
+
+
+
 Accord.NET Framework 3.5.0 release notes
 -----------------------------------------
 21.05.2017.
