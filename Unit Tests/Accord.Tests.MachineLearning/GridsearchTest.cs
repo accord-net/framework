@@ -35,6 +35,10 @@ namespace Accord.Tests.MachineLearning
     using System.Collections.Generic;
     using System.Linq;
 
+#if NET35
+    using CancellationToken = Accord.CancellationToken;
+#endif
+
     [TestFixture]
     public class GridsearchTest
     {
