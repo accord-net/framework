@@ -177,10 +177,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="successes">The number of success <c>r</c>. Default is 0.</param>
         /// <param name="trials">The number of trials <c>n</c>. Default is 1.</param>
         /// 
-        public BetaDistribution([NonnegativeInteger] int successes, [PositiveInteger] int trials)
+        public BetaDistribution([NonnegativeInteger(maximum: Int32.MaxValue - 1)] int successes, [PositiveInteger] int trials)
         {
             if (successes < 0)
                 throw new ArgumentOutOfRangeException("successes", "The number of success must be positive");
+            if (successes == Int32.MaxValue)
+                throw new ArgumentOutOfRangeException("successes", "The number of success must be less than Int32.MaxValue");
 
             if (trials <= 0)
                 throw new ArgumentOutOfRangeException("trials", "The number of trials must be positive");

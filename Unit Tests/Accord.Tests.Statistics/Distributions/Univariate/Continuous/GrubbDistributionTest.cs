@@ -90,5 +90,13 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2.5226376543230344E-10, actual, 1e-10);
         }
 
+        [Test]
+        public void range_test()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => new GrubbDistribution(samples: 0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new GrubbDistribution(samples: 1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new GrubbDistribution(samples: 2));
+            Assert.DoesNotThrow(() => new GrubbDistribution(samples: 3));
+        }
     }
 }

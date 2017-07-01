@@ -450,6 +450,14 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.60843093922651903, target.Beta, 1e-10);
         }
 
+
+        [Test]
+        public void RangeTest()
+        {
+            Assert.DoesNotThrow(() => new GeneralizedBetaDistribution(1e+300, 1e+300));
+            //Assert.Throws<ArgumentOutOfRangeException>(() => new GeneralizedBetaDistribution(1e+308, 1e+308));
+        }
+
         [Test]
         public void BetaGenerateTest1()
         {

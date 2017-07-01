@@ -171,7 +171,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="n1">The number of observations in the first sample.</param>
         /// <param name="n2">The number of observations in the second sample.</param>
         /// 
-        public MannWhitneyDistribution(int n1, int n2)
+        public MannWhitneyDistribution([PositiveInteger] int n1, [PositiveInteger] int n2)
         {
             init(n1, n2, null, null);
         }
@@ -188,7 +188,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   compute the exact or approximate distribution will depend on the number of samples.
         /// </param>
         /// 
-        public MannWhitneyDistribution(double[] ranks, int n1, int n2, bool? exact = null)
+        public MannWhitneyDistribution(double[] ranks, [PositiveInteger]int n1, [PositiveInteger]int n2, bool? exact = null)
         {
             init(n1, n2, ranks, exact);
         }
@@ -213,6 +213,22 @@ namespace Accord.Statistics.Distributions.Univariate
 
         private void init(int n1, int n2, double[] ranks, bool? exact)
         {
+            if (n1 <= 0)
+                throw new ArgumentOutOfRangeException("n1", "The number of observations in the first sample (n1) must be higher than zero.");
+
+            if (n2 <= 0)
+                throw new ArgumentOutOfRangeException("n2", "The number of observations in the second sample (n2) must be higher than zero.");
+
+            if (ranks != null)
+            {
+                if (ranks.Length <= 1)
+                    throw new ArgumentOutOfRangeException("ranks", "The rank vector must contain a minimum of 2 elements.");
+
+                for (int i = 0; i < ranks.Length; i++)
+                    if (ranks[i] < 0)
+                        throw new ArgumentOutOfRangeException("The rank values cannot be negative.");
+            }
+
             int n = n1 + n2;
             this.n1 = n1;
             this.n2 = n2;
@@ -256,6 +272,9 @@ namespace Accord.Statistics.Distributions.Univariate
             // https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test#Normal_approximation_and_tie_correction
 
             int n = ranks.Length;
+
+            if (n <= 1)
+                throw new ArgumentOutOfRangeException("ranks");
 
             // Compute number of ties
             int[] ties = ranks.Ties();
@@ -363,7 +382,7 @@ namespace Accord.Statistics.Distributions.Univariate
             return approximation.DistributionFunction(x);
         }
 
-      
+
 
         private double complementaryDistributionFunction(double x)
         {

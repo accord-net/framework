@@ -95,8 +95,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="type">The type of the compared distribution.</param>
         /// <param name="samples">The number of samples.</param>
         /// 
-        public AndersonDarlingDistribution(AndersonDarlingDistributionType type, double samples)
+        public AndersonDarlingDistribution(AndersonDarlingDistributionType type, [Positive] double samples)
         {
+            if (samples <= 0)
+                throw new ArgumentOutOfRangeException("samples");
+
             this.DistributionType = type;
             this.NumberOfSamples = samples;
         }

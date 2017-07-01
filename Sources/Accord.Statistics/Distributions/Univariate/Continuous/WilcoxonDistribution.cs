@@ -158,7 +158,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="n">The number of observations.</param>
         /// 
-        public WilcoxonDistribution(int n)
+        public WilcoxonDistribution([PositiveInteger] int n)
         {
             init(n, null, null);
         }
@@ -180,6 +180,9 @@ namespace Accord.Statistics.Distributions.Univariate
 
         private void init(int n, double[] ranks, bool? exact)
         {
+            if (n <= 0)
+                throw new ArgumentOutOfRangeException("n", "The number of samples must be positive.");
+
             this.n = n;
 
             double mean = n * (n + 1.0) / 4.0;
