@@ -16,20 +16,12 @@ install:
 script:
   - ./autogen.sh
   - make
-  #- make samples  # not working with current Mono since MSBuild NuGet
-                   # PackageRestore was deprecated in favor of VS2017 
-                   # integrated package restore
   - make test
   - make check
-  
-  
- matrix:
-  exclude:
-  - os: osx
-    mono: 4.4.2
-  - os: osx
-    mono: 4.8.0
     
-#  allow_failures:
-#    - os: osx
-#      mono: latest
+matrix:
+  exclude:
+    - os: osx
+      mono: 4.4.2
+    - os: osx
+      mono: 4.8.0
