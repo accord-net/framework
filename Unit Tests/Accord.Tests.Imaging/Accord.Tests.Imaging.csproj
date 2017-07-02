@@ -66,6 +66,7 @@
     <Compile Include="CentralMomentsTest.cs" />
     <Compile Include="Filters\BinaryWatershedTest.cs" />
     <Compile Include="Filters\DistanceTransformTest.cs" />
+    <Compile Include="Filters\ResizeTest.cs" />
     <Compile Include="Filters\WhitePatchTest.cs" />
     <Compile Include="Filters\GrayWorldTest.cs" />
     <Compile Include="Filters\DifferenceOfGaussiansTest.cs" />

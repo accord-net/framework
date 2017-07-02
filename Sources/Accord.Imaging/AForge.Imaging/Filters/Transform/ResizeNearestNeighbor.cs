@@ -4,6 +4,27 @@
 // Copyright © Andrew Kirillov, 2005-2008
 // andrew.kirillov@aforgenet.com
 //
+// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
 
 namespace Accord.Imaging.Filters
 {
@@ -42,7 +63,7 @@ namespace Accord.Imaging.Filters
     public class ResizeNearestNeighbor : BaseResizeFilter
     {
         // format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -59,16 +80,16 @@ namespace Accord.Imaging.Filters
         /// <param name="newWidth">Width of the new image.</param>
         /// <param name="newHeight">Height of the new image.</param>
         /// 
-		public ResizeNearestNeighbor( int newWidth, int newHeight ) :
-            base( newWidth, newHeight )
-		{
-            formatTranslations[PixelFormat.Format8bppIndexed]    = PixelFormat.Format8bppIndexed;
-            formatTranslations[PixelFormat.Format24bppRgb]       = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppRgb]       = PixelFormat.Format32bppRgb;
-            formatTranslations[PixelFormat.Format32bppArgb]      = PixelFormat.Format32bppArgb;
+		public ResizeNearestNeighbor(int newWidth, int newHeight) :
+            base(newWidth, newHeight)
+        {
+            formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
             formatTranslations[PixelFormat.Format16bppGrayScale] = PixelFormat.Format16bppGrayScale;
-            formatTranslations[PixelFormat.Format48bppRgb]       = PixelFormat.Format48bppRgb;
-            formatTranslations[PixelFormat.Format64bppArgb]      = PixelFormat.Format64bppArgb;
+            formatTranslations[PixelFormat.Format48bppRgb] = PixelFormat.Format48bppRgb;
+            formatTranslations[PixelFormat.Format64bppArgb] = PixelFormat.Format64bppArgb;
         }
 
         /// <summary>
@@ -78,35 +99,35 @@ namespace Accord.Imaging.Filters
         /// <param name="sourceData">Source image data.</param>
         /// <param name="destinationData">Destination image data.</param>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage sourceData, UnmanagedImage destinationData )
+        protected override unsafe void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData)
         {
             // get source image size
-            int width   = sourceData.Width;
-            int height  = sourceData.Height;
+            int width = sourceData.Width;
+            int height = sourceData.Height;
 
-            int pixelSize = Image.GetPixelFormatSize( sourceData.PixelFormat ) / 8;
+            int pixelSize = sourceData.PixelSize;
             int srcStride = sourceData.Stride;
             int dstStride = destinationData.Stride;
-            double xFactor = (double) width / newWidth;
-            double yFactor = (double) height / newHeight;
+            double xFactor = (double)width / newWidth;
+            double yFactor = (double)height / newHeight;
 
             // do the job
-            byte* baseSrc = (byte*) sourceData.ImageData.ToPointer( );
-            byte* baseDst = (byte*) destinationData.ImageData.ToPointer( );
+            byte* baseSrc = (byte*)sourceData.ImageData.ToPointer();
+            byte* baseDst = (byte*)destinationData.ImageData.ToPointer();
 
             // for each line
-            for ( int y = 0; y < newHeight; y++ )
+            for (int y = 0; y < newHeight; y++)
             {
                 byte* dst = baseDst + dstStride * y;
-                byte* src = baseSrc + srcStride * ( (int) ( y * yFactor ) );
+                byte* src = baseSrc + srcStride * ((int)(y * yFactor));
                 byte* p;
 
                 // for each pixel
-                for ( int x = 0; x < newWidth; x++ )
+                for (int x = 0; x < newWidth; x++)
                 {
-                    p = src + pixelSize * ( (int) ( x * xFactor ) );
+                    p = src + pixelSize * ((int)(x * xFactor));
 
-                    for ( int i = 0; i < pixelSize; i++, dst++, p++ )
+                    for (int i = 0; i < pixelSize; i++, dst++, p++)
                     {
                         *dst = *p;
                     }
