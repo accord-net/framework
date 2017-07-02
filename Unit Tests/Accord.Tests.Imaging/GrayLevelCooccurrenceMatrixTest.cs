@@ -29,6 +29,9 @@ namespace Accord.Tests.Imaging
     using Properties;
     using System.Collections.Generic;
     using System.Drawing;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class GrayLevelCooccurrenceMatrixTest
@@ -39,7 +42,7 @@ namespace Accord.Tests.Imaging
         {
             #region doc_learn
             // Suppose we have an input image
-            Bitmap lena = Resources.lena512;
+            Bitmap lena = Accord.Imaging.Image.Clone(Resources.lena512);
 
             // Create a new gray-level cooccurrence matrix
             var glcm = new GrayLevelCooccurrenceMatrix();

@@ -83,11 +83,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Non LGPL", "Non LGPL", "{95173883-B2B4-46AC-95EE-4B8D094E74B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Imaging (Noncommercial) (NETStandard)", "Extras\Accord.Imaging.Noncommercial\Accord.Imaging (Noncommercial) (NETStandard).csproj", "{D0CEB10B-6706-4245-8482-1EFFC562CA80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accord.Imaging (Noncommercial) (NETStandard)", "Extras\Accord.Imaging.Noncommercial\Accord.Imaging (Noncommercial) (NETStandard).csproj", "{D0CEB10B-6706-4245-8482-1EFFC562CA80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.MachineLearning (GPL) (NETStandard)", "Extras\Accord.MachineLearning.GPL\Accord.MachineLearning (GPL) (NETStandard).csproj", "{7C9B04E6-44A6-47CF-8270-418A5996F3A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accord.MachineLearning (GPL) (NETStandard)", "Extras\Accord.MachineLearning.GPL\Accord.MachineLearning (GPL) (NETStandard).csproj", "{7C9B04E6-44A6-47CF-8270-418A5996F3A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Math (Noncommercial) (NETStandard)", "Extras\Accord.Math.Noncommercial\Accord.Math (Noncommercial) (NETStandard).csproj", "{24BFBF8E-715A-4569-9948-A20CD47986D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accord.Math (Noncommercial) (NETStandard)", "Extras\Accord.Math.Noncommercial\Accord.Math (Noncommercial) (NETStandard).csproj", "{24BFBF8E-715A-4569-9948-A20CD47986D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performance", "Performance", "{E75A8C71-42DE-497D-809E-9A66CA38D537}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accord.Perf.MachineLearning (NetCore)", "..\Tools\Performance\MachineLearning\Accord.Perf.MachineLearning (NetCore).csproj", "{03D05ED7-C675-4346-ACA4-6D502CED388E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -295,6 +299,12 @@ Global
 		{24BFBF8E-715A-4569-9948-A20CD47986D0}.netstandard2.0|Any CPU.Build.0 = netstandard2.0|Any CPU
 		{24BFBF8E-715A-4569-9948-A20CD47986D0}.Release|Any CPU.ActiveCfg = netstandard2.0|Any CPU
 		{24BFBF8E-715A-4569-9948-A20CD47986D0}.Release|Any CPU.Build.0 = netstandard2.0|Any CPU
+		{03D05ED7-C675-4346-ACA4-6D502CED388E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03D05ED7-C675-4346-ACA4-6D502CED388E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03D05ED7-C675-4346-ACA4-6D502CED388E}.netstandard2.0|Any CPU.ActiveCfg = netstandard2.0|Any CPU
+		{03D05ED7-C675-4346-ACA4-6D502CED388E}.netstandard2.0|Any CPU.Build.0 = netstandard2.0|Any CPU
+		{03D05ED7-C675-4346-ACA4-6D502CED388E}.Release|Any CPU.ActiveCfg = netstandard2.0|Any CPU
+		{03D05ED7-C675-4346-ACA4-6D502CED388E}.Release|Any CPU.Build.0 = netstandard2.0|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -313,5 +323,6 @@ Global
 		{D0CEB10B-6706-4245-8482-1EFFC562CA80} = {95173883-B2B4-46AC-95EE-4B8D094E74B7}
 		{7C9B04E6-44A6-47CF-8270-418A5996F3A1} = {95173883-B2B4-46AC-95EE-4B8D094E74B7}
 		{24BFBF8E-715A-4569-9948-A20CD47986D0} = {95173883-B2B4-46AC-95EE-4B8D094E74B7}
+		{03D05ED7-C675-4346-ACA4-6D502CED388E} = {E75A8C71-42DE-497D-809E-9A66CA38D537}
 	EndGlobalSection
 EndGlobal

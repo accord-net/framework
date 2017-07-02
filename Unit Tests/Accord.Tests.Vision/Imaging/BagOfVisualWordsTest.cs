@@ -39,6 +39,10 @@ namespace Accord.Tests.Imaging
     using Statistics.Kernels;
     using Math.Optimization.Losses;
     using Math.Metrics;
+    using Accord.Tests.Vision.Properties;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Vision.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class BagOfVisualWordsTest
@@ -49,12 +53,12 @@ namespace Accord.Tests.Imaging
         {
             Bitmap[] images =
             {
-                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower01),
-                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower02),
-                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower03),
-                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower04),
-                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower05),
-                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower06),
+                Accord.Imaging.Image.Clone(Resources.flower01),
+                Accord.Imaging.Image.Clone(Resources.flower02),
+                Accord.Imaging.Image.Clone(Resources.flower03),
+                Accord.Imaging.Image.Clone(Resources.flower04),
+                Accord.Imaging.Image.Clone(Resources.flower05),
+                Accord.Imaging.Image.Clone(Resources.flower06),
             };
 
             return images;

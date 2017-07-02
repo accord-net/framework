@@ -26,10 +26,14 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Converters;
     using Accord.Imaging.Filters;
     using Accord.Math;
+    using Accord.Tests.Imaging.Properties;
     using NUnit.Framework;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.Linq;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class BinaryWatershedTest
@@ -38,7 +42,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ApplyTest1()
         {
-            Bitmap shapes = Properties.Resources.water;
+            Bitmap shapes = Accord.Imaging.Image.Clone(Resources.water);
             shapes.Save(@"c:\Temp\shapes.jpg");
 
             var bw = new BinaryWatershed();

@@ -27,6 +27,10 @@ namespace Accord.Tests.Vision
     using System.Drawing;
     using Accord.Vision.Detection;
     using Accord.Vision.Detection.Cascades;
+    using Accord.Tests.Vision.Properties;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Vision.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class ObjectDetectorTest
@@ -59,7 +63,7 @@ namespace Accord.Tests.Vision
             // can use the detector to classify a new image. For instance, consider
             // the famous Lena picture:
 
-            Bitmap bmp = Properties.Resources.lena_color;
+            Bitmap bmp = Accord.Imaging.Image.Clone(Resources.lena_color);
 
             // We have to call ProcessFrame to detect all rectangles containing the 
             // object we are interested in (which in this case, is the face of Lena):
@@ -86,7 +90,7 @@ namespace Accord.Tests.Vision
             HaarObjectDetector target = new HaarObjectDetector(cascade,
                 30, ObjectDetectorSearchMode.NoOverlap);
 
-            Bitmap bmp = Properties.Resources.lena_gray;
+            Bitmap bmp = Accord.Imaging.Image.Clone(Resources.lena_gray);
 
             target.ProcessFrame(bmp);
 
@@ -116,7 +120,7 @@ namespace Accord.Tests.Vision
             HaarObjectDetector target = new HaarObjectDetector(cascade,
                 15, ObjectDetectorSearchMode.NoOverlap);
 
-            Bitmap bmp = Properties.Resources.three;
+            Bitmap bmp = Accord.Imaging.Image.Clone(Resources.three);
 
             target.ProcessFrame(bmp);
 
@@ -155,7 +159,7 @@ namespace Accord.Tests.Vision
             HaarObjectDetector target = new HaarObjectDetector(cascade,
                 50, ObjectDetectorSearchMode.Default);
 
-            Bitmap bmp = Properties.Resources.lena_color;
+            Bitmap bmp = Accord.Imaging.Image.Clone(Resources.lena_color);
             Rectangle[] result;
 
             target.MinSize = new Size(10, 60);
@@ -194,7 +198,7 @@ namespace Accord.Tests.Vision
             HaarObjectDetector target = new HaarObjectDetector(cascade,
                 50, ObjectDetectorSearchMode.Default);
 
-            Bitmap bmp = Properties.Resources.lena_color;
+            Bitmap bmp = Accord.Imaging.Image.Clone(Resources.lena_color);
             Rectangle[] result;
 
             target.MaxSize = new Size(10, 60);

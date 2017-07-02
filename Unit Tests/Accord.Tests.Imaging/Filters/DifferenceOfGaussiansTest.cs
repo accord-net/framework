@@ -27,6 +27,10 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Filters;
     using Accord.Math;
     using NUnit.Framework;
+    using Accord.Tests.Imaging.Properties;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class DifferenceOfGaussiansTest
@@ -36,7 +40,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ApplyTest1()
         {
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.lena512);
 
             var dog = new DifferenceOfGaussians();
             

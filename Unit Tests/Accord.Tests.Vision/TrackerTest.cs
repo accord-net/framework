@@ -26,6 +26,10 @@ namespace Accord.Tests.Vision
     using NUnit.Framework;
     using System.Drawing;
     using Accord.Imaging;
+    using Accord.Tests.Vision.Properties;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Vision.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class TrackerTest
@@ -34,7 +38,7 @@ namespace Accord.Tests.Vision
         [Test]
         public void ProcessFrame()
         {
-            Bitmap frame = Properties.Resources.lena_color_small;
+            Bitmap frame = Accord.Imaging.Image.Clone(Resources.lena_color_small);
             Rectangle trackedArea = new Rectangle(0, 0, 50, 50);
 
             UnmanagedImage uframe = UnmanagedImage.FromManagedImage(frame);

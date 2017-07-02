@@ -27,6 +27,10 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Filters;
     using Accord.Math;
     using NUnit.Framework;
+    using Accord.Tests.Imaging.Properties;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class LogExpTest
@@ -35,7 +39,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ApplyTest()
         {
-            Bitmap input = Accord.Imaging.Image.Clone(Properties.Resources.lena_color);
+            Bitmap input = Accord.Imaging.Image.Clone(Resources.lena_color);
 
             Logarithm log = new Logarithm();
             Bitmap output = log.Apply(input);

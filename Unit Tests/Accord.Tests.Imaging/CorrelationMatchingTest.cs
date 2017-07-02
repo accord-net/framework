@@ -20,15 +20,18 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Imaging;
-using NUnit.Framework;
-using System.Drawing;
-using AForge;
-using Accord.Math;
-using System.Collections.Generic;
-
 namespace Accord.Tests.Imaging
 {
+    using Accord.Imaging;
+    using NUnit.Framework;
+    using System.Drawing;
+    using AForge;
+    using Accord.Math;
+    using System.Collections.Generic;
+    using Accord.Tests.Imaging.Properties;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class CorrelationMatchingTest
@@ -41,8 +44,8 @@ namespace Accord.Tests.Imaging
 #pragma warning disable 0618
             CorrelationMatching target = new CorrelationMatching(windowSize);
 #pragma warning restore 0618
-            Bitmap image1 = Accord.Imaging.Image.Clone(Properties.Resources.image1);
-            Bitmap image2 = Accord.Imaging.Image.Clone(Properties.Resources.image1);
+            Bitmap image1 = Accord.Imaging.Image.Clone(Resources.image1);
+            Bitmap image2 = Accord.Imaging.Image.Clone(Resources.image1);
 
             IntPoint[] points1 = 
             {
@@ -96,8 +99,8 @@ namespace Accord.Tests.Imaging
                 CorrelationMatching target = new CorrelationMatching(windowSize);
 #pragma warning restore 0618
 
-                Bitmap image1 = Accord.Imaging.Image.Clone(Properties.Resources.image1);
-                Bitmap image2 = Accord.Imaging.Image.Clone(Properties.Resources.image1);
+                Bitmap image1 = Accord.Imaging.Image.Clone(Resources.image1);
+                Bitmap image2 = Accord.Imaging.Image.Clone(Resources.image1);
 
                 Assert.AreEqual(16, image1.Height);
                 Assert.AreEqual(16, image2.Height);

@@ -29,6 +29,10 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging;
     using Accord.Imaging.Filters;
     using NUnit.Framework;
+    using Accord.Tests.Imaging.Properties;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class ImageToArrayTest
@@ -101,7 +105,7 @@ namespace Accord.Tests.Imaging
         public void ConvertTest4()
         {
             ImageToArray target = new ImageToArray(min: 0, max: 255);
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.image3);
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.image3);
             Assert.AreEqual(PixelFormat.Format32bppArgb, image.PixelFormat);
 
             {

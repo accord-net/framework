@@ -20,19 +20,20 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Imaging;
-using NUnit.Framework;
-using System.Drawing;
-using AForge;
-using Accord.Math;
-using System.Collections.Generic;
-using Accord.Tests.Vision.Properties;
-using System;
-using Accord.Math.Distances;
-
 namespace Accord.Tests.Imaging
 {
-
+    using Accord.Imaging;
+    using NUnit.Framework;
+    using System.Drawing;
+    using AForge;
+    using Accord.Math;
+    using System.Collections.Generic;
+    using Accord.Tests.Vision.Properties;
+    using System;
+    using Accord.Math.Distances;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Vision.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class KNearestNeighborMatchingTest
@@ -67,7 +68,7 @@ namespace Accord.Tests.Imaging
         public void MatchTest2()
         {
             var imgOld = Accord.Imaging.Image.Clone(Resources.old);
-            var imgNew = Accord.Imaging.Image.Clone(Resources._new); 
+            var imgNew = Accord.Imaging.Image.Clone(Resources._new);
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector();
 
             var keyPoints1 = freak.ProcessImage(imgOld).ToArray();
