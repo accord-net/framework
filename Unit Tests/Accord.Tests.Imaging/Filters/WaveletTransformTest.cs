@@ -20,16 +20,20 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Imaging;
-using Accord.Imaging.Converters;
-using Accord.Imaging.Filters;
-using Accord.Math;
-using Accord.Math.Wavelets;
-using NUnit.Framework;
-using System.Drawing;
-
 namespace Accord.Tests.Imaging
 {
+    using Accord.Imaging;
+    using Accord.Imaging.Converters;
+    using Accord.Imaging.Filters;
+    using Accord.Math;
+    using Accord.Math.Wavelets;
+    using Accord.Tests.Imaging.Properties;
+    using NUnit.Framework;
+    using System.Drawing;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
+
     [TestFixture]
     public class WaveletTransformTest
     {
@@ -37,7 +41,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void Example1()
         {
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.lena512);
 
             // Create a new Haar Wavelet transform filter
             var wavelet = new WaveletTransform(new Haar(1));
@@ -64,7 +68,7 @@ namespace Accord.Tests.Imaging
         public void WaveletTransformConstructorTest()
         {
             // Start with a grayscale image
-            Bitmap src = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
+            Bitmap src = Accord.Imaging.Image.Clone(Resources.lena512);
 
             // Create a wavelet filter            
             IWavelet wavelet = new Accord.Math.Wavelets.Haar(2);

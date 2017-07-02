@@ -26,26 +26,14 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Converters;
     using Accord.Imaging.Filters;
     using NUnit.Framework;
+    using Accord.Tests.Imaging.Properties;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class ArrayToImageTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ArrayToImageConstructorTest()
@@ -96,7 +84,7 @@ namespace Accord.Tests.Imaging
 
             double[] expected;
 
-            Bitmap imageExpected = Accord.Imaging.Image.Clone(Properties.Resources.image1);
+            Bitmap imageExpected = Accord.Imaging.Image.Clone(Resources.image1);
             new Invert().ApplyInPlace(imageExpected);
             new Threshold().ApplyInPlace(imageExpected);
 

@@ -151,6 +151,24 @@ namespace Accord.Imaging
         /// Clone image.
         /// </summary>
         /// 
+        /// <param name="bytes">Source image as an array of bytes.</param>
+        /// 
+        /// <returns>Returns clone of the source image with specified pixel format.</returns>
+        ///
+        /// <remarks>The original <see cref="System.Drawing.Bitmap.Clone(System.Drawing.Rectangle, System.Drawing.Imaging.PixelFormat)">Bitmap.Clone()</see>
+        /// does not produce the desired result - it does not create a clone with specified pixel format.
+        /// More of it, the original method does not create an actual clone - it does not create a copy
+        /// of the image. That is why this method was implemented to provide the functionality.</remarks> 
+        ///
+        public static Bitmap Clone(this byte[] bytes)
+        {
+            return (Bitmap)Bitmap.FromStream(new MemoryStream(bytes));
+        }
+
+        /// <summary>
+        /// Clone image.
+        /// </summary>
+        /// 
         /// <param name="source">Source image.</param>
         /// 
         /// <returns>Return clone of the source image.</returns>

@@ -26,35 +26,19 @@ namespace Accord.Tests.Vision
     using Accord.Vision.Detection;
     using Accord.Vision.Detection.Cascades;
     using NUnit.Framework;
-
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Vision.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class HaarDataParserTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-
         [Test]
         public void ParseTest()
         {
-            StringReader stringReader = new StringReader(Properties.Resources.haarcascade_frontalface_alt);
-            HaarCascade cascade1 = HaarCascade.FromXml(stringReader);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "haarcascade_frontalface_alt.xml");
+            HaarCascade cascade1 = HaarCascade.FromXml(new StreamReader(fileName));
 
             Assert.AreEqual(22, cascade1.Stages.Length);
             Assert.AreEqual(3, cascade1.Stages[0].Trees.Length);
@@ -109,13 +93,11 @@ namespace Accord.Tests.Vision
 
         }
 
-        /// <summary>
-        ///A test for parse
-        ///</summary>
         [Test]
         public void ParseTest2()
         {
-            StringReader stringReader = new StringReader(Properties.Resources.haarcascade_frontalface_alt2);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "haarcascade_frontalface_alt2.xml");
+            StreamReader stringReader = new StreamReader(fileName);
             HaarCascade cascade = HaarCascade.FromXml(stringReader);
 
             Assert.AreEqual(20, cascade.Stages.Length);
@@ -135,13 +117,11 @@ namespace Accord.Tests.Vision
             Assert.AreEqual(1, cascade.Stages[0].Trees[0].Length);
         }
 
-        /// <summary>
-        ///A test for parse
-        ///</summary>
         [Test]
         public void ParseTest4()
         {
-            StringReader stringReader = new StringReader(Properties.Resources.haarcascade_eye_tree_eyeglasses);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "haarcascade_eye_tree_eyeglasses.xml");
+            StreamReader stringReader = new StreamReader(fileName);
             HaarCascade cascade = HaarCascade.FromXml(stringReader);
 
             Assert.AreEqual(30, cascade.Stages.Length);
@@ -151,13 +131,11 @@ namespace Accord.Tests.Vision
             Assert.AreEqual(true, cascade.HasTiltedFeatures);
         }
 
-        /// <summary>
-        ///A test for parse
-        ///</summary>
         [Test]
         public void ParseTest5()
         {
-            StringReader stringReader = new StringReader(Properties.Resources.haarcascade_eye);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "haarcascade_eye.xml");
+            StreamReader stringReader = new StreamReader(fileName);
             HaarCascade cascade = HaarCascade.FromXml(stringReader);
 
             Assert.AreEqual(24, cascade.Stages.Length);
@@ -167,26 +145,24 @@ namespace Accord.Tests.Vision
             Assert.AreEqual(false, cascade.HasTiltedFeatures);
         }
 
-        /// <summary>
-        ///A test for parse
-        ///</summary>
         [Test]
         public void ParseTest6()
         {
-            StringReader stringReader = new StringReader(Properties.Resources.haarcascade_mcs_nose);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "haarcascade_mcs_nose.xml");
+            StreamReader stringReader = new StreamReader(fileName);
             HaarCascade cascade = HaarCascade.FromXml(stringReader);
 
             Assert.AreEqual(20, cascade.Stages.Length);
             Assert.AreEqual(289, cascade.Stages[15].Trees.Length);
 
             for (int i = 0; i < cascade.Stages.Length; i++)
-                Assert.AreEqual(1, cascade.Stages[i].Trees[0].Length);    
-            
+                Assert.AreEqual(1, cascade.Stages[i].Trees[0].Length);
+
             Assert.AreEqual(true, cascade.HasTiltedFeatures);
 
-          //  StringWriter sw = new StringWriter();
-          //  cascade.ToCode(sw, "NoseCascadeClassifier");
-          //  string str = sw.ToString();
+            //  StringWriter sw = new StringWriter();
+            //  cascade.ToCode(sw, "NoseCascadeClassifier");
+            //  string str = sw.ToString();
         }
     }
 }

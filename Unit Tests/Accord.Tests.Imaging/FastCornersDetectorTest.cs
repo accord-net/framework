@@ -23,10 +23,14 @@
 namespace Accord.Tests.Imaging
 {
     using Accord.Imaging;
+    using Accord.Tests.Imaging.Properties;
     using AForge;
     using NUnit.Framework;
     using System.Collections.Generic;
     using System.Drawing;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class FastCornersDetectorTest
@@ -36,7 +40,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ProcessImageTest()
         {
-            UnmanagedImage image = UnmanagedImage.FromManagedImage(Accord.Imaging.Image.Clone(Properties.Resources.sample_black));
+            UnmanagedImage image = UnmanagedImage.FromManagedImage(Accord.Imaging.Image.Clone(Resources.sample_black));
 
             FastCornersDetector target = new FastCornersDetector();
             target.Suppress = false;
@@ -60,7 +64,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ProcessImageTest2()
         {
-            UnmanagedImage image = UnmanagedImage.FromManagedImage(Accord.Imaging.Image.Clone(Properties.Resources.lena512));
+            UnmanagedImage image = UnmanagedImage.FromManagedImage(Accord.Imaging.Image.Clone(Resources.lena512));
 
             FastCornersDetector target = new FastCornersDetector();
             target.Suppress = true;
@@ -86,12 +90,12 @@ namespace Accord.Tests.Imaging
         {
             Bitmap[] images =
             {
-                Accord.Imaging.Image.Clone(Properties.Resources.flower01),
-                Accord.Imaging.Image.Clone(Properties.Resources.flower02),
-                Accord.Imaging.Image.Clone(Properties.Resources.flower03),
-                Accord.Imaging.Image.Clone(Properties.Resources.flower04),
-                Accord.Imaging.Image.Clone(Properties.Resources.flower05),
-                Accord.Imaging.Image.Clone(Properties.Resources.flower06),
+                Accord.Imaging.Image.Clone(Resources.flower01),
+                Accord.Imaging.Image.Clone(Resources.flower02),
+                Accord.Imaging.Image.Clone(Resources.flower03),
+                Accord.Imaging.Image.Clone(Resources.flower04),
+                Accord.Imaging.Image.Clone(Resources.flower05),
+                Accord.Imaging.Image.Clone(Resources.flower06),
             };
 
             FastCornersDetector target = new FastCornersDetector();

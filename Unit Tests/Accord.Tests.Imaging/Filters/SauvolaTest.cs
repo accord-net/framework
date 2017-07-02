@@ -25,9 +25,13 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Converters;
     using Accord.Imaging.Filters;
     using Accord.Math;
+    using Accord.Tests.Imaging.Properties;
     using NUnit.Framework;
     using System.Drawing;
     using System.Drawing.Imaging;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class SauvolaTest
@@ -36,7 +40,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void SauvolaTest1()
         {
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.lena512);
 
             SauvolaThreshold sauvola = new SauvolaThreshold();
 

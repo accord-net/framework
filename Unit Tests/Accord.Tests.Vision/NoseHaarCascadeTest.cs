@@ -26,6 +26,9 @@ namespace Accord.Tests.Vision
     using NUnit.Framework;
     using Accord.Vision.Detection;
     using System.IO;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Vision.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class NoseHaarCascadeTest
@@ -36,7 +39,8 @@ namespace Accord.Tests.Vision
         {
             NoseHaarCascade actual = new NoseHaarCascade();
 
-            HaarCascade expected = HaarCascade.FromXml(new StringReader(Properties.Resources.haarcascade_mcs_nose));
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "haarcascade_mcs_nose.xml");
+            HaarCascade expected = HaarCascade.FromXml(new StreamReader(fileName));
 
             Assert.AreNotEqual(expected, actual);
             Assert.AreEqual(expected.HasTiltedFeatures, actual.HasTiltedFeatures);

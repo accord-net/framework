@@ -31,6 +31,9 @@ namespace Accord.Tests.Imaging
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.IO;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Vision.Properties.Resources_Standard;
+#endif
 
 
     [TestFixture]

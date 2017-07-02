@@ -20,20 +20,23 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Imaging;
-using NUnit.Framework;
-using Accord.Math;
-using System.Drawing;
-
-using Tools = Accord.Imaging.Tools;
-using System.Drawing.Imaging;
-using Accord.Math.Decompositions;
-using System;
-using Accord.Imaging.Converters;
-using Accord.Statistics;
-
 namespace Accord.Tests.Imaging
 {
+    using Accord.Imaging;
+    using NUnit.Framework;
+    using Accord.Math;
+    using System.Drawing;
+    using Tools = Accord.Imaging.Tools;
+    using System.Drawing.Imaging;
+    using Accord.Math.Decompositions;
+    using System;
+    using Accord.Imaging.Converters;
+    using Accord.Statistics;
+    using Accord.Tests.Imaging.Properties;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
+
     [TestFixture]
     public class ToolsTest
     {
@@ -278,7 +281,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ToDoubleArrayTest()
         {
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.image1);
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.image1);
 
             double[] actual; new ImageToArray(min: 0, max: 1).Convert(image, out actual);
 
@@ -320,7 +323,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void SumTest()
         {
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.image1);
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.image1);
 
             int expected = 0;
 
@@ -335,7 +338,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void SumTest1()
         {
-            Bitmap image = Properties.Resources.image2;
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.image2);
 
             int expected = 0;
 
@@ -356,7 +359,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void SumTest2()
         {
-            Bitmap image = Properties.Resources.image2;
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.image2);
 
             int expected = 0;
 

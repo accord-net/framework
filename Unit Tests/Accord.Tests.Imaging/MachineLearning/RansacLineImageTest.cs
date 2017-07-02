@@ -33,6 +33,9 @@ namespace Accord.Tests.MachineLearning
     using Accord.Imaging.Filters;
     using Accord.Math.Geometry;
     using System.Diagnostics;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class RansacLineImageTest

@@ -28,27 +28,14 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging;
     using Accord.Imaging.Filters;
     using NUnit.Framework;
+    using Accord.Tests.Imaging.Properties;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class MatrixToImageTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void MatrixToImageConstructorTest()
@@ -126,7 +113,7 @@ namespace Accord.Tests.Imaging
             c.Convert(imageActual, out actual);
 
             double[,] expected;
-            Bitmap imageExpected = Accord.Imaging.Image.Clone(Properties.Resources.image1);
+            Bitmap imageExpected = Accord.Imaging.Image.Clone(Resources.image1);
             new Threshold().ApplyInPlace(imageExpected);
             new Invert().ApplyInPlace(imageExpected);
             c.Convert(imageExpected, out expected);

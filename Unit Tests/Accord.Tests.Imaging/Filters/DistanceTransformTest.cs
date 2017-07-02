@@ -26,9 +26,13 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Converters;
     using Accord.Imaging.Filters;
     using Accord.Math;
+    using Accord.Tests.Imaging.Properties;
     using NUnit.Framework;
     using System.Drawing;
     using System.Drawing.Imaging;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class DistanceTransformTest
@@ -38,7 +42,7 @@ namespace Accord.Tests.Imaging
         public void ApplyTest1()
         {
             // Bitmap cards = new TestImages().GetImage("cards.jpg");
-            Bitmap cards = Properties.Resources.cards;
+            Bitmap cards = Accord.Imaging.Image.Clone(Resources.cards);
             cards.Save(@"c:\Temp\input.jpg");
 
             Bitmap grayCards = Grayscale.CommonAlgorithms.BT709.Apply(cards);
@@ -59,7 +63,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void water_test()
         {
-            Bitmap water = Properties.Resources.water;
+            Bitmap water = Accord.Imaging.Image.Clone(Resources.water);
 
             var dt = new DistanceTransform();
             Bitmap result = dt.Apply(water);
