@@ -111,6 +111,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// probability that a given value or any value smaller than it will occur.</remarks>
         public override double DistributionFunction(double x)
         {
+            if (x < Support.Min)
+                return 0;
+            if (x > Support.Max)
+                return 1;
+
             // http://graphpad.com/support/faqid/1598/
             double N = NumberOfSamples;
             double num = N * (N - 2) * x * x;
@@ -138,6 +143,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// or below, with that probability.</remarks>
         public override double InverseDistributionFunction(double p)
         {
+            if (p >= 1)
+                return Support.Max;
+            if (p <= 0)
+                return Support.Min;
+
             // https://www.wolframalpha.com/input/?i=sqrt((N+*(+N-+2)*x%C2%B2)+%2F+((N-1)%C2%B2+-+N*x%C2%B2))+%3D+t+solve+for+x
             double N = NumberOfSamples;
             double t = tDistribution.InverseDistributionFunction((1 - p) / N);

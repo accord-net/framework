@@ -64,9 +64,6 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
-#if MONO
-        [Ignore("Mono output differs for the same formulae.")]
-#endif
         public void cdf()
         {
             double[] x = Vector.Range(0.0, 1.0, stepSize: 1e-3);
