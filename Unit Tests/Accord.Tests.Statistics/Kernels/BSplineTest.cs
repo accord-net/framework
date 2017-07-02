@@ -41,34 +41,34 @@ namespace Accord.Tests.Statistics
             x = new double[] { 1, 2, 3, 6, 2, 2, 1 };
             y = new double[] { 4, 5, 6, 9, 5, 3, 1 };
             actual = target.Function(x, y);
-            Assert.AreEqual(0.00000000070098200355454978, actual);
+            Assert.AreEqual(0.00000000070098200355454978, actual, 1e-20);
 
             x = new double[] { 5, 11, 2, 9, 4, 5, 4 };
             y = new double[] { 4, 5, 1, 1, 3, 3, 4 };
             actual = target.Function(x, y);
-            Assert.AreEqual(0.00000000000000017965181746434572, actual);
+            Assert.AreEqual(0.00000000000000017965181746434572, actual, 1e-10);
 
             target = new BSpline(20);
             x = new double[] { 1, 2, 3 };
             y = new double[] { 4, 5, 6 };
             actual = target.Function(x, y);
-            Assert.AreEqual(0.00020921661189636344, actual);
+            Assert.AreEqual(0.00020921661189636344, actual, 1e-10);
 
             x = new double[] { 5, 11, 2 };
             y = new double[] { 4, 5, 1 };
             actual = target.Function(x, y);
-            Assert.AreEqual(0.000042265155534640169, actual);
+            Assert.AreEqual(0.000042265155534640169, actual, 1e-10);
 
             target = new BSpline(20);
             x = new double[] { 0.1, 0.5, 0.01 };
             y = new double[] { 0.3, 0.02, 0.04 };
             actual = target.Function(x, y);
-            Assert.AreEqual(0.0092334372187475831, actual);
+            Assert.AreEqual(0.0092334372187475831, actual, 1e-10);
 
             x = new double[] { 0.5, 0.11, 0.2 };
             y = new double[] { 0.4, 0.5, 0.1 };
             actual = target.Function(x, y);
-            Assert.AreEqual(0.0093633595480067857, actual);
+            Assert.AreEqual(0.0093633595480067857, actual, 1e-10);
         }
 
         [Test]

@@ -13,14 +13,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
-    <EmbeddedResource Remove="Properties\Resources.resx" />
-  </ItemGroup>
 
   <ItemGroup>
     <Compile Include="..\..\Samples\MachineLearning\Liblinear (SVMs)\Parameters.cs" />
     <Compile Include="..\..\Samples\MachineLearning\Liblinear (SVMs)\Problem.cs" />
-    <Compile Include="..\..\Samples\MachineLearning\Liblinear (SVMs)\Program.cs" />
     <Compile Include="..\..\Samples\MachineLearning\Liblinear (SVMs)\Train.cs" />
   </ItemGroup>
 
@@ -36,8 +32,43 @@
   <ItemGroup>
     <Compile Update="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Parameters.cs" Link="VectorMachines\Liblinear\Parameters.cs" />
     <Compile Update="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Problem.cs" Link="VectorMachines\Liblinear\Problem.cs" />
-    <Compile Update="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Program.cs" Link="VectorMachines\Liblinear\Program.cs" />
     <Compile Update="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Train.cs" Link="VectorMachines\Liblinear\Train.cs" />
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\liblinear\a9a.test">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\liblinear\a9a.train">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <!--<ItemGroup>
+    <Compile Update="Properties\Resources.Standard.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.Standard.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.Standard.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Standard.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>-->
 
 </Project>
