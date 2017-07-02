@@ -24,6 +24,12 @@
     <ProjectReference Include="..\..\Sources\Accord.Audio\Accord.Audio (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math (NETStandard).csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\a.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup> 
 
 </Project>
