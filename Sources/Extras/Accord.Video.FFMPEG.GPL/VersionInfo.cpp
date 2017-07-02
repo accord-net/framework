@@ -7,4 +7,4 @@ using namespace System::Reflection;
 [assembly: AssemblyCultureAttribute("")];
 [assembly: AssemblyVersionAttribute("3.6.0")];
 [assembly: AssemblyInformationalVersionAttribute("3.6.0")];
-[assembly: AssemblyFileVersionAttribute("3.6.0.6023")];
+[assembly: AssemblyFileVersionAttribute("3.6.0.6025")];
