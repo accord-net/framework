@@ -46,17 +46,17 @@ namespace Accord.Tests.Statistics
 
             expected = 1;
             actual = target.Function(x, x);
-            Assert.AreEqual(expected, actual, 0.000001);
+            Assert.AreEqual(expected, actual, 1e-5);
 
             expected = 1;
             actual = target.Function(y, y);
-            Assert.AreEqual(expected, actual, 0.000001);
+            Assert.AreEqual(expected, actual, 1e-5);
 
             expected = -0.076696513742007991;
             actual = target.Function(x, y);
-            Assert.AreEqual(expected, actual, 0.000001);
+            Assert.AreEqual(expected, actual, 1e-5);
             actual = target.Function(y, x);
-            Assert.AreEqual(expected, actual, 0.000001);
+            Assert.AreEqual(expected, actual, 1e-5);
 
 
             target = new DynamicTimeWarping(2, 1.42);
@@ -64,30 +64,30 @@ namespace Accord.Tests.Statistics
 
             expected = 1;
             actual = target.Function(x, x);
-            Assert.AreEqual(expected, actual, 0.000001);
+            Assert.AreEqual(expected, actual, 1e-5);
 
             expected = 1;
             actual = target.Function(y, y);
-            Assert.AreEqual(expected, actual, 0.000001);
+            Assert.AreEqual(expected, actual, 1e-5);
 
             expected = 1;
             actual = target.Function(z, z);
-            Assert.AreEqual(expected, actual, 0.000001);
+            Assert.AreEqual(expected, actual, 1e-5);
 
             expected = -0.10903562560104614;
             actual = target.Function(x, z);
-            Assert.AreEqual(expected, actual, 0.000001);
+            Assert.AreEqual(expected, actual, 1e-5);
             actual = target.Function(z, x);
-            Assert.AreEqual(expected, actual, 0.000001);
+            Assert.AreEqual(expected, actual, 1e-5);
 
             expected = 0.4208878392918925;
             actual = target.Function(x, y);
-            Assert.AreEqual(expected, actual, 0.000001);
+            Assert.AreEqual(expected, actual, 1e-5);
             actual = target.Function(y, x);
-            Assert.AreEqual(expected, actual, 0.000001);
+            Assert.AreEqual(expected, actual, 1e-5);
 
 
-            target = new DynamicTimeWarping(1, 0.0000000001);
+            target = new DynamicTimeWarping(1, 1e-5);
 
             expected = 1;
             actual = target.Function(x, x);
@@ -99,9 +99,9 @@ namespace Accord.Tests.Statistics
 
             expected = 0.000000000033333397321663391;
             actual = target.Function(x, y);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-5);
             actual = target.Function(y, x);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-5);
 
 
 
@@ -109,15 +109,15 @@ namespace Accord.Tests.Statistics
 
             expected = 1;
             actual = target.Function(x, x);
-            Assert.AreEqual(expected, actual, 0.000001);
+            Assert.AreEqual(expected, actual, 1e-10);
             actual = target.Function(y, y);
-            Assert.AreEqual(expected, actual, 0.000001);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = 0.99985353675500488;
             actual = target.Function(x, y);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
             actual = target.Function(y, x);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
         }
 
         [Test]

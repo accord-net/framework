@@ -434,7 +434,8 @@ namespace Accord.Tests.MachineLearning.Properties {
         ///3
         ///8
         ///8
-        ///8        /// [rest of string was truncated]&quot;;.
+        ///8
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string labels16 {
             get {

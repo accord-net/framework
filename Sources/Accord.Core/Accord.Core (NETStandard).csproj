@@ -19,4 +19,8 @@
     <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0-preview2-25405-01" />
+  </ItemGroup>
+
 </Project>
