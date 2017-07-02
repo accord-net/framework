@@ -3,11 +3,8 @@ using Accord.Math;
 using Accord.Statistics.Kernels;
 using Accord.Statistics;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Accord.Math.Optimization.Losses;
 using Accord.MachineLearning;
 using Accord.Statistics.Analysis;
@@ -15,19 +12,19 @@ using System.IO;
 using Accord.IO;
 using Accord.DataSets;
 using Accord.Imaging.Converters;
-using Accord.Controls;
-using Accord.Math.Distances;
 using System.Drawing;
 using Accord.Statistics.Distributions.DensityKernels;
 
-namespace Accord.Performance.MachineLearning
+namespace Accord.Perf.MachineLearning
 {
     class Program
     {
 
         static void Main(string[] args)
         {
+#if !NETSTANDARD2_0
             Trace.Listeners.Add(new ConsoleTraceListener());
+#endif
 
             Trace.WriteLine("Running in " + (Environment.Is64BitProcess ? "x64" : "x86"));
 
@@ -37,7 +34,8 @@ namespace Accord.Performance.MachineLearning
             //TestPredictSparseMulticlassSVM();
             //TestLinearASGD();
             //TestSMO();
-            TestMeanShift();
+            //TestMeanShift();
+            TestEmpty();
         }
 
         private static void TestSparseKernelSVM()
@@ -287,7 +285,7 @@ namespace Accord.Performance.MachineLearning
             // Create and learn a linear sparse binary support vector machine
             var learn = new AveragedStochasticGradientDescent<Linear, Sparse<double>>()
             {
-                Iterations = 5,
+                MaxIterations = 5,
                 Tolerance = 0,
             };
 
@@ -352,7 +350,7 @@ namespace Accord.Performance.MachineLearning
         {
             Bitmap image = Accord.Imaging.Image.FromUrl("https://c1.staticflickr.com/4/3209/2527630511_fae07530c2_b.jpg");
 
-            ImageBox.Show("Original", image).Hold();
+            //ImageBox.Show("Original", image).Hold();
 
             // Create converters to convert between Bitmap images and double[] arrays
             var imageToArray = new ImageToArray(min: -1, max: +1);
@@ -387,7 +385,12 @@ namespace Accord.Performance.MachineLearning
             // Retrieve the resulting image (shown in a picture box)
             Bitmap result; arrayToImage.Convert(replaced, out result);
 
-            ImageBox.Show("Mean-Shift clustering", result).Hold();
+            //ImageBox.Show("Mean-Shift clustering", result).Hold();
+        }
+
+        static void TestEmpty()
+        {
+
         }
     }
 }

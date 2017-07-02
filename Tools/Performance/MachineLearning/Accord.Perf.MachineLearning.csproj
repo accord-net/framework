@@ -24,114 +24,93 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <NoWarn>0612, 0618</NoWarn>
+    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Performance\bin\Release\net35\</OutputPath>
-    <DefineConstants>TRACE;NET35</DefineConstants>
-    <NoWarn>0612, 0618</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Performance\bin\Release\net40\</OutputPath>
-    <DefineConstants>TRACE;NET40</DefineConstants>
-    <NoWarn>0612, 0618</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET45|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Performance\bin\Release\net45\</OutputPath>
-    <DefineConstants>TRACE;NET45</DefineConstants>
-    <NoWarn>0612, 0618</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET46|AnyCPU' ">
-    <OutputPath>bin\Any CPU\net46\</OutputPath>
-    <DefineConstants>TRACE;NET46</DefineConstants>
-    <NoWarn>0612, 0618</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Performance\bin\Release\mono\</OutputPath>
-    <DefineConstants>TRACE;MONO</DefineConstants>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <NoWarn>0612, 0618</NoWarn>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\Any CPU\</OutputPath>
+	<TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+	<PlatformTarget>AnyCPU</PlatformTarget>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>bin\Debug\x64\</OutputPath>
+	<TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+	<DebugSymbols>true</DebugSymbols>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <NoWarn>0612, 0618</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Optimize>false</Optimize>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET35|x64'">
-    <OutputPath>bin\x64\NET35\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
+    <OutputPath>bin\Release\net35\Any CPU\</OutputPath>
+	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	<PlatformTarget>AnyCPU</PlatformTarget>
     <DefineConstants>TRACE;NET35</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <NoWarn>0612, 0618</NoWarn>
-    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
+    <OutputPath>bin\Release\net40\Any CPU\</OutputPath>
+<PlatformTarget>AnyCPU</PlatformTarget>
+    <DefineConstants>TRACE;NET40</DefineConstants>
+	<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net45|AnyCPU' ">
+    <OutputPath>bin\Release\net45\Any CPU\</OutputPath>
+<PlatformTarget>AnyCPU</PlatformTarget>
+    <DefineConstants>TRACE;NET45</DefineConstants>
+	<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net46|AnyCPU' ">
+    <OutputPath>bin\Release\net46\Any CPU\</OutputPath>
+<PlatformTarget>AnyCPU</PlatformTarget>
+    <DefineConstants>TRACE;NET46</DefineConstants>
+	<TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <OutputPath>bin\Release\net46\Any CPU\</OutputPath>
+<PlatformTarget>AnyCPU</PlatformTarget>
+    <DefineConstants>TRACE;NET462</DefineConstants>
+	<TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'mono|AnyCPU' ">
+    <OutputPath>bin\Release\mono\Any CPU\</OutputPath>
+<PlatformTarget>AnyCPU</PlatformTarget>
+    <DefineConstants>TRACE;MONO</DefineConstants>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net35|x64'">
+    <OutputPath>bin\x64\NET35\</OutputPath>
+	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <DefineConstants>TRACE;NET35</DefineConstants>
     <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net40|x64'">
     <OutputPath>bin\x64\NET40\</OutputPath>
+	<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DefineConstants>TRACE;NET40</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <NoWarn>0612, 0618</NoWarn>
-    <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net45|x64'">
     <OutputPath>bin\x64\NET45\</OutputPath>
+	<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DefineConstants>TRACE;NET45</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <NoWarn>0612, 0618</NoWarn>
-    <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net46|x64'">
+ <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net46|x64'">
     <OutputPath>bin\x64\NET46\</OutputPath>
+	<TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <DefineConstants>TRACE;NET46</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <NoWarn>0612, 0618</NoWarn>
-    <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono|x64'">
-    <OutputPath>bin\x64\Mono\</OutputPath>
-    <DefineConstants>TRACE;MONO</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <NoWarn>0612, 0618</NoWarn>
-    <DebugType>pdbonly</DebugType>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net462|x64'">
+    <OutputPath>bin\x64\NET462\</OutputPath>
+	<TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <DefineConstants>TRACE;NET462</DefineConstants>
     <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
@@ -200,6 +179,10 @@
       <Name>Accord.Statistics</Name>
     </ProjectReference>
   </ItemGroup>
+  <Target Name="SpicNSpan"  AfterTargets="Clean">
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
+    <RemoveDir Directories="$(BaseOutputPath)" />
+  </Target>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
