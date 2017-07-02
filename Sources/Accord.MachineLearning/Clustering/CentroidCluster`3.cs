@@ -29,6 +29,7 @@ namespace Accord.MachineLearning
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -146,6 +147,8 @@ namespace Accord.MachineLearning
                                 // Degenerate case: numerical inaccuracy when normalizing 
                                 // the point-centroid distances to become probabilities
                                 idx = r.Next(0, points.Length);
+
+                                Trace.TraceWarning("Could not convert distances into probabilities that sum up to one during KMeans++ initialization.");
                             }
                         }
 
