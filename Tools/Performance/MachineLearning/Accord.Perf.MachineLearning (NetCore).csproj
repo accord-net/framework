@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+ <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <Configurations>Debug;netstandard2.0</Configurations>
+   <AssemblyName>Accord.Perf.MachineLearning</AssemblyName>
+   <RootNamespace>Accord.Perf.MachineLearning</RootNamespace>
+   <OutputType>Exe</OutputType>
+   <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+
+  <Target Name="SpicNSpan" AfterTargets="Clean">
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
+    <RemoveDir Directories="$(BaseOutputPath)" />
+  </Target>
+
+  <ItemGroup>
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+    <Compile Remove="Properties\VersionInfo.cs" />
+  </ItemGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='netstandard2.0|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Sources\Accord.Core\Accord.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\..\..\Sources\Accord.DataSets\Accord.DataSets (NETStandard).csproj" />
+    <ProjectReference Include="..\..\..\Sources\Accord.Imaging\Accord.Imaging (NETStandard).csproj" />
+    <ProjectReference Include="..\..\..\Sources\Accord.IO\Accord.IO (NETStandard).csproj" />
+    <ProjectReference Include="..\..\..\Sources\Accord.MachineLearning\Accord.MachineLearning (NETStandard).csproj" />
+    <ProjectReference Include="..\..\..\Sources\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\..\..\Sources\Accord.Math\Accord.Math (NETStandard).csproj" />
+    <ProjectReference Include="..\..\..\Sources\Accord.Statistics\Accord.Statistics (NETStandard).csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
